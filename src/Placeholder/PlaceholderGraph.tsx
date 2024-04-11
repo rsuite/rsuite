@@ -4,13 +4,23 @@ import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface PlaceholderGraphProps extends WithAsProps {
-  /* height of rows */
+  /**
+   * The height of the graph.
+   *
+   * @default 200
+   */
   height?: number;
 
-  /* width of rows */
+  /**
+   * The width of the graph.
+   *
+   * @default 100%
+   */
   width?: number;
 
-  /** Placeholder status */
+  /**
+   * Placeholder status, display the loading state.
+   */
   active?: boolean;
 }
 
@@ -30,6 +40,7 @@ const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> =
       classPrefix = 'placeholder',
       ...rest
     } = props;
+
     const { merge, withClassPrefix } = useClassNames(classPrefix);
 
     const classes = merge(className, withClassPrefix('graph', { active }));

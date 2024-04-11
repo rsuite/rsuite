@@ -1,71 +1,70 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import PlaceholderParagraph from '../PlaceholderParagraph';
 
-describe('PlaceholderParagraph', () => {
+describe('Placeholder.Paragraph', () => {
   testStandardProps(<PlaceholderParagraph />);
 
-  it('Should render a PlaceholderParagraph', () => {
-    const instance = getDOMNode(<PlaceholderParagraph />);
+  it('Should hava a `rs-placeholder-paragraph` class', () => {
+    render(<PlaceholderParagraph data-testid="p" />);
 
-    assert.equal(instance.tagName, 'DIV');
-    assert.equal(instance.className, 'rs-placeholder rs-placeholder-paragraph');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-paragraph');
   });
 
   it('Should render 5 rows', () => {
-    const instance = getDOMNode(<PlaceholderParagraph rows={5} />);
+    render(<PlaceholderParagraph rows={5} data-testid="p" />);
 
-    assert.equal((instance.lastElementChild as HTMLElement).children.length, 5);
+    expect(screen.getByTestId('p').lastElementChild?.children).to.have.length(5);
   });
 
   it('Height of rows should be 50px', () => {
-    const instance = getDOMNode(<PlaceholderParagraph rowHeight={50} />);
+    render(<PlaceholderParagraph rowHeight={50} data-testid="p" />);
 
-    assert.equal(
-      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.height,
+    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
+      'height',
       '50px'
     );
   });
 
   it('Should has a 50px gap between rows', () => {
-    const instance = getDOMNode(<PlaceholderParagraph rowMargin={50} />);
+    render(<PlaceholderParagraph rowSpacing={50} data-testid="p" />);
 
-    assert.equal(
-      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.marginTop,
+    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
+      'margin-top',
       '50px'
     );
   });
 
   it('Should render graph', () => {
-    const instance = getDOMNode(<PlaceholderParagraph graph />);
+    render(<PlaceholderParagraph graph data-testid="p" />);
 
-    assert.include(
-      Array.from((instance.firstElementChild as HTMLElement).classList),
+    expect(screen.getByTestId('p').firstElementChild).to.have.class(
       'rs-placeholder-paragraph-graph'
     );
   });
 
   it('Should render circle graph', () => {
-    const instance = getDOMNode(<PlaceholderParagraph graph="circle" />);
+    render(<PlaceholderParagraph graph="circle" data-testid="p" />);
 
-    assert.include(
-      Array.from((instance.firstElementChild as HTMLElement).classList),
+    expect(screen.getByTestId('p').firstElementChild).to.have.class(
       'rs-placeholder-paragraph-graph-circle'
     );
   });
 
   it('Should render image graph', () => {
-    const instance = getDOMNode(<PlaceholderParagraph graph="image" />);
+    render(<PlaceholderParagraph graph="image" data-testid="p" />);
 
-    assert.include(
-      Array.from((instance.firstElementChild as HTMLElement).classList),
+    expect(screen.getByTestId('p').firstElementChild).to.have.class(
       'rs-placeholder-paragraph-graph-image'
     );
   });
 
-  it('Should has animation', () => {
-    const instance = getDOMNode(<PlaceholderParagraph active />);
+  it('Should be active', () => {
+    render(<PlaceholderParagraph active data-testid="p" />);
 
-    assert.include(Array.from(instance.classList), 'rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
   });
 });

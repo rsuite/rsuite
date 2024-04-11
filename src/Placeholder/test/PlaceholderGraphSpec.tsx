@@ -1,32 +1,33 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import PlaceholderGraph from '../PlaceholderGraph';
 
-describe('PlaceholderGraph', () => {
+describe('Placeholder.Graph', () => {
   testStandardProps(<PlaceholderGraph />);
 
   it('Should render a PlaceholderGraph', () => {
-    const instance = getDOMNode(<PlaceholderGraph />);
+    render(<PlaceholderGraph data-testid="p" />);
 
-    assert.equal(instance.tagName, 'DIV');
-    assert.equal(instance.className, 'rs-placeholder rs-placeholder-graph');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-graph');
   });
 
-  it('Height should be 100px', () => {
-    const instance = getDOMNode(<PlaceholderGraph height={100} />);
+  it('Should hava a custom height', () => {
+    render(<PlaceholderGraph height={100} data-testid="p" />);
 
-    assert.equal(instance.style.height, '100px');
+    expect(screen.getByTestId('p')).to.have.style('height', '100px');
   });
 
-  it('Width should be 100px', () => {
-    const instance = getDOMNode(<PlaceholderGraph width={100} />);
+  it('Should hava a custom width', () => {
+    render(<PlaceholderGraph width={100} data-testid="p" />);
 
-    assert.equal(instance.style.width, '100px');
+    expect(screen.getByTestId('p')).to.have.style('width', '100px');
   });
 
-  it('Should has animation', () => {
-    const instance = getDOMNode(<PlaceholderGraph active />);
+  it('Should be active', () => {
+    render(<PlaceholderGraph active data-testid="p" />);
 
-    assert.include(Array.from(instance.classList), 'rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
   });
 });

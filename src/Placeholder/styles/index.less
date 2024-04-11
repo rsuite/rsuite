@@ -1,4 +1,5 @@
-@import '../../styles/common';
+@import '../../styles/common.less';
+@import './mixin.less';
 
 //
 // Placeholder
@@ -67,13 +68,19 @@
       }
     }
 
-    &-rows {
+    &-group {
       width: 100%;
-
-      & > p {
-        background-color: var(--rs-placeholder);
-      }
     }
+
+    .rs-placeholder-row {
+      @widths: 100% 50% 80% 65% 90% 70% 85% 60% 75%;
+      .generate-row-width(@widths, length(@widths));
+    }
+  }
+
+  &-row {
+    background-color: var(--rs-placeholder);
+    width: 100%;
   }
 
   &-grid {
@@ -83,12 +90,14 @@
       flex-direction: column;
       align-items: flex-end;
 
-      & > p {
-        background-color: var(--rs-placeholder);
-      }
-
       &:first-child {
         align-items: flex-start; //first col align left
+      }
+
+      .rs-placeholder-row {
+        width: 30%;
+        @widths: 50% 25% 35%;
+        .generate-row-width(@widths, length(@widths));
       }
     }
   }

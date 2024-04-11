@@ -5,19 +5,42 @@ import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface PlaceholderGridProps extends WithAsProps {
-  /* number of rows */
+  /**
+   * The number of rows.
+   *
+   * @default 5
+   */
   rows?: number;
 
-  /* height of rows */
+  /**
+   * The height of the row.
+   *
+   * @default 10
+   */
   rowHeight?: number;
 
-  /* margin of rows */
+  /**
+   * @deprecated Use `rowSpacing` instead.
+   */
   rowMargin?: number;
 
-  /* number of columns */
+  /**
+   * The spacing between rows.
+   *
+   * @default 20
+   * @version 5.59.1
+   */
+  rowSpacing?: number;
+
+  /**
+   * The number of columns.
+   * @default 5
+   */
   columns?: number;
 
-  /** Placeholder status */
+  /**
+   * Placeholder status, display the loading state.
+   */
   active?: boolean;
 }
 
@@ -35,6 +58,7 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
       columns = 5,
       rowHeight = 10,
       rowMargin = 20,
+      rowSpacing = rowMargin,
       active,
       ...rest
     } = props;
@@ -42,24 +66,15 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix('grid', { active }));
     const colItems: React.ReactElement[] = [];
-    const firstRowItemWidth = Math.random() * 30 + 30;
-    const itemWidth = firstRowItemWidth / 2;
+
     for (let i = 0; i < columns; i++) {
       const rowItems: React.ReactElement[] = [];
       for (let j = 0; j < rows; j++) {
-        let widthPercent = Math.random() * 50 + 10; // when first column
-        if (i > 0) {
-          // when other columns
-          widthPercent = j > 0 ? itemWidth : firstRowItemWidth;
-        }
         rowItems.push(
-          <p
+          <div
             key={j}
-            style={{
-              width: `${widthPercent}%`,
-              height: rowHeight,
-              marginTop: j > 0 ? rowMargin : undefined
-            }}
+            style={{ height: rowHeight, marginTop: j > 0 ? rowSpacing : undefined }}
+            className={prefix`row`}
           />
         );
       }
@@ -84,7 +99,7 @@ PlaceholderGrid.propTypes = {
   rows: PropTypes.number,
   columns: PropTypes.number,
   rowHeight: PropTypes.number,
-  rowMargin: PropTypes.number,
+  rowSpacing: PropTypes.number,
   active: PropTypes.bool
 };
 

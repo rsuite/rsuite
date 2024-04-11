@@ -1,73 +1,76 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import PlaceholderGrid from '../PlaceholderGrid';
 
-describe('PlaceholderGrid', () => {
+describe('Placeholder.Grid', () => {
   testStandardProps(<PlaceholderGrid />);
 
   it('Should render a PlaceholderGrid', () => {
-    const instance = getDOMNode(<PlaceholderGrid />);
-    assert.equal(instance.tagName, 'DIV');
-    assert.equal(instance.className, 'rs-placeholder rs-placeholder-grid');
+    render(<PlaceholderGrid data-testid="p" />);
+
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-grid');
   });
 
   it('Should render 10 columns', () => {
-    const instance = getDOMNode(<PlaceholderGrid columns={10} />);
+    render(<PlaceholderGrid columns={10} data-testid="p" />);
 
-    assert.equal(instance.children.length, 10);
+    expect(screen.getByTestId('p').children).to.have.length(10);
   });
 
   it('Should render 10 rows', () => {
-    const instance = getDOMNode(<PlaceholderGrid rows={10} />);
+    render(<PlaceholderGrid rows={10} data-testid="p" />);
 
-    assert.equal((instance.lastElementChild as HTMLElement).children.length, 10);
+    expect(screen.getByTestId('p').lastElementChild?.children).to.have.length(10);
   });
 
-  it('Height of rows should be 50px', () => {
-    const instance = getDOMNode(<PlaceholderGrid rowHeight={50} />);
+  it('Should has a 50px height for each row', () => {
+    render(<PlaceholderGrid rowHeight={50} data-testid="p" />);
 
-    assert.equal(
-      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.height,
+    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
+      'height',
       '50px'
     );
   });
 
   it('Should has a 50px gap between rows', () => {
-    const instance = getDOMNode(<PlaceholderGrid rowMargin={50} />);
+    render(<PlaceholderGrid rowSpacing={50} data-testid="p" />);
 
-    assert.equal(
-      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.marginTop,
+    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
+      'margin-top',
       '50px'
     );
   });
 
-  it('Should render nothing: rows=0', () => {
-    const instance = getDOMNode(<PlaceholderGrid rows={0} />);
+  it('Should not render any rows when rows=0', () => {
+    render(<PlaceholderGrid rows={0} data-testid="p" />);
 
-    assert.equal((instance.lastElementChild as HTMLElement).children.length, 0);
+    expect(screen.getByTestId('p').lastElementChild?.children).to.have.length(0);
   });
 
-  it('Should render nothing: rows=-10', () => {
-    const instance = getDOMNode(<PlaceholderGrid rows={-10} />);
+  it('Should not render any rows when rows=-10', () => {
+    render(<PlaceholderGrid rows={-10} data-testid="p" />);
 
-    assert.equal((instance.lastElementChild as HTMLElement).children.length, 0);
+    expect(screen.getByTestId('p').lastElementChild?.children).to.have.length(0);
   });
 
-  it('Should render nothing: columns=0', () => {
-    const instance = getDOMNode(<PlaceholderGrid columns={0} />);
+  it('Should not render any columns when columns=0', () => {
+    render(<PlaceholderGrid columns={0} data-testid="p" />);
 
-    assert.equal(instance.children.length, 0);
+    expect(screen.getByTestId('p').children).to.have.length(0);
   });
 
-  it('Should render nothing: columns=-10', () => {
-    const instance = getDOMNode(<PlaceholderGrid columns={-10} />);
+  it('Should not render any columns when columns=-10', () => {
+    render(<PlaceholderGrid columns={-10} data-testid="p" />);
 
-    assert.equal(instance.children.length, 0);
+    expect(screen.getByTestId('p').children).to.have.length(0);
   });
 
-  it('Should has animation', () => {
-    const instance = getDOMNode(<PlaceholderGrid active />);
+  it('Should be active', () => {
+    render(<PlaceholderGrid active data-testid="p" />);
 
-    assert.include(Array.from(instance.classList), 'rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
   });
 });

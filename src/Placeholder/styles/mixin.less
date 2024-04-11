@@ -1,0 +1,7 @@
+.generate-row-width(@widths, @n) when (@n > 0) {
+  &:nth-child(@{n}) {
+    width: extract(@widths, @n);
+  }
+
+  .generate-row-width(@widths, @n - 1);
+}
