@@ -104,7 +104,7 @@
 | countable             | boolean `(true)`                                                                                | 可以计数已选项                             |
 | data \*               | [ItemDataType][item][]                                                                          | 组件数据                                   |
 | defaultOpen           | boolean                                                                                         | 默认打开                                   |
-| defaultValue          | string                                                                                          | 设置默认值                                 |
+| defaultValue          | string[]                                                                                          | 设置默认值                                 |
 | disabled              | boolean                                                                                         | 禁用组件                                   |
 | disabledItemValues    | string                                                                                          | 禁用选项                                   |
 | height                | number `(320)`                                                                                  | 设置 Dropdown 的高度                       |
@@ -149,7 +149,7 @@
 | size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                               | 设置组件尺寸                               |
 | toggleAs              | ElementType `('a')`                                                                             | 为组件自定义元素类型                       |
 | uncheckableItemValues | string                                                                                          | 设置不显示复选框的选项值                   |
-| value                 | string                                                                                          | 设置值（受控）                             |
+| value                 | string[]                                                                                          | 设置值（受控）                             |
 | valueKey              | string `('value')`                                                                              | 设置选项值在 `data` 中的 `key`             |
 
 <!--{include:(_common/types/item-data-type.md)}-->

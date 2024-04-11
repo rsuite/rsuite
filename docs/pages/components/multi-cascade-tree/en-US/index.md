@@ -60,7 +60,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | columnHeight          | number                                                                             | Sets the height of the column                          |
 | columnWidth           | number                                                                             | Sets the width of the column                           |
 | data \*               | [ItemDataType][item][]                                                             | The data of component                                  |
-| defaultValue          | string                                                                             | Specifies the default value of the selected items      |
+| defaultValue          | string[]                                                                             | Specifies the default value of the selected items      |
 | disabledItemValues    | string[]                                                                           | Disabled items                                         |
 | getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously load the children of the tree node.     |
 | labelKey              | string `('label')`                                                                 | Set label key in data                                  |
@@ -71,7 +71,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | Custom render item                                     |
 | searchable            | boolean                                                                            | Whether to enable search                               |
 | uncheckableItemValues | string[]                                                                           | Set uncheckable items                                  |
-| value                 | string                                                                             | Specifies the values of the selected items(Controlled) |
+| value                 | string[]                                                                             | Specifies the values of the selected items(Controlled) |
 | valueKey              | string `('value')`                                                                 | Set value key in data                                  |
 
 <!--{include:(_common/types/item-data-type.md)}-->
