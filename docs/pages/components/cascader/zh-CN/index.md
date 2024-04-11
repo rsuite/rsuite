@@ -94,7 +94,7 @@
 | columnWidth        | number                                                                                        | 设置菜单的宽度                             |
 | container          | HTMLElement \| (() => HTMLElement)                                                            | 设置渲染的容器                             |
 | data \*            | [ItemDataType][item][]                                                                        | 组件数据                                   |
-| defaultValue       | string                                                                                        | 设置默认值                                 |
+| defaultValue       | string[]                                                                                        | 设置默认值                                 |
 | disabled           | boolean                                                                                       | 禁用组件                                   |
 | disabledItemValues | string[]                                                                                      | 禁用选项                                   |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                         | 异步加载树节点的子级                       |
@@ -136,7 +136,7 @@
 | searchable         | boolean `(true)`                                                                              | 可以搜索                                   |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | 设置组件尺寸                               |
 | toggleAs           | ElementType `('a')`                                                                           | 为组件自定义元素类型                       |
-| value              | string                                                                                        | 设置值（受控）                             |
+| value              | string[]                                                                                        | 设置值（受控）                             |
 | valueKey           | string `('value')`                                                                            | 设置选项值在 `data` 中的 `key`             |
 
 <!--{include:(_common/types/item-data-type.md)}-->

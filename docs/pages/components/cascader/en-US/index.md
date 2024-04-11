@@ -94,7 +94,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | columnWidth        | number                                                                                         | Sets the width of the menu                                  |
 | container          | HTMLElement \| (() => HTMLElement)                                                             | Sets the rendering container                                |
 | data \*            | [ItemDataType][item][]                                                                         | The data of component                                       |
-| defaultValue       | string                                                                                         | Default values of the selected items                        |
+| defaultValue       | string[]                                                                                         | Default values of the selected items                        |
 | disabled           | boolean                                                                                        | Disabled component                                          |
 | disabledItemValues | string[]                                                                                       | Disabled items                                              |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                          | Asynchronously load the children of the tree node.          |
@@ -136,7 +136,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | searchable         | boolean `(true)`                                                                               | Whether you can search for options.                         |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                          | A picker can have different sizes                           |
 | toggleAs           | ElementType `('a')`                                                                            | You can use a custom element for this component             |
-| value              | string                                                                                         | Specifies the values of the selected items(Controlled)      |
+| value              | string[]                                                                                         | Specifies the values of the selected items(Controlled)      |
 | valueKey           | string `('value')`                                                                             | Set value key in data                                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
