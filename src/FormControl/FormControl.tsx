@@ -268,7 +268,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         id={controlId ? `${controlId}-error-message` : undefined}
         role="alert"
         aria-relevant="all"
-        show={!!messageNode}
+        show={fieldHasError}
         className={prefix`message-wrapper`}
         placement={errorPlacement}
       >

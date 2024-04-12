@@ -1,24 +1,21 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import FormControl from '../index';
 import Form from '../../Form';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
+import { toRGB, itChrome } from '@test/utils';
 
 import '../../Input/styles/index.less';
 import '../styles/index.less';
 
 describe('Form control styles', () => {
-  it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+  itChrome('Should render the correct styles', () => {
     render(
       <Form>
-        <FormControl ref={instanceRef} name="name" />
+        <FormControl name="name" />
       </Form>
     );
-    const dom = getDOMNode(instanceRef.current);
-    const inputDom = dom.querySelector('.rs-input') as HTMLInputElement;
 
-    assert.equal(getStyle(dom, 'position'), 'relative');
-    inChrome && assert.equal(getStyle(inputDom, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
+    expect(screen.getByTestId('form-control-wrapper')).to.have.style('position', 'relative');
+    expect(screen.getByRole('textbox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
   });
 });
