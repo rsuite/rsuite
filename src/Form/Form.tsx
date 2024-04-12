@@ -179,7 +179,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     let errorCount = 0;
     const model = getCombinedModel();
 
-    Object.keys(model.spec).forEach(key => {
+    Object.keys(model.getSchemaSpec()).forEach(key => {
       const checkResult = model.checkForField(key, formValue || {});
       if (checkResult.hasError === true) {
         errorCount += 1;
@@ -235,7 +235,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     const keys: string[] = [];
     const model = getCombinedModel();
 
-    Object.keys(model.spec).forEach(key => {
+    Object.keys(model.getSchemaSpec()).forEach(key => {
       keys.push(key);
       promises.push(model.checkForFieldAsync(key, formValue || {}));
     });

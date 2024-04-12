@@ -251,17 +251,17 @@ describe('Form', () => {
     const values = {
       name: 'abc'
     };
-    const onErrorSpy = sinon.spy();
+    const onError = sinon.spy();
     render(
-      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
+      <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="name" />
       </Form>
     );
 
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onErrorSpy).to.be.called;
-    expect(onErrorSpy).to.be.calledWith({ name: checkEmail });
+    expect(onError).to.be.called;
+    expect(onError).to.be.calledWith({ name: checkEmail });
   });
 
   it('Should not call onError callback', () => {
@@ -269,9 +269,9 @@ describe('Form', () => {
       name: 'abc@ddd.com'
     };
 
-    const onErrorSpy = sinon.spy();
+    const onError = sinon.spy();
     render(
-      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
+      <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="name" />
       </Form>
     );
@@ -281,7 +281,7 @@ describe('Form', () => {
       initialSelectionEnd: 3
     });
 
-    expect(onErrorSpy).to.be.not.called;
+    expect(onError).to.be.not.called;
   });
 
   it('Should call onCheck callback', () => {
@@ -289,17 +289,17 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onCheckSpy = sinon.spy();
+    const onCheck = sinon.spy();
     render(
-      <Form formDefaultValue={values} onCheck={onCheckSpy}>
+      <Form formDefaultValue={values} onCheck={onCheck}>
         <FormControl name="name" />
       </Form>
     );
 
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onCheckSpy).to.be.called;
-    expect(onCheckSpy).to.be.calledWith({});
+    expect(onCheck).to.be.called;
+    expect(onCheck).to.be.calledWith({});
   });
 
   it('Should call onCheck callback when blur', () => {
@@ -307,16 +307,16 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onCheckSpy = sinon.spy();
+    const onCheck = sinon.spy();
     render(
-      <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger="blur">
+      <Form formDefaultValue={values} onCheck={onCheck} checkTrigger="blur">
         <FormControl name="name" />
       </Form>
     );
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onCheckSpy).to.be.called;
-    expect(onCheckSpy).to.be.calledWith({});
+    expect(onCheck).to.be.called;
+    expect(onCheck).to.be.calledWith({});
   });
 
   it('Should not call onCheck callback when checkTrigger is null', () => {
@@ -324,19 +324,19 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onCheckSpy = sinon.spy();
+    const onCheck = sinon.spy();
     render(
       // FIXME `checkTrigger` doesn't support `null` value
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger={null}>
+      <Form formDefaultValue={values} onCheck={onCheck} checkTrigger={null}>
         <FormControl name="name" />
       </Form>
     );
     fireEvent.blur(screen.getByRole('textbox'));
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onCheckSpy).to.be.not.called;
+    expect(onCheck).to.be.not.called;
   });
 
   it('Should call onCheck callback', () => {
@@ -344,11 +344,11 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onCheckSpy = sinon.spy();
+    const onCheck = sinon.spy();
     render(
       <Form
         formDefaultValue={values}
-        onCheck={onCheckSpy}
+        onCheck={onCheck}
         formError={{
           email: 'email is null'
         }}
@@ -358,8 +358,8 @@ describe('Form', () => {
     );
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onCheckSpy).to.be.called;
-    expect(onCheckSpy).to.be.calledWith({ email: 'email is null' });
+    expect(onCheck).to.be.called;
+    expect(onCheck).to.be.calledWith({ email: 'email is null' });
   });
 
   it('Should call onError callback by checkAsync', async () => {
@@ -367,9 +367,9 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onErrorSpy = sinon.spy();
+    const onError = sinon.spy();
     render(
-      <Form formDefaultValue={values} onError={onErrorSpy} model={modelAsync}>
+      <Form formDefaultValue={values} onError={onError} model={modelAsync}>
         <FormControl name="name" checkAsync />
       </Form>
     );
@@ -377,8 +377,8 @@ describe('Form', () => {
     userEvent.type(screen.getByRole('textbox'), 'd');
 
     await waitFor(() => {
-      expect(onErrorSpy).to.be.called;
-      expect(onErrorSpy).to.be.calledWith({ name: 'Duplicate name' });
+      expect(onError).to.be.called;
+      expect(onError).to.be.calledWith({ name: 'Duplicate name' });
     });
   });
 
@@ -414,8 +414,8 @@ describe('Form', () => {
     const model = Schema.Model({
       items: Schema.Types.ArrayType().of(
         Schema.Types.ObjectType().shape({
-          field1: Schema.Types.StringType().isRequired('error1'),
-          field2: Schema.Types.NumberType().isRequired('error2')
+          field1: Schema.Types.StringType().isRequired(),
+          field2: Schema.Types.NumberType().isRequired('field2 is required')
         })
       )
     });
@@ -431,25 +431,24 @@ describe('Form', () => {
       items: []
     };
 
-    const onErrorSpy = sinon.spy();
+    const onError = sinon.spy();
     render(
-      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
+      <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="items" accepter={Field} />
       </Form>
     );
 
     userEvent.type(screen.getByRole('textbox'), 'abcd');
 
-    expect(onErrorSpy).to.be.called;
-    expect(onErrorSpy).to.be.calledWith({
+    expect(onError).to.be.calledWith({
       items: {
         hasError: true,
         array: [
           {
             hasError: true,
             object: {
-              field1: { hasError: true, errorMessage: 'error1' },
-              field2: { hasError: true, errorMessage: 'error2' }
+              field1: { hasError: true, errorMessage: 'field1 is a required field' },
+              field2: { hasError: true, errorMessage: 'field2 is required' }
             }
           }
         ]
@@ -461,8 +460,8 @@ describe('Form', () => {
     const model = Schema.Model({
       items: Schema.Types.ArrayType().of(
         Schema.Types.ObjectType().shape({
-          field1: Schema.Types.StringType().isRequired('error1'),
-          field2: Schema.Types.NumberType().isRequired('error2')
+          field1: Schema.Types.StringType().isRequired(),
+          field2: Schema.Types.NumberType().isRequired('field2 is required')
         })
       )
     });
@@ -471,15 +470,13 @@ describe('Form', () => {
       return <input name="items" />;
     };
 
-    const values = {
-      items: [{ field1: '', field2: '' }]
-    };
+    const values = { items: [{ field1: '', field2: '' }] };
 
     const formRef = React.createRef<FormInstance>();
-    const onErrorSpy = sinon.spy();
+    const onError = sinon.spy();
 
     render(
-      <Form formDefaultValue={values} onError={onErrorSpy} model={model} ref={formRef}>
+      <Form formDefaultValue={values} onError={onError} model={model} ref={formRef}>
         <FormControl name="items" accepter={Field} />
       </Form>
     );
@@ -488,16 +485,15 @@ describe('Form', () => {
       (formRef.current as FormInstance).check();
     });
 
-    expect(onErrorSpy).to.be.called;
-    expect(onErrorSpy).to.be.calledWith({
+    expect(onError).to.be.calledWith({
       items: {
         hasError: true,
         array: [
           {
             hasError: true,
             object: {
-              field1: { hasError: true, errorMessage: 'error1' },
-              field2: { hasError: true, errorMessage: 'error2' }
+              field1: { hasError: true, errorMessage: 'field1 is a required field' },
+              field2: { hasError: true, errorMessage: 'field2 is required' }
             }
           }
         ]
