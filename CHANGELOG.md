@@ -1,3 +1,17 @@
+## [5.59.1](https://github.com/rsuite/rsuite/compare/v5.59.0...v5.59.1) (2024-04-12)
+
+
+### Bug Fixes
+
+* **AvatarGroup:** fix avatar deformation in group ([#3727](https://github.com/rsuite/rsuite/issues/3727)) ([466e428](https://github.com/rsuite/rsuite/commit/466e4285d794f081f90e79fc28e8f57783c438c1))
+* **Checkbox:** fix Checkbox not clickable in Firefox ([#3728](https://github.com/rsuite/rsuite/issues/3728)) ([2fc23aa](https://github.com/rsuite/rsuite/commit/2fc23aa841532f4340f5bef9a7a70009b912a4b9))
+* **docs:** typo on Form name ([#3723](https://github.com/rsuite/rsuite/issues/3723)) ([8f328e1](https://github.com/rsuite/rsuite/commit/8f328e10e16cbe978aa6737baefa67ca2b4f6867))
+* **Placeholder:** fix Placeholder SSR and CSR mismatch ([#3735](https://github.com/rsuite/rsuite/issues/3735)) ([8a9c8bd](https://github.com/rsuite/rsuite/commit/8a9c8bd81003b54f930e3dfd4f99356db44f125f))
+* **Sidenav:** fix secondary menu cannot expand ([#3732](https://github.com/rsuite/rsuite/issues/3732)) ([d680fa3](https://github.com/rsuite/rsuite/commit/d680fa3b7b498c72148ccff95b5ea1ad10ad7382))
+* remove debug code ([#3720](https://github.com/rsuite/rsuite/issues/3720)) ([637b8dc](https://github.com/rsuite/rsuite/commit/637b8dc6bb19a6775eda692534282a0dce1ebfbc))
+
+
+
 # [5.59.0](https://github.com/rsuite/rsuite/compare/v5.58.1...v5.59.0) (2024-04-03)
 
 
