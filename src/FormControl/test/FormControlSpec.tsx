@@ -550,4 +550,35 @@ describe('FormControl', () => {
       });
     });
   });
+
+  describe('ruleDependencies', () => {
+    it('Should validate the field when the dependency changes', () => {
+      const errorMessage = 'The passwords do not match';
+      const onError = sinon.spy();
+      render(
+        <Form formDefaultValue={{ password: '', passwordAgain: '' }} onError={onError}>
+          <FormControl name="password" data-testid="password" />
+          <FormControl
+            name="passwordAgain"
+            data-testid="passwordAgain"
+            ruleDependencies={['password']}
+            rule={Schema.Types.StringType().addRule((value: string, data: { password: string }) => {
+              if (data && data.password && value !== data.password) {
+                return false;
+              }
+              return true;
+            }, errorMessage)}
+          />
+        </Form>
+      );
+      fireEvent.change(screen.getByTestId('passwordAgain'), {
+        target: { value: 'passwordAgain' }
+      });
+      fireEvent.change(screen.getByTestId('password'), {
+        target: { value: 'password' }
+      });
+
+      expect(onError).to.be.calledWithMatch({ passwordAgain: errorMessage });
+    });
+  });
 });

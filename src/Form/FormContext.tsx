@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { TypeAttributes } from '../@types/common';
 import type { Schema } from 'schema-typed';
 import type { FieldRuleType } from './hooks/useSchemaModel';
+import type { DependenciesRefType } from './hooks/useDependenciesArrange';
 
 interface TrulyFormContextValue<
   T = Record<string, any>,
   errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
 > {
+  removeDependencies: (name: string) => void;
+  pushDependencies: (name: string, dependencies: DependenciesRefType) => void;
+  getShouldValidateFieldNames: (name: string) => string[];
   getCombinedModel: () => Schema;
   formError: E;
   nestedField: boolean;
@@ -16,8 +20,7 @@ interface TrulyFormContextValue<
   pushFieldRule: (name: string, fieldRule: FieldRuleType) => void;
   removeFieldRule: (name: string) => void;
   onFieldChange: (name: string, value: any, event: React.SyntheticEvent) => void;
-  onFieldError: (name: string, errorMessage: string) => void;
-  onFieldSuccess: (name: string) => void;
+  onErrorChange: (error: Record<string, ReactNode>) => void;
 }
 
 type ExternalPropsContextValue = {

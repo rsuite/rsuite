@@ -180,7 +180,9 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | plaintext              | boolean                                               | 使控件为纯文本。                                                                                                            |
 | readOnly               | boolean                                               | 使控件为只读。                                                                                                              |
 | rule                   | checkType                                             | 当前字段的校验规则，如果与`<Form>`的`model`冲突，以当前为准，[示例](/zh/components/form-validation/#field-级别的校验规则)。 |
+| ruleDependencies       | string[]                                              | 校验依赖的字段。 <br/>![](https://img.shields.io/badge/min-v5.50.0-blue)                                                                                                            |
 | shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时删除字段值和错误消息。                                                                                            |
+
 
 ### `<Form.Group>`
 

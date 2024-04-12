@@ -1,4 +1,4 @@
-import React, { useMemo, useImperativeHandle, useRef } from 'react';
+import React, { useMemo, useImperativeHandle, useRef, type ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
@@ -11,12 +11,13 @@ import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import { useEventCallback } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import useSchemaModel from './hooks/useSchemaModel';
 import useFormError from './hooks/useFormError';
 import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
+import { useSchemaModel } from './hooks/useSchemaModel';
+import { useDependenciesArrange } from './hooks/useDependenciesArrange';
+import { shallowEqual, useEventCallback } from '../utils';
+import { oneOf } from '../internals/propTypes';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -155,6 +156,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   } = props;
 
   const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(formModel);
+  const { getShouldValidateFieldNames, pushDependencies, removeDependencies } =
+    useDependenciesArrange();
 
   const classes = useFormClassNames({
     classPrefix,
@@ -330,18 +333,12 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     onSubmit?.(checkStatus, event);
   });
 
-  const handleFieldError = useEventCallback((name: string, errorMessage: React.ReactNode) => {
-    const nextFormError = {
-      ...formError,
-      [name]: errorMessage
-    };
-    setFormError(nextFormError);
-    onError?.(nextFormError);
-    onCheck?.(nextFormError);
-  });
-
-  const handleFieldSuccess = useEventCallback((name: string) => {
-    removeFieldError(name);
+  const handleErrorChange = useEventCallback((nextError: Record<string, ReactNode>) => {
+    setFormError(nextError);
+    onCheck?.(nextError);
+    if (!shallowEqual(nextError, formError)) {
+      onError?.(nextError);
+    }
   });
 
   const setFieldValue = (formValue: Record<string, any>, fieldName: string, fieldValue: any) => {
@@ -376,9 +373,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       removeFieldError,
       pushFieldRule,
       removeFieldRule,
+      getShouldValidateFieldNames,
+      pushDependencies,
+      removeDependencies,
       onFieldChange: handleFieldChange,
-      onFieldError: handleFieldError,
-      onFieldSuccess: handleFieldSuccess
+      onErrorChange: handleErrorChange
     }),
     [
       getCombinedModel,
@@ -393,9 +392,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       removeFieldError,
       pushFieldRule,
       removeFieldRule,
+      getShouldValidateFieldNames,
+      pushDependencies,
+      removeDependencies,
       handleFieldChange,
-      handleFieldError,
-      handleFieldSuccess
+      handleErrorChange
     ]
   );
 
