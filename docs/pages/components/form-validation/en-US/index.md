@@ -1,6 +1,6 @@
 # Form validation
 
-We recommend using [`schema-typed`](https://github.com/rsuite/schema-typed) to manage and verify form data. The prompt information provided to the user when there is an error data in the form.
+We recommend using [`schema-typed`](https://github.com/rsuite/schema-typed) to manage and validate form data. `rsuite` integrates `schema-typed` by default, and you can define the data model of the form through the `Schema` object. It can help us define data models, validate data, and generate error messages.
 
 ## Usage
 
@@ -13,13 +13,13 @@ import { Form, Schema } from 'rsuite';
 **Step 2**: Use Schema to define the data model.
 
 ```jsx
+const { StringType } = Schema.Types;
+
 const model = Schema.Model({
-  name: Schema.Types.StringType().isRequired('This field is required.'),
-  email: Schema.Types.StringType().isEmail('Please enter a valid email address.')
+  name: StringType().isRequired('This field is required.'),
+  email: StringType().isEmail('Please enter a valid email address.')
 });
 ```
-
-> You can learn more about about `Schema` by [reading this guide](https://github.com/rsuite/schema-typed#schema-typed).
 
 **Step 3**: Set `model` for `<Form>`.
 
@@ -119,7 +119,39 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`form-nested-fields.md`}-->
 
-## Props & Methods
+## Integration with other libraries
 
-- [Form props](/components/form)
-- [Schema APIs](https://github.com/rsuite/schema-typed#table-of-contents)
+- [With Formik Integration](/en/guide/form-formik/)
+- [With React Hook Form Integration](/en/guide/form-react-hook-form/)
+
+## API
+
+### Form ref
+
+| Name               | Type                                                                          | Description                                |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------ |
+| check              | (callback?: (formError: E) => void) => boolean                                | Verify form data                           |
+| checkAsync         | () => Promise<CheckResult>                                                    | Asynchronously check form data             |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | Checklist single field value               |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | Asynchronous check form single field value |
+| cleanErrors        | (callback: () => void) => void                                                | Clean error message                        |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | Clear single field error message           |
+| resetErrors        | () => void                                                                    | Reset error message                        |
+
+### Schema
+
+Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
+
+```ts
+interface Schema {
+  Model(schemaSpec: SchemaDeclaration<DataType, ErrorMsgType>): schema;
+  Types: {
+    StringType: (errorMessage?: string) => this;
+    NumberType: (errorMessage?: string) => this;
+    ArrayType: (errorMessage?: string) => this;
+    ObjectType: (errorMessage?: string) => this;
+    DateType: (errorMessage?: string) => this;
+    BooleanType: (errorMessage?: string) => this;
+  };
+}
+```

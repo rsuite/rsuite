@@ -1,6 +1,6 @@
 # 表单校验
 
-我们推荐使用[`schema-typed`](https://github.com/rsuite/schema-typed)对表单数据进行管理和校验。 当表单出现错误数据时候为用户提供的提示信息。
+我们推荐使用[`schema-typed`](https://github.com/rsuite/schema-typed)对表单数据进行管理和校验。在 `rsuite` 中默认集成了 `schema-typed`，可以通过 `Schema` 对象来定义表的数据模型。它可以帮助我们定义数据模型，校验数据，以及生成错误信息。
 
 ## 使用
 
@@ -13,14 +13,14 @@ import { Form, Schema } from 'rsuite';
 **第二步**: 通过 `Schema.Model` 定义数据模型。
 
 ```jsx
+const { StringType } = Schema.Types;
+
 /** Use Schema to define the data model. */
 const model = Schema.Model({
-  name: Schema.Types.StringType().isRequired('This field is required.'),
-  email: Schema.Types.StringType().isEmail('Please enter a valid email address.')
+  name: StringType().isRequired('This field is required.'),
+  email: StringType().isEmail('Please enter a valid email address.')
 });
 ```
-
-> [您可以阅读本指南，以了解有关 Schema 的更多信息](https://github.com/rsuite/schema-typed#schema-typed)
 
 **第三步**: 为 `<Form>` 设置 `model`。
 
@@ -121,7 +121,39 @@ return (
 
 <!--{include:`form-nested-fields.md`}-->
 
-## Props & Methods
+## 与其他库集成
 
-- [Form props](/zh/components/form)
-- [Schema APIs](https://github.com/rsuite/schema-typed#table-of-contents)
+- [与 Formik 集成](/zh/guide/form-formik/)
+- [与 React Hook Form 集成](/zh/guide/form-react-hook-form/)
+
+## API
+
+### Form ref
+
+| 名称               | 类型                                                                          | 描述                   |
+| ------------------ | ----------------------------------------------------------------------------- | ---------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | 检验表单数据           |
+| checkAsync         | () => Promise<CheckResult>                                                    | 异步检验表单数据       |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | 校验表单单个字段值     |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | 异步校验表单单个字段值 |
+| cleanErrors        | (callback: () => void) => void                                                | 清除错误信息           |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | 清除单个字段错误信息   |
+| resetErrors        | () => void                                                                    | 重置错误信息           |
+
+### Schema
+
+Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
+
+```ts
+interface Schema {
+  Model(schemaSpec: SchemaDeclaration<DataType, ErrorMsgType>): schema;
+  Types: {
+    StringType: (errorMessage?: string) => this;
+    NumberType: (errorMessage?: string) => this;
+    ArrayType: (errorMessage?: string) => this;
+    ObjectType: (errorMessage?: string) => this;
+    DateType: (errorMessage?: string) => this;
+    BooleanType: (errorMessage?: string) => this;
+  };
+}
+```

@@ -106,65 +106,24 @@
 
 <!-- prettier-sort-markdown-table -->
 
-| 名称             | 类型 `(默认值)`                                               | 描述                                               |
-| ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
-| checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | 触发表单校验的类型                                 |
-| classPrefix      | string `('form')`                                             | 组件 CSS 类的前缀                                  |
-| disabled         | boolean `(false)`                                             | 禁用表单                                           |
-| errorFromContext | boolean `(true)`                                              | Form.Control 中的错误提醒默认从 Context 获取       |
-| fluid            | boolean                                                       | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
-| formDefaultValue | object                                                        | 表单的初始默认值 `非受控组件`                      |
-| formError        | object                                                        | 表单错误信息                                       |
-| formValue        | object                                                        | 表单的值 `受控组件`                                |
-| layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
-| model            | Schema                                                        | SchemaModel 对象                                   |
-| nestedField      | boolean `(false)`                                             | 是否支持表单数据嵌套                               |
-| onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
-| onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
-| onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
-| plaintext        | boolean `(false)`                                             | 表单显示为纯文本                                   |
-| readOnly         | boolean `(false)`                                             | 只读表单                                           |
-
-### Form ref
-
-- check 检验表单数据
-
-```js
-check: (callback?: (formError: E) => void) => boolean;
-```
-
-- checkAsync 异步检验表单数据
-
-```js
-checkAsync: () => Promise<any>;
-```
-
-- checkForField 校验表单单个字段值
-
-```js
-checkForField: (
-    fieldName: keyof T,
-    callback?: (checkResult: CheckResult<errorMsg>) => void
-  ) => boolean;
-```
-
-- checkForFieldAsync 异步校验表单单个字段值
-
-```js
-checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
-```
-
-- cleanErrors 清除错误信息
-
-```js
-cleanErrors(callback: () => void) => void
-```
-
-- cleanErrorForField 清除单个字段错误信息
-
-```js
-cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
-```
+| 名称             | 类型 `(默认值)`                                       | 描述                                               |
+| ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 触发表单校验的类型                                 |
+| classPrefix      | string `('form')`                                     | 组件 CSS 类的前缀                                  |
+| disabled         | boolean `(false)`                                     | 禁用表单                                           |
+| errorFromContext | boolean `(true)`                                      | Form.Control 中的错误提醒默认从 Context 获取       |
+| fluid            | boolean                                               | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
+| formDefaultValue | object                                                | 表单的初始默认值 `非受控组件`                      |
+| formError        | object                                                | 表单错误信息                                       |
+| formValue        | object                                                | 表单的值 `受控组件`                                |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
+| model            | Schema                                                | SchemaModel 实例对象                               |
+| nestedField      | boolean `(false)`                                     | 是否支持表单数据嵌套                               |
+| onChange         | (formValue: object, event) => void                    | 数据改变后的回调函数                               |
+| onCheck          | (formError: object) => void                           | 数据校验的回调函数                                 |
+| onError          | (formError: object) => void                           | 校验出错的回调函数                                 |
+| plaintext        | boolean `(false)`                                     | 表单显示为纯文本                                   |
+| readOnly         | boolean `(false)`                                     | 只读表单                                           |
 
 ### `<Form.Control>`
 
@@ -172,7 +131,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | ---------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | accepter               | ElementType `(Input)`                                 | 受代理的组件。                                                                                                              |
 | checkAsync             | boolean                                               | 异步数据校验。                                                                                                              |
-| checkTrigger           | 'change' &#124; 'blur' &#124; 'none'                  | 数据校验的触发类型,会覆盖 `<Form>`上的设置。                                                                                |
+| checkTrigger           | 'change' \| 'blur' \| 'none'                          | 数据校验的触发类型,会覆盖 `<Form>`上的设置。                                                                                |
 | classPrefix            | string `('form-control')`                             | 组件 CSS 类的前缀。                                                                                                         |
 | errorMessage           | ReactNode                                             | 显示错误信息。                                                                                                              |
 | errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置。                                                                                                          |

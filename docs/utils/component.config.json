@@ -261,7 +261,8 @@
     "id": "form-validation",
     "name": "Form Validation",
     "title": "表单校验",
-    "components": ["Form", "Form.Control", "Schema"]
+    "components": ["Form", "Form.Control"],
+    "apis": ["Schema"]
   },
   {
     "id": "form-formik",
