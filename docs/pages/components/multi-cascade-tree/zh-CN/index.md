@@ -60,7 +60,7 @@ MultiCascadeTree 是一个按列显示树形结构数据的组件，支持多选
 | columnHeight          | number                                                                             | 设置列的高度                         |
 | columnWidth           | number                                                                             | 设置列的宽度                         |
 | data \*               | [ItemDataType][item][]                                                             | 组件数据                             |
-| defaultValue          | string                                                                             | 默认值                               |
+| defaultValue          | string[]                                                                             | 默认值                               |
 | disabledItemValues    | string[]                                                                           | 禁用选项                             |
 | getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子级                 |
 | labelKey              | string `('label')`                                                                 | 设置选项显示内容在 `data` 中的 `key` |
@@ -71,7 +71,8 @@ MultiCascadeTree 是一个按列显示树形结构数据的组件，支持多选
 | renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义选项                           |
 | searchable            | boolean                                                                            | 是否启用搜索                         |
 | uncheckableItemValues | string[]                                                                           | 设置不可选中的选项                   |
-| value                 | string                                                                             | 设置值（受控）                       |
+| value                 | string[]                                                                             | 设置值（受控）                       |
+| valueKey              | string `('value')`                                                                 |  设置 `value` 在 `data` 的属性名称                                |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 

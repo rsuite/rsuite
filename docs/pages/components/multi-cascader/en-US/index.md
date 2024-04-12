@@ -102,7 +102,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 | countable             | boolean `(true)`                                                                            | Can count selected options                                       |
 | data \*               | [ItemDataType][item][]                                                                      | The data of component                                            |
 | defaultOpen           | boolean                                                                                     | Default value of open property                                   |
-| defaultValue          | string                                                                                      | Default values of the selected items                             |
+| defaultValue          | string[]                                                                                      | Default values of the selected items                             |
 | disabled              | boolean                                                                                     | Disabled component                                               |
 | disabledItemValues    | string                                                                                      | Disabled items                                                   |
 | height                | number `(320)`                                                                              | The height of Dropdown                                           |
@@ -146,7 +146,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 | size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                           | A picker can have different sizes                                |
 | toggleAs              | ElementType `('a')`                                                                         | You can use a custom element for this component                  |
 | uncheckableItemValues | string                                                                                      | Set the option value for the check box not to be rendered        |
-| value                 | string                                                                                      | Specifies the values of the selected items(Controlled)           |
+| value                 | string[]                                                                                      | Specifies the values of the selected items(Controlled)           |
 | valueKey              | string `('value')`                                                                          | Set value key in data                                            |
 
 <!--{include:(_common/types/item-data-type.md)}-->
