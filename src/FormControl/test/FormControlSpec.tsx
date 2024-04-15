@@ -175,9 +175,6 @@ describe('FormControl', () => {
 
   it('Should render correctly when form error was null', () => {
     render(
-      // FIXME `formError` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formError={null}>
         <FormControl name="name" />
       </Form>
@@ -277,11 +274,13 @@ describe('FormControl', () => {
     fireEvent.change(screen.getByTestId('password'), {
       target: { value: 'password' }
     });
+
     expect(refValue).to.deep.equal({ username: 'username', password: 'password', email: '' });
     expect(refError).to.deep.equal({
       username: 'The length cannot exceed 2',
       password: 'The length cannot exceed 2'
     });
+
     fireEvent.change(screen.getByTestId('email'), {
       target: { value: 'email' }
     });
@@ -548,6 +547,56 @@ describe('FormControl', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
       });
+    });
+
+    // 应该只校验当前交互控件的字段
+    it('Should only validate the field of the current interactive control', () => {
+      const onCheck = sinon.spy();
+      const model = Schema.Model({
+        obj: Schema.Types.ObjectType().shape({
+          number1: Schema.Types.NumberType(),
+          number2: Schema.Types.NumberType()
+        })
+      });
+
+      render(
+        <Form
+          formDefaultValue={{ obj: { number1: '', number2: '' } }}
+          model={model}
+          nestedField
+          onCheck={onCheck}
+        >
+          <FormControl name="obj.number1" data-testid="textbox1" />
+          <FormControl name="obj.number2" data-testid="textbox2" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByTestId('textbox1'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('obj.number1 must be a number');
+      expect(onCheck).to.calledWithMatch({
+        obj: {
+          object: {
+            number1: { hasError: true, errorMessage: 'obj.number1 must be a number' }
+          }
+        }
+      });
+
+      fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('obj.number2 must be a number');
+      expect(onCheck).to.calledWithMatch({
+        obj: {
+          object: {
+            number2: { hasError: true, errorMessage: 'obj.number2 must be a number' }
+          }
+        }
+      });
+
+      fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 1 } });
+
+      expect(screen.queryByRole('alert')).to.not.exist;
+      expect(onCheck).to.calledWithMatch({ obj: { object: {} } });
     });
   });
 });

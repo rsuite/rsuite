@@ -1,5 +1,6 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import FormGroup from '../FormGroup';
 import Input from '../../Input';
 import FormControlLabel from '../../FormControlLabel';
@@ -7,48 +8,34 @@ import FormControlLabel from '../../FormControlLabel';
 describe('FormGroup', () => {
   testStandardProps(<FormGroup />);
 
-  it('Should render a FormGroup', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<FormGroup>{title}</FormGroup>);
-    assert.equal(instance.className, 'rs-form-group');
-    assert.equal(instance.innerHTML, title);
+  it('Should render a form group', () => {
+    render(<FormGroup>Test</FormGroup>);
+
+    expect(screen.getByRole('group')).to.have.class('rs-form-group');
   });
 
   it('Should be assigned a controlId', () => {
-    const instance = getDOMNode(
+    render(
       <FormGroup controlId="name">
         <div>
-          <FormControlLabel />
+          <FormControlLabel>Label</FormControlLabel>
           <Input />
         </div>
       </FormGroup>
     );
-    assert.equal(
-      (instance.querySelector('.rs-form-control-label') as HTMLLabelElement).getAttribute('for'),
-      'name'
-    );
-    assert.equal(
-      (instance.querySelector('.rs-input') as HTMLInputElement).getAttribute('id'),
-      'name'
-    );
   });
 
   it('Should use their own htmlFor and id', () => {
-    const instance = getDOMNode(
+    render(
       <FormGroup controlId="name">
         <div>
-          <FormControlLabel htmlFor="email" />
+          <FormControlLabel htmlFor="email">Label</FormControlLabel>
           <Input id="email" />
         </div>
       </FormGroup>
     );
-    assert.equal(
-      (instance.querySelector('.rs-form-control-label') as HTMLLabelElement).getAttribute('for'),
-      'email'
-    );
-    assert.equal(
-      (instance.querySelector('.rs-input') as HTMLInputElement).getAttribute('id'),
-      'email'
-    );
+
+    expect(screen.getByText('Label')).to.have.attribute('for', 'email');
+    expect(screen.getByRole('textbox')).to.have.attribute('id', 'email');
   });
 });

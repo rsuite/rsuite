@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { FormGroupContext } from '../FormGroup/FormGroup';
+import { useFormGroup } from '../FormGroup';
 import HelpO from '@rsuite/icons/legacy/HelpO';
 
 export interface FormHelpTextProps extends WithAsProps {
@@ -27,7 +27,7 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
       ...rest
     } = props;
 
-    const { controlId } = useContext(FormGroupContext);
+    const { controlId } = useFormGroup();
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ tooltip }));
 

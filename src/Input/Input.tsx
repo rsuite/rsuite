@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroupContext } from '../FormGroup/FormGroup';
+import { useFormGroup } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import Plaintext from '../internals/Plaintext';
 import { createChainedFunction, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
@@ -94,7 +94,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, { plaintext }));
     const inputGroupContext = useContext(InputGroupContext);
-    const formGroupContext = useContext(FormGroupContext);
+    const { controlId } = useFormGroup();
 
     // Make the Input component display in plain text,
     // and display default characters when there is no value.
@@ -123,7 +123,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         ref={mergeRefs(ref, inputRef)}
         className={classes}
         type={type}
-        id={id || formGroupContext?.controlId}
+        id={id || controlId}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}

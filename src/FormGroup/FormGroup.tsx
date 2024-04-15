@@ -11,7 +11,11 @@ export interface FormGroupProps extends WithAsProps {
   controlId?: string;
 }
 
-export const FormGroupContext = React.createContext<{ controlId?: string }>({});
+const FormGroupContext = React.createContext<{ controlId?: string }>({});
+
+export const useFormGroup = () => {
+  return React.useContext(FormGroupContext);
+};
 
 /**
  * The `<Form.Group>` component is the easiest way to add some structure to forms.

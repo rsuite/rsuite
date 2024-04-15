@@ -30,6 +30,12 @@ function useSchemaModel(formModel: Schema) {
     const realSubRules = subRulesRef.current.filter<RealRuleInfoType>((v): v is RealRuleInfoType =>
       Boolean(v.fieldRule.current)
     );
+
+    // If there is no sub rule, return the original form model
+    if (realSubRules.length === 0) {
+      return formModel;
+    }
+
     return SchemaModel.combine(
       formModel,
       SchemaModel(

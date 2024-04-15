@@ -3,8 +3,8 @@ import { render, fireEvent, act, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getInstance, testStandardProps } from '@test/utils';
-
-import Form, { FormInstance } from '../Form';
+import { FormInstance } from '../hooks/useFormRef';
+import Form from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
 
@@ -19,10 +19,7 @@ const model = Schema.Model({
 });
 
 const modelAsync = Schema.Model({
-  // FIXME `.addRule()` doesn't support a callback returning Promise
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  name: Schema.Types.StringType().addRule(value => {
+  name: Schema.Types.StringType().addAsyncRule(value => {
     return new Promise(resolve => {
       setTimeout(() => {
         if (value != 'bac') {
@@ -326,9 +323,6 @@ describe('Form', () => {
 
     const onCheck = sinon.spy();
     render(
-      // FIXME `checkTrigger` doesn't support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formDefaultValue={values} onCheck={onCheck} checkTrigger={null}>
         <FormControl name="name" />
       </Form>
@@ -499,5 +493,18 @@ describe('Form', () => {
         ]
       }
     });
+  });
+
+  it('Should provide public objects and methods', () => {
+    const instance = getInstance(<Form />);
+
+    expect(instance.root).to.exist;
+    expect(instance.check).to.instanceOf(Function);
+    expect(instance.checkAsync).to.instanceOf(Function);
+    expect(instance.checkForField).to.instanceOf(Function);
+    expect(instance.checkForFieldAsync).to.instanceOf(Function);
+    expect(instance.cleanErrors).to.instanceOf(Function);
+    expect(instance.cleanErrorForField).to.instanceOf(Function);
+    expect(instance.resetErrors).to.instanceOf(Function);
   });
 });

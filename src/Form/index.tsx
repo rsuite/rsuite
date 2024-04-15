@@ -1,5 +1,6 @@
 import Form from './Form';
-export type { FormInstance, FormProps } from './Form';
+export type { FormProps } from './Form';
+export type { FormInstance } from './hooks/useFormRef';
 export type { FormGroupProps } from '../FormGroup';
 export type { FormErrorMessageProps } from '../FormErrorMessage';
 export type { FormControlLabelProps } from '../FormControlLabel';

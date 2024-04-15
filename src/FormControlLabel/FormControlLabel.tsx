@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { FormGroupContext } from '../FormGroup/FormGroup';
+import { useFormGroup } from '../FormGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormControlLabelProps
@@ -25,7 +25,7 @@ const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps>
       ...rest
     } = props;
 
-    const { controlId } = useContext(FormGroupContext);
+    const { controlId } = useFormGroup();
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
