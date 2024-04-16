@@ -18,9 +18,9 @@ export const useFormGroup = (controlId?: string) => {
   const fallbackId = useUniqueId('rs-');
 
   const id = controlId || context.controlId || fallbackId;
-  const helpTextId = `${controlId}-help-text`;
-  const labelId = `${controlId}-label`;
-  const errorMessageId = `${controlId}-error-message`;
+  const helpTextId = `${id}-help-text`;
+  const labelId = `${id}-label`;
+  const errorMessageId = `${id}-error-message`;
 
   return {
     /**
