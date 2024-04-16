@@ -38,18 +38,14 @@ const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> =
       })
     );
 
-    if (!show) {
-      return null;
-    }
-
-    return (
+    return show ? (
       <Component {...rest} ref={ref} className={wrapperClasses}>
         <span className={classes}>
           <span className={prefix`arrow`} />
           <span className={prefix`inner`}>{children}</span>
         </span>
       </Component>
-    );
+    ) : null;
   }
 );
 

@@ -38,12 +38,12 @@ export interface FormProps<
   /**
    * Current value of the input. Creates a controlled component
    */
-  formValue?: T;
+  formValue?: T | null;
 
   /**
    * Initial value
    */
-  formDefaultValue?: T;
+  formDefaultValue?: T | null;
 
   /**
    * Error message of form

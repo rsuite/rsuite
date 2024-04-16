@@ -13,8 +13,35 @@ export interface FormGroupProps extends WithAsProps {
 
 const FormGroupContext = React.createContext<{ controlId?: string }>({});
 
-export const useFormGroup = () => {
-  return React.useContext(FormGroupContext);
+export const useFormGroup = (controlId?: string) => {
+  const context = React.useContext(FormGroupContext);
+  const fallbackId = useUniqueId('rs-');
+
+  const id = controlId || context.controlId || fallbackId;
+  const helpTextId = `${controlId}-help-text`;
+  const labelId = `${controlId}-label`;
+  const errorMessageId = `${controlId}-error-message`;
+
+  return {
+    /**
+     * The `id` of the `<Form.Control>` component.
+     */
+    controlId: id,
+    /**
+     * The `id` of the `<Form.HelpText>` component.
+     */
+    helpTextId,
+
+    /**
+     * The `id` of the `<Form.ControlLabel>` component.
+     */
+    labelId,
+
+    /**
+     * The `id` of the `<Form.ErrorMessage>` component.
+     */
+    errorMessageId
+  };
 };
 
 /**
@@ -34,6 +61,7 @@ const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forward
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const controlId = useUniqueId('rs-', controlIdProp);
+
     const contextValue = useMemo(() => ({ controlId }), [controlId]);
 
     return (

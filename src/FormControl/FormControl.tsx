@@ -120,7 +120,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     ...rest
   } = props;
 
-  const controlId = useFormGroup()?.controlId || id;
+  const { controlId, helpTextId, labelId, errorMessageId } = useFormGroup(id);
 
   if (!onFieldChange) {
     throw new Error(`
@@ -196,9 +196,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     return Promise.resolve(callbackEvents(model?.checkForField(name, nextFormValue, checkOptions)));
   });
 
-  const ariaDescribedby = controlId ? `${controlId}-help-text` : null;
   const fieldHasError = Boolean(fieldError);
-  const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
 
   // Toggle component is a special case that uses `checked` and `defaultChecked` instead of `value` and `defaultValue` props.
   const valueKey = AccepterComponent === Toggle ? 'checked' : 'value';
@@ -211,10 +209,10 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     <Component className={classes} ref={ref} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
-        aria-labelledby={controlId ? `${controlId}-control-label` : null}
-        aria-describedby={ariaDescribedby}
+        aria-labelledby={labelId}
+        aria-describedby={helpTextId}
         aria-invalid={fieldHasError || undefined}
-        aria-errormessage={ariaErrormessage}
+        aria-errormessage={fieldHasError ? errorMessageId : undefined}
         {...accepterProps}
         {...rest}
         readOnly={readOnly}
@@ -226,7 +224,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       />
 
       <FormErrorMessage
-        id={controlId ? `${controlId}-error-message` : undefined}
+        id={errorMessageId}
         role="alert"
         aria-relevant="all"
         show={fieldHasError}

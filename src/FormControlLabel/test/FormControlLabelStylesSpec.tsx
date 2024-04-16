@@ -1,14 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import FormControlLabel from '../index';
-import { getDOMNode, getStyle } from '@test/utils';
-
 import '../styles/index.less';
 
 describe('FormControlLabel styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLLabelElement>();
-    render(<FormControlLabel ref={instanceRef}>Title</FormControlLabel>);
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'marginBottom'), '4px');
+    render(<FormControlLabel>Title</FormControlLabel>);
+
+    expect(screen.getByText('Title')).to.have.style('margin-bottom', '4px');
   });
 });

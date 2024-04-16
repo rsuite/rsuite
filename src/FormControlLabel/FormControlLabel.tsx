@@ -17,27 +17,20 @@ export interface FormControlLabelProps
  */
 const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
   (props: FormControlLabelProps, ref) => {
+    const { labelId, controlId } = useFormGroup();
     const {
       as: Component = 'label',
       classPrefix = 'form-control-label',
-      htmlFor,
+      htmlFor = controlId,
       className,
+      id = labelId,
       ...rest
     } = props;
 
-    const { controlId } = useFormGroup();
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
-    return (
-      <Component
-        id={controlId ? `${controlId}-control-label` : null}
-        htmlFor={htmlFor || controlId}
-        {...rest}
-        ref={ref}
-        className={classes}
-      />
-    );
+    return <Component id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
   }
 );
 
