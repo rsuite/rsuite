@@ -5,8 +5,10 @@ import type { CheckResult } from 'schema-typed';
 import { useControlled } from '../../utils';
 import { nameToPath } from '../../FormControl/utils';
 import useEventCallback from '../../utils/useEventCallback';
+import useFormRef, { FormInstance } from './useFormRef';
 
 export interface FormErrorProps {
+  ref: React.Ref<FormInstance>;
   formValue: any;
   getCombinedModel: () => any;
   onCheck?: (formError: any) => void;
@@ -15,7 +17,7 @@ export interface FormErrorProps {
 }
 
 export default function useFormValidate(formError: any, props: FormErrorProps) {
-  const { formValue, getCombinedModel, onCheck, onError, nestedField } = props;
+  const { ref, formValue, getCombinedModel, onCheck, onError, nestedField } = props;
   const [realFormError, setFormError] = useControlled(formError, {});
 
   const realFormErrorRef = useRef(realFormError);
@@ -167,18 +169,21 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     [formError, nestedField, onCheck, onError, setFormError]
   );
 
-  const imperativeMethods = {
+  const formRef = useFormRef(ref, {
     check,
     checkForField,
     checkAsync,
-    checkForFieldAsync
-  };
+    checkForFieldAsync,
+    formError,
+    setFormError,
+    nestedField
+  });
 
   return {
+    formRef,
     formError: realFormError,
-    setFormError,
+    check,
     setFieldError,
-    onRemoveError,
-    imperativeMethods
+    onRemoveError
   };
 }

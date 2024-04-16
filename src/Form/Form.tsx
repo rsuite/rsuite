@@ -15,7 +15,7 @@ import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
-import useFormRef, { FormInstance } from './hooks/useFormRef';
+import { FormInstance } from './hooks/useFormRef';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -24,7 +24,9 @@ export interface FormProps<
 > extends WithAsProps,
     Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
   /**
-   * Set the left and right columns of the layout of the elements within the form
+   * Set the left and right columns of the layout of the elements within the form。
+   *
+   * @default 'vertical'
    */
   layout?: 'horizontal' | 'vertical' | 'inline';
 
@@ -49,7 +51,9 @@ export interface FormProps<
   formError?: E | null;
 
   /**
-   * Trigger the type of form validation
+   * Trigger the type of form validation.
+   *
+   * @default 'change'
    */
   checkTrigger?: TypeAttributes.CheckTrigger;
 
@@ -161,16 +165,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     nestedField
   });
 
-  const formErrorProps = { formValue, getCombinedModel, onCheck, onError, nestedField };
-  const { formError, setFormError, setFieldError, onRemoveError, imperativeMethods } =
-    useFormValidate(controlledFormError, formErrorProps);
-
-  const rootRef = useFormRef(ref, {
-    ...imperativeMethods,
-    formError,
-    setFormError,
-    nestedField
-  });
+  const formValidateProps = { ref, formValue, getCombinedModel, onCheck, onError, nestedField };
+  const { formError, setFieldError, onRemoveError, check, formRef } = useFormValidate(
+    controlledFormError,
+    formValidateProps
+  );
 
   const classes = useFormClassNames({
     classPrefix,
@@ -199,7 +198,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       return;
     }
 
-    const checkResult = imperativeMethods.check();
+    const checkResult = check();
     onSubmit?.(checkResult, event);
   });
 
@@ -237,7 +236,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   };
 
   return (
-    <form {...rest} ref={rootRef} onSubmit={handleSubmit} className={classes}>
+    <form {...rest} ref={formRef} onSubmit={handleSubmit} className={classes}>
       <FormProvider value={formContextValue}>
         <FormValueProvider value={formValue}>{children}</FormValueProvider>
       </FormProvider>

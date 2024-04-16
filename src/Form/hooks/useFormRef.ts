@@ -53,7 +53,17 @@ export interface FormInstance<T = Record<string, any>, M = string, E = { [P in k
   root: HTMLFormElement | null;
 }
 
-export default function useFormRef(ref, props) {
+interface FormRefProps<T = Record<string, any>, M = string, E = { [P in keyof T]?: M }> {
+  formError: E;
+  nestedField?: boolean;
+  setFormError: (formError: E) => void;
+  check: (callback?: (formError: E) => void) => boolean;
+  checkForField: (fieldName: keyof T, callback?: (checkResult: CheckResult<M>) => void) => boolean;
+  checkAsync: () => Promise<any>;
+  checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
+}
+
+export default function useFormRef(ref: React.Ref<FormInstance>, props: FormRefProps) {
   const rootRef = useRef<HTMLFormElement>(null);
 
   const {
