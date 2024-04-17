@@ -77,11 +77,11 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 | 方法             | 类型                                                            | 描述                               |
 | ---------------- | --------------------------------------------------------------- | ---------------------------------- |
-| `allowedMaxDays` | (days: number) => boolean                                       | 允许指定的最多天数，其他日期都禁用 |
-| `allowedDays`    | (days: number) => boolean                                       | 只允许指定的天数，其他日期都禁用   |
-| `allowedRange`   | (startDate: string \| Date, endDate: string \| Date) => boolean | 允许指定的日期范围，其他日期都禁用 |
 | `after`          | (date?: string \| Date) => boolean                              | 禁用指定日期之后的日期             |
 | `afterToday`     | () => boolean                                                   | 禁用今天之后的日期                 |
+| `allowedDays`    | (days: number) => boolean                                       | 只允许指定的天数，其他日期都禁用   |
+| `allowedMaxDays` | (days: number) => boolean                                       | 允许指定的最多天数，其他日期都禁用 |
+| `allowedRange`   | (startDate: string \| Date, endDate: string \| Date) => boolean | 允许指定的日期范围，其他日期都禁用 |
 | `before`         | (date?: string \| Date) => boolean                              | 禁用指定日期之前的日期             |
 | `beforeToday`    | () => boolean                                                   | 禁用今天之前的日期                 |
 | `combine`        | (...args) => boolean                                            | 用于组合多个条件                   |
@@ -134,11 +134,8 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 ### `<DateRangePicker>`
 
-<!-- prettier-sort-markdown-table -->
-
 | 属性名称             | 类型`(默认值)`                                                                   | 描述                                                                                                     |
 | -------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                               |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | 设置外观                                                                                                 |
 | block                | boolean                                                                          | 堵塞整行                                                                                                 |
 | caretAs              | ElementType                                                                      | 自定义右侧箭头图标的组件                                                                                 |
@@ -149,6 +146,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | defaultOpen          | boolean                                                                          | 默认打开                                                                                                 |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | 默认值                                                                                                   |
 | disabled             | boolean                                                                          | 禁用组件                                                                                                 |
+| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                               |
 | editable             | boolean `(true)`                                                                 | 渲染为 Input 输入框，可以通过键盘输入日期                                                                |
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化                                                                                           |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                                               |
