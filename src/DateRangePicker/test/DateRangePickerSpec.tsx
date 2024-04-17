@@ -816,6 +816,25 @@ describe('DateRangePicker', () => {
       expect(isSameDay(new Date('2024-01-15'), end2)).to.be.true;
       expect(screen.getByRole('textbox')).to.have.value('2024-01-15 ~ 2024-01-15');
     });
+
+    it('Should call `onSelect` callback', () => {
+      const onSelect = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onSelect}
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+
+      const [start] = onSelect.firstCall.firstArg;
+
+      expect(onSelect).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
+    });
   });
 
   describe('Time stability', () => {
