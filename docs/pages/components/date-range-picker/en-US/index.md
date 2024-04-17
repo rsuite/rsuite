@@ -73,69 +73,16 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 <DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />;
 ```
 
-**allowedMaxDays**
-
-Allow the maximum number of days specified, other dates are disabled
-
-```ts
-allowedMaxDays(days: number) => boolean
-```
-
-**allowedDays**
-
-Only allowed days are specified, other dates are disabled
-
-```ts
-allowedDays(days: number) => boolean
-```
-
-**allowedRange**
-
-Allow specified date range, other dates are disabled
-
-```ts
-allowedRange( startDate: string | Date, endDate: string | Date) => boolean
-```
-
-**after**
-
-Disable dates after the specified date
-
-```ts
-after(date?: string | Date) => boolean
-```
-
-**afterToday**
-
-Disable dates after today
-
-```ts
-afterToday() => boolean
-```
-
-**before**
-
-Disable dates before the specified date
-
-```ts
-before(date?: string | Date) => boolean
-```
-
-**beforeToday**
-
-Disable dates before today
-
-```ts
-beforeToday() => boolean
-```
-
-**combine**
-
-Used to combine multiple conditions
-
-```ts
-combine(...) => boolean
-```
+| Method         | Type                                                            | Description                                                          |
+| -------------- | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| allowedMaxDays | (days: number) => boolean                                       | Allow the maximum number of days specified, other dates are disabled |
+| allowedDays    | (days: number) => boolean                                       | Only allowed days are specified, other dates are disabled            |
+| allowedRange   | (startDate: string \| Date, endDate: string \| Date) => boolean | Allow specified date range, other dates are disabled                 |
+| after          | (date?: string \| Date) => boolean                              | Disable dates after the specified date                               |
+| afterToday     | () => boolean                                                   | Disable dates after today                                            |
+| before         | (date?: string \| Date) => boolean                              | Disable dates before the specified date                              |
+| beforeToday    | () => boolean                                                   | Disable dates before today                                           |
+| combine        | (...args) => boolean                                            | Used to combine multiple conditions                                  |
 
 ### Disable input
 
@@ -189,6 +136,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 
 | Property             | Type`(default)`                                                                  | Description                                                                                                                         |
 | -------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                    |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | Set picker appearence                                                                                                               |
 | block                | boolean                                                                          | Blocking an entire row                                                                                                              |
 | caretAs              | ElementType                                                                      | Custom component for the caret icon                                                                                                 |
@@ -199,7 +147,6 @@ Has keyboard interaction for the DateRangeInput component by default.
 | defaultOpen          | boolean                                                                          | Default value of open property                                                                                                      |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                                                                       |
 | disabled             | boolean                                                                          | Whether disabled the component                                                                                                      |
-| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                    |
 | editable             | boolean `(true)`                                                                 | Rendered as an input, the date can be entered via the keyboard                                                                      |
 | format               | string `('yyyy-MM-dd')`                                                          | Format of the date when rendered in the input                                                                                       |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                                                     |
