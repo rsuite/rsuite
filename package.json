@@ -68,7 +68,7 @@
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.8",
     "rsuite-table": "^5.18.2",
-    "schema-typed": "^2.2.1"
+    "schema-typed": "^2.2.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
