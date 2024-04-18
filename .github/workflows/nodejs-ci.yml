@@ -81,5 +81,3 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.browser }}
-          version: "v0.1.15"
-
