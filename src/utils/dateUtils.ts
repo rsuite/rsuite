@@ -55,68 +55,139 @@ export { default as differenceInCalendarMonths } from 'date-fns/differenceInCale
 export { default as isLastDayOfMonth } from 'date-fns/isLastDayOfMonth';
 export { default as lastDayOfMonth } from 'date-fns/lastDayOfMonth';
 
-const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
-const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
-export type CalendarOnlyPropsType =
-  | 'disabledHours'
-  | 'disabledMinutes'
-  | 'disabledSeconds'
-  | 'hideHours'
-  | 'hideMinutes'
-  | 'hideSeconds';
-export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps) as CalendarOnlyPropsType[];
+enum TimeProp {
+  // @deprecated
+  DisabledHours = 'disabledHours',
+  // @deprecated
+  DisabledMinutes = 'disabledMinutes',
+  // @deprecated
+  DisabledSeconds = 'disabledSeconds',
+  ShouldDisableHour = 'shouldDisableHour',
+  ShouldDisableMinute = 'shouldDisableMinute',
+  ShouldDisableSecond = 'shouldDisableSecond',
+  HideHours = 'hideHours',
+  HideMinutes = 'hideMinutes',
+  HideSeconds = 'hideSeconds'
+}
 
-function validTime(calendarProps: any, date: Date) {
+export type CalendarOnlyPropsType = TimeProp;
+export const calendarOnlyProps = [
+  TimeProp.DisabledHours,
+  TimeProp.DisabledMinutes,
+  TimeProp.DisabledSeconds,
+  TimeProp.HideHours,
+  TimeProp.HideMinutes,
+  TimeProp.HideSeconds
+] as const;
+
+const HOURS_PATTERN = /(Hours?)/;
+const MINUTES_PATTERN = /(Minutes?)/;
+const SECONDS_PATTERN = /(Seconds?)/;
+
+interface CalendarProps {
+  [TimeProp.DisabledHours]?: (hours: number, date: Date) => boolean;
+  [TimeProp.DisabledMinutes]?: (minutes: number, date: Date) => boolean;
+  [TimeProp.DisabledSeconds]?: (seconds: number, date: Date) => boolean;
+  [TimeProp.HideHours]?: (hours: number, date: Date) => boolean;
+  [TimeProp.HideMinutes]?: (minutes: number, date: Date) => boolean;
+  [TimeProp.HideSeconds]?: (seconds: number, date: Date) => boolean;
+}
+
+/**
+ * Verify that the time is valid.
+ *
+ * @param props - The calendar props.
+ * @param date - The date to check.
+ * @returns Whether the time is disabled.
+ */
+export function disableTime(props: CalendarProps, date: Date): boolean {
   if (!date) {
     return false;
   }
+  const disabledTimeProps = [
+    TimeProp.DisabledHours,
+    TimeProp.DisabledMinutes,
+    TimeProp.DisabledSeconds,
+    TimeProp.ShouldDisableHour,
+    TimeProp.ShouldDisableMinute,
+    TimeProp.ShouldDisableSecond
+  ] as const;
 
-  return Object.keys(calendarProps).some(key => {
-    if (/(Hours)/.test(key)) {
-      return calendarProps[key]?.(getHours(date), date);
+  const calendarProps = pick(props, disabledTimeProps);
+  const mapProps = new Map(Object.entries(calendarProps));
+
+  return Array.from(mapProps.keys()).some(key => {
+    if (HOURS_PATTERN.test(key)) {
+      return mapProps.get(key)?.(getHours(date), date);
     }
-    if (/(Minutes)/.test(key)) {
-      return calendarProps[key]?.(getMinutes(date), date);
+    if (MINUTES_PATTERN.test(key)) {
+      return mapProps.get(key)?.(getMinutes(date), date);
     }
-    if (/(Seconds)/.test(key)) {
-      return calendarProps[key]?.(getSeconds(date), date);
+    if (SECONDS_PATTERN.test(key)) {
+      return mapProps.get(key)?.(getSeconds(date), date);
     }
     return false;
   });
 }
 
 /**
- * Verify that the time is valid.
+ * Omit the calendar-only props from an object.
  *
- * @param props
- * @param date
+ * @param props - The object to omit props from.
+ * @returns The object with calendar-only props omitted.
  */
-export function disabledTime(props: any, date: Date) {
-  const calendarProps = pick(props, disabledTimeProps);
-  return validTime(calendarProps, date);
-}
-
 export const omitHideDisabledProps = <T extends Record<string, any>>(
   props: T
 ): Partial<Omit<T, CalendarOnlyPropsType>> =>
-  omitBy<T>(props, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'));
-
-export const shouldRenderTime = (format: string) => /([Hhms])/.test(format);
-
-export const shouldRenderMonth = (format: string) => /[Yy]/.test(format) && /[ML]/.test(format);
-
-export const shouldRenderDate = (format: string): boolean =>
-  /[Yy]/.test(format) && /[ML]/.test(format) && /[Dd]/.test(format); // for date-fns v1 and v2
-
-export const shouldOnlyRenderTime = (format: string) =>
-  /([Hhms])/.test(format) && !/([YyMDd])/.test(format); // for date-fns v1 and v2
+  omitBy<T>(
+    props,
+    (_val, key) =>
+      key.startsWith('disabled') || key.startsWith('hide') || key.startsWith('shouldDisable')
+  );
 
 /**
- * Get all weeks of this month
- * @params monthDate
- * @return date[]
+ * Check if the time should be rendered based on the format.
+ *
+ * @param format - The format string.
+ * @returns Whether the time should be rendered.
  */
-export function getMonthView(monthDate: Date, isoWeek: boolean) {
+export const shouldRenderTime = (format: string): boolean => /([Hhms])/.test(format);
+
+/**
+ * Check if the month should be rendered based on the format.
+ *
+ * @param format - The format string.
+ * @returns Whether the month should be rendered.
+ */
+export const shouldRenderMonth = (format: string): boolean =>
+  /[Yy]/.test(format) && /[ML]/.test(format);
+
+/**
+ * Check if the date should be rendered based on the format.
+ *
+ * @param format - The format string.
+ * @returns Whether the date should be rendered.
+ */
+export const shouldRenderDate = (format: string): boolean =>
+  /[Yy]/.test(format) && /[ML]/.test(format) && /[Dd]/.test(format);
+
+/**
+ * Check if only the time should be rendered based on the format.
+ *
+ * @param format - The format string.
+ * @returns Whether only the time should be rendered.
+ */
+export const shouldOnlyRenderTime = (format: string): boolean =>
+  /([Hhms])/.test(format) && !/([YyMDd])/.test(format);
+
+/**
+ * Get all weeks of a month.
+ *
+ * @param monthDate - The date of the month.
+ * @param isoWeek - Whether to use ISO week numbering.
+ * @returns An array of weeks in the month.
+ */
+export function getMonthView(monthDate: Date, isoWeek: boolean): Date[] {
   const firstDayOfMonth = getDay(monthDate);
   let distance = 0 - firstDayOfMonth;
 
@@ -142,9 +213,13 @@ export function getMonthView(monthDate: Date, isoWeek: boolean) {
 }
 
 /**
- * Copy the time of one date to another
+ * Copy the time from one date to another.
+ *
+ * @param from - The source date.
+ * @param to - The target date.
+ * @returns The target date with the time copied from the source date.
  */
-export function copyTime({ from, to }: { from: Date; to: Date }) {
+export function copyTime({ from, to }: { from: Date; to: Date }): Date {
   if (!isValid(from) || !isValid(to)) {
     return to;
   }
@@ -158,6 +233,9 @@ export function copyTime({ from, to }: { from: Date; to: Date }) {
 
 /**
  * Swap two dates without swapping the time.
+ *
+ * @param dateRange - The date range to reverse.
+ * @returns The reversed date range.
  */
 export function reverseDateRangeOmitTime(dateRange: [Date, Date]): [Date, Date] {
   const [start, end] = dateRange;
@@ -170,8 +248,11 @@ export function reverseDateRangeOmitTime(dateRange: [Date, Date]): [Date, Date] 
 
 /**
  * Get the time with AM and PM reversed.
+ *
+ * @param date - The date to reverse the time meridian.
+ * @returns The date with the time meridian reversed.
  */
-export const getReversedTimeMeridian = (date: Date) => {
+export const getReversedTimeMeridian = (date: Date): Date => {
   const clonedDate = new Date(date.valueOf());
   const hours = getHours(clonedDate);
   const nextHours = hours >= 12 ? hours - 12 : hours + 12;

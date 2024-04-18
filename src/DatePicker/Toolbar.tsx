@@ -8,7 +8,7 @@ export type { RangeType } from './types';
 
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
-  disabledOkBtn?: (value: T) => boolean;
+  disableOkBtn?: (value: T) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
@@ -16,15 +16,15 @@ type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
   <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): React.ReactElement | null;
 };
 
-interface SubmitButtonProps {
+interface OkButtonProps {
   calendarDate: any;
   children: React.ReactNode;
-  disabledOkBtn?: (value: any) => boolean;
+  disableOkBtn?: (value: any) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
-const SubmitButton = ({ disabledOkBtn, calendarDate, onOk, children }: SubmitButtonProps) => {
-  const disabled = disabledOkBtn?.(calendarDate);
+const OkButton = ({ disableOkBtn, calendarDate, onOk, children }: OkButtonProps) => {
+  const disabled = disableOkBtn?.(calendarDate);
 
   return (
     <Button
@@ -48,14 +48,14 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
   const {
     className,
     classPrefix = 'picker-toolbar',
-    disabledOkBtn,
-    disabledShortcut,
-    hideOkBtn,
-    onOk,
-    onShortcutClick,
     calendarDate,
     ranges,
     locale,
+    hideOkBtn,
+    disableOkBtn,
+    disableShortcut,
+    onOk,
+    onShortcutClick,
     ...rest
   } = props;
 
@@ -81,19 +81,21 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
         ranges={ranges}
         calendarDate={calendarDate}
         locale={locale}
-        disabledShortcut={disabledShortcut}
+        disableShortcut={disableShortcut}
         onShortcutClick={onShortcutClick}
         data-testid="daterange-predefined-bottom"
       />
       <div className={prefix('right')}>
         {!hideOkBtn && (
-          <SubmitButton disabledOkBtn={disabledOkBtn} calendarDate={calendarDate} onOk={onOk}>
+          <OkButton disableOkBtn={disableOkBtn} calendarDate={calendarDate} onOk={onOk}>
             {locale?.ok}
-          </SubmitButton>
+          </OkButton>
         )}
       </div>
     </Stack>
   );
 });
+
+Toolbar.displayName = 'Toolbar';
 
 export default Toolbar;

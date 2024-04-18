@@ -17,7 +17,13 @@ const App = () => (
     <DatePicker defaultValue={new Date()} shouldDisableDate={date => isBefore(date, new Date())} />
     <br />
     <Label>Disabled month: </Label>
-    <DatePicker shouldDisableDate={date => isBefore(date, new Date())} format="yyyy-MM" />
+    <DatePicker
+      shouldDisableDate={date => {
+        const month = date.getMonth();
+        return month === 0 || month === 11;
+      }}
+      format="yyyy-MM"
+    />
     <br />
     <Label>Disabled time: </Label>
     <DatePicker

@@ -7,7 +7,7 @@ import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
 import { useClassNames, useEventCallback } from '../utils';
 import {
-  disabledTime,
+  disableTime,
   addMonths,
   shouldRenderDate,
   shouldRenderTime,
@@ -168,8 +168,8 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       return isValid(calendarDateProp) ? calendarDateProp : new Date();
     }, [calendarDateProp]);
 
-    const isDisabledDate = useEventCallback((date: Date) => disabledDate?.(date) ?? false);
-    const isTimeDisabled = (date: Date) => disabledTime(props, date);
+    const isDateDisabled = useEventCallback((date: Date) => disabledDate?.(date) ?? false);
+    const isTimeDisabled = (date: Date) => disableTime(props, date);
     const handleMoveForward = useEventCallback(() => {
       onMoveForward?.(addMonths(calendarDate, 1));
     });
@@ -231,7 +231,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const contextValue = {
       date: calendarDate,
       dateRange,
-      disabledDate: isDisabledDate,
+      disabledDate: isDateDisabled,
       format,
       hoverRangeValue,
       inSameMonth: inSameThisMonthDate,
@@ -279,7 +279,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
               show={showMonth}
               limitEndYear={limitEndYear}
               limitStartYear={limitStartYear}
-              disabledMonth={isDisabledDate}
+              disabledMonth={isDateDisabled}
             />
           )}
           {renderTime && (

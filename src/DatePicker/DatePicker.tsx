@@ -1,9 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
-import delay from 'lodash/delay';
-import omit from 'lodash/omit';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
@@ -29,10 +27,8 @@ import {
   shouldOnlyRenderTime,
   setHours,
   getHours,
-  addMonths,
-  addDays,
   isValid,
-  disabledTime,
+  disableTime,
   copyTime,
   calendarOnlyProps,
   CalendarOnlyPropsType
@@ -44,7 +40,6 @@ import {
   PickerToggleTrigger,
   pickerPropTypes,
   pickTriggerPropKeys,
-  omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
   usePickerRef,
@@ -53,16 +48,20 @@ import {
 import { OverlayCloseCause } from '../internals/Overlay/OverlayTrigger';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
-import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { deprecatePropTypeNew } from '../internals/propTypes';
-import { getAriaLabel } from '../Calendar/utils';
-import { splitRanges } from './utils';
-
-export type { RangeType } from './Toolbar';
+import { splitRanges, deprecatedPropTypes, getRestProps } from './utils';
+import useMonthView from './hooks/useMonthView';
+import useFocus from './hooks/useFocus';
+import type {
+  FormControlBaseProps,
+  PickerBaseProps,
+  RsRefForwardingComponent
+} from '../@types/common';
+import type { DeprecatedProps } from './types';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
-    FormControlBaseProps<Date | null> {
+    FormControlBaseProps<Date | null>,
+    DeprecatedProps {
   /** Custom caret component */
   caretAs?: React.ElementType | null;
 
@@ -77,13 +76,6 @@ export interface DatePickerProps
 
   /** Format date */
   format?: string;
-
-  /**
-   * Display date panel when component initial
-   *
-   * @deprecated use <Calendar> instead
-   **/
-  inline?: boolean;
 
   /**
    * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
@@ -121,35 +113,6 @@ export interface DatePickerProps
 
   /** Meridian format */
   showMeridian?: boolean;
-
-  /**
-   * Whether to disable a date on the calendar view
-   *
-   * @returns date should be disabled (not selectable)
-   * @deprecated Use {@link shouldDisableDate} instead
-   */
-  disabledDate?: (date?: Date) => boolean;
-
-  /**
-   * Disabled hours
-   *
-   * @deprecated Use {@link shouldDisableHour} instead
-   */
-  disabledHours?: (hour: number, date: Date) => boolean;
-
-  /**
-   * Disabled minutes
-   *
-   * @deprecated Use {@link shouldDisableMinute} instead
-   */
-  disabledMinutes?: (minute: number, date: Date) => boolean;
-
-  /**
-   * Disabled seconds
-   *
-   * @deprecated Use {@link shouldDisableSecond} instead
-   */
-  disabledSeconds?: (second: number, date: Date) => boolean;
 
   /**
    * Whether a date on the calendar view should be disabled
@@ -210,11 +173,6 @@ export interface DatePickerProps
   onClean?: (event: React.MouseEvent) => void;
 
   /**
-   * @deprecated
-   */
-  renderValue?: (value: Date, format: string) => string;
-
-  /**
    * Custom rendering calendar cell content.
    *
    * @version 5.54.0
@@ -262,10 +220,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       style,
       size,
       caretAs: caretAsProp,
-      disabledDate: DEPRECATED_disabledDate,
-      disabledHours: DEPRECATED_disabledHours,
-      disabledMinutes: DEPRECATED_disabledMinutes,
-      disabledSeconds: DEPRECATED_disabledSeconds,
       shouldDisableDate,
       shouldDisableHour,
       shouldDisableMinute,
@@ -283,12 +237,17 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleTimeDropdown,
       onShortcutClick,
       renderCell,
+      disabledDate: DEPRECATED_disabledDate,
+      disabledHours: DEPRECATED_disabledHours,
+      disabledMinutes: DEPRECATED_disabledMinutes,
+      disabledSeconds: DEPRECATED_disabledSeconds,
       ...restProps
     } = props;
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
-    const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
+    const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
+
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
@@ -296,12 +255,22 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       calendarDefaultDate
     );
 
-    const [showMonthDropdown, setShowMonthDropdown] = useState<boolean>(false);
+    const { setMonthView, monthView, toggleMonthView } = useMonthView({ onToggleMonthDropdown });
 
     // Show only the calendar month panel. formatStr = 'yyyy-MM'
     const onlyShowMonth = shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr);
-    const showMonth = onlyShowMonth || showMonthDropdown;
+    const showMonth = onlyShowMonth || monthView;
 
+    const { focusInput, focusSelectedDate, onKeyFocusEvent } = useFocus({
+      target,
+      showMonth,
+      id,
+      locale
+    });
+
+    /**
+     * Check whether the date is disabled.
+     */
     const isDateDisabled = (date: Date): boolean => {
       if (typeof shouldDisableDate === 'function') {
         return shouldDisableDate(date);
@@ -312,6 +281,35 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       }
 
       return false;
+    };
+
+    /**
+     * Check whether the time is within the time range of the shortcut option in the toolbar.
+     */
+    const isDatetimeDisabled = (date: Date): boolean => {
+      return isDateDisabled?.(date) || disableTime(props, date);
+    };
+
+    /**
+     * Check whether the month is disabled.
+     * If any day in the month is disabled, the entire month is disabled
+     */
+    const isMonthDisabled = (date: Date): boolean => {
+      return isEveryDateInMonth(date.getFullYear(), date.getMonth(), isDateDisabled);
+    };
+
+    /**
+     * Whether "OK" button is disabled
+     *
+     * - If format is date, disable ok button if selected date is disabled
+     * - If format is month, disable ok button if all dates in the month of selected date are disabled
+     */
+    const isOkButtonDisabled = (selectedDate: Date): boolean => {
+      if (shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr)) {
+        return isMonthDisabled(selectedDate);
+      }
+
+      return isDatetimeDisabled(selectedDate);
     };
 
     const isErrorValue = (value?: Date | null) => {
@@ -360,6 +358,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       handleDateChange(nextPageTime);
     });
 
+    /**
+     * Close the calendar panel.
+     */
     const handleClose = useEventCallback(() => {
       trigger.current?.close?.();
     });
@@ -375,13 +376,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       handleChangeTime(nextDate);
     });
 
-    const updateValue = (
-      event: React.SyntheticEvent,
-      nextPageDate?: Date | null,
-      closeOverlay = true
-    ) => {
-      const nextValue: Date | null =
-        typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
+    const updateValue = (event: React.SyntheticEvent, date?: Date | null, closeOverlay = true) => {
+      const nextValue = typeof date !== 'undefined' ? date : calendarDate;
 
       setCalendarDate(nextValue || new Date());
       setValue(nextValue);
@@ -410,58 +406,12 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     /**
-     * Get the corresponding container based on date selection and month selection
-     */
-    const getOverlayContainer = () => {
-      return showMonth
-        ? document.getElementById(`${id}-calendar-month-dropdown`)
-        : document.getElementById(`${id}-calendar-table`);
-    };
-
-    /**
-     * Check whether the date is focusable
-     */
-    const checkFocusable = (date: Date) => {
-      const formatStr = showMonth ? locale.formattedMonthPattern : locale.formattedDayPattern;
-      const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
-      const container = getOverlayContainer();
-
-      const dateElement = container?.querySelector(`[aria-label="${ariaLabel}"]`);
-
-      if (dateElement?.getAttribute('aria-disabled') === 'true') {
-        return false;
-      }
-
-      return true;
-    };
-
-    /**
-     * Focus on the currently selected date element
-     */
-    const focusSelectedDate = () => {
-      delay(() => {
-        const container = getOverlayContainer();
-
-        const selectedElement = container?.querySelector('[aria-selected="true"]') as HTMLElement;
-
-        selectedElement?.focus();
-      }, 1);
-    };
-
-    /**
-     * Focus on the input element
-     */
-    const focusTargetInput = useEventCallback(() => {
-      delay(() => target.current?.focus(), 1);
-    });
-
-    /**
      * The callback triggered after clicking the OK button.
      */
     const handleOK = useEventCallback((event: React.SyntheticEvent) => {
       updateValue(event);
       onOk?.(calendarDate, event);
-      focusTargetInput();
+      focusInput();
     });
 
     /**
@@ -469,50 +419,19 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      */
 
     const handleClean = useEventCallback((event: React.MouseEvent) => {
+      event?.stopPropagation();
+
       updateValue(event, null);
       resetCalendarDate(null);
       onClean?.(event);
-      event.stopPropagation();
     });
 
     const handlePickerPopupKeyDown = useEventCallback((event: React.KeyboardEvent) => {
-      let delta = 0;
+      onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
 
-      const step = showMonth ? 6 : 7;
-      const changeDateFunc = showMonth ? addMonths : addDays;
-
-      onMenuKeyDown(event, {
-        down: () => {
-          delta = step;
-        },
-        up: () => {
-          delta = -step;
-        },
-        right: () => {
-          delta = 1;
-        },
-        left: () => {
-          delta = -1;
-        },
-        enter: () => {
-          handleOK(event);
-        }
-      });
-
-      const nextDate = changeDateFunc(calendarDate, delta);
-
-      if (checkFocusable(nextDate)) {
-        setCalendarDate(nextDate);
-        focusSelectedDate();
+      if (event.key === 'Enter') {
+        handleOK(event);
       }
-    });
-
-    /**
-     * The callback triggered after the month selection box is opened or closed.
-     */
-    const handleToggleMonthDropdown = useEventCallback((toggle: boolean) => {
-      onToggleMonthDropdown?.(toggle);
-      setShowMonthDropdown(toggle);
     });
 
     const handleClick = useEventCallback(() => {
@@ -536,7 +455,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         handleDateChange(nextValue);
         if (oneTap && updatableValue) {
           updateValue(event, nextValue);
-          focusTargetInput();
+          focusInput();
         }
       }
     );
@@ -551,7 +470,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
       if (oneTap && onlyShowMonth) {
         updateValue(event, nextPageDate);
-        focusTargetInput();
+        focusInput();
       }
     });
 
@@ -574,7 +493,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           if (open) {
             if (isValid(calendarDate) && !isDateDisabled(calendarDate)) {
               updateValue(event);
-              focusTargetInput();
+              focusInput();
             }
           } else {
             trigger.current?.open();
@@ -583,41 +502,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       });
     });
 
-    // Check whether the time is within the time range of the shortcut option in the toolbar.
-    const disabledToolbarHandle = (date: Date): boolean => {
-      const allowDate = DEPRECATED_disabledDate?.(date) ?? false;
-      const allowTime = disabledTime(props, date);
-
-      return allowDate || allowTime;
-    };
-
-    /**
-     * Whether "OK" button is disabled
-     *
-     * - If format is date, disable ok button if selected date is disabled
-     * - If format is month, disable ok button if all dates in the month of selected date are disabled
-     */
-    const isOKButtonDisabled = (selectedDate: Date): boolean => {
-      if (shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr)) {
-        return isEveryDateInMonth(
-          selectedDate.getFullYear(),
-          selectedDate.getMonth(),
-          disabledToolbarHandle
-        );
-      }
-
-      return disabledToolbarHandle(selectedDate);
-    };
-
-    const calendarProps = useMemo(
-      () =>
-        mapValues(
-          pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
-          disabledOrHiddenTimeFunc =>
-            (next: number, date: Date): boolean =>
-              disabledOrHiddenTimeFunc?.(next, date) ?? false
-        ),
-      [props]
+    const calendarProps = mapValues(
+      pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
+      func => (next: number, date: Date) => func?.(next, date) ?? false
     );
 
     const { sideRanges, bottomRanges } = splitRanges(ranges);
@@ -646,7 +533,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 ranges={sideRanges}
                 calendarDate={calendarDate}
                 locale={locale}
-                disabledShortcut={disabledToolbarHandle}
+                disableShortcut={isDatetimeDisabled}
                 onShortcutClick={handleShortcutPageDate}
               />
             )}
@@ -671,7 +558,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 onMoveForward={handleMoveForward}
                 onMoveBackward={handleMoveBackward}
                 onSelect={handleSelect}
-                onToggleMonthDropdown={handleToggleMonthDropdown}
+                onToggleMonthDropdown={toggleMonthView}
                 onToggleTimeDropdown={onToggleTimeDropdown}
                 onChangeMonth={handleChangeMonth}
                 onChangeTime={handleChangeTime}
@@ -681,8 +568,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 locale={locale}
                 ranges={bottomRanges}
                 calendarDate={calendarDate}
-                disabledOkBtn={isOKButtonDisabled}
-                disabledShortcut={disabledToolbarHandle}
+                disableOkBtn={isOkButtonDisabled}
+                disableShortcut={isDatetimeDisabled}
                 onShortcutClick={handleShortcutPageDate}
                 onOk={handleOK}
                 hideOkBtn={oneTap}
@@ -717,7 +604,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         resetCalendarDate();
       }
 
-      setShowMonthDropdown(false);
+      setMonthView(false);
 
       props.onClose?.();
     });
@@ -746,11 +633,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             <DateInput value={value} format={formatStr} plaintext={plaintext} />
           ) : (
             <InputGroup
-              {...omit(rest, [
-                ...omitTriggerPropKeys,
-                ...usedClassNamePropKeys,
-                ...calendarOnlyProps
-              ])}
+              {...getRestProps(rest, usedClassNamePropKeys)}
               inside
               size={size}
               onClick={handleClick}
@@ -791,18 +674,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 DatePicker.displayName = 'DatePicker';
 DatePicker.propTypes = {
   ...pickerPropTypes,
+  ...deprecatedPropTypes,
   calendarDefaultDate: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
-  disabledHours: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableHour" property instead.'),
-  disabledMinutes: deprecatePropTypeNew(
-    PropTypes.func,
-    'Use "shouldDisableMinute" property instead.'
-  ),
-  disabledSeconds: deprecatePropTypeNew(
-    PropTypes.func,
-    'Use "shouldDisableSecond" property instead.'
-  ),
   shouldDisableDate: PropTypes.func,
   shouldDisableHour: PropTypes.func,
   shouldDisableMinute: PropTypes.func,
