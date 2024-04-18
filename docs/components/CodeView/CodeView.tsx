@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useContext, useRef } from 'react';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
 import GithubIcon from '@rsuite/icons/legacy/Github';
@@ -11,6 +12,7 @@ import AppContext from '../AppContext';
 import Paragraph from '../Paragraph';
 import ReactCodeView from './ReactCodeView';
 import CodeSandbox from './CodeSandbox';
+import AdCarbonInline from '../AdCarbon/AdCarbonInline';
 import { html, css, dependencies as codeDependencies } from './utils';
 
 export interface CustomCodeViewProps {
@@ -46,9 +48,10 @@ const CodeView = (props: CustomCodeViewProps) => {
     sandboxDependencies,
     ...rest
   } = props;
-  const { styleLoaded, messages } = React.useContext(AppContext);
-  const [code, setCode] = React.useState('');
-  const viewRef = React.useRef();
+  const { styleLoaded, messages } = useContext(AppContext);
+  const [code, setCode] = useState('');
+  const [showEditor, setShowEditor] = useState(false);
+  const viewRef = useRef();
 
   const setRenderCode = useCallback(
     code => {
@@ -187,6 +190,10 @@ const CodeView = (props: CustomCodeViewProps) => {
         dependencies={deps}
         beforeCompile={setRenderCode}
         renderToolbar={renderToolbar}
+        renderExtraFooter={() => (showEditor ? <AdCarbonInline /> : null)}
+        onOpenEditor={() => setShowEditor(true)}
+        onCloseEditor={() => setShowEditor(false)}
+        className={classNames({ 'rs-show-editor': showEditor })}
       >
         {source}
       </ReactCodeView>
