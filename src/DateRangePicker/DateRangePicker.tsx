@@ -479,12 +479,12 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       const noHoverRangeValid = isNil(hoverRangeValue);
 
       // in `oneTap` mode
-      if (isSelectedIdle && oneTap) {
+      if (oneTap) {
         setDateRange(
           event,
           noHoverRangeValid ? [startOfDay(date), endOfDay(date)] : hoverRangeValue
         );
-        setSelectedIdle(false);
+        onSelect?.(date, event);
         return;
       }
 
