@@ -678,7 +678,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     return false;
   };
 
-  const disabledByBetween = (start: Date, end: Date, type: TARGET) => {
+  const disableByBetween = (start: Date, end: Date, type: TARGET) => {
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
@@ -697,23 +697,23 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     return false;
   };
 
-  const disabledOkButton = () => {
+  const disableOkButton = () => {
     const [start, end] = selectedDates;
     if (!start || !end || !isSelectedIdle) {
       return true;
     }
 
-    return disabledByBetween(start, end, TARGET.TOOLBAR_BUTTON_OK);
+    return disableByBetween(start, end, TARGET.TOOLBAR_BUTTON_OK);
   };
 
-  const disabledShortcutButton = (value: SelectedDatesState = []) => {
+  const disableShortcut = (value: SelectedDatesState = []) => {
     const [start, end] = value;
 
     if (!start || !end) {
       return true;
     }
 
-    return disabledByBetween(start, end, TARGET.TOOLBAR_SHORTCUT);
+    return disableByBetween(start, end, TARGET.TOOLBAR_SHORTCUT);
   };
 
   const handleClose = useEventCallback(() => {
@@ -806,7 +806,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
                 ranges={sideRanges}
                 calendarDate={calendarDate}
                 locale={locale}
-                disabledShortcut={disabledShortcutButton}
+                disableShortcut={disableShortcut}
                 onShortcutClick={handleShortcutPageDate}
                 data-testid="daterange-predefined-side"
               />
@@ -836,8 +836,8 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               <Toolbar<SelectedDatesState, DateRange>
                 locale={locale}
                 calendarDate={selectedDates}
-                disabledOkBtn={disabledOkButton}
-                disabledShortcut={disabledShortcutButton}
+                disableOkBtn={disableOkButton}
+                disableShortcut={disableShortcut}
                 hideOkBtn={oneTap}
                 onOk={handleOK}
                 onShortcutClick={handleShortcutPageDate}

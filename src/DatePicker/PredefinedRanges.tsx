@@ -10,7 +10,7 @@ export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps
   ranges?: RangeType<Shortcut>[];
   calendarDate: T;
   locale: CalendarLocale;
-  disabledShortcut?: (value: T) => boolean;
+  disableShortcut?: (value: T) => boolean;
   onShortcutClick?: (
     range: InnerRange<Shortcut>,
     closeOverlay: boolean,
@@ -21,7 +21,7 @@ export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps
 const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>((props, ref) => {
   const {
     className,
-    disabledShortcut,
+    disableShortcut,
     onShortcutClick,
     calendarDate,
     ranges: rangesProp,
@@ -47,7 +47,7 @@ const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>
     <Stack className={className} ref={ref} alignItems="flex-start" spacing={4} {...rest}>
       {ranges.map((range, index: number) => {
         const { value, closeOverlay, label, ...rest } = range;
-        const disabled = disabledShortcut?.(value);
+        const disabled = disableShortcut?.(value);
 
         const handleClickShortcut = (event: React.MouseEvent) => {
           if (disabled) {

@@ -1,5 +1,9 @@
+import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
+import { deprecatePropTypeNew } from '../internals/propTypes';
+import { omitTriggerPropKeys } from '../internals/Picker';
 import { ToolbarProps } from './Toolbar';
-import { subDays, startOfDay, endOfDay } from '../utils/dateUtils';
+import { subDays, startOfDay, endOfDay, calendarOnlyProps } from '../utils/dateUtils';
 import { InnerRange, RangeType } from './types';
 import { DateRange } from '../DateRangePicker/types';
 
@@ -61,3 +65,20 @@ export function splitRanges(ranges?: RangeType<Date>[]) {
     bottomRanges
   };
 }
+
+export const deprecatedPropTypes = {
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  disabledHours: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableHour" property instead.'),
+  disabledMinutes: deprecatePropTypeNew(
+    PropTypes.func,
+    'Use "shouldDisableMinute" property instead.'
+  ),
+  disabledSeconds: deprecatePropTypeNew(
+    PropTypes.func,
+    'Use "shouldDisableSecond" property instead.'
+  )
+};
+
+export const getRestProps = (props: any, omitProps: string[] = []) => {
+  return omit(props, [...omitTriggerPropKeys, ...calendarOnlyProps, ...omitProps]);
+};

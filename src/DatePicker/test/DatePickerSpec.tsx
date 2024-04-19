@@ -168,143 +168,6 @@ describe('DatePicker', () => {
     expect(input).to.have.attribute('aria-invalid', 'false');
   });
 
-  it('Should be prompted for an error date by shouldDisableDate', () => {
-    const { container } = render(
-      <DatePicker
-        defaultValue={new Date('2021-10-01')}
-        shouldDisableDate={value => {
-          return format(value as Date, 'yyyy-MM-dd') === '2021-10-01';
-        }}
-      />
-    );
-
-    expect(container.firstChild).to.have.class('rs-picker-error');
-    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
-  });
-
-  it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
-    Sinon.spy(console, 'warn');
-    render(
-      <DatePicker
-        calendarDefaultDate={new Date(2023, 2, 7)}
-        disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
-        open
-      />
-    );
-
-    // TODO use more accurate matchers
-    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-      'rs-calendar-table-cell-disabled'
-    );
-    expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-    );
-  });
-
-  it('Should disable date cells according to `shouldDisableDate`', () => {
-    render(
-      <DatePicker
-        calendarDefaultDate={new Date(2023, 2, 7)}
-        shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
-        open
-      />
-    );
-
-    // TODO use more accurate matchers
-    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-      'rs-calendar-table-cell-disabled'
-    );
-  });
-
-  it('Should disable hour options according to `shouldDisableHour`', () => {
-    render(<DatePicker open format="HH" shouldDisableHour={hour => hour === 11} />);
-
-    expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute('aria-disabled');
-  });
-
-  it('Should warn when time is disabled', () => {
-    const App = props => (
-      <DatePicker
-        open
-        format="yyyy-MM-dd HH:mm:ss"
-        calendarDefaultDate={new Date('2023-01-01 11:22:33')}
-        {...props}
-      />
-    );
-
-    const { rerender } = render(<App />);
-    const btnTime = screen.getByRole('button', { name: 'Select time' });
-
-    expect(btnTime).to.not.have.class('rs-calendar-header-error');
-
-    rerender(<App shouldDisableHour={hour => hour === 11} />);
-    expect(btnTime).to.have.class('rs-calendar-header-error');
-
-    rerender(<App shouldDisableMinute={minute => minute === 22} />);
-    expect(btnTime).to.have.class('rs-calendar-header-error');
-
-    rerender(<App shouldDisableSecond={second => second === 33} />);
-    expect(btnTime).to.have.class('rs-calendar-header-error');
-  });
-
-  it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
-    Sinon.spy(console, 'warn');
-    render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
-
-    expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
-      'aria-disabled',
-      'true'
-    );
-    expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
-    );
-  });
-
-  it('Should disable minute options according to `shouldDisableMinute`', () => {
-    render(<DatePicker open format="mm" shouldDisableMinute={minute => minute === 40} />);
-
-    expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
-      'aria-disabled',
-      'true'
-    );
-  });
-
-  it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
-    Sinon.spy(console, 'warn');
-    render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
-
-    expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
-      'aria-disabled',
-      'true'
-    );
-
-    expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
-    );
-  });
-
-  it('Should disable second options according to `shouldDisableSecond`', () => {
-    render(<DatePicker open format="ss" shouldDisableSecond={minute => minute === 40} />);
-
-    expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
-      'aria-disabled',
-      'true'
-    );
-  });
-
-  it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
-    Sinon.spy(console, 'warn');
-    render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
-
-    expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
-      'aria-disabled',
-      'true'
-    );
-    expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
-    );
-  });
-
   it('Should call `onClean` callback', () => {
     const onClean = Sinon.spy();
     render(<DatePicker defaultValue={new Date()} onClean={onClean} />);
@@ -435,29 +298,6 @@ describe('DatePicker', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
 
     expect(onChangeCalendarDate).to.have.been.calledOnce;
-  });
-
-  it('Should be consistent whether a month can be selected and whether OK button is enabled when that month is selected', () => {
-    // Disable the dates before 2022-12-21
-    // Set value to 2022-11-20 (disabled)
-    // The month 2022-12 should be enabled because not all dates in that month are disabled
-    // The OK button should also be enabled because 2022-12 (currently selected) is selectable
-    render(
-      <DatePicker
-        defaultOpen
-        calendarDefaultDate={new Date(2022, 11, 20)}
-        shouldDisableDate={date => isBefore(date as Date, new Date(2022, 11, 21))}
-        format="yyyy-MM"
-        defaultValue={new Date(2022, 11, 20)}
-      />
-    );
-
-    expect(
-      // The currently selected month is 2022-12
-      screen.getByRole('gridcell', { selected: true })
-    ).not.to.have.class('disabled');
-
-    expect(screen.getByRole('button', { name: 'OK' })).to.have.property('disabled', false);
   });
 
   it('Should call `onOpen` callback', async () => {
@@ -1168,6 +1008,190 @@ describe('DatePicker', () => {
       await waitFor(() => {
         expect(screen.getByRole('gridcell', { name: 'Sep 2023' })).to.have.focus;
       });
+    });
+  });
+
+  describe('Disable Date, Hour, Minute, Second', () => {
+    it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
+      Sinon.spy(console, 'warn');
+      render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
+
+      expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
+        'aria-disabled',
+        'true'
+      );
+      expect(console.warn).to.have.been.calledWith(
+        '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
+      );
+    });
+
+    it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
+      Sinon.spy(console, 'warn');
+      render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
+
+      expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
+        'aria-disabled',
+        'true'
+      );
+
+      expect(console.warn).to.have.been.calledWith(
+        '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
+      );
+    });
+    it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
+      Sinon.spy(console, 'warn');
+      render(
+        <DatePicker
+          calendarDefaultDate={new Date(2023, 2, 7)}
+          disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
+          open
+        />
+      );
+      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+        'rs-calendar-table-cell-disabled'
+      );
+      expect(console.warn).to.have.been.calledWith(
+        '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
+      );
+    });
+
+    it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
+      Sinon.spy(console, 'warn');
+      render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
+
+      expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
+        'aria-disabled',
+        'true'
+      );
+      expect(console.warn).to.have.been.calledWith(
+        '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
+      );
+    });
+
+    it('Should disable date cells according to `shouldDisableDate`', () => {
+      render(
+        <DatePicker
+          calendarDefaultDate={new Date(2023, 2, 7)}
+          shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
+          open
+        />
+      );
+
+      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+        'rs-calendar-table-cell-disabled'
+      );
+    });
+
+    it('Should disable hour options according to `shouldDisableHour`', () => {
+      render(<DatePicker open format="HH" shouldDisableHour={hour => hour === 11} />);
+
+      expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute('aria-disabled');
+    });
+
+    it('Should disable minute options according to `shouldDisableMinute`', () => {
+      render(<DatePicker open format="mm" shouldDisableMinute={minute => minute === 40} />);
+
+      expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
+        'aria-disabled',
+        'true'
+      );
+    });
+
+    it('Should disable second options according to `shouldDisableSecond`', () => {
+      render(<DatePicker open format="ss" shouldDisableSecond={minute => minute === 40} />);
+
+      expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
+        'aria-disabled',
+        'true'
+      );
+    });
+
+    it('Should warn when time is disabled', () => {
+      const App = props => (
+        <DatePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          calendarDefaultDate={new Date('2023-01-01 11:22:33')}
+          {...props}
+        />
+      );
+
+      const { rerender } = render(<App />);
+
+      const btnTime = screen.getByRole('button', { name: 'Select time' });
+      const btnOk = screen.getByRole('button', { name: 'OK' });
+
+      expect(btnTime).to.not.have.class('rs-calendar-header-error');
+      expect(btnOk).to.not.have.attribute('disabled');
+
+      rerender(<App shouldDisableHour={hour => hour === 11} />);
+      expect(btnTime).to.have.class('rs-calendar-header-error');
+      expect(btnOk).to.have.attribute('disabled');
+
+      rerender(<App shouldDisableMinute={minute => minute === 22} />);
+      expect(btnTime).to.have.class('rs-calendar-header-error');
+      expect(btnOk).to.have.attribute('disabled');
+
+      rerender(<App shouldDisableSecond={second => second === 33} />);
+      expect(btnTime).to.have.class('rs-calendar-header-error');
+      expect(btnOk).to.have.attribute('disabled');
+    });
+
+    it('Should be consistent whether a month can be selected and whether OK button is enabled when that month is selected', () => {
+      // Disable the dates before 2022-12-21
+      // Set value to 2022-11-20 (disabled)
+      // The month 2022-12 should be enabled because not all dates in that month are disabled
+      // The OK button should also be enabled because 2022-12 (currently selected) is selectable
+      render(
+        <DatePicker
+          defaultOpen
+          calendarDefaultDate={new Date(2022, 11, 20)}
+          shouldDisableDate={date => isBefore(date as Date, new Date(2022, 11, 21))}
+          format="yyyy-MM"
+          defaultValue={new Date(2022, 11, 20)}
+        />
+      );
+
+      expect(
+        // The currently selected month is 2022-12
+        screen.getByRole('gridcell', { selected: true })
+      ).not.to.have.class('disabled');
+
+      expect(screen.getByRole('button', { name: 'OK' })).to.not.have.attribute('disabled');
+    });
+
+    it('Should disable Ok button and date, and have an error prompt', () => {
+      const { container } = render(
+        <DatePicker
+          defaultValue={new Date('2021-10-01')}
+          defaultOpen
+          shouldDisableDate={value => {
+            return format(value as Date, 'yyyy-MM-dd') === '2021-10-01';
+          }}
+        />
+      );
+
+      expect(container.firstChild).to.have.class('rs-picker-error');
+      expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+      expect(screen.getByRole('button', { name: 'OK' })).to.have.attribute('disabled');
+    });
+
+    it('Should disable Ok button and month, and have an error prompt', () => {
+      const { container } = render(
+        <DatePicker
+          defaultValue={new Date('2024-01-01')}
+          format="yyyy-MM"
+          defaultOpen
+          shouldDisableDate={date => {
+            const month = date.getMonth();
+            return month === 0;
+          }}
+        />
+      );
+
+      expect(container.firstChild).to.have.class('rs-picker-error');
+      expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+      expect(screen.getByRole('button', { name: 'OK' })).to.have.attribute('disabled');
     });
   });
 });
