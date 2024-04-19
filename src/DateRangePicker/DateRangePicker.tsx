@@ -679,7 +679,6 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   };
 
   const disableByBetween = (start: Date, end: Date, type: TARGET) => {
-
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
