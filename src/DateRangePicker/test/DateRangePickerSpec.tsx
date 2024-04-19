@@ -423,13 +423,6 @@ describe('DateRangePicker', () => {
     expect(screen.getByRole('gridcell', { name: '01 Sep 2019' })).to.exist;
   });
 
-  it('Should have only one calendar', () => {
-    render(<DateRangePicker showOneCalendar open />);
-
-    expect(screen.queryByTestId('calendar-start')).to.be.exist;
-    expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
-  });
-
   it('Should have a error style when date is invalid', () => {
     const { container } = render(<DateRangePicker value={[new Date(''), new Date('')]} />);
 
@@ -1158,5 +1151,41 @@ describe('DateRangePicker', () => {
     render(<DateRangePicker open showHeader={false} />);
 
     expect(screen.queryByTestId('daterange-header')).to.not.exist;
+  });
+
+  describe('Show one calendar', () => {
+    it('Should have only one calendar', () => {
+      render(<DateRangePicker showOneCalendar open />);
+
+      expect(screen.queryByTestId('calendar-start')).to.be.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
+    });
+
+    it('Should be able to switch the calendar by clicking on the date', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          format="yyyy-MM-dd HH:mm"
+          defaultCalendarValue={[new Date('2024-01-01 01:01'), new Date('2024-01-02 23:59')]}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select end date' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Feb 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('23:59');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-end');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select start date' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
+    });
   });
 });
