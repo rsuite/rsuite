@@ -1,3 +1,15 @@
+## [5.59.2](https://github.com/rsuite/rsuite/compare/v5.59.1...v5.59.2) (2024-04-19)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix disabled date and month can be selected ([#3747](https://github.com/rsuite/rsuite/issues/3747)) ([c3d8765](https://github.com/rsuite/rsuite/commit/c3d87651ba6ad5f62ec620fb842a4fdc0315fb3e))
+* **DateRangePicker:** fix `oneTap` not working when there is a default value ([#3745](https://github.com/rsuite/rsuite/issues/3745)) ([478894e](https://github.com/rsuite/rsuite/commit/478894e8a48716f9f143e8ed10ef20bbcbff7bc1))
+* **DateRangePicker:** fix the end time cannot be changed when only one calendar is displayed ([#3743](https://github.com/rsuite/rsuite/issues/3743)) ([a5affd9](https://github.com/rsuite/rsuite/commit/a5affd90dd85e881874097ff1a67f66ce8693fbb))
+* **Form:** fix `nestedField` will auto trigger validation for other sibling fields ([#3741](https://github.com/rsuite/rsuite/issues/3741)) ([dbe1ae2](https://github.com/rsuite/rsuite/commit/dbe1ae240f04bbbcdade501f236055ae755d5bbb))
+
+
+
 ## [5.59.1](https://github.com/rsuite/rsuite/compare/v5.59.0...v5.59.1) (2024-04-12)
 
 
