@@ -73,69 +73,16 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 <DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />;
 ```
 
-**allowedMaxDays**
-
-Allow the maximum number of days specified, other dates are disabled
-
-```ts
-allowedMaxDays(days: number) => boolean
-```
-
-**allowedDays**
-
-Only allowed days are specified, other dates are disabled
-
-```ts
-allowedDays(days: number) => boolean
-```
-
-**allowedRange**
-
-Allow specified date range, other dates are disabled
-
-```ts
-allowedRange( startDate: string | Date, endDate: string | Date) => boolean
-```
-
-**after**
-
-Disable dates after the specified date
-
-```ts
-after(date?: string | Date) => boolean
-```
-
-**afterToday**
-
-Disable dates after today
-
-```ts
-afterToday() => boolean
-```
-
-**before**
-
-Disable dates before the specified date
-
-```ts
-before(date?: string | Date) => boolean
-```
-
-**beforeToday**
-
-Disable dates before today
-
-```ts
-beforeToday() => boolean
-```
-
-**combine**
-
-Used to combine multiple conditions
-
-```ts
-combine(...) => boolean
-```
+| Method         | Type                                                            | Description                                                          |
+| -------------- | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| after          | (date?: string \| Date) => boolean                              | Disable dates after the specified date                               |
+| afterToday     | () => boolean                                                   | Disable dates after today                                            |
+| allowedDays    | (days: number) => boolean                                       | Only allowed days are specified, other dates are disabled            |
+| allowedMaxDays | (days: number) => boolean                                       | Allow the maximum number of days specified, other dates are disabled |
+| allowedRange   | (startDate: string \| Date, endDate: string \| Date) => boolean | Allow specified date range, other dates are disabled                 |
+| before         | (date?: string \| Date) => boolean                              | Disable dates before the specified date                              |
+| beforeToday    | () => boolean                                                   | Disable dates before today                                           |
+| combine        | (...args) => boolean                                            | Used to combine multiple conditions                                  |
 
 ### Disable input
 
@@ -184,8 +131,6 @@ Has keyboard interaction for the DateRangeInput component by default.
 ## Props
 
 ### `<DateRangePicker>`
-
-<!-- prettier-sort-markdown-table -->
 
 | Property             | Type`(default)`                                                                  | Description                                                                                                                         |
 | -------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |

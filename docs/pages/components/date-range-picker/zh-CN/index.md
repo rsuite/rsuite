@@ -75,69 +75,16 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 <DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />)
 ```
 
-**allowedMaxDays**
-
-允许指定的最多天数，其他日期都禁用
-
-```ts
-allowedMaxDays(days: number) => boolean
-```
-
-**allowedDays**
-
-只允许指定的天数，其他日期都禁用
-
-```ts
-allowedDays(days: number) => boolean
-```
-
-**allowedRange**
-
-允许指定的日期范围，其他日期都禁用
-
-```ts
-allowedRange( startDate: string | Date, endDate: string | Date) => boolean
-```
-
-**after**
-
-禁用指定日期之后的日期
-
-```ts
-after(date?: string | Date) => boolean
-```
-
-**afterToday**
-
-禁用今天之后的日期
-
-```ts
-afterToday() => boolean
-```
-
-**before**
-
-禁用指定日期之前的日期
-
-```ts
-before(date?: string | Date) => boolean
-```
-
-**beforeToday**
-
-禁用今天之前的日期
-
-```ts
-beforeToday() => boolean
-```
-
-**combine**
-
-用于组合多个条件
-
-```ts
-combine(...) => boolean
-```
+| 方法             | 类型                                                            | 描述                               |
+| ---------------- | --------------------------------------------------------------- | ---------------------------------- |
+| `after`          | (date?: string \| Date) => boolean                              | 禁用指定日期之后的日期             |
+| `afterToday`     | () => boolean                                                   | 禁用今天之后的日期                 |
+| `allowedDays`    | (days: number) => boolean                                       | 只允许指定的天数，其他日期都禁用   |
+| `allowedMaxDays` | (days: number) => boolean                                       | 允许指定的最多天数，其他日期都禁用 |
+| `allowedRange`   | (startDate: string \| Date, endDate: string \| Date) => boolean | 允许指定的日期范围，其他日期都禁用 |
+| `before`         | (date?: string \| Date) => boolean                              | 禁用指定日期之前的日期             |
+| `beforeToday`    | () => boolean                                                   | 禁用今天之前的日期                 |
+| `combine`        | (...args) => boolean                                            | 用于组合多个条件                   |
 
 ### 禁用输入
 
@@ -186,8 +133,6 @@ combine(...) => boolean
 ## Props
 
 ### `<DateRangePicker>`
-
-<!-- prettier-sort-markdown-table -->
 
 | 属性名称             | 类型`(默认值)`                                                                   | 描述                                                                                                     |
 | -------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |

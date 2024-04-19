@@ -46,7 +46,7 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
 }
 
 /**
- Only allowed days are specified, other dates are disabled.
+ * Only allowed days are specified, other dates are disabled.
  */
 export function allowedDays(days: number): DisabledDateFunction {
   return (date, selectValue, selectedDone, target): boolean => {

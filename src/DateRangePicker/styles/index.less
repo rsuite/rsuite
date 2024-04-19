@@ -86,6 +86,33 @@
   font-size: @date-range-picker-header-font-size;
   line-height: @date-range-picker-header-line-height;
   border-bottom: 1px solid var(--rs-border-primary);
+
+  .rs-picker-header-date:focus {
+    background-color: transparent;
+  }
+
+  &.rs-picker-tab-active-end,
+  &.rs-picker-tab-active-start {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    &::after {
+      content: ' ';
+      position: absolute;
+      width: 50%;
+      bottom: -1px;
+      border-bottom: 2px solid #3498ff;
+      left: 0;
+    }
+  }
+
+  &.rs-picker-tab-active-end {
+    &::after {
+      left: 50%;
+    }
+  }
 }
 
 // Calendar group

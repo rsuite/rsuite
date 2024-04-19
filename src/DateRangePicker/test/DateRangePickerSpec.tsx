@@ -411,26 +411,6 @@ describe('DateRangePicker', () => {
     expect(end).to.have.text('24');
   });
 
-  it('Should fire `onChange` if click ok after only select one date in oneTap mode', async () => {
-    const onChange = sinon.spy();
-    render(
-      <DateRangePicker
-        onChange={onChange}
-        hoverRange="week"
-        oneTap
-        defaultOpen
-        defaultCalendarValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
-      />
-    );
-
-    fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
-
-    expect(onChange).to.have.been.calledOnce;
-    expect(isSameDay(startOfWeek(new Date('2023-10-01')), onChange.firstCall.firstArg[0])).to.be
-      .true;
-    expect(isSameDay(endOfWeek(new Date('2023-10-01')), onChange.firstCall.firstArg[1])).to.be.true;
-  });
-
   it('Should show default calendar value', () => {
     render(
       <DateRangePicker
@@ -441,13 +421,6 @@ describe('DateRangePicker', () => {
 
     expect(screen.getByRole('gridcell', { name: '01 Feb 2019' })).to.exist;
     expect(screen.getByRole('gridcell', { name: '01 Sep 2019' })).to.exist;
-  });
-
-  it('Should have only one calendar', () => {
-    render(<DateRangePicker showOneCalendar open />);
-
-    expect(screen.queryByTestId('calendar-start')).to.be.exist;
-    expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
   });
 
   it('Should have a error style when date is invalid', () => {
@@ -743,14 +716,128 @@ describe('DateRangePicker', () => {
     expect(endMonth).to.have.text('Dec 2022');
   });
 
+  describe('oneTap', () => {
+    it('Should select a day by one click', () => {
+      const onChange = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onChange}
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+      const [start, end] = onChange.firstCall.firstArg;
+
+      expect(onChange).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
+      expect(isSameDay(new Date('2024-01-10'), end)).to.be.true;
+      expect(screen.getByRole('textbox')).to.have.value('2024-01-10 ~ 2024-01-10');
+    });
+
+    it('Should select a week by one click', () => {
+      const onChange = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onChange}
+          hoverRange="week"
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+
+      const [start, end] = onChange.firstCall.firstArg;
+
+      expect(onChange).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-07'), start)).to.be.true;
+      expect(isSameDay(new Date('2024-01-13'), end)).to.be.true;
+      expect(screen.getByRole('textbox')).to.have.value('2024-01-07 ~ 2024-01-13');
+    });
+
+    it('Should select a month by one click', () => {
+      const onChange = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onChange}
+          hoverRange="month"
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+
+      const [start, end] = onChange.firstCall.firstArg;
+
+      expect(onChange).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-01'), start)).to.be.true;
+      expect(isSameDay(new Date('2024-01-31'), end)).to.be.true;
+      expect(screen.getByRole('textbox')).to.have.value('2024-01-01 ~ 2024-01-31');
+    });
+
+    it('Should select a date range by one click when there is a value', () => {
+      const onChange = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onChange}
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+      const [start, end] = onChange.firstCall.firstArg;
+
+      expect(onChange).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
+      expect(isSameDay(new Date('2024-01-10'), end)).to.be.true;
+      expect(screen.getByRole('textbox')).to.have.value('2024-01-10 ~ 2024-01-10');
+
+      fireEvent.click(screen.getByRole('textbox'));
+      fireEvent.click(screen.getByRole('gridcell', { name: '15 Jan 2024' }));
+
+      const [start2, end2] = onChange.secondCall.firstArg;
+      expect(onChange).to.have.been.calledTwice;
+      expect(isSameDay(new Date('2024-01-15'), start2)).to.be.true;
+      expect(isSameDay(new Date('2024-01-15'), end2)).to.be.true;
+      expect(screen.getByRole('textbox')).to.have.value('2024-01-15 ~ 2024-01-15');
+    });
+
+    it('Should call `onSelect` callback', () => {
+      const onSelect = sinon.spy();
+      render(
+        <DateRangePicker
+          onChange={onSelect}
+          oneTap
+          defaultOpen
+          defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
+
+      const [start] = onSelect.firstCall.firstArg;
+
+      expect(onSelect).to.have.been.calledOnce;
+      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
+    });
+  });
+
   describe('Time stability', () => {
     it('Should the end time not change when the start date is clicked when defaultCalendarValue is set', () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
-          onSelect={onSelectSpy}
+          onSelect={onSelect}
           defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
         />
       );
@@ -762,13 +849,13 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(onSelect).to.have.been.calledOnce;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(onSelect).to.have.been.calledTwice;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -778,12 +865,12 @@ describe('DateRangePicker', () => {
     });
 
     it('Should the end time not change when the start date is clicked when controlled', () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
-          onSelect={onSelectSpy}
+          onSelect={onSelect}
           value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
         />
       );
@@ -795,13 +882,13 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(onSelect).to.have.been.calledOnce;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(onSelect).to.have.been.calledTwice;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -851,12 +938,12 @@ describe('DateRangePicker', () => {
     });
 
     it('Should not change the start and end time when clicking on the second calendar first', () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
-          onSelect={onSelectSpy}
+          onSelect={onSelect}
           value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
         />
       );
@@ -868,13 +955,13 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '20 Mar 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(onSelect).to.have.been.calledOnce;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getByRole('gridcell', { name: '21 Apr 2022' }));
 
-      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(onSelect).to.have.been.calledTwice;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -1064,5 +1151,41 @@ describe('DateRangePicker', () => {
     render(<DateRangePicker open showHeader={false} />);
 
     expect(screen.queryByTestId('daterange-header')).to.not.exist;
+  });
+
+  describe('Show one calendar', () => {
+    it('Should have only one calendar', () => {
+      render(<DateRangePicker showOneCalendar open />);
+
+      expect(screen.queryByTestId('calendar-start')).to.be.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
+    });
+
+    it('Should be able to switch the calendar by clicking on the date', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          format="yyyy-MM-dd HH:mm"
+          defaultCalendarValue={[new Date('2024-01-01 01:01'), new Date('2024-01-02 23:59')]}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select end date' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Feb 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('23:59');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-end');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select start date' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
+      expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
+    });
   });
 });
