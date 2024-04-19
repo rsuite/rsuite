@@ -5,11 +5,7 @@ import type { FieldRuleType } from './hooks/useSchemaModel';
 
 type RecordAny = Record<string, any>;
 
-interface TrulyFormContextValue<
-  T = RecordAny,
-  errorMsgType = any,
-  E = { [P in keyof T]?: errorMsgType }
-> {
+interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M }> {
   formError: E;
   nestedField: boolean;
   getCombinedModel: () => Schema;

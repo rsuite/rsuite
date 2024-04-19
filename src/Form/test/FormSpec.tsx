@@ -7,15 +7,10 @@ import { FormInstance } from '../hooks/useFormRef';
 import Form from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
-
-const checkEmail = 'Please input the correct email address';
+import Button from '../../Button';
 
 const model = Schema.Model({
-  name: Schema.Types.StringType().addRule(value => {
-    return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
-      value
-    );
-  }, checkEmail)
+  name: Schema.Types.StringType().isEmail('Email error')
 });
 
 const modelAsync = Schema.Model({
@@ -127,7 +122,7 @@ describe('Form', () => {
         model={model}
         formDefaultValue={values}
         onError={formError => {
-          expect(formError.name).to.equal(checkEmail);
+          expect(formError.name).to.equal('Email error');
         }}
       >
         <FormControl name="name" />
@@ -136,7 +131,7 @@ describe('Form', () => {
     const checkStatus = instance.checkForField('name', checkResult => {
       expect(checkResult).to.be.deep.equal({
         hasError: true,
-        errorMessage: checkEmail
+        errorMessage: 'Email error'
       });
     });
 
@@ -258,7 +253,7 @@ describe('Form', () => {
     userEvent.type(screen.getByRole('textbox'), 'd');
 
     expect(onError).to.be.called;
-    expect(onError).to.be.calledWith({ name: checkEmail });
+    expect(onError).to.be.calledWith({ name: 'Email error' });
   });
 
   it('Should not call onError callback', () => {
@@ -279,81 +274,6 @@ describe('Form', () => {
     });
 
     expect(onError).to.be.not.called;
-  });
-
-  it('Should call onCheck callback', () => {
-    const values = {
-      name: 'abc'
-    };
-
-    const onCheck = sinon.spy();
-    render(
-      <Form formDefaultValue={values} onCheck={onCheck}>
-        <FormControl name="name" />
-      </Form>
-    );
-
-    userEvent.type(screen.getByRole('textbox'), 'd');
-
-    expect(onCheck).to.be.called;
-    expect(onCheck).to.be.calledWith({});
-  });
-
-  it('Should call onCheck callback when blur', () => {
-    const values = {
-      name: 'abc'
-    };
-
-    const onCheck = sinon.spy();
-    render(
-      <Form formDefaultValue={values} onCheck={onCheck} checkTrigger="blur">
-        <FormControl name="name" />
-      </Form>
-    );
-    fireEvent.blur(screen.getByRole('textbox'));
-
-    expect(onCheck).to.be.called;
-    expect(onCheck).to.be.calledWith({});
-  });
-
-  it('Should not call onCheck callback when checkTrigger is null', () => {
-    const values = {
-      name: 'abc'
-    };
-
-    const onCheck = sinon.spy();
-    render(
-      <Form formDefaultValue={values} onCheck={onCheck} checkTrigger={null}>
-        <FormControl name="name" />
-      </Form>
-    );
-    fireEvent.blur(screen.getByRole('textbox'));
-    userEvent.type(screen.getByRole('textbox'), 'd');
-
-    expect(onCheck).to.be.not.called;
-  });
-
-  it('Should call onCheck callback', () => {
-    const values = {
-      name: 'abc'
-    };
-
-    const onCheck = sinon.spy();
-    render(
-      <Form
-        formDefaultValue={values}
-        onCheck={onCheck}
-        formError={{
-          email: 'email is null'
-        }}
-      >
-        <FormControl name="name" />
-      </Form>
-    );
-    userEvent.type(screen.getByRole('textbox'), 'd');
-
-    expect(onCheck).to.be.called;
-    expect(onCheck).to.be.calledWith({ email: 'email is null' });
   });
 
   it('Should call onError callback by checkAsync', async () => {
@@ -506,5 +426,301 @@ describe('Form', () => {
     expect(instance.cleanErrors).to.instanceOf(Function);
     expect(instance.cleanErrorForField).to.instanceOf(Function);
     expect(instance.resetErrors).to.instanceOf(Function);
+  });
+
+  describe('onCheck', () => {
+    it('Should call onCheck callback', () => {
+      const values = {
+        name: 'abc'
+      };
+
+      const onCheck = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onCheck={onCheck}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      userEvent.type(screen.getByRole('textbox'), 'd');
+
+      expect(onCheck).to.be.called;
+      expect(onCheck).to.be.calledWith({});
+    });
+
+    it('Should call onCheck callback when blur', () => {
+      const values = {
+        name: 'abc'
+      };
+
+      const onCheck = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onCheck={onCheck} checkTrigger="blur">
+          <FormControl name="name" />
+        </Form>
+      );
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(onCheck).to.be.called;
+      expect(onCheck).to.be.calledWith({});
+    });
+
+    it('Should not call onCheck callback when checkTrigger is null', () => {
+      const values = {
+        name: 'abc'
+      };
+
+      const onCheck = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onCheck={onCheck} checkTrigger={null}>
+          <FormControl name="name" />
+        </Form>
+      );
+      fireEvent.blur(screen.getByRole('textbox'));
+      userEvent.type(screen.getByRole('textbox'), 'd');
+
+      expect(onCheck).to.be.not.called;
+    });
+
+    it('Should call onCheck callback', () => {
+      const values = {
+        name: 'abc'
+      };
+
+      const onCheck = sinon.spy();
+      render(
+        <Form
+          formDefaultValue={values}
+          onCheck={onCheck}
+          formError={{
+            email: 'email is null'
+          }}
+        >
+          <FormControl name="name" />
+        </Form>
+      );
+      userEvent.type(screen.getByRole('textbox'), 'd');
+
+      expect(onCheck).to.be.called;
+      expect(onCheck).to.be.calledWith({ email: 'email is null' });
+    });
+  });
+
+  describe('onSubmit', () => {
+    it('Should call onSubmit callback', () => {
+      const values = {
+        mail: 'foobar@gmail.com'
+      };
+
+      const onSubmit = sinon.spy();
+      const onError = sinon.spy();
+      const onCheck = sinon.spy();
+      render(
+        <Form
+          formDefaultValue={values}
+          model={model}
+          onSubmit={onSubmit}
+          onError={onError}
+          onCheck={onCheck}
+        >
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      expect(onSubmit).to.be.calledWith(values);
+      expect(onCheck).to.be.calledWith({});
+      expect(onError).to.be.not.called;
+    });
+
+    it('Should call onSubmit callback by submit method', () => {
+      const values = {
+        mail: 'foobar@gmail.com'
+      };
+
+      const onSubmit = sinon.spy();
+      const onError = sinon.spy();
+      const onCheck = sinon.spy();
+      const formRef = React.createRef<FormInstance>();
+      render(
+        <Form
+          ref={formRef}
+          formDefaultValue={values}
+          model={model}
+          onSubmit={onSubmit}
+          onError={onError}
+          onCheck={onCheck}
+        >
+          <FormControl name="name" />
+        </Form>
+      );
+
+      formRef.current?.submit();
+
+      expect(onSubmit).to.be.calledWith(values);
+      expect(onCheck).to.be.calledWith({});
+      expect(onError).to.be.not.called;
+    });
+
+    it('Should not call onSubmit callback when check failed', () => {
+      const values = {
+        name: 'foobar'
+      };
+
+      const onSubmit = sinon.spy();
+      const onError = sinon.spy();
+      const onCheck = sinon.spy();
+      render(
+        <Form
+          formDefaultValue={values}
+          model={model}
+          onSubmit={onSubmit}
+          onError={onError}
+          onCheck={onCheck}
+        >
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      expect(onSubmit).to.be.not.called;
+      expect(onCheck).to.be.calledWith({ name: 'Email error' });
+      expect(onError).to.be.calledWith({ name: 'Email error' });
+    });
+
+    it('Should not call onSubmit callback when form is disabled', () => {
+      const values = { name: 'foobar@gmail.com' };
+      const onSubmit = sinon.spy();
+      render(
+        <Form formDefaultValue={values} model={model} onSubmit={onSubmit} disabled>
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onSubmit).to.be.not.called;
+    });
+
+    it('Should not call onSubmit callback when form is readOnly', () => {
+      const values = { name: 'foobar@gmail.com' };
+      const onSubmit = sinon.spy();
+      render(
+        <Form formDefaultValue={values} model={model} onSubmit={onSubmit} readOnly>
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onSubmit).to.be.not.called;
+    });
+
+    it('Should not call onSubmit callback when form is plaintext', () => {
+      const values = { name: 'foobar@gmail.com' };
+      const onSubmit = sinon.spy();
+      render(
+        <Form formDefaultValue={values} model={model} onSubmit={onSubmit} plaintext>
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onSubmit).to.be.not.called;
+    });
+  });
+
+  describe('onReset', () => {
+    it('Should call onReset callback', () => {
+      const values = { name: 'foobar@mail.com' };
+      const onReset = sinon.spy();
+
+      render(
+        <Form formDefaultValue={values} onReset={onReset} model={model}>
+          <FormControl name="name" />
+          <Button type="reset">reset</Button>
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '123' } });
+
+      expect(screen.getByRole('textbox')).to.have.value('123');
+      expect(screen.getByRole('alert')).to.have.text('Email error');
+
+      fireEvent.click(screen.getByRole('button'));
+
+      expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
+      expect(screen.queryAllByRole('alert')).to.be.empty;
+      expect(onReset).to.be.calledWith(values);
+    });
+
+    it('Should call onReset callback by reset method', () => {
+      const values = { name: 'foobar@mail.com' };
+      const onReset = sinon.spy();
+      const formRef = React.createRef<FormInstance>();
+
+      render(
+        <Form formDefaultValue={values} onReset={onReset} model={model} ref={formRef}>
+          <FormControl name="name" />
+          <Button type="reset">reset</Button>
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '123' } });
+
+      expect(screen.getByRole('textbox')).to.have.value('123');
+      expect(screen.getByRole('alert')).to.have.text('Email error');
+
+      formRef.current?.reset();
+
+      expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
+      expect(screen.queryAllByRole('alert')).to.be.empty;
+      expect(onReset).to.be.calledWith(values);
+    });
+
+    it('Should not call onReset callback when form is disabled', () => {
+      const values = { name: 'foobar@mail.com' };
+      const onReset = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onReset={onReset} model={model} disabled>
+          <FormControl name="name" />
+          <Button type="reset">reset</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onReset).to.be.not.called;
+    });
+
+    it('Should not call onReset callback when form is readOnly', () => {
+      const values = { name: 'foobar@mail.com' };
+      const onReset = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onReset={onReset} model={model} readOnly>
+          <FormControl name="name" />
+          <Button type="reset">reset</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onReset).to.be.not.called;
+    });
+    it('Should not call onReset callback when form is plaintext', () => {
+      const values = { name: 'foobar@mail.com' };
+      const onReset = sinon.spy();
+      render(
+        <Form formDefaultValue={values} onReset={onReset} model={model} plaintext>
+          <FormControl name="name" />
+          <Button type="reset">reset</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(onReset).to.be.not.called;
+    });
   });
 });

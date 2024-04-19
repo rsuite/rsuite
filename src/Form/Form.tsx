@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Schema, SchemaModel } from 'schema-typed';
 import type { CheckResult } from 'schema-typed';
@@ -15,14 +15,10 @@ import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
-import { FormInstance } from './hooks/useFormRef';
-
-export interface FormProps<
-  T = Record<string, any>,
-  errorMsgType = any,
-  E = { [P in keyof T]?: errorMsgType }
-> extends WithAsProps,
-    Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
+import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
+export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
+  extends WithAsProps,
+    Omit<FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError' | 'onReset'> {
   /**
    * Set the left and right columns of the layout of the elements within the form。
    *
@@ -38,12 +34,12 @@ export interface FormProps<
   /**
    * Current value of the input. Creates a controlled component
    */
-  formValue?: T | null;
+  formValue?: V | null;
 
   /**
    * Initial value
    */
-  formDefaultValue?: T | null;
+  formDefaultValue?: V | null;
 
   /**
    * Error message of form
@@ -102,7 +98,7 @@ export interface FormProps<
   /**
    * Callback fired when data changing
    */
-  onChange?: (formValue: T, event?: React.SyntheticEvent) => void;
+  onChange?: (formValue: V, event?: React.SyntheticEvent) => void;
 
   /**
    * Callback fired when error checking
@@ -115,9 +111,14 @@ export interface FormProps<
   onCheck?: (formError: E) => void;
 
   /**
-   * Callback fired when form submit
+   * Callback fired when form submit，only when the form data is validated will trigger
    */
-  onSubmit?: (checkPassed: boolean, event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
+
+  /**
+   * Callback fired when form reset
+   */
+  onReset?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export interface FormComponent
@@ -153,6 +154,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     children,
     disabled,
     onSubmit,
+    onReset,
     onCheck,
     onError,
     onChange,
@@ -160,16 +162,31 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   } = props;
 
   const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(formModel);
-  const { formValue, onRemoveValue, setFieldValue } = useFormValue(controlledFormValue, {
-    formDefaultValue,
-    nestedField
-  });
-
-  const formValidateProps = { ref, formValue, getCombinedModel, onCheck, onError, nestedField };
-  const { formError, setFieldError, onRemoveError, check, formRef } = useFormValidate(
-    controlledFormError,
-    formValidateProps
+  const { formValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
+    controlledFormValue,
+    { formDefaultValue, nestedField }
   );
+
+  const formValidateProps = {
+    formValue,
+    getCombinedModel,
+    onCheck,
+    onError,
+    nestedField
+  };
+
+  const {
+    formError,
+    setFieldError,
+    onRemoveError,
+    check,
+    checkAsync,
+    checkForField,
+    checkForFieldAsync,
+    cleanErrors,
+    resetErrors,
+    cleanErrorForField
+  } = useFormValidate(controlledFormError, formValidateProps);
 
   const classes = useFormClassNames({
     classPrefix,
@@ -181,6 +198,56 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     disabled
   });
 
+  const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    // Check the form before submitting
+    if (check()) {
+      onSubmit?.(formValue, event);
+    }
+  });
+
+  const reset = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    resetErrors();
+    onReset?.(resetFormValue(), event);
+  });
+
+  const handleSubmit = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+
+    // Prevent submission when the form is disabled, readOnly, or plaintext
+    if (disabled || readOnly || plaintext) {
+      return;
+    }
+
+    submit();
+  });
+
+  const handleReset = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+
+    // Prevent reset when the form is disabled, readOnly, or plaintext
+    if (disabled || readOnly || plaintext) {
+      return;
+    }
+
+    reset(event);
+  });
+
+  const imperativeMethods: FormImperativeMethods = {
+    check,
+    checkForField,
+    checkAsync,
+    checkForFieldAsync,
+    cleanErrors,
+    cleanErrorForField,
+    reset,
+    resetErrors,
+    submit
+  };
+
+  const formRef = useFormRef(ref, { imperativeMethods });
+
   const removeFieldValue = useEventCallback((name: string) => {
     const formValue = onRemoveValue(name);
     onChange?.(formValue);
@@ -188,18 +255,6 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
   const removeFieldError = useEventCallback((name: string) => {
     onRemoveError(name);
-  });
-
-  const handleSubmit = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
-    event?.preventDefault?.();
-    event?.stopPropagation?.();
-
-    if (disabled || readOnly || plaintext) {
-      return;
-    }
-
-    const checkResult = check();
-    onSubmit?.(checkResult, event);
   });
 
   const onFieldError = useEventCallback((name: string, checkResult: string | CheckResult) => {
@@ -236,7 +291,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   };
 
   return (
-    <form {...rest} ref={formRef} onSubmit={handleSubmit} className={classes}>
+    <form {...rest} ref={formRef} onSubmit={handleSubmit} onReset={handleReset} className={classes}>
       <FormProvider value={formContextValue}>
         <FormValueProvider value={formValue}>{children}</FormValueProvider>
       </FormProvider>

@@ -123,9 +123,10 @@ HTML:
 | onChange         | (formValue: object, event) => void                    | Callback fired when data changing                                                                          |
 | onCheck          | (formError: object) => void                           | Callback fired when data cheking                                                                           |
 | onError          | (formError: object) => void                           | Callback fired when error checking                                                                         |
+| onReset          | (formValue: object, event: FormEvent) => void         | Callback fired when form reset                                                                             |
+| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback fired when form submit, only when the form data is validated will trigger                         |
 | plaintext        | boolean `(false)`                                     | Render the form as plain text                                                                              |
 | readOnly         | boolean `(false)`                                     | Make the form readonly                                                                                     |
-
 
 ### `<Form.Control>`
 
