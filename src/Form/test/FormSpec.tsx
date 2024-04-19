@@ -658,7 +658,7 @@ describe('Form', () => {
       expect(onReset).to.be.calledWith(values);
     });
 
-    it('Should call onReset callback by reset method', () => {
+    it('Should call onReset callback by reset method', async () => {
       const values = { name: 'foobar@mail.com' };
       const onReset = sinon.spy();
       const formRef = React.createRef<FormInstance>();
@@ -677,9 +677,11 @@ describe('Form', () => {
 
       formRef.current?.reset();
 
-      expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
-      expect(screen.queryAllByRole('alert')).to.be.empty;
-      expect(onReset).to.be.calledWith(values);
+      await waitFor(() => {
+        expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
+        expect(screen.queryAllByRole('alert')).to.be.empty;
+        expect(onReset).to.be.calledWith(values);
+      });
     });
 
     it('Should not call onReset callback when form is disabled', () => {
