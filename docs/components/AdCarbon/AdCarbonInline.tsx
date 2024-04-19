@@ -59,7 +59,7 @@ function AdCarbonInline(props: React.HTMLAttributes<HTMLAnchorElement>) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <img src={ad.image} />
+      <img src={ad.image} style={{ backgroundColor: ad.backgroundColor }} />
       <span>{ad.company}</span>
       {' — '}
       <span>{ad.description}</span>
