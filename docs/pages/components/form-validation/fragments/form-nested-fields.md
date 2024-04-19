@@ -41,7 +41,7 @@ const App = () => {
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
     name: 'Tom',
-    address: { city: 'ShangHai', postCode: '200000' }
+    address: { city: '', postCode: '' }
   });
 
   const handleSubmit = () => {
@@ -69,7 +69,7 @@ const App = () => {
 
           <ButtonToolbar>
             <Button appearance="primary" onClick={handleSubmit}>
-              Submit
+              Check
             </Button>
           </ButtonToolbar>
         </Form>

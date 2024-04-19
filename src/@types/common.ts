@@ -210,7 +210,7 @@ export declare namespace TypeAttributes {
     | 'autoHorizontalEnd';
 
   type Placement = Placement4 | Placement8 | PlacementAuto;
-  type CheckTrigger = 'change' | 'blur' | 'none';
+  type CheckTrigger = 'change' | 'blur' | 'none' | null;
 }
 
 export interface SVGIcon {

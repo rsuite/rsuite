@@ -107,77 +107,25 @@ HTML:
 
 <!-- prettier-sort-markdown-table -->
 
-| Property         | Type `(default)`                                              | Description                                                                                                |
-| ---------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | Trigger the type of form validation                                                                        |
-| classPrefix      | string `('form')`                                             | The prefix of the component CSS class                                                                      |
-| disabled         | boolean `(false)`                                             | Disable the form                                                                                           |
-| errorFromContext | boolean `(true)`                                              | Error reminders in Form.Control are defaulted from Context                                                 |
-| fluid            | boolean                                                       | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
-| formDefaultValue | object                                                        | Default value of form                                                                                      |
-| formError        | object                                                        | Error message of form                                                                                      |
-| formValue        | object                                                        | Value of form (Controlled)                                                                                 |
-| layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
-| model            | Schema                                                        | SchemaModel object                                                                                         |
-| nestedField      | boolean `(false)`                                             | Whether to support nested fields                                                                           |
-| onChange         | (formValue: object, event) => void                            | Callback fired when data changing                                                                          |
-| onCheck          | (formError: object) => void                                   | Callback fired when data cheking                                                                           |
-| onError          | (formError: object) => void                                   | Callback fired when error checking                                                                         |
-| plaintext        | boolean `(false)`                                             | Render the form as plain text                                                                              |
-| readOnly         | boolean `(false)`                                             | Make the form readonly                                                                                     |
+| Property         | Type `(default)`                                      | Description                                                                                                |
+| ---------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Trigger the type of form validation                                                                        |
+| classPrefix      | string `('form')`                                     | The prefix of the component CSS class                                                                      |
+| disabled         | boolean `(false)`                                     | Disable the form                                                                                           |
+| errorFromContext | boolean `(true)`                                      | Error reminders in Form.Control are defaulted from Context                                                 |
+| fluid            | boolean                                               | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
+| formDefaultValue | object                                                | Default value of form                                                                                      |
+| formError        | object                                                | Error message of form                                                                                      |
+| formValue        | object                                                | Value of form (Controlled)                                                                                 |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
+| model            | Schema                                                | SchemaModel instance object                                                                                |
+| nestedField      | boolean `(false)`                                     | Whether to support nested fields                                                                           |
+| onChange         | (formValue: object, event) => void                    | Callback fired when data changing                                                                          |
+| onCheck          | (formError: object) => void                           | Callback fired when data cheking                                                                           |
+| onError          | (formError: object) => void                           | Callback fired when error checking                                                                         |
+| plaintext        | boolean `(false)`                                     | Render the form as plain text                                                                              |
+| readOnly         | boolean `(false)`                                     | Make the form readonly                                                                                     |
 
-### Form ref
-
-- check
-
-Verify form data.
-
-```js
-check: (callback?: (formError: E) => void) => boolean;
-```
-
-- checkAsync
-
-Asynchronously check form data
-
-```js
-checkAsync: () => Promise<any>;
-```
-
-- checkForField
-
-Checklist single field value.
-
-```js
-checkForField: (
-    fieldName: keyof T,
-    callback?: (checkResult: CheckResult<errorMsg>) => void
-  ) => boolean;
-```
-
-- checkForFieldAsync
-
-Asynchronous check form single field value
-
-```js
-checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
-```
-
-- cleanErrors
-
-Clean error message.
-
-```js
-cleanErrors(callback: () => void) => void
-```
-
-- cleanErrorForField
-
-Clear single field error message
-
-```js
-cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
-```
 
 ### `<Form.Control>`
 
@@ -185,7 +133,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | ---------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | accepter               | ElementType `(Input)`                                 | Proxied components.                                                                                                                                                           |
 | checkAsync             | boolean                                               | Asynchronous check value.                                                                                                                                                     |
-| checkTrigger           | 'change' &#124; 'blur' &#124; 'none'                  | The data validation trigger type, and it wiill overrides the setting on `<Form>`.                                                                                             |
+| checkTrigger           | 'change' \| 'blur' \| 'none'                          | The data validation trigger type, and it wiill overrides the setting on `<Form>`.                                                                                             |
 | classPrefix            | string `('form-control')`                             | The prefix of the component CSS class.                                                                                                                                        |
 | errorMessage           | ReactNode                                             | Show error messages.                                                                                                                                                          |
 | errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | The placement of error messages.                                                                                                                                              |

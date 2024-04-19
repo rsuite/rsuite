@@ -1,30 +1,33 @@
 import React from 'react';
-import { getDOMNode } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import FormErrorMessage from '../FormErrorMessage';
 
 describe('FormErrorMessage', () => {
   testStandardProps(<FormErrorMessage show />);
 
+  it('Should render nothing', () => {
+    const { container } = render(<FormErrorMessage />);
+    expect(container.firstChild).to.not.exist;
+  });
+
   it('Should render a FormErrorMessage', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<FormErrorMessage show>{title}</FormErrorMessage>);
-    assert.include(instance.className, 'rs-form-error-message-wrapper');
-    assert.equal(instance.textContent, title);
+    render(<FormErrorMessage show data-testid="error" />);
+
+    expect(screen.getByTestId('error')).to.have.class('rs-form-error-message-wrapper');
+    expect(screen.getByTestId('error')).to.contain('.rs-form-error-message');
   });
 
   it('Should be show', () => {
-    const instance = getDOMNode(<FormErrorMessage show />);
-    assert.ok(instance.querySelector('.rs-form-error-message.rs-form-error-message-show'));
-  });
-
-  it('Should be hide', () => {
-    const instance = getDOMNode(<FormErrorMessage show={false} />);
-    assert.equal(instance, null);
+    render(<FormErrorMessage show data-testid="error" />);
+    expect(screen.getByTestId('error')).to.contain('.rs-form-error-message-show');
   });
 
   it('Should hava a `bottomStart` for placement', () => {
-    const instance = getDOMNode(<FormErrorMessage show placement="bottomStart" />);
-    assert.include(instance.className, 'rs-form-error-message-placement-bottom-start');
+    render(<FormErrorMessage show placement="bottomStart" data-testid="error" />);
+
+    expect(screen.getByTestId('error')).to.have.class(
+      'rs-form-error-message-placement-bottom-start'
+    );
   });
 });

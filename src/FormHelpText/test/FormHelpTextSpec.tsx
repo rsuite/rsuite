@@ -1,31 +1,31 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import FormHelpText from '../FormHelpText';
+import FormGroup from '../../FormGroup';
 
 describe('FormHelpText', () => {
   testStandardProps(<FormHelpText />);
 
   it('Should render a FormHelpText', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<FormHelpText>{title}</FormHelpText>);
-    assert.equal(instance.className, 'rs-form-help-text');
-    assert.equal(instance.tagName, 'SPAN');
-    assert.equal(instance.innerHTML, title);
+    render(<FormHelpText>Help Text</FormHelpText>);
+
+    expect(screen.getByText('Help Text')).to.have.class('rs-form-help-text');
   });
 
-  it('Should render a tooltip ', () => {
-    const instance = getDOMNode(<FormHelpText tooltip />);
-    assert.include(instance.className, 'rs-form-help-text-tooltip');
-    assert.isNotNull(instance.querySelector('[aria-label="help o"]'));
+  it('Should render a tooltip ', async () => {
+    render(<FormHelpText tooltip>Help Text</FormHelpText>);
+
+    expect(screen.getByLabelText('help')).to.exist;
   });
 
-  it('Should have `for` in span ', () => {
-    const id = 'Test';
-    // FIXME <span> does not support `for` attribute
-    //       See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/for
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getDOMNode(<FormHelpText htmlFor={id} />);
-    assert.ok(instance.getAttribute('for'), id);
+  it('Should have `id` in FormHelpText when set controlId of FormGroup', () => {
+    render(
+      <FormGroup controlId="test">
+        <FormHelpText>Help Text</FormHelpText>
+      </FormGroup>
+    );
+
+    expect(screen.getByText('Help Text')).to.have.attribute('id', 'test-help-text');
   });
 });

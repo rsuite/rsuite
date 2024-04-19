@@ -5,6 +5,7 @@ import {
   Form,
   Button,
   ButtonGroup,
+  ButtonToolbar,
   Schema,
   InputNumber,
   Panel,
@@ -126,7 +127,7 @@ const ProductInputControl = ({ value = [], onChange, fieldError }) => {
 };
 
 const App = () => {
-  const formRef = React.useRef();
+  const form = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
     orderId: '',
@@ -137,8 +138,8 @@ const App = () => {
     <FlexboxGrid>
       <FlexboxGrid.Item colspan={12}>
         <Form
-          ref={formRef}
-          checkTrigger="blur"
+          ref={form}
+          checkTrigger="change"
           onChange={setFormValue}
           onCheck={setFormError}
           formValue={formValue}
@@ -155,14 +156,23 @@ const App = () => {
           />
 
           <hr />
-          <Button
-            appearance="primary"
-            onClick={() => {
-              formRef.current.check();
-            }}
-          >
-            Submit
-          </Button>
+          <ButtonToolbar>
+            <Button
+              appearance="primary"
+              onClick={() => {
+                form.current.check();
+              }}
+            >
+              Submit
+            </Button>
+            <Button
+              onClick={() => {
+                setFormError({});
+              }}
+            >
+              Clear Errors
+            </Button>
+          </ButtonToolbar>
         </Form>
       </FlexboxGrid.Item>
 

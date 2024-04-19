@@ -138,9 +138,6 @@ describe('FormControl', () => {
   it('Should render correctly default value when explicitly set and form default is not set', () => {
     const mockValue = 'value';
     render(
-      // FIXME `formDefaultValue` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formDefaultValue={null}>
         <FormControl name="name" defaultValue={mockValue} />
       </Form>
@@ -175,9 +172,6 @@ describe('FormControl', () => {
 
   it('Should render correctly when form error was null', () => {
     render(
-      // FIXME `formError` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formError={null}>
         <FormControl name="name" />
       </Form>
@@ -216,23 +210,6 @@ describe('FormControl', () => {
     expect(screen.getByText('error2')).to.be.visible;
   });
 
-  it('Should be associated with ErrorMessage via aria-errormessage', () => {
-    render(
-      <Form>
-        <FormGroup controlId="name1">
-          <FormControl errorMessage={'error2'} name="name1" />
-        </FormGroup>
-      </Form>
-    );
-
-    const input = screen.getByRole('textbox');
-    const alert = screen.getByRole('alert');
-
-    expect(input).to.have.attr('aria-invalid', 'true');
-
-    expect(alert).to.exist;
-    expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id') as string);
-  });
   it('Should remove value and error when shouldResetWithUnmount is true', () => {
     let refValue = { username: '', email: '', password: '' };
     let refError = {};
@@ -277,11 +254,13 @@ describe('FormControl', () => {
     fireEvent.change(screen.getByTestId('password'), {
       target: { value: 'password' }
     });
+
     expect(refValue).to.deep.equal({ username: 'username', password: 'password', email: '' });
     expect(refError).to.deep.equal({
       username: 'The length cannot exceed 2',
       password: 'The length cannot exceed 2'
     });
+
     fireEvent.change(screen.getByTestId('email'), {
       target: { value: 'email' }
     });
@@ -548,6 +527,105 @@ describe('FormControl', () => {
       await waitFor(() => {
         expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
       });
+    });
+
+    it('Should only validate the field of the current interactive control', () => {
+      const onCheck = sinon.spy();
+      const model = Schema.Model({
+        obj: Schema.Types.ObjectType().shape({
+          number1: Schema.Types.NumberType(),
+          number2: Schema.Types.NumberType()
+        })
+      });
+
+      render(
+        <Form
+          formDefaultValue={{ obj: { number1: '', number2: '' } }}
+          model={model}
+          nestedField
+          onCheck={onCheck}
+        >
+          <FormControl name="obj.number1" data-testid="textbox1" />
+          <FormControl name="obj.number2" data-testid="textbox2" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByTestId('textbox1'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('obj.number1 must be a number');
+      expect(onCheck).to.calledWithMatch({
+        obj: {
+          object: {
+            number1: { hasError: true, errorMessage: 'obj.number1 must be a number' }
+          }
+        }
+      });
+
+      fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('obj.number2 must be a number');
+      expect(onCheck).to.calledWithMatch({
+        obj: {
+          object: {
+            number2: { hasError: true, errorMessage: 'obj.number2 must be a number' }
+          }
+        }
+      });
+
+      fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 1 } });
+
+      expect(screen.queryByRole('alert')).to.not.exist;
+      expect(onCheck).to.calledWithMatch({ obj: { object: {} } });
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a default `id` in FormControl', () => {
+      render(
+        <Form>
+          <FormGroup>
+            <FormControl name="name" />
+          </FormGroup>
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.attribute('id');
+    });
+
+    it('Should have `id` in FormControl when set controlId of FormGroup', () => {
+      render(
+        <Form>
+          <FormGroup controlId="group">
+            <FormControl name="name" />
+          </FormGroup>
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.attribute('id', 'group');
+    });
+
+    it('Should override `id` in FormControl when set id of FormControl', () => {
+      render(
+        <Form>
+          <FormGroup controlId="group">
+            <FormControl name="name" id="control" />
+          </FormGroup>
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.attribute('id', 'control');
+    });
+
+    it('Should have `aria-invalid` and `aria-errormessage` when has error', () => {
+      render(
+        <Form formError={{ name: 'Name is required' }}>
+          <FormControl name="name" id="input" />
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.attr('aria-invalid', 'true');
+      expect(screen.getByRole('textbox')).to.have.attr('aria-errormessage', 'input-error-message');
+      expect(screen.getByRole('alert')).to.have.attr('id', 'input-error-message');
     });
   });
 });

@@ -144,6 +144,7 @@ const App = () => {
             name="createDate"
             label="Create Date"
             errorMessage={formError.createDate}
+            editable={false}
           />
 
           <Field accepter={Toggle} name="toggle" label="Toggle" errorMessage={formError.toggle} />

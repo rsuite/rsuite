@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { FormGroupContext } from '../FormGroup/FormGroup';
-import HelpO from '@rsuite/icons/legacy/HelpO';
+import { useFormGroup } from '../FormGroup';
+import HelpIcon from '@rsuite/icons/legacy/HelpO';
 
-export interface FormHelpTextProps extends WithAsProps {
+export interface FormHelpTextProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
   /** Whether to show through the Tooltip component */
   tooltip?: boolean;
 }
@@ -18,36 +18,40 @@ export interface FormHelpTextProps extends WithAsProps {
  */
 const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
   (props: FormHelpTextProps, ref: React.Ref<any>) => {
+    const { helpTextId } = useFormGroup();
     const {
       as: Component = 'span',
       classPrefix = 'form-help-text',
       className,
       tooltip,
       children,
+      id = helpTextId,
       ...rest
     } = props;
 
-    const { controlId } = useContext(FormGroupContext);
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ tooltip }));
 
     if (tooltip) {
       return (
-        <Whisper ref={ref} placement="topEnd" speaker={<Tooltip {...rest}>{children}</Tooltip>}>
-          <Component className={classes}>
-            <HelpO />
+        <Whisper
+          ref={ref}
+          placement="topEnd"
+          speaker={
+            <Tooltip id={id} {...rest}>
+              {children}
+            </Tooltip>
+          }
+        >
+          <Component role="img" aria-label="help" className={classes}>
+            <HelpIcon aria-hidden={true} />
           </Component>
         </Whisper>
       );
     }
 
     return (
-      <Component
-        id={controlId ? `${controlId}-help-text` : null}
-        {...rest}
-        ref={ref}
-        className={classes}
-      >
+      <Component id={id} {...rest} ref={ref} className={classes}>
         {children}
       </Component>
     );

@@ -1,20 +1,21 @@
 import { useRef, useEffect } from 'react';
-import type { FieldRuleType } from '../Form/hooks/useSchemaModel';
 import type { CheckType } from 'schema-typed';
+import { useFormContext } from '../../Form/FormContext';
 
 function useRegisterModel(
   name: string,
-  pushFieldRule: (n: string, r: FieldRuleType) => void,
-  removeFieldRule: (n: string) => void,
+
   rule?: CheckType<unknown, any>
 ) {
+  const { pushFieldRule, removeFieldRule } = useFormContext() || {};
+
   const refRule = useRef(rule);
   refRule.current = rule;
 
   useEffect(() => {
-    pushFieldRule(name, refRule);
+    pushFieldRule?.(name, refRule);
     return () => {
-      removeFieldRule(name);
+      removeFieldRule?.(name);
     };
   }, [name, pushFieldRule, removeFieldRule]);
 }

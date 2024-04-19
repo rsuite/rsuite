@@ -1,12 +1,27 @@
 import { useRef, useCallback } from 'react';
 import omit from 'lodash/omit';
+import set from 'lodash/set';
 import { useControlled } from '../../utils';
 
-export default function useFormValue(controlledValue, formDefaultValue) {
+export default function useFormValue(controlledValue, props) {
+  const { formDefaultValue, nestedField } = props;
   const [formValue, setFormValue] = useControlled(controlledValue, formDefaultValue);
 
   const realFormValueRef = useRef(formValue);
   realFormValueRef.current = formValue;
+
+  const setFieldValue = useCallback(
+    (fieldName: string, fieldValue: any) => {
+      const nextFormError = nestedField
+        ? set({ ...formValue }, fieldName, fieldValue)
+        : { ...formValue, [fieldName]: fieldValue };
+
+      setFormValue(nextFormError);
+
+      return nextFormError;
+    },
+    [formValue, nestedField, setFormValue]
+  );
 
   const onRemoveValue = useCallback(
     (name: string) => {
@@ -16,6 +31,7 @@ export default function useFormValue(controlledValue, formDefaultValue) {
        */
       const formValue = omit(realFormValueRef.current, [name]);
       realFormValueRef.current = formValue;
+
       setFormValue(formValue);
 
       return formValue;
@@ -26,6 +42,7 @@ export default function useFormValue(controlledValue, formDefaultValue) {
   return {
     formValue,
     setFormValue,
+    setFieldValue,
     onRemoveValue
   };
 }

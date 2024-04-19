@@ -19,27 +19,11 @@ const JSONView = ({ formValue, formError }) => (
 const { StringType, NumberType } = Schema.Types;
 
 const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
-  email: StringType()
-    .isEmail('Please enter a valid email address.')
-    .isRequired('This field is required.'),
-  age: NumberType('Please enter a valid number.').range(
-    18,
-    30,
-    'Please enter a number from 18 to 30'
-  ),
-  password: StringType().isRequired('This field is required.'),
-  verifyPassword: StringType()
-    .addRule((value, data) => {
-      console.log(data);
-
-      if (value !== data.password) {
-        return false;
-      }
-
-      return true;
-    }, 'The two passwords do not match')
-    .isRequired('This field is required.')
+  name: StringType().isRequired(),
+  email: StringType().isEmail().isRequired(),
+  age: NumberType().range(18, 30),
+  password: StringType().isRequired().proxy(['confirmPassword']),
+  confirmPassword: StringType().equalTo('password')
 });
 
 const TextField = React.forwardRef((props, ref) => {
@@ -60,7 +44,7 @@ const App = () => {
     email: '',
     age: '',
     password: '',
-    verifyPassword: ''
+    confirmPassword: ''
   });
 
   const handleSubmit = () => {
@@ -92,8 +76,8 @@ const App = () => {
           <TextField name="age" label="Age" />
           <TextField name="password" label="Password" type="password" autoComplete="off" />
           <TextField
-            name="verifyPassword"
-            label="Verify password"
+            name="confirmPassword"
+            label="Confirm Password"
             type="password"
             autoComplete="off"
           />
