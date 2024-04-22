@@ -7,16 +7,7 @@ import Router, { useRouter } from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
-import * as Sentry from '@sentry/browser';
 import '../less/index.less';
-
-// Connecting the SDK to Sentry
-if (!process.env.DEV) {
-  Sentry.init({
-    dsn: 'https://be402c47cb1a4d79b78ad283191299f7@sentry-prd.hypers.cc/7',
-    release: `v${process.env.VERSION}`
-  });
-}
 
 import { getMessages } from '../locales';
 import {

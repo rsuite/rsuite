@@ -52,14 +52,6 @@
 
 > [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
 
-### 扩展：响应式
-
-<!--{include:`responsive-nav.md`}-->
-
-### 扩展：响应式
-
-<!--{include:`removable-nav.md`}-->
-
 ## Props
 
 ### `<Nav>`

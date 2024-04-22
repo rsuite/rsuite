@@ -52,14 +52,6 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 > [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
-### Responsive
-
-<!--{include:`responsive-nav.md`}-->
-
-### Removable
-
-<!--{include:`removable-nav.md`}-->
-
 ## Props
 
 ### `<Nav>`

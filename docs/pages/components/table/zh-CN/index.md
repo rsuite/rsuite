@@ -290,8 +290,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 ### 可拖拽(与 react-dnd 组合)
 
-- [Use with react-dnd v10](https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n)
-- [Use with react-dnd v15](https://codesandbox.io/s/rsuite5-table-with-react-dnd15-ttrsck)
+- https://table.rsuitejs.com/#draggable-example
 
 ## 无障碍设计
 

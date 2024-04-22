@@ -3,12 +3,12 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
 const markdownRenderer = require('./scripts/markdownRenderer');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
-const __DEV__ = process.env.NODE_ENV !== 'production';
 
 const {
   // 'production' on main branch
@@ -25,7 +25,6 @@ const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
  */
 module.exports = {
   env: {
-    DEV: __DEV__ ? 1 : 0,
     VERSION: pkg.version
   },
   i18n: {
@@ -135,7 +134,8 @@ module.exports = {
         filename: 'static/css/[name].css',
         chunkFilename: 'static/css/[contenthash].css'
       }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+      new RtlCssPlugin('static/css/[name]-rtl.css'),
+      new ForkTsCheckerWebpackPlugin()
     );
 
     config.optimization.minimizer.push(
@@ -197,5 +197,6 @@ module.exports = {
         permanent: true
       }
     ];
-  }
+  },
+  swcMinify: true
 };

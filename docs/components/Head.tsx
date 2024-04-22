@@ -10,12 +10,13 @@ interface HeadProps {
 
 export default function Head(props: HeadProps) {
   const { description, title, children } = props;
+  const pageTitle = `${title} - React Suite`;
 
   const router = useRouter();
 
   return (
     <NextHead>
-      <title>{title} - React Suite</title>
+      <title>{pageTitle}</title>
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="description" content={description} />

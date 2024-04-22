@@ -8,12 +8,12 @@ const NavLink = React.forwardRef((props, ref) => {
   const { href, active, eventKey, as, ...rest } = props;
   return (
     <Link
+      ref={ref}
       href={`${location.pathname}?page=${eventKey}`}
       className={active ? 'active' : null}
       as={as}
-    >
-      <a ref={ref} {...rest} />
-    </Link>
+      {...rest}
+    />
   );
 });
 
