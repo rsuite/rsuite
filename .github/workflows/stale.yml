@@ -14,6 +14,6 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v8
+      - uses: actions/stale@v9
         with:
           any-of-labels: 'status: Needs More Info'
