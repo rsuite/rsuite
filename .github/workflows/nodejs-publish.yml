@@ -23,6 +23,6 @@ jobs:
         run: npm run build
       - name: Publish
         working-directory: ./lib
-        run: npm publish
+        run: npm publish --tag canary
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
