@@ -293,8 +293,7 @@ Display the hidden text in its entirety when hovering over the cell.
 
 ### Draggable(with react-dnd)
 
-- [Use with react-dnd v10](https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n)
-- [Use with react-dnd v15](https://codesandbox.io/s/rsuite5-table-with-react-dnd15-ttrsck)
+- https://table.rsuitejs.com/#draggable-example
 
 ## Accessibility
 

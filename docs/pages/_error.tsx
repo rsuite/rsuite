@@ -14,9 +14,7 @@ function Error({ statusCode = 404 }: ErrorProps) {
         <img alt="404" src="/images/error-404.svg" />
         <h2>{`${messages?.common.notFount}（${statusCode}）`}</h2>
         <div className="nav-help">
-          <Link href={language === 'en' ? '/en/' : '/'}>
-            <a>{messages?.common.goHomePage}</a>
-          </Link>
+          <Link href={language === 'en' ? '/en/' : '/'}>{messages?.common.goHomePage}</Link>
         </div>
       </div>
       <style jsx>{`

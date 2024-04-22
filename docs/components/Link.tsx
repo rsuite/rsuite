@@ -20,6 +20,7 @@ export default React.forwardRef(function Link(
       passHref={passHref}
       replace={replace}
       shallow={shallow}
+      legacyBehavior
     >
       <a ref={ref} className={className} {...rest} />
     </NextLink>

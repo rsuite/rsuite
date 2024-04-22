@@ -1,6 +1,7 @@
 {
   "name": "docs",
   "version": "5.59.2",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "check:type": "tsc",
@@ -14,8 +15,6 @@
     "parsing-design-docs": "node ./scripts/parsingDesignDocs.js",
     "algolia": "node ./scripts/algolia-indices.js"
   },
-  "author": "HYPERS Team",
-  "license": "MIT",
   "dependencies": {
     "@docsearch/react": "^3.2.1",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -26,7 +25,6 @@
     "@rsuite/document-nav": "^1.0.18",
     "@rsuite/icons": "^1.0.2",
     "@rsuite/responsive-nav": "^5.0.1",
-    "@sentry/browser": "^5.30.0",
     "@stackblitz/sdk": "^1.8.0",
     "@vercel/analytics": "^0.1.10",
     "classnames": "^2.2.6",
@@ -37,12 +35,13 @@
     "dom-lib": "^3.1.2",
     "formik": "^2.4.5",
     "lz-string": "^1.4.4",
+    "next": "^14.2.2",
     "nprogress": "^0.2.0",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-code-view": "^2.4.0",
     "react-color": "^2.18.0",
     "react-device-detect": "^2.2.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-icons": "^5.0.1",
     "react-json-tree": "^0.18.0",
@@ -68,12 +67,12 @@
     "css-loader": "^5.2.2",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "cssnano-preset-advanced": "^5.0.1",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
     "highlight.js": "^11.9.0",
     "less": "^4.0.0",
     "less-loader": "^8.1.1",
     "markdown-loader": "2.0.2",
     "mini-css-extract-plugin": "^2.1.0",
-    "next": "^12.3.1",
     "postcss": "^8.4.31",
     "postcss-custom-properties": "^12.0.0",
     "postcss-loader": "^4.2.0",
@@ -83,6 +82,6 @@
     "rtlcss-webpack-plugin": "^4.0.6"
   },
   "engines": {
-    "node": "^16.13.0"
+    "node": "^18.17.0"
   }
 }

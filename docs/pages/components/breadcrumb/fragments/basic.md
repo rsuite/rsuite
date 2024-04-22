@@ -6,7 +6,7 @@ import { Breadcrumb } from 'rsuite';
 const App = () => (
   <Breadcrumb>
     <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-    <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+    <Breadcrumb.Item href="/components/overview">Components</Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );

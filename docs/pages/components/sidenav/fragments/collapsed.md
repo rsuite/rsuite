@@ -50,7 +50,7 @@ const App = () => {
             </Nav.Menu>
           </Nav>
         </Sidenav.Body>
-        <Sidenav.Toggle expanded={expanded} onToggle={expanded => setExpanded(expanded)} />
+        <Sidenav.Toggle onToggle={expanded => setExpanded(expanded)} />
       </Sidenav>
     </div>
   );
