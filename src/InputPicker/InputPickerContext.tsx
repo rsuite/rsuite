@@ -13,12 +13,16 @@ export interface TagOnlyProps {
    */
   trigger: TriggerType | TriggerType[];
 
-  /** Callback fired when a tag is removed. */
+  /**
+   * Callback fired when a tag is removed.
+   */
   onTagRemove?: (tag: string, event: React.MouseEvent) => void;
 }
 
 export interface InputPickerContextProps extends TagOnlyProps {
-  /** Multiple selections are allowed */
+  /**
+   * Multiple selections are allowed
+   */
   multi?: boolean;
 
   /**
@@ -26,7 +30,9 @@ export interface InputPickerContextProps extends TagOnlyProps {
    */
   disabledOptions?: boolean;
 
-  /** Custom render checkbox on menu item */
+  /**
+   * Custom render checkbox on menu item
+   */
   renderCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
@@ -34,5 +40,11 @@ const InputPickerContext = React.createContext<InputPickerContextProps>({
   tagProps: {},
   trigger: 'Enter'
 });
+
+export function useTagContext() {
+  return React.useContext(InputPickerContext);
+}
+
+export const TagProvider = InputPickerContext.Provider;
 
 export default InputPickerContext;

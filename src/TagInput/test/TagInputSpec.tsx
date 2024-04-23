@@ -42,10 +42,10 @@ describe('TagInput', () => {
   });
 
   it('Should create a tag', () => {
-    const onCreateSpy = sinon.spy();
+    const onCreate = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = screen.getByRole('textbox');
@@ -55,28 +55,28 @@ describe('TagInput', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreateSpy).to.have.been.calledWith(['abc']);
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
   it('Should create a tag by tirgger="Space" ', () => {
-    const onCreateSpy = sinon.spy();
+    const onCreate = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Space" />);
+    render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Space" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ' ' });
-    expect(onCreateSpy).to.have.been.calledWith(['abc']);
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
   it('Should create a tag by tirgger="Comma" ', () => {
-    const onCreateSpy = sinon.spy();
+    const onCreate = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Comma" />);
+    render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Comma" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = screen.getByRole('textbox');
@@ -84,7 +84,7 @@ describe('TagInput', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ',' });
-    expect(onCreateSpy).to.have.been.calledWith(['abc']);
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
   it('Should render 2 tags by events', () => {
@@ -121,10 +121,10 @@ describe('TagInput', () => {
   });
 
   it('Should create a label only through `Enter`', () => {
-    const onCreateSpy = sinon.spy();
+    const onCreate = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = screen.getByRole('textbox');
 
@@ -134,11 +134,11 @@ describe('TagInput', () => {
     fireEvent.keyDown(input, { key: ' ' });
     fireEvent.keyDown(input, { key: 'Comma' });
 
-    expect(onCreateSpy).to.not.called;
+    expect(onCreate).to.not.called;
 
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreateSpy).to.calledOnce;
+    expect(onCreate).to.calledOnce;
   });
 
   it('Should call `onChange` with empty array when clicking "Clear" button', () => {
@@ -151,10 +151,10 @@ describe('TagInput', () => {
   });
 
   it('Should not create tag while text composing', () => {
-    const onCreateSpy = sinon.spy();
+    const onCreate = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = screen.getByRole('textbox');
 
@@ -164,11 +164,11 @@ describe('TagInput', () => {
 
     fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
 
-    expect(onCreateSpy).to.not.called;
+    expect(onCreate).to.not.called;
 
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreateSpy).to.calledOnce;
+    expect(onCreate).to.calledOnce;
   });
 
   it('Should call `onTagRemove` callback', () => {

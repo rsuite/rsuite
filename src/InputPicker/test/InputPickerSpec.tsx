@@ -390,8 +390,8 @@ describe('InputPicker', () => {
   it('Should call `onCreate` callback with correct value', () => {
     const inputRef = React.createRef<PickerHandle>();
 
-    const onCreateSpy = sinon.spy();
-    render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={onCreateSpy} creatable />);
+    const onCreate = sinon.spy();
+    render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={onCreate} creatable />);
 
     fireEvent.focus((inputRef.current as PickerHandle).root as HTMLElement);
 
@@ -400,8 +400,8 @@ describe('InputPicker', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreateSpy).to.calledOnce;
-    expect(onCreateSpy).to.calledWith('abc');
+    expect(onCreate).to.calledOnce;
+    expect(onCreate).to.calledWith('abc');
   });
 
   it('Should hide "Create option" action if `shouldDisplayCreateOption` returns false', () => {

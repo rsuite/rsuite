@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
-import InputPickerContext, { TagOnlyProps } from '../InputPicker/InputPickerContext';
+import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
 import type { PickerComponent } from '../internals/Picker/types';
 
 export type TagInputProps = Omit<InputPickerProps<readonly string[]>, 'data'> &
@@ -24,7 +24,7 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
   );
 
   return (
-    <InputPickerContext.Provider value={contextValue}>
+    <TagProvider value={contextValue}>
       <InputPicker
         {...rest}
         aria-haspopup={false}
@@ -38,7 +38,7 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
         creatable
         ref={ref}
       />
-    </InputPickerContext.Provider>
+    </TagProvider>
   );
 });
 
