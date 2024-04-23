@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
 import * as SvgIcons from '@/components/SvgIcons';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import Link from '@/components/Link';
 import { useRouter } from 'next/router';
 import { Icon } from '@rsuite/icons';
@@ -97,12 +97,12 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
     [onToggleMenuProp]
   );
   const {
-    messages,
+    locales,
     language,
     theme: [, direction]
-  } = React.useContext(AppContext);
+  } = useApp();
 
-  const navItems = getNavItems(messages);
+  const navItems = getNavItems(locales);
   const rtl = direction === 'rtl';
 
   const onOpen = () => {
@@ -151,7 +151,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
           icon={arrow ? <AngleLeft /> : <AngleRight />}
           size="xs"
           style={{ [rtl ? 'right' : 'left']: showSubmenu ? 310 : 70, width: '24px' }}
-          title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+          title={showSubmenu ? locales?.common?.closeMenu : locales?.common?.openMenu}
           onClick={onToggleMenu}
         />
       )}
@@ -163,7 +163,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
       <div className="top-level-nav-header">
         <SearchButton
           className="visible-xs"
-          tip={messages?.common?.search}
+          tip={locales?.common?.search}
           ref={searchButtonRef}
           onClick={onOpen}
         />
@@ -199,7 +199,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
         >
           <Github style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
-        <SearchButton className="hidden-xs" tip={messages?.common?.search} onClick={onOpen} />
+        <SearchButton className="hidden-xs" tip={locales?.common?.search} onClick={onOpen} />
       </div>
       <div className="top-level-nav-footer"></div>
       {children}

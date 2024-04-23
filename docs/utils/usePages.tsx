@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@rsuite/icons';
 import components from './component.config.json';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 
 export interface MenuItem {
@@ -23,145 +23,145 @@ export interface MenuItem {
 }
 
 export default function usePages(): MenuItem[] {
-  const { messages } = React.useContext(AppContext);
+  const { locales } = useApp();
   return [
     {
       id: 'guide',
-      name: messages?.common?.guide,
+      name: locales?.common?.guide,
       icon: <Icon as={() => <SvgIcons.Guide />} style={{ fontSize: 20 }} />,
       children: [
         {
           group: true,
           id: 'getting-started',
-          name: messages?.common?.gettingStarted
+          name: locales?.common?.gettingStarted
         },
         {
           id: 'introduction',
-          name: messages?.common?.introduction
+          name: locales?.common?.introduction
         },
         {
           id: 'usage',
-          name: messages?.common?.usage
+          name: locales?.common?.usage
         },
         {
           id: 'composition',
-          name: messages?.common?.composition
+          name: locales?.common?.composition
         },
         {
           id: 'accessibility',
-          name: messages?.common?.accessibility
+          name: locales?.common?.accessibility
         },
         {
           id: 'v5-features',
-          name: messages?.common?.v5Features
+          name: locales?.common?.v5Features
         },
         {
           id: 'logs',
-          name: messages?.common?.changeLog,
+          name: locales?.common?.changeLog,
           target: '_blank',
           url: 'https://github.com/rsuite/rsuite/releases'
         },
         {
           group: true,
           id: 'frameworks',
-          name: messages?.common?.frameworks
+          name: locales?.common?.frameworks
         },
         {
           id: 'use-vite',
-          name: messages?.common?.useVite
+          name: locales?.common?.useVite
         },
         {
           id: 'use-next-app',
-          name: messages?.common?.useNextApp
+          name: locales?.common?.useNextApp
         },
         {
           id: 'use-next-pages',
-          name: messages?.common?.useNextPages
+          name: locales?.common?.useNextPages
         },
 
         {
           id: 'use-with-create-react-app',
-          name: messages?.common?.useWithCreateReactApp
+          name: locales?.common?.useWithCreateReactApp
         },
         {
           group: true,
           id: 'customization',
-          name: messages?.common?.customization
+          name: locales?.common?.customization
         },
         {
           id: 'official-themes',
-          name: messages?.common?.officialThemes
+          name: locales?.common?.officialThemes
         },
 
         {
           id: 'customization-less',
-          name: messages?.common?.customizationLess
+          name: locales?.common?.customizationLess
         },
         {
           id: 'css-variables',
-          name: messages?.common?.cssVariables
+          name: locales?.common?.cssVariables
         },
         {
           id: 'css-reset',
-          name: messages?.common?.cssReset
+          name: locales?.common?.cssReset
         },
         {
           id: 'i18n',
-          name: messages?.common?.i18n
+          name: locales?.common?.i18n
         },
         {
           id: 'rtl',
-          name: messages?.common?.rtl
+          name: locales?.common?.rtl
         },
         {
           group: true,
           id: 'performance',
-          name: messages?.common?.performance
+          name: locales?.common?.performance
         },
         {
           id: 'optimizing-performance',
-          name: messages?.common?.optimizingPerformance
+          name: locales?.common?.optimizingPerformance
         },
         {
           id: 'modularized',
-          name: messages?.common?.modularized
+          name: locales?.common?.modularized
         }
       ]
     },
     {
       id: 'components',
-      name: messages?.common?.components,
+      name: locales?.common?.components,
       icon: <Icon as={() => <SvgIcons.Component />} style={{ fontSize: 20 }} />,
       children: components
     },
     {
       id: 'resources',
-      name: messages?.common?.resources,
+      name: locales?.common?.resources,
       icon: <Icon as={() => <SvgIcons.Ecology />} style={{ fontSize: 20 }} />,
       children: [
         {
           id: 'templates',
-          name: messages?.common?.templates
+          name: locales?.common?.templates
         },
         {
           id: 'icons',
-          name: messages?.common?.icons
+          name: locales?.common?.icons
         },
         {
           id: 'design',
-          name: messages?.common?.designResources
+          name: locales?.common?.designResources
         },
         {
           id: 'palette',
-          name: messages?.common?.palette
+          name: locales?.common?.palette
         },
         {
           id: 'extensions',
-          name: messages?.common?.extension
+          name: locales?.common?.extension
         },
         {
           id: 'examples',
-          name: messages?.common?.examples
+          name: locales?.common?.examples
         }
       ]
     }

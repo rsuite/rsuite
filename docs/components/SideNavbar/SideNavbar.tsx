@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import Link from '@/components/Link';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
@@ -54,7 +54,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const { onToggleMenu, showSubmenu, style } = props;
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
-  const { language } = React.useContext(AppContext);
+  const { language } = useApp();
   const showMediaToggleButton = style.width !== 0;
 
   const navItems = [];

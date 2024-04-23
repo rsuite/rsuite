@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 import type { AppProps } from 'next/app';
 import { Analytics } from '@vercel/analytics/react';
 import Router, { useRouter } from 'next/router';
-import AppContext from '@/components/AppContext';
+import { AppProvider } from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
 import '../less/index.less';
@@ -119,7 +119,7 @@ function App({ Component, pageProps }: AppProps) {
     setDirection(newDirection);
   }, [direction]);
 
-  const messages = getMessages(router.locale);
+  const locales = getMessages(router.locale);
 
   React.useEffect(() => {
     loadStylesheetForDirection(direction);
@@ -134,9 +134,9 @@ function App({ Component, pageProps }: AppProps) {
         theme={themeName}
       >
         <Grid fluid className="app-container">
-          <AppContext.Provider
+          <AppProvider
             value={{
-              messages,
+              locales,
               language: router.locale,
               localePath: router.locale === 'zh' ? '/zh-CN' : '/en-US',
               theme: [themeName, direction],
@@ -147,7 +147,7 @@ function App({ Component, pageProps }: AppProps) {
           >
             <StyleHead onLoaded={handleStyleHeadLoaded} />
             <Component {...pageProps} />
-          </AppContext.Provider>
+          </AppProvider>
         </Grid>
         <TypedPrompt />
       </CustomProvider>

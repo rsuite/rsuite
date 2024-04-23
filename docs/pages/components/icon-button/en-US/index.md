@@ -56,7 +56,7 @@ Icon button renders an icon within in a button.
 
 ### Keyboard interaction
 
-- When IconButton has focus, <kbd>Space</kbd> or <kbd>Space</kbd> activates it.
+- When IconButton has focus, <kbd>Space</kbd> or <kbd>Enter</kbd> activates it.
 
 ## Props
 

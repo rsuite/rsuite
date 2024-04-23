@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ButtonToolbar, Tooltip, Whisper, Dropdown, IconButton } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import LanguageButton from '../LanguageButton';
 import packageJson from '../../package.json';
 import { MoreActions } from './MoreActions';
@@ -13,19 +13,19 @@ interface PageToolbarProps {
 }
 
 function PageToolbar({ designHash, routerId }: PageToolbarProps) {
-  const { messages } = React.useContext(AppContext);
+  const { locales } = useApp();
 
   const [show, setShow] = React.useState(false);
 
   const versions = [
     {
       id: 'v4',
-      name: messages?.common?.v4,
+      name: locales?.common?.v4,
       url: 'https://v4.rsuitejs.com/'
     },
     {
       id: 'v3',
-      name: messages?.common?.v3,
+      name: locales?.common?.v3,
       url: 'https://v3.rsuitejs.com/'
     }
   ];
@@ -49,7 +49,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           </Dropdown.Item>
         ))}
       </Dropdown>
-      <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
+      <Whisper placement="bottom" speaker={<Tooltip>{locales?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
       </Whisper>
 

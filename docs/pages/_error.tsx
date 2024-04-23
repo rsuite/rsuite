@@ -1,20 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 
 interface ErrorProps {
   statusCode: number;
 }
 
 function Error({ statusCode = 404 }: ErrorProps) {
-  const { language, messages } = React.useContext(AppContext);
+  const { language, locales } = useApp();
   return (
     <>
       <div className="error-wrapper">
         <img alt="404" src="/images/error-404.svg" />
-        <h2>{`${messages?.common.notFount}（${statusCode}）`}</h2>
+        <h2>{`${locales?.common.notFount}（${statusCode}）`}</h2>
         <div className="nav-help">
-          <Link href={language === 'en' ? '/en/' : '/'}>{messages?.common.goHomePage}</Link>
+          <Link href={language === 'en' ? '/en/' : '/'}>{locales?.common.goHomePage}</Link>
         </div>
       </div>
       <style jsx>{`

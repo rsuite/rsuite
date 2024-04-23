@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import canUseDOM from 'dom-lib/canUseDOM';
 import { Row, Col } from 'rsuite';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import PageToolbar from '../PageToolbar';
 
 interface ContainerProps {
@@ -25,7 +25,7 @@ export default function PageContainer(props: ContainerProps) {
 
   const {
     theme: [themeName, direction]
-  } = React.useContext(AppContext);
+  } = useApp();
 
   const designHash = designHashConfig[themeName];
   const rtl = direction === 'rtl';

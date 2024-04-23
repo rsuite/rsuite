@@ -66,6 +66,10 @@ export default {
     openCodeSandbox: '在 CodeSandbox 中打开',
     openStackBlitz: '在  StackBlitz 中打开'
   },
+  components: {
+    noComponent: '没有找到想要的组件？',
+    requestNewComponent: '申请添加新组件'
+  },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',
     defaultDescription: '组件设计在线访问版本',

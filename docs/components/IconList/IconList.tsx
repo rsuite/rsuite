@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Input,
   Modal,
@@ -13,7 +13,7 @@ import {
 import SearchIcon from '@rsuite/icons/Search';
 import Link from '@/components/Link';
 import IconItem from './IconItem';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 import iconList from '@rsuite/icons/meta.json';
 import * as Icons from '@rsuite/icons';
 
@@ -36,7 +36,7 @@ const parseIconByCategory = (obj, conf) => {
 const usableIconList: IconMeta[] = iconList.filter(({ categoryName }) => categoryName !== 'legacy');
 
 function IconList() {
-  const { messages } = useContext(AppContext);
+  const { locales } = useApp();
   const [iconName, setIconName] = useState('');
   const [showIcon, setShowIcon] = useState(false);
   const [keyword, setKeyword] = useState('');
@@ -63,10 +63,10 @@ function IconList() {
       return (
         <div className="rs-col-md-24">
           <p className="icon-list-no-results-title">
-            {messages?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
+            {locales?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
           </p>
           <hr />
-          <p className="icon-list-no-results-help">{messages?.resourcesIcons.tryOther}</p>
+          <p className="icon-list-no-results-help">{locales?.resourcesIcons.tryOther}</p>
           <ul>
             <li>
               <Link href="/components/icon/#font-awesome-icons">Font awesome icons</Link>
@@ -102,14 +102,14 @@ function IconList() {
           </React.Fragment>
         );
       });
-  }, [handleSelect, keyword, messages]);
+  }, [handleSelect, keyword, locales]);
 
   const IconComponent = iconName ? Icons[iconName] : null;
 
   return (
     <div className="icon-list-wrap">
       <InputGroup inside size="lg" className="icon-search-input">
-        <Input type="text" placeholder={messages?.common.searchIcon} onChange={setKeyword} />
+        <Input type="text" placeholder={locales?.common.searchIcon} onChange={setKeyword} />
         <InputGroup.Addon>
           <SearchIcon />
         </InputGroup.Addon>

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Divider, Footer } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
-import AppContext from './AppContext';
+import { useApp } from './AppContext';
 import PageContainer from './PageContainer';
 import Head from './Head';
 import components from '../utils/component.config.json';
@@ -39,7 +39,7 @@ const PageContent = (props: PageContentProps) => {
     sandboxDependencies,
     inDocsComponents = defaultInDocsComponents
   } = props;
-  const { localePath } = React.useContext(AppContext);
+  const { localePath } = useApp();
 
   const router = useRouter();
 

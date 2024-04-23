@@ -1,8 +1,8 @@
 import React from 'react';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
-import AppContext from '@/components/AppContext';
-import { ButtonGroup, IconButton, Input, InputGroup } from 'rsuite';
+import { useApp } from '@/components/AppContext';
+import { ButtonGroup, IconButton, Input, InputGroup, Text } from 'rsuite';
 import CategorizedList from '@/components/CategorizedList';
 import SortedList from '@/components/SortedList';
 
@@ -24,7 +24,7 @@ const filterComponents = (item: MenuItem, search: string) => {
 };
 
 export default function Page() {
-  const { language, messages } = React.useContext(AppContext);
+  const { language, locales } = useApp();
   const pages = usePages();
   const [type, setType] = React.useState<'category' | 'sorted'>('category');
   const [search, setSearch] = React.useState('');
@@ -39,7 +39,7 @@ export default function Page() {
         <div className="toolbar">
           <InputGroup inside className="component-search-input">
             <Input
-              placeholder={messages.common.searchComponents}
+              placeholder={locales.common.searchComponents}
               onChange={value => setSearch(value)}
             />
             <InputGroup.Addon>
@@ -67,6 +67,18 @@ export default function Page() {
           <SortedList components={components} />
         )}
       </div>
+      <hr />
+      <Text>
+        {locales.components.noComponent}
+
+        <a
+          href="https://github.com/rsuite/rsuite/issues/new?assignees=&labels=feature+request&projects=&template=2.feature_request.md&title="
+          target="_blank"
+          rel="noreferrer"
+        >
+          {locales.components.requestNewComponent}
+        </a>
+      </Text>
     </DefaultPage>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useContext, useRef } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
@@ -8,7 +8,7 @@ import { Icon } from '@rsuite/icons';
 import stackBlitzSDK, { Project } from '@stackblitz/sdk';
 
 import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '../SvgIcons';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import Paragraph from '../Paragraph';
 import ReactCodeView from './ReactCodeView';
 import CodeSandbox from './CodeSandbox';
@@ -48,7 +48,7 @@ const CodeView = (props: CustomCodeViewProps) => {
     sandboxDependencies,
     ...rest
   } = props;
-  const { styleLoaded, messages } = useContext(AppContext);
+  const { styleLoaded, locales } = useApp();
   const [code, setCode] = useState('');
   const [showEditor, setShowEditor] = useState(false);
   const viewRef = useRef();
@@ -105,12 +105,12 @@ const CodeView = (props: CustomCodeViewProps) => {
       <Whisper
         key={i18nKey}
         placement="top"
-        speaker={<Tooltip>{messages.common?.[i18nKey]}</Tooltip>}
+        speaker={<Tooltip>{locales.common?.[i18nKey]}</Tooltip>}
       >
         {children}
       </Whisper>
     ),
-    [messages.common]
+    [locales.common]
   );
 
   const tools = useMemo(
