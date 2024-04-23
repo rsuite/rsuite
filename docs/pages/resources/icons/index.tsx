@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 import IconList from '@/components/IconList';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  const { localePath } = React.useContext(AppContext);
+  const { localePath } = useApp();
 
   return (
     <DefaultPage>

@@ -66,6 +66,10 @@ export default {
     openCodeSandbox: 'Open in CodeSandbox',
     openStackBlitz: 'Open in StackBlitz'
   },
+  components: {
+    noComponent: "Can't find the component you want? ",
+    requestNewComponent: 'Request to add new components'
+  },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',
     defaultDescription: 'Component design - Sketch Measure.',

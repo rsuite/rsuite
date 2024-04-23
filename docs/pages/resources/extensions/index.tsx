@@ -1,7 +1,7 @@
 import React from 'react';
 import { Panel, Row, Col, Stack, IconButton } from 'rsuite';
 import Page from '@/components/Page';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 import GitHubIcon from '@rsuite/icons/legacy/Github';
 
 interface CardProps {
@@ -47,7 +47,7 @@ const Card = (props: CardProps) => {
 };
 
 export default () => {
-  const { messages } = React.useContext(AppContext);
+  const { locales } = useApp();
 
   const resources = [
     {
@@ -124,7 +124,7 @@ export default () => {
         {resources.map((item, index) => {
           return (
             <Col md={6} sm={12} xs={24} key={index}>
-              <Card {...item}>{messages.extensions[item.name]}</Card>
+              <Card {...item}>{locales.extensions[item.name]}</Card>
             </Col>
           );
         })}

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { Light, Dark, HighContrast } from '@/components/SvgIcons';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 
 interface SwitchThemeProps {
   onClose: () => void;
@@ -11,24 +11,24 @@ interface SwitchThemeProps {
 export function SwitchTheme({ onClose }: SwitchThemeProps) {
   const {
     theme: [themeName],
-    messages,
+    locales,
     onChangeTheme
-  } = useContext(AppContext);
+  } = useApp();
 
   const themesConfig = [
     {
       value: 'light',
-      name: messages.common.light,
+      name: locales.common.light,
       icon: Light
     },
     {
       value: 'dark',
-      name: messages.common.dark,
+      name: locales.common.dark,
       icon: Dark
     },
     {
       value: 'high-contrast',
-      name: messages.common.highContrast,
+      name: locales.common.highContrast,
       icon: HighContrast
     }
   ];
@@ -40,7 +40,7 @@ export function SwitchTheme({ onClose }: SwitchThemeProps) {
 
   return (
     <RadioGroup className="theme-switch" value={themeName} onChange={handleChangeTheme}>
-      <p>{messages.common.theme}</p>
+      <p>{locales.common.theme}</p>
 
       {themesConfig.map(item => (
         <div className="theme-item" key={item.value}>

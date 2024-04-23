@@ -5,25 +5,25 @@ type Locale<T> = {
   [keys in keyof T]: T[keys];
 };
 
-export type ENDict = Locale<typeof en>;
-export type ZHDict = Locale<typeof zh>;
+export type LocaleEn = Locale<typeof en>;
+export type LocaleZh = Locale<typeof zh>;
 
-export type Dict = {
-  en: ENDict;
-  zh: ZHDict;
+export type Locales = {
+  en: LocaleEn;
+  zh: LocaleZh;
 };
 
-const dict: Dict = {
+const locales: Locales = {
   en: en,
   zh: zh
 };
 
 export function getMessages(key?: any) {
   if (key === 'zh' || key === 'zh-CN') {
-    return zh as ZHDict;
+    return zh as LocaleZh;
   }
 
-  return en as ENDict;
+  return en as LocaleEn;
 }
 
-export default dict;
+export default locales;

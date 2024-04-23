@@ -4,14 +4,14 @@ import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
-import AppContext from '@/components/AppContext';
+import { useApp } from '@/components/AppContext';
 import Head from '@/components/Head';
 
 import PageToolbar from '@/components/PageToolbar';
 
 function HomePage() {
   const [running, setRuning] = React.useState(false);
-  const { messages } = React.useContext(AppContext);
+  const { locales } = useApp();
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -21,7 +21,7 @@ function HomePage() {
 
   return (
     <>
-      <Head title={messages?.common?.home} description={messages?.common?.resume}></Head>
+      <Head title={locales?.common?.home} description={locales?.common?.resume}></Head>
       <Grid className="page-home">
         <TopLevelNav hideToggle />
         <PageToolbar />
@@ -30,7 +30,7 @@ function HomePage() {
             <FlexboxGrid.Item as={Col} colspan={24} md={12}>
               <section className="section">
                 <h1 className="title">React Suite</h1>
-                <p className="sub-title"> {messages?.common?.resume}</p>
+                <p className="sub-title"> {locales?.common?.resume}</p>
                 <p className="home-page-badge-wrap">
                   <a
                     href="https://www.npmjs.com/package/rsuite"
@@ -65,7 +65,7 @@ function HomePage() {
                 </p>
                 <ButtonToolbar className="primary-toolbar">
                   <Button size="lg" appearance="primary" as={Link} href={'/guide/introduction'}>
-                    {messages?.common?.gettingStarted}
+                    {locales?.common?.gettingStarted}
                   </Button>
                   <Button
                     size="lg"
@@ -74,7 +74,7 @@ function HomePage() {
                     style={{ marginLeft: 10 }}
                     href={'/components/overview'}
                   >
-                    {messages?.common?.components}
+                    {locales?.common?.components}
                   </Button>
                 </ButtonToolbar>
               </section>

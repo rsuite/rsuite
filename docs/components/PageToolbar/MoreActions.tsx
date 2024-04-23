@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
-import AppContext from '../AppContext';
+import { useApp } from '../AppContext';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Twitter from '@rsuite/icons/legacy/Twitter';
@@ -19,11 +19,11 @@ interface MoreActionsProps {
 export function MoreActions({ designHash, routerId }: MoreActionsProps) {
   const {
     language,
-    messages,
+    locales,
     localePath,
     theme: [themeName, direction],
     onChangeDirection
-  } = useContext(AppContext);
+  } = useApp();
 
   const isRtl = direction === 'rtl';
 
@@ -65,7 +65,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
                 target="_blank"
                 href={`/design/${themeName}/#s${designHash}`}
               >
-                {messages?.common?.design}
+                {locales?.common?.design}
               </Dropdown.Item>
             )}
             {routerId && language && (
@@ -75,7 +75,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/main/docs/pages${routerId}${localePath}/index.md`}
               >
-                {messages?.common?.edit}
+                {locales?.common?.edit}
               </Dropdown.Item>
             )}
 
@@ -87,7 +87,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
                 'https://github.com/rsuite/rsuite/issues/new?assignees=&labels=&template=bug-report.yml'
               }
             >
-              {messages?.common?.newIssues}
+              {locales?.common?.newIssues}
             </Dropdown.Item>
             {canUseDOM && (
               <Dropdown.Item
@@ -96,7 +96,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
               >
-                {messages.common.shareTwitter}
+                {locales.common.shareTwitter}
               </Dropdown.Item>
             )}
           </Dropdown.Menu>
