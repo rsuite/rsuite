@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { WalkTreeStrategy, flattenTree } from '../utils/treeUtils';
+import { WalkTreeStrategy, flattenTree } from '../Tree/utils';
 import { RSUITE_PICKER_GROUP_KEY } from '../internals/symbols';
 
 export const KEY_GROUP_TITLE = 'groupTitle';

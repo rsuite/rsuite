@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
-import { getPathTowardsItem } from '../utils/treeUtils';
+import { getPathTowardsItem } from '../internals/Tree/utils';
 import { highlightLabel } from './utils';
 import SearchBox from '../internals/SearchBox';
 

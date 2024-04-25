@@ -7,8 +7,6 @@ import {
 
 import { PickerToggleProps } from './PickerToggle';
 import { PickerHandle, PickerComponent } from './types';
-export { default as TreeView } from './TreeView';
-
 export { default as Listbox } from './Listbox';
 export { default as ListItem } from './ListItem';
 export { default as ListItemGroup } from './ListItemGroup';

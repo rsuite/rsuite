@@ -41,6 +41,7 @@ describe('CheckTreePicker', () => {
         return { changedValue: [...prevValue, 'Louisa'] };
       }
     },
+
     expectedValue: (value: string[]) => {
       expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
         'value',
@@ -80,9 +81,9 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should render CheckTreePicker Menu', () => {
-    const instance = getInstance(<CheckTreePicker defaultOpen data={data} />);
+    render(<CheckTreePicker defaultOpen data={data} />);
 
-    expect(instance.overlay).to.have.class('rs-picker-check-tree-menu');
+    expect(screen.getByTestId('picker-popup')).to.have.class('rs-picker-check-tree-menu');
   });
 
   it('Should output a button', () => {
@@ -91,35 +92,28 @@ describe('CheckTreePicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should active 4 node by `value` when cascade is true', () => {
-    const instance = getInstance(<CheckTreePicker open data={data} value={['Master']} />);
+  it('Should checked 4 node by `value` when cascade is true', () => {
+    render(<CheckTreePicker defaultOpen data={data} value={['Master']} defaultExpandAll />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-checked').length, 4);
+    expect(screen.queryAllByRole('checkbox', { checked: true })).to.have.length(4);
+    expect(screen.queryAllByRole('treeitem', { selected: true })).to.have.length(4);
   });
 
-  it('Should active 1 node by `value` when cascade is false', () => {
-    const instance = getInstance(
-      <CheckTreePicker open cascade={false} data={data} value={['Master']} />
+  it('Should checked 1 node by `value` when cascade is false', () => {
+    render(
+      <CheckTreePicker open cascade={false} data={data} value={['Master']} defaultExpandAll />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelectorAll('.rs-checkbox-checked')).to.lengthOf(1);
+    expect(screen.queryAllByRole('checkbox', { checked: true })).to.have.length(1);
+    expect(screen.queryAllByRole('treeitem', { selected: true })).to.have.length(1);
   });
 
   it('Should expand children nodes', () => {
-    const instance = getInstance(
-      <CheckTreePicker open cascade={false} data={data} value={['Master']} />
-    );
+    render(<CheckTreePicker open cascade={false} data={data} value={['Master']} />);
 
-    fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.overlay.querySelector(
-        'div[data-ref="String_Master"]  > .rs-check-tree-node-expand-icon'
-      )
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Expand Master' }));
 
-    expect(screen.getAllByRole('treeitem', { expanded: true })).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem', { expanded: true })).to.have.length(1);
   });
 
   it('Should have a placeholder', () => {
@@ -285,9 +279,6 @@ describe('CheckTreePicker', () => {
     expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
-  /**
-   * When focus is on an open node, closes the node.
-   */
   it('Should fold children node by key=ArrowLeft', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
@@ -296,10 +287,6 @@ describe('CheckTreePicker', () => {
 
     expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attr('aria-expanded', 'false');
   });
-
-  /**
-   * When focus is on a root node that is also either an end node or a closed node, does nothing.
-   */
 
   it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
@@ -313,10 +300,6 @@ describe('CheckTreePicker', () => {
     expect(treeitem).to.have.attr('aria-expanded', 'false');
   });
 
-  /**
-   * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-   */
-
   it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
@@ -328,9 +311,6 @@ describe('CheckTreePicker', () => {
     expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
-  /**
-   * When focus is on a closed node, opens the node; focus does not move.
-   */
   it('Should fold children node by key=ArrowRight', () => {
     render(<CheckTreePicker defaultOpen data={data} />);
 
@@ -339,10 +319,6 @@ describe('CheckTreePicker', () => {
 
     expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attr('aria-expanded', 'true');
   });
-
-  /**
-   * When focus is on an end node, does nothing.
-   */
 
   it('Should change nothing when trigger on leaf node key=ArrowRight', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
@@ -355,10 +331,6 @@ describe('CheckTreePicker', () => {
     expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
     expect(treeitem).to.have.attr('aria-expanded', 'false');
   });
-
-  /**
-   * When focus is on a open node, moves focus to the first child node.
-   */
 
   it('Should focus on first child node when node expanded by keyCode=39', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
@@ -438,7 +410,7 @@ describe('CheckTreePicker', () => {
   it('Should render empty tree when searchKeyword is `name`', () => {
     render(<CheckTreePicker data={data} open searchKeyword="name" />);
 
-    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('treeitem')).to.have.length(0);
   });
 
   it('Should render tree without checkbox', () => {
@@ -450,7 +422,7 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    expect(screen.queryAllByRole('checkbox')).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('checkbox')).to.have.length(0);
   });
 
   it('Should render tree node with custom dom', () => {
@@ -468,7 +440,7 @@ describe('CheckTreePicker', () => {
   it('Should render with expand master node', () => {
     render(<CheckTreePicker defaultOpen data={data} expandItemValues={['Master']} />);
 
-    expect(screen.getAllByRole('treeitem', { expanded: true })).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem', { expanded: true })).to.have.length(1);
   });
 
   it('Should fold all the node when toggle master node', () => {
@@ -520,7 +492,7 @@ describe('CheckTreePicker', () => {
     );
     const list = screen.getAllByRole('treeitem');
 
-    expect(list).to.have.lengthOf(1);
+    expect(list).to.have.length(1);
     expect(list[0]).to.have.text('Master');
   });
 
@@ -544,13 +516,13 @@ describe('CheckTreePicker', () => {
   it('Should display the search result when in virtualized mode', () => {
     render(<CheckTreePicker open virtualized data={data} />);
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
 
     const searchbox = screen.getByRole('searchbox');
 
     fireEvent.change(searchbox, { target: { value: 'test' } });
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(4);
+    expect(screen.getAllByRole('treeitem')).to.have.length(4);
   });
 
   it('Should to reset the option height', () => {
@@ -569,7 +541,7 @@ describe('CheckTreePicker', () => {
     fireEvent.click(screen.getByLabelText('tester2', { selector: 'input' }));
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate')).to.lengthOf(1);
+    expect(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate')).to.length(1);
   });
 
   it('Should not has duplicated key when data changed', () => {
@@ -589,7 +561,7 @@ describe('CheckTreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('node-1', { selector: 'input' }));
 
-    expect(checkItems).to.lengthOf(1);
+    expect(checkItems).to.length(1);
   });
 
   it('Should item able to stringify', () => {
@@ -685,12 +657,12 @@ describe('CheckTreePicker', () => {
   it('Should render correctly when searchKeyword changed', () => {
     const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
     rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Disabled" />);
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem')).to.have.length(1);
     rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Master" />);
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem')).to.have.length(1);
     rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Tree" />);
-    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('treeitem')).to.have.length(0);
   });
 });

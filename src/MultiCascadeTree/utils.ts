@@ -10,26 +10,32 @@ interface ItemKeys {
   childrenKey: string;
 }
 
-type MayHasParent<T extends Record<string, unknown>> = T & {
+export type MayHasParent<T extends Record<string, unknown>> = T & {
   parent?: MayHasParent<T>;
 };
 
 /**
- * Get all parents of a node
- * @param node
+ * get all ancestor nodes of given node
+ * @param {*} node
  */
-export const getParents = <T extends Record<string, unknown>>(node: MayHasParent<T>) => {
-  let parents: MayHasParent<T>[] = [];
+export function getNodeParents(node: any, parentKey = 'parent', valueKey?: string) {
+  const parents: any[] = [];
+  const traverse = (node: any) => {
+    if (node?.[parentKey]) {
+      traverse(node[parentKey]);
 
-  if (!node.parent) {
-    return parents;
-  }
+      if (valueKey) {
+        parents.push(node[parentKey][valueKey]);
+      } else {
+        parents.push(node[parentKey]);
+      }
+    }
+  };
 
-  parents.push(node.parent);
-  parents = parents.concat(getParents(node.parent));
+  traverse(node);
 
   return parents;
-};
+}
 
 /**
  * Check if any child nodes are selected.

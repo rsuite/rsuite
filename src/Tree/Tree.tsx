@@ -102,7 +102,7 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   renderTreeIcon?: (nodeData: ItemDataType) => React.ReactNode;
 
   /** callback fired when search */
-  onSearch?: (searchKeyword: string, event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent) => void;
@@ -114,7 +114,7 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
   /** load node children data asynchronously */
-  getChildren?: (activeNode: ItemDataType) => ItemDataType[] | Promise<ItemDataType>;
+  getChildren?: (activeNode: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
 }
 
 export interface TreeProps<T = string | number>

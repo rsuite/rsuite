@@ -1,10 +1,9 @@
 import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
-import { getNodeParents } from '../utils/treeUtils';
 import SearchBox from '../internals/SearchBox';
 import Checkbox from '../Checkbox';
-import { isSomeChildChecked } from './utils';
+import { isSomeChildChecked, getNodeParents } from './utils';
 import { highlightLabel } from '../CascadeTree/utils';
 
 interface SearchViewProps<T> extends WithAsProps {

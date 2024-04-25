@@ -1,6 +1,6 @@
 import React from 'react';
 import trim from 'lodash/trim';
-import { findNodeOfTree } from '../../utils/treeUtils';
+import { findNodeOfTree } from '../Tree/utils';
 import { KEY_VALUES, reactToString } from '../../utils';
 
 export interface NodeKeys {

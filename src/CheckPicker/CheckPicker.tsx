@@ -7,7 +7,7 @@ import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
-import { filterNodesOfTree } from '../utils/treeUtils';
+import { filterNodesOfTree } from '../internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
@@ -42,7 +42,6 @@ import {
 import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { MultipleSelectProps } from '../SelectPicker';
-import { TreeNodeType } from '../CheckTreePicker/utils';
 import { oneOf } from '../internals/propTypes';
 
 export type ValueType = (number | string)[];
@@ -293,7 +292,7 @@ const CheckPicker = React.forwardRef(
       const classes = merge(className, menuClassName, prefix('check-menu'));
       const styles = { ...menuStyle, left, top };
       let items = filteredData;
-      let filteredStickyItems: TreeNodeType[] = [];
+      let filteredStickyItems: ItemDataType[] = [];
 
       if (stickyItems) {
         filteredStickyItems = filterNodesOfTree(stickyItems as typeof data, item =>

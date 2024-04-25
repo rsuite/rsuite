@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
-import { filterNodesOfTree } from '../utils/treeUtils';
+import { filterNodesOfTree } from '../internals/Tree/utils';
 import Plaintext, { type PlaintextProps } from '../internals/Plaintext';
 import {
   createChainedFunction,

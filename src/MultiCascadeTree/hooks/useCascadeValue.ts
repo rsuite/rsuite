@@ -5,11 +5,28 @@ import { MultiCascadeTreeProps, ItemKeys } from '../types';
 import { useEventCallback } from '../../utils';
 import { ItemDataType } from '../../@types/common';
 import {
-  getParents,
+  MayHasParent,
   removeAllChildrenValue,
   getOtherItemValuesByUnselectChild,
   type ItemType
 } from '../utils';
+
+/**
+ * Get all parents of a node
+ * @param node
+ */
+const getParents = <T extends Record<string, unknown>>(node: MayHasParent<T>) => {
+  let parents: MayHasParent<T>[] = [];
+
+  if (!node.parent) {
+    return parents;
+  }
+
+  parents.push(node.parent);
+  parents = parents.concat(getParents(node.parent));
+
+  return parents;
+};
 
 /**
  * A hook that converts the value into a cascading value

@@ -4,7 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
 import { getHeight } from 'dom-lib';
 import { useEventCallback, shallowEqual } from '../../../utils';
-import { findNodeOfTree } from '../../../utils/treeUtils';
+import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
 
 interface FocusItemValueProps<T = unknown> {

@@ -1,31 +1,24 @@
 import { isNil, isUndefined } from 'lodash';
-import { CheckTreePickerProps, ValueType } from './CheckTreePicker';
-import { CHECK_STATE, CheckStateType } from '../utils';
-import { getChildrenByFlattenNodes, getNodeFormattedRefKey } from '../utils/treeUtils';
+import { CheckTreeProps, ValueType } from './CheckTree';
+import { CHECK_STATE, CheckStateType, shallowEqual } from '../utils';
+import { formatNodeRefKey } from '../Tree/utils';
 import { attachParent } from '../utils/attachParent';
+import { TreeNode, TreeNodeMap } from './types';
 
-export interface TreeNodeType {
-  uncheckable?: boolean;
-  refKey?: string;
-  check?: boolean;
-  parent?: TreeNodeType;
-  checkAll?: boolean;
-  visible?: boolean;
-  expand?: boolean;
-  layer?: number;
-  label?: string | React.ReactNode;
-  value?: string | number;
-  groupBy?: string;
-  children?: TreeNodeType[];
-  hasChildren?: boolean;
-  checkState?: CheckStateType;
+/**
+ * get all children from flattenedNodes object by given parent node
+ */
+function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
+  if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
+    return [];
+  }
+  return Object.values(nodes).filter(
+    (item: TreeNode) =>
+      item?.parent?.refKey === parent.refKey && item.refKey && !nodes[item.refKey].uncheckable
+  );
 }
 
-export interface TreeNodesType {
-  [key: string]: TreeNodeType;
-}
-
-export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
+export function isEveryChildChecked(nodes: TreeNodeMap, parent: TreeNode): boolean {
   if (isNil(parent.refKey) || isNil(nodes[parent.refKey])) {
     return false;
   }
@@ -37,8 +30,8 @@ export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType):
 }
 
 export function isSomeChildChecked(
-  nodes: TreeNodesType,
-  parent: TreeNodeType,
+  nodes: TreeNodeMap,
+  parent: TreeNode,
   childrenKey: string
 ): boolean {
   if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
@@ -54,7 +47,7 @@ export function isSomeChildChecked(
 }
 
 export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
-  return data.some((node: TreeNodeType) => Array.isArray(node[childrenKey]));
+  return data.some((node: TreeNode) => Array.isArray(node[childrenKey]));
 }
 
 /**
@@ -62,12 +55,12 @@ export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean
  * @param {*} node
  */
 export function isAllSiblingNodeUncheckable(
-  node: TreeNodeType,
-  nodes: TreeNodesType,
+  node: TreeNode,
+  nodes: TreeNodeMap,
   uncheckableItemValues: (string | number)[],
   valueKey: string
 ): boolean {
-  const list: TreeNodeType[] = [];
+  const list: TreeNode[] = [];
   const parentNodeRefKey = node.parent ? node.parent.refKey : '';
 
   Object.keys(nodes).forEach((refKey: string) => {
@@ -86,11 +79,11 @@ export function isAllSiblingNodeUncheckable(
  * get each first level node uncheckable state
  */
 export function isEveryFirstLevelNodeUncheckable(
-  nodes: TreeNodesType,
+  nodes: TreeNodeMap,
   uncheckableItemValues: (string | number)[],
   valueKey: string
 ) {
-  const list: TreeNodeType[] = [];
+  const list: TreeNode[] = [];
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
     if (!curNode.parent) {
@@ -107,16 +100,16 @@ export function isEveryFirstLevelNodeUncheckable(
  */
 export function isNodeUncheckable(
   node: any,
-  props: Required<Pick<CheckTreePickerProps, 'uncheckableItemValues' | 'valueKey'>>
+  props: Required<Pick<CheckTreeProps, 'uncheckableItemValues' | 'valueKey'>>
 ) {
   const { uncheckableItemValues = [], valueKey } = props;
   return uncheckableItemValues.some((value: any) => node[valueKey] === value);
 }
 
 export function getFormattedTree(
-  nodes: TreeNodesType,
+  nodes: TreeNodeMap,
   data: any[],
-  props: Required<Pick<CheckTreePickerProps, 'childrenKey' | 'cascade'>>
+  props: Required<Pick<CheckTreeProps, 'childrenKey' | 'cascade'>>
 ) {
   const { childrenKey, cascade } = props;
   return data.map((node: any) => {
@@ -141,9 +134,9 @@ export function getFormattedTree(
 }
 
 export function getDisabledState(
-  nodes: TreeNodesType,
-  node: TreeNodeType,
-  props: Required<Pick<CheckTreePickerProps, 'disabledItemValues' | 'valueKey'>>
+  nodes: TreeNodeMap,
+  node: TreeNode,
+  props: Required<Pick<CheckTreeProps, 'disabledItemValues' | 'valueKey'>>
 ) {
   const { disabledItemValues = [], valueKey } = props;
   if (!isNil(node.refKey) && isNil(nodes[node.refKey])) {
@@ -155,18 +148,18 @@ export function getDisabledState(
   );
 }
 
-export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValues: any[]) {
-  if (Array.isArray(value)) {
+export function getCheckTreePickerDefaultValue<T = any>(value: T, uncheckableItemValues: T) {
+  if (Array.isArray(value) && Array.isArray(uncheckableItemValues)) {
     return value.filter(v => !uncheckableItemValues.includes(v));
   }
 
   return [];
 }
 
-export function getSelectedItems(nodes: TreeNodesType, values: ValueType) {
-  const checkedItems: TreeNodeType[] = [];
+export function getSelectedItems(nodes: TreeNodeMap, values: ValueType) {
+  const checkedItems: TreeNode[] = [];
   values.forEach(value => {
-    const refKey = getNodeFormattedRefKey(value);
+    const refKey = formatNodeRefKey(value);
     const node = nodes[refKey];
     if (!isNil(node)) {
       checkedItems.push(node);
@@ -197,3 +190,37 @@ export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): C
 
   return CHECK_STATE.UNCHECK;
 }
+
+interface UnserializeListProps {
+  nodes: TreeNodeMap;
+  key: string;
+  value: any;
+  valueKey: string;
+  cascade?: boolean;
+  uncheckableItemValues?: any;
+}
+
+/**
+ * using in CheckTreePicker, to unserializeList check property
+ */
+export const unserializeList = (props: UnserializeListProps) => {
+  const { nodes, key, value = [], cascade, valueKey, uncheckableItemValues } = props;
+
+  // Reset values to false
+  Object.keys(nodes).forEach((refKey: string) => {
+    const node = nodes[refKey];
+    if (cascade && !isNil(node.parent) && !isNil(node.parent.refKey)) {
+      node[key] = nodes[node.parent.refKey][key];
+    } else {
+      node[key] = false;
+    }
+    value.forEach((value: any) => {
+      if (
+        shallowEqual(nodes[refKey][valueKey], value) &&
+        !uncheckableItemValues.some(uncheckableValue => shallowEqual(value, uncheckableValue))
+      ) {
+        nodes[refKey][key] = true;
+      }
+    });
+  });
+};

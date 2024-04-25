@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
-import { findNodeOfTree } from '../utils/treeUtils';
+import { findNodeOfTree } from '../internals/Tree/utils';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { PickerLocale } from '../locales';
 import {

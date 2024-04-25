@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getPathTowardsItem } from '../../utils/treeUtils';
+import { getPathTowardsItem } from '../../internals/Tree/utils';
 import { getColumnsAndPaths } from '../utils';
 
 type UsePathsParams<T> = {

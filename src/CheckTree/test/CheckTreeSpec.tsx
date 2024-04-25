@@ -13,9 +13,9 @@ describe('CheckTree', () => {
   testStandardProps(<CheckTree data={data} />);
 
   it('Should render a multi-selectable tree', () => {
-    render(<CheckTree data={data} />);
+    const { container } = render(<CheckTree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.class('rs-check-tree');
+    expect(container.firstChild).to.have.class('rs-check-tree');
     expect(screen.getByRole('tree')).to.have.attr('aria-multiselectable', 'true');
   });
 
@@ -33,12 +33,7 @@ describe('CheckTree', () => {
     const onSelectItem = sinon.spy();
 
     render(
-      <CheckTree
-        open
-        data={data}
-        expandItemValues={['Master', 'tester1']}
-        onSelectItem={onSelectItem}
-      />
+      <CheckTree data={data} expandItemValues={['Master', 'tester1']} onSelectItem={onSelectItem} />
     );
 
     // TODO-Doma
