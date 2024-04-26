@@ -128,15 +128,17 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 ### Form ref
 
-| Name               | Type                                                                          | Description                                |
-| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------ |
-| check              | (callback?: (formError: E) => void) => boolean                                | Verify form data                           |
-| checkAsync         | () => Promise<CheckResult>                                                    | Asynchronously check form data             |
-| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | Checklist single field value               |
-| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | Asynchronous check form single field value |
-| cleanErrors        | (callback: () => void) => void                                                | Clean error message                        |
-| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | Clear single field error message           |
-| resetErrors        | () => void                                                                    | Reset error message                        |
+| Name               | Type                                                                          | Description                                                   |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | Verify form data                                              |
+| checkAsync         | () => Promise<CheckResult>                                                    | Asynchronously check form data                                |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | Checklist single field value                                  |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | Asynchronous check form single field value                    |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | Clear single field error message                              |
+| cleanErrors        | (callback: () => void) => void                                                | Clean error message                                           |
+| reset              | () => void                                                                    | Reset form data to initial value and clear all error messages |
+| resetErrors        | () => void                                                                    | Reset error message                                           |
+| submit             | () => void                                                                    | Trigger form submission and verify data                       |
 
 ### Schema
 

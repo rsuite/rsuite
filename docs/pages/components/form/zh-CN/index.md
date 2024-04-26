@@ -122,6 +122,8 @@
 | onChange         | (formValue: object, event) => void                    | 数据改变后的回调函数                               |
 | onCheck          | (formError: object) => void                           | 数据校验的回调函数                                 |
 | onError          | (formError: object) => void                           | 校验出错的回调函数                                 |
+| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置的回调函数                                 |
+| onSubmit         | (formValue: object, event?: FormEvent) => void        | 表单提交的回调函数, 前提是表单数据校验通过后触发   |
 | plaintext        | boolean `(false)`                                     | 表单显示为纯文本                                   |
 | readOnly         | boolean `(false)`                                     | 只读表单                                           |
 

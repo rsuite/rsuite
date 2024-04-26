@@ -5,10 +5,8 @@ import type { CheckResult } from 'schema-typed';
 import { useControlled } from '../../utils';
 import { nameToPath } from '../../FormControl/utils';
 import useEventCallback from '../../utils/useEventCallback';
-import useFormRef, { FormInstance } from './useFormRef';
 
 export interface FormErrorProps {
-  ref: React.Ref<FormInstance>;
   formValue: any;
   getCombinedModel: () => any;
   onCheck?: (formError: any) => void;
@@ -17,7 +15,7 @@ export interface FormErrorProps {
 }
 
 export default function useFormValidate(formError: any, props: FormErrorProps) {
-  const { ref, formValue, getCombinedModel, onCheck, onError, nestedField } = props;
+  const { formValue, getCombinedModel, onCheck, onError, nestedField } = props;
   const [realFormError, setFormError] = useControlled(formError, {});
 
   const realFormErrorRef = useRef(realFormError);
@@ -169,20 +167,27 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     [formError, nestedField, onCheck, onError, setFormError]
   );
 
-  const formRef = useFormRef(ref, {
+  const cleanErrors = useEventCallback(() => {
+    setFormError({});
+  });
+
+  const resetErrors = useEventCallback((formError: any = {}) => {
+    setFormError(formError);
+  });
+
+  const cleanErrorForField = useEventCallback((fieldName: string) => {
+    setFormError(omit(formError, [nestedField ? nameToPath(fieldName) : fieldName]));
+  });
+
+  return {
+    formError: realFormError,
     check,
     checkForField,
     checkAsync,
     checkForFieldAsync,
-    formError,
-    setFormError,
-    nestedField
-  });
-
-  return {
-    formRef,
-    formError: realFormError,
-    check,
+    cleanErrors,
+    resetErrors,
+    cleanErrorForField,
     setFieldError,
     onRemoveError
   };

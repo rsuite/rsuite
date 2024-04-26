@@ -13,3 +13,5 @@ formRef.current?.resetErrors();
 formRef.current?.checkForField('name');
 formRef.current?.checkAsync();
 formRef.current?.checkForFieldAsync('name');
+formRef.current?.reset();
+formRef.current?.submit();
