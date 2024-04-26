@@ -67,16 +67,6 @@
 
 // Tag Picker Size
 // --------------------------------------------------
-.rs-picker-tag-lg {
-  .rs-tag-picker-size(@padding-y-lg - 1; @padding-x-lg; @font-size-large; @line-height-large);
-  .rs-picker-textbox {
-    min-height: 40px;
-  }
-  .rs-picker-tag-list .rs-tag-lg {
-    margin-top: 6px;
-    margin-left: 6px;
-  }
-}
 
 // Default size
 .rs-picker-tag,
@@ -85,6 +75,17 @@
   .rs-picker-tag-list .rs-tag-md {
     margin-top: 5px;
     margin-left: 5px;
+  }
+}
+
+.rs-picker-tag-lg {
+  .rs-tag-picker-size(@padding-y-lg; @padding-x-lg; @font-size-large; @line-height-large);
+  .rs-picker-textbox {
+    min-height: 40px;
+  }
+  .rs-picker-tag-list .rs-tag-lg {
+    margin-top: 6px;
+    margin-left: 6px;
   }
 }
 
