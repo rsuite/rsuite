@@ -1,3 +1,19 @@
+# [5.60.0](https://github.com/rsuite/rsuite/compare/v5.59.2...v5.60.0) (2024-04-26)
+
+
+### Bug Fixes
+
+* **Fade:** fix Picker not working in Drawer without backdrop ([#3759](https://github.com/rsuite/rsuite/issues/3759)) ([930a321](https://github.com/rsuite/rsuite/commit/930a3212b58202f4d0bf05a8bb191195944d589c))
+* **TagPicker:** fix misalignment of large size tag with textbox ([#3755](https://github.com/rsuite/rsuite/issues/3755)) ([2bcd793](https://github.com/rsuite/rsuite/commit/2bcd793cd7cf1b181643125fe92f4ffb0e18f771))
+
+
+### Features
+
+* **Form:** add support for onSubmit and onReset ([#3750](https://github.com/rsuite/rsuite/issues/3750)) ([d9b747e](https://github.com/rsuite/rsuite/commit/d9b747e97f3aaaa1d0b047ab81150d2a01764ed1))
+* **TagPicker:** fix text flicker when entering ([#3758](https://github.com/rsuite/rsuite/issues/3758)) ([f7058d1](https://github.com/rsuite/rsuite/commit/f7058d1e9234e43c9f8d7884636a09d83f40fcb9))
+
+
+
 ## [5.59.2](https://github.com/rsuite/rsuite/compare/v5.59.1...v5.59.2) (2024-04-19)
 
 
