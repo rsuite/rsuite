@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
@@ -8,7 +8,6 @@ import clone from 'lodash/clone';
 import isArray from 'lodash/isArray';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import Plaintext, { type PlaintextProps } from '../internals/Plaintext';
@@ -47,35 +46,20 @@ import {
 } from '../internals/Picker';
 
 import Tag from '../Tag';
-import InputAutosize from './InputAutosize';
 import TextBox from './TextBox';
-import InputPickerContext from './InputPickerContext';
+import { useTagContext } from './InputPickerContext';
 import Stack, { type StackProps } from '../Stack';
-
+import useInput from './hooks/useInput';
+import useData, { type InputItemDataType } from './hooks/useData';
+import { convertSize } from './utils';
 import type { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
 
-const convertSize = (size?: string) => {
-  switch (size) {
-    case 'lg':
-      return 'lg';
-    case 'sm':
-    case 'xs':
-      return 'sm';
-    default:
-      return 'md';
-  }
-};
-
-export interface InputItemDataType extends ItemDataType {
-  create?: boolean;
-}
-
 export type ValueType = any;
-export interface InputPickerProps<T = ValueType>
-  extends FormControlPickerProps<T, InputPickerLocale, InputItemDataType>,
-    SelectProps<T>,
+export interface InputPickerProps<V = ValueType>
+  extends FormControlPickerProps<V, InputPickerLocale, InputItemDataType>,
+    SelectProps<V>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   tabIndex?: number;
 
@@ -83,7 +67,7 @@ export interface InputPickerProps<T = ValueType>
   creatable?: boolean;
 
   /** Option to cache value when searching asynchronously */
-  cacheData?: InputItemDataType[];
+  cacheData?: InputItemDataType<V>[];
 
   /** The `onBlur` attribute for the `input` element. */
   onBlur?: React.FocusEventHandler;
@@ -92,7 +76,7 @@ export interface InputPickerProps<T = ValueType>
   onFocus?: React.FocusEventHandler;
 
   /** Called when the option is created */
-  onCreate?: (value: ValueType, item: ItemDataType, event: React.SyntheticEvent) => void;
+  onCreate?: (value: V, item: ItemDataType, event: React.SyntheticEvent) => void;
 
   /**
    * Customize whether to display "Create option" action with given textbox value
@@ -104,8 +88,7 @@ export interface InputPickerProps<T = ValueType>
    */
   shouldDisplayCreateOption?: (
     searchKeyword: string,
-    // FIXME-Doma Use generic type
-    filteredData: InputItemDataType[]
+    filteredData: InputItemDataType<V>[]
   ) => boolean;
 }
 
@@ -132,9 +115,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       locale: overrideLocale,
       toggleAs,
       style,
+      size,
       searchable = true,
       open: controlledOpen,
       placeholder,
+      placement = 'bottomStart',
       groupBy,
       menuClassName,
       menuStyle,
@@ -167,38 +152,32 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onBlur,
       onFocus,
       searchBy,
-      size,
-      placement = 'bottomStart',
       ...rest
     } = props;
 
     const { multi, tagProps, trigger, disabledOptions, onTagRemove, renderCheckbox } =
-      useContext(InputPickerContext);
+      useTagContext();
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
 
-    const inputRef = useRef<any>();
-
     const { trigger: triggerRef, root, target, overlay, list } = usePickerRef(ref);
     const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
-    const [uncontrolledData, setData] = useState(controlledData);
-    const [maxWidth, setMaxWidth] = useState(100);
-    const [newData, setNewData] = useState<InputItemDataType[]>([]);
-    const [uncontrolledOpen, setOpen] = useState(defaultOpen);
-    const open = isUndefined(controlledOpen) ? uncontrolledOpen : controlledOpen;
+    const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
+    const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
 
-    const getAllData = useCallback(
-      () => ([] as ItemDataType[]).concat(uncontrolledData, newData),
-      [uncontrolledData, newData]
-    );
-    const getAllDataAndCache = useCallback(
-      () => ([] as ItemDataType[]).concat(getAllData(), cacheData),
-      [getAllData, cacheData]
-    );
+    const handleDataChange = (data: ItemDataType[]) => {
+      setFocusItemValue(data?.[0]?.[valueKey]);
+    };
+
+    const { data, dataWithCache, newData, setNewData } = useData({
+      controlledData,
+      cacheData,
+      onChange: handleDataChange
+    });
 
     const [value, setValue, isControlled] = useControlled<ValueType>(
       valueProp,
@@ -214,52 +193,39 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       target.current?.focus?.();
     });
 
+    const focusItemValueOptions = { data: dataWithCache, valueKey, target: () => overlay.current };
+
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
       multi ? value?.[0] : value,
-      {
-        data: getAllDataAndCache(),
-        valueKey,
-        target: () => overlay.current
-      }
+      focusItemValueOptions
     );
 
-    const handleSearchCallback = useEventCallback(
+    const onSearchCallback = useEventCallback(
       (searchKeyword: string, filteredData: InputItemDataType[], event: React.SyntheticEvent) => {
-        // The first option after filtering is the focus.
-        setFocusItemValue(
-          disabledOptions ? searchKeyword : filteredData?.[0]?.[valueKey] || searchKeyword
-        );
+        if (!disabledOptions) {
+          // The first option after filtering is the focus.
+          let firstItemValue = filteredData?.[0]?.[valueKey];
+
+          // If there is no value in the option and new options are supported, the search keyword is the first option
+          if (!firstItemValue && creatable) {
+            firstItemValue = searchKeyword;
+          }
+
+          setFocusItemValue(firstItemValue);
+        }
+
         onSearch?.(searchKeyword, event);
       }
     );
 
+    const searchOptions = { labelKey, searchBy, callback: onSearchCallback };
+
     // Use search keywords to filter options.
     const { searchKeyword, resetSearch, checkShouldDisplay, handleSearch } = useSearch(
-      getAllData(),
-      {
-        labelKey,
-        searchBy,
-        callback: handleSearchCallback
-      }
+      data,
+      searchOptions
     );
-
-    // Update the state when the data in props changes
-    useEffect(() => {
-      if (controlledData && !shallowEqual(controlledData, uncontrolledData)) {
-        setData(controlledData);
-        setNewData([]);
-        setFocusItemValue(controlledData?.[0]?.[valueKey]);
-      }
-    }, [setFocusItemValue, controlledData, uncontrolledData, valueKey]);
-
-    useEffect(() => {
-      // In multiple selection, you need to set a maximum width for the input.
-      if (triggerRef.current?.root) {
-        setMaxWidth(getWidth(triggerRef.current.root));
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
@@ -269,8 +235,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const getDataItem = (value: any) => {
       // Find active `MenuItem` by `value`
-      const allData = getAllDataAndCache();
-      const activeItem = allData.find(item => shallowEqual(item[valueKey], value));
+      const activeItem = dataWithCache.find(item => shallowEqual(item[valueKey], value));
 
       let itemNode: React.ReactNode = placeholder;
 
@@ -285,29 +250,24 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       };
     };
 
-    const getInput = () => (multi ? inputRef.current?.input : inputRef.current);
-
-    const focusInput = () => getInput()?.focus();
-    const blurInput = () => getInput()?.blur();
-
     /**
      * Convert the string of the newly created option into an object.
      */
     const createOption = (value: string) => {
-      if (groupBy) {
-        return {
-          create: true,
-          [groupBy]: locale?.newItem,
-          [valueKey]: value,
-          [labelKey]: value
-        };
-      }
-
-      return {
+      const option = {
         create: true,
         [valueKey]: value,
         [labelKey]: value
       };
+
+      if (groupBy) {
+        return {
+          [groupBy]: locale?.newItem,
+          ...option
+        };
+      }
+
+      return option;
     };
 
     const handleChange = useEventCallback((value: any, event: React.SyntheticEvent) => {
@@ -378,7 +338,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         setFocusItemValue(nextItemValue);
         handleSelect(val, item, event);
         handleChange(val, event);
-        focusInput();
+        focus();
       }
     );
 
@@ -388,27 +348,32 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         return;
       }
       const val = cloneValue();
-      const data = getAllData();
+      let newItemValue = focusItemValue || '';
 
-      if (!focusItemValue || !data) {
+      // In TagInput
+      if (multi && disabledOptions) {
+        newItemValue = searchKeyword;
+      }
+
+      if (!newItemValue || !data) {
         return;
       }
 
       // If the value is disabled in this option, it is returned.
-      if (disabledItemValues?.some(item => item === focusItemValue)) {
+      if (disabledItemValues?.some(item => item === newItemValue)) {
         return;
       }
 
-      if (!val.some(v => shallowEqual(v, focusItemValue))) {
-        val.push(focusItemValue);
+      if (!val.some(v => shallowEqual(v, newItemValue))) {
+        val.push(newItemValue);
       } else if (!disabledOptions) {
-        remove(val, itemVal => shallowEqual(itemVal, focusItemValue));
+        remove(val, itemVal => shallowEqual(itemVal, newItemValue));
       }
 
-      let focusItem = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
+      let focusItem = data.find(item => shallowEqual(item?.[valueKey], newItemValue));
 
       if (!focusItem) {
-        focusItem = createOption(focusItemValue);
+        focusItem = createOption(newItemValue);
       }
 
       setValue(val);
@@ -428,8 +393,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       // Find active `MenuItem` by `value`
-      const allData = getAllData();
-      let focusItem = allData.find(item => shallowEqual(item[valueKey], focusItemValue));
+      let focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue));
 
       // FIXME Bad state flow
       if (!focusItem && focusItemValue === searchKeyword) {
@@ -452,7 +416,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const removeLastItem = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
       const target = event?.target as HTMLInputElement;
       if (target?.tagName !== 'INPUT') {
-        focusInput();
+        focus();
         return;
       }
       if (target?.tagName === 'INPUT' && target?.value) {
@@ -525,20 +489,21 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       resetSearch();
     });
 
-    const handleFocus = useEventCallback(() => {
+    const handleFocus = useEventCallback((event: React.FocusEvent) => {
       if (!readOnly) {
         setOpen(true);
         triggerRef.current?.open();
       }
+      onFocus?.(event);
     });
 
     const handleEnter = useEventCallback(() => {
-      focusInput();
+      focus();
       setOpen(true);
     });
 
     const handleExit = useEventCallback(() => {
-      blurInput();
+      blur();
       setOpen(false);
     });
 
@@ -618,7 +583,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
       const styles = { ...menuStyle, left, top };
 
-      let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
+      let items: ItemDataType[] = filterNodesOfTree(data, checkShouldDisplay);
 
       if (
         creatable &&
@@ -659,7 +624,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           // `group` is redundant so long as `groupBy` exists
           group={!isUndefined(groupBy)}
           groupBy={groupBy}
-          onSelect={multi ? handleCheckTag : (handleSelectItem as any)} // fixme don't use any
+          onSelect={multi ? handleCheckTag : handleSelectItem}
           renderMenuGroup={renderMenuGroup}
           renderMenuItem={renderListItem}
           virtualized={virtualized}
@@ -714,10 +679,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const searching = !!searchKeyword && open;
     const editable = searchable && !disabled && !rest.loading;
 
-    const inputProps = multi
-      ? { inputStyle: { maxWidth: maxWidth - 63 }, as: InputAutosize }
-      : { as: 'input' };
-
     if (plaintext) {
       const plaintextProps: PlaintextProps & StackProps = {};
 
@@ -755,7 +716,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         <Component
           className={classes}
           style={style}
-          onClick={focusInput}
+          onClick={focus}
           onKeyDown={onPickerKeyDown}
           ref={root}
         >
@@ -782,17 +743,17 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           </PickerToggle>
           <TextBox
             showTagList={hasValue && multi}
+            inputRef={inputRef}
+            inputValue={open ? searchKeyword : ''}
+            inputProps={inputProps}
             tags={tagElements}
             editable={editable}
             readOnly={readOnly}
             disabled={disabled}
             multiple={multi}
             onBlur={onBlur}
-            onFocus={createChainedFunction(handleFocus, onFocus)}
-            inputRef={inputRef}
+            onFocus={handleFocus}
             onChange={handleSearch}
-            inputValue={open ? searchKeyword : ''}
-            inputProps={inputProps}
           />
         </Component>
       </PickerToggleTrigger>

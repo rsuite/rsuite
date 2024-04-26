@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
-import InputPickerContext, { TagOnlyProps } from '../InputPicker/InputPickerContext';
+import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
 import type { PickerComponent } from '../internals/Picker/types';
 import type { CheckboxProps } from '../Checkbox';
 
@@ -39,9 +39,9 @@ const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
     );
 
     return (
-      <InputPickerContext.Provider value={contextValue}>
+      <TagProvider value={contextValue}>
         <InputPicker {...rest} ref={ref} />
-      </InputPickerContext.Provider>
+      </TagProvider>
     );
   }
 );
