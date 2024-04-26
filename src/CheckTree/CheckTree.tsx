@@ -7,22 +7,11 @@ import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import type { RsRefForwardingComponent } from '../@types/common';
 
 export type ValueType = (string | number)[];
-export interface CheckTreeProps<T = ValueType>
-  extends Omit<CheckTreeViewProps<T>, 'value' | 'onChange'> {
-  /**
-   * Selected value
-   */
-  value?: T;
-
+export interface CheckTreeProps<T = ValueType> extends CheckTreeViewProps<T> {
   /**
    * Default selected Value
    */
   defaultValue?: T;
-
-  /**
-   * Called after the value has been changed
-   */
-  onChange?: (value: T, event: React.SyntheticEvent) => void;
 }
 
 /**

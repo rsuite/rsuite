@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { isNil, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListChildComponentProps } from '../internals/Windowing';
+import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '../internals/Windowing';
 import CheckTreeNode from '../CheckTree/CheckTreeNode';
 import { indentTreeNode } from '../Tree/utils';
 import { useCustom, useClassNames, useEventCallback } from '../utils';
@@ -29,25 +29,19 @@ import useExpandTree from '../Tree/hooks/useExpandTree';
 import useFocusTree from '../Tree/hooks/useFocusTree';
 import useForceUpdate from '../Tree/hooks/useForceUpdate';
 import useSerializeList from './hooks/useSerializeList';
-import type { TreeBaseProps } from '../Tree/Tree';
-import type { ItemDataType, RsRefForwardingComponent, ToArray } from '../@types/common';
-import type { TreeNode, TreeNodeMap } from './types';
-
-export type ValueType = (string | number)[];
+import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '../@types/common';
+import type { TreeNode, TreeNodeMap, TreeBaseProps } from '../Tree/types';
 
 /**
  * Props for the CheckTreeView component.
  */
-export interface CheckTreeViewProps<T = ValueType> extends TreeBaseProps<T> {
-  /**
-   * Tree data.
-   */
-  data: TreeNode[];
-
+export interface CheckTreeViewProps<V = (string | number)[]>
+  extends TreeBaseProps<V>,
+    DataProps<TreeNode> {
   /**
    * Selected value.
    */
-  value?: T;
+  value?: V;
 
   /**
    * Whether using virtualized list.
@@ -55,25 +49,14 @@ export interface CheckTreeViewProps<T = ValueType> extends TreeBaseProps<T> {
   virtualized?: boolean;
 
   /**
-   * Tree data structure Label property name.
-   *
-   * @default label
+   * Virtualized list ref object.
    */
-  labelKey?: string;
+  listRef?: React.RefObject<any>;
 
   /**
-   * Tree data Structure Value property name.
-   *
-   * @default value
+   * Searchbox input ref object.
    */
-  valueKey?: string;
-
-  /**
-   * Tree data structure Children property name.
-   *
-   * @default children
-   */
-  childrenKey?: string;
+  searchInputRef?: React.RefObject<HTMLInputElement>;
 
   /**
    * Whether display search input box.
@@ -88,12 +71,12 @@ export interface CheckTreeViewProps<T = ValueType> extends TreeBaseProps<T> {
   /**
    * Set the option value for the check box not to be rendered.
    */
-  uncheckableItemValues?: T;
+  uncheckableItemValues?: V;
 
   /**
    * Disabled tree node.
    */
-  disabledItemValues?: ToArray<NonNullable<T>>;
+  disabledItemValues?: ToArray<NonNullable<V>>;
 
   /**
    * Called when scrolling.
@@ -103,24 +86,14 @@ export interface CheckTreeViewProps<T = ValueType> extends TreeBaseProps<T> {
   /**
    * Called after the value has been changed.
    */
-  onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
-
-  /**
-   * Virtualized list ref object.
-   */
-  listRef?: React.RefObject<any>;
-
-  /**
-   * Searchbox input ref object.
-   */
-  searchInputRef?: React.RefObject<HTMLInputElement>;
+  onChange?: (value: V, event: React.SyntheticEvent) => void;
 }
 
-interface CheckTreeViewInnerProps<T = ValueType> extends CheckTreeViewProps<T> {
+interface CheckTreeViewInnerProps<V = (string | number)[]> extends CheckTreeViewProps<V> {
   /**
    * Loading node values.
    */
-  loadingNodeValues?: T;
+  loadingNodeValues?: V;
 
   /**
    * Flattened nodes.
@@ -134,9 +107,12 @@ interface CheckTreeViewInnerProps<T = ValueType> extends CheckTreeViewProps<T> {
     node: TreeNode,
     getChildren: (node: TreeNode) => TreeNode[] | Promise<TreeNode[]>
   ) => void;
-}
 
-const itemSize = () => 36;
+  /**
+   * Callback function triggered when an item is focused.
+   */
+  onFocusItem?: (value?: TreeNode['value']) => void;
+}
 
 const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = React.forwardRef(
   (props, ref: React.Ref<HTMLDivElement>) => {
@@ -166,8 +142,8 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       virtualized = false,
       value,
       loadingNodeValues = [],
-      appendChild,
       flattenedNodes = {},
+      appendChild,
       searchBy,
       getChildren,
       renderTreeIcon,
@@ -178,6 +154,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       onSelectItem,
       onScroll,
       onExpand,
+      onFocusItem,
       ...rest
     } = props;
 
@@ -223,11 +200,12 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       searchKeyword: keyword,
       treeNodeSelector: `.${prefix('node-label')}`,
       flattenedNodes,
+      onFocused: onFocusItem,
       onExpand: handleExpandTreeNode
     });
 
     /**
-     * get formatted nodes for render tree
+     * Get formatted nodes for render tree
      * @params render - renderNode function. only used when virtualized setting false
      */
     const getFormattedNodes = (render?: any) => {
@@ -390,7 +368,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       }
     };
 
-    const handleTreeKeydown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
       onTreeKeydown(event);
       onMenuKeyDown(event, { enter: selectActiveItem });
     });
@@ -525,7 +503,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
           multiselectable
           treeRootClassName={treeNodesClass}
           onScroll={onScroll}
-          onKeyDown={handleTreeKeydown}
+          onKeyDown={handleTreeKeyDown}
         >
           {virtualized ? (
             <AutoSizer defaultHeight={height} style={{ width: 'auto', height: 'auto' }}>
@@ -533,7 +511,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
                 <List
                   ref={listRef}
                   height={height}
-                  itemSize={itemSize}
+                  itemSize={defaultItemSize}
                   itemCount={formattedNodes.length}
                   itemData={formattedNodes}
                   {...listProps}

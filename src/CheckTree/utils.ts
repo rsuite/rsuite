@@ -3,7 +3,7 @@ import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType, shallowEqual } from '../utils';
 import { formatNodeRefKey } from '../Tree/utils';
 import { attachParent } from '../utils/attachParent';
-import { TreeNode, TreeNodeMap } from './types';
+import { TreeNode, TreeNodeMap } from '../Tree/types';
 
 /**
  * get all children from flattenedNodes object by given parent node

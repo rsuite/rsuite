@@ -1,12 +1,11 @@
 /* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import sinon from 'sinon';
-import Tree from '../Tree';
-import { PickerHandle } from '../../internals/Picker';
-import { ListHandle } from '../../internals/Windowing';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
+import Tree from '../Tree';
+import { ListHandle } from '../../internals/Windowing';
 import { testStandardProps } from '@test/utils';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
@@ -15,9 +14,10 @@ describe('Tree', () => {
   testStandardProps(<Tree data={data} />);
 
   it('Should render a tree', () => {
-    render(<Tree data={data} />);
+    const { container } = render(<Tree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.class('rs-tree');
+    expect(container.firstChild).to.have.class('rs-tree');
+    expect(screen.getByRole('tree')).to.exist;
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
@@ -110,48 +110,30 @@ describe('Tree', () => {
 
   it('Should call `onDrop` callback without exception', () => {
     expect(() => {
-      const onDropSpy = sinon.spy();
-      render(<Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />);
+      const onDrop = sinon.spy();
+      render(<Tree data={data} onDrop={onDrop} draggable defaultExpandAll />);
       const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
       const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
 
       fireEvent.dragStart(dragTreeNode);
       fireEvent.drop(dropTreeNode);
-      assert.isTrue(onDropSpy.calledOnce);
-      const { dragNode } = onDropSpy.firstCall.firstArg;
+
+      expect(onDrop).to.have.calledOnce;
+
+      const { dragNode } = onDrop.firstCall.firstArg;
+
       // make sure dragNode hasn't cyclic object
       JSON.stringify(dragNode);
     }).to.not.throw();
   });
 
-  it('Should catch the not set virtualized exception', () => {
-    expect(() => {
-      const ref = React.createRef<PickerHandle>();
-      // FIXME `ref` should be type Ref<PickerHandle>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      render(<Tree data={data} ref={ref} />);
-      (ref.current as PickerHandle).list;
-    }).to.throw('The list is not found, please set `virtualized` for the component.');
-  });
-
   it('Should scroll the list by `scrollToRow`', () => {
     const onScroll = sinon.spy();
-    const ref = React.createRef<PickerHandle>();
+    const ref = React.createRef<ListHandle>();
     render(
-      <Tree
-        data={data}
-        // FIXME `ref` should be type Ref<PickerHandle>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        ref={ref}
-        virtualized
-        style={{ height: 30 }}
-        listProps={{ onScroll }}
-      />
+      <Tree data={data} listRef={ref} virtualized style={{ height: 30 }} listProps={{ onScroll }} />
     );
-    ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
-
+    ref.current?.scrollToItem?.(2);
     expect(onScroll).to.have.calledOnce;
   });
 

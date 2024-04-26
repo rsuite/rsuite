@@ -28,16 +28,16 @@ import {
 
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
 import { getSelectedItems } from '../CheckTree/utils';
-import { TreeNode } from '../CheckTree/types';
+import { TreeNode } from '../Tree/types';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import type { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (string | number)[];
-export interface CheckTreePickerProps<T = ValueType>
-  extends Omit<CheckTreeViewProps<T>, 'value' | 'onChange' | 'data'>,
-    FormControlPickerProps<T, PickerLocale, ItemDataType>,
+export interface CheckTreePickerProps<V = ValueType>
+  extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
+    FormControlPickerProps<V, PickerLocale, ItemDataType>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
@@ -48,13 +48,11 @@ export interface CheckTreePickerProps<T = ValueType>
    * Custom render selected items
    */
   renderValue?: (
-    value: any[],
-    selectedItems: any[],
+    value: V,
+    selectedNodes: TreeNode[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 }
-
-const emptyArray = [];
 
 /**
  * The `CheckTreePicker` component is used for selecting multiple options which are organized in a tree structure.
@@ -64,7 +62,7 @@ const emptyArray = [];
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
   const {
     as: Component = 'div',
-    data = emptyArray,
+    data = [],
     style,
     appearance = 'default',
     cleanable = true,
@@ -82,11 +80,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     childrenKey = 'children',
     placeholder,
     value: controlledValue,
-    defaultValue = emptyArray,
+    defaultValue = [],
     defaultExpandAll = false,
-    disabledItemValues = emptyArray,
+    disabledItemValues = [],
     expandItemValues,
-    defaultExpandItemValues = emptyArray,
+    defaultExpandItemValues = [],
     menuMaxHeight = 320,
     menuStyle,
     menuClassName,
@@ -94,7 +92,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     searchable = true,
     virtualized = false,
     classPrefix = 'picker',
-    uncheckableItemValues = emptyArray,
+    uncheckableItemValues = [],
     id,
     listProps,
     renderMenu,
@@ -136,7 +134,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   });
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
-  const [focusItemValue, setFocusItemValue] = useState(null);
+  const [focusItemValue, setFocusItemValue] = useState<number | string | null>(null);
+
+  const handleFocusItem = useEventCallback((value: string | number) => {
+    setFocusItemValue(value);
+  });
 
   const handleOpen = useEventCallback(() => {
     setFocusItemValue(activeNode?.[valueKey]);
@@ -218,6 +220,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onExpand={onExpand}
       onSearch={onSearch}
       onChange={handleChange}
+      onFocusItem={handleFocusItem}
       getChildren={getChildren}
       value={value}
       loadingNodeValues={loadingNodeValues}

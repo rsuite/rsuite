@@ -93,59 +93,52 @@ export const focusTreeNode = (refKey: string, treeNodeRefs: any, selector: strin
   node?.focus?.();
 };
 
-interface FocusPrevOrNextProps {
-  focusItemValue: string | number | null;
+interface FocusItemProps {
+  focusItemValue?: string | number | null;
   focusableItems: any[];
   treeNodesRefs: any;
   selector: string;
   valueKey: string;
-  callback: (value: string | number) => void;
 }
 
 /**
  * focus next item with keyboard
- * @param param
  */
-export const focusNextItem = ({
-  focusItemValue,
-  focusableItems,
-  treeNodesRefs,
-  selector,
-  valueKey,
-  callback
-}: FocusPrevOrNextProps) => {
+export const focusNextItem = (props: FocusItemProps) => {
+  const { focusItemValue, focusableItems, treeNodesRefs, selector, valueKey } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
+
   if (focusableItems.length === 0) {
     return;
   }
+
   const nextIndex = activeIndex === focusableItems.length - 1 ? 0 : activeIndex + 1;
-  const nextFocusItemValue = focusableItems[nextIndex][valueKey];
-  callback?.(nextFocusItemValue);
+  const value = focusableItems[nextIndex][valueKey];
+
   focusTreeNode(focusableItems[nextIndex].refKey, treeNodesRefs, selector);
+
+  return value;
 };
 
 /**
  * focus prev item with keyboard
- * @param param
  */
-export const focusPreviousItem = ({
-  focusItemValue,
-  focusableItems,
-  treeNodesRefs,
-  selector,
-  valueKey,
-  callback
-}: FocusPrevOrNextProps) => {
+export const focusPreviousItem = (props: FocusItemProps) => {
+  const { focusItemValue, focusableItems, treeNodesRefs, selector, valueKey } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
+
   if (focusableItems.length === 0) {
     return;
   }
 
   let prevIndex = activeIndex === 0 ? focusableItems.length - 1 : activeIndex - 1;
   prevIndex = prevIndex >= 0 ? prevIndex : 0;
-  const prevFocusItemValue = focusableItems[prevIndex][valueKey];
-  callback?.(prevFocusItemValue);
+
+  const value = focusableItems[prevIndex][valueKey];
+
   focusTreeNode(focusableItems[prevIndex].refKey, treeNodesRefs, selector);
+
+  return value;
 };
 
 export interface FocusToTreeNodeProps {

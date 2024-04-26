@@ -14,7 +14,7 @@ describe('TreePicker styles', () => {
     const tree = screen.getByRole('tree');
     const treeNode = screen.queryAllByRole('treeitem')[0];
 
-    expect(tree).to.have.style('padding', '0px 12px 0px 0px');
+    expect(tree.parentNode).to.have.style('padding', '0px 12px 0px 0px');
     expect(treeNode).to.have.style('font-size', '0px');
     expect(treeNode).to.have.style('height', '34px');
   });

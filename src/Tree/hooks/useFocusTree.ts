@@ -28,85 +28,92 @@ interface UseFocusTreeProps<T extends TreeNode> {
   treeNodeSelector: string;
   flattenedNodes: any;
   onExpand: (nodeData: T) => void;
+  onFocused?: (value: TreeNode['value']) => void;
 }
 /**
  * Custom hook that manages the focus behavior of a tree component.
  */
 function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   const {
-    filteredData,
-    disabledItemValues,
+    rtl,
     valueKey,
     childrenKey,
-    expandItemValues,
+    filteredData,
     searchKeyword,
-    treeNodeSelector,
     flattenedNodes,
-    rtl,
-    onExpand
+    treeNodeSelector,
+    expandItemValues,
+    disabledItemValues,
+    onExpand,
+    onFocused
   } = props;
 
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
-  const [focusItemValue, setFocusItemValue] = useState(null);
+  const [focusItemValue, setFocusItemValue] = useState<TreeNode['value'] | null>(null);
 
   const handleFocusItem = useEventCallback((key: string) => {
-    const focusableItems = getFocusableItems(
-      filteredData,
-      {
-        disabledItemValues,
-        valueKey,
-        childrenKey,
-        expandItemValues
-      },
-      isSearching(searchKeyword)
-    );
-
+    const options = { disabledItemValues, valueKey, childrenKey, expandItemValues };
+    const focusableItems = getFocusableItems(filteredData, options, isSearching(searchKeyword));
     const focusProps = {
+      valueKey,
       focusItemValue,
       focusableItems,
       treeNodesRefs,
-      selector: treeNodeSelector,
-      valueKey,
-      callback: nextFocusItemValue => {
-        setFocusItemValue(nextFocusItemValue);
-      }
+      selector: treeNodeSelector
     };
+
+    let focusedValue: TreeNode['value'] | null = null;
+
     if (key === KEY_VALUES.DOWN) {
-      focusNextItem(focusProps);
-      return;
+      focusedValue = focusNextItem(focusProps);
+    } else if (key === KEY_VALUES.UP) {
+      focusedValue = focusPreviousItem(focusProps);
     }
-    if (key === KEY_VALUES.UP) {
-      focusPreviousItem(focusProps);
+
+    if (focusedValue) {
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
     }
   });
 
   const handleLeftArrowEvent = useEventCallback(() => {
-    if (isNil(focusItemValue)) return;
+    if (isNil(focusItemValue)) {
+      return;
+    }
+
     const focusItem = getActiveItem(focusItemValue, flattenedNodes, valueKey);
+    const expand = expandItemValues.includes(focusItem?.[valueKey]);
+    const onFocusItem = () => {
+      const focusedValue = focusItem?.parent?.[valueKey];
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
+      focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs, treeNodeSelector);
+    };
+
     handleLeftArrow({
       focusItem,
-      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      expand,
       onExpand,
       childrenKey,
-      onFocusItem: () => {
-        setFocusItemValue(focusItem?.parent?.[valueKey]);
-        focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs, treeNodeSelector);
-      }
+      onFocusItem
     });
   });
 
   const handleRightArrowEvent = useEventCallback(() => {
-    if (isNil(focusItemValue)) return;
+    if (isNil(focusItemValue)) {
+      return;
+    }
+
     const focusItem = getActiveItem(focusItemValue, flattenedNodes, valueKey);
+    const expand = expandItemValues.includes(focusItem?.[valueKey]);
+    const onFocusItem = () => handleFocusItem(KEY_VALUES.DOWN);
 
     handleRightArrow({
       focusItem,
-      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      expand,
       childrenKey,
       onExpand,
-      onFocusItem: () => {
-        handleFocusItem(KEY_VALUES.DOWN);
-      }
+      onFocusItem
     });
   });
 
@@ -121,6 +128,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
 
   return {
     focusItemValue,
+    treeNodesRefs,
     saveTreeNodeRef,
     setFocusItemValue,
     onTreeKeydown

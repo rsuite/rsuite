@@ -1,8 +1,7 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import TreeNode from '../TreeNode';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 describe('TreePicker - TreeNode', () => {
   it('Should render tree node', () => {
@@ -13,54 +12,44 @@ describe('TreePicker - TreeNode', () => {
   });
 
   it('Should call `onDragStart` callback', () => {
-    const onDragStartSpy = sinon.spy();
+    const onDragStart = sinon.spy();
     const { container } = render(
-      <TreeNode layer={0} onDragStart={onDragStartSpy} nodeData={1} visible />
+      <TreeNode layer={0} onDragStart={onDragStart} nodeData={1} visible />
     );
 
-    const div = container.firstChild as HTMLElement;
-    Simulate.dragStart(div);
+    fireEvent.dragStart(container.firstChild as HTMLElement);
 
-    assert.isTrue(onDragStartSpy.calledOnce);
-    assert.equal(onDragStartSpy.firstCall.firstArg, 1);
+    expect(onDragStart).to.have.been.calledWith(1);
   });
 
   it('Should call `onDragEnter` callback', () => {
-    const onDragEnterSpy = sinon.spy();
+    const onDragEnter = sinon.spy();
     const { container } = render(
-      <TreeNode layer={0} onDragEnter={onDragEnterSpy} nodeData={1} visible />
+      <TreeNode layer={0} onDragEnter={onDragEnter} nodeData={1} visible />
     );
 
-    const div = container.firstChild as HTMLElement;
-    Simulate.dragEnter(div);
+    fireEvent.dragEnter(container.firstChild as HTMLElement);
 
-    assert.isTrue(onDragEnterSpy.calledOnce);
-    assert.equal(onDragEnterSpy.firstCall.firstArg, 1);
+    expect(onDragEnter).to.have.been.calledWith(1);
   });
 
   it('Should call `onDragOver` callback', () => {
-    const onDragOverSpy = sinon.spy();
+    const onDragOver = sinon.spy();
     const { container } = render(
-      <TreeNode layer={0} onDragOver={onDragOverSpy} nodeData={1} visible />
+      <TreeNode layer={0} onDragOver={onDragOver} nodeData={1} visible />
     );
 
-    const div = container.firstChild as HTMLElement;
-    Simulate.dragOver(div);
+    fireEvent.dragOver(container.firstChild as HTMLElement);
 
-    assert.isTrue(onDragOverSpy.calledOnce);
-    assert.equal(onDragOverSpy.firstCall.firstArg, 1);
+    expect(onDragOver).to.have.been.calledWith(1);
   });
 
   it('Should call `onDragEnd` callback', () => {
-    const onDragEndSpy = sinon.spy();
-    const { container } = render(
-      <TreeNode layer={0} onDragEnd={onDragEndSpy} nodeData={1} visible />
-    );
+    const onDragEnd = sinon.spy();
+    const { container } = render(<TreeNode layer={0} onDragEnd={onDragEnd} nodeData={1} visible />);
 
-    const div = container.firstChild as HTMLElement;
-    Simulate.dragEnd(div);
+    fireEvent.dragEnd(container.firstChild as HTMLElement);
 
-    assert.isTrue(onDragEndSpy.calledOnce);
-    assert.equal(onDragEndSpy.firstCall.firstArg, 1);
+    expect(onDragEnd).to.have.been.calledWith(1);
   });
 });

@@ -4,7 +4,7 @@ import { TreeNodeMap } from '../types';
 /**
  * Retrieves the active node from a tree based on the provided value and value key.
  */
-export function getTreeActiveNode<T extends number | string | undefined>(
+export function getTreeActiveNode<T extends number | string | undefined | null>(
   nodes: TreeNodeMap,
   value: T,
   valueKey: string

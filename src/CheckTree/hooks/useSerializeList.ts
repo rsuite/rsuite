@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import isNil from 'lodash/isNil';
 import shallowEqual from '../../utils/shallowEqual';
-import type { TreeNodeMap } from '../types';
+import type { TreeNodeMap } from '../../Tree/types';
 
 interface UseSerializeListProps {
   valueKey: string;

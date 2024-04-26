@@ -1,143 +1,11 @@
-import React, { useMemo } from 'react';
-import TreePicker from '../TreePicker';
-import TreeContext from './TreeContext';
-import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
-import { ListProps } from '../internals/Windowing';
+import React from 'react';
+import { RsRefForwardingComponent } from '../@types/common';
+import TreeView, { TreeViewProps } from './TreeView';
+import { useControlled, useEventCallback } from '../utils';
+import useFlattenTree from './hooks/useFlattenTree';
+import useTreeWithChildren from './hooks/useTreeWithChildren';
 
-/**
- * Tree Node Drag Type
- */
-export enum TREE_NODE_DROP_POSITION {
-  DRAG_OVER = 0, // drag node in tree node
-  DRAG_OVER_TOP = 1, // drag node on tree node
-  DRAG_OVER_BOTTOM = 2 // drag node under tree node
-}
-
-export interface DropData<ItemDataType> {
-  /** drag node data */
-  dragNode: ItemDataType;
-
-  /** dropNode data */
-  dropNode: ItemDataType;
-
-  /** node drop position */
-  dropNodePosition: TREE_NODE_DROP_POSITION;
-
-  /** Update Data when drop node */
-  createUpdateDataFunction: (data: ItemDataType[]) => ItemDataType[];
-}
-
-export interface TreeDragProps<ItemDataType = Record<string, any>> {
-  /** Whether the node can  be dragged */
-  draggable?: boolean;
-
-  /** Called when scrolling */
-  onScroll?: (event: React.SyntheticEvent) => void;
-
-  /** Called when node drag start */
-  onDragStart?: (nodeData: ItemDataType, e: React.DragEvent) => void;
-
-  /** Called when node drag enter */
-  onDragEnter?: (nodeData: ItemDataType, e: React.DragEvent) => void;
-
-  /** Called when node drag over */
-  onDragOver?: (nodeData: ItemDataType, e: React.DragEvent) => void;
-
-  /** Called when node drag leave */
-  onDragLeave?: (nodeData: ItemDataType, e: React.DragEvent) => void;
-
-  /** Called when node drag end */
-  onDragEnd?: (nodeData: ItemDataType, e: React.DragEvent) => void;
-
-  /** Called when node drop */
-  onDrop?: (dropData: DropData<ItemDataType>, e: React.DragEvent) => void;
-}
-
-export interface TreeBaseProps<ValueType = string | number, ItemDataType = Record<string, any>>
-  extends StandardProps {
-  /** The height of Dropdown */
-  height?: number;
-
-  /** Whether display search input box */
-  searchable?: boolean;
-
-  /** Display an auxiliary line when the tree node is indented. */
-  showIndentLine?: boolean;
-
-  /** Whether using virtualized list */
-  virtualized?: boolean;
-
-  /** Virtualized List props */
-  listProps?: Partial<ListProps>;
-
-  /** Expand all nodes By default */
-  defaultExpandAll?: boolean;
-
-  /** searchKeyword (Controlled) */
-  searchKeyword?: string;
-
-  /** Set the option value for the expand node */
-  defaultExpandItemValues?: any[];
-
-  /** Set the option value for the expand node with controlled*/
-  expandItemValues?: any[];
-
-  /** Callback function for data change */
-  onExpand?: (
-    expandItemValues: ItemDataType[],
-    activeNode: ItemDataType,
-    concat: (data: ItemDataType[], children: ItemDataType[]) => ItemDataType[]
-  ) => void;
-
-  /** Callback function after selecting tree node */
-  onSelect?: (activeNode: ItemDataType, value: ValueType, event: React.SyntheticEvent) => void;
-
-  /** Callback when a tree item is clicked */
-  onSelectItem?: (item: ItemDataType, path: ItemDataType[]) => void;
-
-  /** Custom Render tree Node */
-  renderTreeNode?: (nodeData: ItemDataType) => React.ReactNode;
-
-  /** Custom Render icon */
-  renderTreeIcon?: (nodeData: ItemDataType) => React.ReactNode;
-
-  /** callback fired when search */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
-
-  /** Called when clean */
-  onClean?: (event: React.SyntheticEvent) => void;
-
-  /** Custom search rules. */
-  searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
-
-  /** Customizing the Rendering Menu list */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /** load node children data asynchronously */
-  getChildren?: (activeNode: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
-}
-
-export interface TreeProps<T = string | number>
-  extends TreeBaseProps<T, ItemDataType<T>>,
-    TreeDragProps<ItemDataType<T>> {
-  /** Tree Data */
-  data: ItemDataType<T>[];
-
-  /** Selected value */
-  value?: T;
-
-  /** Whether using virtualized list */
-  virtualized?: boolean;
-
-  /** Tree data structure Label property name */
-  labelKey?: string;
-
-  /** Tree data Structure Value property name */
-  valueKey?: string;
-
-  /** Tree data structure Children property name */
-  childrenKey?: string;
-
+export interface TreeProps<T = string | number | null> extends TreeViewProps<T> {
   /** Default selected Value  */
   defaultValue?: T;
 }
@@ -148,16 +16,51 @@ export interface TreeProps<T = string | number>
  * @see https://rsuitejs.com/components/tree
  */
 const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
-  (props: TreeProps, ref: React.Ref<any>) => {
-    const contextValue = useMemo(() => ({ inline: true }), []);
+  (props: TreeProps, ref: React.Ref<HTMLDivElement>) => {
+    const {
+      value: controlledValue,
+      defaultValue,
+      onChange,
+      childrenKey = 'children',
+      labelKey = 'label',
+      valueKey = 'value',
+      data,
+      ...rest
+    } = props;
+
+    const [value, setValue] = useControlled(controlledValue, defaultValue);
+    const itemDataKeys = { childrenKey, labelKey, valueKey };
+
+    const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
+    const flattenedNodes = useFlattenTree(treeData, {
+      ...itemDataKeys
+    });
+
+    const handleChange = useEventCallback(
+      (nextValue: string | number, event: React.SyntheticEvent) => {
+        setValue(nextValue);
+        onChange?.(nextValue, event);
+      }
+    );
 
     return (
-      <TreeContext.Provider value={contextValue}>
-        <TreePicker ref={ref} {...props} />
-      </TreeContext.Provider>
+      <TreeView
+        ref={ref}
+        {...rest}
+        value={value}
+        childrenKey={childrenKey}
+        labelKey={labelKey}
+        valueKey={valueKey}
+        data={treeData}
+        loadingNodeValues={loadingNodeValues}
+        appendChild={appendChild}
+        flattenedNodes={flattenedNodes}
+        onChange={handleChange}
+      />
     );
   }
 );
 
 Tree.displayName = 'Tree';
+
 export default Tree;

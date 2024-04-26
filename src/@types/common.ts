@@ -161,17 +161,31 @@ export interface FormControlBaseProps<
 
 export type ToArray<V> = V extends any[] ? V : V[];
 
+/**
+ * Represents the data properties for a component.
+ */
 export interface DataProps<TData> {
-  /** The data of component */
+  /**
+   * The data of the component.
+   */
   data: TData[];
 
-  /** Set option value 'key' in 'data' */
+  /**
+   * The key to use for setting the option value in the data.
+   * @default value
+   */
   valueKey?: string;
 
-  /** Set options to display the 'key' in 'data' */
+  /**
+   * The key to use for displaying the options in the data.
+   * @default label
+   */
   labelKey?: string;
 
-  /** Set children key in data */
+  /**
+   * The key to use for setting the children in the data.
+   * @default children
+   */
   childrenKey?: string;
 }
 
