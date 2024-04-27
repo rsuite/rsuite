@@ -13,8 +13,9 @@ export function getTreeActiveNode<T extends number | string | undefined | null>(
     return;
   }
   for (const refKey in nodes) {
-    if (shallowEqual(nodes[refKey][valueKey], value)) {
-      return nodes[refKey];
+    const node = nodes[refKey];
+    if (shallowEqual(node[valueKey], value)) {
+      return node;
     }
   }
 }

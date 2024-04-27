@@ -9,9 +9,15 @@ interface FocusableItemsProps {
   expandItemValues: any;
 }
 
+// Focusable tree node selector
+export const FOCALIZABLE_SELECTOR = '[role="button"][tabindex="-1"].rs-tree-node-label';
+
+// Active tree node selector
+export const ACTIVE_ITEM_SELECTOR = '[aria-selected="true"] .rs-tree-node-label';
+
 /**
- * get all focusable items
- * exclude not visible and disabled node
+ * Retrieves the focusable items from the filtered data based on the provided props.
+ * Excludes nodes that are not visible or are disabled.
  */
 export const getFocusableItems = <TItem extends TreeNode>(
   filteredData: TItem[],
@@ -41,9 +47,8 @@ export const getFocusableItems = <TItem extends TreeNode>(
 };
 
 /**
- * return all focusable Item and active Element index
- * @param focusItemValue
- * @param focusableItems items
+ * Returns the index of the active item in the focusItems array.
+ *
  */
 const getActiveIndex = (focusItemValue, focusItems: any[], valueKey) => {
   let activeIndex = -1;
@@ -56,7 +61,7 @@ const getActiveIndex = (focusItemValue, focusItems: any[], valueKey) => {
 };
 
 /**
- * get current active element and node data
+ * Retrieves the active item from the flattened nodes based on the provided focus item value.
  */
 export const getActiveItem = (
   focusItemValue: string | number,
@@ -74,7 +79,14 @@ export const getActiveItem = (
   return nodeData;
 };
 
-const getElementByDataKey = (dataKey: string, treeNodesRefs: any, selector: string) => {
+/**
+ * Retrieves the element with the specified data key from the treeNodesRefs object.
+ */
+const getElementByDataKey = (
+  dataKey: string,
+  treeNodesRefs: any,
+  selector = FOCALIZABLE_SELECTOR
+) => {
   const ele = treeNodesRefs[dataKey];
   if (ele instanceof Element) {
     return ele.querySelector(selector);
@@ -83,29 +95,40 @@ const getElementByDataKey = (dataKey: string, treeNodesRefs: any, selector: stri
 };
 
 /**
- * focus to specify tree node
- * @param refKey - target node refKey
- * @param treeNodeRefs - all tree node refs object
- * @param selector - node css selector
+ * Focuses on a specific tree node element.
+ *
+ * @param refKey - The key of the tree node element to focus on.
+ * @param treeNodeRefs - The collection of tree node elements.
+ * @param selector - The selector used to find the tree node element.
  */
-export const focusTreeNode = (refKey: string, treeNodeRefs: any, selector: string) => {
-  const node: any = getElementByDataKey(refKey, treeNodeRefs, selector);
-  node?.focus?.();
+export const focusTreeNode = (
+  refKey: string,
+  treeNodeRefs: any,
+  selector = FOCALIZABLE_SELECTOR
+) => {
+  const treeItem = getElementByDataKey(refKey, treeNodeRefs, selector) as HTMLElement;
+  treeItem?.focus?.();
 };
 
 interface FocusItemProps {
   focusItemValue?: string | number | null;
   focusableItems: any[];
   treeNodesRefs: any;
-  selector: string;
+  selector?: string;
   valueKey: string;
 }
 
 /**
- * focus next item with keyboard
+ * Focuses on the next item in a tree.
  */
 export const focusNextItem = (props: FocusItemProps) => {
-  const { focusItemValue, focusableItems, treeNodesRefs, selector, valueKey } = props;
+  const {
+    focusItemValue,
+    focusableItems,
+    treeNodesRefs,
+    selector = FOCALIZABLE_SELECTOR,
+    valueKey
+  } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
 
   if (focusableItems.length === 0) {
@@ -121,10 +144,16 @@ export const focusNextItem = (props: FocusItemProps) => {
 };
 
 /**
- * focus prev item with keyboard
+ * Focuses on the previous item in a tree.
  */
 export const focusPreviousItem = (props: FocusItemProps) => {
-  const { focusItemValue, focusableItems, treeNodesRefs, selector, valueKey } = props;
+  const {
+    focusItemValue,
+    focusableItems,
+    treeNodesRefs,
+    selector = FOCALIZABLE_SELECTOR,
+    valueKey
+  } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
 
   if (focusableItems.length === 0) {
@@ -141,47 +170,43 @@ export const focusPreviousItem = (props: FocusItemProps) => {
   return value;
 };
 
-export interface FocusToTreeNodeProps {
-  selector: string;
+/**
+ * Returns the index of the first visible node in the tree that matches the given value.
+ */
+const getScrollToIndex = (nodes: readonly TreeNode[], value: string | number, valueKey: string) => {
+  return nodes.filter(n => n.visible).findIndex(item => item[valueKey] === value);
+};
+
+interface ScrollToActiveTreeNodeProps {
+  value: any;
   valueKey: string;
-  activeNode: any;
   virtualized: boolean;
-  container: HTMLElement | null;
-  list: ListHandle;
+  list?: ListHandle;
   formattedNodes: TreeNode[];
 }
 
 /**
- * Returns the index of the first visible node in the tree that matches the given value.
+ * Scrolls the list to the active tree node.
  *
+ * @param props - The props object containing the necessary parameters.
  */
-const getScrollToIndex = (nodes: readonly TreeNode[], value: string | number, valueKey: string) =>
-  nodes.filter(n => n.visible).findIndex(item => item[valueKey] === value);
+export function scrollToActiveTreeNode(props: ScrollToActiveTreeNodeProps) {
+  const { list, value, valueKey, virtualized, formattedNodes } = props;
 
-/**
- * Focus to active tree node.
- */
-export function focusToActiveTreeNode({
-  list,
-  valueKey,
-  activeNode,
-  virtualized,
-  container,
-  selector,
-  formattedNodes
-}: FocusToTreeNodeProps) {
-  if (!container) return;
-
-  if (virtualized && activeNode) {
-    const scrollIndex = getScrollToIndex(formattedNodes, activeNode?.[valueKey], valueKey);
-    list.scrollToRow?.(scrollIndex);
-    return;
+  if (virtualized && value) {
+    const scrollIndex = getScrollToIndex(formattedNodes, value, valueKey);
+    list?.scrollToItem?.(scrollIndex);
   }
-
-  const activeItem: any = container.querySelector(selector);
-  if (!activeItem) {
-    return;
-  }
-
-  activeItem?.focus?.();
 }
+
+export const focusCurrentItem = (props: { selector?: string; container?: HTMLElement | null }) => {
+  const { selector = ACTIVE_ITEM_SELECTOR, container } = props;
+
+  const activeItem = container?.querySelector(selector) as HTMLElement;
+
+  if (activeItem) {
+    activeItem?.focus?.();
+
+    return activeItem.dataset?.key;
+  }
+};

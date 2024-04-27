@@ -213,7 +213,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         role="treeitem"
         aria-label={labelStr}
         aria-expanded={expand}
-        aria-selected={checkState === CHECK_STATE.CHECK}
+        aria-checked={checkState === CHECK_STATE.CHECK}
+        aria-selected={focus}
         aria-disabled={disabled}
         aria-level={layer}
         active={checkState === CHECK_STATE.CHECK}

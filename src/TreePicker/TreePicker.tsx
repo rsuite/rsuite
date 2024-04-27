@@ -29,6 +29,7 @@ import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import { TreeNode } from '../Tree/types';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
+import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
 import { FormControlPickerProps } from '../@types/common';
 
 export interface TreePickerProps<V = number | string | null>
@@ -102,17 +103,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   } = props;
 
   const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-  const inline = false;
-  const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref, {
-    inline
-  });
+  const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
   const [value, setValue] = useControlled(controlledValue, defaultValue);
   const itemDataKeys = { childrenKey, labelKey, valueKey };
 
   const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
-  const flattenedNodes = useFlattenTree(treeData, {
-    ...itemDataKeys
-  });
+  const flattenedNodes = useFlattenTree(treeData, { ...itemDataKeys });
 
   const [active, setActive] = useState(false);
   const [focusItemValue, setFocusItemValue] = useState<number | string | null>(null);
@@ -120,12 +116,18 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const { prefix, merge } = useClassNames(classPrefix);
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
+  const focusCombobox = useEventCallback(() => {
+    target.current?.focus();
+  });
+
+  const { onMounted, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
+
   const handleSelect = useEventCallback(
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
       setFocusItemValue(value);
       onSelect?.(treeNode, value, event);
 
-      target.current?.focus();
+      focusCombobox();
       trigger.current?.close?.();
     }
   );
@@ -137,6 +139,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const handleOpen = useEventCallback(() => {
     if (value) {
       setFocusItemValue(value);
+      focusActiveNode();
     }
     setActive(true);
   });
@@ -147,7 +150,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    target.current?.focus();
+    focusCombobox();
   });
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
@@ -171,7 +174,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
-    onMenuKeyDown(event, { del: handleClean, enter: handleTreePressEnter });
+    onMenuKeyDown(event, {
+      del: handleClean,
+      down: () => focusFirstNode(),
+      enter: handleTreePressEnter
+    });
   });
 
   const onPickerKeydown = useToggleKeyDownEvent({
@@ -194,38 +201,40 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   );
 
   const tree = (
-    <TreeView
-      ref={treeView}
-      virtualized={virtualized}
-      value={value}
-      childrenKey={childrenKey}
-      labelKey={labelKey}
-      valueKey={valueKey}
-      data={treeData}
-      defaultExpandAll={defaultExpandAll}
-      disabledItemValues={disabledItemValues}
-      expandItemValues={expandItemValues}
-      defaultExpandItemValues={defaultExpandItemValues}
-      showIndentLine={showIndentLine}
-      searchable={searchable}
-      searchKeyword={searchKeyword}
-      searchBy={searchBy}
-      loadingNodeValues={loadingNodeValues}
-      appendChild={appendChild}
-      flattenedNodes={flattenedNodes}
-      listProps={listProps}
-      listRef={list}
-      height={menuMaxHeight}
-      getChildren={getChildren}
-      renderTreeIcon={renderTreeIcon}
-      renderTreeNode={renderTreeNode}
-      onExpand={onExpand}
-      onSearch={onSearch}
-      onChange={handleChange}
-      onSelect={handleSelect}
-      onSelectItem={onSelectItem}
-      onFocusItem={handleFocusItem}
-    />
+    <TreeProvider value={{ onMounted }}>
+      <TreeView
+        ref={treeView}
+        virtualized={virtualized}
+        value={value}
+        childrenKey={childrenKey}
+        labelKey={labelKey}
+        valueKey={valueKey}
+        data={treeData}
+        defaultExpandAll={defaultExpandAll}
+        disabledItemValues={disabledItemValues}
+        expandItemValues={expandItemValues}
+        defaultExpandItemValues={defaultExpandItemValues}
+        showIndentLine={showIndentLine}
+        searchable={searchable}
+        searchKeyword={searchKeyword}
+        searchBy={searchBy}
+        loadingNodeValues={loadingNodeValues}
+        appendChild={appendChild}
+        flattenedNodes={flattenedNodes}
+        listProps={listProps}
+        listRef={list}
+        height={menuMaxHeight}
+        getChildren={getChildren}
+        renderTreeIcon={renderTreeIcon}
+        renderTreeNode={renderTreeNode}
+        onExpand={onExpand}
+        onSearch={onSearch}
+        onChange={handleChange}
+        onSelect={handleSelect}
+        onSelectItem={onSelectItem}
+        onFocusItem={handleFocusItem}
+      />
+    </TreeProvider>
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
@@ -282,9 +291,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
-      onEnter={handleOpen}
-      onEntered={onEntered}
       onExit={onExit}
+      onEntered={createChainedFunction(handleOpen, onEntered)}
       onExited={createChainedFunction(handleClose, onExited)}
       speaker={renderTreeView}
     >

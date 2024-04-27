@@ -290,19 +290,24 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       [childrenKey, data, valueKey]
     );
 
-    const { focusItemValue, setFocusItemValue, onTreeKeydown, treeNodesRefs, saveTreeNodeRef } =
-      useFocusTree({
-        ...itemDataKeys,
-        rtl,
-        filteredData,
-        disabledItemValues,
-        expandItemValues,
-        searchKeyword: keyword,
-        treeNodeSelector: `.${prefix('node-label')}`,
-        flattenedNodes,
-        onFocused: onFocusItem,
-        onExpand: handleExpandTreeNode
-      });
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onTreeKeydown,
+      treeNodesRefs,
+      saveTreeNodeRef,
+      treeViewRef
+    } = useFocusTree({
+      ...itemDataKeys,
+      rtl,
+      filteredData,
+      disabledItemValues,
+      expandItemValues,
+      searchKeyword: keyword,
+      flattenedNodes,
+      onFocused: onFocusItem,
+      onExpand: handleExpandTreeNode
+    });
 
     const handleSelect = useEventCallback((nodeData: any, event: React.SyntheticEvent) => {
       if (!nodeData) {
@@ -315,9 +320,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       onChange?.(nextValue, event);
       onSelect?.(nodeData, nextValue, event);
       onSelectItem?.(nodeData, path);
-
-      //target.current?.focus();
-      //trigger.current?.close?.();
     });
 
     const handleDragStart = useEventCallback((nodeData: any, event: React.DragEvent) => {
@@ -483,6 +485,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
         ) : null}
         <BaseTreeView
           {...rest}
+          ref={treeViewRef}
           treeRootClassName={prefix('root')}
           onScroll={onScroll}
           onKeyDown={handleTreeKeyDown}

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import TreeNode from '../TreeNode';
 import { render, fireEvent } from '@testing-library/react';
 
-describe('TreePicker - TreeNode', () => {
+describe('TreeNode', () => {
   it('Should render tree node', () => {
     const { container } = render(<TreeNode layer={0} visible nodeData={{}} />);
 

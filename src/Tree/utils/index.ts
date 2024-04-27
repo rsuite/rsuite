@@ -27,7 +27,7 @@ export {
   focusNextItem,
   focusPreviousItem,
   focusTreeNode,
-  focusToActiveTreeNode
+  focusCurrentItem
 } from './focusableTree';
 
 export { handleLeftArrow, handleRightArrow } from './treeKeyboardInteractions';

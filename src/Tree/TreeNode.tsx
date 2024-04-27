@@ -272,12 +272,12 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     });
     return (
       <span
+        role="button"
+        tabIndex={-1}
         className={prefix('label')}
         title={stringifyReactNode(label)}
         data-layer={layer}
         data-key={nodeData?.refKey || ''}
-        role="button"
-        tabIndex={-1}
         onClick={handleSelect}
       >
         <span className={contentClasses}>{renderTreeNode ? renderTreeNode(nodeData) : label}</span>

@@ -96,7 +96,7 @@ describe('CheckTreePicker', () => {
     render(<CheckTreePicker defaultOpen data={data} value={['Master']} defaultExpandAll />);
 
     expect(screen.queryAllByRole('checkbox', { checked: true })).to.have.length(4);
-    expect(screen.queryAllByRole('treeitem', { selected: true })).to.have.length(4);
+    expect(screen.queryAllByRole('treeitem', { checked: true })).to.have.length(4);
   });
 
   it('Should checked 1 node by `value` when cascade is false', () => {
@@ -105,7 +105,7 @@ describe('CheckTreePicker', () => {
     );
 
     expect(screen.queryAllByRole('checkbox', { checked: true })).to.have.length(1);
-    expect(screen.queryAllByRole('treeitem', { selected: true })).to.have.length(1);
+    expect(screen.queryAllByRole('treeitem', { checked: true })).to.have.length(1);
   });
 
   it('Should expand children nodes', () => {

@@ -249,19 +249,23 @@ describe('TreePicker', () => {
   it('Should focus item by key=ArrowUp', async () => {
     render(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'tester1' }));
-    userEvent.keyboard('{ArrowUp}');
+    const label = await screen.findByRole('button', { name: 'tester1' });
+
+    fireEvent.click(label);
+    fireEvent.keyDown(label, { key: KEY_VALUES.UP });
 
     await waitFor(() => {
-      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
+      expect(screen.queryByRole('treeitem', { name: 'tester0' })).to.have.class(
+        'rs-tree-node-focus'
+      );
     });
   });
 
   it('Should fold children node by key=ArrowLeft', () => {
-    render(<TreePicker defaultOpen data={data} defaultExpandAll />);
+    render(<TreePicker open data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    userEvent.keyboard('{ArrowLeft}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
 
     expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
   });
@@ -270,7 +274,7 @@ describe('TreePicker', () => {
     render(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    userEvent.keyboard('{ArrowLeft}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
 
     expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
     expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
@@ -280,7 +284,7 @@ describe('TreePicker', () => {
     render(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    userEvent.keyboard('{ArrowLeft}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
 
     expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
   });
@@ -289,7 +293,7 @@ describe('TreePicker', () => {
     render(<TreePicker defaultOpen data={data} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    userEvent.keyboard('{ArrowRight}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
 
     expect(screen.getByRole('treeitem', { name: 'Master', expanded: true })).to.exist;
   });
@@ -298,7 +302,7 @@ describe('TreePicker', () => {
     render(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByRole('button', { name: 'tester0' }));
-    userEvent.keyboard('{ArrowRight}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
 
     expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
   });
@@ -307,7 +311,7 @@ describe('TreePicker', () => {
     render(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    userEvent.keyboard('{ArrowRight}');
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
 
     expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
   });
@@ -342,13 +346,7 @@ describe('TreePicker', () => {
       />
     );
 
-    fireEvent.click(
-      // TODO Add accessible name to "Expand" button
-      // eslint-disable-next-line testing-library/no-node-access
-      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
-        'div[data-ref="String_async"]  > .rs-tree-node-expand-icon'
-      ) as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
 
     expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
   });
@@ -418,15 +416,10 @@ describe('TreePicker', () => {
 
     expect(screen.getByRole('treeitem', { expanded: true })).to.exist;
 
-    fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      ((ref.current as TestAppInstance).picker.overlay as HTMLElement).querySelector(
-        'div[data-ref="String_Master"]  > .rs-tree-node-expand-icon'
-      ) as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Collapse Master' }));
 
     act(() => {
-      (ref.current as TestAppInstance).setExpandItemValues(expandItemValues);
+      ref.current?.setExpandItemValues(expandItemValues);
     });
 
     expect(screen.queryByRole('treeitem', { expanded: true })).not.to.exist;

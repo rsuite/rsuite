@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
 import { KEY_VALUES } from '../../utils/constants';
-import { useEventCallback } from '../../utils';
+import { useEventCallback, useMount } from '../../utils';
 import { onMenuKeyDown } from '../../internals/Picker';
 
 import {
@@ -10,12 +10,14 @@ import {
   getFocusableItems,
   getActiveItem,
   focusPreviousItem,
+  focusCurrentItem,
   focusTreeNode,
   handleLeftArrow,
   handleRightArrow
 } from '../utils';
 import useTreeNodeRefs from './useTreeNodeRefs';
 import type { TreeNode } from '../types';
+import { useTreeContext } from '../TreeProvider';
 
 interface UseFocusTreeProps<T extends TreeNode> {
   rtl: boolean;
@@ -25,7 +27,6 @@ interface UseFocusTreeProps<T extends TreeNode> {
   childrenKey: string;
   expandItemValues: any[];
   searchKeyword: string;
-  treeNodeSelector: string;
   flattenedNodes: any;
   onExpand: (nodeData: T) => void;
   onFocused?: (value: TreeNode['value']) => void;
@@ -41,7 +42,6 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     filteredData,
     searchKeyword,
     flattenedNodes,
-    treeNodeSelector,
     expandItemValues,
     disabledItemValues,
     onExpand,
@@ -49,18 +49,24 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   } = props;
 
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
+  const treeViewRef = useRef<HTMLDivElement>(null);
   const [focusItemValue, setFocusItemValue] = useState<TreeNode['value'] | null>(null);
+  const { onMounted } = useTreeContext();
+  const flattenedNodesRef = useRef(flattenedNodes);
 
-  const handleFocusItem = useEventCallback((key: string) => {
+  const getFocusProps = (value?: string | number) => {
     const options = { disabledItemValues, valueKey, childrenKey, expandItemValues };
     const focusableItems = getFocusableItems(filteredData, options, isSearching(searchKeyword));
-    const focusProps = {
+    return {
+      focusItemValue: value || focusItemValue,
       valueKey,
-      focusItemValue,
       focusableItems,
-      treeNodesRefs,
-      selector: treeNodeSelector
+      treeNodesRefs
     };
+  };
+
+  const handleFocusItem = useEventCallback((key: string) => {
+    const focusProps = getFocusProps();
 
     let focusedValue: TreeNode['value'] | null = null;
 
@@ -87,7 +93,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       const focusedValue = focusItem?.parent?.[valueKey];
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
-      focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs, treeNodeSelector);
+      focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs);
     };
 
     handleLeftArrow({
@@ -126,7 +132,33 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     });
   });
 
+  const focusTreeFirstNode = useEventCallback(() => {
+    handleFocusItem(KEY_VALUES.DOWN);
+  });
+
+  const focusTreeActiveNode = useCallback(() => {
+    const refKey = focusCurrentItem({ container: treeViewRef.current });
+
+    if (refKey) {
+      const node = flattenedNodesRef.current?.[refKey];
+      if (node) {
+        setFocusItemValue(node[valueKey]);
+        onFocused?.(node[valueKey]);
+      }
+    }
+  }, [onFocused, valueKey]);
+
+  useMount(() => {
+    onMounted?.({ focusTreeFirstNode, focusTreeActiveNode });
+  });
+
+  useEffect(() => {
+    flattenedNodesRef.current = flattenedNodes;
+  }, [flattenedNodes]);
+
   return {
+    treeViewRef,
+    focusTreeFirstNode,
     focusItemValue,
     treeNodesRefs,
     saveTreeNodeRef,

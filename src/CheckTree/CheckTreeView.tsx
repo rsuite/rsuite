@@ -198,7 +198,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       disabledItemValues,
       expandItemValues,
       searchKeyword: keyword,
-      treeNodeSelector: `.${prefix('node-label')}`,
       flattenedNodes,
       onFocused: onFocusItem,
       onExpand: handleExpandTreeNode
