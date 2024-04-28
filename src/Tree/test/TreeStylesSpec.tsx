@@ -13,6 +13,6 @@ describe('Tree styles', () => {
 
     const itemLabel = screen.getByRole('tree').querySelector('.rs-tree-node-label');
 
-    expect(itemLabel).to.have.style('padding', '1px 1px 1px 16px');
+    expect(itemLabel).to.have.style('padding', '6px 8px');
   });
 });

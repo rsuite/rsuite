@@ -1,11 +1,10 @@
 import React, { forwardRef, useMemo } from 'react';
-import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
-import Spinner from '@rsuite/icons/legacy/Spinner';
 import ListCheckItem from '../internals/Picker/ListCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { stringifyReactNode } from '../internals/utils';
 import { indentTreeNode } from '../Tree/utils';
 import { useClassNames, useEventCallback, CHECK_STATE, CheckStateType } from '../utils';
+import TreeNodeToggle from '../Tree/TreeNodeToggle';
 
 export interface CheckTreeNodeProps extends WithAsProps {
   /**
@@ -162,45 +161,6 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     onSelect?.(nextNodeData, event);
   });
 
-  const renderIcon = () => {
-    const expandIconClasses = prefix('expand-icon', 'icon', {
-      expanded: expand
-    });
-
-    let expandIcon = <ArrowDown className={expandIconClasses} />;
-
-    if (loading) {
-      expandIcon = (
-        <div className={prefix('loading-icon')}>
-          <Spinner spin />
-        </div>
-      );
-    }
-
-    if (typeof renderTreeIcon === 'function') {
-      const customIcon = renderTreeIcon(nodeData);
-      expandIcon =
-        customIcon !== null ? (
-          <div className={prefix('custom-icon')}>{customIcon}</div>
-        ) : (
-          expandIcon
-        );
-    }
-
-    return hasChildren ? (
-      <div
-        role="button"
-        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
-        tabIndex={-1}
-        data-ref={nodeData.refKey}
-        className={prefix('expand-icon-wrapper')}
-        onClick={handleExpand}
-      >
-        {expandIcon}
-      </div>
-    ) : null;
-  };
-
   const classes = merge(
     className,
     withClassPrefix({
@@ -214,7 +174,15 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
-      {renderIcon()}
+      <TreeNodeToggle
+        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
+        data={nodeData}
+        expanded={expand}
+        loading={loading}
+        renderTreeIcon={renderTreeIcon}
+        hasChildren={hasChildren}
+        onClick={handleExpand}
+      />
       <ListCheckItem
         as="div"
         role="treeitem"

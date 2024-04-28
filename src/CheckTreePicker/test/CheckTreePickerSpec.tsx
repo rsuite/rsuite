@@ -377,12 +377,7 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
-        'div[data-ref="String_async"]  > .rs-check-tree-node-expand-icon'
-      ) as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
 
     expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
   });
@@ -464,12 +459,7 @@ describe('CheckTreePicker', () => {
 
     expect(screen.getByRole('treeitem', { expanded: true })).to.exist;
 
-    fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
-        'div[data-ref="String_Master"]  > .rs-check-tree-node-expand-icon'
-      ) as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Collapse Master' }));
 
     rerender(
       <CheckTreePicker

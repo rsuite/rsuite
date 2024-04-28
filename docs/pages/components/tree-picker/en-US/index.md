@@ -106,7 +106,7 @@
 | onExiting               | () => void                                                                                        | Callback fired as the overlay begins to transition out                    |
 | onExpand                | (expandItemValues: string[], item:[ItemDataType][item], concat:(data, children) => Array) => void | Callback When tree node is displayed                                      |
 | onOpen                  | () => void                                                                                        | Open Dropdown callback function                                           |
-| onSearch                | (searchKeyword: string, event) => void                                                            | Search callback function                                                  |
+| onSearch                | (searchKeyword: string, event) => void                                                            | Callback function for search                                              |
 | onSelect                | (item:[ItemDataType][item], value: string, event) => void                                         | Callback function after selecting tree node                               |
 | open                    | boolean                                                                                           | Open (Controlled)                                                         |
 | placeholder             | ReactNode `('Select')`                                                                            | Placeholder                                                               |
@@ -115,7 +115,7 @@
 | renderTreeIcon          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render icon                                                        |
 | renderTreeNode          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render tree Node                                                   |
 | renderValue             | (value: string,item:[ItemDataType][item], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                              |
-| searchable              | boolean `(true)`                                                                                  | Set whether you can search                                                |
+| searchable              | boolean `(true)`                                                                                  | Whether to show the search box                                            |
 | searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | Custom search rules                                                       |
 | size                    | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                 | A picker can have different sizes                                         |
 | toggleAs                | ElementType `('a')`                                                                               | You can use a custom element for this component                           |

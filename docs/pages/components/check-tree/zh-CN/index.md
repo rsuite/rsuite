@@ -26,42 +26,50 @@
 
 <!--{include:`custom.md`}-->
 
-### 异步加载
+### 虚拟化
+
+<!--{include:`virtualized.md`}-->
+
+### 异步载入子节点
 
 <!--{include:`async.md`}-->
 
-## Props
+### 可搜索
 
-<!--{include:(_common/types/item-data-type.md)}-->
+<!--{include:`searchable.md`}-->
+
+## Props
 
 ### `<CheckTree>`
 
-| 属性名称                | 类型 `(默认值)`                                                                                  | 描述                                                                            |
-| ----------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| cascade                 | boolean `(true)`                                                                                 | checktree 是否级联选择                                                          |
-| childKey                | string `('children')`                                                                            | tree 数据结构 children 属性名称                                                 |
-| data \*                 | [ItemDataType][item][]                                                                           | tree 数据                                                                       |
-| defaultExpandAll        | boolean                                                                                          | 默认展开所有节点                                                                |
-| defaultExpandItemValues | any []                                                                                           | 设置默认展开节点的值                                                            |
-| defaultValue            | string[]                                                                                         | 默认选中的值                                                                    |
-| disabledItemValues      | string[]                                                                                         | 禁用节点列表                                                                    |
-| expandItemValues        | any []                                                                                           | 设置展开节点的值（受控）                                                        |
-| getChildren             | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item]&gt;                              | 异步加载节点数据                                                                |
-| height                  | number `(360px)`                                                                                 | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
-| labelKey                | string `('label')`                                                                               | tree 数据结构 label 属性名称                                                    |
-| listProps               | [ListProps][listprops]                                                                           | 虚拟化长列表的相关属性                                                          |
-| onChange                | (values:string[]) => void                                                                        | 数据改变的回调函数                                                              |
-| onExpand                | (expandItemValues: any [], item: [ItemDataType][item], concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
-| onSelect                | (item: [ItemDataType][item],value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
-| renderTreeIcon          | (item:[ItemDataType][item]) => ReactNode                                                         | 自定义渲染 图标                                                                 |
-| renderTreeNode          | (item: [ItemDataType][item]) => ReactNode                                                        | 自定义渲染 tree 节点                                                            |
-| searchKeyword           | string                                                                                           | 搜索关键词(受控)                                                                |
-| uncheckableItemValues   | string[]                                                                                         | 设置不显示复选框的选项值                                                        |
-| value                   | string[]                                                                                         | 当前选中的值                                                                    |
-| valueKey                | string `('value')`                                                                               | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean                                                                                          | 是否开启虚拟列表                                                                |
+| 属性名称                | 类型 `(默认值)`                                                                              | 描述                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| cascade                 | boolean `(true)`                                                                             | 是否级联选择                                                                    |
+| childKey                | string `('children')`                                                                        | 数据 `children` 属性名称                                                        |
+| data \*                 | [TreeNode][node][]                                                                           | 树数据                                                                          |
+| defaultExpandAll        | boolean                                                                                      | 默认展开所有节点                                                                |
+| defaultExpandItemValues | any []                                                                                       | 设置默认展开节点的值                                                            |
+| defaultValue            | string[]                                                                                     | 默认选中的值                                                                    |
+| disabledItemValues      | string[]                                                                                     | 禁用节点列表                                                                    |
+| expandItemValues        | any []                                                                                       | 设置展开节点的值（受控）                                                        |
+| getChildren             | (item: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                  | 异步加载节点数据                                                                |
+| height                  | number `(360px)`                                                                             | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
+| labelKey                | string `('label')`                                                                           | tree 数据结构 label 属性名称                                                    |
+| listProps               | [ListProps][listprops]                                                                       | 虚拟化长列表的相关属性                                                          |
+| onChange                | (values:string[]) => void                                                                    | 数据改变的回调函数                                                              |
+| onExpand                | (expandItemValues: any [], item: [TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
+| onSearch                | (keyword: string) => void                                                                    | 搜索回调函数                                                                    |
+| onSelect                | (item: [TreeNode][node],value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
+| renderTreeIcon          | (item:[TreeNode][node]) => ReactNode                                                         | 自定义渲染 图标                                                                 |
+| renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                        | 自定义渲染 tree 节点                                                            |
+| searchable              | boolean                                                                                      | 是否显示搜索框                                                                  |
+| searchKeyword           | string                                                                                       | 搜索关键词(受控)                                                                |
+| uncheckableItemValues   | string[]                                                                                     | 设置不显示复选框的选项值                                                        |
+| value                   | string[]                                                                                     | 当前选中的值                                                                    |
+| valueKey                | string `('value')`                                                                           | tree 数据结构 value 属性名称                                                    |
+| virtualized             | boolean                                                                                      | 是否开启虚拟列表                                                                |
 
-<!--{include:(_common/types/item-data-type.md)}-->
+<!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
 
 ## 相关组件
@@ -71,4 +79,4 @@
 - [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
 
 [listprops]: #code-ts-list-props-code
-[item]: #code-ts-item-data-type-code
+[node]: #code-ts-tree-node-code

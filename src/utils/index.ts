@@ -36,7 +36,6 @@ export { default as createComponent } from './createComponent';
 export { default as useTimeout } from './useTimeout';
 export { default as useControlled } from './useControlled';
 export { default as useRootClose } from './useRootClose';
-export { default as getSafeRegExpString } from './getSafeRegExpString';
 export { default as stringToObject } from './stringToObject';
 export { default as useEventCallback } from './useEventCallback';
 export { default as useUpdatedRef } from './useUpdatedRef';

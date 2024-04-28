@@ -7,10 +7,9 @@ import {
   defaultItemSize,
   type ListHandle
 } from '../internals/Windowing';
-import TreeViewNode from '../Tree/TreeNode';
+import TreeViewNode, { DragStatus } from '../Tree/TreeNode';
 import { indentTreeNode } from '../Tree/utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
-import { stringifyReactNode } from '../internals/utils';
 import {
   useClassNames,
   useCustom,
@@ -19,17 +18,7 @@ import {
   shallowEqual as equal
 } from '../utils';
 
-import {
-  isExpand,
-  hasVisibleChildren,
-  getDragNodeKeys,
-  calDropNodePosition,
-  createDragTreeDataFunction,
-  removeDragPreview,
-  createDragPreview,
-  getActiveItem,
-  formatVirtualizedTreeData
-} from './utils';
+import { isExpand, hasVisibleChildren, getActiveItem, formatVirtualizedTreeData } from './utils';
 import { onMenuKeyDown } from '../internals/Picker';
 import { TreeView as BaseTreeView } from '../internals/Tree';
 import useTreeSearch from './hooks/useTreeSearch';
@@ -37,8 +26,9 @@ import useTreeDrag from './hooks/useTreeDrag';
 import useFocusTree from './hooks/useFocusTree';
 import useExpandTree from './hooks/useExpandTree';
 import SearchBox from '../internals/SearchBox';
+import { highlightLabel } from '../internals/utils';
 import { RsRefForwardingComponent, DataProps, ToArray } from '../@types/common';
-import type { TreeNode, TreeNodeMap, DropData, TreeBaseProps, TreeDragProps } from './types';
+import type { TreeNode, TreeNodeMap, TreeBaseProps, TreeDragProps } from './types';
 
 export interface TreeViewProps<V = number | string | null>
   extends TreeBaseProps<V, TreeNode>,
@@ -190,39 +180,18 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       searchBy
     });
 
-    const {
-      dragNodeKeys,
-      dragOverNodeKey,
-      dragNode,
-      dropNodePosition,
-      setDragNodeKeys,
-      setDragOverNodeKey,
-      setDragNode,
-      setDropNodePosition
-    } = useTreeDrag<TreeNode>();
-
     const getFormattedNodes = (render?: any) => {
       if (virtualized) {
         return formatVirtualizedTreeData(flattenedNodes, filteredData, expandItemValues, {
           searchKeyword: keyword
         }).filter(n => n.visible);
       }
-      return filteredData.map((dataItem, index) => render?.(dataItem, index, 1));
+      return filteredData.map((dataItem, index) => render?.(dataItem, index, 1)).filter(n => n);
     };
 
     useEffect(() => {
       setFilteredData(data, keyword);
     }, [data, keyword, setFilteredData]);
-
-    const getDropData = (nodeData: any) => {
-      const dragParams = { dragNode, dropNode: nodeData, dropNodePosition };
-      const itemKeys = { valueKey, childrenKey };
-
-      return {
-        ...dragParams,
-        createUpdateDataFunction: createDragTreeDataFunction(dragParams, itemKeys)
-      };
-    };
 
     const getTreeNodeProps = (node: any, layer: number, index?: number) => {
       const { DRAG_OVER, DRAG_OVER_TOP, DRAG_OVER_BOTTOM } = TREE_NODE_DROP_POSITION;
@@ -230,18 +199,36 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
 
       const draggingNode = dragNode ?? {};
       const value = node[valueKey];
-      const label = node[labelKey];
+      const label = keyword
+        ? highlightLabel(node[labelKey], { searchKeyword: keyword })
+        : node[labelKey];
+
       const children = node[childrenKey];
       const dragging = equal(value, draggingNode[valueKey]);
-      const dragOver = equal(value, dragOverNodeKey) && dropNodePosition === DRAG_OVER;
-      const dragOverTop = equal(value, dragOverNodeKey) && dropNodePosition === DRAG_OVER_TOP;
-      const dragOverBottom = equal(value, dragOverNodeKey) && dropNodePosition === DRAG_OVER_BOTTOM;
+
+      let dragStatus: DragStatus | undefined;
+
+      if (equal(value, dragOverNodeKey)) {
+        switch (dropNodePosition) {
+          case DRAG_OVER:
+            dragStatus = 'drag-over';
+            break;
+          case DRAG_OVER_TOP:
+            dragStatus = 'drag-over-top';
+            break;
+          case DRAG_OVER_BOTTOM:
+            dragStatus = 'drag-over-bottom';
+            break;
+        }
+      }
+
       const disabled = disabledItemValues.some(disabledItem => equal(disabledItem, value));
       const loading = loadingNodeValues.some(item => equal(item, value));
       const active = equal(value, valueProp);
       const focus = equal(value, focusItemValue);
 
       return {
+        ...dragEvents,
         rtl,
         value,
         label,
@@ -252,21 +239,13 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
         active,
         focus,
         visible,
-        draggable,
-        dragging,
         children,
         nodeData: node,
         disabled,
-        dragOver,
-        dragOverTop,
-        dragOverBottom,
+        draggable,
+        dragging,
+        dragStatus,
         onSelect: handleSelect,
-        onDragStart: handleDragStart,
-        onDragEnter: handleDragEnter,
-        onDragOver: handleDragOver,
-        onDragLeave: handleDragLeave,
-        onDragEnd: handleDragEnd,
-        onDrop: handleDrop,
         onExpand: handleExpandTreeNode,
         renderTreeNode,
         renderTreeIcon
@@ -304,6 +283,20 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       onExpand: handleExpandTreeNode
     });
 
+    const { dragNode, dragOverNodeKey, dropNodePosition, dragEvents } = useTreeDrag<TreeNode>({
+      ...itemDataKeys,
+      flattenedNodes,
+      treeNodesRefs,
+      draggable,
+      onDragStart,
+      onDragEnter,
+      onDragOver,
+      onDragLeave,
+      onDragEnd,
+      onDrop,
+      prefix
+    });
+
     const handleSelect = useEventCallback((nodeData: any, event: React.SyntheticEvent) => {
       if (!nodeData) {
         return;
@@ -315,72 +308,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       onChange?.(nextValue, event);
       onSelect?.(nodeData, nextValue, event);
       onSelectItem?.(nodeData, path);
-    });
-
-    const handleDragStart = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      if (draggable) {
-        const dragMoverNode = createDragPreview(
-          stringifyReactNode(nodeData[labelKey]),
-          prefix('drag-preview')
-        );
-        event.dataTransfer?.setDragImage(dragMoverNode, 0, 0);
-        setDragNodeKeys(getDragNodeKeys(nodeData, childrenKey, valueKey));
-        setDragNode(flattenedNodes[nodeData.refKey]);
-        onDragStart?.(nodeData, event);
-      }
-    });
-
-    const handleDragEnter = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => equal(d, nodeData[valueKey]))) {
-        return;
-      }
-
-      if (dragNode) {
-        setDragOverNodeKey(nodeData[valueKey]);
-        setDropNodePosition(calDropNodePosition(event, treeNodesRefs[nodeData.refKey]));
-      }
-      onDragEnter?.(nodeData, event);
-    });
-
-    const handleDragOver = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => equal(d, nodeData[valueKey]))) {
-        event.dataTransfer.dropEffect = 'none';
-        return;
-      }
-
-      if (dragNode && equal(nodeData[valueKey], dragOverNodeKey)) {
-        const lastDropNodePosition = calDropNodePosition(event, treeNodesRefs[nodeData.refKey]);
-        if (lastDropNodePosition === dropNodePosition) return;
-
-        setDropNodePosition(lastDropNodePosition);
-      }
-
-      onDragOver?.(nodeData, event);
-    });
-
-    const handleDragLeave = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      onDragLeave?.(nodeData, event);
-    });
-
-    const handleDragEnd = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      removeDragPreview();
-      setDragNode(null);
-      setDragNodeKeys([]);
-      setDragOverNodeKey(null);
-      onDragEnd?.(nodeData, event);
-    });
-
-    const handleDrop = useEventCallback((nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => equal(d, nodeData[valueKey]))) {
-        console.error('Cannot drag a node to itself and its children');
-      } else {
-        const dropData = getDropData(nodeData) as DropData<Record<string, any>>;
-        onDrop?.(dropData, event);
-      }
-      removeDragPreview();
-      setDragNode(null);
-      setDragNodeKeys([]);
-      setDragOverNodeKey(null);
     });
 
     const selectActiveItem = useEventCallback((event: React.SyntheticEvent) => {
@@ -478,6 +405,11 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
             inputRef={searchInputRef}
           />
         ) : null}
+
+        {keyword && formattedNodes.length === 0 ? (
+          <div className={prefix('empty')}>{locale.noResultsText}</div>
+        ) : null}
+
         <BaseTreeView
           {...rest}
           ref={treeViewRef}

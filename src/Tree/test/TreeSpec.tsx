@@ -45,6 +45,7 @@ describe('Tree', () => {
 
     expect(onDragStart).to.have.calledOnce;
     expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
+
     expect(treeNode.querySelector('.rs-tree-node-dragging')).to.exist;
   });
 
@@ -143,6 +144,38 @@ describe('Tree', () => {
     expect(lines).to.have.length(2);
     expect(lines[0]).to.have.style('left', '44px');
     expect(lines[1]).to.have.style('left', '28px');
+  });
+
+  describe('Searchable', () => {
+    it('Should call `onSearch` callback', () => {
+      const onSearch = sinon.spy();
+      render(<Tree data={data} onSearch={onSearch} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'tester');
+
+      expect(onSearch).to.have.been.calledWith('tester');
+    });
+
+    it('Should filter the tree when searching', () => {
+      render(<Tree data={data} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'tester0');
+
+      expect(screen.queryByRole('treeitem', { name: 'tester0' })).to.exist;
+      expect(screen.queryByRole('treeitem', { name: 'tester1' })).to.not.exist;
+      expect(screen.queryByRole('treeitem', { name: 'tester2' })).to.not.exist;
+    });
+
+    it('Should show the empty message when no search results are found', () => {
+      render(<Tree data={data} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'No');
+
+      expect(screen.getByText('No results found')).to.exist;
+    });
   });
 
   describe('Accessibility - Keyboard interactions', () => {

@@ -7,6 +7,7 @@ import { useCustom, useClassNames, useEventCallback } from '../utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
 import { onMenuKeyDown } from '../internals/Picker';
 import { TreeView } from '../internals/Tree';
+import { highlightLabel } from '../internals/utils';
 import SearchBox from '../internals/SearchBox';
 import {
   isEveryChildChecked,
@@ -219,13 +220,14 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       return getFormattedTree(flattenedNodes, filteredData, {
         childrenKey,
         cascade
-      }).map(node => render?.(node, 1));
+      })
+        .map(node => render?.(node, 1))
+        .filter(item => item);
     };
 
     const getTreeNodeProps = (nodeData: any, layer: number) => {
       const { expand, visible, checkState } = nodeData;
       const value = nodeData[valueKey];
-      const label = nodeData[labelKey];
       const allUncheckable = isAllSiblingNodeUncheckable(
         nodeData,
         flattenedNodes,
@@ -233,6 +235,9 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         valueKey
       );
 
+      const label = keyword
+        ? highlightLabel(nodeData[labelKey], { searchKeyword: keyword })
+        : nodeData[labelKey];
       const disabled = getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
       const uncheckable = isNodeUncheckable(nodeData, { uncheckableItemValues, valueKey });
       const loading = loadingNodeValues.some(item => item === nodeData[valueKey]);
@@ -467,18 +472,14 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     };
 
     const classes = merge(
+      className,
       withClassPrefix({
         'without-children': !isSomeNodeHasChildren(data, childrenKey),
         virtualized
-      }),
-      className
+      })
     );
 
     const formattedNodes = getFormattedNodes(renderNode);
-
-    if (!formattedNodes.some(v => v !== null)) {
-      return <div className={prefix('none')}>{locale.noResultsText}</div>;
-    }
 
     const treeNodesClass = merge(prefix('root'), {
       [prefix('all-uncheckable')]: isEveryFirstLevelNodeUncheckable(
@@ -498,6 +499,11 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
             inputRef={searchInputRef}
           />
         ) : null}
+
+        {keyword && formattedNodes.length === 0 ? (
+          <div className={prefix('empty')}>{locale.noResultsText}</div>
+        ) : null}
+
         <TreeView
           {...rest}
           multiselectable

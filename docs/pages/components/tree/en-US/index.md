@@ -52,16 +52,18 @@
 | labelKey                | string `('label')`                                                                             | Tree data structure Label property name                                   |
 | listProps               | [ListProps][listprops]                                                                         | Properties of virtualized lists.                                          |
 | onChange                | (value:string) => void                                                                         | Callback function for data change                                         |
-| onDragEnd               | (node: [TreeNode][item], event) => void                                                        | Called when node drag end                                                 |
-| onDragEnter             | (node: [TreeNode][item], event) => void                                                        | Called when node drag enter                                               |
-| onDragLeave             | (node: [TreeNode][item], event) => void                                                        | Called when node drag leave                                               |
-| onDragOver              | (node: [TreeNode][item], event) => void                                                        | Called when node drag over                                                |
-| onDragStart             | (node: [TreeNode][item], event) => void                                                        | Called when node drag start                                               |
-| onDrop                  | (dropData: [DropDataType][drop], event) => void                                                | Called when node drop                                                     |
+| onDragEnd               | (node: [TreeNode][item], event) => void                                                        | Called when drag ends                                                     |
+| onDragEnter             | (node: [TreeNode][item], event) => void                                                        | Called when drag enters a node                                            |
+| onDragLeave             | (node: [TreeNode][item], event) => void                                                        | Called when drag leaves a node                                            |
+| onDragOver              | (node: [TreeNode][item], event) => void                                                        | Called when drag over a node                                              |
+| onDragStart             | (node: [TreeNode][item], event) => void                                                        | Called when drag start                                                    |
+| onDrop                  | (dropData: [DropDataType][drop], event) => void                                                | Called when drop                                                          |
 | onExpand                | (expandItemValues: string[], node: [TreeNode][item], concat:(data, children) => Array) => void | Callback When tree node is displayed                                      |
+| onSearch                | (keyword: string) => void                                                                      | Callback function for search                                              |
 | onSelect                | (node:[TreeNode][item], value, event) => void                                                  | Callback function after selecting tree node                               |
 | renderTreeIcon          | (node: [TreeNode][item]) => ReactNode                                                          | Custom Render icon                                                        |
 | renderTreeNode          | (node: [TreeNode][item]) => ReactNode                                                          | Custom Render tree Node                                                   |
+| searchable              | boolean                                                                                        | Whether to show the search box                                            |
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |
 | showIndentLine          | boolean                                                                                        | Whether to show indent line                                               |
 | value                   | string                                                                                         | Selected value                                                            |

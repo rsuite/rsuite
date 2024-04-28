@@ -24,12 +24,12 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       value: controlledValue,
       defaultValue,
       uncheckableItemValues,
-      onChange,
       childrenKey = 'children',
       labelKey = 'label',
       valueKey = 'value',
       cascade = true,
       data,
+      onChange,
       ...rest
     } = props;
 

@@ -1,11 +1,12 @@
 import React, { forwardRef, useMemo } from 'react';
 import hasClass from 'dom-lib/hasClass';
-import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
-import Spinner from '@rsuite/icons/legacy/Spinner';
 import { useClassNames, useEventCallback } from '../utils';
 import { indentTreeNode } from '../Tree/utils';
 import { stringifyReactNode } from '../internals/utils';
 import { WithAsProps, RsRefForwardingComponent, ItemDataType } from '../@types/common';
+import TreeNodeToggle from './TreeNodeToggle';
+
+export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
 
 /**
  * Props for the TreeNode component.
@@ -63,18 +64,12 @@ export interface TreeNodeProps extends WithAsProps {
    * Whether the node is being dragged.
    */
   dragging?: boolean;
+
   /**
-   * Whether the node is being dragged over.
+   * Drag status of the node.
    */
-  dragOver?: boolean;
-  /**
-   * Whether the node is being dragged over the top.
-   */
-  dragOverTop?: boolean;
-  /**
-   * Whether the node is being dragged over the bottom.
-   */
-  dragOverBottom?: boolean;
+  dragStatus?: DragStatus;
+
   /**
    * Whether the node has children.
    */
@@ -155,9 +150,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     focus,
     hasChildren,
     dragging,
-    dragOver,
-    dragOverTop,
-    dragOverBottom,
+    dragStatus,
     onSelect,
     onDragStart,
     onDragOver,
@@ -227,55 +220,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     onDrop?.(nodeData, event);
   });
 
-  const renderIcon = () => {
-    const classes = prefix('expand-icon', 'icon', { expanded: expand });
-
-    let expandIcon = <ArrowDown className={classes} />;
-    if (loading) {
-      expandIcon = (
-        <div className={prefix('loading-icon')}>
-          <Spinner spin />
-        </div>
-      );
-    }
-    if (nodeData !== undefined && typeof renderTreeIcon === 'function') {
-      const customIcon = renderTreeIcon(nodeData);
-      expandIcon =
-        customIcon !== null ? (
-          <div className={prefix('custom-icon')}>{customIcon}</div>
-        ) : (
-          expandIcon
-        );
-    }
-
-    return hasChildren ? (
-      <div
-        role="button"
-        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
-        tabIndex={-1}
-        data-ref={nodeData.refKey}
-        className={prefix('expand-icon-wrapper')}
-        onClick={handleExpand}
-      >
-        {expandIcon}
-      </div>
-    ) : null;
-  };
-
-  const renderLabel = () => {
-    const contentClasses = prefix('label-content', {
-      dragging,
-      'drag-over': dragOver,
-      'drag-over-top': dragOverTop,
-      'drag-over-bottom': dragOverBottom
-    });
-    return (
-      <span className={prefix('label')}>
-        <span className={contentClasses}>{renderTreeNode ? renderTreeNode(nodeData) : label}</span>
-      </span>
-    );
-  };
-
   const classes = merge(
     className,
     withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
@@ -308,8 +252,18 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       onDragEnd={handleDragEnd}
       onDrop={handleDrop}
     >
-      {renderIcon()}
-      {renderLabel()}
+      <TreeNodeToggle
+        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
+        data={nodeData}
+        expanded={expand}
+        loading={loading}
+        renderTreeIcon={renderTreeIcon}
+        hasChildren={hasChildren}
+        onClick={handleExpand}
+      />
+      <span className={prefix('label', dragStatus, { dragging })}>
+        {renderTreeNode ? renderTreeNode(nodeData) : label}
+      </span>
     </Component>
   ) : null;
 });
