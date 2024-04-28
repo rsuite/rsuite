@@ -76,6 +76,12 @@ export interface CheckTreeNodeProps extends WithAsProps {
    * Whether all nodes are uncheckable.
    */
   allUncheckable?: boolean;
+
+  /**
+   * Reference to the tree item.
+   */
+  treeItemRef?: React.Ref<any>;
+
   /**
    * Callback function called when the node is expanded.
    */
@@ -117,6 +123,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     uncheckable,
     checkState,
     value,
+    treeItemRef,
     onExpand,
     onSelect,
     renderTreeIcon,
@@ -211,6 +218,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       <ListCheckItem
         as="div"
         role="treeitem"
+        ref={treeItemRef}
         aria-label={labelStr}
         aria-expanded={expand}
         aria-checked={checkState === CHECK_STATE.CHECK}

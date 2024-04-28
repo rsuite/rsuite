@@ -13,7 +13,7 @@ const data = mockTreeData({
 });
 
 const App = () => {
-  return <Tree data={data} defaultExpandAll />;
+  return <Tree data={data} searchable />;
 };
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

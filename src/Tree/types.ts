@@ -120,7 +120,7 @@ export interface TreeDragProps<T = Record<string, any>> {
   onDrop?: (dropData: DropData<T>, e: React.DragEvent) => void;
 }
 
-export interface TreeBaseProps<V = string | number, T = Record<string, any>> extends StandardProps {
+export interface TreeBaseProps<V = string | number, T = TreeNode> extends StandardProps {
   /** The height of Dropdown */
   height?: number;
 

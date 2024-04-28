@@ -30,6 +30,10 @@
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
     z-index: -1;
   }
+
+  .rs-search-box {
+    padding: 6px 12px 6px;
+  }
 }
 
 .rs-tree-node {
@@ -38,6 +42,12 @@
   font-size: 0;
   text-align: left;
   margin: 0 0 4px 0;
+
+  &:focus-visible {
+    .rs-tree-node-label-content {
+      .focus-ring();
+    }
+  }
 
   &-label {
     position: relative;
@@ -48,12 +58,6 @@
     cursor: pointer;
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
-
-    &:focus-visible {
-      .rs-tree-node-label-content {
-        .focus-ring();
-      }
-    }
 
     &-content {
       padding: 6px 8px;

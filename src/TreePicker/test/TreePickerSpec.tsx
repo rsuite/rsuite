@@ -33,8 +33,7 @@ describe('TreePicker', () => {
     changedValue: '3',
     simulateEvent: {
       changeValue: () => {
-        const input = screen.getAllByRole('button')[1];
-        userEvent.click(input);
+        userEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
         return { changedValue: 'Master' };
       }
     },
@@ -92,7 +91,7 @@ describe('TreePicker', () => {
   });
 
   it('Should expand children nodes', () => {
-    render(<TreePicker open cascade={false} data={data} value="Master" />);
+    render(<TreePicker open data={data} value="Master" />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Expand Master' }));
 
@@ -190,9 +189,7 @@ describe('TreePicker', () => {
       />
     );
 
-    // TODO-Doma
-    // Use `treeitem` role
-    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+    userEvent.click(screen.getByRole('treeitem', { name: 'tester2' }));
 
     expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
       sinon.match({ value: 'Master' }),
@@ -205,7 +202,7 @@ describe('TreePicker', () => {
     const onChange = sinon.spy();
     render(<TreePicker open onChange={onChange} data={data} />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
     expect(onChange).to.have.been.calledOnce;
   });
@@ -239,83 +236,6 @@ describe('TreePicker', () => {
     });
   });
 
-  it('Should focus item by key=ArrowDown', () => {
-    render(<TreePicker open data={data} defaultExpandAll value="tester1" />);
-
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: KEY_VALUES.DOWN });
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
-  });
-
-  it('Should focus item by key=ArrowUp', async () => {
-    render(<TreePicker open data={data} defaultExpandAll value="tester1" />);
-
-    const label = await screen.findByRole('button', { name: 'tester1' });
-
-    fireEvent.click(label);
-    fireEvent.keyDown(label, { key: KEY_VALUES.UP });
-
-    await waitFor(() => {
-      expect(screen.queryByRole('treeitem', { name: 'tester0' })).to.have.class(
-        'rs-tree-node-focus'
-      );
-    });
-  });
-
-  it('Should fold children node by key=ArrowLeft', () => {
-    render(<TreePicker open data={data} defaultExpandAll />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
-
-    expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
-  });
-
-  it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
-    render(<TreePicker defaultOpen data={data} defaultExpandAll />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
-
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
-    expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
-  });
-
-  it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
-    render(<TreePicker defaultOpen data={data} defaultExpandAll />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
-
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
-  });
-
-  it('Should fold children node by key=ArrowRight', () => {
-    render(<TreePicker defaultOpen data={data} />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
-
-    expect(screen.getByRole('treeitem', { name: 'Master', expanded: true })).to.exist;
-  });
-
-  it('Should change nothing when trigger on leaf node by key=ArrowRight', () => {
-    render(<TreePicker defaultOpen data={data} defaultExpandAll />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'tester0' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
-
-    expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
-  });
-
-  it('Should focus on first child node when node expanded by key=ArrowRight', () => {
-    render(<TreePicker defaultOpen data={data} defaultExpandAll />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
-    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
-
-    expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
-  });
-
   it('Should load data async', () => {
     const data = [
       {
@@ -333,7 +253,6 @@ describe('TreePicker', () => {
     render(
       <TreePicker
         data={data}
-        cascade={false}
         open
         ref={ref}
         defaultExpandAll
@@ -519,7 +438,7 @@ describe('TreePicker', () => {
         renderTreeNode={renderTreeNodeSpy}
       />
     );
-    fireEvent.click(screen.getByRole('button', { name: 'Master' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
     expect(onSelectSpy).to.called;
     expect(renderTreeNodeSpy).to.called;
@@ -558,5 +477,89 @@ describe('TreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master');
+  });
+
+  describe('Accessibility - Keyboard interactions', () => {
+    it('Should focus item by key=ArrowDown', () => {
+      render(<TreePicker open data={data} defaultExpandAll />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: KEY_VALUES.DOWN });
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      expect(treeItem).to.have.class('rs-tree-node-focus');
+      expect(treeItem).to.have.focus;
+    });
+
+    it('Should focus item by key=ArrowUp', async () => {
+      render(<TreePicker open data={data} defaultExpandAll />);
+
+      const label = await screen.findByRole('treeitem', { name: 'tester1' });
+
+      fireEvent.click(label);
+      fireEvent.keyDown(label, { key: KEY_VALUES.UP });
+
+      await waitFor(() => {
+        const treeItem = screen.getByRole('treeitem', { name: 'tester0' });
+
+        expect(treeItem).to.have.class('rs-tree-node-focus');
+        expect(treeItem).to.have.focus;
+      });
+    });
+
+    it('Should fold children node by key=ArrowLeft', () => {
+      render(<TreePicker open data={data} defaultExpandAll />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
+    });
+
+    it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
+      render(<TreePicker defaultOpen data={data} defaultExpandAll />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
+      expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
+    });
+
+    it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
+      render(<TreePicker defaultOpen data={data} defaultExpandAll />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class('rs-tree-node-focus');
+    });
+
+    it('Should fold children node by key=ArrowRight', () => {
+      render(<TreePicker defaultOpen data={data} />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
+
+      expect(screen.getByRole('treeitem', { name: 'Master', expanded: true })).to.exist;
+    });
+
+    it('Should change nothing when trigger on leaf node by key=ArrowRight', () => {
+      render(<TreePicker defaultOpen data={data} defaultExpandAll />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'tester0' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
+
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
+    });
+
+    it('Should focus on first child node when node expanded by key=ArrowRight', () => {
+      render(<TreePicker defaultOpen data={data} defaultExpandAll />);
+
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
+
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
+    });
   });
 });

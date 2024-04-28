@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,7 +7,7 @@ import { getInstance } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
-import { data, originMockData, changedMockData, controlledData } from './mocks';
+import { originMockData, changedMockData, controlledData } from './mocks';
 import { PickerHandle } from '../../internals/Picker';
 import {
   testStandardProps,
@@ -15,6 +16,8 @@ import {
   testPickers
 } from '@test/utils';
 import '../styles/index.less';
+
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('CheckTreePicker', () => {
   testStandardProps(<CheckTreePicker data={data} />, {
@@ -664,5 +667,79 @@ describe('CheckTreePicker', () => {
     expect(screen.getAllByRole('treeitem')).to.have.length(1);
     rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Tree" />);
     expect(screen.queryAllByRole('treeitem')).to.have.length(0);
+  });
+
+  describe('Accessibility - Keyboard interactions', () => {
+    it('Should focus item by key=ArrowDown', () => {
+      render(<CheckTreePicker open data={data} defaultExpandAll value={['tester1']} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: KEY_VALUES.DOWN });
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      expect(treeItem).to.be.focus;
+      expect(treeItem).to.have.contain('.rs-check-item-focus');
+    });
+
+    it('Should focus item by key=ArrowUp', async () => {
+      render(<CheckTreePicker open data={data} defaultExpandAll />);
+
+      const label = await screen.findByRole('treeitem', { name: 'tester1' });
+
+      fireEvent.click(label?.querySelector('label') as HTMLElement);
+      fireEvent.keyDown(label, { key: KEY_VALUES.UP });
+
+      await waitFor(() => {
+        const treeItem = screen.getByRole('treeitem', { name: 'tester0' });
+
+        expect(treeItem).to.be.focus;
+        expect(treeItem).to.have.contain('.rs-check-item-focus');
+      });
+    });
+
+    it('Should fold children node by key=ArrowLeft', () => {
+      render(<CheckTreePicker open data={data} defaultExpandAll />);
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      fireEvent.click(treeItem.querySelector('label') as HTMLElement);
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
+    });
+
+    it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
+      render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      fireEvent.click(treeItem.querySelector('label') as HTMLElement);
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(treeItem).to.have.attribute('aria-selected', 'true');
+      expect(screen.queryByRole('treeitem', { name: 'Master', expanded: true })).not.to.exist;
+    });
+
+    it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
+      render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      fireEvent.click(treeItem.querySelector('label') as HTMLElement);
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
+
+      expect(treeItem).to.have.attribute('aria-selected', 'true');
+    });
+
+    it('Should fold children node by key=ArrowRight', () => {
+      render(<CheckTreePicker defaultOpen data={data} />);
+
+      const treeItem = screen.getByRole('treeitem', { name: 'Master' });
+
+      fireEvent.click(treeItem.querySelector('label') as HTMLElement);
+      fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
+
+      expect(screen.getByRole('treeitem', { name: 'Master', expanded: true })).to.exist;
+    });
   });
 });

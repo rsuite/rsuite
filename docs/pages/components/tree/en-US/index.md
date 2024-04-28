@@ -20,9 +20,17 @@
 
 <!--{include:`draggable.md`}-->
 
-### Async
+### Virtualized
+
+<!--{include:`virtualized.md`}-->
+
+### Asynchronous Loading of Child Nodes
 
 <!--{include:`async.md`}-->
+
+### Searchable
+
+<!--{include:`searchable.md`}-->
 
 ## Props
 

@@ -50,11 +50,6 @@ export interface TreeViewProps<V = number | string | null>
   value?: V;
 
   /**
-   * Tree node cascade.
-   */
-  cascade?: boolean;
-
-  /**
    * Whether display search input box.
    */
   searchable?: boolean;

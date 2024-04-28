@@ -32,6 +32,7 @@ import { TreeNode } from '../Tree/types';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
 import type { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (string | number)[];
@@ -98,10 +99,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     renderMenu,
     getChildren,
     renderExtraFooter,
-    onEntered,
+    onEnter,
     onChange,
     onClean,
-    onExited,
+    onExit,
     onSearch,
     onSelect,
     onSelectItem,
@@ -116,7 +117,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
   const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
-  const [activeNode, setActiveNode] = useState<TreeNode | null>(null);
   const { prefix } = useClassNames(classPrefix);
 
   const [value, setValue] = useTreeValue(controlledValue, {
@@ -135,26 +135,23 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
   const [focusItemValue, setFocusItemValue] = useState<number | string | null>(null);
+  const { register, focusFirstNode } = useTreeImperativeHandle();
 
   const handleFocusItem = useEventCallback((value: string | number) => {
     setFocusItemValue(value);
   });
 
-  const handleOpen = useEventCallback(() => {
-    setFocusItemValue(activeNode?.[valueKey]);
-    //focusActiveNode();
+  const focusCombobox = useEventCallback(() => {
+    target.current?.focus();
+  });
+
+  const handleEnter = useEventCallback(() => {
     setActive(true);
   });
 
   const handleClose = useEventCallback(() => {
-    //setSearchKeyword('');
-    setFocusItemValue(null);
     setActive(false);
-
-    /**
-     * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
-     */
-    target.current?.focus();
+    focusCombobox();
   });
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
@@ -164,14 +161,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       return;
     }
 
-    setActiveNode(null);
     setFocusItemValue(null);
     setValue([]);
     onChange?.([], event);
   });
 
-  const handleTreeKeydown = useEventCallback((event: React.KeyboardEvent<any>) => {
-    onMenuKeyDown(event, { del: handleClean });
+  const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    onMenuKeyDown(event, { del: handleClean, down: () => focusFirstNode() });
   });
 
   const onPickerKeydown = useToggleKeyDownEvent({
@@ -182,7 +178,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     searchInput,
     active,
     onExit: handleClean,
-    onMenuKeyDown: handleTreeKeydown,
+    onMenuKeyDown: handleTreeKeyDown,
     ...rest
   });
 
@@ -192,41 +188,43 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   });
 
   const checkTreeView = (
-    <CheckTreeView
-      ref={treeView}
-      defaultExpandAll={defaultExpandAll}
-      defaultExpandItemValues={defaultExpandItemValues}
-      disabledItemValues={disabledItemValues}
-      expandItemValues={expandItemValues}
-      uncheckableItemValues={uncheckableItemValues}
-      cascade={cascade}
-      virtualized={virtualized}
-      data={treeData}
-      height={menuMaxHeight}
-      showIndentLine={showIndentLine}
-      listProps={listProps}
-      listRef={list}
-      labelKey={labelKey}
-      valueKey={valueKey}
-      searchBy={searchBy}
-      searchable={searchable}
-      searchKeyword={searchKeyword}
-      searchInputRef={searchInput}
-      renderTreeIcon={renderTreeIcon}
-      renderTreeNode={renderTreeNode}
-      onScroll={onScroll}
-      onSelect={onSelect}
-      onSelectItem={onSelectItem}
-      onExpand={onExpand}
-      onSearch={onSearch}
-      onChange={handleChange}
-      onFocusItem={handleFocusItem}
-      getChildren={getChildren}
-      value={value}
-      loadingNodeValues={loadingNodeValues}
-      flattenedNodes={flattenedNodes}
-      appendChild={appendChild}
-    />
+    <TreeProvider value={{ register }}>
+      <CheckTreeView
+        ref={treeView}
+        defaultExpandAll={defaultExpandAll}
+        defaultExpandItemValues={defaultExpandItemValues}
+        disabledItemValues={disabledItemValues}
+        expandItemValues={expandItemValues}
+        uncheckableItemValues={uncheckableItemValues}
+        cascade={cascade}
+        virtualized={virtualized}
+        data={treeData}
+        height={menuMaxHeight}
+        showIndentLine={showIndentLine}
+        listProps={listProps}
+        listRef={list}
+        labelKey={labelKey}
+        valueKey={valueKey}
+        searchBy={searchBy}
+        searchable={searchable}
+        searchKeyword={searchKeyword}
+        searchInputRef={searchInput}
+        renderTreeIcon={renderTreeIcon}
+        renderTreeNode={renderTreeNode}
+        onScroll={onScroll}
+        onSelect={onSelect}
+        onSelectItem={onSelectItem}
+        onExpand={onExpand}
+        onSearch={onSearch}
+        onChange={handleChange}
+        onFocusItem={handleFocusItem}
+        getChildren={getChildren}
+        value={value}
+        loadingNodeValues={loadingNodeValues}
+        flattenedNodes={flattenedNodes}
+        appendChild={appendChild}
+      />
+    </TreeProvider>
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
@@ -296,9 +294,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
-      onEnter={handleOpen}
-      onEntered={onEntered}
-      onExited={createChainedFunction(handleClose, onExited)}
+      onEnter={createChainedFunction(handleEnter, onEnter)}
+      onExit={createChainedFunction(handleClose, onExit)}
       speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>

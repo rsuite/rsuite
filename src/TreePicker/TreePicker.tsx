@@ -88,12 +88,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     renderTreeIcon,
     renderTreeNode,
     onExit,
-    onExited,
     onClean,
     onSearch,
     onSelect,
     onSelectItem,
     onChange,
+    onEnter,
     onEntered,
     onExpand,
     renderExtraFooter,
@@ -120,7 +120,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     target.current?.focus();
   });
 
-  const { onMounted, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
+  const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
 
   const handleSelect = useEventCallback(
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
@@ -136,15 +136,18 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     setFocusItemValue(value);
   });
 
-  const handleOpen = useEventCallback(() => {
+  const handleEnter = useEventCallback(() => {
+    setActive(true);
+  });
+
+  const handleEntered = useEventCallback(() => {
     if (value) {
       setFocusItemValue(value);
       focusActiveNode();
     }
-    setActive(true);
   });
 
-  const handleClose = useEventCallback(() => {
+  const handleExit = useEventCallback(() => {
     setActive(false);
 
     /**
@@ -201,7 +204,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   );
 
   const tree = (
-    <TreeProvider value={{ onMounted }}>
+    <TreeProvider value={{ register }}>
       <TreeView
         ref={treeView}
         virtualized={virtualized}
@@ -291,9 +294,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
-      onExit={onExit}
-      onEntered={createChainedFunction(handleOpen, onEntered)}
-      onExited={createChainedFunction(handleClose, onExited)}
+      onEnter={createChainedFunction(handleEnter, onEnter)}
+      onEntered={createChainedFunction(handleEntered, onEntered)}
+      onExit={createChainedFunction(handleExit, onExit)}
       speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>

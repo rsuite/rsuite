@@ -232,9 +232,12 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         uncheckableItemValues,
         valueKey
       );
+
       const disabled = getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
       const uncheckable = isNodeUncheckable(nodeData, { uncheckableItemValues, valueKey });
       const loading = loadingNodeValues.some(item => item === nodeData[valueKey]);
+      const focus = focusItemValue === value;
+
       return {
         rtl,
         value,
@@ -248,7 +251,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         checkState,
         uncheckable,
         allUncheckable,
-        focus: focusItemValue === value,
+        focus,
         renderTreeNode,
         renderTreeIcon,
         onSelect: handleSelect,
@@ -345,15 +348,13 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       }
 
       const selectedValues = toggleChecked(node, !currentNode.check);
+      const path = getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]));
 
       setFocusItemValue(node[valueKey]);
 
       onChange?.(selectedValues, event);
       onSelect?.(node as ItemDataType, selectedValues, event);
-      onSelectItem?.(
-        node,
-        getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]))
-      );
+      onSelectItem?.(node, path);
     });
 
     const selectActiveItem = (event: React.KeyboardEvent<any>) => {
@@ -414,7 +415,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         const nodes = children || [];
         return (
           <div className={childrenClass} key={node[valueKey]}>
-            <CheckTreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, refKey)} />
+            <CheckTreeNode {...nodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
             <div className={prefix('group')} role="group">
               {nodes.map(child => renderNode(child, layer))}
               {showIndentLine && (
@@ -431,7 +432,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       return (
         <CheckTreeNode
           key={node[valueKey]}
-          ref={ref => saveTreeNodeRef(ref, refKey)}
+          treeItemRef={ref => saveTreeNodeRef(ref, refKey)}
           {...nodeProps}
         />
       );

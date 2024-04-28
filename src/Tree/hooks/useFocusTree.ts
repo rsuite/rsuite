@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
 import { KEY_VALUES } from '../../utils/constants';
-import { useEventCallback, useMount } from '../../utils';
+import { useEventCallback } from '../../utils';
 import { onMenuKeyDown } from '../../internals/Picker';
 
 import {
@@ -51,7 +51,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
   const treeViewRef = useRef<HTMLDivElement>(null);
   const [focusItemValue, setFocusItemValue] = useState<TreeNode['value'] | null>(null);
-  const { onMounted } = useTreeContext();
+  const { register } = useTreeContext();
   const flattenedNodesRef = useRef(flattenedNodes);
 
   const getFocusProps = (value?: string | number) => {
@@ -148,9 +148,14 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     }
   }, [onFocused, valueKey]);
 
-  useMount(() => {
-    onMounted?.({ focusTreeFirstNode, focusTreeActiveNode });
-  });
+  useEffect(() => {
+    const unregister = register?.({ focusTreeFirstNode, focusTreeActiveNode });
+
+    return () => {
+      unregister?.();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     flattenedNodesRef.current = flattenedNodes;

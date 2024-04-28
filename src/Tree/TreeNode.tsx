@@ -177,6 +177,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
     // stop propagation when using custom loading icon
     event?.nativeEvent?.stopImmediatePropagation?.();
+    event.stopPropagation();
     onExpand?.(nodeData);
   });
 
@@ -227,9 +228,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   });
 
   const renderIcon = () => {
-    const classes = prefix('expand-icon', 'icon', {
-      expanded: expand
-    });
+    const classes = prefix('expand-icon', 'icon', { expanded: expand });
 
     let expandIcon = <ArrowDown className={classes} />;
     if (loading) {
@@ -271,15 +270,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       'drag-over-bottom': dragOverBottom
     });
     return (
-      <span
-        role="button"
-        tabIndex={-1}
-        className={prefix('label')}
-        title={stringifyReactNode(label)}
-        data-layer={layer}
-        data-key={nodeData?.refKey || ''}
-        onClick={handleSelect}
-      >
+      <span className={prefix('label')}>
         <span className={contentClasses}>{renderTreeNode ? renderTreeNode(nodeData) : label}</span>
       </span>
     );
@@ -295,6 +286,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   return visible ? (
     <Component
       role="treeitem"
+      tabIndex={-1}
       {...rest}
       aria-expanded={expand}
       aria-label={labelStr}
@@ -306,6 +298,9 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       className={classes}
       ref={ref}
       draggable={draggable}
+      data-layer={layer}
+      data-key={nodeData?.refKey || ''}
+      onClick={handleSelect}
       onDragStart={handleDragStart}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}

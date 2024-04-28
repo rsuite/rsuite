@@ -27,9 +27,7 @@ describe('Tree', () => {
       <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
     );
 
-    // TODO-Doma
-    // Use `treeitem` role
-    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+    userEvent.click(screen.getByRole('treeitem', { name: 'tester2' }));
 
     expect(onSelectItem).to.have.been.calledWithMatch({ value: 'tester2' }, [
       sinon.match({ value: 'Master' }),
@@ -145,5 +143,50 @@ describe('Tree', () => {
     expect(lines).to.have.length(2);
     expect(lines[0]).to.have.style('left', '44px');
     expect(lines[1]).to.have.style('left', '28px');
+  });
+
+  describe('Accessibility - Keyboard interactions', () => {
+    it('Should focus the next item when pressing the down arrow key', () => {
+      render(<Tree data={data} />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+      expect(treeItems[0]).to.have.focus;
+    });
+
+    it('Should focus the previous item when pressing the up arrow key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowUp' });
+      fireEvent.keyDown(tree, { key: 'ArrowUp' });
+
+      expect(treeItems[treeItems.length - 1]).to.have.focus;
+    });
+
+    it('Should expand the item when pressing the right arrow key', () => {
+      render(<Tree data={data} />);
+
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.click(treeItems[0]);
+      fireEvent.keyDown(treeItems[0], { key: 'ArrowRight' });
+
+      expect(treeItems[0]).to.have.attribute('aria-expanded', 'true');
+    });
+
+    it('Should collapse the item when pressing the left arrow key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.click(treeItems[0]);
+      fireEvent.keyDown(treeItems[0], { key: 'ArrowLeft' });
+
+      expect(treeItems[0]).to.have.attribute('aria-expanded', 'false');
+    });
   });
 });

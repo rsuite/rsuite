@@ -20,9 +20,17 @@
 
 <!--{include:`draggable.md`}-->
 
-### 异步加载
+### 虚拟化
+
+<!--{include:`virtualized.md`}-->
+
+### 异步载入子节点
 
 <!--{include:`async.md`}-->
+
+### 可搜索
+
+<!--{include:`searchable.md`}-->
 
 ## Props
 
