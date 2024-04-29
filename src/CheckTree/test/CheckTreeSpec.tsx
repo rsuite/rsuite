@@ -35,11 +35,7 @@ describe('CheckTree', () => {
       <CheckTree data={data} expandItemValues={['Master', 'tester1']} onSelectItem={onSelectItem} />
     );
 
-    // TODO-Doma
-    // Handle click on `treeitem`
-    fireEvent.click(
-      screen.getByRole('treeitem', { name: 'tester2' }).querySelector('label') as HTMLLabelElement
-    );
+    fireEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
 
     expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
       sinon.match({ value: 'Master' }),

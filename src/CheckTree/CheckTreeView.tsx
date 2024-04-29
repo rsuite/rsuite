@@ -379,7 +379,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     });
 
     const renderNode = (node: TreeNode, layer: number) => {
-      const { visible, refKey } = node;
+      const { visible, refKey, parent } = node;
 
       // when searching, all nodes should be expand
       const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
@@ -389,7 +389,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       }
 
       const children = node[childrenKey];
-      const visibleChildren =
+      const hasChildren =
         isUndefined(keyword) || keyword.length === 0
           ? !!children
           : hasVisibleChildren(node, childrenKey);
@@ -401,12 +401,12 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
              * spread operator don't copy unenumerable properties
              * so we need to copy them manually
              */
-            parent: node.parent,
+            parent,
             expand
           },
           layer
         ),
-        hasChildren: visibleChildren
+        hasChildren
       };
 
       if (nodeProps.hasChildren) {
@@ -414,7 +414,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
 
         const openClass = prefix('open');
         const childrenClass = merge(prefix('node-children'), {
-          [openClass]: expand && visibleChildren
+          [openClass]: expand && hasChildren
         });
 
         const nodes = children || [];
@@ -445,7 +445,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
 
     const renderVirtualListNode = ({ index, style, data }: ListChildComponentProps) => {
       const node = data[index];
-      const { layer, refKey, visible } = node;
+      const { layer, refKey, visible, hasChildren, parent } = node;
       const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
 
       const nodeProps = {
@@ -456,12 +456,12 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
              * spread operator don't copy unenumerable properties
              * so we need to copy them manually
              */
-            parent: node.parent,
+            parent,
             expand
           },
           layer
         ),
-        hasChildren: node.hasChildren
+        hasChildren
       };
 
       return (

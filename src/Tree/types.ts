@@ -5,7 +5,7 @@ import type { ListProps } from '../internals/Windowing';
 /**
  * Represents a single node in a tree.
  */
-export interface TreeNode {
+export interface TreeNode extends Record<string, any> {
   /**
    * Specifies whether the node is uncheckable.
    */

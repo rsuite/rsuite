@@ -27,10 +27,7 @@ export interface CheckTreeNodeProps extends WithAsProps {
    * Whether the node should be focused.
    */
   focus?: boolean;
-  /**
-   * Custom styles for the node.
-   */
-  style?: React.CSSProperties;
+
   /**
    * Whether the node should be expanded.
    */
@@ -51,18 +48,12 @@ export interface CheckTreeNodeProps extends WithAsProps {
    * Whether the node is disabled.
    */
   disabled?: boolean;
-  /**
-   * Additional class name for the node.
-   */
-  className?: string;
+
   /**
    * The check state of the node.
    */
   checkState?: CheckStateType;
-  /**
-   * The prefix for CSS classes.
-   */
-  classPrefix?: string;
+
   /**
    * Whether the node has children.
    */
