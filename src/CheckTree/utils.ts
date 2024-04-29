@@ -1,12 +1,12 @@
 import { isNil, isUndefined } from 'lodash';
 import { CheckTreeProps, ValueType } from './CheckTree';
-import { CHECK_STATE, CheckStateType, shallowEqual } from '../utils';
+import { CHECK_STATE, CheckStateType } from '../utils';
 import { formatNodeRefKey } from '../Tree/utils';
 import { attachParent } from '../utils/attachParent';
 import { TreeNode, TreeNodeMap } from '../Tree/types';
 
 /**
- * get all children from flattenedNodes object by given parent node
+ * Retrieves the children of a given parent node from a flattened node map.
  */
 function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
   if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
@@ -18,6 +18,9 @@ function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
   );
 }
 
+/**
+ * Checks if every child of a given parent node is checked.
+ */
 export function isEveryChildChecked(nodes: TreeNodeMap, parent: TreeNode): boolean {
   if (isNil(parent.refKey) || isNil(nodes[parent.refKey])) {
     return false;
@@ -29,6 +32,9 @@ export function isEveryChildChecked(nodes: TreeNodeMap, parent: TreeNode): boole
   return children.every(child => !isNil(child.refKey) && nodes[child.refKey].check);
 }
 
+/**
+ * Checks if any child node is checked.
+ */
 export function isSomeChildChecked(
   nodes: TreeNodeMap,
   parent: TreeNode,
@@ -46,13 +52,15 @@ export function isSomeChildChecked(
   });
 }
 
-export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
+/**
+ * Checks if any node in the data has a grandchild.
+ */
+export function hasGrandchild(data: any[], childrenKey: string): boolean {
   return data.some((node: TreeNode) => Array.isArray(node[childrenKey]));
 }
 
 /**
- * is all siblings nodes is uncheckable
- * @param {*} node
+ * Checks if all sibling nodes of a given node are uncheckable.
  */
 export function isAllSiblingNodeUncheckable(
   node: TreeNode,
@@ -76,7 +84,7 @@ export function isAllSiblingNodeUncheckable(
 }
 
 /**
- * get each first level node uncheckable state
+ * Checks if every first-level node is uncheckable based on the provided criteria.
  */
 export function isEveryFirstLevelNodeUncheckable(
   nodes: TreeNodeMap,
@@ -95,8 +103,7 @@ export function isEveryFirstLevelNodeUncheckable(
 }
 
 /**
- * get node uncheckable state
- * @param {*} node
+ * Checks if a node is uncheckable.
  */
 export function isNodeUncheckable(
   node: any,
@@ -133,6 +140,9 @@ export function getFormattedTree(
   });
 }
 
+/**
+ * Determines the disabled state of a tree node.
+ */
 export function getDisabledState(
   nodes: TreeNodeMap,
   node: TreeNode,
@@ -148,7 +158,10 @@ export function getDisabledState(
   );
 }
 
-export function getCheckTreePickerDefaultValue<T = any>(value: T, uncheckableItemValues: T) {
+/**
+ * Returns the default value for the check tree.
+ */
+export function getCheckTreeDefaultValue<T = any>(value: T, uncheckableItemValues: T) {
   if (Array.isArray(value) && Array.isArray(uncheckableItemValues)) {
     return value.filter(v => !uncheckableItemValues.includes(v));
   }
@@ -156,6 +169,9 @@ export function getCheckTreePickerDefaultValue<T = any>(value: T, uncheckableIte
   return [];
 }
 
+/**
+ * Retrieves the selected items from the given nodes.
+ */
 export function getSelectedItems(nodes: TreeNodeMap, values: ValueType) {
   const checkedItems: TreeNode[] = [];
   values.forEach(value => {
@@ -168,6 +184,9 @@ export function getSelectedItems(nodes: TreeNodeMap, values: ValueType) {
   return checkedItems;
 }
 
+/**
+ * Calculates the check state of a node in a check tree.
+ */
 export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): CheckStateType {
   if (isNil(nodes[node.refKey])) {
     return CHECK_STATE.UNCHECK;
@@ -190,37 +209,3 @@ export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): C
 
   return CHECK_STATE.UNCHECK;
 }
-
-interface UnserializeListProps {
-  nodes: TreeNodeMap;
-  key: string;
-  value: any;
-  valueKey: string;
-  cascade?: boolean;
-  uncheckableItemValues?: any;
-}
-
-/**
- * using in CheckTreePicker, to unserializeList check property
- */
-export const unserializeList = (props: UnserializeListProps) => {
-  const { nodes, key, value = [], cascade, valueKey, uncheckableItemValues } = props;
-
-  // Reset values to false
-  Object.keys(nodes).forEach((refKey: string) => {
-    const node = nodes[refKey];
-    if (cascade && !isNil(node.parent) && !isNil(node.parent.refKey)) {
-      node[key] = nodes[node.parent.refKey][key];
-    } else {
-      node[key] = false;
-    }
-    value.forEach((value: any) => {
-      if (
-        shallowEqual(nodes[refKey][valueKey], value) &&
-        !uncheckableItemValues.some(uncheckableValue => shallowEqual(value, uncheckableValue))
-      ) {
-        nodes[refKey][key] = true;
-      }
-    });
-  });
-};

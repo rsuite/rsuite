@@ -11,7 +11,7 @@ import { highlightLabel } from '../internals/utils';
 import SearchBox from '../internals/SearchBox';
 import {
   isEveryChildChecked,
-  isSomeNodeHasChildren,
+  hasGrandchild,
   isAllSiblingNodeUncheckable,
   isEveryFirstLevelNodeUncheckable,
   getFormattedTree,
@@ -474,7 +474,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     const classes = merge(
       className,
       withClassPrefix({
-        'without-children': !isSomeNodeHasChildren(data, childrenKey),
+        'without-children': !hasGrandchild(data, childrenKey),
         virtualized
       })
     );

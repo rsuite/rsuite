@@ -1,10 +1,10 @@
 import { useControlled, useMount } from '../../utils';
-import { getCheckTreePickerDefaultValue } from '../utils';
+import { getCheckTreeDefaultValue } from '../utils';
 function useTreeValue(controlledValue, { defaultValue, uncheckableItemValues }) {
   const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
 
   useMount(() => {
-    setValue(getCheckTreePickerDefaultValue(value, uncheckableItemValues));
+    setValue(getCheckTreeDefaultValue(value, uncheckableItemValues));
   });
 
   return [value, setValue, isControlled];
