@@ -236,38 +236,27 @@ describe('TreePicker', () => {
     });
   });
 
-  it('Should load data async', () => {
-    const data = [
-      {
-        label: 'Master',
-        value: 'Master'
-      },
-      {
-        label: 'async',
-        value: 'async',
-        children: []
-      }
-    ];
-    const ref = React.createRef<PickerHandle>();
+  it('Should async load children nodes', async () => {
+    const data = [{ label: 'async', value: 'async', children: [] }];
 
-    render(
-      <TreePicker
-        data={data}
-        open
-        ref={ref}
-        defaultExpandAll
-        getChildren={() => [
-          {
-            label: 'children1',
-            value: 'children1'
-          }
-        ]}
-      />
-    );
+    const fetchNodes = () => {
+      return new Promise<any>(resolve => {
+        setTimeout(() => resolve([{ label: 'children1', value: 'children1' }]), 500);
+      });
+    };
+
+    render(<TreePicker data={data} open defaultExpandAll getChildren={fetchNodes} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
 
-    expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+        'aria-busy'
+      );
+    });
   });
 
   it('Should render one node when searchKeyword is `M`', () => {

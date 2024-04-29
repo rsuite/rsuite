@@ -2,7 +2,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import Tree from '../Tree';
 import { ListHandle } from '../../internals/Windowing';
@@ -34,6 +34,26 @@ describe('Tree', () => {
       sinon.match({ value: 'tester1' }),
       sinon.match({ value: 'tester2' })
     ]);
+  });
+
+  it('Should call `onSelect` callback', () => {
+    const onSelect = sinon.spy();
+
+    render(<Tree data={data} onSelect={onSelect} />);
+
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'Master' }));
+  });
+
+  it('Should not call `onSelect` callback when the item is disabled', () => {
+    const onSelect = sinon.spy();
+
+    render(<Tree data={data} onSelect={onSelect} disabledItemValues={['Master']} />);
+
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+    expect(onSelect).to.not.have.been.called;
   });
 
   it('Should call `onDragStart` callback', () => {
@@ -144,6 +164,39 @@ describe('Tree', () => {
     expect(lines).to.have.length(2);
     expect(lines[0]).to.have.style('left', '44px');
     expect(lines[1]).to.have.style('left', '28px');
+  });
+
+  it('Should async load children nodes', async () => {
+    const data = [
+      {
+        label: 'Master',
+        value: 'Master'
+      },
+      {
+        label: 'async',
+        value: 'async',
+        children: []
+      }
+    ];
+
+    const fetchNodes = () => {
+      return new Promise<any>(resolve => {
+        setTimeout(() => resolve([{ label: 'children1', value: 'children1' }]), 500);
+      });
+    };
+
+    render(<Tree data={data} defaultExpandAll getChildren={fetchNodes} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+        'aria-busy'
+      );
+    });
   });
 
   describe('Searchable', () => {

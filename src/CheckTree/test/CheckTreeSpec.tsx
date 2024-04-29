@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import sinon from 'sinon';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { testStandardProps } from '@test/utils';
 import CheckTree from '../index';
@@ -42,6 +42,65 @@ describe('CheckTree', () => {
       sinon.match({ value: 'tester1' }),
       sinon.match({ value: 'tester2' })
     ]);
+  });
+
+  it('Should call `onSelect` callback', () => {
+    const onSelect = sinon.spy();
+
+    render(<CheckTree data={data} onSelect={onSelect} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
+
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'Master' }));
+  });
+
+  it('Should not call `onSelect` callback when the item is disabled', () => {
+    const onSelect = sinon.spy();
+
+    render(<CheckTree data={data} onSelect={onSelect} disabledItemValues={['Master']} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
+
+    expect(onSelect).to.not.have.been.called;
+  });
+
+  it('Should not render the checkbox when the item is uncheckable', () => {
+    const onSelect = sinon.spy();
+
+    render(<CheckTree data={data} onSelect={onSelect} uncheckableItemValues={['Master']} />);
+
+    expect(screen.queryByRole('checkbox', { name: 'Master' })).to.not.exist;
+  });
+
+  it('Should async load children nodes', async () => {
+    const data = [{ label: 'async', value: 'async', children: [] }];
+
+    const fetchNodes = () => {
+      return new Promise<any>(resolve => {
+        setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
+      });
+    };
+
+    render(
+      <CheckTree
+        data={data}
+        value={['Master']}
+        cascade={false}
+        defaultExpandAll
+        getChildren={fetchNodes}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'children' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+        'aria-busy'
+      );
+    });
   });
 
   describe('Accessibility - Keyboard interactions', () => {

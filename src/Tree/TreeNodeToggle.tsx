@@ -32,8 +32,9 @@ function TreeNodeToggle(props: TreeNodeToggleProps) {
 
   return hasChildren ? (
     <div
-      role="button"
       tabIndex={-1}
+      role="button"
+      aria-busy={loading ? true : undefined}
       data-ref={data.refKey}
       className={prefix('expand-icon-wrapper')}
       {...rest}

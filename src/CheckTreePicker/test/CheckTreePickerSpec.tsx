@@ -255,40 +255,36 @@ describe('CheckTreePicker', () => {
     });
   });
 
-  it('Should load data async', () => {
-    const data = [
-      {
-        label: 'Master',
-        value: 'Master'
-      },
-      {
-        label: 'async',
-        value: 'async',
-        children: []
-      }
-    ];
+  it('Should async load children nodes', async () => {
+    const data = [{ label: 'async', value: 'async', children: [] }];
 
-    const ref = React.createRef<PickerHandle>();
+    const fetchNodes = () => {
+      return new Promise<any>(resolve => {
+        setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
+      });
+    };
+
     render(
       <CheckTreePicker
-        ref={ref}
         data={data}
         value={['Master']}
         open
         cascade={false}
         defaultExpandAll
-        getChildren={() => [
-          {
-            label: 'children1',
-            value: 'children1'
-          }
-        ]}
+        getChildren={fetchNodes}
       />
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
 
-    expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'children' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+        'aria-busy'
+      );
+    });
   });
 
   it('Should trigger onChange and return correctly value', () => {

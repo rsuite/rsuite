@@ -132,7 +132,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   });
 
   const handleSelect = useEventCallback((_value: any, event: React.SyntheticEvent) => {
-    if (disabled || uncheckable) {
+    if (disabled) {
       return;
     }
 

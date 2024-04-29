@@ -1,5 +1,4 @@
 import React, { forwardRef, useMemo } from 'react';
-import hasClass from 'dom-lib/hasClass';
 import { useClassNames, useEventCallback } from '../utils';
 import { indentTreeNode } from '../Tree/utils';
 import { stringifyReactNode } from '../internals/utils';
@@ -168,7 +167,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
-    // stop propagation when using custom loading icon
+    // Stop propagation when using custom loading icon
     event?.nativeEvent?.stopImmediatePropagation?.();
     event.stopPropagation();
     onExpand?.(nodeData);
@@ -177,12 +176,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   const handleSelect = useEventCallback((event: React.SyntheticEvent) => {
     if (disabled) {
       return;
-    }
-
-    if (event.target instanceof HTMLElement) {
-      if (hasClass(event.target.parentNode as HTMLElement, prefix('expand-icon-wrapper'))) {
-        return;
-      }
     }
 
     onSelect?.(nodeData, event);
@@ -229,9 +222,9 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 
   return visible ? (
     <Component
+      {...rest}
       role="treeitem"
       tabIndex={-1}
-      {...rest}
       aria-expanded={expand}
       aria-label={labelStr}
       aria-level={layer}
