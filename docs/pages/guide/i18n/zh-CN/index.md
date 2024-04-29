@@ -34,8 +34,10 @@ return (
 | fr_FR    | 法语              |
 | hu_HU    | 匈牙利语          |
 | it_IT    | 意大利语          |
+| ja_JP    | 日语              |
 | kk_KZ    | 哈萨克语          |
 | ko_KR    | 韩语/朝鲜语       |
+| ne_NP    | 尼泊尔语          |
 | nl_NL    | 荷兰语            |
 | pt_BR    | 葡萄牙语(巴西)    |
 | ru_RU    | 俄罗斯语          |
