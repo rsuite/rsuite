@@ -291,7 +291,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   );
 
   // The date of the current hover, used to reduce the calculation of `handleMouseMove`
-  const [hoverDateRange, setHoverDateRange] = useState<DateRange | null>(null);
+  const [hoverDateRange, setHoverDateRange] = useState<DateRange | null>(value);
 
   // The displayed calendar panel is rendered based on this value.
   const [calendarDate, setCalendarDate] = useState<DateRange>(
@@ -335,8 +335,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     if (
       shouldRenderTime(formatStr) &&
       dateRange?.length &&
-      eventName !== 'changeTime' &&
-      eventName !== 'shortcutSelection'
+      (eventName === 'changeDate' || eventName === 'changeMonth')
     ) {
       const startDate = copyTime({ from: getCalendarDatetime('start'), to: dateRange[0] });
       const endDate = copyTime({
@@ -947,11 +946,11 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               format={formatStr}
               placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
-              onChange={handleInputChange}
               readOnly={readOnly || !editable || loading}
               plaintext={plaintext}
-              onKeyDown={handleInputKeyDown}
               htmlSize={getInputHtmlSize()}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
             />
             <PickerIndicator
               loading={loading}
