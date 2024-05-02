@@ -1161,6 +1161,26 @@ describe('DateRangePicker', () => {
       expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
     });
 
+    it('Should allow the start and end dates to be in the same month', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          defaultValue={[new Date('2024-01-01'), new Date('2024-01-02')]}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '01 Jan 2024' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.not.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.exist;
+    });
+
     it('Should be able to switch the calendar by clicking on the date', () => {
       render(
         <DateRangePicker

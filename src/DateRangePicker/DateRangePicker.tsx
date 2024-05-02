@@ -263,6 +263,10 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     'DateRangePicker',
     overrideLocale
   );
+
+  // Default gap between two calendars, if `showOneCalendar` is set, the gap is 0
+  const calendarGap = showOneCalendar ? 0 : 1;
+
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   const [value, setValue] = useControlled(valueProp, defaultValue ?? null);
@@ -341,7 +345,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       const startDate = copyTime({ from: getCalendarDatetime('start'), to: dateRange[0] });
       const endDate = copyTime({
         from: getCalendarDatetime('end'),
-        to: dateRange.length === 1 ? addMonths(startDate, 1) : dateRange[1]
+        to: dateRange.length === 1 ? addMonths(startDate, calendarGap) : dateRange[1]
       });
 
       nextValue = [startDate, endDate];
@@ -353,7 +357,10 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     const nextCalendarDate = getSafeCalendarDate({
       value: nextValue,
       calendarKey,
-      allowAameMonth: onlyShowMonth
+
+      // When only the month is displayed and only one calendar is displayed,
+      // there is no need to add a month and two calendar panels are allowed to display the same month
+      allowSameMonth: onlyShowMonth || showOneCalendar
     });
 
     setCalendarDate(nextCalendarDate);
@@ -519,6 +526,12 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
         setHoverDateRange([nextSelectDates[0] as Date, nextSelectDates[0] as Date]);
       }
 
+      if (isSelectedIdle) {
+        setActiveCalendarKey('end');
+      } else {
+        setActiveCalendarKey('start');
+      }
+
       setSelectedDates(nextSelectDates);
       setCalendarDateRange({ dateRange: nextSelectDates, calendarKey, eventName: 'changeDate' });
       onSelect?.(date, event);
@@ -598,7 +611,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       const [startDate, endData] = value;
       nextCalendarDate = [
         startDate,
-        isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData
+        isSameMonth(startDate, endData) ? addMonths(endData, calendarGap) : endData
       ];
     } else {
       // Reset the date on the calendar to the default date
