@@ -1,16 +1,23 @@
 import React from 'react';
-import { getDOMNode, getStyle, toRGB } from '@test/utils';
+import { render } from '@testing-library/react';
+import { toRGB } from '@test/utils';
 import Toggle from '../index';
-
 import '../styles/index.less';
 
 describe('Toggle styles', () => {
-  it('Should render the correct styles', () => {
-    const dom = getDOMNode(<Toggle />);
-    assert.equal(
-      getStyle(dom.querySelector('.rs-toggle-presentation') as HTMLElement, 'backgroundColor'),
-      toRGB('#d9d9d9'),
-      'Toggle background-color'
+  it('Should render the correct background color', () => {
+    const { container } = render(<Toggle />);
+
+    // eslint-disable-next-line testing-library/no-container
+    expect(container.querySelector('.rs-toggle-presentation')).to.have.style(
+      'background-color',
+      toRGB('#d9d9d9')
     );
+  });
+
+  it('Should be inline-block', () => {
+    const { container } = render(<Toggle />);
+
+    expect(container.firstChild).to.have.style('display', 'inline-block');
   });
 });
