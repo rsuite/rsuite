@@ -1188,4 +1188,28 @@ describe('DateRangePicker', () => {
       expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
     });
   });
+
+  it('Should update time when entering time via keyboard', () => {
+    render(
+      <DateRangePicker
+        open
+        format="HH"
+        defaultValue={[new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]}
+      />
+    );
+
+    const times = screen.queryAllByRole('button', { name: 'Select time' });
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    expect(times[0]).to.have.text('09');
+    expect(times[1]).to.have.text('10');
+    expect(input).to.have.value('09 ~ 10');
+
+    userEvent.type(input, '{arrowdown}{arrowdown}');
+
+    expect(times[0]).to.have.text('07');
+    expect(times[1]).to.have.text('10');
+    expect(input).to.have.value('07 ~ 10');
+    expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
+  });
 });
