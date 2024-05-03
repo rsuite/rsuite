@@ -62,11 +62,11 @@
     }
   }
 
-  .rs-picker-daterange-panel-show-one-calendar .rs-picker-toolbar {
-    max-width: @date-range-picker-calendar-default-width;
-
-    &-ranges {
-      width: 190px;
+  .rs-picker-daterange-panel-show-one-calendar {
+    .rs-picker-toolbar {
+      &-ranges {
+        width: 190px;
+      }
     }
   }
 
@@ -105,6 +105,7 @@
       bottom: -1px;
       border-bottom: 2px solid #3498ff;
       left: 0;
+      transition: left 0.3s;
     }
   }
 
