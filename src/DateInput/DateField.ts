@@ -120,7 +120,9 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
           value = padNumber(value, pattern.length);
         }
 
-        str = str.replace(pattern, value);
+        if (typeof value !== 'undefined') {
+          str = str.replace(pattern, value);
+        }
       }
     });
 
