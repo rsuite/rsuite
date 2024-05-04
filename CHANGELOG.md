@@ -1,3 +1,15 @@
+## [5.60.1](https://github.com/rsuite/rsuite/compare/v5.60.0...v5.60.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** fix not auto switching to the end calendar when only one calendar is displayed ([#3781](https://github.com/rsuite/rsuite/issues/3781)) ([5322f9c](https://github.com/rsuite/rsuite/commit/5322f9cc747750b865e8184dcab36609e906b274))
+* **DateRangePicker:** fix not updating time on calendar when typing to change time ([#3777](https://github.com/rsuite/rsuite/issues/3777)) ([d1a7350](https://github.com/rsuite/rsuite/commit/d1a73502908026ceb20b5f2f49709b4dd03f334a))
+* **toggle:** block pointer events when disabled ([#3774](https://github.com/rsuite/rsuite/issues/3774)) ([d833a0a](https://github.com/rsuite/rsuite/commit/d833a0ab1c759b568bba6d87d697687e3ca7cbed))
+* **Toggle:** fix the height problem of the switch element ([#3780](https://github.com/rsuite/rsuite/issues/3780)) ([ff1570c](https://github.com/rsuite/rsuite/commit/ff1570c7d8776f2a120f1c048237725597157143))
+
+
+
 # [5.60.0](https://github.com/rsuite/rsuite/compare/v5.59.2...v5.60.0) (2024-04-26)
 
 

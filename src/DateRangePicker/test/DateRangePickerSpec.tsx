@@ -1161,6 +1161,26 @@ describe('DateRangePicker', () => {
       expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
     });
 
+    it('Should allow the start and end dates to be in the same month', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          defaultValue={[new Date('2024-01-01'), new Date('2024-01-02')]}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '01 Jan 2024' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.not.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.exist;
+    });
+
     it('Should be able to switch the calendar by clicking on the date', () => {
       render(
         <DateRangePicker
@@ -1187,5 +1207,29 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
       expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
     });
+  });
+
+  it('Should update time when entering time via keyboard', () => {
+    render(
+      <DateRangePicker
+        open
+        format="HH"
+        defaultValue={[new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]}
+      />
+    );
+
+    const times = screen.queryAllByRole('button', { name: 'Select time' });
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    expect(times[0]).to.have.text('09');
+    expect(times[1]).to.have.text('10');
+    expect(input).to.have.value('09 ~ 10');
+
+    userEvent.type(input, '{arrowdown}{arrowdown}');
+
+    expect(times[0]).to.have.text('07');
+    expect(times[1]).to.have.text('10');
+    expect(input).to.have.value('07 ~ 10');
+    expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
   });
 });

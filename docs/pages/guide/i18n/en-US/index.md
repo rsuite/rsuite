@@ -34,8 +34,10 @@ return (
 | fr_FR  | French              |
 | hu_HU  | Hungarian           |
 | it_IT  | Italian             |
+| ja_JP  | Japanese            |
 | kk_KZ  | Kazakh              |
 | ko_KR  | Korean              |
+| ne_NP  | Nepali              |
 | nl_NL  | Dutch               |
 | pt_BR  | Portuguese (Brazil) |
 | ru_RU  | Russian             |

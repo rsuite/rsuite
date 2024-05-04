@@ -17,16 +17,16 @@ import {
 export function getSafeCalendarDate({
   value,
   calendarKey = 'start',
-  allowAameMonth
+  allowSameMonth
 }: {
   value: [] | [Date] | [Date, Date] | null;
   calendarKey?: 'start' | 'end';
-  allowAameMonth?: boolean;
+  allowSameMonth?: boolean;
 }): DateRange {
   // Update calendarDate if the value is not null
   value = value ?? [];
 
-  const gap = allowAameMonth ? 0 : 1;
+  const gap = allowSameMonth ? 0 : 1;
 
   if (value[0] && value[1]) {
     const diffMonth = differenceInCalendarMonths(value[1], value[0]);
