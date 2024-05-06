@@ -9,7 +9,7 @@ import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { keyPressTests } from './testUtils';
 
-const { testKeyPress, testContinuousKeyPress } = keyPressTests(DateInput);
+const { testKeyPress, testKeyPressAsync, testContinuousKeyPress } = keyPressTests(DateInput);
 
 describe('DateInput', () => {
   testStandardProps(<DateInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
@@ -72,7 +72,7 @@ describe('DateInput', () => {
 
   it('Should call `onChange` with the new value', () => {
     const onChange = sinon.spy();
-    render(<DateInput onChange={onChange} format="yyyy-MM-dd" />);
+    render(<DateInput onChange={onChange} format="yyyy-MM-dd" data-test="true" />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
@@ -454,6 +454,14 @@ describe('DateInput', () => {
           { key: '6', expected: '06' },
           { key: '1', expected: '01' }
         ]
+      });
+    });
+
+    it('Should be able to enter key input continuously', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy',
+        keys: '01012024'.split(''),
+        expectedValue: '01/01/2024'
       });
     });
   });

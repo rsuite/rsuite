@@ -276,11 +276,11 @@ export function modifyDate(date: Date, type: string, value: number) {
   return date;
 }
 
-const isTestEnvironment = typeof process !== 'undefined' && process.env.RUN_ENV === 'test';
-
 export function useInputSelection(input: React.RefObject<any>) {
   return function setSelectionRange(selectionStart: number, selectionEnd: number) {
-    if (isTestEnvironment) {
+    const isTest = input.current.dataset.test === 'true';
+
+    if (isTest) {
       safeSetSelection(input.current, selectionStart, selectionEnd);
       return;
     }

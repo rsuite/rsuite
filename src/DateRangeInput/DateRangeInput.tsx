@@ -147,8 +147,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
         direction
       });
 
-      setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
+      setSelectionRange(state.selectionStart, state.selectionEnd);
       reset();
     }
   );
@@ -172,6 +172,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       const input = event.target as HTMLInputElement;
       const key = event.key;
       const pattern = selectedState.selectedPattern;
+
       if (!pattern) {
         return;
       }
@@ -231,7 +232,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
     const cursorIndex = input.selectionStart === renderedValue.length ? 0 : input.selectionStart;
 
-    const dateType = getDateType(renderedValue, character, cursorIndex);
+    const dateType = getDateType(renderedValue || rangeFormatStr, character, cursorIndex);
     const state = getInputSelectedState({
       ...keyPressOptions,
       dateType,

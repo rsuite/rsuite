@@ -91,8 +91,8 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
       const state = getInputSelectedState({ ...keyPressOptions, input, direction });
 
-      setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
+      setSelectionRange(state.selectionStart, state.selectionEnd);
       reset();
     }
   );
