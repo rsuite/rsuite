@@ -103,6 +103,46 @@ describe('CheckTree', () => {
     });
   });
 
+  it('Should all nodes be checked', () => {
+    // Test data comes from: https://github.com/rsuite/rsuite/issues/3559
+    const data = [
+      {
+        label: 'label_1',
+        value: 'value_1',
+        children: [
+          {
+            label: 'label_2',
+            value: 'value_2',
+            children: [
+              {
+                label: 'label_3',
+                value: 'value_3',
+                children: [
+                  {
+                    label: 'label_4',
+                    value: 'value_4',
+                    children: [
+                      {
+                        label: 'label_5',
+                        value: 'value_5'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    render(<CheckTree data={data} value={['value_5']} defaultExpandAll />);
+
+    screen.getAllByRole('treeitem').forEach(item => {
+      expect(item).to.have.attribute('aria-checked', 'true');
+    });
+  });
+
   describe('Accessibility - Keyboard interactions', () => {
     it('Should focus the next item when pressing the down arrow key', () => {
       render(<CheckTree data={data} />);

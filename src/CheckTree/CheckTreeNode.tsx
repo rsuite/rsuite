@@ -163,6 +163,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   );
 
   const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
+
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
       <TreeNodeToggle

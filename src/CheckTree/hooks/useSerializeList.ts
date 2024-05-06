@@ -10,7 +10,6 @@ interface UseSerializeListProps {
 }
 
 interface UnserializeListProps {
-  nodes: TreeNodeMap;
   key: string;
   value: any;
 }
@@ -50,7 +49,7 @@ function useSerializeList({
    * using in CheckTreePicker, to unserializeList check property
    */
   const unserializeList = useCallback(
-    ({ nodes, key, value = [] }: UnserializeListProps) => {
+    (nodes: TreeNodeMap, { key, value = [] }: UnserializeListProps) => {
       // Reset values to false
       Object.keys(nodes).forEach((refKey: string) => {
         const node = nodes[refKey];
@@ -59,10 +58,11 @@ function useSerializeList({
         } else {
           node[key] = false;
         }
-        value.forEach((value: any) => {
+
+        value.forEach((nodeVal: any) => {
           if (
-            shallowEqual(nodes[refKey][valueKey], value) &&
-            !uncheckableItemValues.some(uncheckableValue => shallowEqual(value, uncheckableValue))
+            shallowEqual(nodes[refKey][valueKey], nodeVal) &&
+            !uncheckableItemValues.some(uncheckableValue => shallowEqual(nodeVal, uncheckableValue))
           ) {
             nodes[refKey][key] = true;
           }

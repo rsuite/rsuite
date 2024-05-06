@@ -43,7 +43,7 @@ export const formatVirtualizedTreeData = (
     }
     if (curNode) {
       const checkState = !isUndefined(cascade)
-        ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
+        ? getNodeCheckState(curNode, { cascade, nodes, childrenKey })
         : undefined;
       formatted = {
         ...node,

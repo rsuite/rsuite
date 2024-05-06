@@ -217,10 +217,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         }).filter(item => item.visible);
       }
 
-      return getFormattedTree(flattenedNodes, filteredData, {
-        childrenKey,
-        cascade
-      })
+      return getFormattedTree(flattenedNodes, filteredData, { childrenKey, cascade })
         .map(node => render?.(node, 1))
         .filter(item => item);
     };
@@ -269,12 +266,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     }, [data, keyword, setFilteredData]);
 
     useEffect(() => {
-      unserializeList({
-        nodes: flattenedNodes,
-        key: 'check',
-        value
-      });
-
+      unserializeList(flattenedNodes, { key: 'check', value });
       forceUpdate();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -288,7 +280,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
             currentNode.check = checked;
             currentNode.checkAll = checked;
           } else {
-            if (isEveryChildChecked(nodes, currentNode)) {
+            if (isEveryChildChecked(currentNode, { nodes, childrenKey })) {
               currentNode.check = true;
               currentNode.checkAll = true;
             } else {
@@ -326,9 +318,15 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
 
     const toggleChecked = useEventCallback((node: TreeNode, isChecked: boolean) => {
       const nodes = cloneDeep(flattenedNodes);
+
       toggleDownChecked(nodes, node, isChecked);
-      node.parent && toggleUpChecked(nodes, node.parent, isChecked);
+
+      if (node.parent) {
+        toggleUpChecked(nodes, node.parent, isChecked);
+      }
+
       const values = serializeListOnlyParent(nodes, 'check');
+
       // filter uncheckableItemValues
       return values.filter(v => !uncheckableItemValues.includes(v));
     });
@@ -418,6 +416,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         });
 
         const nodes = children || [];
+
         return (
           <div className={childrenClass} key={node[valueKey]}>
             <CheckTreeNode {...nodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />

@@ -21,15 +21,29 @@ function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
 /**
  * Checks if every child of a given parent node is checked.
  */
-export function isEveryChildChecked(nodes: TreeNodeMap, parent: TreeNode): boolean {
+export function isEveryChildChecked(
+  parent: TreeNode,
+  options: { nodes: TreeNodeMap; childrenKey: string }
+): boolean {
+  const { nodes, childrenKey } = options;
   if (isNil(parent.refKey) || isNil(nodes[parent.refKey])) {
     return false;
   }
+
   const children = getChildrenByFlattenNodes(nodes, parent);
+
   if (!children.length) {
     return nodes[parent.refKey].check ?? false;
   }
-  return children.every(child => !isNil(child.refKey) && nodes[child.refKey].check);
+
+  return children.every(child => {
+    if (child?.[childrenKey]?.length > 0) {
+      // fix: #3559
+      return isEveryChildChecked(child, { nodes, childrenKey });
+    }
+
+    return !isNil(child.refKey) && nodes[child.refKey].check;
+  });
 }
 
 /**
@@ -122,15 +136,20 @@ export function getFormattedTree(
   return data.map((node: any) => {
     const formatted: any = { ...node };
     const curNode = nodes[node.refKey];
+
     if (curNode) {
       const checkState = !isUndefined(cascade)
-        ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
+        ? getNodeCheckState(curNode, { cascade, nodes, childrenKey })
         : undefined;
+
       formatted.check = curNode.check;
       formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
+
       attachParent(formatted, curNode.parent);
+
       formatted.checkState = checkState;
+
       if (node[childrenKey]?.length > 0) {
         formatted[childrenKey] = getFormattedTree(nodes, formatted[childrenKey], props);
       }
@@ -184,21 +203,35 @@ export function getSelectedItems(nodes: TreeNodeMap, values: ValueType) {
   return checkedItems;
 }
 
+interface NodeCheckStateOptions {
+  nodes: TreeNodeMap;
+  cascade: boolean;
+  childrenKey: string;
+}
+
 /**
  * Calculates the check state of a node in a check tree.
  */
-export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): CheckStateType {
+export function getNodeCheckState(node: TreeNode, options: NodeCheckStateOptions): CheckStateType {
+  const { nodes, cascade, childrenKey } = options;
+
+  if (node.refKey === undefined) {
+    return CHECK_STATE.UNCHECK;
+  }
+
   if (isNil(nodes[node.refKey])) {
     return CHECK_STATE.UNCHECK;
   }
+
   if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
     nodes[node.refKey].checkAll = false;
     return node.check ? CHECK_STATE.CHECK : CHECK_STATE.UNCHECK;
   }
 
-  if (isEveryChildChecked(nodes, node)) {
+  if (isEveryChildChecked(node, { nodes, childrenKey })) {
     nodes[node.refKey].checkAll = true;
     nodes[node.refKey].check = true;
+
     return CHECK_STATE.CHECK;
   }
 
