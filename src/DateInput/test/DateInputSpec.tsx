@@ -459,9 +459,32 @@ describe('DateInput', () => {
 
     it('Should be able to enter key input continuously', async () => {
       await testKeyPressAsync({
-        format: 'MM/dd/yyyy',
+        keys: '20240101'.split(''),
+        expectedValue: '2024-01-01'
+      });
+    });
+
+    it('Should be able to enter key input continuously with 24 hour format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy HH:mm:ss',
+        keys: '01012024 120130'.split(''),
+        expectedValue: '01/01/2024 12:01:30'
+      });
+    });
+
+    it('Should be able to enter key input continuously with 12 hour format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy hh:mm:ss',
+        keys: '01012024 140130'.split(''),
+        expectedValue: '01/01/2024 02:01:30'
+      });
+    });
+
+    it('Should be able to enter key input continuously with abbreviated month', async () => {
+      await testKeyPressAsync({
+        format: 'MMM dd,yyyy',
         keys: '01012024'.split(''),
-        expectedValue: '01/01/2024'
+        expectedValue: 'Jan 01,2024'
       });
     });
   });

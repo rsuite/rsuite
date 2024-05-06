@@ -460,13 +460,28 @@ describe('DateRangeInput', () => {
         ]
       });
     });
-  });
 
-  it('Should be able to enter key input continuously', async () => {
-    await testKeyPressAsync({
-      format: 'MM/dd/yyyy',
-      keys: '0101202402022024'.split(''),
-      expectedValue: '01/01/2024 ~ 02/02/2024'
+    it('Should be able to enter key input continuously', async () => {
+      await testKeyPressAsync({
+        keys: '0101202402022024'.split(''),
+        expectedValue: '2024-01-01 ~ 2024-02-02'
+      });
+    });
+
+    it('Should be able to enter key input continuously with custom format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy',
+        keys: '0101202402022024'.split(''),
+        expectedValue: '01/01/2024 ~ 02/02/2024'
+      });
+    });
+
+    it('Should be able to enter key input continuously with abbreviated month', async () => {
+      await testKeyPressAsync({
+        format: 'MMM dd,yyyy',
+        keys: '0101202402022024'.split(''),
+        expectedValue: 'Jan 01,2024 ~ Feb 02,2024'
+      });
     });
   });
 });
