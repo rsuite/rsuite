@@ -68,62 +68,63 @@
 
 ### `<TreePicker>`
 
-<!-- prettier-sort-markdown-table -->
+| Property                | Type `(Default)`                                                                              | Description                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| appearance              | 'default' \| 'subtle' `('default')`                                                           | Set picker appearence                                       |
+| block                   | boolean                                                                                       | Blocking an entire row                                      |
+| caretAs                 | ElementType                                                                                   | Custom component for the caret icon                         |
+| childrenKey             | string `('children')`                                                                         | Tree data structure Children property name                  |
+| classPrefix             | string`('picker')`                                                                            | The prefix of the component CSS class                       |
+| cleanable               | boolean `(true)`                                                                              | Set whether you can clear                                   |
+| container               | HTMLElement \| (() => HTMLElement)                                                            | Sets the rendering container                                |
+| data \*                 | [TreeNode][node][]                                                                            | Tree data                                                   |
+| defaultExpandAll        | boolean                                                                                       | Expand all nodes By default                                 |
+| defaultExpandItemValues | string[]                                                                                      | Set the value of the default expanded node                  |
+| defaultOpen             | boolean                                                                                       | Open by default                                             |
+| defaultValue            | string                                                                                        | Default selected Value                                      |
+| disabled                | boolean                                                                                       | Whether to disable Picker                                   |
+| disabledItemValues      | string[]                                                                                      | Disable item by value                                       |
+| expandItemValues        | string[]                                                                                      | Set the value of the expanded node (controlled)             |
+| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                   | load node children data asynchronously                      |
+| ~height~                | number                                                                                        | ⚠️`[Deprecated]` Use `treeHeight` instead                   |
+| labelKey                | string `('label')`                                                                            | Tree data structure Label property name                     |
+| listProps               | [ListProps][listprops]                                                                        | Properties of virtualized lists.                            |
+| loading                 | boolean `(false)`                                                                             | Whether to display a loading state indicator                |
+| locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                      | Locale text                                                 |
+| ~menuClassName~         | string                                                                                        | ⚠️`[Deprecated]` Use `popupClassName` instead               |
+| ~menuStyle~             | CSSProperties                                                                                 | ⚠️`[Deprecated]` Use `popupStyle` instead                   |
+| onChange                | (value:string) => void                                                                        | Callback function for data change                           |
+| onClean                 | (event) => void                                                                               | Callback fired when value clean                             |
+| onClose                 | () => void                                                                                    | Close Dropdown callback functions                           |
+| onEnter                 | () => void                                                                                    | Callback fired before the overlay transitions in            |
+| onEntered               | () => void                                                                                    | Callback fired after the overlay finishes transitioning in  |
+| onEntering              | () => void                                                                                    | Callback fired as the overlay begins to transition in       |
+| onExit                  | () => void                                                                                    | Callback fired right before the overlay transitions out     |
+| onExited                | () => void                                                                                    | Callback fired after the overlay finishes transitioning out |
+| onExiting               | () => void                                                                                    | Callback fired as the overlay begins to transition out      |
+| onExpand                | (expandItemValues: string[], item:[TreeNode][node], concat:(data, children) => Array) => void | Callback When tree node is displayed                        |
+| onOpen                  | () => void                                                                                    | Open Dropdown callback function                             |
+| onSearch                | (searchKeyword: string, event) => void                                                        | Callback function for search                                |
+| onSelect                | (item:[TreeNode][node], value: string, event) => void                                         | Callback function after selecting tree node                 |
+| open                    | boolean                                                                                       | Open (Controlled)                                           |
+| placeholder             | ReactNode `('Select')`                                                                        | Placeholder                                                 |
+| placement               | [Placement](#code-ts-placement-code)`('bottomStart')`                                         | Expand placement                                            |
+| popupClassName          | string                                                                                        | Custom class name for the popup                             |
+| popupStyle              | CSSProperties                                                                                 | Custom style for the popup                                  |
+| renderExtraFooter       | () => ReactNode                                                                               | Customizing footer Content                                  |
+| renderTreeIcon          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render icon                                          |
+| renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render tree Node                                     |
+| renderValue             | (value: string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                |
+| searchable              | boolean `(true)`                                                                              | Whether to show the search box                              |
+| searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                        | Custom search rules                                         |
+| size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | A picker can have different sizes                           |
+| toggleAs                | ElementType `('a')`                                                                           | You can use a custom element for this component             |
+| treeHeight              | number `(320)`                                                                                | The height of the tree                                      |
+| value                   | string                                                                                        | Selected value                                              |
+| valueKey                | string `('value')`                                                                            | Tree data Structure Value property name                     |
+| virtualized             | boolean                                                                                       | Whether using Virtualized List                              |
 
-| Property                | Type `(Default)`                                                                                  | Description                                                               |
-| ----------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| appearance              | 'default' &#124; 'subtle' `('default')`                                                           | Set picker appearence                                                     |
-| block                   | boolean                                                                                           | Blocking an entire row                                                    |
-| caretAs                 | ElementType                                                                                       | Custom component for the caret icon                                       |
-| childrenKey             | string `('children')`                                                                             | Tree data structure Children property name                                |
-| classPrefix             | string`('picker')`                                                                                | The prefix of the component CSS class                                     |
-| cleanable               | boolean `(true)`                                                                                  | Set whether you can clear                                                 |
-| container               | HTMLElement &#124; (() => HTMLElement)                                                            | Sets the rendering container                                              |
-| data \*                 | [ItemDataType][item][]                                                                            | Tree data                                                                 |
-| defaultExpandAll        | boolean                                                                                           | Expand all nodes By default                                               |
-| defaultExpandItemValues | string[]                                                                                          | Set the value of the default expanded node                                |
-| defaultOpen             | boolean                                                                                           | Open by default                                                           |
-| defaultValue            | string                                                                                            | Default selected Value                                                    |
-| disabled                | boolean                                                                                           | Whether to disable Picker                                                 |
-| disabledItemValues      | string[]                                                                                          | Disable item by value                                                     |
-| expandItemValues        | string[]                                                                                          | Set the value of the expanded node (controlled)                           |
-| getChildren             | (node: [ItemDataType][item]) => Promise&lt;[ItemDataType][item]&gt;                               | load node children data asynchronously                                    |
-| height                  | number `(360px)`                                                                                  | height of menu. When `virtualize` is true, you can set the height of menu |
-| labelKey                | string `('label')`                                                                                | Tree data structure Label property name                                   |
-| listProps               | [ListProps][listprops]                                                                            | Properties of virtualized lists.                                          |
-| loading                 | boolean `(false)`                                                                                 | Whether to display a loading state indicator                              |
-| locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                          | Locale text                                                               |
-| menuClassName           | string                                                                                            | A css class to apply to the Menu DOM node                                 |
-| menuStyle               | CSSProperties                                                                                     | style for Menu                                                            |
-| onChange                | (value:string) => void                                                                            | Callback function for data change                                         |
-| onClean                 | (event) => void                                                                                   | Callback fired when value clean                                           |
-| onClose                 | () => void                                                                                        | Close Dropdown callback functions                                         |
-| onEnter                 | () => void                                                                                        | Callback fired before the overlay transitions in                          |
-| onEntered               | () => void                                                                                        | Callback fired after the overlay finishes transitioning in                |
-| onEntering              | () => void                                                                                        | Callback fired as the overlay begins to transition in                     |
-| onExit                  | () => void                                                                                        | Callback fired right before the overlay transitions out                   |
-| onExited                | () => void                                                                                        | Callback fired after the overlay finishes transitioning out               |
-| onExiting               | () => void                                                                                        | Callback fired as the overlay begins to transition out                    |
-| onExpand                | (expandItemValues: string[], item:[ItemDataType][item], concat:(data, children) => Array) => void | Callback When tree node is displayed                                      |
-| onOpen                  | () => void                                                                                        | Open Dropdown callback function                                           |
-| onSearch                | (searchKeyword: string, event) => void                                                            | Callback function for search                                              |
-| onSelect                | (item:[ItemDataType][item], value: string, event) => void                                         | Callback function after selecting tree node                               |
-| open                    | boolean                                                                                           | Open (Controlled)                                                         |
-| placeholder             | ReactNode `('Select')`                                                                            | Placeholder                                                               |
-| placement               | [Placement](#code-ts-placement-code)`('bottomStart')`                                             | Expand placement                                                          |
-| renderExtraFooter       | () => ReactNode                                                                                   | Customizing footer Content                                                |
-| renderTreeIcon          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render icon                                                        |
-| renderTreeNode          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render tree Node                                                   |
-| renderValue             | (value: string,item:[ItemDataType][item], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                              |
-| searchable              | boolean `(true)`                                                                                  | Whether to show the search box                                            |
-| searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | Custom search rules                                                       |
-| size                    | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                 | A picker can have different sizes                                         |
-| toggleAs                | ElementType `('a')`                                                                               | You can use a custom element for this component                           |
-| value                   | string                                                                                            | Selected value                                                            |
-| valueKey                | string `('value')`                                                                                | Tree data Structure Value property name                                   |
-| virtualized             | boolean                                                                                           | Whether using Virtualized List                                            |
-
-<!--{include:(_common/types/item-data-type.md)}-->
+<!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
 
@@ -134,4 +135,4 @@
 - [`<CheckTree>`](/components/check-tree) Used to show a tree-structured data while supporting Checkbox selection.
 
 [listprops]: #code-ts-list-props-code
-[item]: #code-ts-item-data-type-code
+[node]: #code-ts-tree-node-code

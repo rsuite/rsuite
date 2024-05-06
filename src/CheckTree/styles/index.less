@@ -7,14 +7,8 @@
 // ----------------------
 
 .rs-check-tree {
-  max-height: 360px;
   height: 100%;
-  overflow-y: auto;
   flex: 1 1 auto;
-
-  &.rs-check-tree-virtualized {
-    overflow: hidden;
-  }
 
   .rs-check-tree-node-label {
     .rs-check-item .rs-checkbox-checker {
@@ -49,6 +43,15 @@
   .rs-check-tree-empty {
     padding: 6px 12px;
     color: var(--rs-text-secondary);
+  }
+
+  &-view {
+    max-height: 360px;
+    overflow-y: auto;
+  }
+
+  &.rs-tree-virtualized &-view {
+    overflow: hidden;
   }
 }
 

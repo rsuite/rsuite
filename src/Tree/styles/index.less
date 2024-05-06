@@ -9,14 +9,8 @@
 // ----------------------
 
 .rs-tree {
-  max-height: 360px;
   height: 100%;
-  overflow-y: auto;
   flex: 1 1 auto;
-
-  &.rs-tree-virtualized {
-    overflow: hidden;
-  }
 
   &-drag-preview {
     position: absolute;
@@ -38,6 +32,15 @@
   .rs-tree-empty {
     padding: 6px 12px;
     color: var(--rs-text-secondary);
+  }
+
+  &-view {
+    max-height: 360px;
+    overflow-y: auto;
+  }
+
+  &.rs-tree-virtualized &-view {
+    overflow: hidden;
   }
 }
 

@@ -30,10 +30,11 @@ import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import { TreeNode } from '../Tree/types';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
 import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
-import { FormControlPickerProps } from '../@types/common';
+import { FormControlPickerProps, DeprecatedPickerProps } from '../@types/common';
 
 export interface TreePickerProps<V = number | string | null>
   extends TreeViewProps<V>,
+    DeprecatedPickerProps,
     FormControlPickerProps<V, PickerLocale, TreeNode>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
@@ -44,6 +45,28 @@ export interface TreePickerProps<V = number | string | null>
     selectedNode: TreeNode,
     selectedElement: React.ReactNode
   ) => React.ReactNode;
+
+  /**
+   * Custom popup style
+   */
+  popupClassName?: string;
+
+  /**
+   * Custom popup style
+   */
+  popupStyle?: React.CSSProperties;
+
+  /**
+   * The height of the tree
+   */
+  treeHeight?: number;
+
+  /**
+   * Popup auto width
+   *
+   * @default true
+   */
+  popupAutoWidth?: boolean;
 }
 
 /**
@@ -74,10 +97,13 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     searchKeyword,
     searchable = true,
     showIndentLine,
-    menuClassName,
-    menuStyle,
-    menuMaxHeight = 320,
-    menuAutoWidth = true,
+    menuClassName: DEPRECATED_menuClassName,
+    menuStyle: DEPRECATED_menuStyle,
+    popupClassName,
+    popupStyle,
+    popupAutoWidth = true,
+    treeHeight = 320,
+    menuAutoWidth = popupAutoWidth,
     valueKey = 'value',
     virtualized = false,
     value: controlledValue,
@@ -226,7 +252,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         flattenedNodes={flattenedNodes}
         listProps={listProps}
         listRef={list}
-        height={menuMaxHeight}
+        height={treeHeight}
         getChildren={getChildren}
         renderTreeIcon={renderTreeIcon}
         renderTreeNode={renderTreeNode}
@@ -242,8 +268,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
-    const classes = merge(className, menuClassName, prefix('tree-menu'));
-    const mergedMenuStyle = { ...menuStyle, left, top };
+    const classes = merge(className, DEPRECATED_menuClassName, popupClassName, prefix('tree-menu'));
+    const mergedMenuStyle = { ...DEPRECATED_menuStyle, ...popupStyle, left, top };
 
     return (
       <PickerPopup

@@ -396,7 +396,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     const formattedNodes = getFormattedNodes(renderNode);
 
     return (
-      <Component ref={ref} className={classes} style={{ height, ...style }}>
+      <Component ref={ref} className={classes} style={style}>
         {searchable ? (
           <SearchBox
             placeholder={locale.searchPlaceholder}
@@ -416,9 +416,15 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
           treeRootClassName={prefix('root')}
           onScroll={onScroll}
           onKeyDown={handleTreeKeyDown}
+          className={prefix('view')}
+          style={virtualized ? undefined : { height }}
         >
           {virtualized ? (
-            <AutoSizer defaultHeight={height} style={{ width: 'auto', height: 'auto' }}>
+            <AutoSizer
+              defaultHeight={height}
+              style={{ width: 'auto', height: 'auto' }}
+              className={prefix('virt-auto-sizer')}
+            >
               {({ height }) => (
                 <List
                   ref={listRef}
@@ -426,6 +432,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
                   itemSize={defaultItemSize}
                   itemCount={formattedNodes.length}
                   itemData={formattedNodes}
+                  className={prefix('virt-list')}
                   {...listProps}
                 >
                   {renderVirtualListNode}

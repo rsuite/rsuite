@@ -8,6 +8,7 @@ interface TestPickerOptions {
   virtualized?: boolean;
   role?: 'combobox' | 'textbox';
   ariaHaspopup?: 'listbox' | 'dialog' | 'grid' | 'menu' | 'tree';
+  popupAutoWidth?: boolean;
 }
 
 const defaultData = [
@@ -20,7 +21,8 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     data = defaultData,
     virtualized,
     role = 'combobox',
-    ariaHaspopup = 'listbox'
+    ariaHaspopup = 'listbox',
+    popupAutoWidth
   } = options || {};
   const displayName = TestComponent.displayName;
 
@@ -56,6 +58,34 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
       expect(instance.overlay).to.have.class('custom-class');
     });
+
+    if (popupAutoWidth) {
+      it('[DEPRECATED]:Should set minimum width for popup', () => {
+        render(<TestComponent data={data} open menuAutoWidth style={{ width: 100 }} />);
+
+        expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
+      });
+
+      it('[DEPRECATED]:Should set minimum width for popup', () => {
+        render(<TestComponent data={data} open popupAutoWidth style={{ width: 100 }} />);
+
+        expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
+      });
+    }
+
+    if (ariaHaspopup === 'tree') {
+      it('Should have a custom popupStyle', () => {
+        render(<TestComponent open popupStyle={{ fontSize: 12 }} data={data} />);
+
+        expect(screen.getByTestId('picker-popup')).to.have.style('font-size', '12px');
+      });
+
+      it('Should have a custom popupClassName', () => {
+        render(<TestComponent open popupClassName="custom-class" data={data} />);
+
+        expect(screen.getByTestId('picker-popup')).to.have.class('custom-class');
+      });
+    }
 
     describe('Loading state', () => {
       it('Should display a spinner when loading=true', () => {

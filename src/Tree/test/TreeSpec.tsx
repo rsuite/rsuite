@@ -20,6 +20,25 @@ describe('Tree', () => {
     expect(screen.getByRole('tree')).to.exist;
   });
 
+  it('Should set a height for the Tree', () => {
+    const { rerender } = render(<Tree data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+
+    rerender(<Tree data={data} height={100} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+  });
+
+  it('Should set a height for the Tree with virtualized', () => {
+    render(<Tree data={data} virtualized height={100} />);
+
+    expect(screen.getByRole('tree').querySelector('.rs-tree-virt-list')).to.have.style(
+      'height',
+      '100px'
+    );
+  });
+
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
     const onSelectItem = sinon.spy();
 

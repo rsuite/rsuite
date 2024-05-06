@@ -26,7 +26,7 @@ describe('CheckTreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(CheckTreePicker, { virtualized: true, ariaHaspopup: 'tree' });
+  testPickers(CheckTreePicker, { virtualized: true, ariaHaspopup: 'tree', popupAutoWidth: true });
   testControlledUnControlled(CheckTreePicker, {
     componentProps: {
       data: controlledData,
@@ -68,6 +68,25 @@ describe('CheckTreePicker', () => {
     const { container } = render(<CheckTreePicker data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-default');
+  });
+
+  it('Should set a height for the Tree', () => {
+    const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '320px');
+
+    rerender(<CheckTreePicker defaultOpen data={data} treeHeight={100} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+  });
+
+  it('Should set a height for the Tree with virtualized', () => {
+    render(<CheckTreePicker defaultOpen data={data} virtualized treeHeight={100} />);
+
+    expect(screen.getByRole('tree').querySelector('.rs-check-tree-virt-list')).to.have.style(
+      'height',
+      '100px'
+    );
   });
 
   it('Should clean selected value', () => {

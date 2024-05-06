@@ -11,6 +11,25 @@ const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disab
 describe('CheckTree', () => {
   testStandardProps(<CheckTree data={data} />);
 
+  it('Should set a height for the Tree', () => {
+    const { rerender } = render(<CheckTree data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+
+    rerender(<CheckTree data={data} height={100} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+  });
+
+  it('Should set a height for the Tree with virtualized', () => {
+    render(<CheckTree data={data} virtualized height={100} />);
+
+    expect(screen.getByRole('tree').querySelector('.rs-check-tree-virt-list')).to.have.style(
+      'height',
+      '100px'
+    );
+  });
+
   it('Should render a multi-selectable tree', () => {
     const { container } = render(<CheckTree data={data} />);
 

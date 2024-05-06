@@ -121,7 +121,7 @@ export interface TreeDragProps<T = Record<string, any>> {
 }
 
 export interface TreeBaseProps<V = string | number, T = TreeNode> extends StandardProps {
-  /** The height of Dropdown */
+  /** The height of the tree */
   height?: number;
 
   /** Whether display search input box */

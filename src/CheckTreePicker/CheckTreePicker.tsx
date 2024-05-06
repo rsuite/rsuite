@@ -33,17 +33,40 @@ import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
-import type { FormControlPickerProps, ItemDataType } from '../@types/common';
+import type { FormControlPickerProps, ItemDataType, DeprecatedPickerProps } from '../@types/common';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<V = ValueType>
   extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
+    DeprecatedPickerProps,
     FormControlPickerProps<V, PickerLocale, ItemDataType>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
    */
   countable?: boolean;
+
+  /**
+   * Custom popup style
+   */
+  popupClassName?: string;
+
+  /**
+   * Custom popup style
+   */
+  popupStyle?: React.CSSProperties;
+
+  /**
+   * The height of the tree
+   */
+  treeHeight?: number;
+
+  /**
+   * Popup auto width
+   *
+   * @default true
+   */
+  popupAutoWidth?: boolean;
 
   /**
    * Custom render selected items
@@ -86,10 +109,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     disabledItemValues = [],
     expandItemValues,
     defaultExpandItemValues = [],
-    menuMaxHeight = 320,
-    menuStyle,
-    menuClassName,
-    menuAutoWidth = true,
+    menuClassName: DEPRECATED_menuClassName,
+    menuStyle: DEPRECATED_menuStyle,
+    popupClassName,
+    popupStyle,
+    popupAutoWidth = true,
+    treeHeight = 320,
+    menuAutoWidth = popupAutoWidth,
     searchable = true,
     virtualized = false,
     classPrefix = 'picker',
@@ -199,7 +225,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         cascade={cascade}
         virtualized={virtualized}
         data={treeData}
-        height={menuMaxHeight}
+        height={treeHeight}
         showIndentLine={showIndentLine}
         listProps={listProps}
         listRef={list}
@@ -229,8 +255,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
-    const classes = classNames(className, menuClassName, prefix('check-tree-menu'));
-    const mergedMenuStyle = { ...menuStyle, left, top };
+    const classes = classNames(
+      className,
+      popupClassName,
+      DEPRECATED_menuClassName,
+      prefix('check-tree-menu')
+    );
+    const mergedMenuStyle = { ...popupStyle, ...DEPRECATED_menuStyle, left, top };
 
     return (
       <PickerPopup

@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
@@ -24,7 +25,7 @@ describe('TreePicker', () => {
     }
   });
 
-  testPickers(TreePicker, { ariaHaspopup: 'tree' });
+  testPickers(TreePicker, { virtualized: true, ariaHaspopup: 'tree', popupAutoWidth: true });
 
   testControlledUnControlled(TreePicker, {
     componentProps: { data, defaultOpen: true },
@@ -58,6 +59,25 @@ describe('TreePicker', () => {
     const { container } = render(<TreePicker data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-default');
+  });
+
+  it('Should set a height for the Tree', () => {
+    const { rerender } = render(<TreePicker defaultOpen data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '320px');
+
+    rerender(<TreePicker defaultOpen data={data} treeHeight={100} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+  });
+
+  it('Should set a height for the Tree with virtualized', () => {
+    render(<TreePicker defaultOpen data={data} virtualized treeHeight={100} />);
+
+    expect(screen.getByRole('tree').querySelector('.rs-tree-virt-list')).to.have.style(
+      'height',
+      '100px'
+    );
   });
 
   it('Should clean selected value', () => {

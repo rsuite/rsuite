@@ -489,7 +489,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     });
 
     return (
-      <Component ref={ref} className={classes} style={{ height, ...style }}>
+      <Component ref={ref} className={classes} style={style}>
         {searchable ? (
           <SearchBox
             placeholder={locale.searchPlaceholder}
@@ -507,11 +507,17 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
           {...rest}
           multiselectable
           treeRootClassName={treeNodesClass}
+          className={prefix('view')}
           onScroll={onScroll}
           onKeyDown={handleTreeKeyDown}
+          style={virtualized ? undefined : { height }}
         >
           {virtualized ? (
-            <AutoSizer defaultHeight={height} style={{ width: 'auto', height: 'auto' }}>
+            <AutoSizer
+              defaultHeight={height}
+              style={{ width: 'auto', height: 'auto' }}
+              className={prefix('virt-auto-sizer')}
+            >
               {({ height }) => (
                 <List
                   ref={listRef}
@@ -519,6 +525,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
                   itemSize={defaultItemSize}
                   itemCount={formattedNodes.length}
                   itemData={formattedNodes}
+                  className={prefix('virt-list')}
                   {...listProps}
                 >
                   {renderVirtualListNode}
