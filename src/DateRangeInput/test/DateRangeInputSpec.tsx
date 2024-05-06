@@ -463,7 +463,7 @@ describe('DateRangeInput', () => {
 
     it('Should be able to enter key input continuously', async () => {
       await testKeyPressAsync({
-        keys: '0101202402022024'.split(''),
+        keys: '2024010120240202'.split(''),
         expectedValue: '2024-01-01 ~ 2024-02-02'
       });
     });
