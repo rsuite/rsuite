@@ -94,96 +94,202 @@ export interface DropData<T> {
   createUpdateDataFunction: (data: T[]) => T[];
 }
 
+/**
+ * Represents the drag-related props for the Tree component.
+ */
 export interface TreeDragProps<T = Record<string, any>> {
-  /** Whether the node can  be dragged */
+  /**
+   * Specifies whether the node can be dragged.
+   */
   draggable?: boolean;
 
-  /** Called when scrolling */
+  /**
+   * Called when scrolling.
+   * @param event - The scroll event.
+   */
   onScroll?: (event: React.SyntheticEvent) => void;
 
-  /** Called when node drag start */
+  /**
+   * Called when the node drag starts.
+   * @param nodeData - The data associated with the dragged node.
+   * @param e - The drag event.
+   */
   onDragStart?: (nodeData: T, e: React.DragEvent) => void;
 
-  /** Called when node drag enter */
+  /**
+   * Called when the node is dragged over.
+   * @param nodeData - The data associated with the dragged node.
+   * @param e - The drag event.
+   */
   onDragEnter?: (nodeData: T, e: React.DragEvent) => void;
 
-  /** Called when node drag over */
+  /**
+   * Called when the node is dragged over.
+   * @param nodeData - The data associated with the dragged node.
+   * @param e - The drag event.
+   */
   onDragOver?: (nodeData: T, e: React.DragEvent) => void;
 
-  /** Called when node drag leave */
+  /**
+   * Called when the node is dragged out.
+   * @param nodeData - The data associated with the dragged node.
+   * @param e - The drag event.
+   */
   onDragLeave?: (nodeData: T, e: React.DragEvent) => void;
 
-  /** Called when node drag end */
+  /**
+   * Called when the node drag ends.
+   * @param nodeData - The data associated with the dragged node.
+   * @param e - The drag event.
+   */
   onDragEnd?: (nodeData: T, e: React.DragEvent) => void;
 
-  /** Called when node drop */
+  /**
+   * Called when a node is dropped.
+   * @param dropData - The data associated with the dropped node.
+   * @param e - The drag event.
+   */
   onDrop?: (dropData: DropData<T>, e: React.DragEvent) => void;
 }
 
-export interface TreeBaseProps<V = string | number, T = TreeNode> extends StandardProps {
-  /** The height of the tree */
+/**
+ * Represents the base props for the Tree component.
+ *
+ * @template V - The type of the value associated with each tree node.
+ * @template T - The type of the tree node.
+ */
+/**
+ * Represents the props for the Tree component.
+ */
+export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends StandardProps {
+  /**
+   * The height of the tree.
+   */
   height?: number;
 
-  /** Whether display search input box */
+  /**
+   * Whether to display the search input box.
+   */
   searchable?: boolean;
 
-  /** Display an auxiliary line when the tree node is indented. */
+  /**
+   * Whether to display an auxiliary line when the tree node is indented.
+   */
   showIndentLine?: boolean;
 
-  /** Whether using virtualized list */
+  /**
+   * Whether to use virtualized list.
+   */
   virtualized?: boolean;
 
-  /** Virtualized List props */
+  /**
+   * Props for the virtualized list.
+   */
   listProps?: Partial<ListProps>;
 
-  /** Expand all nodes By default */
-  defaultExpandAll?: boolean;
-
-  /** searchKeyword (Controlled) */
+  /**
+   * The search keyword (controlled).
+   */
   searchKeyword?: string;
 
-  /** Set the option value for the expand node */
-  defaultExpandItemValues?: any[];
-
-  /** Set the option value for the expand node with controlled*/
+  /**
+   * The option values for the expand nodes with controlled.
+   */
   expandItemValues?: any[];
 
-  /** Callback function for data change */
+  /**
+   * Callback function for expanding tree nodes.
+   * @param expandItemValues - The values of the expanded nodes.
+   * @param activeNode - The currently active node.
+   * @param concat - A function to concatenate data and children.
+   */
   onExpand?: (
     expandItemValues: T[],
     activeNode: T,
     concat: (data: T[], children: T[]) => T[]
   ) => void;
 
-  /** Callback function after selecting tree node */
+  /**
+   * Callback function after selecting a tree node.
+   * @param activeNode - The currently active node.
+   * @param value - The value of the selected node.
+   * @param event - The event object.
+   */
   onSelect?: (activeNode: T, value: V, event: React.SyntheticEvent) => void;
 
-  /** Callback when a tree item is clicked */
+  /**
+   * Callback when a tree item is clicked.
+   * @param item - The clicked tree item.
+   * @param path - The path of the clicked item.
+   */
   onSelectItem?: (item: T, path: T[]) => void;
 
-  /** Custom Render tree Node */
+  /**
+   * Custom render function for tree nodes.
+   * @param nodeData - The data of the tree node.
+   * @returns The rendered node.
+   */
   renderTreeNode?: (nodeData: T) => React.ReactNode;
 
-  /** Custom Render icon */
+  /**
+   * Custom render function for tree icons.
+   * @param nodeData - The data of the tree node.
+   * @returns The rendered icon.
+   */
   renderTreeIcon?: (nodeData: T) => React.ReactNode;
 
-  /** callback fired when search */
+  /**
+   * Callback fired when searching.
+   * @param searchKeyword - The search keyword.
+   * @param event - The event object.
+   */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
 
-  /** Called when clean */
+  /**
+   * Callback fired when cleaning.
+   * @param event - The event object.
+   */
   onClean?: (event: React.SyntheticEvent) => void;
 
-  /** Custom search rules. */
+  /**
+   * Custom search rules.
+   * @param keyword - The search keyword.
+   * @param label - The label of the tree item.
+   * @param item - The tree item.
+   * @returns Whether the item matches the search criteria.
+   */
   searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
 
-  /** Customizing the Rendering Menu list */
+  /**
+   * Custom render function for the menu list.
+   * @param menu - The menu to be rendered.
+   * @returns The rendered menu.
+   */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
-  /** load node children data asynchronously */
-  getChildren?: (activeNode: T) => T[] | Promise<T[]>;
-
   /**
-   * Called after the value has been changed
+   * Callback function called after the value has been changed.
+   * @param value - The new value.
+   * @param event - The event object.
    */
   onChange?: (value: V, event: React.SyntheticEvent) => void;
+}
+
+export interface TreeExtraProps<T = TreeNode> {
+  /**
+   * Whether to expand all nodes by default.
+   */
+  defaultExpandAll?: boolean;
+
+  /**
+   * The option values for the expand nodes by default.
+   */
+  defaultExpandItemValues?: any[];
+
+  /**
+   * Function to load node children data asynchronously.
+   * @param activeNode - The currently active node.
+   * @returns The children of the active node.
+   */
+  getChildren?: (activeNode: T) => T[] | Promise<T[]>;
 }

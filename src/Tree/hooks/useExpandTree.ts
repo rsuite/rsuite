@@ -98,12 +98,15 @@ function useExpandTree(data: TreeNode[], props: UseExpandTreeProps<TreeNode>) {
       expandItemValues,
       valueKey
     });
+
     setExpandItemValues(nextExpandItemValues);
+
     onExpand?.(
       nextExpandItemValues,
       node,
       createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
     );
+
     if (
       isFunction(getChildren) &&
       !node.expand &&

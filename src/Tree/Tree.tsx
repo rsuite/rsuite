@@ -1,11 +1,13 @@
 import React from 'react';
 import { RsRefForwardingComponent } from '../@types/common';
-import TreeView, { TreeViewProps } from './TreeView';
+import TreeView, { type TreeViewProps } from './TreeView';
 import { useControlled, useEventCallback } from '../utils';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
+import useExpandTree from './hooks/useExpandTree';
+import type { TreeExtraProps } from './types';
 
-export interface TreeProps<T = string | number | null> extends TreeViewProps<T> {
+export interface TreeProps<T = string | number | null> extends TreeViewProps<T>, TreeExtraProps {
   /** Default selected Value  */
   defaultValue?: T;
 }
@@ -20,11 +22,16 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
     const {
       value: controlledValue,
       defaultValue,
-      onChange,
       childrenKey = 'children',
       labelKey = 'label',
       valueKey = 'value',
       data,
+      defaultExpandAll = false,
+      defaultExpandItemValues = [],
+      expandItemValues: controlledExpandItemValues,
+      getChildren,
+      onChange,
+      onExpand,
       ...rest
     } = props;
 
@@ -34,6 +41,16 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
     const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
     const flattenedNodes = useFlattenTree(treeData, {
       ...itemDataKeys
+    });
+
+    const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
+      ...itemDataKeys,
+      defaultExpandAll,
+      defaultExpandItemValues,
+      controlledExpandItemValues,
+      onExpand,
+      getChildren,
+      appendChild
     });
 
     const handleChange = useEventCallback(
@@ -53,9 +70,10 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
         valueKey={valueKey}
         data={treeData}
         loadingNodeValues={loadingNodeValues}
-        appendChild={appendChild}
         flattenedNodes={flattenedNodes}
+        expandItemValues={expandItemValues}
         onChange={handleChange}
+        onExpand={handleExpandTreeNode}
       />
     );
   }

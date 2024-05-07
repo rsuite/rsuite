@@ -5,7 +5,7 @@ export interface ArrowHandlerProps {
   focusItem: TreeNode;
   expand: boolean;
   childrenKey: string;
-  onExpand: (focusItem: TreeNode) => void;
+  onExpand?: (focusItem: TreeNode) => void;
   onFocusItem: () => void;
 }
 
@@ -21,7 +21,7 @@ export function handleLeftArrow(props: ArrowHandlerProps) {
   }
 
   if (expand) {
-    onExpand({ ...focusItem, expand });
+    onExpand?.({ ...focusItem, expand });
   } else if (focusItem?.parent) {
     onFocusItem();
   }
@@ -41,7 +41,7 @@ export function handleRightArrow(props: ArrowHandlerProps) {
   }
 
   if (!expand) {
-    onExpand({ ...focusItem, expand });
+    onExpand?.({ ...focusItem, expand });
   } else {
     onFocusItem();
   }

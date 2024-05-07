@@ -32,12 +32,15 @@ import { TreeNode } from '../Tree/types';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useExpandTree from '../Tree/hooks/useExpandTree';
 import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
 import type { FormControlPickerProps, ItemDataType, DeprecatedPickerProps } from '../@types/common';
+import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<V = ValueType>
   extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
+    TreeExtraProps,
     DeprecatedPickerProps,
     FormControlPickerProps<V, PickerLocale, ItemDataType>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
@@ -107,7 +110,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     defaultValue = [],
     defaultExpandAll = false,
     disabledItemValues = [],
-    expandItemValues,
+    expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues = [],
     menuClassName: DEPRECATED_menuClassName,
     menuStyle: DEPRECATED_menuStyle,
@@ -152,6 +155,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const itemDataKeys = { childrenKey, labelKey, valueKey };
   const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
+
+  const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
+    ...itemDataKeys,
+    defaultExpandAll,
+    defaultExpandItemValues,
+    controlledExpandItemValues,
+    onExpand,
+    getChildren,
+    appendChild
+  });
 
   const flattenedNodes = useFlattenTree(treeData, {
     ...itemDataKeys,
@@ -217,8 +230,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     <TreeProvider value={{ register }}>
       <CheckTreeView
         ref={treeView}
-        defaultExpandAll={defaultExpandAll}
-        defaultExpandItemValues={defaultExpandItemValues}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
@@ -240,15 +251,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         onScroll={onScroll}
         onSelect={onSelect}
         onSelectItem={onSelectItem}
-        onExpand={onExpand}
+        onExpand={handleExpandTreeNode}
         onSearch={onSearch}
         onChange={handleChange}
         onFocusItem={handleFocusItem}
-        getChildren={getChildren}
         value={value}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
-        appendChild={appendChild}
       />
     </TreeProvider>
   );

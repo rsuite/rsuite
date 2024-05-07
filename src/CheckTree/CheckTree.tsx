@@ -4,10 +4,12 @@ import useTreeValue from './hooks/useTreeValue';
 import CheckTreeView, { type CheckTreeViewProps } from './CheckTreeView';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useExpandTree from '../Tree/hooks/useExpandTree';
 import type { RsRefForwardingComponent } from '../@types/common';
+import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];
-export interface CheckTreeProps<T = ValueType> extends CheckTreeViewProps<T> {
+export interface CheckTreeProps<T = ValueType> extends CheckTreeViewProps<T>, TreeExtraProps {
   /**
    * Default selected Value
    */
@@ -22,13 +24,18 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
   (props, ref: React.Ref<HTMLDivElement>) => {
     const {
       value: controlledValue,
+      data,
       defaultValue,
+      defaultExpandAll = false,
+      defaultExpandItemValues = [],
       uncheckableItemValues,
+      expandItemValues: controlledExpandItemValues,
       childrenKey = 'children',
       labelKey = 'label',
       valueKey = 'value',
       cascade = true,
-      data,
+      getChildren,
+      onExpand,
       onChange,
       ...rest
     } = props;
@@ -40,6 +47,16 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
 
     const itemDataKeys = { childrenKey, labelKey, valueKey };
     const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
+
+    const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
+      ...itemDataKeys,
+      defaultExpandAll,
+      defaultExpandItemValues,
+      controlledExpandItemValues,
+      onExpand,
+      getChildren,
+      appendChild
+    });
 
     const flattenedNodes = useFlattenTree(treeData, {
       ...itemDataKeys,
@@ -63,10 +80,11 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
         valueKey={valueKey}
         data={treeData}
         loadingNodeValues={loadingNodeValues}
-        appendChild={appendChild}
         flattenedNodes={flattenedNodes}
         uncheckableItemValues={uncheckableItemValues}
+        expandItemValues={expandItemValues}
         onChange={handleChange}
+        onExpand={handleExpandTreeNode}
       />
     );
   }

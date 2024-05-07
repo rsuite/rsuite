@@ -26,18 +26,17 @@ import {
   isExpand
 } from '../Tree/utils';
 import useTreeSearch from '../Tree/hooks/useTreeSearch';
-import useExpandTree from '../Tree/hooks/useExpandTree';
 import useFocusTree from '../Tree/hooks/useFocusTree';
 import useForceUpdate from '../Tree/hooks/useForceUpdate';
 import useSerializeList from './hooks/useSerializeList';
 import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '../@types/common';
-import type { TreeNode, TreeNodeMap, TreeBaseProps } from '../Tree/types';
+import type { TreeNode, TreeNodeMap, TreeViewBaseProps } from '../Tree/types';
 
 /**
  * Props for the CheckTreeView component.
  */
 export interface CheckTreeViewProps<V = (string | number)[]>
-  extends TreeBaseProps<V>,
+  extends TreeViewBaseProps<V>,
     DataProps<TreeNode> {
   /**
    * Selected value.
@@ -102,17 +101,16 @@ interface CheckTreeViewInnerProps<V = (string | number)[]> extends CheckTreeView
   flattenedNodes?: TreeNodeMap;
 
   /**
-   * Append child function.
-   */
-  appendChild: (
-    node: TreeNode,
-    getChildren: (node: TreeNode) => TreeNode[] | Promise<TreeNode[]>
-  ) => void;
-
-  /**
    * Callback function triggered when an item is focused.
    */
   onFocusItem?: (value?: TreeNode['value']) => void;
+
+  /**
+   * A callback function that is called when a node is expanded.
+   *
+   * @param nodeData - The data of the expanded node.
+   */
+  onExpand?: (nodeData: TreeNode) => void;
 }
 
 const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = React.forwardRef(
@@ -124,10 +122,8 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       childrenKey = 'children',
       cascade = true,
       data = [],
-      defaultExpandAll = false,
       disabledItemValues = [],
-      expandItemValues: controlledExpandItemValues,
-      defaultExpandItemValues = [],
+      expandItemValues = [],
       height = 360,
       locale: overrideLocale,
       listProps,
@@ -144,9 +140,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       value,
       loadingNodeValues = [],
       flattenedNodes = {},
-      appendChild,
       searchBy,
-      getChildren,
       renderTreeIcon,
       renderTreeNode,
       onChange,
@@ -163,16 +157,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const forceUpdate = useForceUpdate();
     const itemDataKeys = { childrenKey, labelKey, valueKey };
-
-    const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
-      ...itemDataKeys,
-      defaultExpandAll,
-      defaultExpandItemValues,
-      controlledExpandItemValues,
-      onExpand,
-      getChildren,
-      appendChild
-    });
 
     const { serializeListOnlyParent, unserializeList } = useSerializeList({
       cascade,
@@ -201,7 +185,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       searchKeyword: keyword,
       flattenedNodes,
       onFocused: onFocusItem,
-      onExpand: handleExpandTreeNode
+      onExpand
     });
 
     /**
@@ -257,7 +241,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         renderTreeNode,
         renderTreeIcon,
         onSelect: handleSelect,
-        onExpand: handleExpandTreeNode
+        onExpand
       };
     };
 

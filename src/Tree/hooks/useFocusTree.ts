@@ -28,7 +28,7 @@ interface UseFocusTreeProps<T extends TreeNode> {
   expandItemValues: any[];
   searchKeyword: string;
   flattenedNodes: any;
-  onExpand: (nodeData: T) => void;
+  onExpand?: (nodeData: T) => void;
   onFocused?: (value: TreeNode['value']) => void;
 }
 /**

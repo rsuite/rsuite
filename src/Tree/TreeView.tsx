@@ -24,14 +24,13 @@ import { TreeView as BaseTreeView } from '../internals/Tree';
 import useTreeSearch from './hooks/useTreeSearch';
 import useTreeDrag from './hooks/useTreeDrag';
 import useFocusTree from './hooks/useFocusTree';
-import useExpandTree from './hooks/useExpandTree';
 import SearchBox from '../internals/SearchBox';
 import { highlightLabel } from '../internals/utils';
 import { RsRefForwardingComponent, DataProps, ToArray } from '../@types/common';
-import type { TreeNode, TreeNodeMap, TreeBaseProps, TreeDragProps } from './types';
+import type { TreeNode, TreeNodeMap, TreeViewBaseProps, TreeDragProps } from './types';
 
 export interface TreeViewProps<V = number | string | null>
-  extends TreeBaseProps<V, TreeNode>,
+  extends TreeViewBaseProps<V, TreeNode>,
     DataProps<TreeNode>,
     TreeDragProps {
   /**
@@ -78,32 +77,33 @@ export interface TreeViewProps<V = number | string | null>
 /**
  * Props for the TreeViewInner component.
  */
+/**
+ * Represents the props for the TreeView component.
+ */
 interface TreeViewInnerProps<V = string | number | null> extends TreeViewProps<V> {
   /**
-   * Loading node values.
+   * An array of values representing the loading nodes.
    */
   loadingNodeValues?: V[];
 
   /**
-   * Flattened nodes.
+   * A map of flattened nodes.
    */
   flattenedNodes?: TreeNodeMap;
 
   /**
-   * Append child function.
+   * A callback function that is called when an item in the tree receives focus.
    *
-   * @param node - The node to append child to.
-   * @param getChildren - A function that returns the children of the node.
-   */
-  appendChild: (
-    node: TreeNode,
-    getChildren: (node: TreeNode) => TreeNode[] | Promise<TreeNode[]>
-  ) => void;
-
-  /**
-   * Callback function triggered when an item is focused.
+   * @param value - The value of the focused item.
    */
   onFocusItem?: (value?: V) => void;
+
+  /**
+   * A callback function that is called when a node is expanded.
+   *
+   * @param nodeData - The data of the expanded node.
+   */
+  onExpand?: (nodeData: TreeNode) => void;
 }
 
 const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forwardRef(
@@ -126,17 +126,13 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       valueKey = 'value',
       childrenKey = 'children',
       draggable,
-      defaultExpandAll = false,
       disabledItemValues = [],
-      expandItemValues: controlledExpandItemValues,
-      defaultExpandItemValues = [],
       loadingNodeValues = [],
       flattenedNodes = {},
       listProps,
       listRef,
       searchInputRef,
-      appendChild,
-      getChildren,
+      expandItemValues = [],
       renderTreeIcon,
       renderTreeNode,
       onSearch,
@@ -157,15 +153,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
 
     const { rtl, locale } = useCustom('Picker', overrideLocale);
     const itemDataKeys = { childrenKey, labelKey, valueKey };
-    const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
-      ...itemDataKeys,
-      defaultExpandAll,
-      defaultExpandItemValues,
-      controlledExpandItemValues,
-      onExpand,
-      getChildren,
-      appendChild
-    });
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const handleSearchCallback = (value: string, _data, event: React.SyntheticEvent) => {
@@ -245,8 +232,8 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
         draggable,
         dragging,
         dragStatus,
+        onExpand,
         onSelect: handleSelect,
-        onExpand: handleExpandTreeNode,
         renderTreeNode,
         renderTreeIcon
       };
@@ -280,7 +267,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       searchKeyword: keyword,
       flattenedNodes,
       onFocused: onFocusItem,
-      onExpand: handleExpandTreeNode
+      onExpand
     });
 
     const { dragNode, dragOverNodeKey, dropNodePosition, dragEvents } = useTreeDrag<TreeNode>({
