@@ -192,13 +192,11 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         disabled={disabled}
         data-layer={layer}
         value={nodeData.refKey || value}
-        className={prefix('label')}
+        className={prefix('content')}
         title={labelStr}
         onSelect={handleSelect}
       >
-        <span className={prefix('label-content')}>
-          {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
-        </span>
+        {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
       </ListCheckItem>
     </Component>
   ) : null;

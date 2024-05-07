@@ -10,7 +10,7 @@
   height: 100%;
   flex: 1 1 auto;
 
-  .rs-check-tree-node-label {
+  .rs-check-tree-node-content {
     .rs-check-item .rs-checkbox-checker {
       > label {
         text-align: left;
@@ -23,14 +23,14 @@
         left: (@checkbox-sense-width + 10px);
       }
 
-      .rs-check-tree-node-label-content {
+      .rs-checkbox-label {
         padding: 6px 8px;
         width: auto;
       }
     }
 
     &:focus-visible {
-      .rs-check-tree-node-label-content {
+      .rs-checkbox-label {
         .focus-ring();
       }
     }
@@ -84,15 +84,19 @@
     &-focus {
       background-color: transparent !important;
 
-      .rs-check-tree-node-label-content {
+      .rs-checkbox-label {
         background-color: var(--rs-listbox-option-hover-bg);
         color: var(--rs-listbox-option-hover-text);
         border-radius: 6px;
       }
     }
 
-    .rs-picker-popup & {
-      display: block;
+    &.rs-checkbox-disabled {
+      .rs-checkbox-label {
+        cursor: not-allowed;
+        color: var(--rs-text-disabled);
+        background: none;
+      }
     }
   }
 
@@ -177,7 +181,7 @@
 }
 
 .rs-check-tree {
-  &-node > .rs-check-tree-node-label .rs-check-tree-node-label-content {
+  &-node > .rs-check-tree-node-content .rs-checkbox-label {
     .ellipsis();
 
     display: inline-block;
