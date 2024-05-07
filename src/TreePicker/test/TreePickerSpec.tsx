@@ -256,29 +256,6 @@ describe('TreePicker', () => {
     });
   });
 
-  it('Should async load children nodes', async () => {
-    const data = [{ label: 'async', value: 'async', children: [] }];
-
-    const fetchNodes = () => {
-      return new Promise<any>(resolve => {
-        setTimeout(() => resolve([{ label: 'children1', value: 'children1' }]), 500);
-      });
-    };
-
-    render(<TreePicker data={data} open defaultExpandAll getChildren={fetchNodes} />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
-
-    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
-
-    await waitFor(() => {
-      expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
-      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
-        'aria-busy'
-      );
-    });
-  });
-
   it('Should render one node when searchKeyword is `M`', () => {
     render(<TreePicker data={data} open searchKeyword="M" />);
 
@@ -486,6 +463,55 @@ describe('TreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master');
+  });
+
+  describe('Async Data', () => {
+    it('Should async load data when open', async () => {
+      const App = () => {
+        const [data, setData] = React.useState<any>([]);
+
+        return (
+          <TreePicker
+            data={data}
+            defaultExpandAll
+            onOpen={() => {
+              setData([{ label: 'async', value: 'async' }]);
+            }}
+          />
+        );
+      };
+
+      render(<App />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: 'async' })).to.exist;
+      });
+    });
+
+    it('Should async load children nodes', async () => {
+      const data = [{ label: 'async', value: 'async', children: [] }];
+
+      const fetchNodes = () => {
+        return new Promise<any>(resolve => {
+          setTimeout(() => resolve([{ label: 'children1', value: 'children1' }]), 500);
+        });
+      };
+
+      render(<TreePicker data={data} open defaultExpandAll getChildren={fetchNodes} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+        expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+          'aria-busy'
+        );
+      });
+    });
   });
 
   describe('Accessibility - Keyboard interactions', () => {

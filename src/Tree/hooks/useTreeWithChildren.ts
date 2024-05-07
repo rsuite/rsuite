@@ -20,8 +20,8 @@ export default function useTreeWithChildren<T extends TreeNode>(
   const [treeData, setTreeData] = useState(data);
 
   useEffect(() => {
-    setTreeData(treeData);
-  }, [treeData]);
+    setTreeData(data);
+  }, [data]);
 
   const concatChildren = useCallback(
     (treeNode: TreeNode, children: any[]): any[] => {
@@ -39,6 +39,7 @@ export default function useTreeWithChildren<T extends TreeNode>(
     (node, getChildren) => {
       setLoadingNodeValues(prev => prev.concat(node[valueKey]));
       const children = getChildren(node);
+
       if (children instanceof Promise) {
         children.then(res => {
           const newData = concatChildren(node, res);

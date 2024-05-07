@@ -92,7 +92,7 @@ function useExpandTree(data: TreeNode[], props: UseExpandTreeProps<TreeNode>) {
   }, [controlledExpandItemValues, setExpandItemValues]);
 
   const handleExpandTreeNode = useEventCallback((node: any) => {
-    const nextExpandItemValues = getExpandItemValues({
+    const nextExpandItemValues = getExpandItemValues<TreeNode>({
       node: node,
       isExpand: !node.expand,
       expandItemValues,

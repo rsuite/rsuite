@@ -1,4 +1,4 @@
-import { UNSAFE_flattenTree } from './flattenTree';
+import { flattenTree } from './flattenTree';
 
 interface Options {
   valueKey: string;
@@ -8,10 +8,12 @@ interface Options {
 }
 export function getDefaultExpandItemValues<TItem>(data: TItem[], options: Options) {
   const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = options;
+
   if (defaultExpandAll) {
-    return UNSAFE_flattenTree(data, childrenKey)
+    return flattenTree(data, (item: TItem) => item[childrenKey] || [])
       .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
       .map(item => item[valueKey]);
   }
+
   return defaultExpandItemValues;
 }
