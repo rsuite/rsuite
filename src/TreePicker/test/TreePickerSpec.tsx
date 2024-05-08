@@ -465,6 +465,16 @@ describe('TreePicker', () => {
     expect(screen.getByRole('combobox')).to.text('Master');
   });
 
+  it('Should focus on the first node when open', async () => {
+    render(<TreePicker data={data} value={'Master'} />);
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'Master' })).to.be.focus;
+    });
+  });
+
   describe('Async Data', () => {
     it('Should async load data when open', async () => {
       const App = () => {

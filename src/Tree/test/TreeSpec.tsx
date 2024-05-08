@@ -293,5 +293,16 @@ describe('Tree', () => {
 
       expect(treeItems[0]).to.have.attribute('aria-expanded', 'false');
     });
+
+    it('Should select the item when pressing the enter key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+      fireEvent.keyDown(tree, { key: 'Enter' });
+
+      expect(treeItems[0]).to.have.attribute('aria-selected', 'true');
+    });
   });
 });

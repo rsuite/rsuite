@@ -83,14 +83,6 @@ describe('CheckTree', () => {
     expect(onSelect).to.not.have.been.called;
   });
 
-  it('Should not render the checkbox when the item is uncheckable', () => {
-    const onSelect = sinon.spy();
-
-    render(<CheckTree data={data} onSelect={onSelect} uncheckableItemValues={['Master']} />);
-
-    expect(screen.queryByRole('checkbox', { name: 'Master' })).to.not.exist;
-  });
-
   it('Should async load children nodes', async () => {
     const data = [{ label: 'async', value: 'async', children: [] }];
 
@@ -162,6 +154,27 @@ describe('CheckTree', () => {
     });
   });
 
+  describe('Disabled/Uncheckable items', () => {
+    it('Should render the item as disabled', () => {
+      const onSelect = sinon.spy();
+      render(<CheckTree data={data} disabledItemValues={['Master']} onSelect={onSelect} />);
+
+      expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attribute('aria-disabled');
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
+
+      expect(onSelect).to.not.have.been.called;
+    });
+
+    it('Should not render the checkbox when the item is uncheckable', () => {
+      const onSelect = sinon.spy();
+
+      render(<CheckTree data={data} onSelect={onSelect} uncheckableItemValues={['Master']} />);
+
+      expect(screen.queryByRole('checkbox', { name: 'Master' })).to.not.exist;
+    });
+  });
+
   describe('Accessibility - Keyboard interactions', () => {
     it('Should focus the next item when pressing the down arrow key', () => {
       render(<CheckTree data={data} />);
@@ -189,7 +202,7 @@ describe('CheckTree', () => {
 
       const treeItems = screen.getAllByRole('treeitem');
 
-      fireEvent.click(treeItems[0].querySelector('label') as HTMLLabelElement);
+      fireEvent.click(screen.getAllByRole('checkbox')[0]);
       fireEvent.keyDown(treeItems[0], { key: 'ArrowRight' });
 
       expect(treeItems[0]).to.have.attribute('aria-expanded', 'true');
@@ -200,10 +213,21 @@ describe('CheckTree', () => {
 
       const treeItems = screen.getAllByRole('treeitem');
 
-      fireEvent.click(treeItems[0].querySelector('label') as HTMLLabelElement);
+      fireEvent.click(screen.getAllByRole('checkbox')[0]);
       fireEvent.keyDown(treeItems[0], { key: 'ArrowLeft' });
 
       expect(treeItems[0]).to.have.attribute('aria-expanded', 'false');
+    });
+
+    it('Should check the item when pressing the enter key', () => {
+      render(<CheckTree data={data} />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+      fireEvent.keyDown(tree, { key: 'Enter' });
+
+      expect(treeItems[0]).to.have.attribute('aria-checked', 'true');
     });
   });
 });
