@@ -3,7 +3,7 @@ import { isNil, cloneDeep, isUndefined } from 'lodash';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '../internals/Windowing';
 import CheckTreeNode from '../CheckTree/CheckTreeNode';
 import { indentTreeNode } from '../Tree/utils';
-import { useCustom, useClassNames, useEventCallback } from '../utils';
+import { useCustom, useClassNames, useEventCallback, useWillUnmount } from '../utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
 import { onMenuKeyDown } from '../internals/Picker';
 import { TreeView } from '../internals/Tree';
@@ -249,10 +249,15 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       setFilteredData(data, keyword);
     }, [data, keyword, setFilteredData]);
 
-    useEffect(() => {
-      unserializeList(flattenedNodes, { key: 'check', value });
-      forceUpdate();
+    useWillUnmount(() => {
+      // Reset the checked state of the tree node when the component is destroyed to avoid flicker when reinitialized next time.
+      // https://github.com/rsuite/rsuite/pull/3769#issuecomment-2097619616
+      unserializeList(flattenedNodes, { value });
+    });
 
+    useEffect(() => {
+      unserializeList(flattenedNodes, { value });
+      forceUpdate();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cascade, value, flattenedNodes, forceUpdate]);
 

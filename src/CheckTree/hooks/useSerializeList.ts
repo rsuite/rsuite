@@ -10,8 +10,8 @@ interface UseSerializeListProps {
 }
 
 interface UnserializeListProps {
-  key: string;
-  value: any;
+  key?: string;
+  value?: any;
 }
 
 function useSerializeList({
@@ -45,11 +45,9 @@ function useSerializeList({
     [valueKey]
   );
 
-  /**
-   * using in CheckTreePicker, to unserializeList check property
-   */
+  // TODO: Bad design, need to refactor
   const unserializeList = useCallback(
-    (nodes: TreeNodeMap, { key, value = [] }: UnserializeListProps) => {
+    (nodes: TreeNodeMap, { key = 'check', value = [] }: UnserializeListProps) => {
       // Reset values to false
       Object.keys(nodes).forEach((refKey: string) => {
         const node = nodes[refKey];
