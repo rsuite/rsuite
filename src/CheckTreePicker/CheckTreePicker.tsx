@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit } from 'lodash';
 import { PickerLocale } from '../locales';
@@ -33,6 +33,7 @@ import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
+import useFocusState from './hooks/useFocusState';
 import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
 import type { FormControlPickerProps, ItemDataType, DeprecatedPickerProps } from '../@types/common';
 import type { TreeExtraProps } from '../Tree/types';
@@ -89,41 +90,41 @@ export interface CheckTreePickerProps<V = ValueType>
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
   const {
     as: Component = 'div',
-    data = [],
-    style,
+    id,
     appearance = 'default',
     cleanable = true,
     countable = true,
-    searchBy,
-    toggleAs,
-    searchKeyword,
-    showIndentLine,
-    locale: overrideLocale,
     cascade = true,
-    disabled,
-    valueKey = 'value',
-    labelKey = 'label',
-    placement = 'bottomStart',
+    classPrefix = 'picker',
     childrenKey = 'children',
-    placeholder,
-    value: controlledValue,
+    disabled,
+    data = [],
     defaultValue = [],
     defaultExpandAll = false,
     disabledItemValues = [],
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues = [],
-    menuClassName: DEPRECATED_menuClassName,
-    menuStyle: DEPRECATED_menuStyle,
+    placeholder,
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
+    placement = 'bottomStart',
     treeHeight = 320,
+    toggleAs,
     menuAutoWidth = popupAutoWidth,
+    menuClassName: DEPRECATED_menuClassName,
+    menuStyle: DEPRECATED_menuStyle,
+    style,
+    searchBy,
+    searchKeyword,
+    showIndentLine,
     searchable = true,
+    valueKey = 'value',
+    value: controlledValue,
     virtualized = false,
-    classPrefix = 'picker',
     uncheckableItemValues = [],
-    id,
+    locale: overrideLocale,
+    labelKey = 'label',
     listProps,
     renderMenu,
     getChildren,
@@ -145,7 +146,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
   const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-  const [active, setActive] = useState(false);
   const { prefix } = useClassNames(classPrefix);
 
   const [value, setValue] = useTreeValue(controlledValue, {
@@ -173,24 +173,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   });
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
-  const [focusItemValue, setFocusItemValue] = useState<number | string | null>(null);
   const { register, focusFirstNode } = useTreeImperativeHandle();
-
-  const handleFocusItem = useEventCallback((value: string | number) => {
-    setFocusItemValue(value);
-  });
-
-  const focusCombobox = useEventCallback(() => {
-    target.current?.focus();
-  });
-
-  const handleEnter = useEventCallback(() => {
-    setActive(true);
-  });
-
-  const handleClose = useEventCallback(() => {
-    setActive(false);
-    focusCombobox();
+  const { focusItemValue, setFocusItemValue, active, triggerProps } = useFocusState({
+    target,
+    onEnter,
+    onExit
   });
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
@@ -254,7 +241,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         onExpand={handleExpandTreeNode}
         onSearch={onSearch}
         onChange={handleChange}
-        onFocusItem={handleFocusItem}
+        onFocusItem={setFocusItemValue}
         value={value}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
@@ -334,9 +321,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
-      onEnter={createChainedFunction(handleEnter, onEnter)}
-      onExit={createChainedFunction(handleClose, onExit)}
       speaker={renderTreeView}
+      {...triggerProps}
     >
       <Component className={classes} style={style} ref={root}>
         <PickerToggle
