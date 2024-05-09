@@ -9,7 +9,7 @@ import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { keyPressTests } from '../../DateInput/test/testUtils';
 
-const { testKeyPress, testContinuousKeyPress } = keyPressTests(DateRangeInput);
+const { testKeyPress, testKeyPressAsync, testContinuousKeyPress } = keyPressTests(DateRangeInput);
 
 describe('DateRangeInput', () => {
   testStandardProps(<DateRangeInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
@@ -458,6 +458,29 @@ describe('DateRangeInput', () => {
           { key: '6', expected: '06 ~ ss' },
           { key: '1', expected: '01 ~ ss' }
         ]
+      });
+    });
+
+    it('Should be able to enter key input continuously', async () => {
+      await testKeyPressAsync({
+        keys: '2024010120240202'.split(''),
+        expectedValue: '2024-01-01 ~ 2024-02-02'
+      });
+    });
+
+    it('Should be able to enter key input continuously with custom format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy',
+        keys: '0101202402022024'.split(''),
+        expectedValue: '01/01/2024 ~ 02/02/2024'
+      });
+    });
+
+    it('Should be able to enter key input continuously with abbreviated month', async () => {
+      await testKeyPressAsync({
+        format: 'MMM dd,yyyy',
+        keys: '0101202402022024'.split(''),
+        expectedValue: 'Jan 01,2024 ~ Feb 02,2024'
       });
     });
   });

@@ -276,35 +276,11 @@ export function modifyDate(date: Date, type: string, value: number) {
   return date;
 }
 
-export function isFieldFullValue(formatStr: string, value: number, pattern: string) {
-  const patternGroup = getPatternGroups(formatStr, pattern);
-
-  if (value.toString().length === patternGroup.length) {
-    return true;
-  }
-
-  switch (pattern) {
-    case 'M':
-      return parseInt(`${value}0`) > 12;
-    case 'd':
-      return parseInt(`${value}0`) > 31;
-    case 'H':
-      return parseInt(`${value}0`) > 23;
-    case 'h':
-      return parseInt(`${value}0`) > 12;
-    case 'm':
-    case 's':
-      return parseInt(`${value}0`) > 59;
-    default:
-      return false;
-  }
-}
-
-const isTestEnvironment = typeof process !== 'undefined' && process.env.RUN_ENV === 'test';
-
 export function useInputSelection(input: React.RefObject<any>) {
   return function setSelectionRange(selectionStart: number, selectionEnd: number) {
-    if (isTestEnvironment) {
+    const isTest = input.current.dataset.test === 'true';
+
+    if (isTest) {
       safeSetSelection(input.current, selectionStart, selectionEnd);
       return;
     }

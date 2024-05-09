@@ -1,18 +1,14 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
 import { mergeRefs, useCustom, useControlled, useEventCallback } from '../utils';
 import { FormControlBaseProps } from '../@types/common';
-import {
-  getInputSelectedState,
-  validateDateTime,
-  isFieldFullValue,
-  useInputSelection
-} from './utils';
-
-import useDateInputState from './useDateInputState';
-import useKeyboardInputEvent from './useKeyboardInputEvent';
-import useIsFocused from './useIsFocused';
+import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
+import useDateInputState from './hooks/useDateInputState';
+import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
+import useIsFocused from './hooks/useIsFocused';
+import useFieldCursor from './hooks/useFieldCursor';
+import useSelectedState from './hooks/useSelectedState';
 
 export interface DateInputProps
   extends Omit<InputProps, 'value' | 'onChange' | 'defaultValue'>,
@@ -51,15 +47,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
   const inputRef = useRef<HTMLInputElement>();
 
-  const [selectedState, setSelectedState] = useState<{
-    selectedPattern: string;
-    selectionStart: number;
-    selectionEnd: number;
-  }>({
-    selectedPattern: 'y',
-    selectionStart: 0,
-    selectionEnd: 0
-  });
+  const { selectedState, setSelectedState } = useSelectedState();
 
   const { locale } = useCustom('Calendar');
 
@@ -72,6 +60,8 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       date: value,
       isControlledDate: isControlled
     });
+
+  const { isMoveCursor, increment, reset } = useFieldCursor(formatStr, valueProp);
 
   const dateString = toDateString();
   const keyPressOptions = useMemo(
@@ -101,8 +91,9 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
       const state = getInputSelectedState({ ...keyPressOptions, input, direction });
 
-      setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
+      setSelectionRange(state.selectionStart, state.selectionEnd);
+      reset();
     }
   );
 
@@ -128,6 +119,8 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
         return;
       }
 
+      increment();
+
       const field = getDateField(pattern);
       const value = parseInt(key, 10);
       const padValue = parseInt(`${field.value || ''}${key}`, 10);
@@ -137,11 +130,6 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       // Check if the value entered by the user is a valid date
       if (validateDateTime(field.name, padValue)) {
         newValue = padValue;
-      }
-
-      if (pattern === 'M') {
-        // Month cannot be less than 1.
-        newValue = Math.max(1, newValue);
       }
 
       setDateField(pattern, newValue, date => handleChange(date, event));
@@ -155,10 +143,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
       // If the field is full value, move the cursor to the next field
-      if (
-        isFieldFullValue(formatStr, newValue, pattern) &&
-        input.selectionEnd !== input.value.length
-      ) {
+      if (isMoveCursor(newValue, pattern) && input.selectionEnd !== input.value.length) {
         onSegmentChange(event, 'right');
       }
     }
@@ -166,6 +151,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
   const onSegmentValueRemove = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
+
     if (selectedState.selectedPattern) {
       const nextState = getInputSelectedState({ ...keyPressOptions, input, valueOffset: null });
 
@@ -173,6 +159,8 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
       setDateField(selectedState.selectedPattern, null, date => handleChange(date, event));
+
+      reset();
     }
   });
 

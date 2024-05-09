@@ -9,7 +9,7 @@ import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { keyPressTests } from './testUtils';
 
-const { testKeyPress, testContinuousKeyPress } = keyPressTests(DateInput);
+const { testKeyPress, testKeyPressAsync, testContinuousKeyPress } = keyPressTests(DateInput);
 
 describe('DateInput', () => {
   testStandardProps(<DateInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
@@ -72,7 +72,7 @@ describe('DateInput', () => {
 
   it('Should call `onChange` with the new value', () => {
     const onChange = sinon.spy();
-    render(<DateInput onChange={onChange} format="yyyy-MM-dd" />);
+    render(<DateInput onChange={onChange} format="yyyy-MM-dd" data-test="true" />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
@@ -454,6 +454,37 @@ describe('DateInput', () => {
           { key: '6', expected: '06' },
           { key: '1', expected: '01' }
         ]
+      });
+    });
+
+    it('Should be able to enter key input continuously', async () => {
+      await testKeyPressAsync({
+        keys: '20240101'.split(''),
+        expectedValue: '2024-01-01'
+      });
+    });
+
+    it('Should be able to enter key input continuously with 24 hour format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy HH:mm:ss',
+        keys: '01012024 120130'.split(''),
+        expectedValue: '01/01/2024 12:01:30'
+      });
+    });
+
+    it('Should be able to enter key input continuously with 12 hour format', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy hh:mm:ss',
+        keys: '01012024 140130'.split(''),
+        expectedValue: '01/01/2024 02:01:30'
+      });
+    });
+
+    it('Should be able to enter key input continuously with abbreviated month', async () => {
+      await testKeyPressAsync({
+        format: 'MMM dd,yyyy',
+        keys: '01012024'.split(''),
+        expectedValue: 'Jan 01,2024'
       });
     });
   });

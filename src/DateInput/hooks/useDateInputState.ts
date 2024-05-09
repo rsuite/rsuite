@@ -11,8 +11,8 @@ import {
   isLastDayOfMonth,
   lastDayOfMonth,
   isValid
-} from '../utils/dateUtils';
-import { useDateField, patternMap } from './DateField';
+} from '../../utils/dateUtils';
+import { useDateField, patternMap } from '../DateField';
 import type { Locale } from 'date-fns';
 
 interface DateInputState {

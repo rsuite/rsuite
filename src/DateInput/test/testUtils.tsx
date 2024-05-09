@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import isMatch from 'date-fns/isMatch';
@@ -18,17 +18,63 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     key: string;
   }) {
     const onChange = sinon.spy();
+    render(
+      <TestComponent
+        onChange={onChange}
+        format={format}
+        defaultValue={defaultValue}
+        data-test="true"
+      />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    userEvent.click(input);
+
+    userEvent.type(input, key);
+    expect(input).to.value(expectedValue);
+
+    if (isMatch(expectedValue, format)) {
+      expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
+    }
+  }
+
+  async function testKeyPressAsync({
+    defaultValue,
+    format = 'yyyy-MM-dd',
+    expectedValue,
+    keys
+  }: {
+    defaultValue?: Date | [Date | null, Date | null] | null;
+    format?: string;
+    expectedValue: string;
+    keys: string[];
+  }) {
+    const onChange = sinon.spy();
     render(<TestComponent onChange={onChange} format={format} defaultValue={defaultValue} />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     userEvent.click(input);
-    userEvent.type(input, key);
+
+    let timeout = 0;
+
+    const actions = keys.map(key => {
+      timeout += 100;
+      return new Promise<void>(resolve => {
+        setTimeout(() => {
+          fireEvent.keyDown(input, { key });
+          resolve();
+        }, timeout);
+      });
+    });
+
+    await Promise.all(actions);
 
     expect(input).to.value(expectedValue);
 
     if (isMatch(expectedValue, format)) {
-      expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
+      expect(formatDate(onChange.lastCall.firstArg, format)).to.equal(expectedValue);
     }
   }
 
@@ -45,7 +91,14 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     }[];
   }) {
     const onChange = sinon.spy();
-    render(<TestComponent onChange={onChange} format={format} defaultValue={defaultValue} />);
+    render(
+      <TestComponent
+        onChange={onChange}
+        format={format}
+        defaultValue={defaultValue}
+        data-test="true"
+      />
+    );
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
@@ -57,5 +110,5 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     }
   }
 
-  return { testKeyPress, testContinuousKeyPress };
+  return { testKeyPress, testKeyPressAsync, testContinuousKeyPress };
 }

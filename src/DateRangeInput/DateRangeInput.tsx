@@ -4,11 +4,12 @@ import Input, { InputProps } from '../Input';
 import { mergeRefs, useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
 import {
   validateDateTime,
-  isFieldFullValue,
   useDateInputState,
   useInputSelection,
   useKeyboardInputEvent,
-  useIsFocused
+  useIsFocused,
+  useSelectedState,
+  useFieldCursor
 } from '../DateInput';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
 import { FormControlBaseProps } from '../@types/common';
@@ -64,15 +65,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const inputRef = useRef<HTMLInputElement>();
 
-  const [selectedState, setSelectedState] = useState<{
-    selectedPattern: string;
-    selectionStart: number;
-    selectionEnd: number;
-  }>({
-    selectedPattern: 'y',
-    selectionStart: 0,
-    selectionEnd: 0
-  });
+  const { selectedState, setSelectedState } = useSelectedState();
 
   const { locale } = useCustom('Calendar');
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
@@ -85,6 +78,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const startDateState = useDateInputState({ ...dateInputOptions, date: value?.[0] || null });
   const endDateState = useDateInputState({ ...dateInputOptions, date: value?.[1] || null });
+
+  const { isMoveCursor, increment, reset } = useFieldCursor<ValueType>(formatStr, valueProp);
 
   const getActiveState = (type: DateType = dateType) => {
     return type === DateType.Start ? startDateState : endDateState;
@@ -152,8 +147,9 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
         direction
       });
 
-      setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
+      setSelectionRange(state.selectionStart, state.selectionEnd);
+      reset();
     }
   );
 
@@ -176,9 +172,12 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       const input = event.target as HTMLInputElement;
       const key = event.key;
       const pattern = selectedState.selectedPattern;
+
       if (!pattern) {
         return;
       }
+
+      increment();
 
       const field = getActiveState().getDateField(pattern);
       const value = parseInt(key, 10);
@@ -189,11 +188,6 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       // Check if the value entered by the user is a valid date
       if (validateDateTime(field.name, padValue)) {
         newValue = padValue;
-      }
-
-      if (pattern === 'M') {
-        // Month cannot be less than 1.
-        newValue = Math.max(1, newValue);
       }
 
       getActiveState().setDateField(pattern, newValue, date => handleChange(date, event));
@@ -207,10 +201,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
       // If the field is full value, move the cursor to the next field
-      if (
-        isFieldFullValue(formatStr, newValue, pattern) &&
-        input.selectionEnd !== input.value.length
-      ) {
+      if (isMoveCursor(newValue, pattern) && input.selectionEnd !== input.value.length) {
         onSegmentChange(event, 'right');
       }
     }
@@ -227,6 +218,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       getActiveState().setDateField(selectedState.selectedPattern, null, date =>
         handleChange(date, event)
       );
+
+      reset();
     }
   });
 
@@ -239,7 +232,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
     const cursorIndex = input.selectionStart === renderedValue.length ? 0 : input.selectionStart;
 
-    const dateType = getDateType(renderedValue, character, cursorIndex);
+    const dateType = getDateType(renderedValue || rangeFormatStr, character, cursorIndex);
     const state = getInputSelectedState({
       ...keyPressOptions,
       dateType,
