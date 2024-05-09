@@ -225,20 +225,6 @@ export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends St
   onSelectItem?: (item: T, path: T[]) => void;
 
   /**
-   * Custom render function for tree nodes.
-   * @param nodeData - The data of the tree node.
-   * @returns The rendered node.
-   */
-  renderTreeNode?: (nodeData: T) => React.ReactNode;
-
-  /**
-   * Custom render function for tree icons.
-   * @param nodeData - The data of the tree node.
-   * @returns The rendered icon.
-   */
-  renderTreeIcon?: (nodeData: T) => React.ReactNode;
-
-  /**
    * Callback fired when searching.
    * @param searchKeyword - The search keyword.
    * @param event - The event object.
@@ -292,4 +278,18 @@ export interface TreeExtraProps<T = TreeNode> {
    * @returns The children of the active node.
    */
   getChildren?: (activeNode: T) => T[] | Promise<T[]>;
+
+  /**
+   * Custom render function for tree nodes.
+   * @param nodeData - The data of the tree node.
+   * @returns The rendered node.
+   */
+  renderTreeNode?: (nodeData: T) => React.ReactNode;
+
+  /**
+   * Custom render function for tree icons.
+   * @param nodeData - The data of the tree node.
+   * @returns The rendered icon.
+   */
+  renderTreeIcon?: (nodeData: T) => React.ReactNode;
 }

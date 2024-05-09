@@ -1,20 +1,45 @@
 import React, { forwardRef, useMemo } from 'react';
-import { useClassNames, useEventCallback } from '../utils';
+import { useClassNames, useEventCallback, useCustom } from '../utils';
 import { indentTreeNode } from '../Tree/utils';
 import { stringifyReactNode } from '../internals/utils';
-import { WithAsProps, RsRefForwardingComponent, ItemDataType } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import TreeNodeToggle from './TreeNodeToggle';
+import { useTreeCustomRenderer } from './TreeProvider';
+import type { TreeNode as TreeNodeData } from './types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
+
+interface TreeDragEventProps {
+  /**
+   * Callback function called when the drag operation starts.
+   */
+  onDragStart?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+  /**
+   * Callback function called when a dragged item enters the node.
+   */
+  onDragEnter?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+  /**
+   * Callback function called when a dragged item is over the node.
+   */
+  onDragOver?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+  /**
+   * Callback function called when a dragged item leaves the node.
+   */
+  onDragLeave?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+  /**
+   * Callback function called when the drag operation ends.
+   */
+  onDragEnd?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+  /**
+   * Callback function called when a dragged item is dropped on the node.
+   */
+  onDrop?: (nodeData: TreeNodeData, event: React.DragEvent<any>) => void;
+}
 
 /**
  * Props for the TreeNode component.
  */
-export interface TreeNodeProps extends WithAsProps {
-  /**
-   * Whether the component should be rendered in right-to-left mode.
-   */
-  rtl?: boolean;
+export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
   /**
    * The layer of the node in the tree hierarchy.
    */
@@ -22,11 +47,11 @@ export interface TreeNodeProps extends WithAsProps {
   /**
    * The value of the node.
    */
-  value?: ItemDataType['value'];
+  value?: TreeNodeData['value'];
   /**
    * The label of the node.
    */
-  label?: ItemDataType['label'];
+  label?: TreeNodeData['label'];
   /**
    * Whether the node should be focused.
    */
@@ -73,58 +98,15 @@ export interface TreeNodeProps extends WithAsProps {
    * Whether the node has children.
    */
   hasChildren?: boolean;
-  /**
-   * The CSS class name for the component.
-   */
-  className?: string;
-  /**
-   * The prefix for the CSS class names of the component.
-   */
-  classPrefix?: string;
-  /**
-   * The inline style for the component.
-   */
-  style?: React.CSSProperties;
+
   /**
    * Callback function called when the node is expanded.
    */
-  onExpand?: (nodeData: any) => void;
+  onExpand?: (nodeData: TreeNodeData) => void;
   /**
    * Callback function called when the node is selected.
    */
-  onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
-  /**
-   * Function that renders the tree icon for the node.
-   */
-  renderTreeIcon?: (nodeData: any) => React.ReactNode;
-  /**
-   * Function that renders the content of the node.
-   */
-  renderTreeNode?: (nodeData: any) => React.ReactNode;
-  /**
-   * Callback function called when the drag operation starts.
-   */
-  onDragStart?: (data: any, event: React.DragEvent<any>) => void;
-  /**
-   * Callback function called when a dragged item enters the node.
-   */
-  onDragEnter?: (data: any, event: React.DragEvent<any>) => void;
-  /**
-   * Callback function called when a dragged item is over the node.
-   */
-  onDragOver?: (data: any, event: React.DragEvent<any>) => void;
-  /**
-   * Callback function called when a dragged item leaves the node.
-   */
-  onDragLeave?: (data: any, event: React.DragEvent<any>) => void;
-  /**
-   * Callback function called when the drag operation ends.
-   */
-  onDragEnd?: (data: any, event: React.DragEvent<any>) => void;
-  /**
-   * Callback function called when a dragged item is dropped on the node.
-   */
-  onDrop?: (data: any, event: React.DragEvent<any>) => void;
+  onSelect?: (nodeData: TreeNodeData, event: React.SyntheticEvent) => void;
 }
 
 const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
@@ -133,7 +115,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 >((props, ref) => {
   const {
     as: Component = 'div',
-    rtl,
     label,
     layer,
     style,
@@ -158,11 +139,11 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     onDragEnd,
     onDrop,
     onExpand,
-    renderTreeIcon,
-    renderTreeNode,
     ...rest
   } = props;
 
+  const { rtl } = useCustom();
+  const { renderTreeNode } = useTreeCustomRenderer();
   const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
@@ -223,6 +204,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   return visible ? (
     <Component
       {...rest}
+      ref={ref}
       role="treeitem"
       tabIndex={-1}
       aria-expanded={expand}
@@ -230,13 +212,12 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       aria-level={layer}
       aria-disabled={disabled}
       aria-selected={active}
+      data-layer={layer}
+      data-key={nodeData?.refKey || ''}
       title={labelStr}
       style={styles}
       className={classes}
-      ref={ref}
       draggable={draggable}
-      data-layer={layer}
-      data-key={nodeData?.refKey || ''}
       onClick={handleSelect}
       onDragStart={handleDragStart}
       onDragEnter={handleDragEnter}
@@ -250,7 +231,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
         data={nodeData}
         expanded={expand}
         loading={loading}
-        renderTreeIcon={renderTreeIcon}
         hasChildren={hasChildren}
         onClick={handleExpand}
       />

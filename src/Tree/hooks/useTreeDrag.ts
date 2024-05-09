@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { TREE_NODE_DROP_POSITION } from '../../utils/constants';
 import { useEventCallback, shallowEqual as equal } from '../../utils';
 import { stringifyReactNode } from '../../internals/utils';
+import { useItemDataKeys } from '../TreeProvider';
 import {
   getDragNodeKeys,
   calDropNodePosition,
@@ -14,9 +15,6 @@ import type { DropData } from '../types';
 
 interface TreeDragProps {
   draggable?: boolean;
-  childrenKey: string;
-  valueKey: string;
-  labelKey: string;
   flattenedNodes: Record<string, any>;
   treeNodesRefs: Record<string, any>;
   prefix: (className: string) => string;
@@ -32,11 +30,9 @@ interface TreeDragProps {
  * Custom hook for handling tree node dragging.
  */
 export default function useTreeDrag<T>(props: TreeDragProps) {
+  const { childrenKey, valueKey, labelKey } = useItemDataKeys();
   const {
     draggable,
-    childrenKey,
-    valueKey,
-    labelKey,
     flattenedNodes,
     treeNodesRefs,
     onDragStart,

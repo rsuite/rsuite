@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
 import { KEY_VALUES } from '../../utils/constants';
-import { useEventCallback } from '../../utils';
+import { useEventCallback, useCustom } from '../../utils';
 import { onMenuKeyDown } from '../../internals/Picker';
+import { useItemDataKeys } from '../TreeProvider';
 
 import {
   isSearching,
@@ -17,14 +18,11 @@ import {
 } from '../utils';
 import useTreeNodeRefs from './useTreeNodeRefs';
 import type { TreeNode } from '../types';
-import { useTreeContext } from '../TreeProvider';
+import { useRegisterTreeMethods } from '../TreeProvider';
 
 interface UseFocusTreeProps<T extends TreeNode> {
-  rtl: boolean;
   filteredData: T[];
   disabledItemValues: any[];
-  valueKey: string;
-  childrenKey: string;
   expandItemValues: any[];
   searchKeyword: string;
   flattenedNodes: any;
@@ -36,9 +34,6 @@ interface UseFocusTreeProps<T extends TreeNode> {
  */
 function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   const {
-    rtl,
-    valueKey,
-    childrenKey,
     filteredData,
     searchKeyword,
     flattenedNodes,
@@ -47,11 +42,12 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     onExpand,
     onFocused
   } = props;
-
+  const { rtl } = useCustom();
+  const { valueKey, childrenKey } = useItemDataKeys();
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
   const treeViewRef = useRef<HTMLDivElement>(null);
   const [focusItemValue, setFocusItemValue] = useState<TreeNode['value'] | null>(null);
-  const { register } = useTreeContext();
+  const register = useRegisterTreeMethods();
   const flattenedNodesRef = useRef(flattenedNodes);
 
   const getFocusProps = (value?: string | number) => {

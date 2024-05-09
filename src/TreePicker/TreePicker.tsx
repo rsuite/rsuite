@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { pick, omit, isNil, isFunction } from 'lodash';
 import { PickerLocale } from '../locales';
 import {
@@ -220,15 +220,20 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     }
   );
 
+  const treeContext = useMemo(
+    () => ({
+      register,
+      props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode }
+    }),
+    [childrenKey, labelKey, register, renderTreeIcon, renderTreeNode, valueKey]
+  );
+
   const tree = (
-    <TreeProvider value={{ register }}>
+    <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
         virtualized={virtualized}
         value={value}
-        childrenKey={childrenKey}
-        labelKey={labelKey}
-        valueKey={valueKey}
         data={treeData}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
@@ -241,8 +246,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         listProps={listProps}
         listRef={list}
         height={treeHeight}
-        renderTreeIcon={renderTreeIcon}
-        renderTreeNode={renderTreeNode}
         onExpand={handleExpandTreeNode}
         onSearch={onSearch}
         onChange={handleChange}

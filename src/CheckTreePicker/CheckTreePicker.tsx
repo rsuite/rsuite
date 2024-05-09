@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit } from 'lodash';
 import { PickerLocale } from '../locales';
@@ -168,8 +168,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const flattenedNodes = useFlattenTree(treeData, {
     ...itemDataKeys,
+    uncheckableItemValues,
+    multiple: true,
     cascade,
-    uncheckableItemValues
+    value
   });
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
@@ -213,8 +215,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onChange?.(nextValue, event);
   });
 
+  const treeContext = useMemo(
+    () => ({
+      register,
+      props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode }
+    }),
+    [childrenKey, labelKey, valueKey, register, renderTreeIcon, renderTreeNode]
+  );
+
   const checkTreeView = (
-    <TreeProvider value={{ register }}>
+    <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
         disabledItemValues={disabledItemValues}
@@ -227,14 +237,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         showIndentLine={showIndentLine}
         listProps={listProps}
         listRef={list}
-        labelKey={labelKey}
-        valueKey={valueKey}
         searchBy={searchBy}
         searchable={searchable}
         searchKeyword={searchKeyword}
         searchInputRef={searchInput}
-        renderTreeIcon={renderTreeIcon}
-        renderTreeNode={renderTreeNode}
         onScroll={onScroll}
         onSelect={onSelect}
         onSelectItem={onSelectItem}
@@ -261,10 +267,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
     return (
       <PickerPopup
+        ref={mergeRefs(overlay, speakerRef)}
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
-        ref={mergeRefs(overlay, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={trigger}
       >

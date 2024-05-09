@@ -2,8 +2,29 @@ import { useEffect } from 'react';
 import isFunction from 'lodash/isFunction';
 import { useControlled, useEventCallback } from '../../utils';
 import { createConcatChildrenFunction } from '../../internals/Picker';
-import { getDefaultExpandItemValues, getExpandItemValues } from '../utils';
+import { getExpandItemValues, flattenTree } from '../utils';
 import type { TreeNode } from '../types';
+
+interface DefaultExpandItemValuesOptions {
+  valueKey: string;
+  defaultExpandAll: boolean;
+  childrenKey: string;
+  defaultExpandItemValues?: any[];
+}
+export function getDefaultExpandItemValues<TItem>(
+  data: TItem[],
+  options: DefaultExpandItemValuesOptions
+) {
+  const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = options;
+
+  if (defaultExpandAll) {
+    return flattenTree(data, (item: TItem) => item[childrenKey] || [])
+      .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
+      .map(item => item[valueKey]);
+  }
+
+  return defaultExpandItemValues;
+}
 
 interface UseExpandTreeProps<T extends TreeNode> {
   /**

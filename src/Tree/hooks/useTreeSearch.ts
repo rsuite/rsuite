@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import isArray from 'lodash/isArray';
 import { shouldDisplay } from '../../internals/Picker';
+import { useItemDataKeys } from '../TreeProvider';
 
 interface TreeSearchProps<T> {
-  labelKey: string;
-  childrenKey: string;
   searchKeyword?: string;
   data: T[];
   searchBy?: (keyword, label, item) => boolean;
@@ -15,7 +14,8 @@ interface TreeSearchProps<T> {
  * Custom hook for searching and filtering data in a tree structure.
  */
 export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
-  const { labelKey, childrenKey, searchKeyword, data, searchBy, callback } = props;
+  const { labelKey, childrenKey } = useItemDataKeys();
+  const { searchKeyword, data, searchBy, callback } = props;
 
   const filterVisibleData = useCallback(
     (data: T[], searchKeyword: string) => {

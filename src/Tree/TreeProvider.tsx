@@ -1,4 +1,5 @@
-import { createContext, useContext, useRef, useCallback } from 'react';
+import React, { createContext, useContext, useRef, useCallback } from 'react';
+import { TreeNode } from './types';
 
 interface RegisterMethods {
   /**
@@ -16,14 +17,46 @@ type Unregister = () => void;
 
 interface TreeContextValue {
   register?: (methods: RegisterMethods) => Unregister;
+  props: {
+    labelKey: string;
+    valueKey: string;
+    childrenKey: string;
+    renderTreeNode?: (nodeData: TreeNode) => React.ReactNode;
+    renderTreeIcon?: (nodeData: TreeNode) => React.ReactNode;
+  };
 }
 
-const TreeContext = createContext<TreeContextValue>({});
+const defaultItemDataKeys = {
+  labelKey: 'label',
+  valueKey: 'value',
+  childrenKey: 'children'
+};
+
+const TreeContext = createContext<TreeContextValue>({
+  props: defaultItemDataKeys
+});
 
 export const TreeProvider = TreeContext.Provider;
 
-export const useTreeContext = () => {
-  return useContext(TreeContext);
+export const useRegisterTreeMethods = () => {
+  const { register } = useContext(TreeContext);
+
+  return register;
+};
+
+export const useTreeCustomRenderer = () => {
+  const {
+    props: { renderTreeIcon, renderTreeNode }
+  } = useContext(TreeContext);
+
+  return { renderTreeIcon, renderTreeNode };
+};
+
+export const useItemDataKeys = () => {
+  const { props: { labelKey, valueKey, childrenKey } = defaultItemDataKeys } =
+    useContext(TreeContext);
+
+  return { labelKey, valueKey, childrenKey };
 };
 
 /**

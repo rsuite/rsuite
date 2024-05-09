@@ -1,9 +1,6 @@
-export { formatVirtualizedTreeData } from './formatVirtualizedTreeData';
-export { shouldShowNodeByParentExpanded } from './shouldShowNodeByParentExpanded';
 export { getNodeParentKeys } from './getNodeParentKeys';
 export { UNSAFE_flattenTree, flattenTree, WalkTreeStrategy } from './flattenTree';
 export { hasVisibleChildren } from './hasVisibleChildren';
-export { getDefaultExpandItemValues } from './getDefaultExpandItemValues';
 export { getExpandItemValues } from './getExpandItemValues';
 export { getTreeActiveNode } from './getTreeActiveNode';
 export { formatNodeRefKey } from './formatNodeRefKey';

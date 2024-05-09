@@ -3,14 +3,11 @@ import ListCheckItem from '../internals/Picker/ListCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { stringifyReactNode } from '../internals/utils';
 import { indentTreeNode } from '../Tree/utils';
-import { useClassNames, useEventCallback, CHECK_STATE, CheckStateType } from '../utils';
+import { useClassNames, useEventCallback, useCustom, CHECK_STATE, CheckStateType } from '../utils';
+import { useTreeCustomRenderer } from '../Tree/TreeProvider';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
 
 export interface CheckTreeNodeProps extends WithAsProps {
-  /**
-   * Whether the component should be rendered in right-to-left mode.
-   */
-  rtl?: boolean;
   /**
    * The label of the node.
    */
@@ -80,14 +77,6 @@ export interface CheckTreeNodeProps extends WithAsProps {
    * Callback function called when the node is selected.
    */
   onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
-  /**
-   * Custom renderer for the tree icon.
-   */
-  renderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
-  /**
-   * Custom renderer for the node.
-   */
-  renderTreeNode?: (nodeData: any) => React.ReactNode;
 }
 
 const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwardRef<
@@ -103,7 +92,6 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     layer,
     disabled,
     allUncheckable,
-    rtl,
     loading,
     expand,
     hasChildren,
@@ -116,13 +104,12 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     treeItemRef,
     onExpand,
     onSelect,
-    renderTreeIcon,
-    renderTreeNode,
     ...rest
   } = props;
 
+  const { rtl } = useCustom();
+  const { renderTreeNode } = useTreeCustomRenderer();
   const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -171,7 +158,6 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         data={nodeData}
         expanded={expand}
         loading={loading}
-        renderTreeIcon={renderTreeIcon}
         hasChildren={hasChildren}
         onClick={handleExpand}
       />
@@ -185,12 +171,12 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         aria-selected={focus}
         aria-disabled={disabled}
         aria-level={layer}
+        data-layer={layer}
         active={checkState === CHECK_STATE.CHECK}
         indeterminate={checkState === CHECK_STATE.INDETERMINATE}
         focus={focus}
         checkable={!uncheckable}
         disabled={disabled}
-        data-layer={layer}
         value={nodeData.refKey || value}
         className={prefix('content')}
         title={labelStr}

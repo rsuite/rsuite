@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { RsRefForwardingComponent } from '../@types/common';
 import TreeView, { type TreeViewProps } from './TreeView';
 import { useControlled, useEventCallback } from '../utils';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';
+import { TreeProvider } from './TreeProvider';
 import type { TreeExtraProps } from './types';
 
 export interface TreeProps<T = string | number | null> extends TreeViewProps<T>, TreeExtraProps {
@@ -29,6 +30,8 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
       defaultExpandAll = false,
       defaultExpandItemValues = [],
       expandItemValues: controlledExpandItemValues,
+      renderTreeIcon,
+      renderTreeNode,
       getChildren,
       onChange,
       onExpand,
@@ -60,21 +63,25 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
       }
     );
 
+    const treeContext = useMemo(
+      () => ({ props: { childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode } }),
+      [childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode]
+    );
+
     return (
-      <TreeView
-        ref={ref}
-        {...rest}
-        value={value}
-        childrenKey={childrenKey}
-        labelKey={labelKey}
-        valueKey={valueKey}
-        data={treeData}
-        loadingNodeValues={loadingNodeValues}
-        flattenedNodes={flattenedNodes}
-        expandItemValues={expandItemValues}
-        onChange={handleChange}
-        onExpand={handleExpandTreeNode}
-      />
+      <TreeProvider value={treeContext}>
+        <TreeView
+          ref={ref}
+          {...rest}
+          value={value}
+          data={treeData}
+          loadingNodeValues={loadingNodeValues}
+          flattenedNodes={flattenedNodes}
+          expandItemValues={expandItemValues}
+          onChange={handleChange}
+          onExpand={handleExpandTreeNode}
+        />
+      </TreeProvider>
     );
   }
 );

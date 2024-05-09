@@ -1,34 +1,27 @@
 import React, { useEffect, useMemo } from 'react';
-import { isNil, cloneDeep, isUndefined } from 'lodash';
+import isNil from 'lodash/isNil';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '../internals/Windowing';
 import CheckTreeNode from '../CheckTree/CheckTreeNode';
 import { indentTreeNode } from '../Tree/utils';
-import { useCustom, useClassNames, useEventCallback, useWillUnmount } from '../utils';
+import { useCustom, useClassNames, useEventCallback } from '../utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
 import { onMenuKeyDown } from '../internals/Picker';
 import { TreeView } from '../internals/Tree';
-import { highlightLabel } from '../internals/utils';
 import SearchBox from '../internals/SearchBox';
 import {
-  isEveryChildChecked,
   hasGrandchild,
-  isAllSiblingNodeUncheckable,
   isEveryFirstLevelNodeUncheckable,
   getFormattedTree,
-  getDisabledState,
   isNodeUncheckable
 } from './utils';
 
-import {
-  formatVirtualizedTreeData,
-  hasVisibleChildren,
-  getActiveItem,
-  isExpand
-} from '../Tree/utils';
+import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
 import useTreeSearch from '../Tree/hooks/useTreeSearch';
 import useFocusTree from '../Tree/hooks/useFocusTree';
-import useForceUpdate from '../Tree/hooks/useForceUpdate';
-import useSerializeList from './hooks/useSerializeList';
+import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
+import useTreeCheckState from './hooks/useTreeCheckState';
+import useTreeNodeProps from './hooks/useTreeNodeProps';
+import { useItemDataKeys } from '../Tree/TreeProvider';
 import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '../@types/common';
 import type { TreeNode, TreeNodeMap, TreeViewBaseProps } from '../Tree/types';
 
@@ -119,7 +112,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       as: Component = 'div',
       className,
       classPrefix = 'check-tree',
-      childrenKey = 'children',
       cascade = true,
       data = [],
       disabledItemValues = [],
@@ -128,21 +120,16 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       locale: overrideLocale,
       listProps,
       listRef,
-      labelKey = 'label',
       style,
       searchKeyword,
       showIndentLine,
       searchable,
       searchInputRef,
       uncheckableItemValues = [],
-      valueKey = 'value',
       virtualized = false,
-      value,
       loadingNodeValues = [],
       flattenedNodes = {},
       searchBy,
-      renderTreeIcon,
-      renderTreeNode,
       onChange,
       onSearch,
       onSelect,
@@ -154,13 +141,12 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     } = props;
 
     const { rtl, locale } = useCustom('Picker', overrideLocale);
+    const { childrenKey, valueKey } = useItemDataKeys();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const forceUpdate = useForceUpdate();
-    const itemDataKeys = { childrenKey, labelKey, valueKey };
 
-    const { serializeListOnlyParent, unserializeList } = useSerializeList({
+    const { getCheckedValues } = useTreeCheckState({
       cascade,
-      valueKey,
+      flattenedNodes,
       uncheckableItemValues
     });
 
@@ -169,7 +155,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     };
 
     const { filteredData, keyword, setFilteredData, handleSearch } = useTreeSearch<TreeNode>({
-      ...itemDataKeys,
       callback: handleSearchCallback,
       data,
       searchKeyword,
@@ -177,8 +162,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     });
 
     const { focusItemValue, setFocusItemValue, onTreeKeydown, saveTreeNodeRef } = useFocusTree({
-      ...itemDataKeys,
-      rtl,
       filteredData,
       disabledItemValues,
       expandItemValues,
@@ -188,17 +171,19 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       onExpand
     });
 
+    const transformation = useVirtualizedTreeData(flattenedNodes, filteredData, {
+      cascade,
+      expandItemValues,
+      searchKeyword: keyword
+    });
+
     /**
      * Get formatted nodes for render tree
      * @params render - renderNode function. only used when virtualized setting false
      */
     const getFormattedNodes = (render?: any) => {
       if (virtualized) {
-        return formatVirtualizedTreeData(flattenedNodes, filteredData, expandItemValues, {
-          ...itemDataKeys,
-          cascade,
-          searchKeyword: keyword
-        }).filter(item => item.visible);
+        return transformation().filter(item => item.visible);
       }
 
       return getFormattedTree(flattenedNodes, filteredData, { childrenKey, cascade })
@@ -206,119 +191,18 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         .filter(item => item);
     };
 
-    const getTreeNodeProps = (nodeData: any, layer: number) => {
-      const { expand, visible, checkState } = nodeData;
-      const value = nodeData[valueKey];
-      const allUncheckable = isAllSiblingNodeUncheckable(
-        nodeData,
-        flattenedNodes,
-        uncheckableItemValues,
-        valueKey
-      );
-
-      const label = keyword
-        ? highlightLabel(nodeData[labelKey], { searchKeyword: keyword })
-        : nodeData[labelKey];
-      const disabled = getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
-      const uncheckable = isNodeUncheckable(nodeData, { uncheckableItemValues, valueKey });
-      const loading = loadingNodeValues.some(item => item === nodeData[valueKey]);
-      const focus = focusItemValue === value;
-
-      return {
-        rtl,
-        value,
-        layer,
-        label,
-        expand,
-        visible,
-        loading,
-        disabled,
-        nodeData,
-        checkState,
-        uncheckable,
-        allUncheckable,
-        focus,
-        renderTreeNode,
-        renderTreeIcon,
-        onSelect: handleSelect,
-        onExpand
-      };
-    };
+    const getTreeNodeProps = useTreeNodeProps({
+      uncheckableItemValues,
+      disabledItemValues,
+      loadingNodeValues,
+      focusItemValue,
+      flattenedNodes,
+      keyword
+    });
 
     useEffect(() => {
       setFilteredData(data, keyword);
     }, [data, keyword, setFilteredData]);
-
-    useWillUnmount(() => {
-      // Reset the checked state of the tree node when the component is destroyed to avoid flicker when reinitialized next time.
-      // https://github.com/rsuite/rsuite/pull/3769#issuecomment-2097619616
-      unserializeList(flattenedNodes, { value });
-    });
-
-    useEffect(() => {
-      unserializeList(flattenedNodes, { value });
-      forceUpdate();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cascade, value, flattenedNodes, forceUpdate]);
-
-    const toggleUpChecked = useEventCallback(
-      (nodes: TreeNodeMap, node: TreeNode, checked: boolean) => {
-        const currentNode = node.refKey ? nodes[node.refKey] : null;
-        if (cascade && currentNode) {
-          if (!checked) {
-            currentNode.check = checked;
-            currentNode.checkAll = checked;
-          } else {
-            if (isEveryChildChecked(currentNode, { nodes, childrenKey })) {
-              currentNode.check = true;
-              currentNode.checkAll = true;
-            } else {
-              currentNode.check = false;
-              currentNode.checkAll = false;
-            }
-          }
-          if (currentNode.parent) {
-            toggleUpChecked(nodes, currentNode.parent, checked);
-          }
-        }
-      }
-    );
-
-    const toggleDownChecked = useEventCallback(
-      (nodes: TreeNodeMap, node: TreeNode, isChecked: boolean) => {
-        const currentNode = node.refKey ? nodes[node.refKey] : null;
-
-        if (!currentNode) {
-          return;
-        }
-
-        currentNode.check = isChecked;
-
-        if (!currentNode[childrenKey] || !currentNode[childrenKey].length || !cascade) {
-          currentNode.checkAll = false;
-        } else {
-          currentNode.checkAll = isChecked;
-          currentNode[childrenKey].forEach(child => {
-            toggleDownChecked(nodes, child, isChecked);
-          });
-        }
-      }
-    );
-
-    const toggleChecked = useEventCallback((node: TreeNode, isChecked: boolean) => {
-      const nodes = cloneDeep(flattenedNodes);
-
-      toggleDownChecked(nodes, node, isChecked);
-
-      if (node.parent) {
-        toggleUpChecked(nodes, node.parent, isChecked);
-      }
-
-      const values = serializeListOnlyParent(nodes, 'check');
-
-      // filter uncheckableItemValues
-      return values.filter(v => !uncheckableItemValues.includes(v));
-    });
 
     // TODO-Doma
     // Replace `getKeyParentMap` with `getParentMap`
@@ -339,13 +223,13 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         return;
       }
 
-      const selectedValues = toggleChecked(node, !currentNode.check);
+      const checkedValues = getCheckedValues(node, !currentNode.check);
       const path = getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]));
 
       setFocusItemValue(node[valueKey]);
 
-      onChange?.(selectedValues, event);
-      onSelect?.(node as ItemDataType, selectedValues, event);
+      onChange?.(checkedValues, event);
+      onSelect?.(node as ItemDataType, checkedValues, event);
       onSelectItem?.(node, path);
     });
 
@@ -376,39 +260,26 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       }
 
       const children = node[childrenKey];
-      const hasChildren =
-        isUndefined(keyword) || keyword.length === 0
-          ? !!children
-          : hasVisibleChildren(node, childrenKey);
-      const nodeProps = {
-        ...getTreeNodeProps(
-          {
-            ...node,
-            /**
-             * spread operator don't copy unenumerable properties
-             * so we need to copy them manually
-             */
-            parent,
-            expand
-          },
-          layer
-        ),
-        hasChildren
+      const hasChildren = keyword ? hasVisibleChildren(node, childrenKey) : Boolean(children);
+      const treeNodeProps = {
+        // The spread operator does not copy non-enumerable properties,
+        // so we need to copy the `parent` property manually.
+        ...getTreeNodeProps({ ...node, parent, expand }),
+        layer,
+        hasChildren,
+        onSelect: handleSelect,
+        onExpand
       };
 
-      if (nodeProps.hasChildren) {
+      if (hasChildren) {
         layer += 1;
 
-        const openClass = prefix('open');
-        const childrenClass = merge(prefix('node-children'), {
-          [openClass]: expand && hasChildren
-        });
-
+        const childClassName = merge(prefix('node-children'), { [prefix('open')]: expand });
         const nodes = children || [];
 
         return (
-          <div className={childrenClass} key={node[valueKey]}>
-            <CheckTreeNode {...nodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
+          <div className={childClassName} key={node[valueKey]}>
+            <CheckTreeNode {...treeNodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
             <div className={prefix('group')} role="group">
               {nodes.map(child => renderNode(child, layer))}
               {showIndentLine && (
@@ -426,7 +297,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         <CheckTreeNode
           key={node[valueKey]}
           treeItemRef={ref => saveTreeNodeRef(ref, refKey)}
-          {...nodeProps}
+          {...treeNodeProps}
         />
       );
     };
@@ -436,25 +307,23 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       const { layer, refKey, visible, hasChildren, parent } = node;
       const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
 
-      const nodeProps = {
-        ...getTreeNodeProps(
-          {
-            ...node,
-            /**
-             * spread operator don't copy unenumerable properties
-             * so we need to copy them manually
-             */
-            parent,
-            expand
-          },
-          layer
-        ),
+      const treeNodeProps = {
+        // The spread operator does not copy non-enumerable properties,
+        // so we need to copy the `parent` property manually.
+        ...getTreeNodeProps({ ...node, parent, expand }),
+        onSelect: handleSelect,
+        onExpand,
+        layer,
         hasChildren
       };
 
       return (
         visible && (
-          <CheckTreeNode style={style} ref={ref => saveTreeNodeRef(ref, refKey)} {...nodeProps} />
+          <CheckTreeNode
+            style={style}
+            ref={ref => saveTreeNodeRef(ref, refKey)}
+            {...treeNodeProps}
+          />
         )
       );
     };

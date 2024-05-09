@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEventCallback } from '../utils';
 import useTreeValue from './hooks/useTreeValue';
 import CheckTreeView, { type CheckTreeViewProps } from './CheckTreeView';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
+import { TreeProvider } from '../Tree/TreeProvider';
 import type { RsRefForwardingComponent } from '../@types/common';
 import type { TreeExtraProps } from '../Tree/types';
 
@@ -34,6 +35,8 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       labelKey = 'label',
       valueKey = 'value',
       cascade = true,
+      renderTreeIcon,
+      renderTreeNode,
       getChildren,
       onExpand,
       onChange,
@@ -60,8 +63,10 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
 
     const flattenedNodes = useFlattenTree(treeData, {
       ...itemDataKeys,
+      uncheckableItemValues,
+      multiple: true,
       cascade,
-      uncheckableItemValues
+      value
     });
 
     const handleChange = useEventCallback((nextValue: ValueType, event: React.SyntheticEvent) => {
@@ -69,23 +74,27 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       onChange?.(nextValue, event);
     });
 
+    const treeContext = useMemo(
+      () => ({ props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode } }),
+      [childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode]
+    );
+
     return (
-      <CheckTreeView
-        {...rest}
-        ref={ref}
-        value={value}
-        cascade={cascade}
-        childrenKey={childrenKey}
-        labelKey={labelKey}
-        valueKey={valueKey}
-        data={treeData}
-        loadingNodeValues={loadingNodeValues}
-        flattenedNodes={flattenedNodes}
-        uncheckableItemValues={uncheckableItemValues}
-        expandItemValues={expandItemValues}
-        onChange={handleChange}
-        onExpand={handleExpandTreeNode}
-      />
+      <TreeProvider value={treeContext}>
+        <CheckTreeView
+          {...rest}
+          ref={ref}
+          value={value}
+          cascade={cascade}
+          data={treeData}
+          loadingNodeValues={loadingNodeValues}
+          flattenedNodes={flattenedNodes}
+          uncheckableItemValues={uncheckableItemValues}
+          expandItemValues={expandItemValues}
+          onChange={handleChange}
+          onExpand={handleExpandTreeNode}
+        />
+      </TreeProvider>
     );
   }
 );

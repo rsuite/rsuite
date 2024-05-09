@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { isUndefined, isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import {
   List,
   AutoSizer,
@@ -7,26 +7,22 @@ import {
   defaultItemSize,
   type ListHandle
 } from '../internals/Windowing';
-import TreeViewNode, { DragStatus } from '../Tree/TreeNode';
-import { indentTreeNode } from '../Tree/utils';
+import TreeViewNode from './TreeNode';
+import { indentTreeNode } from './utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
-import {
-  useClassNames,
-  useCustom,
-  useEventCallback,
-  TREE_NODE_DROP_POSITION,
-  shallowEqual as equal
-} from '../utils';
-
-import { isExpand, hasVisibleChildren, getActiveItem, formatVirtualizedTreeData } from './utils';
+import { useClassNames, useCustom, useEventCallback } from '../utils';
+import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
 import { onMenuKeyDown } from '../internals/Picker';
 import { TreeView as BaseTreeView } from '../internals/Tree';
 import useTreeSearch from './hooks/useTreeSearch';
 import useTreeDrag from './hooks/useTreeDrag';
 import useFocusTree from './hooks/useFocusTree';
+import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
+import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '../internals/SearchBox';
-import { highlightLabel } from '../internals/utils';
 import { RsRefForwardingComponent, DataProps, ToArray } from '../@types/common';
+import { useItemDataKeys } from './TreeProvider';
+
 import type { TreeNode, TreeNodeMap, TreeViewBaseProps, TreeDragProps } from './types';
 
 export interface TreeViewProps<V = number | string | null>
@@ -122,9 +118,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       classPrefix = 'tree',
       searchKeyword,
       searchBy,
-      labelKey = 'label',
-      valueKey = 'value',
-      childrenKey = 'children',
       draggable,
       disabledItemValues = [],
       loadingNodeValues = [],
@@ -133,8 +126,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       listRef,
       searchInputRef,
       expandItemValues = [],
-      renderTreeIcon,
-      renderTreeNode,
       onSearch,
       onSelect,
       onSelectItem,
@@ -152,26 +143,31 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     } = props;
 
     const { rtl, locale } = useCustom('Picker', overrideLocale);
-    const itemDataKeys = { childrenKey, labelKey, valueKey };
+    const { valueKey, childrenKey } = useItemDataKeys();
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const handleSearchCallback = (value: string, _data, event: React.SyntheticEvent) => {
-      onSearch?.(value, event);
-    };
+
+    const handleSearchCallback = useEventCallback(
+      (value: string, _data, event: React.SyntheticEvent) => {
+        onSearch?.(value, event);
+      }
+    );
 
     const { filteredData, keyword, setFilteredData, handleSearch } = useTreeSearch<TreeNode>({
-      ...itemDataKeys,
       callback: handleSearchCallback,
       searchKeyword,
       data,
       searchBy
     });
 
+    const transformation = useVirtualizedTreeData(flattenedNodes, filteredData, {
+      expandItemValues,
+      searchKeyword: keyword
+    });
+
     const getFormattedNodes = (render?: any) => {
       if (virtualized) {
-        return formatVirtualizedTreeData(flattenedNodes, filteredData, expandItemValues, {
-          searchKeyword: keyword
-        }).filter(n => n.visible);
+        return transformation().filter(n => n.visible);
       }
       return filteredData.map((dataItem, index) => render?.(dataItem, index, 1)).filter(n => n);
     };
@@ -179,65 +175,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     useEffect(() => {
       setFilteredData(data, keyword);
     }, [data, keyword, setFilteredData]);
-
-    const getTreeNodeProps = (node: any, layer: number, index?: number) => {
-      const { DRAG_OVER, DRAG_OVER_TOP, DRAG_OVER_BOTTOM } = TREE_NODE_DROP_POSITION;
-      const { expand, visible } = node;
-
-      const draggingNode = dragNode ?? {};
-      const value = node[valueKey];
-      const label = keyword
-        ? highlightLabel(node[labelKey], { searchKeyword: keyword })
-        : node[labelKey];
-
-      const children = node[childrenKey];
-      const dragging = equal(value, draggingNode[valueKey]);
-
-      let dragStatus: DragStatus | undefined;
-
-      if (equal(value, dragOverNodeKey)) {
-        switch (dropNodePosition) {
-          case DRAG_OVER:
-            dragStatus = 'drag-over';
-            break;
-          case DRAG_OVER_TOP:
-            dragStatus = 'drag-over-top';
-            break;
-          case DRAG_OVER_BOTTOM:
-            dragStatus = 'drag-over-bottom';
-            break;
-        }
-      }
-
-      const disabled = disabledItemValues.some(disabledItem => equal(disabledItem, value));
-      const loading = loadingNodeValues.some(item => equal(item, value));
-      const active = equal(value, valueProp);
-      const focus = equal(value, focusItemValue);
-
-      return {
-        ...dragEvents,
-        rtl,
-        value,
-        label,
-        index,
-        layer,
-        loading,
-        expand,
-        active,
-        focus,
-        visible,
-        children,
-        nodeData: node,
-        disabled,
-        draggable,
-        dragging,
-        dragStatus,
-        onExpand,
-        onSelect: handleSelect,
-        renderTreeNode,
-        renderTreeIcon
-      };
-    };
 
     // TODO-Doma
     // Replace `getKeyParentMap` with `getParentMap`
@@ -259,8 +196,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       saveTreeNodeRef,
       treeViewRef
     } = useFocusTree({
-      ...itemDataKeys,
-      rtl,
       filteredData,
       disabledItemValues,
       expandItemValues,
@@ -271,7 +206,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     });
 
     const { dragNode, dragOverNodeKey, dropNodePosition, dragEvents } = useTreeDrag<TreeNode>({
-      ...itemDataKeys,
       flattenedNodes,
       treeNodesRefs,
       draggable,
@@ -282,6 +216,17 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       onDragEnd,
       onDrop,
       prefix
+    });
+
+    const getTreeNodeProps = useTreeNodeProps({
+      value: valueProp,
+      disabledItemValues,
+      loadingNodeValues,
+      focusItemValue,
+      keyword,
+      dragNode,
+      dragOverNodeKey,
+      dropNodePosition
     });
 
     const handleSelect = useEventCallback((nodeData: any, event: React.SyntheticEvent) => {
@@ -309,37 +254,34 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     });
 
     const renderNode = (node: any, index: number, layer: number) => {
-      if (!node.visible) {
+      const { visible } = node;
+
+      if (!visible) {
         return null;
       }
 
       const children = node[childrenKey];
       const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
-      const visibleChildren =
-        isUndefined(keyword) || keyword.length === 0
-          ? !!children
-          : hasVisibleChildren(node, childrenKey);
+      const hasChildren = keyword ? hasVisibleChildren(node, childrenKey) : Boolean(children);
 
       const nodeProps = {
         ...getTreeNodeProps({ ...node, expand }, layer, index),
-        hasChildren: visibleChildren
+        ...dragEvents,
+        onExpand,
+        onSelect: handleSelect,
+        hasChildren
       };
 
-      if (nodeProps.hasChildren) {
+      if (hasChildren) {
         layer += 1;
 
-        const openClass = prefix('open');
-        const childrenClass = merge(prefix('node-children'), {
-          [openClass]: expand && visibleChildren
-        });
-
-        const nodes = children || [];
+        const childClassName = merge(prefix('node-children'), { [prefix('open')]: expand });
 
         return (
-          <div className={childrenClass} key={node[valueKey]}>
+          <div className={childClassName} key={node[valueKey]}>
             <TreeViewNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, node.refKey)} />
             <div className={prefix('group')} role="group">
-              {nodes.map((child, i) => renderNode(child, i, layer))}
+              {children?.map((child, i) => renderNode(child, i, layer))}
               {showIndentLine && (
                 <span
                   className={prefix('indent-line')}
@@ -361,21 +303,27 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
 
     const renderVirtualListNode = ({ index, style, data }: ListChildComponentProps) => {
       const node = data[index];
-      const { layer, visible } = node;
+      const { layer, visible, hasChildren } = node;
 
       const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
-      if (!node.visible) {
+
+      if (!visible) {
         return null;
       }
 
-      const nodeProps = {
+      const treeNodeProps = {
         ...getTreeNodeProps({ ...node, expand }, layer),
+        ...dragEvents,
         style,
-        hasChildren: node.hasChildren
+        onExpand,
+        onSelect: handleSelect,
+        hasChildren
       };
 
       return (
-        visible && <TreeViewNode ref={ref => saveTreeNodeRef(ref, node.refKey)} {...nodeProps} />
+        visible && (
+          <TreeViewNode ref={ref => saveTreeNodeRef(ref, node.refKey)} {...treeNodeProps} />
+        )
       );
     };
 
