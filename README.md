@@ -9,18 +9,13 @@ English | [中文版][readm-cn]
 [![npm][npm-svg]][npm-home]
 [![GitHub Actions][actions-svg]][actions-home]
 [![npm bundle size][npm-bundle-size-img]][npm-bundle-size]
-[![rsuite.min.js][rsuite-min-js-img]][rsuite-min-js]
 [![codecov][codecov-img]][codecov]
 [![Discord][discord-svg]][discord-invite]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
 
-React Suite is a set of react component libraries for enterprise system products. It is a well-thought-out and developer-friendly UI framework.
-
-### UI Design
-
-React Suite Design Prototype and specification, click to [view][rsuite-design].
+React Suite is a set of React components. It is committed to providing high-quality and comprehensive React components to help developers quickly build web applications.
 
 ## Supported Platforms
 
@@ -34,32 +29,27 @@ React Suite supports the latest, stable releases of all major browsers and platf
 
 ### Server
 
-React Suite supports server side rendering. Support [Next.js](https://github.com/zeit/next.js) to build applications.
-
-## Supported development environment
-
-- Supports React 16 +
-- Supports [TypeScript](http://www.typescriptlang.org/)
-- Supports [Electron](https://electronjs.org/)
-- Supports [Reason](https://github.com/shurygindv/bs-rsuite-ui-react)
+React Suite supports server side rendering. Support [Next.js](https://github.com/vercel/next.js) to build applications.
 
 ## Installation
 
 React Suite is available as an [npm package][npm-home].
 
 ```bash
-npm i rsuite --save
-```
+# with npm
+npm install rsuite
 
-or if you prefer Yarn
-
-```bash
+# with Yarn
 yarn add rsuite
+
+# with pnpm
+pnpm add rsuite
+
+# with Bun
+bun add rsuite
 ```
 
 ## Usage
-
-Here's a simple example
 
 ```jsx
 import { Button } from 'rsuite';
@@ -70,54 +60,28 @@ function App() {
 }
 ```
 
-[**Live preview on CodeSandbox**][live-preview-on-codesandbox]
+More guides on how to get started are available [here](https://rsuitejs.com/guide/usage/).
 
-### Documentation
+## Documentation
 
-You can go through [full documentation][rsuite-doc-guide] or start with following sections
+It's the https://rsuitejs.com website for the latest version of React Suite. For older versions head over here
 
-- [Quick start][rsuite-doc-guide]
-- [Less Customization][rsuite-doc-guide-themes]
-- [Internationalization][rsuite-doc-guide-intl]
-- [Right-to-left][rsuite-doc-guide-rtl]
-- [Components][rsuite-components-overview]
-
-<details>
-<summary>More examples</summary>
-
-- [Management system][demo-admin]
-- [Use modularized][demo-modular-import]
-- [Use CDN][demo-cdn]
-- [Internationalization][demo-intl-app]
-- [Themes][demo-multiple-themes]
-- [RTL - RTLCSS][demo-rtlcss]
-- [RTL - PostCSS-RTL][demo-postcss-rtl]
-- [Use in create-react-app][demo-create-react-app]
-- [Use in Electron][demo-electron]
-- [Use in Flow][demo-flow-app]
-- [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js (App)][demo-nextjs-app]
-- [Use in Next.js (Pages)][demo-nextjs-pages]
-- [Use in UmiJS][demo-umi-app]
-- [Use in Snowpack][demo-snowpack]
-- [Use in Vite][demo-vite]
-</details>
-
-<a href="https://vercel.com?utm_source=rsuite&utm_campaign=oss" target="_blank">
-  <img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" alt="Vercel banner" />
-</a>
-
-## Previous major versions
+- [4.x documentation](https://v4.rsuitejs.com/)
+- [3.x documentation](https://v3.rsuitejs.com/)
 
 The previous major version 4.x will no longer receive new features,
 and it is recommended to upgrade to the latest 5.x releases.
 Bug fixes for 4.x are still being supported for a period of time,
 and security fixes are supported until 6.x is in progress.
 
-### Documentations for previous major versions
+## Framework Guides
 
-- [4.x documentation](https://v4.rsuitejs.com/)
-- [3.x documentation](https://v3.rsuitejs.com/)
+React Suite can be used in your favorite framework. We have prepared step-by-step guides for these frameworks:
+
+- [Next.js (App)](https://rsuitejs.com/guide/use-next-app/)
+- [Next.js (Page)](https://rsuitejs.com/guide/use-next-pages)
+- [Create React App](https://rsuitejs.com/guide/use-with-create-react-app/)
+- [Vite](https://rsuitejs.com/guide/use-vite/)
 
 ## Changelog
 
@@ -126,6 +90,50 @@ Detailed changes for each release are documented in the [release notes][release-
 ## Contribution
 
 Make sure you've read the [guidelines][contributing] before you start contributing.
+
+## Sponsoring services
+
+These great services help us to build and maintain the project.
+
+### GitHub
+
+Github lets us host the Git repository and coordinate contributions.
+
+<a href="https://github.com/" target="_blank">
+ <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40">
+</a>
+
+### Vercel
+
+Vercel provides the hosting for the documentation site.
+
+<a href="https://vercel.com?utm_source=rsuite&utm_campaign=oss" target="_blank">
+  <img loading="lazy" alt="Vercel logo" src="https://avatars.githubusercontent.com/u/14985020?s=200&v=4"  width="40" height="40"/>
+</a>
+
+### CodeCov
+
+CodeCov lets us monitor test coverage.
+
+<a href="https://about.codecov.io/" target="_blank">
+  <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/8226205?s=200&v=4" width="40" height="40">
+</a>
+
+### CodeSandbox
+
+CodeSandbox lets us provide live previews of the components.
+
+<a href="https://codesandbox.io/" target="_blank">
+  <img loading="lazy" alt="CodeSandbox logo" src="https://avatars.githubusercontent.com/u/32880324?s=200&v=4" width="40" height="40">
+</a>
+
+### Stackblitz
+
+Stackblitz lets us provide live previews of the components.
+
+<a href="https://stackblitz.com/" target="_blank">
+  <img loading="lazy" alt="Stackblitz logo" src="https://avatars.githubusercontent.com/u/28635252?s=200&v=4" width="40" height="40">
+</a>
 
 ## Supporting React Suite
 
@@ -138,61 +146,34 @@ If you like React Suite, you can show your support by either
 This project exists thanks to all the people who contribute.
 
 <a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
-  <img src="https://contrib.rocks/image?repo=rsuite/rsuite" />
+  <img src="https://contrib.rocks/image?repo=rsuite/rsuite&max=600" />
 </a>
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
 ## License
 
-React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
+React Suite is [MIT licensed][license].
 
 [readm-cn]: https://github.com/rsuite/rsuite/blob/main/README_zh.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
 [npm-bundle-size-img]: https://badgen.net/bundlephobia/minzip/rsuite?icon=npm
 [npm-bundle-size]: https://bundlephobia.com/package/rsuite
-[rsuite-min-js-img]: https://img.badgesize.io/https:/unpkg.com/rsuite/dist/rsuite.min.js?label=rsuite.min.js&compression=gzip
-[rsuite-min-js]: https://unpkg.com/browse/rsuite/dist/rsuite.min.js
 [actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=main
 [actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amain+workflow%3A%22Node.js+CI%22
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
-[rsuite-design]: https://rsuitejs.com/design/default
-[live-preview-on-codesandbox]: https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
-[rsuite-doc-guide]: https://rsuitejs.com/en/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/customization-less
-[rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
-[rsuite-doc-guide-rtl]: https://rsuitejs.com/en/guide/rtl
-[rsuite-components-overview]: https://rsuitejs.com/en/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/main/CONTRIBUTING.md
-[prettierrc]: https://github.com/rsuite/rsuite/wiki/.prettierrc
 [issues-11]: https://github.com/rsuite/rsuite/issues/11
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/main/LICENSE
-[rsuite-sample]: https://sample.rsuitejs.com/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
 [gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
-[demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/rsuite/tree/main/examples/with-babel-preset-rsuite
-[demo-cdn]: https://github.com/rsuite/rsuite/tree/main/examples/cdn
-[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/main/examples/create-react-app
-[demo-electron]: https://github.com/rsuite/rsuite/tree/main/examples/with-electron
-[demo-intl-app]: https://github.com/rsuite/rsuite/tree/main/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/main/examples/custom-multiple-themes
-[demo-flow-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-flow
-[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-typescript
-[demo-nextjs-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app
-[demo-nextjs-pages]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-pages
-[demo-umi-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-umi
-[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/main/examples/with-rtlcss
-[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/main/examples/with-postcss-rtl
-[demo-snowpack]: https://github.com/rsuite/rsuite/tree/main/examples/with-snowpack
-[demo-vite]: https://github.com/rsuite/rsuite/tree/main/examples/with-vite
 [codecov]: https://codecov.io/gh/rsuite/rsuite
 [codecov-img]: https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t
 [gitpod]: https://gitpod.io/#https://github.com/rsuite/rsuite
