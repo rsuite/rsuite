@@ -267,6 +267,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       const nodeProps = {
         ...getTreeNodeProps({ ...node, expand }, layer, index),
         ...dragEvents,
+        draggable,
         onExpand,
         onSelect: handleSelect,
         hasChildren

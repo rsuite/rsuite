@@ -75,96 +75,6 @@ describe('Tree', () => {
     expect(onSelect).to.not.have.been.called;
   });
 
-  it('Should call `onDragStart` callback', () => {
-    const onDragStart = sinon.spy();
-    render(<Tree data={data} onDragStart={onDragStart} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragStart(treeNode);
-
-    expect(onDragStart).to.have.calledOnce;
-    expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
-
-    expect(treeNode.querySelector('.rs-tree-node-dragging')).to.exist;
-  });
-
-  it('Should call `onDragEnter` callback', () => {
-    const onDragEnter = sinon.spy();
-    render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragEnter(treeNode);
-    assert.isTrue(onDragEnter.calledOnce);
-    assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
-
-    expect(onDragEnter).to.have.calledOnce;
-    expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should call `onDragOver` callback', () => {
-    const onDragOver = sinon.spy();
-    render(<Tree data={data} onDragOver={onDragOver} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragOver(treeNode);
-
-    expect(onDragOver).to.have.calledOnce;
-    expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should call `onDragLeave` callback', () => {
-    const onDragLeave = sinon.spy();
-    render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragLeave(treeNode);
-
-    expect(onDragLeave).to.have.calledOnce;
-    expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should call `onDragEnd` callback', () => {
-    const onDragEnd = sinon.spy();
-    render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragEnd(treeNode);
-
-    expect(onDragEnd).to.have.calledOnce;
-    expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should display drag Preview when dragging, and remove after drop', () => {
-    render(<Tree data={data} draggable />);
-    const treeNode = screen.getByText('tester1') as HTMLElement;
-    fireEvent.dragStart(treeNode);
-
-    expect(document.querySelector('.rs-tree-drag-preview')).to.have.text('tester1');
-
-    fireEvent.drop(treeNode);
-
-    expect(document.querySelector('.rs-tree-drag-preview')).to.be.a('null');
-  });
-
-  it('Should call `onDrop` callback without exception', () => {
-    expect(() => {
-      const onDrop = sinon.spy();
-      render(<Tree data={data} onDrop={onDrop} draggable defaultExpandAll />);
-      const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
-      const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
-
-      fireEvent.dragStart(dragTreeNode);
-      fireEvent.drop(dropTreeNode);
-
-      expect(onDrop).to.have.calledOnce;
-
-      const { dragNode } = onDrop.firstCall.firstArg;
-
-      // make sure dragNode hasn't cyclic object
-      JSON.stringify(dragNode);
-    }).to.not.throw();
-  });
-
   it('Should scroll the list by `scrollToRow`', () => {
     const onScroll = sinon.spy();
     const ref = React.createRef<ListHandle>();
@@ -247,6 +157,106 @@ describe('Tree', () => {
       userEvent.type(input, 'No');
 
       expect(screen.getByText('No results found')).to.exist;
+    });
+  });
+
+  describe('Draggable', () => {
+    it('Should render draggable tree nodes', () => {
+      render(<Tree data={data} draggable />);
+
+      screen.getAllByRole('treeitem').forEach(treeNode => {
+        expect(treeNode).to.have.attribute('draggable', 'true');
+      });
+    });
+
+    it('Should call `onDragStart` callback', () => {
+      const onDragStart = sinon.spy();
+      render(<Tree data={data} onDragStart={onDragStart} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragStart(treeNode);
+
+      expect(onDragStart).to.have.calledOnce;
+      expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
+
+      expect(treeNode).to.have.contain('.rs-tree-node-dragging');
+    });
+
+    it('Should call `onDragEnter` callback', () => {
+      const onDragEnter = sinon.spy();
+      render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragEnter(treeNode);
+      assert.isTrue(onDragEnter.calledOnce);
+      assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
+
+      expect(onDragEnter).to.have.calledOnce;
+      expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragOver` callback', () => {
+      const onDragOver = sinon.spy();
+      render(<Tree data={data} onDragOver={onDragOver} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragOver(treeNode);
+
+      expect(onDragOver).to.have.calledOnce;
+      expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragLeave` callback', () => {
+      const onDragLeave = sinon.spy();
+      render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragLeave(treeNode);
+
+      expect(onDragLeave).to.have.calledOnce;
+      expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragEnd` callback', () => {
+      const onDragEnd = sinon.spy();
+      render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragEnd(treeNode);
+
+      expect(onDragEnd).to.have.calledOnce;
+      expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should display drag Preview when dragging, and remove after drop', () => {
+      render(<Tree data={data} draggable />);
+      const treeNode = screen.getByText('tester1') as HTMLElement;
+      fireEvent.dragStart(treeNode);
+
+      expect(screen.getByTestId('drag-preview')).to.have.text('tester1');
+
+      fireEvent.drop(treeNode);
+
+      expect(screen.queryByTestId('drag-preview')).to.not.exist;
+    });
+
+    it('Should call `onDrop` callback without exception', () => {
+      expect(() => {
+        const onDrop = sinon.spy();
+        render(<Tree data={data} onDrop={onDrop} draggable defaultExpandAll />);
+        const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
+        const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
+
+        fireEvent.dragStart(dragTreeNode);
+        fireEvent.drop(dropTreeNode);
+
+        expect(onDrop).to.have.calledOnce;
+
+        const { dragNode } = onDrop.firstCall.firstArg;
+
+        // make sure dragNode hasn't cyclic object
+        JSON.stringify(dragNode);
+      }).to.not.throw();
     });
   });
 
