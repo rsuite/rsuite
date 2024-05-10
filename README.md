@@ -95,14 +95,14 @@ Make sure you've read the [guidelines][contributing] before you start contributi
 
 These great services help us to build and maintain the project.
 
-| #                                               | Service     | Description                                                          |
-| ----------------------------------------------- | ----------- | -------------------------------------------------------------------- |
-| [![GitHub][github-logo]][github]                | GitHub      | Github lets us host the Git repository and coordinate contributions. |
-| [![Vercel][vercel-logo]][vercel]                | Vercel      | Vercel provides the hosting for the documentation site.              |
-| [![CodeCov][codecov-logo]][codecov]             | CodeCov     | CodeCov lets us monitor test coverage.                               |
-| [![Gitee][gitee-logo]][gitee]                   | Gitee       | Gitee grants us GVP - Gitee Most Valuable Open Source Project.       |
-| [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox | CodeSandbox lets us provide live previews of the components.         |
-| [![Stackblitz][stackblitz-logo]][stackblitz]    | Stackblitz  | Stackblitz lets us provide live previews of the components.          |
+| Service                                         | Description                                                          |
+| ----------------------------------------------- | -------------------------------------------------------------------- |
+| [![GitHub][github-logo]][github]                | **Github** lets us host the Git repository and coordinate contributions. |
+| [![Vercel][vercel-logo]][vercel]                | **Vercel** provides the hosting for the documentation site.              |
+| [![CodeCov][codecov-logo]][codecov]             | **CodeCov** lets us monitor test coverage.                               |
+| [![Gitee][gitee-logo]][gitee]                   | **Gitee** grants us GVP - Gitee Most Valuable Open Source Project.       |
+| [![CodeSandbox][codesandbox-logo]][codesandbox] | **CodeSandbox** lets us provide live previews of the components.         |
+| [![Stackblitz][stackblitz-logo]][stackblitz]    | **Stackblitz** lets us provide live previews of the components.          |
 
 [github]: https://github.com/
 [github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
