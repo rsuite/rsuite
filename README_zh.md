@@ -90,45 +90,27 @@ React Suite 可以在您喜欢的框架中使用。我们为这些框架准备�
 
 这些优秀的服务帮助我们构建和维护项目。
 
-### GitHub
+| Service                                         | Description                                   |
+| ----------------------------------------------- | --------------------------------------------- |
+| [![GitHub][github-logo]][github]                | Github 让我们可以托管 Git 仓库并协调贡献。    |
+| [![Vercel][vercel-logo]][vercel]                | Vercel 让我们可以部署应用。                   |
+| [![CodeCov][codecov-logo]][codecov]             | CodeCov 让我们可以检查代码覆盖率。            |
+| [![Gitee][gitee-logo]][gitee]                   | Gitee 授予我们 GVP - Gitee 最有价值开源项目。 |
+| [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox 让我们可以提供组件的实时预览。    |
+| [![Stackblitz][stackblitz-logo]][stackblitz]    | Stackblitz 让我们可以提供组件的实时预览。     |
 
-Github 让我们可以托管 Git 仓库并协调贡献。
-
-<a href="https://github.com/" target="_blank">
- <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40">
-</a>
-
-### Vercel
-
-Vercel 让我们可以部署应用。
-
-<a href="https://vercel.com?utm_source=rsuite&utm_campaign=oss" target="_blank">
-  <img loading="lazy" alt="Vercel logo" src="https://avatars.githubusercontent.com/u/14985020?s=200&v=4"  width="40" height="40"/>
-</a>
-
-### CodeCov
-
-CodeCov 让我们可以检查代码覆盖率。
-
-<a href="https://about.codecov.io/" target="_blank">
-  <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/8226205?s=200&v=4" width="40" height="40">
-</a>
-
-### CodeSandbox
-
-CodeSandbox 让我们可以提供组件的实时预览。
-
-<a href="https://codesandbox.io/" target="_blank">
-  <img loading="lazy" alt="CodeSandbox logo" src="https://avatars.githubusercontent.com/u/32880324?s=200&v=4" width="40" height="40">
-</a>
-
-### Stackblitz
-
-Stackblitz 让我们可以提供组件的实时预览。
-
-<a href="https://stackblitz.com/" target="_blank">
-  <img loading="lazy" alt="Stackblitz logo" src="https://avatars.githubusercontent.com/u/28635252?s=200&v=4" width="40" height="40">
-</a>
+[github]: https://github.com/
+[github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
+[vercel]: https://vercel.com/
+[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[codecov]: https://about.codecov.io/
+[codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
+[gitee]: https://gitee.com/
+[gitee-logo]: https://gitee.com/static/images/logo-en.svg
+[codesandbox]: https://codesandbox.io/
+[codesandbox-logo]: https://avatars.githubusercontent.com/u/32880324?s=32&v=4
+[stackblitz]: https://stackblitz.com/
+[stackblitz-logo]: https://avatars.githubusercontent.com/u/28635252?s=32&v=4
 
 ## 支持 React Suite
 

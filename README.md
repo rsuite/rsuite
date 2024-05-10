@@ -95,45 +95,27 @@ Make sure you've read the [guidelines][contributing] before you start contributi
 
 These great services help us to build and maintain the project.
 
-### GitHub
+| #                                               | Service     | Description                                                          |
+| ----------------------------------------------- | ----------- | -------------------------------------------------------------------- |
+| [![GitHub][github-logo]][github]                | GitHub      | Github lets us host the Git repository and coordinate contributions. |
+| [![Vercel][vercel-logo]][vercel]                | Vercel      | Vercel provides the hosting for the documentation site.              |
+| [![CodeCov][codecov-logo]][codecov]             | CodeCov     | CodeCov lets us monitor test coverage.                               |
+| [![Gitee][gitee-logo]][gitee]                   | Gitee       | Gitee grants us GVP - Gitee Most Valuable Open Source Project.       |
+| [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox | CodeSandbox lets us provide live previews of the components.         |
+| [![Stackblitz][stackblitz-logo]][stackblitz]    | Stackblitz  | Stackblitz lets us provide live previews of the components.          |
 
-Github lets us host the Git repository and coordinate contributions.
-
-<a href="https://github.com/" target="_blank">
- <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" width="40" height="40">
-</a>
-
-### Vercel
-
-Vercel provides the hosting for the documentation site.
-
-<a href="https://vercel.com?utm_source=rsuite&utm_campaign=oss" target="_blank">
-  <img loading="lazy" alt="Vercel logo" src="https://avatars.githubusercontent.com/u/14985020?s=200&v=4"  width="40" height="40"/>
-</a>
-
-### CodeCov
-
-CodeCov lets us monitor test coverage.
-
-<a href="https://about.codecov.io/" target="_blank">
-  <img loading="lazy" alt="CodeCov logo" src="https://avatars.githubusercontent.com/u/8226205?s=200&v=4" width="40" height="40">
-</a>
-
-### CodeSandbox
-
-CodeSandbox lets us provide live previews of the components.
-
-<a href="https://codesandbox.io/" target="_blank">
-  <img loading="lazy" alt="CodeSandbox logo" src="https://avatars.githubusercontent.com/u/32880324?s=200&v=4" width="40" height="40">
-</a>
-
-### Stackblitz
-
-Stackblitz lets us provide live previews of the components.
-
-<a href="https://stackblitz.com/" target="_blank">
-  <img loading="lazy" alt="Stackblitz logo" src="https://avatars.githubusercontent.com/u/28635252?s=200&v=4" width="40" height="40">
-</a>
+[github]: https://github.com/
+[github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
+[vercel]: https://vercel.com/
+[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[codecov]: https://about.codecov.io/
+[codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
+[gitee]: https://gitee.com/
+[gitee-logo]: https://gitee.com/static/images/logo-en.svg
+[codesandbox]: https://codesandbox.io/
+[codesandbox-logo]: https://avatars.githubusercontent.com/u/32880324?s=32&v=4
+[stackblitz]: https://stackblitz.com/
+[stackblitz-logo]: https://avatars.githubusercontent.com/u/28635252?s=32&v=4
 
 ## Supporting React Suite
 
