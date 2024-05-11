@@ -1,9 +1,16 @@
 import React from 'react';
 import { CheckTree, Panel, Button, Toggle, InputNumber, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import PageIcon from '@rsuite/icons/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
+
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+  MdFilePresent,
+  MdFolder
+} from 'react-icons/md';
 
 import {
   importFakerString,
@@ -40,6 +47,10 @@ export default function Page() {
         Stack,
         PageIcon,
         FolderFillIcon,
+        MdFilePresent,
+        MdFolder,
+        MdOutlineKeyboardArrowDown,
+        MdOutlineKeyboardArrowRight,
         mockTreeData,
         mockAsyncData
       }}

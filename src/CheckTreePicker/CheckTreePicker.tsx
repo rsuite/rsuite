@@ -218,9 +218,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const treeContext = useMemo(
     () => ({
       register,
-      props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode }
+      props: { labelKey, valueKey, childrenKey, virtualized, renderTreeIcon, renderTreeNode }
     }),
-    [childrenKey, labelKey, valueKey, register, renderTreeIcon, renderTreeNode]
+    [childrenKey, labelKey, valueKey, virtualized, register, renderTreeIcon, renderTreeNode]
   );
 
   const checkTreeView = (

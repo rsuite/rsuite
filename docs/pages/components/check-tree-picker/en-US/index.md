@@ -117,7 +117,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | preventOverflow         | boolean                                                                                        | Prevent floating element overflow                           |
 | renderExtraFooter       | () => ReactNode                                                                                | Custom render extra footer                                  |
 | renderMenu              | (menu:ReactNode) => ReactNode                                                                  | Customizing the Rendering Menu list                         |
-| renderTreeIcon          | (item:[TreeNode][node]) => ReactNode                                                           | Custom render the icon of tree node                         |
+| renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | Custom render the icon of tree node                         |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | Custom render tree node                                     |
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | Custom render selected items                                |
 | searchable              | boolean `(true)`                                                                               | Whether display search input box                            |

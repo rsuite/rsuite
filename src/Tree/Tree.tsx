@@ -30,6 +30,7 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
       defaultExpandAll = false,
       defaultExpandItemValues = [],
       expandItemValues: controlledExpandItemValues,
+      virtualized,
       renderTreeIcon,
       renderTreeNode,
       getChildren,
@@ -64,8 +65,10 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
     );
 
     const treeContext = useMemo(
-      () => ({ props: { childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode } }),
-      [childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode]
+      () => ({
+        props: { childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode }
+      }),
+      [childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode]
     );
 
     return (
@@ -75,6 +78,7 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
           {...rest}
           value={value}
           data={treeData}
+          virtualized={virtualized}
           loadingNodeValues={loadingNodeValues}
           flattenedNodes={flattenedNodes}
           expandItemValues={expandItemValues}

@@ -5,6 +5,12 @@ import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
 import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+  MdFilePresent,
+  MdFolder
+} from 'react-icons/md';
+import {
   importFakerString,
   mockAsyncData,
   mockAsyncDataString,
@@ -39,6 +45,10 @@ export default function Page() {
         PageIcon,
         SelectPicker,
         Stack,
+        MdOutlineKeyboardArrowDown,
+        MdOutlineKeyboardArrowRight,
+        MdFilePresent,
+        MdFolder,
         mockTreeData,
         mockAsyncData
       }}

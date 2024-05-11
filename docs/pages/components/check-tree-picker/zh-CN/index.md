@@ -117,7 +117,7 @@
 | preventOverflow         | boolean                                                                                        | 防止浮动元素溢出                        |
 | renderExtraFooter       | () => ReactNode                                                                                | 自定义页脚内容                          |
 | renderMenu              | (menu: ReactNode) => ReactNode                                                                 | 自定义渲染菜单                          |
-| renderTreeIcon          | (item:[TreeNode][node]) => ReactNode                                                           | 自定义渲染 图标                         |
+| renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | 自定义渲染 图标                         |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | 自定义渲染 tree 节点                    |
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | 自定义渲染 placeholder                  |
 | searchable              | boolean `(true)`                                                                               | 是否显示搜索框                          |

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '../internals/Windowing';
-import CheckTreeNode from '../CheckTree/CheckTreeNode';
-import { indentTreeNode } from '../Tree/utils';
+import CheckTreeNode from './CheckTreeNode';
+import IndentLine from '../Tree/IndentLine';
 import { useCustom, useClassNames, useEventCallback } from '../utils';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
 import { onMenuKeyDown } from '../internals/Picker';
@@ -14,7 +14,6 @@ import {
   getFormattedTree,
   isNodeUncheckable
 } from './utils';
-
 import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
 import useTreeSearch from '../Tree/hooks/useTreeSearch';
 import useFocusTree from '../Tree/hooks/useFocusTree';
@@ -82,7 +81,8 @@ export interface CheckTreeViewProps<V = (string | number)[]>
   onChange?: (value: V, event: React.SyntheticEvent) => void;
 }
 
-interface CheckTreeViewInnerProps<V = (string | number)[]> extends CheckTreeViewProps<V> {
+interface CheckTreeViewInnerProps<V = (string | number)[]>
+  extends Omit<CheckTreeViewProps<V>, 'onExpand'> {
   /**
    * Loading node values.
    */
@@ -103,7 +103,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]> extends CheckTreeView
    *
    * @param nodeData - The data of the expanded node.
    */
-  onExpand?: (nodeData: TreeNode) => void;
+  onExpand?: (nodeData: TreeNode, expanded?: boolean) => void;
 }
 
 const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = React.forwardRef(
@@ -140,7 +140,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       ...rest
     } = props;
 
-    const { rtl, locale } = useCustom('Picker', overrideLocale);
+    const { locale } = useCustom('Picker', overrideLocale);
     const { childrenKey, valueKey } = useItemDataKeys();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
@@ -253,7 +253,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       const { visible, refKey, parent } = node;
 
       // when searching, all nodes should be expand
-      const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
+      const expanded = isExpand(keyword, expandItemValues.includes(node[valueKey]));
 
       if (!visible) {
         return null;
@@ -264,8 +264,9 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       const treeNodeProps = {
         // The spread operator does not copy non-enumerable properties,
         // so we need to copy the `parent` property manually.
-        ...getTreeNodeProps({ ...node, parent, expand }),
+        ...getTreeNodeProps({ ...node, parent }),
         layer,
+        expanded,
         hasChildren,
         onSelect: handleSelect,
         onExpand
@@ -274,7 +275,9 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       if (hasChildren) {
         layer += 1;
 
-        const childClassName = merge(prefix('node-children'), { [prefix('open')]: expand });
+        const childClassName = merge(prefix('node-children'), {
+          [prefix('node-expanded')]: expanded
+        });
         const nodes = children || [];
 
         return (
@@ -282,12 +285,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
             <CheckTreeNode {...treeNodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
             <div className={prefix('group')} role="group">
               {nodes.map(child => renderNode(child, layer))}
-              {showIndentLine && (
-                <span
-                  className={prefix('indent-line')}
-                  style={indentTreeNode(rtl, layer - 1, true)}
-                />
-              )}
+              {showIndentLine && <IndentLine />}
             </div>
           </div>
         );
@@ -305,14 +303,15 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     const renderVirtualListNode = ({ index, style, data }: ListChildComponentProps) => {
       const node = data[index];
       const { layer, refKey, visible, hasChildren, parent } = node;
-      const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
+      const expanded = isExpand(keyword, expandItemValues.includes(node[valueKey]));
 
       const treeNodeProps = {
         // The spread operator does not copy non-enumerable properties,
         // so we need to copy the `parent` property manually.
-        ...getTreeNodeProps({ ...node, parent, expand }),
+        ...getTreeNodeProps({ ...node, parent }),
         onSelect: handleSelect,
         onExpand,
+        expanded,
         layer,
         hasChildren
       };

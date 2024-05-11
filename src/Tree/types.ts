@@ -291,5 +291,5 @@ export interface TreeExtraProps<T = TreeNode> {
    * @param nodeData - The data of the tree node.
    * @returns The rendered icon.
    */
-  renderTreeIcon?: (nodeData: T) => React.ReactNode;
+  renderTreeIcon?: (nodeData: T, expanded?: boolean) => React.ReactNode;
 }

@@ -22,7 +22,7 @@
 
 <!--{include:`show-indent-line.md`}-->
 
-### 自定义选项
+### 自定义树节点
 
 <!--{include:`custom.md`}-->
 
@@ -60,7 +60,7 @@
 | onExpand                | (expandItemValues: any [], item: [TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSearch                | (keyword: string) => void                                                                    | 搜索回调函数                                                                    |
 | onSelect                | (item: [TreeNode][node],value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
-| renderTreeIcon          | (item:[TreeNode][node]) => ReactNode                                                         | 自定义渲染 图标                                                                 |
+| renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                      | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                        | 自定义渲染 tree 节点                                                            |
 | searchable              | boolean                                                                                      | 是否显示搜索框                                                                  |
 | searchKeyword           | string                                                                                       | 搜索关键词(受控)                                                                |

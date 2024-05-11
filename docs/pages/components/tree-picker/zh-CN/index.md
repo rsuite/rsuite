@@ -113,7 +113,7 @@
 | popupClassName          | string                                                                                        | 设置弹出层的 CSS 类名                   |
 | popupStyle              | CSSProperties                                                                                 | 设置弹出层的样式                        |
 | renderExtraFooter       | () => ReactNode                                                                               | 自定义页脚内容                          |
-| renderTreeIcon          | (item: [TreeNode][node]) => ReactNode                                                         | 自定义渲染 图标                         |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                                         | 自定义渲染 图标                         |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | 自定义渲染 tree 节点                    |
 | renderValue             | (value:string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                  | 自定义渲染选中的值                      |
 | searchable              | boolean `(true)`                                                                              | 是否可以搜索                            |

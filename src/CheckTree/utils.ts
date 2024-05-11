@@ -143,7 +143,6 @@ export function getFormattedTree(
         : undefined;
 
       formatted.check = curNode.check;
-      formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
 
       attachParent(formatted, curNode.parent);

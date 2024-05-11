@@ -31,7 +31,7 @@ function useTreeNodeProps(props: Props) {
   return useCallback(
     (nodeData: any, layer: number, index?: number) => {
       const { DRAG_OVER, DRAG_OVER_TOP, DRAG_OVER_BOTTOM } = TREE_NODE_DROP_POSITION;
-      const { expand, visible } = nodeData;
+      const { visible } = nodeData;
 
       const draggingNode = dragNode ?? {};
       const nodeValue = nodeData[valueKey];
@@ -69,7 +69,6 @@ function useTreeNodeProps(props: Props) {
         index,
         layer,
         loading,
-        expand,
         active,
         focus,
         visible,

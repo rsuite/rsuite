@@ -21,15 +21,17 @@ interface TreeContextValue {
     labelKey: string;
     valueKey: string;
     childrenKey: string;
+    virtualized?: boolean;
     renderTreeNode?: (nodeData: TreeNode) => React.ReactNode;
-    renderTreeIcon?: (nodeData: TreeNode) => React.ReactNode;
+    renderTreeIcon?: (nodeData: TreeNode, expanded?: boolean) => React.ReactNode;
   };
 }
 
 const defaultItemDataKeys = {
   labelKey: 'label',
   valueKey: 'value',
-  childrenKey: 'children'
+  childrenKey: 'children',
+  virtualized: false
 };
 
 const TreeContext = createContext<TreeContextValue>({
@@ -57,6 +59,12 @@ export const useItemDataKeys = () => {
     useContext(TreeContext);
 
   return { labelKey, valueKey, childrenKey };
+};
+
+export const useTreeContextProps = () => {
+  const { props } = useContext(TreeContext);
+
+  return props;
 };
 
 /**

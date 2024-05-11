@@ -1,11 +1,11 @@
 import React, { forwardRef, useMemo } from 'react';
-import { useClassNames, useEventCallback, useCustom, mergeRefs } from '../utils';
-import { indentTreeNode } from '../Tree/utils';
+import { useClassNames, useEventCallback, mergeRefs, useCustom } from '../utils';
 import { stringifyReactNode } from '../internals/utils';
 import { useFoucsVirtualListItem } from '../internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import TreeNodeToggle from './TreeNodeToggle';
-import { useTreeCustomRenderer } from './TreeProvider';
+import { useTreeContextProps } from './TreeProvider';
+import { indentTreeNode } from './utils';
 import type { TreeNode as TreeNodeData } from './types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
@@ -64,7 +64,7 @@ export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
   /**
    * Whether the node is expanded.
    */
-  expand?: boolean;
+  expanded?: boolean;
   /**
    * Whether the node is active.
    */
@@ -103,7 +103,7 @@ export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
   /**
    * Callback function called when the node is expanded.
    */
-  onExpand?: (nodeData: TreeNodeData) => void;
+  onExpand?: (nodeData: TreeNodeData, expanded?: boolean) => void;
   /**
    * Callback function called when the node is selected.
    */
@@ -118,7 +118,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     as: Component = 'div',
     label,
     layer,
-    style,
     active,
     loading,
     nodeData,
@@ -127,8 +126,9 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     disabled,
     visible = true,
     draggable,
-    expand,
+    expanded,
     focus,
+    style,
     hasChildren,
     dragging,
     dragStatus,
@@ -144,7 +144,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   } = props;
 
   const { rtl } = useCustom();
-  const { renderTreeNode } = useTreeCustomRenderer();
+  const { renderTreeNode, virtualized } = useTreeContextProps();
   const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
@@ -152,7 +152,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     // Stop propagation when using custom loading icon
     event?.nativeEvent?.stopImmediatePropagation?.();
     event.stopPropagation();
-    onExpand?.(nodeData);
+    onExpand?.(nodeData, expanded);
   });
 
   const handleSelect = useEventCallback((event: React.SyntheticEvent) => {
@@ -197,11 +197,11 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 
   const classes = merge(
     className,
-    withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
+    withClassPrefix({ disabled, active, 'text-muted': disabled, focus, leaf: !hasChildren })
   );
 
-  const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
   const treeItemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
+  const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
 
   return visible ? (
     <Component
@@ -209,7 +209,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       ref={mergeRefs(treeItemRef, ref)}
       role="treeitem"
       tabIndex={-1}
-      aria-expanded={expand}
+      aria-expanded={expanded}
       aria-label={labelStr}
       aria-level={layer}
       aria-disabled={disabled}
@@ -217,8 +217,8 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       data-layer={layer}
       data-key={nodeData?.refKey || ''}
       title={labelStr}
-      style={styles}
       className={classes}
+      style={styles}
       draggable={draggable}
       onClick={handleSelect}
       onDragStart={handleDragStart}
@@ -229,10 +229,10 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       onDrop={handleDrop}
     >
       <TreeNodeToggle
-        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
+        aria-label={(expanded ? 'Collapse' : 'Expand') + ` ${labelStr}`}
         data={nodeData}
-        expanded={expand}
         loading={loading}
+        expanded={expanded}
         hasChildren={hasChildren}
         onClick={handleExpand}
       />

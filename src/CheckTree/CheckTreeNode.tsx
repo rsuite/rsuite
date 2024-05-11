@@ -12,8 +12,9 @@ import {
   CheckStateType,
   mergeRefs
 } from '../utils';
-import { useTreeCustomRenderer } from '../Tree/TreeProvider';
+import { useTreeContextProps } from '../Tree/TreeProvider';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
+import type { TreeNode as TreeNodeData } from '../Tree/types';
 
 export interface CheckTreeNodeProps extends WithAsProps {
   /**
@@ -36,7 +37,8 @@ export interface CheckTreeNodeProps extends WithAsProps {
   /**
    * Whether the node should be expanded.
    */
-  expand?: boolean;
+  expanded?: boolean;
+
   /**
    * Whether the node is in a loading state.
    */
@@ -80,11 +82,11 @@ export interface CheckTreeNodeProps extends WithAsProps {
   /**
    * Callback function called when the node is expanded.
    */
-  onExpand?: (nodeData: any) => void;
+  onExpand?: (nodeData: TreeNodeData, expanded?: boolean) => void;
   /**
    * Callback function called when the node is selected.
    */
-  onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
+  onSelect?: (nodeData: TreeNodeData, event: React.SyntheticEvent) => void;
 }
 
 const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwardRef<
@@ -101,7 +103,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     disabled,
     allUncheckable,
     loading,
-    expand,
+    expanded,
     hasChildren,
     nodeData,
     focus,
@@ -116,14 +118,14 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   } = props;
 
   const { rtl } = useCustom();
-  const { renderTreeNode } = useTreeCustomRenderer();
+  const { renderTreeNode, virtualized } = useTreeContextProps();
   const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
     // stop propagation when using custom loading icon
     event?.nativeEvent?.stopImmediatePropagation?.();
-    onExpand?.(nodeData);
+    onExpand?.(nodeData, expanded);
   });
 
   const handleSelect = useEventCallback((_value: any, event: React.SyntheticEvent) => {
@@ -153,15 +155,15 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     })
   );
 
-  const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
+  const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
   const itemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
       <TreeNodeToggle
-        aria-label={(expand ? 'Collapse' : 'Expand') + ` ${labelStr}`}
+        aria-label={(expanded ? 'Collapse' : 'Expand') + ` ${labelStr}`}
         data={nodeData}
-        expanded={expand}
+        expanded={expanded}
         loading={loading}
         hasChildren={hasChildren}
         onClick={handleExpand}
@@ -171,7 +173,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         role="treeitem"
         ref={mergeRefs(itemRef, treeItemRef)}
         aria-label={labelStr}
-        aria-expanded={expand}
+        aria-expanded={expanded}
         aria-checked={checkState === CHECK_STATE.CHECK}
         aria-selected={focus}
         aria-disabled={disabled}

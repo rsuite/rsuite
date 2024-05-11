@@ -28,7 +28,7 @@ const TreeNode = ({ children, ...rest }) => {
 };
 
 const App = () => (
-  <CheckTree
+  <Tree
     data={data}
     defaultExpandAll
     renderTreeNode={treeNode => {

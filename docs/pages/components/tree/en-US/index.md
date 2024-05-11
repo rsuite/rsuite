@@ -16,6 +16,10 @@
 
 <!--{include:`show-indent-line.md`}-->
 
+### Custom Tree Node
+
+<!--{include:`custom.md`}-->
+
 ### Draggable
 
 <!--{include:`draggable.md`}-->
@@ -61,7 +65,7 @@
 | onExpand                | (expandItemValues: string[], node: [TreeNode][item], concat:(data, children) => Array) => void | Callback When tree node is displayed                                      |
 | onSearch                | (keyword: string) => void                                                                      | Callback function for search                                              |
 | onSelect                | (node:[TreeNode][item], value, event) => void                                                  | Callback function after selecting tree node                               |
-| renderTreeIcon          | (node: [TreeNode][item]) => ReactNode                                                          | Custom Render icon                                                        |
+| renderTreeIcon          | (node: [TreeNode][item], expanded: boolean) => ReactNode                                       | Custom Render icon                                                        |
 | renderTreeNode          | (node: [TreeNode][item]) => ReactNode                                                          | Custom Render tree Node                                                   |
 | searchable              | boolean                                                                                        | Whether to show the search box                                            |
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |

@@ -1,7 +1,8 @@
-@import '../../styles/common';
-@import '../../internals/Picker/styles/index';
-@import '../../TreePicker/styles/mixin';
-@import '../../Checkbox/styles/index';
+@import '../../styles/common.less';
+@import '../../internals/Picker/styles/index.less';
+@import '../../Checkbox/styles/index.less';
+@import '../../Tree/styles/toggle.less';
+@import '../../Tree/styles/indent-line.less';
 
 // Check Tree
 // ----------------------
@@ -16,11 +17,7 @@
         text-align: left;
         position: relative;
         margin: 0;
-        padding: 1px 0 1px 42px;
-      }
-
-      .rs-checkbox-control {
-        left: (@checkbox-sense-width + 10px);
+        padding: 2px 2px 2px 38px;
       }
 
       .rs-checkbox-label {
@@ -37,7 +34,7 @@
   }
 
   .rs-search-box {
-    padding: 6px 12px 6px;
+    padding: 6px;
   }
 
   .rs-check-tree-empty {
@@ -71,10 +68,14 @@
   }
 }
 
+.rs-check-tree-group {
+  padding-left: 26px;
+}
+
 .rs-check-tree-node {
   position: relative;
-  font-size: @picker-tree-node-font-size;
-  line-height: @picker-tree-node-line-height;
+  display: flex;
+  align-items: center;
 
   .rs-check-item {
     display: inline-block;
@@ -120,64 +121,16 @@
   }
 }
 
-// expand icon
-.rs-check-tree-node-expand-icon-wrapper {
-  display: inline-block;
-  position: absolute;
-  cursor: pointer;
-  z-index: 1;
-
-  > .rs-check-tree-node-expand-icon {
-    display: inline-block;
-    padding: @picker-tree-node-padding-vertical 0;
-    padding-right: @picker-tree-arrow-down-gap;
-    height: 36px;
-    font-size: 16px;
-    line-height: @picker-tree-node-line-height;
-    transform: rotate(-90deg) /* rtl: rotate(90deg) translateX(-13px) translateY(-15px) */;
-    transform-origin: 1.5px 14px;
-    margin-top: 6px;
-    user-select: none;
-
-    // expand children tree
-    .rs-check-tree-open > .rs-check-tree-node & {
-      transform: rotate(0deg);
-      margin-left: 0;
-      margin-top: 0;
-    }
-  }
-
-  > .rs-check-tree-node-expanded {
-    transform: rotate(0deg);
-    margin-left: 0;
-    margin-top: 0;
-  }
-
-  > .rs-check-tree-node-custom-icon,
-  > .rs-check-tree-node-loading-icon {
-    .node-item-prepend-icon();
-  }
-}
-
 // node children
 .rs-check-tree-node-children {
   > .rs-check-tree-group {
     position: relative;
     display: none;
 
-    .rs-check-tree-open& {
+    .rs-check-tree-node-expanded& {
       display: block;
     }
   }
-}
-
-.rs-check-tree-indent-line {
-  height: 100%;
-  width: 1px;
-  position: absolute;
-  top: 0;
-  margin-left: -13px;
-  border-left: 1px solid var(--rs-tree-indent-line-color);
 }
 
 .rs-check-tree {
@@ -188,12 +141,3 @@
     vertical-align: top;
   }
 }
-
-/* rtl:begin:ignore */
-
-[dir='rtl'] .rs-check-tree-node-expand-icon-wrapper {
-  right: 0;
-  padding-right: inherit;
-}
-
-/* rtl:end:ignore */

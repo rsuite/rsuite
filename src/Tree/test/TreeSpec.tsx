@@ -88,11 +88,7 @@ describe('Tree', () => {
   it('Should show indent line', () => {
     render(<Tree data={data} showIndentLine />);
 
-    const lines = screen.getByRole('tree').querySelectorAll('.rs-tree-indent-line');
-
-    expect(lines).to.have.length(2);
-    expect(lines[0]).to.have.style('left', '44px');
-    expect(lines[1]).to.have.style('left', '28px');
+    expect(screen.queryAllByTestId('indent-line')).to.have.length(2);
   });
 
   it('Should async load children nodes', async () => {

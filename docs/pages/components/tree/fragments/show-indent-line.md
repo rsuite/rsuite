@@ -120,7 +120,7 @@ const data = [
           },
           {
             label: 'package.json',
-            value: 'package.json'
+            value: 'node_modules-package.json'
           }
         ]
       }

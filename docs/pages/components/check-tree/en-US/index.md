@@ -22,7 +22,7 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 <!--{include:`show-indent-line.md`}-->
 
-### Custom options
+### Custom Tree Node
 
 <!--{include:`custom.md`}-->
 
@@ -60,7 +60,7 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 | onExpand                | (expandItemValues: any [], item: [TreeNode][node], concat:(data, children) => Array) => void | callback fired when tree node expand state changed                        |
 | onSearch                | (keyword: string) => void                                                                    | Callback function for search                                              |
 | onSelect                | (item: [TreeNode][node], value:any, event) => void                                           | Callback fired when tree node is selected                                 |
-| renderTreeIcon          | (item: [TreeNode][node]) => ReactNode                                                        | Custom render the icon in tree node                                       |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                     | Custom render the icon in tree node                                       |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                        | Custom render tree node                                                   |
 | searchable              | boolean                                                                                      | Whether to show the search box                                            |
 | searchKeyword           | string                                                                                       | searchKeyword (Controlled)                                                |

@@ -8,7 +8,7 @@ import {
   type ListHandle
 } from '../internals/Windowing';
 import TreeViewNode from './TreeNode';
-import { indentTreeNode } from './utils';
+import IndentLine from './IndentLine';
 import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
 import { useClassNames, useCustom, useEventCallback } from '../utils';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
@@ -22,7 +22,6 @@ import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '../internals/SearchBox';
 import { RsRefForwardingComponent, DataProps, ToArray } from '../@types/common';
 import { useItemDataKeys } from './TreeProvider';
-
 import type { TreeNode, TreeNodeMap, TreeViewBaseProps, TreeDragProps } from './types';
 
 export interface TreeViewProps<V = number | string | null>
@@ -76,7 +75,8 @@ export interface TreeViewProps<V = number | string | null>
 /**
  * Represents the props for the TreeView component.
  */
-interface TreeViewInnerProps<V = string | number | null> extends TreeViewProps<V> {
+interface TreeViewInnerProps<V = string | number | null>
+  extends Omit<TreeViewProps<V>, 'onExpand'> {
   /**
    * An array of values representing the loading nodes.
    */
@@ -99,7 +99,7 @@ interface TreeViewInnerProps<V = string | number | null> extends TreeViewProps<V
    *
    * @param nodeData - The data of the expanded node.
    */
-  onExpand?: (nodeData: TreeNode) => void;
+  onExpand?: (nodeData: TreeNode, expanded?: boolean) => void;
 }
 
 const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forwardRef(
@@ -142,7 +142,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       ...rest
     } = props;
 
-    const { rtl, locale } = useCustom('Picker', overrideLocale);
+    const { locale } = useCustom('Picker', overrideLocale);
     const { valueKey, childrenKey } = useItemDataKeys();
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
@@ -261,12 +261,13 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       }
 
       const children = node[childrenKey];
-      const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
+      const expanded = isExpand(keyword, expandItemValues.includes(node[valueKey]));
       const hasChildren = keyword ? hasVisibleChildren(node, childrenKey) : Boolean(children);
 
       const nodeProps = {
-        ...getTreeNodeProps({ ...node, expand }, layer, index),
+        ...getTreeNodeProps(node, layer, index),
         ...dragEvents,
+        expanded,
         draggable,
         onExpand,
         onSelect: handleSelect,
@@ -276,19 +277,16 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       if (hasChildren) {
         layer += 1;
 
-        const childClassName = merge(prefix('node-children'), { [prefix('open')]: expand });
+        const childClassName = merge(prefix('node-children'), {
+          [prefix('node-expanded')]: expanded
+        });
 
         return (
           <div className={childClassName} key={node[valueKey]}>
             <TreeViewNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, node.refKey)} />
             <div className={prefix('group')} role="group">
               {children?.map((child, i) => renderNode(child, i, layer))}
-              {showIndentLine && (
-                <span
-                  className={prefix('indent-line')}
-                  style={indentTreeNode(rtl, layer - 1, true)}
-                />
-              )}
+              {showIndentLine && <IndentLine />}
             </div>
           </div>
         );
@@ -306,15 +304,16 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       const node = data[index];
       const { layer, visible, hasChildren } = node;
 
-      const expand = isExpand(keyword, expandItemValues.includes(node[valueKey]));
+      const expanded = isExpand(keyword, expandItemValues.includes(node[valueKey]));
 
       if (!visible) {
         return null;
       }
 
       const treeNodeProps = {
-        ...getTreeNodeProps({ ...node, expand }, layer),
+        ...getTreeNodeProps(node, layer),
         ...dragEvents,
+        expanded,
         style,
         onExpand,
         onSelect: handleSelect,

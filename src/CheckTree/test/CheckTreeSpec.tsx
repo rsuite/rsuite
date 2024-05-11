@@ -40,11 +40,7 @@ describe('CheckTree', () => {
   it('Should show indent line', () => {
     render(<CheckTree data={data} showIndentLine />);
 
-    const lines = screen.getByRole('tree').querySelectorAll('.rs-check-tree-indent-line');
-
-    expect(lines).to.have.length(2);
-    expect(lines[0]).to.have.style('left', '44px');
-    expect(lines[1]).to.have.style('left', '28px');
+    expect(screen.queryAllByTestId('indent-line')).to.have.length(2);
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {

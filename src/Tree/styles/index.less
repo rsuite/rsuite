@@ -1,7 +1,8 @@
-@import '../../styles/common';
-@import '../../styles/mixins/listbox';
-@import '../../internals/Picker/styles/mixin';
-@import 'mixin';
+@import '../../styles/common.less';
+@import '../../styles/mixins/listbox.less';
+@import '../../internals/Picker/styles/mixin.less';
+@import './toggle.less';
+@import './indent-line.less';
 
 @custom-picker-tree-node-padding-vertical: @picker-tree-node-padding-vertical - 2px;
 
@@ -26,7 +27,7 @@
   }
 
   .rs-search-box {
-    padding: 6px 12px 6px;
+    padding: 6px;
   }
 
   .rs-tree-empty {
@@ -44,12 +45,18 @@
   }
 }
 
+.rs-tree-group {
+  padding-left: 18px;
+}
+
 .rs-tree-node {
   position: relative;
   // Clear host whitespace
   font-size: 0;
   text-align: left;
   margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
 
   &:focus-visible {
     .rs-tree-node-label {
@@ -59,16 +66,11 @@
 
   &-label {
     position: relative;
-    margin: 0;
-    //text gap
-    margin: 1px 1px 1px (@picker-tree-arrow-down-width + 8px);
-    display: inline-block;
+    margin: 1px;
     cursor: pointer;
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
-
     padding: 6px 8px;
-    display: inline-block;
     border-radius: 6px;
 
     &:hover,
@@ -174,71 +176,14 @@
   }
 }
 
-// expand icon
-.rs-tree-node-expand-icon-wrapper {
-  display: inline-block;
-  position: absolute;
-  cursor: pointer;
-  z-index: 1;
-
-  > .rs-tree-node-expand-icon {
-    display: inline-block;
-    padding: @picker-tree-node-padding-vertical 0;
-    padding-right: @picker-tree-arrow-down-gap;
-    height: 36px;
-    font-size: 16px;
-    line-height: @picker-tree-node-line-height;
-    transform: rotate(-90deg) /* rtl: rotate(90deg) translateX(-13px) translateY(-15px) */;
-    transform-origin: 1.5px 14px;
-    margin-top: 6px;
-    user-select: none;
-
-    // expand children tree
-    .rs-tree-open > .rs-tree-node & {
-      transform: rotate(0deg);
-      margin-left: 0;
-      margin-top: 0;
-    }
-  }
-
-  > .rs-tree-node-expanded {
-    transform: rotate(0deg);
-    margin-left: 0;
-    margin-top: 0;
-  }
-
-  > .rs-tree-node-custom-icon,
-  > .rs-tree-node-loading-icon {
-    .node-item-prepend-icon();
-  }
-}
-
 // node children
 .rs-tree-node-children {
   > .rs-tree-group {
     position: relative;
     display: none;
 
-    .rs-tree-open& {
+    .rs-tree-node-expanded& {
       display: block;
     }
   }
 }
-
-.rs-tree-indent-line {
-  height: 100%;
-  width: 1px;
-  position: absolute;
-  top: 0;
-  margin-left: -13px;
-  border-left: 1px solid var(--rs-tree-indent-line-color);
-}
-
-/* rtl:begin:ignore */
-
-[dir='rtl'] .rs-tree-node-expand-icon-wrapper {
-  right: 0;
-  padding-right: inherit;
-}
-
-/* rtl:end:ignore */

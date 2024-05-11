@@ -112,7 +112,7 @@
 | popupClassName          | string                                                                                        | Custom class name for the popup                             |
 | popupStyle              | CSSProperties                                                                                 | Custom style for the popup                                  |
 | renderExtraFooter       | () => ReactNode                                                                               | Customizing footer Content                                  |
-| renderTreeIcon          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render icon                                          |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                                         | Custom render icon                                          |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render tree Node                                     |
 | renderValue             | (value: string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                              |

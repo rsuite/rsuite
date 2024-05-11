@@ -34,6 +34,7 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       childrenKey = 'children',
       labelKey = 'label',
       valueKey = 'value',
+      virtualized,
       cascade = true,
       renderTreeIcon,
       renderTreeNode,
@@ -75,8 +76,10 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
     });
 
     const treeContext = useMemo(
-      () => ({ props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode } }),
-      [childrenKey, labelKey, valueKey, renderTreeIcon, renderTreeNode]
+      () => ({
+        props: { labelKey, valueKey, childrenKey, virtualized, renderTreeIcon, renderTreeNode }
+      }),
+      [childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode]
     );
 
     return (
@@ -87,6 +90,7 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
           value={value}
           cascade={cascade}
           data={treeData}
+          virtualized={virtualized}
           loadingNodeValues={loadingNodeValues}
           flattenedNodes={flattenedNodes}
           uncheckableItemValues={uncheckableItemValues}

@@ -26,7 +26,7 @@ function useTreeNodeProps(props: Props) {
 
   return useCallback(
     (nodeData: TreeNode) => {
-      const { expand, visible, checkState } = nodeData;
+      const { visible, checkState } = nodeData;
       const value = nodeData[valueKey];
       const allUncheckable = isAllSiblingNodeUncheckable(
         nodeData,
@@ -47,7 +47,6 @@ function useTreeNodeProps(props: Props) {
       return {
         value,
         label,
-        expand,
         visible,
         loading,
         disabled,

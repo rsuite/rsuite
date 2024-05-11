@@ -1,23 +1,26 @@
 import React from 'react';
-import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+import ArrowRightIcon from '@rsuite/icons/ArrowRight';
+import ArrowLeftIcon from '@rsuite/icons/ArrowLeft';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import { useClassNames } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { useTreeCustomRenderer } from './TreeProvider';
 
 interface TreeNodeToggleProps extends React.HTMLAttributes<HTMLDivElement> {
   data: any;
-  expanded?: boolean;
   loading?: boolean;
+  expanded?: boolean;
   hasChildren?: boolean;
 }
 
 function TreeNodeToggle(props: TreeNodeToggleProps) {
-  const { data, expanded, loading, hasChildren, ...rest } = props;
+  const { data, loading, expanded, hasChildren, ...rest } = props;
+  const { rtl } = useCustom();
   const { renderTreeIcon } = useTreeCustomRenderer();
   const { prefix } = useClassNames('tree-node');
-  const classes = prefix('expand-icon', 'icon', { expanded });
+  const IconElementType = expanded ? ArrowDownIcon : rtl ? ArrowLeftIcon : ArrowRightIcon;
 
-  let icon = <ArrowDown className={classes} />;
+  let icon = <IconElementType className={prefix('toggle-icon')} />;
 
   if (loading) {
     icon = (
@@ -27,7 +30,7 @@ function TreeNodeToggle(props: TreeNodeToggleProps) {
     );
   }
   if (data !== undefined && typeof renderTreeIcon === 'function') {
-    const customIcon = renderTreeIcon(data);
+    const customIcon = renderTreeIcon(data, expanded);
     icon = customIcon !== null ? <div className={prefix('custom-icon')}>{customIcon}</div> : icon;
   }
 
@@ -37,12 +40,14 @@ function TreeNodeToggle(props: TreeNodeToggleProps) {
       role="button"
       aria-busy={loading ? true : undefined}
       data-ref={data.refKey}
-      className={prefix('expand-icon-wrapper')}
+      className={prefix('toggle')}
       {...rest}
     >
       {icon}
     </div>
-  ) : null;
+  ) : (
+    <div className={prefix('toggle-placeholder')} />
+  );
 }
 
 export default TreeNodeToggle;

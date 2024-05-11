@@ -223,9 +223,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const treeContext = useMemo(
     () => ({
       register,
-      props: { labelKey, valueKey, childrenKey, renderTreeIcon, renderTreeNode }
+      props: { labelKey, valueKey, childrenKey, virtualized, renderTreeIcon, renderTreeNode }
     }),
-    [childrenKey, labelKey, register, renderTreeIcon, renderTreeNode, valueKey]
+    [childrenKey, labelKey, valueKey, virtualized, register, renderTreeIcon, renderTreeNode]
   );
 
   const tree = (
