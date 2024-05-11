@@ -314,5 +314,56 @@ describe('Tree', () => {
 
       expect(treeItems[0]).to.have.attribute('aria-selected', 'true');
     });
+
+    describe('With virtualized', () => {
+      it('Should focus the next item when pressing the down arrow key ', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.class('rs-tree-node-focus');
+      });
+
+      it('Should focus the previous item when pressing the up arrow key ', () => {
+        render(<Tree data={data} defaultExpandAll virtualized />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowUp' });
+        fireEvent.keyDown(tree, { key: 'ArrowUp' });
+
+        const treeItems = screen.getAllByRole('treeitem');
+
+        expect(treeItems[treeItems.length - 1]).to.have.focus;
+      });
+
+      it('Should expand the item when pressing the right arrow key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+
+        fireEvent.click(screen.getAllByRole('treeitem')[0]);
+        fireEvent.keyDown(screen.getAllByRole('treeitem')[0], { key: 'ArrowRight' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-expanded', 'true');
+      });
+
+      it('Should collapse the item when pressing the left arrow key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+
+        fireEvent.click(screen.getAllByRole('treeitem')[0]);
+        fireEvent.keyDown(screen.getAllByRole('treeitem')[0], { key: 'ArrowLeft' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-expanded', 'false');
+      });
+
+      it('Should select the item when pressing the enter key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+        fireEvent.keyDown(tree, { key: 'Enter' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-selected', 'true');
+      });
+    });
   });
 });

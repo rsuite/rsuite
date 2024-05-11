@@ -2,8 +2,16 @@ import React, { forwardRef, useMemo } from 'react';
 import ListCheckItem from '../internals/Picker/ListCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { stringifyReactNode } from '../internals/utils';
+import { useFoucsVirtualListItem } from '../internals/hooks';
 import { indentTreeNode } from '../Tree/utils';
-import { useClassNames, useEventCallback, useCustom, CHECK_STATE, CheckStateType } from '../utils';
+import {
+  useClassNames,
+  useEventCallback,
+  useCustom,
+  CHECK_STATE,
+  CheckStateType,
+  mergeRefs
+} from '../utils';
 import { useTreeCustomRenderer } from '../Tree/TreeProvider';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
 
@@ -150,6 +158,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   );
 
   const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
+  const itemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
@@ -164,7 +173,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       <ListCheckItem
         as="div"
         role="treeitem"
-        ref={treeItemRef}
+        ref={mergeRefs(itemRef, treeItemRef)}
         aria-label={labelStr}
         aria-expanded={expand}
         aria-checked={checkState === CHECK_STATE.CHECK}

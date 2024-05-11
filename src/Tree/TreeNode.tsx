@@ -1,7 +1,8 @@
 import React, { forwardRef, useMemo } from 'react';
-import { useClassNames, useEventCallback, useCustom } from '../utils';
+import { useClassNames, useEventCallback, useCustom, mergeRefs } from '../utils';
 import { indentTreeNode } from '../Tree/utils';
 import { stringifyReactNode } from '../internals/utils';
+import { useFoucsVirtualListItem } from '../internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import TreeNodeToggle from './TreeNodeToggle';
 import { useTreeCustomRenderer } from './TreeProvider';
@@ -200,11 +201,12 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
   );
 
   const styles = { ...style, ...indentTreeNode(rtl, layer - 1) };
+  const treeItemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
 
   return visible ? (
     <Component
       {...rest}
-      ref={ref}
+      ref={mergeRefs(treeItemRef, ref)}
       role="treeitem"
       tabIndex={-1}
       aria-expanded={expand}
