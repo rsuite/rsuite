@@ -36,6 +36,7 @@
 
   &-disabled {
     opacity: @btn-disabled-opacity;
+    cursor: not-allowed;
   }
 
   &-toggle &-toggle-placeholder {
@@ -339,6 +340,10 @@
   &.rs-picker-disabled .rs-picker-toggle,
   &.rs-picker-disabled .rs-btn {
     background-color: var(--rs-input-disabled-bg) !important;
+  }
+
+  &.rs-picker-disabled .rs-input-group {
+    pointer-events: none;
   }
 }
 
