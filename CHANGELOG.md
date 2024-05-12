@@ -1,3 +1,15 @@
+## [5.60.2](https://github.com/rsuite/rsuite/compare/v5.60.1...v5.60.2) (2024-05-10)
+
+
+### Bug Fixes
+
+* **date-picker:** cursor pointer on icon hover ([#3789](https://github.com/rsuite/rsuite/issues/3789)) ([fb85faa](https://github.com/rsuite/rsuite/commit/fb85faa01695ab8a48a357e994a451c46c4d7ab3))
+* **DateInput,DateRangeInput:** fix the issue of incorrect cursor position in the input box ([#3785](https://github.com/rsuite/rsuite/issues/3785)) ([d606944](https://github.com/rsuite/rsuite/commit/d6069447aeb156974c7af18050e43ba9443fa4d3))
+* **Slider:** block pointer events when disabled ([#3788](https://github.com/rsuite/rsuite/issues/3788)) ([2470f77](https://github.com/rsuite/rsuite/commit/2470f77225078c2b65536808218286c1c737bee6))
+* **toggle:** center align inner text/icon ([#3787](https://github.com/rsuite/rsuite/issues/3787)) ([c2a8fb1](https://github.com/rsuite/rsuite/commit/c2a8fb13f700dd07b76628a200eb1a5236f21b5c))
+
+
+
 ## [5.60.1](https://github.com/rsuite/rsuite/compare/v5.60.0...v5.60.1) (2024-05-03)
 
 
