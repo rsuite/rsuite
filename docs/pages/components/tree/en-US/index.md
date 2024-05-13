@@ -36,6 +36,10 @@
 
 <!--{include:`searchable.md`}-->
 
+### Disabled Tree Node
+
+<!--{include:`disabled.md`}-->
+
 ## Props
 
 ### `<Tree>`

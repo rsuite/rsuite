@@ -38,6 +38,14 @@
 
 <!--{include:`searchable.md`}-->
 
+### 不可选择的树节点
+
+<!--{include:`uncheckable.md`}-->
+
+### 禁用的树节点
+
+<!--{include:`disabled.md`}-->
+
 ## Props
 
 ### `<CheckTree>`

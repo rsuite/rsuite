@@ -21,7 +21,7 @@
       }
 
       .rs-checkbox-label {
-        padding: 6px 8px;
+        padding: 6px;
         width: auto;
       }
     }
@@ -31,6 +31,11 @@
         .focus-ring();
       }
     }
+  }
+
+  // Uncheckable state
+  .rs-check-tree-node-all-uncheckable .rs-check-item .rs-checkbox-checker > label {
+    padding-left: 2px;
   }
 
   .rs-search-box {
@@ -107,17 +112,6 @@
 
   .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
     .picker-item-active();
-  }
-
-  // Uncheckable state
-  &-all-uncheckable .rs-check-item .rs-checkbox-checker > label {
-    padding-left: 22px; // 10px + 12px
-
-    &::before {
-      width: 14px;
-      margin-left: 0;
-      left: 0;
-    }
   }
 }
 

@@ -36,6 +36,10 @@
 
 <!--{include:`searchable.md`}-->
 
+### 禁用树节点
+
+<!--{include:`disabled.md`}-->
+
 ## Props
 
 ### `<Tree>`
@@ -65,7 +69,7 @@
 | onExpand                | (expandItemValues: string[], node: [TreeNode][item], concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSearch                | (keyword: string) => void                                                                      | 搜索回调函数                                                                    |
 | onSelect                | (node: [TreeNode][item], value, event) => void                                                 | 选择树节点后的回调函数                                                          |
-| renderTreeIcon          | (node: [TreeNode][item], expanded: boolean) => ReactNode                                                          | 自定义渲染 图标                                                                 |
+| renderTreeIcon          | (node: [TreeNode][item], expanded: boolean) => ReactNode                                       | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (node: [TreeNode][item]) => ReactNode                                                          | 自定义渲染 tree 节点                                                            |
 | searchable              | boolean                                                                                        | 是否显示搜索框                                                                  |
 | searchKeyword           | string                                                                                         | (受控)搜索关键词                                                                |

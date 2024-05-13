@@ -197,7 +197,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 
   const classes = merge(
     className,
-    withClassPrefix({ disabled, active, 'text-muted': disabled, focus, leaf: !hasChildren })
+    withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
   );
 
   const treeItemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);

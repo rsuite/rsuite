@@ -38,6 +38,14 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 <!--{include:`searchable.md`}-->
 
+### Uncheckable Tree Node
+
+<!--{include:`uncheckable.md`}-->
+
+### Disabled Tree Node
+
+<!--{include:`disabled.md`}-->
+
 ## Props
 
 ### `<CheckTree>`
