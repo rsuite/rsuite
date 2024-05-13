@@ -46,6 +46,31 @@
 
 <!--{include:`disabled.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+**tree**
+
+- CheckTree 组件的 `role` 属性为 `tree`。
+- CheckTree 有 `aria-multiselectable=true` 属性来指示树形列表框是多选的。
+
+**treeitem**
+
+- CheckTree 节点的 `role` 属性为 `treeitem`。
+- 有 `aria-expanded` 属性来指示树形列表框是否打开。
+- 有 `aria-checked` 属性来指示树节点是否被选中。
+- 有 `aria-level` 属性来指示树节点的层级。
+- 有 `aria-disabled` 属性来指示树节点是否被禁用。
+
+### 键盘交互
+
+- <kbd>↓</kbd> - 移动焦点到下一个树节点。
+- <kbd>↑</kbd> - 移动焦点到上一个树节点。
+- <kbd>→</kbd> - 展开焦点树节点，如果它是折叠的。
+- <kbd>←</kbd> - 折叠焦点树节点，如果它是展开的。
+- <kbd>Enter</kbd> - 选择焦点树节点。
+
 ## Props
 
 ### `<CheckTree>`

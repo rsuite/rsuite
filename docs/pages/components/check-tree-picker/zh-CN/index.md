@@ -50,13 +50,26 @@
 
 ### ARIA 属性
 
+**combobox**
+
 - CheckTreePicker 组件的 `role` 属性为 `combobox`。
-- 有 `aria-haspopup="tree"` 属性来指示 combobox 有一个弹出的树形列表框。
-- 有 `aria-expanded` 属性来指示树形列表框是否打开。
-- 有 `aria-controls` 属性来指示树形列表框元素的 ID。
 - 有 `aria-activedescendant` 属性来指示焦点选项的 ID。
+- 有 `aria-haspopup="tree"` 属性来指示 combobox 有一个弹出的树形列表框。
+- 有 `aria-controls` 属性来指示树形列表框元素的 ID。
 - 当设置了 `label`, `aria-labelledby` 属性被添加到 combobox 元素和 tree 元素上，并将值设置为 `label` 的 `id` 属性值。
-- tree 有 `aria-multiselectable=true` 属性来指示树形列表框是多选的。
+
+**tree**
+
+- CheckTree 组件的 `role` 属性为 `tree`。
+- CheckTree 有 `aria-multiselectable=true` 属性来指示树形列表框是多选的。
+
+**treeitem**
+
+- CheckTree 节点的 `role` 属性为 `treeitem`。
+- 有 `aria-expanded` 属性来指示树形列表框是否打开。
+- 有 `aria-checked` 属性来指示树节点是否被选中。
+- 有 `aria-level` 属性来指示树节点的层级。
+- 有 `aria-disabled` 属性来指示树节点是否被禁用。
 
 ### 键盘交互
 

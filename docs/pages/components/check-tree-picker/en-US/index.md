@@ -50,13 +50,26 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 ### ARIA properties
 
+**combobox**
+
 - CheckTreePicker has role `combobox`.
 - Has the `aria-haspopup="tree"` attribute to indicate that the combobox has a popup tree.
-- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
 - Has the `aria-controls` attribute to indicate the ID of the tree element.
 - Has the `aria-activedescendant` attribute to indicate the ID of the focused tree node.
 - When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the tree element and is set to the value of the `id` attribute of `label`.
-- The tree has the `aria-multiselectable=true` attribute to indicate that the tree is multi-selectable.
+
+**tree**
+
+- CheckTree has role `tree`.
+- CheckTree has the `aria-multiselectable=true` attribute to indicate that the tree is multi-selectable.
+
+**treeitem**
+
+- CheckTree node has role `treeitem`.
+- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
+- Has the `aria-checked` attribute to indicate whether the tree node is checked or not.
+- Has the `aria-level` attribute to indicate the level of the tree node.
+- Has the `aria-disabled` attribute to indicate whether the tree node is disabled or not.
 
 ### Keyboard interactions
 

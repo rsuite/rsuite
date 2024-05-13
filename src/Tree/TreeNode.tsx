@@ -6,6 +6,7 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import TreeNodeToggle from './TreeNodeToggle';
 import { useTreeContextProps } from './TreeProvider';
 import { indentTreeNode } from './utils';
+
 import type { TreeNode as TreeNodeData } from './types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';

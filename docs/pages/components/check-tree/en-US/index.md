@@ -46,6 +46,31 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 <!--{include:`disabled.md`}-->
 
+## Accessibility
+
+### ARIA properties
+
+**tree**
+
+- CheckTree has role `tree`.
+- CheckTree has the `aria-multiselectable=true` attribute to indicate that the tree is multi-selectable.
+
+**treeitem**
+
+- CheckTree node has role `treeitem`.
+- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
+- Has the `aria-checked` attribute to indicate whether the tree node is checked or not.
+- Has the `aria-level` attribute to indicate the level of the tree node.
+- Has the `aria-disabled` attribute to indicate whether the tree node is disabled or not.
+
+### Keyboard interactions
+
+- <kbd>↓</kbd> - Move focus to the next tree node.
+- <kbd>↑</kbd> - Move focus to the previous tree node.
+- <kbd>→</kbd> - Expand the focused tree node if it is collapsed.
+- <kbd>←</kbd> - Collapse the focused tree node if it is expanded.
+- <kbd>Enter</kbd> - Select the focused tree node.
+
 ## Props
 
 ### `<CheckTree>`

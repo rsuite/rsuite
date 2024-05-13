@@ -48,12 +48,25 @@
 
 ### ARIA properties
 
+**combobox**
+
 - TreePicker has role `combobox`.
 - Has the `aria-haspopup="tree"` attribute to indicate that the combobox has a popup tree.
-- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
 - Has the `aria-controls` attribute to indicate the ID of the tree element.
 - Has the `aria-activedescendant` attribute to indicate the ID of the focused tree node.
 - When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the tree element and is set to the value of the `id` attribute of `label`.
+
+**tree**
+
+- Tree has role `tree`.
+
+**treeitem**
+
+- Tree node has role `treeitem`.
+- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
+- Has the `aria-selected` attribute to indicate whether the tree node is selected or not.
+- Has the `aria-level` attribute to indicate the level of the tree node.
+- Has the `aria-disabled` attribute to indicate whether the tree node is disabled or not.
 
 ### Keyboard interactions
 
@@ -112,7 +125,7 @@
 | popupClassName          | string                                                                                        | Custom class name for the popup                             |
 | popupStyle              | CSSProperties                                                                                 | Custom style for the popup                                  |
 | renderExtraFooter       | () => ReactNode                                                                               | Customizing footer Content                                  |
-| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                                         | Custom render icon                                          |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render icon                                          |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render tree Node                                     |
 | renderValue             | (value: string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                              |

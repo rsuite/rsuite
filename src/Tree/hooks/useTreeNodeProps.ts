@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { TREE_NODE_DROP_POSITION, shallowEqual as equal } from '../../utils';
 import { highlightLabel } from '../../internals/utils';
+import { useCombobox } from '../../internals/Picker/hooks';
 import { useItemDataKeys } from '../TreeProvider';
 import { DragStatus } from '../TreeNode';
 
@@ -17,6 +18,8 @@ interface Props {
 
 function useTreeNodeProps(props: Props) {
   const { valueKey, labelKey, childrenKey } = useItemDataKeys();
+  const { id } = useCombobox();
+
   const {
     value,
     disabledItemValues,
@@ -64,6 +67,7 @@ function useTreeNodeProps(props: Props) {
       const focus = equal(nodeValue, focusItemValue);
 
       return {
+        id: id ? `${id}-opt-${nodeValue}` : undefined,
         value: nodeValue,
         label,
         index,
@@ -86,6 +90,7 @@ function useTreeNodeProps(props: Props) {
       dragOverNodeKey,
       dropNodePosition,
       focusItemValue,
+      id,
       keyword,
       labelKey,
       loadingNodeValues,

@@ -48,12 +48,25 @@
 
 ### ARIA 属性
 
+**combobox**
+
 - TreePicker 组件的 `role` 属性为 `combobox`。
 - 有 `aria-haspopup="tree"` 属性来指示 combobox 有一个弹出的树形列表框。
-- 有 `aria-expanded` 属性来指示树形列表框是否打开。
-- 有 `aria-controls` 属性来指示树形列表框元素的 ID。
 - 有 `aria-activedescendant` 属性来指示焦点选项的 ID。
+- 有 `aria-controls` 属性来指示树形列表框元素的 ID。
 - 当设置了 `label`, `aria-labelledby` 属性被添加到 combobox 元素和 tree 元素上，并将值设置为 `label` 的 `id` 属性值。
+
+**tree**
+
+- Tree 组件的 `role` 属性为 `tree`。
+
+**treeitem**
+
+- Tree 节点的 `role` 属性为 `treeitem`。
+- 有 `aria-expanded` 属性来指示树形列表框是否打开。
+- 有 `aria-selected` 属性来指示树节点是否被选中。
+- 有 `aria-level` 属性来指示树节点的层级。
+- 有 `aria-disabled` 属性来指示树节点是否被禁用。
 
 ### 键盘交互
 
@@ -113,7 +126,7 @@
 | popupClassName          | string                                                                                        | 设置弹出层的 CSS 类名                   |
 | popupStyle              | CSSProperties                                                                                 | 设置弹出层的样式                        |
 | renderExtraFooter       | () => ReactNode                                                                               | 自定义页脚内容                          |
-| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                                         | 自定义渲染 图标                         |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                      | 自定义渲染 图标                         |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | 自定义渲染 tree 节点                    |
 | renderValue             | (value:string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                  | 自定义渲染选中的值                      |
 | searchable              | boolean `(true)`                                                                              | 是否可以搜索                            |
