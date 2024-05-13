@@ -102,8 +102,6 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 | valueKey                | string `('value')`                                                                             | Set the `key` of the tree node value in `data`             |
 | virtualized             | boolean                                                                                        | Whether to enable virtualized lists                        |
 
-为搜索框设置搜索关键词
-
 <!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
 

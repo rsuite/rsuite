@@ -115,10 +115,10 @@
 | onExit                  | () => void                                                                                    | Called when the popup is about to close                    |
 | onExited                | () => void                                                                                    | Called when the popup is closed                            |
 | onExiting               | () => void                                                                                    | Called when popup closing is in progress                   |
-| onExpand                | (expandItemValues: string[], item:[TreeNode][node], concat:(data, children) => Array) => void | Called when the tree node expand state changes             |
+| onExpand                | (expandItemValues: string[], node:[TreeNode][node], concat:(data, children) => Array) => void | Called when the tree node expand state changes             |
 | onOpen                  | () => void                                                                                    | Called when the popup is opened                            |
 | onSearch                | (searchKeyword: string, event) => void                                                        | Called when the search box input changes                   |
-| onSelect                | (item:[TreeNode][node], value: string, event) => void                                         | Called when the tree node is selected                      |
+| onSelect                | (node:[TreeNode][node], value: string, event) => void                                         | Called when the tree node is selected                      |
 | open                    | boolean                                                                                       | Controlled open state                                      |
 | placeholder             | ReactNode `('Select')`                                                                        | The placeholder for the component                          |
 | placement               | [Placement](#code-ts-placement-code)`('bottomStart')`                                         | The placement of the popup                                 |
@@ -127,11 +127,11 @@
 | renderExtraFooter       | () => ReactNode                                                                               | Custom render extra footer                                 |
 | ~renderMenu~            | (tree:ReactNode) => ReactNode                                                                 | ⚠️`[Deprecated]` Use `renderTree` instead                  |
 | renderTree              | (tree:ReactNode) => ReactNode                                                                 | Custom render tree                                         |
-| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render tree node icon                               |
-| renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                         | Custom render tree node                                    |
-| renderValue             | (value: string,item:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                               |
+| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render tree node icon                               |
+| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | Custom render tree node                                    |
+| renderValue             | (value: string, node:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                               |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                             |
-| searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                        | Custom search method                                       |
+| searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | Custom search method                                       |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | A picker can have different sizes                          |
 | toggleAs                | ElementType `('a')`                                                                           | Custom component for the toggle button                     |
 | treeHeight              | number `(320)`                                                                                | The height of the tree                                     |

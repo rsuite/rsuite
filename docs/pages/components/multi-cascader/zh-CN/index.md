@@ -122,7 +122,7 @@
 | ~menuWidth~           | number                                                                                          | ⚠️`[已弃用]` 使用 `columnWidth` 代替       |
 | onChange              | (value: string, event) => void                                                                  | `value` 发生改变时的回调函数               |
 | onCheck               | (value: ValueType, item:[ItemDataType][item], checked:boolean, event) => void;                  | 复选框选中状态发生变化的回调函数           |
-| onClean               | (event) => void                                                                                 | 值清理时触发回调                           |
+| onClean               | (event) => void                                                                                 | 清空值时触发回调                           |
 | onClose               | () => void                                                                                      | 关闭回调函数                               |
 | onEnter               | () => void                                                                                      | 显示前动画过渡的回调函数                   |
 | onEntered             | () => void                                                                                      | 显示后动画过渡的回调函数                   |

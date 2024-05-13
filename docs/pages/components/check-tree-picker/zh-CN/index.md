@@ -110,7 +110,7 @@
 | ~menuClassName~         | string                                                                                         | ⚠️`[已弃用]` 使用 `popupClassName` 代替 |
 | ~menuStyle~             | CSSProperties                                                                                  | ⚠️`[已弃用]` 使用 `popupStyle` 代替     |
 | onChange                | (values:string[]) => void                                                                      | 值改变的触发回调                        |
-| onClean                 | (event) => void                                                                                | 值清理时触发回调                        |
+| onClean                 | (event) => void                                                                                | 清空值时触发回调                        |
 | onClose                 | () => void                                                                                     | 关闭的回调函数                          |
 | onEnter                 | () => void                                                                                     | 显示前动画过渡的回调                    |
 | onEntered               | () => void                                                                                     | 显示后动画过渡的回调                    |
