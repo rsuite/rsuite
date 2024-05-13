@@ -126,7 +126,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     locale: overrideLocale,
     labelKey = 'label',
     listProps,
-    renderMenu,
     getChildren,
     renderExtraFooter,
     onEnter,
@@ -139,6 +138,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onScroll,
     onExpand,
     renderValue,
+    renderMenu: DEPRECATED_renderMenu,
+    renderTree = DEPRECATED_renderMenu,
     renderTreeIcon,
     renderTreeNode,
     ...rest
@@ -274,7 +275,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         onKeyDown={onPickerKeydown}
         target={trigger}
       >
-        {renderMenu ? renderMenu(checkTreeView) : checkTreeView}
+        {renderTree ? renderTree(checkTreeView) : checkTreeView}
         {renderExtraFooter?.()}
       </PickerPopup>
     );

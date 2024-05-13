@@ -133,22 +133,28 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
 export interface DeprecatedPickerProps {
   /**
    * Custom menu class name
-   * @deprecated Use popupClassName instead
+   * @deprecated Use `popupClassName` instead
    */
   menuClassName?: string;
 
   /**
    * Custom menu style
-   * @deprecated Use popupStyle instead
+   * @deprecated Use `popupStyle` instead
    */
   menuStyle?: React.CSSProperties;
 
   /**
    * Picker menu auto width
    *
-   * @deprecated Use popupAutoWidth instead
+   * @deprecated Use `popupAutoWidth` instead
    */
   menuAutoWidth?: boolean;
+
+  /**
+   * Custom render tree
+   * @deprecated Use `renderTree` instead
+   */
+  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 }
 
 export interface FormControlBaseProps<

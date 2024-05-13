@@ -115,8 +115,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     toggleAs,
     searchBy,
     getChildren,
-    renderTreeIcon,
-    renderTreeNode,
+
     onClean,
     onSearch,
     onSelect,
@@ -126,9 +125,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     onEnter,
     onExit,
     onEntered,
-    renderExtraFooter,
-    renderMenu,
     renderValue,
+    renderMenu: DEPRECATED_renderMenu,
+    renderTree = DEPRECATED_renderMenu,
+    renderTreeIcon,
+    renderTreeNode,
+    renderExtraFooter,
     ...rest
   } = props;
 
@@ -270,7 +272,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         onKeyDown={onPickerKeydown}
         target={trigger}
       >
-        {renderMenu ? renderMenu(tree) : tree}
+        {renderTree ? renderTree(tree) : tree}
         {renderExtraFooter?.()}
       </PickerPopup>
     );

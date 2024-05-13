@@ -247,13 +247,6 @@ export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends St
   searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
 
   /**
-   * Custom render function for the menu list.
-   * @param menu - The menu to be rendered.
-   * @returns The rendered menu.
-   */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /**
    * Callback function called after the value has been changed.
    * @param value - The new value.
    * @param event - The event object.
@@ -278,6 +271,13 @@ export interface TreeExtraProps<T = TreeNode> {
    * @returns The children of the active node.
    */
   getChildren?: (activeNode: T) => T[] | Promise<T[]>;
+
+  /**
+   * Custom render function for the tree.
+   * @param menu - The menu to be rendered.
+   * @returns The rendered tree.
+   */
+  renderTree?: (menu: React.ReactNode) => React.ReactNode;
 
   /**
    * Custom render function for tree nodes.
