@@ -46,6 +46,7 @@ import {
   onMenuKeyDown
 } from '../internals/Picker';
 import { OverlayCloseCause } from '../internals/Overlay/OverlayTrigger';
+import Input from '../Input';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import { splitRanges, deprecatedPropTypes, getRestProps } from './utils';
@@ -173,6 +174,11 @@ export interface DatePickerProps
   onClean?: (event: React.MouseEvent) => void;
 
   /**
+   * Custom rendering of the selected date.
+   */
+  renderValue?: (value: Date, format: string) => string;
+
+  /**
    * Custom rendering calendar cell content.
    *
    * @version 5.54.0
@@ -196,7 +202,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       editable = true,
       defaultValue,
       disabled,
-      readOnly,
+      readOnly: readOnly,
       plaintext,
       // todo Not consistent with locale.formatDayPattern
       format: formatStr = 'yyyy-MM-dd',
@@ -237,6 +243,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleTimeDropdown,
       onShortcutClick,
       renderCell,
+      renderValue,
       disabledDate: DEPRECATED_disabledDate,
       disabledHours: DEPRECATED_disabledHours,
       disabledMinutes: DEPRECATED_disabledMinutes,
@@ -613,6 +620,21 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
     const invalidValue = value && isErrorValue(value);
 
+    // Custom rendering of the selected value
+    let customValue: string | null = null;
+
+    // Input box is read-only when the component is uneditable or loading state
+    let inputReadOnly: boolean = readOnly || !editable || loading || false;
+
+    if (typeof renderValue === 'function' && value) {
+      customValue = renderValue(value, formatStr);
+
+      // If the custom rendering value, the input box is read-only
+      inputReadOnly = true;
+    }
+
+    const TargetInput = customValue ? Input : DateInput;
+
     return (
       <PickerToggleTrigger
         trigger="active"
@@ -641,22 +663,22 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               <PickerLabel className={prefix`label`} id={`${id}-label`}>
                 {label}
               </PickerLabel>
-              <DateInput
+              <TargetInput
                 aria-haspopup="dialog"
                 aria-invalid={invalidValue}
                 aria-labelledby={label ? `${id}-label` : undefined}
                 {...(ariaProps as any)}
                 ref={target}
                 id={id}
-                value={value}
+                value={customValue || value}
                 format={formatStr}
                 placeholder={placeholder ? placeholder : formatStr}
                 disabled={disabled}
                 onChange={handleInputChange}
-                readOnly={readOnly || !editable || loading}
-                plaintext={plaintext}
+                readOnly={inputReadOnly}
                 onKeyDown={handleInputKeyDown}
               />
+
               <PickerIndicator
                 loading={loading}
                 caretAs={caretAs}

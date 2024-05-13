@@ -100,6 +100,10 @@ Clicking "Prev Day" in the example does not close the picker layer because the `
 
 <!--{include:`render-cell.md`}-->
 
+### Custom render value
+
+<!--{include:`render-value.md`}-->
+
 ### Native pickers
 
 If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
@@ -128,67 +132,66 @@ Has keyboard interaction for the DateInput component by default.
 
 ### `<DatePicker>`
 
-<!-- prettier-sort-markdown-table -->
-
-| Property              | Type`(default)`                                                 | Description                                                                                                                         |
-| --------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| appearance            | 'default' \| 'subtle' `('default')`                             | Set picker appearence                                                                                                               |
-| block                 | boolean                                                         | Blocking an entire row                                                                                                              |
-| calendarDefaultDate   | Date                                                            | Calendar panel default presentation date and time                                                                                   |
-| caretAs               | ElementType                                                     | Custom component for the caret icon                                                                                                 |
-| cleanable             | boolean `(true)`                                                | Whether the selected value can be cleared                                                                                           |
-| container             | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                                                                        |
-| defaultOpen           | boolean                                                         | Default value of open property                                                                                                      |
-| defaultValue          | Date                                                            | Default value                                                                                                                       |
-| disabled              | boolean                                                         | Whether disabled the component                                                                                                      |
-| ~disabledDate~        | (date:Date) => boolean                                          | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                    |
-| ~disabledHours~       | (hour:number, date:Date) => boolean                             | ⚠️`[Deprecated]` Use `shouldDisableHour` instead                                                                                    |
-| ~disabledMinutes~     | (minute:number, date:Date) => boolean                           | ⚠️`[Deprecated]` Use `shouldDisableMinute` instead                                                                                  |
-| ~disabledSeconds~     | (second:number, date:Date) => boolean                           | ⚠️`[Deprecated]` Use `shouldDisableSecond` instead                                                                                  |
-| editable              | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                                                                      |
-| format                | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input                                                                                       |
-| hideHours             | (hour:number, date:Date) => boolean                             | Hidden hours                                                                                                                        |
-| hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                                                                      |
-| hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                                                                      |
-| isoWeek               | boolean                                                         | [ISO 8601 standard](https://en.wikipedia.org/wiki/ISO_week_date), each calendar week begins on Monday and Sunday on the seventh day |
-| label                 | ReactNode                                                       | A label displayed at the beginning of toggle button                                                                                 |
-| limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date                                                    |
-| limitStartYear        | number                                                          | Set the lower limit of the available year relative to the current selection date                                                    |
-| loading               | boolean `(false)`                                               | Whether to display a loading state indicator                                                                                        |
-| locale                | [CalendarLocaleType](/guide/i18n/#calendar)                     | Locale text                                                                                                                         |
-| onChange              | (date: Date) => void                                            | Callback fired when value changed                                                                                                   |
-| onChangeCalendarDate  | (date: Date, event) => void                                     | Callback function that changes the calendar date.                                                                                   |
-| onClean               | (event) => void                                                 | Callback fired when value clean                                                                                                     |
-| onClose               | () => void                                                      | Callback fired when close component                                                                                                 |
-| onEnter               | () => void                                                      | Callback fired before the overlay transitions in                                                                                    |
-| onEntered             | () => void                                                      | Callback fired after the overlay finishes transitioning in                                                                          |
-| onEntering            | () => void                                                      | Callback fired as the overlay begins to transition in                                                                               |
-| oneTap                | boolean                                                         | One click to complete the selection date                                                                                            |
-| onExit                | () => void                                                      | Callback fired right before the overlay transitions out                                                                             |
-| onExited              | () => void                                                      | Callback fired after the overlay finishes transitioning out                                                                         |
-| onExiting             | () => void                                                      | Callback fired as the overlay begins to transition out                                                                              |
-| onNextMonth           | (date: Date) => void                                            | Switch to the callback function for the next Month                                                                                  |
-| onOk                  | (date: Date, event) => void                                     | Click the OK callback function                                                                                                      |
-| onOpen                | () => void                                                      | Callback fired when open component                                                                                                  |
-| onPrevMonth           | (date: Date) => void                                            | Switch to the callback function for the previous Month                                                                              |
-| onSelect              | (date: Date) => void                                            | Callback fired when date or time is selected                                                                                        |
-| onShortcutClick       | (shortcut: Range, event) => void                                | Callback fired when shortcut clicked                                                                                                |
-| onToggleMonthDropdown | (open: boolean) => void                                         | Callback function that switches to the month view                                                                                   |
-| onToggleTimeDropdown  | (open: boolean) => void                                         | Callback function that switches to the time view                                                                                    |
-| open                  | boolean                                                         | Whether open the component                                                                                                          |
-| placeholder           | string                                                          | Placeholder                                                                                                                         |
-| placement             | [Placement](#code-ts-placement-code) `('bottomStart')`          | The placement of component                                                                                                          |
-| preventOverflow       | boolean                                                         | Prevent floating element overflow                                                                                                   |
-| ranges                | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | Shortcut config                                                                                                                     |
-| renderCell            | (date: Date) => ReactNode                                       | Custom calendar cell rendering <br/>![](https://img.shields.io/badge/min-v5.54.0-blue)                                              |
-| shouldDisableDate     | (date:Date) => boolean                                          | Disabled date                                                                                                                       |
-| shouldDisableHour     | (hour:number, date:Date) => boolean                             | Disabled hours                                                                                                                      |
-| shouldDisableMinute   | (minute:number, date:Date) => boolean                           | Disabled minutes                                                                                                                    |
-| shouldDisableSecond   | (second:number, date:Date) => boolean                           | Disabled seconds                                                                                                                    |
-| showMeridian          | boolean                                                         | Display hours in 12 format                                                                                                          |
-| showWeekNumbers       | boolean                                                         | Whether to show week numbers                                                                                                        |
-| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | A picker can have different sizes                                                                                                   |
-| value                 | Date                                                            | Value (Controlled)                                                                                                                  |
+| Property              | Type`(default)`                                                 | Description                                                                                      |
+| --------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| appearance            | 'default' \| 'subtle' `('default')`                             | Set picker appearence                                                                            |
+| block                 | boolean                                                         | Blocking an entire row                                                                           |
+| calendarDefaultDate   | Date                                                            | Calendar panel default presentation date and time                                                |
+| caretAs               | ElementType                                                     | Custom component for the caret icon                                                              |
+| cleanable             | boolean `(true)`                                                | Whether the selected value can be cleared                                                        |
+| container             | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                                     |
+| defaultOpen           | boolean                                                         | Default value of open property                                                                   |
+| defaultValue          | Date                                                            | Default value                                                                                    |
+| disabled              | boolean                                                         | Whether disabled the component                                                                   |
+| ~disabledDate~        | (date:Date) => boolean                                          | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                 |
+| ~disabledHours~       | (hour:number, date:Date) => boolean                             | ⚠️`[Deprecated]` Use `shouldDisableHour` instead                                                 |
+| ~disabledMinutes~     | (minute:number, date:Date) => boolean                           | ⚠️`[Deprecated]` Use `shouldDisableMinute` instead                                               |
+| ~disabledSeconds~     | (second:number, date:Date) => boolean                           | ⚠️`[Deprecated]` Use `shouldDisableSecond` instead                                               |
+| editable              | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                                   |
+| format                | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input                                                    |
+| hideHours             | (hour:number, date:Date) => boolean                             | Hidden hours                                                                                     |
+| hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                                   |
+| hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                                   |
+| isoWeek               | boolean                                                         | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day |
+| label                 | ReactNode                                                       | A label displayed at the beginning of toggle button                                              |
+| limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date                 |
+| limitStartYear        | number                                                          | Set the lower limit of the available year relative to the current selection date                 |
+| loading               | boolean `(false)`                                               | Whether to display a loading state indicator                                                     |
+| locale                | [CalendarLocaleType](/guide/i18n/#calendar)                     | Locale text                                                                                      |
+| onChange              | (date: Date) => void                                            | Callback fired when value changed                                                                |
+| onChangeCalendarDate  | (date: Date, event) => void                                     | Callback function that changes the calendar date.                                                |
+| onClean               | (event) => void                                                 | Callback fired when value clean                                                                  |
+| onClose               | () => void                                                      | Callback fired when close component                                                              |
+| onEnter               | () => void                                                      | Callback fired before the overlay transitions in                                                 |
+| onEntered             | () => void                                                      | Callback fired after the overlay finishes transitioning in                                       |
+| onEntering            | () => void                                                      | Callback fired as the overlay begins to transition in                                            |
+| oneTap                | boolean                                                         | One click to complete the selection date                                                         |
+| onExit                | () => void                                                      | Callback fired right before the overlay transitions out                                          |
+| onExited              | () => void                                                      | Callback fired after the overlay finishes transitioning out                                      |
+| onExiting             | () => void                                                      | Callback fired as the overlay begins to transition out                                           |
+| onNextMonth           | (date: Date) => void                                            | Switch to the callback function for the next Month                                               |
+| onOk                  | (date: Date, event) => void                                     | Click the OK callback function                                                                   |
+| onOpen                | () => void                                                      | Callback fired when open component                                                               |
+| onPrevMonth           | (date: Date) => void                                            | Switch to the callback function for the previous Month                                           |
+| onSelect              | (date: Date) => void                                            | Callback fired when date or time is selected                                                     |
+| onShortcutClick       | (shortcut: Range, event) => void                                | Callback fired when shortcut clicked                                                             |
+| onToggleMonthDropdown | (open: boolean) => void                                         | Callback function that switches to the month view                                                |
+| onToggleTimeDropdown  | (open: boolean) => void                                         | Callback function that switches to the time view                                                 |
+| open                  | boolean                                                         | Whether open the component                                                                       |
+| placeholder           | string                                                          | Placeholder                                                                                      |
+| placement             | [Placement](#code-ts-placement-code) `('bottomStart')`          | The placement of component                                                                       |
+| preventOverflow       | boolean                                                         | Prevent floating element overflow                                                                |
+| ranges                | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | Shortcut config                                                                                  |
+| renderCell            | (date: Date) => ReactNode                                       | Custom calendar cell rendering <br/>![][5.54.0]                                                  |
+| renderValue           | (date: Date, format: string) => string                          | Custom render value                                                                              |
+| shouldDisableDate     | (date:Date) => boolean                                          | Disabled date                                                                                    |
+| shouldDisableHour     | (hour:number, date:Date) => boolean                             | Disabled hours                                                                                   |
+| shouldDisableMinute   | (minute:number, date:Date) => boolean                           | Disabled minutes                                                                                 |
+| shouldDisableSecond   | (second:number, date:Date) => boolean                           | Disabled seconds                                                                                 |
+| showMeridian          | boolean                                                         | Display hours in 12 format                                                                       |
+| showWeekNumbers       | boolean                                                         | Whether to show week numbers                                                                     |
+| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | A picker can have different sizes                                                                |
+| value                 | Date                                                            | Value (Controlled)                                                                               |
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->
@@ -211,3 +214,6 @@ const Ranges = [
   }
 ];
 ```
+
+[ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
+[5.54.0]: https://img.shields.io/badge/min-v5.54.0-blue

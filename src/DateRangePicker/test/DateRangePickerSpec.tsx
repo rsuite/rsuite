@@ -107,6 +107,19 @@ describe('DateRangePicker', () => {
     expect(screen.getByRole('textbox')).to.have.value('11/11/2019 01:00:00 ~ 11/12/2019 01:00:00');
   });
 
+  it('Should render a custom value', () => {
+    render(
+      <DateRangePicker
+        defaultValue={[new Date('2024-05-13'), new Date('2024-05-14')]}
+        renderValue={([start, end]) => {
+          return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
+        }}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May ~ Tue, 14 May');
+  });
+
   it('Should select date time successfully', () => {
     const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)] as [
       Date,
