@@ -32,7 +32,7 @@
 
 <!--{include:`searchable.md`}-->
 
-### Custom Option
+### Custom options
 
 <!--{include:`custom.md`}-->
 

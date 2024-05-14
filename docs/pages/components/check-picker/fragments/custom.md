@@ -2,49 +2,69 @@
 
 ```js
 import { CheckPicker } from 'rsuite';
+import { FaUserGroup, FaUser } from 'react-icons/fa6';
+import { mockUsers } from './mock';
 
-const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-  item => ({
-    label: item,
-    value: item,
-    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+/**
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
+ */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
   })
-);
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
 const App = () => (
   <CheckPicker
-    data={data}
-    groupBy="role"
-    placeholder="Select User"
     block
-    renderMenuItem={(label, item) => {
-      return (
-        <div>
-          <i className="rs-icon rs-icon-user" /> {label}
-        </div>
-      );
-    }}
-    renderMenuGroup={(label, item) => {
-      return (
-        <div>
-          <i className="rs-icon rs-icon-group" /> {label} - ({item.children.length})
-        </div>
-      );
-    }}
-    renderValue={(value, items) => {
-      return (
-        <span>
-          <span style={{ color: '#575757' }}>
-            <i className="rs-icon rs-icon-user" /> Users :
-          </span>{' '}
-          {value.join(' , ')}
-        </span>
-      );
-    }}
+    data={data}
+    groupBy="firstLetter"
+    labelKey="firstName"
+    valueKey="name"
+    placeholder="Select User"
+    renderMenuItem={renderMenuItem}
+    renderMenuGroup={renderMenuGroup}
+    renderValue={renderValue}
   />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const renderMenuItem = (label, item) => {
+  return (
+    <Box>
+      <FaUser /> <span>{label}</span>
+    </Box>
+  );
+};
+
+const renderMenuGroup = (label, item) => {
+  return (
+    <Box>
+      <FaUserGroup />
+      <span>
+        {label} - ({item.children.length})
+      </span>
+    </Box>
+  );
+};
+
+const renderValue = (value, items) => {
+  return (
+    <Box>
+      <FaUserGroup /> Users: {value.join(' , ')}
+    </Box>
+  );
+};
+
+const Box = ({ children }) => {
+  return <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{children}</div>;
+};
 ```
 
 <!--end-code-->
