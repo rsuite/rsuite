@@ -82,6 +82,17 @@ describe('DatePicker', () => {
     expect(screen.getByRole('textbox')).to.have.value('2017-08-14');
   });
 
+  it('Should render a custom value', () => {
+    render(
+      <DatePicker
+        defaultValue={new Date('2024-05-13')}
+        renderValue={value => format(value, 'EEE, d MMM')}
+      />
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+  });
+
   it('Should open a dialog containing grid view of dates in a month', () => {
     render(<DatePicker defaultOpen defaultValue={new Date('2023-10-01')} />);
     expect(screen.getByRole('dialog')).to.be.visible;

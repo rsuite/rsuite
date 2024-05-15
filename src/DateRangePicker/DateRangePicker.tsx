@@ -62,6 +62,7 @@ import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange
 import { deprecatePropTypeNew, oneOf } from '../internals/propTypes';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
+import Input from '../Input';
 import InputGroup from '../InputGroup';
 import Header from './Header';
 
@@ -165,12 +166,13 @@ export interface DateRangePickerProps
   onClean?: (event: React.MouseEvent) => void;
 
   /**
-   * Custom render value
-   * @deprecated
+   * Custom rendering of the selected date range.
    */
-  renderValue?: (value: DateRange, format: string) => React.ReactNode;
+  renderValue?: (value: DateRange, format: string) => string;
 
-  /** Custom render for calendar title */
+  /**
+   * Custom render for calendar title
+   */
   renderTitle?: (date: Date) => React.ReactNode;
 }
 
@@ -253,6 +255,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     onSelect,
     onShortcutClick,
     renderTitle,
+    renderValue,
     ...restProps
   } = props;
 
@@ -916,6 +919,21 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const showCleanButton = cleanable && hasValue && !readOnly;
   const invalidValue = value && isErrorValue(value);
 
+  // Custom rendering of the selected value
+  let customValue: string | null = null;
+
+  // Input box is read-only when the component is uneditable or loading state
+  let inputReadOnly: boolean = readOnly || !editable || loading || false;
+
+  if (typeof renderValue === 'function' && value) {
+    customValue = renderValue(value, formatStr);
+
+    // If the custom rendering value, the input box is read-only
+    inputReadOnly = true;
+  }
+
+  const TargetInput = customValue ? Input : DateRangeInput;
+
   return (
     <PickerToggleTrigger
       trigger="active"
@@ -947,19 +965,19 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
             <PickerLabel className={prefix`label`} id={`${id}-label`}>
               {label}
             </PickerLabel>
-            <DateRangeInput
+            <TargetInput
               aria-haspopup="dialog"
               aria-invalid={invalidValue}
               aria-labelledby={label ? `${id}-label` : undefined}
               {...(ariaProps as any)}
               ref={target}
               id={id}
-              value={value}
+              value={customValue || value}
               character={character}
               format={formatStr}
               placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
-              readOnly={readOnly || !editable || loading}
+              readOnly={inputReadOnly}
               plaintext={plaintext}
               htmlSize={getInputHtmlSize()}
               onChange={handleInputChange}

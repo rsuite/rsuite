@@ -49,9 +49,4 @@ export interface DeprecatedProps {
    * @deprecated Use {@link shouldDisableSecond} instead
    */
   disabledSeconds?: (second: number, date: Date) => boolean;
-
-  /**
-   * @deprecated
-   */
-  renderValue?: (value: Date, format: string) => string;
 }

@@ -10,6 +10,7 @@ import endOfMonth from 'date-fns/endOfMonth';
 import subDays from 'date-fns/subDays';
 import isAfter from 'date-fns/isAfter';
 import addMonths from 'date-fns/addMonths';
+import format from 'date-fns/format';
 import { BsCalendar2MonthFill } from 'react-icons/bs';
 import {
   FaCalendar,
@@ -32,6 +33,7 @@ export default function Page() {
         DateRangePicker,
         Button,
         Divider,
+        format,
         addDays,
         subDays,
         isAfter,
