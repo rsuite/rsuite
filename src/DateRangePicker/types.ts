@@ -34,3 +34,5 @@ export type DisabledDateFunction = (
    */
   target?: DATERANGE_DISABLED_TARGET
 ) => boolean;
+
+export type SelectedDatesState = [] | [Date] | [Date, Date];
