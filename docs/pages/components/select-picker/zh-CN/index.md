@@ -120,7 +120,7 @@
 | menuClassName      | string                                                                                         | 应用于菜单 DOM 节点的 css class      |
 | menuStyle          | CSSProperties                                                                                  | 应用于菜单 DOM 节点的 style          |
 | onChange           | (value: [ValueType][value], event) => void                                                     | `value` 发生改变时的回调函数         |
-| onClean            | (event) => void                                                                                | 值清理时触发回调                     |
+| onClean            | (event) => void                                                                                | 清空值时触发回调                     |
 | onClose            | () => void                                                                                     | 关闭回调函数                         |
 | onEnter            | () => void                                                                                     | 显示前动画过渡的回调函数             |
 | onEntered          | () => void                                                                                     | 显示后动画过渡的回调函数             |

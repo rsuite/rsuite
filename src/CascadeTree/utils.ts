@@ -1,6 +1,3 @@
-import { ItemDataType } from '../@types/common';
-import { getSafeRegExpString } from '../utils';
-
 type GetColumnsAndPathsOptions<T> = {
   getParent: (item: T) => T | undefined;
   getChildren: (item: T) => readonly T[] | undefined;
@@ -49,30 +46,4 @@ export function getColumnsAndPaths<T extends Record<string, unknown>>(
   columns.unshift(items);
 
   return { columns, path };
-}
-
-/**
- * Highlight the search keyword in the label
- */
-export function highlightLabel<T>(props: {
-  item: ItemDataType<T>;
-  labelKey: string;
-  searchKeyword: string;
-  render: (patch: React.ReactNode, index: number) => React.ReactNode;
-}) {
-  const { item, searchKeyword, labelKey, render } = props;
-  const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
-  const labelElements: React.ReactNode[] = [];
-
-  const strArr = item[labelKey].split(regx);
-  const highStrArr = item[labelKey].match(regx);
-
-  for (let i = 0; i < strArr.length; i++) {
-    labelElements.push(strArr[i]);
-    if (highStrArr?.[i]) {
-      labelElements.push(render(highStrArr[i], i));
-    }
-  }
-
-  return labelElements;
 }

@@ -14,7 +14,7 @@ describe('CheckTreePicker styles', () => {
 
     expect(screen.getByRole('tree').querySelector('.rs-checkbox-checker label')).to.have.style(
       'padding',
-      '1px 0px 1px 42px'
+      '2px 2px 2px 38px'
     );
   });
 
@@ -23,7 +23,7 @@ describe('CheckTreePicker styles', () => {
 
     expect(screen.getByRole('tree').querySelector('.rs-checkbox-checker label')).to.have.style(
       'padding',
-      '1px 0px 1px 42px'
+      '2px 2px 2px 38px'
     );
   });
 
@@ -41,7 +41,7 @@ describe('CheckTreePicker styles', () => {
 
     expect(screen.getByRole('tree').querySelector('.rs-checkbox-checker label')).to.have.style(
       'padding',
-      '1px 0px 1px 42px'
+      '2px'
     );
   });
 });

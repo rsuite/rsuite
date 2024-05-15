@@ -9,6 +9,8 @@ import {
 import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
 import { useCustom } from '../../utils';
 
+export const defaultItemSize = () => 36;
+
 export interface ListProps<T = any> extends WithAsProps {
   /**
    * @deprecated use itemSize instead

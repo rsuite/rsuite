@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { UNSAFE_flattenTree } from '../../utils/treeUtils';
+import { UNSAFE_flattenTree } from '../../Tree/utils';
 import { attachParent } from '../../utils/attachParent';
 import { ItemKeys } from '../types';
 

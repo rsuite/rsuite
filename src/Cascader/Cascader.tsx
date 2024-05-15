@@ -8,7 +8,8 @@ import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
 import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
-import { getParentMap, findNodeOfTree, flattenTree } from '../utils/treeUtils';
+import { flattenTree } from '../Tree/utils';
+import { findNodeOfTree, getParentMap } from '../internals/Tree/utils';
 import { deprecatePropTypeNew } from '../internals/propTypes';
 import { PickerLocale } from '../locales';
 import {

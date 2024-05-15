@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
-import { getParentMap, flattenTree } from '../utils/treeUtils';
+import { getParentMap } from '../internals/Tree/utils';
+import { flattenTree } from '../Tree/utils';
 import { type SelectNode } from './types';
 import { useControlled, useClassNames, useEventCallback } from '../utils';
 import { ItemDataType, DataItemValue } from '../@types/common';

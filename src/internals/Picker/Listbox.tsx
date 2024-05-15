@@ -21,7 +21,7 @@ import shallowEqual from '../../utils/shallowEqual';
 import { mergeRefs, useClassNames, useMount, useEventCallback } from '../../utils';
 import ListItemGroup from './ListItemGroup';
 import { KEY_GROUP_TITLE } from '../../utils/getDataGroupBy';
-import { StandardProps, ItemDataType, Offset } from '../../@types/common';
+import { StandardProps, ItemDataType, Offset, DataProps } from '../../@types/common';
 import useCombobox from './hooks/useCombobox';
 import { RSUITE_PICKER_GROUP_KEY } from '../../internals/symbols';
 
@@ -31,17 +31,15 @@ interface InnerItemDataType extends ItemDataType {
 
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
+    Partial<DataProps<InnerItemDataType>>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   classPrefix: string;
-  data?: InnerItemDataType[];
   group?: boolean;
   groupBy?: string;
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
-  valueKey?: string;
-  labelKey?: string;
   className?: string;
   style?: React.CSSProperties;
   listItemAs: React.ElementType | string;

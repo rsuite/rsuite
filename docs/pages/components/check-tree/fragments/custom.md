@@ -4,6 +4,12 @@
 import { CheckTree } from 'rsuite';
 import PageIcon from '@rsuite/icons/Page';
 import { mockTreeData } from './mock';
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+  MdFilePresent,
+  MdFolder
+} from 'react-icons/md';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -13,16 +19,31 @@ const data = mockTreeData({
   }
 });
 
+const TreeNode = ({ children, ...rest }) => {
+  return (
+    <div {...rest} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      {children}
+    </div>
+  );
+};
+
 const App = () => (
   <CheckTree
     data={data}
     defaultExpandAll
-    renderTreeNode={nodeData => {
+    renderTreeNode={treeNode => {
       return (
-        <span>
-          <PageIcon /> {nodeData.label}
-        </span>
+        <TreeNode>
+          {treeNode.children ? <MdFolder /> : <MdFilePresent />}
+          {treeNode.label}
+        </TreeNode>
       );
+    }}
+    renderTreeIcon={(treeNode, expanded) => {
+      if (treeNode.children) {
+        return expanded ? <MdOutlineKeyboardArrowDown /> : <MdOutlineKeyboardArrowRight />;
+      }
+      return null;
     }}
   />
 );

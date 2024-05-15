@@ -9,6 +9,14 @@ import { mockAsyncData } from './mock';
 const [getNodes, fetchNodes] = mockAsyncData();
 const data = getNodes(5);
 
+const TreeNode = ({ children, ...rest }) => {
+  return (
+    <div {...rest} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      {children}
+    </div>
+  );
+};
+
 const App = () => {
   const [value, setValue] = React.useState([]);
 
@@ -21,9 +29,9 @@ const App = () => {
       getChildren={fetchNodes}
       renderTreeNode={node => {
         return (
-          <>
+          <TreeNode>
             {node.children ? <FolderFillIcon /> : <PageIcon />} {node.label}
-          </>
+          </TreeNode>
         );
       }}
     />

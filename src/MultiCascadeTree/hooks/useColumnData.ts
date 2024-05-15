@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import slice from 'lodash/slice';
-import { UNSAFE_flattenTree } from '../../utils/treeUtils';
+import { UNSAFE_flattenTree } from '../../Tree/utils';
 
 type MayHasParent<T extends Record<string, unknown>> = T & {
   parent?: MayHasParent<T>;

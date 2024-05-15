@@ -92,7 +92,7 @@
 | menuMaxHeight             | number `(320)`                                                                    | 设置 Dropdown 的最大高度                   |
 | menuStyle                 | CSSProperties                                                                     | 应用于菜单 DOM 节点的 style                |
 | onChange                  | (value:string, event) => void                                                     | `value` 发生改变时的回调函数               |
-| onClean                   | (event:SyntheticEvent) => void                                                    | 值清理时触发回调                           |
+| onClean                   | (event:SyntheticEvent) => void                                                    | 清空值时触发回调                           |
 | onClose                   | () => void                                                                        | 关闭回调函数                               |
 | onCreate                  | (value: string, item: [ItemDataType][item], event) => void                        | 在设置 `creatable`，创建新选项后的回调函数 |
 | onEnter                   | () => void                                                                        | 显示前动画过渡的回调函数                   |

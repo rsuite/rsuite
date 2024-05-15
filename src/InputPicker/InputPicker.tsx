@@ -9,7 +9,7 @@ import isArray from 'lodash/isArray';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import shallowEqual from '../utils/shallowEqual';
-import { filterNodesOfTree } from '../utils/treeUtils';
+import { filterNodesOfTree } from '../internals/Tree/utils';
 import Plaintext, { type PlaintextProps } from '../internals/Plaintext';
 import {
   createChainedFunction,

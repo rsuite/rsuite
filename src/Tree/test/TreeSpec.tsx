@@ -1,12 +1,11 @@
 /* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import sinon from 'sinon';
-import Tree from '../Tree';
-import { PickerHandle } from '../../internals/Picker';
-import { ListHandle } from '../../internals/Windowing';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
+import Tree from '../Tree';
+import { ListHandle } from '../../internals/Windowing';
 import { testStandardProps } from '@test/utils';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
@@ -15,9 +14,29 @@ describe('Tree', () => {
   testStandardProps(<Tree data={data} />);
 
   it('Should render a tree', () => {
-    render(<Tree data={data} />);
+    const { container } = render(<Tree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.class('rs-tree');
+    expect(container.firstChild).to.have.class('rs-tree');
+    expect(screen.getByRole('tree')).to.exist;
+  });
+
+  it('Should set a height for the Tree', () => {
+    const { rerender } = render(<Tree data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+
+    rerender(<Tree data={data} height={100} />);
+
+    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+  });
+
+  it('Should set a height for the Tree with virtualized', () => {
+    render(<Tree data={data} virtualized height={100} />);
+
+    expect(screen.getByRole('tree').querySelector('.rs-tree-virt-list')).to.have.style(
+      'height',
+      '100px'
+    );
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
@@ -27,9 +46,7 @@ describe('Tree', () => {
       <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
     );
 
-    // TODO-Doma
-    // Use `treeitem` role
-    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+    userEvent.click(screen.getByRole('treeitem', { name: 'tester2' }));
 
     expect(onSelectItem).to.have.been.calledWithMatch({ value: 'tester2' }, [
       sinon.match({ value: 'Master' }),
@@ -38,130 +55,311 @@ describe('Tree', () => {
     ]);
   });
 
-  it('Should call `onDragStart` callback', () => {
-    const onDragStart = sinon.spy();
-    render(<Tree data={data} onDragStart={onDragStart} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
+  it('Should call `onSelect` callback', () => {
+    const onSelect = sinon.spy();
 
-    fireEvent.dragStart(treeNode);
+    render(<Tree data={data} onSelect={onSelect} />);
 
-    expect(onDragStart).to.have.calledOnce;
-    expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
-    expect(treeNode.querySelector('.rs-tree-node-dragging')).to.exist;
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'Master' }));
   });
 
-  it('Should call `onDragEnter` callback', () => {
-    const onDragEnter = sinon.spy();
-    render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
+  it('Should not call `onSelect` callback when the item is disabled', () => {
+    const onSelect = sinon.spy();
 
-    fireEvent.dragEnter(treeNode);
-    assert.isTrue(onDragEnter.calledOnce);
-    assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
+    render(<Tree data={data} onSelect={onSelect} disabledItemValues={['Master']} />);
 
-    expect(onDragEnter).to.have.calledOnce;
-    expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
-  });
+    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-  it('Should call `onDragOver` callback', () => {
-    const onDragOver = sinon.spy();
-    render(<Tree data={data} onDragOver={onDragOver} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragOver(treeNode);
-
-    expect(onDragOver).to.have.calledOnce;
-    expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should call `onDragLeave` callback', () => {
-    const onDragLeave = sinon.spy();
-    render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragLeave(treeNode);
-
-    expect(onDragLeave).to.have.calledOnce;
-    expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should call `onDragEnd` callback', () => {
-    const onDragEnd = sinon.spy();
-    render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
-    const treeNode = screen.getAllByRole('treeitem')[0];
-
-    fireEvent.dragEnd(treeNode);
-
-    expect(onDragEnd).to.have.calledOnce;
-    expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
-  });
-
-  it('Should display drag Preview when dragging, and remove after drop', () => {
-    render(<Tree data={data} draggable />);
-    const treeNode = screen.getByText('tester1') as HTMLElement;
-    fireEvent.dragStart(treeNode);
-
-    expect(document.querySelector('.rs-tree-drag-preview')).to.have.text('tester1');
-
-    fireEvent.drop(treeNode);
-
-    expect(document.querySelector('.rs-tree-drag-preview')).to.be.a('null');
-  });
-
-  it('Should call `onDrop` callback without exception', () => {
-    expect(() => {
-      const onDropSpy = sinon.spy();
-      render(<Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />);
-      const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
-      const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
-
-      fireEvent.dragStart(dragTreeNode);
-      fireEvent.drop(dropTreeNode);
-      assert.isTrue(onDropSpy.calledOnce);
-      const { dragNode } = onDropSpy.firstCall.firstArg;
-      // make sure dragNode hasn't cyclic object
-      JSON.stringify(dragNode);
-    }).to.not.throw();
-  });
-
-  it('Should catch the not set virtualized exception', () => {
-    expect(() => {
-      const ref = React.createRef<PickerHandle>();
-      // FIXME `ref` should be type Ref<PickerHandle>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      render(<Tree data={data} ref={ref} />);
-      (ref.current as PickerHandle).list;
-    }).to.throw('The list is not found, please set `virtualized` for the component.');
+    expect(onSelect).to.not.have.been.called;
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
     const onScroll = sinon.spy();
-    const ref = React.createRef<PickerHandle>();
+    const ref = React.createRef<ListHandle>();
     render(
-      <Tree
-        data={data}
-        // FIXME `ref` should be type Ref<PickerHandle>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        ref={ref}
-        virtualized
-        style={{ height: 30 }}
-        listProps={{ onScroll }}
-      />
+      <Tree data={data} listRef={ref} virtualized style={{ height: 30 }} listProps={{ onScroll }} />
     );
-    ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
-
+    ref.current?.scrollToItem?.(2);
     expect(onScroll).to.have.calledOnce;
   });
 
   it('Should show indent line', () => {
     render(<Tree data={data} showIndentLine />);
 
-    const lines = screen.getByRole('tree').querySelectorAll('.rs-tree-indent-line');
+    expect(screen.queryAllByTestId('indent-line')).to.have.length(2);
+  });
 
-    expect(lines).to.have.length(2);
-    expect(lines[0]).to.have.style('left', '44px');
-    expect(lines[1]).to.have.style('left', '28px');
+  it('Should async load children nodes', async () => {
+    const data = [
+      {
+        label: 'Master',
+        value: 'Master'
+      },
+      {
+        label: 'async',
+        value: 'async',
+        children: []
+      }
+    ];
+
+    const fetchNodes = () => {
+      return new Promise<any>(resolve => {
+        setTimeout(() => resolve([{ label: 'children1', value: 'children1' }]), 500);
+      });
+    };
+
+    render(<Tree data={data} defaultExpandAll getChildren={fetchNodes} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+    await waitFor(() => {
+      expect(screen.getByRole('treeitem', { name: 'children1' })).to.exist;
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+        'aria-busy'
+      );
+    });
+  });
+
+  describe('Searchable', () => {
+    it('Should call `onSearch` callback', () => {
+      const onSearch = sinon.spy();
+      render(<Tree data={data} onSearch={onSearch} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'tester');
+
+      expect(onSearch).to.have.been.calledWith('tester');
+    });
+
+    it('Should filter the tree when searching', () => {
+      render(<Tree data={data} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'tester0');
+
+      expect(screen.queryByRole('treeitem', { name: 'tester0' })).to.exist;
+      expect(screen.queryByRole('treeitem', { name: 'tester1' })).to.not.exist;
+      expect(screen.queryByRole('treeitem', { name: 'tester2' })).to.not.exist;
+    });
+
+    it('Should show the empty message when no search results are found', () => {
+      render(<Tree data={data} searchable />);
+      const input = screen.getByRole('searchbox');
+
+      userEvent.type(input, 'No');
+
+      expect(screen.getByText('No results found')).to.exist;
+    });
+  });
+
+  describe('Draggable', () => {
+    it('Should render draggable tree nodes', () => {
+      render(<Tree data={data} draggable />);
+
+      screen.getAllByRole('treeitem').forEach(treeNode => {
+        expect(treeNode).to.have.attribute('draggable', 'true');
+      });
+    });
+
+    it('Should call `onDragStart` callback', () => {
+      const onDragStart = sinon.spy();
+      render(<Tree data={data} onDragStart={onDragStart} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragStart(treeNode);
+
+      expect(onDragStart).to.have.calledOnce;
+      expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
+
+      expect(treeNode).to.have.contain('.rs-tree-node-dragging');
+    });
+
+    it('Should call `onDragEnter` callback', () => {
+      const onDragEnter = sinon.spy();
+      render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragEnter(treeNode);
+      assert.isTrue(onDragEnter.calledOnce);
+      assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
+
+      expect(onDragEnter).to.have.calledOnce;
+      expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragOver` callback', () => {
+      const onDragOver = sinon.spy();
+      render(<Tree data={data} onDragOver={onDragOver} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragOver(treeNode);
+
+      expect(onDragOver).to.have.calledOnce;
+      expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragLeave` callback', () => {
+      const onDragLeave = sinon.spy();
+      render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragLeave(treeNode);
+
+      expect(onDragLeave).to.have.calledOnce;
+      expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should call `onDragEnd` callback', () => {
+      const onDragEnd = sinon.spy();
+      render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
+      const treeNode = screen.getAllByRole('treeitem')[0];
+
+      fireEvent.dragEnd(treeNode);
+
+      expect(onDragEnd).to.have.calledOnce;
+      expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
+    });
+
+    it('Should display drag Preview when dragging, and remove after drop', () => {
+      render(<Tree data={data} draggable />);
+      const treeNode = screen.getByText('tester1') as HTMLElement;
+      fireEvent.dragStart(treeNode);
+
+      expect(screen.getByTestId('drag-preview')).to.have.text('tester1');
+
+      fireEvent.drop(treeNode);
+
+      expect(screen.queryByTestId('drag-preview')).to.not.exist;
+    });
+
+    it('Should call `onDrop` callback without exception', () => {
+      expect(() => {
+        const onDrop = sinon.spy();
+        render(<Tree data={data} onDrop={onDrop} draggable defaultExpandAll />);
+        const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
+        const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
+
+        fireEvent.dragStart(dragTreeNode);
+        fireEvent.drop(dropTreeNode);
+
+        expect(onDrop).to.have.calledOnce;
+
+        const { dragNode } = onDrop.firstCall.firstArg;
+
+        // make sure dragNode hasn't cyclic object
+        JSON.stringify(dragNode);
+      }).to.not.throw();
+    });
+  });
+
+  describe('Accessibility - Keyboard interactions', () => {
+    it('Should focus the next item when pressing the down arrow key', () => {
+      render(<Tree data={data} />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+      expect(treeItems[0]).to.have.focus;
+    });
+
+    it('Should focus the previous item when pressing the up arrow key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowUp' });
+      fireEvent.keyDown(tree, { key: 'ArrowUp' });
+
+      expect(treeItems[treeItems.length - 1]).to.have.focus;
+    });
+
+    it('Should expand the item when pressing the right arrow key', () => {
+      render(<Tree data={data} />);
+
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.click(treeItems[0]);
+      fireEvent.keyDown(treeItems[0], { key: 'ArrowRight' });
+
+      expect(treeItems[0]).to.have.attribute('aria-expanded', 'true');
+    });
+
+    it('Should collapse the item when pressing the left arrow key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.click(treeItems[0]);
+      fireEvent.keyDown(treeItems[0], { key: 'ArrowLeft' });
+
+      expect(treeItems[0]).to.have.attribute('aria-expanded', 'false');
+    });
+
+    it('Should select the item when pressing the enter key', () => {
+      render(<Tree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+      fireEvent.keyDown(tree, { key: 'Enter' });
+
+      expect(treeItems[0]).to.have.attribute('aria-selected', 'true');
+    });
+
+    describe('With virtualized', () => {
+      it('Should focus the next item when pressing the down arrow key ', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.class('rs-tree-node-focus');
+      });
+
+      it('Should focus the previous item when pressing the up arrow key ', () => {
+        render(<Tree data={data} defaultExpandAll virtualized />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowUp' });
+        fireEvent.keyDown(tree, { key: 'ArrowUp' });
+
+        const treeItems = screen.getAllByRole('treeitem');
+
+        expect(treeItems[treeItems.length - 1]).to.have.focus;
+      });
+
+      it('Should expand the item when pressing the right arrow key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+
+        fireEvent.click(screen.getAllByRole('treeitem')[0]);
+        fireEvent.keyDown(screen.getAllByRole('treeitem')[0], { key: 'ArrowRight' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-expanded', 'true');
+      });
+
+      it('Should collapse the item when pressing the left arrow key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+
+        fireEvent.click(screen.getAllByRole('treeitem')[0]);
+        fireEvent.keyDown(screen.getAllByRole('treeitem')[0], { key: 'ArrowLeft' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-expanded', 'false');
+      });
+
+      it('Should select the item when pressing the enter key', () => {
+        render(<Tree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+        fireEvent.keyDown(tree, { key: 'Enter' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-selected', 'true');
+      });
+    });
   });
 });

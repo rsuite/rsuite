@@ -1,8 +1,8 @@
 import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
-import { getPathTowardsItem } from '../utils/treeUtils';
-import { highlightLabel } from './utils';
+import { getPathTowardsItem } from '../internals/Tree/utils';
+import { highlightLabel } from '../internals/utils';
 import SearchBox from '../internals/SearchBox';
 
 interface SearchViewProps<T> extends WithAsProps {
@@ -46,16 +46,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     const items = getPathTowardsItem(item, item => parentMap.get(item));
 
     const formattedNodes = items.map(itemData => {
-      const label = highlightLabel<T>({
-        item: itemData,
-        labelKey,
-        searchKeyword,
-        render: (patch: React.ReactNode, index: number) => (
-          <span key={index} className={prefix('match')}>
-            {patch}
-          </span>
-        )
-      });
+      const label = highlightLabel(itemData[labelKey], { searchKeyword });
 
       return { ...itemData, [labelKey]: label };
     });
