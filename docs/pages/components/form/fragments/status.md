@@ -20,7 +20,8 @@ import {
   MultiCascader,
   Rate,
   Uploader,
-  Panel
+  Panel,
+  Toggle
 } from 'rsuite';
 
 import { mockTreeData } from './mock';
@@ -46,7 +47,8 @@ const defaultFormValue = {
   inputPicker: '',
   cascader: '',
   multiCascader: [],
-  rate: 0
+  rate: 0,
+  enable: false
 };
 
 const initFormValue = {
@@ -182,6 +184,16 @@ const App = () => {
         <Form.Group controlId="uploader">
           <Form.ControlLabel>Uploader:</Form.ControlLabel>
           <Form.Control name="uploader" accepter={Uploader} action="#" />
+        </Form.Group>
+
+        <Form.Group controlId="toggle">
+          <Form.ControlLabel>Toggle:</Form.ControlLabel>
+          <Form.Control
+            name="enable"
+            accepter={Toggle}
+            unCheckedChildren="Disabled"
+            checkedChildren="Enabled"
+          />
         </Form.Group>
       </Form>
     </Panel>
