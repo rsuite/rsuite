@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { isAllSiblingNodeUncheckable, getDisabledState, isNodeUncheckable } from '../utils';
-import { highlightLabel } from '../../internals/utils';
 import { useItemDataKeys } from '../../Tree/TreeProvider';
+import Highlight from '../../Highlight';
 import type { TreeNode } from '../../Tree/types';
 
 interface Props {
@@ -28,6 +28,7 @@ function useTreeNodeProps(props: Props) {
     (nodeData: TreeNode) => {
       const { visible, checkState } = nodeData;
       const value = nodeData[valueKey];
+      const nodeLabel = nodeData[labelKey];
       const allUncheckable = isAllSiblingNodeUncheckable(
         nodeData,
         flattenedNodes,
@@ -35,9 +36,13 @@ function useTreeNodeProps(props: Props) {
         valueKey
       );
 
-      const label = keyword
-        ? highlightLabel(nodeData[labelKey], { searchKeyword: keyword })
-        : nodeData[labelKey];
+      const label = keyword ? (
+        <Highlight as="span" query={keyword}>
+          {nodeLabel}
+        </Highlight>
+      ) : (
+        nodeLabel
+      );
 
       const disabled = getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
       const uncheckable = isNodeUncheckable(nodeData, { uncheckableItemValues, valueKey });

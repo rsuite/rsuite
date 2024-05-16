@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
-import isUndefined from 'lodash/isUndefined';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
 import omit from 'lodash/omit';
@@ -326,12 +325,11 @@ const CheckPicker = React.forwardRef(
             activeItemValues={value}
             focusItemValue={focusItemValue}
             data={[...filteredStickyItems, ...items]}
-            // `group` is redundant so long as `groupBy` exists
-            group={!isUndefined(groupBy)}
             groupBy={groupBy}
             onSelect={handleItemSelect}
             onGroupTitleClick={onGroupTitleClick}
             virtualized={virtualized}
+            query={searchKeyword}
           />
         ) : (
           <div className={prefix`none`}>{locale?.noResultsText}</div>

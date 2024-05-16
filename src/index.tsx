@@ -9,6 +9,9 @@ export type { HeadingProps } from './Heading';
 export { default as HeadingGroup } from './HeadingGroup';
 export type { HeadingGroupProps } from './HeadingGroup';
 
+export { default as Highlight } from './Highlight';
+export type { HighlightProps } from './Highlight';
+
 export { default as SafeAnchor } from './SafeAnchor';
 export type { SafeAnchorProps } from './SafeAnchor';
 
