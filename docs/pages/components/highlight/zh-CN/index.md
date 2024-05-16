@@ -1,6 +1,6 @@
 # Highlight 高亮
 
-高亮匹配的文本内容。
+用于标记或突出显示匹配的文本内容。例如，用于高亮搜索结果。
 
 ## 获取组件
 
@@ -28,9 +28,9 @@
 
 ### `<Highlight>`
 
-| 属性        | 类型`(默认值)`         | 描述                       |
-| ----------- | ---------------------- | -------------------------- |
-| children    | React.Node             | 需要高亮的内容。           |
-| classPrefix | string `('highlight')` | 组件 CSS 类名的前缀。      |
-| query       | string[]               | 需要高亮的单词数组。       |
-| renderMark  | Function               | 自定义高亮标记的渲染函数。 |
+| 属性        | 类型`(默认值)`                              | 描述                       |
+| ----------- | ------------------------------------------- | -------------------------- |
+| children    | ReactNode                                   | 需要高亮的内容。           |
+| classPrefix | string `('highlight')`                      | 组件 CSS 类名的前缀。      |
+| query       | string \| string[]                          | 需要高亮的关键词。         |
+| renderMark  | (match: string, index: number) => ReactNode | 自定义高亮标记的渲染函数。 |

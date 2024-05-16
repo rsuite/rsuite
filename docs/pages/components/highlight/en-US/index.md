@@ -1,6 +1,6 @@
 # Highlight
 
-Highlight the matching text in the content.
+Used to mark or highlight matched text content. For example, used to highlight search results.
 
 ## Import
 
@@ -28,9 +28,9 @@ Highlight the matching text in the content.
 
 ### `<Highlight>`
 
-| Property    | Type`(Default)`        | Description                            |
-| ----------- | ---------------------- | -------------------------------------- |
-| children    | React.Node             | The content to highlight.              |
-| classPrefix | string `('highlight')` | The prefix of the component CSS class. |
-| query       | string[]               | The array of words to highlight.       |
-| renderMark  | Function               | Custom render the highlight mark.      |
+| Property    | Type`(Default)`                             | Description                            |
+| ----------- | ------------------------------------------- | -------------------------------------- |
+| children    | ReactNode                                   | The content to highlight.              |
+| classPrefix | string `('highlight')`                      | The prefix of the component CSS class. |
+| query       | string \| string[]                          | The keyword to highlight.              |
+| renderMark  | (match: string, index: number) => ReactNode | Custom render the highlight mark.      |
