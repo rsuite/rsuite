@@ -1,55 +1,40 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import AutoComplete from '../index';
-import { getStyle, toRGB, inChrome } from '@test/utils';
-
+import { toRGB, inChrome } from '@test/utils';
 import '../styles/index.less';
-import { PickerHandle } from '../../internals/Picker';
 
 describe('AutoComplete styles', () => {
-  it('Input should render the correct styles', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<AutoComplete ref={instanceRef} data={[]} />);
-    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
-      'input'
-    ) as HTMLInputElement;
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'AutoComplete background-color');
-    // @description Can't get border-radius value in other browser except chrome
-    inChrome &&
-      assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'AutoComplete border');
-    assert.equal(getStyle(dom, 'color'), toRGB('#575757'), 'AutoComplete font-color');
-    inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'AutoComplete border-radius');
+  it('Should render the correct styles', () => {
+    render(<AutoComplete data={[]} />);
+
+    expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#fff'));
+    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#575757'));
+    expect(screen.getByRole('combobox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
+    expect(screen.getByRole('combobox')).to.have.style('border-radius', '6px');
   });
 
-  it('Should the correct styles when set `open` and `defaultValue`', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<AutoComplete ref={instanceRef} data={['a', 'b', 'ab']} open defaultValue="a" />);
-    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
-      'input'
-    ) as HTMLInputElement;
-    const unFocusItemDom = document.querySelector(
-      '.rs-auto-complete-item:not(.rs-auto-complete-item-focus)'
-    ) as HTMLElement;
+  it('Should render the correct styles when set `open`', () => {
+    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
 
-    assert.equal(getStyle(dom, 'color'), toRGB('#575757'), 'AutoComplete  focus item font-color');
-    assert.equal(
-      getStyle(unFocusItemDom, 'backgroundColor'),
-      toRGB('#0000'),
-      'AutoComplete unFocus item background-color'
-    );
+    const options = screen.getAllByRole('option');
+
+    // Focused option
+    const focusedBgColor = inChrome
+      ? 'color(srgb 0.8 0.913725 1 / 0.5)'
+      : 'rgba(204, 233, 255, 0.5)';
+    expect(options[0].firstChild).to.have.style('color', toRGB('#1675e0'));
+    expect(options[0].firstChild).to.have.style('background-color', focusedBgColor);
+
+    // Unfocused option
+    expect(options[1].firstChild).to.have.style('color', toRGB('#575757'));
+    expect(options[1].firstChild).to.have.style('background-color', toRGB('#0000'));
   });
 
-  it('Disabled should render the correct styles', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<AutoComplete ref={instanceRef} data={[]} disabled />);
-    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
-      'input'
-    ) as HTMLInputElement;
-    assert.equal(
-      getStyle(dom, 'backgroundColor'),
-      toRGB('#f7f7fa'),
-      'Disabled autoComplete background-color'
-    );
-    assert.equal(getStyle(dom, 'color'), toRGB('#c5c6c7'), 'Disabled autoComplete color');
+  it('Should render the correct styles when set `disabled`', () => {
+    render(<AutoComplete data={[]} disabled />);
+
+    expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#f7f7fa'));
+    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#8e8e93'));
   });
 });
