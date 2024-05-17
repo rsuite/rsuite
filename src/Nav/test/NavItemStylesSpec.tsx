@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Nav from '../index';
 import { toRGB, getDefaultPalette } from '@test/utils';
-
 import '../styles/index.less';
 
 const { H700 } = getDefaultPalette();
@@ -40,7 +39,7 @@ describe('NavItem styles', () => {
 
     const navItemDisabled = screen.getByText('Disabled nav item');
 
-    expect(navItemDisabled).to.have.style('color', toRGB('#c5c6c7'));
+    expect(navItemDisabled).to.have.style('color', toRGB('#8e8e93'));
     expect(navItemDisabled).to.have.style('cursor', 'not-allowed');
   });
 });

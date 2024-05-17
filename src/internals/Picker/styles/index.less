@@ -36,8 +36,17 @@
   }
 
   &-disabled {
-    opacity: @btn-disabled-opacity;
     cursor: not-allowed;
+
+    .rs-picker-toggle-value,
+    .rs-picker-toggle-indicator,
+    .rs-picker-tag-list .rs-tag {
+      color: var(--rs-text-disabled) !important;
+    }
+
+    .rs-picker-value-count{
+      opacity: 0.5;
+    }
   }
 
   &-toggle &-toggle-placeholder {
@@ -411,4 +420,11 @@
       }
     }
   }
+}
+
+.rs-picker-menu-group {
+  background-color: var(--rs-listbox-option-group-bg);
+  position: sticky;
+  top: -1px;
+  z-index: 1;
 }

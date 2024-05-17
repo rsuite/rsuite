@@ -987,6 +987,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               ...calendarOnlyProps
             ])}
             inside
+            disabled={disabled}
             size={size}
           >
             <PickerLabel className={prefix`label`} id={`${id}-label`}>

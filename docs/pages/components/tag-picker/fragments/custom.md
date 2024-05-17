@@ -1,56 +1,70 @@
 <!--start-code-->
 
 ```js
-import { TagPicker, Tag, Checkbox } from 'rsuite';
-import UserIcon from '@rsuite/icons/legacy/User';
-import GroupIcon from '@rsuite/icons/legacy/Group';
+import { TagPicker, Tag } from 'rsuite';
+import { FaUserGroup, FaUser } from 'react-icons/fa6';
+import { mockUsers } from './mock';
 
-const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-  item => ({
-    label: item,
-    value: item,
-    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+/**
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
+ */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
   })
-);
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
 const App = () => (
   <TagPicker
-    data={data}
-    groupBy="role"
-    placeholder="Select User"
     block
-    renderMenuItem={(label, item) => {
-      return (
-        <>
-          <UserIcon /> {label}
-        </>
-      );
-    }}
-    renderMenuItemCheckbox={checkboxProps => {
-      const { value, checked, children, ...restProps } = checkboxProps;
-      return (
-        <Checkbox value={value} checked={checked} {...restProps} indeterminate={checked}>
-          {children}
-        </Checkbox>
-      );
-    }}
-    renderMenuGroup={(label, item) => {
-      return (
-        <>
-          <GroupIcon /> {label} - ({item.children.length})
-        </>
-      );
-    }}
-    renderValue={(values, items, tags) => {
-      return values.map((tag, index) => (
-        <Tag key={index}>
-          <UserIcon /> {tag}
-        </Tag>
-      ));
-    }}
+    data={data}
+    groupBy="firstLetter"
+    labelKey="firstName"
+    valueKey="name"
+    placeholder="Select User"
+    renderMenuItem={renderMenuItem}
+    renderMenuGroup={renderMenuGroup}
+    renderValue={renderValue}
   />
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const renderMenuItem = (label, item) => {
+  return (
+    <Box>
+      <FaUser /> <span>{label}</span>
+    </Box>
+  );
+};
+
+const renderMenuGroup = (label, item) => {
+  return (
+    <Box>
+      <FaUserGroup />
+      <span>
+        {label} - ({item.children.length})
+      </span>
+    </Box>
+  );
+};
+
+const renderValue = (values, items, tags) => {
+  return values.map((tag, index) => (
+    <Tag key={index}>
+      <FaUser /> {tag}
+    </Tag>
+  ));
+};
+
+const Box = ({ children }) => {
+  return <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{children}</div>;
+};
 ```
 
 <!--end-code-->

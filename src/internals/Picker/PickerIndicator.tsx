@@ -10,6 +10,7 @@ interface PickerIndicatorProps {
   caretAs?: React.ElementType | null;
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
   showCleanButton?: boolean;
+  disabled?: boolean;
   as?: React.ElementType;
 }
 
@@ -18,7 +19,8 @@ const PickerIndicator = ({
   caretAs,
   onClose,
   showCleanButton,
-  as: Component = InputGroup.Addon
+  as: Component = InputGroup.Addon,
+  disabled
 }: PickerIndicatorProps) => {
   const { locale } = useCustom();
   const { prefix } = useClassNames('picker');
@@ -27,7 +29,7 @@ const PickerIndicator = ({
     if (loading) {
       return <Loader className={prefix('loader')} data-testid="spinner" />;
     }
-    if (showCleanButton) {
+    if (showCleanButton && !disabled) {
       return (
         <CloseButton
           className={prefix('clean')}
@@ -40,7 +42,9 @@ const PickerIndicator = ({
     return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} />;
   };
 
-  return <Component>{addon()}</Component>;
+  const props = Component === InputGroup.Addon ? { disabled } : undefined;
+
+  return <Component {...props}>{addon()}</Component>;
 };
 
 export default PickerIndicator;

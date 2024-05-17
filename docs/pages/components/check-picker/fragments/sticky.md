@@ -2,20 +2,33 @@
 
 ```js
 import { CheckPicker } from 'rsuite';
+import { mockUsers } from './mock';
 
-const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-  item => ({ label: item, value: item, role: Math.random() > 0.5 ? 'Owner' : 'Guest' })
-);
+/**
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
+ */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
+  })
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
 const App = () => (
   <>
-    <CheckPicker sticky data={data} defaultValue={['Kenya', 'Julius']} style={{ width: 224 }} />
+    <CheckPicker sticky data={data} labelKey="firstName" valueKey="name" style={{ width: 224 }} />
     <hr />
     <CheckPicker
       sticky
       data={data}
-      groupBy="role"
-      defaultValue={['Kenya', 'Julius']}
+      placeholder="Group by first letter"
+      groupBy="firstLetter"
+      labelKey="firstName"
+      valueKey="name"
       style={{ width: 224 }}
     />
   </>
