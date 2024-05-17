@@ -1,3 +1,28 @@
+# [5.61.0](https://github.com/rsuite/rsuite/compare/v5.60.2...v5.61.0) (2024-05-17)
+
+
+### Bug Fixes
+
+* **Steps:** center align inner icon/text ([#3811](https://github.com/rsuite/rsuite/issues/3811)) ([1f284ea](https://github.com/rsuite/rsuite/commit/1f284ea486a019a5f1360a69bb962818b48dbe75))
+* fix the color contrast of form controls in disabled state ([#3809](https://github.com/rsuite/rsuite/issues/3809)) ([211ce5f](https://github.com/rsuite/rsuite/commit/211ce5fe868285d70b59ff944a77b1b86e2bc8b9))
+* **DatePicker, DateRangePicker:** block pointer events when disabled ([#3797](https://github.com/rsuite/rsuite/issues/3797)) ([166fb45](https://github.com/rsuite/rsuite/commit/166fb455a86090e8a7b1c734984f0350aa617af0))
+* **DatePicker,DateRangePicker:** fix the issue that `renderValue` does not work ([#3798](https://github.com/rsuite/rsuite/issues/3798)) ([494c9c6](https://github.com/rsuite/rsuite/commit/494c9c6d052f0384c19144f97a545cf317e58f3b))
+* **DateRangePicker:** fix calendar panel vertical display ([#3806](https://github.com/rsuite/rsuite/issues/3806)) ([0da17e9](https://github.com/rsuite/rsuite/commit/0da17e9dc9f66c7290f5fbf181b9bf2893b3b5ee))
+* **Placeholder.Grid:** fix `active` not working ([#3805](https://github.com/rsuite/rsuite/issues/3805)) ([2e1a4ce](https://github.com/rsuite/rsuite/commit/2e1a4ce523d453074aa3b4ab753dd9ae6f0e696c))
+
+
+### Features
+
+* **Highlight:** add support for Highlight component ([#3810](https://github.com/rsuite/rsuite/issues/3810)) ([876377b](https://github.com/rsuite/rsuite/commit/876377bbcacfbf637f7cd2ef803242f646e5eda6))
+* option group of the picker supports sticking to the top of container ([#3807](https://github.com/rsuite/rsuite/issues/3807)) ([157a2bf](https://github.com/rsuite/rsuite/commit/157a2bfa90334692baad95a80a254dea423f1425))
+
+
+### Performance Improvements
+
+* **DateRangePicker:** improve the performance when typing the date ([#3803](https://github.com/rsuite/rsuite/issues/3803)) ([a384bd0](https://github.com/rsuite/rsuite/commit/a384bd0d1909e588eed87157bab137faa761e937))
+
+
+
 ## [5.60.2](https://github.com/rsuite/rsuite/compare/v5.60.1...v5.60.2) (2024-05-10)
 
 
