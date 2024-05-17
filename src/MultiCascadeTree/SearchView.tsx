@@ -2,8 +2,8 @@ import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
 import SearchBox from '../internals/SearchBox';
-import { highlightLabel } from '../internals/utils';
 import Checkbox from '../Checkbox';
+import Highlight from '../Highlight';
 import { isSomeChildChecked, getNodeParents } from './utils';
 
 interface SearchViewProps<T> extends WithAsProps {
@@ -45,7 +45,11 @@ function SearchView<T>(props: SearchViewProps<T>) {
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const nodes = getNodeParents(item);
-    const label = highlightLabel(item[labelKey], { searchKeyword });
+    const label = (
+      <Highlight as="span" query={searchKeyword}>
+        {item[labelKey]}
+      </Highlight>
+    );
 
     nodes.push({ ...item, [labelKey]: label });
 

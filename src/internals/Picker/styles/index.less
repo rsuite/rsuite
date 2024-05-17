@@ -8,6 +8,7 @@
 @import '../../../Loader/styles/index.less';
 @import '../../../Input/styles/index.less';
 @import '../../../InputGroup/styles/index.less';
+@import '../../../Highlight/styles/index.less';
 @import './mixin.less';
 
 //
@@ -335,6 +336,10 @@
   .rs-search-box {
     padding: (@picker-menu-padding - @border-radius) @picker-menu-padding
       (@picker-menu-padding - @border-radius);
+  }
+
+  .rs-highlight .rs-highlight-mark {
+    padding: 0;
   }
 }
 

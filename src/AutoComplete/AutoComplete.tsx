@@ -254,6 +254,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
           renderMenuItem={renderMenuItem}
           data={items}
           className={menuClassName}
+          query={value}
         />
       );
 

@@ -47,7 +47,7 @@ describe('picker -  Listbox', () => {
       <Listbox
         classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
-        group
+        groupBy="groupKey"
         listItemAs={ListItem}
       />
     );
@@ -59,7 +59,7 @@ describe('picker -  Listbox', () => {
     render(
       <Listbox
         data={items}
-        group
+        groupBy="groupKey"
         classPrefix={classPrefix}
         activeItemValues={['c']}
         listItemAs={ListItem}
@@ -112,7 +112,7 @@ describe('picker -  Listbox', () => {
     render(
       <Listbox
         data={items}
-        group
+        groupBy="groupKey"
         onSelect={onSelect}
         classPrefix={classPrefix}
         listItemAs={ListItem}
@@ -129,7 +129,7 @@ describe('picker -  Listbox', () => {
 
     render(
       <Listbox
-        group
+        groupBy="groupKey"
         data={getDataGroupBy(items, 'groupKey')}
         onGroupTitleClick={onGroupTitleClick}
         classPrefix={classPrefix}
@@ -145,7 +145,7 @@ describe('picker -  Listbox', () => {
   it('Should render custom item', () => {
     render(
       <Listbox
-        group
+        groupBy="groupKey"
         classPrefix={classPrefix}
         data={items}
         renderMenuItem={item => <i>{item}</i>}
@@ -159,7 +159,7 @@ describe('picker -  Listbox', () => {
   it('Should render custom group ', () => {
     render(
       <Listbox
-        group
+        groupBy="groupKey"
         classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
         renderMenuGroup={item => <i>{item}</i>}

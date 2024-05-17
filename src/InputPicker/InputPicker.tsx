@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -620,9 +619,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}
           data={items}
-          // FIXME-Doma
-          // `group` is redundant so long as `groupBy` exists
-          group={!isUndefined(groupBy)}
+          query={searchKeyword}
           groupBy={groupBy}
           onSelect={multi ? handleCheckTag : handleSelectItem}
           renderMenuGroup={renderMenuGroup}

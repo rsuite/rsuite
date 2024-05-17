@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { TREE_NODE_DROP_POSITION, shallowEqual as equal } from '../../utils';
-import { highlightLabel } from '../../internals/utils';
 import { useCombobox } from '../../internals/Picker/hooks';
 import { useItemDataKeys } from '../TreeProvider';
 import { DragStatus } from '../TreeNode';
+import Highlight from '../../Highlight';
 
 interface Props {
   value: any;
@@ -38,11 +38,17 @@ function useTreeNodeProps(props: Props) {
 
       const draggingNode = dragNode ?? {};
       const nodeValue = nodeData[valueKey];
-      const label = keyword
-        ? highlightLabel(nodeData[labelKey], { searchKeyword: keyword })
-        : nodeData[labelKey];
-
+      const nodeLabel = nodeData[labelKey];
       const children = nodeData[childrenKey];
+
+      const label = keyword ? (
+        <Highlight as="span" query={keyword}>
+          {nodeLabel}
+        </Highlight>
+      ) : (
+        nodeLabel
+      );
+
       const dragging = equal(nodeValue, draggingNode[valueKey]);
 
       let dragStatus: DragStatus | undefined;

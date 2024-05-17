@@ -23,42 +23,81 @@ import ListItemGroup from './ListItemGroup';
 import { KEY_GROUP_TITLE } from '../../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset, DataProps } from '../../@types/common';
 import useCombobox from './hooks/useCombobox';
+import Highlight from '../../Highlight';
 import { RSUITE_PICKER_GROUP_KEY } from '../../internals/symbols';
 
 interface InnerItemDataType extends ItemDataType {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
 
+/**
+ * Props for the Listbox component.
+ */
+/**
+ * Props for the Listbox component.
+ * @template Multiple - Whether multiple selection is enabled.
+ */
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
     Partial<DataProps<InnerItemDataType>>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
-  classPrefix: string;
-  group?: boolean;
   groupBy?: string;
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
-  className?: string;
-  style?: React.CSSProperties;
+
   listItemAs: React.ElementType | string;
   listItemClassPrefix?: string;
   listItemProps?: any;
   rowHeight?: number;
+  /** */
   rowGroupHeight?: number;
+  /** */
   virtualized?: boolean;
+  /** */
   listProps?: Partial<ListProps>;
+  /** */
   listRef?: React.Ref<ListHandle>;
 
-  /** Custom selected option */
+  /**
+   * Query string for filtering.
+   */
+  query?: string;
+
+  /**
+   * Custom function to render a selected option.
+   * @param itemLabel - The label of the item.
+   * @param item - The selected item.
+   * @returns The rendered React node.
+   */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+
+  /**
+   * Custom function to render a menu group.
+   * @param title - The title of the group.
+   * @param item - The group item.
+   * @returns The rendered React node.
+   */
   renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
+
+  /**
+   * Event handler for selecting an option.
+   * @param value - The selected value.
+   * @param item - The selected item.
+   * @param event - The mouse event.
+   * @param checked - The checked state (only applicable for multiple selection).
+   */
   onSelect?: Multiple extends true
     ? (value: any, item: any, event: React.MouseEvent, checked: boolean) => void
     : Multiple extends false
     ? (value: any, item: any, event: React.MouseEvent) => void
     : any;
+
+  /**
+   * Event handler for clicking on a group title.
+   * @param event - The mouse event.
+   */
   onGroupTitleClick?: (event: React.MouseEvent) => void;
 }
 
@@ -70,7 +109,6 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
   (props, ref) => {
     const {
       data = [],
-      group,
       groupBy,
       maxHeight = 320,
       activeItemValues = [],
@@ -89,6 +127,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       listItemProps,
       rowHeight = 36,
       rowGroupHeight = 48,
+      query,
       renderMenuGroup,
       renderMenuItem,
       onGroupTitleClick,
@@ -97,7 +136,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     } = props;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('items', { grouped: group }));
+    const groupable = typeof groupBy !== 'undefined';
+    const classes = merge(className, withClassPrefix('items', { grouped: groupable }));
     const { id, labelId, popupType, multiple } = useCombobox();
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
@@ -123,7 +163,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const getRowHeight = (list: any[], index) => {
       const item = list[index];
 
-      if (group && item[RSUITE_PICKER_GROUP_KEY] && index !== 0) {
+      if (groupable && item[RSUITE_PICKER_GROUP_KEY] && index !== 0) {
         return rowGroupHeight;
       }
 
@@ -157,18 +197,14 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       }
     }, [focusItemValue, menuBodyContainerRef, prefix]);
 
-    const filteredItems = group
+    const filteredItems = groupable
       ? data.filter(item => {
           // Display group title items
           if (item[RSUITE_PICKER_GROUP_KEY]) return true;
 
           // Display items under the unfolded group
-          // FIXME-Doma
-          // `groupBy` is bound to be string when `group` is true
-          // because `group` is actually redundant as a prop
-          // It could simply be derived from `groupBy` value
           const groupValue =
-            get(item, groupBy as string, '') ||
+            get(item, groupBy, '') ||
             // FIXME-Doma
             // Usage of `item.parent` is strongly discouraged
             // It's only here for legacy support
@@ -187,7 +223,14 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     }: Partial<ListChildComponentProps> & { item?: any }) => {
       const item = itemData || data[index];
       const value = item[valueKey];
-      const label = item[labelKey];
+      const itemLabel = item[labelKey];
+      const label = query ? (
+        <Highlight query={query} as="span">
+          {itemLabel}
+        </Highlight>
+      ) : (
+        itemLabel
+      );
 
       if (isUndefined(label) && !item[RSUITE_PICKER_GROUP_KEY]) {
         throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
@@ -196,13 +239,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       // Use `value` in keys when If `value` is string or number
       const itemKey = isString(value) || isNumber(value) ? value : index;
 
-      /**
-       * Render <ListboxGroup>
-       * when if `group` is enabled
-       */
-      if (group && item[RSUITE_PICKER_GROUP_KEY]) {
+      //  Render <ListboxGroup> component when `groupBy` is defined
+      if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {
         const groupValue = item[KEY_GROUP_TITLE];
-        // TODO: grouped options should be owned by group
         return (
           <ListItemGroup
             style={style}

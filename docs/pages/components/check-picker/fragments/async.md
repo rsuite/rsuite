@@ -11,9 +11,11 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 const App = () => {
   const [items, setItems] = React.useState([]);
   const updateData = () => {
-    if (items.length === 0) {
-      setItems(data);
-    }
+    setTimeout(() => {
+      if (items.length === 0) {
+        setItems(data);
+      }
+    }, 2000);
   };
   const renderMenu = menu => {
     if (items.length === 0) {

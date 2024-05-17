@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
-import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
@@ -343,9 +342,7 @@ const SelectPicker = React.forwardRef(
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
           data={items}
-          // FIXME-Doma
-          // `group` is redundant so long as `groupBy` exists
-          group={!isUndefined(groupBy)}
+          query={searchKeyword}
           groupBy={groupBy}
           onSelect={handleItemSelect}
           onGroupTitleClick={onGroupTitleClick}
