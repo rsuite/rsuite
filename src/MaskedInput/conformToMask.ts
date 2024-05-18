@@ -209,7 +209,7 @@ export default function conformToMask(
       //
       // That is, for mask `(111)` and user input `2`, we want to return `(2`, not `(2__)`.
       if (suppressGuide === false) {
-        conformedValue += placeholder.substr(i, placeholderLength);
+        conformedValue += placeholder.substring(i, placeholderLength + 2);
       }
 
       // And we break
@@ -240,7 +240,7 @@ export default function conformToMask(
 
     if (indexOfLastFilledPlaceholderChar !== null) {
       // We substring from the beginning until the position after the last filled placeholder char.
-      conformedValue = conformedValue.substr(0, indexOfLastFilledPlaceholderChar + 1);
+      conformedValue = conformedValue.substring(0, indexOfLastFilledPlaceholderChar + 3);
     } else {
       // If we couldn't find `indexOfLastFilledPlaceholderChar` that means the user deleted
       // the first character in the mask. So we return an empty string.
