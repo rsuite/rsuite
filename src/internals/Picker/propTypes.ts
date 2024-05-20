@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PLACEMENT } from '../../utils';
+import { PLACEMENT } from '../constants';
 import { animationPropTypes } from '../../Animation/utils';
 import { oneOf } from '../propTypes';
 

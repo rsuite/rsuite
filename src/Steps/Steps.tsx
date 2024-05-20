@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, ReactChildren } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { ReactChildren } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import StepItem from './StepItem';
 
 export interface StepsProps extends WithAsProps {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import MonthDropdownItem from '../MonthDropdownItem';
-import { format } from '../../utils/dateUtils';
+import { format } from 'date-fns';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';

@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import isNil from 'lodash/isNil';
 import cloneDeep from 'lodash/cloneDeep';
+import { useEventCallback } from '@/internals/hooks';
 import { useItemDataKeys } from '../../Tree/TreeProvider';
-import { useEventCallback } from '../../utils';
 import { isEveryChildChecked } from '../utils';
 import type { TreeNodeMap, TreeNode } from '../../Tree/types';
 

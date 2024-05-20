@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, mergeRefs } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';

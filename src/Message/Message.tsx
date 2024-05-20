@@ -1,16 +1,11 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useClassNames,
-  useTimeout,
-  MESSAGE_STATUS_ICONS,
-  STATUS,
-  useIsMounted,
-  useEventCallback
-} from '../utils';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
-import CloseButton from '../internals/CloseButton';
+import { STATUS } from '@/internals/constants';
+import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
+import { useClassNames, useTimeout, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
+import CloseButton from '@/internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
 
 export interface MessageProps extends WithAsProps {

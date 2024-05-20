@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useEventCallback from '../../utils/useEventCallback';
+import { useEventCallback } from '@/internals/hooks';
 
 interface UseMonthViewProps {
   onToggleMonthDropdown?: (toggle: boolean) => void;

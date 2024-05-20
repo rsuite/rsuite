@@ -2,11 +2,10 @@ import { RefObject } from 'react';
 import delay from 'lodash/delay';
 import addMonths from 'date-fns/addMonths';
 import addDays from 'date-fns/addDays';
-import useEventCallback from '../../utils/useEventCallback';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { getAriaLabel } from '../../Calendar/utils';
-import { useCustom } from '../../utils';
 import { DatePickerLocale } from '../../locales';
-import { onMenuKeyDown } from '../../internals/Picker/utils';
+import { onMenuKeyDown } from '@/internals/Picker/utils';
 
 interface UseFocusProps {
   target: RefObject<HTMLElement>;

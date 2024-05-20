@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom, isSupportFlexGap, ReactChildren } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { isSupportFlexGap, ReactChildren } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import StackItem from './StackItem';
 
 export interface StackProps extends WithAsProps {

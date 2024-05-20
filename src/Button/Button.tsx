@@ -1,11 +1,12 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
+import Ripple from '@/internals/Ripple';
+import { oneOf } from '@/internals/propTypes';
 import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
-import Ripple from '../internals/Ripple';
-import { isOneOf, useClassNames } from '../utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { isOneOf } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** A button can have different appearances. */

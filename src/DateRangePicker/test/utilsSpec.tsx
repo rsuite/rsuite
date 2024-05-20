@@ -1,6 +1,5 @@
-import { differenceInMonths } from 'date-fns';
+import { differenceInMonths, isSameMonth, getMonth, format } from 'date-fns';
 import { getSafeCalendarDate } from '../utils';
-import { isSameMonth, getMonth, format } from '../../utils/dateUtils';
 
 describe('DateRangePicker - utils - getSafeCalendarDate', () => {
   it('Should not be a date range of the same month', () => {

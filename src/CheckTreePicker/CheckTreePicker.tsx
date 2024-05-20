@@ -2,14 +2,8 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit } from 'lodash';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  useCustom,
-  useClassNames,
-  useEventCallback,
-  mergeRefs
-} from '../utils';
-
+import { useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
   onMenuKeyDown,
@@ -24,8 +18,7 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps
-} from '../internals/Picker';
-
+} from '@/internals/Picker';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
 import { getSelectedItems } from '../CheckTree/utils';
 import { TreeNode } from '../Tree/types';
@@ -35,7 +28,11 @@ import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import useFocusState from './hooks/useFocusState';
 import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
-import type { FormControlPickerProps, ItemDataType, DeprecatedPickerProps } from '../@types/common';
+import type {
+  FormControlPickerProps,
+  ItemDataType,
+  DeprecatedPickerProps
+} from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];

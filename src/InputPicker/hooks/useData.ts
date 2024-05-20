@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import shallowEqual from '../../utils/shallowEqual';
-import type { ItemDataType } from '../../@types/common';
+import { shallowEqual } from '@/internals/utils';
+import type { ItemDataType } from '@/internals/types';
 
 export interface InputItemDataType<T = number | string> extends ItemDataType<T> {
   create?: boolean;

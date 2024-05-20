@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled } from '../utils';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames, useControlled } from '@/internals/hooks';
+import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';
 import { ValueType } from '../RadioTile';
 import Stack from '../Stack';
 

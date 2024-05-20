@@ -9,18 +9,11 @@ import SearchView from '../CascadeTree/SearchView';
 import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { findNodeOfTree, getParentMap } from '../internals/Tree/utils';
-import { deprecatePropTypeNew } from '../internals/propTypes';
+import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
+import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  mergeRefs,
-  shallowEqual,
-  useControlled,
-  useCustom,
-  useClassNames,
-  useEventCallback
-} from '../utils';
+import { useControlled, useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
 
 import {
   PickerToggle,
@@ -36,11 +29,11 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../internals/Picker';
+} from '@/internals/Picker';
 
-import { ItemDataType, DataItemValue, FormControlPickerProps } from '../@types/common';
-import { useMap } from '../utils/useMap';
-import { oneOf } from '../internals/propTypes';
+import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
+import { useMap } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
 import useActive from './useActive';
 
 export interface CascaderProps<T = DataItemValue>

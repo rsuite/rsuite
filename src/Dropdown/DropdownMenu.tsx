@@ -1,20 +1,19 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import omit from 'lodash/omit';
-import Menu from '../internals/Menu/Menu';
-import MenuItem from '../internals/Menu/MenuItem';
-import Menubar from '../internals/Menu/Menubar';
-import { oneOf } from '../internals/propTypes';
-import { mergeRefs, useClassNames } from '../utils';
+import Menu from '@/internals/Menu/Menu';
+import MenuItem from '@/internals/Menu/MenuItem';
+import Menubar from '@/internals/Menu/Menubar';
+import { oneOf } from '@/internals/propTypes';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { mergeRefs, warnOnce } from '@/internals/utils';
 import PropTypes from 'prop-types';
-import { StandardProps } from '../@types/common';
+import { StandardProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
-import warnOnce from '../utils/warnOnce';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */

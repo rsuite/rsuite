@@ -2,8 +2,9 @@ import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Position, { PositionChildProps, PositionProps } from './Position';
-import { TypeAttributes, AnimationEventProps, CursorPosition } from '../../@types/common';
-import { mergeRefs, useRootClose } from '../../utils';
+import { useRootClose } from '../hooks';
+import { TypeAttributes, AnimationEventProps, CursorPosition } from '@/internals/types';
+import { mergeRefs } from '@/internals/utils';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
 

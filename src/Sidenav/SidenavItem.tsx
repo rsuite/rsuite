@@ -1,13 +1,14 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { useClassNames, shallowEqual, mergeRefs, createChainedFunction } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import Ripple from '../internals/Ripple';
+import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
-import MenuItem from '../internals/Menu/MenuItem';
+import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
 import { SidenavContext } from './Sidenav';
 import Whisper, { WhisperInstance } from '../Whisper';

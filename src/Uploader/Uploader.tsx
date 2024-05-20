@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import FileItem from './UploadFileItem';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
-import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../utils';
-import { WithAsProps } from '../@types/common';
-import Plaintext from '../internals/Plaintext';
-import { oneOf } from '../internals/propTypes';
+import { useClassNames, useCustom, useWillUnmount } from '@/internals/hooks';
+import { guid } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
+import Plaintext from '@/internals/Plaintext';
+import { oneOf } from '@/internals/propTypes';
 import { UploaderLocale } from '../locales';
-import type { ErrorStatus } from '../utils/ajaxUpload';
+import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 
 export interface FileType {
   /** File Name */

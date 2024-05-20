@@ -1,9 +1,9 @@
 import React from 'react';
 import TreeView from './TreeView';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
-import { useClassNames, useControlled } from '../utils';
+import { useClassNames, useControlled } from '@/internals/hooks';
 import SearchView from './SearchView';
-import type { DataItemValue } from '../@types/common';
+import type { DataItemValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 
 const emptyArray = [];

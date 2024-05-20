@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom } from '../utils';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import BreadcrumbItem from './BreadcrumbItem';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { BreadcrumbLocale } from '../locales';
 
 export interface BreadcrumbProps extends WithAsProps {

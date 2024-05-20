@@ -1,5 +1,5 @@
 import React from 'react';
-import reactToString from '../../utils/reactToString';
+import { reactToString } from '@/internals/utils';
 import { PickerLocale } from '../../locales';
 
 export interface SelectedElementProps {

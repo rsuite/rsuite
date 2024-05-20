@@ -12,7 +12,7 @@ import {
   endOfWeek,
   differenceInCalendarMonths,
   copyTime
-} from '../utils/dateUtils';
+} from '@/internals/utils/date';
 
 export function getSafeCalendarDate({
   value,

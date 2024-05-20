@@ -6,10 +6,10 @@ import getOffset from 'dom-lib/getOffset';
 import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
-import { useClassNames, useControlled, useCustom, useEventCallback } from '../utils';
+import { useClassNames, useControlled, useCustom, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from './utils';
-import { WithAsProps, FormControlBaseProps, Offset } from '../@types/common';
-import Plaintext from '../internals/Plaintext';
+import { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
+import Plaintext from '@/internals/Plaintext';
 
 export interface LocaleType {
   placeholder?: string;

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import isFunction from 'lodash/isFunction';
-import { useControlled, useEventCallback } from '../../utils';
-import { createConcatChildrenFunction } from '../../internals/Picker';
+import { useControlled, useEventCallback } from '@/internals/hooks';
+import { createConcatChildrenFunction } from '@/internals/Picker';
 import { getExpandItemValues, flattenTree } from '../utils';
 import type { TreeNode } from '../types';
 

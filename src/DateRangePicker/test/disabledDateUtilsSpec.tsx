@@ -1,5 +1,5 @@
-import { DATERANGE_DISABLED_TARGET } from '../../utils/constants';
-import { parseISO } from '../../utils/dateUtils';
+import { parseISO } from 'date-fns';
+import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import * as utils from '../disabledDateUtils';
 
 describe('DateRangePicker - disabledDate - utils', () => {

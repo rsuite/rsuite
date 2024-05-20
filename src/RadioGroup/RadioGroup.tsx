@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled, useEventCallback } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import Plaintext from '../internals/Plaintext';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import Plaintext from '@/internals/Plaintext';
+import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';
 import { ValueType } from '../Radio';
 
 export interface RadioContextProps {

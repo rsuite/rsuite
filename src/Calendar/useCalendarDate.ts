@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { useUpdateEffect } from '../utils';
+import { useUpdateEffect } from '@/internals/hooks';
 
 const useCalendarDate = (value: Date | null | undefined, defaultDate: Date | undefined) => {
   const valueRef = useRef(value);

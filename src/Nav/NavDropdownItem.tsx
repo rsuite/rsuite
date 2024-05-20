@@ -1,11 +1,12 @@
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { deprecatePropType, oneOf } from '../internals/propTypes';
-import MenuItem from '../internals/Menu/MenuItem';
+import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import MenuItem from '@/internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
-import { mergeRefs, shallowEqual, useClassNames } from '../utils';
+import { mergeRefs, shallowEqual } from '@/internals/utils';
 import NavContext from './NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import classNames from 'classnames';

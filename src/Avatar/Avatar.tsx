@@ -1,9 +1,10 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom, isIE } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { isIE } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
-import { oneOf } from '../internals/propTypes';
+import { oneOf } from '@/internals/propTypes';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
 

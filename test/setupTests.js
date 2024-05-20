@@ -1,4 +1,4 @@
-import warnOnce from '../src/utils/warnOnce';
+import { warnOnce } from '@/internals/utils';
 import './chai-assertions.js';
 
 /**

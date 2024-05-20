@@ -1,10 +1,11 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Ripple from '../internals/Ripple';
+import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { shallowEqual, useClassNames } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { shallowEqual } from '@/internals/utils';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import NavContext from './NavContext';
 import classNames from 'classnames';

@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import Transition from '../../Animation/Transition';
-import { mergeRefs, useClassNames, useCustom } from '../../utils';
-import { Offset, WithAsProps } from '../../@types/common';
+import { mergeRefs } from '@/internals/utils';
+import { Offset, WithAsProps } from '@/internals/types';
 
 export interface RippleProps extends WithAsProps {
   onMouseDown?: (position: any, event: React.MouseEvent) => void;

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-import { oneOf } from '../internals/propTypes';
-import { useClassNames } from '../utils';
+import { oneOf } from '@/internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 const STEP_STATUS_ICON: {
   [key in NonNullable<StepItemProps['status']>]: React.ReactElement | null;

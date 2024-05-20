@@ -1,12 +1,11 @@
 import React, { Ref, useState } from 'react';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
-
+import { KEY_VALUES } from '@/internals/constants';
+import * as hooks from '@/internals/hooks';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import Nav from '../../Nav';
-import { KEY_VALUES } from '../../utils';
-import * as utils from '../../utils';
 import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/utils';
 
@@ -622,7 +621,7 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
-          sinon.stub(utils, 'useCustom').returns({
+          sinon.stub(hooks, 'useCustom').returns({
             rtl: true,
             locale: {},
             formatDate: () => '',
@@ -675,7 +674,7 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
-          sinon.stub(utils, 'useCustom').returns({
+          sinon.stub(hooks, 'useCustom').returns({
             rtl: true,
             locale: {},
             formatDate: () => '',
@@ -702,7 +701,7 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
-          sinon.stub(utils, 'useCustom').returns({
+          sinon.stub(hooks, 'useCustom').returns({
             rtl: true,
             locale: {},
             formatDate: () => '',

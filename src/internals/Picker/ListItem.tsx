@@ -1,6 +1,6 @@
 import React from 'react';
-import { useClassNames, useEventCallback } from '../../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
+import { useClassNames, useEventCallback } from '../hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import useCombobox from './hooks/useCombobox';
 
 export interface ListItemProps

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, isIE } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import { isIE } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 
 export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 

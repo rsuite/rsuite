@@ -2,9 +2,9 @@ import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import { useClassNames } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 
 export const InputGroupContext = React.createContext<{
   onFocus: () => void;

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button';
-import { useClassNames } from '../utils';
+import { useClassNames, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-import useToggleCaret from '../utils/useToggleCaret';
-import { oneOf } from '../internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;

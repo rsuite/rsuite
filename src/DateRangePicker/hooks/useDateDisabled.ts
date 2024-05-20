@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { DATERANGE_DISABLED_TARGET as TARGET } from '../../utils';
+import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { DisabledDateFunction, SelectedDatesState } from '../types';
 
 interface UseDateDisabledProps {

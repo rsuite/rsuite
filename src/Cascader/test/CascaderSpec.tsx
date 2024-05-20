@@ -9,7 +9,7 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
-import { PickerHandle } from '../../internals/Picker';
+import { PickerHandle } from '@/internals/Picker';
 import '../styles/index.less';
 import userEvent from '@testing-library/user-event';
 import { mockTreeData } from '@test/mocks/data-mock';

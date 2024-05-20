@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
-import { mergeRefs, useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { StandardProps } from '@/internals/types';
 
 export interface SidenavDropdownCollapseProps extends StandardProps {
   open?: boolean;

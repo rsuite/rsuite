@@ -1,7 +1,8 @@
 import React from 'react';
 import trim from 'lodash/trim';
+import { KEY_VALUES } from '../constants';
 import { findNodeOfTree } from '../Tree/utils';
-import { KEY_VALUES, reactToString } from '../../utils';
+import { reactToString } from '@/internals/utils';
 
 export interface NodeKeys {
   valueKey: string;

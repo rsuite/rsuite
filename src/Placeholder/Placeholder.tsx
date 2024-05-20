@@ -1,7 +1,7 @@
 import PlaceholderGraph from './PlaceholderGraph';
 import PlaceholderGrid from './PlaceholderGrid';
 import PlaceholderParagraph, { PlaceholderParagraphProps } from './PlaceholderParagraph';
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent } from '@/internals/types';
 
 export interface Placeholder extends RsRefForwardingComponent<'div', PlaceholderParagraphProps> {
   Paragraph: typeof PlaceholderParagraph;

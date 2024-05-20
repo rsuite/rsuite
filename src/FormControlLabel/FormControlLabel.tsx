@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface FormControlLabelProps
   extends WithAsProps,

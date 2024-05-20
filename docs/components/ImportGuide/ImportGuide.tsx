@@ -8,7 +8,6 @@ const unstyledComponents = [
   'Whisper',
   'SafeAnchor',
   'Affix',
-  'utils',
   'internals',
   'CustomProvider',
   'locales',

@@ -1,6 +1,6 @@
 import { useRef, useCallback, useMemo } from 'react';
 import useMaxWidth from './useMaxWidth';
-import type { OverlayTriggerHandle } from '../../internals/Picker/PickerToggleTrigger';
+import type { OverlayTriggerHandle } from '@/internals/Picker/PickerToggleTrigger';
 import InputAutosize from '../InputAutosize';
 
 interface InputProps {

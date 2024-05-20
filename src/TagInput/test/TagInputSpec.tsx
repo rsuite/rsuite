@@ -5,7 +5,7 @@ import { testStandardProps, testControlledUnControlled, testFormControl } from '
 
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { PickerHandle } from '../../internals/Picker';
+import { PickerHandle } from '@/internals/Picker';
 
 describe('TagInput', () => {
   testStandardProps(<TagInput />, {

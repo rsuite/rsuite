@@ -2,9 +2,10 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
-import { useClassNames, useControlled, shallowEqual } from '../utils';
-import Plaintext from '../internals/Plaintext';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames, useControlled } from '@/internals/hooks';
+import { shallowEqual } from '@/internals/utils';
+import Plaintext from '@/internals/Plaintext';
+import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';
 import type { ValueType } from '../Checkbox';
 import { CheckboxGroupContext } from './CheckboxGroupContext';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { type ItemDataType } from '../../@types/common';
-import { useEventCallback, useUpdateEffect, useIsMounted } from '../../utils';
+import { useEventCallback, useUpdateEffect, useIsMounted } from '@/internals/hooks';
+import { type ItemDataType } from '@/internals/types';
 import useFlattenData from './useFlattenData';
 import useColumnData from './useColumnData';
 

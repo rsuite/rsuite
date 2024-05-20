@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { DisclosureActionTypes } from './DisclosureContext';
-import { KEY_VALUES } from '../../utils';
+import { KEY_VALUES } from '../constants';
 import useDisclosureContext from './useDisclosureContext';
 
 export interface DisclosureButtonRenderProps {

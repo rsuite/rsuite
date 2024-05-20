@@ -2,14 +2,10 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import {
-  getDOMNode,
-  mergeRefs,
-  useElementResize,
-  useClassNames,
-  useEventCallback
-} from '../../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
+import { mergeRefs } from '@/internals/utils';
+import { useElementResize, useClassNames, useEventCallback } from '@/internals/hooks';
+import { getDOMNode } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import type { OverlayTriggerHandle } from './PickerToggleTrigger';
 
 const omitProps = [

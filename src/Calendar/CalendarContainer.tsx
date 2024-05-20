@@ -5,7 +5,7 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
-import { useClassNames, useEventCallback } from '../utils';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import {
   disableTime,
   addMonths,
@@ -16,8 +16,8 @@ import {
   calendarOnlyProps,
   omitHideDisabledProps,
   isValid
-} from '../utils/dateUtils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+} from '@/internals/utils/date';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
 import { CalendarProvider } from './CalendarContext';
 import useCalendarState, { CalendarState } from './useCalendarState';

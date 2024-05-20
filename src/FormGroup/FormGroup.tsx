@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useUniqueId } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames, useUniqueId } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface FormGroupProps extends WithAsProps {
   /**

@@ -1,7 +1,8 @@
 import React from 'react';
-import Ripple from '../internals/Ripple';
-import { useClassNames, useEventCallback, createChainedFunction } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Ripple from '@/internals/Ripple';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface PaginationButtonProps<T = number | string>
   extends WithAsProps,

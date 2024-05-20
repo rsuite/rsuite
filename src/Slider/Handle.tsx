@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
-import { useClassNames, mergeRefs } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import Input from './Input';
 import useDrag from './useDrag';
 

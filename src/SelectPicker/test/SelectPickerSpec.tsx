@@ -14,7 +14,7 @@ import { mockGroupData } from '@test/mocks/data-mock';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
-import { PickerHandle } from '../../internals/Picker';
+import { PickerHandle } from '@/internals/Picker';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { highlightText } from './utils/highlightText';
-import { stringifyReactNode } from '../internals/utils';
+import { stringifyReactNode } from '@/internals/utils';
 
 export interface HighlightProps extends WithAsProps {
   query?: string | string[];

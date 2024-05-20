@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import type { ComponentProps } from '../utils/createComponent';
-import { useClassNames } from '../utils';
-import type { RsRefForwardingComponent } from '../@types/common';
 import { ModalContext } from './ModalContext';
+import { useClassNames } from '@/internals/hooks';
+import type { ComponentProps } from '@/internals/utils';
+import type { RsRefForwardingComponent } from '@/internals/types';
 
 export type ModalTitleProps = ComponentProps;
 

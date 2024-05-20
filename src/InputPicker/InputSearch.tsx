@@ -1,6 +1,6 @@
 import React from 'react';
-import { useClassNames, useEventCallback } from '../utils';
-import { StandardProps } from '../@types/common';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { StandardProps } from '@/internals/types';
 
 export interface InputSearchProps
   extends StandardProps,

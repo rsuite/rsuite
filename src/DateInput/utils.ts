@@ -1,6 +1,13 @@
 import { type Locale } from 'date-fns';
-import { setYear, setMonth, setDate, setHours, setMinutes, setSeconds } from '../utils/dateUtils';
-import { safeSetSelection } from '../utils';
+import {
+  setYear,
+  setMonth,
+  setDate,
+  setHours,
+  setMinutes,
+  setSeconds
+} from '@/internals/utils/date';
+import { safeSetSelection } from '@/internals/utils';
 
 interface SelectedStateOptions {
   /**

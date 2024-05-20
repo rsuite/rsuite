@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
 import Stack from '../Stack';
 

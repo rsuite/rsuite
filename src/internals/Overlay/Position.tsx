@@ -17,9 +17,9 @@ import addStyle from 'dom-lib/addStyle';
 import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
-import { getDOMNode } from '../../utils';
-import { CursorPosition, TypeAttributes } from '../../@types/common';
-import { useUpdateEffect } from '../../utils';
+import { getDOMNode } from '../utils';
+import { CursorPosition, TypeAttributes } from '@/internals/types';
+import { useUpdateEffect } from '../hooks';
 
 export interface PositionChildProps {
   className: string;

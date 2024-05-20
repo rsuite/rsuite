@@ -1,5 +1,5 @@
 import React from 'react';
-import { TypeAttributes } from '../@types/common';
+import { TypeAttributes } from '@/internals/types';
 
 export interface ButtonGroupContextProps {
   size?: TypeAttributes.Size;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
-import { parseISO } from '../../utils/dateUtils';
+import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import CalendarContainer from '../CalendarContainer';

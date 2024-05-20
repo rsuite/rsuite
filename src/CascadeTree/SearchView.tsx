@@ -1,9 +1,9 @@
 import React from 'react';
-import { ItemDataType, WithAsProps } from '../@types/common';
-import { useClassNames, useCustom } from '../utils';
-import { getPathTowardsItem } from '../internals/Tree/utils';
+import { ItemDataType, WithAsProps } from '@/internals/types';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { getPathTowardsItem } from '@/internals/Tree/utils';
+import SearchBox from '@/internals/SearchBox';
 import Highlight from '../Highlight';
-import SearchBox from '../internals/SearchBox';
 
 interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;

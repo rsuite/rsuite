@@ -1,17 +1,12 @@
 import React, { forwardRef, useMemo } from 'react';
-import ListCheckItem from '../internals/Picker/ListCheckItem';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { stringifyReactNode } from '../internals/utils';
-import { useFoucsVirtualListItem } from '../internals/hooks';
+import ListCheckItem from '@/internals/Picker/ListCheckItem';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { stringifyReactNode } from '@/internals/utils';
+import { useFocusVirtualListItem } from '@/internals/hooks';
+import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import {
-  useClassNames,
-  useEventCallback,
-  useCustom,
-  CHECK_STATE,
-  CheckStateType,
-  mergeRefs
-} from '../utils';
+import { useClassNames, useEventCallback, useCustom } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 import { useTreeContextProps } from '../Tree/TreeProvider';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
 import type { TreeNode as TreeNodeData } from '../Tree/types';
@@ -156,7 +151,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   );
 
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
-  const itemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
+  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>

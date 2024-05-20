@@ -2,10 +2,11 @@ import React from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../utils';
-import { ListCheckItem, useCombobox } from '../internals/Picker';
+import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { shallowEqual } from '@/internals/utils';
+import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
-import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
 
 export interface TreeViewProps<T = any> extends WithAsProps {

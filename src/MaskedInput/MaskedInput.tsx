@@ -3,7 +3,7 @@ import TextMask from './TextMask';
 import Input, { InputProps } from '../Input';
 import type { TextMaskProps } from './TextMask';
 
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent } from '@/internals/types';
 
 export type MaskedInputProps = Omit<TextMaskProps, 'onChange'> & Omit<InputProps, 'type'>;
 

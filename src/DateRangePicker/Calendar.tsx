@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addMonths } from '../utils/dateUtils';
+import { addMonths } from '@/internals/utils/date';
+import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
+import { useEventCallback } from '@/internals/hooks';
 import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
 import { DateRange } from './types';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { DatePickerLocale } from '../locales';
-import { DATERANGE_DISABLED_TARGET, useEventCallback } from '../utils';
 
 type OmitCalendarCoreTypes =
   | 'disabledDate'

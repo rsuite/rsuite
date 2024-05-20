@@ -6,9 +6,9 @@ import sinon from 'sinon';
 import { getInstance } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 import CheckTreePicker from '../CheckTreePicker';
-import { KEY_VALUES } from '../../utils';
+import { KEY_VALUES } from '@/internals/constants';
 import { originMockData, changedMockData, controlledData } from './mocks';
-import { PickerHandle } from '../../internals/Picker';
+import { PickerHandle } from '@/internals/Picker';
 import {
   testStandardProps,
   testControlledUnControlled,

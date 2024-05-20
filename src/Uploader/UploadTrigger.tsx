@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
-import { isIE11, useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
+import { isIE11 } from '@/internals/utils';
 import { UploaderLocale } from '../locales';
 import Button, { ButtonProps } from '../Button';
 export interface UploadTriggerProps extends ButtonProps {

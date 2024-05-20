@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
+import { parseISO } from 'date-fns';
 import Calendar from '../Calendar';
-import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/utils';
 
 describe('DateRangePicker - Calendar', () => {

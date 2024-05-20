@@ -1,16 +1,10 @@
 import React, { useContext, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useControlled,
-  partitionHTMLProps,
-  useClassNames,
-  useEventCallback,
-  useUniqueId,
-  mergeRefs
-} from '../utils';
+import { useControlled, useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-import { refType } from '../internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { refType } from '@/internals/propTypes';
 
 export type ValueType = string | number;
 export interface CheckboxProps<V = ValueType>

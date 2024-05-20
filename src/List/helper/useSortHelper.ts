@@ -12,7 +12,7 @@ import {
   setTranslate3d
 } from './utils';
 import type { EdgeOffset } from './utils';
-import { useIsMounted } from '../../utils';
+import { useIsMounted } from '@/internals/hooks';
 import useManager, { Collection, ManagedItem } from './useManager';
 
 export interface MovedItemInfo {

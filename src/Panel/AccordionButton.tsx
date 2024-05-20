@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@rsuite/icons';
 import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 
 interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   expanded?: boolean;

@@ -1,4 +1,4 @@
-import createComponent, { ComponentProps } from '../utils/createComponent';
+import { createComponent, ComponentProps } from '@/internals/utils';
 
 export type NavbarBrandProps = ComponentProps;
 

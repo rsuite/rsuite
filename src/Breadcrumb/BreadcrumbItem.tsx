@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SafeAnchor from '../SafeAnchor';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
   // Style as the currently active section

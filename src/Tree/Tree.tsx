@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent } from '@/internals/types';
 import TreeView, { type TreeViewProps } from './TreeView';
-import { useControlled, useEventCallback } from '../utils';
+import { useControlled, useEventCallback } from '@/internals/hooks';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';

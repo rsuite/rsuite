@@ -1,8 +1,8 @@
 import { isNil, isUndefined } from 'lodash';
 import { CheckTreeProps, ValueType } from './CheckTree';
-import { CHECK_STATE, CheckStateType } from '../utils';
+import { CHECK_STATE, CheckStateType } from '@/internals/constants';
+import { attachParent } from '@/internals/utils';
 import { formatNodeRefKey } from '../Tree/utils';
-import { attachParent } from '../utils/attachParent';
 import { TreeNode, TreeNodeMap } from '../Tree/types';
 
 /**

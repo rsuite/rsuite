@@ -1,7 +1,7 @@
 import React from 'react';
-import { useClassNames, useEventCallback } from '../../utils';
+import { useClassNames, useEventCallback } from '../hooks';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
-import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import useCombobox from './hooks/useCombobox';
 
 export interface ListCheckItemProps extends WithAsProps, Omit<CheckboxProps, 'onSelect'> {

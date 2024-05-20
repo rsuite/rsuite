@@ -6,8 +6,8 @@ import PageNext from '@rsuite/icons/legacy/PageNext';
 import PageTop from '@rsuite/icons/legacy/PageTop';
 import PageEnd from '@rsuite/icons/legacy/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
-import { useClassNames, useCustom } from '../utils';
-import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '@/internals/types';
 import { PaginationLocale } from '../locales';
 
 const PAGINATION_ICONS = {

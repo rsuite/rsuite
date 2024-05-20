@@ -4,7 +4,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as ReactTestUtils from 'react-dom/test-utils';
 import { render as testRender } from '@testing-library/react';
-import guid from '../../src/utils/guid';
+import { guid } from '@/internals/utils';
 
 /**
  * Check whether it is a DOM object?

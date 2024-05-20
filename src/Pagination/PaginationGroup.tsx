@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import Pagination, { PaginationProps } from './Pagination';
 import Divider from '../Divider';
 import Input from '../Input';
-import { tplTransform, useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
-import { RsRefForwardingComponent } from '../@types/common';
+import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { tplTransform } from '@/internals/utils';
+import { RsRefForwardingComponent } from '@/internals/types';
 import { PaginationLocale } from '../locales';
 import LimitPicker from './LimitPicker';
 

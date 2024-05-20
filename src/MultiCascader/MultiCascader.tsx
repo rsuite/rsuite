@@ -4,18 +4,11 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
-import { findNodeOfTree } from '../internals/Tree/utils';
+import { findNodeOfTree } from '@/internals/Tree/utils';
+import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  mergeRefs,
-  useClassNames,
-  useCustom,
-  useControlled,
-  useEventCallback
-} from '../utils';
-
+import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
   PickerPopup,
@@ -31,13 +24,13 @@ import {
   listPickerPropTypes,
   PickerComponent,
   PickerToggleProps
-} from '../internals/Picker';
-import { deprecatePropTypeNew } from '../internals/propTypes';
+} from '@/internals/Picker';
+import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
-import { oneOf } from '../internals/propTypes';
-import { FormControlPickerProps, ItemDataType, DataItemValue } from '../@types/common';
+import { oneOf } from '@/internals/propTypes';
+import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
 import useActive from '../Cascader/useActive';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 

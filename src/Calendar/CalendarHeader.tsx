@@ -4,9 +4,9 @@ import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import { FormattedDate } from '../CustomProvider';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
 import { useDateRangePickerContext } from '../DateRangePicker/DateRangePickerContext';
 

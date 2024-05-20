@@ -2,16 +2,18 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useFormGroup } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import Plaintext from '../internals/Plaintext';
-import { createChainedFunction, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
+import Plaintext from '@/internals/Plaintext';
+import { KEY_VALUES } from '@/internals/constants';
+import { useClassNames } from '@/internals/hooks';
+import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
   TypeAttributes,
   FormControlBaseProps
-} from '../@types/common';
-import { refType, oneOf } from '../internals/propTypes';
-import { PrependParameters } from '../@types/utils';
+} from '@/internals/types';
+import { refType, oneOf } from '@/internals/propTypes';
+import { PrependParameters } from '@/internals/types/utils';
 
 export interface LocaleType {
   unfilled: string;

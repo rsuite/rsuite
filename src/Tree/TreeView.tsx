@@ -6,21 +6,21 @@ import {
   ListChildComponentProps,
   defaultItemSize,
   type ListHandle
-} from '../internals/Windowing';
+} from '@/internals/Windowing';
 import TreeViewNode from './TreeNode';
 import IndentLine from './IndentLine';
-import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
-import { useClassNames, useCustom, useEventCallback } from '../utils';
+import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
+import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
-import { onMenuKeyDown } from '../internals/Picker';
-import { TreeView as BaseTreeView } from '../internals/Tree';
+import { onMenuKeyDown } from '@/internals/Picker';
+import { TreeView as BaseTreeView } from '@/internals/Tree';
 import useTreeSearch from './hooks/useTreeSearch';
 import useTreeDrag from './hooks/useTreeDrag';
 import useFocusTree from './hooks/useFocusTree';
 import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
-import SearchBox from '../internals/SearchBox';
-import { RsRefForwardingComponent, DataProps, ToArray } from '../@types/common';
+import SearchBox from '@/internals/SearchBox';
+import { RsRefForwardingComponent, DataProps, ToArray } from '@/internals/types';
 import { useItemDataKeys } from './TreeProvider';
 import type { TreeNode, TreeNodeMap, TreeViewBaseProps, TreeDragProps } from './types';
 

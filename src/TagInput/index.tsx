@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
-import type { PickerComponent } from '../internals/Picker/types';
+import type { PickerComponent } from '@/internals/Picker/types';
 
 export type TagInputProps = Omit<InputPickerProps<readonly string[]>, 'data'> &
   Partial<TagOnlyProps>;

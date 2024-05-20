@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 export interface PlaceholderParagraphProps extends WithAsProps {
   /**
    * The number of rows.

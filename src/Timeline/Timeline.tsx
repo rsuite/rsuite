@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
-import { useClassNames, ReactChildren } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { ReactChildren } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TimelineProps extends WithAsProps {
   /** The content of the component */

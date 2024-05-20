@@ -1,4 +1,4 @@
-import { useClassNames } from '../../utils';
+import { useClassNames } from '@/internals/hooks';
 import type { FormProps } from '../Form';
 
 /**

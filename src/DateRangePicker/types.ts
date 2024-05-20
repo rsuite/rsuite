@@ -1,5 +1,5 @@
 import React from 'react';
-import { DATERANGE_DISABLED_TARGET } from '../utils/constants';
+import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 
 export type ValueType = [Date?, Date?];
 

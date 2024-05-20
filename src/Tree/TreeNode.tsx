@@ -1,8 +1,13 @@
 import React, { forwardRef, useMemo } from 'react';
-import { useClassNames, useEventCallback, mergeRefs, useCustom } from '../utils';
-import { stringifyReactNode } from '../internals/utils';
-import { useFoucsVirtualListItem } from '../internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { mergeRefs } from '@/internals/utils';
+import { stringifyReactNode } from '@/internals/utils';
+import {
+  useFocusVirtualListItem,
+  useClassNames,
+  useEventCallback,
+  useCustom
+} from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import TreeNodeToggle from './TreeNodeToggle';
 import { useTreeContextProps } from './TreeProvider';
 import { indentTreeNode } from './utils';
@@ -201,7 +206,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
   );
 
-  const treeItemRef = useFoucsVirtualListItem<HTMLDivElement>(focus);
+  const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
 
   return visible ? (

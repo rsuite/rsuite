@@ -2,10 +2,10 @@
 import React, { useCallback, useRef } from 'react';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
-import { KEY_VALUES, useCustom } from '../../utils';
-import { isFocusEntering, isFocusLeaving } from '../../utils/events';
+import { KEY_VALUES } from '../constants';
+import { useCustom } from '../hooks';
+import { isFocusEntering, isFocusLeaving, isFocusableElement } from '@/internals/utils/';
 import useMenu from './useMenu';
-import { isFocusableElement } from '../../utils/dom';
 
 export interface MenubarProps {
   /** Whether menubar is arranged in vertical form, defaults to false */

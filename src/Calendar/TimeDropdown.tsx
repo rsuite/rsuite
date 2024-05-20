@@ -5,10 +5,11 @@ import scrollTop from 'dom-lib/scrollTop';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
-import { DateUtils, scrollTopAnimation, useClassNames } from '../utils';
-
+import { scrollTopAnimation } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import * as DateUtils from '@/internals/utils/date';
 import { useCalendarContext } from './CalendarContext';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;

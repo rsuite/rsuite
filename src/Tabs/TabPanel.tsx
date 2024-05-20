@@ -1,6 +1,6 @@
 import React from 'react';
-import { WithAsProps } from '../@types/common';
-import { useClassNames } from '../utils';
+import { WithAsProps } from '@/internals/types';
+import { useClassNames } from '@/internals/hooks';
 
 interface TabPanelProps extends WithAsProps {
   /** The active state of the tab. */

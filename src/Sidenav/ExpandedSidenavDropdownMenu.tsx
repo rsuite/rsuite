@@ -1,17 +1,17 @@
 import React, { useCallback, useContext } from 'react';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { createChainedFunction, useClassNames } from '../utils';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { createChainedFunction } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import useCustom from '../utils/useCustom';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Ripple from '../internals/Ripple';
-import Disclosure from '../internals/Disclosure/Disclosure';
+import Ripple from '@/internals/Ripple';
+import Disclosure from '@/internals/Disclosure/Disclosure';
 
 export interface SidenavDropdownMenuProps<T = any>
   extends WithAsProps,

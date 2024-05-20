@@ -11,15 +11,14 @@ import Toolbar, { RangeType } from './Toolbar';
 import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import { DatePickerLocale } from '../locales';
+import { mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import {
-  mergeRefs,
   useClassNames,
   useControlled,
   useCustom,
   useUniqueId,
-  useEventCallback,
-  partitionHTMLProps
-} from '../utils';
+  useEventCallback
+} from '@/internals/hooks';
 import {
   shouldRenderMonth,
   shouldRenderDate,
@@ -28,11 +27,11 @@ import {
   setHours,
   getHours,
   isValid,
-  disableTime,
   copyTime,
+  disableTime,
   calendarOnlyProps,
   CalendarOnlyPropsType
-} from '../utils/dateUtils';
+} from '@/internals/utils/date';
 import {
   PickerPopup,
   PickerLabel,
@@ -44,8 +43,8 @@ import {
   usePickerClassName,
   usePickerRef,
   onMenuKeyDown
-} from '../internals/Picker';
-import { OverlayCloseCause } from '../internals/Overlay/OverlayTrigger';
+} from '@/internals/Picker';
+import { OverlayCloseCause } from '@/internals/Overlay/OverlayTrigger';
 import Input from '../Input';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
@@ -56,7 +55,7 @@ import type {
   FormControlBaseProps,
   PickerBaseProps,
   RsRefForwardingComponent
-} from '../@types/common';
+} from '@/internals/types';
 import type { DeprecatedProps } from './types';
 
 export interface DatePickerProps

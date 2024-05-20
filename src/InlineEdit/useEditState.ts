@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useEventCallback, useControlled } from '../utils';
+import { useEventCallback, useControlled } from '@/internals/hooks';
 
 interface EditStateProps {
   value?: any;

@@ -5,8 +5,8 @@ import CalendarContainer from './CalendarContainer';
 import { CalendarLocale } from '../locales';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useCustom } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import useCalendarDate from './useCalendarDate';
 
 export interface CalendarProps extends WithAsProps {

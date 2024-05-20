@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { DateUtils, useClassNames, useCustom } from '../utils';
+import { getWeekStartDates, setDate } from '@/internals/utils/date';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import Table from './Table';
 import { useCalendarContext } from './CalendarContext';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export type CalendarBodyProps = WithAsProps;
 
@@ -12,14 +12,15 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
     const { as: Component = 'div', className, classPrefix = 'calendar-body', ...rest } = props;
     const { date = new Date(), isoWeek, locale: overrideLocale } = useCalendarContext();
     const { locale, formatDate } = useCustom('Calendar', overrideLocale);
-    const thisMonthDate = DateUtils.setDate(date, 1);
+
+    const thisMonthDate = setDate(date, 1);
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
       <Component {...rest} ref={ref} className={classes}>
         <Table
-          rows={DateUtils.getMonthView(thisMonthDate, isoWeek)}
+          rows={getWeekStartDates(thisMonthDate, { isoWeek, locale: locale.dateLocale })}
           aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
         />
       </Component>
@@ -28,10 +29,5 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
 );
 
 CalendarBody.displayName = 'CalendarBody';
-CalendarBody.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default CalendarBody;

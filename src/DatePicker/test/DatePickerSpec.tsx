@@ -420,7 +420,7 @@ describe('DatePicker', () => {
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
 
-    expect(onChange).to.be.calledWithMatch(new Date('2023-10-01'));
+    expect(onChange).to.be.calledWithMatch(new Date('2023-10-01 00:00:00'));
   });
 
   it('Should call onChange after setting oneTap and clicking month', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ItemDataType, WithAsProps } from '../@types/common';
-import { useClassNames, useCustom } from '../utils';
-import SearchBox from '../internals/SearchBox';
+import { ItemDataType, WithAsProps } from '@/internals/types';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import SearchBox from '@/internals/SearchBox';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
 import { isSomeChildChecked, getNodeParents } from './utils';

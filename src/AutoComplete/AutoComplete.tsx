@@ -2,15 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import {
-  useClassNames,
-  useControlled,
-  useIsMounted,
-  useEventCallback,
-  PLACEMENT,
-  mergeRefs,
-  partitionHTMLProps
-} from '../utils';
+import { useClassNames, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
@@ -23,15 +16,16 @@ import {
   pickTriggerPropKeys,
   PositionChildProps,
   PickerComponent
-} from '../internals/Picker';
-import Plaintext from '../internals/Plaintext';
+} from '@/internals/Picker';
+import { PLACEMENT } from '@/internals/constants';
+import Plaintext from '@/internals/Plaintext';
 import {
   WithAsProps,
   FormControlPickerProps,
   TypeAttributes,
   ItemDataType
-} from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+} from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 import { transformData, shouldDisplay } from './utils';
 
 import Combobox from './Combobox';

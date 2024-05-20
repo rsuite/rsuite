@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { partitionHTMLProps, useClassNames, useControlled, useCustom } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import Plaintext from '../internals/Plaintext';
+import { useClassNames, useControlled, useCustom } from '@/internals/hooks';
+import { partitionHTMLProps } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import Plaintext from '@/internals/Plaintext';
 import { ToggleLocale } from '../locales';
 import Loader from '../Loader';
 

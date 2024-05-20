@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import { deprecatePropType } from '../internals/propTypes';
+import { deprecatePropType } from '@/internals/propTypes';
 import { SidenavContext } from './Sidenav';
 
 export interface SidenavToggleProps extends WithAsProps {

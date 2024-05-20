@@ -1,5 +1,4 @@
-import createComponent, { ComponentProps } from '../utils/createComponent';
-import deprecateComponent from '../utils/deprecateComponent';
+import { deprecateComponent, createComponent, ComponentProps } from '@/internals/utils';
 
 export type NavbarBodyProps = ComponentProps;
 

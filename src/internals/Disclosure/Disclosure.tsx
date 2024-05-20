@@ -9,7 +9,7 @@ import DisclosureContext, {
 } from './DisclosureContext';
 import DisclosureButton from './DisclosureButton';
 import DisclosureContent from './DisclosureContent';
-import useClickOutside from '../../utils/useClickOutside';
+import useClickOutside from '../hooks/useClickOutside';
 
 export type DisclosureTrigger = 'click' | 'hover';
 

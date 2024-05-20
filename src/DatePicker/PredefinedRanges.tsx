@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import Button from '../Button';
 import Stack, { StackProps } from '../Stack';
-import { useUpdateEffect } from '../utils';
+import { useUpdateEffect } from '@/internals/hooks';
 import { getDefaultRanges, getRanges } from './utils';
 import { InnerRange, RangeType } from './types';
 import { CalendarLocale } from '../locales';

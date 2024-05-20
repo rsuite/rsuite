@@ -1,6 +1,6 @@
 import React from 'react';
-import { useClassNames } from '../../utils';
-import { WithAsProps } from '../../@types/common';
+import { useClassNames } from '../hooks';
+import { WithAsProps } from '@/internals/types';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 
 export interface ListItemGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}

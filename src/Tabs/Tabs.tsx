@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import {
   useClassNames,
   useControlled,
-  ReactChildren,
   useEventCallback,
   useUniqueId,
   useCustom
-} from '../utils';
+} from '@/internals/hooks';
+import { ReactChildren } from '@/internals/utils';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';

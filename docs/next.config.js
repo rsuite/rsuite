@@ -169,7 +169,7 @@ module.exports = {
     // preventing "more than one copy of React" error
     if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
-        '@/internal': path.resolve(__dirname, '../src/internal'),
+        '@/internals': path.resolve(__dirname, '../src/internals'),
         rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom')

@@ -1,4 +1,4 @@
-import { useControlled, useMount } from '../../utils';
+import { useControlled, useMount } from '@/internals/hooks';
 import { getCheckTreeDefaultValue } from '../utils';
 
 function useTreeValue(controlledValue, { defaultValue, uncheckableItemValues }) {

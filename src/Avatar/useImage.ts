@@ -1,5 +1,5 @@
 import { ImgHTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect } from '../utils';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 
 interface UseImageProps {
   /**

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import Tree from '../Tree';
-import { ListHandle } from '../../internals/Windowing';
+import { ListHandle } from '@/internals/Windowing';
 import { testStandardProps } from '@test/utils';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);

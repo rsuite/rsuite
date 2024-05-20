@@ -1,6 +1,6 @@
 import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { partitionHTMLProps, isIE, guid } from '../utils';
+import { partitionHTMLProps, isIE, guid } from '@/internals/utils';
 
 const sizerStyle: React.CSSProperties = {
   position: 'absolute',

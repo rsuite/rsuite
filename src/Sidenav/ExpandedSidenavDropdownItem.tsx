@@ -1,11 +1,12 @@
 import React, { useCallback, useContext } from 'react';
 import isNil from 'lodash/isNil';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { createChainedFunction, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import Ripple from '../internals/Ripple';
+import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';

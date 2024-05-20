@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** Link specified url */

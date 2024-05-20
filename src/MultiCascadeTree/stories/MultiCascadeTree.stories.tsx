@@ -4,7 +4,7 @@ import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import MultiCascadeTree from '../';
-import type { ItemDataType } from '../../@types/common';
+import type { ItemDataType } from '@/internals/types';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
 import '../styles/index.less';
