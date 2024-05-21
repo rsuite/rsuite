@@ -12,9 +12,14 @@ import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
 import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { PickerLocale } from '../locales';
-import { useControlled, useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import {
+  useControlled,
+  useCustom,
+  useClassNames,
+  useEventCallback,
+  useMap
+} from '@/internals/hooks';
 import { createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
-
 import {
   PickerToggle,
   PickerPopup,
@@ -30,9 +35,7 @@ import {
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-
 import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
-import { useMap } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
 import useActive from './useActive';
 

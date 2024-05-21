@@ -1,6 +1,5 @@
 import React, { forwardRef, useMemo } from 'react';
-import { mergeRefs } from '@/internals/utils';
-import { stringifyReactNode } from '@/internals/utils';
+import { mergeRefs, stringifyReactNode } from '@/internals/utils';
 import {
   useFocusVirtualListItem,
   useClassNames,

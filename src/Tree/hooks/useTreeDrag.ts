@@ -2,8 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import isNil from 'lodash/isNil';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
-import { shallowEqual as equal } from '@/internals/utils';
-import { stringifyReactNode } from '@/internals/utils';
+import { shallowEqual as equal, stringifyReactNode } from '@/internals/utils';
 import { useItemDataKeys } from '../TreeProvider';
 import type { DropData } from '../types';
 
