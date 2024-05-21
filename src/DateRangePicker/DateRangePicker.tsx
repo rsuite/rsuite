@@ -438,7 +438,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     function getHoverRangeFunc(): ((date: Date) => DateRange) | undefined {
       if (hoverRange === 'week') {
         return (date: Date) =>
-          getWeekHoverRange(date, { isoWeek, weekStart, locale: locale.dateLocale });
+          getWeekHoverRange(date, { isoWeek, weekStart, locale: locale?.dateLocale });
       } else if (hoverRange === 'month') {
         return getMonthHoverRange;
       }

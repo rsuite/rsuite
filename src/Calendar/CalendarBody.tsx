@@ -20,7 +20,11 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
     return (
       <Component {...rest} ref={ref} className={classes}>
         <Table
-          rows={getWeekStartDates(thisMonthDate, { isoWeek, weekStart, locale: locale.dateLocale })}
+          rows={getWeekStartDates(thisMonthDate, {
+            isoWeek,
+            weekStart,
+            locale: locale?.dateLocale
+          })}
           aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
         />
       </Component>
