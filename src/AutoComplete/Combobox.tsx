@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCombobox } from '../internals/Picker';
+import { useCombobox } from '@/internals/Picker';
 import Input, { type InputProps } from '../Input';
 
 interface ComboboxProps extends InputProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 
 export interface SlideProps extends TransitionProps {
   placement?: 'top' | 'right' | 'bottom' | 'left';

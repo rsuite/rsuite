@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import NavbarItem from './NavbarItem';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 
 export interface NavbarDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;

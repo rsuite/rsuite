@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import toaster from '../toaster';
+import { useCustom } from '@/internals/hooks';
 import { ToastContainerProps } from '../toaster/ToastContainer';
-import { useCustom } from '../utils';
 
 /**
  * Toaster display brief, temporary notifications of actions, errors, or other events in an application.

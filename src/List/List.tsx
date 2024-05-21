@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { mergeRefs } from '@/internals/utils';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
-import { oneOf } from '../internals/propTypes';
+import { oneOf } from '@/internals/propTypes';
 
 export interface ListProps extends WithAsProps, SortConfig {
   /* Size of list item */

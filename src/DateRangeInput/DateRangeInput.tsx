@@ -1,7 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
-import { mergeRefs, useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
+import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 import {
   validateDateTime,
   useDateInputState,
@@ -12,7 +13,7 @@ import {
   useFieldCursor
 } from '../DateInput';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
-import { FormControlBaseProps } from '../@types/common';
+import { FormControlBaseProps } from '@/internals/types';
 
 type ValueType = [Date | null, Date | null] | null;
 

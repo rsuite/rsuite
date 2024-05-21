@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSafeRegExpString } from '../../internals/utils';
+import { getSafeRegExpString } from '@/internals/utils';
 export function highlightText(
   text: string,
   props: {

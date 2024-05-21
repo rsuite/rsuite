@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
-import { placementPolyfill, useClassNames } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { placementPolyfill } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface FormErrorMessageProps extends WithAsProps {
   /** Show error messages */

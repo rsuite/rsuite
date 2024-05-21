@@ -1,15 +1,15 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import Menu from '../internals/Menu/Menu';
-import MenuItem from '../internals/Menu/MenuItem';
-import { mergeRefs, useClassNames } from '../utils';
+import Menu from '@/internals/Menu/Menu';
+import MenuItem from '@/internals/Menu/MenuItem';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 import PropTypes from 'prop-types';
-import { StandardProps } from '../@types/common';
+import { StandardProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
-import useCustom from '../utils/useCustom';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
 import NavContext from '../Nav/NavContext';
 

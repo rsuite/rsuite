@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Offset } from '../../@types/common';
+import { Offset } from '@/internals/types';
 
 export interface Axis {
   x: number;

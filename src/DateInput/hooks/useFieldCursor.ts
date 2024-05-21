@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { getPatternGroups } from '../utils';
-import useUpdateEffect from '../../utils/useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 export function useFieldCursor<V = Date | null>(format: string, value?: V) {
   const typeCount = useRef(0);
 

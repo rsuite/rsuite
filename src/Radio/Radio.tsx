@@ -1,15 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import {
-  useClassNames,
-  useControlled,
-  useEventCallback,
-  useUniqueId,
-  partitionHTMLProps
-} from '../utils';
-import { WithAsProps, TypeAttributes } from '../@types/common';
-import { refType } from '../internals/propTypes';
+import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { partitionHTMLProps } from '@/internals/utils';
+import { WithAsProps, TypeAttributes } from '@/internals/types';
+import { refType } from '@/internals/propTypes';
 
 export type ValueType = string | number;
 export interface RadioProps<T = ValueType>

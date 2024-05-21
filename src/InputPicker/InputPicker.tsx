@@ -7,23 +7,13 @@ import clone from 'lodash/clone';
 import isArray from 'lodash/isArray';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import shallowEqual from '../utils/shallowEqual';
-import { filterNodesOfTree } from '../internals/Tree/utils';
-import Plaintext, { type PlaintextProps } from '../internals/Plaintext';
-import {
-  createChainedFunction,
-  tplTransform,
-  useClassNames,
-  useCustom,
-  useControlled,
-  useEventCallback,
-  mergeRefs,
-  isOneOf,
-  KEY_VALUES
-} from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { getDataGroupBy } from '../utils/getDataGroupBy';
-
+import { shallowEqual, getDataGroupBy } from '@/internals/utils';
+import { filterNodesOfTree } from '@/internals/Tree/utils';
+import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
+import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { KEY_VALUES } from '@/internals/constants';
+import { createChainedFunction, tplTransform, mergeRefs, isOneOf } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
 import {
   Listbox,
   ListItem,
@@ -42,7 +32,7 @@ import {
   PickerComponent,
   listPickerPropTypes,
   PickerToggleProps
-} from '../internals/Picker';
+} from '@/internals/Picker';
 
 import Tag from '../Tag';
 import TextBox from './TextBox';
@@ -51,7 +41,7 @@ import Stack, { type StackProps } from '../Stack';
 import useInput from './hooks/useInput';
 import useData, { type InputItemDataType } from './hooks/useData';
 import { convertSize } from './utils';
-import type { ItemDataType, FormControlPickerProps } from '../@types/common';
+import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
 

@@ -1,14 +1,13 @@
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { deprecatePropType, oneOf } from '../internals/propTypes';
+import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
 import isNil from 'lodash/isNil';
-import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
+import { createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './Navbar';
-import DisclosureContext, {
-  DisclosureActionTypes
-} from '../internals/Disclosure/DisclosureContext';
+import DisclosureContext, { DisclosureActionTypes } from '@/internals/Disclosure/DisclosureContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import NavContext from '../Nav/NavContext';
 import classNames from 'classnames';

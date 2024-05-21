@@ -1,6 +1,6 @@
 import { TreeNode, TreeNodeMap } from '../types';
-import { shallowEqual } from '../../utils';
-import { ListHandle } from '../../internals/Windowing';
+import { shallowEqual } from '@/internals/utils';
+import { ListHandle } from '@/internals/Windowing';
 
 interface FocusableItemsProps {
   disabledItemValues: any;

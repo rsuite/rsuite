@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TooltipProps extends WithAsProps {
   /** Dispaly placement */

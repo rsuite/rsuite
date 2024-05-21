@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { TREE_NODE_DROP_POSITION, shallowEqual as equal } from '../../utils';
-import { useCombobox } from '../../internals/Picker/hooks';
+import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
+import { shallowEqual as equal } from '@/internals/utils';
+import { useCombobox } from '@/internals/Picker/hooks';
 import { useItemDataKeys } from '../TreeProvider';
 import { DragStatus } from '../TreeNode';
 import Highlight from '../../Highlight';

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import { oneOf } from '@/internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import ButtonGroupContext from './ButtonGroupContext';
-import { oneOf } from '../internals/propTypes';
 export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
   block?: boolean;

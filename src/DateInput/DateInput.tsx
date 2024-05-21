@@ -1,8 +1,9 @@
 import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
-import { mergeRefs, useCustom, useControlled, useEventCallback } from '../utils';
-import { FormControlBaseProps } from '../@types/common';
+import { useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { FormControlBaseProps } from '@/internals/types';
 import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
 import useDateInputState from './hooks/useDateInputState';
 import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';

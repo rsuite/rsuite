@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useCallback } from 'react';
 import getStyle from 'dom-lib/getStyle';
-import { mergeRefs, useElementResize, useMount } from '../../utils';
+import { useElementResize, useMount } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 
 export interface Size {
   height: number;

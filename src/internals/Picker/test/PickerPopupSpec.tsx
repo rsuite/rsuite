@@ -4,7 +4,7 @@ import getWidth from 'dom-lib/getWidth';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
-import * as utils from '../../../utils';
+import * as hooks from '@/internals/hooks';
 import useElementResize from '@test/stubs/useElementResize';
 import { OverlayTriggerHandle } from '../PickerToggleTrigger';
 
@@ -21,7 +21,7 @@ describe('PickerPopup', () => {
   });
 
   it('Should update the position after the size is changed', () => {
-    sinon.stub(utils, 'useElementResize').callsFake(useElementResize);
+    sinon.stub(hooks, 'useElementResize').callsFake(useElementResize);
     const updatePosition = sinon.spy();
     type AppInstance = {
       changeOverlaySize: () => void;

@@ -3,7 +3,7 @@ import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ArrowRightIcon from '@rsuite/icons/ArrowRight';
 import ArrowLeftIcon from '@rsuite/icons/ArrowLeft';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import { useClassNames, useCustom } from '../utils';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import { useTreeCustomRenderer } from './TreeProvider';
 
 interface TreeNodeToggleProps extends React.HTMLAttributes<HTMLDivElement> {

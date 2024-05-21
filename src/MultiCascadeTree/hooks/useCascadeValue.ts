@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import uniq from 'lodash/uniq';
 import remove from 'lodash/remove';
 import { MultiCascadeTreeProps, ItemKeys } from '../types';
-import { useEventCallback } from '../../utils';
-import { ItemDataType } from '../../@types/common';
+import { useEventCallback } from '@/internals/hooks';
+import { ItemDataType } from '@/internals/types';
 import {
   MayHasParent,
   removeAllChildrenValue,

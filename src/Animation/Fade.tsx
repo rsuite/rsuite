@@ -1,6 +1,6 @@
 import React from 'react';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 
 export type FadeProps = TransitionProps;
 

@@ -6,19 +6,10 @@ import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
-import { filterNodesOfTree } from '../internals/Tree/utils';
+import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  useClassNames,
-  shallowEqual,
-  useCustom,
-  useControlled,
-  useEventCallback,
-  mergeRefs
-} from '../utils';
-import { getDataGroupBy } from '../utils/getDataGroupBy';
-
+import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction, shallowEqual, mergeRefs, getDataGroupBy } from '@/internals/utils';
 import {
   Listbox,
   ListCheckItem,
@@ -37,11 +28,11 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../internals/Picker';
-import SearchBox from '../internals/SearchBox';
-import { ItemDataType, FormControlPickerProps } from '../@types/common';
+} from '@/internals/Picker';
+import SearchBox from '@/internals/SearchBox';
+import { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { MultipleSelectProps } from '../SelectPicker';
-import { oneOf } from '../internals/propTypes';
+import { oneOf } from '@/internals/propTypes';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T>

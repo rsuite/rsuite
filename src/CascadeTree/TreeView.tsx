@@ -2,15 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
-import { shallowEqual, useClassNames, mergeRefs, useCustom, useEventCallback } from '../utils';
-import { ListItem, useCombobox } from '../internals/Picker';
+import { shallowEqual, mergeRefs } from '@/internals/utils';
+import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { ListItem, useCombobox } from '@/internals/Picker';
 import {
   ItemDataType,
   WithAsProps,
   RsRefForwardingComponent,
   DataProps,
   ToArray
-} from '../@types/common';
+} from '@/internals/types';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import getPosition from 'dom-lib/getPosition';

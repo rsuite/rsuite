@@ -2,13 +2,13 @@ import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import remove from 'lodash/remove';
 import Transition from '../Animation/Transition';
-import shallowEqual from '../utils/shallowEqual';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
-import { useClassNames, useControlled, mergeRefs } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { deprecatePropType, oneOf } from '../internals/propTypes';
+import { useClassNames, useControlled } from '@/internals/hooks';
+import { mergeRefs, shallowEqual } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { deprecatePropType, oneOf } from '@/internals/propTypes';
 
 export interface SidenavProps<T = string> extends WithAsProps {
   /** Whether to expand the Sidenav */

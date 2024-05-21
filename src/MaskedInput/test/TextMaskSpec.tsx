@@ -2,8 +2,8 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
+import { mergeRefs } from '@/internals/utils';
 import TextMask, { TextMaskProps } from '../TextMask';
-import mergeRefs from '../../utils/mergeRefs';
 
 type TextMastTestInstance = {
   input: HTMLInputElement;

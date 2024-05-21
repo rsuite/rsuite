@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TypeAttributes } from '../@types/common';
+import { TypeAttributes } from '@/internals/types';
 import type { Schema, CheckResult } from 'schema-typed';
 import type { FieldRuleType } from './hooks/useSchemaModel';
 

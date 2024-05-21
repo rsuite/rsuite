@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames, DATERANGE_DISABLED_TARGET } from '../utils';
-import { isSameDay, addDays, isBefore, isAfter, format } from '../utils/dateUtils';
+import { isSameDay, addDays, isBefore, isAfter, format } from '@/internals/utils/date';
+import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
+import { useClassNames } from '@/internals/hooks';
 import { useCalendarContext } from './CalendarContext';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import TableCell from './TableCell';
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
@@ -117,10 +117,5 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
 );
 
 TableRow.displayName = 'CalendarTableRow';
-TableRow.propTypes = {
-  weekendDate: PropTypes.instanceOf(Date),
-  className: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default TableRow;

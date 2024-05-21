@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
 import DrawerContext from '../Drawer/DrawerContext';

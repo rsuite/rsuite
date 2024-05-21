@@ -2,8 +2,8 @@ import React from 'react';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
 import NavbarBrand from './NavbarBrand';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export const NavbarContext = React.createContext<boolean>(false);
 

@@ -1,5 +1,6 @@
-import { composeFunctions, DateUtils } from '../utils';
+import { composeFunctions } from '@/internals/utils';
 import { DisabledDateFunction } from './types';
+import * as DateUtils from '@/internals/utils/date';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
   return DateUtils.isAfter(

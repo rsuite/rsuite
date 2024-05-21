@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { WithAsProps } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { WithAsProps } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 
 export interface StackItemProps extends WithAsProps {
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';

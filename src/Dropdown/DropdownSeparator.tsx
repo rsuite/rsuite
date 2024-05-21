@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { useClassNames } from '../utils';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { useClassNames } from '@/internals/hooks';
 
 export interface DropdownSeparatorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** You can use a custom element for this component */

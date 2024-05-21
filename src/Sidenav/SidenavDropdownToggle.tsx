@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import SidenavItem from './SidenavItem';
-import { oneOf } from '../internals/propTypes';
+import { oneOf } from '@/internals/propTypes';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;

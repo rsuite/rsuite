@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import OverlayTrigger, { OverlayTriggerHandle } from '../internals/Overlay/OverlayTrigger';
-import { createChainedFunction, placementPolyfill, PLACEMENT } from '../utils';
-import { oneOf } from '../internals/propTypes';
+import OverlayTrigger, {
+  OverlayTriggerHandle,
+  OverlayTriggerProps
+} from '@/internals/Overlay/OverlayTrigger';
+import { PLACEMENT } from '@/internals/constants';
+import { oneOf } from '@/internals/propTypes';
+import { createChainedFunction, placementPolyfill } from '@/internals/utils';
 import { CustomContext } from '../CustomProvider';
-import { OverlayTriggerProps } from '../internals/Overlay/OverlayTrigger';
 
 export type WhisperProps = OverlayTriggerProps;
 

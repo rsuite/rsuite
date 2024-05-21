@@ -1,9 +1,9 @@
 import React from 'react';
-import { getClassNamePrefix, prefix } from '../utils/prefix';
+import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
-import { usePortal, useIsomorphicLayoutEffect } from '../utils';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */

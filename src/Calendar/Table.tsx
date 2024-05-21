@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
-import { useClassNames } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
 
 export interface TableProps extends WithAsProps {

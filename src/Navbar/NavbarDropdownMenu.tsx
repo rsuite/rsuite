@@ -2,15 +2,16 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
-import { StandardProps } from '../@types/common';
+import { StandardProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import { mergeRefs, useClassNames, useCustom } from '../utils';
+import { mergeRefs } from '@/internals/utils';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import { NavbarContext } from '.';
-import Disclosure from '../internals/Disclosure';
+import Disclosure from '@/internals/Disclosure';
 import NavContext from '../Nav/NavContext';
-import { deprecatePropType, oneOf } from '../internals/propTypes';
+import { deprecatePropType, oneOf } from '@/internals/propTypes';
 
 export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */

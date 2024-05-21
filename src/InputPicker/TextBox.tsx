@@ -1,6 +1,6 @@
 import React from 'react';
 import TagList from './TagList';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import InputSearch, { InputSearchProps } from './InputSearch';
 
 interface TextBoxProps {

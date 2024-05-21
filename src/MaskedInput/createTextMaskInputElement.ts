@@ -3,7 +3,7 @@ import isNumber from 'lodash/isNumber';
 import adjustCaretPosition from './adjustCaretPosition';
 import conformToMask from './conformToMask';
 import { convertMaskToPlaceholder, processCaretTraps, defaultPlaceholderChar } from './utilities';
-import safeSetSelection from '../utils/safeSetSelection';
+import { safeSetSelection } from '@/internals/utils';
 
 const emptyString = '';
 const strObject = 'object';

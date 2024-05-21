@@ -1,6 +1,6 @@
 import React from 'react';
-import { useClassNames } from '../utils';
-import { compareAsc } from '../utils/dateUtils';
+import { useClassNames } from '@/internals/hooks';
+import { compareAsc } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import Button from '../Button';
 

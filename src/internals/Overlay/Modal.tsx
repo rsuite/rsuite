@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
+import { KEY_VALUES } from '@/internals/constants';
+import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { mergeRefs, createChainedFunction } from '@/internals/utils';
+import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '@/internals/types';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
 import { animationPropTypes } from '../../Animation/utils';
-import {
-  mergeRefs,
-  usePortal,
-  createChainedFunction,
-  useWillUnmount,
-  useEventCallback,
-  KEY_VALUES
-} from '../../utils';
-import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '../../@types/common';
 import OverlayContext from './OverlayContext';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {

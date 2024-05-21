@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
-import { KEY_VALUES } from '../../utils/constants';
-import { useEventCallback, useCustom } from '../../utils';
-import { onMenuKeyDown } from '../../internals/Picker';
+import { KEY_VALUES } from '@/internals/constants';
+import { useEventCallback, useCustom } from '@/internals/hooks';
+import { onMenuKeyDown } from '@/internals/Picker';
 import { useItemDataKeys } from '../TreeProvider';
 
 import {

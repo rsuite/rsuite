@@ -11,14 +11,14 @@ import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
-import { createChainedFunction, usePortal, useControlled } from '../../utils';
-import isOneOf from '../../utils/isOneOf';
+import { usePortal, useControlled } from '../hooks';
+import { createChainedFunction, isOneOf } from '@/internals/utils';
 import {
   AnimationEventProps,
   CursorPosition,
   StandardProps,
   TypeAttributes
-} from '../../@types/common';
+} from '@/internals/types';
 import { PositionChildProps, PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
 import OverlayContext from './OverlayContext';

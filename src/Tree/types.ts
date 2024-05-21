@@ -1,6 +1,6 @@
-import type { CheckStateType } from '../utils/constants';
-import type { StandardProps } from '../@types/common';
-import type { ListProps } from '../internals/Windowing';
+import type { CheckStateType } from '@/internals/constants';
+import type { StandardProps } from '@/internals/types';
+import type { ListProps } from '@/internals/Windowing';
 
 /**
  * Represents a single node in a tree.

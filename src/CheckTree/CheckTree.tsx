@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import { useEventCallback } from '../utils';
+import { useEventCallback } from '@/internals/hooks';
 import useTreeValue from './hooks/useTreeValue';
 import CheckTreeView, { type CheckTreeViewProps } from './CheckTreeView';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import { TreeProvider } from '../Tree/TreeProvider';
-import type { RsRefForwardingComponent } from '../@types/common';
+import type { RsRefForwardingComponent } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];

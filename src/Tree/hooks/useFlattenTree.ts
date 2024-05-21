@@ -1,7 +1,7 @@
 import { useCallback, useRef, useEffect } from 'react';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
-import shallowEqual from '../../utils/shallowEqual';
+import { shallowEqual } from '@/internals/utils';
 import { formatNodeRefKey } from '../utils';
 import useForceUpdate from './useForceUpdate';
 import type { TreeNode, TreeNodeMap } from '../types';

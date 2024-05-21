@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
-import { useClassNames, useControlled, partitionHTMLProps } from '../utils';
-import useUniqueId from '../utils/useUniqueId';
-import { WithAsProps } from '../@types/common';
+import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
+import { partitionHTMLProps } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
 
 export type ValueType = string | number;
 

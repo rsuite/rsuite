@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { AutoSizer, FixedSizeList, ListChildComponentProps } from '../internals/Windowing';
-import { DateUtils, useClassNames } from '../utils';
+import { getDaysInMonth, getMonth, getYear } from '@/internals/utils/date';
+import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
+import { useClassNames } from '@/internals/hooks';
 import MonthDropdownItem from './MonthDropdownItem';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownProps extends WithAsProps {
@@ -42,7 +42,7 @@ export function isEveryDateInMonth(
   month: number,
   predicate: (date: Date) => boolean
 ): boolean {
-  const days = DateUtils.getDaysInMonth(new Date(year, month));
+  const days = getDaysInMonth(new Date(year, month));
 
   for (let i = 1; i <= days; i++) {
     if (!predicate(new Date(year, month, i))) {
@@ -69,7 +69,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 
     const { date = new Date(), targetId } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const thisYear = DateUtils.getYear(new Date());
+    const thisYear = getYear(new Date());
     const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
 
     const rowCount = useMemo(() => {
@@ -91,8 +91,8 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 
     const rowRenderer = useCallback(
       ({ index, style }: ListChildComponentProps) => {
-        const selectedMonth = DateUtils.getMonth(date);
-        const selectedYear = DateUtils.getYear(date);
+        const selectedMonth = getMonth(date);
+        const selectedYear = getYear(date);
         const year = startYear + index;
         const isSelectedYear = year === selectedYear;
         const titleClassName = prefix('year', { 'year-active': isSelectedYear });
@@ -128,7 +128,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 
     const classes = merge(className, withClassPrefix(), { show });
     const itemSize = 75;
-    const initialItemIndex = DateUtils.getYear(date) - startYear;
+    const initialItemIndex = getYear(date) - startYear;
     const initialScrollOffset = itemSize * initialItemIndex;
 
     return (
@@ -167,12 +167,5 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 );
 
 MonthDropdown.displayName = 'MonthDropdown';
-MonthDropdown.propTypes = {
-  limitEndYear: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  show: PropTypes.bool,
-  disabledMonth: PropTypes.func
-};
 
 export default MonthDropdown;

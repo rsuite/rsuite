@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import useUniqueId from '../../utils/useUniqueId';
+import { useUniqueId } from '../hooks';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 
 export interface MenuItemProps {

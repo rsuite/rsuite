@@ -1,4 +1,4 @@
-import { attachParent } from '../../utils/attachParent';
+import { attachParent } from '@/internals/utils';
 
 /**
  * Strategy for walking the tree.

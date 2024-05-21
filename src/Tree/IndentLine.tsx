@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 
 const IndentLine = () => {
   const { prefix } = useClassNames('tree');

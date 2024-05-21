@@ -1,9 +1,9 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { getYear } from 'date-fns';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
-import { DateUtils } from '../../utils';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
@@ -35,7 +35,7 @@ describe('Calendar-MonthDropdown', () => {
         <MonthDropdown show limitStartYear={1} limitEndYear={1} />
       </CalendarContext.Provider>
     );
-    const currentYear = DateUtils.getYear(new Date());
+    const currentYear = getYear(new Date());
     expect(screen.getAllByRole('row', { hidden: true })).to.be.lengthOf(1);
     expect(screen.getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
       currentYear.toString()
@@ -54,7 +54,7 @@ describe('Calendar-MonthDropdown', () => {
         <MonthDropdown show limitStartYear={3} limitEndYear={0} />
       </CalendarContext.Provider>
     );
-    const currentYear = DateUtils.getYear(new Date());
+    const currentYear = getYear(new Date());
     expect(screen.getAllByRole('row', { hidden: true })).to.be.lengthOf(2);
     expect(screen.getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
       (currentYear - 2).toString()
@@ -76,7 +76,7 @@ describe('Calendar-MonthDropdown', () => {
         <MonthDropdown show limitStartYear={2} limitEndYear={2} />
       </CalendarContext.Provider>
     );
-    const currentYear = DateUtils.getYear(new Date());
+    const currentYear = getYear(new Date());
     const nextYear = currentYear + 1;
     const previousYear = currentYear - 1;
     expect(screen.getAllByRole('row', { hidden: true })).to.be.lengthOf(3);

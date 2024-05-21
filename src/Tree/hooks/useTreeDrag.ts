@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
 import isNil from 'lodash/isNil';
-import { TREE_NODE_DROP_POSITION, shallowEqual } from '../../utils';
-import { useEventCallback, shallowEqual as equal } from '../../utils';
-import { stringifyReactNode } from '../../internals/utils';
+import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
+import { useEventCallback } from '@/internals/hooks';
+import { shallowEqual as equal, stringifyReactNode } from '@/internals/utils';
 import { useItemDataKeys } from '../TreeProvider';
 import type { DropData } from '../types';
 
@@ -139,7 +139,7 @@ export default function useTreeDrag<T>(props: TreeDragProps) {
       const traverse = (items: any[], parent?: any) => {
         for (let index = 0; index < items.length; index += 1) {
           const item = items[index];
-          if (shallowEqual(item[valueKey], dragNode[valueKey])) {
+          if (equal(item[valueKey], dragNode[valueKey])) {
             items.splice(index, 1);
             // when children is empty, delete children prop for hidden anchor
             if (items.length === 0 && parent) {
@@ -172,7 +172,7 @@ export default function useTreeDrag<T>(props: TreeDragProps) {
           for (let index = 0; index < items.length; index += 1) {
             const item = items[index];
 
-            if (shallowEqual(item[valueKey], dropNode[valueKey])) {
+            if (equal(item[valueKey], dropNode[valueKey])) {
               // drag to node inside
               if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER) {
                 item[childrenKey] = isNil(item[childrenKey]) ? [] : item[childrenKey];

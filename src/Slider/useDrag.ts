@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import PointerMoveTracker from 'dom-lib/PointerMoveTracker';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import { useEventCallback } from '../utils';
+import { useEventCallback } from '@/internals/hooks';
 
 interface DragProps {
   tooltip?: boolean;

@@ -1,4 +1,4 @@
-import { ItemDataType, DataProps, WithAsProps, ToArray } from '../@types/common';
+import { ItemDataType, DataProps, WithAsProps, ToArray } from '@/internals/types';
 
 export interface SelectNode<T> {
   itemData: ItemDataType<T>;

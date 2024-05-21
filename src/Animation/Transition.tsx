@@ -5,8 +5,8 @@ import on from 'dom-lib/on';
 import classNames from 'classnames';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import { getDOMNode } from '../utils';
-import { AnimationEventProps } from '../@types/common';
+import { getDOMNode } from '@/internals/utils';
+import { AnimationEventProps } from '@/internals/types';
 import { getAnimationEnd, animationPropTypes } from './utils';
 
 export enum STATUS {

@@ -2,8 +2,8 @@ import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { isNil } from 'lodash';
 import contains from 'dom-lib/contains';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 const characterStatus = {
   [0]: 'empty',

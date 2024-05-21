@@ -21,7 +21,7 @@ import {
   startOfWeek,
   subDays,
   addMonths
-} from '../../utils/dateUtils';
+} from 'date-fns';
 import DateRangePicker from '../DateRangePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import { RangeType, DateRange } from '../types';
@@ -62,7 +62,7 @@ describe('DateRangePicker', () => {
         userEvent.click(screen.getByRole('gridcell', { name: '05 Nov 2023' }));
         userEvent.click(screen.getByRole('gridcell', { name: '06 Nov 2023' }));
         userEvent.click(screen.getByRole('button', { name: 'OK' }));
-        return { changedValue: [new Date('2023-11-05'), new Date('2023-11-06')] };
+        return { changedValue: [new Date('2023-11-05 00:00:00'), new Date('2023-11-06 00:00:00')] };
       }
     },
     expectedValue: (value: [Date, Date]) => {

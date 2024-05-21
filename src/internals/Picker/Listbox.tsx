@@ -16,15 +16,15 @@ import {
   ListHandle,
   VariableSizeList,
   ListChildComponentProps
-} from '../../internals/Windowing';
-import shallowEqual from '../../utils/shallowEqual';
-import { mergeRefs, useClassNames, useMount, useEventCallback } from '../../utils';
+} from '@/internals/Windowing';
+import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
+import { useClassNames, useMount, useEventCallback } from '../hooks';
+import { shallowEqual, mergeRefs } from '@/internals/utils';
+import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import ListItemGroup from './ListItemGroup';
-import { KEY_GROUP_TITLE } from '../../utils/getDataGroupBy';
-import { StandardProps, ItemDataType, Offset, DataProps } from '../../@types/common';
+import { StandardProps, ItemDataType, Offset, DataProps } from '@/internals/types';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
-import { RSUITE_PICKER_GROUP_KEY } from '../../internals/symbols';
 
 interface InnerItemDataType extends ItemDataType {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;

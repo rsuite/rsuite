@@ -1,7 +1,7 @@
 import React from 'react';
 import PanelGroup, { type PanelGroupProps } from '../PanelGroup';
 import Panel from '../Panel';
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent } from '@/internals/types';
 
 export type AccordionProps = Omit<PanelGroupProps, 'accordion'>;
 

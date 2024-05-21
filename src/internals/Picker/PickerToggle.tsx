@@ -1,9 +1,9 @@
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
-import { useClassNames, mergeRefs, useEventCallback } from '../../utils';
-import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '../../@types/common';
+import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
+import { mergeRefs } from '@/internals/utils';
+import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '@/internals/types';
 import Plaintext from '../Plaintext';
-import useToggleCaret from '../../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Stack from '../../Stack';
 import PickerIndicator from './PickerIndicator';

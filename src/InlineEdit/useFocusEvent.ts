@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { contains, ownerDocument } from 'dom-lib';
-import { useIsomorphicLayoutEffect, useUpdateEffect, useEventCallback } from '../utils';
-import { PickerHandle } from '../internals/Picker/types';
-import { RSUITE_PICKER_TYPE } from '../internals/symbols';
+import { useIsomorphicLayoutEffect, useUpdateEffect, useEventCallback } from '@/internals/hooks';
+import { PickerHandle } from '@/internals/Picker/types';
+import { RSUITE_PICKER_TYPE } from '@/internals/symbols';
 
 interface FocusEventProps {
   isEditing: boolean;

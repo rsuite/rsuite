@@ -5,16 +5,8 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  useCustom,
-  useClassNames,
-  useControlled,
-  useEventCallback,
-  mergeRefs,
-  shallowEqual
-} from '../utils';
-import { getDataGroupBy } from '../utils/getDataGroupBy';
+import { useCustom, useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';
 import {
   Listbox,
   ListItem,
@@ -32,11 +24,11 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../internals/Picker';
-import SearchBox from '../internals/SearchBox';
-import { ListProps } from '../internals/Windowing';
-import { oneOf } from '../internals/propTypes';
-import { FormControlPickerProps, ItemDataType } from '../@types/common';
+} from '@/internals/Picker';
+import SearchBox from '@/internals/SearchBox';
+import { ListProps } from '@/internals/Windowing';
+import { oneOf } from '@/internals/propTypes';
+import { FormControlPickerProps, ItemDataType } from '@/internals/types';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */

@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import upperFirst from 'lodash/upperFirst';
-import { useClassNames } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { getWeekKeys } from '@/internals/utils/date';
+import { useClassNames } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
 
 export type TableHeaderRowProps = WithAsProps;
-
-const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
   (props: TableHeaderRowProps, ref) => {
@@ -15,17 +13,12 @@ const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = Rea
     const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('row', 'header-row'));
-    let items = weekKeys;
-
-    if (isoWeek) {
-      items = weekKeys.filter(v => v !== 'sunday');
-      items.push('sunday');
-    }
+    const weeks = getWeekKeys(isoWeek ? 1 : 0);
 
     return (
       <Component role="row" {...rest} ref={ref} className={classes}>
         {showWeekNumbers && <div className={prefix('header-cell')} role="columnheader" />}
-        {items.map(key => (
+        {weeks.map(key => (
           <div
             key={key}
             className={prefix('header-cell')}
@@ -41,10 +34,5 @@ const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = Rea
 );
 
 TableHeaderRow.displayName = 'CalendarTableHeaderRow';
-TableHeaderRow.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default TableHeaderRow;

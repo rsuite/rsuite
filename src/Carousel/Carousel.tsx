@@ -1,18 +1,16 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { oneOf } from '@/internals/propTypes';
 import {
   useClassNames,
   useCustom,
-  guid,
-  ReactChildren,
-  useTimeout,
-  mergeRefs,
   useControlled,
-  useUpdateEffect
-} from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+  useUpdateEffect,
+  useTimeout
+} from '@/internals/hooks';
+import { guid, ReactChildren, mergeRefs } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface CarouselProps extends WithAsProps {
   /** Autoplay element */

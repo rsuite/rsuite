@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps } from '@/internals/types';
 
 export type ContainerProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 export const ContainerContext = React.createContext<ContainerContextValue>({});

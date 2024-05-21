@@ -6,11 +6,12 @@ import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
-import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
+import { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
 import { DateRangePickerLocale } from '../locales';
+import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import {
   omitTriggerPropKeys,
   PickerComponent,
@@ -24,19 +25,20 @@ import {
   usePickerClassName,
   usePickerRef,
   onMenuKeyDown
-} from '../internals/Picker';
+} from '@/internals/Picker';
 import {
-  createChainedFunction,
-  DATERANGE_DISABLED_TARGET as TARGET,
-  mergeRefs,
   useClassNames,
   useControlled,
   useCustom,
   useUniqueId,
-  useEventCallback,
+  useEventCallback
+} from '@/internals/hooks';
+import {
+  createChainedFunction,
+  mergeRefs,
   partitionHTMLProps,
   getStringLength
-} from '../utils';
+} from '@/internals/utils';
 import {
   addMonths,
   isValid,
@@ -47,19 +49,19 @@ import {
   endOfDay,
   shouldRenderTime,
   isAfter,
-  copyTime,
   isSameMonth,
   shouldRenderMonth,
   shouldRenderDate,
-  reverseDateRangeOmitTime,
-  getReversedTimeMeridian,
   calendarOnlyProps,
+  getReversedTimeMeridian,
+  reverseDateRangeOmitTime,
+  copyTime,
   shouldOnlyRenderTime
-} from '../utils/dateUtils';
+} from '@/internals/utils/date';
 import Calendar from './Calendar';
 import { DisabledDateFunction, RangeType, DateRange, SelectedDatesState } from './types';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew, oneOf } from '../internals/propTypes';
+import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import Input from '../Input';

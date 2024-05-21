@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import FlexboxGridItem from './FlexboxGridItem';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 
 export interface FlexboxGridProps extends WithAsProps {
   /** align */

@@ -20,6 +20,17 @@ module.exports = (api, options) => {
       {
         include: ['RUN_ENV']
       }
+    ],
+    [
+      'module-resolver',
+      {
+        root: ['./src/'],
+        alias: {
+          '^@/internals/(.+)': ([, name]) => {
+            return `./src/internals/${name}`;
+          }
+        }
+      }
     ]
   ];
 

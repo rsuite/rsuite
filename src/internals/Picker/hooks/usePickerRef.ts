@@ -1,8 +1,8 @@
 import { useImperativeHandle, useRef } from 'react';
-import useEventCallback from '../../../utils/useEventCallback';
-import { RSUITE_PICKER_TYPE } from '../../../internals/symbols';
+import { useEventCallback } from '../../hooks';
+import { RSUITE_PICKER_TYPE } from '../../symbols';
 import type { OverlayTriggerHandle } from '../PickerToggleTrigger';
-import type { ListHandle } from '../../../internals/Windowing';
+import type { ListHandle } from '../../Windowing';
 import type { PickerHandle } from '../types';
 
 /**

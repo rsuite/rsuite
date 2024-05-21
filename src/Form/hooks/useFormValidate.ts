@@ -2,9 +2,8 @@ import { useRef, useCallback } from 'react';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 import type { CheckResult } from 'schema-typed';
-import { useControlled } from '../../utils';
+import { useControlled, useEventCallback } from '@/internals/hooks';
 import { nameToPath } from '../../FormControl/utils';
-import useEventCallback from '../../utils/useEventCallback';
 
 export interface FormErrorProps {
   formValue: any;

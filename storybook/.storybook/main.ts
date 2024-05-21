@@ -29,7 +29,13 @@ const config: StorybookConfig = {
   async viteFinal(config, { configType }) {
     return mergeConfig(config, {
       resolve: {
-        alias: [{ find: '@/storybook/', replacement: path.resolve(__dirname, '../') + '/' }]
+        alias: [
+          { find: '@/storybook/', replacement: path.resolve(__dirname, '../') + '/' },
+          {
+            find: '@/internals/',
+            replacement: path.resolve(__dirname, '../../src/internals') + '/'
+          }
+        ]
       }
     });
   }

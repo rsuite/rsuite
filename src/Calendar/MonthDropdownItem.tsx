@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { composeFunctions, useClassNames, useCustom } from '../utils';
-import { setMonth, setYear } from '../utils/dateUtils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { setMonth, setYear } from '@/internals/utils/date';
+import { useClassNames, useCustom } from '@/internals/hooks';
+import { composeFunctions } from '@/internals/utils';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
 import { getAriaLabel } from './utils';
 
@@ -73,13 +73,5 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
   }
 );
 MonthDropdownItem.displayName = 'MonthDropdownItem';
-MonthDropdownItem.propTypes = {
-  month: PropTypes.number,
-  year: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool
-};
 
 export default MonthDropdownItem;

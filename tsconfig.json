@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@test/*": ["./test/*"],
+      "@/internals/*": ["./src/internals/*"],
       "@/*": ["./src/*"],
       "@/storybook/*": ["./storybook/*"]
     }

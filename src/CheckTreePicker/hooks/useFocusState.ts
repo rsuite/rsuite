@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useEventCallback } from '../../utils';
+import { useEventCallback } from '@/internals/hooks';
 
 interface FocusStateProps {
   target: React.RefObject<HTMLElement>;

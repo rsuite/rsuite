@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useUniqueId } from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { useClassNames, useUniqueId } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 
 export interface LoaderProps extends WithAsProps {
   /** Centered in the container */

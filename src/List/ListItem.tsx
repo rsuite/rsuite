@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useRef } from 'react';
-import { WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames } from '../utils';
+import { WithAsProps } from '@/internals/types';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 import ListContext from './ListContext';
 import { Collection } from './helper/useManager';
 

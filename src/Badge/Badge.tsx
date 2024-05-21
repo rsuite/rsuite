@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-import { oneOf } from '../internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
 export interface BadgeProps extends WithAsProps {
   /** Main content */
   content?: React.ReactNode;

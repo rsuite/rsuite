@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
-import { Offset, RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames, useElementResize, useEventListener, useMount } from '../utils';
+import { Offset, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
 
 export interface AffixProps extends WithAsProps {
   /** Specify the container. */

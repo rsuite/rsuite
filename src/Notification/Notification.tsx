@@ -1,16 +1,11 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useClassNames,
-  useTimeout,
-  MESSAGE_STATUS_ICONS,
-  useIsMounted,
-  useEventCallback
-} from '../utils';
-import { oneOf } from '../internals/propTypes';
-import CloseButton from '../internals/CloseButton';
+import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
+import { useClassNames, useTimeout, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import CloseButton from '@/internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error';
 

@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Listbox from '../Listbox';
 import ListItem from '../ListItem';
-import { getDataGroupBy } from '../../../utils/getDataGroupBy';
+import { getDataGroupBy } from '@/internals/utils';
 import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';

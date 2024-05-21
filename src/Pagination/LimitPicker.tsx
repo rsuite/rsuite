@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import SelectPicker, { type SelectPickerProps } from '../SelectPicker';
 import { PaginationLocale } from '../locales';
-import { tplTransform } from '../utils';
-import { OnChangeCallback, TypeAttributes } from '../@types/common';
+import { tplTransform } from '@/internals/utils';
+import { OnChangeCallback, TypeAttributes } from '@/internals/types';
 
 interface LimitPickerProps extends Omit<SelectPickerProps<any>, 'locale' | 'disabled' | 'data'> {
   disabled?: boolean | ((eventKey: number | string) => boolean);

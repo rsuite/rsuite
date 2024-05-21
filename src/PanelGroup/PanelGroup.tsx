@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled, useEventCallback } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { WithAsProps } from '@/internals/types';
 
 type KeyType = string | number;
 export interface PanelGroupProps<T = KeyType> extends WithAsProps {

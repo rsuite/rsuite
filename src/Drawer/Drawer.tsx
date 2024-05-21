@@ -8,11 +8,11 @@ import Modal, {
   ModalFooterProps,
   ModalTitleProps
 } from '../Modal';
-import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import { useClassNames } from '../utils';
-import deprecateComponent from '../utils/deprecateComponent';
+import { TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { useClassNames } from '@/internals/hooks';
+import { deprecateComponent } from '@/internals/utils';
 import DrawerContext from './DrawerContext';
-import { oneOf } from '../internals/propTypes';
+import { oneOf } from '@/internals/propTypes';
 
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */

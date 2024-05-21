@@ -6,8 +6,8 @@ import {
   ListOnScrollProps,
   ListOnItemsRenderedProps
 } from 'react-window';
-import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
-import { useCustom } from '../../utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '@/internals/hooks';
 
 export const defaultItemSize = () => 36;
 

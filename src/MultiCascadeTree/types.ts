@@ -1,5 +1,5 @@
 import type { CascadeTreeProps } from '../CascadeTree/types';
-import type { ItemDataType, ToArray, WithAsProps } from '../@types/common';
+import type { ItemDataType, ToArray, WithAsProps } from '@/internals/types';
 
 export interface ItemKeys {
   valueKey: string;

@@ -1,4 +1,4 @@
-import shallowEqual from '../../utils/shallowEqual';
+import { shallowEqual } from '@/internals/utils';
 import { TreeNodeMap } from '../types';
 
 /**

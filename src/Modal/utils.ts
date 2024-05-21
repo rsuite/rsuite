@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { TypeAttributes } from '../@types/common';
+import { TypeAttributes } from '@/internals/types';
 
 export type ModalSize = TypeAttributes.Size | 'full' | number | string;
 

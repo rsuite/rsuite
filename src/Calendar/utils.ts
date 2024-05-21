@@ -1,4 +1,4 @@
-import { DateUtils } from '../utils';
+import { format as formatDate } from '@/internals/utils/date';
 
 /**
  * Get aria-label for the date.
@@ -11,5 +11,5 @@ export function getAriaLabel(
   formatStr: string,
   format: (date: Date, formatStr: string) => string
 ) {
-  return format ? format(date, formatStr) : DateUtils.format(date, formatStr);
+  return format ? format(date, formatStr) : formatDate(date, formatStr);
 }

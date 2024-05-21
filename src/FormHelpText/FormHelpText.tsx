@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
 import HelpIcon from '@rsuite/icons/legacy/HelpO';
 

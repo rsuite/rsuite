@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@rsuite/icons';
-import { useCustom, useClassNames } from '../../utils';
+import { useCustom, useClassNames } from '../hooks';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';

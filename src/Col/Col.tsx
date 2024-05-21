@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import { useClassNames, COLUMN_SIZE } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { COLUMN_SIZE } from '@/internals/constants';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ColProps extends WithAsProps {
   /** The number of columns you wish to span for Extra small devices Phones (< 576px) */

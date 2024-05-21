@@ -8,16 +8,11 @@ import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
-import {
-  partitionHTMLProps,
-  createChainedFunction,
-  useClassNames,
-  useControlled,
-  useEventCallback,
-  KEY_VALUES
-} from '../utils';
-import { oneOf } from '../internals/propTypes';
-import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { KEY_VALUES } from '@/internals/constants';
+import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, TypeAttributes, FormControlBaseProps } from '@/internals/types';
 
 export interface InputNumberProps<T = number | string | null>
   extends Omit<

@@ -1,7 +1,7 @@
 import React from 'react';
+import { getDate, format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
 import TableRow from '../TableRow';
-import { getDate, format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';

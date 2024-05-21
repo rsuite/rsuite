@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import isNil from 'lodash/isNil';
-import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '../internals/Windowing';
+import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import IndentLine from '../Tree/IndentLine';
-import { useCustom, useClassNames, useEventCallback } from '../utils';
-import { getPathTowardsItem, getKeyParentMap } from '../internals/Tree/utils';
-import { onMenuKeyDown } from '../internals/Picker';
-import { TreeView } from '../internals/Tree';
-import SearchBox from '../internals/SearchBox';
+import { useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
+import { onMenuKeyDown } from '@/internals/Picker';
+import { TreeView } from '@/internals/Tree';
+import SearchBox from '@/internals/SearchBox';
 import {
   hasGrandchild,
   isEveryFirstLevelNodeUncheckable,
@@ -21,7 +21,7 @@ import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
 import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import { useItemDataKeys } from '../Tree/TreeProvider';
-import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '../@types/common';
+import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '@/internals/types';
 import type { TreeNode, TreeNodeMap, TreeViewBaseProps } from '../Tree/types';
 
 /**

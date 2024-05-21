@@ -1,10 +1,9 @@
 import React from 'react';
 import Search from '@rsuite/icons/legacy/Search';
+import { useClassNames } from '@/internals/hooks';
 import Input from '../../Input';
-import InputGroup from '../..//InputGroup';
-
-import { useClassNames } from '../../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
+import InputGroup from '../../InputGroup';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface SearchBoxProps extends WithAsProps {
   value?: string;

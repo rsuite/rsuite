@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
-import { useControlled } from '../../utils';
+import { useControlled } from '@/internals/hooks';
 
 type RecordAny = Record<string, any>;
 interface UseFormValueProps<V = RecordAny> {

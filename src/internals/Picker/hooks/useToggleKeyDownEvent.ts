@@ -1,4 +1,5 @@
-import { useEventCallback, KEY_VALUES } from '../../../utils';
+import { KEY_VALUES } from '@/internals/constants';
+import { useEventCallback } from '@/internals/hooks';
 
 interface ToggleKeyDownEventProps {
   toggle?: boolean;

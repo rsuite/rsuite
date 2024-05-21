@@ -1,9 +1,9 @@
 import React from 'react';
 import partial from 'lodash/partial';
-import { useClassNames, useCustom } from '../utils';
-import { isSameDay, getDate } from '../utils/dateUtils';
+import { isSameDay, getDate } from '@/internals/utils/date';
+import { useClassNames, useCustom } from '@/internals/hooks';
 import { useCalendarContext } from './CalendarContext';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { getAriaLabel } from './utils';
 
 export interface TableCellProps extends WithAsProps {

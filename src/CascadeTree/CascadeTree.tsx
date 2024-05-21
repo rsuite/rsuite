@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { getParentMap } from '../internals/Tree/utils';
+import { getParentMap } from '@/internals/Tree/utils';
 import { flattenTree } from '../Tree/utils';
 import { type SelectNode } from './types';
-import { useControlled, useClassNames, useEventCallback } from '../utils';
-import { ItemDataType, DataItemValue } from '../@types/common';
-import { useMap } from '../utils/useMap';
+import { useMap, useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
+import { ItemDataType, DataItemValue } from '@/internals/types';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
 import { useSearch, useSelect, usePaths } from './hooks';

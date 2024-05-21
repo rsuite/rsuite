@@ -2,13 +2,10 @@ import React, { useCallback, useContext, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
-import { KEY_VALUES, useCustom } from '../../utils';
-import useUniqueId from '../../utils/useUniqueId';
+import { useCustom, useUniqueId, useFocus, useClickOutside } from '../hooks';
+import { KEY_VALUES } from '../constants';
 import useMenu from './useMenu';
-import useFocus from '../../utils/useFocus';
-import useClickOutside from '../../utils/useClickOutside';
-import { isFocusLeaving } from '../../utils/events';
-import { isFocusableElement } from '../../utils/dom';
+import { isFocusLeaving, isFocusableElement } from '@/internals/utils';
 
 export interface MenuProps {
   /**

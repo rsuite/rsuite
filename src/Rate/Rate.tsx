@@ -2,17 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/legacy/Star';
-import { oneOf } from '../internals/propTypes';
-import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_VALUES } from '../utils';
+import { oneOf } from '@/internals/propTypes';
+import { SIZE, KEY_VALUES } from '@/internals/constants';
+import { useControlled, useClassNames } from '@/internals/hooks';
+import { shallowEqualArray } from '@/internals/utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Character from './Character';
-import Plaintext from '../internals/Plaintext';
+import Plaintext from '@/internals/Plaintext';
 import {
   WithAsProps,
   TypeAttributes,
   RsRefForwardingComponent,
   FormControlBaseProps
-} from '../@types/common';
+} from '@/internals/types';
 
 export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
   // Whether to allow semi selection

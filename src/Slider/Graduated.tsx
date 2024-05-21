@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames } from '@/internals/hooks';
 import { precisionMath } from './utils';
 import Mark from './Mark';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface GraduatedProps extends WithAsProps {
   step: number;

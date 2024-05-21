@@ -7,7 +7,7 @@ import scrollTop from 'dom-lib/scrollTop';
 import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 
-import { CursorPosition, TypeAttributes } from '../../@types/common';
+import { CursorPosition, TypeAttributes } from '@/internals/types';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
 

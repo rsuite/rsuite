@@ -2,8 +2,9 @@ import React, { useState, useImperativeHandle, useRef, useCallback } from 'react
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
-import { useClassNames, guid, createChainedFunction, render } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useClassNames } from '@/internals/hooks';
+import { guid, createChainedFunction, render } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import ToastContext from './ToastContext';
 
 export type PlacementType =

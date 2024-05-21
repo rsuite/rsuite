@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useSet } from 'react-use-set';
-import { useEventCallback, useIsMounted, shallowEqual } from '../../utils';
-import { type ItemDataType } from '../../@types/common';
+import { useEventCallback, useIsMounted } from '@/internals/hooks';
+import { shallowEqual } from '@/internals/utils';
+import { type ItemDataType } from '@/internals/types';
 import { type SelectNode } from '../types';
 
 export interface UseSelectProps<T> {
