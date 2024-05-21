@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
+      "@/internals/*": ["../src/internals/*"],
       "rsuite": ["../src"],
       "rsuite/*": ["../src/*"],
       "react": ["./node_modules/@types/react"]

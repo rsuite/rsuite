@@ -61,4 +61,5 @@ export {
 } from './formatCheck';
 
 // Export types
-export { TimeProp, CalendarOnlyPropsType, calendarOnlyProps } from './types';
+export type { TimeProp, CalendarOnlyPropsType } from './types';
+export { calendarOnlyProps } from './types';
