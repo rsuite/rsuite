@@ -17,7 +17,13 @@ describe('Calendar-TableHeaderRow', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ showWeekNumbers: true, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          showWeekNumbers: true,
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TableHeaderRow ref={ref} />
       </CalendarContext.Provider>

@@ -10,10 +10,16 @@ const App = () => (
     <p>Select Whole Week</p>
     <DateRangePicker hoverRange="week" ranges={[]} />
     <p>
-      Select Whole Week, [ISO 8601 standard](https://en.wikipedia.org/wiki/ISO_week_date), each
-      calendar week begins on Monday and Sunday is the seventh day
+      Select Whole Week,
+      <a href="https://en.wikipedia.org/wiki/ISO_week_date" target="_blank">
+        ISO 8601 standard
+      </a>, each calendar week begins on Monday and Sunday is the seventh day
     </p>
     <DateRangePicker hoverRange="week" isoWeek ranges={[]} />
+
+    <p>Select Whole Week, week start from Wednesday</p>
+    <DateRangePicker hoverRange="week" weekStart={3} ranges={[]} />
+
     <p>Select Whole Month</p>
     <DateRangePicker hoverRange="month" ranges={[]} />
     <p>Custom Select</p>

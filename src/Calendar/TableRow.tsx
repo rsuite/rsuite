@@ -20,16 +20,20 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       rowIndex,
       ...rest
     } = props;
+
     const {
       date: selected = new Date(),
       dateRange,
-      disabledDate,
       hoverRangeValue,
-      inSameMonth,
       isoWeek,
-      onSelect,
-      showWeekNumbers
+      weekStart,
+      showWeekNumbers,
+      locale,
+      inSameMonth,
+      disabledDate,
+      onSelect
     } = useCalendarContext();
+
     const { prefix, merge } = useClassNames(classPrefix);
 
     const handleSelect = useCallback(
@@ -101,7 +105,11 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     };
 
     const classes = merge(className, prefix('row'));
-    const week = format(weekendDate, isoWeek ? 'I' : 'w', { firstWeekContainsDate: 4 });
+    const week = format(weekendDate, isoWeek ? 'I' : 'w', {
+      locale: locale.dateLocale,
+      firstWeekContainsDate: 4,
+      weekStartsOn: weekStart
+    });
 
     return (
       <Component {...rest} ref={ref} role="row" aria-rowindex={rowIndex} className={classes}>

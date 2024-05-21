@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker, Button, InputGroup, Input, Stack } from 'rsuite';
+import { DatePicker, Button, InputGroup, Input, Stack, RadioGroup, Radio } from 'rsuite';
 import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
@@ -27,6 +27,8 @@ export default function Page() {
         DatePicker,
         Button,
         InputGroup,
+        RadioGroup,
+        Radio,
         Input,
         Stack,
         format,

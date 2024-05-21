@@ -13,6 +13,7 @@ import {
   differenceInCalendarMonths,
   copyTime
 } from '@/internals/utils/date';
+import type { Locale } from 'date-fns';
 
 export function getSafeCalendarDate({
   value,
@@ -69,11 +70,23 @@ export const isSameRange = (source: DateRange | null, dest: DateRange | null, fo
 
 export const getMonthHoverRange = (date: Date): DateRange => [startOfMonth(date), endOfMonth(date)];
 
-export const getWeekHoverRange = (isoWeek: boolean, date: Date): DateRange => {
+export const getWeekHoverRange = (
+  date: Date,
+  options: {
+    isoWeek: boolean;
+    weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    locale?: Locale;
+  }
+): DateRange => {
+  const { isoWeek, weekStart, locale } = options;
+
   if (isoWeek) {
     // set to the first day of this week according to ISO 8601, 12:00 am
     return [startOfISOWeek(date), endOfISOWeek(date)];
   }
 
-  return [startOfWeek(date), endOfWeek(date)];
+  return [
+    startOfWeek(date, { weekStartsOn: weekStart, locale }),
+    endOfWeek(date, { weekStartsOn: weekStart, locale })
+  ];
 };

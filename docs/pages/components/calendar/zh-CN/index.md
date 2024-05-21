@@ -22,21 +22,33 @@
 
 <!--{include:`compact.md`}-->
 
+### 自定义周
+
+<!--{include:`week-start.md`}-->
+
+- 使用 `weekStart` 指定一周的第一天。如果设置了 `isoWeek`，则忽略此属性。
+- 使用 `isoWeek` 开启 [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天。
+- 使用 `showWeekNumbers` 显示周数。
+
 ## Props
 
 ### `<Calendar>`
 
 <!-- prettier-sort-markdown-table -->
 
-| 属性名称      | 类型`(默认值)`                                 | 描述                                                                                                     |
-| ------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| bordered      | boolean                                        | 显示边框                                                                                                 |
-| cellClassName | (date: Date) => string \| undefined            | 根据单元格日期自定义 class                                                                               |
-| compact       | boolean                                        | 紧凑型显示                                                                                               |
-| defaultValue  | Date                                           | 默认值                                                                                                   |
-| isoWeek       | boolean                                        | [ISO 8601 标准](https://en.wikipedia.org/wiki/ISO_week_date)， 每个日历星期从星期一开始，星期日为第 7 天 |
-| locale        | [CalendarLocaleType](/zh/guide/i18n/#calendar) | 本地化的文本                                                                                             |
-| onChange      | (date:Date) => void                            | 值改变后的回调函数                                                                                       |
-| onSelect      | (date:Date) => void                            | 选择日期后的回调函数                                                                                     |
-| renderCell    | (date: Date) => ReactNode                      | 自定义渲染日历单元格                                                                                     |
-| value         | Date                                           | 值 (`受控`)                                                                                              |
+| 属性名称      | 类型`(默认值)`                                 | 描述                                                                                |
+| ------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------- |
+| bordered      | boolean                                        | 显示边框                                                                            |
+| cellClassName | (date: Date) => string \| undefined            | 根据单元格日期自定义 class                                                          |
+| compact       | boolean                                        | 紧凑型显示                                                                          |
+| defaultValue  | Date                                           | 默认值                                                                              |
+| isoWeek       | boolean                                        | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
+| locale        | [CalendarLocaleType](/zh/guide/i18n/#calendar) | 本地化配置                                                                          |
+| onChange      | (date: Date) => void                           | 值改变后的回调函数                                                                  |
+| onSelect      | (date: Date) => void                           | 选择日期后的回调函数                                                                |
+| renderCell    | (date: Date) => ReactNode                      | 自定义渲染日历单元格                                                                |
+| value         | Date                                           | 值 (`受控`)                                                                         |
+| weekStart     | 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 `(0)`          | 一周的第一天索引 (0 - 星期日)。如果设置了 `isoWeek`，则忽略此属性。<br/>![][5.62.0] |
+
+[ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
+[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

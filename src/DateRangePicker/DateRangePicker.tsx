@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
-import partial from 'lodash/partial';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
@@ -106,6 +105,14 @@ export interface DateRangePickerProps
    * @see https://en.wikipedia.org/wiki/ISO_week_date
    */
   isoWeek?: boolean;
+
+  /**
+   * The index of the first day of the week (0 - Sunday)
+   * If `isoWeek` is `true`, the value of `weekStart` is ignored.
+   *
+   * @default 0
+   */
+  weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
   /**
    * A label displayed at the beginning of toggle button
@@ -254,6 +261,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     hoverRange,
     id: idProp,
     isoWeek = false,
+    weekStart = 0,
     limitEndYear = 1000,
     limitStartYear,
     locale: overrideLocale,
@@ -429,7 +437,8 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const getHoverRangeValue = (date: Date): DateRange | null => {
     function getHoverRangeFunc(): ((date: Date) => DateRange) | undefined {
       if (hoverRange === 'week') {
-        return partial(getWeekHoverRange, isoWeek);
+        return (date: Date) =>
+          getWeekHoverRange(date, { isoWeek, weekStart, locale: locale.dateLocale });
       } else if (hoverRange === 'month') {
         return getMonthHoverRange;
       }
@@ -792,6 +801,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     const calendarProps = {
       locale,
       isoWeek,
+      weekStart,
       limitEndYear,
       showMeridian,
       calendarDate,
@@ -1036,6 +1046,7 @@ DateRangePicker.propTypes = {
   hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
   format: PropTypes.string,
   isoWeek: PropTypes.bool,
+  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
   oneTap: PropTypes.bool,
   limitEndYear: PropTypes.number,
   limitStartYear: PropTypes.number,

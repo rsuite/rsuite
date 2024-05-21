@@ -10,7 +10,7 @@ export type CalendarBodyProps = WithAsProps;
 const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.forwardRef(
   (props, ref) => {
     const { as: Component = 'div', className, classPrefix = 'calendar-body', ...rest } = props;
-    const { date = new Date(), isoWeek, locale: overrideLocale } = useCalendarContext();
+    const { date = new Date(), isoWeek, locale: overrideLocale, weekStart } = useCalendarContext();
     const { locale, formatDate } = useCustom('Calendar', overrideLocale);
 
     const thisMonthDate = setDate(date, 1);
@@ -20,7 +20,7 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
     return (
       <Component {...rest} ref={ref} className={classes}>
         <Table
-          rows={getWeekStartDates(thisMonthDate, { isoWeek, locale: locale.dateLocale })}
+          rows={getWeekStartDates(thisMonthDate, { isoWeek, weekStart, locale: locale.dateLocale })}
           aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
         />
       </Component>

@@ -161,13 +161,45 @@ describe('Calendar', () => {
     expect(onToggleMonthDropdownSpy).to.have.been.called;
   });
 
-  it('Should render the correct week numbers', () => {
-    const { rerender } = render(<Calendar value={new Date('2020-12-01')} showWeekNumbers />);
+  describe('Custom week ', () => {
+    it('Should render the correct week numbers', () => {
+      const { rerender } = render(<Calendar value={new Date('2020-12-01')} showWeekNumbers />);
 
-    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.be.exist;
+      expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.be.exist;
 
-    rerender(<Calendar value={new Date('2022-12-01')} showWeekNumbers />);
+      rerender(<Calendar value={new Date('2022-12-01')} showWeekNumbers />);
 
-    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.not.exist;
+      expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.not.exist;
+    });
+
+    it('Should render the correct week start', () => {
+      render(<Calendar value={new Date('2024-05-21')} weekStart={2} />);
+
+      const weeks = ['Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo'];
+      const rows = screen.getAllByRole('columnheader');
+      const gridcells = screen.getAllByRole('gridcell');
+
+      rows.forEach((row, index) => {
+        expect(row).to.have.text(weeks[index]);
+      });
+
+      expect(gridcells[0]).to.have.attribute('aria-label', '30 Apr 2024');
+      expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '10 Jun 2024');
+    });
+
+    it('Should render the correct week start with `isoWeek`', () => {
+      render(<Calendar value={new Date('2024-05-21')} isoWeek />);
+
+      const weeks = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+      const rows = screen.getAllByRole('columnheader');
+      const gridcells = screen.getAllByRole('gridcell');
+
+      rows.forEach((row, index) => {
+        expect(row).to.have.text(weeks[index]);
+      });
+
+      expect(gridcells[0]).to.have.attribute('aria-label', '29 Apr 2024');
+      expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '09 Jun 2024');
+    });
   });
 });

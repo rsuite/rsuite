@@ -1245,4 +1245,76 @@ describe('DateRangePicker', () => {
     expect(input).to.have.value('07 ~ 10');
     expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
   });
+
+  describe('Custom week ', () => {
+    it('Should render the correct week numbers', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          value={[new Date('2020-12-01'), new Date('2020-12-02')]}
+          showWeekNumbers
+        />
+      );
+
+      expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.be.exist;
+    });
+
+    it('Should render the correct week numbers', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          value={[new Date('2022-12-01'), new Date('2022-12-02')]}
+          showWeekNumbers
+        />
+      );
+
+      expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.not.exist;
+    });
+
+    it('Should render the correct week start', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          defaultOpen
+          value={[new Date('2024-05-21'), new Date('2024-05-22')]}
+          weekStart={2}
+        />
+      );
+
+      const weeks = ['Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo'];
+      const rows = screen.getAllByRole('columnheader');
+      const gridcells = screen.getAllByRole('gridcell');
+
+      rows.forEach((row, index) => {
+        expect(row).to.have.text(weeks[index]);
+      });
+
+      expect(gridcells[0]).to.have.attribute('aria-label', '30 Apr 2024');
+      expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '10 Jun 2024');
+    });
+
+    it('Should render the correct week start with `isoWeek`', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          defaultOpen
+          value={[new Date('2024-05-21'), new Date('2024-05-22')]}
+          isoWeek
+        />
+      );
+
+      const weeks = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+      const rows = screen.getAllByRole('columnheader');
+      const gridcells = screen.getAllByRole('gridcell');
+
+      rows.forEach((row, index) => {
+        expect(row).to.have.text(weeks[index]);
+      });
+
+      expect(gridcells[0]).to.have.attribute('aria-label', '29 Apr 2024');
+      expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '09 Jun 2024');
+    });
+  });
 });

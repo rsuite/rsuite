@@ -10,10 +10,10 @@ export type TableHeaderRowProps = WithAsProps;
 const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
   (props: TableHeaderRowProps, ref) => {
     const { as: Component = 'div', className, classPrefix = 'calendar-table', ...rest } = props;
-    const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
+    const { locale, showWeekNumbers, isoWeek, weekStart } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('row', 'header-row'));
-    const weeks = getWeekKeys(isoWeek ? 1 : 0);
+    const weeks = getWeekKeys(isoWeek ? 1 : weekStart);
 
     return (
       <Component role="row" {...rest} ref={ref} className={classes}>

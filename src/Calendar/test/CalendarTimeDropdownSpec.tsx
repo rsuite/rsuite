@@ -19,7 +19,13 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ format: 'HH:mm:ss', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          format: 'HH:mm:ss',
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
@@ -36,7 +42,13 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ format: 'HH:mm', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          format: 'HH:mm',
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
@@ -53,7 +65,13 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          format: 'HH',
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
@@ -71,7 +89,14 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ onChangeTime, date: new Date(), format: 'HH', locale: {}, isoWeek: false }}
+        value={{
+          onChangeTime,
+          date: new Date(),
+          format: 'HH',
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
@@ -89,7 +114,13 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          format: 'HH',
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown
           disabledHours={h => {
@@ -112,7 +143,13 @@ describe('Calendar - TimeDropdown', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          format: 'HH',
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TimeDropdown
           hideHours={h => {
