@@ -1,8 +1,11 @@
 /**
+ * Replaces the placement string with its polyfilled counterpart based on the given RTL (Right-to-Left) value.
+ * @example
+ * ```
  * placementPolyfill('bottomLeft');
- * output 'bottomStart'
+ * // 'bottomStart'
+ * ```
  */
-
 export function placementPolyfill<T = string>(placement: T, rtl = false): T {
   if (typeof placement === 'string') {
     if (rtl) {

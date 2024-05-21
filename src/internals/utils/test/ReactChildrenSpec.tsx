@@ -3,7 +3,7 @@ import React from 'react';
 import ReactChildren from '../ReactChildren';
 import { render, screen } from '@testing-library/react';
 
-describe('[utils] ReactChildren', () => {
+describe('internals/utils/ReactChildren', () => {
   it('Should count the number', () => {
     expect(ReactChildren.count(<div />)).to.equal(1);
     expect(ReactChildren.count([<div key="1" />, <div key="2" />])).to.equal(2);

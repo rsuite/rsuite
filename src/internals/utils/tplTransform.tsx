@@ -4,9 +4,11 @@ const toJSX = (node: React.ReactNode, key: string | number) =>
   typeof node !== 'undefined' ? <span key={key}>{node}</span> : null;
 
 /**
+ * Transforms a pattern string by replacing placeholders with corresponding data values.
+ *
+ * @example
  * tplTransform('Show {0} data', <i>100</i>);
- * output:
- * Show <span><i>100</i></span> data
+ * // output: Show <span><i>100</i></span> data
  */
 export function tplTransform(pattern: string, ...data: any[]) {
   return pattern

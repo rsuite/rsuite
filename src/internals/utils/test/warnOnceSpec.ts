@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import warnOnce from '../warnOnce';
 
-describe('[utils] warnOnce', () => {
+describe('internals/utils/warnOnce', () => {
   it('Should log a warning message', () => {
     const message = 'Useful message';
     sinon.spy(console, 'warn');

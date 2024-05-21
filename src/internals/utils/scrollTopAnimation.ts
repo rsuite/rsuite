@@ -1,6 +1,9 @@
 import scrollTop from 'dom-lib/scrollTop';
 import requestAnimationFramePolyfill from 'dom-lib/requestAnimationFramePolyfill';
 
+/**
+ * Animates the scrolling of an element to a specified position.
+ */
 export function scrollTopAnimation(
   target: Element,
   nextTop: number,

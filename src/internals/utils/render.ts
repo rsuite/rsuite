@@ -4,6 +4,10 @@ import * as ReactDOM from 'react-dom';
 const majorVersion = parseInt(React.version);
 const SuperposedReactDOM = ReactDOM as any;
 
+/**
+ * Renders a React element into a container element.
+ *
+ */
 export function render(element: React.ReactElement<any>, container: HTMLElement) {
   const mountElement = document.createElement('div');
 

@@ -10,6 +10,9 @@ const toFnRef = <T>(ref?: Ref<T | null> | null) =>
         ref.current = value;
       };
 
+/**
+ * Merges two React refs into a single ref callback.
+ */
 export function mergeRefs<T>(
   refA?: Ref<T | null> | null,
   refB?: Ref<T | null> | null

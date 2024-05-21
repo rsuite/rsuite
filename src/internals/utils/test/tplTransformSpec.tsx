@@ -3,7 +3,7 @@ import { getDOMNode } from '@test/utils';
 
 import tplTransform from '../tplTransform';
 
-describe('[utils] tplTransform', () => {
+describe('internals/utils/tplTransform', () => {
   it('Should return react component', () => {
     const str = '{1}Show {0} data {1}, {0}';
     const nodes = tplTransform(str, 30, 10);

@@ -1,6 +1,6 @@
 import createChainedFunction from '../createChainedFunction';
 
-describe('[utils] createChainedFunction', () => {
+describe('internals/utils/createChainedFunction', () => {
   it('Should call all functions', () => {
     let i = 0;
     function a() {

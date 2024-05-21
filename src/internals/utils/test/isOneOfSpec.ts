@@ -1,6 +1,6 @@
 import isOneOf from '../isOneOf';
 
-describe('[utils] isOneOf', () => {
+describe('internals/utils/isOneOf', () => {
   it('Should return true when the presence of `c` in the array', () => {
     assert.ok(isOneOf('c', ['a', 'b', 'c', 'd']));
   });

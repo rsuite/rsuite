@@ -1,7 +1,7 @@
 import { getDataGroupBy } from '../getDataGroupBy';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
 
-describe('[utils] getDataGroupBy', () => {
+describe('internals/utils/getDataGroupBy', () => {
   it('Should be grouped by title', () => {
     const items = [
       {

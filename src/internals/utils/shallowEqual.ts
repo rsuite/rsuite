@@ -53,6 +53,9 @@ export function shallowEqual(objA: any, objB: any): boolean {
 
   return true;
 }
+/**
+ * Performs a shallow equality check between two arrays.
+ */
 export function shallowEqualArray(a: any[], b: any[]) {
   if (a === b) {
     return true;
