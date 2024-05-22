@@ -8,6 +8,7 @@ import {
 } from '@test/utils';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { keyPress } from '@test/utils/simulateEvent';
 import Sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
@@ -80,17 +81,6 @@ describe('DatePicker', () => {
     render(<DatePicker defaultValue={parseISO('2017-08-14')} />);
 
     expect(screen.getByRole('textbox')).to.have.value('2017-08-14');
-  });
-
-  it('Should render a custom value', () => {
-    render(
-      <DatePicker
-        defaultValue={new Date('2024-05-13')}
-        renderValue={value => format(value, 'EEE, d MMM')}
-      />
-    );
-
-    expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {
@@ -1203,6 +1193,34 @@ describe('DatePicker', () => {
       expect(container.firstChild).to.have.class('rs-picker-error');
       expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
       expect(screen.getByRole('button', { name: 'OK' })).to.have.attribute('disabled');
+    });
+  });
+
+  describe('Customize value', () => {
+    it('Should render a custom value', () => {
+      render(
+        <DatePicker
+          defaultValue={new Date('2024-05-13')}
+          renderValue={value => format(value, 'EEE, d MMM')}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+    });
+
+    it('Should render a custom value when a value is entered via the keyboard', async () => {
+      render(
+        <>
+          <div data-testid="outside">Outside</div>
+          <DatePicker renderValue={value => format(value, 'EEE, d MMM')} />
+        </>
+      );
+
+      await keyPress(screen.getByRole('textbox'), '20240513');
+
+      userEvent.click(screen.getByTestId('outside'));
+
+      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
     });
   });
 });
