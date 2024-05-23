@@ -24,6 +24,12 @@ export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLD
    * The width of the scroll area
    */
   width?: number;
+
+  /**
+   * Test ID
+   * @private
+   */
+  'data-testid'?: string;
 }
 
 const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
@@ -38,8 +44,10 @@ const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTML
     width,
     style,
     onScroll,
+    ['data-testid']: dataTestId,
     ...rest
   } = props;
+
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const { scrollState, handleScroll, bodyRef } = useScrollState(scrollShadow);
 
@@ -62,11 +70,13 @@ const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTML
       className={bodyClasses}
       style={bodyStyles}
       onScroll={createChainedFunction(handleScroll, onScroll)}
-      data-testid="scroll-view"
+      data-testid={dataTestId || 'scroll-view'}
     >
       {children}
     </Component>
   );
 });
+
+ScrollView.displayName = 'ScrollView';
 
 export default ScrollView;

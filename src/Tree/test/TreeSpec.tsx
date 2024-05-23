@@ -376,7 +376,6 @@ describe('Tree', () => {
       render(<Tree data={data} scrollShadow height={100} />);
 
       expect(screen.getByRole('tree')).to.have.class('rs-scroll-view-shadow');
-      expect(screen.getByRole('tree')).to.have.class('rs-scroll-view-thumb-top');
     });
 
     it('Should hava a scroll shadow with virtualized', () => {

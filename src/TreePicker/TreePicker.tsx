@@ -227,7 +227,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
-        virtualized={virtualized}
         value={value}
         data={treeData}
         disabledItemValues={disabledItemValues}

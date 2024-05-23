@@ -230,7 +230,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
         cascade={cascade}
-        virtualized={virtualized}
         data={treeData}
         height={treeHeight}
         showIndentLine={showIndentLine}
