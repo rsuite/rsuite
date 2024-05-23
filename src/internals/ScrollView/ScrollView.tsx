@@ -4,7 +4,7 @@ import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import { WithAsProps } from '@/internals/types';
 import { useScrollState } from './hooks/useScrollState';
 
-interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
+export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * The shadow of the content when scrolling
    */

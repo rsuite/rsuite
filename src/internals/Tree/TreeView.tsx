@@ -1,29 +1,37 @@
 import React from 'react';
 import useCombobox from '../Picker/hooks/useCombobox';
-import ScrollView from '../ScrollView';
+import ScrollView, { ScrollViewProps } from '../ScrollView';
+import { WithAsProps } from '@/internals/types';
 
-interface TreeViewProps extends React.HTMLAttributes<HTMLDivElement> {
+interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
   multiselectable?: boolean;
   scrollShadow?: boolean;
 }
 
+const ScrollShadowView = React.forwardRef(
+  (props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
+    return <ScrollView scrollShadow ref={ref} {...props} />;
+  }
+);
+
 const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivElement>) => {
-  const { children, treeRootClassName, multiselectable, scrollShadow, ...rest } = props;
+  const { as = 'div', children, treeRootClassName, multiselectable, scrollShadow, ...rest } = props;
   const { id, labelId, popupType } = useCombobox();
 
+  const Component = scrollShadow ? ScrollShadowView : as;
+
   return (
-    <ScrollView
+    <Component
       role="tree"
       id={id ? `${id}-${popupType}` : undefined}
       aria-multiselectable={multiselectable}
       aria-labelledby={labelId}
       ref={ref}
-      scrollShadow={scrollShadow}
       {...rest}
     >
       <div className={treeRootClassName}>{children}</div>
-    </ScrollView>
+    </Component>
   );
 });
 

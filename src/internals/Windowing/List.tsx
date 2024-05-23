@@ -30,6 +30,11 @@ export interface ListProps<T = any> extends WithAsProps {
   initialScrollOffset?: number;
 
   /**
+   * The shadow of the content when scrolling
+   */
+  scrollShadow?: boolean;
+
+  /**
    * By default, lists will use an item's index as its key. This is okay if:
    *
    * - Your collections of items is never sorted or modified
@@ -59,7 +64,7 @@ export interface ListHandle extends Partial<VariableSizeList> {
 }
 
 const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
-  return <ScrollView ref={ref} {...props} />;
+  return <ScrollView scrollShadow ref={ref} {...props} />;
 });
 
 /**
@@ -68,7 +73,13 @@ const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
  * @private
  */
 const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
-  const { rowHeight, as: Component = VariableSizeList, itemSize: itemSizeProp, ...rest } = props;
+  const {
+    rowHeight,
+    as: Component = VariableSizeList,
+    itemSize: itemSizeProp,
+    scrollShadow,
+    ...rest
+  } = props;
   const listRef = useRef<VariableSizeList>(null);
   const { rtl } = useCustom();
 
@@ -111,7 +122,7 @@ const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props
       ref={listRef}
       direction={rtl ? 'rtl' : 'ltr'}
       {...compatibleProps}
-      outerElementType={OuterElementType}
+      outerElementType={scrollShadow ? OuterElementType : undefined}
     />
   );
 });
