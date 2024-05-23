@@ -26,8 +26,8 @@ describe('Panel', () => {
         {text}
       </Panel>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-collapse');
+
+    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-body-collapse');
     expect(screen.getByText(text).parentNode).to.have.class('rs-anim-in');
   });
 
@@ -57,7 +57,7 @@ describe('Panel', () => {
       </Panel>
     );
 
-    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-collapse');
+    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-body-collapse');
     expect(screen.getByText(text).parentNode).to.have.class('rs-anim-in');
   });
 
