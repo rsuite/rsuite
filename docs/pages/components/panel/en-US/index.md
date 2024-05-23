@@ -1,6 +1,6 @@
 # Panel
 
-A content panel that supports folding panels. The Panel can have all the ' Data Display ' components and can be used as a container for the form.
+A content panel that supports collapsible, shadow, and border containers.
 
 ## Import
 
@@ -19,6 +19,10 @@ A content panel that supports folding panels. The Panel can have all the ' Data 
 ### With shadow
 
 <!--{include:`shaded.md`}-->
+
+### Scroll shadows
+
+<!--{include:`scroll-shadow.md`}-->
 
 ### With action button
 
@@ -77,25 +81,28 @@ Only one panel can be expanded.
 
 <!-- prettier-sort-markdown-table -->
 
-| Property        | Type `(Default)`   | Description                               |
-| --------------- | ------------------ | ----------------------------------------- |
-| bodyFill        | boolean            | Content area filled with containers       |
-| bordered        | boolean            | Show border                               |
-| classPrefix     | string `('panel')` | The prefix of the component CSS class     |
-| collapsible     | boolean            | Whether it is a collapsible panel         |
-| defaultExpanded | boolean            | Expand by default                         |
-| eventKey        | string             | The event key corresponding to the panel. |
-| expanded        | boolean            | Expand the Panel.                         |
-| header          | ReactNode          | The head displays information.            |
-| id              | string             | HTML ID attribute                         |
-| shaded          | boolean            | With shadow                               |
+| Property        | Type `(Default)`   | Description                                              |
+| --------------- | ------------------ | -------------------------------------------------------- |
+| bodyFill        | boolean            | Content area filled with containers                      |
+| bordered        | boolean            | Show border                                              |
+| classPrefix     | string `('panel')` | The prefix of the component CSS class                    |
+| collapsible     | boolean            | Whether it is a collapsible panel                        |
+| defaultExpanded | boolean            | Expand by default                                        |
+| eventKey        | string             | The event key corresponding to the panel.                |
+| expanded        | boolean            | Expand the Panel                                         |
+| header          | ReactNode          | The head displays information.                           |
+| id              | string             | HTML ID attribute                                        |
+| scrollShadow    | boolean            | The shadow of the content when scrolling<br/>![][5.62.0] |
+| shaded          | boolean            | Add shadow effect to the border                          |
 
 ### `<PanelGroup>`
 
 | Property         | Type `(Default)`                  | Description                                                  |
 | ---------------- | --------------------------------- | ------------------------------------------------------------ |
-| accordion        | boolean                           | Whether it is a collapsible panel.                           |
+| accordion        | boolean                           | Whether it is a collapsible panel                            |
 | activeKey        | string                            | Expand the Panel, corresponding to the 'Panel' of 'eventkey' |
 | classPrefix      | string                            | The prefix of the component CSS class                        |
-| defaultActiveKey | string                            | The default expansion panel.                                 |
+| defaultActiveKey | string                            | The default expansion panel                                  |
 | onSelect         | (eventKey: string, event) => void | Toggles the callback function for the expand panel           |
+
+[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

@@ -8,6 +8,7 @@ import {
 } from 'react-window';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '@/internals/hooks';
+import ScrollView from '../ScrollView';
 
 export const defaultItemSize = () => 36;
 
@@ -57,6 +58,10 @@ export interface ListHandle extends Partial<VariableSizeList> {
   scrollToRow?: (index: number) => void;
 }
 
+const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+  return <ScrollView ref={ref} {...props} />;
+});
+
 /**
  * This component renders a virtualized list of elements with either fixed or dynamic heights.
  *
@@ -101,7 +106,14 @@ const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props
     compatibleProps.itemSize = Component === VariableSizeList ? setRowHeight : rowHeight;
   }
 
-  return <Component ref={listRef} direction={rtl ? 'rtl' : 'ltr'} {...compatibleProps} />;
+  return (
+    <Component
+      ref={listRef}
+      direction={rtl ? 'rtl' : 'ltr'}
+      {...compatibleProps}
+      outerElementType={OuterElementType}
+    />
+  );
 });
 
 export default List;
