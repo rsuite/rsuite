@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import { shallowEqual } from '@/internals/utils';
 import { formatNodeRefKey } from '../utils';
 import useForceUpdate from './useForceUpdate';
-import type { TreeNode, TreeNodeMap } from '../types';
+import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 
 interface UseFlattenTreeOptions {
   /**

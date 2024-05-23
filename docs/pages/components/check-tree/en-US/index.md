@@ -46,6 +46,10 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 <!--{include:`disabled.md`}-->
 
+### Scroll Shadows
+
+<!--{include:`scroll-shadow.md`}-->
+
 ## Accessibility
 
 ### ARIA properties
@@ -95,6 +99,7 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 | onSelect                | (item: [TreeNode][node], value:string, event) => void                                          | Called when the tree node is selected                      |
 | renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                       | Custom render the icon in tree node                        |
 | renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                          | Custom render tree node                                    |
+| scrollShadow            | boolean                                                                                        | The shadow of the content when scrolling<br/>![][5.62.0]   |
 | searchable              | boolean                                                                                        | Whether to show the search box <br/>![][5.61.0]            |
 | searchKeyword           | string                                                                                         | Set search keywords for the search box                     |
 | uncheckableItemValues   | string[]                                                                                       | Set the tree node values that do not display checkboxes    |
@@ -114,3 +119,4 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 [listprops]: #code-ts-list-props-code
 [node]: #code-ts-tree-node-code
 [5.61.0]: https://img.shields.io/badge/min-v5.61.0-blue
+[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

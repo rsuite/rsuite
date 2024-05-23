@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import isNil from 'lodash/isNil';
 import cloneDeep from 'lodash/cloneDeep';
 import { useEventCallback } from '@/internals/hooks';
-import { useItemDataKeys } from '../../Tree/TreeProvider';
+import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
+import type { TreeNodeMap, TreeNode } from '@/internals/Tree/types';
 import { isEveryChildChecked } from '../utils';
-import type { TreeNodeMap, TreeNode } from '../../Tree/types';
 
 interface Props {
   cascade?: boolean;

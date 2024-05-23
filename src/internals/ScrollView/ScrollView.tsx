@@ -48,9 +48,9 @@ const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTML
     className,
     withClassPrefix({
       shadow: scrollShadow,
-      'shadow-top': scrollState === 'top',
-      'shadow-middle': scrollState === 'middle',
-      'shadow-bottom': scrollState === 'bottom',
+      'thumb-top': scrollState === 'top',
+      'thumb-middle': scrollState === 'middle',
+      'thumb-bottom': scrollState === 'bottom',
       'custom-scrollbar': customScrollbar
     })
   );
@@ -62,6 +62,7 @@ const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTML
       className={bodyClasses}
       style={bodyStyles}
       onScroll={createChainedFunction(handleScroll, onScroll)}
+      data-testid="scroll-view"
     >
       {children}
     </Component>

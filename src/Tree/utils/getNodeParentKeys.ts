@@ -1,4 +1,4 @@
-import { TreeNode, TreeNodeMap } from '../types';
+import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 
 /**
  * Retrieves an array of parent keys for a given node in a tree.

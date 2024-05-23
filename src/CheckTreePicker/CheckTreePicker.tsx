@@ -21,13 +21,14 @@ import {
 } from '@/internals/Picker';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
 import { getSelectedItems } from '../CheckTree/utils';
-import { TreeNode } from '../Tree/types';
+
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import useFocusState from './hooks/useFocusState';
-import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
+import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
+import type { TreeNode } from '@/internals/Tree/types';
 import type {
   FormControlPickerProps,
   ItemDataType,

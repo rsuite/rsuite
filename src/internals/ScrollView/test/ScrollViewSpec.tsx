@@ -30,7 +30,7 @@ describe('ScrollView', () => {
 
     const scrollView = screen.getByTestId('scroll-shadow');
     expect(scrollView).to.have.class('rs-scroll-view-shadow');
-    expect(scrollView).to.not.have.class('rs-scroll-view-shadow-top');
+    expect(scrollView).to.not.have.class('rs-scroll-view-thumb-top');
   });
 
   it('Should have a shadow when scrolling', () => {
@@ -43,12 +43,12 @@ describe('ScrollView', () => {
     const scrollView = screen.getByTestId('scroll-shadow');
 
     expect(scrollView).to.have.class('rs-scroll-view-shadow');
-    expect(scrollView).to.have.class('rs-scroll-view-shadow-top');
+    expect(scrollView).to.have.class('rs-scroll-view-thumb-top');
 
     fireEvent.scroll(scrollView, { target: { scrollTop: 10 } });
-    expect(scrollView).to.have.class('rs-scroll-view-shadow-middle');
+    expect(scrollView).to.have.class('rs-scroll-view-thumb-middle');
 
     fireEvent.scroll(scrollView, { target: { scrollTop: 200 } });
-    expect(scrollView).to.have.class('rs-scroll-view-shadow-bottom');
+    expect(scrollView).to.have.class('rs-scroll-view-thumb-bottom');
   });
 });

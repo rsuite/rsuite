@@ -21,9 +21,29 @@ export function useScrollState(scrollShadow?: boolean) {
   const [scrollState, setScrollState] = useState<'top' | 'middle' | 'bottom' | null>(null);
 
   useMount(() => {
+    let observer: MutationObserver;
     if (bodyRef.current && scrollShadow) {
-      setScrollState(getScrollState(bodyRef.current));
+      const target = bodyRef.current;
+
+      setScrollState(getScrollState(target));
+
+      let lastScrollHeight = target.scrollHeight;
+
+      // Listen for changes in scrollHeight
+      observer = new MutationObserver(() => {
+        const newScrollHeight = target?.scrollHeight;
+        if (newScrollHeight && newScrollHeight !== lastScrollHeight) {
+          setScrollState(getScrollState(target));
+          lastScrollHeight = newScrollHeight;
+        }
+      });
+
+      observer.observe(target, { attributes: true, childList: true, subtree: true });
     }
+
+    return () => {
+      observer?.disconnect();
+    };
   });
 
   const handleScroll = useEventCallback((event: React.UIEvent<HTMLDivElement>) => {

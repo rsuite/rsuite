@@ -3,7 +3,7 @@ import isNil from 'lodash/isNil';
 import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback, useCustom } from '@/internals/hooks';
 import { onMenuKeyDown } from '@/internals/Picker';
-import { useItemDataKeys } from '../TreeProvider';
+import { useItemDataKeys, useRegisterTreeMethods } from '@/internals/Tree/TreeProvider';
 
 import {
   isSearching,
@@ -17,8 +17,7 @@ import {
   handleRightArrow
 } from '../utils';
 import useTreeNodeRefs from './useTreeNodeRefs';
-import type { TreeNode } from '../types';
-import { useRegisterTreeMethods } from '../TreeProvider';
+import type { TreeNode } from '@/internals/Tree/types';
 
 interface UseFocusTreeProps<T extends TreeNode> {
   filteredData: T[];

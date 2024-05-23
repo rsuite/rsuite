@@ -20,9 +20,10 @@ import useFocusTree from '../Tree/hooks/useFocusTree';
 import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
 import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
-import { useItemDataKeys } from '../Tree/TreeProvider';
+import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '@/internals/types';
-import type { TreeNode, TreeNodeMap, TreeViewBaseProps } from '../Tree/types';
+import type { TreeViewBaseProps } from '../Tree/types';
 
 /**
  * Props for the CheckTreeView component.
@@ -34,11 +35,6 @@ export interface CheckTreeViewProps<V = (string | number)[]>
    * Selected value.
    */
   value?: V;
-
-  /**
-   * Whether using virtualized list.
-   */
-  virtualized?: boolean;
 
   /**
    * Virtualized list ref object.
@@ -126,7 +122,6 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       searchable,
       searchInputRef,
       uncheckableItemValues = [],
-      virtualized = false,
       loadingNodeValues = [],
       flattenedNodes = {},
       searchBy,
@@ -141,7 +136,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
     } = props;
 
     const { locale } = useCustom('Picker', overrideLocale);
-    const { childrenKey, valueKey } = useItemDataKeys();
+    const { childrenKey, valueKey, virtualized, scrollShadow } = useTreeContextProps();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
     const { getCheckedValues } = useTreeCheckState({
@@ -367,7 +362,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
           className={prefix('view')}
           onScroll={onScroll}
           onKeyDown={handleTreeKeyDown}
-          style={virtualized ? undefined : { height }}
+          height={height}
         >
           {virtualized ? (
             <AutoSizer
@@ -383,6 +378,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
                   itemCount={formattedNodes.length}
                   itemData={formattedNodes}
                   className={prefix('virt-list')}
+                  scrollShadow={scrollShadow}
                   {...listProps}
                 >
                   {renderVirtualListNode}

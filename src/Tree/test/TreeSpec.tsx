@@ -30,15 +30,6 @@ describe('Tree', () => {
     expect(screen.getByRole('tree')).to.have.style('height', '100px');
   });
 
-  it('Should set a height for the Tree with virtualized', () => {
-    render(<Tree data={data} virtualized height={100} />);
-
-    expect(screen.getByRole('tree').querySelector('.rs-tree-virt-list')).to.have.style(
-      'height',
-      '100px'
-    );
-  });
-
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
     const onSelectItem = sinon.spy();
 
@@ -73,16 +64,6 @@ describe('Tree', () => {
     fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
     expect(onSelect).to.not.have.been.called;
-  });
-
-  it('Should scroll the list by `scrollToRow`', () => {
-    const onScroll = sinon.spy();
-    const ref = React.createRef<ListHandle>();
-    render(
-      <Tree data={data} listRef={ref} virtualized style={{ height: 30 }} listProps={{ onScroll }} />
-    );
-    ref.current?.scrollToItem?.(2);
-    expect(onScroll).to.have.calledOnce;
   });
 
   it('Should show indent line', () => {
@@ -360,6 +341,49 @@ describe('Tree', () => {
 
         expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-selected', 'true');
       });
+    });
+  });
+
+  describe('Virtualized', () => {
+    it('Should set a height for the Tree with virtualized', () => {
+      render(<Tree data={data} virtualized height={100} />);
+
+      expect(screen.getByRole('tree').querySelector('.rs-tree-virt-list')).to.have.style(
+        'height',
+        '100px'
+      );
+    });
+
+    it('Should scroll the list by `scrollToRow`', () => {
+      const onScroll = sinon.spy();
+      const ref = React.createRef<ListHandle>();
+      render(
+        <Tree
+          data={data}
+          listRef={ref}
+          virtualized
+          style={{ height: 30 }}
+          listProps={{ onScroll }}
+        />
+      );
+      ref.current?.scrollToItem?.(2);
+      expect(onScroll).to.have.calledOnce;
+    });
+  });
+
+  describe('Scroll Shadows', () => {
+    it('Should hava a scroll shadow', () => {
+      render(<Tree data={data} scrollShadow height={100} />);
+
+      expect(screen.getByRole('tree')).to.have.class('rs-scroll-view-shadow');
+      expect(screen.getByRole('tree')).to.have.class('rs-scroll-view-thumb-top');
+    });
+
+    it('Should hava a scroll shadow with virtualized', () => {
+      render(<Tree data={data} scrollShadow height={100} virtualized />);
+
+      expect(screen.getByRole('tree')).to.not.have.class('rs-scroll-view-shadow');
+      expect(screen.getByTestId('scroll-view')).to.have.class('rs-scroll-view-shadow');
     });
   });
 });

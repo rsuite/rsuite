@@ -1,12 +1,13 @@
 import React from 'react';
 import useCombobox from '../Picker/hooks/useCombobox';
 import ScrollView, { ScrollViewProps } from '../ScrollView';
-import { WithAsProps } from '@/internals/types';
+import { useTreeContextProps } from './TreeProvider';
+import type { WithAsProps } from '@/internals/types';
 
 interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
   multiselectable?: boolean;
-  scrollShadow?: boolean;
+  height?: number;
 }
 
 const ScrollShadowView = React.forwardRef(
@@ -16,14 +17,28 @@ const ScrollShadowView = React.forwardRef(
 );
 
 const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivElement>) => {
-  const { as = 'div', children, treeRootClassName, multiselectable, scrollShadow, ...rest } = props;
+  const {
+    as = 'div',
+    children,
+    treeRootClassName,
+    multiselectable,
+    style,
+    height,
+    ...rest
+  } = props;
+  const { scrollShadow, virtualized } = useTreeContextProps();
   const { id, labelId, popupType } = useCombobox();
 
-  const Component = scrollShadow ? ScrollShadowView : as;
+  // If the tree is virtualized, the scroll shadow is not needed.
+  const Component = scrollShadow && !virtualized ? ScrollShadowView : as;
+
+  // If the tree is virtualized, the height is not needed.
+  const viewStyles = { height: virtualized ? undefined : height, ...style };
 
   return (
     <Component
       role="tree"
+      style={viewStyles}
       id={id ? `${id}-${popupType}` : undefined}
       aria-multiselectable={multiselectable}
       aria-labelledby={labelId}
