@@ -19,6 +19,7 @@ const {
 } = process.env;
 
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
+const __DEV__ = VERCEL_ENV === 'local';
 
 /**
  * @type {import('next').NextConfig}
@@ -134,9 +135,12 @@ module.exports = {
         filename: 'static/css/[name].css',
         chunkFilename: 'static/css/[contenthash].css'
       }),
-      new RtlCssPlugin('static/css/[name]-rtl.css'),
-      new ForkTsCheckerWebpackPlugin()
+      new RtlCssPlugin('static/css/[name]-rtl.css')
     );
+
+    if (__DEV__) {
+      config.plugins.push(new ForkTsCheckerWebpackPlugin());
+    }
 
     config.optimization.minimizer.push(
       /**
