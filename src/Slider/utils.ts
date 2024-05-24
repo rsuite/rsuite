@@ -9,11 +9,11 @@ export function checkValue<T extends number | undefined | null>(
     return value;
   }
 
-  if (value < min) {
+  if (typeof value === 'number' && value < min) {
     return min;
   }
 
-  if (value > max) {
+  if (typeof value === 'number' && value > max) {
     return max;
   }
 

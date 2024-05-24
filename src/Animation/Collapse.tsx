@@ -29,7 +29,7 @@ const MARGINS = {
 };
 
 function defaultGetDimensionValue(dimension: DIMENSION, elem: HTMLElement): number {
-  const value = get(elem, `offset${capitalize(dimension)}`);
+  const value = get(elem, `offset${capitalize(dimension)}`) ?? 0;
   const margins = MARGINS[dimension];
 
   return (

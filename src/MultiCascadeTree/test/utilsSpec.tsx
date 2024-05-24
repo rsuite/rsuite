@@ -148,20 +148,23 @@ setParent();
 describe('MultiCascader - utils', () => {
   it('getOtherItemValuesByUnselectChild', () => {
     const item = _.get(data, '0.children.1.children.0'); // 自流井区  1-2-1
-    const values = getOtherItemValuesByUnselectChild(item, ['1'], itemKeys);
-    assert.equal(values.toString(), '1-1,1-2-2,1-2-3,1-2-4,1-2-5,1-2-6,1-3');
+    const values = item ? getOtherItemValuesByUnselectChild(item, ['1'], itemKeys) : [];
+
+    expect(values).to.deep.equal(['1-1', '1-2-2', '1-2-3', '1-2-4', '1-2-5', '1-2-6', '1-3']);
   });
 
   it('removeAllChildrenValue', () => {
     const item = _.get(data, '0'); // 四川  1
     const value = ['1', '1-3', '1-2'];
     const removedValue = removeAllChildrenValue(value, item, itemKeys) as string[];
-    assert.equal(removedValue.toString(), '1-2,1-3');
-    assert.equal(value.toString(), '1');
+
+    expect(removedValue).to.deep.equal(['1-2', '1-3']);
+    expect(value).to.deep.equal(['1']);
   });
 
   it('useFlattenData when childrenKey is not "children"', () => {
     const { result } = renderHook(() => useFlattenData(data2, itemKeys2));
-    assert.equal(result.current.flattenData.length, 2);
+
+    expect(result.current.flattenData).to.have.length(2);
   });
 });
