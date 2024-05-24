@@ -1,3 +1,19 @@
+# [5.62.0](https://github.com/rsuite/rsuite/compare/v5.61.0...v5.62.0) (2024-05-24)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix calendar component style issue ([#3816](https://github.com/rsuite/rsuite/issues/3816)) ([f455182](https://github.com/rsuite/rsuite/commit/f455182ffcebb382ad9a3d71149c876aefa84e4a))
+* **DatePicker,DateRangePicker:** fix `renderValue` and `editable` can't coexist ([#3815](https://github.com/rsuite/rsuite/issues/3815)) ([20d4a81](https://github.com/rsuite/rsuite/commit/20d4a817ec70ea3f073ca7763c8abbe66b21a913))
+
+
+### Features
+
+* **Calendar,DatePicker,DateRangePicker:** add support for `weekStart` ([#3814](https://github.com/rsuite/rsuite/issues/3814)) ([9edbbcd](https://github.com/rsuite/rsuite/commit/9edbbcdf1d550e669483c5bca6cad624d5e8cf74))
+* **Panel, Tree, CheckTree:** add support for `scrollShadow` ([#3818](https://github.com/rsuite/rsuite/issues/3818)) ([8183e92](https://github.com/rsuite/rsuite/commit/8183e92d1998cc1945b181b916bce6cefcee3012))
+
+
+
 # [5.61.0](https://github.com/rsuite/rsuite/compare/v5.60.2...v5.61.0) (2024-05-17)
 
 
