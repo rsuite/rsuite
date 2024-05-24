@@ -5,7 +5,7 @@ import CheckTreeView, { type CheckTreeViewProps } from './CheckTreeView';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
-import { TreeProvider } from '../Tree/TreeProvider';
+import { TreeProvider } from '@/internals/Tree/TreeProvider';
 import type { RsRefForwardingComponent } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
@@ -15,6 +15,11 @@ export interface CheckTreeProps<T = ValueType> extends CheckTreeViewProps<T>, Tr
    * Default selected Value
    */
   defaultValue?: T;
+
+  /**
+   * The shadow of the content when scrolling
+   */
+  scrollShadow?: boolean;
 }
 
 /**
@@ -36,6 +41,7 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       valueKey = 'value',
       virtualized,
       cascade = true,
+      scrollShadow,
       renderTreeIcon,
       renderTreeNode,
       getChildren,
@@ -77,9 +83,17 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
 
     const treeContext = useMemo(
       () => ({
-        props: { labelKey, valueKey, childrenKey, virtualized, renderTreeIcon, renderTreeNode }
+        props: {
+          labelKey,
+          valueKey,
+          childrenKey,
+          virtualized,
+          scrollShadow,
+          renderTreeIcon,
+          renderTreeNode
+        }
       }),
-      [childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode]
+      [childrenKey, labelKey, valueKey, virtualized, scrollShadow, renderTreeIcon, renderTreeNode]
     );
 
     return (
@@ -90,7 +104,6 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
           value={value}
           cascade={cascade}
           data={treeData}
-          virtualized={virtualized}
           loadingNodeValues={loadingNodeValues}
           flattenedNodes={flattenedNodes}
           uncheckableItemValues={uncheckableItemValues}

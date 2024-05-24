@@ -22,6 +22,7 @@ interface TreeContextValue {
     valueKey: string;
     childrenKey: string;
     virtualized?: boolean;
+    scrollShadow?: boolean;
     renderTreeNode?: (nodeData: TreeNode) => React.ReactNode;
     renderTreeIcon?: (nodeData: TreeNode, expanded?: boolean) => React.ReactNode;
   };

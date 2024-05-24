@@ -277,4 +277,19 @@ describe('CheckTree', () => {
       });
     });
   });
+
+  describe('Scroll Shadows', () => {
+    it('Should hava a scroll shadow', () => {
+      render(<CheckTree data={data} scrollShadow height={100} />);
+
+      expect(screen.getByRole('tree')).to.have.class('rs-scroll-view-shadow');
+    });
+
+    it('Should hava a scroll shadow with virtualized', () => {
+      render(<CheckTree data={data} scrollShadow height={100} virtualized />);
+
+      expect(screen.getByRole('tree')).to.not.have.class('rs-scroll-view-shadow');
+      expect(screen.getByTestId('scroll-view')).to.have.class('rs-scroll-view-shadow');
+    });
+  });
 });

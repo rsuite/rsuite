@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import { TreeNode } from '../types';
+import type { TreeNode } from '@/internals/Tree/types';
 
 export interface ArrowHandlerProps {
   focusItem: TreeNode;

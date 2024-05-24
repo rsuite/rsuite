@@ -3,7 +3,7 @@ import isFunction from 'lodash/isFunction';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { createConcatChildrenFunction } from '@/internals/Picker';
 import { getExpandItemValues, flattenTree } from '../utils';
-import type { TreeNode } from '../types';
+import type { TreeNode } from '@/internals/Tree/types';
 
 interface DefaultExpandItemValuesOptions {
   valueKey: string;

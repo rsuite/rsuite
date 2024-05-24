@@ -8,10 +8,9 @@ import {
 } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import TreeNodeToggle from './TreeNodeToggle';
-import { useTreeContextProps } from './TreeProvider';
+import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 import { indentTreeNode } from './utils';
-
-import type { TreeNode as TreeNodeData } from './types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
 

@@ -18,13 +18,13 @@ import {
   useToggleKeyDownEvent,
   PickerToggleProps
 } from '@/internals/Picker';
+import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
+import { TreeNode } from '@/internals/Tree/types';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
-import { TreeNode } from '../Tree/types';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
-import { TreeProvider, useTreeImperativeHandle } from '../Tree/TreeProvider';
 import type { FormControlPickerProps, DeprecatedPickerProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
@@ -227,7 +227,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
-        virtualized={virtualized}
         value={value}
         data={treeData}
         disabledItemValues={disabledItemValues}

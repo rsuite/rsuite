@@ -21,8 +21,9 @@ import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '@/internals/SearchBox';
 import { RsRefForwardingComponent, DataProps, ToArray } from '@/internals/types';
-import { useItemDataKeys } from './TreeProvider';
-import type { TreeNode, TreeNodeMap, TreeViewBaseProps, TreeDragProps } from './types';
+import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
+import type { TreeViewBaseProps, TreeDragProps } from './types';
 
 export interface TreeViewProps<V = number | string | null>
   extends TreeViewBaseProps<V, TreeNode>,
@@ -37,11 +38,6 @@ export interface TreeViewProps<V = number | string | null>
    * Whether display search input box.
    */
   searchable?: boolean;
-
-  /**
-   * Whether using virtualized list.
-   */
-  virtualized?: boolean;
 
   /**
    * Disabled tree node.
@@ -114,7 +110,6 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       height = 360,
       className,
       searchable = false,
-      virtualized = false,
       classPrefix = 'tree',
       searchKeyword,
       searchBy,
@@ -143,8 +138,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
     } = props;
 
     const { locale } = useCustom('Picker', overrideLocale);
-    const { valueKey, childrenKey } = useItemDataKeys();
-
+    const { valueKey, childrenKey, scrollShadow, virtualized } = useTreeContextProps();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
     const handleSearchCallback = useEventCallback(
@@ -352,7 +346,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
           onScroll={onScroll}
           onKeyDown={handleTreeKeyDown}
           className={prefix('view')}
-          style={virtualized ? undefined : { height }}
+          height={height}
         >
           {virtualized ? (
             <AutoSizer
@@ -368,6 +362,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
                   itemCount={formattedNodes.length}
                   itemData={formattedNodes}
                   className={prefix('virt-list')}
+                  scrollShadow={scrollShadow}
                   {...listProps}
                 >
                   {renderVirtualListNode}

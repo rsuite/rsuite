@@ -19,7 +19,7 @@ const App = () => {
   return (
     <div>
       <Panel bordered>
-        <CheckTree data={data} listRef={listRef} defaultExpandAll virtualized />
+        <CheckTree data={data} listRef={listRef} defaultExpandAll virtualized scrollShadow />
       </Panel>
       <hr />
       <Stack spacing={6}>

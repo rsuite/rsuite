@@ -5,8 +5,8 @@ import { getNodeParentKeys } from '../utils/getNodeParentKeys';
 import { isSearching } from '../utils/isSearching';
 import { UNSAFE_flattenTree } from '../utils/flattenTree';
 import { getNodeCheckState } from '../../CheckTree/utils';
-import type { TreeNode, TreeNodeMap } from '../types';
-import { useItemDataKeys } from '../TreeProvider';
+import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
+import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 
 /**
  * Determines whether a node should be shown based on the expanded state of its parent nodes.

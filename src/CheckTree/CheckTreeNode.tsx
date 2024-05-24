@@ -10,10 +10,9 @@ import {
   useCustom,
   useFocusVirtualListItem
 } from '@/internals/hooks';
-import { useTreeContextProps } from '../Tree/TreeProvider';
+import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
-import type { TreeNode as TreeNodeData } from '../Tree/types';
-
 export interface CheckTreeNodeProps extends WithAsProps {
   /**
    * The label of the node.
@@ -136,10 +135,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       isChecked = false;
     }
 
-    const nextNodeData = {
-      ...nodeData,
-      check: isChecked
-    };
+    const nextNodeData = { ...nodeData, check: isChecked };
+
     onSelect?.(nextNodeData, event);
   });
 

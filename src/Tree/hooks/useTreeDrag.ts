@@ -3,7 +3,7 @@ import isNil from 'lodash/isNil';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
 import { shallowEqual as equal, stringifyReactNode } from '@/internals/utils';
-import { useItemDataKeys } from '../TreeProvider';
+import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import type { DropData } from '../types';
 
 /**
