@@ -7,10 +7,6 @@ import subDays from 'date-fns/subDays';
 
 const predefinedBottomRanges = [
   {
-    label: 'yesterday',
-    value: addDays(new Date(), -1)
-  },
-  {
     label: 'today',
     value: new Date()
   },
