@@ -98,5 +98,16 @@ it('Prepends the `use client` directive to components', () => {
     assert.isTrue(content.startsWith(`'use client';`), `File ${file} has 'use client' directive`);
   });
 
-  console.log(`  ✅ ${libfiles.length} files have been validated.`);
+  console.log(`  ✅ ${libfiles.length} .js files have been validated.`);
+});
+
+it('Should not include @/internals in d.ts files', () => {
+  const dtsFiles = glob.sync('lib/{cjs,esm}/**/*.d.ts');
+
+  dtsFiles.forEach(file => {
+    const content = fs.readFileSync(file, 'utf-8');
+    assert.isFalse(/@\/internals/.test(content), `File ${file} does not include @/internals`);
+  });
+
+  console.log(`  ✅ ${dtsFiles.length} .d.ts files have been validated.`);
 });
