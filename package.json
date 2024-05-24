@@ -38,7 +38,7 @@
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",
     "install:react-17": "npm i --no-save --legacy-peer-deps react@17 react-dom@17 ",
-    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13 @testing-library/react-hooks@8 @testing-library/user-event@13 @testing-library/dom@8"
+    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13 @testing-library/react-hooks@8 @testing-library/user-event@13"
   },
   "keywords": [
     "react",
@@ -101,6 +101,7 @@
     "@npmcli/package-json": "^2.0.0",
     "@storybook/blocks": "^7.6.10",
     "@storybook/react": "^7.6.10",
+    "@testing-library/dom": "^8.20.1",
     "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^13.1.9",
