@@ -1,3 +1,12 @@
+## [5.62.1](https://github.com/rsuite/rsuite/compare/v5.62.0...v5.62.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* **build:** fix the path not being converted in the `.d.ts` file ([#3820](https://github.com/rsuite/rsuite/issues/3820)) ([68d126a](https://github.com/rsuite/rsuite/commit/68d126aaaab8ad3366f458477512cf403f72b1f6))
+
+
+
 # [5.62.0](https://github.com/rsuite/rsuite/compare/v5.61.0...v5.62.0) (2024-05-24)
 
 
