@@ -11,7 +11,8 @@ import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import { IoExtensionPuzzleOutline } from 'react-icons/io5';
 
 import BarsIcon from '@rsuite/icons/legacy/Bars';
-import { TypeAttributes } from 'rsuite/esm/@types/common';
+import { TypeAttributes } from 'rsuite/esm/internals/types';
+
 import pkg from '../../package.json';
 
 const icons = { IoExtensionPuzzleOutline };

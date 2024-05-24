@@ -37,13 +37,13 @@ Use `cellClassName` function to specify the custom class name added to each cell
 <!-- prettier-sort-markdown-table -->
 
 | Property      | Type`(Default)`                             | Description                                                                                                                       |
-| ------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --- |
+| ------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | bordered      | boolean                                     | Show border                                                                                                                       |
 | cellClassName | (date: Date) => string \| undefined         | Custom cell classes base on it's date                                                                                             |
 | compact       | boolean                                     | Display a compact calendar                                                                                                        |
 | defaultValue  | Date                                        | Default value                                                                                                                     |
 | isoWeek       | boolean                                     | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
-| locale        | [CalendarLocaleType](/guide/i18n/#calendar) | Locale configuration                                                                                                              |     |
+| locale        | [CalendarLocaleType](/guide/i18n/#calendar) | Locale configuration                                                                                                              |
 | onChange      | (date: Date) => void                        | Callback fired before the value changed                                                                                           |
 | onSelect      | (date: Date) => void                        | Callback fired before the date selected                                                                                           |
 | renderCell    | (date: Date) => ReactNode                   | Custom render calendar cells                                                                                                      |
