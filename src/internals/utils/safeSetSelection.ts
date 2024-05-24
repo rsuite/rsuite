@@ -1,6 +1,5 @@
 import { isAndroid } from './BrowserDetection';
 
-const defer = typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : setTimeout;
 const strNone = 'none';
 
 /**
@@ -13,7 +12,7 @@ export function safeSetSelection(
 ) {
   if (document.activeElement === element) {
     if (isAndroid()) {
-      defer(() => element.setSelectionRange(selectionStart, selectionEnd, strNone), 0);
+      requestAnimationFrame(() => element.setSelectionRange(selectionStart, selectionEnd, strNone));
     } else {
       element.setSelectionRange(selectionStart, selectionEnd, strNone);
     }

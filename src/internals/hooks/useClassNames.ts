@@ -20,6 +20,14 @@ export interface ClassArray extends Array<ClassValue> {} //eslint-disable-line @
 export interface ClassDictionary {
   [id: string]: any;
 }
+
+interface ClassNameUtils {
+  withClassPrefix: (...classes: ClassValue[]) => string;
+  merge: (...classes: ClassValue[]) => string;
+  prefix: (...classes: ClassValue[]) => string;
+  rootPrefix: (...classes: ClassValue[]) => string;
+}
+
 /**
  * Add a prefix to all classNames.
  *
@@ -31,7 +39,7 @@ export interface ClassDictionary {
  *  - prefix: Add a prefix to className
  *  - rootPrefix
  */
-export function useClassNames(str: string) {
+export function useClassNames(str: string): ClassNameUtils {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
   const componentName = addPrefix(classPrefix, str);
 
