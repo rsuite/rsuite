@@ -16,4 +16,14 @@ describe('Panel styles', () => {
     render(<Panel data-testid="panel" bordered />);
     expect(screen.getByTestId('panel')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
   });
+
+  it('Should not have top padding when header is set', () => {
+    render(
+      <Panel collapsible expanded header="Title">
+        Text
+      </Panel>
+    );
+
+    expect(screen.getByRole('region')).to.have.style('padding-top', '0px');
+  });
 });

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import isArray from 'lodash/isArray';
 import { shouldDisplay } from '@/internals/Picker';
-import { useItemDataKeys } from '../TreeProvider';
+import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 
 interface TreeSearchProps<T> {
   searchKeyword?: string;

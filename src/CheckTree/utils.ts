@@ -2,8 +2,8 @@ import { isNil, isUndefined } from 'lodash';
 import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { attachParent } from '@/internals/utils';
+import { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import { formatNodeRefKey } from '../Tree/utils';
-import { TreeNode, TreeNodeMap } from '../Tree/types';
 
 /**
  * Retrieves the children of a given parent node from a flattened node map.

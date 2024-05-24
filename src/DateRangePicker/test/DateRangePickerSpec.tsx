@@ -10,6 +10,7 @@ import {
 } from '@test/utils';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { keyPress } from '@test/utils/simulateEvent';
 import {
   addDays,
   endOfMonth,
@@ -105,19 +106,6 @@ describe('DateRangePicker', () => {
     render(<DateRangePicker value={value} format={template} />);
 
     expect(screen.getByRole('textbox')).to.have.value('11/11/2019 01:00:00 ~ 11/12/2019 01:00:00');
-  });
-
-  it('Should render a custom value', () => {
-    render(
-      <DateRangePicker
-        defaultValue={[new Date('2024-05-13'), new Date('2024-05-14')]}
-        renderValue={([start, end]) => {
-          return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
-        }}
-      />
-    );
-
-    expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May ~ Tue, 14 May');
   });
 
   it('Should select date time successfully', () => {
@@ -1244,6 +1232,40 @@ describe('DateRangePicker', () => {
     expect(times[1]).to.have.text('10');
     expect(input).to.have.value('07 ~ 10');
     expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
+  });
+
+  describe('Customize value', () => {
+    it('Should render a custom value', () => {
+      render(
+        <DateRangePicker
+          defaultValue={[new Date('2024-05-13'), new Date('2024-05-14')]}
+          renderValue={([start, end]) => {
+            return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
+          }}
+        />
+      );
+
+      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May ~ Tue, 14 May');
+    });
+
+    it('Should render a custom value when a value is entered via the keyboard', async () => {
+      render(
+        <>
+          <div data-testid="outside">Outside</div>
+          <DateRangePicker
+            renderValue={([start, end]) => {
+              return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
+            }}
+          />
+        </>
+      );
+
+      await keyPress(screen.getByRole('textbox'), '2024051320240514');
+
+      userEvent.click(screen.getByTestId('outside'));
+
+      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May ~ Tue, 14 May');
+    });
   });
 
   describe('Custom week ', () => {

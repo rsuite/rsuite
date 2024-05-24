@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { isAllSiblingNodeUncheckable, getDisabledState, isNodeUncheckable } from '../utils';
-import { useItemDataKeys } from '../../Tree/TreeProvider';
+import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
+import type { TreeNode } from '@/internals/Tree/types';
 import Highlight from '../../Highlight';
-import type { TreeNode } from '../../Tree/types';
 
 interface Props {
   uncheckableItemValues: any[];

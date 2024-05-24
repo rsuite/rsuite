@@ -40,6 +40,10 @@
 
 <!--{include:`disabled.md`}-->
 
+### 滚动阴影
+
+<!--{include:`scroll-shadow.md`}-->
+
 ## 可访问性
 
 ### ARIA 属性
@@ -68,39 +72,40 @@
 
 ### `<Tree>`
 
-| 属性名称                | 类型 `(默认值)`                                                                                | 描述                                   |
-| ----------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------- |
-| childrenKey             | string `('children')`                                                                          | 设置树节点的子节点在 `data` 中的 `key` |
-| classPrefix             | string`('picker')`                                                                             | 组件 CSS 类的前缀                      |
-| data \*                 | [TreeNode][node]                                                                               | 渲染树的数据                           |
-| defaultExpandAll        | boolean                                                                                        | 默认展开所有节点                       |
-| defaultExpandItemValues | string[]                                                                                       | 设置默认展开节点的值                   |
-| defaultValue            | string                                                                                         | 默认选中的值                           |
-| disabledItemValues      | string[]                                                                                       | 设置禁用树节点的值                     |
-| draggable               | boolean                                                                                        | 是否可以拖拽                           |
-| expandItemValues        | string[]                                                                                       | 设置展开节点的值（受控）               |
-| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                    | 异步加载节点的子节点数据               |
-| height                  | number `(360px)`                                                                               | 设置树的高度                           |
-| labelKey                | string `('label')`                                                                             | 设置树节点显示内容在 `data` 中的 `key` |
-| listProps               | [ListProps][listprops]                                                                         | 虚拟化长列表的相关属性                 |
-| onChange                | (value:string) => void                                                                         | 选中值改变的回调函数                   |
-| onDragEnd               | (node: [TreeNode][node], event) => void                                                        | 拖拽结束的回调函数                     |
-| onDragEnter             | (node: [TreeNode][node], event) => void                                                        | 拖拽进入的回调函数                     |
-| onDragLeave             | (node: [TreeNode][node], event) => void                                                        | 拖拽离开的回调函数                     |
-| onDragOver              | (node: [TreeNode][node], event) => void                                                        | 拖拽进入的回调函数                     |
-| onDragStart             | (node: [TreeNode][node], event) => void                                                        | 拖拽开始的回调函数                     |
-| onDrop                  | (dropData: [DropDataType][drop], event) => void                                                | 拖拽结束的回调函数                     |
-| onExpand                | (expandItemValues: string[], node: [TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                     |
-| onSearch                | (keyword: string) => void                                                                      | 搜索时回调                             |
-| onSelect                | (node: [TreeNode][node], value, event) => void                                                 | 选择树节点后的回调                     |
-| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                       | 自定义渲染图标                         |
-| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                          | 自定义渲染树节点                       |
-| searchable              | boolean                                                                                        | 是否显示搜索框<br/>![][5.61.0]         |
-| searchKeyword           | string                                                                                         | 为搜索框设置搜索关键词                 |
-| showIndentLine          | boolean                                                                                        | 是否显示缩进线                         |
-| value                   | string                                                                                         | 当前选中的值                           |
-| valueKey                | string `('value')`                                                                             | 设置树节点值在 `data` 中的 `key`       |
-| virtualized             | boolean                                                                                        | 是否开启虚拟列表                       |
+| 属性名称                | 类型 `(默认值)`                                                                                | 描述                                       |
+| ----------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| childrenKey             | string `('children')`                                                                          | 设置树节点的子节点在 `data` 中的 `key`     |
+| classPrefix             | string`('picker')`                                                                             | 组件 CSS 类的前缀                          |
+| data \*                 | [TreeNode][node]                                                                               | 渲染树的数据                               |
+| defaultExpandAll        | boolean                                                                                        | 默认展开所有节点                           |
+| defaultExpandItemValues | string[]                                                                                       | 设置默认展开节点的值                       |
+| defaultValue            | string                                                                                         | 默认选中的值                               |
+| disabledItemValues      | string[]                                                                                       | 设置禁用树节点的值                         |
+| draggable               | boolean                                                                                        | 是否可以拖拽                               |
+| expandItemValues        | string[]                                                                                       | 设置展开节点的值（受控）                   |
+| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                    | 异步加载节点的子节点数据                   |
+| height                  | number `(360px)`                                                                               | 设置树的高度                               |
+| labelKey                | string `('label')`                                                                             | 设置树节点显示内容在 `data` 中的 `key`     |
+| listProps               | [ListProps][listprops]                                                                         | 虚拟化长列表的相关属性                     |
+| onChange                | (value:string) => void                                                                         | 选中值改变的回调函数                       |
+| onDragEnd               | (node: [TreeNode][node], event) => void                                                        | 拖拽结束的回调函数                         |
+| onDragEnter             | (node: [TreeNode][node], event) => void                                                        | 拖拽进入的回调函数                         |
+| onDragLeave             | (node: [TreeNode][node], event) => void                                                        | 拖拽离开的回调函数                         |
+| onDragOver              | (node: [TreeNode][node], event) => void                                                        | 拖拽进入的回调函数                         |
+| onDragStart             | (node: [TreeNode][node], event) => void                                                        | 拖拽开始的回调函数                         |
+| onDrop                  | (dropData: [DropDataType][drop], event) => void                                                | 拖拽结束的回调函数                         |
+| onExpand                | (expandItemValues: string[], node: [TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                         |
+| onSearch                | (keyword: string) => void                                                                      | 搜索时回调                                 |
+| onSelect                | (node: [TreeNode][node], value, event) => void                                                 | 选择树节点后的回调                         |
+| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                       | 自定义渲染图标                             |
+| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                          | 自定义渲染树节点                           |
+| scrollShadow            | boolean                                                                                        | 滚动时候显示内容区域的阴影<br/>![][5.62.0] |
+| searchable              | boolean                                                                                        | 是否显示搜索框<br/>![][5.61.0]             |
+| searchKeyword           | string                                                                                         | 为搜索框设置搜索关键词                     |
+| showIndentLine          | boolean                                                                                        | 是否显示缩进线                             |
+| value                   | string                                                                                         | 当前选中的值                               |
+| valueKey                | string `('value')`                                                                             | 设置树节点值在 `data` 中的 `key`           |
+| virtualized             | boolean                                                                                        | 是否开启虚拟列表                           |
 
 <!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
@@ -115,3 +120,5 @@
 [listprops]: #code-ts-list-props-code
 [node]: #code-ts-tree-node-code
 [drop]: #code-ts-drop-data-type-code
+[5.61.0]: https://img.shields.io/badge/min-v5.61.0-blue
+[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

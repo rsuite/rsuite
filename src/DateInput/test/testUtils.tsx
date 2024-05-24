@@ -1,9 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import isMatch from 'date-fns/isMatch';
 import formatDate from 'date-fns/format';
+import { keyPress } from '@test/utils/simulateEvent';
 
 export function keyPressTests(TestComponent: React.FC<any>) {
   function testKeyPress({
@@ -55,21 +56,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
-    userEvent.click(input);
-
-    let timeout = 0;
-
-    const actions = keys.map(key => {
-      timeout += 100;
-      return new Promise<void>(resolve => {
-        setTimeout(() => {
-          fireEvent.keyDown(input, { key });
-          resolve();
-        }, timeout);
-      });
-    });
-
-    await Promise.all(actions);
+    await keyPress(input, keys);
 
     expect(input).to.value(expectedValue);
 

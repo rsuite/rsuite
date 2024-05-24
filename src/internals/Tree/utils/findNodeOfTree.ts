@@ -1,4 +1,4 @@
-import type { TreeNode } from '../../../Tree/types';
+import type { TreeNode } from '../types';
 export function findNodeOfTree(data, check) {
   const findNode = (nodes: readonly TreeNode[] = []) => {
     for (let i = 0; i < nodes.length; i += 1) {

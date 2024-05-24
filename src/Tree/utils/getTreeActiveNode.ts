@@ -1,5 +1,5 @@
 import { shallowEqual } from '@/internals/utils';
-import { TreeNodeMap } from '../types';
+import type { TreeNodeMap } from '@/internals/Tree/types';
 
 /**
  * Retrieves the active node from a tree based on the provided value and value key.

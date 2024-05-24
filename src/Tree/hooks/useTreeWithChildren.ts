@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '@/internals/Tree/utils';
-import { TreeNode } from '../types';
+import type { TreeNode } from '@/internals/Tree/types';
 
 interface UseTreeWithChildrenOptions {
   valueKey: string;

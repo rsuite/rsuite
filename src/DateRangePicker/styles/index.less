@@ -34,16 +34,16 @@
 .rs-picker-popup {
   &&-daterange {
     padding: 0;
+
+    .rs-calendar:first-child {
+      border-right: 1px solid var(--rs-border-primary);
+    }
   }
 
   .rs-calendar {
     display: inline-block;
     height: 274px;
     padding-bottom: 12px;
-
-    &:first-child {
-      border-right: 1px solid var(--rs-border-primary);
-    }
 
     &-header {
       width: 100%;

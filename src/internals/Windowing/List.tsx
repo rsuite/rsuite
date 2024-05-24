@@ -8,6 +8,7 @@ import {
 } from 'react-window';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '@/internals/hooks';
+import ScrollView from '../ScrollView';
 
 export const defaultItemSize = () => 36;
 
@@ -27,6 +28,11 @@ export interface ListProps<T = any> extends WithAsProps {
    * Scroll offset for initial render.
    */
   initialScrollOffset?: number;
+
+  /**
+   * The shadow of the content when scrolling
+   */
+  scrollShadow?: boolean;
 
   /**
    * By default, lists will use an item's index as its key. This is okay if:
@@ -57,13 +63,23 @@ export interface ListHandle extends Partial<VariableSizeList> {
   scrollToRow?: (index: number) => void;
 }
 
+const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+  return <ScrollView scrollShadow ref={ref} {...props} />;
+});
+
 /**
  * This component renders a virtualized list of elements with either fixed or dynamic heights.
  *
  * @private
  */
 const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
-  const { rowHeight, as: Component = VariableSizeList, itemSize: itemSizeProp, ...rest } = props;
+  const {
+    rowHeight,
+    as: Component = VariableSizeList,
+    itemSize: itemSizeProp,
+    scrollShadow,
+    ...rest
+  } = props;
   const listRef = useRef<VariableSizeList>(null);
   const { rtl } = useCustom();
 
@@ -101,7 +117,14 @@ const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props
     compatibleProps.itemSize = Component === VariableSizeList ? setRowHeight : rowHeight;
   }
 
-  return <Component ref={listRef} direction={rtl ? 'rtl' : 'ltr'} {...compatibleProps} />;
+  return (
+    <Component
+      ref={listRef}
+      direction={rtl ? 'rtl' : 'ltr'}
+      {...compatibleProps}
+      outerElementType={scrollShadow ? OuterElementType : undefined}
+    />
+  );
 });
 
 export default List;

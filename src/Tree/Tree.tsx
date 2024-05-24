@@ -2,15 +2,22 @@ import React, { useMemo } from 'react';
 import { RsRefForwardingComponent } from '@/internals/types';
 import TreeView, { type TreeViewProps } from './TreeView';
 import { useControlled, useEventCallback } from '@/internals/hooks';
+import { TreeProvider } from '@/internals/Tree/TreeProvider';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';
-import { TreeProvider } from './TreeProvider';
 import type { TreeExtraProps } from './types';
 
 export interface TreeProps<T = string | number | null> extends TreeViewProps<T>, TreeExtraProps {
-  /** Default selected Value  */
+  /**
+   * Default selected Value
+   */
   defaultValue?: T;
+
+  /**
+   * The shadow of the content when scrolling
+   */
+  scrollShadow?: boolean;
 }
 
 /**
@@ -31,6 +38,7 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
       defaultExpandItemValues = [],
       expandItemValues: controlledExpandItemValues,
       virtualized,
+      scrollShadow,
       renderTreeIcon,
       renderTreeNode,
       getChildren,
@@ -66,9 +74,17 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
 
     const treeContext = useMemo(
       () => ({
-        props: { childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode }
+        props: {
+          childrenKey,
+          labelKey,
+          valueKey,
+          virtualized,
+          scrollShadow,
+          renderTreeIcon,
+          renderTreeNode
+        }
       }),
-      [childrenKey, labelKey, valueKey, virtualized, renderTreeIcon, renderTreeNode]
+      [childrenKey, labelKey, valueKey, scrollShadow, virtualized, renderTreeIcon, renderTreeNode]
     );
 
     return (
@@ -78,7 +94,6 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
           {...rest}
           value={value}
           data={treeData}
-          virtualized={virtualized}
           loadingNodeValues={loadingNodeValues}
           flattenedNodes={flattenedNodes}
           expandItemValues={expandItemValues}

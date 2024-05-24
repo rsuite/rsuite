@@ -1,6 +1,6 @@
 # Panel 面板
 
-一个内容面板， 支持折叠面板。Panel 中可以放所有 `Data Display` 组件，可以作为表单的容器。
+一个内容面板， 支持折叠、阴影、线框的容器。
 
 ## 获取组件
 
@@ -19,6 +19,10 @@
 ### 有阴影
 
 <!--{include:`shaded.md`}-->
+
+### 滚动阴影
+
+<!--{include:`scroll-shadow.md`}-->
 
 ### 带操作按钮
 
@@ -77,18 +81,19 @@
 
 <!-- prettier-sort-markdown-table -->
 
-| 属性名称        | 类型`(默认值)`     | 描述               |
-| --------------- | ------------------ | ------------------ |
-| bodyFill        | boolean            | 内容区域撑满容器   |
-| bordered        | boolean            | 显示线框           |
-| classPrefix     | string `('panel')` | 组件 CSS 类的前缀  |
-| collapsible     | boolean            | 可折叠的           |
-| defaultExpanded | boolean            | 默认展开           |
-| eventKey        | string             | 面板对应的事件 key |
-| expanded        | boolean            | 展开面板           |
-| header          | ReactNode          | 头部显示信息       |
-| id              | string             | 面板的 id          |
-| shaded          | boolean            | 显示阴影           |
+| 属性名称        | 类型`(默认值)`     | 描述                                       |
+| --------------- | ------------------ | ------------------------------------------ |
+| bodyFill        | boolean            | 内容区域撑满容器                           |
+| bordered        | boolean            | 显示线框                                   |
+| classPrefix     | string `('panel')` | 组件 CSS 类的前缀                          |
+| collapsible     | boolean            | 可折叠的                                   |
+| defaultExpanded | boolean            | 默认展开                                   |
+| eventKey        | string             | 面板对应的事件 key                         |
+| expanded        | boolean            | 展开面板                                   |
+| header          | ReactNode          | 头部显示信息                               |
+| id              | string             | 面板的 id                                  |
+| scrollShadow    | boolean            | 滚动时候显示内容区域的阴影<br/>![][5.62.0] |
+| shaded          | boolean            | 是否在边框上添加阴影效果                   |
 
 ### `<PanelGroup>`
 
@@ -99,3 +104,5 @@
 | classPrefix      | string                            | 组件 CSS 类的前缀                        |
 | defaultActiveKey | string                            | 默认展开面板                             |
 | onSelect         | (eventKey: string, event) => void | 切换展开面板的回调函数                   |
+
+[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

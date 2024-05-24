@@ -1,4 +1,4 @@
-import { TreeNode, TreeNodeMap } from '../types';
+import { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import { shallowEqual } from '@/internals/utils';
 import { ListHandle } from '@/internals/Windowing';
 

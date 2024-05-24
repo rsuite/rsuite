@@ -63,10 +63,10 @@ import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange
 import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
-import Input from '../Input';
 import InputGroup from '../InputGroup';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
+import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 export interface DateRangePickerProps
   extends PickerBaseProps<DateRangePickerLocale>,
     FormControlBaseProps<DateRange | null> {
@@ -285,8 +285,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     onChange,
     onClean,
     onEnter,
-    onEntered,
-    onExited,
+    onExit,
     onOk,
     onSelect,
     onShortcutClick,
@@ -688,7 +687,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     }
   );
 
-  const handleOK = useEventCallback((event: React.SyntheticEvent) => {
+  const handleClickOK = useEventCallback((event: React.SyntheticEvent) => {
     setDateRange(event, selectedDates as DateRange);
     onOk?.(selectedDates as DateRange, event);
   });
@@ -714,12 +713,18 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     setHoverDateRange(selectValue);
     setSelectedDates(selectValue);
     setCalendarDateRange({ dateRange: selectValue });
-    setDateRange(event, selectValue);
+    setDateRange(event, selectValue, false);
   });
 
+  /**
+   * Check if the date is disabled
+   */
   const isDateDisabled = useDateDisabled({ shouldDisableDate, DEPRECATED_disabledDate });
 
-  const disableByRange = (start: Date, end: Date, target: TARGET) => {
+  /**
+   * Check if a date range is disabled
+   */
+  const isRangeDisabled = (start: Date, end: Date, target: TARGET) => {
     if (isDateDisabled) {
       // If the date is between the start and the end the button is disabled
       while (isBefore(start, end) || isSameDay(start, end)) {
@@ -735,27 +740,33 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     return false;
   };
 
-  const disableOkButton = () => {
-    const { open } = trigger.current?.getState() || {};
+  /**
+   * Check if the OK button is disabled
+   */
+  const isOkButtonDisabled = () => {
+    const [start, end] = selectedDates;
+    if (!start || !end || !isSelectedIdle) {
+      return true;
+    }
 
-    if (open) {
-      const [start, end] = selectedDates;
-      if (!start || !end || !isSelectedIdle) {
-        return true;
-      }
+    if (isErrorValue([start, end])) {
+      return true;
     }
 
     return false;
   };
 
-  const disableShortcut = (value: SelectedDatesState = []) => {
+  /**
+   * Check if the shortcut button is disabled
+   */
+  const isShortcutDisabled = (value: SelectedDatesState = []) => {
     const [start, end] = value;
 
     if (!start || !end) {
       return true;
     }
 
-    return disableByRange(start, end, TARGET.TOOLBAR_SHORTCUT);
+    return isRangeDisabled(start, end, TARGET.TOOLBAR_SHORTCUT);
   };
 
   const handleClose = useEventCallback(() => {
@@ -857,7 +868,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
                 ranges={sideRanges}
                 calendarDate={calendarDate}
                 locale={locale}
-                disableShortcut={disableShortcut}
+                disableShortcut={isShortcutDisabled}
                 onShortcutClick={handleShortcutPageDate}
                 data-testid="daterange-predefined-side"
               />
@@ -887,10 +898,10 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               <Toolbar<SelectedDatesState, DateRange>
                 locale={locale}
                 calendarDate={selectedDates}
-                disableOkBtn={disableOkButton}
-                disableShortcut={disableShortcut}
+                disableOkBtn={isOkButtonDisabled}
+                disableShortcut={isShortcutDisabled}
                 hideOkBtn={oneTap}
-                onOk={handleOK}
+                onOk={handleClickOK}
                 onShortcutClick={handleShortcutPageDate}
                 ranges={bottomRanges}
               />
@@ -958,20 +969,15 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const showCleanButton = cleanable && hasValue && !readOnly;
   const invalidValue = value && isErrorValue(value);
 
-  // Custom rendering of the selected value
-  let customValue: string | null = null;
-
-  // Input box is read-only when the component is uneditable or loading state
-  let inputReadOnly: boolean = readOnly || !editable || loading || false;
-
-  if (typeof renderValue === 'function' && value) {
-    customValue = renderValue(value, formatStr);
-
-    // If the custom rendering value, the input box is read-only
-    inputReadOnly = true;
-  }
-
-  const TargetInput = customValue ? Input : DateRangeInput;
+  const { customValue, inputReadOnly, Input, events } = useCustomizedInput({
+    mode: 'dateRange',
+    value,
+    formatStr,
+    renderValue,
+    readOnly,
+    editable,
+    loading
+  });
 
   return (
     <PickerToggleTrigger
@@ -979,9 +985,8 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       ref={trigger}
       pickerProps={pick(props, pickTriggerPropKeys)}
       placement={placement}
-      onEnter={createChainedFunction(handleEnter, onEnter)}
-      onEntered={onEntered}
-      onExited={onExited}
+      onEnter={createChainedFunction(events.onActive, handleEnter, onEnter)}
+      onExit={createChainedFunction(events.onInactive, onExit)}
       speaker={renderCalendarOverlay}
     >
       <Component
@@ -1005,7 +1010,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
             <PickerLabel className={prefix`label`} id={`${id}-label`}>
               {label}
             </PickerLabel>
-            <TargetInput
+            <Input
               aria-haspopup="dialog"
               aria-invalid={invalidValue}
               aria-labelledby={label ? `${id}-label` : undefined}
@@ -1018,7 +1023,6 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
               readOnly={inputReadOnly}
-              plaintext={plaintext}
               htmlSize={getInputHtmlSize()}
               onChange={handleInputChange}
               onKeyDown={handleInputKeyDown}
