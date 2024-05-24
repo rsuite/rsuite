@@ -11,7 +11,7 @@ import Toolbar, { RangeType } from './Toolbar';
 import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import { DatePickerLocale } from '../locales';
-import { mergeRefs, partitionHTMLProps } from '@/internals/utils';
+import { mergeRefs, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import {
   useClassNames,
   useControlled,
@@ -45,12 +45,12 @@ import {
   onMenuKeyDown
 } from '@/internals/Picker';
 import { OverlayCloseCause } from '@/internals/Overlay/OverlayTrigger';
-import Input from '../Input';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import { splitRanges, deprecatedPropTypes, getRestProps } from './utils';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
+import useCustomizedInput from './hooks/useCustomizedInput';
 import type {
   FormControlBaseProps,
   PickerBaseProps,
@@ -232,8 +232,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onChange,
       onChangeCalendarDate,
       onClean,
-      onEntered,
-      onExited,
+      onEnter,
+      onExit,
       onNextMonth,
       onOk,
       onPrevMonth,
@@ -253,7 +253,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
     const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
-
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
@@ -619,20 +618,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
     const invalidValue = value && isErrorValue(value);
 
-    // Custom rendering of the selected value
-    let customValue: string | null = null;
-
-    // Input box is read-only when the component is uneditable or loading state
-    let inputReadOnly: boolean = readOnly || !editable || loading || false;
-
-    if (typeof renderValue === 'function' && value) {
-      customValue = renderValue(value, formatStr);
-
-      // If the custom rendering value, the input box is read-only
-      inputReadOnly = true;
-    }
-
-    const TargetInput = customValue ? Input : DateInput;
+    const customizedProps = { value, formatStr, renderValue, readOnly, editable, loading };
+    const { customValue, inputReadOnly, Input, events } = useCustomizedInput(customizedProps);
 
     return (
       <PickerToggleTrigger
@@ -641,8 +628,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         ref={trigger}
         placement={placement}
         onClose={handleTriggerClose}
-        onEntered={onEntered}
-        onExited={onExited}
+        onEnter={createChainedFunction(events.onActive, onEnter)}
+        onExit={createChainedFunction(events.onInactive, onExit)}
         speaker={renderCalendarOverlay}
       >
         <Component
@@ -663,7 +650,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               <PickerLabel className={prefix`label`} id={`${id}-label`}>
                 {label}
               </PickerLabel>
-              <TargetInput
+              <Input
                 aria-haspopup="dialog"
                 aria-invalid={invalidValue}
                 aria-labelledby={label ? `${id}-label` : undefined}
@@ -674,8 +661,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 format={formatStr}
                 placeholder={placeholder ? placeholder : formatStr}
                 disabled={disabled}
-                onChange={handleInputChange}
                 readOnly={inputReadOnly}
+                onChange={handleInputChange}
                 onKeyDown={handleInputKeyDown}
               />
 

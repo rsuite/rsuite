@@ -6,13 +6,23 @@ import format from 'date-fns/format';
 
 const App = () => {
   return (
-    <DatePicker
-      editable={false}
-      placeholder="Select Date"
-      renderValue={value => {
-        return format(value, 'EEE, d MMM');
-      }}
-    />
+    <>
+      <DatePicker
+        placeholder="Select Date"
+        renderValue={value => {
+          return format(value, 'EEE, d MMM');
+        }}
+      />
+      <hr />
+
+      <DatePicker
+        editable={false}
+        placeholder="Uneditable"
+        renderValue={value => {
+          return format(value, 'EEE, d MMM');
+        }}
+      />
+    </>
   );
 };
 
