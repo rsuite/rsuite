@@ -62,19 +62,29 @@ export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date | null>,
     DeprecatedProps {
-  /** Custom caret component */
+  /**
+   * Custom caret component
+   */
   caretAs?: React.ElementType | null;
 
-  /** Calendar panel default presentation date and time */
+  /**
+   * Calendar panel default presentation date and time
+   */
   calendarDefaultDate?: Date;
 
-  /** Whether disabled the component */
+  /**
+   * Whether disabled the component
+   */
   disabled?: boolean;
 
-  /** Rendered as an input, the date can be entered via the keyboard */
+  /**
+   * Rendered as an input, the date can be entered via the keyboard
+   */
   editable?: boolean;
 
-  /** Format date */
+  /**
+   * Format date string
+   */
   format?: string;
 
   /**
@@ -84,34 +94,62 @@ export interface DatePickerProps
    */
   isoWeek?: boolean;
 
-  /** A label displayed at the beginning of toggle button */
+  /**
+   * The index of the first day of the week (0 - Sunday)
+   * If `isoWeek` is `true`, the value of `weekStart` is ignored.
+   *
+   * @default 0
+   */
+  weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * A label displayed at the beginning of toggle button
+   */
   label?: React.ReactNode;
 
-  /** Set the upper limit of the available year relative to the current selection date */
+  /**
+   * Set the upper limit of the available year relative to the current selection date
+   */
   limitEndYear?: number;
 
-  /** Set the lower limit of the available year relative to the current selection date */
+  /**
+   * Set the lower limit of the available year relative to the current selection date
+   */
   limitStartYear?: number;
 
-  /** Whether to display a loading state indicator */
+  /**
+   * Whether to display a loading state indicator
+   */
   loading?: boolean;
 
-  /** one tap to select */
+  /**
+   * One-click selection date
+   */
   oneTap?: boolean;
 
-  /** Whether plaintext the component */
+  /**
+   * Whether plaintext the component
+   */
   plaintext?: boolean;
 
-  /** Whether read only the component */
+  /**
+   * Whether read only the component
+   */
   readOnly?: boolean;
 
-  /** Predefined date Ranges */
+  /**
+   * Predefined date Ranges
+   */
   ranges?: RangeType<Date>[];
 
-  /** Whether to show week numbers */
+  /**
+   * Whether to show week numbers
+   */
   showWeekNumbers?: boolean;
 
-  /** Meridian format */
+  /**
+   * Meridian format for 12-hour time
+   */
   showMeridian?: boolean;
 
   /**
@@ -122,54 +160,76 @@ export interface DatePickerProps
   shouldDisableDate?: (date: Date) => boolean;
 
   /**
-   * Disabled hours
+   * Disabled hours on the time view
    */
   shouldDisableHour?: (hour: number, date: Date) => boolean;
 
   /**
-   * Disabled minutes
+   * Disabled minutes on the time view
    */
   shouldDisableMinute?: (minute: number, date: Date) => boolean;
 
   /**
-   * Disabled seconds
+   * Disabled seconds on the time view
    */
   shouldDisableSecond?: (second: number, date: Date) => boolean;
 
-  /** Hidden hours */
+  /**
+   * Hidden hours on the time view
+   */
   hideHours?: (hour: number, date: Date) => boolean;
 
-  /** Hidden minutes */
+  /**
+   * Hidden minutes on the time view
+   */
   hideMinutes?: (minute: number, date: Date) => boolean;
 
-  /** Hidden seconds */
+  /**
+   * Hidden seconds on the time view
+   */
   hideSeconds?: (second: number, date: Date) => boolean;
 
-  /** Called when the calendar panel date changes */
+  /**
+   * Called when the calendar panel date changes
+   */
   onChangeCalendarDate?: (date: Date, event?: React.SyntheticEvent) => void;
 
-  /** Called when opening the month view */
+  /**
+   * Called when opening the month view
+   */
   onToggleMonthDropdown?: (toggle: boolean) => void;
 
-  /** Called when opening the time view */
+  /**
+   * Called when opening the time view
+   */
   onToggleTimeDropdown?: (toggle: boolean) => void;
 
-  /** Called when the option is selected */
+  /**
+   * Called when the option is selected
+   */
   onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
 
   /** Called after the prev month */
   onPrevMonth?: (date: Date) => void;
 
-  /** Called after the next month */
+  /**
+   * Called after the next month
+   */
   onNextMonth?: (date: Date) => void;
 
-  /** Called after clicking the OK button */
+  /**
+   * Called after clicking the OK button
+   */
   onOk?: (date: Date, event: React.SyntheticEvent) => void;
 
-  /** Called after clicking the shortcut button */
+  /**
+   * Called after clicking the shortcut button
+   */
   onShortcutClick?: (range: RangeType<Date>, event: React.MouseEvent) => void;
 
-  /** Called when clean */
+  /**
+   * Called when clean
+   */
   onClean?: (event: React.MouseEvent) => void;
 
   /**
@@ -207,6 +267,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       format: formatStr = 'yyyy-MM-dd',
       id: idProp,
       isoWeek,
+      weekStart = 0,
       limitEndYear = 1000,
       limitStartYear,
       locale: overrideLocale,
@@ -558,6 +619,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 limitStartYear={limitStartYear}
                 format={formatStr}
                 isoWeek={isoWeek}
+                weekStart={weekStart}
                 calendarDate={calendarDate}
                 renderCellOnPicker={renderCell}
                 onMoveForward={handleMoveForward}
@@ -695,6 +757,7 @@ DatePicker.propTypes = {
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
   isoWeek: PropTypes.bool,
+  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
   limitEndYear: PropTypes.number,
   limitStartYear: PropTypes.number,
   onChange: PropTypes.func,

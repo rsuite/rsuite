@@ -4,11 +4,15 @@ import { CalendarLocale } from '../locales';
 export interface CalendarInnerContextValue {
   date: Date;
   dateRange?: Date[];
-  disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
   format?: string;
   hoverRangeValue?: [Date, Date];
-  inSameMonth?: (date: Date) => boolean;
+  inline?: boolean;
   isoWeek: boolean;
+  weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  showWeekNumbers?: boolean;
+  targetId?: string;
+  disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
+  inSameMonth?: (date: Date) => boolean;
   onChangeMonth?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangeTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
   onMouseMove?: (date: Date) => void;
@@ -16,9 +20,6 @@ export interface CalendarInnerContextValue {
   renderCell?: (date: Date) => React.ReactNode;
   renderCellOnPicker?: (date: Date) => React.ReactNode;
   cellClassName?: (date: Date) => string | undefined;
-  showWeekNumbers?: boolean;
-  inline?: boolean;
-  targetId?: string;
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {
@@ -26,8 +27,6 @@ export interface CalendarContextValue extends CalendarInnerContextValue {
   formatDate?: (
     date: Date | string | number,
     format?: string,
-    options?: {
-      locale?: any;
-    }
+    options?: { locale?: any }
   ) => string;
 }

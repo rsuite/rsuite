@@ -53,7 +53,13 @@ describe('Calendar-TableHeaderRow', () => {
     const onMouseMove = sinon.spy();
     render(
       <CalendarContext.Provider
-        value={{ onMouseMove, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          onMouseMove,
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TableCell date={new Date()} />
       </CalendarContext.Provider>

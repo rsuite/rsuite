@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { addMonths } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
@@ -28,6 +27,7 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   hoverRangeValue?: DateRange;
   index: number;
   isoWeek?: boolean;
+  weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   limitEndYear?: number;
   limitStartYear?: number;
   locale?: DatePickerLocale;
@@ -119,20 +119,5 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 );
 
 Calendar.displayName = 'DateRangePicker.Calendar';
-Calendar.propTypes = {
-  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  index: PropTypes.number,
-  format: PropTypes.string,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  classPrefix: PropTypes.string,
-  disabledDate: PropTypes.func,
-  onSelect: PropTypes.func,
-  onMouseMove: PropTypes.func,
-  onChangeCalendarMonth: PropTypes.func
-};
 
 export default Calendar;

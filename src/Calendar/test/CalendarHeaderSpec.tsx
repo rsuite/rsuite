@@ -49,7 +49,7 @@ describe('Calendar-Header', () => {
 
     render(
       <CalendarContext.Provider
-        value={{ date: new Date(), format: 'HH:mm:ss', locale: {}, isoWeek: false }}
+        value={{ date: new Date(), format: 'HH:mm:ss', locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <Header showTime onToggleTimeDropdown={onToggleTimeDropdown} ref={ref} />
       </CalendarContext.Provider>

@@ -12,7 +12,8 @@ describe('Calendar-MonthDropdown', () => {
         value={{
           date: new Date(),
           locale: {},
-          isoWeek: false
+          isoWeek: false,
+          weekStart: 0
         }}
       >
         <MonthDropdown show />
@@ -29,7 +30,8 @@ describe('Calendar-MonthDropdown', () => {
         value={{
           date: new Date(),
           locale: {},
-          isoWeek: false
+          isoWeek: false,
+          weekStart: 0
         }}
       >
         <MonthDropdown show limitStartYear={1} limitEndYear={1} />
@@ -48,7 +50,8 @@ describe('Calendar-MonthDropdown', () => {
         value={{
           date: new Date(),
           locale: {},
-          isoWeek: false
+          isoWeek: false,
+          weekStart: 0
         }}
       >
         <MonthDropdown show limitStartYear={3} limitEndYear={0} />
@@ -70,7 +73,8 @@ describe('Calendar-MonthDropdown', () => {
         value={{
           date: new Date(),
           locale: {},
-          isoWeek: false
+          isoWeek: false,
+          weekStart: 0
         }}
       >
         <MonthDropdown show limitStartYear={2} limitEndYear={2} />
@@ -99,7 +103,8 @@ describe('Calendar-MonthDropdown', () => {
           onChangeMonth: onChangeMonthSpy,
           date: new Date(),
           locale: {},
-          isoWeek: false
+          isoWeek: false,
+          weekStart: 0
         }}
       >
         <MonthDropdown show />
@@ -117,7 +122,9 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should disable month', () => {
     render(
-      <CalendarContext.Provider value={{ date: new Date(2019, 8, 1), locale: {}, isoWeek: false }}>
+      <CalendarContext.Provider
+        value={{ date: new Date(2019, 8, 1), locale: {}, isoWeek: false, weekStart: 0 }}
+      >
         <MonthDropdown
           show
           disabledMonth={d => {

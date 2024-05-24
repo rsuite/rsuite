@@ -20,7 +20,7 @@ describe('Calendar-MonthDropdownItem', () => {
 
     render(
       <CalendarContext.Provider
-        value={{ date: new Date(), onChangeMonth, locale: {}, isoWeek: false }}
+        value={{ date: new Date(), onChangeMonth, locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <MonthDropdownItem month={1} year={2017} />
       </CalendarContext.Provider>
@@ -47,7 +47,9 @@ describe('Calendar-MonthDropdownItem', () => {
 
     it('Should have a aria-label attribute', () => {
       render(
-        <CalendarContext.Provider value={{ date: new Date(), locale: {}, isoWeek: false }}>
+        <CalendarContext.Provider
+          value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}
+        >
           <MonthDropdownItem month={1} year={2023} />
         </CalendarContext.Provider>
       );

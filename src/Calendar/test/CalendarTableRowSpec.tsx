@@ -28,7 +28,7 @@ describe('Calendar-TableRow', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ onSelect, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{ onSelect, date: new Date(2022, 10, 2), locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
@@ -47,7 +47,13 @@ describe('Calendar-TableRow', () => {
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ showWeekNumbers: true, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{
+          showWeekNumbers: true,
+          date: new Date(2022, 10, 2),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
       >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
@@ -68,6 +74,7 @@ describe('Calendar-TableRow', () => {
           showWeekNumbers: true,
           isoWeek: true,
           date: new Date(2022, 10, 2),
+          weekStart: 0,
           locale: {}
         }}
       >
@@ -90,6 +97,7 @@ describe('Calendar-TableRow', () => {
           showWeekNumbers: true,
           isoWeek: true,
           date: new Date(),
+          weekStart: 0,
           locale: {},
           cellClassName: (date: Date) => {
             if (isToday(date)) {

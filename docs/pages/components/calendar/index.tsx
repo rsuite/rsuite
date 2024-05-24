@@ -1,6 +1,17 @@
 import React from 'react';
 
-import { Calendar, Button, Tag, Popover, Whisper, Badge } from 'rsuite';
+import {
+  Calendar,
+  Button,
+  Tag,
+  Popover,
+  Whisper,
+  Badge,
+  RadioGroup,
+  Radio,
+  Toggle,
+  Form
+} from 'rsuite';
 import DefaultPage from '@/components/Page';
 import files from './files';
 import ImportGuide from '@/components/ImportGuide';
@@ -14,7 +25,18 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       examples={['basic', 'compact']}
-      dependencies={{ Calendar, Button, Tag, Popover, Whisper, Badge }}
+      dependencies={{
+        Calendar,
+        Button,
+        Tag,
+        Popover,
+        Whisper,
+        Badge,
+        RadioGroup,
+        Radio,
+        Toggle,
+        Form
+      }}
       sandboxFiles={files}
     />
   );
