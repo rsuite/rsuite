@@ -11,12 +11,19 @@
 .rs-toggle {
   position: relative;
   display: inline-block;
+  vertical-align: middle;
 
   // Default size is middle.
   .toggle(md);
+
+  &-label {
+    cursor: pointer;
+    margin-left: 10px;
+  }
 }
 
 .rs-toggle-input {
+  cursor: pointer;
   position: absolute;
   top: 0;
   left: 0;
@@ -136,3 +143,14 @@
 .rs-toggle-lg {
   .toggle(lg);
 }
+
+// Colorful tags
+each(@spectrum, .(@color) {
+  .rs-toggle-checked.rs-toggle-@{color} .rs-toggle-presentation{
+    background-color: var(~'--rs-@{color}-500');
+
+    &:hover {
+      background-color: var(~'--rs-@{color}-600');
+    }
+  }
+});

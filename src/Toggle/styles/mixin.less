@@ -1,5 +1,13 @@
-.toggle-size-variant(@toogle-height,@min-width,@toggle-handle-gap,@toggle-inner-margin,@toggle-inner-font-size) {
+.toggle-size-variant(
+  @toogle-height,
+  @min-width,
+  @toggle-handle-gap,
+  @toggle-inner-margin,
+  @toggle-inner-font-size,
+  @label-font-size,
+) {
   @handle-diameter: (@toogle-height - @toggle-handle-gap*2);
+  font-size: @label-font-size;
 
   .rs-toggle-loader {
     width: @handle-diameter;
@@ -72,6 +80,10 @@
     left: 100%;
     margin-left: -(@handle-diameter + @toggle-handle-gap);
   }
+
+  .rs-toggle-label {
+    font-size: @label-font-size;
+  }
 }
 
 // Small
@@ -81,7 +93,8 @@
     @toggle-sm-min-width,
     @toggle-sm-handle-gap,
     @toggle-sm-inner-margin,
-    @toggle-sm-inner-font-size
+    @toggle-sm-inner-font-size,
+    @font-size-small
   );
 }
 
@@ -92,7 +105,8 @@
     @toggle-md-min-width,
     @toggle-md-handle-gap,
     @toggle-md-inner-margin,
-    @toggle-md-inner-font-size
+    @toggle-md-inner-font-size,
+    @font-size-base
   );
 }
 
@@ -103,6 +117,7 @@
     @toggle-lg-min-width,
     @toggle-lg-handle-gap,
     @toggle-lg-inner-margin,
-    @toggle-lg-inner-font-size
+    @toggle-lg-inner-font-size,
+    @font-size-large
   );
 }

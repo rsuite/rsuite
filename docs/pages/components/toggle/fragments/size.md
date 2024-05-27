@@ -1,14 +1,14 @@
 <!--start-code-->
 
 ```js
-import { Toggle } from 'rsuite';
+import { Toggle, Stack } from 'rsuite';
 
 const App = () => (
-  <>
-    <Toggle size="lg" />
-    <Toggle size="md" />
-    <Toggle size="sm" />
-  </>
+  <Stack spacing={10} childrenRenderMode="clone">
+    <Toggle size="lg">Large</Toggle>
+    <Toggle size="md">Medium</Toggle>
+    <Toggle size="sm">Small</Toggle>
+  </Stack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -2,38 +2,68 @@ import React from 'react';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 
 import Toggle from '../Toggle';
 
 describe('Toggle', () => {
   testStandardProps(<Toggle />, {
-    sizes: ['lg', 'md', 'sm']
+    sizes: ['lg', 'md', 'sm'],
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
   });
 
   it('Should output a toggle', () => {
-    const instance = getDOMNode(<Toggle />);
-    assert.equal(instance.className, 'rs-toggle');
+    const { container } = render(<Toggle />);
+
+    expect(container.firstChild).to.have.class('rs-toggle');
+    expect(screen.getByRole('switch')).to.exist;
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Toggle disabled />);
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    render(<Toggle disabled />);
+    expect(screen.getByRole('switch')).to.have.attribute('disabled');
+    expect(screen.getByRole('switch')).to.have.attr('aria-disabled', 'true');
   });
 
   it('Should be checked', () => {
-    const instance = getDOMNode(<Toggle checked />);
-    assert.ok(instance.className.match(/\btoggle-checked\b/));
+    render(<Toggle checked />);
+    expect(screen.getByRole('switch')).to.be.checked;
+    expect(screen.getByRole('switch')).to.have.attr('aria-checked', 'true');
   });
 
-  it('Should output a `off` in inner ', () => {
-    const instance = getDOMNode(<Toggle unCheckedChildren="off" />);
-    assert.equal(instance.textContent, 'off');
+  it('Should render checkedChildren', () => {
+    render(<Toggle unCheckedChildren="off" />);
+    expect(screen.getByText('off')).to.have.class('rs-toggle-inner');
+    expect(screen.getByRole('switch')).to.have.attr('aria-labelledby', screen.getByText('off').id);
   });
 
-  it('Should output a `on` in inner ', () => {
-    const instance = getDOMNode(<Toggle checkedChildren="on" checked />);
-    assert.equal(instance.textContent, 'on');
+  it('Should render unCheckedChildren', () => {
+    render(<Toggle checkedChildren="on" checked />);
+    expect(screen.getByText('on')).to.have.class('rs-toggle-inner');
+    expect(screen.getByRole('switch')).to.have.attr('aria-labelledby', screen.getByText('on').id);
+  });
+
+  it('Should have a label', () => {
+    render(<Toggle>Developer mode</Toggle>);
+
+    expect(screen.getByText('Developer mode')).to.have.class('rs-toggle-label');
+    expect(screen.getByRole('switch')).to.have.attr(
+      'aria-labelledby',
+      screen.getByText('Developer mode').id
+    );
+  });
+
+  it('Should have an aria-labelledby attribute set to the correct id', () => {
+    render(
+      <Toggle checkedChildren="on" unCheckedChildren="off">
+        Developer mode
+      </Toggle>
+    );
+
+    expect(screen.getByRole('switch')).to.have.attr(
+      'aria-labelledby',
+      screen.getByText('Developer mode').id
+    );
   });
 
   describe('onChange', () => {
@@ -53,9 +83,6 @@ describe('Toggle', () => {
       const onChange = sinon.spy();
 
       const { rerender } = render(
-        // FIXME Toggle does not have `name` prop
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         <Toggle name="toggle" onChange={onChange} data-testid="toggle" />
       );
       fireEvent.click(screen.getByTestId('toggle'));
@@ -65,12 +92,7 @@ describe('Toggle', () => {
       expect(event.target).to.have.property('type', 'checkbox');
       expect(event.target).to.have.property('checked', true);
 
-      rerender(
-        // FIXME Toggle does not have `name` prop
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />
-      );
+      rerender(<Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
 
       event = onChange.getCall(1).args[1];

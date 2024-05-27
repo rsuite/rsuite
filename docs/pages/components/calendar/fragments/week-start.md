@@ -42,17 +42,15 @@ const App = () => {
           </Form.Group>
 
           <Form.Group>
-            <Form.ControlLabel>
-              <Toggle checked={isoWeek} onChange={setIsoWeek} />
+            <Toggle checked={isoWeek} onChange={setIsoWeek}>
               ISO week
-            </Form.ControlLabel>
+            </Toggle>
           </Form.Group>
 
           <Form.Group>
-            <Form.ControlLabel>
-              <Toggle checked={showWeekNumbers} onChange={setShowWeekNumbers} />
+            <Toggle checked={showWeekNumbers} onChange={setShowWeekNumbers}>
               Show week numbers
-            </Form.ControlLabel>
+            </Toggle>
           </Form.Group>
         </Form>
       </div>
