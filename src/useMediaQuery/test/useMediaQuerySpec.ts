@@ -23,14 +23,6 @@ describe('useMediaQuery', () => {
     matchMedia.clear();
   });
 
-  it('Should return the default value', () => {
-    const { result } = renderHook(() =>
-      useMediaQuery(['(min-width: 400px)', 'sm'], { defaultValue: [false, true], ssr: true })
-    );
-
-    expect(result.current).to.be.deep.equal([false, true]);
-  });
-
   it('Should match the breakpoint correctly', () => {
     act(() => window.resizeTo(400, 1000));
     const { result } = renderHook(() => useMediaQuery('(min-width: 400px)'));

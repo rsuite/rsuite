@@ -19,22 +19,7 @@ interface MediaQuery {
 /**
  * The type of the query parameter.
  */
-type QueryParams =
-  | string
-  | keyof typeof mediaQuerySizeMap
-  | (string | keyof typeof mediaQuerySizeMap)[];
-
-interface UseMediaQueryOptions {
-  /**
-   * The default value of the media query.
-   */
-  defaultValue?: boolean[];
-
-  /**
-   * Whether the component is rendered on the server side.
-   */
-  ssr?: boolean;
-}
+type Query = string | keyof typeof mediaQuerySizeMap;
 
 const matchMedia = (query: string) => {
   if (canUseDOM) {
@@ -53,9 +38,7 @@ const matchMedia = (query: string) => {
  *
  * @see https://rsuitejs.com/components/use-media-query
  */
-export function useMediaQueryLegacy(query: QueryParams, options?: UseMediaQueryOptions): boolean[] {
-  const { defaultValue, ssr } = options || {};
-
+export function useMediaQueryLegacy(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
@@ -85,10 +68,6 @@ export function useMediaQueryLegacy(query: QueryParams, options?: UseMediaQueryO
     };
   }, [mediaQueries]);
 
-  if (typeof defaultValue !== 'undefined' && ssr) {
-    return defaultValue;
-  }
-
   return mediaQueryArray.map(query => query.matches);
 }
 
@@ -98,8 +77,7 @@ export function useMediaQueryLegacy(query: QueryParams, options?: UseMediaQueryO
  * @see https://rsuitejs.com/components/use-media-query
  *
  */
-export function useMediaQuery(query: QueryParams, options?: UseMediaQueryOptions): boolean[] {
-  const { defaultValue, ssr } = options || {};
+export function useMediaQuery(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
@@ -139,12 +117,8 @@ export function useMediaQuery(query: QueryParams, options?: UseMediaQueryOptions
   }, []);
 
   const getServerSnapshot = useCallback(() => {
-    if (ssr && typeof defaultValue !== 'undefined') {
-      return defaultValue;
-    }
-
     return mediaQueryArray.current;
-  }, [defaultValue, ssr]);
+  }, []);
 
   return React['useSyncExternalStore']?.(subscribe, getSnapshot, getServerSnapshot);
 }
