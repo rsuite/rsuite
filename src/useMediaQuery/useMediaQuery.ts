@@ -16,6 +16,26 @@ interface MediaQuery {
   media: string;
 }
 
+/**
+ * The type of the query parameter.
+ */
+type QueryParams =
+  | string
+  | keyof typeof mediaQuerySizeMap
+  | (string | keyof typeof mediaQuerySizeMap)[];
+
+interface UseMediaQueryOptions {
+  /**
+   * The default value of the media query.
+   */
+  defaultValue?: boolean[];
+
+  /**
+   * Whether the component is rendered on the server side.
+   */
+  ssr?: boolean;
+}
+
 const matchMedia = (query: string) => {
   if (canUseDOM) {
     return window.matchMedia(query);
@@ -33,15 +53,15 @@ const matchMedia = (query: string) => {
  *
  * @see https://rsuitejs.com/components/use-media-query
  */
-export function useMediaQueryLegacy(
-  query: string | keyof typeof mediaQuerySizeMap | (string | keyof typeof mediaQuerySizeMap)[]
-): boolean[] {
+export function useMediaQueryLegacy(query: QueryParams, options?: UseMediaQueryOptions): boolean[] {
+  const { defaultValue, ssr } = options || {};
+
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
-  const [mediaQueryArray, setMediaQueryArray] = useState<MediaQuery[]>(() => {
-    return mediaQueries.map(query => pick(matchMedia(query), ['matches', 'media']));
-  });
+  const [mediaQueryArray, setMediaQueryArray] = useState<MediaQuery[]>(() =>
+    mediaQueries.map(query => pick(matchMedia(query), ['matches', 'media']))
+  );
 
   function handleChange(event: MediaQueryListEvent) {
     setMediaQueryArray((prevMediaQueryArray: MediaQuery[]) => {
@@ -65,6 +85,10 @@ export function useMediaQueryLegacy(
     };
   }, [mediaQueries]);
 
+  if (typeof defaultValue !== 'undefined' && ssr) {
+    return defaultValue;
+  }
+
   return mediaQueryArray.map(query => query.matches);
 }
 
@@ -72,10 +96,10 @@ export function useMediaQueryLegacy(
  * React hook that tracks state of a CSS media query
  * @version 5.48.0
  * @see https://rsuitejs.com/components/use-media-query
+ *
  */
-export function useMediaQuery(
-  query: string | keyof typeof mediaQuerySizeMap | (string | keyof typeof mediaQuerySizeMap)[]
-): boolean[] {
+export function useMediaQuery(query: QueryParams, options?: UseMediaQueryOptions): boolean[] {
+  const { defaultValue, ssr } = options || {};
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
@@ -87,7 +111,11 @@ export function useMediaQuery(
       const handleChange = (event: MediaQueryListEvent) => {
         const index = list.findIndex(item => item.media === event.media);
         if (index !== -1) {
-          mediaQueryArray.current[index] = event.matches;
+          // The store snapshot returned by getSnapshot must be immutable. So we need to create a new array.
+          const nextMediaQueryArray = mediaQueryArray.current.slice();
+          nextMediaQueryArray[index] = event.matches;
+
+          mediaQueryArray.current = nextMediaQueryArray;
         }
 
         callback();
@@ -106,13 +134,17 @@ export function useMediaQuery(
     [mediaQueries]
   );
 
-  const getSnapshot = () => {
+  const getSnapshot = useCallback(() => {
     return mediaQueryArray.current;
-  };
+  }, []);
 
-  const getServerSnapshot = () => {
-    throw Error('useMediaQuery is a client-only hook');
-  };
+  const getServerSnapshot = useCallback(() => {
+    if (ssr && typeof defaultValue !== 'undefined') {
+      return defaultValue;
+    }
+
+    return mediaQueryArray.current;
+  }, [defaultValue, ssr]);
 
   return React['useSyncExternalStore']?.(subscribe, getSnapshot, getServerSnapshot);
 }
