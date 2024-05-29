@@ -1,9 +1,9 @@
 import { renderHook } from '@test/utils';
 import { act } from '@testing-library/react';
 import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import useMediaQuery from '../useMediaQuery';
 
 let matchMedia: MatchMediaMock;
-import useMediaQuery from '../useMediaQuery';
 
 describe('useMediaQuery', () => {
   beforeEach(() => {

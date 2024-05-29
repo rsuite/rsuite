@@ -2,23 +2,11 @@
 
 Use useMediaQuery to easily retrieve media dimensions, combined with the component's size property for responsive UI.
 
-> ⚠️ Unstable API, may have breaking changes in future minor versions.
+> ⚠️ This API is still in the experimental stage and may be subject to change.
 
-## Usage
+## Import
 
-```js
-import { useMediaQuery } from 'rsuite';
-
-const App = () => {
-  const [isMobile, isDark, isLandscape] = useMediaQuery([
-    '(max-width: 700px)',
-    '(prefers-color-scheme: dark)',
-    '(orientation:landscape)'
-  ]);
-
-  return <div>{isMobile ? 'Mobile' : 'Desktop'}</div>;
-};
-```
+<!--{include:<import-guide>}-->
 
 ## Examples
 
@@ -36,23 +24,10 @@ The `Modal` component has a `size` prop that sets the size of the modal. We can 
 
 ## API
 
-### `useMediaQuery(query) => [...matches]`
+### `useMediaQuery`
 
-```tsx
+```ts
+type Query =  'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | string
 
- const mediaQuerySizeMap = {
-  xs: '(max-width: 575px)',
-  sm: '(min-width: 576px)',
-  md: '(min-width: 768px)',
-  lg: '(min-width: 992px)',
-  xl: '(min-width: 1200px)',
-  xxl: '(min-width: 1400px)'
-};
-
-
-useMediaQuery(
-  string
-  | keyof typeof mediaQuerySizeMap
-  | (string | keyof typeof mediaQuerySizeMap)[]
-) => boolean[]
+useMediaQuery(query: Query | Query[]) => boolean[]
 ```

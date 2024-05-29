@@ -305,7 +305,7 @@ export type { DividerProps } from './Divider';
 export { default as Stack } from './Stack';
 export type { StackProps } from './Stack';
 
-// Utils and Hooks
+// Utils
 // --------------------------------------------------------
 export { default as Schema } from './Schema';
 
@@ -342,7 +342,11 @@ export type {
 } from './locales';
 
 export type { PickerHandle } from './internals/Picker';
+
+// Hooks
+
 export { default as useMediaQuery } from './useMediaQuery';
+export { default as useBreakpointValue } from './useBreakpointValue';
 
 // Disclosure
 // --------------------------------------------------------

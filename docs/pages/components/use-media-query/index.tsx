@@ -9,19 +9,18 @@ import {
   useMediaQuery
 } from 'rsuite';
 import { Icon } from '@rsuite/icons';
-import {
-  VscLock,
-  VscRepo,
-  VscWorkspaceTrusted,
-  VscNotebookTemplate,
-  VscRepoClone,
-  VscFile
-} from 'react-icons/vsc';
+import { VscRepo, VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['useMediaQuery']} hasCssComponents={[]} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         useMediaQuery,
         Modal,
@@ -31,9 +30,7 @@ export default function Page() {
         Icon,
         RadioTile,
         RadioTileGroup,
-        VscLock,
         VscRepo,
-        VscWorkspaceTrusted,
         VscNotebookTemplate,
         VscRepoClone,
         VscFile
