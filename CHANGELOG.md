@@ -1,3 +1,19 @@
+# [5.63.0](https://github.com/rsuite/rsuite/compare/v5.62.1...v5.63.0) (2024-05-30)
+
+
+### Bug Fixes
+
+* **RSC:** fix unable to access component via dot notation ([#3827](https://github.com/rsuite/rsuite/issues/3827)) ([cd04fd2](https://github.com/rsuite/rsuite/commit/cd04fd212267e8a7a32ca94f9aa39bc82ef24589))
+* **useMediaQuery:** fix components not rendering due to non-immutable data ([#3825](https://github.com/rsuite/rsuite/issues/3825)) ([3c8656c](https://github.com/rsuite/rsuite/commit/3c8656cc7c3e5d93822bc334b859ecd375780d33))
+
+
+### Features
+
+* **Toggle:** add support for color and children ([#3824](https://github.com/rsuite/rsuite/issues/3824)) ([5f5c973](https://github.com/rsuite/rsuite/commit/5f5c973b82e0141affede868f5a265306e618729))
+* **useBreakpointValue:** add a hook to get the value of the current breakpoint ([#3826](https://github.com/rsuite/rsuite/issues/3826)) ([aac93e8](https://github.com/rsuite/rsuite/commit/aac93e816e2c5f2d06afe7699994e8e77bff66b5))
+
+
+
 ## [5.62.1](https://github.com/rsuite/rsuite/compare/v5.62.0...v5.62.1) (2024-05-24)
 
 
