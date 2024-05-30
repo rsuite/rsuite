@@ -95,8 +95,8 @@ Make sure you've read the [guidelines][contributing] before you start contributi
 
 These great services help us to build and maintain the project.
 
-| Service                                         | Description                                                          |
-| ----------------------------------------------- | -------------------------------------------------------------------- |
+| Service                                         | Description                                                              |
+| ----------------------------------------------- | ------------------------------------------------------------------------ |
 | [![GitHub][github-logo]][github]                | **Github** lets us host the Git repository and coordinate contributions. |
 | [![Vercel][vercel-logo]][vercel]                | **Vercel** provides the hosting for the documentation site.              |
 | [![CodeCov][codecov-logo]][codecov]             | **CodeCov** lets us monitor test coverage.                               |
