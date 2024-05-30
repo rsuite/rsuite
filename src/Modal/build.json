@@ -1,0 +1,9 @@
+{
+  "components": {
+    "ModalBody": "Modal/ModalBody",
+    "ModalHeader": "Modal/ModalHeader",
+    "ModalFooter": "Modal/ModalFooter",
+    "ModalDialog": "Modal/ModalDialog",
+    "ModalTitle": "Modal/ModalTitle"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "components": {
+    "FlexboxGridItem": "FlexboxGrid/FlexboxGridItem"
+  }
+}

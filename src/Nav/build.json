@@ -1,0 +1,6 @@
+{
+  "components": {
+    "NavItem": "Nav/NavItem",
+    "NavMenu": "Nav/NavMenu"
+  }
+}

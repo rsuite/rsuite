@@ -7,8 +7,50 @@ const { findResources } = require('../scripts/proxyDirectories');
 
 const components = findResources({
   dir: path.join(__dirname, '../src'),
-  ignores: ['styles', '@types']
+  ignores: ['styles', 'internals']
 });
+
+function getChildComponents() {
+  const childComponents = [];
+
+  components.forEach(item => {
+    const buildJsonPath = path.join(__dirname, '../src', item, 'build.json');
+    if (fs.existsSync(buildJsonPath)) {
+      const buildJson = require(buildJsonPath);
+      const { components, proxy = true } = buildJson;
+      if (proxy && components) {
+        childComponents.push(...Object.entries(components));
+      }
+    }
+  });
+
+  return childComponents;
+}
+
+/**
+ * Flatten proxy resources to an array
+ * @param {string[] | [name, path][] } options.resources - Resources to flatten
+ * @param {string} options.path  - Path to the resources
+ * @param {boolean} options.hasIndexFile - Whether the resource has an index file
+ */
+function flattenProxyResources(options) {
+  const { resources = [], path = '', hasIndexFile = true } = options;
+
+  return flatten(
+    resources.map(res => {
+      const [resName, proxyRes] = Array.isArray(res) ? res : [res, res];
+      const filePath = hasIndexFile ? `${proxyRes}/index` : proxyRes;
+
+      return [
+        `lib${path}/${resName}/package.json`,
+        `lib/cjs${path}/${filePath}.js`,
+        `lib/esm${path}/${filePath}.js`,
+        `lib/esm${path}/${filePath}.d.ts`,
+        `lib/cjs${path}/${filePath}.d.ts`
+      ];
+    })
+  );
+}
 
 const unstyledComponents = [
   'Schema',
@@ -57,26 +99,20 @@ const filesToEnsureExistence = [
   ...styledComponents.map(i => `lib/${i}/styles/index.less`),
 
   // Validate components
-  ...flatten(
-    components.map(i => [
-      `lib/${i}/package.json`,
-      `lib/cjs/${i}/index.js`,
-      `lib/esm/${i}/index.js`,
-      `lib/esm/${i}/index.d.ts`,
-      `lib/cjs/${i}/index.d.ts`
-    ])
-  ),
+  ...flattenProxyResources({ resources: components }),
+
+  // Validate child components
+  ...flattenProxyResources({
+    resources: getChildComponents(),
+    hasIndexFile: false
+  }),
 
   // Validate locales
-  ...flatten(
-    locales.map(i => [
-      `lib/locales/${i}/package.json`,
-      `lib/cjs/locales/${i}.js`,
-      `lib/esm/locales/${i}.js`,
-      `lib/cjs/locales/${i}.d.ts`,
-      `lib/esm/locales/${i}.d.ts`
-    ])
-  )
+  ...flattenProxyResources({
+    resources: locales,
+    hasIndexFile: false,
+    path: '/locales'
+  })
 ];
 
 it('Ensure file existence', () => {

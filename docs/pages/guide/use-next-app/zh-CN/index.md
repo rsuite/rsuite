@@ -85,19 +85,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```jsx
 import Link from 'next/link';
-import { Nav } from 'rsuite';
+import { Nav, Breadcrumb, Dropdown } from 'rsuite';
 
-<Nav.Item as={Link} href="/about">
-  About
-</Nav.Item>;
+<Nav.Item as={Link} href="/about">About</.Item>;
 
-<Breadcrumb.Item as={Link} href="/about">
-  About
-</Breadcrumb.Item>;
+<Breadcrumb.Item as={Link} href="/about">About</Breadcrumb.Item>;
 
-<Dropdown.Item as={Link} href="/about">
-  About
-</Dropdown.Item>;
+<Dropdown.Item as={Link} href="/about">About</Dropdown.Item>;
+```
+
+## FAQ
+
+### 如何解决 "Error: Could not find the module ..." 错误？
+
+⚠️ 直接使用上面的代码，您可能会遇到以下错误：
+
+```bash
+Error: Could not find the module "...#Nav#Item" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+```
+
+这是因为在 Nextjs App Router 下 React Server Components 无法正确解析捆绑的组件。要解决此问题，您需要调整受影响组件的导入语句。
+
+```diff
+- import { Nav } from 'rsuite';
++ import Nav from 'rsuite/Nav';
++ import NavItem from 'rsuite/NavItem';
+
+- <Nav.Item as={Link} href="/about">About</Nav.Item>;
++ <NavItem as={Link} href="/about">About</NavItem>;
 ```
 
 ## 示例项目

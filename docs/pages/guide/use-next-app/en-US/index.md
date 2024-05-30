@@ -85,19 +85,34 @@ In the rsuite component, there are some navigation components, such as `Nav`, `B
 
 ```jsx
 import Link from 'next/link';
-import { Nav } from 'rsuite';
+import { Nav, Breadcrumb, Dropdown } from 'rsuite';
 
-<Nav.Item as={Link} href="/about">
-  About
-</Nav.Item>;
+<Nav.Item as={Link} href="/about">About</.Item>;
 
-<Breadcrumb.Item as={Link} href="/about">
-  About
-</Breadcrumb.Item>;
+<Breadcrumb.Item as={Link} href="/about">About</Breadcrumb.Item>;
 
-<Dropdown.Item as={Link} href="/about">
-  About
-</Dropdown.Item>;
+<Dropdown.Item as={Link} href="/about">About</Dropdown.Item>;
+```
+
+## FAQ
+
+### How to solve the "Error: Could not find the module ..." error?
+
+⚠️ If you use the code above directly, you may encounter the following error:
+
+```bash
+Error: Could not find the module "...#Nav#Item" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+```
+
+This is because React Server Components cannot correctly resolve the bundled components under Next.js App Router. To resolve this issue, you’ll need to adjust your import statements for affected components.
+
+```diff
+- import { Nav } from 'rsuite';
++ import Nav from 'rsuite/Nav';
++ import NavItem from 'rsuite/NavItem';
+
+- <Nav.Item as={Link} href="/about">About</Nav.Item>;
++ <NavItem as={Link} href="/about">About</NavItem>;
 ```
 
 ## Example projects
