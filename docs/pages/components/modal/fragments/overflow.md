@@ -10,8 +10,9 @@ const App = () => {
 
   return (
     <>
-      <span>Overflow </span>
-      <Toggle checked={overflow} onChange={checked => setOverflow(checked)} />
+      <Toggle checked={overflow} onChange={checked => setOverflow(checked)}>
+        Overflow
+      </Toggle>
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}>Open</Button>

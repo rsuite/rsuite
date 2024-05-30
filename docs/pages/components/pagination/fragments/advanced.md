@@ -6,8 +6,9 @@ import { Pagination, Toggle, SelectPicker, TagPicker, InputNumber } from 'rsuite
 const Switch = ({ label, checked, onChange }) => {
   return (
     <span>
-      {label}：
-      <Toggle checked={checked} onChange={onChange} />
+      <Toggle checked={checked} onChange={onChange}>
+        {label}
+      </Toggle>
     </span>
   );
 };

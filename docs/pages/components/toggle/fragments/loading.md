@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Toggle, Checkbox, RadioGroup, Form } from 'rsuite';
+import { Toggle, Checkbox, RadioGroup, Form, Stack } from 'rsuite';
 
 function AsyncToggle(props) {
   const [checked, setChecked] = useState(false);
@@ -26,15 +26,7 @@ const App = () => {
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <div
-          style={{
-            width: 300,
-            padding: '0 20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <Stack style={{ width: 300 }} alignItems="center" justifyContent="center">
           <Toggle
             loading
             checked={checked}
@@ -42,20 +34,18 @@ const App = () => {
             unCheckedChildren={withText ? 'Disabled' : undefined}
             size={size}
           />
-        </div>
+        </Stack>
         <div style={{ borderLeft: '1px solid var(--rs-border-primary)', padding: '0 20px' }}>
           <Form>
             <Form.Group>
-              <Form.ControlLabel>
-                <Toggle checked={checked} onChange={setChecked} />
+              <Toggle checked={checked} onChange={setChecked}>
                 Checked
-              </Form.ControlLabel>
+              </Toggle>
             </Form.Group>
             <Form.Group>
-              <Form.ControlLabel>
-                <Toggle checked={withText} onChange={setWithText} />
+              <Toggle checked={withText} onChange={setWithText}>
                 With text
-              </Form.ControlLabel>
+              </Toggle>
             </Form.Group>
             <Form.Group>
               <Form.ControlLabel>Size</Form.ControlLabel>

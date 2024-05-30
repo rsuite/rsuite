@@ -23,7 +23,9 @@ const App = () => {
 
   return (
     <div>
-      Cascade: <Toggle checked={cascade} onChange={handleToggle} />
+      <Toggle checked={cascade} onChange={handleToggle}>
+        Cascade
+      </Toggle>
       <hr />
       <MultiCascader
         style={{ width: 280 }}
