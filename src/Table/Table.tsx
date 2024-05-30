@@ -1,10 +1,6 @@
 import React from 'react';
 import {
   Table as RsTable,
-  Column,
-  Cell,
-  HeaderCell,
-  ColumnGroup,
   TableProps,
   RowDataType,
   TableInstance,
@@ -12,6 +8,11 @@ import {
   RowKeyType
 } from 'rsuite-table';
 import { useCustom } from '@/internals/hooks';
+
+import TableCell from './TableCell';
+import TableHeaderCell from './TableHeaderCell';
+import TableColumn from './TableColumn';
+import TableColumnGroup from './TableColumnGroup';
 
 export interface CellProps<Row extends RowDataType>
   extends Omit<TableCellProps<Row>, 'rowData' | 'dataKey'> {
@@ -40,22 +41,22 @@ const Table = Object.assign(CustomTable, {
   /**
    * The `Table.Cell` component  is used to display data in a table cell.
    */
-  Cell,
+  Cell: TableCell,
 
   /**
    * The `Table.Column` component  is used to define a column in a table.
    */
-  Column,
+  Column: TableColumn,
 
   /**
    * The `Table.HeaderCell` component  is used to define a header cell in a table.
    */
-  HeaderCell,
+  HeaderCell: TableHeaderCell,
 
   /**
    * The `Table.ColumnGroup` component  is used to define a column group in a table.
    */
-  ColumnGroup
+  ColumnGroup: TableColumnGroup
 });
 
 export default Table;

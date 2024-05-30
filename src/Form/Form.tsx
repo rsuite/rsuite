@@ -304,7 +304,6 @@ Form.ControlLabel = FormControlLabel;
 Form.ErrorMessage = FormErrorMessage;
 Form.Group = FormGroup;
 Form.HelpText = FormHelpText;
-Form.Control = FormControl;
 
 Form.displayName = 'Form';
 Form.propTypes = {

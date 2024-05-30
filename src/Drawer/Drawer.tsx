@@ -1,19 +1,17 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
-import Modal, {
-  ModalProps,
-  ModalBodyProps,
-  ModalHeaderProps,
-  ModalFooterProps,
-  ModalTitleProps
-} from '../Modal';
-import { TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import Modal, { ModalProps } from '../Modal';
+import { TypeAttributes } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
 import DrawerContext from './DrawerContext';
 import { oneOf } from '@/internals/propTypes';
-
+import DrawerBody from './DrawerBody';
+import DrawerHeader from './DrawerHeader';
+import DrawerActions from './DrawerActions';
+import DrawerFooter from './DrawerFooter';
+import DrawerTitle from './DrawerTitle';
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */
   placement?: TypeAttributes.Placement4;
@@ -21,26 +19,6 @@ export interface DrawerProps extends ModalProps {
   /** Custom close button */
   closeButton?: React.ReactNode | boolean;
 }
-
-const DrawerBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
-  (props, ref) => <Modal.Body classPrefix="drawer-body" {...props} ref={ref} />
-);
-
-const DrawerHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
-  (props, ref) => <Modal.Header classPrefix="drawer-header" {...props} ref={ref} />
-);
-
-const DrawerActions: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
-  (props, ref) => <Modal.Footer classPrefix="drawer-actions" {...props} ref={ref} />
-);
-
-const DrawerFooter: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
-  (props, ref) => <Modal.Footer classPrefix="drawer-footer" {...props} ref={ref} />
-);
-
-const DrawerTitle: RsRefForwardingComponent<'div', ModalTitleProps> = React.forwardRef(
-  (props, ref) => <Modal.Title classPrefix="drawer-title" {...props} ref={ref} />
-);
 
 interface DrawerComponent extends React.FC<DrawerProps> {
   Body: typeof DrawerBody;

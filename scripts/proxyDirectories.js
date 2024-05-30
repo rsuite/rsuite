@@ -47,16 +47,30 @@ function proxyResource(options) {
   return JSON.stringify(proxyPkg, null, 2) + '\n';
 }
 
+/**
+ * Write package.json file for each directory
+ *
+ * @param {string[] | [itemKey, itemPath][]} options.resources  - directory names
+ * @param {string} options.pkgName - package name
+ * @param {boolean} options.isLocaleDir  - is locale directory
+ */
 async function writePkgFile(options) {
   const { resources = [], pkgName = 'rsuite', isLocaleDir } = options;
   await Promise.all(
     resources.map(async item => {
-      const name = isLocaleDir ? `locales/${item}` : item;
-      const file = isLocaleDir ? `locales/${item}` : `${item}/index`;
+      const [itemKey, itemPath] = Array.isArray(item) ? item : [item, `${item}/index`];
+
+      const name = isLocaleDir ? `locales/${itemKey}` : itemKey;
+      const file = isLocaleDir ? `locales/${itemPath}` : itemPath;
       const filePath = isLocaleDir ? '../..' : '..';
       const proxyDir = path.join(libRoot, name);
-      await mkDir(libRoot).catch(() => {});
-      await mkDir(proxyDir).catch(() => {});
+
+      await mkDir(libRoot).catch(() => {
+        // console.log('lib directory already exists');
+      });
+      await mkDir(proxyDir).catch(() => {
+        // console.log('proxy directory already exists');
+      });
       await writeFile(
         `${proxyDir}/package.json`,
         proxyResource({ pkgName, name, file, filePath })
@@ -93,14 +107,42 @@ async function proxyLocales() {
  * lib/Button/package.json
  * .....
  */
-async function proxyComponent() {
-  const resources = findResources({ dir: srcRoot, ignores: ['styles', '@types'] });
+async function proxyComponents() {
+  const resources = findResources({ dir: srcRoot, ignores: ['styles', 'internals'] });
 
   await writePkgFile({ resources });
 }
 
+/**
+ * Use package.json file to proxy child components directory
+ *
+ * outputs:
+ * lib/AccordionPanel/package.json
+ * lib/Collapse/package.json
+ * lib/Fade/package.json
+ * lib/Slide/package.json
+ * ...
+ */
+async function proxyChildComponents() {
+  const resources = findResources({ dir: srcRoot, ignores: ['styles', 'internals'] });
+
+  // Check if build.json exists and if proxy is true
+  resources.forEach(async item => {
+    const buildJsonPath = path.join(srcRoot, item, 'build.json');
+    if (fs.existsSync(buildJsonPath)) {
+      const buildJson = require(buildJsonPath);
+      const { components, proxy = true } = buildJson;
+
+      if (proxy && components) {
+        await writePkgFile({ resources: Object.entries(components) });
+      }
+    }
+  });
+}
+
 async function proxy() {
-  await proxyComponent();
+  await proxyComponents();
+  await proxyChildComponents();
   await proxyLocales();
 }
 
