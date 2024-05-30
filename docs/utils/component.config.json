@@ -625,5 +625,14 @@
     "apis": ["useMediaQuery"],
     "tag": "Unstable 🧪",
     "tagColor": "orange"
+  },
+  {
+    "id": "use-breakpoint-value",
+    "name": "useBreakpointValue",
+    "title": "",
+    "apis": ["useBreakpointValue"],
+    "tag": "Unstable 🧪",
+    "tagColor": "orange",
+    "minVersion": "5.63.0"
   }
 ]

@@ -2,23 +2,11 @@
 
 使用 useMediaQuery 轻松检索媒体尺寸，结合组件的大小属性可以实现响应式 UI 。
 
-> ⚠️ 不稳定的 API，可能会在未来的次要版本中进行重大更改。
+> ⚠️ 此 API 仍处于实验阶段，可能会发生变化。
 
-## 使用
+## 导入 Hook
 
-```js
-import { useMediaQuery } from 'rsuite';
-
-const App = () => {
-  const [isMobile, isDark, isLandscape] = useMediaQuery([
-    '(max-width: 700px)',
-    '(prefers-color-scheme: dark)',
-    '(orientation:landscape)'
-  ]);
-
-  return <div>{isMobile ? 'Mobile' : 'Desktop'}</div>;
-};
-```
+<!--{include:<import-guide>}-->
 
 ## 示例
 
@@ -37,24 +25,10 @@ const App = () => {
 
 ## API
 
-### `useMediaQuery(query) => [...matches]`
+### `useMediaQuery`
 
 ```ts
+type Query =  'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | string
 
- const mediaQuerySizeMap = {
-  xs: '(max-width: 575px)',
-  sm: '(min-width: 576px)',
-  md: '(min-width: 768px)',
-  lg: '(min-width: 992px)',
-  xl: '(min-width: 1200px)',
-  xxl: '(min-width: 1400px)'
-};
-
-
-useMediaQuery(
-  string
-  | keyof typeof mediaQuerySizeMap
-  | (string | keyof typeof mediaQuerySizeMap)[]
-) => boolean[]
-
+useMediaQuery(query: Query | Query[]) => boolean[]
 ```

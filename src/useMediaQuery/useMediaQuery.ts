@@ -19,7 +19,7 @@ interface MediaQuery {
 /**
  * The type of the query parameter.
  */
-type Query = string | keyof typeof mediaQuerySizeMap;
+export type Query = string | keyof typeof mediaQuerySizeMap;
 
 const matchMedia = (query: string) => {
   if (canUseDOM) {
@@ -34,11 +34,9 @@ const matchMedia = (query: string) => {
 
 /**
  * React hook that tracks state of a CSS media query.
- * @deprecated Use useMediaQuery instead.
- *
  * @see https://rsuitejs.com/components/use-media-query
  */
-export function useMediaQueryLegacy(query: Query | Query[]): boolean[] {
+export function useMediaQueryOld(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
@@ -74,8 +72,8 @@ export function useMediaQueryLegacy(query: Query | Query[]): boolean[] {
 /**
  * React hook that tracks state of a CSS media query
  * @version 5.48.0
+ * @unstable Please note that this API is not stable and may change in the future.
  * @see https://rsuitejs.com/components/use-media-query
- *
  */
 export function useMediaQuery(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
@@ -125,4 +123,4 @@ export function useMediaQuery(query: Query | Query[]): boolean[] {
 
 export default typeof React['useSyncExternalStore'] === 'function'
   ? useMediaQuery
-  : useMediaQueryLegacy;
+  : useMediaQueryOld;
