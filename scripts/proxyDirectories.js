@@ -61,7 +61,7 @@ async function writePkgFile(options) {
       const [itemKey, itemPath] = Array.isArray(item) ? item : [item, `${item}/index`];
 
       const name = isLocaleDir ? `locales/${itemKey}` : itemKey;
-      const file = isLocaleDir ? `locales/${itemPath}` : itemPath;
+      const file = isLocaleDir ? `locales/${itemKey}` : itemPath;
       const filePath = isLocaleDir ? '../..' : '..';
       const proxyDir = path.join(libRoot, name);
 
