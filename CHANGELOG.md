@@ -1,4 +1,4 @@
-# [5.63.0](https://github.com/rsuite/rsuite/compare/v5.62.1...v5.63.0) (2024-05-30)
+# [5.64.0](https://github.com/rsuite/rsuite/compare/v5.62.1...v5.64.0) (2024-05-30)
 
 
 ### Bug Fixes
@@ -11,7 +11,6 @@
 
 * **Toggle:** add support for color and children ([#3824](https://github.com/rsuite/rsuite/issues/3824)) ([5f5c973](https://github.com/rsuite/rsuite/commit/5f5c973b82e0141affede868f5a265306e618729))
 * **useBreakpointValue:** add a hook to get the value of the current breakpoint ([#3826](https://github.com/rsuite/rsuite/issues/3826)) ([aac93e8](https://github.com/rsuite/rsuite/commit/aac93e816e2c5f2d06afe7699994e8e77bff66b5))
-
 
 
 ## [5.62.1](https://github.com/rsuite/rsuite/compare/v5.62.0...v5.62.1) (2024-05-24)
