@@ -62,7 +62,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       isControlledDate: isControlled
     });
 
-  const { isMoveCursor, increment, reset } = useFieldCursor(formatStr, valueProp);
+  const { isMoveCursor, isResetValue, increment, reset } = useFieldCursor(formatStr, valueProp);
 
   const dateString = toDateString();
   const keyPressOptions = useMemo(
@@ -94,7 +94,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
       setSelectedState(state);
       setSelectionRange(state.selectionStart, state.selectionEnd);
-      reset();
+
+      // If the selected field changes, reset the input state
+      if (selectedState.selectedPattern !== state.selectedPattern) {
+        reset();
+      }
     }
   );
 
@@ -120,16 +124,14 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
         return;
       }
 
-      increment();
-
       const field = getDateField(pattern);
       const value = parseInt(key, 10);
       const padValue = parseInt(`${field.value || ''}${key}`, 10);
 
       let newValue = value;
 
-      // Check if the value entered by the user is a valid date
-      if (validateDateTime(field.name, padValue)) {
+      if (validateDateTime(field.name, padValue) && !isResetValue()) {
+        // Check if the value entered by the user is a valid date
         newValue = padValue;
       }
 
@@ -142,6 +144,8 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
+
+      increment();
 
       // If the field is full value, move the cursor to the next field
       if (isMoveCursor(newValue, pattern) && input.selectionEnd !== input.value.length) {
@@ -171,6 +175,10 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
     setSelectedState(state);
     setSelectionRange(state.selectionStart, state.selectionEnd);
+
+    if (selectedState.selectedPattern !== state.selectedPattern) {
+      reset();
+    }
   });
 
   const onKeyboardInput = useKeyboardInputEvent({

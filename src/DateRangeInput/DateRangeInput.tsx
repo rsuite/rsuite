@@ -80,7 +80,10 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   const startDateState = useDateInputState({ ...dateInputOptions, date: value?.[0] || null });
   const endDateState = useDateInputState({ ...dateInputOptions, date: value?.[1] || null });
 
-  const { isMoveCursor, increment, reset } = useFieldCursor<ValueType>(formatStr, valueProp);
+  const { isMoveCursor, isResetValue, increment, reset } = useFieldCursor<ValueType>(
+    formatStr,
+    valueProp
+  );
 
   const getActiveState = (type: DateType = dateType) => {
     return type === DateType.Start ? startDateState : endDateState;
@@ -150,7 +153,11 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
       setSelectedState(state);
       setSelectionRange(state.selectionStart, state.selectionEnd);
-      reset();
+
+      // If the selected field changes, reset the input state
+      if (selectedState.selectedPattern !== state.selectedPattern) {
+        reset();
+      }
     }
   );
 
@@ -178,8 +185,6 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
         return;
       }
 
-      increment();
-
       const field = getActiveState().getDateField(pattern);
       const value = parseInt(key, 10);
       const padValue = parseInt(`${field.value || ''}${key}`, 10);
@@ -187,7 +192,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       let newValue = value;
 
       // Check if the value entered by the user is a valid date
-      if (validateDateTime(field.name, padValue)) {
+      if (validateDateTime(field.name, padValue) && !isResetValue()) {
         newValue = padValue;
       }
 
@@ -200,6 +205,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
+
+      increment();
 
       // If the field is full value, move the cursor to the next field
       if (isMoveCursor(newValue, pattern) && input.selectionEnd !== input.value.length) {
@@ -244,6 +251,10 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     setDateType(dateType);
     setSelectedState(state);
     setSelectionRange(state.selectionStart, state.selectionEnd);
+
+    if (selectedState.selectedPattern !== state.selectedPattern) {
+      reset();
+    }
   });
 
   const onKeyboardInput = useKeyboardInputEvent({
