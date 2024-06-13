@@ -70,7 +70,7 @@
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.8",
     "rsuite": "^5.64.0",
-    "rsuite-table": "^5.18.2",
+    "rsuite-table": "^5.18.3",
     "schema-typed": "^2.2.2"
   },
   "peerDependencies": {
