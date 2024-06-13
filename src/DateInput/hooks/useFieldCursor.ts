@@ -4,14 +4,19 @@ import { useUpdateEffect } from '@/internals/hooks';
 export function useFieldCursor<V = Date | null>(format: string, value?: V) {
   const typeCount = useRef(0);
 
-  const increment = () => {
+  const increment = useCallback(() => {
     typeCount.current += 1;
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     typeCount.current = 0;
-  };
+  }, []);
 
+  const isResetValue = useCallback(() => {
+    return typeCount.current === 0;
+  }, []);
+
+  // Check if the cursor should move to the next field
   const isMoveCursor = useCallback(
     (value: number, pattern: string) => {
       const patternGroup = getPatternGroups(format, pattern);
@@ -49,7 +54,7 @@ export function useFieldCursor<V = Date | null>(format: string, value?: V) {
     }
   }, [value]);
 
-  return { increment, reset, isMoveCursor };
+  return { increment, reset, isMoveCursor, isResetValue };
 }
 
 export default useFieldCursor;

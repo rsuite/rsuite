@@ -838,6 +838,24 @@ describe('DatePicker', () => {
     expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.text('1🎉');
   });
 
+  it('Should allow month input 0', async () => {
+    render(<DatePicker format="MM/dd/yyyy" defaultValue={new Date('2024-06-01')} />);
+
+    await keyPress(screen.getByRole('textbox'), '0');
+
+    expect(screen.getByRole('textbox')).to.have.value('00/01/2024');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should allow day input 0', async () => {
+    render(<DatePicker format="MM/dd/yyyy" defaultValue={new Date('2024-06-01')} />);
+
+    await keyPress(screen.getByRole('textbox'), '010');
+
+    expect(screen.getByRole('textbox')).to.have.value('01/00/2024');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
   describe('Custom week ', () => {
     it('Should render the correct week numbers', () => {
       const { rerender } = render(

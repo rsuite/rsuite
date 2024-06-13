@@ -163,7 +163,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
     const { year, month, day, hour, minute, second } = dateField;
     const date = new Date(
       year || 0,
-      typeof month === 'number' ? month - 1 : 0,
+      typeof month === 'number' ? Math.max(month - 1, 0) : 0,
       // The default day is 1 when the value is null, otherwise it becomes the last day of the month.
       day || 1,
       hour || 0,
@@ -182,7 +182,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
 
       // Invalid Date
       return new Date('');
-    } else if (type === 'day' && value === 0) {
+    } else if ((type === 'day' || type === 'month') && value === 0) {
       // Invalid Date. If the type is day and the value is 0, it is considered an invalid date.
       return new Date('');
     }

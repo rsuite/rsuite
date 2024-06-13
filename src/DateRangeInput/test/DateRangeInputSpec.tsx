@@ -483,5 +483,17 @@ describe('DateRangeInput', () => {
         expectedValue: 'Jan 01,2024 ~ Feb 02,2024'
       });
     });
+
+    it('Should reset the value rather than concatenate the value', async () => {
+      await testKeyPressAsync({
+        format: 'MM/dd/yyyy',
+        defaultValue: [new Date('2024-01-01'), new Date('2024-02-01')],
+        keys: '0401',
+
+        // Fix #3828
+        // Error value: 10/14/0001
+        expectedValue: '04/01/2024 ~ 02/01/2024'
+      });
+    });
   });
 });

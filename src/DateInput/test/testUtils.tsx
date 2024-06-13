@@ -49,7 +49,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     defaultValue?: Date | [Date | null, Date | null] | null;
     format?: string;
     expectedValue: string;
-    keys: string[];
+    keys: string[] | string;
   }) {
     const onChange = sinon.spy();
     render(<TestComponent onChange={onChange} format={format} defaultValue={defaultValue} />);
