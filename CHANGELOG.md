@@ -1,3 +1,13 @@
+## [5.64.1](https://github.com/rsuite/rsuite/compare/v5.64.0...v5.64.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* **DateInput,DateRangeInput:** fix date input error when manually input date ([#3832](https://github.com/rsuite/rsuite/issues/3832)) ([40db883](https://github.com/rsuite/rsuite/commit/40db883280d940aa871a77f92608ae0d2c37f2e9))
+* **Modal:** fix `overflow` not working when Modal is in Drawer ([#3839](https://github.com/rsuite/rsuite/issues/3839)) ([d65b28d](https://github.com/rsuite/rsuite/commit/d65b28dc2ba3fb534ee760ace5bc93dd34e06afb))
+
+
+
 # [5.64.0](https://github.com/rsuite/rsuite/compare/v5.62.1...v5.64.0) (2024-05-30)
 
 
