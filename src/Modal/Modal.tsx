@@ -107,7 +107,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
     overflow,
-    drawer: isDrawer,
     prefix,
     size
   });

@@ -12,7 +12,7 @@ import DrawerHeader from './DrawerHeader';
 import DrawerActions from './DrawerActions';
 import DrawerFooter from './DrawerFooter';
 import DrawerTitle from './DrawerTitle';
-export interface DrawerProps extends ModalProps {
+export interface DrawerProps extends Omit<ModalProps, 'overflow'> {
   /** The placement of Drawer */
   placement?: TypeAttributes.Placement4;
 

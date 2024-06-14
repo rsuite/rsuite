@@ -10,13 +10,12 @@ export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,
   options: {
     overflow: boolean;
-    drawer: boolean;
     size?: ModalSize;
     prefix: (...classes: any) => string;
   }
 ): [React.CSSProperties | null, (entering?: boolean) => void, () => void] => {
   const [bodyStyles, setBodyStyles] = useState<React.CSSProperties | null>({});
-  const { overflow, drawer, prefix, size } = options;
+  const { overflow, prefix, size } = options;
   const windowResizeListener = useRef<any>();
   const contentElement = useRef<HTMLElement | null>(null);
   const contentElementResizeObserver = useRef<ResizeObserver | null>();
@@ -64,12 +63,12 @@ export const useBodyStyles = (
 
   const onChangeBodyStyles = useCallback(
     (entering?: boolean) => {
-      if (drawer || size === 'full') {
+      if (!overflow || size === 'full') {
         setBodyStyles(null);
         return;
       }
 
-      if (overflow && ref.current) {
+      if (ref.current) {
         updateBodyStyles(undefined, entering);
 
         contentElement.current = ref.current.querySelector(`.${prefix('content')}`);
@@ -84,7 +83,7 @@ export const useBodyStyles = (
         }
       }
     },
-    [drawer, overflow, prefix, ref, size, updateBodyStyles]
+    [overflow, prefix, ref, size, updateBodyStyles]
   );
 
   useEffect(() => {
