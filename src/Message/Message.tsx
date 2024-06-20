@@ -1,12 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { STATUS } from '@/internals/constants';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useTimeout, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { mergeRefs } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
 import CloseButton from '@/internals/CloseButton';
-import ToastContext from '../toaster/ToastContext';
+import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 
 export interface MessageProps extends WithAsProps {
   /**
@@ -63,8 +64,6 @@ export interface MessageProps extends WithAsProps {
   onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-type DisplayType = 'show' | 'hide' | 'hiding';
-
 /**
  * The `Message` component is used to display important messages to users.
  * @see https://rsuitejs.com/components/message
@@ -88,13 +87,13 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const [display, setDisplay] = useState<DisplayType>('show');
+    const [display, setDisplay] = useState<TypeAttributes.DisplayState>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const isMounted = useIsMounted();
-    const { usedToaster } = useContext(ToastContext);
+    const targetRef = React.useRef<HTMLDivElement>(null);
 
     // Timed close message
-    const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
+    const { clear } = useDelayedClosure({ targetRef, onClose, duration });
 
     const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
       setDisplay('hiding');
@@ -124,7 +123,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
     );
 
     return (
-      <Component role="alert" {...rest} ref={ref} className={classes}>
+      <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
         <div className={prefix`container`}>
           {closable && <CloseButton onClick={handleClose} />}
           {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}

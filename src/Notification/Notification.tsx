@@ -1,15 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useTimeout, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
 import CloseButton from '@/internals/CloseButton';
-import ToastContext from '../toaster/ToastContext';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-
-export type MessageType = 'info' | 'success' | 'warning' | 'error';
-
-type DisplayType = 'show' | 'hide' | 'hiding';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { mergeRefs } from '@/internals/utils';
+import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 
 export interface NotificationProps extends WithAsProps {
   /** Title of the message */
@@ -22,6 +19,7 @@ export interface NotificationProps extends WithAsProps {
    *
    * @default 4500
    * @deprecated Use `toaster.push(<Notification />, { duration: 4500 })` instead.
+   * @internal
    */
   duration?: number;
 
@@ -30,10 +28,14 @@ export interface NotificationProps extends WithAsProps {
    */
   closable?: boolean;
 
-  /** Type of message */
-  type?: MessageType;
+  /**
+   * Type of message
+   */
+  type?: TypeAttributes.Status;
 
-  /** Callback after the message is removed */
+  /**
+   * Callback after the message is removed
+   */
   onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -56,13 +58,14 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
       onClose,
       ...rest
     } = props;
-    const [display, setDisplay] = useState<DisplayType>('show');
+
+    const [display, setDisplay] = useState<TypeAttributes.DisplayState>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const isMounted = useIsMounted();
-    const { usedToaster } = useContext(ToastContext);
+    const targetRef = React.useRef<HTMLDivElement>(null);
 
     // Timed close message
-    const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
+    const { clear } = useDelayedClosure({ targetRef, onClose, duration });
 
     // Click to trigger to close the message
     const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -103,7 +106,7 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
     const classes = merge(className, withClassPrefix(type, display, { closable }));
 
     return (
-      <Component role="alert" {...rest} ref={ref} className={classes}>
+      <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
         <div className={prefix`content`}>
           {renderHeader()}
           <div className={prefix('description')}>
