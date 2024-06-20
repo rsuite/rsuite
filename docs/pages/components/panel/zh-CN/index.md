@@ -84,6 +84,7 @@
 | 属性名称        | 类型`(默认值)`     | 描述                                       |
 | --------------- | ------------------ | ------------------------------------------ |
 | bodyFill        | boolean            | 内容区域撑满容器                           |
+| bodyProps       | HTMLAttributes     | 内容区域的属性<br/>![][5.62.0]             |
 | bordered        | boolean            | 显示线框                                   |
 | classPrefix     | string `('panel')` | 组件 CSS 类的前缀                          |
 | collapsible     | boolean            | 可折叠的                                   |
