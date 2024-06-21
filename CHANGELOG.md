@@ -1,3 +1,14 @@
+## [5.64.2](https://github.com/rsuite/rsuite/compare/v5.64.1...v5.64.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* **Panel:** fix unable to add className to PanelBody ([#3845](https://github.com/rsuite/rsuite/issues/3845)) ([ca70540](https://github.com/rsuite/rsuite/commit/ca705409fcd5539b2e95e34be3245414ede84237))
+* **radio:** disabled radio control hover cursor ([#3847](https://github.com/rsuite/rsuite/issues/3847)) ([99f7859](https://github.com/rsuite/rsuite/commit/99f7859921defdd7b7fc980552653a4c2f391028))
+* remove unnecessary dependencies ([#3844](https://github.com/rsuite/rsuite/issues/3844)) ([51d70ba](https://github.com/rsuite/rsuite/commit/51d70ba00a35c5fc8d75c324cb856e811adebcd1))
+
+
+
 ## [5.64.1](https://github.com/rsuite/rsuite/compare/v5.64.0...v5.64.1) (2024-06-14)
 
 
