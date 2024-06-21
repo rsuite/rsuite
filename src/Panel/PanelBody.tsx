@@ -28,6 +28,7 @@ const PanelBody = (props: PanelBodyProps) => {
     id,
     labelId,
     scrollShadow,
+    className,
     onEnter,
     onEntering,
     onEntered,
@@ -39,7 +40,7 @@ const PanelBody = (props: PanelBodyProps) => {
   } = props;
 
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const bodyClasses = withClassPrefix({ fill: bodyFill });
+  const bodyClasses = merge(className, withClassPrefix({ fill: bodyFill }));
 
   const renderBody = (bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
     return (

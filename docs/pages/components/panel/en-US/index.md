@@ -84,6 +84,7 @@ Only one panel can be expanded.
 | Property        | Type `(Default)`   | Description                                              |
 | --------------- | ------------------ | -------------------------------------------------------- |
 | bodyFill        | boolean            | Content area filled with containers                      |
+| bodyProps       | HTMLAttributes     | The properties of the content area<br/>![][5.62.0]       |
 | bordered        | boolean            | Show border                                              |
 | classPrefix     | string `('panel')` | The prefix of the component CSS class                    |
 | collapsible     | boolean            | Whether it is a collapsible panel                        |

@@ -147,6 +147,12 @@ describe('Panel', () => {
     });
   });
 
+  it('Should have a custom className in body by bodyProps', () => {
+    render(<Panel collapsible header="title" bodyProps={{ className: 'custom-class' }} />);
+
+    expect(screen.getByTestId('scroll-view')).to.have.class('custom-class');
+  });
+
   describe('Accessibility', () => {
     it('Should have a button role in header', () => {
       render(<Panel collapsible header="title" />);
