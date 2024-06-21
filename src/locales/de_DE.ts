@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'de-DE',
   common: {
     loading: 'am laden...',
     emptyMessage: 'Keine Daten gefunden',

@@ -4,7 +4,6 @@ import isSameMonth from 'date-fns/isSameMonth';
 import CalendarContainer from './CalendarContainer';
 import { CalendarLocale } from '../locales';
 import Button from '../Button';
-import { FormattedDate } from '../CustomProvider';
 import { useClassNames, useCustom } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import useCalendarDate from './useCalendarDate';
@@ -158,9 +157,6 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         calendarDate={calendarDate}
         limitEndYear={1000}
         locale={locale}
-        renderTitle={date => (
-          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-        )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
         cellClassName={cellClassName}

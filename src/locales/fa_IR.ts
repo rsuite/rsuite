@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'fa-IR',
   common: {
     loading: 'در حال بارگذاری...',
     emptyMessage: 'داده ایی پیدا نشد',

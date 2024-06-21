@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'ne-NP',
   common: {
     loading: 'लोड हुँदैछ...',
     emptyMessage: 'कुनै डाटा छैन',

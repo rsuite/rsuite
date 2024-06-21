@@ -5,17 +5,17 @@ import { CustomProvider, SelectPicker, DatePicker, Calendar, Pagination } from '
 import * as locales from 'rsuite/locales';
 
 const data = Object.keys(locales).map(key => ({
-  key,
+  key: key.replace(/([a-z]{2})([A-Z]{2})/, '$1-$2'),
   value: locales[key]
 }));
 
 const App = () => {
-  const [localeKey, setLocaleKey] = React.useState('zhCN');
+  const [localeKey, setLocaleKey] = React.useState('fa-IR');
   const locale = data.find(item => item.key === localeKey);
   return (
-    <CustomProvider locale={locale.value}>
-      <label id="change_locale">Change locale: </label>
+    <CustomProvider locale={locale.value} intlDateTimeFormat>
       <SelectPicker
+        label="Locale"
         aria-labelledby="change_locale"
         cleanable={false}
         data={data}

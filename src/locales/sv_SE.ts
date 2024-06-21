@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'sv-SE',
   common: {
     loading: 'Laddar...',
     emptyMessage: 'Kunde inte hitta data',

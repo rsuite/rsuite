@@ -44,6 +44,7 @@ export { default as set } from 'date-fns/set';
 export { default as differenceInCalendarMonths } from 'date-fns/differenceInCalendarMonths';
 export { default as isLastDayOfMonth } from 'date-fns/isLastDayOfMonth';
 export { default as lastDayOfMonth } from 'date-fns/lastDayOfMonth';
+export { default as intlFormat } from 'date-fns/intlFormat';
 
 // Export custom functions
 export { getWeekStartDates } from './getWeekStartDates';
