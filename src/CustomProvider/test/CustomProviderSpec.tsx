@@ -44,6 +44,7 @@ describe('CustomProvider', () => {
         </CustomProvider>
       </div>
     );
+
     expect(screen.getByText('мая, 2021')).to.exist;
   });
 

@@ -3,7 +3,7 @@ import { getDate, intlFormat, format } from '@/internals/utils/date';
 import useCustom from './useCustom';
 
 export function useDateTimeFormat() {
-  const { locale, intlDateTimeFormat, formatDate } = useCustom();
+  const { locale, intlDateTimeFormat, formatDate } = useCustom('Calendar');
   const safeFormat = formatDate || format;
 
   const {
@@ -34,7 +34,7 @@ export function useDateTimeFormat() {
   const formatMonth = useCallback(
     (date: Date): string => {
       return intlDateTimeFormat
-        ? intlFormat(date, { month: 'short' }, { locale: code })
+        ? intlFormat(date, { month: 'numeric' }, { locale: code })
         : safeFormat(date, 'MM');
     },
     [code, intlDateTimeFormat, safeFormat]

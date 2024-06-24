@@ -82,11 +82,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       return timeFormat.join(':');
     }, [format, showMeridian]);
 
-    const renderTitle = useCallback(
-      () => renderTitleProp?.(date) ?? formatYearMonth(date, { onlyYear: !showMonth }),
-      [date, formatYearMonth, renderTitleProp, showMonth]
-    );
-
+    const month = renderTitleProp?.(date) ?? formatYearMonth(date, { onlyYear: !showMonth });
     const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
     const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
     const backwardClass = prefix('backward', { 'btn-disabled': disabledBackward });
@@ -108,7 +104,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
         >
-          {renderTitle()}
+          {month}
         </Button>
         <IconButton
           {...btnProps}
