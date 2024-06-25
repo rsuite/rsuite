@@ -19,15 +19,6 @@ export const THEME_DEFAULT = getDefaultTheme();
 export const DIRECTION_KEY = 'direction';
 export const DIRECTION_DEFAULT = 'ltr';
 
-const __DEV__ = process.env.NODE_ENV !== 'production';
-
-export const getThemeId = (themeName: ThemeType, direction: DirectionType): string =>
-  `theme-${themeName}-${direction}`;
-export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType): string =>
-  `${__DEV__ ? '//127.0.0.1:3001' : ''}/css/theme-${themeName}${
-    !__DEV__ && direction === 'rtl' ? '.rtl' : ''
-  }.css`;
-
 export function getStylesheetPath(dir: DirectionType): string {
   return `/_next/static/css/pages/_app${dir === 'rtl' ? '-rtl' : ''}.css`;
 }
