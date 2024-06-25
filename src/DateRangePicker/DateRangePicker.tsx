@@ -1004,6 +1004,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               ...calendarOnlyProps
             ])}
             inside
+            className={prefix`input-group`}
             disabled={disabled}
             size={size}
           >

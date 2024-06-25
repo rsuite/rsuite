@@ -707,6 +707,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               inside
               size={size}
               disabled={disabled}
+              className={prefix`input-group`}
               onClick={handleClick}
             >
               <PickerLabel className={prefix`label`} id={`${id}-label`}>

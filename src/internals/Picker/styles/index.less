@@ -44,7 +44,7 @@
       color: var(--rs-text-disabled) !important;
     }
 
-    .rs-picker-value-count{
+    .rs-picker-value-count {
       opacity: 0.5;
     }
   }
@@ -110,11 +110,16 @@
     align-items: center;
   }
 
-  &-error > .rs-input-group {
-    border-color: var(--rs-state-error) !important;
+  &-error > .rs-picker-input-group {
+    border-color: var(--rs-picker-state-error);
+
+    &:hover {
+      border-color: var(--rs-picker-state-error);
+    }
 
     &:focus-within {
-      outline: var(--rs-state-error-outline) !important;
+      border-color: var(--rs-picker-state-error);
+      outline: var(--rs-picker-state-error-outline);
     }
   }
 }
