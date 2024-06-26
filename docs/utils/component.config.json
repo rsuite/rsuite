@@ -18,6 +18,12 @@
     "keywords": ["layout"]
   },
   {
+    "id": "divider",
+    "name": "Divider",
+    "title": "分割线",
+    "components": ["Divider"]
+  },
+  {
     "id": "flexbox-grid",
     "name": "FlexboxGrid",
     "title": "弹性栅格",
@@ -513,12 +519,6 @@
     "title": "轮播",
     "components": ["Carousel"],
     "keywords": ["image"]
-  },
-  {
-    "id": "divider",
-    "name": "Divider",
-    "title": "分割线",
-    "components": ["Divider"]
   },
   {
     "id": "list",

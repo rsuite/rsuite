@@ -1,5 +1,15 @@
 import React from 'react';
-import { Stack, Panel, Button, Divider, Input, Radio, RadioGroup, Slider } from 'rsuite';
+import {
+  Stack,
+  Panel,
+  Button,
+  Divider,
+  Input,
+  Radio,
+  RadioGroup,
+  Slider,
+  SelectPicker
+} from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -11,7 +21,17 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Stack, Panel, Button, Divider, Input, Radio, RadioGroup, Slider }}
+      dependencies={{
+        Stack,
+        Panel,
+        Button,
+        Divider,
+        Input,
+        Radio,
+        RadioGroup,
+        Slider,
+        SelectPicker
+      }}
     />
   );
 }
