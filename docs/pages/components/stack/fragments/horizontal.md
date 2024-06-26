@@ -9,15 +9,7 @@ const App = () => {
       <Button size="lg">Large</Button>
       <Button size="md">Medium</Button>
       <Button size="sm">Small</Button>
-
-      <Stack.Item alignSelf="flex-end">
-        <Button size="xs">alignSelf="flex-end"</Button>
-      </Stack.Item>
-      <Stack.Item grow={1}>
-        <Button size="md" block>
-          grow=1
-        </Button>
-      </Stack.Item>
+      <Button size="xs">Xsmall</Button>
     </HStack>
   );
 };

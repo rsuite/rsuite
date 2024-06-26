@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { useBreakpointValue, Button } from 'rsuite';
+import { useBreakpointValue, Stack, Button } from 'rsuite';
 
 const App = () => {
   const direction = useBreakpointValue(

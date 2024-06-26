@@ -1,18 +1,18 @@
 <!--start-code-->
 
 ```js
-import { Stack, Button } from 'rsuite';
+import { HStack, VStack, Button, Divider } from 'rsuite';
 
 const App = () => {
   return (
-    <Stack divider={<Divider />} direction="column" alignItems="flex-start">
+    <VStack divider={<Divider />}>
       <Button>Item 1</Button>
-      <Stack divider={<Divider vertical />} style={{ height: 40 }}>
+      <HStack divider={<Divider vertical />} style={{ height: 40 }}>
         <Button>Item 2</Button>
         <Button>Item 3</Button>
         <Button>Item 4</Button>
-      </Stack>
-    </Stack>
+      </HStack>
+    </VStack>
   );
 };
 

@@ -302,8 +302,8 @@ export type { FooterProps } from './Footer';
 export { default as Divider } from './Divider';
 export type { DividerProps } from './Divider';
 
-export { default as Stack } from './Stack';
-export type { StackProps } from './Stack';
+export { default as Stack, HStack, VStack } from './Stack';
+export type { StackProps, HStackProps, VStackProps } from './Stack';
 
 // Utils
 // --------------------------------------------------------
