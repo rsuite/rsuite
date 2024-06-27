@@ -34,7 +34,7 @@
     bottom: 0;
     width: 100%;
     z-index: 4;
-    border-top: 1px solid var(--rs-border-secondary);
+    border-top: 1px solid var(--rs-table-border-color);
     padding: 10px;
     background-color: var(--rs-bg-card);
   }
@@ -160,7 +160,7 @@
     position: absolute;
     white-space: normal;
     background-color: var(--rs-bg-card);
-    border-bottom: 1px solid var(--rs-border-secondary);
+    border-bottom: 1px solid var(--rs-table-border-color);
 
     &.first {
       border-left-width: 0;
@@ -204,7 +204,7 @@
     }
 
     &-rowspan {
-      border-bottom: 1px solid var(--rs-border-secondary) !important;
+      border-bottom: 1px solid var(--rs-table-border-color) !important;
     }
   }
 
@@ -308,11 +308,11 @@
   }
 
   &-bordered {
-    border: 1px solid var(--rs-border-secondary);
+    border: 1px solid var(--rs-table-border-color);
   }
 
   &-cell-bordered &-cell {
-    border-right: 1px solid var(--rs-border-secondary);
+    border-right: 1px solid var(--rs-table-border-color);
   }
 
   &-column-group {
@@ -323,7 +323,7 @@
     width: 100%;
 
     &-header {
-      border-bottom: 1px solid var(--rs-border-secondary);
+      border-bottom: 1px solid var(--rs-table-border-color);
       position: absolute;
       width: 100%;
 
@@ -335,9 +335,13 @@
 
     &-cell {
       position: absolute;
-      border-right: 1px solid var(--rs-border-secondary);
+      border-right: 1px solid var(--rs-table-border-color);
     }
   }
+}
+
+.rs-table-row:not(.rs-table-row-rowspan) {
+  border-bottom: 1px solid var(--rs-table-border-color);
 }
 
 // Tree Table
