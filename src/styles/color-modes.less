@@ -11,7 +11,8 @@
   }
 }
 
-// TODO consider adding flag for high-contrast theme
-.rs-theme-high-contrast {
-  @import 'color-modes/high-contrast';
+& when (@enable-high-contrast = true) {
+  .rs-theme-high-contrast {
+    @import 'color-modes/high-contrast';
+  }
 }
