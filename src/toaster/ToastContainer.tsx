@@ -34,18 +34,28 @@ export interface ToastContainerProps extends WithAsProps {
 
   /**
    * Set the message to appear in the specified container
-   *
    */
   container?: HTMLElement | (() => HTMLElement);
 
-  /** The number of milliseconds to wait before automatically closing a message. */
+  /**
+   * The number of milliseconds to wait before automatically closing a message.
+   */
   duration?: number;
 
+  /**
+   * Reset the hide timer if the mouse moves over the message.
+   */
+  mouseReset?: boolean;
+
+  /**
+   * Callback fired when the component mounts
+   */
   callback?: (ref: React.RefObject<ToastContainerInstance>) => void;
 }
 
 interface PushOptions {
   duration?: number;
+  mouseReset?: boolean;
 }
 
 export interface ToastContainerInstance {
@@ -85,12 +95,13 @@ const useMessages = () => {
     [messages]
   );
 
-  const push = useCallback((message, options) => {
+  const push = useCallback((message, options?: PushOptions) => {
+    const { duration, mouseReset = true } = options || {};
     const key = guid();
 
     setMessages(prevMessages => [
       ...prevMessages,
-      { key, visible: true, node: message, ...options }
+      { key, visible: true, node: message, duration, mouseReset }
     ]);
 
     return key;
@@ -150,48 +161,43 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
     useImperativeHandle(ref, () => ({ root: rootRef.current, push, clear, remove }));
 
     const elements = messages.map(item => {
+      const { mouseReset, duration, node } = item;
       return (
-        <Transition
-          key={item.key}
-          in={item.visible}
-          exitedClassName={rootPrefix('toast-fade-exited')}
-          exitingClassName={rootPrefix('toast-fade-exiting')}
-          enteringClassName={rootPrefix('toast-fade-entering')}
-          enteredClassName={rootPrefix('toast-fade-entered')}
-          timeout={300}
-        >
-          {(transitionProps, ref) => {
-            const { className: transitionClassName, ...rest } = transitionProps;
-            return React.cloneElement(item.node, {
-              ...rest,
-              ref,
-              duration: item.duration,
-              // Remove the message after the specified time.
-              onClose: createChainedFunction(item.node?.props?.onClose, () => remove(item.key)),
-              className: merge(
-                rootPrefix('toast'),
-                item.node?.props?.className,
-                transitionClassName
-              )
-            });
-          }}
-        </Transition>
+        <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
+          <Transition
+            in={item.visible}
+            exitedClassName={rootPrefix('toast-fade-exited')}
+            exitingClassName={rootPrefix('toast-fade-exiting')}
+            enteringClassName={rootPrefix('toast-fade-entering')}
+            enteredClassName={rootPrefix('toast-fade-entered')}
+            timeout={300}
+          >
+            {(transitionProps, ref) => {
+              const { className: transitionClassName, ...rest } = transitionProps;
+              return React.cloneElement(node, {
+                ...rest,
+                ref,
+                duration,
+                onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
+                className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
+              });
+            }}
+          </Transition>
+        </ToastContext.Provider>
       );
     });
 
     return (
-      <ToastContext.Provider value={{ usedToaster: true }}>
-        <Component
-          {...rest}
-          ref={selfRef => {
-            rootRef.current = selfRef;
-            callback?.(selfRef);
-          }}
-          className={classes}
-        >
-          {elements}
-        </Component>
-      </ToastContext.Provider>
+      <Component
+        {...rest}
+        ref={selfRef => {
+          rootRef.current = selfRef;
+          callback?.(selfRef);
+        }}
+        className={classes}
+      >
+        {elements}
+      </Component>
     );
   }
 ) as any;

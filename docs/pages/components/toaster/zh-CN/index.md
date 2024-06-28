@@ -51,11 +51,12 @@ toaster.push(message: ReactNode, toastProps?: ToastProps): string;
 
 ##### ToastProps
 
-| 属性      | 类型`(默认值)`                                                                                          | 说明                       |
-| --------- | ------------------------------------------------------------------------------------------------------- | -------------------------- |
-| placement | 'topCenter' \| 'topStart' \| 'topEnd' \| 'bottomCenter' \| 'bottomStart' \| 'bottomEnd' `('topCenter')` | 设置消息出现的位置         |
-| container | HTMLElement \| (() => HTMLElement)                                                                      | 设置消息出现在指定的容器中 |
-| duration  | number                                                                                                  | 自动关闭消息前等待的毫秒数 |
+| 属性       | 类型`(默认值)`                                                                                          | 说明                                             |
+| ---------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| container  | HTMLElement \| (() => HTMLElement)                                                                      | 设置消息出现在指定的容器中                       |
+| duration   | number                                                                                                  | 自动关闭消息前等待的毫秒数                       |
+| mouseReset | boolean `(true)`                                                                                        | 鼠标移入时是否重置自动关闭计时器<br/>![][5.65.0] |
+| placement  | 'topCenter' \| 'topStart' \| 'topEnd' \| 'bottomCenter' \| 'bottomStart' \| 'bottomEnd' `('topCenter')` | 设置消息出现的位置                               |
 
 #### toaster.remove
 
@@ -72,3 +73,5 @@ toaster.remove(toastId: string): void;
 ```ts
 toaster.clear(): void;
 ```
+
+[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue

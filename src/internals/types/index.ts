@@ -252,6 +252,7 @@ export declare namespace TypeAttributes {
 
   type Placement = Placement4 | Placement8 | PlacementAuto;
   type CheckTrigger = 'change' | 'blur' | 'none' | null;
+  type DisplayState = 'show' | 'hide' | 'hiding';
 }
 
 export interface SVGIcon {
