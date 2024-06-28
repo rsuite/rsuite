@@ -8,7 +8,9 @@
 }
 
 .high-contrast-mode(@rules) {
-  .rs-theme-high-contrast & {
-    @rules();
+  & when (@enable-high-contrast = true) {
+    .rs-theme-high-contrast & {
+      @rules();
+    }
   }
 }
