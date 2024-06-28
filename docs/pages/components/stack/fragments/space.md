@@ -1,24 +1,24 @@
 <!--start-code-->
 
 ```js
-import { Stack, Slider, Input, Button } from 'rsuite';
+import { VStack, HStack, Slider, Button } from 'rsuite';
 
 const App = () => {
-  const [size, setSize] = React.useState(6);
+  const [spacing, setSpacing] = React.useState(6);
 
   return (
-    <Stack direction="column" spacing={20} alignItems="flex-start">
-      <Stack spacing={12}>
+    <VStack spacing={20}>
+      <HStack>
         Spacing:
-        <Slider value={size} style={{ width: 300 }} onChange={value => setSize(value)} />
+        <Slider value={spacing} style={{ width: 300 }} onChange={setSpacing} />
+      </HStack>
+      <Stack spacing={spacing}>
+        <Button>Item 1</Button>
+        <Button>Item 2</Button>
+        <Button>Item 3</Button>
+        <Button>Item 4</Button>
       </Stack>
-      <Stack spacing={size}>
-        Label:
-        <Input />
-        <Button appearance="primary">Submit</Button>
-        <Button>Reset</Button>
-      </Stack>
-    </Stack>
+    </VStack>
   );
 };
 
