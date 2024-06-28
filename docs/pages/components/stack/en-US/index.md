@@ -7,8 +7,8 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 <!--{include:<import-guide>}-->
 
 - `<Stack>`: Use to stack elements horizontally or vertically.
-- `<HStack>`: Use to stack elements horizontally.
-- `<VStack>`: Use to stack elements vertically.
+- `<HStack>`: Use to stack elements horizontally. ![][5.65.0]
+- `<VStack>`: Use to stack elements vertically. ![][5.65.0]
 
 ## Examples
 
@@ -96,3 +96,5 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 | reverse            | boolean                                                                                            | Reverse the order of the children in the stack                                                    |
 | spacing            | number &#124; string `(6)`                                                                         | Define the spacing between immediate children                                                     |
 | wrap               | boolean                                                                                            | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
+
+[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue

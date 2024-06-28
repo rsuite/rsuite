@@ -41,7 +41,7 @@
     "id": "stack",
     "name": "Stack",
     "title": "堆叠",
-    "components": ["Stack", "Stack.Item"]
+    "components": ["Stack", "Stack.Item", "HStack", "VStack"]
   },
   {
     "group": true,
