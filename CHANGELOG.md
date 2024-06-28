@@ -1,3 +1,22 @@
+# [5.65.0](https://github.com/rsuite/rsuite/compare/v5.64.2...v5.65.0) (2024-06-28)
+
+
+### Bug Fixes
+
+* **DatePicker,DateRangePicker:** fix the priority of the style in the error state ([#3854](https://github.com/rsuite/rsuite/issues/3854)) ([36cb376](https://github.com/rsuite/rsuite/commit/36cb376160dd0d0bfd83c745c7b859a65eb8a852))
+* **Divider:** fix Stack horizontal divider not working ([#3856](https://github.com/rsuite/rsuite/issues/3856)) ([678876b](https://github.com/rsuite/rsuite/commit/678876bf063f7bab1c78c7be3134e22c4d885391))
+* **Table:** fix table row border not full ([#3858](https://github.com/rsuite/rsuite/issues/3858)) ([2a2bdb9](https://github.com/rsuite/rsuite/commit/2a2bdb9b43430d4611f2d24726b0cca03a8a4120))
+* **theme:** add less variable to opt-out of high-contrast theme bundling ([#3861](https://github.com/rsuite/rsuite/issues/3861)) ([0db8cb9](https://github.com/rsuite/rsuite/commit/0db8cb991cc4a5eb368130e0f17c2ee32a3f8dbb))
+* **uploader:** background color on hover when disabled ([#3852](https://github.com/rsuite/rsuite/issues/3852)) ([29e79a5](https://github.com/rsuite/rsuite/commit/29e79a56d2a74fdae14c22eccdf0e0cc874dcfb2))
+
+
+### Features
+
+* add support for HStack and VStack ([#3857](https://github.com/rsuite/rsuite/issues/3857)) ([ddbe3ca](https://github.com/rsuite/rsuite/commit/ddbe3ca1bef84ef9998402a5beaae62e603067b1))
+* **useToaster:** add support for `mouseReset` parameter in push method ([#3846](https://github.com/rsuite/rsuite/issues/3846)) ([7361e40](https://github.com/rsuite/rsuite/commit/7361e406ed75a80bda005c99b635f4d1d21b98eb))
+
+
+
 ## [5.64.2](https://github.com/rsuite/rsuite/compare/v5.64.1...v5.64.2) (2024-06-21)
 
 
