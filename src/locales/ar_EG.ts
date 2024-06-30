@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'ar-EG',
   common: {
     loading: 'جاري التحميل...',
     emptyMessage: 'لا يوجد المزيد من البيانات',

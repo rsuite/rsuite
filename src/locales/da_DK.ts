@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'da-DK',
   common: {
     loading: 'Indlæser...',
     emptyMessage: 'Ingen data fundet',

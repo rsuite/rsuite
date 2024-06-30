@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'zh-TW',
   common: {
     loading: '讀取中...',
     emptyMessage: '沒有資料',

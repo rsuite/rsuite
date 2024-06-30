@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'tr-TR',
   common: {
     loading: 'Yükleniyor...',
     emptyMessage: 'Veri bulunamadı',

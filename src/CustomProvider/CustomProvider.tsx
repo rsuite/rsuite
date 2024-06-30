@@ -5,11 +5,18 @@ import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
 
+/**
+ * Represents the custom value object used in the CustomProvider component.
+ */
 export interface CustomValue<T = Locale> {
-  /** Language configuration */
+  /**
+   * Language configuration.
+   */
   locale: T;
 
-  /** Support right-to-left */
+  /**
+   * Support right-to-left.
+   */
   rtl: boolean;
 
   /**
@@ -24,7 +31,7 @@ export interface CustomValue<T = Locale> {
    *    return format(date, formatStr, { locale: eo });
    *  }
    *
-   * */
+   */
   formatDate: (date: Date | number, format: string) => string;
 
   /**
@@ -39,34 +46,52 @@ export interface CustomValue<T = Locale> {
    *    return parse(date, formatStr, new Date(), { locale: eo });
    *  }
    *
-   * */
+   */
   parseDate: (dateString: string, formatString: string) => Date;
 
   /**
-   * A Map of toast containers
+   * A Map of toast containers.
    */
   toasters?: React.MutableRefObject<Map<string, ToastContainerInstance>>;
 
-  /** If true, the ripple effect is disabled. Affected components include: Button, Nav.Item, Pagination. */
+  /**
+   * Disable ripple effect globally.
+   * Affected components include: Button, Nav.Item, Pagination.
+   * @default false
+   */
   disableRipple?: boolean;
+
+  /**
+   * Specifies whether to use the `Intl.DateTimeFormat` API for date and time formatting.
+   */
+  intlDateTimeFormat?: boolean;
 }
 
-export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
-  /** Supported themes */
-  theme?: 'light' | 'dark' | 'high-contrast';
+const themes = ['light', 'dark', 'high-contrast'] as const;
 
-  /** The prefix of the component CSS class */
+export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
+  /**
+   * Supported themes
+   */
+  theme?: (typeof themes)[number];
+
+  /**
+   * The prefix of the component CSS class
+   */
   classPrefix?: string;
 
-  /** Primary content */
+  /**
+   * Primary content
+   */
   children?: React.ReactNode;
 
-  /** Sets a container for toast rendering */
+  /**
+   * Sets a container for toast rendering
+   */
   toastContainer?: HTMLElement | (() => HTMLElement | null) | null;
 }
 
-const CustomContext = React.createContext<CustomProviderProps>({});
-const themes = ['light', 'dark', 'high-contrast'];
+const CustomContext = React.createContext<Omit<CustomProviderProps, 'children'>>({});
 
 /**
  * CustomProvider is used to provide global configuration, such as language, theme, etc.
@@ -80,14 +105,15 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
     theme,
     toastContainer: container,
     disableRipple,
+    intlDateTimeFormat,
     ...rest
   } = props;
   const toasters = React.useRef(new Map<string, ToastContainerInstance>());
   const { Portal } = usePortal({ container, waitMount: true });
 
   const value = React.useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, ...rest }),
-    [classPrefix, theme, disableRipple, rest]
+    () => ({ classPrefix, theme, toasters, disableRipple, intlDateTimeFormat, ...rest }),
+    [classPrefix, theme, disableRipple, intlDateTimeFormat, rest]
   );
 
   useIsomorphicLayoutEffect(() => {

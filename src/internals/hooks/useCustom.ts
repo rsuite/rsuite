@@ -23,10 +23,12 @@ export function useCustom<T = any>(keys?: string | string[], overrideLocale?): C
     formatDate,
     parseDate,
     toasters,
-    disableRipple
+    disableRipple,
+    intlDateTimeFormat
   } = useContext(CustomContext);
 
   let componentLocale: T = {
+    code: locale.code,
     // Public part locale
     ...locale?.common,
     // Part of the locale of the component itself
@@ -61,6 +63,7 @@ export function useCustom<T = any>(keys?: string | string[], overrideLocale?): C
     rtl,
     toasters,
     disableRipple,
+    intlDateTimeFormat,
     formatDate: formatDate || defaultFormatDate,
     parseDate: parseDate || defaultParseDate
   };

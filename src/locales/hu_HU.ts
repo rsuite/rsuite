@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'hu-HU',
   common: {
     loading: 'Betöltés...',
     emptyMessage: 'Nem található adat'

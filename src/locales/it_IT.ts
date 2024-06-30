@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'it-IT',
   common: {
     loading: 'Caricamento in corso...',
     emptyMessage: 'Nessun elemento trovato',

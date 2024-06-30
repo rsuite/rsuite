@@ -23,6 +23,7 @@ const Calendar = {
   dateLocale: ko as any
 };
 export default {
+  code: 'ko-KR',
   common: {
     loading: '로딩...',
     emptyMessage: '데이터가 없습니다',

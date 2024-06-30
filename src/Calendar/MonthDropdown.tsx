@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { getDaysInMonth, getMonth, getYear } from '@/internals/utils/date';
 import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
-import { useClassNames } from '@/internals/hooks';
+import { useClassNames, useDateTimeFormat } from '@/internals/hooks';
 import MonthDropdownItem from './MonthDropdownItem';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
@@ -69,6 +69,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 
     const { date = new Date(), targetId } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const { formatYear } = useDateTimeFormat();
     const thisYear = getYear(new Date());
     const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
 
@@ -102,10 +103,12 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
           'last-row': index === rowCount - 1
         });
 
+        const yearText = formatYear(new Date(year, 0, 1));
+
         return (
-          <div className={rowClassName} role="row" aria-label={`${year}`} style={style}>
+          <div className={rowClassName} role="row" aria-label={yearText} style={style}>
             <div className={titleClassName} role="rowheader">
-              {year}
+              {yearText}
             </div>
             <div className={prefix('list')}>
               {monthMap.map((item, month) => {
@@ -123,7 +126,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
           </div>
         );
       },
-      [date, isMonthDisabled, merge, prefix, rowCount, startYear]
+      [date, formatYear, isMonthDisabled, merge, prefix, rowCount, startYear]
     );
 
     const classes = merge(className, withClassPrefix(), { show });

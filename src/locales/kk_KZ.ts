@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'kk-KZ',
   common: {
     loading: 'Жүктелуде...',
     emptyMessage: 'Мәліметтер жоқ',
