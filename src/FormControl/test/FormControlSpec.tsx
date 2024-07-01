@@ -283,6 +283,56 @@ describe('FormControl', () => {
     expect(refValue).to.be.null;
   });
 
+  it('Should render correct errorMessage when using proxy of schema-typed', () => {
+    const model = Schema.Model({
+      password: Schema.Types.StringType().proxy(['confirmPassword']),
+      confirmPassword: Schema.Types.StringType().equalTo('password', 'The passwords do not match')
+    });
+
+    render(
+      <Form model={model} formDefaultValue={{ password: '123', confirmPassword: '123' }}>
+        <FormControl name="password" />
+        <FormControl name="confirmPassword" />
+      </Form>
+    );
+    fireEvent.change(screen.getAllByRole('textbox')[0], {
+      target: { value: '1234' }
+    });
+
+    expect(screen.getByRole('alert')).to.have.text('The passwords do not match');
+
+    fireEvent.change(screen.getAllByRole('textbox')[0], {
+      target: { value: '123' }
+    });
+    expect(screen.queryByRole('alert')).to.not.exist;
+  });
+
+  it('Should render correct errorMessage when using proxy of schema-typed with async check', async () => {
+    const model = Schema.Model({
+      password: Schema.Types.StringType().proxy(['confirmPassword']),
+      confirmPassword: Schema.Types.StringType().equalTo('password', 'The passwords do not match')
+    });
+
+    render(
+      <Form model={model} formDefaultValue={{ password: '123', confirmPassword: '123' }}>
+        <FormControl checkAsync name="password" />
+        <FormControl checkAsync name="confirmPassword" />
+      </Form>
+    );
+    fireEvent.change(screen.getAllByRole('textbox')[0], {
+      target: { value: '1234' }
+    });
+
+    await screen.findByRole('alert');
+
+    expect(screen.getByRole('alert')).to.have.text('The passwords do not match');
+
+    fireEvent.change(screen.getAllByRole('textbox')[0], {
+      target: { value: '123' }
+    });
+    await waitFor(() => expect(screen.queryByRole('alert')).to.not.exist);
+  });
+
   describe('rule', () => {
     it("should check the field's rule", () => {
       const formRef = React.createRef<FormInstance>();
@@ -480,6 +530,24 @@ describe('FormControl', () => {
 
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
 
+      expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+    });
+
+    it('Should render an error message when the value changes with checkAsync', async () => {
+      const model = Schema.Model({
+        user: Schema.Types.ObjectType().shape({
+          age: Schema.Types.NumberType('Age must be a number ')
+        })
+      });
+
+      render(
+        <Form formDefaultValue={{ user: { age: '10' } }} model={model} nestedField>
+          <FormControl checkAsync name="user.age" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
+      await screen.findByRole('alert');
       expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
     });
 

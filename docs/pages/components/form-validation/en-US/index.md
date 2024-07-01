@@ -119,6 +119,15 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`form-nested-fields.md`}-->
 
+
+
+### Proxy validation
+
+<!--{include:`form-check-proxy.md`}-->
+
+> Note: `proxy` isn't supported when `Form` enables `nestedField`
+
+
 ## Integration with other libraries
 
 - [With Formik Integration](/en/guide/form-formik/)
