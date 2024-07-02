@@ -7,6 +7,8 @@ import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
 import Toggle from '../../Toggle';
+import Button from '@/Button';
+import TagInput from '@/TagInput';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -208,6 +210,24 @@ describe('FormControl', () => {
     );
 
     expect(screen.getByText('error2')).to.be.visible;
+  });
+
+  it('Should render errorMessage when array as property of formError', () => {
+    const { ArrayType, StringType } = Schema.Types;
+    const model = Schema.Model({
+      emails: ArrayType().of(StringType('The tag should be a string').isEmail('Should be an email'))
+    });
+    render(
+      <Form model={model} formDefaultValue={{ emails: ['xxx'] }}>
+        <Form.Control name="emails" style={{ width: 300 }} accepter={TagInput} />
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    );
+    fireEvent.click(screen.getByText('Submit'));
+
+    expect(screen.getByRole('alert')).to.have.text('Should be an email');
   });
 
   it('Should remove value and error when shouldResetWithUnmount is true', () => {
