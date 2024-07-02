@@ -13,6 +13,23 @@ interface FieldProps {
   errorFromContext?: boolean;
 }
 
+interface ErrorType {
+  errorMessage?: string;
+  array: { errorMessage: string }[];
+}
+
+function getErrorMessage(error?: ErrorType) {
+  /**
+   * When using some components as the field, such as TagInput, and using `ArrayType().of` as the validation rule,
+   * the error object won't contain the errorMessage directly. @see https://github.com/rsuite/rsuite/issues/3866
+   */
+  if (error?.array && error.array?.length > 0) {
+    return error.array[0].errorMessage;
+  }
+
+  return error?.errorMessage;
+}
+
 function useField(props: FieldProps) {
   const { name, formValue, formError, value, nestedField, errorMessage, errorFromContext } = props;
   const fieldValue = useMemo(() => {
@@ -29,7 +46,7 @@ function useField(props: FieldProps) {
     }
 
     if (nestedField) {
-      return get(formError, nameToPath(name))?.errorMessage;
+      return getErrorMessage(get(formError, nameToPath(name)));
     }
 
     const fieldError = formError?.[name];
@@ -38,7 +55,7 @@ function useField(props: FieldProps) {
       return fieldError;
     }
 
-    return fieldError?.errorMessage;
+    return getErrorMessage(fieldError);
   }, [errorFromContext, errorMessage, formError, name, nestedField]);
 
   const setFieldValue = useCallback(
