@@ -10,7 +10,7 @@ const mergeObject = (list: any[]) =>
   }, {});
 
 const getDefaultRTL = () =>
-  typeof window !== 'undefined' && (document.body.getAttribute('dir') || document.dir) === 'rtl';
+  typeof document !== 'undefined' && (document.body.getAttribute('dir') || document.dir) === 'rtl';
 
 /**
  * A hook to get custom configuration of `<CustomProvider>`
