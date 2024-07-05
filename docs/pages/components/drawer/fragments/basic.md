@@ -31,7 +31,7 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Placeholder.Paragraph />
+          <Placeholder.Paragraph rows={20} />
         </Drawer.Body>
       </Drawer>
     </>

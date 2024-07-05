@@ -103,6 +103,17 @@ describe('Drawer', () => {
     expect(screen.getByTestId('drawer-wrapper')).to.have.class('rs-drawer-no-backdrop');
   });
 
+  it('Should not have max-height in the body', () => {
+    render(
+      <Drawer open>
+        <Drawer.Header />
+        <Drawer.Body>Body</Drawer.Body>
+      </Drawer>
+    );
+
+    expect(screen.getByText('Body').style.maxHeight).to.equal('');
+  });
+
   describe('Focused state', () => {
     let focusableContainer: HTMLElement | null = null;
 

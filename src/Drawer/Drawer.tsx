@@ -58,6 +58,7 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
       <Modal
         {...rest}
         ref={ref}
+        overflow={false}
         classPrefix={classPrefix}
         className={classes}
         animation={animation}
