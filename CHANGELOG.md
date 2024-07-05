@@ -1,3 +1,15 @@
+## [5.65.1](https://github.com/rsuite/rsuite/compare/v5.65.0...v5.65.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **Deno:** prevent ReferenceError in Deno environments ([#3865](https://github.com/rsuite/rsuite/issues/3865)) ([02cf882](https://github.com/rsuite/rsuite/commit/02cf88247ca287ec86b2765d0400aa9a18d4106a))
+* **Drawer:** remove the `max-height` that should not exist in Drawer.Body ([#3868](https://github.com/rsuite/rsuite/issues/3868)) ([7526b35](https://github.com/rsuite/rsuite/commit/7526b35e5c04d0a59ed72f5bb9c0e16a9fdef4c1))
+* errorMessage isn't shown when using ArrayType().of ([#3867](https://github.com/rsuite/rsuite/issues/3867)) ([16668a1](https://github.com/rsuite/rsuite/commit/16668a13e286608b659167e3f6266099608c9aea))
+* **progress:** consistent spacing between label/icon & progress line (Vertical) ([#3862](https://github.com/rsuite/rsuite/issues/3862)) ([672c63b](https://github.com/rsuite/rsuite/commit/672c63b5cd289449689abe503fd0eafcde31c116))
+
+
+
 # [5.65.0](https://github.com/rsuite/rsuite/compare/v5.64.2...v5.65.0) (2024-06-28)
 
 
