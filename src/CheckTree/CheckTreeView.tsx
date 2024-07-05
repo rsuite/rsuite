@@ -90,6 +90,11 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
   flattenedNodes?: TreeNodeMap;
 
   /**
+   * A collection of localized strings.
+   */
+  locale?: Record<string, string>;
+
+  /**
    * Callback function triggered when an item is focused.
    */
   onFocusItem?: (value?: TreeNode['value']) => void;

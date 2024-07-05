@@ -79,6 +79,11 @@ interface TreeViewInnerProps<V = string | number | null>
   loadingNodeValues?: V[];
 
   /**
+   * A collection of localized strings.
+   */
+  locale?: Record<string, string>;
+
+  /**
    * A map of flattened nodes.
    */
   flattenedNodes?: TreeNodeMap;
