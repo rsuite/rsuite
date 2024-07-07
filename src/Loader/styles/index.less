@@ -103,6 +103,15 @@
     animation-duration: @loader-duration-slow;
   }
 
+  // Loader animation-play-states
+  &-play-state-paused &-spin::after {
+    animation-play-state: @loader-play-state-paused;
+  }
+
+  &-play-state-running &-spin::after {
+    animation-play-state: @loader-play-state-running;
+  }
+
   // Position center
   &-center,
   &-backdrop-wrapper {

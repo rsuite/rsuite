@@ -20,6 +20,9 @@ export interface LoaderProps extends WithAsProps {
   /** Custom descriptive text */
   content?: React.ReactNode;
 
+  /** The state of the loader */
+  loaderPlayState?: 'paused' | 'running';
+
   /** The speed at which the loader rotates */
   speed?: 'normal' | 'fast' | 'slow';
 
@@ -39,6 +42,7 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
       className,
       inverse,
       backdrop,
+      loaderPlayState = 'running',
       speed = 'normal',
       center,
       vertical,
@@ -52,7 +56,7 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
 
     const classes = merge(
       className,
-      prefix('wrapper', `speed-${speed}`, size, {
+      prefix('wrapper', `speed-${speed}`, `play-state-${loaderPlayState}`, size, {
         'backdrop-wrapper': backdrop,
         vertical,
         inverse,
