@@ -20,11 +20,8 @@ export interface LoaderProps extends WithAsProps {
   /** Custom descriptive text */
   content?: React.ReactNode;
 
-  /** The state of the loader */
-  loaderPlayState?: 'paused' | 'running';
-
   /** The speed at which the loader rotates */
-  speed?: 'normal' | 'fast' | 'slow';
+  speed?: 'normal' | 'fast' | 'slow' | 'paused';
 
   /** A loader can have different sizes */
   size?: TypeAttributes.Size;
@@ -42,7 +39,6 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
       className,
       inverse,
       backdrop,
-      loaderPlayState = 'running',
       speed = 'normal',
       center,
       vertical,
@@ -56,7 +52,7 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
 
     const classes = merge(
       className,
-      prefix('wrapper', `speed-${speed}`, `play-state-${loaderPlayState}`, size, {
+      prefix('wrapper', `speed-${speed}`, size, {
         'backdrop-wrapper': backdrop,
         vertical,
         inverse,
@@ -97,7 +93,7 @@ Loader.propTypes = {
   vertical: PropTypes.bool,
   content: PropTypes.node,
   size: oneOf(['lg', 'md', 'sm', 'xs']),
-  speed: oneOf(['normal', 'fast', 'slow'])
+  speed: oneOf(['normal', 'fast', 'slow', 'paused'])
 };
 
 export default Loader;

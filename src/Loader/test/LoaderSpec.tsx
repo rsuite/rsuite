@@ -38,6 +38,11 @@ describe('Loader', () => {
     expect(screen.getByRole('status')).to.have.class('rs-loader-speed-fast');
   });
 
+  it('Should be paused', () => {
+    render(<Loader speed="paused" />);
+    expect(screen.getByRole('status')).to.have.class('rs-loader-speed-paused');
+  });
+
   describe('Accessibility', () => {
     it('Should have role status', () => {
       render(<Loader />);
