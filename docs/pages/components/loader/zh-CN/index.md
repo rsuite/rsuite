@@ -55,5 +55,5 @@
 | content     | ReactNode                                | 自定义描述文本     |
 | inverse     | boolean                                  | 翻转加载器颜色     |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`    | 设置加载器尺寸     |
-| speed       | 'fast' \| 'normal' \| 'slow'`('normal')` | 加载器旋转速度     |
+| speed       | 'fast' \| 'normal' \| 'slow' \| 'paused'`('normal')` | 加载器旋转速度     |
 | vertical    | boolean                                  | 图标与文字垂直显示 |
