@@ -1,3 +1,18 @@
+# [5.66.0](https://github.com/rsuite/rsuite/compare/v5.65.1...v5.66.0) (2024-07-12)
+
+
+### Bug Fixes
+
+* **accessibility:** improve font color contrast ([#3877](https://github.com/rsuite/rsuite/issues/3877)) ([105b6c6](https://github.com/rsuite/rsuite/commit/105b6c6e45b36b809c609ea66c2ed5fd74f0afd2))
+* **TreePicker, CheckTreePicker:** fix `locale` cannot override default localization configuration ([#3873](https://github.com/rsuite/rsuite/issues/3873)) ([01ac8c5](https://github.com/rsuite/rsuite/commit/01ac8c5c7ffa0131979210b9787294d79def02d4))
+
+
+### Features
+
+* **Loader:** add `paused` value to the `speed` property to control the animation pause ([#3875](https://github.com/rsuite/rsuite/issues/3875)) ([85326c5](https://github.com/rsuite/rsuite/commit/85326c5c0ee149aaaecc8e8233d10a2291897cec))
+
+
+
 ## [5.65.1](https://github.com/rsuite/rsuite/compare/v5.65.0...v5.65.1) (2024-07-05)
 
 
