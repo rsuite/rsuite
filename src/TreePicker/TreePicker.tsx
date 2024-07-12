@@ -239,6 +239,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         flattenedNodes={flattenedNodes}
         listProps={listProps}
         listRef={list}
+        locale={overrideLocale}
         height={treeHeight}
         onExpand={handleExpandTreeNode}
         onSearch={onSearch}

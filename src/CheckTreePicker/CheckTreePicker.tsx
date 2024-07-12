@@ -235,6 +235,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         showIndentLine={showIndentLine}
         listProps={listProps}
         listRef={list}
+        locale={overrideLocale}
         searchBy={searchBy}
         searchable={searchable}
         searchKeyword={searchKeyword}
