@@ -1,25 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Tooltip from '../Tooltip';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
+import { toRGB } from '@test/utils';
 
 import '../styles/index.less';
 
 describe('Tooltip styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(
-      <Tooltip ref={instanceRef} visible>
-        Text
-      </Tooltip>
-    );
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'fontSize'), '12px', 'Tooltip font-size');
-    assert.equal(
-      getStyle(dom, 'backgroundColor'),
-      toRGB('#272c36'),
-      'Tooltip inner background-color'
-    );
-    inChrome && assert.equal(getStyle(dom, 'padding'), '2px 10px', 'Tooltip inner padding');
+    render(<Tooltip visible>Text</Tooltip>);
+
+    expect(screen.getByRole('tooltip')).to.have.style('font-size', '12px');
+    expect(screen.getByRole('tooltip')).to.have.style('background-color', toRGB('#121212'));
+    expect(screen.getByRole('tooltip')).to.have.style('padding', '2px 10px');
   });
 });

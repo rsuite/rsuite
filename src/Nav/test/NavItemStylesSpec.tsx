@@ -16,7 +16,7 @@ describe('NavItem styles', () => {
     const navItem = screen.getByText('Nav item');
 
     expect(navItem).to.have.style('padding', '8px 12px');
-    expect(navItem).to.have.style('color', toRGB('#575757'));
+    expect(navItem).to.have.style('color', toRGB('#343434'));
   });
 
   it('Default NavItem should render the correct styles when active', () => {
@@ -39,7 +39,7 @@ describe('NavItem styles', () => {
 
     const navItemDisabled = screen.getByText('Disabled nav item');
 
-    expect(navItemDisabled).to.have.style('color', toRGB('#8e8e93'));
+    expect(navItemDisabled).to.have.style('color', toRGB('#717273'));
     expect(navItemDisabled).to.have.style('cursor', 'not-allowed');
   });
 });

@@ -9,7 +9,7 @@ describe('AutoComplete styles', () => {
     render(<AutoComplete data={[]} />);
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#fff'));
-    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#575757'));
+    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#343434'));
     expect(screen.getByRole('combobox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
     expect(screen.getByRole('combobox')).to.have.style('border-radius', '6px');
   });
@@ -27,7 +27,7 @@ describe('AutoComplete styles', () => {
     expect(options[0].firstChild).to.have.style('background-color', focusedBgColor);
 
     // Unfocused option
-    expect(options[1].firstChild).to.have.style('color', toRGB('#575757'));
+    expect(options[1].firstChild).to.have.style('color', toRGB('#343434'));
     expect(options[1].firstChild).to.have.style('background-color', toRGB('#0000'));
   });
 
@@ -35,6 +35,6 @@ describe('AutoComplete styles', () => {
     render(<AutoComplete data={[]} disabled />);
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#f7f7fa'));
-    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#8e8e93'));
+    expect(screen.getByRole('combobox')).to.have.style('color', toRGB('#717273'));
   });
 });
