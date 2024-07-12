@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
-import { getDefaultPalette, toRGB, getStyle, itChrome } from '@test/utils';
+import { getDefaultPalette, toRGB, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 
@@ -10,36 +10,36 @@ const { H500, H700, H900 } = getDefaultPalette();
 
 describe('Button styles', () => {
   it('Default button should render the correct styles', () => {
-    const { container } = render(<Button>Title</Button>);
+    render(<Button>Title</Button>);
 
-    expect(container.firstChild).to.have.style('background-color', toRGB('#f7f7fa'));
-    expect(container.firstChild).to.have.style('color', toRGB('#575757'));
+    expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#f7f7fa'));
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#343434'));
   });
 
   it('Primary button should render the correct styles', () => {
-    const { container } = render(<Button appearance="primary">Title</Button>);
+    render(<Button appearance="primary">Title</Button>);
 
-    expect(container.firstChild).to.have.style('background-color', H500);
-    expect(container.firstChild).to.have.style('color', toRGB('#fff'));
+    expect(screen.getByRole('button')).to.have.style('background-color', H500);
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
   });
 
   it('Link button should render the correct font color', () => {
-    const { container } = render(<Button appearance="link">Title</Button>);
+    render(<Button appearance="link">Title</Button>);
 
-    expect(container.firstChild).to.have.style('color', H700);
+    expect(screen.getByRole('button')).to.have.style('color', H700);
   });
 
   it('Subtle button should render the correct styles', () => {
-    const { container } = render(<Button appearance="subtle">Title</Button>);
+    render(<Button appearance="subtle">Title</Button>);
 
-    expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
-    expect(container.firstChild).to.have.style('color', toRGB('#575757'));
+    expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#0000'));
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#343434'));
   });
 
   it('Ghost button should render the correct styles', () => {
-    const { container } = render(<Button appearance="ghost">Title</Button>);
+    render(<Button appearance="ghost">Title</Button>);
 
-    expect(container.firstChild).to.have.style('color', H700);
+    expect(screen.getByRole('button')).to.have.style('color', H700);
   });
 
   itChrome('Button should render the correct padding', () => {
@@ -51,46 +51,40 @@ describe('Button styles', () => {
         <Button size="xs">Xsmall</Button>
       </ButtonToolbar>
     );
-    const buttons = screen.getAllByRole('button');
 
-    const lg = buttons[0];
-    const md = buttons[1];
-    const sm = buttons[2];
-    const xs = buttons[3];
-
-    assert.equal(getStyle(lg, 'padding'), '10px 16px', 'Large button padding');
-    assert.equal(getStyle(md, 'padding'), '8px 12px', 'Middle button padding');
-    assert.equal(getStyle(sm, 'padding'), '5px 10px', 'Small button padding');
-    assert.equal(getStyle(xs, 'padding'), '2px 8px', 'Xsmall button padding');
+    expect(screen.getByText('Large')).to.style('padding', '10px 16px');
+    expect(screen.getByText('Medium')).to.style('padding', '8px 12px');
+    expect(screen.getByText('Small')).to.style('padding', '5px 10px');
+    expect(screen.getByText('Xsmall')).to.style('padding', '2px 8px');
   });
 
   describe('Colorful buttons', () => {
     it('Primary button should render the correct color', () => {
-      const { container } = render(
+      render(
         <Button color="red" appearance="primary">
           Red
         </Button>
       );
 
-      expect(container.firstChild).to.have.style('background-color', toRGB('#f44336'));
-      expect(container.firstChild).to.have.style('color', toRGB('#fff'));
+      expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#f44336'));
+      expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
     });
 
     it('Subtle button should render the correct styles', () => {
-      const { container } = render(
+      render(
         <Button color="red" appearance="subtle">
           Red
         </Button>
       );
-      expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
-      expect(container.firstChild).to.have.style('color', toRGB('#575757'));
+      expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#0000'));
+      expect(screen.getByRole('button')).to.have.style('color', toRGB('#343434'));
     });
   });
 
   it('Button should render the correct display', () => {
-    const { container } = render(<Button block>Tittle</Button>);
+    render(<Button block>Tittle</Button>);
 
-    expect(container.firstChild).to.have.style('display', 'block');
+    expect(screen.getByRole('button')).to.have.style('display', 'block');
   });
 
   it('Disabled button should render the correct opacity', () => {
@@ -113,66 +107,60 @@ describe('Button styles', () => {
         </Button>
       </ButtonToolbar>
     );
-    const buttons = screen.getAllByRole('button');
-    const defaultButton = buttons[0];
-    const primaryButton = buttons[1];
-    const linkButton = buttons[2];
-    const subtleButton = buttons[3];
-    const ghostButton = buttons[4];
 
-    assert.equal(getStyle(defaultButton, 'opacity'), '1');
-    assert.equal(getStyle(primaryButton, 'opacity'), '0.3');
-    assert.equal(getStyle(linkButton, 'opacity'), '0.3');
-    assert.equal(getStyle(subtleButton, 'opacity'), '1');
-    assert.equal(getStyle(ghostButton, 'opacity'), '0.3');
+    expect(screen.getByText('Default')).to.style('opacity', '1');
+    expect(screen.getByText('Primary')).to.style('opacity', '0.3');
+    expect(screen.getByText('Link')).to.style('opacity', '0.3');
+    expect(screen.getByText('Subtle')).to.style('opacity', '1');
+    expect(screen.getByText('Ghost')).to.style('opacity', '0.3');
   });
 
   it('Default button should render the correct styles when set active', () => {
-    const { container } = render(<Button active>Title</Button>);
+    render(<Button active>Title</Button>);
 
-    expect(container.firstChild).to.have.style('background-color', toRGB('#d9d9d9'));
-    expect(container.firstChild).to.have.style('color', toRGB('#272c36'));
+    expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#d9d9d9'));
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#121212'));
   });
 
   it('Primary button should render the correct styles when set active', () => {
-    const { container } = render(
+    render(
       <Button appearance="primary" active>
         Title
       </Button>
     );
-    expect(container.firstChild).to.have.style('background-color', H700);
-    expect(container.firstChild).to.have.style('color', toRGB('#fff'));
+    expect(screen.getByRole('button')).to.have.style('background-color', H700);
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
   });
 
   it('Link button should render the correct font color when set active', () => {
-    const { container } = render(
+    render(
       <Button appearance="link" active>
         Title
       </Button>
     );
 
-    expect(container.firstChild).to.have.style('color', H900);
+    expect(screen.getByRole('button')).to.have.style('color', H900);
   });
 
   it('Subtle button should render the correct styles when set active', () => {
-    const { container } = render(
+    render(
       <Button appearance="subtle" active>
         Title
       </Button>
     );
 
-    expect(container.firstChild).to.have.style('background-color', toRGB('#e5e5ea'));
-    expect(container.firstChild).to.have.style('color', toRGB('#272c36'));
+    expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#e5e5ea'));
+    expect(screen.getByRole('button')).to.have.style('color', toRGB('#121212'));
   });
 
   it('Ghost button should render the correct styles when set active', () => {
     const instanceRef = React.createRef<HTMLButtonElement>();
-    const { container } = render(
+    render(
       <Button appearance="ghost" ref={instanceRef} active>
         Title
       </Button>
     );
 
-    expect(container.firstChild).to.have.style('color', H900);
+    expect(screen.getByRole('button')).to.have.style('color', H900);
   });
 });

@@ -11,7 +11,7 @@ describe('Toggle styles', () => {
     // eslint-disable-next-line testing-library/no-container
     expect(container.querySelector('.rs-toggle-presentation')).to.have.style(
       'background-color',
-      toRGB('#d9d9d9')
+      toRGB('#b6b7b8')
     );
   });
 
