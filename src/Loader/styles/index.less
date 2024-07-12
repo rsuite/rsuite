@@ -103,6 +103,10 @@
     animation-duration: @loader-duration-slow;
   }
 
+  &-speed-paused &-spin::after {
+    animation-play-state: @loader-duration-paused;
+  }
+
   // Position center
   &-center,
   &-backdrop-wrapper {

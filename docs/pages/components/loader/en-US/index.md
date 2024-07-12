@@ -55,5 +55,5 @@ A component that provides state during data loading.
 | content     | ReactNode                                | Custom descriptive text                         |
 | inverse     | boolean                                  | An alternative dark visual style for the Loader |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs'`('md')`     | Sets the loader dimensions                      |
-| speed       | 'fast' \| 'normal' \| 'slow'`('normal')` | The speed at which the loader rotates           |
+| speed       | 'fast' \| 'normal' \| 'slow' \| 'paused'`('normal')` | The speed at which the loader rotates           |
 | vertical    | boolean                                  | The icon is displayed vertically with the text  |

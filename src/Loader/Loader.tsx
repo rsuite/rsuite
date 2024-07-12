@@ -21,7 +21,7 @@ export interface LoaderProps extends WithAsProps {
   content?: React.ReactNode;
 
   /** The speed at which the loader rotates */
-  speed?: 'normal' | 'fast' | 'slow';
+  speed?: 'normal' | 'fast' | 'slow' | 'paused';
 
   /** A loader can have different sizes */
   size?: TypeAttributes.Size;
@@ -93,7 +93,7 @@ Loader.propTypes = {
   vertical: PropTypes.bool,
   content: PropTypes.node,
   size: oneOf(['lg', 'md', 'sm', 'xs']),
-  speed: oneOf(['normal', 'fast', 'slow'])
+  speed: oneOf(['normal', 'fast', 'slow', 'paused'])
 };
 
 export default Loader;
