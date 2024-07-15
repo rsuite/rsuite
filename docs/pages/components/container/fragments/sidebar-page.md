@@ -1,54 +1,33 @@
 <!--start-code-->
 
 ```js
-import { Container, Header, Sidebar, Sidenav, Content, Navbar, Nav } from 'rsuite';
-import CogIcon from '@rsuite/icons/legacy/Cog';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
-import DashboardIcon from '@rsuite/icons/Dashboard';
-import GroupIcon from '@rsuite/icons/legacy/Group';
-import MagicIcon from '@rsuite/icons/legacy/Magic';
-
-const headerStyles = {
-  padding: 18,
-  fontSize: 16,
-  height: 56,
-  background: '#34c3ff',
-  color: ' #fff',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden'
-};
-
-const NavToggle = ({ expand, onChange }) => {
-  return (
-    <Navbar appearance="subtle" className="nav-toggle">
-      <Nav>
-        <Nav.Menu
-          noCaret
-          placement="topStart"
-          trigger="click"
-          title={<CogIcon style={{ width: 20, height: 20 }} size="sm" />}
-        >
-          <Nav.Item>Help</Nav.Item>
-          <Nav.Item>Settings</Nav.Item>
-          <Nav.Item>Sign out</Nav.Item>
-        </Nav.Menu>
-      </Nav>
-
-      <Nav pullRight>
-        <Nav.Item onClick={onChange} style={{ width: 56, textAlign: 'center' }}>
-          {expand ? <AngleLeftIcon /> : <AngleRightIcon />}
-        </Nav.Item>
-      </Nav>
-    </Navbar>
-  );
-};
+import {
+  Container,
+  Header,
+  Sidebar,
+  Sidenav,
+  Content,
+  Navbar,
+  Nav,
+  Breadcrumb,
+  IconButton
+} from 'rsuite';
+import FakeBrowser from '@/components/FakeBrowser';
+import { Icon } from '@rsuite/icons';
+import { FaReact } from 'react-icons/fa';
+import {
+  MdDashboard,
+  MdGroup,
+  MdSettings,
+  MdOutlineStackedBarChart,
+  MdKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight
+} from 'react-icons/md';
 
 const App = () => {
   const [expand, setExpand] = React.useState(true);
   return (
-    <div className="show-fake-browser sidebar-page">
+    <FakeBrowser height={800} className="sidebar-page">
       <Container>
         <Sidebar
           style={{ display: 'flex', flexDirection: 'column' }}
@@ -56,24 +35,22 @@ const App = () => {
           collapsible
         >
           <Sidenav.Header>
-            <div style={headerStyles}>
-              <span style={{ marginLeft: 12 }}> BRAND</span>
-            </div>
+            <Brand expand={expand} />
           </Sidenav.Header>
           <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
             <Sidenav.Body>
-              <Nav>
-                <Nav.Item eventKey="1" active icon={<DashboardIcon />}>
+              <Nav defaultActiveKey="1">
+                <Nav.Item eventKey="1" icon={<Icon as={MdDashboard} />}>
                   Dashboard
                 </Nav.Item>
-                <Nav.Item eventKey="2" icon={<GroupIcon />}>
+                <Nav.Item eventKey="2" icon={<Icon as={MdGroup} />}>
                   User Group
                 </Nav.Item>
                 <Nav.Menu
                   eventKey="3"
                   trigger="hover"
                   title="Advanced"
-                  icon={<MagicIcon />}
+                  icon={<Icon as={MdOutlineStackedBarChart} />}
                   placement="rightStart"
                 >
                   <Nav.Item eventKey="3-1">Geo</Nav.Item>
@@ -86,7 +63,7 @@ const App = () => {
                   eventKey="4"
                   trigger="hover"
                   title="Settings"
-                  icon={<GearCircleIcon />}
+                  icon={<Icon as={MdSettings} />}
                   placement="rightStart"
                 >
                   <Nav.Item eventKey="4-1">Applications</Nav.Item>
@@ -102,13 +79,39 @@ const App = () => {
         </Sidebar>
 
         <Container>
-          <Header>
-            <h2>Page Title</h2>
+          <Header className="page-header">
+            <Breadcrumb>
+              <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+              <Breadcrumb.Item href="##">Dashboard</Breadcrumb.Item>
+              <Breadcrumb.Item active>Overview</Breadcrumb.Item>
+            </Breadcrumb>
           </Header>
           <Content>Content</Content>
         </Container>
       </Container>
-    </div>
+    </FakeBrowser>
+  );
+};
+
+const NavToggle = ({ expand, onChange }) => {
+  return (
+    <Stack className="nav-toggle" justifyContent={expand ? 'flex-end' : 'center'}>
+      <IconButton
+        onClick={onChange}
+        appearance="subtle"
+        size="lg"
+        icon={expand ? <MdKeyboardArrowLeft /> : <MdOutlineKeyboardArrowRight />}
+      />
+    </Stack>
+  );
+};
+
+const Brand = ({ children, expand }) => {
+  return (
+    <HStack className="page-brand" spacing={12}>
+      <FaReact size={26} />
+      {expand && <Text>Brand</Text>}
+    </HStack>
   );
 };
 

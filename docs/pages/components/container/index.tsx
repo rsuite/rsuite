@@ -10,26 +10,30 @@ import {
   Sidenav,
   Nav,
   IconButton,
-  Toggle,
-  FlexboxGrid,
   Panel,
   Form,
-  ButtonToolbar,
-  Navbar
+  Navbar,
+  Stack,
+  VStack,
+  HStack,
+  Text,
+  Input,
+  InputGroup,
+  Breadcrumb
 } from 'rsuite';
-
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-
-import MagicIcon from '@rsuite/icons/legacy/Magic';
-import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
-import DashboardIcon from '@rsuite/icons/Dashboard';
-import GroupIcon from '@rsuite/icons/legacy/Group';
-
-import HomeIcon from '@rsuite/icons/legacy/Home';
-import CogIcon from '@rsuite/icons/legacy/Cog';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import FakeBrowser from '@/components/FakeBrowser';
+import { Icon } from '@rsuite/icons';
+import { FaGithub, FaRegEye, FaRegEyeSlash, FaReact, FaCog } from 'react-icons/fa';
+import {
+  MdDashboard,
+  MdGroup,
+  MdSettings,
+  MdOutlineStackedBarChart,
+  MdKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight
+} from 'react-icons/md';
 
 import files from './files';
 
@@ -45,6 +49,7 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       sandboxFiles={files}
       dependencies={{
+        FakeBrowser,
         Divider,
         IconButton,
         Button,
@@ -55,20 +60,28 @@ export default function Page() {
         Content,
         Sidenav,
         Nav,
-        Toggle,
-        FlexboxGrid,
         Panel,
         Form,
-        ButtonToolbar,
         Navbar,
-        HomeIcon,
-        CogIcon,
-        AngleLeftIcon,
-        AngleRightIcon,
-        DashboardIcon,
-        GroupIcon,
-        MagicIcon,
-        GearCircleIcon
+        Icon,
+        Stack,
+        VStack,
+        HStack,
+        InputGroup,
+        Input,
+        Text,
+        Breadcrumb,
+        FaReact,
+        FaGithub,
+        FaRegEye,
+        FaRegEyeSlash,
+        FaCog,
+        MdDashboard,
+        MdGroup,
+        MdSettings,
+        MdOutlineStackedBarChart,
+        MdKeyboardArrowLeft,
+        MdOutlineKeyboardArrowRight
       }}
     />
   );
