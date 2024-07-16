@@ -3,7 +3,7 @@ import { Button, ButtonGroup, ButtonToolbar, IconButton, Whisper, Popover, Dropd
 import DefaultPage from '@/components/Page';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ImportGuide from '@/components/ImportGuide';
-import { FaFacebook, FaGooglePlus, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaGooglePlus, FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { SiWechat, SiSinaweibo } from 'react-icons/si';
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Button', 'ButtonGroup', 'ButtonToolbar']} />
@@ -25,6 +25,7 @@ export default function Page() {
         FaFacebook,
         FaGooglePlus,
         FaTwitter,
+        FaGithub,
         FaLinkedin,
         SiWechat,
         SiSinaweibo

@@ -81,10 +81,11 @@ describe('Button styles', () => {
     });
   });
 
-  it('Button should render the correct display', () => {
-    render(<Button block>Tittle</Button>);
+  it('Should render the correct width when set block', () => {
+    const { container } = render(<Button block>Tittle</Button>);
 
-    expect(screen.getByRole('button')).to.have.style('display', 'block');
+    expect(screen.getByRole('button')).to.have.style('display', 'inline-flex');
+    expect(screen.getByRole('button')).to.have.style('width', getComputedStyle(container).width);
   });
 
   it('Disabled button should render the correct opacity', () => {
