@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getInstance, testStandardProps } from '@test/utils';
 
@@ -49,7 +48,7 @@ describe('Uploader', () => {
   it('Should render custom component', () => {
     render(<Uploader action="" toggleAs={Button} appearance="link" />);
 
-    expect(screen.getByRole('button')).to.have.tagName('BUTTON');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-link');
   });
 
   it('Should have draggable className', () => {
@@ -58,62 +57,65 @@ describe('Uploader', () => {
   });
 
   it('Should call `onUpload` callback', () => {
-    const onUploadSpy = sinon.spy();
+    const onUpload = sinon.spy();
     const file = {
       blobFile: new File(['foo'], 'foo.txt', { type: 'text/plain' })
     };
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
     instance.start(file);
 
-    expect(onUploadSpy.args[0][1] instanceof FormData).to.equal(true);
-    expect(onUploadSpy).to.been.calledOnce;
+    expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
+    expect(onUpload).to.been.calledOnce;
   });
 
   it('Should call `onUpload` callback', () => {
-    const onUploadSpy = sinon.spy();
+    const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
     instance.start(file);
 
-    expect(onUploadSpy).to.been.calledOnce;
+    expect(onUpload).to.been.calledOnce;
   });
 
   it('Should upload a FormData', () => {
-    const onUploadSpy = sinon.spy();
+    const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
     instance.start(file);
 
-    expect(onUploadSpy.args[0][1] instanceof FormData).to.equal(true);
+    expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
   });
 
   it('Should upload a File', () => {
-    const onUploadSpy = sinon.spy();
+    const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
 
     const instance = getInstance(
-      <Uploader name="file" action="" onUpload={onUploadSpy} disableMultipart />
+      <Uploader name="file" action="" onUpload={onUpload} disableMultipart />
     );
     instance.start(file);
 
-    expect(onUploadSpy.args[0][1] instanceof File).to.equal(true);
+    expect(onUpload.args[0][1] instanceof File).to.equal(true);
   });
 
-  it('Should call `onChange` callback', () => {
-    const onUploadSpy = sinon.spy();
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'inited' } as const;
+  it('Should call `onChange` callback', async () => {
+    const onChange = sinon.spy();
 
-    const instance = getInstance(
-      <Uploader name="file" action="" onChange={onUploadSpy} defaultFileList={[file]} />
-    );
+    render(<Uploader name="file" action="" onChange={onChange} />);
+
     // eslint-disable-next-line testing-library/no-node-access
-    const input = instance.root.querySelector('input');
-    ReactTestUtils.Simulate.change(input);
+    const input = screen.getByRole('button', { name: 'Upload' }).previousElementSibling;
 
-    expect(onUploadSpy).to.been.calledOnce;
+    fireEvent.change(input as HTMLInputElement, {
+      target: { files: [new File(['foo'], 'foo.txt')] }
+    });
+
+    expect(onChange).to.been.calledOnce;
+    expect(onChange.firstCall.args[1].target).to.equal(input);
+    expect(onChange.firstCall.args[0][0].blobFile).to.instanceOf(File);
   });
 
   it('Should call `onRemove` callback', () => {

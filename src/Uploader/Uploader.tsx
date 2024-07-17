@@ -60,8 +60,7 @@ export interface UploaderProps
   /** Upload the parameters with */
   data?: any;
 
-  /** Allow multiple file uploads to be selected at a time */
-
+  /** Allow multiple file uploads */
   multiple?: boolean;
 
   /** Disabled upload button */
@@ -128,7 +127,7 @@ export interface UploaderProps
   shouldUpload?: (file: FileType) => boolean | Promise<boolean>;
 
   /** callback function that the upload queue has changed */
-  onChange?: (fileList: FileType[]) => void;
+  onChange?: (fileList: FileType[], event: React.ChangeEvent | React.MouseEvent) => void;
 
   /** The callback function that starts the upload file */
   onUpload?: (file: FileType, uploadData: any, xhr: XMLHttpRequest) => void;
@@ -485,10 +484,13 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     }
 
     const upload = () => {
-      onChange?.(nextFileList);
-      dispatch({ type: 'push', files: newFileList }, () => {
-        autoUpload && handleAjaxUpload();
-      });
+      onChange?.(nextFileList, event);
+
+      if (rootRef.current) {
+        dispatch({ type: 'push', files: newFileList }, () => {
+          autoUpload && handleAjaxUpload();
+        });
+      }
     };
 
     if (checkState instanceof Promise) {
@@ -501,7 +503,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     upload();
   };
 
-  const handleRemoveFile = (fileKey: string | number) => {
+  const handleRemoveFile = (fileKey: string | number, event: React.MouseEvent) => {
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
@@ -512,7 +514,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     dispatch({ type: 'remove', fileKey });
 
     onRemove?.(file);
-    onChange?.(nextFileList);
+    onChange?.(nextFileList, event);
     cleanInputValue();
   };
 

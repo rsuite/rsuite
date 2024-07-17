@@ -4,6 +4,7 @@
 interface FileType {
   /** File Name */
   name?: string;
+
   /** File unique identifier */
   fileKey?: number | string;
 
