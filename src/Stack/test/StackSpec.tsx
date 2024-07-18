@@ -1,7 +1,9 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Stack from '../Stack';
+import StackItem from '../StackItem';
 
 describe('Stack', () => {
   testStandardProps(<Stack />);
@@ -103,7 +105,27 @@ describe('Stack', () => {
         </>
       </Stack>
     );
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('test').children).to.have.length(2);
+  });
+
+  it('Should clone children instead of wrapping with StackItem', () => {
+    const CustomStackItem = ({ children, ...rest }) => <StackItem {...rest}>{children}</StackItem>;
+
+    CustomStackItem.displayName = 'StackItem';
+
+    const { container } = render(
+      <Stack>
+        <CustomStackItem alignSelf="flex-end">custom stack item</CustomStackItem>
+        <StackItem alignSelf="flex-end">stack item</StackItem>
+      </Stack>
+    );
+
+    expect(screen.getByText('custom stack item')).to.have.class('rs-stack-item');
+    expect(screen.getByText('custom stack item').parentNode).to.equal(container.firstChild);
+    expect(screen.getByText('custom stack item')).to.have.style('align-self', 'flex-end');
+
+    expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
+    expect(screen.getByText('stack item').parentNode).to.equal(container.firstChild);
+    expect(screen.getByText('stack item')).to.have.style('align-self', 'flex-end');
   });
 });
