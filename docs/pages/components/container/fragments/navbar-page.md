@@ -2,16 +2,15 @@
 
 ```js
 import { Container, Header, Content, Footer, Navbar, Nav } from 'rsuite';
-import CogIcon from '@rsuite/icons/legacy/Cog';
+import FakeBrowser from '@/components/FakeBrowser';
+import { FaCog } from "react-icons/fa";
 
 const App = () => (
-  <div className="show-fake-browser navbar-page">
+  <FakeBrowser height={600}>
     <Container>
       <Header>
         <Navbar appearance="inverse">
-          <Navbar.Brand>
-            <a style={{ color: '#fff' }}>Brand</a>
-          </Navbar.Brand>
+          <Navbar.Brand>Brand</Navbar.Brand>
           <Nav>
             <Nav.Item>Home</Nav.Item>
             <Nav.Item>News</Nav.Item>
@@ -23,14 +22,14 @@ const App = () => (
             </Nav.Menu>
           </Nav>
           <Nav pullRight>
-            <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
+            <Nav.Item icon={<FaCog />}>Settings</Nav.Item>
           </Nav>
         </Navbar>
       </Header>
       <Content>Content</Content>
       <Footer>Footer</Footer>
     </Container>
-  </div>
+  </FakeBrowser>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
