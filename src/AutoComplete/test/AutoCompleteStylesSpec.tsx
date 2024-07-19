@@ -22,7 +22,7 @@ describe('AutoComplete styles', () => {
     // Focused option
     const focusedBgColor = inChrome
       ? 'color(srgb 0.8 0.913725 1 / 0.5)'
-      : 'rgba(204, 233, 255, 0.5)';
+      : 'color(srgb 0.8 0.913726 1 / 0.5)';
     expect(options[0].firstChild).to.have.style('color', toRGB('#1675e0'));
     expect(options[0].firstChild).to.have.style('background-color', focusedBgColor);
 

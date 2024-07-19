@@ -43,6 +43,10 @@ export interface StackComponent extends RsRefForwardingComponent<'div', StackPro
   Item: typeof StackItem;
 }
 
+function isStackItem(child: React.ReactElement<StackProps, React.FunctionComponent>) {
+  return child.type === StackItem || child.type?.displayName === 'StackItem';
+}
+
 /**
  * The `Stack` component is a quick layout component through Flexbox,
  * supporting vertical and horizontal stacking, custom spacing and line wrapping.
@@ -97,7 +101,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     <Component {...rest} ref={ref} className={classes} style={styles}>
       {ReactChildren.map(filterChildren as React.ReactElement[], (child, index) => {
         const childNode =
-          childrenRenderMode === 'wrap' && child.type !== StackItem ? (
+          childrenRenderMode === 'wrap' && !isStackItem(child) ? (
             <StackItem
               key={index}
               className={prefix('item')}
