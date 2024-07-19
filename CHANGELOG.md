@@ -1,3 +1,20 @@
+# [5.67.0](https://github.com/rsuite/rsuite/compare/v5.66.0...v5.67.0) (2024-07-19)
+
+
+### Bug Fixes
+
+* **Button:** fix the misalignment of icons and text in block buttons ([#3880](https://github.com/rsuite/rsuite/issues/3880)) ([aa4f02b](https://github.com/rsuite/rsuite/commit/aa4f02bd434f0753c85b8584e034a57a1050b7f6))
+* **NavItem:** fix NavItem cannot be used in Navbar and Sidenav ([#3882](https://github.com/rsuite/rsuite/issues/3882)) ([be6b2b1](https://github.com/rsuite/rsuite/commit/be6b2b165459afd27f06cf387df0fde73d210e94))
+* **Stack:** fix StackItem cannot be rendered correctly in server-side rendering ([#3884](https://github.com/rsuite/rsuite/issues/3884)) ([a552e35](https://github.com/rsuite/rsuite/commit/a552e357f1fd8a3043012f7de08b9369100d6fee))
+
+
+### Features
+
+* **locales:** add support for Catalan ([#3878](https://github.com/rsuite/rsuite/issues/3878)) ([c0bae4d](https://github.com/rsuite/rsuite/commit/c0bae4d2fb244ef270869ef7338c10d71165a3ef))
+* **Uploader:** add `event` parameter to `onChange` callback ([#3881](https://github.com/rsuite/rsuite/issues/3881)) ([a1c1667](https://github.com/rsuite/rsuite/commit/a1c1667e9180e278ba9e7212743f662b086be1e6))
+
+
+
 # [5.66.0](https://github.com/rsuite/rsuite/compare/v5.65.1...v5.66.0) (2024-07-12)
 
 
