@@ -22,6 +22,7 @@ return (
 | Locale | Description         |
 | ------ | ------------------- |
 | ar_EG  | Arabic (Egypt)      |
+| ca_ES  | Catalan             |
 | cs_CZ  | Czech               |
 | da_DK  | Danish              |
 | de_DE  | German              |
