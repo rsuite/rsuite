@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonToolbar } from 'rsuite';
+import { Button, IconButton, ButtonToolbar } from 'rsuite';
+import { FaGithub } from 'react-icons/fa';
 
 const App = () => (
   <ButtonToolbar>
@@ -10,6 +11,9 @@ const App = () => (
     </Button>
     <Button appearance="primary" block>
       Block
+    </Button>
+    <Button block startIcon={<FaGithub />}>
+      Github
     </Button>
   </ButtonToolbar>
 );
