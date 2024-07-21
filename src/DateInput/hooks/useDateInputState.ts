@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import {
   addDays,
@@ -124,20 +124,28 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
     return toDateString();
   };
 
+  const setNewDate = useCallback(
+    (value: Date | null) => {
+      dispatch({ type: 'setNewDate', value });
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     if (isControlledDate) {
       if (date && isValid(date)) {
-        dispatch({ type: 'setNewDate', value: date });
+        setNewDate(date);
       } else if (date === null) {
-        dispatch({ type: 'setNewDate', value: null });
+        setNewDate(null);
       }
     }
-  }, [date, dispatch, isControlledDate]);
+  }, [date, dispatch, isControlledDate, setNewDate]);
 
   return {
     dateField,
     setDateOffset,
     setDateField,
+    setNewDate,
     getDateField,
     toDateString: isControlledDate ? toControlledDateString : toDateString,
     isEmptyValue

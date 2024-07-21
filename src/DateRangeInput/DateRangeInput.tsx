@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
+import { isValid } from '@/internals/utils/date';
 import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import {
@@ -58,6 +59,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     onKeyDown,
     onBlur,
     onFocus,
+    onPaste,
     ...rest
   } = props;
 
@@ -68,7 +70,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const { selectedState, setSelectedState } = useSelectedState();
 
-  const { locale } = useCustom('Calendar');
+  const { locale, parseDate } = useCustom('Calendar');
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   const dateLocale = locale.dateLocale;
@@ -257,6 +259,31 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     }
   });
 
+  const handlePaste = useEventCallback((event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    onPaste?.(event);
+
+    const pasteText = event.clipboardData?.getData('text');
+
+    if (!pasteText) {
+      return;
+    }
+
+    const [start, end] = pasteText.split(character).map(date => parseDate(date, formatStr)) as [
+      Date,
+      Date
+    ];
+
+    if (isValid(start) && isValid(end)) {
+      const nextValue = [start, end] as ValueType;
+      onChange?.(nextValue, event);
+      setValue(nextValue);
+
+      startDateState.setNewDate(start);
+      endDateState.setNewDate(end);
+    }
+  });
+
   const onKeyboardInput = useKeyboardInputEvent({
     onSegmentChange,
     onSegmentValueChange,
@@ -275,6 +302,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       ref={mergeRefs(inputRef, ref)}
       onKeyDown={onKeyboardInput}
       onClick={handleClick}
+      onPaste={handlePaste}
       value={renderedValue}
       placeholder={placeholder || rangeFormatStr}
       {...focusEventProps}

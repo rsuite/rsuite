@@ -4,6 +4,7 @@ import Input, { InputProps } from '../Input';
 import { useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { FormControlBaseProps } from '@/internals/types';
+import { isValid } from '@/internals/utils/date';
 import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
 import useDateInputState from './hooks/useDateInputState';
 import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
@@ -43,6 +44,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     onKeyDown,
     onBlur,
     onFocus,
+    onPaste,
     ...rest
   } = props;
 
@@ -50,17 +52,24 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
   const { selectedState, setSelectedState } = useSelectedState();
 
-  const { locale } = useCustom('Calendar');
+  const { locale, parseDate } = useCustom('Calendar');
 
   const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
-  const { dateField, setDateOffset, setDateField, getDateField, toDateString, isEmptyValue } =
-    useDateInputState({
-      formatStr,
-      locale: dateLocale,
-      date: value,
-      isControlledDate: isControlled
-    });
+  const {
+    dateField,
+    setDateOffset,
+    setDateField,
+    setNewDate,
+    getDateField,
+    toDateString,
+    isEmptyValue
+  } = useDateInputState({
+    formatStr,
+    locale: dateLocale,
+    date: value,
+    isControlledDate: isControlled
+  });
 
   const { isMoveCursor, isResetValue, increment, reset } = useFieldCursor(formatStr, valueProp);
 
@@ -181,6 +190,25 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     }
   });
 
+  const handlePaste = useEventCallback((event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+
+    onPaste?.(event);
+
+    const pasteText = event.clipboardData?.getData('text');
+
+    if (!pasteText) {
+      return;
+    }
+
+    const nextDate = parseDate(pasteText, formatStr);
+
+    if (isValid(nextDate)) {
+      handleChange(nextDate, event);
+      setNewDate(nextDate);
+    }
+  });
+
   const onKeyboardInput = useKeyboardInputEvent({
     onSegmentChange,
     onSegmentValueChange,
@@ -208,6 +236,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       ref={mergeRefs(inputRef, ref)}
       onKeyDown={onKeyboardInput}
       onClick={handleClick}
+      onPaste={handlePaste}
       value={renderedValue}
       placeholder={placeholder || formatStr}
       {...focusEventProps}
