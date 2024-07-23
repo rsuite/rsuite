@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { isSupportFlexGap, ReactChildren } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
@@ -22,10 +22,14 @@ export interface StackProps extends WithAsProps {
    */
   justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
 
-  /** Define the spacing between immediate children */
+  /**
+   * Define the spacing between immediate children
+   */
   spacing?: number | string | (number | string)[];
 
-  /** Add an element between each child */
+  /**
+   * Add an element between each child
+   */
   divider?: React.ReactNode;
 
   /**
@@ -71,7 +75,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
   } = props;
 
   const { rtl } = useCustom('Stack');
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
   const isSupportGap = isSupportFlexGap();
 
@@ -90,38 +94,34 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     ...style
   };
 
-  /*
-   * toArray remove undefined, null and boolean
-   */
-  const filterChildren = React.Children.toArray(children);
-
-  const count = ReactChildren.count(filterChildren as React.ReactElement[]);
+  const count = ReactChildren.count(children);
 
   return (
     <Component {...rest} ref={ref} className={classes} style={styles}>
-      {ReactChildren.map(filterChildren as React.ReactElement[], (child, index) => {
+      {ReactChildren.map(children, (child, index) => {
+        const childStyle = child.props?.style;
+
         const childNode =
           childrenRenderMode === 'wrap' && !isStackItem(child) ? (
-            <StackItem
-              key={index}
-              className={prefix('item')}
-              style={!isSupportGap ? itemStyles : undefined}
-            >
+            <StackItem key={index} style={!isSupportGap ? itemStyles : undefined}>
               {child}
             </StackItem>
           ) : (
-            React.cloneElement(child, {
-              className: merge(prefix('item'), child.props.className),
-              style: !isSupportGap
-                ? {
-                    ...itemStyles,
-                    ...child.props.style
-                  }
-                : child.props.style
+            cloneElement(child, {
+              style: !isSupportGap ? { ...itemStyles, ...childStyle } : childStyle
             })
           );
 
-        return [childNode, index < count - 1 ? divider : null];
+        if (!divider) {
+          return childNode;
+        }
+
+        return (
+          <Fragment key={index}>
+            {childNode}
+            {index < count - 1 && divider}
+          </Fragment>
+        );
       })}
     </Component>
   );

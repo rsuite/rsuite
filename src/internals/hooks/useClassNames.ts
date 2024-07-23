@@ -22,6 +22,7 @@ export interface ClassDictionary {
 }
 
 interface ClassNameUtils {
+  baseClassName: string;
   withClassPrefix: (...classes: ClassValue[]) => string;
   merge: (...classes: ClassValue[]) => string;
   prefix: (...classes: ClassValue[]) => string;
@@ -31,7 +32,8 @@ interface ClassNameUtils {
 /**
  * Add a prefix to all classNames.
  *
- * @param str prefix of className
+ * @param classNamePrefix prefix of className
+ * @param classNameProp className property of component
  * @returns { withClassPrefix, merge, prefix }
  *  - withClassPrefix: A function of combining className and adding a prefix to each className.
  *    At the same time, the default `classPrefix` is the first className.
@@ -39,14 +41,14 @@ interface ClassNameUtils {
  *  - prefix: Add a prefix to className
  *  - rootPrefix
  */
-export function useClassNames(str: string): ClassNameUtils {
+export function useClassNames(classNamePrefix: string, classNameProp?: string): ClassNameUtils {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
-  const componentName = addPrefix(classPrefix, str);
+  const componentName = addPrefix(classPrefix, classNamePrefix);
 
   /**
    * @example
    *
-   * if str = 'button':
+   * if classNamePrefix = 'button':
    * prefix('red', { active: true }) => 'rs-button-red rs-button-active'
    */
   const prefix = useCallback(
@@ -91,7 +93,10 @@ export function useClassNames(str: string): ClassNameUtils {
     return mergeClasses.filter(cls => cls).join(' ');
   };
 
+  const baseClassName = classNames(classNameProp, withClassPrefix());
+
   return {
+    baseClassName,
     withClassPrefix,
     merge: classNames,
     prefix,
