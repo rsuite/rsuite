@@ -55,9 +55,9 @@ describe('<Nav>', () => {
     expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
   });
 
-  it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
+  it('Should be selected second option when activeKey is an object', () => {
     render(
-      <Nav activeKey={{ key: 2, value: 2 }}>
+      <Nav activeKey={{ key: 2, value: 2 } as any}>
         <Nav.Item eventKey={{ key: 1, value: 1 } as any}>1</Nav.Item>
         <Nav.Item eventKey={{ key: 2, value: 2 } as any}>2</Nav.Item>
       </Nav>
