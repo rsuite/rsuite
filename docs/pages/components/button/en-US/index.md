@@ -86,7 +86,7 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 ### Keyboard interaction
 
-- When Button has focus, <kbd>Space</kbd> or <kbd>Space</kbd> activates it.
+- When Button has focus, <kbd>Space</kbd> or <kbd>Enter</kbd> activates it.
 
 ## Props
 
