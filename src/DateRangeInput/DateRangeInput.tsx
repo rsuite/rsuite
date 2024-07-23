@@ -261,14 +261,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const handlePaste = useEventCallback((event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
-    onPaste?.(event);
 
     const pasteText = event.clipboardData?.getData('text');
-
-    if (!pasteText) {
-      return;
-    }
-
     const [start, end] = pasteText.split(character).map(date => parseDate(date, formatStr)) as [
       Date,
       Date
@@ -276,12 +270,15 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
     if (isValid(start) && isValid(end)) {
       const nextValue = [start, end] as ValueType;
+
       onChange?.(nextValue, event);
       setValue(nextValue);
 
       startDateState.setNewDate(start);
       endDateState.setNewDate(end);
     }
+
+    onPaste?.(event);
   });
 
   const onKeyboardInput = useKeyboardInputEvent({

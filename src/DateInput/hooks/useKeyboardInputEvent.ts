@@ -40,7 +40,6 @@ export function useKeyboardInputEvent({
       case key.match(/[a-z]/)?.[0]:
         // Determine whether the Ctrl or Command key is pressed, does not affect user copy and paste
         if (event.ctrlKey || event.metaKey) {
-          // TODO: Add tests after upgrading @testing-library/user-event
           break;
         }
 

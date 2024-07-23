@@ -193,20 +193,15 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   const handlePaste = useEventCallback((event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    onPaste?.(event);
-
     const pasteText = event.clipboardData?.getData('text');
-
-    if (!pasteText) {
-      return;
-    }
-
     const nextDate = parseDate(pasteText, formatStr);
 
     if (isValid(nextDate)) {
       handleChange(nextDate, event);
       setNewDate(nextDate);
     }
+
+    onPaste?.(event);
   });
 
   const onKeyboardInput = useKeyboardInputEvent({
