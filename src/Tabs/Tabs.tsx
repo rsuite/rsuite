@@ -17,7 +17,7 @@ export interface TabsProps extends WithAsProps {
   /**
    * The tabs appearance style.
    */
-  appearance?: 'tabs' | 'subtle';
+  appearance?: 'tabs' | 'subtle' | 'pills';
 
   /**
    * Mark the Tab with a matching `eventKey` as active.
@@ -266,7 +266,7 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
 Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
 Tabs.propTypes = {
-  appearance: PropTypes.oneOf(['tabs', 'subtle']),
+  appearance: PropTypes.oneOf(['tabs', 'subtle', 'pills']),
   activeKey: PropTypes.any,
   defaultActiveKey: PropTypes.any,
   reversed: PropTypes.bool,

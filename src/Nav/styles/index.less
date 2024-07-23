@@ -32,6 +32,7 @@
   padding: 8px 12px;
   cursor: pointer;
   color: var(--rs-navs-text);
+  background: transparent;
   transition: @nav-item-transition;
   .ellipsis-basic();
   .safari-border-radius-overflow-hidden();
@@ -101,6 +102,7 @@
   > .rs-nav-item {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     vertical-align: top;
   }
 
@@ -296,6 +298,41 @@
         right: auto;
         left: 0;
       }
+    }
+  }
+}
+
+// Pills Nav
+.rs-nav-pills {
+  display: inline-flex;
+  background-color: var(--rs-navs-pills-bg);
+  border-radius: 6px;
+  padding: 4px;
+  width: max-content;
+
+  .rs-nav-item {
+    border-radius: 6px;
+    position: relative;
+    padding: 4px 12px;
+    color: var(--rs-navs-pills-item-color);
+
+    &-active {
+      background-color: var(--rs-navs-pills-item-active-bg);
+      color: var(--rs-navs-pills-item-active-color);
+      box-shadow: var(--rs-navs-pills-item-shadow);
+    }
+
+    &-disabled {
+      color: var(--rs-navs-pills-item-disabled-color);
+    }
+  }
+
+  &.rs-nav-vertical {
+    flex-direction: column;
+
+    .rs-nav-item {
+      padding: 6px 12px;
+      justify-content: center;
     }
   }
 }

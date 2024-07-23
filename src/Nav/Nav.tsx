@@ -19,7 +19,7 @@ export interface NavProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** sets appearance */
-  appearance?: 'default' | 'subtle' | 'tabs';
+  appearance?: 'default' | 'subtle' | 'tabs' | 'pills';
 
   /** Reverse Direction of tabs/subtle */
   reversed?: boolean;
@@ -106,7 +106,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   const contextValue = useMemo<NavContextProps>(
     () => ({
       activeKey,
-      onSelect: (eventKey: string | undefined, event: React.SyntheticEvent) => {
+      onSelect: (eventKey: string | number | undefined, event: React.SyntheticEvent) => {
         setActiveKey(eventKey);
         onSelectProp?.(eventKey, event);
         onSelectFromSidenav?.(eventKey, event);
@@ -173,7 +173,7 @@ Nav.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  appearance: oneOf(['default', 'subtle', 'tabs']),
+  appearance: oneOf(['default', 'subtle', 'tabs', 'pills']),
   // Reverse Direction of tabs/subtle
   reversed: PropTypes.bool,
   justified: PropTypes.bool,
