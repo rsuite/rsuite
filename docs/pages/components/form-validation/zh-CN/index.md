@@ -123,8 +123,8 @@ return (
 
 ## 与其他库集成
 
-- [与 Formik 集成](/zh/guide/form-formik/)
-- [与 React Hook Form 集成](/zh/guide/form-react-hook-form/)
+- [与 Formik 集成](/zh/components/form-formik/)
+- [与 React Hook Form 集成](/zh/components/form-react-hook-form/)
 
 ## API
 

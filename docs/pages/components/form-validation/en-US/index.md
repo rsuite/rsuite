@@ -121,8 +121,8 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 ## Integration with other libraries
 
-- [With Formik Integration](/en/guide/form-formik/)
-- [With React Hook Form Integration](/en/guide/form-react-hook-form/)
+- [With Formik Integration](/components/form-formik/)
+- [With React Hook Form Integration](/components/form-react-hook-form/)
 
 ## API
 
