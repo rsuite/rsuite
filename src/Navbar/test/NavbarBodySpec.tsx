@@ -1,8 +1,8 @@
 import React from 'react';
 import sinon, { SinonStub } from 'sinon';
-import { getDOMNode } from '@test/utils';
 
 import NavbarBody from '../NavbarBody';
+import { render } from '@testing-library/react';
 
 describe('NavbarBody (deprecated)', () => {
   beforeEach(() => {
@@ -15,29 +15,31 @@ describe('NavbarBody (deprecated)', () => {
 
   it('Should render a body', () => {
     const title = 'Test';
-    const instance = getDOMNode(<NavbarBody>{title}</NavbarBody>);
-    assert.equal(instance.className, 'rs-navbar-body');
-    assert.equal(instance.innerHTML, title);
+    const { container } = render(<NavbarBody>{title}</NavbarBody>);
+    expect(container.firstChild).to.have.class('rs-navbar-body');
+    expect(container.firstChild?.textContent).to.equal(title);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<NavbarBody className="custom" />);
-    assert.include(instance.className, 'custom');
+    const { container } = render(<NavbarBody className="custom" />);
+    expect(container.firstChild).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<NavbarBody style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    const { container } = render(<NavbarBody style={{ fontSize }} />);
+    const instance = container.firstChild as HTMLElement;
+    expect(instance.style.fontSize).equal(fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<NavbarBody classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { container } = render(<NavbarBody classPrefix="custom-prefix" />);
+    const instance = container.firstChild as HTMLElement;
+    expect(instance.className).match(/\bcustom-prefix\b/);
   });
 
   it('Should warn deprecation message', () => {
-    getDOMNode(<NavbarBody />);
+    render(<NavbarBody />);
     assert.ok(/deprecated/i.test((console.warn as SinonStub).firstCall.args[0]));
   });
 });
