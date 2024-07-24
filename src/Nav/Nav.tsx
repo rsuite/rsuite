@@ -15,7 +15,7 @@ import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
 
-export interface NavProps<T = string | number>
+export interface NavProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /**
