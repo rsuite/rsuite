@@ -30,7 +30,7 @@ const colors = [
 
 interface ColorMeta {
   value: string;
-  level: number;
+  level: string;
   cssVar: string;
 }
 
