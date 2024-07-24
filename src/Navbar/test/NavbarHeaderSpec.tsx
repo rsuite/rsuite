@@ -2,8 +2,10 @@ import React from 'react';
 import sinon, { SinonStub } from 'sinon';
 import NavbarHeader from '../NavbarHeader';
 import { render } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('NavbarHeader (deprecated)', () => {
+  testStandardProps(<NavbarHeader />);
   beforeEach(() => {
     sinon.stub(console, 'warn').callsFake(() => null);
   });
@@ -18,24 +20,6 @@ describe('NavbarHeader (deprecated)', () => {
     expect(container.firstChild).to.have.tagName('DIV');
     expect(container.firstChild).to.have.class('rs-navbar-header');
     expect(container.firstChild?.textContent).to.equal(title);
-  });
-
-  it('Should have a custom className', () => {
-    const { container } = render(<NavbarHeader className="custom" />);
-    expect(container.firstChild).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const { container } = render(<NavbarHeader style={{ fontSize }} />);
-    const instance = container.firstChild as HTMLElement;
-    expect(instance.style.fontSize).equal(fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const { container } = render(<NavbarHeader classPrefix="custom-prefix" />);
-    const instance = container.firstChild as HTMLElement;
-    expect(instance.className).match(/\bcustom-prefix\b/);
   });
 
   it('Should warn deprecation message', () => {
