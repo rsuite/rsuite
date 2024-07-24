@@ -13,6 +13,7 @@ export default {
     performance: 'Performance',
     design: 'Design',
     components: 'Components',
+    colors: 'Colors',
     resources: 'Resources & Tools',
     templates: 'Templates',
     designResources: 'Design Resources',
