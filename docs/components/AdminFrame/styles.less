@@ -1,0 +1,54 @@
+@import './Header/styles.less';
+
+.rs-admin-frame {
+  height: 900px !important;
+  background: var(--rs-bg-well);
+  overflow: auto;
+
+  .brand {
+    padding: 10px 16px;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    a {
+      text-decoration: none;
+      color: var(--rs-primary-500);
+    }
+  }
+
+  .page-header {
+    padding: 20px 20px 0 20px;
+  }
+
+  .page-container {
+    position: relative;
+
+    > .rs-content {
+      padding: 10px 0;
+    }
+  }
+
+  .rs-sidebar {
+    height: 100%;
+    background: var(--rs-body);
+    border-right: 1px solid var(--rs-border-secondary);
+  }
+
+  .rs-sidenav {
+    flex: 1 1 auto;
+    width: 100%;
+    border-top: 1px solid var(--rs-border-secondary);
+  }
+
+  .nav-toggle {
+    border-top: 1px solid var(--rs-border-secondary);
+    padding: 6px;
+  }
+
+  .rs-card {
+    background: var(--rs-bg-card);
+  }
+}

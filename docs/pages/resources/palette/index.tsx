@@ -1,48 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ButtonToolbar,
-  Button,
-  CheckboxGroup,
-  Checkbox,
-  RadioGroup,
-  Radio,
-  Toggle,
-  Slider,
-  Input,
-  Panel,
-  Loader
-} from 'rsuite';
-import ColorPanel from '@/components/ColorPanel';
-import SketchPicker from '@/components/SketchPicker';
+import React, { useState, useEffect, useRef } from 'react';
+import { HStack, VStack, Dropdown } from 'rsuite';
+import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/Page';
+import FakeBrowser from '@/components/FakeBrowser';
 import palette from 'rsuite/styles/plugins/palette';
-import loadable from '@loadable/component';
 import { useLess } from '@/utils/useLess';
+import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
+import ThemeGroup from '@/components/ThemeGroup';
+import AdminFrame from '@/components/AdminFrame';
+import { generatePalette } from 'rsuite/styles/plugins/palette';
+import useClipboard from '@/utils/useClipboard';
 
-const colors = [
-  '#34C3FF',
-  '#3498FF',
-  '#2575FC',
-  '#0052CC',
-  '#1361AA',
-  '#3F51B5',
-  '#2487C2',
-  '#FFEB3B',
-  '#F5A623',
-  '#F44336',
-  '#e54304',
-  '#e91e63',
-  '#9c27b0',
-  '#429321',
-  '#4A148C',
-  '#673AB7',
-  '#880061',
-  '#607d8b'
-];
-
-const CirclePicker = loadable(() => import('react-color/lib/components/circle/Circle'));
+const colors: ColorMeta[] = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900'
+].map(level => ({
+  level,
+  cssVar: `--rs-primary-${level}`
+}));
 
 const lessUrl = 'https://cdn.bootcss.com/less.js/3.9.0/less.min.js';
 const getThemeIsDefault = () => ['light', null].includes(readThemeName());
@@ -52,6 +37,8 @@ interface PreviewProps {
 }
 
 function Preview({ themeColor }: PreviewProps) {
+  const [color, setColor] = useState<ColorMeta | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const less = useLess(lessUrl, {
     async: true,
     logLevel: 0,
@@ -70,64 +57,73 @@ function Preview({ themeColor }: PreviewProps) {
   }, [less, themeColor]);
 
   return (
-    <div className="palette-preview" id="palettePreview">
+    <div className="palette-preview" id="palettePreview" ref={rootRef}>
       <NextHead>
         <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
+      <ColorGroup
+        colors={colors}
+        useCssVar
+        onShowColor={(color, event) => {
+          const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
 
-      <Panel>
-        {!less && <Loader content="Downloading Less.js" />}
-        <ButtonToolbar>
-          <Button appearance="default">Default</Button>
-          <Button appearance="primary">Primary</Button>
-          <Button appearance="link">Link</Button>
-          <Button appearance="ghost">Ghost</Button>
-        </ButtonToolbar>
-        <hr />
-        <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
-          <Checkbox value="1">Javascript</Checkbox>
-          <Checkbox value="2">CSS</Checkbox>
-          <Checkbox value="3">HTML</Checkbox>
-        </CheckboxGroup>
-        <hr />
-        <RadioGroup name="radio" defaultValue="1" inline>
-          <Radio value="1">Front end</Radio>
-          <Radio value="2">Back end </Radio>
-        </RadioGroup>
-        <hr />
-        <Input />
-        <hr />
-        <Toggle defaultChecked />
-        <hr />
-        <Slider progress defaultValue={50} />
-      </Panel>
+          color.rgb = colorVal;
+
+          setColor(color);
+        }}
+      />
+      <ColorModal
+        color={color}
+        open={!!color}
+        title={`Primary Color`}
+        onClose={() => setColor(null)}
+        container={() => rootRef.current}
+      />
+      <FakeBrowser>
+        <AdminFrame loading={!less} />
+      </FakeBrowser>
     </div>
   );
 }
 
 export default function Page() {
   const [color, setColor] = useState('#3498FF');
+  const { copyToClipboard, copied } = useClipboard();
 
-  function handleChangeComplete({ hex: color }) {
+  const handleChangeComplete = ({ hex: color }) => {
     setColor(color);
-  }
+  };
+
+  const handleCopy = (eventKey: string) => {
+    const colors = generatePalette(color, 'primary');
+
+    if (eventKey === 'css') {
+      const text = colors.map(item => `${item.cssVar}: ${item.hex};`).join('\n');
+      copyToClipboard(text);
+    } else if (eventKey === 'less') {
+      const text = colors
+        .map((item, index) => `@H${index === 0 ? '0' : ''}${item.level}: ${item.hex};`)
+        .join('\n');
+      copyToClipboard(text);
+    }
+  };
 
   return (
     <DefaultPage hidePageNav>
-      <div className="row-split">
-        <div className="col-side">
-          <div className="circle-picker-wrapper">
-            <CirclePicker color={color} colors={colors} onChangeComplete={handleChangeComplete} />
-          </div>
-          <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
-          <div className="panel-color-wrap">
-            <ColorPanel baseColor={color} />
-          </div>
-        </div>
-        <div className="col-content">
-          <Preview themeColor={color} />
-        </div>
-      </div>
+      <VStack spacing={20} alignItems="center">
+        <ThemeGroup />
+        <HStack justifyContent="center" spacing={10}>
+          <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
+          <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
+            <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
+            <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
+          </Dropdown>
+        </HStack>
+      </VStack>
+
+      <Preview themeColor={color} />
+
+      <div id="ad-view" data-hide="true" />
     </DefaultPage>
   );
 }

@@ -1,28 +1,18 @@
-.row-split {
-  .col-content {
-    margin-top: 20px;
-  }
-  @media (min-width: @media-xs) {
-    display: flex;
-    flex-direction: row;
-
-    .col-side {
-      width: 360px;
-    }
-
-    .col-content {
-      flex-grow: 1;
-      margin-top: 0;
-    }
-  }
-}
-
-
-
 .palette-preview {
+  margin-top: 20px;
+
   .rs-panel {
     position: relative;
-    height: 578px;
+  }
+  .color-box-row {
+    margin-bottom: 20px;
+  }
+  .color-box {
+    aspect-ratio: 2 / 1;
+  }
+
+  .fake-browser {
+    margin-top: 40px;
   }
 }
 .panel-color-wrap {
@@ -54,38 +44,4 @@
   height: 8px;
   border-radius: 4px;
   border: 1px solid #000;
-}
-
-.circle-picker-wrapper {
-  display: inline-block;
-  vertical-align: top;
-}
-.sketch-picker-wrapper {
-  margin-left: 20px;
-  display: inline-block;
-  position: relative;
-  .sketch-color-review {
-    padding: 5px;
-    background: rgb(255, 255, 255);
-    border-radius: 1px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
-    display: inline-block;
-    cursor: pointer;
-  }
-  .sketch-color-value {
-    width: 68px;
-    height: 100px;
-    border-radius: 2px;
-  }
-  .sketch-picker-overlay {
-    position: absolute;
-    z-index: 2;
-  }
-  .sketch-picker-backdrop {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-  }
 }
