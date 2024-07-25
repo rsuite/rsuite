@@ -1,0 +1,52 @@
+[
+  {
+    "level": "50",
+    "cssVar": "--rs-gray-50",
+    "hex": "#e9ebf0"
+  },
+  {
+    "level": "100",
+    "cssVar": "--rs-gray-100",
+    "hex": "#cbced4"
+  },
+  {
+    "level": "200",
+    "cssVar": "--rs-gray-200",
+    "hex": "#a4a9b3"
+  },
+  {
+    "level": "300",
+    "cssVar": "--rs-gray-300",
+    "hex": "#858b94"
+  },
+  {
+    "level": "400",
+    "cssVar": "--rs-gray-400",
+    "hex": "#6a6f76"
+  },
+  {
+    "level": "500",
+    "cssVar": "--rs-gray-500",
+    "hex": "#5c6066"
+  },
+  {
+    "level": "600",
+    "cssVar": "--rs-gray-600",
+    "hex": "#3c3f43"
+  },
+  {
+    "level": "700",
+    "cssVar": "--rs-gray-700",
+    "hex": "#292d33"
+  },
+  {
+    "level": "800",
+    "cssVar": "--rs-gray-800",
+    "hex": "#1a1d24"
+  },
+  {
+    "level": "900",
+    "cssVar": "--rs-gray-900",
+    "hex": "#0f131a"
+  }
+]

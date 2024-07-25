@@ -6,7 +6,7 @@ export type Theme = 'light' | 'dark' | 'high-contrast';
 
 interface AppContextProps {
   direction?: string;
-  theme?: string[];
+  theme?: [string, string];
   onChangeDirection?: () => void;
   onChangeTheme?: (theme: Theme) => void;
   locales?: LocaleEn;
