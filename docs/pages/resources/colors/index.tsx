@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { VStack, HStack } from 'rsuite';
+import { VStack, HStack, Button } from 'rsuite';
+import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 import { generatePalette } from 'rsuite/styles/plugins/palette';
-import grayLight from './color-light-gray.json';
-import grayDark from './color-dark-gray.json';
 import { useApp } from '@/components/AppContext';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
 import ThemeGroup from '@/components/ThemeGroup';
+import { MdPalette } from 'react-icons/md';
+import { Icon } from '@rsuite/icons';
+import grayLight from './color-light-gray.json';
+import grayDark from './color-dark-gray.json';
 
 const lightColorMap = {
   blue: '#59afff',
@@ -91,8 +94,16 @@ export default function Page() {
 
   return (
     <DefaultPage hidePageNav>
-      <HStack justifyContent="center" className="color-header">
+      <HStack justifyContent="center" className="color-header" spacing={10}>
         <ThemeGroup />
+        <Button
+          startIcon={<Icon as={MdPalette} />}
+          appearance="primary"
+          as={Link}
+          href="/resources/palette"
+        >
+          Custom palette
+        </Button>
       </HStack>
 
       <VStack>

@@ -18,7 +18,6 @@ const defaultColors = [
   '#1361AA',
   '#3F51B5',
   '#2487C2',
-  '#FFEB3B',
   '#F5A623',
   '#F44336',
   '#e54304',
@@ -28,7 +27,14 @@ const defaultColors = [
   '#4A148C',
   '#673AB7',
   '#880061',
-  '#607d8b'
+  '#607d8b',
+  '#59afff',
+  '#fa8900',
+  '#ffb300',
+  '#4caf50',
+  '#00bcd4',
+  '#673ab7',
+  '#111111'
 ];
 
 function ColorPicker(props: ColorPickerProps) {

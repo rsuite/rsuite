@@ -1,7 +1,7 @@
 import { ButtonGroup, Button } from 'rsuite';
 import { useApp, Theme } from '@/components/AppContext';
 import { Icon } from '@rsuite/icons';
-import { Light, Dark, HighContrast } from '@/components/SvgIcons';
+import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 
 function ThemeGroup() {
   const { theme, onChangeTheme, locales } = useApp();
@@ -11,17 +11,17 @@ function ThemeGroup() {
     {
       value: 'light',
       name: locales.common.light,
-      icon: Light
+      icon: MdLightMode
     },
     {
       value: 'dark',
       name: locales.common.dark,
-      icon: Dark
+      icon: MdDarkMode
     },
     {
       value: 'high-contrast',
       name: locales.common.highContrast,
-      icon: HighContrast
+      icon: MdContrast
     }
   ];
 
