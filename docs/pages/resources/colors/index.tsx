@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { VStack, HStack, Text } from 'rsuite';
+import { VStack, HStack, Text, Modal, ModalProps, Button, Divider, Whisper, Tooltip } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import { generatePalette } from 'rsuite/styles/plugins/palette';
+import { generatePalette, tinycolor } from 'rsuite/styles/plugins/palette';
 import gray from './color-gray.json';
-import { FaRegClipboard, FaCheck } from 'react-icons/fa6';
 import useClipboard from '@/utils/useClipboard';
 
 const colorMap = {
@@ -14,7 +13,8 @@ const colorMap = {
   yellow: '#ffb300',
   green: '#4caf50',
   cyan: '#00bcd4',
-  violet: '#673ab7'
+  violet: '#673ab7',
+  primary: '#3498ff'
 };
 
 const colors = [
@@ -29,58 +29,148 @@ const colors = [
 ];
 
 interface ColorMeta {
-  value: string;
+  hex: string;
+  rgb?: string;
+  hls?: string;
   level: string;
   cssVar: string;
 }
 
-function Button(props: { color: ColorMeta }) {
-  const { cssVar, value } = props.color;
-  const { copyToClipboard, copied } = useClipboard();
-
-  const handleClick = () => {
-    copyToClipboard(`${cssVar}: ${value};`);
-  };
-
-  return (
-    <button style={{ backgroundColor: value }} onClick={handleClick}>
-      {copied ? <FaCheck /> : <FaRegClipboard />}
-    </button>
-  );
+interface ColorButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'color'> {
+  color: ColorMeta;
 }
 
-const Box = ({ color, name, inverse }: { color: ColorMeta; name: string; inverse: boolean }) => {
+function ColorButton(props: ColorButtonProps) {
+  const { color, ...rest } = props;
+  return <button {...rest} style={{ backgroundColor: color.hex }} />;
+}
+
+interface ColorBoxProps {
+  color: ColorMeta;
+  inverse: boolean;
+  onClick: () => void;
+}
+
+const Box = ({ color, inverse, onClick, ...rest }: ColorBoxProps) => {
   return (
     <VStack className={classNames('color-box', { inverse })}>
-      <Button color={color} />
-      <Text muted className="color-box-title">
-        {name}-{color.level}
-      </Text>
+      <ColorButton color={color} {...rest} onClick={onClick} />
     </VStack>
   );
 };
 
-const ColorGroup = ({ colors, name }: { colors: ColorMeta[]; name: string }) => {
+interface ColorGroupProps {
+  colors: ColorMeta[];
+  name: string;
+  onShowColor: (color: ColorMeta) => void;
+}
+
+const ColorGroup = ({ colors, name, onShowColor }: ColorGroupProps) => {
   return (
-    <VStack className="color-box-group">
-      <Text className="color-box-group-title">{name}</Text>
-      <HStack className="color-box-row">
-        {colors.map((color, index) => (
-          <Box key={color.value} color={color} name={name} inverse={index > 5} />
-        ))}
-      </HStack>
-    </VStack>
+    <HStack className="color-box-row">
+      <Text className="color-box-row-title" size="lg" muted>
+        {name}
+      </Text>
+      {colors.map((color, index) => (
+        <Box
+          key={color.hex}
+          color={color}
+          inverse={index > 5}
+          onClick={() => {
+            onShowColor(color);
+          }}
+        />
+      ))}
+    </HStack>
+  );
+};
+
+const Property = ({ name, value }: { name: string; value: string }) => {
+  const { copyToClipboard, copied } = useClipboard();
+  return (
+    <HStack className="color-property">
+      <Text className="color-property-name" muted>
+        {name}
+      </Text>
+      <Whisper speaker={<Tooltip>{copied ? 'Copied' : 'Click to copy'}</Tooltip>} placement="top">
+        <Button
+          appearance="subtle"
+          size="xs"
+          className="color-property-value"
+          onClick={() => {
+            copyToClipboard(value);
+          }}
+        >
+          {value}
+        </Button>
+      </Whisper>
+    </HStack>
+  );
+};
+
+interface ColorModalProps extends ModalProps {
+  color: ColorMeta | null;
+  title: string;
+}
+
+const ColorModal = (props: ColorModalProps) => {
+  const { color, title, onClose, ...rest } = props;
+
+  if (!color) {
+    return null;
+  }
+
+  const hex = color.hex;
+  const rgb = color.rgb || tinycolor(hex).toRgbString();
+  const hls = color.hls || tinycolor(hex).toHslString();
+
+  return (
+    <Modal {...rest} onClose={onClose} size="sm">
+      <Modal.Header>
+        <Modal.Title>
+          {title}-{color.level}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="color-preview" style={{ backgroundColor: color.hex }}></div>
+        <Divider />
+        <VStack>
+          <Property name="CSS var name" value={color.cssVar} />
+          <Property name="HEX color" value={hex} />
+          <Property name="RGB color" value={rgb} />
+          <Property name="HSL color" value={hls} />
+        </VStack>
+      </Modal.Body>
+    </Modal>
   );
 };
 
 export default function Page() {
+  const [color, setColor] = React.useState<ColorMeta | null>(null);
+  const [name, setName] = React.useState<string>('');
+
+  const handleClose = () => {
+    setColor(null);
+    setName('');
+  };
+
   return (
     <DefaultPage hidePageNav>
-      <VStack spacing={30}>
+      <VStack>
         {colors.map(({ name, colors }) => (
-          <ColorGroup key={name} name={name} colors={colors} />
+          <ColorGroup
+            key={name}
+            name={name}
+            colors={colors}
+            onShowColor={color => {
+              setName(name);
+              setColor(color);
+            }}
+          />
         ))}
       </VStack>
+      <ColorModal color={color} open={!!color} title={name} onClose={handleClose} />
+      <div id="ad-view" data-hide="true" />
     </DefaultPage>
   );
 }

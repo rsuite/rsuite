@@ -4,15 +4,10 @@
   height: auto;
   flex-direction: column;
   flex: 1 1 0%;
-  aspect-ratio: 2 / 2;
+  aspect-ratio: 2 / 1.5;
 
   &.inverse button svg {
     color: var(--rs-gray-0);
-  }
-
-  &-title {
-    text-align: center;
-    width: 100%;
   }
 
   button {
@@ -35,13 +30,27 @@
   }
 }
 
-.color-box-group {
-  &-title {
-    text-transform: capitalize;
-  }
-}
-
-.color-box-group,
 .color-box-row {
   width: 100%;
+}
+
+.color-box-row-title {
+  text-transform: capitalize;
+  display: flex;
+  width: 86px;
+  height: auto;
+  flex: 1 1 0%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.color-preview {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+
+.color-property {
+  &-name {
+    width: 100px;
+  }
 }

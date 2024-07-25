@@ -1359,23 +1359,24 @@ function generatePalette(colorStr, name) {
     } = color;
 
     const hsv = tinycolor({ r, g, b, a }).toHsv();
-    const value =
-      '#' +
-      tinycolor({
-        h: calculateHue(hsv.h, index),
-        s: calculateSaturation(hsv.s, index),
-        v: calculateBrightness(hsv.v, index)
-      }).toHex();
+    const tiny = tinycolor({
+      h: calculateHue(hsv.h, index),
+      s: calculateSaturation(hsv.s, index),
+      v: calculateBrightness(hsv.v, index)
+    });
 
     return {
       level,
-      value,
+      hex: tiny.toHexString(),
+      rgb: tiny.toRgbString(),
+      hls: tiny.toHslString(),
       cssVar: `--rs-${name}-${level}`
     };
   });
 }
 
 module.exports = {
+  tinycolor,
   generatePalette,
   install: function (less, pluginManager, functions) {
     /**

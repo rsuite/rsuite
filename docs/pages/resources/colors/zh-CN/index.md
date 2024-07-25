@@ -2,6 +2,4 @@
 
 使用 React Suite 提供的颜色变量，可以更方便地在项目中使用颜色。
 
-<div id="ad-view"></div>
-
 ---
