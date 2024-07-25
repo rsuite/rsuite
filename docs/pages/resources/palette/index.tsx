@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { HStack, VStack, Dropdown } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
@@ -90,23 +90,27 @@ export default function Page() {
   const [color, setColor] = useState('#3498FF');
   const { copyToClipboard, copied } = useClipboard();
 
-  const handleChangeComplete = ({ hex: color }) => {
+  const handleChangeComplete = useCallback(({ hex: color }) => {
     setColor(color);
-  };
+  }, []);
 
-  const handleCopy = (eventKey: string) => {
-    const colors = generatePalette(color, 'primary');
+  const handleCopy = useCallback(
+    (eventKey: string) => {
+      const colors = generatePalette(color, 'primary');
 
-    if (eventKey === 'css') {
-      const text = colors.map(item => `${item.cssVar}: ${item.hex};`).join('\n');
-      copyToClipboard(text);
-    } else if (eventKey === 'less') {
-      const text = colors
-        .map((item, index) => `@H${index === 0 ? '0' : ''}${item.level}: ${item.hex};`)
-        .join('\n');
-      copyToClipboard(text);
-    }
-  };
+      if (eventKey === 'css') {
+        const text = colors.map(item => `${item.cssVar}: ${item.hex};`).join('\n');
+        copyToClipboard(text);
+      } else if (eventKey === 'less') {
+        const text = colors
+          .map((item, index) => `@H${index === 0 ? '0' : ''}${item.level}: ${item.hex};`)
+          .join('\n');
+
+        copyToClipboard(text);
+      }
+    },
+    [color, copyToClipboard]
+  );
 
   return (
     <DefaultPage hidePageNav>
