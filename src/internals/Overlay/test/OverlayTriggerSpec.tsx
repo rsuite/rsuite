@@ -263,18 +263,6 @@ describe('OverlayTrigger', () => {
     expect(screen.getByRole('tooltip').style).to.have.property('left', '10px');
   });
 
-  it('Should throw an error when using Fragment as child', () => {
-    expect(() => {
-      render(
-        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>}>
-          <>button</>
-        </OverlayTrigger>
-      );
-    }).toHaveError(
-      '[rsuite] The OverlayTrigger component does not accept strings or Fragments as child.'
-    );
-  });
-
   it('Should open the Overlay', () => {
     render(
       <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} open>
@@ -286,14 +274,14 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should trigger onOpen & onClose with open props set', () => {
-    const onOpenSpy = sinon.spy();
-    const onCloseSpy = sinon.spy();
+    const onOpen = sinon.spy();
+    const onClose = sinon.spy();
     const { rerender } = render(
       <OverlayTrigger
         speaker={<Tooltip>tooltip</Tooltip>}
         open
-        onOpen={onOpenSpy}
-        onClose={onCloseSpy}
+        onOpen={onOpen}
+        onClose={onClose}
         trigger="click"
       >
         <button>button</button>
@@ -302,14 +290,14 @@ describe('OverlayTrigger', () => {
 
     fireEvent.click(screen.getByText('button'));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
 
     rerender(
       <OverlayTrigger
         speaker={<Tooltip>tooltip</Tooltip>}
         open={false}
-        onOpen={onOpenSpy}
-        onClose={onCloseSpy}
+        onOpen={onOpen}
+        onClose={onClose}
         trigger="click"
       >
         <button>button</button>
@@ -318,20 +306,15 @@ describe('OverlayTrigger', () => {
 
     fireEvent.click(screen.getByText('button'));
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should open the Overlay by default', async () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     const ref = React.createRef<OverlayTriggerHandle>();
 
     render(
-      <OverlayTrigger
-        speaker={<Tooltip>tooltip</Tooltip>}
-        defaultOpen
-        onExited={onCloseSpy}
-        ref={ref}
-      >
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen onExited={onClose} ref={ref}>
         <button>button</button>
       </OverlayTrigger>
     );
@@ -341,7 +324,7 @@ describe('OverlayTrigger', () => {
     ref.current?.close();
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(onClose).to.have.been.calledOnce;
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });
@@ -475,6 +458,88 @@ describe('OverlayTrigger', () => {
     await waitFor(() => {
       expect(onExited).to.have.been.calledOnce;
       expect(screen.queryByRole('tooltip')).to.not.exist;
+    });
+  });
+
+  describe('children', () => {
+    it('Should support ReactElement as children', async () => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} trigger="click">
+          <a>button</a>
+        </OverlayTrigger>
+      );
+
+      expect(screen.getByText('button')).to.be.tagName('a');
+
+      fireEvent.click(screen.getByText('button'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).to.exist;
+      });
+    });
+
+    it('Should support fragment as children', async () => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} trigger="click">
+          <>button</>
+        </OverlayTrigger>
+      );
+
+      expect(screen.getByText('button')).to.be.tagName('span');
+
+      fireEvent.click(screen.getByText('button'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).to.exist;
+      });
+    });
+
+    it('Should support string as children', async () => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} trigger="click">
+          button
+        </OverlayTrigger>
+      );
+
+      expect(screen.getByText('button')).to.be.tagName('span');
+
+      fireEvent.click(screen.getByText('button'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).to.exist;
+      });
+    });
+
+    it('Should support number as children', async () => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} trigger="click">
+          {100}
+        </OverlayTrigger>
+      );
+
+      expect(screen.getByText('100')).to.be.tagName('span');
+
+      fireEvent.click(screen.getByText('100'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).to.exist;
+      });
+    });
+
+    it('Should support array as children', async () => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} trigger="click">
+          {['button', 'link']}
+        </OverlayTrigger>
+      );
+
+      expect(screen.getByText('buttonlink')).to.be.tagName('span');
+
+      fireEvent.click(screen.getByText('buttonlink'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).to.exist;
+      });
     });
   });
 });

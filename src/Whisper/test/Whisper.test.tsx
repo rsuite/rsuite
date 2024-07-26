@@ -4,8 +4,8 @@ import Whisper, { WhisperInstance } from '../Whisper';
 
 const whisperRef = React.createRef<WhisperInstance>();
 
-<Whisper ref={whisperRef} speaker={<div></div>}>
-  <div></div>
+<Whisper ref={whisperRef} speaker={<div />}>
+  <div />
 </Whisper>;
 
 whisperRef.current?.open();
@@ -31,5 +31,4 @@ whisperRef.current?.updatePosition();
   <div></div>
 </Whisper>;
 
-// @ts-expect-error should not accept children of type string
-<Whisper speaker={<div></div>}>button</Whisper>;
+<Whisper speaker={<div />}>button</Whisper>;
