@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { HStack, VStack, Dropdown } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
@@ -49,10 +49,12 @@ function Preview({ themeColor }: PreviewProps) {
     plugins: [palette]
   });
 
-  less?.modifyVars({
-    '@palette-color': themeColor,
-    '@theme-is-default': getThemeIsDefault()
-  });
+  useEffect(() => {
+    less?.modifyVars({
+      '@palette-color': themeColor,
+      '@theme-is-default': getThemeIsDefault()
+    });
+  }, [less, themeColor]);
 
   return (
     <div className="palette-preview" id="palettePreview" ref={rootRef}>
@@ -84,13 +86,8 @@ function Preview({ themeColor }: PreviewProps) {
   );
 }
 
-export default function Page() {
-  const [color, setColor] = useState('#3498FF');
+function CopyButton({ color }: { color: string }) {
   const { copyToClipboard, copied } = useClipboard();
-
-  const handleChangeComplete = useCallback(({ hex: color }) => {
-    setColor(color);
-  }, []);
 
   const handleCopy = useCallback(
     (eventKey: string) => {
@@ -111,15 +108,27 @@ export default function Page() {
   );
 
   return (
+    <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
+      <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
+      <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
+    </Dropdown>
+  );
+}
+
+export default function Page() {
+  const [color, setColor] = useState('#3498FF');
+
+  const handleChangeComplete = useCallback(({ hex: color }) => {
+    setColor(color);
+  }, []);
+
+  return (
     <DefaultPage hidePageNav>
       <VStack spacing={20} alignItems="center">
         <ThemeGroup />
         <HStack justifyContent="center" spacing={10}>
           <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
-          <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
-            <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
-            <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
-          </Dropdown>
+          <CopyButton color={color} />
         </HStack>
       </VStack>
 
