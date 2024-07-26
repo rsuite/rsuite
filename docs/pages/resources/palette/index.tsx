@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { HStack, VStack, Dropdown } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
@@ -49,17 +49,15 @@ function Preview({ themeColor }: PreviewProps) {
     plugins: [palette]
   });
 
-  useEffect(() => {
-    less?.modifyVars({
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    });
-  }, [less, themeColor]);
+  less?.modifyVars({
+    '@palette-color': themeColor,
+    '@theme-is-default': getThemeIsDefault()
+  });
 
   return (
     <div className="palette-preview" id="palettePreview" ref={rootRef}>
       <NextHead>
-        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
+        <link key={themeColor} rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
       <ColorGroup
         colors={colors}
