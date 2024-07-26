@@ -96,6 +96,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
 
   const toDateString = () => {
     let str = format;
+
     dateField.patternArray.forEach(item => {
       const { key, pattern } = item;
       const hour = dateField.hour;
