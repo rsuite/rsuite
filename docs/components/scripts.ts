@@ -12,6 +12,11 @@ export function installCarbon() {
     adSpace.appendChild(carbon);
 
     if (adView) {
+      // Hide the ad space if the data-hide attribute is set to true
+      if (adView.dataset.hide === 'true') {
+        return;
+      }
+
       adView.appendChild(adSpace);
     } else if (subtitle) {
       subtitle.parentNode.insertBefore(adSpace, subtitle);

@@ -1,17 +1,7 @@
 <!--start-code-->
 
 ```js
-import {
-  Container,
-  Header,
-  Sidebar,
-  Sidenav,
-  Content,
-  Navbar,
-  Nav,
-  Breadcrumb,
-  IconButton
-} from 'rsuite';
+import { Container, Header, Sidebar, Sidenav, Content, Nav, Breadcrumb, IconButton } from 'rsuite';
 import FakeBrowser from '@/components/FakeBrowser';
 import { Icon } from '@rsuite/icons';
 import { FaReact } from 'react-icons/fa';

@@ -12,6 +12,21 @@
 
   @theme-default: boolean(@theme-is-default);
 
+  // Highlight levels
+  --rs-primary-50: @H050;
+  --rs-primary-100: @H100;
+  --rs-primary-200: @H200;
+  --rs-primary-300: @H300;
+  --rs-primary-400: @H400;
+  --rs-primary-500: @H500;
+  --rs-primary-600: @H600;
+  --rs-primary-700: @H700;
+  --rs-primary-800: @H800;
+  --rs-primary-900: @H900;
+
+  // Background
+  --rs-bg-active: var(--rs-primary-500);
+
   // Focus ring
   --rs-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
 
@@ -31,7 +46,8 @@
   --rs-btn-link-active-text: if(@theme-default, @H900, @H700);
 
   // Input
-  --rs-input-focus-border: @H500;
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
 
   // Checkbox
   --rs-checkbox-checked-bg: @H500;
@@ -48,4 +64,16 @@
   --rs-slider-thumb-border: @H500;
   --rs-slider-thumb-hover-shadow: 0 0 0 8px fade(@H500, 25);
   --rs-slider-progress: @H500;
+
+  // Sidenav
+  --rs-sidenav-subtle-selected-text: var(--rs-primary-700);
+
+  // Steps
+  --rs-steps-state-process: var(--rs-primary-500);
+
+  // RadioTile
+  --rs-radio-tile-checked-color: var(--rs-primary-500);
+
+  // Menu
+  --rs-menuitem-active-bg: rgb(from var(--rs-primary-100) r g b / 50%);
 }

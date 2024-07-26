@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
@@ -6,14 +6,13 @@ import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
 import { useApp } from '@/components/AppContext';
 import Head from '@/components/Head';
-
 import PageToolbar from '@/components/PageToolbar';
 
 function HomePage() {
-  const [running, setRuning] = React.useState(false);
+  const [running, setRuning] = useState(false);
   const { locales } = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       setRuning(true);
     }, 1700);
