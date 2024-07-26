@@ -57,7 +57,7 @@ function Preview({ themeColor }: PreviewProps) {
   return (
     <div className="palette-preview" id="palettePreview" ref={rootRef}>
       <NextHead>
-        <link key={themeColor} rel="stylesheet/less" type="text/css" href="/less/palette.less" />
+        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
       <ColorGroup
         colors={colors}
