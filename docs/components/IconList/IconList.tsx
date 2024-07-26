@@ -1,21 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import {
-  Input,
-  Modal,
-  Button,
-  FlexboxGrid,
-  InputGroup,
-  Heading,
-  Stack,
-  IconButton,
-  ButtonGroup
-} from 'rsuite';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Input, InputGroup } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 import Link from '@/components/Link';
 import IconItem from './IconItem';
 import { useApp } from '@/components/AppContext';
 import iconList from '@rsuite/icons/meta.json';
 import * as Icons from '@rsuite/icons';
+import IcomModal from './IconModal';
 
 interface IconMeta {
   iconName: string;
@@ -23,17 +14,17 @@ interface IconMeta {
   categoryName: string;
 }
 
-const parseIconByCategory = (obj, conf) => {
-  const { categoryName: category } = conf;
-  if (obj[category]) {
-    obj[category].push(conf);
-    return obj;
-  }
-  obj[category] = [conf];
-  return obj;
-};
-
 const usableIconList: IconMeta[] = iconList.filter(({ categoryName }) => categoryName !== 'legacy');
+
+function searchFilter(keyword: string) {
+  return usableIconList.filter(({ categoryName, componentName }: IconMeta) => {
+    const key = keyword.toUpperCase();
+    return (
+      categoryName.toLocaleUpperCase().includes(key) ||
+      componentName.toLocaleUpperCase().includes(key)
+    );
+  });
+}
 
 function IconList() {
   const { locales } = useApp();
@@ -50,18 +41,12 @@ function IconList() {
     setShowIcon(false);
   }, []);
 
-  const renderIconList = useCallback(() => {
-    const key = keyword.toUpperCase();
-    const icons = usableIconList.filter(({ categoryName, componentName }: IconMeta) => {
-      return (
-        categoryName.toLocaleUpperCase().includes(key) ||
-        componentName.toLocaleUpperCase().includes(key)
-      );
-    });
+  const filteredIcons = searchFilter(keyword);
 
-    if (icons.length === 0) {
+  const iconElements = useMemo(() => {
+    if (filteredIcons.length === 0) {
       return (
-        <div className="rs-col-md-24">
+        <div>
           <p className="icon-list-no-results-title">
             {locales?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
           </p>
@@ -82,112 +67,36 @@ function IconList() {
       );
     }
 
-    const nextIcons = icons.reduce<{ [key: string]: IconMeta[] }>(parseIconByCategory, {});
-    return Object.keys(nextIcons)
-      .sort((a, b) => a.localeCompare(b))
-      .map((category, i) => {
-        return (
-          <React.Fragment key={i}>
-            <h3 className="icon-list-group-title">{category}</h3>
-            {nextIcons[category].map(({ componentName }, j) => {
-              return (
-                <IconItem
-                  icon={Icons[componentName]}
-                  name={componentName}
-                  key={`${j}-${componentName}`}
-                  onSelect={handleSelect}
-                />
-              );
-            })}
-          </React.Fragment>
-        );
-      });
-  }, [handleSelect, keyword, locales]);
-
-  const IconComponent = iconName ? Icons[iconName] : null;
+    return (
+      <div className="row icon-item-list">
+        {filteredIcons.map(({ componentName }, j) => {
+          return (
+            <IconItem
+              icon={Icons[componentName]}
+              name={componentName}
+              key={`${j}-${componentName}`}
+              onSelect={handleSelect}
+            />
+          );
+        })}
+      </div>
+    );
+  }, [filteredIcons, handleSelect, keyword, locales]);
 
   return (
     <div className="icon-list-wrap">
       <InputGroup inside size="lg" className="icon-search-input">
-        <Input type="text" placeholder={locales?.common.searchIcon} onChange={setKeyword} />
+        <Input
+          type="text"
+          placeholder={`Search ${usableIconList.length} icons ...`}
+          onChange={setKeyword}
+        />
         <InputGroup.Addon>
           <SearchIcon />
         </InputGroup.Addon>
       </InputGroup>
-      <div className="row icon-item-list">{renderIconList()}</div>
-      <Modal open={showIcon} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>{iconName}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="doc-highlight rcv-highlight" style={{ margin: '0 0 1em 0' }}>
-            <pre>
-              <code className="javascript">
-                <span className="hljs-keyword">import</span>
-                {` ${iconName}Icon `}
-                <span className="hljs-keyword">from</span>{' '}
-                <span className="hljs-string">{`'@rsuite/icons/${iconName}'`}</span>;
-              </code>
-            </pre>
-          </div>
-          {IconComponent ? (
-            <>
-              <FlexboxGrid>
-                <FlexboxGrid.Item colspan={12}>
-                  <div className="icon-bg-transparent" style={{ padding: 10, textAlign: 'center' }}>
-                    <IconComponent style={{ fontSize: 200 }} />
-                  </div>
-                </FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={12}>
-                  <div className="icon-example-list">
-                    <IconComponent style={{ fontSize: '2em' }} />
-                    <IconComponent style={{ fontSize: '3em' }} />
-                    <IconComponent style={{ fontSize: '4em' }} />
-                    <IconComponent style={{ fontSize: '5em' }} />
-                  </div>
-                  <div className="icon-example-list" style={{ marginTop: 20 }}>
-                    <IconComponent className="icon-item-box" style={{ color: '#1675e0' }} />
-                    <IconComponent
-                      className="icon-item-box"
-                      style={{ background: '#1675e0', color: '#fff' }}
-                    />
-                    <IconComponent className="icon-item-box" style={{ color: '#000' }} />
-                    <IconComponent
-                      className="icon-item-box"
-                      style={{ background: '#000', color: '#fff' }}
-                    />
-                  </div>
-                </FlexboxGrid.Item>
-              </FlexboxGrid>
-              <Heading level={5} style={{ margin: '20px 0' }}>
-                Examples
-              </Heading>
-              <Stack spacing={10} wrap>
-                <Button startIcon={<IconComponent />} appearance="primary">
-                  Button
-                </Button>
-                <Button startIcon={<IconComponent />}>Button</Button>
-                <IconButton icon={<IconComponent />} appearance="primary" />
-                <IconButton icon={<IconComponent />} />
-                <ButtonGroup>
-                  <IconButton icon={<IconComponent />} />
-                  <IconButton icon={<IconComponent />} />
-                  <IconButton icon={<IconComponent />} />
-                </ButtonGroup>
-                <InputGroup>
-                  <InputGroup.Addon>
-                    <IconComponent />
-                  </InputGroup.Addon>
-                  <Input placeholder="Input group" />
-                </InputGroup>
-              </Stack>
-            </>
-          ) : null}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+      {iconElements}
+      <IcomModal open={showIcon} onClose={handleClose} iconName={iconName} />
     </div>
   );
 }
