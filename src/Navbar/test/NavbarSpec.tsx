@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
@@ -17,8 +17,8 @@ describe('Navbar', () => {
   testStandardProps(<Navbar />);
 
   it('Should render a navbar', () => {
-    const instance = getDOMNode(<Navbar />);
-    assert.include(instance.className, 'rs-navbar');
+    const { container } = render(<Navbar />);
+    expect(container.firstChild).to.have.class('rs-navbar');
   });
 
   it('Should have a `navbar-nav` className in `nav`', () => {

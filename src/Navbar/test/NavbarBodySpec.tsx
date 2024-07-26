@@ -1,10 +1,12 @@
 import React from 'react';
 import sinon, { SinonStub } from 'sinon';
-import { getDOMNode } from '@test/utils';
 
 import NavbarBody from '../NavbarBody';
+import { render } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('NavbarBody (deprecated)', () => {
+  testStandardProps(<NavbarBody />);
   beforeEach(() => {
     sinon.stub(console, 'warn').callsFake(() => null);
   });
@@ -15,29 +17,13 @@ describe('NavbarBody (deprecated)', () => {
 
   it('Should render a body', () => {
     const title = 'Test';
-    const instance = getDOMNode(<NavbarBody>{title}</NavbarBody>);
-    assert.equal(instance.className, 'rs-navbar-body');
-    assert.equal(instance.innerHTML, title);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<NavbarBody className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<NavbarBody style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<NavbarBody classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { container } = render(<NavbarBody>{title}</NavbarBody>);
+    expect(container.firstChild).to.have.class('rs-navbar-body');
+    expect(container.firstChild?.textContent).to.equal(title);
   });
 
   it('Should warn deprecation message', () => {
-    getDOMNode(<NavbarBody />);
+    render(<NavbarBody />);
     assert.ok(/deprecated/i.test((console.warn as SinonStub).firstCall.args[0]));
   });
 });

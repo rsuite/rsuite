@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
 
@@ -10,23 +10,22 @@ describe('PanelGroup', () => {
 
   it('Should render a PanelGroup', () => {
     const title = 'Test';
-    const instance = getDOMNode(<PanelGroup>{title}</PanelGroup>);
-    const instanceDom = instance;
+    const { container } = render(<PanelGroup>{title}</PanelGroup>);
 
-    assert.equal(instanceDom.tagName, 'DIV');
-    assert.ok(instanceDom.className.match(/\bpanel-group\b/));
-    assert.equal(instanceDom.textContent, title);
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-panel-group');
+    expect(container.firstChild?.textContent).to.equal(title);
   });
 
   it('Should render 2 Panels', () => {
-    const instance = getDOMNode(
+    render(
       <PanelGroup>
-        <Panel>111</Panel>
-        <Panel>222</Panel>
+        <Panel data-testid="panel">111</Panel>
+        <Panel data-testid="panel">222</Panel>
       </PanelGroup>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-panel').length, 2);
+
+    expect(screen.getAllByTestId('panel')).to.have.length(2);
   });
 
   it('Should call onSelect callback', () => {
