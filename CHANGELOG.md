@@ -1,3 +1,20 @@
+# [5.68.0](https://github.com/rsuite/rsuite/compare/v5.67.0...v5.68.0) (2024-07-26)
+
+
+### Bug Fixes
+
+* **DateInput,DateRangeInput:** fix the date in the text box cannot be copied ([#3888](https://github.com/rsuite/rsuite/issues/3888)) ([1d95107](https://github.com/rsuite/rsuite/commit/1d95107d96ebe5bacb73c3fee8427efc59b1f673))
+* **Form:** fix `proxy` function in `schema-typed` not work in form ([#3863](https://github.com/rsuite/rsuite/issues/3863)) ([63c0e3a](https://github.com/rsuite/rsuite/commit/63c0e3a07a17eeb1158c75b49fb8fc3a65199e16))
+* **Stack:** fix the compatibility of spacing in Linux Firefox ([#3889](https://github.com/rsuite/rsuite/issues/3889)) ([44ed16f](https://github.com/rsuite/rsuite/commit/44ed16f7f1f41c7beda063a86588cbe9c52c6496))
+* **Whisper:** fix Whisper children not support string and other basic types ([#3893](https://github.com/rsuite/rsuite/issues/3893)) ([70fb61d](https://github.com/rsuite/rsuite/commit/70fb61da619ce0a94129eb6f02972b4ce16c5016))
+
+
+### Features
+
+* **Nav,Tabs:** add `pills` value to the appearance property ([#3890](https://github.com/rsuite/rsuite/issues/3890)) ([eae279f](https://github.com/rsuite/rsuite/commit/eae279fa5ede8c6ce2c3676585f1cc85c9644b8e))
+
+
+
 # [5.67.0](https://github.com/rsuite/rsuite/compare/v5.66.0...v5.67.0) (2024-07-19)
 
 
