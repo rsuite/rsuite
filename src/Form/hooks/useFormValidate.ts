@@ -16,6 +16,7 @@ export interface FormErrorProps {
 export default function useFormValidate(formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField } = props;
   const [realFormError, setFormError] = useControlled(formError, {});
+  const checkOptions = { nestedObject: nestedField };
 
   const realFormErrorRef = useRef(realFormError);
   realFormErrorRef.current = realFormError;
@@ -31,7 +32,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     const model = getCombinedModel();
 
     Object.keys(model.getSchemaSpec()).forEach(key => {
-      const checkResult = model.checkForField(key, formValue || {});
+      const checkResult = model.checkForField(key, formValue || {}, checkOptions);
       if (checkResult.hasError === true) {
         errorCount += 1;
         formError[key] = checkResult?.errorMessage || checkResult;
@@ -50,6 +51,60 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     return true;
   });
 
+  const checkFieldForNextValue = useEventCallback(
+    (
+      fieldName: string,
+      nextValue: Record<string, unknown>,
+      callback?: (checkResult: unknown) => void
+    ) => {
+      const model = getCombinedModel();
+      const resultOfCurrentField = model.checkForField(fieldName, nextValue, checkOptions);
+      let nextFormError = {
+        ...formError
+      };
+      /**
+       * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
+       * but if nestedField is used, it is impossible to distinguish whether the nested object has an error here,
+       * so nestedField does not support proxy here
+       */
+      if (nestedField) {
+        nextFormError = set(nextFormError, nameToPath(fieldName), resultOfCurrentField);
+        setFormError(nextFormError);
+        onCheck?.(nextFormError);
+        callback?.(resultOfCurrentField);
+
+        if (resultOfCurrentField.hasError) {
+          onError?.(nextFormError);
+        }
+
+        return !resultOfCurrentField.hasError;
+      } else {
+        const allResults = model.getCheckResult();
+        let hasError = false;
+
+        Object.keys(allResults).forEach(key => {
+          const currentResult = allResults[key];
+          if (currentResult.hasError) {
+            nextFormError[key] = currentResult.errorMessage || currentResult;
+            hasError = true;
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { [key]: _, ...rest } = nextFormError;
+            nextFormError = rest;
+          }
+        });
+
+        setFormError(nextFormError);
+        onCheck?.(nextFormError);
+        callback?.(resultOfCurrentField);
+        if (hasError) {
+          onError?.(nextFormError);
+        }
+
+        return !hasError;
+      }
+    }
+  );
   /**
    * Check the data field
    * @param fieldName
@@ -57,24 +112,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
    */
   const checkForField = useEventCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
-      const model = getCombinedModel();
-
-      const checkResult = model.checkForField(fieldName, formValue || {});
-
-      const nextFormError = {
-        ...formError,
-        [fieldName]: checkResult?.errorMessage || checkResult
-      };
-
-      setFormError(nextFormError);
-      onCheck?.(nextFormError);
-      callback?.(checkResult);
-
-      if (checkResult.hasError) {
-        onError?.(nextFormError);
-      }
-
-      return !checkResult.hasError;
+      return checkFieldForNextValue(fieldName, formValue || {}, callback);
     }
   );
 
@@ -88,7 +126,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
 
     Object.keys(model.getSchemaSpec()).forEach(key => {
       keys.push(key);
-      promises.push(model.checkForFieldAsync(key, formValue || {}));
+      promises.push(model.checkForFieldAsync(key, formValue || {}, checkOptions));
     });
 
     return Promise.all(promises).then(values => {
@@ -113,25 +151,58 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     });
   });
 
+  const checkFieldAsyncForNextValue = useEventCallback((fieldName, nextValue) => {
+    const model = getCombinedModel();
+    return model
+      .checkForFieldAsync(fieldName, nextValue, checkOptions)
+      .then(resultOfCurrentField => {
+        let nextFormError = { ...formError };
+        /**
+         * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
+         * but if nestedField is used, it is impossible to distinguish whether the nested object has an error here,
+         * so nestedField does not support proxy here
+         */
+
+        if (nestedField) {
+          nextFormError = set(nextFormError, nameToPath(fieldName), resultOfCurrentField);
+          onCheck?.(nextFormError);
+          setFormError(nextFormError);
+
+          if (resultOfCurrentField.hasError) {
+            onError?.(nextFormError);
+          }
+
+          return resultOfCurrentField;
+        } else {
+          const allResults = model.getCheckResult();
+          let hasError = false;
+          Object.keys(allResults).forEach(key => {
+            const currentResult = allResults[key];
+            if (currentResult.hasError) {
+              nextFormError[key] = currentResult.errorMessage || currentResult;
+              hasError = true;
+            } else {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const { [key]: _, ...rest } = nextFormError;
+              nextFormError = rest;
+            }
+          });
+          setFormError(nextFormError);
+          onCheck?.(nextFormError);
+          if (hasError) {
+            onError?.(nextFormError);
+          }
+          return resultOfCurrentField;
+        }
+      });
+  });
+
   /**
    * Asynchronously check form fields and return Promise
    * @param fieldName
    */
   const checkForFieldAsync = useEventCallback((fieldName: string) => {
-    const model = getCombinedModel();
-
-    return model.checkForFieldAsync(fieldName, formValue || {}).then(checkResult => {
-      const nextFormError = { ...formError, [fieldName]: checkResult.errorMessage };
-
-      onCheck?.(nextFormError);
-      setFormError(nextFormError);
-
-      if (checkResult.hasError) {
-        onError?.(nextFormError);
-      }
-
-      return checkResult;
-    });
+    return checkFieldAsyncForNextValue(fieldName, formValue || {});
   });
 
   const onRemoveError = useCallback(
@@ -151,21 +222,6 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     [nestedField, onCheck, setFormError]
   );
 
-  const setFieldError = useCallback(
-    (fieldName: string, checkResult: string | CheckResult) => {
-      const nextFormError = nestedField
-        ? set({ ...formError }, nameToPath(fieldName), checkResult)
-        : { ...formError, [fieldName]: checkResult };
-
-      setFormError(nextFormError);
-      onError?.(nextFormError);
-      onCheck?.(nextFormError);
-
-      return nextFormError;
-    },
-    [formError, nestedField, onCheck, onError, setFormError]
-  );
-
   const cleanErrors = useEventCallback(() => {
     setFormError({});
   });
@@ -182,12 +238,13 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     formError: realFormError,
     check,
     checkForField,
+    checkFieldForNextValue,
     checkAsync,
     checkForFieldAsync,
+    checkFieldAsyncForNextValue,
     cleanErrors,
     resetErrors,
     cleanErrorForField,
-    setFieldError,
     onRemoveError
   };
 }

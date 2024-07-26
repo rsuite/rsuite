@@ -121,6 +121,12 @@ return (
 
 <!--{include:`form-nested-fields.md`}-->
 
+### 代理校验
+
+<!--{include:`form-check-proxy.md`}-->
+
+ >注意：当 `Form` 启用`nestedField`时，不支持`proxy`。
+
 ## 与其他库集成
 
 - [与 Formik 集成](/zh/components/form-formik/)
