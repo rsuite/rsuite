@@ -18,28 +18,47 @@ import AdaptiveNavItem from './AdaptiveNavItem';
 export interface NavProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
-  /** sets appearance */
-  appearance?: 'default' | 'subtle' | 'tabs';
+  /**
+   * The appearance style of the Nav component.
+   *
+   * @default 'default'
+   * @version 'pills' is supported in version 5.68.0
+   */
+  appearance?: 'default' | 'subtle' | 'tabs' | 'pills';
 
-  /** Reverse Direction of tabs/subtle */
+  /**
+   * Whether the Nav component is reversed.
+   */
   reversed?: boolean;
 
-  /** Justified navigation */
+  /**
+   * Whether the Nav component is justified.
+   */
   justified?: boolean;
 
-  /** Vertical navigation */
+  /**
+   * Whether the Nav component is vertical.
+   */
   vertical?: boolean;
 
-  /** appears on the right. */
+  /**
+   * Whether the Nav component is pulled to the right.
+   */
   pullRight?: boolean;
 
-  /** Active key, corresponding to eventkey in <Nav.item>. */
+  /**
+   * The active key of the Nav component.
+   */
   activeKey?: T;
 
-  /** Default active key, corresponding to eventkey in <Nav.item>. */
+  /**
+   * The default active key of the Nav component.
+   */
   defaultActiveKey?: T;
 
-  /** Callback function triggered after selection */
+  /**
+   * Event handler for selecting a Nav item.
+   */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
@@ -106,7 +125,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   const contextValue = useMemo<NavContextProps>(
     () => ({
       activeKey,
-      onSelect: (eventKey: string | undefined, event: React.SyntheticEvent) => {
+      onSelect: (eventKey: string | number | undefined, event: React.SyntheticEvent) => {
         setActiveKey(eventKey);
         onSelectProp?.(eventKey, event);
         onSelectFromSidenav?.(eventKey, event);
@@ -173,7 +192,7 @@ Nav.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  appearance: oneOf(['default', 'subtle', 'tabs']),
+  appearance: oneOf(['default', 'subtle', 'tabs', 'pills']),
   // Reverse Direction of tabs/subtle
   reversed: PropTypes.bool,
   justified: PropTypes.bool,

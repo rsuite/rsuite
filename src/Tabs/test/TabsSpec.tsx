@@ -15,6 +15,18 @@ describe('Tabs', () => {
     expect(container.firstChild).to.have.class('rs-tabs');
   });
 
+  it('Should be pills appearance', () => {
+    render(<Tabs appearance="pills" />);
+
+    expect(screen.getByRole('tablist')).to.have.class('rs-nav-pills');
+  });
+
+  it('Should be tabs appearance', () => {
+    render(<Tabs appearance="subtle" />);
+
+    expect(screen.getByRole('tablist')).to.have.class('rs-nav-subtle');
+  });
+
   it('Should be vertical', () => {
     render(<Tabs vertical />);
 
