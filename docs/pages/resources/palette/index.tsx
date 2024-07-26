@@ -86,13 +86,8 @@ function Preview({ themeColor }: PreviewProps) {
   );
 }
 
-export default function Page() {
-  const [color, setColor] = useState('#3498FF');
+function CopyButton({ color }: { color: string }) {
   const { copyToClipboard, copied } = useClipboard();
-
-  const handleChangeComplete = useCallback(({ hex: color }) => {
-    setColor(color);
-  }, []);
 
   const handleCopy = useCallback(
     (eventKey: string) => {
@@ -113,15 +108,27 @@ export default function Page() {
   );
 
   return (
+    <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
+      <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
+      <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
+    </Dropdown>
+  );
+}
+
+export default function Page() {
+  const [color, setColor] = useState('#3498FF');
+
+  const handleChangeComplete = useCallback(({ hex: color }) => {
+    setColor(color);
+  }, []);
+
+  return (
     <DefaultPage hidePageNav>
       <VStack spacing={20} alignItems="center">
         <ThemeGroup />
         <HStack justifyContent="center" spacing={10}>
           <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
-          <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
-            <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
-            <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
-          </Dropdown>
+          <CopyButton color={color} />
         </HStack>
       </VStack>
 
