@@ -2,7 +2,7 @@ import React from 'react';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import { useApp } from '@/components/AppContext';
-import { ButtonGroup, IconButton, Input, InputGroup, Text } from 'rsuite';
+import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import CategorizedList from '@/components/CategorizedList';
 import SortedList from '@/components/SortedList';
 
@@ -14,12 +14,14 @@ function includes(str: string, keyword: string) {
 }
 
 const filterComponents = (item: MenuItem, search: string) => {
-  const { name, title, keywords } = item;
+  const { name, title, keywords, apis, components } = item;
 
   return (
     includes(name, search) ||
     includes(title, search) ||
-    keywords?.some(keyword => includes(keyword, search))
+    keywords?.some(keyword => includes(keyword, search)) ||
+    apis?.some(api => includes(api, search)) ||
+    components?.some(component => includes(component, search))
   );
 };
 
@@ -36,18 +38,8 @@ export default function Page() {
   return (
     <DefaultPage>
       <div className="component-overview">
-        <div className="toolbar">
-          <InputGroup inside className="component-search-input">
-            <Input
-              placeholder={locales.common.searchComponents}
-              onChange={value => setSearch(value)}
-            />
-            <InputGroup.Addon>
-              <SearchIcon />
-            </InputGroup.Addon>
-          </InputGroup>
-
-          <ButtonGroup className="group">
+        <HStack className="toolbar" spacing={10}>
+          <ButtonGroup className="group" size="lg">
             <IconButton
               icon={<FaList />}
               active={type === 'category'}
@@ -59,7 +51,17 @@ export default function Page() {
               onClick={() => setType('sorted')}
             />
           </ButtonGroup>
-        </div>
+          <InputGroup inside className="component-search-input" size="lg">
+            <Input
+              placeholder={locales.common.searchComponents}
+              onChange={value => setSearch(value)}
+              autoComplete="off"
+            />
+            <InputGroup.Addon>
+              <SearchIcon />
+            </InputGroup.Addon>
+          </InputGroup>
+        </HStack>
 
         {type === 'category' ? (
           <CategorizedList components={components} language={language} />
