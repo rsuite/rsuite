@@ -1,4 +1,4 @@
-import { ButtonGroup, Button } from 'rsuite';
+import { Nav } from 'rsuite';
 import { useApp, Theme } from '@/components/AppContext';
 import { Icon } from '@rsuite/icons';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
@@ -26,18 +26,18 @@ function ThemeGroup() {
   ];
 
   return (
-    <ButtonGroup>
+    <Nav appearance={'pills' as any}>
       {themesConfig.map(item => (
-        <Button
-          active={themeName === item.value}
+        <Nav.Item
           key={item.value}
+          active={themeName === item.value}
           onClick={() => onChangeTheme(item.value as Theme)}
-          startIcon={<Icon as={item.icon} />}
+          icon={<Icon as={item.icon} />}
         >
           {item.name}
-        </Button>
+        </Nav.Item>
       ))}
-    </ButtonGroup>
+    </Nav>
   );
 }
 

@@ -1,5 +1,5 @@
 # Components
 
-All components and utils provided by React Suite.
+All components and hooks provided by React Suite.
 
 ---
