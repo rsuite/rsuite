@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockClipboardEvent } from '@test/mocks/data-mock';
 import sinon from 'sinon';
 import DateRangeInput from '../DateRangeInput';
 import CustomProvider from '../../CustomProvider';
@@ -494,6 +495,78 @@ describe('DateRangeInput', () => {
         // Error value: 10/14/0001
         expectedValue: '04/01/2024 ~ 02/01/2024'
       });
+    });
+  });
+
+  describe('DateRangeInput - Paste', () => {
+    it('Should call `onChange` with pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(<DateRangeInput onChange={onChange} />);
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const event = mockClipboardEvent('2024-07-21 ~ 2024-07-22');
+
+      fireEvent(input, event);
+
+      expect(input).to.have.value('2024-07-21 ~ 2024-07-22');
+      expect(format(onChange.lastCall.firstArg[0], 'yyyy-MM-dd')).to.have.eql('2024-07-21');
+      expect(format(onChange.lastCall.firstArg[1], 'yyyy-MM-dd')).to.have.eql('2024-07-22');
+    });
+
+    it('Should not call `onChange` with invalid pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(
+        <DateRangeInput
+          onChange={onChange}
+          defaultValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
+        />
+      );
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+
+      // Invalid month
+      const event = mockClipboardEvent('2024-07-dd ~ 2024-07-22');
+
+      fireEvent(input, event);
+
+      expect(input).to.have.value('2023-10-01 ~ 2023-10-02');
+      expect(onChange).to.not.have.been.called;
+    });
+
+    it('Should not call `onChange` with invalid pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(
+        <DateRangeInput
+          onChange={onChange}
+          format="MM/dd/yyyy"
+          defaultValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
+        />
+      );
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+
+      // Invalid date format
+      const event = mockClipboardEvent('2024-07-21 ~ 2024-07-22');
+
+      fireEvent(input, event);
+
+      expect(input).to.have.value('10/01/2023 ~ 10/02/2023');
+      expect(onChange).to.not.have.been.called;
+    });
+
+    it('Should call `onPaste` callback', () => {
+      const onPaste = sinon.spy();
+
+      render(<DateRangeInput onPaste={onPaste} />);
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const event = mockClipboardEvent('2024-07-21 ~ 2024-07-22');
+
+      fireEvent(input, event);
+      expect(onPaste).to.have.been.called;
     });
   });
 });

@@ -92,10 +92,9 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     removeFieldValue,
     removeFieldError,
     onFieldChange,
-    onFieldError,
-    onFieldSuccess,
-    getCombinedModel,
-    checkTrigger: contextCheckTrigger
+    checkTrigger: contextCheckTrigger,
+    checkFieldForNextValue,
+    checkFieldAsyncForNextValue
   } = useContext(FormContext);
 
   const {
@@ -171,29 +170,12 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   });
 
   const handleFieldCheck = useEventCallback((value: any) => {
-    const callbackEvents = checkResult => {
-      if (checkResult.hasError) {
-        const { errorMessage } = checkResult;
-        const fieldError = nestedField ? checkResult : errorMessage || checkResult;
-
-        onFieldError?.(name, fieldError);
-      } else {
-        onFieldSuccess?.(name);
-      }
-
-      return checkResult;
-    };
-
     const nextFormValue = setFieldValue(name, value);
-    const model = getCombinedModel();
-    const checkOptions = { nestedObject: nestedField };
     if (checkAsync) {
-      return model
-        ?.checkForFieldAsync(name, nextFormValue, checkOptions)
-        .then(checkResult => callbackEvents(checkResult));
+      checkFieldAsyncForNextValue(name, nextFormValue);
+    } else {
+      checkFieldForNextValue(name, nextFormValue);
     }
-
-    return Promise.resolve(callbackEvents(model?.checkForField(name, nextFormValue, checkOptions)));
   });
 
   const fieldHasError = Boolean(fieldError);

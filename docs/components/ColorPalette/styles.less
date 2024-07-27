@@ -1,0 +1,45 @@
+.color-box {
+  display: flex;
+  width: auto;
+  height: auto;
+  flex-direction: column;
+  flex: 1 1 0%;
+  aspect-ratio: 2 / 1.5;
+
+  &.inverse button svg {
+    color: var(--rs-gray-0);
+  }
+
+  button {
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    svg {
+      opacity: 0;
+      color: var(--rs-text-secondary);
+    }
+  }
+
+  &:hover {
+    .color-box-title {
+      color: var(--rs-text-primary);
+    }
+    button svg {
+      opacity: 1;
+    }
+  }
+}
+
+.color-box-row {
+  width: 100%;
+}
+
+.color-box-row-title {
+  text-transform: capitalize;
+  display: flex;
+  width: 86px;
+  height: auto;
+  flex: 1 1 0%;
+  align-items: center;
+  justify-content: flex-start;
+}

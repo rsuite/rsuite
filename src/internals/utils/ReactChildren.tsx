@@ -16,7 +16,7 @@ function typeOf(object: any) {
  * @param children - The children to check.
  * @returns True if the children is a React fragment, false otherwise.
  */
-function isFragment(children: React.ReactNode) {
+export function isFragment(children: React.ReactNode) {
   return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
 }
 

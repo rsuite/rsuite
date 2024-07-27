@@ -10,44 +10,54 @@ describe('<Nav>', () => {
   testStandardProps(<Nav />);
 
   it('Should render a nav', () => {
-    render(<Nav data-testid="nav">Test</Nav>);
+    render(<Nav>Nav</Nav>);
 
-    expect(screen.getByTestId('nav').className).to.contain('nav');
-    expect(screen.getByTestId('nav')).to.text('Test');
+    expect(screen.getByText('Nav')).to.have.class('rs-nav');
   });
 
-  it('Should have a `nav-tabs` className', () => {
-    render(<Nav data-testid="nav" appearance="tabs" />);
+  it('Should be tabs appearance', () => {
+    render(<Nav appearance="tabs">Nav</Nav>);
 
-    expect(screen.getByTestId('nav').className).to.contain('nav-tabs');
+    expect(screen.getByText('Nav')).to.have.class('rs-nav-tabs');
   });
 
-  it('Should have a `nav-justified` className', () => {
-    render(<Nav data-testid="nav" justified />);
-    expect(screen.getByTestId('nav').className).to.contain('nav-justified');
+  it('Should be subtle appearance', () => {
+    render(<Nav appearance="subtle">Nav</Nav>);
+
+    expect(screen.getByText('Nav')).to.have.class('rs-nav-subtle');
+  });
+
+  it('Should be pills appearance', () => {
+    render(<Nav appearance="pills">Nav</Nav>);
+
+    expect(screen.getByText('Nav')).to.have.class('rs-nav-pills');
+  });
+
+  it('Should be justified', () => {
+    render(<Nav justified>Nav</Nav>);
+    expect(screen.getByText('Nav')).to.have.class('rs-nav-justified');
   });
 
   it('Should have a `navbar-right` className', () => {
-    render(<Nav data-testid="nav" pullRight />);
+    render(<Nav pullRight>Nav</Nav>);
 
-    expect(screen.getByTestId('nav').className).to.contain('navbar-right');
+    expect(screen.getByText('Nav')).to.have.class('rs-navbar-right');
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
     render(
       <Nav activeKey={2}>
-        {/* FIXME Figure out whether `eventKey` accepts number */}
-        <Nav.Item eventKey={1 as any}>1</Nav.Item>
-        <Nav.Item eventKey={2 as any}>2</Nav.Item>
+        <Nav.Item eventKey={1}>1</Nav.Item>
+        <Nav.Item eventKey={2}>2</Nav.Item>
       </Nav>
     );
 
     expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
   });
 
-  it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
+  it('Should be selected second option when activeKey is an object', () => {
     render(
-      <Nav activeKey={{ key: 2, value: 2 }}>
+      <Nav activeKey={{ key: 2, value: 2 } as any}>
         <Nav.Item eventKey={{ key: 1, value: 1 } as any}>1</Nav.Item>
         <Nav.Item eventKey={{ key: 2, value: 2 } as any}>2</Nav.Item>
       </Nav>
@@ -57,9 +67,9 @@ describe('<Nav>', () => {
   });
 
   it('Should call onSelect callback with correct arguments', async () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
     render(
-      <Nav onSelect={onSelectSpy}>
+      <Nav onSelect={onSelect}>
         <Nav.Item eventKey="1" data-testid="item">
           Nav item
         </Nav.Item>
@@ -75,14 +85,14 @@ describe('<Nav>', () => {
     userEvent.click(screen.getByTestId('item'));
 
     await waitFor(() => {
-      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
     });
 
-    onSelectSpy.resetHistory();
+    onSelect.resetHistory();
     userEvent.click(screen.getByTestId('dropdown-item'));
 
     await waitFor(() => {
-      expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+      expect(onSelect, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
         '2-1',
         sinon.match.any
       );
@@ -100,7 +110,8 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(screen.getByTestId('dropdown-item').getAttribute('aria-checked')).to.equal('true');
+    fireEvent.click(screen.getByRole('button', { name: 'Dropdown' }));
+    expect(screen.getByRole('menuitem')).to.have.attribute('aria-checked', 'true');
   });
 
   it('Should work with Dropdown', () => {
@@ -117,9 +128,9 @@ describe('<Nav>', () => {
 
   describe('[Deprecated] Legacy Nav.Dropdown API', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
-        <Nav onSelect={onSelectSpy}>
+        <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1" data-testid="item">
             Nav item
           </Nav.Item>
@@ -135,14 +146,14 @@ describe('<Nav>', () => {
       userEvent.click(screen.getByTestId('item'));
 
       await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+        expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
       });
 
-      onSelectSpy.resetHistory();
+      onSelect.resetHistory();
       userEvent.click(screen.getByTestId('dropdown-item'));
 
       await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+        expect(onSelect, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
           '2-1',
           sinon.match.any
         );
@@ -198,9 +209,9 @@ describe('<Nav>', () => {
 
   describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
-        <Nav onSelect={onSelectSpy}>
+        <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1" data-testid="item">
             Nav item
           </Nav.Item>
@@ -216,14 +227,14 @@ describe('<Nav>', () => {
       userEvent.click(screen.getByTestId('item'));
 
       await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+        expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
       });
 
-      onSelectSpy.resetHistory();
+      onSelect.resetHistory();
       userEvent.click(screen.getByTestId('dropdown-item'));
 
       await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+        expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith(
           '2-1',
           sinon.match.any
         );

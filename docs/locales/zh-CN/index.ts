@@ -12,6 +12,7 @@ export default {
     performance: '性能',
     design: '设计原型',
     components: '组件',
+    colors: '颜色',
     resources: '资源 & 工具',
     templates: '模板',
     designResources: '设计资源',

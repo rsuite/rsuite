@@ -152,6 +152,10 @@ export default function usePages(): MenuItem[] {
           name: locales?.common?.designResources
         },
         {
+          id: 'colors',
+          name: locales?.common?.colors
+        },
+        {
           id: 'palette',
           name: locales?.common?.palette
         },

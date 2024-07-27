@@ -25,10 +25,7 @@ const IconItem = (props: IconItemProps) => {
       tabIndex={0}
       onClick={handleSelect}
     >
-      <div className="icon-wrapper">
-        <IconComponent className="icon-svg" {...rest} />
-      </div>
-      <p className="icon-label">{name}</p>
+      <IconComponent className="icon-svg" {...rest} />
     </div>
   );
 };

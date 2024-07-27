@@ -1,4 +1,6 @@
 import React from 'react';
+import sinon from 'sinon';
+
 /**
  * Mock tree data
  * @example
@@ -50,4 +52,21 @@ export function mockGroupData(data, options) {
     });
   });
   return items;
+}
+
+export function mockClipboardEvent(data: string) {
+  // Create a mock ClipboardEvent
+  const clipboardEvent = new Event('paste', {
+    bubbles: true,
+    cancelable: true
+  });
+
+  // Add a clipboardData property with getData method to the event
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  clipboardEvent.clipboardData = {
+    getData: sinon.stub().withArgs('text').returns(data)
+  };
+
+  return clipboardEvent;
 }

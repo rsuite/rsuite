@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
 import type { AppProps } from 'next/app';
@@ -7,8 +7,6 @@ import Router, { useRouter } from 'next/router';
 import { AppProvider } from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
-import '../less/index.less';
-
 import { getMessages } from '../locales';
 import {
   DirectionType,
@@ -22,6 +20,7 @@ import StyleHead from '../components/StyleHead';
 import canUseDOM from 'dom-lib/canUseDOM';
 import loadCssFile from '@/utils/loadCssFile';
 import TypedPrompt from '@/components/TypedPrompt';
+import '../less/index.less';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -40,20 +39,19 @@ Router.events.on('routeChangeComplete', () => {
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function App({ Component, pageProps }: AppProps) {
-  const [defaultThemeName, defaultDirection] = React.useMemo<[ThemeType, DirectionType]>(
-    readTheme,
-    [getDefaultTheme()]
-  );
-  const [themeName, setThemeName] = React.useState<CustomProviderProps['theme']>(defaultThemeName);
-  const [direction, setDirection] = React.useState(defaultDirection);
+  const [defaultThemeName, defaultDirection] = useMemo<[ThemeType, DirectionType]>(readTheme, [
+    getDefaultTheme()
+  ]);
+  const [themeName, setThemeName] = useState<CustomProviderProps['theme']>(defaultThemeName);
+  const [direction, setDirection] = useState(defaultDirection);
   const router = useRouter();
-  const [styleLoaded, setStyleLoaded] = React.useState(false);
+  const [styleLoaded, setStyleLoaded] = useState(false);
 
-  const handleStyleHeadLoaded = React.useCallback(() => {
+  const handleStyleHeadLoaded = useCallback(() => {
     setStyleLoaded(true);
   }, []);
 
-  const onChangeTheme = React.useCallback(
+  const onChangeTheme = useCallback(
     newThemeName => {
       setThemeName(newThemeName);
       writeTheme(newThemeName, direction);
@@ -85,7 +83,7 @@ function App({ Component, pageProps }: AppProps) {
     };
   }, [themeName, direction, onChangeTheme]);
 
-  const loadStylesheetForDirection = React.useCallback(
+  const loadStylesheetForDirection = useCallback(
     async (direction: DirectionType) => {
       console.group(`Changing direction: ${direction}`);
 
@@ -114,7 +112,7 @@ function App({ Component, pageProps }: AppProps) {
     [themeName]
   );
 
-  const onChangeDirection = React.useCallback(() => {
+  const onChangeDirection = useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
   }, [direction]);

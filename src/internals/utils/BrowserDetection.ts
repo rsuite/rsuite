@@ -39,9 +39,16 @@ export const getSafariVersion = () => {
  * @see https://caniuse.com/flexbox-gap
  */
 export const isSupportFlexGap = () => {
+  // Check if the browser supports the `gap` property
+  if (typeof CSS !== 'undefined' && typeof CSS.supports !== 'undefined') {
+    return CSS.supports('(gap: 1px)');
+  }
+
+  // IE does not support flex-gap
   if (isIE()) {
     return false;
   }
+
   const chromeVersion = getChromeVersion();
   const safariVersion = getSafariVersion();
 

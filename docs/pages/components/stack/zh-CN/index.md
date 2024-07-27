@@ -6,9 +6,9 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Stack>`: 用于水平或垂直堆叠元素。
-- `<HStack>`: 用于水平堆叠元素。
-- `<VStack>`: 用于垂直堆叠元素。
+- `<Stack>` 用于水平或垂直堆叠元素。
+- `<HStack>` 用于水平堆叠元素。![][5.65.0]
+- `<VStack>` 用于垂直堆叠元素。![][5.65.0]
 
 ## 演示
 
@@ -92,3 +92,5 @@
 | reverse            | boolean                                                                                            | 反转一组子项在堆叠中的顺序             |
 | spacing            | number &#124; string `(6)`                                                                         | 为每一个子项直接设置间距               |
 | wrap               | boolean                                                                                            | 定义一组子项是强制在一行上还是在多行上 |
+
+[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue

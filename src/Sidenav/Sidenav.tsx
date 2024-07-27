@@ -10,7 +10,7 @@ import { mergeRefs, shallowEqual } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 
-export interface SidenavProps<T = string> extends WithAsProps {
+export interface SidenavProps<T = string | number> extends WithAsProps {
   /** Whether to expand the Sidenav */
   expanded?: boolean;
 
@@ -41,7 +41,7 @@ export interface SidenavProps<T = string> extends WithAsProps {
 
 export const SidenavContext = React.createContext<SidenavContextType | null>(null);
 
-export interface SidenavContextType<T = string> {
+export interface SidenavContextType<T = string | number> {
   openKeys: T[];
   /**
    * @deprecated Use activeKey from NavContext instead

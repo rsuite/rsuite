@@ -13,47 +13,50 @@ import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
 
+/**
+ * Props for the Tabs component.
+ */
 export interface TabsProps extends WithAsProps {
   /**
-   * The tabs appearance style.
+   * The appearance of the tabs.
+   * @default 'tabs'
+   * @version 'pills' is supported in version 5.68.0
    */
-  appearance?: 'tabs' | 'subtle';
+  appearance?: 'tabs' | 'subtle' | 'pills';
 
   /**
-   * Mark the Tab with a matching `eventKey` as active.
+   * The key of the active tab.
    */
-  activeKey?: string;
+  activeKey?: string | number;
 
   /**
-   * The default active tabKey.
+   * The default key of the active tab.
    */
-  defaultActiveKey?: string;
+  defaultActiveKey?: string | number;
 
   /**
-   * Reversed display.
-   * @default false
+   * Whether to reverse the order of the tabs.
    */
   reversed?: boolean;
 
   /**
-   * Vertical display.
-   * @default false
+   * Whether to display the tabs vertically.
    */
   vertical?: boolean;
 
   /**
-   * The HTML id attribute, which should be unique.
-   * @default use generated id
+   * The ID of the tabs.
+   * @default A unique ID is automatically generated.
    */
   id?: string;
 
   /**
-   * Callback fired when a Tab is selected.
-   * @param eventKey
-   * @param event
-   * @returns
+   * Callback function that is called when a tab is selected.
+   *
+   * @param eventKey - The key of the selected tab.
+   * @param event - The event object.
    */
-  onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: string | number | undefined, event: React.SyntheticEvent) => void;
 }
 
 interface TabsComponent extends RsRefForwardingComponent<'div', TabsProps> {
@@ -113,7 +116,10 @@ function previousItem(tablist: HTMLDivElement | null) {
   return previousItem;
 }
 
-const renderPanels = (children: React.ReactNode, tabProps: { id: string; activeKey?: string }) => {
+const renderPanels = (
+  children: React.ReactNode,
+  tabProps: { id: string; activeKey?: string | number }
+) => {
   const { id, activeKey } = tabProps;
   return ReactChildren.map(children, (child: React.ReactElement) => {
     const { eventKey, children } = child.props;
@@ -133,7 +139,7 @@ const renderPanels = (children: React.ReactNode, tabProps: { id: string; activeK
 
 const renderTabs = (
   children: React.ReactNode,
-  tabPanelProps: { id: string; activeKey?: string }
+  tabPanelProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabPanelProps;
   return ReactChildren.map(children, (child: React.ReactElement) => {
@@ -266,7 +272,7 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
 Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
 Tabs.propTypes = {
-  appearance: PropTypes.oneOf(['tabs', 'subtle']),
+  appearance: PropTypes.oneOf(['tabs', 'subtle', 'pills']),
   activeKey: PropTypes.any,
   defaultActiveKey: PropTypes.any,
   reversed: PropTypes.bool,

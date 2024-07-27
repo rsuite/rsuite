@@ -1,7 +1,6 @@
 import React, { FormHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Schema, SchemaModel } from 'schema-typed';
-import type { CheckResult } from 'schema-typed';
 import { FormValueProvider, FormProvider } from './FormContext';
 import FormControl from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
@@ -177,12 +176,13 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
   const {
     formError,
-    setFieldError,
     onRemoveError,
     check,
     checkAsync,
     checkForField,
+    checkFieldForNextValue,
     checkForFieldAsync,
+    checkFieldAsyncForNextValue,
     cleanErrors,
     resetErrors,
     cleanErrorForField
@@ -257,14 +257,6 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     onRemoveError(name);
   });
 
-  const onFieldError = useEventCallback((name: string, checkResult: string | CheckResult) => {
-    setFieldError(name, checkResult);
-  });
-
-  const onFieldSuccess = useEventCallback((name: string) => {
-    removeFieldError(name);
-  });
-
   const onFieldChange = useEventCallback(
     (name: string, value: any, event: React.SyntheticEvent) => {
       const nextFormValue = setFieldValue(name, value);
@@ -281,13 +273,12 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     formError,
     nestedField,
     pushFieldRule,
-    getCombinedModel,
     removeFieldValue,
     removeFieldError,
     removeFieldRule,
-    onFieldSuccess,
     onFieldChange,
-    onFieldError
+    checkFieldForNextValue,
+    checkFieldAsyncForNextValue
   };
 
   return (

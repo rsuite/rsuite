@@ -10,7 +10,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import NavContext from './NavContext';
 import classNames from 'classnames';
 
-export interface NavItemProps<T = string>
+export interface NavItemProps<T = string | number>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Activation status */
