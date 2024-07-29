@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/utils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 
@@ -46,13 +45,13 @@ describe('Modal', () => {
   });
 
   it('Should be automatic height', () => {
-    const instance = getDOMNode(
+    render(
       <Modal overflow open>
-        <Modal.Body style={{ height: 2000 }} />
+        <Modal.Body style={{ height: 2000 }} data-testid="modal-body" />
       </Modal>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('.rs-modal-body') as HTMLElement).style.overflow, 'auto');
+
+    expect(screen.getByTestId('modal-body')).to.have.style('overflow', 'auto');
   });
 
   it('Should call onClose callback', () => {
