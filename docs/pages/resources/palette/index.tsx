@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { HStack, VStack, Dropdown } from 'rsuite';
+import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
@@ -12,6 +12,7 @@ import ThemeGroup from '@/components/ThemeGroup';
 import AdminFrame from '@/components/AdminFrame';
 import { generatePalette } from 'rsuite/styles/plugins/palette';
 import useClipboard from '@/utils/useClipboard';
+import { useApp } from '@/components/AppContext';
 
 const colors: ColorMeta[] = [
   '50',
@@ -36,31 +37,11 @@ interface PreviewProps {
   themeColor: string;
 }
 
-function Preview({ themeColor }: PreviewProps) {
+function ColorCards(props: { container: ModalProps['container'] }) {
+  const { container } = props;
   const [color, setColor] = useState<ColorMeta | null>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const less = useLess(lessUrl, {
-    async: true,
-    logLevel: 0,
-    globalVars: {
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    },
-    plugins: [palette]
-  });
-
-  useEffect(() => {
-    less?.modifyVars({
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    });
-  }, [less, themeColor]);
-
   return (
-    <div className="palette-preview" id="palettePreview" ref={rootRef}>
-      <NextHead>
-        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
-      </NextHead>
+    <>
       <ColorGroup
         colors={colors}
         useCssVar
@@ -77,8 +58,49 @@ function Preview({ themeColor }: PreviewProps) {
         open={!!color}
         title={`Primary Color`}
         onClose={() => setColor(null)}
-        container={() => rootRef.current}
+        container={container}
       />
+    </>
+  );
+}
+
+function colorLog(key: string, value: string) {
+  const keyStyle = 'background: #606060; color: #fff; border-radius: 3px 0 0 3px;';
+  const valueStyle = `background: ${value}; color: #fff; border-radius: 0 3px 3px 0;`;
+  console.log(`%c ${key}: %c ${value} `, keyStyle, valueStyle);
+}
+
+function Preview({ themeColor }: PreviewProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { theme } = useApp();
+  const less = useLess(lessUrl, {
+    async: true,
+    logLevel: 0,
+    globalVars: {
+      '@palette-color': themeColor,
+      '@theme-is-default': getThemeIsDefault()
+    },
+    plugins: [palette]
+  });
+
+  const updateLessVars = useCallback(() => {
+    less?.modifyVars({
+      '@palette-color': themeColor,
+      '@theme-is-default': getThemeIsDefault()
+    });
+
+    colorLog('Current theme color', themeColor);
+  }, [less, themeColor]);
+
+  useEffect(updateLessVars, [updateLessVars, theme]);
+
+  return (
+    <div className="palette-preview" id="palettePreview" ref={rootRef}>
+      <NextHead>
+        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
+      </NextHead>
+
+      <ColorCards container={() => rootRef.current} />
       <FakeBrowser>
         <AdminFrame loading={!less} />
       </FakeBrowser>
