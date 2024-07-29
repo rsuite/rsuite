@@ -19,6 +19,7 @@
 - 'default' (默认值) 默认导航。
 - 'tabs' 标签式的导航。
 - 'subtle' 弱化的导航。
+- 'pills' 胶囊式的导航。
 
 <!--{include:`appearance.md`}-->
 

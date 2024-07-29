@@ -12,6 +12,7 @@ import ThemeGroup from '@/components/ThemeGroup';
 import AdminFrame from '@/components/AdminFrame';
 import { generatePalette } from 'rsuite/styles/plugins/palette';
 import useClipboard from '@/utils/useClipboard';
+import { useApp } from '@/components/AppContext';
 
 const colors: ColorMeta[] = [
   '50',
@@ -63,8 +64,15 @@ function ColorCards(props: { container: ModalProps['container'] }) {
   );
 }
 
+function colorLog(key: string, value: string) {
+  const keyStyle = 'background: #606060; color: #fff; border-radius: 3px 0 0 3px;';
+  const valueStyle = `background: ${value}; color: #fff; border-radius: 0 3px 3px 0;`;
+  console.log(`%c ${key}: %c ${value} `, keyStyle, valueStyle);
+}
+
 function Preview({ themeColor }: PreviewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const { theme } = useApp();
   const less = useLess(lessUrl, {
     async: true,
     logLevel: 0,
@@ -75,12 +83,16 @@ function Preview({ themeColor }: PreviewProps) {
     plugins: [palette]
   });
 
-  useEffect(() => {
+  const updateLessVars = useCallback(() => {
     less?.modifyVars({
       '@palette-color': themeColor,
       '@theme-is-default': getThemeIsDefault()
     });
+
+    colorLog('Current theme color', themeColor);
   }, [less, themeColor]);
+
+  useEffect(updateLessVars, [updateLessVars, theme]);
 
   return (
     <div className="palette-preview" id="palettePreview" ref={rootRef}>

@@ -1,9 +1,9 @@
-import { Nav } from 'rsuite';
+import { Nav, NavProps } from 'rsuite';
 import { useApp, Theme } from '@/components/AppContext';
 import { Icon } from '@rsuite/icons';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 
-function ThemeGroup() {
+function ThemeGroup(props: NavProps) {
   const { theme, onChangeTheme, locales } = useApp();
   const [themeName] = theme;
 
@@ -26,7 +26,7 @@ function ThemeGroup() {
   ];
 
   return (
-    <Nav appearance={'pills' as any}>
+    <Nav appearance="pills" {...props}>
       {themesConfig.map(item => (
         <Nav.Item
           key={item.value}
