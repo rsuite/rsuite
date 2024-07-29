@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { HStack, VStack, Dropdown } from 'rsuite';
+import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
@@ -36,8 +36,34 @@ interface PreviewProps {
   themeColor: string;
 }
 
-function Preview({ themeColor }: PreviewProps) {
+function ColorCards(props: { container: ModalProps['container'] }) {
+  const { container } = props;
   const [color, setColor] = useState<ColorMeta | null>(null);
+  return (
+    <>
+      <ColorGroup
+        colors={colors}
+        useCssVar
+        onShowColor={(color, event) => {
+          const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
+
+          color.rgb = colorVal;
+
+          setColor(color);
+        }}
+      />
+      <ColorModal
+        color={color}
+        open={!!color}
+        title={`Primary Color`}
+        onClose={() => setColor(null)}
+        container={container}
+      />
+    </>
+  );
+}
+
+function Preview({ themeColor }: PreviewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const less = useLess(lessUrl, {
     async: true,
@@ -61,24 +87,8 @@ function Preview({ themeColor }: PreviewProps) {
       <NextHead>
         <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
-      <ColorGroup
-        colors={colors}
-        useCssVar
-        onShowColor={(color, event) => {
-          const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
 
-          color.rgb = colorVal;
-
-          setColor(color);
-        }}
-      />
-      <ColorModal
-        color={color}
-        open={!!color}
-        title={`Primary Color`}
-        onClose={() => setColor(null)}
-        container={() => rootRef.current}
-      />
+      <ColorCards container={() => rootRef.current} />
       <FakeBrowser>
         <AdminFrame loading={!less} />
       </FakeBrowser>
