@@ -5,7 +5,9 @@ import React, {
   useCallback,
   useContext,
   useState,
-  useMemo
+  useMemo,
+  isValidElement,
+  cloneElement
 } from 'react';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
@@ -13,6 +15,7 @@ import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
+import { isFragment } from '@/internals/utils/ReactChildren';
 import {
   AnimationEventProps,
   CursorPosition,
@@ -82,7 +85,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   enterable?: boolean;
 
   /** For the monitored component, the event will be bound to this component. */
-  children: React.ReactElement | ((props: any, ref) => React.ReactElement);
+  children: React.ReactNode | ((props: any, ref) => React.ReactElement);
 
   /** Whether to allow clicking document to close the overlay */
   rootClose?: boolean;
@@ -161,7 +164,7 @@ function onMouseEventHandler(
 }
 
 export interface OverlayTriggerHandle {
-  root: HTMLElement | undefined;
+  root?: HTMLElement | null;
   updatePosition: () => void;
   open: (delay?: number) => void;
   close: (delay?: number) => void;
@@ -209,7 +212,7 @@ const OverlayTrigger = React.forwardRef(
     } = props;
 
     const { Portal, target: containerElement } = usePortal({ container });
-    const triggerRef = useRef();
+    const triggerRef = useRef(null);
     const overlayRef = useRef<PositionInstance>();
     const [open, setOpen] = useControlled(openProp, defaultOpen);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
@@ -532,23 +535,27 @@ const OverlayTrigger = React.forwardRef(
       );
     };
 
-    if (
-      (typeof children === 'object' && children.type === React.Fragment) ||
-      typeof children === 'string'
-    ) {
-      console.error(
-        '[rsuite] The OverlayTrigger component does not accept strings or Fragments as child.'
-      );
-    }
+    const triggerElement = useMemo(() => {
+      if (typeof children === 'function') {
+        return children(triggerEvents, triggerRef);
+      } else if (isFragment(children) || !isValidElement(children)) {
+        return (
+          <span ref={triggerRef} aria-describedby={controlId} {...triggerEvents}>
+            {children}
+          </span>
+        );
+      }
+
+      return cloneElement(children as React.ReactElement, {
+        ref: triggerRef,
+        'aria-describedby': controlId,
+        ...mergeEvents(triggerEvents, children.props)
+      });
+    }, [children, controlId, triggerEvents]);
+
     return (
       <>
-        {typeof children === 'function'
-          ? children(triggerEvents, triggerRef)
-          : React.cloneElement(children, {
-              ref: triggerRef,
-              'aria-describedby': controlId,
-              ...mergeEvents(triggerEvents, children.props)
-            })}
+        {triggerElement}
         <Portal>{renderOverlay()}</Portal>
       </>
     );

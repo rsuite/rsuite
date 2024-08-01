@@ -6,6 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
 const markdownRenderer = require('./scripts/markdownRenderer');
+const format = require('date-fns/format');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
@@ -20,13 +21,15 @@ const {
 
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 const __DEV__ = VERCEL_ENV === 'local';
+const BUILD_ID = format(new Date(), 'yyyyMMddHHmm');
 
 /**
  * @type {import('next').NextConfig}
  */
 module.exports = {
   env: {
-    VERSION: pkg.version
+    VERSION: pkg.version,
+    BUILD_ID
   },
   i18n: {
     locales: ['en', 'zh'],

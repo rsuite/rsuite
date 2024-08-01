@@ -23,18 +23,20 @@ const App = () => {
       <Col md={4}>
         <CustomNav active={active} onSelect={setActive} />
       </Col>
-
-      <Col md={6}>
+      <Col md={4}>
         <CustomNav appearance="tabs" active={active} onSelect={setActive} />
       </Col>
       <Col md={4}>
         <CustomNav appearance="tabs" reversed active={active} onSelect={setActive} />
       </Col>
-      <Col md={6}>
+      <Col md={4}>
         <CustomNav appearance="subtle" active={active} onSelect={setActive} />
       </Col>
       <Col md={4}>
         <CustomNav appearance="subtle" reversed active={active} onSelect={setActive} />
+      </Col>
+      <Col md={4}>
+        <CustomNav appearance="pills" reversed active={active} onSelect={setActive} />
       </Col>
     </Row>
   );

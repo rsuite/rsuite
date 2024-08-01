@@ -10,7 +10,7 @@ import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import classNames from 'classnames';
 
-export interface NavbarItemProps<T = string>
+export interface NavbarItemProps<T = string | number>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Activation status */

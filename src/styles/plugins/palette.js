@@ -1345,7 +1345,39 @@ function calculateBrightness(originalBrightness, index) {
   );
 }
 
+function generatePalette(colorStr, name) {
+  const { _r, _g, _b, _a } = tinycolor(colorStr);
+  const color = {
+    rgb: [_r, _g, _b],
+    alpha: _a
+  };
+
+  return COLOR_NUMBER_SET.map((level, index) => {
+    const {
+      rgb: [r, g, b],
+      alpha: a
+    } = color;
+
+    const hsv = tinycolor({ r, g, b, a }).toHsv();
+    const tiny = tinycolor({
+      h: calculateHue(hsv.h, index),
+      s: calculateSaturation(hsv.s, index),
+      v: calculateBrightness(hsv.v, index)
+    });
+
+    return {
+      level,
+      hex: tiny.toHexString(),
+      rgb: tiny.toRgbString(),
+      hls: tiny.toHslString(),
+      cssVar: `--rs-${name}-${level}`
+    };
+  });
+}
+
 module.exports = {
+  tinycolor,
+  generatePalette,
   install: function (less, pluginManager, functions) {
     /**
      * Calculate color
@@ -1357,12 +1389,8 @@ module.exports = {
         rgb: [r, g, b],
         alpha: a
       } = color;
-      const hsv = tinycolor({
-        r,
-        g,
-        b,
-        a
-      }).toHsv();
+
+      const hsv = tinycolor({ r, g, b, a }).toHsv();
       const index = COLOR_NUMBER_SET.indexOf('' + colorNumber.value);
       if (index === -1 || index === PRIMARY_INDEX) {
         return less.color(color.rgb);

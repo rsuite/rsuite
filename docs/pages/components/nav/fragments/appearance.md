@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Nav } from 'rsuite';
+import { Nav, VStack } from 'rsuite';
 
 const Navbar = ({ active, onSelect, ...props }) => {
   return (
-    <Nav {...props} activeKey={active} onSelect={onSelect} style={{ marginBottom: 50 }}>
+    <Nav {...props} activeKey={active} onSelect={onSelect}>
       <Nav.Item eventKey="home">Home</Nav.Item>
       <Nav.Item eventKey="news">News</Nav.Item>
       <Nav.Item eventKey="solutions">Solutions</Nav.Item>
@@ -19,11 +19,12 @@ const App = () => {
   const [active, setActive] = React.useState('home');
 
   return (
-    <>
+    <VStack spacing={30}>
       <Navbar active={active} onSelect={setActive} />
       <Navbar appearance="tabs" active={active} onSelect={setActive} />
       <Navbar appearance="subtle" active={active} onSelect={setActive} />
-    </>
+      <Navbar appearance="pills" active={active} onSelect={setActive} />
+    </VStack>
   );
 };
 

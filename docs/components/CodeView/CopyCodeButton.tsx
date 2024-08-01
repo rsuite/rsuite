@@ -1,25 +1,17 @@
-import { useState } from 'react';
 import { FaCheck, FaCopy } from 'react-icons/fa';
-
 import { IconButton, IconButtonProps } from 'rsuite';
-import copy from 'copy-to-clipboard';
+import useClipboard from '@/utils/useClipboard';
 
 interface CopyCodeButtonProps extends IconButtonProps {
   code: string;
 }
 
 function CopyCodeButton(props: CopyCodeButtonProps) {
-  const [copied, setCopied] = useState(false);
+  const { copyToClipboard, copied } = useClipboard();
   const { code, ...rest } = props;
 
   const handleClick = () => {
-    setCopied(true);
-
-    copy(code);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
+    copyToClipboard(code);
   };
 
   return (

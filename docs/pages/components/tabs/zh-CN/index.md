@@ -12,9 +12,13 @@ Tabs 是一组分层的内容区域，也就是标签面板，每次只显示一
 
 <!--{include:`basic.md`}-->
 
-### 外观
+### Pills
 
-<!--{include:`appearance.md`}-->
+<!--{include:`pills.md`}-->
+
+### Subtle
+
+<!--{include:`subtle.md`}-->
 
 ### 禁用
 
@@ -63,16 +67,16 @@ Tabs 是一组分层的内容区域，也就是标签面板，每次只显示一
 
 <!-- prettier-sort-markdown-table -->
 
-| 名称             | 类型`(默认值)` ˇ                  | 描述                                           |
-| ---------------- | --------------------------------- | ---------------------------------------------- |
-| activeKey        | string                            | 将具有匹配 `eventKey` 的选项卡标记为活动状态。 |
-| appearance       | 'tabs' &#124; 'subtle' `('tabs')` | 外观样式。                                     |
-| children         | ChildrenArray&lt;Tabs.Tab&gt;     | 组件的内容。                                   |
-| classPrefix      | string `('tabs')`                 | 组件 CSS 类的前缀。                            |
-| defaultActiveKey | string                            | 默认活动的选项卡的 `eventKey`。                |
-| onSelect         | (eventKey: string, event) => void | 选项卡选中后的回调函数。                       |
-| reversed         | boolean                           | 反转显示。                                     |
-| vertical         | boolean                           | 垂直显示。                                     |
+| 名称             | 类型`(默认值)` ˇ                                 | 描述                                           |
+| ---------------- | ------------------------------------------------ | ---------------------------------------------- |
+| activeKey        | string                                           | 将具有匹配 `eventKey` 的选项卡标记为活动状态。 |
+| appearance       | 'tabs' &#124; 'subtle' &#124; 'pills' `('tabs')` | 外观样式。                                     |
+| children         | ChildrenArray&lt;Tabs.Tab&gt;                    | 组件的内容。                                   |
+| classPrefix      | string `('tabs')`                                | 组件 CSS 类的前缀。                            |
+| defaultActiveKey | string                                           | 默认活动的选项卡的 `eventKey`。                |
+| onSelect         | (eventKey: string, event) => void                | 选项卡选中后的回调函数。                       |
+| reversed         | boolean                                          | 反转显示。                                     |
+| vertical         | boolean                                          | 垂直显示。                                     |
 
 ### `<Tabs.Tab>`
 

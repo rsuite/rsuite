@@ -38,6 +38,11 @@ export function useKeyboardInputEvent({
         event.preventDefault();
 
       case key.match(/[a-z]/)?.[0]:
+        // Determine whether the Ctrl or Command key is pressed, does not affect user copy and paste
+        if (event.ctrlKey || event.metaKey) {
+          break;
+        }
+
         // Prevent letters from being entered
         event.preventDefault();
         break;

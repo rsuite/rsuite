@@ -14,11 +14,12 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### Appearance
 
-`appearance` property sets the appearance of the navigation:
+`appearance` property sets the appearance of the navigation.
 
 - `default` - default navigation.
 - `tabs` - Tabbed navigation.
 - `subtle` - Subtle navigation.
+- `pills` - Pill navigation.
 
 <!--{include:`appearance.md`}-->
 
@@ -56,16 +57,16 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav>`
 
-| Property    | Type `(Default)`                                      | Description                                                |
-| ----------- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| activeKey   | string                                                | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
-| appearance  | 'default' &#124; 'tabs' &#124; 'subtle' `('default')` | A navigation can have different appearances                |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;              | The contents of the component.                             |
-| classPrefix | string `('nav')`                                      | The prefix of the component CSS class                      |
-| justified   | boolean                                               | Justified navigation                                       |
-| onSelect    | (eventKey: string, event) => void                     | Callback function triggered after selection                |
-| pullRight   | boolean                                               | appears on the right.                                      |
-| vertical    | boolean                                               | Stacked navigation                                         |
+| Property    | Type `(Default)`                                                     | Description                                                |
+| ----------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| activeKey   | string                                                               | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
+| appearance  | 'default' &#124; 'tabs' &#124; 'subtle' &#124; 'pills' `('default')` | A navigation can have different appearances                |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                             | The contents of the component.                             |
+| classPrefix | string `('nav')`                                                     | The prefix of the component CSS class                      |
+| justified   | boolean                                                              | Justified navigation                                       |
+| onSelect    | (eventKey: string, event) => void                                    | Callback function triggered after selection                |
+| pullRight   | boolean                                                              | appears on the right.                                      |
+| vertical    | boolean                                                              | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 

@@ -3,6 +3,7 @@ import { format, isValid } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockClipboardEvent } from '@test/mocks/data-mock';
 import sinon from 'sinon';
 import DateInput from '../DateInput';
 import CustomProvider from '../../CustomProvider';
@@ -498,6 +499,69 @@ describe('DateInput', () => {
         // Error value: 10/14/0001
         expectedValue: '04/01/2024'
       });
+    });
+  });
+
+  describe('DateInput - Paste', () => {
+    it('Should call `onChange` with pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(<DateInput onChange={onChange} />);
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const event = mockClipboardEvent('2024-07-21');
+
+      fireEvent(input, event);
+
+      expect(input).to.have.value('2024-07-21');
+      expect(format(onChange.lastCall.firstArg, 'yyyy-MM-dd')).to.have.eql('2024-07-21');
+    });
+
+    it('Should not call `onChange` with invalid pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(<DateInput onChange={onChange} defaultValue={new Date('2023-10-01')} />);
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+
+      // Invalid month
+      const event = mockClipboardEvent('2024-07-dd');
+
+      fireEvent(input, event);
+
+      expect(onChange).to.not.have.been.called;
+      expect(input).to.have.value('2023-10-01');
+    });
+
+    it('Should not call `onChange` with invalid pasted value', () => {
+      const onChange = sinon.spy();
+
+      render(
+        <DateInput onChange={onChange} format="MM/dd/yyyy" defaultValue={new Date('2023-10-01')} />
+      );
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+
+      // Invalid date format
+      const event = mockClipboardEvent('2024-07-21');
+
+      fireEvent(input, event);
+
+      expect(onChange).to.not.have.been.called;
+      expect(input).to.have.value('10/01/2023');
+    });
+
+    it('Should call `onPaste` callback', () => {
+      const onPaste = sinon.spy();
+
+      render(<DateInput onPaste={onPaste} />);
+
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      const event = mockClipboardEvent('2024-07-21');
+
+      fireEvent(input, event);
+
+      expect(onPaste).to.have.been.called;
     });
   });
 });
