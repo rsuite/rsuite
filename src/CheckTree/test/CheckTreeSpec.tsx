@@ -297,21 +297,18 @@ describe('CheckTree', () => {
     it('Should checked the item passed through the `value` property', async () => {
       render(<CheckTree data={data} value={['tester2']} />);
 
-      expect(screen.getByRole('checkbox', { name: 'tester2' })).to.be.checked;
-
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.have.attribute(
+      expect(screen.getByRole('treeitem', { name: 'tester2' })).to.have.attribute(
         'aria-checked',
-        'mixed'
+        'true'
       );
     });
 
     it('Should checked the item passed through the `defaultValue` property', () => {
       render(<CheckTree data={data} defaultValue={['tester2']} />);
 
-      expect(screen.getByRole('checkbox', { name: 'tester2' })).to.be.checked;
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.have.attribute(
+      expect(screen.getByRole('treeitem', { name: 'tester2' })).to.have.attribute(
         'aria-checked',
-        'mixed'
+        'true'
       );
     });
 
@@ -338,13 +335,25 @@ describe('CheckTree', () => {
 
       render(<App />);
 
-      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
+      expect(screen.getByRole('treeitem', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'false'
+      );
 
       fireEvent.click(screen.getByRole('button', { name: 'Click' }));
 
-      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.not.be.checked;
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.be.checked;
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.attribute(
+        'aria-checked',
+        'false'
+      );
+      expect(screen.getByRole('treeitem', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
     });
 
     it('Should be uncontrolled and render default value', () => {
@@ -360,13 +369,25 @@ describe('CheckTree', () => {
 
       render(<App />);
 
-      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
+      expect(screen.getByRole('treeitem', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'false'
+      );
 
       fireEvent.click(screen.getByRole('button', { name: 'Click' }));
 
-      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
-      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
+      expect(screen.getByRole('treeitem', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'false'
+      );
     });
   });
 });
