@@ -6,7 +6,7 @@ import { mockTreeData } from '@test/mocks/data-mock';
 import { testStandardProps } from '@test/utils';
 import CheckTree from '../index';
 
-const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2', 'tester3']], 'disabled']);
 
 describe('CheckTree', () => {
   testStandardProps(<CheckTree data={data} />);
@@ -290,6 +290,83 @@ describe('CheckTree', () => {
 
       expect(screen.getByRole('tree')).to.not.have.class('rs-scroll-view-shadow');
       expect(screen.getByTestId('scroll-view')).to.have.class('rs-scroll-view-shadow');
+    });
+  });
+
+  describe('Controlled and uncontrolled value', () => {
+    it('Should checked the item passed through the `value` property', async () => {
+      render(<CheckTree data={data} value={['tester2']} />);
+
+      expect(screen.getByRole('checkbox', { name: 'tester2' })).to.be.checked;
+
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'mixed'
+      );
+    });
+
+    it('Should checked the item passed through the `defaultValue` property', () => {
+      render(<CheckTree data={data} defaultValue={['tester2']} />);
+
+      expect(screen.getByRole('checkbox', { name: 'tester2' })).to.be.checked;
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.have.attribute(
+        'aria-checked',
+        'mixed'
+      );
+    });
+
+    it('Should call `onChange` when the value changes', () => {
+      const onChange = sinon.spy();
+
+      render(<CheckTree data={data} onChange={onChange} />);
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
+
+      expect(onChange).to.have.been.calledWith(['tester2']);
+    });
+
+    it('Should be controlled and render the updated value', () => {
+      const App = () => {
+        const [value, setValue] = React.useState(['tester0']);
+        return (
+          <>
+            <CheckTree data={data} value={value} />
+            <button onClick={() => setValue(['tester1'])}>Click</button>
+          </>
+        );
+      };
+
+      render(<App />);
+
+      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
+
+      fireEvent.click(screen.getByRole('button', { name: 'Click' }));
+
+      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.not.be.checked;
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.be.checked;
+    });
+
+    it('Should be uncontrolled and render default value', () => {
+      const App = () => {
+        const [value, setValue] = React.useState(['tester0']);
+        return (
+          <>
+            <CheckTree data={data} defaultValue={value} />
+            <button onClick={() => setValue(['tester1'])}>Click</button>
+          </>
+        );
+      };
+
+      render(<App />);
+
+      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
+
+      fireEvent.click(screen.getByRole('button', { name: 'Click' }));
+
+      expect(screen.getByRole('checkbox', { name: 'tester0' })).to.be.checked;
+      expect(screen.getByRole('checkbox', { name: 'tester1' })).to.not.be.checked;
     });
   });
 });

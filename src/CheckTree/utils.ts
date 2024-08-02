@@ -184,7 +184,7 @@ export function getCheckTreeDefaultValue<T = any>(value: T, uncheckableItemValue
     return value.filter(v => !uncheckableItemValues.includes(v));
   }
 
-  return [];
+  return value;
 }
 
 /**
