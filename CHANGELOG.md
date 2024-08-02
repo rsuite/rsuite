@@ -1,3 +1,12 @@
+## [5.68.1](https://github.com/rsuite/rsuite/compare/v5.68.0...v5.68.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **CheckTree:** fix uncontrolled component default value ([#3906](https://github.com/rsuite/rsuite/issues/3906)) ([01aab7d](https://github.com/rsuite/rsuite/commit/01aab7df14661743e5dfae7fd3f612fc227816c7))
+
+
+
 # [5.68.0](https://github.com/rsuite/rsuite/compare/v5.67.0...v5.68.0) (2024-07-26)
 
 
