@@ -295,7 +295,7 @@ describe('CheckTree', () => {
 
   describe('Controlled and uncontrolled value', () => {
     it('Should checked the item passed through the `value` property', async () => {
-      render(<CheckTree data={data} value={['tester2']} />);
+      render(<CheckTree data={data} value={['tester2']} defaultExpandAll />);
 
       expect(screen.getByRole('treeitem', { name: 'tester2' })).to.have.attribute(
         'aria-checked',
@@ -304,7 +304,7 @@ describe('CheckTree', () => {
     });
 
     it('Should checked the item passed through the `defaultValue` property', () => {
-      render(<CheckTree data={data} defaultValue={['tester2']} />);
+      render(<CheckTree data={data} defaultValue={['tester2']} defaultExpandAll />);
 
       expect(screen.getByRole('treeitem', { name: 'tester2' })).to.have.attribute(
         'aria-checked',
@@ -315,7 +315,7 @@ describe('CheckTree', () => {
     it('Should call `onChange` when the value changes', () => {
       const onChange = sinon.spy();
 
-      render(<CheckTree data={data} onChange={onChange} />);
+      render(<CheckTree data={data} onChange={onChange} defaultExpandAll />);
 
       fireEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
 
@@ -327,7 +327,7 @@ describe('CheckTree', () => {
         const [value, setValue] = React.useState(['tester0']);
         return (
           <>
-            <CheckTree data={data} value={value} />
+            <CheckTree data={data} value={value} defaultExpandAll />
             <button onClick={() => setValue(['tester1'])}>Click</button>
           </>
         );
@@ -361,7 +361,7 @@ describe('CheckTree', () => {
         const [value, setValue] = React.useState(['tester0']);
         return (
           <>
-            <CheckTree data={data} defaultValue={value} />
+            <CheckTree data={data} defaultValue={value} defaultExpandAll />
             <button onClick={() => setValue(['tester1'])}>Click</button>
           </>
         );
