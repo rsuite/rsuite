@@ -11,12 +11,12 @@ describe('IconButton styles', () => {
     render(<IconButton ref={instanceRef} />);
     const { container } = render(<IconButton ref={instanceRef} />);
     const dom = container.firstChild as HTMLElement;
-    assert.equal(getStyle(dom, 'width'), getStyle(dom, 'height'));
+    expect(getStyle(dom, 'width')).to.equal(getStyle(dom, 'height'));
   });
 
   it('Should render the correct border-radius', () => {
     const instanceRef = React.createRef<HTMLButtonElement>();
     const { container } = render(<IconButton circle ref={instanceRef} />);
-    inChrome && assert.equal(getStyle(container.firstChild as Element, 'borderRadius'), '50%');
+    inChrome && expect(getStyle(container.firstChild as Element, 'borderRadius')).to.equal('50%');
   });
 });
