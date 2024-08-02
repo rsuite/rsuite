@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
@@ -35,6 +35,16 @@ export interface InputNumberProps<T = number | string | null>
    * An input can show that it is disabled
    */
   disabled?: boolean;
+
+  /**
+   *
+   * Decimal separator
+   * https://en.wikipedia.org/wiki/Decimal_separator
+   *
+   * @default '.'
+   * @version 5.69.0
+   */
+  decimalSeparator?: string;
 
   /**
    * Format the value of the input
@@ -142,6 +152,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     className,
     classPrefix = 'input-number',
     disabled,
+    decimalSeparator,
     formatter,
     readOnly,
     plaintext,
@@ -184,6 +195,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     } else {
       value = '';
     }
+
     return value.toString();
   };
 
@@ -264,15 +276,43 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   const handleChange = useEventCallback(
     (value: any, event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!/^-?(?:\d+)?(\.)?\d*$/.test(value) && value !== '') {
+      const separator = decimalSeparator || '.';
+      const escapedSeparator = separator.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+      const regex = new RegExp(`^-?(?:\\d+)?(${escapedSeparator})?\\d*$`);
+
+      if (!regex.test(value) && value !== '') {
         return;
       }
+
       handleChangeValue(value, event);
     }
   );
 
+  const replaceDecimalSeparator = useCallback(
+    (value: string | number) => {
+      if (decimalSeparator && value) {
+        return value.toString().replace('.', decimalSeparator);
+      }
+      return value;
+    },
+    [decimalSeparator]
+  );
+
+  const restoreDecimalSeparator = useCallback(
+    (value: string) => {
+      if (decimalSeparator && value) {
+        return value.replace(decimalSeparator, '.');
+      }
+      return value;
+    },
+    [decimalSeparator]
+  );
+
   const handleBlur = useEventCallback((event: React.FocusEvent<HTMLInputElement>) => {
-    const targetValue = Number.parseFloat(event.target?.value);
+    const value = restoreDecimalSeparator(event.target?.value);
+
+    const targetValue = Number.parseFloat(value);
     handleChangeValue(getSafeValue(targetValue), event);
     setIsFocused(false);
   });
@@ -287,17 +327,21 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     };
   }, [handleWheel, scrollable]);
 
-  const renderValue = () => {
+  const inputValue = useMemo(() => {
     if (isNil(value)) {
       return '';
     }
 
     if (isFocused) {
-      return value;
+      return replaceDecimalSeparator(value);
     }
 
-    return formatter ? formatter(value) : value;
-  };
+    if (formatter) {
+      return formatter(value);
+    }
+
+    return replaceDecimalSeparator(value);
+  }, [formatter, isFocused, replaceDecimalSeparator, value]);
 
   const input = (
     <Input
@@ -307,7 +351,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
       autoComplete="off"
       inputMode="numeric"
       step={step}
-      value={renderValue()}
+      value={inputValue}
       disabled={disabled}
       readOnly={readOnly}
       plaintext={plaintext}
