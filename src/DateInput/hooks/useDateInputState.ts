@@ -7,23 +7,24 @@ import {
   addHours,
   addMinutes,
   addSeconds,
-  format,
   isLastDayOfMonth,
   lastDayOfMonth,
   isValid
 } from '@/internals/utils/date';
+import { useCustom } from '@/internals/hooks';
 import { useDateField, patternMap } from '../DateField';
 import type { Locale } from 'date-fns';
 
 interface DateInputState {
   formatStr: string;
-  formatDate?: typeof format;
   locale: Locale;
   date?: Date | null;
   isControlledDate?: boolean;
 }
 
 export function useDateInputState({ formatStr, locale, date, isControlledDate }: DateInputState) {
+  const { formatDate } = useCustom();
+
   const { dateField, dispatch, toDateString, toDate, isEmptyValue } = useDateField(
     formatStr,
     locale.localize,
@@ -118,7 +119,7 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
 
   const toControlledDateString = () => {
     if (date && isValid(date)) {
-      return format(date, formatStr, { locale });
+      return formatDate(date, formatStr, { locale });
     }
     // if date is not valid, return uncontrolled date string
     return toDateString();

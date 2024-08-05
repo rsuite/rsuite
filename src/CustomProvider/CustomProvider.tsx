@@ -1,9 +1,18 @@
 import React from 'react';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
+import type { Locale as DateFnsLocale } from 'date-fns';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
+
+export interface FormatDateOptions {
+  locale?: DateFnsLocale;
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  firstWeekContainsDate?: number;
+  useAdditionalWeekYearTokens?: boolean;
+  useAdditionalDayOfYearTokens?: boolean;
+}
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -25,7 +34,7 @@ export interface CustomValue<T = Locale> {
    *  }
    *
    * */
-  formatDate: (date: Date | number, format: string) => string;
+  formatDate: (date: Date | number, format: string, options?: FormatDateOptions) => string;
 
   /**
    * Return the date parsed from string using the given format string.
@@ -40,7 +49,12 @@ export interface CustomValue<T = Locale> {
    *  }
    *
    * */
-  parseDate: (dateString: string, formatString: string) => Date;
+  parseDate: (
+    dateString: string,
+    formatString: string,
+    referenceDate?: Date | number,
+    options?: FormatDateOptions
+  ) => Date;
 
   /**
    * A Map of toast containers
