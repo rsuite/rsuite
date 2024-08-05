@@ -1,7 +1,7 @@
 import { useContext, useCallback } from 'react';
 import { format, parse, isValid } from '@/internals/utils/date';
-import defaultLocale from '@/locales/default';
-import { CustomContext, CustomValue, FormatDateOptions } from '@/CustomProvider/CustomProvider';
+import defaultLocale from '../../locales/default';
+import { CustomContext, CustomValue, FormatDateOptions } from '../../CustomProvider/CustomProvider';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
