@@ -194,13 +194,6 @@ export interface CalendarProps
   onToggleTimeDropdown?: (toggle: boolean) => void;
 }
 
-const Row = React.forwardRef((props: any, ref: any) => {
-  const { style, ...rest } = props;
-  return <li ref={ref} style={{ display: 'block', ...style }} {...rest} />;
-});
-
-Row.displayName = 'Row';
-
 const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
