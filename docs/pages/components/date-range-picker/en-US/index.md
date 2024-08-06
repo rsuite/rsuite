@@ -142,6 +142,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 | block                | boolean                                                         | Blocking an entire row                                                                                                            |
 | caretAs              | ElementType                                                     | Custom component for the caret icon                                                                                               |
 | character            | string `(' ~ ')`                                                | The character that separates two dates                                                                                            |
+| calendarSnapping     | boolean                                                         | If the user selects a date on the right calendar first, it will automatically switch to the left calendar <br/>![][5.69.0]        |
 | cleanable            | boolean `(true)`                                                | Whether the selected value can be cleared                                                                                         |
 | container            | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                                                                      |
 | defaultCalendarValue | [Date, Date]                                                    | Default calendar panel date                                                                                                       |
@@ -152,7 +153,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 | editable             | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                                                                    |
 | format               | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input                                                                                     |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | The date range that will be selected when you click on the date                                                                   |
-| isoWeek              | boolean                                                         | [ISO 8601 standard][ISO-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
+| isoWeek              | boolean                                                         | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
 | label                | ReactNode                                                       | A label displayed at the beginning of toggle button                                                                               |
 | limitEndYear         | number `(1000)`                                                 | Sets the upper limit of the available year relative to the current selection date                                                 |
 | limitStartYear       | number                                                          | Sets the lower limit of the available year relative to the current selection date                                                 |
@@ -248,3 +249,4 @@ const Ranges = [
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
 [5.52.0]: https://img.shields.io/badge/min-v5.52.0-blue
 [5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue
