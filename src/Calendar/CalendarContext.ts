@@ -153,7 +153,7 @@ const CalendarContext = React.createContext<CalendarContextValue>({} as any);
 export const CalendarProvider = CalendarContext.Provider;
 
 export const useCalendarContext = () => {
-  return useContext<CalendarContextValue>(CalendarContext) || {};
+  return useContext<CalendarContextValue>(CalendarContext);
 };
 
 export default CalendarContext;
