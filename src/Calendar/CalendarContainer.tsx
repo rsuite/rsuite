@@ -1,5 +1,4 @@
 import React, { HTMLAttributes, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
@@ -19,7 +18,7 @@ import {
 } from '@/internals/utils/date';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
-import { CalendarProvider } from './CalendarContext';
+import { CalendarProvider, MonthDropdownProps } from './CalendarContext';
 import useCalendarState, { CalendarState } from './useCalendarState';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
 
@@ -135,6 +134,11 @@ export interface CalendarProps
   locale: CalendarLocale;
 
   /**
+   * The props for the Month Dropdown component.
+   */
+  monthDropdownProps?: MonthDropdownProps;
+
+  /**
    * Callback after the date has changed
    */
   onChangeMonth?: (nextPageDate: Date, event: React.MouseEvent) => void;
@@ -190,25 +194,38 @@ export interface CalendarProps
   onToggleTimeDropdown?: (toggle: boolean) => void;
 }
 
+const Row = React.forwardRef((props: any, ref: any) => {
+  const { style, ...rest } = props;
+  return <li ref={ref} style={{ display: 'block', ...style }} {...rest} />;
+});
+
+Row.displayName = 'Row';
+
 const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
       as: Component = 'div',
       className,
       classPrefix = 'calendar',
+      calendarDate: calendarDateProp,
       dateRange,
       disabledBackward,
       defaultState,
-      disabledDate,
       disabledForward,
       format,
       hoverRangeValue,
+      inline,
       isoWeek = false,
       weekStart = 0,
       targetId,
       limitEndYear,
       limitStartYear,
       locale,
+      monthDropdownProps,
+      showMeridian,
+      showWeekNumbers,
+      cellClassName,
+      disabledDate,
       onChangeMonth,
       onChangeTime,
       onMouseMove,
@@ -218,15 +235,10 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
-      calendarDate: calendarDateProp,
-      cellClassName,
       renderCell,
       renderCellOnPicker,
       renderTitle,
       renderToolbar,
-      showMeridian,
-      showWeekNumbers,
-      inline,
       ...rest
     } = props;
 
@@ -300,23 +312,24 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const contextValue = {
       date: calendarDate,
       dateRange,
-      disabledDate: isDateDisabled,
       format,
       hoverRangeValue,
-      inSameMonth: inSameThisMonthDate,
+      inline,
       isoWeek,
       weekStart,
       targetId,
       locale,
+      showWeekNumbers,
+      monthDropdownProps,
+      cellClassName,
+      disabledDate: isDateDisabled,
+      inSameMonth: inSameThisMonthDate,
       onChangeMonth: handleChangeMonth,
       onChangeTime,
       onMouseMove,
       onSelect,
-      cellClassName,
       renderCell,
-      renderCellOnPicker,
-      showWeekNumbers,
-      inline
+      renderCellOnPicker
     };
 
     return (
@@ -372,35 +385,5 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
 );
 
 CalendarContainer.displayName = 'CalendarContainer';
-CalendarContainer.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  disabledDate: PropTypes.func,
-  disabledHours: PropTypes.func,
-  disabledMinutes: PropTypes.func,
-  disabledSeconds: PropTypes.func,
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  locale: PropTypes.object,
-  onChangeMonth: PropTypes.func,
-  onChangeTime: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onMoveForward: PropTypes.func,
-  onSelect: PropTypes.func,
-  onToggleMeridian: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  calendarDate: PropTypes.instanceOf(Date),
-  renderCell: PropTypes.func,
-  renderTitle: PropTypes.func,
-  renderToolbar: PropTypes.func,
-  showMeridian: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool
-};
 
 export default CalendarContainer;

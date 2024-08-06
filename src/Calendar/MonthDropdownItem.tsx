@@ -25,6 +25,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       year,
       ...rest
     } = props;
+
     const { date, onChangeMonth: onSelect } = useCalendarContext();
     const { locale, formatDate } = useCustom('Calendar');
     const formatStr = locale.formattedMonthPattern;

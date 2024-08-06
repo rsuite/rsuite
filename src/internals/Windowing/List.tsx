@@ -4,15 +4,25 @@ import {
   Align,
   ListItemKeySelector,
   ListOnScrollProps,
-  ListOnItemsRenderedProps
+  ListOnItemsRenderedProps,
+  ListProps as BaseListProps
 } from 'react-window';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '@/internals/hooks';
 import ScrollView from '../ScrollView';
 
 export const defaultItemSize = () => 36;
 
-export interface ListProps<T = any> extends WithAsProps {
+export interface ListProps<T = any> extends Omit<BaseListProps, 'width'> {
+  /**
+   * Width of the list.
+   *
+   * For horizontal lists, this must be a number. It affects the number of columns that will be rendered (and displayed) at any given time.
+   *
+   * For vertical lists, this can be a number or a string (e.g. "50%").
+   */
+  width?: number | string;
+
   /**
    * @deprecated use itemSize instead
    * Either a fixed row height (number) or a function that returns the height of a row given its index: ({ index: number }): number
@@ -72,59 +82,60 @@ const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
  *
  * @private
  */
-const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
-  const {
-    rowHeight,
-    as: Component = VariableSizeList,
-    itemSize: itemSizeProp,
-    scrollShadow,
-    ...rest
-  } = props;
-  const listRef = useRef<VariableSizeList>(null);
-  const { rtl } = useCustom();
+const List: RsRefForwardingComponent<'div', ListProps & { ref?: React.Ref<ListHandle> }> =
+  React.forwardRef((props, ref) => {
+    const {
+      rowHeight,
+      as: Component = VariableSizeList,
+      itemSize: itemSizeProp,
+      scrollShadow,
+      ...rest
+    } = props;
+    const listRef = useRef<VariableSizeList>(null);
+    const { rtl } = useCustom();
 
-  useImperativeHandle(ref, () => ({
-    resetAfterIndex: (index: number, shouldForceUpdate?: boolean) => {
-      listRef.current?.resetAfterIndex?.(index, shouldForceUpdate);
-    },
-    scrollTo: (scrollOffset: number) => {
-      listRef.current?.scrollTo?.(scrollOffset);
-    },
-    scrollToItem: (index: number, align?: Align) => {
-      listRef.current?.scrollToItem?.(index, align);
-    },
-    scrollToRow: (index: number) => {
-      listRef.current?.scrollToItem?.(index);
+    useImperativeHandle(ref, () => ({
+      resetAfterIndex: (index: number, shouldForceUpdate?: boolean) => {
+        listRef.current?.resetAfterIndex?.(index, shouldForceUpdate);
+      },
+      scrollTo: (scrollOffset: number) => {
+        listRef.current?.scrollTo?.(scrollOffset);
+      },
+      scrollToItem: (index: number, align?: Align) => {
+        listRef.current?.scrollToItem?.(index, align);
+      },
+      scrollToRow: (index: number) => {
+        listRef.current?.scrollToItem?.(index);
+      }
+    }));
+
+    const setRowHeight = useCallback(
+      (index: number) => {
+        return typeof rowHeight === 'function' ? rowHeight({ index }) : rowHeight || 0;
+      },
+      [rowHeight]
+    );
+
+    const itemSize = useMemo(() => {
+      if (typeof itemSizeProp === 'function') return itemSizeProp;
+
+      return () => itemSizeProp;
+    }, [itemSizeProp]);
+
+    const compatibleProps = { itemSize, ...rest } as any;
+
+    if (rowHeight) {
+      compatibleProps.itemSize = Component === VariableSizeList ? setRowHeight : rowHeight;
     }
-  }));
 
-  const setRowHeight = useCallback(
-    (index: number) => {
-      return typeof rowHeight === 'function' ? rowHeight({ index }) : rowHeight || 0;
-    },
-    [rowHeight]
-  );
-
-  const itemSize = useMemo(() => {
-    if (typeof itemSizeProp === 'function') return itemSizeProp;
-
-    return () => itemSizeProp;
-  }, [itemSizeProp]);
-
-  const compatibleProps = { itemSize, ...rest } as any;
-
-  if (rowHeight) {
-    compatibleProps.itemSize = Component === VariableSizeList ? setRowHeight : rowHeight;
-  }
-
-  return (
-    <Component
-      ref={listRef}
-      direction={rtl ? 'rtl' : 'ltr'}
-      {...compatibleProps}
-      outerElementType={scrollShadow ? OuterElementType : undefined}
-    />
-  );
-});
+    return (
+      <Component
+        ref={listRef}
+        direction={rtl ? 'rtl' : 'ltr'}
+        {...compatibleProps}
+        outerElementType={scrollShadow ? OuterElementType : undefined}
+      />
+    );
+  });
 
 export default List;
