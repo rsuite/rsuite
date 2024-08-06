@@ -148,18 +148,18 @@ describe('Calendar-MonthDropdown', () => {
   });
 
   it('Should have a custom className', () => {
-    render(<MonthDropdown className="custom" />);
+    render(<MonthDropdown className="custom" show />);
     expect(screen.getByRole('grid', { hidden: true })).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
-    render(<MonthDropdown style={{ fontSize: 12 }} />);
+    render(<MonthDropdown style={{ fontSize: 12 }} show />);
 
     expect(screen.getByRole('grid', { hidden: true })).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
-    render(<MonthDropdown classPrefix="custom-prefix" />);
+    render(<MonthDropdown classPrefix="custom-prefix" show />);
     expect(screen.getByRole('grid', { hidden: true })).to.have.class('rs-custom-prefix');
   });
 });
