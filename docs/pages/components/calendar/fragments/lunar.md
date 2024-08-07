@@ -31,7 +31,7 @@ const App = () => {
         compact
         bordered
         renderCell={renderCell}
-        style={{ width: 400 }}
+        style={{ width: 340 }}
         onChange={setDate}
       />
       <DayView date={date} />
