@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Calendar,
   Button,
@@ -10,8 +9,12 @@ import {
   RadioGroup,
   Radio,
   Toggle,
-  Form
+  VStack,
+  HStack,
+  Divider,
+  Text
 } from 'rsuite';
+import { HolidayUtil, Lunar, Solar } from 'lunar-typescript';
 import DefaultPage from '@/components/Page';
 import files from './files';
 import ImportGuide from '@/components/ImportGuide';
@@ -26,8 +29,14 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       examples={['basic', 'compact']}
       dependencies={{
+        HolidayUtil,
+        Lunar,
+        Solar,
+        VStack,
+        HStack,
         Calendar,
         Button,
+        Divider,
         Tag,
         Popover,
         Whisper,
@@ -35,7 +44,7 @@ export default function Page() {
         RadioGroup,
         Radio,
         Toggle,
-        Form
+        Text
       }}
       sandboxFiles={files}
     />

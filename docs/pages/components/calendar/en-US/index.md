@@ -30,6 +30,10 @@ Use `cellClassName` function to specify the custom class name added to each cell
 - Use `isoWeek` to enable the [ISO 8601 standard][ISO-8601], where each calendar week begins on Monday and Sunday on the seventh day.
 - Use `showWeekNumbers` to display week numbers.
 
+### Lunar
+
+<!--{include:`lunar.md`}-->
+
 ## Props
 
 ### `<Calendar>`
