@@ -1,15 +1,15 @@
 <!--start-code-->
 
 ```js
-import { Calendar, RadioGroup, Radio, Form, Toggle } from 'rsuite';
+import { Calendar, RadioGroup, Radio, Toggle, VStack, HStack, Divider } from 'rsuite';
 
 const App = () => {
   const [weekStart, setWeekStart] = React.useState(0);
   const [isoWeek, setIsoWeek] = React.useState(false);
   const [showWeekNumbers, setShowWeekNumbers] = React.useState(true);
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ width: 280, padding: '0 10px' }}>
+    <HStack divider={<Divider vertical />} spacing={40} style={{ height: 410 }}>
+      <HStack style={{ width: 340 }}>
         <Calendar
           bordered
           compact
@@ -17,44 +17,36 @@ const App = () => {
           showWeekNumbers={showWeekNumbers}
           isoWeek={isoWeek}
         />
-      </div>
-      <div style={{ borderLeft: '1px solid var(--rs-border-primary)', padding: '0 20px' }}>
-        <Form>
-          <Form.Group>
-            <RadioGroup
-              value={weekStart}
-              onChange={value => {
-                setWeekStart(value);
-                setIsoWeek(false);
-              }}
-              inline
-              appearance="picker"
-            >
-              <RadioLabel>Week start</RadioLabel>
-              <Radio value={0}>Sun</Radio>
-              <Radio value={1}>Mon</Radio>
-              <Radio value={2}>Tue</Radio>
-              <Radio value={3}>Wed</Radio>
-              <Radio value={4}>Thu</Radio>
-              <Radio value={5}>Fri</Radio>
-              <Radio value={6}>Sat</Radio>
-            </RadioGroup>
-          </Form.Group>
+      </HStack>
+      <VStack spacing={20}>
+        <RadioGroup
+          inline
+          appearance="picker"
+          value={weekStart}
+          onChange={value => {
+            setWeekStart(value);
+            setIsoWeek(false);
+          }}
+        >
+          <RadioLabel>Week start</RadioLabel>
+          <Radio value={0}>Sun</Radio>
+          <Radio value={1}>Mon</Radio>
+          <Radio value={2}>Tue</Radio>
+          <Radio value={3}>Wed</Radio>
+          <Radio value={4}>Thu</Radio>
+          <Radio value={5}>Fri</Radio>
+          <Radio value={6}>Sat</Radio>
+        </RadioGroup>
 
-          <Form.Group>
-            <Toggle checked={isoWeek} onChange={setIsoWeek}>
-              ISO week
-            </Toggle>
-          </Form.Group>
+        <Toggle checked={isoWeek} onChange={setIsoWeek}>
+          ISO week
+        </Toggle>
 
-          <Form.Group>
-            <Toggle checked={showWeekNumbers} onChange={setShowWeekNumbers}>
-              Show week numbers
-            </Toggle>
-          </Form.Group>
-        </Form>
-      </div>
-    </div>
+        <Toggle checked={showWeekNumbers} onChange={setShowWeekNumbers}>
+          Show week numbers
+        </Toggle>
+      </VStack>
+    </HStack>
   );
 };
 

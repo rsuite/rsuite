@@ -38,7 +38,7 @@ const App = () => {
   }
   return (
     <div style={{ width: 280 }}>
-      <Calendar compact bordered renderCell={renderCell} />{' '}
+      <Calendar compact bordered renderCell={renderCell} />
     </div>
   );
 };
