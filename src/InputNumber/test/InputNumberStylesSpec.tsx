@@ -10,11 +10,7 @@ describe('InputNumber styles', () => {
     const instanceRef = React.createRef();
 
     const { container } = render(<InputNumber ref={instanceRef} />);
-    assert.equal(
-      getStyle(container.firstChild as Element, 'backgroundColor'),
-      toRGB('#fff'),
-      'InputNumber background-color'
-    );
+    expect(getStyle(container.firstChild as Element, 'backgroundColor')).to.be(toRGB('#fff'));
     inChrome &&
       assert.equal(
         getStyle(container.firstChild as Element, 'border'),
