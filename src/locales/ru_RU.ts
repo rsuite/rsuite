@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'ru-RU',
   common: {
     loading: 'Загрузка...',
     emptyMessage: 'Данные не найдены',

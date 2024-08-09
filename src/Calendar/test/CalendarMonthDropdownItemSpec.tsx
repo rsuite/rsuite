@@ -9,10 +9,10 @@ import { testStandardProps } from '@test/utils';
 describe('Calendar-MonthDropdownItem', () => {
   testStandardProps(<MonthDropdownItem />);
 
-  it('Should output a `1` ', () => {
-    render(<MonthDropdownItem month={1} />);
+  it('Should render a month', () => {
+    render(<MonthDropdownItem year={2024} month={1} />);
 
-    expect(screen.getByRole('gridcell')).to.have.text('1');
+    expect(screen.getByRole('gridcell')).to.have.text('01');
   });
 
   it('Should call `onSelect` callback with correct date', () => {

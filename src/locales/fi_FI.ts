@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'fi-FI',
   common: {
     loading: 'Hetkinen...',
     emptyMessage: 'Dataa ei löytynyt',

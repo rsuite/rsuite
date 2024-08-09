@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'cs-CZ',
   common: {
     loading: 'Načítaní...',
     emptyMessage: 'Nejsou k dispozici žádné data',

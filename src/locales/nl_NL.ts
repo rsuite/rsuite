@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'nl-NL',
   common: {
     loading: 'Laden...',
     emptyMessage: 'Geen data gevonden',

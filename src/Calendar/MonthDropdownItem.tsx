@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames, useDateTimeFormat } from '@/internals/hooks';
 import { composeFunctions } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
-import { getAriaLabel } from './utils';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -25,9 +24,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       year,
       ...rest
     } = props;
-    const { date, onChangeMonth: onSelect } = useCalendarContext();
-    const { locale, formatDate } = useCustom('Calendar');
-    const formatStr = locale.formattedMonthPattern;
+    const { date = new Date(), onChangeMonth: onSelect } = useCalendarContext();
 
     const currentMonth = useMemo(() => {
       if (year && month) {
@@ -52,7 +49,9 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }), { disabled });
-    const ariaLabel = currentMonth ? getAriaLabel(currentMonth, formatStr, formatDate) : '';
+    const { formatMonth, formatYearMonth } = useDateTimeFormat();
+    const ariaLabel = formatYearMonth(currentMonth);
+    const monthText = formatMonth(currentMonth);
 
     return (
       <Component
@@ -67,11 +66,12 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
         onClick={handleClick}
         {...rest}
       >
-        <span className={prefix('content')}>{month}</span>
+        <span className={prefix('content')}>{monthText}</span>
       </Component>
     );
   }
 );
+
 MonthDropdownItem.displayName = 'MonthDropdownItem';
 
 export default MonthDropdownItem;

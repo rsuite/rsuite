@@ -4,7 +4,7 @@ import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
-import { useClassNames } from '@/internals/hooks';
+import { useClassNames, useDateTimeFormat } from '@/internals/hooks';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendarContext } from './CalendarContext';
@@ -53,9 +53,10 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       ...rest
     } = props;
 
-    const { locale, date = new Date(), format, inline, disabledDate } = useCalendarContext();
+    const { date = new Date(), format, inline, disabledDate } = useCalendarContext();
     const { isSelectedIdle } = useDateRangePickerContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+    const { formatYearMonth } = useDateTimeFormat();
     const btnProps: ButtonProps = {
       appearance: 'subtle',
       size: inline ? 'sm' : 'xs'
@@ -81,21 +82,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       return timeFormat.join(':');
     }, [format, showMeridian]);
 
-    const getDateFormat = useCallback(() => {
-      if (showMonth) {
-        return locale?.formattedMonthPattern || 'yyyy-MM';
-      }
-
-      return 'yyyy';
-    }, [locale, showMonth]);
-
-    const renderTitle = useCallback(
-      () =>
-        renderTitleProp?.(date) ??
-        (date && <FormattedDate date={date} formatStr={getDateFormat()} />),
-      [date, getDateFormat, renderTitleProp]
-    );
-
+    const month = renderTitleProp?.(date) ?? formatYearMonth(date, { onlyYear: !showMonth });
     const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
     const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
     const backwardClass = prefix('backward', { 'btn-disabled': disabledBackward });
@@ -117,7 +104,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
         >
-          {renderTitle()}
+          {month}
         </Button>
         <IconButton
           {...btnProps}

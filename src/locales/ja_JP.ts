@@ -24,6 +24,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'ja-JP',
   common: {
     loading: '読み込み中...',
     emptyMessage: 'データはありません。',

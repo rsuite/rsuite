@@ -20,6 +20,7 @@ const Calendar = {
 };
 
 export default {
+  code: 'fr-FR',
   common: {
     loading: 'Chargement...',
     emptyMessage: 'Aucune donnée trouvée',
