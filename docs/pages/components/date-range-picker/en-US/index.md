@@ -142,6 +142,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 | block                | boolean                                                         | Blocking an entire row                                                                                                            |
 | caretAs              | ElementType                                                     | Custom component for the caret icon                                                                                               |
 | character            | string `(' ~ ')`                                                | The character that separates two dates                                                                                            |
+| calendarSnapping     | boolean                                                         | If the user selects a date on the right calendar first, it will automatically switch to the left calendar <br/>![][5.69.0]        |
 | cleanable            | boolean `(true)`                                                | Whether the selected value can be cleared                                                                                         |
 | container            | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                                                                      |
 | defaultCalendarValue | [Date, Date]                                                    | Default calendar panel date                                                                                                       |
@@ -248,3 +249,4 @@ const Ranges = [
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
 [5.52.0]: https://img.shields.io/badge/min-v5.52.0-blue
 [5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue

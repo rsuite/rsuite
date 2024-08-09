@@ -138,58 +138,59 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 ### `<DateRangePicker>`
 
-| 属性名称             | 类型`(默认值)`                                                  | 描述                                                                                |
-| -------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| appearance           | 'default' \| 'subtle' `('default')`                             | 设置外观                                                                            |
-| block                | boolean                                                         | 堵塞整行                                                                            |
-| caretAs              | ElementType                                                     | 自定义右侧箭头图标的组件                                                            |
-| character            | string `(' ~ ')`                                                | 两个日期之间的分隔符                                                                |
-| cleanable            | boolean `(true)`                                                | 可以清除选择值                                                                      |
-| container            | HTMLElement \| (() => HTMLElement)                              | 设置渲染的容器                                                                      |
-| defaultCalendarValue | [Date, Date]                                                    | 默认日历面板日期                                                                    |
-| defaultOpen          | boolean                                                         | 默认打开                                                                            |
-| defaultValue         | [Date, Date]                                                    | 默认值                                                                              |
-| disabled             | boolean                                                         | 禁用组件                                                                            |
-| ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                          |
-| editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                           |
-| format               | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                      |
-| hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | 点击日期时将选中的日期范围                                                          |
-| isoWeek              | boolean                                                         | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
-| label                | ReactNode                                                       | 在按钮开头显示的标签                                                                |
-| limitEndYear         | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                  |
-| limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                  |
-| loading              | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                        |
-| locale               | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                                                        |
-| menuClassName        | string                                                          | 选项菜单的 className                                                                |
-| onChange             | (value: [Date, Date]) => void                                   | 值改变后的回调函数                                                                  |
-| onClean              | (event) => void                                                 | 清除值后的回调函数                                                                  |
-| onClose              | () => void                                                      | 关闭回调函数                                                                        |
-| onEnter              | () => void                                                      | 显示前动画过渡的回调函数                                                            |
-| onEntered            | () => void                                                      | 显示后动画过渡的回调函数                                                            |
-| onEntering           | () => void                                                      | 显示中动画过渡的回调函数                                                            |
-| oneTap               | boolean                                                         | 是否点击一次就选定日期范围，可配合 hoverRange 使用                                  |
-| onExit               | () => void                                                      | 退出前动画过渡的回调函数                                                            |
-| onExited             | () => void                                                      | 退出后动画过渡的回调函数                                                            |
-| onExiting            | () => void                                                      | 退出中动画过渡的回调函数                                                            |
-| onOk                 | (value: [Date, Date]) => void                                   | 点击 `确定` 按钮后的回调函数                                                        |
-| onOpen               | () => void                                                      | 打开回调函数                                                                        |
-| onSelect             | (data:Date) => void                                             | 选择日期的回调函数                                                                  |
-| onShortcutClick      | (shortcut: Range, event) => void                                | 点击快捷项的回调函数                                                                |
-| open                 | boolean                                                         | 打开 (受控)                                                                         |
-| placeholder          | string                                                          | 没有值时候默认显示内容                                                              |
-| placement            | [Placement](#code-ts-placement-code) `('bottomStart')`          | 显示位置                                                                            |
-| preventOverflow      | boolean                                                         | 防止浮动元素溢出                                                                    |
-| ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                         |
-| renderTitle          | (date: Date) => ReactNode                                       | 自定义渲染日历面板上的月份标题                                                      |
-| renderValue          | (date: [Date, Date], format: string) => string                  | Custom render value                                                                 |
-| shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | 禁用日期                                                                            |
-| showHeader           | boolean `(true)`                                                | 是否在日历面板的头部显示格式化的日期范围<br/>![][5.52.0]                            |
-| showMeridian         | boolean                                                         | 显示 12 小时制的时间格式                                                            |
-| showOneCalendar      | boolen                                                          | 显示一个日历                                                                        |
-| showWeekNumbers      | boolean                                                         | 显示周数量                                                                          |
-| size                 | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | 设置组件尺寸                                                                        |
-| value                | [Date, Date]˝                                                   | 值 `受控`                                                                           |
-| weekStart            | 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 `(0)`                           | 一周的第一天索引 (0 - 星期日)。如果设置了 `isoWeek`，则忽略此属性。<br/>![][5.62.0] |
+| 属性名称             | 类型`(默认值)`                                                  | 描述                                                                                          |
+| -------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| appearance           | 'default' \| 'subtle' `('default')`                             | 设置外观                                                                                      |
+| block                | boolean                                                         | 堵塞整行                                                                                      |
+| caretAs              | ElementType                                                     | 自定义右侧箭头图标的组件                                                                      |
+| character            | string `(' ~ ')`                                                | 两个日期之间的分隔符                                                                          |
+| calendarSnapping     | boolean                                                         | 当设置为 `true` 时，用户如果先选择右侧日历上的日期，则会自动切换到左侧日历上 <br/>![][5.69.0] |
+| cleanable            | boolean `(true)`                                                | 可以清除选择值                                                                                |
+| container            | HTMLElement \| (() => HTMLElement)                              | 设置渲染的容器                                                                                |
+| defaultCalendarValue | [Date, Date]                                                    | 默认日历面板日期                                                                              |
+| defaultOpen          | boolean                                                         | 默认打开                                                                                      |
+| defaultValue         | [Date, Date]                                                    | 默认值                                                                                        |
+| disabled             | boolean                                                         | 禁用组件                                                                                      |
+| ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
+| editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
+| format               | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                                |
+| hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | 点击日期时将选中的日期范围                                                                    |
+| isoWeek              | boolean                                                         | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天                         |
+| label                | ReactNode                                                       | 在按钮开头显示的标签                                                                          |
+| limitEndYear         | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                            |
+| limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                            |
+| loading              | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                                  |
+| locale               | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                                                                  |
+| menuClassName        | string                                                          | 选项菜单的 className                                                                          |
+| onChange             | (value: [Date, Date]) => void                                   | 值改变后的回调函数                                                                            |
+| onClean              | (event) => void                                                 | 清除值后的回调函数                                                                            |
+| onClose              | () => void                                                      | 关闭回调函数                                                                                  |
+| onEnter              | () => void                                                      | 显示前动画过渡的回调函数                                                                      |
+| onEntered            | () => void                                                      | 显示后动画过渡的回调函数                                                                      |
+| onEntering           | () => void                                                      | 显示中动画过渡的回调函数                                                                      |
+| oneTap               | boolean                                                         | 是否点击一次就选定日期范围，可配合 hoverRange 使用                                            |
+| onExit               | () => void                                                      | 退出前动画过渡的回调函数                                                                      |
+| onExited             | () => void                                                      | 退出后动画过渡的回调函数                                                                      |
+| onExiting            | () => void                                                      | 退出中动画过渡的回调函数                                                                      |
+| onOk                 | (value: [Date, Date]) => void                                   | 点击 `确定` 按钮后的回调函数                                                                  |
+| onOpen               | () => void                                                      | 打开回调函数                                                                                  |
+| onSelect             | (data:Date) => void                                             | 选择日期的回调函数                                                                            |
+| onShortcutClick      | (shortcut: Range, event) => void                                | 点击快捷项的回调函数                                                                          |
+| open                 | boolean                                                         | 打开 (受控)                                                                                   |
+| placeholder          | string                                                          | 没有值时候默认显示内容                                                                        |
+| placement            | [Placement](#code-ts-placement-code) `('bottomStart')`          | 显示位置                                                                                      |
+| preventOverflow      | boolean                                                         | 防止浮动元素溢出                                                                              |
+| ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                                   |
+| renderTitle          | (date: Date) => ReactNode                                       | 自定义渲染日历面板上的月份标题                                                                |
+| renderValue          | (date: [Date, Date], format: string) => string                  | Custom render value                                                                           |
+| shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | 禁用日期                                                                                      |
+| showHeader           | boolean `(true)`                                                | 是否在日历面板的头部显示格式化的日期范围<br/>![][5.52.0]                                      |
+| showMeridian         | boolean                                                         | 显示 12 小时制的时间格式                                                                      |
+| showOneCalendar      | boolen                                                          | 显示一个日历                                                                                  |
+| showWeekNumbers      | boolean                                                         | 显示周数量                                                                                    |
+| size                 | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | 设置组件尺寸                                                                                  |
+| value                | [Date, Date]˝                                                   | 值 `受控`                                                                                     |
+| weekStart            | 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 `(0)`                           | 一周的第一天索引 (0 - 星期日)。如果设置了 `isoWeek`，则忽略此属性 <br/>![][5.62.0]            |
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->
@@ -245,3 +246,4 @@ const Ranges = [
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
 [5.52.0]: https://img.shields.io/badge/min-v5.52.0-blue
 [5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue
