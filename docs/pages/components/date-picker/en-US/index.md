@@ -158,12 +158,13 @@ Has keyboard interaction for the DateInput component by default.
 | hideHours             | (hour:number, date:Date) => boolean                             | Hidden hours                                                                                                                      |
 | hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                                                                    |
 | hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                                                                    |
-| isoWeek               | boolean                                                         | [ISO 8601 standard][ISO-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
+| isoWeek               | boolean                                                         | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
 | label                 | ReactNode                                                       | A label displayed at the beginning of toggle button                                                                               |
 | limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date                                                  |
 | limitStartYear        | number                                                          | Set the lower limit of the available year relative to the current selection date                                                  |
 | loading               | boolean `(false)`                                               | Whether to display a loading state indicator                                                                                      |
 | locale                | [CalendarLocaleType](/guide/i18n/#calendar)                     | Locale text                                                                                                                       |
+| monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]                      | Props for the month dropdown                                                                                                      |
 | onChange              | (date: Date) => void                                            | Callback fired when value changed                                                                                                 |
 | onChangeCalendarDate  | (date: Date, event) => void                                     | Callback function that changes the calendar date.                                                                                 |
 | onClean               | (event) => void                                                 | Callback fired when value clean                                                                                                   |
@@ -202,6 +203,7 @@ Has keyboard interaction for the DateInput component by default.
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->
+<!--{include:(_common/types/month-dropdown-props.md)}-->
 
 ### `ts:Ranges`
 
@@ -222,6 +224,7 @@ const Ranges = [
 ];
 ```
 
+[month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
 [5.54.0]: https://img.shields.io/badge/min-v5.54.0-blue
 [5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue

@@ -156,13 +156,14 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | hideHours             | (hour:number, date:Date) => boolean                             | 隐藏小时                                                                            |
 | hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                                            |
 | hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                                              |
-| isoWeek               | boolean                                                         | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
+| isoWeek               | boolean                                                         | [ISO 8601 标准][iso-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
 | label                 | ReactNode                                                       | 在按钮开头显示的标签                                                                |
 | limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                  |
 | limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                                                  |
 | loading               | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                        |
 | locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                                                        |
 | menuClassName         | string                                                          | 选项菜单的 className                                                                |
+| monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]                      | 月份下拉框属性                                                                      |
 | onChange              | (date: Date) => void                                            | 值改变后的回调函数                                                                  |
 | onChangeCalendarDate  | (date: Date, event) => void                                     | 日历日期改变后的回调函数                                                            |
 | onClean               | (event) => void                                                 | 清除值后的回调函数                                                                  |
@@ -201,6 +202,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->
+<!--{include:(_common/types/month-dropdown-props.md)}-->
 
 ### `ts:Ranges`
 
@@ -221,6 +223,7 @@ const Ranges = [
 ];
 ```
 
+[month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
 [5.54.0]: https://img.shields.io/badge/min-v5.54.0-blue
 [5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
