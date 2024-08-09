@@ -45,7 +45,7 @@ describe('Calendar styles', () => {
 
     expect(screen.queryByRole('button', { name: 'Previous month' })).to.not.exist;
     expect(screen.queryByRole('button', { name: 'Next month' })).to.not.exist;
-    expect(screen.getByRole('grid', { name: 'Select month' })).to.have.style('display', 'block');
+    expect(screen.getByTestId('calendar-month-dropdown')).to.have.style('display', 'block');
     expect(screen.getByRole('rowheader', { name: '2024' })).to.have.style('color', H700);
 
     const selectedCell = screen.getByRole('gridcell', { name: 'May 2024' }).firstChild;

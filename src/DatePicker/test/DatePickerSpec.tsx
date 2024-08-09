@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import {
   testStandardProps,
@@ -6,7 +7,7 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
 import sinon from 'sinon';
@@ -1283,6 +1284,63 @@ describe('DatePicker', () => {
       userEvent.click(screen.getByTestId('outside'));
 
       expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+    });
+  });
+
+  describe('Custom Month Dropdown', () => {
+    it('Should render custom month dropdown', () => {
+      render(
+        <DatePicker
+          format="yyyy-MM"
+          open
+          monthDropdownProps={{
+            className: 'custom-dropdown',
+            itemClassName: 'custom-item',
+            as: 'ul',
+            itemAs: 'li'
+          }}
+        />
+      );
+
+      const dropdown = screen.getByTestId('calendar-month-dropdown');
+      const item = within(dropdown).getAllByRole('row')[0];
+
+      expect(dropdown).to.contain('.custom-dropdown');
+      expect(item).to.have.class('custom-item');
+      expect(item).to.be.tagName('li');
+      expect(item.parentNode).to.be.tagName('ul');
+    });
+
+    it('Should render custom month dropdown with custom components', () => {
+      const Menu = props => {
+        const { className, ...rest } = props;
+        return <ul className={`${className} custom-menu`} {...rest} />;
+      };
+
+      const Item = props => {
+        const { className, ...rest } = props;
+        return <li className={`${className} custom-item`} {...rest} />;
+      };
+
+      render(
+        <DatePicker
+          format="yyyy-MM"
+          open
+          monthDropdownProps={{
+            as: Menu,
+            itemAs: Item
+          }}
+        />
+      );
+
+      const dropdown = screen.getByTestId('calendar-month-dropdown');
+      const item = within(dropdown).getAllByRole('row')[0];
+
+      expect(dropdown).to.contain('.custom-menu');
+      expect(item).to.have.class('custom-item');
+
+      expect(item).to.be.tagName('li');
+      expect(item.parentNode).to.be.tagName('ul');
     });
   });
 

@@ -4,15 +4,26 @@ import {
   Align,
   ListItemKeySelector,
   ListOnScrollProps,
-  ListOnItemsRenderedProps
+  ListOnItemsRenderedProps,
+  ListProps as BaseListProps
 } from 'react-window';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '@/internals/hooks';
 import ScrollView from '../ScrollView';
 
 export const defaultItemSize = () => 36;
 
-export interface ListProps<T = any> extends WithAsProps {
+export interface ListProps<T = any> extends Omit<BaseListProps, 'width'> {
+  ref?: React.Ref<ListHandle>;
+  /**
+   * Width of the list.
+   *
+   * For horizontal lists, this must be a number. It affects the number of columns that will be rendered (and displayed) at any given time.
+   *
+   * For vertical lists, this can be a number or a string (e.g. "50%").
+   */
+  width?: number | string;
+
   /**
    * @deprecated use itemSize instead
    * Either a fixed row height (number) or a function that returns the height of a row given its index: ({ index: number }): number

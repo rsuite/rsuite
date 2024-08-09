@@ -6,11 +6,15 @@ import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
 import useCalendarDate from '../Calendar/useCalendarDate';
-import { isEveryDateInMonth } from '../Calendar/MonthDropdown';
 import Toolbar, { RangeType } from './Toolbar';
 import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
-import { DatePickerLocale } from '../locales';
+import DateInput from '../DateInput';
+import InputGroup from '../InputGroup';
+import useMonthView from './hooks/useMonthView';
+import useFocus from './hooks/useFocus';
+import useCustomizedInput from './hooks/useCustomizedInput';
+import { isEveryDateInMonth } from '../Calendar/MonthDropdown';
 import { mergeRefs, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import {
   useClassNames,
@@ -45,18 +49,15 @@ import {
   onMenuKeyDown
 } from '@/internals/Picker';
 import { OverlayCloseCause } from '@/internals/Overlay/OverlayTrigger';
-import DateInput from '../DateInput';
-import InputGroup from '../InputGroup';
 import { splitRanges, deprecatedPropTypes, getRestProps } from './utils';
-import useMonthView from './hooks/useMonthView';
-import useFocus from './hooks/useFocus';
-import useCustomizedInput from './hooks/useCustomizedInput';
 import type {
   FormControlBaseProps,
   PickerBaseProps,
   RsRefForwardingComponent
 } from '@/internals/types';
+import type { DatePickerLocale } from '../locales';
 import type { DeprecatedProps } from './types';
+import type { MonthDropdownProps } from '../Calendar/CalendarContext';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
@@ -151,6 +152,11 @@ export interface DatePickerProps
    * Meridian format for 12-hour time
    */
   showMeridian?: boolean;
+
+  /**
+   * The props for the Month Dropdown component.
+   */
+  monthDropdownProps?: MonthDropdownProps;
 
   /**
    * Whether a date on the calendar view should be disabled
@@ -258,6 +264,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       classPrefix = 'picker',
       calendarDefaultDate,
       cleanable = true,
+      caretAs: caretAsProp,
       editable = true,
       defaultValue,
       disabled,
@@ -285,7 +292,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       showWeekNumbers,
       style,
       size,
-      caretAs: caretAsProp,
+      monthDropdownProps,
       shouldDisableDate,
       shouldDisableHour,
       shouldDisableMinute,
@@ -621,6 +628,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 isoWeek={isoWeek}
                 weekStart={weekStart}
                 calendarDate={calendarDate}
+                monthDropdownProps={monthDropdownProps}
                 renderCellOnPicker={renderCell}
                 onMoveForward={handleMoveForward}
                 onMoveBackward={handleMoveBackward}

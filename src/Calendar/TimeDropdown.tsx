@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import partial from 'lodash/partial';
@@ -207,18 +206,5 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
 );
 
 TimeDropdown.displayName = 'TimeDropdown';
-TimeDropdown.propTypes = {
-  show: PropTypes.bool,
-  showMeridian: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  disabledDate: PropTypes.func,
-  disabledHours: PropTypes.func,
-  disabledMinutes: PropTypes.func,
-  disabledSeconds: PropTypes.func,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func
-};
 
 export default TimeDropdown;

@@ -67,7 +67,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       ...rest
     } = props;
 
-    const { date = new Date(), targetId } = useCalendarContext();
+    const { date = new Date(), targetId, monthDropdownProps } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const thisYear = getYear(new Date());
     const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
@@ -89,6 +89,14 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       [disabledMonth]
     );
 
+    const {
+      className: listClassName,
+      itemClassName,
+      as: List,
+      itemAs: Item = 'div',
+      ...restListProps
+    } = monthDropdownProps || {};
+
     const rowRenderer = useCallback(
       ({ index, style }: ListChildComponentProps) => {
         const selectedMonth = getMonth(date);
@@ -97,13 +105,16 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
         const isSelectedYear = year === selectedYear;
         const titleClassName = prefix('year', { 'year-active': isSelectedYear });
 
-        const rowClassName = merge(prefix('row'), {
-          'first-row': index === 0,
-          'last-row': index === rowCount - 1
-        });
-
         return (
-          <div className={rowClassName} role="row" aria-label={`${year}`} style={style}>
+          <Item
+            role="row"
+            aria-label={`${year}`}
+            className={merge(itemClassName, prefix('row'), {
+              'first-row': index === 0,
+              'last-row': index === rowCount - 1
+            })}
+            style={style}
+          >
             <div className={titleClassName} role="rowheader">
               {year}
             </div>
@@ -120,10 +131,10 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
                 );
               })}
             </div>
-          </div>
+          </Item>
         );
       },
-      [date, isMonthDisabled, merge, prefix, rowCount, startYear]
+      [Item, date, isMonthDisabled, merge, prefix, itemClassName, rowCount, startYear]
     );
 
     const classes = merge(className, withClassPrefix(), { show });
@@ -131,35 +142,38 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const initialItemIndex = getYear(date) - startYear;
     const initialScrollOffset = itemSize * initialItemIndex;
 
+    if (!show) {
+      return null;
+    }
+
     return (
       <Component
-        role="grid"
-        aria-label="Select month"
-        tabIndex={-1}
-        id={targetId ? `${targetId}-${classPrefix}` : undefined}
-        {...rest}
         ref={ref}
+        role="grid"
+        tabIndex={-1}
         className={classes}
+        aria-labelledby={targetId ? `${targetId}-grid-label` : undefined}
+        id={targetId ? `${targetId}-calendar-month-dropdown` : undefined}
+        data-testid="calendar-month-dropdown"
+        {...rest}
       >
-        <div className={prefix('content')}>
-          <div className={prefix('scroll')}>
-            {show && (
-              <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
-                {({ height, width }) => (
-                  <FixedSizeList
-                    className={prefix('row-wrapper')}
-                    width={width || defaultWidth}
-                    height={height || defaultHeight}
-                    itemSize={itemSize}
-                    itemCount={rowCount}
-                    initialScrollOffset={initialScrollOffset}
-                  >
-                    {rowRenderer}
-                  </FixedSizeList>
-                )}
-              </AutoSizer>
+        <div className={prefix('scroll')}>
+          <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
+            {({ height, width }) => (
+              <FixedSizeList
+                className={merge(prefix('row-wrapper'), listClassName)}
+                width={width || defaultWidth}
+                height={height || defaultHeight}
+                itemSize={itemSize}
+                itemCount={rowCount}
+                initialScrollOffset={initialScrollOffset}
+                innerElementType={List}
+                {...restListProps}
+              >
+                {rowRenderer}
+              </FixedSizeList>
             )}
-          </div>
+          </AutoSizer>
         </div>
       </Component>
     );

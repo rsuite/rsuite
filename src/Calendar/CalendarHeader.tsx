@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
@@ -53,7 +52,14 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       ...rest
     } = props;
 
-    const { locale, date = new Date(), format, inline, disabledDate } = useCalendarContext();
+    const {
+      locale,
+      date = new Date(),
+      format,
+      inline,
+      disabledDate,
+      targetId
+    } = useCalendarContext();
     const { isSelectedIdle } = useDateRangePickerContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
@@ -114,6 +120,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
         <Button
           {...btnProps}
           aria-label="Select month"
+          id={targetId ? `${targetId}-grid-label` : undefined}
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
         >
@@ -173,23 +180,5 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
   });
 
 CalendarHeader.displayName = 'CalendarHeader';
-CalendarHeader.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  disabledBackward: PropTypes.bool,
-  disabledForward: PropTypes.bool,
-  disabledTime: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onMoveForward: PropTypes.func,
-  onToggleMeridian: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  renderTitle: PropTypes.func,
-  renderToolbar: PropTypes.func,
-  showDate: PropTypes.bool,
-  showMeridian: PropTypes.bool,
-  showMonth: PropTypes.bool,
-  showTime: PropTypes.bool
-};
 
 export default CalendarHeader;

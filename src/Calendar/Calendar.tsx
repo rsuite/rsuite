@@ -2,12 +2,13 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isSameMonth from 'date-fns/isSameMonth';
 import CalendarContainer from './CalendarContainer';
-import { CalendarLocale } from '../locales';
+import useCalendarDate from './useCalendarDate';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
 import { useClassNames, useCustom } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import useCalendarDate from './useCalendarDate';
+import type { CalendarLocale } from '../locales';
+import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { MonthDropdownProps } from './CalendarContext';
 
 export interface CalendarProps extends WithAsProps {
   /**
@@ -51,6 +52,11 @@ export interface CalendarProps extends WithAsProps {
    * @default 0
    */
   weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * The props for the Month Dropdown component.
+   */
+  monthDropdownProps?: MonthDropdownProps;
 
   /**
    * Callback fired before the value changed

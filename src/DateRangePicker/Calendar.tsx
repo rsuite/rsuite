@@ -1,8 +1,8 @@
 import React from 'react';
+import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
 import { addMonths } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
-import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
 import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { DatePickerLocale } from '../locales';
@@ -31,13 +31,13 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   limitEndYear?: number;
   limitStartYear?: number;
   locale?: DatePickerLocale;
+  showWeekNumbers?: boolean;
+  value?: [] | [Date] | [Date, Date];
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
   onToggleMeridian: (index: number, event: React.MouseEvent) => void;
   onSelect?: (index: number, date: Date, event: React.SyntheticEvent) => void;
   onMouseMove?: (date: Date) => void;
-  showWeekNumbers?: boolean;
-  value?: [] | [Date] | [Date, Date];
 }
 
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(

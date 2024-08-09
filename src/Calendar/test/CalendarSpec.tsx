@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
@@ -200,6 +201,63 @@ describe('Calendar', () => {
 
       expect(gridcells[0]).to.have.attribute('aria-label', '29 Apr 2024');
       expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '09 Jun 2024');
+    });
+  });
+
+  describe('Custom Month Dropdown', () => {
+    it('Should render custom month dropdown', () => {
+      render(
+        <Calendar
+          monthDropdownProps={{
+            className: 'custom-dropdown',
+            itemClassName: 'custom-item',
+            as: 'ul',
+            itemAs: 'li'
+          }}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+      const dropdown = screen.getByTestId('calendar-month-dropdown');
+      const item = within(dropdown).getAllByRole('row')[0];
+
+      expect(dropdown).to.contain('.custom-dropdown');
+      expect(item).to.have.class('custom-item');
+      expect(item).to.be.tagName('li');
+      expect(item.parentNode).to.be.tagName('ul');
+    });
+
+    it('Should render custom month dropdown with custom components', () => {
+      const Menu = props => {
+        const { className, ...rest } = props;
+        return <ul className={`${className} custom-menu`} {...rest} />;
+      };
+
+      const Item = props => {
+        const { className, ...rest } = props;
+        return <li className={`${className} custom-item`} {...rest} />;
+      };
+
+      render(
+        <Calendar
+          monthDropdownProps={{
+            as: Menu,
+            itemAs: Item
+          }}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+      const dropdown = screen.getByTestId('calendar-month-dropdown');
+      const item = within(dropdown).getAllByRole('row')[0];
+
+      expect(dropdown).to.contain('.custom-menu');
+      expect(item).to.have.class('custom-item');
+
+      expect(item).to.be.tagName('li');
+      expect(item.parentNode).to.be.tagName('ul');
     });
   });
 });
