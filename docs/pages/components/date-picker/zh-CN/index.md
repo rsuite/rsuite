@@ -156,7 +156,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | hideHours             | (hour:number, date:Date) => boolean                             | 隐藏小时                                                                            |
 | hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                                            |
 | hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                                              |
-| isoWeek               | boolean                                                         | [ISO 8601 标准][iso-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
+| isoWeek               | boolean                                                         | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
 | label                 | ReactNode                                                       | 在按钮开头显示的标签                                                                |
 | limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                  |
 | limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                                                  |

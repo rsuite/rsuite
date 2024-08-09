@@ -155,7 +155,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
 | format               | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                                |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | 点击日期时将选中的日期范围                                                                    |
-| isoWeek              | boolean                                                         | [ISO 8601 标准][iso-8601]， 每个日历星期从星期一开始，星期日为第 7 天                         |
+| isoWeek              | boolean                                                         | [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天                         |
 | label                | ReactNode                                                       | 在按钮开头显示的标签                                                                          |
 | limitEndYear         | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                            |
 | limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                            |
