@@ -1,7 +1,7 @@
 import { useContext, useCallback } from 'react';
 import { format, parse, isValid } from '@/internals/utils/date';
 import defaultLocale from '../../locales/default';
-import { CustomContext, CustomValue } from '../../CustomProvider/CustomProvider';
+import { CustomContext, CustomValue, FormatDateOptions } from '../../CustomProvider/CustomProvider';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -42,18 +42,40 @@ export function useCustom<T = any>(keys?: string | string[], overrideLocale?): C
     componentLocale = mergeObject([componentLocale, overrideLocale]);
   }
 
-  const defaultFormatDate = useCallback(
-    (date: number | Date, formatStr: string) =>
-      format(isValid(date) ? date : new Date(), formatStr, {
-        locale: locale?.Calendar?.dateLocale
-      }),
-    [locale.Calendar?.dateLocale]
+  const _formatDate = useCallback(
+    (date: number | Date, formatStr: string, options?: FormatDateOptions) => {
+      try {
+        if (formatDate) {
+          return formatDate(date, formatStr, options);
+        }
+
+        return format(isValid(date) ? date : new Date(), formatStr, {
+          locale: locale?.Calendar?.dateLocale,
+          ...options
+        });
+      } catch (error: any) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error: Invalid date format', error);
+        }
+
+        return 'Error: Invalid date format';
+      }
+    },
+    [formatDate, locale?.Calendar?.dateLocale]
   );
 
-  const defaultParseDate = useCallback(
-    (dateString: string, formatString: string) =>
-      parse(dateString, formatString, new Date(), { locale: locale?.Calendar?.dateLocale }),
-    [locale.Calendar?.dateLocale]
+  const _parseDate = useCallback(
+    (dateString: string, formatString: string, referenceDate?: Date | number, options?: any) => {
+      if (parseDate) {
+        return parseDate(dateString, formatString, referenceDate, options);
+      }
+
+      return parse(dateString, formatString, referenceDate || new Date(), {
+        locale: locale?.Calendar?.dateLocale,
+        ...options
+      });
+    },
+    [parseDate, locale?.Calendar?.dateLocale]
   );
 
   return {
@@ -61,8 +83,8 @@ export function useCustom<T = any>(keys?: string | string[], overrideLocale?): C
     rtl,
     toasters,
     disableRipple,
-    formatDate: formatDate || defaultFormatDate,
-    parseDate: parseDate || defaultParseDate
+    formatDate: _formatDate,
+    parseDate: _parseDate
   };
 }
 

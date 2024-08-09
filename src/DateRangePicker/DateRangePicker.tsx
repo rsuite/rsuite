@@ -177,6 +177,14 @@ export interface DateRangePickerProps
   monthDropdownProps?: MonthDropdownProps;
 
   /**
+   * If the user selects a date on the right calendar first, it will automatically switch to the left calendar.
+   * Always keep the date on the left calendar as the start date.
+   * @default false
+   * @version 5.69.0
+   */
+  calendarSnapping?: boolean;
+
+  /**
    * Disabled date
    * @deprecated Use {@link shouldDisableDate} instead
    */
@@ -258,6 +266,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     editable = true,
     cleanable = true,
     character = ' ~ ',
+    calendarSnapping,
     defaultCalendarValue,
     defaultValue,
     plaintext,
@@ -584,7 +593,11 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       }
 
       setSelectedDates(nextSelectDates);
-      setCalendarDateRange({ dateRange: nextSelectDates, calendarKey, eventName: 'changeDate' });
+
+      if (!isSameMonth(calendarDate[index], date) || calendarSnapping) {
+        setCalendarDateRange({ dateRange: nextSelectDates, calendarKey, eventName: 'changeDate' });
+      }
+
       onSelect?.(date, event);
       setSelectedIdle(!isSelectedIdle);
     }

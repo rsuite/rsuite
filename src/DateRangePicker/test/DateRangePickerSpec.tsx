@@ -486,6 +486,26 @@ describe('DateRangePicker', () => {
     expect(screen.getByTitle('30 May 2021')).to.be.exist;
   });
 
+  it('Should update the calendar when calendarSnapping is true', () => {
+    render(
+      <DateRangePicker
+        defaultOpen
+        calendarSnapping
+        defaultValue={[new Date('08/01/2024'), new Date('09/01/2024')]}
+      />
+    );
+
+    screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
+      expect(item).to.have.text(['Aug 2024', 'Sep 2024'][index]);
+    });
+
+    fireEvent.click(screen.getByTitle('08 Sep 2024'));
+
+    screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
+      expect(item).to.have.text(['Sep 2024', 'Oct 2024'][index]);
+    });
+  });
+
   it('Should be show meridian', () => {
     render(
       <DateRangePicker
@@ -961,6 +981,7 @@ describe('DateRangePicker', () => {
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
+      fireEvent.click(screen.getAllByRole('button', { name: 'Next month' })[1]);
       fireEvent.click(screen.getByRole('gridcell', { name: '21 Apr 2022' }));
 
       expect(onSelect).to.have.been.calledTwice;
@@ -1395,6 +1416,32 @@ describe('DateRangePicker', () => {
 
       expect(item).to.be.tagName('li');
       expect(item.parentNode).to.be.tagName('ul');
+    });
+  });
+
+  describe('Error handling', () => {
+    it('Should render an error message when the format is deprecated', () => {
+      sinon.spy(console, 'error');
+      expect(() => {
+        render(<DateRangePicker format="YY" value={[new Date(), new Date()]} />);
+      }).to.not.throw();
+
+      expect(screen.getByRole('textbox')).to.have.value(
+        'Error: Invalid date format ~ Error: Invalid date format'
+      );
+      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+    });
+
+    it('Should render an error message when the format is incorrect', () => {
+      sinon.spy(console, 'error');
+      expect(() => {
+        render(<DateRangePicker format="_error_" value={[new Date(), new Date()]} />);
+      }).to.not.throw();
+
+      expect(screen.getByRole('textbox')).to.have.value(
+        'Error: Invalid date format ~ Error: Invalid date format'
+      );
+      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 });

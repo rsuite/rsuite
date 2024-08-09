@@ -8,6 +8,19 @@ export default function Document() {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VVC8ZNFF9"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-3VVC8ZNFF9');
+`
+          }}
+        />
       </Head>
       <body>
         <Main />

@@ -30,6 +30,10 @@
 - 使用 `isoWeek` 开启 [ISO 8601 标准][ISO-8601]， 每个日历星期从星期一开始，星期日为第 7 天。
 - 使用 `showWeekNumbers` 显示周数。
 
+### 农历
+
+<!--{include:`lunar.md`}-->
+
 ## Props
 
 ### `<Calendar>`

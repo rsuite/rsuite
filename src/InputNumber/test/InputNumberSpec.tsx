@@ -310,4 +310,30 @@ describe('InputNumber', () => {
       });
     });
   });
+
+  describe('Decimal separator', () => {
+    it('Should render a decimal separator', () => {
+      render(<InputNumber value={0.1} />);
+
+      expect(screen.getByRole('textbox')).to.have.value('0.1');
+    });
+
+    it('Should render a decimal separator with a custom separator', () => {
+      render(<InputNumber value={0.1} decimalSeparator="," />);
+
+      expect(screen.getByRole('textbox')).to.have.value('0,1');
+    });
+
+    it('Should allow input of custom decimal separator', () => {
+      const onChange = sinon.spy();
+
+      render(<InputNumber decimalSeparator="," onChange={onChange} />);
+
+      userEvent.type(screen.getByRole('textbox'), '1,2');
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(screen.getByRole('textbox')).to.have.value('1,2');
+      expect(onChange.lastCall).to.have.been.calledWith('1.2');
+    });
+  });
 });
