@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import canUseDOM from 'dom-lib/canUseDOM';
 import pick from 'lodash/pick';
 
@@ -38,7 +38,11 @@ const matchMedia = (query: string) => {
  */
 export function useMediaQueryOld(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
-  const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
+  const mediaQueries = useMemo(
+    () => queries.map(query => mediaQuerySizeMap[query] || query),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...queries]
+  );
 
   const [mediaQueryArray, setMediaQueryArray] = useState<MediaQuery[]>(() =>
     mediaQueries.map(query => pick(matchMedia(query), ['matches', 'media']))
@@ -77,13 +81,19 @@ export function useMediaQueryOld(query: Query | Query[]): boolean[] {
  */
 export function useMediaQuery(query: Query | Query[]): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
-  const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
+
+  const mediaQueries = useMemo(
+    () => queries.map(query => mediaQuerySizeMap[query] || query),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...queries]
+  );
 
   const mediaQueryArray = useRef<boolean[]>(mediaQueries.map(query => matchMedia(query).matches));
 
   const subscribe = useCallback(
     callback => {
       const list = mediaQueries.map(query => matchMedia(query));
+
       const handleChange = (event: MediaQueryListEvent) => {
         const index = list.findIndex(item => item.media === event.media);
         if (index !== -1) {
@@ -107,6 +117,7 @@ export function useMediaQuery(query: Query | Query[]): boolean[] {
         });
       };
     },
+
     [mediaQueries]
   );
 
