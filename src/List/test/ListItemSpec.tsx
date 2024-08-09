@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import List from '../List';
 import ListItem from '../ListItem';
 import { render, screen } from '@testing-library/react';
@@ -8,23 +8,24 @@ describe('ListItem', () => {
   testStandardProps(<ListItem />);
 
   it('Should render a ListItem', () => {
-    const domNode = getDOMNode(
+    const { container } = render(
       <List>
         <List.Item index={1} />
       </List>
     );
-    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item');
+
+    expect(container.firstChild?.firstChild).to.have.class('rs-list-item');
   });
 
   it('Should be disabled', () => {
-    const domNode = getDOMNode(
+    const { container } = render(
       <List>
         <List.Item index={1} disabled>
           Disabled
         </List.Item>
       </List>
     );
-    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item-disabled');
+    expect(container.firstChild?.firstChild).to.have.class('rs-list-item-disabled');
   });
 
   it('Should be different size', async () => {
@@ -38,7 +39,7 @@ describe('ListItem', () => {
     );
 
     const items = await screen.findAllByRole('listitem');
-    assert.include(items[0].className, 'rs-list-item-sm');
-    assert.include(items[1].className, 'rs-list-item-lg');
+    expect(items[0]).to.have.class('rs-list-item-sm');
+    expect(items[1]).to.have.class('rs-list-item-lg');
   });
 });

@@ -2,12 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import {
-  getDOMNode,
-  testStandardProps,
-  testControlledUnControlled,
-  testFormControl
-} from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import InputNumber from '../InputNumber';
 
 describe('InputNumber', () => {
@@ -38,8 +33,8 @@ describe('InputNumber', () => {
   });
 
   it('Should render a input', () => {
-    const domNode = getDOMNode(<InputNumber />);
-    assert.include(domNode.className, 'rs-input-number');
+    const { container } = render(<InputNumber />);
+    expect(container.firstChild).to.have.class('rs-input-number');
   });
 
   it('Should output a subtle button', () => {

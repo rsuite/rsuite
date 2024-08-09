@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import {
-  getDOMNode,
   getInstance,
   testStandardProps,
   testControlledUnControlled,
@@ -60,9 +59,9 @@ describe('InputPicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<InputPicker data={[]} />);
+    const { container } = render(<InputPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should not clean selected value', () => {
@@ -73,9 +72,9 @@ describe('InputPicker', () => {
   });
 
   it('Should output a dropdown', () => {
-    const instance = getDOMNode(<InputPicker data={[]} />);
+    const { container } = render(<InputPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-input');
+    expect(container.firstChild).to.have.class('rs-picker-input');
   });
 
   it('Should be plaintext', () => {
@@ -327,24 +326,6 @@ describe('InputPicker', () => {
     fireEvent.focus(screen.getByRole('textbox'));
 
     expect(onFocusSpy).to.called;
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<InputPicker data={[]} className="custom" defaultOpen />);
-
-    expect(instance).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const instance = getDOMNode(<InputPicker data={[]} style={{ fontSize: 12 }} />);
-
-    expect(instance).to.have.style('font-size', '12px');
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<InputPicker data={[]} classPrefix="custom-prefix" />);
-
-    expect(instance).to.have.class('rs-custom-prefix');
   });
 
   it('Should render a button by toggleAs={Button}', () => {

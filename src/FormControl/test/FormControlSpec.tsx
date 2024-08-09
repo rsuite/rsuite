@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/utils';
 import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
@@ -9,8 +8,15 @@ import Schema from '../../Schema';
 import Toggle from '../../Toggle';
 import Button from '@/Button';
 import TagInput from '@/TagInput';
+import { testStandardProps } from '@test/utils';
 
 describe('FormControl', () => {
+  testStandardProps(
+    <Form>
+      <FormControl name="username" />
+    </Form>
+  );
+
   it('Should output a input', () => {
     render(
       <Form>
@@ -88,29 +94,6 @@ describe('FormControl', () => {
     );
 
     expect(screen.getByRole('textbox')).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    render(
-      <Form>
-        <FormControl style={{ fontSize: 12 }} name="username" />
-      </Form>
-    );
-
-    expect(screen.getByRole('textbox')).to.have.style('font-size', '12px');
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Form>
-        <FormControl classPrefix="custom-prefix" name="username" data-testid="control" />
-      </Form>
-    );
-
-    assert.ok(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('div') as HTMLDivElement).className.match(/\bcustom-prefix\b/)
-    );
   });
 
   it('Should render correctly when form value was null', () => {
