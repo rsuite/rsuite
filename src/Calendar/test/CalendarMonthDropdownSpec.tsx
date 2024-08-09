@@ -4,8 +4,11 @@ import { getYear } from 'date-fns';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
+import { testStandardProps } from '@test/utils';
 
 describe('Calendar-MonthDropdown', () => {
+  testStandardProps(<MonthDropdown show />);
+
   it('Should output year and month ', () => {
     render(
       <CalendarContext.Provider
@@ -145,21 +148,5 @@ describe('Calendar-MonthDropdown', () => {
     expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');
     expect(cells[8]).to.have.class('rs-calendar-month-dropdown-cell-active');
     expect(cells[9]).to.have.class('disabled');
-  });
-
-  it('Should have a custom className', () => {
-    render(<MonthDropdown className="custom" show />);
-    expect(screen.getByRole('grid', { hidden: true })).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    render(<MonthDropdown style={{ fontSize: 12 }} show />);
-
-    expect(screen.getByRole('grid', { hidden: true })).to.have.style('font-size', '12px');
-  });
-
-  it('Should have a custom className prefix', () => {
-    render(<MonthDropdown classPrefix="custom-prefix" show />);
-    expect(screen.getByRole('grid', { hidden: true })).to.have.class('rs-custom-prefix');
   });
 });
