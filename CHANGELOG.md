@@ -1,3 +1,20 @@
+# [5.69.0](https://github.com/rsuite/rsuite/compare/v5.68.1...v5.69.0) (2024-08-09)
+
+
+### Bug Fixes
+
+* **DatePicker, DateRangePicker:** fix the component crash due to invalid format ([#3910](https://github.com/rsuite/rsuite/issues/3910)) ([ed8f9b0](https://github.com/rsuite/rsuite/commit/ed8f9b0814eb5723d2baecba9a34c5f3544dce38))
+* **useMediaQuery:** fix media query change cannot be listened to when using multiple useMediaQuery ([#3909](https://github.com/rsuite/rsuite/issues/3909)) ([63d50e2](https://github.com/rsuite/rsuite/commit/63d50e29160032e0ca0c878a13a8a87f4e840e86))
+
+
+### Features
+
+* **Calendar, DatePicker, DateRangePicker:** add support for `monthDropdownProps` prop ([#3913](https://github.com/rsuite/rsuite/issues/3913)) ([9025bbe](https://github.com/rsuite/rsuite/commit/9025bbefd6c0bfaf93ef91e775e2815c9832077d))
+* **DateRangePicker:** add support for `calendarSnapping` prop ([#3911](https://github.com/rsuite/rsuite/issues/3911)) ([4b3a669](https://github.com/rsuite/rsuite/commit/4b3a6692388040defd9dd5835572ca8336f4e315))
+* **InputNumber:** add support for `decimalSeparator` prop ([#3907](https://github.com/rsuite/rsuite/issues/3907)) ([58212fa](https://github.com/rsuite/rsuite/commit/58212fa9a1f2a642289877c888164f880234d7c8))
+
+
+
 ## [5.68.1](https://github.com/rsuite/rsuite/compare/v5.68.0...v5.68.1) (2024-08-02)
 
 
