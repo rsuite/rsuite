@@ -9,14 +9,14 @@ import {
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 
 afterEach(() => {
-  Sinon.restore();
+  sinon.restore();
 });
 
 describe('DatePicker', () => {
@@ -108,7 +108,7 @@ describe('DatePicker', () => {
   });
 
   it('Should update value to be `null` when "clear" button is clicked', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(<DatePicker value={new Date(2021, 0, 4)} onChange={onChange} cleanable />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
@@ -123,7 +123,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(<DatePicker onChange={onChange} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
@@ -132,7 +132,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChange` callback when click shortcut', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChange} defaultOpen />);
     // eslint-disable-next-line testing-library/no-node-access
@@ -170,7 +170,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = Sinon.spy();
+    const onClean = sinon.spy();
     render(<DatePicker defaultValue={new Date()} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
@@ -179,7 +179,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(<DatePicker onSelect={onSelect} defaultOpen defaultValue={new Date('2023-10-01')} />);
 
     fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2023' }));
@@ -188,7 +188,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onOk` callback', () => {
-    const onOk = Sinon.spy();
+    const onOk = sinon.spy();
     render(<DatePicker onOk={onOk} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
@@ -197,7 +197,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onNextMonth` callback', () => {
-    const onNextMonth = Sinon.spy();
+    const onNextMonth = sinon.spy();
     render(<DatePicker onNextMonth={onNextMonth} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
@@ -206,7 +206,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onPrevMonth` callback', () => {
-    const onPrevMonth = Sinon.spy();
+    const onPrevMonth = sinon.spy();
     render(<DatePicker onPrevMonth={onPrevMonth} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
@@ -214,7 +214,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onToggleMonthDropdown` callback when click title', () => {
-    const onToggleMonthDropdown = Sinon.spy();
+    const onToggleMonthDropdown = sinon.spy();
     render(
       <DatePicker
         onToggleMonthDropdown={onToggleMonthDropdown}
@@ -235,7 +235,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onToggleTimeDropdown` callback when click time', () => {
-    const onToggleTimeDropdown = Sinon.spy();
+    const onToggleTimeDropdown = sinon.spy();
     render(
       <DatePicker
         onToggleTimeDropdown={onToggleTimeDropdown}
@@ -255,7 +255,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChangeCalendarDate` callback when click backward', () => {
-    const onChangeCalendarDate = Sinon.spy();
+    const onChangeCalendarDate = sinon.spy();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
@@ -265,7 +265,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChangeCalendarDate` callback when click forward', () => {
-    const onChangeCalendarDate = Sinon.spy();
+    const onChangeCalendarDate = sinon.spy();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
@@ -275,7 +275,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChangeCalendarDate` callback when click day ', () => {
-    const onChangeCalendarDate = Sinon.spy();
+    const onChangeCalendarDate = sinon.spy();
 
     render(
       <DatePicker
@@ -291,7 +291,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChangeCalendarDate` callback when click month ', () => {
-    const onChangeCalendarDate = Sinon.spy();
+    const onChangeCalendarDate = sinon.spy();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
@@ -302,7 +302,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = Sinon.spy();
+    const onOpen = sinon.spy();
 
     render(<DatePicker onOpen={onOpen} />);
     fireEvent.click(screen.getByRole('textbox'));
@@ -313,7 +313,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = Sinon.spy();
+    const onClose = sinon.spy();
 
     render(<DatePicker onClose={onClose} defaultOpen />);
 
@@ -372,7 +372,7 @@ describe('DatePicker', () => {
   });
 
   it('Should not change for the value  when it is controlled', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(<DatePicker value={parseISO('2018-01-05')} onChange={onChange} defaultOpen />);
 
@@ -384,7 +384,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onBlur` callback', () => {
-    const onBlur = Sinon.spy();
+    const onBlur = sinon.spy();
     render(<DatePicker onBlur={onBlur} />);
 
     fireEvent.blur(screen.getByRole('textbox'));
@@ -393,7 +393,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onFocus` callback', () => {
-    const onFocus = Sinon.spy();
+    const onFocus = sinon.spy();
     render(<DatePicker onFocus={onFocus} defaultValue={new Date()} />);
 
     fireEvent.focus(screen.getByRole('textbox'));
@@ -402,7 +402,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call onChange after setting oneTap and clicking date', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <DatePicker onChange={onChange} oneTap defaultOpen defaultValue={new Date('2023-10-01')} />
@@ -414,7 +414,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call onChange after setting oneTap and clicking month', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <DatePicker
         defaultValue={new Date('2023-10-01')}
@@ -597,7 +597,7 @@ describe('DatePicker', () => {
   });
 
   it('Should reset to default time after clicking clear button', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <DatePicker
         open
@@ -625,7 +625,7 @@ describe('DatePicker', () => {
   });
 
   it('Should render range buttons for bottom and left placements', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <DatePicker
         open
@@ -669,7 +669,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call onSelect when meridian toggled', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <DatePicker
@@ -747,7 +747,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onShortcutClick` callback', () => {
-    const onShortcutClick = Sinon.spy();
+    const onShortcutClick = sinon.spy();
 
     render(
       <DatePicker
@@ -767,7 +767,7 @@ describe('DatePicker', () => {
   });
 
   it('Should be clear the value via the Backspace key', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(<DatePicker onChange={onChange} format="yyyy" defaultValue={new Date('2023-11-01')} />);
 
@@ -778,7 +778,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChange` callback and return an invalid date', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <DatePicker onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-11-01')} />
@@ -794,7 +794,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChange` callback and return a valid date', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <DatePicker
@@ -1076,7 +1076,7 @@ describe('DatePicker', () => {
 
   describe('Disable Date, Hour, Minute, Second', () => {
     it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
-      Sinon.spy(console, 'warn');
+      sinon.spy(console, 'warn');
       render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
 
       expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
@@ -1089,7 +1089,7 @@ describe('DatePicker', () => {
     });
 
     it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
-      Sinon.spy(console, 'warn');
+      sinon.spy(console, 'warn');
       render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
 
       expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
@@ -1102,7 +1102,7 @@ describe('DatePicker', () => {
       );
     });
     it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
-      Sinon.spy(console, 'warn');
+      sinon.spy(console, 'warn');
       render(
         <DatePicker
           calendarDefaultDate={new Date(2023, 2, 7)}
@@ -1119,7 +1119,7 @@ describe('DatePicker', () => {
     });
 
     it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
-      Sinon.spy(console, 'warn');
+      sinon.spy(console, 'warn');
       render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
 
       expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
@@ -1283,6 +1283,28 @@ describe('DatePicker', () => {
       userEvent.click(screen.getByTestId('outside'));
 
       expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+    });
+  });
+
+  describe('Error handling', () => {
+    it('Should render an error message when the format is deprecated', () => {
+      sinon.spy(console, 'error');
+      expect(() => {
+        render(<DatePicker format="YY" value={new Date()} />);
+      }).to.not.throw();
+
+      expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
+      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+    });
+
+    it('Should render an error message when the format is incorrect', () => {
+      sinon.spy(console, 'error');
+      expect(() => {
+        render(<DatePicker format="_error_" value={new Date()} />);
+      }).to.not.throw();
+
+      expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
+      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 });
