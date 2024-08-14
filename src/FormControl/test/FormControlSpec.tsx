@@ -8,15 +8,8 @@ import Schema from '../../Schema';
 import Toggle from '../../Toggle';
 import Button from '@/Button';
 import TagInput from '@/TagInput';
-import { testStandardProps } from '@test/utils';
 
 describe('FormControl', () => {
-  testStandardProps(
-    <Form>
-      <FormControl name="username" />
-    </Form>
-  );
-
   it('Should output a input', () => {
     render(
       <Form>
@@ -34,6 +27,29 @@ describe('FormControl', () => {
     );
 
     expect(screen.getByRole('textbox')).to.have.tagName('TEXTAREA');
+  });
+
+  it('Should have a custom style', () => {
+    render(
+      <Form>
+        <FormControl style={{ fontSize: 12 }} name="username" />
+      </Form>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.style('font-size', '12px');
+  });
+
+  it('Should have a custom className prefix', () => {
+    const { container } = render(
+      <Form>
+        <FormControl classPrefix="custom-prefix" name="username" data-testid="control" />
+      </Form>
+    );
+
+    expect(
+      // eslint-disable-next-line
+      (container.querySelector('div') as HTMLDivElement).className
+    ).to.match(/\bcustom-prefix\b/);
   });
 
   it('Should call onChange callback', () => {
