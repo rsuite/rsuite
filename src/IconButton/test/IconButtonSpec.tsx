@@ -2,7 +2,7 @@ import React from 'react';
 import { testStandardProps } from '@test/utils';
 import User from '@rsuite/icons/legacy/User';
 import IconButton from '../IconButton';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe('IconButton', () => {
   testStandardProps(<IconButton />);
@@ -10,7 +10,7 @@ describe('IconButton', () => {
   it('Should output a button', () => {
     const { container } = render(<IconButton />);
 
-    expect(container.firstChild).to.have.class('rs-btn-icon');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-icon');
     expect(container.firstChild).to.have.tagName('BUTTON');
   });
 
