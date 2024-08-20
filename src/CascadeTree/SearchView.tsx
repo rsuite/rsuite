@@ -13,6 +13,7 @@ interface SearchViewProps<T> extends WithAsProps {
   data: ItemDataType<T>[];
   focusItemValue?: T | null;
   disabledItemValues: any[];
+  locale?: Record<string, string>;
   renderSearchItem?: (label: React.ReactNode, items: ItemDataType<T>[]) => React.ReactNode;
   onSelect: (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => void;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,6 +27,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     className,
     searchKeyword,
     labelKey,
+    locale: overrideLocale,
     valueKey,
     parentMap,
     data,
@@ -40,7 +42,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
 
   const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const { locale } = useCustom('Picker');
+  const { locale } = useCustom('Picker', overrideLocale);
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const items = getPathTowardsItem(item, item => parentMap.get(item));

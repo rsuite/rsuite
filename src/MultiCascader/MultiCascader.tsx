@@ -36,7 +36,7 @@ import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
 export interface MultiCascaderProps<T extends DataItemValue>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
-    MultiCascadeTreeProps<T, T[]>,
+    MultiCascadeTreeProps<T, T[], PickerLocale>,
     Pick<PickerToggleProps, 'loading'> {
   /**
    * A picker that can be counted
@@ -355,6 +355,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
         >
           {searchable && (
             <SearchView
+              locale={locale}
               data={items}
               value={value}
               searchKeyword={searchKeyword}

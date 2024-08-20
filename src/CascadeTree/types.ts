@@ -12,7 +12,9 @@ export interface CascadeColumn<T> {
   layer?: number;
 }
 
-export interface CascadeTreeProps<T, V = T> extends WithAsProps, DataProps<ItemDataType<T>> {
+export interface CascadeTreeProps<T, V = T, L = any>
+  extends WithAsProps,
+    DataProps<ItemDataType<T>> {
   /**
    * Initial value
    */
@@ -42,6 +44,11 @@ export interface CascadeTreeProps<T, V = T> extends WithAsProps, DataProps<ItemD
    * Whether dispaly search input box
    */
   searchable?: boolean;
+
+  /**
+   * A collection of localized strings.
+   */
+  locale?: Partial<L>;
 
   /**
    * Custom render columns

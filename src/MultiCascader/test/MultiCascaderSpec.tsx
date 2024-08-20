@@ -11,6 +11,7 @@ import {
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 import { PickerHandle } from '@/internals/Picker';
+import CustomProvider from '@/CustomProvider';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
@@ -450,5 +451,68 @@ describe('MultiCascader', () => {
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
     expect(screen.queryAllByRole('group')).to.have.length(1);
+  });
+
+  describe('Locale', () => {
+    it('Should render default locale', () => {
+      render(<MultiCascader defaultOpen data={items} />);
+
+      expect(screen.getByRole('combobox')).to.have.text('Select');
+      expect(screen.getByRole('searchbox')).to.have.attribute('placeholder', 'Search');
+
+      // Trigger search event
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
+      expect(screen.getByText('No results found')).to.exist;
+    });
+
+    it('Should render custom locale with `CustomProvider` component', () => {
+      const PickerZhCN = {
+        noResultsText: '无匹配选项',
+        searchPlaceholder: '搜索',
+        placeholder: '选择',
+        checkAll: '全部'
+      };
+
+      render(
+        <CustomProvider
+          locale={{
+            Picker: PickerZhCN
+          }}
+        >
+          <MultiCascader defaultOpen data={items} />
+        </CustomProvider>
+      );
+
+      expect(screen.getByRole('combobox')).to.have.text('选择');
+      expect(screen.getByRole('searchbox')).to.have.attribute('placeholder', '搜索');
+
+      // Trigger search event
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
+      expect(screen.getByText('无匹配选项')).to.exist;
+    });
+
+    it('Should override locale with `locale` property', () => {
+      render(
+        <MultiCascader
+          defaultOpen
+          data={items}
+          locale={{
+            searchPlaceholder: 'Custom Search Place Holder',
+            noResultsText: 'Custom No Results Message',
+            placeholder: 'Custom Place Holder'
+          }}
+        />
+      );
+
+      expect(screen.getByRole('combobox')).to.have.text('Custom Place Holder');
+      expect(screen.getByRole('searchbox')).to.have.attribute(
+        'placeholder',
+        'Custom Search Place Holder'
+      );
+
+      // Trigger search event
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
+      expect(screen.getByText('Custom No Results Message')).to.exist;
+    });
   });
 });

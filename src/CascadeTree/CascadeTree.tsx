@@ -30,6 +30,7 @@ const CascadeTree = React.forwardRef(<T extends DataItemValue>(props: CascadeTre
     childrenKey = 'children',
     valueKey = 'value',
     labelKey = 'label',
+    locale,
     value: valueProp,
     disabledItemValues = [],
     columnWidth,
@@ -137,6 +138,7 @@ const CascadeTree = React.forwardRef(<T extends DataItemValue>(props: CascadeTre
           searchKeyword={searchKeyword}
           valueKey={valueKey}
           labelKey={labelKey}
+          locale={locale}
           parentMap={parentMap}
           disabledItemValues={disabledItemValues}
           onSelect={handleSearchRowSelect}
