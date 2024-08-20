@@ -8,15 +8,17 @@ describe('IconButton', () => {
   testStandardProps(<IconButton />);
 
   it('Should output a button', () => {
-    const { container } = render(<IconButton />);
+    render(<IconButton />);
+    const iconButton = screen.getByRole('button');
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-icon');
-    expect(container.firstChild).to.have.tagName('BUTTON');
+    expect(iconButton).to.have.class('rs-btn-icon');
+    expect(iconButton.tagName).to.be.equal('BUTTON');
   });
 
-  it('Should output a icon', () => {
-    const { container } = render(<IconButton icon={<User />} />);
-    //eslint-disable-next-line
-    expect(container.querySelector('.rs-icon')).to.exist;
+  it('Should output an icon', async () => {
+    render(<IconButton icon={<User />} />);
+    const icon = await screen.findByRole('button');
+
+    expect(icon).to.exist;
   });
 });
