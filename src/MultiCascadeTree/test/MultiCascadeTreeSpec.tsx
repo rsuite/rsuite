@@ -150,7 +150,7 @@ describe('MultiCascadeTree', () => {
 
     fireEvent.change(searchbox, { target: { value: '3' } });
 
-    expect(screen.getByRole('checkbox', { name: ['3', '3-1'].join('') })).to.be.checked;
+    expect(screen.getByRole('checkbox', { name: /3-1/ })).to.be.checked;
     expect(screen.getByRole('checkbox', { name: '3' })).to.have.attribute('aria-checked', 'mixed');
   });
 
