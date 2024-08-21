@@ -451,4 +451,26 @@ describe('MultiCascader', () => {
 
     expect(screen.queryAllByRole('group')).to.have.length(1);
   });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<MultiCascader data={items} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role tree', () => {
+      render(<MultiCascader data={items} defaultOpen />);
+
+      expect(screen.getByRole('tree')).to.exist;
+    });
+
+    it('Should focus on search input by key=character', () => {
+      render(<MultiCascader defaultOpen data={items} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
+    });
+  });
 });
