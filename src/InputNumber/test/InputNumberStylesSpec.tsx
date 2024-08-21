@@ -1,22 +1,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import InputNumber from '../index';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
+import { getStyle, toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 
 describe('InputNumber styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    render(<InputNumber ref={instanceRef} />);
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'InputNumber background-color');
+
+    const { container } = render(<InputNumber ref={instanceRef} />);
+    expect(getStyle(container.firstChild as Element, 'backgroundColor')).to.equal(toRGB('#fff'));
     inChrome &&
-      assert.equal(
-        getStyle(dom, 'border'),
+      expect(getStyle(container.firstChild as Element, 'border')).to.equal(
         `1px solid ${toRGB('#e5e5ea')}`,
         'InputNumber border-color'
       );
-    assert.equal(getStyle(dom, 'height'), '36px', 'InputNumber height');
+    expect(getStyle(container.firstChild as Element, 'height')).to.equal('36px');
   });
 });
