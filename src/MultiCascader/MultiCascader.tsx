@@ -355,6 +355,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
         >
           {searchable && (
             <SearchView
+              cascade={cascade}
               data={items}
               value={value}
               searchKeyword={searchKeyword}
