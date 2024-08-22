@@ -64,7 +64,7 @@ More guides on how to get started are available [here](https://rsuitejs.com/guid
 
 ## Documentation
 
-It's the https://rsuitejs.com website for the latest version of React Suite. For older versions head over here
+It's the https://rsuitejs.com website for the latest version of React Suite. For older versions head over here:
 
 - [4.x documentation](https://v4.rsuitejs.com/)
 - [3.x documentation](https://v3.rsuitejs.com/)
@@ -119,7 +119,7 @@ These great services help us to build and maintain the project.
 
 ## Supporting React Suite
 
-If you like React Suite, you can show your support by either
+If you like React Suite, you can show your support by:
 
 - Starring this repo
 - [Leaving a comment here][issues-11] if you are using React Suite in your project (like we do :smile:)
