@@ -83,74 +83,64 @@
 
 ## Props
 
-<!--{include:(_common/types/item-data-type.md)}-->
-
 ### `<MultiCascader>`
 
-<!-- prettier-sort-markdown-table -->
-
-| 属性名称              | 类型`(默认值)`                                                                                  | 描述                                       |
-| --------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| appearance            | 'default' &#124; 'subtle' `('default')`                                                         | 设置外观                                   |
-| block                 | boolean                                                                                         | 堵塞整行                                   |
-| caretAs               | ElementType                                                                                     | 自定义右侧箭头图标的组件                   |
-| cascade               | boolean `(true)`                                                                                | 是否级联选择                               |
-| childrenKey           | string `('children')`                                                                           | 设置选项子节点在 `data` 中的 `key`         |
-| classPrefix           | string `('picker')`                                                                             | 组件 CSS 类的前缀                          |
-| cleanable             | boolean `(true)`                                                                                | 可以清除                                   |
-| columnHeight          | number                                                                                          | 设置菜单的高度                             |
-| columnWidth           | number                                                                                          | 设置菜单的宽度                             |
-| container             | HTMLElement &#124; (() => HTMLElement)                                                          | 设置渲染的容器                             |
-| countable             | boolean `(true)`                                                                                | 可以计数已选项                             |
-| data \*               | [ItemDataType][item][]                                                                          | 组件数据                                   |
-| defaultOpen           | boolean                                                                                         | 默认打开                                   |
-| defaultValue          | string[]                                                                                          | 设置默认值                                 |
-| disabled              | boolean                                                                                         | 禁用组件                                   |
-| disabledItemValues    | string                                                                                          | 禁用选项                                   |
-| height                | number `(320)`                                                                                  | 设置 Dropdown 的高度                       |
-| inline                | boolean                                                                                         | 在组件初始后直接展示菜单                   |
-| ~inline~              | boolean                                                                                         | ⚠️`[已弃用]` 使用 `<CascadeTree>` 组件代替 |
-| labelKey              | string `('label')`                                                                              | 设置选项显示内容在 `data` 中的 `key`       |
-| loading               | boolean `(false)`                                                                               | 是否显示一个加载中状态指示器               |
-| locale                | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                     | 本地化的文本                               |
-| menuClassName         | string                                                                                          | 选项菜单的 className                       |
-| ~menuClassName~       | string                                                                                          | ⚠️`[已弃用]` 使用 `popupClassName` 代替    |
-| menuHeight            | number `(200)`                                                                                  | 设置菜单的高度                             |
-| ~menuHeight~          | number                                                                                          | ⚠️`[已弃用]` 使用 `columnHeight` 代替      |
-| ~menuStyle~           | CSSProperties                                                                                   | ⚠️`[已弃用]` 使用 `popupStyle` 代替        |
-| menuWidth             | number `(156)`                                                                                  | 设置菜单的宽度                             |
-| ~menuWidth~           | number                                                                                          | ⚠️`[已弃用]` 使用 `columnWidth` 代替       |
-| onChange              | (value: string, event) => void                                                                  | `value` 发生改变时的回调函数               |
-| onCheck               | (value: ValueType, item:[ItemDataType][item], checked:boolean, event) => void;                  | 复选框选中状态发生变化的回调函数           |
-| onClean               | (event) => void                                                                                 | 清空值时触发回调                           |
-| onClose               | () => void                                                                                      | 关闭回调函数                               |
-| onEnter               | () => void                                                                                      | 显示前动画过渡的回调函数                   |
-| onEntered             | () => void                                                                                      | 显示后动画过渡的回调函数                   |
-| onEntering            | () => void                                                                                      | 显示中动画过渡的回调函数                   |
-| onExit                | () => void                                                                                      | 退出前动画过渡的回调函数                   |
-| onExited              | () => void                                                                                      | 退出后动画过渡的回调函数                   |
-| onExiting             | () => void                                                                                      | 退出中动画过渡的回调函数                   |
-| onOpen                | () => void                                                                                      | 打开回调函数                               |
-| onSearch              | (searchKeyword:string, event) => void                                                           | 搜索的回调函数                             |
-| onSelect              | (item:[ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void               | 选项被点击选择后的回调函数                 |
-| open                  | boolean                                                                                         | 打开 (受控)                                |
-| placeholder           | ReactNode `('Select')`                                                                          | 占位符                                     |
-| placement             | [Placement](#code-ts-placement-code)`('bottomStart')`                                           | 打开位置                                   |
-| popupClassName        | string                                                                                          | 设置弹出层的 CSS 类名                      |
-| popupStyle            | CSSProperties                                                                                   | 设置弹出层的样式                           |
-| preventOverflow       | boolean                                                                                         | 防止浮动元素溢出                           |
-| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                       | 自定义渲染菜单列表                         |
-| renderExtraFooter     | () => ReactNode                                                                                 | 自定义页脚内容                             |
-| ~renderMenu~          | (children: object[], menu:ReactNode, parentNode?: object, layer?: number) => ReactNode          | ⚠️`[已弃用]` 使用 `renderColumn` 代替      |
-| ~renderMenuItem~      | (label:ReactNode, item: [ItemDataType][item] ) => ReactNode                                     | ⚠️`[已弃用]` 使用 `renderTreeNode` 代替    |
-| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                      | 自定义选项                                 |
-| renderValue           | (value:string, selectedItems: [ItemDataType][item][], selectedElement: ReactNode ) => ReactNode | 自定义被选中的选项                         |
-| searchable            | boolean `(true)`                                                                                | 可以搜索                                   |
-| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                               | 设置组件尺寸                               |
-| toggleAs              | ElementType `('a')`                                                                             | 为组件自定义元素类型                       |
-| uncheckableItemValues | string                                                                                          | 设置不显示复选框的选项值                   |
-| value                 | string[]                                                                                          | 设置值（受控）                             |
-| valueKey              | string `('value')`                                                                              | 设置选项值在 `data` 中的 `key`             |
+| 属性                  | 类型`(默认值)`                                                                                  | 描述                                            |
+| --------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| appearance            | 'default' &#124; 'subtle' `('default')`                                                         | 设置选择器的外观样式。                          |
+| block                 | boolean                                                                                         | 块级显示，占满整个行。                          |
+| caretAs               | ElementType                                                                                     | 自定义下拉箭头的组件。                          |
+| cascade               | boolean `(true)`                                                                                | 确定选择是否应该在父节点与子节点之间双向级联。  |
+| childrenKey           | string `('children')`                                                                           | 定义数据中用于访问子节点的键名。                |
+| classPrefix           | string `('picker')`                                                                             | 设置组件的 CSS 类前缀。                         |
+| cleanable             | boolean `(true)`                                                                                | 是否允许清除已选择的值。                        |
+| container             | HTMLElement &#124; (() => HTMLElement)                                                          | 设置渲染容器。                                  |
+| countable             | boolean `(true)`                                                                                | 启用已选项的计数显示。                          |
+| data \*               | [ItemDataType][item][]                                                                          | 定义组件使用的数据结构。                        |
+| defaultOpen           | boolean                                                                                         | 是否默认打开组件。                              |
+| defaultValue          | string[]                                                                                        | 指定默认选中的值。                              |
+| disabled              | boolean                                                                                         | 禁用组件。                                      |
+| disabledItemValues    | string                                                                                          | 定义应禁用的选项值。                            |
+| height                | number `(320)`                                                                                  | 指定下拉菜单的高度。                            |
+| inline                | boolean                                                                                         | 初始化时直接显示菜单。                          |
+| ~inline~              | boolean                                                                                         | ⚠️`[已弃用]` 请改用 `<MultiCascadeTree>` 组件。 |
+| labelKey              | string `('label')`                                                                              | 定义数据中用于访问标签的键名。                  |
+| loading               | boolean `(false)`                                                                               | 是否显示加载状态指示器。                        |
+| locale                | [PickerLocaleType](/guide/i18n/#pickers)                                                        | 设置本地化文本。                                |
+| ~menuClassName~       | string                                                                                          | ⚠️`[已弃用]` 请改用 `popupClassName`。          |
+| ~menuHeight~          | number                                                                                          | ⚠️`[已弃用]` 请改用 `columnHeight`。            |
+| ~menuStyle~           | CSSProperties                                                                                   | ⚠️`[已弃用]` 请改用 `popupStyle`。              |
+| ~menuWidth~           | number                                                                                          | ⚠️`[已弃用]` 请改用 `columnWidth`。             |
+| onChange              | (value: string[], event) => void                                                                | 当选择的值发生变化时触发的回调函数。            |
+| onCheck               | (value: string, item: [ItemDataType][item], checked: boolean, event) => void                    | 当复选框状态变化时触发的回调函数。              |
+| onClean               | (event) => void                                                                                 | 当清除值时触发的回调函数。                      |
+| onClose               | () => void                                                                                      | 当组件关闭时触发的回调函数。                    |
+| onEnter               | () => void                                                                                      | 在浮层过渡开始前触发的回调函数。                |
+| onEntered             | () => void                                                                                      | 在浮层完成过渡后触发的回调函数。                |
+| onEntering            | () => void                                                                                      | 在浮层开始过渡时触发的回调函数。                |
+| onExit                | () => void                                                                                      | 在浮层过渡结束前触发的回调函数。                |
+| onExited              | () => void                                                                                      | 在浮层完成过渡后触发的回调函数。                |
+| onExiting             | () => void                                                                                      | 在浮层开始过渡结束时触发的回调函数。            |
+| onOpen                | () => void                                                                                      | 当组件打开时触发的回调函数。                    |
+| onSearch              | (searchKeyword: string, event) => void                                                          | 搜索时触发的回调函数。                          |
+| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void              | 当选中某个选项时触发的回调函数。                |
+| open                  | boolean                                                                                         | 是否打开组件。                                  |
+| placeholder           | ReactNode `('Select')`                                                                          | 设置占位符文本。                                |
+| placement             | [Placement](#code-ts-placement-code)`('bottomStart')`                                           | 设置组件的弹出位置。                            |
+| popupClassName        | string                                                                                          | 自定义弹出框的类名。                            |
+| popupStyle            | CSSProperties                                                                                   | 自定义弹出框的样式。                            |
+| preventOverflow       | boolean                                                                                         | 防止浮动元素溢出。                              |
+| ~renderMenu~          | (node: ReactNode, column: { items, parentItem, layer}) => ReactNode                             | ⚠️`[已弃用]` 请改用 `renderColumn`。            |
+| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                       | 自定义每一列的渲染方式。                        |
+| renderExtraFooter     | () => ReactNode                                                                                 | 自定义额外页脚的渲染方式。                      |
+| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                      | 自定义树节点的渲染方式。                        |
+| renderValue           | (value: string, selectedItems: [ItemDataType][item][], selectedElement: ReactNode) => ReactNode | 自定义已选项的渲染方式。                        |
+| searchable            | boolean `(true)`                                                                                | 是否启用搜索功能。                              |
+| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                               | 设置选择器的大小。                              |
+| toggleAs              | ElementType `('a')`                                                                             | 使用自定义元素作为组件。                        |
+| uncheckableItemValues | string                                                                                          | 设置无法勾选的选项值。                          |
+| value                 | string[]                                                                                        | 指定已选项的值（受控）。                        |
+| valueKey              | string `('value')`                                                                              | 定义数据中用于访问值的键名。                    |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement-start.md)}-->

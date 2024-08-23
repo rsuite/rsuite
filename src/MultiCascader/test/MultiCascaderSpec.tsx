@@ -436,6 +436,17 @@ describe('MultiCascader', () => {
     expect(onSearch).to.have.been.calledOnce;
   });
 
+  it('Should cascade update the parent node when search', () => {
+    render(<MultiCascader data={items} defaultOpen defaultValue={['3-1']} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.change(searchbox, { target: { value: '3' } });
+
+    expect(screen.getByRole('checkbox', { name: /3-1/ })).to.be.checked;
+    expect(screen.getByRole('checkbox', { name: '3' })).to.have.attribute('aria-checked', 'mixed');
+  });
+
   it('Should update the subcolumn when the leaf node is clicked', () => {
     render(<MultiCascader data={items} open />);
 
