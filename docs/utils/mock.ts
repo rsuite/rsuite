@@ -94,6 +94,7 @@ export function mockUsers(length: number) {
     const gender = faker.person.sex() as SexType;
     const name = faker.person.fullName({ firstName, lastName, sex: gender });
     const avatar = 'https://i.pravatar.cc/150?u=' + firstName;
+    const birthdate = faker.date.birthdate();
 
     const city = faker.location.city();
     const street = faker.location.street();
@@ -127,7 +128,8 @@ export function mockUsers(length: number) {
       rating,
       progress,
       amount,
-      company
+      company,
+      birthdate
     };
   };
 
@@ -142,7 +144,8 @@ export const mockUsersString = `export function mockUsers(length) {
     const lastName = faker.person.lastName();
     const gender = faker.person.sex();
     const name = faker.person.fullName({ firstName, lastName, sex: gender });
-    const avatar = faker.image.avatar();
+    const avatar = 'https://i.pravatar.cc/150?u=' + firstName;
+    const birthdate = faker.date.birthdate();
 
     const city = faker.location.city();
     const street = faker.location.street();
@@ -176,7 +179,8 @@ export const mockUsersString = `export function mockUsers(length) {
       rating,
       progress,
       amount,
-      company
+      company,
+      birthdate
     };
   };
 

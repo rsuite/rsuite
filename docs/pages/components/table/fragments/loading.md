@@ -9,33 +9,35 @@ const data = mockUsers(10);
 
 const columns = [
   {
-    key: 'id',
-    label: 'Id',
-    fixed: true,
-    width: 130
-  },
-  {
-    key: 'firstName',
-    label: 'First Name',
-    fixed: true,
-    flexGrow: 1
-  },
-  {
-    key: 'lastName',
-    label: 'Last Name',
-    width: 130
-  },
-  {
-    key: 'gender',
-    label: 'Gender',
-    width: 150
+    key: 'company',
+    label: 'Company',
+    flexGrow: 2
   },
   {
     key: 'city',
     label: 'City',
-    width: 150
+    flexGrow: 1
+  },
+  {
+    key: 'street',
+    label: 'Street',
+    flexGrow: 1
+  },
+  {
+    key: 'postcode',
+    label: 'Postcode',
+    flexGrow: 1
   }
 ];
+
+const loaderContainerStyle = {
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  background: 'var(--rs-bg-card)',
+  padding: 20,
+  zIndex: 1
+};
 
 const App = () => {
   const [loading, setLoading] = React.useState(true);
@@ -44,17 +46,8 @@ const App = () => {
   const renderLoading = () => {
     if (withPlaceholder) {
       return (
-        <div
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            background: 'var(--rs-bg-card)',
-            padding: 20,
-            zIndex: 1
-          }}
-        >
-          <Placeholder.Grid rows={9} columns={5} active />
+        <div style={loaderContainerStyle}>
+          <Placeholder.Grid rows={9} columns={4} active />
         </div>
       );
     }

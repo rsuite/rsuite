@@ -36,12 +36,6 @@
 - `autoHeight`表格高度会根据数据行数自动展开，不设置 `autoHeight` 属性将不会出现垂直滚动条。
 - `fillHeight`强制表格的高度等于其父容器的高度，不能与 autoHeight 一起使用。
 
-### 虚拟化的大表格
-
-支持 `virtualized`, 有效地呈现大表格数据。
-
-<!--{include:`virtualized.md`}-->
-
 ### 自定义单元格
 
 <!--{include:`custom-cell.md`}-->
@@ -167,52 +161,6 @@ return (
 
 <!--{include:`pagination.md`}-->
 
-### 树形展示
-
-<!--{include:`tree.md`}-->
-
-树形表格，主要为了展示有结构关系的数据，需要在 `Table` 组件上设置一个 `isTree` 属性，同时 `data` 中的数据需要通过 `children` 来定义关系结构。
-
-```js
-const data = [
-  {
-    id: '1',
-    labelName: 'Car',
-    status: 'ENABLED',
-    children: [
-      {
-        id: '1-1',
-        labelName: 'Mercedes Benz',
-        status: 'ENABLED',
-        count: 460
-      }
-    ]
-  }
-];
-<Table data={data} isTree rowKey="id" />;
-```
-
-**处理树形表格用的的相关属性**
-
-- `defaultExpandAllRows:boolean` 默认展开所有节点
-- `expandedRowKeys`（受控） 和 `defaultExpandedRowKeys` 用来配置需要展开的行。需要注意的是这两个属性接收的参数是一个的数组，数组中是 rowKey。
-- `rowKey` 给每一行数据对一个唯一 key , 对应 `data` 中的一个唯一值的 `key`。 (可以在 `<Table>` 设置 `rowKey` 进行修改，默认值: 'key' )
-- `renderTreeToggle:() => ReactNode` 自定义 Toggle
-- `onExpandChange:(expanded:boolean,rowData:object) => void` 展开/关闭节点的回调函数
-- `treeCol` 是 `<Table.Column>` 上的属性，可以指定该列显示为树形。
-
-当自定义单元格的时候，需要注意，如果是树形表格，那么需要将 `rowData` 传递给渲染树的 `Cell`，因为在 `Cell` 内部将使用它来记录节点的状态。[#issue/2666](https://github.com/rsuite/rsuite/issues/2666)
-
-```js
-const CustomCell = ({ rowData, ...rest }) => {
-  return (
-    <Cell rowData={rowData} {...rest}>
-      {rowData.name}
-    </Cell>
-  );
-};
-```
-
 ### 可展开
 
 <!--{include:`expanded.md`}-->
@@ -286,18 +234,6 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 ### 汇总
 
 <!--{include:`summary.md`}-->
-
-### 随页面滚动
-
-- `autoHeight`: 表格的高度根据数据内容自动展开，不显示纵向滚动条。
-- `affixHeader`: 将表格列头估计到页面上的指定位置。
-- `affixHorizontalScrollbar`:将表格的横向滚动条固定在页面的底部。
-
-<!--{include:`affix-horizontal-scrollbar.md`}-->
-
-### 无限滚动加载
-
-<!--{include:`infinite-loader.md`}-->
 
 ### 可拖拽(与 react-dnd 组合)
 

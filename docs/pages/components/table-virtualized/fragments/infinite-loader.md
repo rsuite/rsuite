@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table } from 'rsuite';
+import { Table, Loader } from 'rsuite';
 
 const { Column, HeaderCell, Cell } = Table;
 

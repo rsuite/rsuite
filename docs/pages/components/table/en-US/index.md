@@ -36,12 +36,6 @@ A table displays rows of data.
 - `autoHeight` Automatically expand the height of the table according to the number of data rows. If the `autoHeight` attribute is not set, the vertical scroll bar will not appear.
 - `fillHeight` Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight.
 
-### Virtualized
-
-Support `virtualized`, effectively render large tabular data.
-
-<!--{include:`virtualized.md`}-->
-
 ### Custom Cell
 
 <!--{include:`custom-cell.md`}-->
@@ -159,52 +153,6 @@ If you need table data paging, you must first filter the data paging (usually su
 
 <!--{include:`pagination.md`}-->
 
-### Tree
-
-<!--{include:`tree.md`}-->
-
-A tree table, primarily to show structured data, requires a `isTree` attribute to be set on the `Table` component, while the `data` is used to define the relational structure through `children`.
-
-```js
-const data = [
-  {
-    id: '1',
-    labelName: 'Car',
-    status: 'ENABLED',
-    children: [
-      {
-        id: '1-1',
-        labelName: 'Mercedes Benz',
-        status: 'ENABLED',
-        count: 460
-      }
-    ]
-  }
-];
-<Table data={data} isTree rowKey="id" />;
-```
-
-**Dealing with related properties for a tree table**
-
-- `defaultExpandAllRows:boolean` :Expand all nodes By default
-- `expandedRowKeys` (controlled) and `defaultExpandedRowKeys` are used to configure the rows that need to be expanded. Note that the parameters that these two properties receive are an array of Rowkey in the array.。
-- `rowKey`: Give each row of data to a unique key, corresponding to a unique value in the key. (You can set the rowKey in `<Table>`, the default value is `key`)
-- `renderTreeToggle:() => ReactNode` : Custom Toggle
-- `onExpandChange:(expanded:boolean,rowData:object) => void`: To open/close a node's callback function.
-- `treeCol` is an attribute on `<Table.Column>`, you can specify that the column is displayed as a tree.
-
-When customizing the cell, it should be noted that if it is a tree table, then `rowData` needs to be passed to the `Cell` of the rendering tree, because it will be used inside the `Cell` to record the state of the node. [#issue/2666](https://github.com/rsuite/rsuite/issues/2666)
-
-```js
-const CustomCell = ({ rowData, ...rest }) => {
-  return (
-    <Cell rowData={rowData} {...rest}>
-      {rowData.name}
-    </Cell>
-  );
-};
-```
-
 ### Expandable
 
 <!--{include:`expanded.md`}-->
@@ -289,18 +237,6 @@ Display the hidden text in its entirety when hovering over the cell.
 <!--{include:`word-wrap.md`}-->
 
 > ⚠️ We do not recommend using `wordWrap` with `virtualized`, because `virtualized` only achieves the best performance with a fixed line height. You can use the `fullText` property to solve the problem of not displaying the full text.
-
-### Affix header & scrollbar
-
-- `autoHeight`: Table will expand the height according to the content.
-- `affixHeader`: Affix the table header to the specified location on the page.
-- `affixHorizontalScrollbar`: Affix the table horizontal scrollbar to the specified position on the page.
-
-<!--{include:`affix-horizontal-scrollbar.md`}-->
-
-### Infinite Loader
-
-<!--{include:`infinite-loader.md`}-->
 
 ### Draggable(with react-dnd)
 

@@ -3,7 +3,6 @@
 ```js
 import { Table } from 'rsuite';
 import { faker } from '@faker-js/faker';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import { mockTreeData } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -18,6 +17,7 @@ const data = mockTreeData({
     return faker.vehicle.vehicle();
   },
   getRowData: () => ({
+    id: faker.string.numeric(5),
     price: faker.commerce.price({
       min: 10000,
       max: 1000000,
@@ -35,19 +35,13 @@ const App = () => {
       defaultExpandAllRows
       bordered
       cellBordered
-      rowKey="value"
+      rowKey="id"
       height={400}
       data={data}
       /** shouldUpdateScroll: whether to update the scroll bar after data update **/
       shouldUpdateScroll={false}
       onExpandChange={(isOpen, rowData) => {
         console.log(isOpen, rowData);
-      }}
-      renderTreeToggle={(icon, rowData) => {
-        if (rowData.children && rowData.children.length === 0) {
-          return <SpinnerIcon spin />;
-        }
-        return icon;
       }}
     >
       <Column flexGrow={1}>

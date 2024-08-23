@@ -5,7 +5,7 @@ import { Table } from 'rsuite';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
-const data = mockUsers(10);
+const data = mockUsers(100);
 
 const App = () => {
   return (
@@ -33,9 +33,19 @@ const App = () => {
         <Cell dataKey="lastName" />
       </Column>
 
+      <Column width={200}>
+        <HeaderCell>Company</HeaderCell>
+        <Cell dataKey="company" />
+      </Column>
+
       <Column width={200} resizable>
         <HeaderCell>City</HeaderCell>
         <Cell dataKey="city" />
+      </Column>
+
+      <Column width={200}>
+        <HeaderCell>Street</HeaderCell>
+        <Cell dataKey="street" />
       </Column>
 
       <Column width={100}>
@@ -56,6 +66,11 @@ const App = () => {
       <Column width={300}>
         <HeaderCell>Email</HeaderCell>
         <Cell dataKey="email" />
+      </Column>
+
+      <Column width={200}>
+        <HeaderCell>Phone</HeaderCell>
+        <Cell dataKey="phone" />
       </Column>
     </Table>
   );
