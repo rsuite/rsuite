@@ -59,20 +59,22 @@ describe('Avatar', () => {
   });
 
   it('Should render image avatar when src is valid', async () => {
-    const src = 'https://rsuitejs.com/images/react-suite.png';
+    const src = 'https://avatars.githubusercontent.com/u/19635045?s=48&v=4';
 
     render(<Avatar src={src}>RS</Avatar>);
 
-    await waitFor(() => {
-      expect(screen.getByRole('img')).to.have.attribute('src', src);
-    });
+    const img = await screen.findByRole('img');
+
+    expect(img).to.have.attribute('src', src);
   });
 
   it('Should hava a srcSet attribute when srcSet is passed', async () => {
     const srcSet =
-      'https://rsuitejs.com/images/react-suite.png 320w, https://rsuitejs.com/images/react-suite.png 480w';
+      'https://avatars.githubusercontent.com/u/19635045?s=48&v=4 320w, https://avatars.githubusercontent.com/u/19635045?s=48&v=4 480w';
 
-    render(<Avatar src="https://rsuitejs.com/images/react-suite.png" srcSet={srcSet} />);
+    render(
+      <Avatar src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4" srcSet={srcSet} />
+    );
 
     await waitFor(() => {
       expect(screen.getByRole('img')).to.have.attribute('srcset', srcSet);
@@ -81,11 +83,15 @@ describe('Avatar', () => {
 
   it('Should hava a sizes attribute when sizes is passed', async () => {
     const srcSet =
-      'https://rsuitejs.com/images/react-suite.png 320w, https://rsuitejs.com/images/react-suite.png 480w';
+      'https://avatars.githubusercontent.com/u/19635045?s=48&v=4 320w, https://avatars.githubusercontent.com/u/19635045?s=48&v=4 480w';
     const sizes = '(max-width: 320px) 280px,(max-width: 480px) 440px, 800px';
 
     render(
-      <Avatar src="https://rsuitejs.com/images/react-suite.png" srcSet={srcSet} sizes={sizes} />
+      <Avatar
+        src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4"
+        srcSet={srcSet}
+        sizes={sizes}
+      />
     );
 
     await waitFor(() => {
@@ -96,7 +102,7 @@ describe('Avatar', () => {
   it(' Should set the value of imgProps to the image', async () => {
     render(
       <Avatar
-        src="https://rsuitejs.com/images/react-suite.png"
+        src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4"
         imgProps={{ title: 'Avatar Title', 'aria-label': 'Avatar Name' }}
       />
     );
