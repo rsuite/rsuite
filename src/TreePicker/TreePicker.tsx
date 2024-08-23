@@ -235,6 +235,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         searchable={searchable}
         searchKeyword={searchKeyword}
         searchBy={searchBy}
+        searchInputRef={searchInput}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
         listProps={listProps}

@@ -363,6 +363,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
               labelKey={labelKey}
               childrenKey={childrenKey}
               disabledItemValues={disabledItemValues}
+              inputRef={searchInput}
               onCheck={handleCheck}
               onSearch={handleSearch}
             />

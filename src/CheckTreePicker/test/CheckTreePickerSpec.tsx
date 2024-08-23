@@ -709,6 +709,14 @@ describe('CheckTreePicker', () => {
       expect(treeItem).to.have.attribute('aria-selected', 'true');
       expect(treeItem).to.have.contain('.rs-check-item-focus');
     });
+
+    it('Should focus on search input by key=character', () => {
+      render(<CheckTreePicker defaultOpen data={data} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
+    });
   });
 
   describe('Locale', () => {

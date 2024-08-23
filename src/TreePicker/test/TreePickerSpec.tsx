@@ -607,6 +607,14 @@ describe('TreePicker', () => {
 
       expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
     });
+
+    it('Should focus on search input by key=character', () => {
+      render(<TreePicker defaultOpen data={data} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
+    });
   });
 
   describe('Locale', () => {
