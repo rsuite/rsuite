@@ -103,6 +103,7 @@
 | placement              | [Placement](#code-ts-placement-code)`('bottomStart')`                            | 位置                                                                     |
 | preventOverflow        | boolean                                                                          | 防止浮动元素溢出                                                         |
 | renderExtraFooter      | () => ReactNode                                                                  | 自定义页脚内容                                                           |
+| renderMenu             | (menu: ReactNode) => ReactNode                                                   | 自定义渲染菜单列表                                                       |
 | renderMenuGroup        | (groupTitle: ReactNode, item: [ItemDataType][item]) => ReactNode                 | 自定义选项组                                                             |
 | renderMenuItem         | (label: ReactNode, item: [ItemDataType][item]) => ReactNode                      | 自定义选项                                                               |
 | renderMenuItemCheckbox | (checkboxProps: CheckboxProps) => ReactNode                                      | 自定义选项复选框 <br/>![](https://img.shields.io/badge/min-v5.47.0-blue) |
