@@ -50,7 +50,7 @@ export function mockUsers(length: number) {
     const lastName = faker.person.lastName();
     const gender = faker.person.sex() as SexType;
     const name = faker.person.fullName({ firstName, lastName, sex: gender });
-    const avatar = faker.image.avatar();
+    const avatar = 'https://i.pravatar.cc/150?u=' + firstName;
 
     const city = faker.location.city();
     const street = faker.location.street();

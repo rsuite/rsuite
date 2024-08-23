@@ -58,7 +58,7 @@ const App = () => {
 
   return (
     <Table height={420} data={data}>
-      <Column width={200}>
+      <Column flexGrow={1}>
         <HeaderCell>First Name</HeaderCell>
         <EditableCell dataKey="firstName" onChange={handleChange} />
       </Column>
@@ -73,7 +73,7 @@ const App = () => {
         <EditableCell dataKey="email" onChange={handleChange} />
       </Column>
 
-      <Column flexGrow={1}>
+      <Column width={100}>
         <HeaderCell>...</HeaderCell>
         <ActionCell dataKey="id" onClick={handleEditState} />
       </Column>
