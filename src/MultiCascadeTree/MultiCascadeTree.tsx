@@ -79,6 +79,7 @@ const MultiCascadeTree = React.forwardRef(
       <Component ref={ref} className={classes} {...rest}>
         {searchable && (
           <SearchView
+            cascade={cascade}
             data={items}
             value={value}
             searchKeyword={searchKeyword}

@@ -22,8 +22,19 @@ A table displays rows of data.
 
 <!--{include:`appearance.md`}-->
 
-- `autoHeight`: The height of the table will be automatically expanded according to the number of data rows, and no vertical scroll bar will appear.
-- `fillHeight`: Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight.
+### Loading
+
+<!--{include:`loading.md`}-->
+
+### Table Height
+
+<!--{include:`height.md`}-->
+
+- `height` The height of the table, the default is 200px.
+- `minHeight` The minimum height of the table, the default is 0.
+- `maxHeight` The maximum height of the table.
+- `autoHeight` Automatically expand the height of the table according to the number of data rows. If the `autoHeight` attribute is not set, the vertical scroll bar will not appear.
+- `fillHeight` Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight.
 
 ### Virtualized
 
@@ -339,6 +350,7 @@ Display the hidden text in its entirety when hovering over the cell.
 | isTree                   | boolean                                                                                           | Show as Tree table                                                                                                                                                                        |
 | loading                  | boolean                                                                                           | Show loading                                                                                                                                                                              |
 | locale                   | [TableLocaleType](/guide/i18n/#table)                                                             | Locale text                                                                                                                                                                               |
+| maxHeight                | number                                                                                            | Maximum height                                                                                                                                                                            |
 | minHeight                | number `(0)`                                                                                      | Minimum height                                                                                                                                                                            |
 | onDataUpdated            | (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void                 | Callback after table data update.                                                                                                                                                         |
 | onExpandChange           | (expanded:boolean, rowData:object) => void                                                        | Tree table, the callback function in the expanded node                                                                                                                                    |

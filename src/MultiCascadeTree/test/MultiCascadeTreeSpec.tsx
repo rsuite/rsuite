@@ -132,15 +132,26 @@ describe('MultiCascadeTree', () => {
   });
 
   it('Should call `onSearch` callback ', () => {
-    const onSearchSpy = sinon.spy();
-    render(<MultiCascadeTree data={items} onSearch={onSearchSpy} searchable />);
+    const onSearch = sinon.spy();
+    render(<MultiCascadeTree data={items} onSearch={onSearch} searchable />);
 
     const searchbox = screen.getByRole('searchbox');
 
     fireEvent.change(searchbox, { target: { value: '3' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.length(3);
-    expect(onSearchSpy).to.have.been.calledOnce;
+    expect(onSearch).to.have.been.calledOnce;
+  });
+
+  it('Should cascade update the parent node when search', () => {
+    render(<MultiCascadeTree data={items} searchable defaultValue={['3-1']} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.change(searchbox, { target: { value: '3' } });
+
+    expect(screen.getByRole('checkbox', { name: /3-1/ })).to.be.checked;
+    expect(screen.getByRole('checkbox', { name: '3' })).to.have.attribute('aria-checked', 'mixed');
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {

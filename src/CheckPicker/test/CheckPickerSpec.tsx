@@ -542,5 +542,13 @@ describe('CheckPicker', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
+
+    it('Should focus on search input by key=character', () => {
+      render(<CheckPicker defaultOpen data={data} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
+    });
   });
 });

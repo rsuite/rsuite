@@ -53,26 +53,27 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 <!-- prettier-sort-markdown-table -->
 
-| Property              | Type`(Default)`                                                                    | Description                                            |
-| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| childrenKey           | string `('children')`                                                              | Set children key in data                               |
-| classPrefix           | string `('multi-cascade-tree')`                                                    | The prefix of the component CSS class                  |
-| columnHeight          | number                                                                             | Sets the height of the column                          |
-| columnWidth           | number                                                                             | Sets the width of the column                           |
-| data \*               | [ItemDataType][item][]                                                             | The data of component                                  |
-| defaultValue          | string[]                                                                             | Specifies the default value of the selected items      |
-| disabledItemValues    | string[]                                                                           | Disabled items                                         |
-| getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously load the children of the tree node.     |
-| labelKey              | string `('label')`                                                                 | Set label key in data                                  |
-| onChange              | (value: string[], event) => void                                                   | Callback fired when value changes                      |
-| onSearch              | (value: string, event) => void                                                     | Callback fired when search value changes               |
-| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | Callback fired when item is selected                   |
-| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | Custom render column                                   |
-| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | Custom render item                                     |
-| searchable            | boolean                                                                            | Whether to enable search                               |
-| uncheckableItemValues | string[]                                                                           | Set uncheckable items                                  |
-| value                 | string[]                                                                             | Specifies the values of the selected items(Controlled) |
-| valueKey              | string `('value')`                                                                 | Set value key in data                                  |
+| Property              | Type`(Default)`                                                                    | Description                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| cascade               | boolean `(true)`                                                                   | Determines whether selection should cascade both from parent to child and child to parent nodes. |
+| childrenKey           | string `('children')`                                                              | Defines the key used to access child nodes in the data.                                          |
+| classPrefix           | string `('multi-cascade-tree')`                                                    | Sets the CSS class prefix for the component.                                                     |
+| columnHeight          | number                                                                             | Specifies the height of each column.                                                             |
+| columnWidth           | number                                                                             | Specifies the width of each column.                                                              |
+| data \*               | [ItemDataType][item][]                                                             | Defines the data structure used by the component.                                                |
+| defaultValue          | string[]                                                                           | Specifies the default selected values.                                                           |
+| disabledItemValues    | string[]                                                                           | Defines the items that should be disabled.                                                       |
+| getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously loads the children of a tree node.                                                |
+| labelKey              | string `('label')`                                                                 | Defines the key used to access labels in the data.                                               |
+| onChange              | (value: string[], event) => void                                                   | Callback triggered when the selected value changes.                                              |
+| onSearch              | (value: string, event) => void                                                     | Callback triggered when the search value changes.                                                |
+| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | Callback triggered when an item is selected.                                                     |
+| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | Customizes the rendering of each column.                                                         |
+| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | Customizes the rendering of each tree node.                                                      |
+| searchable            | boolean                                                                            | Determines whether the search functionality is enabled.                                          |
+| uncheckableItemValues | string[]                                                                           | Specifies the items that cannot be checked.                                                      |
+| value                 | string[]                                                                           | Defines the currently selected values (controlled component).                                    |
+| valueKey              | string `('value')`                                                                 | Defines the key used to access values in the data.                                               |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 

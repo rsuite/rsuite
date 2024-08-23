@@ -104,6 +104,7 @@ Multi-select by tag and support new options
 | placement              | [Placement](#code-ts-placement-code)`('bottomStart')`                          | The placement of component                                                                |
 | preventOverflow        | boolean                                                                        | Prevent floating element overflow                                                         |
 | renderExtraFooter      | () => ReactNode                                                                | Custom render extra footer                                                                |
+| renderMenu             | (menu: ReactNode) => ReactNode                                                 | Custom render menu                                                                        |
 | renderMenuGroup        | (groupTitle: ReactNode, item: [ItemDataType][item]) => ReactNode               | Custom render menu group                                                                  |
 | renderMenuItem         | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                     | Custom render menu items                                                                  |
 | renderMenuItemCheckbox | (checkboxProps: CheckboxProps) => ReactNode                                    | Custom render menu items checkbox <br/>![](https://img.shields.io/badge/min-v5.47.0-blue) |

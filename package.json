@@ -68,7 +68,7 @@
     "prop-types": "^15.8.1",
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.8",
-    "rsuite-table": "^5.18.3",
+    "rsuite-table": "^5.19.0",
     "schema-typed": "^2.2.2"
   },
   "peerDependencies": {

@@ -22,8 +22,19 @@
 
 <!--{include:`appearance.md`}-->
 
-- `autoHeight`: 表格高度会根据数据行数自动展开，不会出现垂直滚动条。
-- `fillHeight`: 强制表格的高度等于其父容器的高度，不能与 autoHeight 一起使用。
+### 加载状态
+
+<!--{include:`loading.md`}-->
+
+### 表格高度
+
+<!--{include:`height.md`}-->
+
+- `height`表格的高度。
+- `minHeight`表格的最小高度。
+- `maxHeight`表格的最大高度。
+- `autoHeight`表格高度会根据数据行数自动展开，不设置 `autoHeight` 属性将不会出现垂直滚动条。
+- `fillHeight`强制表格的高度等于其父容器的高度，不能与 autoHeight 一起使用。
 
 ### 虚拟化的大表格
 
@@ -335,6 +346,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 | isTree                   | boolean                                                                                           | 是否展示为树表格                                                                                                                       |
 | loading                  | boolean                                                                                           | 显示 loading 状态                                                                                                                      |
 | locale                   | [TableLocaleType](/zh/guide/i18n/#table)                                                          | 本地化的文本                                                                                                                           |
+| maxHeight                | number                                                                                            | 最大高度                                                                                                                               |
 | minHeight                | number `(0)`                                                                                      | 最小高度                                                                                                                               |
 | onDataUpdated            | (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void                 | 数据更新后的回调函数                                                                                                                   |
 | onExpandChange           | (expanded:boolean, rowData:object) => void                                                        | 树形表格，在展开节点的回调函数                                                                                                         |

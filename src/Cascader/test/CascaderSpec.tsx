@@ -727,6 +727,28 @@ describe('Cascader', () => {
       // Trigger search event
       fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
       expect(screen.getByText('Custom No Results Message')).to.exist;
+     });
+  });
+  
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<Cascader data={items} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role tree', () => {
+      render(<Cascader data={items} defaultOpen />);
+
+      expect(screen.getByRole('tree')).to.exist;
+    });
+
+    it('Should focus on search input by key=character', () => {
+      render(<Cascader defaultOpen data={items} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
     });
   });
 });

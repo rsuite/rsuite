@@ -437,6 +437,17 @@ describe('MultiCascader', () => {
     expect(onSearch).to.have.been.calledOnce;
   });
 
+  it('Should cascade update the parent node when search', () => {
+    render(<MultiCascader data={items} defaultOpen defaultValue={['3-1']} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.change(searchbox, { target: { value: '3' } });
+
+    expect(screen.getByRole('checkbox', { name: /3-1/ })).to.be.checked;
+    expect(screen.getByRole('checkbox', { name: '3' })).to.have.attribute('aria-checked', 'mixed');
+  });
+
   it('Should update the subcolumn when the leaf node is clicked', () => {
     render(<MultiCascader data={items} open />);
 
@@ -512,7 +523,29 @@ describe('MultiCascader', () => {
 
       // Trigger search event
       fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
-      expect(screen.getByText('Custom No Results Message')).to.exist;
+      expect(screen.getByText('Custom No Results Message')).to.exist;     
+    });
+  });
+ 
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<MultiCascader data={items} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role tree', () => {
+      render(<MultiCascader data={items} defaultOpen />);
+
+      expect(screen.getByRole('tree')).to.exist;
+    });
+
+    it('Should focus on search input by key=character', () => {
+      render(<MultiCascader defaultOpen data={items} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+      expect(screen.getByRole('searchbox')).to.have.focus;
     });
   });
 });
