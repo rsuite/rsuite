@@ -64,3 +64,9 @@ const CustomCell = ({ rowData, ...rest }) => {
 默认将使用第一列作为树形列，也可以通过 `<Table.Column>` 上的 `treeCol` 属性可以指定该列显示为树形。
 
 <!--{include:`tree-col.md`}-->
+
+### 虚拟化树形表格
+
+树形表格支持虚拟滚动，可以大大提高渲染大量数据的性能。
+
+<!--{include:`virtualized.md`}-->

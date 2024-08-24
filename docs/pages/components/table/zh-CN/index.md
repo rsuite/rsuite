@@ -30,11 +30,11 @@
 
 <!--{include:`height.md`}-->
 
-- `height`表格的高度。
-- `minHeight`表格的最小高度。
-- `maxHeight`表格的最大高度。
-- `autoHeight`表格高度会根据数据行数自动展开，不设置 `autoHeight` 属性将不会出现垂直滚动条。
-- `fillHeight`强制表格的高度等于其父容器的高度，不能与 autoHeight 一起使用。
+### 和容器高度一致
+
+强制表格的高度等于其父容器的高度。 不能与 `autoHeight` 一起使用。
+
+<!--{include:`fill-height.md`}-->
 
 ### 自定义单元格
 
@@ -178,32 +178,6 @@ return (
 
 自定义一个 `Cell`， 在内部放一个可以操作按钮，用于操作 `expandedRowKeys` 中的值。
 
-### 可编辑
-
-<!--{include:`edit.md`}-->
-
-可编辑的表格，只需要自定义一个 `Cell` 就行了
-
-```js
-export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
-  return (
-    <Cell {...props}>
-      {rowData.status === 'EDIT' ? (
-        <input
-          className="input"
-          defaultValue={rowData[dataKey]}
-          onChange={event => {
-            onChange && onChange(rowData.id, dataKey, event.target.value);
-          }}
-        />
-      ) : (
-        rowData[dataKey]
-      )}
-    </Cell>
-  );
-};
-```
-
 ### 合并列
 
 <!--{include:`colspan.md`}-->
@@ -235,9 +209,12 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 <!--{include:`summary.md`}-->
 
-### 可拖拽(与 react-dnd 组合)
+## 更多示例
 
-- https://table.rsuitejs.com/#draggable-example
+- [Table Virtualized](/components/table-virtualized/)
+- [Tree Table](/components/table-tree)
+- [Table Affix](/components/table-affix/)
+- [Table Editable](/components/table-editable/)
 
 ## 无障碍设计
 

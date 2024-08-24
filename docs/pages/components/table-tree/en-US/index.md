@@ -64,3 +64,9 @@ const CustomCell = ({ rowData, ...rest }) => {
 By default, the first column is used as the tree column, and you can specify that the column is displayed as a tree by using the `treeCol` attribute on `<Table.Column>`.
 
 <!--{include:`tree-col.md`}-->
+
+### Virtualized Tree Table
+
+The tree table supports virtual scrolling, which can greatly improve the performance of rendering large amounts of data.
+
+<!--{include:`virtualized.md`}-->

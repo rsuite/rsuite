@@ -30,11 +30,11 @@ A table displays rows of data.
 
 <!--{include:`height.md`}-->
 
-- `height` The height of the table, the default is 200px.
-- `minHeight` The minimum height of the table, the default is 0.
-- `maxHeight` The maximum height of the table.
-- `autoHeight` Automatically expand the height of the table according to the number of data rows. If the `autoHeight` attribute is not set, the vertical scroll bar will not appear.
-- `fillHeight` Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight.
+### Fill Height
+
+Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight.
+
+<!--{include:`fill-height.md`}-->
 
 ### Custom Cell
 
@@ -170,32 +170,6 @@ To implement a Table that can be expanded, a combination of the following attrib
 
 Customize a `Cell` and put a button inside to manipulate the value in `expandedRowKeys`.
 
-### Editable
-
-<!--{include:`edit.md`}-->
-
-Editable tables, just customize a `Cell` on the line
-
-```js
-export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
-  return (
-    <Cell {...props}>
-      {rowData.status === 'EDIT' ? (
-        <input
-          className="input"
-          defaultValue={rowData[dataKey]}
-          onChange={event => {
-            onChange && onChange(rowData.id, dataKey, event.target.value);
-          }}
-        />
-      ) : (
-        rowData[dataKey]
-      )}
-    </Cell>
-  );
-};
-```
-
 ### Colspan
 
 <!--{include:`colspan.md`}-->
@@ -238,9 +212,12 @@ Display the hidden text in its entirety when hovering over the cell.
 
 > ⚠️ We do not recommend using `wordWrap` with `virtualized`, because `virtualized` only achieves the best performance with a fixed line height. You can use the `fullText` property to solve the problem of not displaying the full text.
 
-### Draggable(with react-dnd)
+## More Examples
 
-- https://table.rsuitejs.com/#draggable-example
+- [Table Virtualized](/components/table-virtualized/)
+- [Tree Table](/components/table-tree)
+- [Table Affix](/components/table-affix/)
+- [Table Editable](/components/table-editable/)
 
 ## Accessibility
 
