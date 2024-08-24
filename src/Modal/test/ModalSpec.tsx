@@ -2,11 +2,14 @@ import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/utils';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 
 describe('Modal', () => {
+  testStandardProps(<Modal open></Modal>, {
+    getRootElement: () => screen.getByRole('dialog')
+  });
   it('Should render the modal content', () => {
     render(
       <Modal open>
@@ -88,22 +91,22 @@ describe('Modal', () => {
     });
   });
 
-  it('Should have a custom className', () => {
-    render(<Modal className="custom" open />);
-    expect(screen.getByRole('dialog')).to.have.class('custom');
-  });
+  // it('Should have a custom className', () => {
+  //   render(<Modal className="custom" open />);
+  //   expect(screen.getByRole('dialog')).to.have.class('custom');
+  // });
 
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    render(<Modal style={{ fontSize }} open size={200} />);
+  // it('Should have a custom style', () => {
+  //   const fontSize = '12px';
+  //   render(<Modal style={{ fontSize }} open size={200} />);
 
-    expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
-  });
+  //   expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
+  // });
 
-  it('Should have a custom className prefix', () => {
-    render(<Modal classPrefix="custom-prefix" open />);
-    expect(screen.getByRole('dialog').className).to.match(/\bcustom-prefix\b/);
-  });
+  // it('Should have a custom className prefix', () => {
+  //   render(<Modal classPrefix="custom-prefix" open />);
+  //   expect(screen.getByRole('dialog').className).to.match(/\bcustom-prefix\b/);
+  // });
 
   it('Should call onOpen callback', () => {
     const onOpenSpy = sinon.spy();
