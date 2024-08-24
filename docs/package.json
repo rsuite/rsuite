@@ -41,6 +41,8 @@
     "react": "^18.2.0",
     "react-code-view": "^2.4.0",
     "react-color": "^2.18.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",

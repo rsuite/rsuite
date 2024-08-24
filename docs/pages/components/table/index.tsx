@@ -22,6 +22,7 @@ import {
   InputGroup
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
+import FakeBrowser from '@/components/FakeBrowser';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import MoreIcon from '@rsuite/icons/legacy/More';
@@ -80,6 +81,7 @@ export default function Page() {
         InputGroup,
         HStack,
         VStack,
+        FakeBrowser,
         mockTreeData,
         mockUsers
       }}

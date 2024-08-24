@@ -168,7 +168,6 @@
     "components": ["Modal", "Modal.Header", "Modal.Body", "Modal.Footer"],
     "keywords": ["dialog"]
   },
-
   {
     "id": "popover",
     "name": "Popover",
@@ -200,7 +199,6 @@
     "title": "面包屑",
     "components": ["Breadcrumb", "Breadcrumb.Item"]
   },
-
   {
     "id": "nav",
     "name": "Nav",
@@ -501,11 +499,47 @@
   },
   {
     "group": true,
+    "id": "data-grid",
+    "name": "Data Grid",
+    "title": "数据表格"
+  },
+  {
+    "id": "table",
+    "name": "Table",
+    "title": "表格",
+    "components": ["Table", "Table.Column", "Table.ColumnGroup", "Table.HeaderCell", "Table.Cell"],
+    "keywords": ["array", "data", "grid", "datagrid"]
+  },
+  {
+    "id": "table-virtualized",
+    "name": "Table Virtualized",
+    "title": "表格虚拟化",
+    "keywords": ["table", "datagrid"]
+  },
+  {
+    "id": "table-tree",
+    "name": "Tree Table",
+    "title": "树形表格",
+    "keywords": ["table", "datagrid", "tree", "treegrid"]
+  },
+  {
+    "id": "table-affix",
+    "name": "Table Affix",
+    "title": "表格固定",
+    "keywords": ["table", "datagrid", "sticky"]
+  },
+  {
+    "id": "table-editable",
+    "name": "Table Editable",
+    "title": "表格编辑",
+    "keywords": ["table", "datagrid", "edit"]
+  },
+  {
+    "group": true,
     "id": "display",
     "name": "Data Display",
     "title": "数据展示"
   },
-
   {
     "id": "calendar",
     "name": "Calendar",
@@ -527,20 +561,13 @@
     "components": ["List", "List.Item"],
     "keywords": ["array", "data"]
   },
-  {
-    "id": "table",
-    "name": "Table",
-    "title": "表格",
-    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell"],
-    "keywords": ["array", "data", "grid"]
-  },
+
   {
     "id": "tag",
     "name": "Tag",
     "title": "标签",
     "components": ["Tag"]
   },
-
   {
     "id": "timeline",
     "name": "Timeline",
