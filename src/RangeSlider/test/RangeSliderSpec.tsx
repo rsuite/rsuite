@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import RangeSlider from '../RangeSlider';
 import { addStyle } from 'dom-lib';
 
@@ -12,21 +12,21 @@ describe('RangeSlider', () => {
   testStandardProps(<RangeSlider />);
 
   it('Should render a RangeSlider', () => {
-    const instance = getDOMNode(<RangeSlider />);
-    expect(instance).to.have.class('rs-slider');
+    const { container } = render(<RangeSlider />);
+    expect(container.firstChild).to.have.class('rs-slider');
   });
 
   it('Should have a progress ', () => {
-    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
+    const { container } = render(<RangeSlider defaultValue={[10, 50]} />);
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width
+      // eslint-disable-next-line
+      (container.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width
     ).to.equal('40%');
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left
+      // eslint-disable-next-line
+      (container.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left
     ).to.equal('10%');
   });
 
@@ -36,18 +36,21 @@ describe('RangeSlider', () => {
   });
 
   it('Should output the scale', () => {
-    const instance = getDOMNode(<RangeSlider step={10} max={100} graduated />);
-    const instance2 = getDOMNode(<RangeSlider min={10} step={10} max={100} graduated />);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.querySelectorAll('li')).to.have.length(10);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance2.querySelectorAll('li')).to.have.length(9);
+    const { rerender, container } = render(<RangeSlider step={10} max={100} graduated />);
+
+    // eslint-disable-next-line
+    expect(container.querySelectorAll('li')).to.have.length(10);
+
+    rerender(<RangeSlider min={10} step={10} max={100} graduated />);
+
+    // eslint-disable-next-line
+    expect(container.querySelectorAll('li')).to.have.length(9);
   });
 
   it('Should be displayed vertically', () => {
-    const instance = getDOMNode(<RangeSlider vertical />);
+    const { container } = render(<RangeSlider vertical />);
 
-    expect(instance).to.have.class('rs-slider-vertical');
+    expect(container.firstChild).to.have.class('rs-slider-vertical');
 
     screen.getAllByRole('slider').forEach(slider => {
       expect(slider).to.have.attr('aria-orientation', 'vertical');
@@ -58,15 +61,15 @@ describe('RangeSlider', () => {
     const onChange = sinon.spy();
     const onChangeCommitted = sinon.spy();
 
-    const instance = getDOMNode(
+    const { container } = render(
       <RangeSlider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
-    expect(instance).to.have.class('rs-slider-disabled');
+    expect(container.firstChild).to.have.class('rs-slider-disabled');
     expect(screen.queryAllByRole('slider')[0]).to.have.attr('aria-disabled', 'true');
     expect(screen.queryAllByRole('slider')[1]).to.have.attr('aria-disabled', 'true');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    // eslint-disable-next-line
+    fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
 
     expect(onChange).to.have.not.been.called;
     expect(onChangeCommitted).to.have.not.been.called;
@@ -76,14 +79,14 @@ describe('RangeSlider', () => {
     const onChange = sinon.spy();
     const onChangeCommitted = sinon.spy();
 
-    const instance = getDOMNode(
+    const { container } = render(
       <RangeSlider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
     expect(screen.queryAllByRole('slider')[0]).to.have.attr('readonly');
     expect(screen.queryAllByRole('slider')[1]).to.have.attr('readonly');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    // eslint-disable-next-line
+    fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
 
     expect(onChange).to.have.not.been.called;
     expect(onChangeCommitted).to.have.not.been.called;
@@ -91,9 +94,9 @@ describe('RangeSlider', () => {
 
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
+    const { container } = render(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
+    // eslint-disable-next-line
+    fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
 
     expect(onChangeSpy).to.have.been.calledWith([0, 50]);
   });
@@ -134,15 +137,15 @@ describe('RangeSlider', () => {
   });
 
   it('Should render custom title', () => {
-    const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.querySelector('.rs-slider-handle')).to.have.text('test');
+    const { container } = render(<RangeSlider tooltip={false} handleTitle={'test'} />);
+    // eslint-disable-next-line
+    expect(container.querySelector('.rs-slider-handle')).to.have.text('test');
   });
 
   it('Should handle keyboard operations', () => {
-    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
+    const { container } = render(<RangeSlider defaultValue={[10, 50]} />);
+    // eslint-disable-next-line
+    const handle = container.querySelector('.rs-slider-handle') as HTMLElement;
     const input = screen.getAllByRole('slider')[0] as HTMLInputElement;
 
     expect(input).to.value('10');
@@ -177,10 +180,10 @@ describe('RangeSlider', () => {
     const onChangeCommitted = sinon.spy();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
-    const instance = getDOMNode(<RangeSlider onChangeCommitted={onChangeCommitted} />);
+    const { container } = render(<RangeSlider onChangeCommitted={onChangeCommitted} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
+    // eslint-disable-next-line
+    const handle = container.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
 
@@ -192,20 +195,20 @@ describe('RangeSlider', () => {
 
   it('Should call `onChangeCommitted` callback when click bar', () => {
     const onChangeCommitted = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <RangeSlider defaultValue={[10, 50]} onChangeCommitted={onChangeCommitted} />
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    // eslint-disable-next-line
+    fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
 
     expect(onChangeCommitted).to.have.been.calledWith([0, 50]);
   });
 
   it('Should output an `input` stored value', () => {
-    const instance = getDOMNode(<RangeSlider min={10} max={100} value={[20, 50]} />);
+    const { container } = render(<RangeSlider min={10} max={100} value={[20, 50]} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const input = instance.querySelectorAll('input[type="range"]') as NodeListOf<HTMLInputElement>;
+    // eslint-disable-next-line
+    const input = container.querySelectorAll('input[type="range"]') as NodeListOf<HTMLInputElement>;
 
     expect(input[0]).to.value('20');
     expect(input[0]).to.have.attr('aria-valuenow', '20');
@@ -222,7 +225,7 @@ describe('RangeSlider', () => {
 
   it('Should be reversed start and end values', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <RangeSlider
         style={{ height: 100 }}
         defaultValue={[10, 50]}
@@ -231,8 +234,8 @@ describe('RangeSlider', () => {
       />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const sliderBar = instance.querySelector('.rs-slider-bar') as HTMLElement;
+    // eslint-disable-next-line
+    const sliderBar = container.querySelector('.rs-slider-bar') as HTMLElement;
 
     // `margin` will cause the values of `pageX` and `pageY` to be inaccurate in the test environment, so you need to set them manually here.
     addStyle(document.body, 'margin', '0');
