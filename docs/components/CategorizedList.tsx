@@ -18,7 +18,7 @@ function getGroupedComponents(components: any[]) {
   const groupedComponents = [];
 
   components
-    ?.filter(c => c.components || c.apis || c.group)
+    ?.filter(c => c.components || c.apis || c.keywords || c.group)
     .forEach(item => {
       if (item.group) {
         groupedComponents.push({

@@ -508,27 +508,31 @@
     "name": "Table",
     "title": "表格",
     "components": ["Table", "Table.Column", "Table.ColumnGroup", "Table.HeaderCell", "Table.Cell"],
-    "keywords": ["array", "data", "grid"]
+    "keywords": ["array", "data", "grid", "datagrid"]
   },
   {
     "id": "table-virtualized",
     "name": "Table Virtualized",
-    "title": "表格虚拟化"
+    "title": "表格虚拟化",
+    "keywords": ["table", "datagrid"]
   },
   {
     "id": "table-tree",
     "name": "Tree Table",
-    "title": "树形表格"
+    "title": "树形表格",
+    "keywords": ["table", "datagrid", "tree", "treegrid"]
   },
   {
     "id": "table-affix",
     "name": "Table Affix",
-    "title": "表格固定"
+    "title": "表格固定",
+    "keywords": ["table", "datagrid", "sticky"]
   },
   {
     "id": "table-editable",
     "name": "Table Editable",
-    "title": "表格编辑"
+    "title": "表格编辑",
+    "keywords": ["table", "datagrid", "edit"]
   },
   {
     "group": true,
