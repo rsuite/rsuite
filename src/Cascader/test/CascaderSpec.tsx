@@ -727,9 +727,9 @@ describe('Cascader', () => {
       // Trigger search event
       fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'not found value' } });
       expect(screen.getByText('Custom No Results Message')).to.exist;
-     });
+    });
   });
-  
+
   describe('Accessibility', () => {
     it('Should have a role combobox', () => {
       render(<Cascader data={items} />);
