@@ -1,3 +1,16 @@
+# [5.70.0](https://github.com/rsuite/rsuite/compare/v5.69.0...v5.70.0) (2024-08-24)
+
+
+### Bug Fixes
+
+* **Cascader,MultiCascader:** fix `locale` property can't override global config ([#3928](https://github.com/rsuite/rsuite/issues/3928)) ([31abca8](https://github.com/rsuite/rsuite/commit/31abca88daa88a4ba10f886de98db0f9cb57ced1))
+* **MultiCascadeTree,MultiCascader:** fix parent node is not in a mixed state when searching ([#3931](https://github.com/rsuite/rsuite/issues/3931)) ([5ec0be5](https://github.com/rsuite/rsuite/commit/5ec0be5bcd6fc4f00b457e4c452c7c56225314c9))
+* **Table:** fix border style when rowSpan is used ([#3940](https://github.com/rsuite/rsuite/issues/3940)) ([9677303](https://github.com/rsuite/rsuite/commit/9677303e007dc94474ca16e3a32b638bd8c0c05b))
+* **TreePicker,MultiCascader:** fix not focusing on the search box when typing characters ([#3930](https://github.com/rsuite/rsuite/issues/3930)) ([4f3b8e3](https://github.com/rsuite/rsuite/commit/4f3b8e37eabdefea277f14034647f43826244c03))
+* use useLayoutEffect instead of useEffect in useEventCallback ([#3921](https://github.com/rsuite/rsuite/issues/3921)) ([6396b3e](https://github.com/rsuite/rsuite/commit/6396b3e6d3692f76850409a5d3d1bd60aea40788))
+
+
+
 # [5.69.0](https://github.com/rsuite/rsuite/compare/v5.68.1...v5.69.0) (2024-08-09)
 
 
