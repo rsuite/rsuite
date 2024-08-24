@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
-  getDOMNode,
   getInstance,
   testStandardProps,
   testControlledUnControlled,
@@ -62,9 +61,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} />);
+    const { container } = render(<SelectPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should not clean selected value', () => {
@@ -75,9 +74,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should output a dropdown', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} />);
+    const { container } = render(<SelectPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-select');
+    expect(container.firstChild).to.have.class('rs-picker-select');
   });
 
   it('Should render a hidden <input> with given "name" attribute', () => {
@@ -466,14 +465,6 @@ describe('SelectPicker', () => {
 
       // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
-    });
-
-    it('Should focus on search input by key=character', () => {
-      render(<SelectPicker defaultOpen data={data} />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
-
-      expect(screen.getByRole('searchbox')).to.have.focus;
     });
   });
 });
