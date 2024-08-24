@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
 import Sinon from 'sinon';
@@ -172,9 +172,9 @@ describe('RadioGroup', () => {
   });
 
   it('Should apply appearance', () => {
-    const instance = getDOMNode(<RadioGroup appearance="picker" />);
+    const { container } = render(<RadioGroup appearance="picker" />);
 
-    assert.include(instance.className, 'rs-radio-group-picker');
+    expect(container.firstChild).to.have.class('rs-radio-group-picker');
   });
 
   describe('Plain text', () => {
