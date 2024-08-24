@@ -23,6 +23,7 @@ const MultiCascadeTree = React.forwardRef(
       value: valueProp,
       valueKey = 'value',
       labelKey = 'label',
+      locale,
       childrenKey = 'children',
       disabledItemValues = emptyArray,
       cascade = true,
@@ -84,6 +85,7 @@ const MultiCascadeTree = React.forwardRef(
             searchKeyword={searchKeyword}
             valueKey={valueKey}
             labelKey={labelKey}
+            locale={locale}
             childrenKey={childrenKey}
             disabledItemValues={disabledItemValues}
             onCheck={handleCheck}

@@ -41,7 +41,7 @@ import useActive from './useActive';
 
 export interface CascaderProps<T = DataItemValue>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
-    CascadeTreeProps<T>,
+    CascadeTreeProps<T, T, PickerLocale>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /**
    * The panel is displayed directly when the component is initialized
@@ -438,6 +438,7 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
             searchKeyword={searchKeyword}
             valueKey={valueKey}
             labelKey={labelKey}
+            locale={locale}
             parentMap={parentMap}
             disabledItemValues={disabledItemValues}
             focusItemValue={focusItemValue}

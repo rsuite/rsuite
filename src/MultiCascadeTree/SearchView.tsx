@@ -15,6 +15,7 @@ interface SearchViewProps<T> extends WithAsProps {
   data: ItemDataType<T>[];
   disabledItemValues: any[];
   cascade?: boolean;
+  locale?: Record<string, string>;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
   onCheck: (item: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
   inputRef?: React.RefObject<HTMLInputElement>;
@@ -34,6 +35,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     disabledItemValues,
     inputRef,
     cascade,
+    locale: overrideLocale,
     onSearch,
     onCheck,
     ...rest
@@ -41,7 +43,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
 
   const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const { locale } = useCustom('Picker');
+  const { locale } = useCustom('Picker', overrideLocale);
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const nodes = getNodeParents(item);
