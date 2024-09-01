@@ -1,41 +1,41 @@
 import React from 'react';
+import sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
-import Sinon from 'sinon';
-import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Breadcrumb.Item', () => {
   testStandardProps(<BreadcrumbItem />);
 
-  it('Should render `a` as inner element when is not active', () => {
+  it('Should render an anchor element when `href` is provided and `active` is false', () => {
     const { container } = render(<Breadcrumb.Item href="#">Crumb</Breadcrumb.Item>);
 
     expect(container.firstChild).to.not.have.class('rs-breadcrumb-item-active');
-    expect(container.firstChild).to.have.tagName('a');
+    expect(screen.getByText('Crumb')).to.have.tagName('A');
   });
 
-  it('Should render `span.active` with `active` attribute set.', () => {
-    const { container } = render(<Breadcrumb.Item active>Active Crumb</Breadcrumb.Item>);
+  it('Should render a span element with `active` class when `active` is true', () => {
+    const { container } = render(<Breadcrumb.Item active>Crumb</Breadcrumb.Item>);
 
     expect(container.firstChild).to.have.class('rs-breadcrumb-item-active');
-    expect(container.firstChild).to.have.tagName('SPAN');
+    expect(screen.getByText('Crumb')).to.have.tagName('SPAN');
   });
 
-  it('Should render `span.active` when active and has href', () => {
+  it('Should render a span element when `active` is true, even if `href` is provided', () => {
     const { container } = render(
       <Breadcrumb.Item href="#" active>
-        Active Crumb
+        Crumb
       </Breadcrumb.Item>
     );
 
     expect(container.firstChild).to.have.class('rs-breadcrumb-item-active');
-    expect(container.firstChild).to.have.tagName('SPAN');
-    expect(container.firstChild).to.not.have.attr('href');
+    expect(screen.getByText('Crumb')).to.have.tagName('SPAN');
+    expect(screen.getByText('Crumb')).to.not.have.attribute('href');
   });
 
-  it('Should spread additional props onto inner element', () => {
-    const onClick = Sinon.spy();
+  it('Should pass additional props to the inner element', () => {
+    const onClick = sinon.spy();
 
     render(
       <Breadcrumb.Item href="#" onClick={onClick}>
@@ -48,7 +48,7 @@ describe('Breadcrumb.Item', () => {
     expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should apply id onto the anchor', () => {
+  it('Should apply `id` to the anchor element', () => {
     const { container } = render(
       <Breadcrumb.Item href="#" id="test-link-id">
         Crumb
@@ -58,39 +58,59 @@ describe('Breadcrumb.Item', () => {
     expect(container.firstChild).to.have.id('test-link-id');
   });
 
-  it('Should apply `href` property onto `a` inner element', () => {
-    const { container } = render(
-      <Breadcrumb.Item href="http://rsuitejs.com/">Crumb</Breadcrumb.Item>
-    );
+  it('Should apply `href` attribute to the anchor element', () => {
+    render(<Breadcrumb.Item href="http://rsuitejs.com/">Crumb</Breadcrumb.Item>);
 
-    expect(container.firstChild).to.have.attribute('href', 'http://rsuitejs.com/');
+    expect(screen.getByText('Crumb')).to.have.attribute('href', 'http://rsuitejs.com/');
   });
 
-  it('Should apply `title` property onto `a` inner element', () => {
-    const { container } = render(
+  it('Should apply `title` attribute to the anchor element', () => {
+    render(
       <Breadcrumb.Item title="test-title" href="http://rsuitejs.com/">
         Crumb
       </Breadcrumb.Item>
     );
 
-    expect(container.firstChild).to.have.attribute('title', 'test-title');
+    expect(screen.getByText('Crumb')).to.have.attribute('title', 'test-title');
   });
 
-  it('Should set `target` attribute on `anchor`', () => {
-    const { container } = render(
+  it('Should apply `target` attribute to the anchor element', () => {
+    render(
       <Breadcrumb.Item target="_blank" href="http://rsuitejs.com/">
         Crumb
       </Breadcrumb.Item>
     );
 
-    expect(container.firstChild).to.have.attribute('target', '_blank');
+    expect(screen.getByText('Crumb')).to.have.attribute('target', '_blank');
   });
 
-  it('Should be rendered as an a element, only if the href prop is set', () => {
-    const { container, rerender } = render(<Breadcrumb.Item />);
-    expect(container.firstChild).to.have.tagName('SPAN');
+  it('Should render as an `a` element when `href` is set, otherwise as a `span`', () => {
+    const { rerender } = render(<Breadcrumb.Item>Crumb</Breadcrumb.Item>);
+    expect(screen.getByText('Crumb')).to.have.tagName('SPAN');
 
-    rerender(<Breadcrumb.Item href="#" />);
-    expect(container.firstChild).to.have.tagName('A');
+    rerender(<Breadcrumb.Item href="#">Crumb</Breadcrumb.Item>);
+    expect(screen.getByText('Crumb')).to.have.tagName('A');
+  });
+
+  it('Should render with a custom `as` element', () => {
+    render(
+      <Breadcrumb.Item as="div" href="#">
+        Crumb
+      </Breadcrumb.Item>
+    );
+
+    expect(screen.getByText('Crumb')).to.have.tagName('DIV');
+  });
+
+  it('Should render with a custom `wrapperAs` element', () => {
+    const { container } = render(<Breadcrumb.Item wrapperAs="span">Crumb</Breadcrumb.Item>);
+
+    expect(container.firstChild).to.have.tagName('SPAN');
+  });
+
+  it('Should render with a custom separator', () => {
+    render(<Breadcrumb.Item separator={<span>separator</span>}>Crumb</Breadcrumb.Item>);
+
+    expect(screen.getByText('separator')).to.exist;
   });
 });

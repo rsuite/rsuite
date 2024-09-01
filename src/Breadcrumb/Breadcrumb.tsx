@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { ReactChildren, createComponent } from '@/internals/utils';
@@ -72,44 +72,50 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
     onExpand?.(event);
   });
 
-  const items: React.ReactElement[] = [];
-  const count = ReactChildren.count(children);
-  if (count) {
-    ReactChildren.forEach(children, (item, index) => {
-      items.push(item);
-
-      if (index < count - 1) {
-        items.push(<Separator key={index}>{separator}</Separator>);
-      }
+  const content = useMemo(() => {
+    const count = ReactChildren.count(children);
+    const items = ReactChildren.mapCloneElement(children, (item, index) => {
+      const isLast = index === count - 1;
+      return {
+        ...item.props,
+        separator: isLast ? null : <Separator>{separator}</Separator>
+      };
     });
-  }
 
-  const renderCollapseItems = () => {
     if (count > maxItems && count > 2 && showEllipsis) {
       return [
-        ...items.slice(0, 2),
+        ...items.slice(0, 1),
         [
           <BreadcrumbItem
             role="button"
             key="ellipsis"
             title={locale.expandText}
             aria-label={locale.expandText}
+            separator={<Separator>{separator}</Separator>}
             onClick={handleClickEllipsis}
           >
             <span aria-hidden>{ellipsis}</span>
           </BreadcrumbItem>
         ],
-        ...items.slice(items.length - 2, items.length)
+        ...items.slice(items.length - 1, items.length)
       ];
     }
     return items;
-  };
+  }, [
+    children,
+    ellipsis,
+    handleClickEllipsis,
+    locale.expandText,
+    maxItems,
+    separator,
+    showEllipsis
+  ]);
 
   const classes = merge(className, withClassPrefix());
 
   return (
     <Component {...rest} ref={ref} className={classes}>
-      {renderCollapseItems()}
+      <ol>{content}</ol>
     </Component>
   );
 }) as unknown as BreadcrumbComponent;

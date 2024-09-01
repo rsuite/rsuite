@@ -5,17 +5,35 @@ import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
-  // Style as the currently active section
+  /**
+   * The wrapper element of the BreadcrumbItem.
+   */
+  wrapperAs?: React.ElementType;
+
+  /**
+   * The active state of the BreadcrumbItem.
+   */
   active?: boolean;
 
-  // Render as an `a` tag instead of a `div` and adds the href attribute
+  /**
+   * The href attribute specifies the URL of the page the link goes to.
+   */
   href?: string;
 
-  // Display title.
+  /**
+   * The title attribute specifies extra information about an element.
+   */
   title?: string;
 
-  // The target attribute specifies where to open the linked document
+  /**
+   * The target attribute specifies where to open the linked document.
+   */
   target?: string;
+
+  /**
+   * The separator between each breadcrumb item.
+   */
+  separator?: React.ReactNode;
 }
 
 /**
@@ -25,8 +43,9 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
 const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component = props.href ? SafeAnchor : 'span',
+      wrapperAs: WrapperComponent = 'li',
       href,
+      as: Component = href ? SafeAnchor : 'span',
       classPrefix = 'breadcrumb-item',
       title,
       target,
@@ -34,32 +53,24 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
       style,
       active,
       children,
+      separator,
       ...rest
     } = props;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }));
 
-    if (active) {
-      return (
-        <span ref={ref} {...rest} style={style} className={classes}>
-          {children}
-        </span>
-      );
-    }
-
     return (
-      <Component
-        {...rest}
-        href={href}
-        title={title}
-        target={target}
-        ref={ref}
-        style={style}
-        className={classes}
-      >
-        {children}
-      </Component>
+      <WrapperComponent style={style} className={classes} ref={ref} {...rest}>
+        {active ? (
+          <span>{children}</span>
+        ) : (
+          <Component href={href} title={title} target={target}>
+            {children}
+          </Component>
+        )}
+        {separator}
+      </WrapperComponent>
     );
   }
 );

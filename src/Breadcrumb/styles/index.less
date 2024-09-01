@@ -9,9 +9,19 @@
   font-size: @breadcrumb-font-size;
   color: var(--rs-text-secondary);
 
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   // If breadcrumbs has a ci
   &-item {
     transition: color 0.3s linear;
+    display: flex;
+    align-items: center;
 
     &:focus {
       .tab-focus();
