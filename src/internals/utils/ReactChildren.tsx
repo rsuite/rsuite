@@ -100,6 +100,24 @@ export function mapCloneElement(children: React.ReactNode, func: any, context?: 
 }
 
 /**
+ * Iterates over children that are in flat array form.
+ * @param children
+ * @param func
+ * @param context
+ */
+export function forEach(children: React.ReactNode, func: any, context?: any) {
+  let index = 0;
+
+  React.Children.forEach(flatChildren(children), child => {
+    if (!React.isValidElement(child)) {
+      return;
+    }
+    func.call(context, child, index);
+    index += 1;
+  });
+}
+
+/**
  * Returns the number of children.
  * @param children - The children to count.
  * @returns The number of children.
@@ -144,6 +162,7 @@ export const ReactChildren = {
    * Maps over the children and clones each child element with the provided props.
    */
   mapCloneElement,
+
   /**
    * Returns the number of children.
    */
@@ -156,6 +175,10 @@ export const ReactChildren = {
    * Maps over the children and applies the given function to each child.
    */
   map,
+  /**
+   * Iterates over children that are in flat array form.
+   */
+  forEach,
   /**
    * Finds the first child that satisfies the given condition.
    */
