@@ -1,92 +1,83 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import TimeDropdown from '../TimeDropdown';
 import CalendarContext from '../CalendarContext';
-import Sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
+import en_US from '../../locales/en_US';
 
 describe('Calendar - TimeDropdown', () => {
   testStandardProps(<TimeDropdown />);
 
   it('Should render a div with `time-dropdown` class', () => {
-    const { container } = render(<TimeDropdown />);
+    render(<TimeDropdown />);
 
-    expect(container.firstChild).to.match('div.rs-calendar-time-dropdown');
+    expect(screen.getByRole('group')).to.have.class('rs-calendar-time-dropdown');
   });
 
-  it('Should render 3 column', () => {
-    const ref = React.createRef<HTMLDivElement>();
+  it('Should render hours, minutes and seconds', () => {
     render(
       <CalendarContext.Provider
         value={{
           format: 'HH:mm:ss',
           date: new Date(2022, 10, 2),
-          locale: {},
+          locale: en_US.Calendar,
           isoWeek: false,
           weekStart: 0
         }}
       >
-        <TimeDropdown ref={ref} />
+        <TimeDropdown />
       </CalendarContext.Provider>
     );
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
-      3
-    );
+    expect(screen.queryByText('Hours')).to.exist;
+    expect(screen.queryByText('Minutes')).to.exist;
+    expect(screen.queryByText('Seconds')).to.exist;
   });
 
-  it('Should render 2 column', () => {
-    const ref = React.createRef<HTMLDivElement>();
+  it('Should render hours and minutes', () => {
     render(
       <CalendarContext.Provider
         value={{
           format: 'HH:mm',
           date: new Date(2022, 10, 2),
-          locale: {},
+          locale: en_US.Calendar,
           isoWeek: false,
           weekStart: 0
         }}
       >
-        <TimeDropdown ref={ref} />
+        <TimeDropdown />
       </CalendarContext.Provider>
     );
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
-      2
-    );
+    expect(screen.queryByText('Hours')).to.exist;
+    expect(screen.queryByText('Minutes')).to.exist;
+    expect(screen.queryByText('Seconds')).to.not.exist;
   });
 
-  it('Should render 1 column', () => {
-    const ref = React.createRef<HTMLDivElement>();
+  it('Should only render hours', () => {
     render(
       <CalendarContext.Provider
         value={{
           format: 'HH',
           date: new Date(2022, 10, 2),
-          locale: {},
+          locale: en_US.Calendar,
           isoWeek: false,
           weekStart: 0
         }}
       >
-        <TimeDropdown ref={ref} />
+        <TimeDropdown />
       </CalendarContext.Provider>
     );
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
-      1
-    );
+    expect(screen.queryByText('Hours')).to.exist;
+    expect(screen.queryByText('Minutes')).to.not.exist;
+    expect(screen.queryByText('Seconds')).to.not.exist;
   });
 
   it('Should call `onChangeTime` callback', () => {
-    const onChangeTime = Sinon.spy();
-    const ref = React.createRef<HTMLDivElement>();
+    const onChangeTime = sinon.spy();
+
     render(
       <CalendarContext.Provider
         value={{
@@ -98,20 +89,16 @@ describe('Calendar - TimeDropdown', () => {
           weekStart: 0
         }}
       >
-        <TimeDropdown ref={ref} />
+        <TimeDropdown />
       </CalendarContext.Provider>
     );
 
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      (ref.current as HTMLDivElement).querySelector('[data-key="hours-1"]') as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('option', { name: '1 hours' }));
 
     expect(onChangeTime).to.have.been.calledOnce;
   });
 
-  it('Should be disabled', () => {
-    const ref = React.createRef<HTMLDivElement>();
+  it('Should set aria-disabled attribute for disabled hours', () => {
     render(
       <CalendarContext.Provider
         value={{
@@ -126,21 +113,16 @@ describe('Calendar - TimeDropdown', () => {
           disabledHours={h => {
             return h > 10;
           }}
-          ref={ref}
         />
       </CalendarContext.Provider>
     );
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-cell-disabled')
-        .length,
-      23 - 10
-    );
+    screen.getAllByRole('option').forEach((option, index) => {
+      expect(option).to.have.attribute('aria-disabled', index > 10 ? 'true' : 'false');
+    });
   });
 
-  it('Should be hide', () => {
-    const ref = React.createRef<HTMLDivElement>();
+  it('Should not render hours hidden by `hideHours`', () => {
     render(
       <CalendarContext.Provider
         value={{
@@ -155,12 +137,10 @@ describe('Calendar - TimeDropdown', () => {
           hideHours={h => {
             return h > 10;
           }}
-          ref={ref}
         />
       </CalendarContext.Provider>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((ref.current as HTMLDivElement).querySelectorAll('li').length, 11);
+    expect(screen.getAllByRole('option')).to.have.length(11);
   });
 });
