@@ -1,6 +1,5 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 
@@ -36,15 +35,14 @@ describe('CheckboxGroup', () => {
   });
 
   it('Should have `checkbox-inline` className in checkbox', () => {
-    const { container } = render(
+    render(
       <CheckboxGroup inline>
         <Checkbox>Test1</Checkbox>
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    for (const checkbox of container.firstChild!.childNodes) {
+    for (const checkbox of screen.getByRole('group').childNodes) {
       expect(checkbox).to.have.class('rs-checkbox-inline');
     }
   });
@@ -144,7 +142,7 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    ReactTestUtils.Simulate.change(screen.getByLabelText('Test3'));
+    fireEvent.click(screen.getByLabelText('Test3'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onGroupChange).to.have.been.calledOnce;
