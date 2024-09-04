@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Ripple from '@/internals/Ripple';
 import { oneOf } from '@/internals/propTypes';
@@ -84,7 +84,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       withClassPrefix(appearance, color, size, { active, disabled, loading, block })
     );
 
-    const renderButtonContent = useCallback(() => {
+    const buttonContent = useMemo(() => {
       const spin = <span className={prefix`spin`} />;
       const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
 
@@ -109,7 +109,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
           disabled={disabled}
           className={classes}
         >
-          {renderButtonContent()}
+          {buttonContent}
         </SafeAnchor>
       );
     }
@@ -128,7 +128,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
         aria-disabled={disabled}
         className={classes}
       >
-        {renderButtonContent()}
+        {buttonContent}
       </Component>
     );
   }

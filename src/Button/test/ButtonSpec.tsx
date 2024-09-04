@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import Button from '../Button';
@@ -41,8 +40,10 @@ describe('Button', () => {
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
+
     render(<Button onClick={onClick}>Title</Button>);
-    ReactTestUtils.Simulate.click(screen.getByRole('button'));
+
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onClick).to.have.been.calledOnce;
   });
@@ -54,63 +55,64 @@ describe('Button', () => {
   });
 
   it('Should be loading', () => {
-    const { container } = render(<Button loading>Title</Button>);
+    render(<Button loading>Title</Button>);
 
-    expect(container.firstChild).to.have.class('rs-btn-loading');
-    // eslint-disable-next-line testing-library/no-container,testing-library/no-node-access
-    expect(container.querySelector('.rs-btn-spin')).to.exist;
+    expect(screen.getByRole('button')).to.have.class('rs-btn-loading');
+    expect(screen.getByRole('button')).to.contain('.rs-btn-spin');
   });
 
   it('Should be disabled link', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
+
     render(
-      <Button disabled href="https://rsuitejs.com" onClick={onClickSpy}>
+      <Button disabled href="https://rsuitejs.com" onClick={onClick}>
         Title
       </Button>
     );
 
-    ReactTestUtils.Simulate.click(screen.getByText('Title'));
-    expect(onClickSpy).to.not.have.been.calledOnce;
+    fireEvent.click(screen.getByText('Title'));
+
+    expect(onClick).to.not.have.been.calledOnce;
   });
 
   it('Should have block class', () => {
-    const { container } = render(<Button block>Title</Button>);
+    render(<Button block>Title</Button>);
 
-    expect(container.firstChild).to.have.class('rs-btn-block');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-block');
   });
 
   it('Should apply appearance', () => {
-    const { container } = render(<Button appearance="ghost">Title</Button>);
+    render(<Button appearance="ghost">Title</Button>);
 
-    expect(container.firstChild).to.have.class('rs-btn-ghost');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-ghost');
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {
-    const { container } = render(
+    render(
       <Button className="bob" appearance="ghost">
         Title
       </Button>
     );
 
-    expect(container.firstChild).to.have.class('bob');
-    expect(container.firstChild).to.have.class('rs-btn-ghost');
+    expect(screen.getByRole('button')).to.have.class('bob');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-ghost');
   });
 
   it('Should be active', () => {
-    const { container } = render(<Button active>Title</Button>);
+    render(<Button active>Title</Button>);
 
-    expect(container.firstChild).to.have.class('rs-btn-active');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-active');
   });
 
   it('Should have a correct role', () => {
-    const { container, rerender } = render(<Button as="span" />);
+    const { rerender } = render(<Button as="span" />);
 
-    expect(container.firstChild).to.have.attr('role', 'button');
-    expect(container.firstChild).to.have.tagName('SPAN');
+    expect(screen.getByRole('button')).to.have.attr('role', 'button');
+    expect(screen.getByRole('button')).to.have.tagName('SPAN');
 
     rerender(<Button as="span" role="combobox" />);
 
-    expect(container.firstChild).to.have.attr('role', 'combobox');
+    expect(screen.getByRole('combobox')).to.have.tagName('SPAN');
   });
 
   it('Should access the underlying <button> element via `ref` attribute', () => {
@@ -126,6 +128,7 @@ describe('Button', () => {
 
     expect(screen.getByRole('button')).to.have.text('IconText');
   });
+
   it('Should render `endIcon` after text', () => {
     render(<Button endIcon={<i>Icon</i>}>Text</Button>);
 
