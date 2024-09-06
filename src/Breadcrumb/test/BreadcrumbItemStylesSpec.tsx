@@ -18,7 +18,7 @@ describe('BreadcrumbItem styles', () => {
     expect(screen.getByText('/')).to.have.style('margin', '0px 4px');
   });
 
-  it('Active item should render correct color', () => {
+  it('Should render active item with correct color', () => {
     render(
       <Breadcrumb>
         <Breadcrumb.Item active>item</Breadcrumb.Item>
