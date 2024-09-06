@@ -1,3 +1,13 @@
+## [5.70.1](https://github.com/rsuite/rsuite/compare/v5.70.0...v5.70.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** fix the rendering exception of the child node separator ([#3948](https://github.com/rsuite/rsuite/issues/3948)) ([7d54cc9](https://github.com/rsuite/rsuite/commit/7d54cc97b05e9b17797ad275b6f02ce679869579))
+* **Calendar:** fix the problem of displaying the first week of the year incorrectly ([#3951](https://github.com/rsuite/rsuite/issues/3951)) ([a2c6891](https://github.com/rsuite/rsuite/commit/a2c6891f76cc5e435eb1980f9176dbec21ac5735))
+
+
+
 # [5.70.0](https://github.com/rsuite/rsuite/compare/v5.69.0...v5.70.0) (2024-08-24)
 
 
