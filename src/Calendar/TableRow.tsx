@@ -105,10 +105,12 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     };
 
     const classes = merge(className, prefix('row'));
+    const { firstWeekContainsDate, weekStartsOn } = locale?.dateLocale?.options ?? {};
+
     const week = format(weekendDate, isoWeek ? 'I' : 'w', {
       locale: locale?.dateLocale,
-      firstWeekContainsDate: 4,
-      weekStartsOn: weekStart
+      firstWeekContainsDate,
+      weekStartsOn: weekStart || weekStartsOn
     });
 
     return (

@@ -4,6 +4,7 @@ import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import CalendarContainer from '../CalendarContainer';
+import { enGB, enUS } from '../../locales';
 
 describe('CalendarContainer', () => {
   testStandardProps(
@@ -92,5 +93,35 @@ describe('CalendarContainer', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Collapse time view' }));
 
     expect(screen.queryByRole('button', { name: 'Collapse month view' })).not.to.exist;
+  });
+
+  describe('Locale', () => {
+    it('Should render the first week of the year correctly when firstWeekContainsDate is 4', () => {
+      render(
+        <CalendarContainer
+          calendarDate={new Date('2025-01-01')}
+          format="yyyy-MM-dd"
+          showWeekNumbers
+          // enGB.Calendar.dateLocale.options.firstWeekContainsDate = 4;
+          locale={enGB.Calendar}
+        />
+      );
+
+      expect(screen.getAllByRole('rowheader')[0]).to.have.text('52');
+    });
+
+    it('Should render the first week of the year correctly when firstWeekContainsDate is 1', () => {
+      render(
+        <CalendarContainer
+          calendarDate={new Date('2025-01-01')}
+          format="yyyy-MM-dd"
+          showWeekNumbers
+          // enUS.Calendar.dateLocale.options.firstWeekContainsDate = 1;
+          locale={enUS.Calendar}
+        />
+      );
+
+      expect(screen.getAllByRole('rowheader')[0]).to.have.text('1');
+    });
   });
 });

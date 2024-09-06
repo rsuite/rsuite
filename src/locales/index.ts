@@ -1,4 +1,6 @@
 import defaultLocale from './default';
+import { Locale as DateFnsLocale } from 'date-fns';
+
 export { default as arEG } from './ar_EG';
 export { default as daDK } from './da_DK';
 export { default as deDE } from './de_DE';
@@ -31,7 +33,6 @@ type PickKeys<T> = {
 
 export type Locale = PickKeys<typeof defaultLocale>;
 export type CommonLocale = typeof defaultLocale.common;
-export type CalendarLocale = PickKeys<typeof defaultLocale.Calendar>;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
 export type TableLocale = CommonLocale;
@@ -43,3 +44,7 @@ export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLoc
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
+
+export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {
+  dateLocale?: DateFnsLocale;
+}
