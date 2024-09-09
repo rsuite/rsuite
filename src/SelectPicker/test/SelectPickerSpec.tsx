@@ -467,4 +467,12 @@ describe('SelectPicker', () => {
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });
+
+  it('Should focus on search input by key=character', () => {
+    render(<SelectPicker defaultOpen data={data} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 't' });
+
+    expect(screen.getByRole('searchbox')).to.have.focus;
+  });
 });
