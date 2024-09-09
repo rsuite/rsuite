@@ -664,6 +664,35 @@ describe('FormControl', () => {
       expect(screen.queryByRole('alert')).to.not.exist;
       expect(onCheck).to.calledWithMatch({ obj: { object: {} } });
     });
+
+    it('Should render deeply nested error messages', async () => {
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required'),
+        user: Schema.Types.ObjectType().shape({
+          email: Schema.Types.StringType().isRequired('Email is required')
+        })
+      });
+
+      render(
+        <Form model={model} nestedField>
+          <FormControl name="name" />
+          <FormControl name="user.email" />
+          <Button appearance="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      await screen.findAllByRole('alert');
+
+      expect(screen.getAllByRole('alert')).to.have.length(2);
+
+      screen.getAllByRole('alert').forEach((alert, index) => {
+        expect(alert).to.have.text(['Name is required', 'Email is required'][index]);
+      });
+    });
   });
 
   describe('Accessibility', () => {
