@@ -160,7 +160,10 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     ...rest
   } = props;
 
-  const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(formModel);
+  const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(
+    formModel,
+    nestedField
+  );
   const { formValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
     controlledFormValue,
     { formDefaultValue, nestedField }
