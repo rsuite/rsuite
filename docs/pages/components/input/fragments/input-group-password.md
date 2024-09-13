@@ -2,8 +2,8 @@
 
 ```js
 import { Input, InputGroup } from 'rsuite';
-import EyeIcon from '@rsuite/icons/legacy/Eye';
-import EyeSlashIcon from '@rsuite/icons/legacy/EyeSlash';
+import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import VisibleIcon from '@rsuite/icons/Visible';
 
 const styles = {
   width: 300
@@ -19,7 +19,7 @@ const App = () => {
     <InputGroup inside style={styles}>
       <Input type={visible ? 'text' : 'password'} />
       <InputGroup.Button onClick={handleChange}>
-        {visible ? <EyeIcon /> : <EyeSlashIcon />}
+        {visible ? <VisibleIcon /> : <EyeCloseIcon />}
       </InputGroup.Button>
     </InputGroup>
   );

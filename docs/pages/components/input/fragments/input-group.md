@@ -3,7 +3,7 @@
 ```js
 import { Input, InputGroup } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import { FaRegUserCircle } from "react-icons/fa";
 
 const styles = {
   width: 300,
@@ -43,7 +43,7 @@ const App = () => (
 
     <InputGroup style={styles}>
       <InputGroup.Addon>
-        <AvatarIcon />
+        <FaRegUserCircle />
       </InputGroup.Addon>
       <Input />
     </InputGroup>
