@@ -1,3 +1,12 @@
+## [5.70.2](https://github.com/rsuite/rsuite/compare/v5.70.1...v5.70.2) (2024-09-13)
+
+
+### Bug Fixes
+
+* **Form:** fix the error message of the nested field not displayed when the form is submitted ([#3960](https://github.com/rsuite/rsuite/issues/3960)) ([384dd70](https://github.com/rsuite/rsuite/commit/384dd70b0477470da233217d46af77315ff7089d))
+
+
+
 ## [5.70.1](https://github.com/rsuite/rsuite/compare/v5.70.0...v5.70.1) (2024-09-06)
 
 
