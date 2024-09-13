@@ -3,8 +3,8 @@
 ```js
 import { Input, InputGroup, Whisper, Tooltip } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
-import InfoIcon from '@rsuite/icons/legacy/Info';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import InfoRoundIcon from '@rsuite/icons/InfoRound';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const styles = {
   width: 300,
@@ -17,7 +17,7 @@ const App = () => (
       <Input />
       <InputGroup.Addon>
         <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
-          <InfoIcon />
+          <InfoRoundIcon />
         </Whisper>
       </InputGroup.Addon>
     </InputGroup>
@@ -55,7 +55,7 @@ const App = () => (
 
     <InputGroup inside style={styles}>
       <InputGroup.Addon>
-        <AvatarIcon />
+        <FaRegUserCircle />
       </InputGroup.Addon>
       <Input />
     </InputGroup>

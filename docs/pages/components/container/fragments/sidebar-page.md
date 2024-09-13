@@ -1,7 +1,19 @@
 <!--start-code-->
 
 ```js
-import { Container, Header, Sidebar, Sidenav, Content, Nav, Breadcrumb, IconButton } from 'rsuite';
+import {
+  Container,
+  Header,
+  Sidebar,
+  Sidenav,
+  Content,
+  Nav,
+  Breadcrumb,
+  IconButton,
+  HStack,
+  Stack,
+  Text
+} from 'rsuite';
 import FakeBrowser from '@/components/FakeBrowser';
 import { Icon } from '@rsuite/icons';
 import { FaReact } from 'react-icons/fa';
@@ -96,7 +108,7 @@ const NavToggle = ({ expand, onChange }) => {
   );
 };
 
-const Brand = ({ children, expand }) => {
+const Brand = ({ expand }) => {
   return (
     <HStack className="page-brand" spacing={12}>
       <FaReact size={26} />
