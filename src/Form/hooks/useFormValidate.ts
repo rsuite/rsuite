@@ -31,12 +31,25 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     let errorCount = 0;
     const model = getCombinedModel();
 
-    Object.keys(model.getSchemaSpec()).forEach(key => {
-      const checkResult = model.checkForField(key, formValue || {}, checkOptions);
+    const checkField = (key: string, type: any, value: any, formErrorObj: any) => {
+      const checkResult = type.check(value);
+
       if (checkResult.hasError === true) {
         errorCount += 1;
-        formError[key] = checkResult?.errorMessage || checkResult;
+        formErrorObj[key] = checkResult?.errorMessage || checkResult;
       }
+
+      // Check nested object
+      if (type?.objectTypeSchemaSpec) {
+        Object.entries(type.objectTypeSchemaSpec).forEach(([nestedKey, nestedType]) => {
+          formErrorObj[key] = formErrorObj[key] || { object: {} };
+          checkField(nestedKey, nestedType, value?.[nestedKey], formErrorObj[key].object);
+        });
+      }
+    };
+
+    Object.entries(model.getSchemaSpec()).forEach(([key, type]) => {
+      checkField(key, type, formValue[key], formError);
     });
 
     setFormError(formError);

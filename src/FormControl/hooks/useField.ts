@@ -18,7 +18,11 @@ interface ErrorType {
   array: { errorMessage: string }[];
 }
 
-function getErrorMessage(error?: ErrorType) {
+function getErrorMessage(error?: ErrorType | string) {
+  if (typeof error === 'string') {
+    return error;
+  }
+
   /**
    * When using some components as the field, such as TagInput, and using `ArrayType().of` as the validation rule,
    * the error object won't contain the errorMessage directly. @see https://github.com/rsuite/rsuite/issues/3866
