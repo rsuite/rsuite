@@ -1,3 +1,14 @@
+## [5.70.3](https://github.com/rsuite/rsuite/compare/v5.70.2...v5.70.3) (2024-09-20)
+
+
+### Bug Fixes
+
+* **CheckTree:** fix the incorrect check state after loading child nodes through `getChildren` ([#3974](https://github.com/rsuite/rsuite/issues/3974)) ([afaaf2d](https://github.com/rsuite/rsuite/commit/afaaf2d8017799089cc79c369802b8d53232c2b0))
+* docs/package.json & docs/package-lock.json to reduce vulnerabilities ([#3972](https://github.com/rsuite/rsuite/issues/3972)) ([41d5334](https://github.com/rsuite/rsuite/commit/41d533468bfe8b25be126378124bcaa2df55cb72))
+* **Form:** clear error caused by uncontrolled form state ([#3971](https://github.com/rsuite/rsuite/issues/3971)) ([dbc75fd](https://github.com/rsuite/rsuite/commit/dbc75fd39886df4f558c48ee51cd95b28ce75c7a))
+
+
+
 ## [5.70.2](https://github.com/rsuite/rsuite/compare/v5.70.1...v5.70.2) (2024-09-13)
 
 
