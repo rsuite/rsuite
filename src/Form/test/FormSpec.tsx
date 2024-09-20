@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -723,6 +723,70 @@ describe('Form', () => {
 
       fireEvent.click(screen.getByRole('button'));
       expect(onReset).to.be.not.called;
+    });
+  });
+
+  describe('using uncontrolled formError correctly', () => {
+    const nameRule = Schema.Types.StringType().minLength(10, 'Name is too short');
+    const emailRule = Schema.Types.StringType().isEmail('Please enter a valid email address');
+
+    function UsernameField(props) {
+      return (
+        <Form.Group controlId="name">
+          <Form.ControlLabel>Username</Form.ControlLabel>
+          <Form.Control name="name" rule={nameRule} {...props} />
+        </Form.Group>
+      );
+    }
+
+    function EmailField(props) {
+      return (
+        <Form.Group controlId="email">
+          <Form.ControlLabel>Email</Form.ControlLabel>
+          <Form.Control name="email" rule={emailRule} {...props} />
+        </Form.Group>
+      );
+    }
+
+    function RenderForm(props: { checkAsync?: boolean }) {
+      const { checkAsync = false } = props;
+      const formRef = useRef<FormInstance>(null);
+      const handleClearEmailError = () => {
+        formRef.current?.cleanErrorForField('email');
+      };
+      return (
+        <Form ref={formRef} formDefaultValue={{ name: '', email: '' }}>
+          <UsernameField checkAsync={checkAsync} />
+          <EmailField checkAsync={checkAsync} />
+          <Button onClick={handleClearEmailError}>clear email error</Button>
+        </Form>
+      );
+    }
+
+    it('Should show name error and email error', () => {
+      render(<RenderForm />);
+      userEvent.type(screen.getByRole('textbox', { name: 'Username' }), 'name');
+      userEvent.type(screen.getByRole('textbox', { name: 'Email' }), 'email');
+      expect(screen.getAllByRole('alert')).length(2);
+    });
+
+    it('Should show name error and email error when checkAsync is true', async () => {
+      render(<RenderForm checkAsync />);
+      userEvent.type(screen.getByRole('textbox', { name: 'Username' }), 'name');
+      // Although this assertion is repeated, it is necessary to wait for the async check to finish
+      expect(await screen.findByText('Name is too short')).to.exist;
+      userEvent.type(screen.getByRole('textbox', { name: 'Email' }), 'email');
+      expect(await screen.findByText('Name is too short')).to.exist;
+      expect(await screen.findByText('Please enter a valid email address')).to.exist;
+    });
+
+    it('Should clear error exactly', () => {
+      render(<RenderForm />);
+      userEvent.type(screen.getByRole('textbox', { name: 'Username' }), 'name');
+      userEvent.type(screen.getByRole('textbox', { name: 'Email' }), 'email');
+      expect(screen.getAllByRole('alert')).length(2);
+      userEvent.click(screen.getByRole('button'));
+      expect(screen.getAllByRole('alert')).length(1);
     });
   });
 });

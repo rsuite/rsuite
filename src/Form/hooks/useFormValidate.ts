@@ -13,9 +13,9 @@ export interface FormErrorProps {
   nestedField?: boolean;
 }
 
-export default function useFormValidate(formError: any, props: FormErrorProps) {
+export default function useFormValidate(_formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField } = props;
-  const [realFormError, setFormError] = useControlled(formError, {});
+  const [realFormError, setFormError] = useControlled(_formError, {});
   const checkOptions = { nestedObject: nestedField };
 
   const realFormErrorRef = useRef(realFormError);
@@ -73,7 +73,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
       const model = getCombinedModel();
       const resultOfCurrentField = model.checkForField(fieldName, nextValue, checkOptions);
       let nextFormError = {
-        ...formError
+        ...realFormError
       };
       /**
        * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
@@ -169,7 +169,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
     return model
       .checkForFieldAsync(fieldName, nextValue, checkOptions)
       .then(resultOfCurrentField => {
-        let nextFormError = { ...formError };
+        let nextFormError = { ...realFormError };
         /**
          * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
          * but if nestedField is used, it is impossible to distinguish whether the nested object has an error here,
@@ -244,7 +244,7 @@ export default function useFormValidate(formError: any, props: FormErrorProps) {
   });
 
   const cleanErrorForField = useEventCallback((fieldName: string) => {
-    setFormError(omit(formError, [nestedField ? nameToPath(fieldName) : fieldName]));
+    setFormError(omit(realFormError, [nestedField ? nameToPath(fieldName) : fieldName]));
   });
 
   return {

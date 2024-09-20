@@ -639,30 +639,16 @@ describe('FormControl', () => {
 
       fireEvent.change(screen.getByTestId('textbox1'), { target: { value: 'a' } });
 
-      expect(screen.getByRole('alert')).to.have.text('obj.number1 must be a number');
-      expect(onCheck).to.calledWithMatch({
-        obj: {
-          object: {
-            number1: { hasError: true, errorMessage: 'obj.number1 must be a number' }
-          }
-        }
-      });
+      expect(screen.getByText('obj.number1 must be a number')).to.exist;
 
       fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 'a' } });
 
-      expect(screen.getByRole('alert')).to.have.text('obj.number2 must be a number');
-      expect(onCheck).to.calledWithMatch({
-        obj: {
-          object: {
-            number2: { hasError: true, errorMessage: 'obj.number2 must be a number' }
-          }
-        }
-      });
+      expect(screen.getByText('obj.number2 must be a number')).to.exist;
 
       fireEvent.change(screen.getByTestId('textbox2'), { target: { value: 1 } });
 
-      expect(screen.queryByRole('alert')).to.not.exist;
-      expect(onCheck).to.calledWithMatch({ obj: { object: {} } });
+      expect(screen.queryByText('obj.number2 must be a number')).to.not.exist;
+      expect(screen.queryByText('obj.number1 must be a number')).to.exist;
     });
 
     it('Should render deeply nested error messages', async () => {
