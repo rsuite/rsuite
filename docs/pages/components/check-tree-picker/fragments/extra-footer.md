@@ -12,26 +12,39 @@ const data = mockTreeData({
   }
 });
 
-const App = () => (
-  <>
+const App = () => {
+  const [value, setValue] = React.useState([]);
+
+  const handleCheckAll = (_v, checked) => {
+    if (checked) {
+      setValue(data.map(item => item.value));
+    } else {
+      setValue([]);
+    }
+  };
+
+  return (
     <CheckTreePicker
       virtualized
       defaultExpandAll
       data={data}
+      value={value}
+      onChange={setValue}
       style={{ width: 280 }}
       renderExtraFooter={() => (
-        <div
-          style={{
-            padding: '10px 2px',
-            borderTop: '1px solid #e5e5e5'
-          }}
-        >
-          <Checkbox inline>Check all</Checkbox>
-        </div>
+        <ExtraFooter>
+          <Checkbox inline onChange={handleCheckAll}>
+            Check all
+          </Checkbox>
+        </ExtraFooter>
       )}
     />
-  </>
-);
+  );
+};
+
+const ExtraFooter = ({ children }) => {
+  return <div style={{ borderTop: '1px solid #e5e5e5', padding: '10px 2px' }}>{children}</div>;
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
