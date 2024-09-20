@@ -79,37 +79,6 @@ describe('CheckTree', () => {
     expect(onSelect).to.not.have.been.called;
   });
 
-  it('Should async load children nodes', async () => {
-    const data = [{ label: 'async', value: 'async', children: [] }];
-
-    const fetchNodes = () => {
-      return new Promise<any>(resolve => {
-        setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
-      });
-    };
-
-    render(
-      <CheckTree
-        data={data}
-        value={['Master']}
-        cascade={false}
-        defaultExpandAll
-        getChildren={fetchNodes}
-      />
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
-
-    expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
-
-    await waitFor(() => {
-      expect(screen.getByRole('treeitem', { name: 'children' })).to.exist;
-      expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
-        'aria-busy'
-      );
-    });
-  });
-
   it('Should all nodes be checked', () => {
     // Test data comes from: https://github.com/rsuite/rsuite/issues/3559
     const data = [
@@ -388,6 +357,53 @@ describe('CheckTree', () => {
         'aria-checked',
         'false'
       );
+    });
+  });
+
+  describe('Async load children nodes', () => {
+    it('Should async load children nodes', async () => {
+      const data = [{ label: 'async', value: 'async', children: [] }];
+
+      const fetchNodes = () => {
+        return new Promise<any>(resolve => {
+          setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
+        });
+      };
+
+      render(<CheckTree data={data} cascade={false} getChildren={fetchNodes} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+      expect(screen.getByRole('button', { name: 'Collapse async' })).to.have.attribute('aria-busy');
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: 'children' })).to.exist;
+        expect(screen.getByRole('button', { name: 'Collapse async' })).to.not.have.attribute(
+          'aria-busy'
+        );
+      });
+    });
+
+    // fix: https://github.com/rsuite/rsuite/issues/3973
+    it('Should load children nodes and check the state of the node', async () => {
+      const data = [{ label: 'async', value: 'async', children: [] }];
+
+      const fetchNodes = () => {
+        return new Promise<any>(resolve => {
+          setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
+        });
+      };
+
+      render(<CheckTree data={data} value={['async']} getChildren={fetchNodes} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+      expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
+
+      await waitFor(() => {
+        expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
+        expect(screen.getByRole('checkbox', { name: 'children' })).to.be.checked;
+      });
     });
   });
 });
