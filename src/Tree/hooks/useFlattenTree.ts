@@ -141,8 +141,14 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
       updateTreeNodeCheckState(value);
       forceUpdate();
     }
+
+    /**
+     * Add a dependency on data, because when loading data asynchronously through getChildren,
+     * data may change and the node status needs to be updated.
+     * @see https://github.com/rsuite/rsuite/issues/3973
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, data]);
 
   return flattenedNodes.current;
 }
