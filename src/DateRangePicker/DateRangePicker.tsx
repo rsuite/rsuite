@@ -679,7 +679,10 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       ];
     } else {
       // Reset the date on the calendar to the default date
-      nextCalendarDate = getSafeCalendarDate({ value: defaultCalendarValue ?? null });
+      nextCalendarDate = getSafeCalendarDate({
+	      value: defaultCalendarValue ?? null,
+	      allowSameMonth: showOneCalendar
+	    });
     }
 
     setSelectedDates(value ?? []);
