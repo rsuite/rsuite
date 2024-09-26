@@ -106,4 +106,4 @@
 | defaultActiveKey | string                            | 默认展开面板                             |
 | onSelect         | (eventKey: string, event) => void | 切换展开面板的回调函数                   |
 
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue

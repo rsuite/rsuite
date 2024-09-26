@@ -97,4 +97,4 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 | spacing            | number &#124; string `(6)`                                                                         | Define the spacing between immediate children                                                     |
 | wrap               | boolean                                                                                            | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
 
-[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue
+[5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

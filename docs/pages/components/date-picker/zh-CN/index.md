@@ -153,9 +153,9 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | ~disabledSeconds~     | (second:number, date:Date) => boolean                           | ⚠️`[已弃用]` 使用 `shouldDisableSecond` 代替                                        |
 | editable              | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                           |
 | format                | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                      |
-| hideHours             | (hour:number, date:Date) => boolean                             | 隐藏小时                                                                            |
-| hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                                            |
-| hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                                              |
+| hideHours             | (hour:number, date:Date) => boolean                             | 隐藏指定的小时选项                                                                  |
+| hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏指定的分钟选项                                                                  |
+| hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏指定的秒选项                                                                    |
 | isoWeek               | boolean                                                         | [ISO 8601 标准][iso-8601]， 每个日历星期从星期一开始，星期日为第 7 天               |
 | label                 | ReactNode                                                       | 在按钮开头显示的标签                                                                |
 | limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                  |
@@ -225,5 +225,5 @@ const Ranges = [
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.54.0]: https://img.shields.io/badge/min-v5.54.0-blue
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.54.0]: https://img.shields.io/badge/>=-v5.54.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue

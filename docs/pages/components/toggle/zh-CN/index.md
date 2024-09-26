@@ -74,4 +74,4 @@
 
 <!--{include:(_common/types/color.md)}-->
 
-[5.63.0]: https://img.shields.io/badge/min-v5.63.0-blue
+[5.63.0]: https://img.shields.io/badge/>=-v5.63.0-blue
