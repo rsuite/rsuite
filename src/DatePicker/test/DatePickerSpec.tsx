@@ -1365,4 +1365,48 @@ describe('DatePicker', () => {
       expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
+
+  describe('Hide time', () => {
+    it('Should hide hours', () => {
+      render(
+        <DatePicker
+          open
+          format="HH:mm:ss"
+          hideHours={hour => {
+            return hour === 1;
+          }}
+        />
+      );
+
+      expect(screen.queryByRole('option', { name: '1 hours' })).to.not.exist;
+    });
+
+    it('Should hide minutes', () => {
+      render(
+        <DatePicker
+          open
+          format="HH:mm:ss"
+          hideMinutes={minute => {
+            return minute === 1;
+          }}
+        />
+      );
+
+      expect(screen.queryByRole('option', { name: '1 minutes' })).to.not.exist;
+    });
+
+    it('Should hide seconds', () => {
+      render(
+        <DatePicker
+          open
+          format="HH:mm:ss"
+          hideSeconds={second => {
+            return second === 1;
+          }}
+        />
+      );
+
+      expect(screen.queryByRole('option', { name: '1 seconds' })).to.not.exist;
+    });
+  });
 });
