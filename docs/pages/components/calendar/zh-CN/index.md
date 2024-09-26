@@ -59,4 +59,4 @@
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue

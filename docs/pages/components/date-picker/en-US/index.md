@@ -155,9 +155,9 @@ Has keyboard interaction for the DateInput component by default.
 | ~disabledSeconds~     | (second:number, date:Date) => boolean                           | ⚠️`[Deprecated]` Use `shouldDisableSecond` instead                                                                                |
 | editable              | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                                                                    |
 | format                | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input                                                                                     |
-| hideHours             | (hour:number, date:Date) => boolean                             | Hidden hours                                                                                                                      |
-| hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                                                                    |
-| hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                                                                    |
+| hideHours             | (hour:number, date:Date) => boolean                             | Hide specific hour options                                                                                                        |
+| hideMinutes           | (minute:number, date:Date) => boolean                           | Hide specific minute options                                                                                                      |
+| hideSeconds           | (second:number, date:Date) => boolean                           | Hide specific second options                                                                                                      |
 | isoWeek               | boolean                                                         | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
 | label                 | ReactNode                                                       | A label displayed at the beginning of toggle button                                                                               |
 | limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date                                                  |
@@ -226,5 +226,5 @@ const Ranges = [
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.54.0]: https://img.shields.io/badge/min-v5.54.0-blue
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.54.0]: https://img.shields.io/badge/>=-v5.54.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue

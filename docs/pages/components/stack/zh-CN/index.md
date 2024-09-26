@@ -93,4 +93,4 @@
 | spacing            | number &#124; string `(6)`                                                                         | 为每一个子项直接设置间距               |
 | wrap               | boolean                                                                                            | 定义一组子项是强制在一行上还是在多行上 |
 
-[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue
+[5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

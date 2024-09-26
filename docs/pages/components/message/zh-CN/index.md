@@ -62,8 +62,8 @@ Message 的 `role` 为 `alert`。
 
 | 属性名称    | 类型 `(默认值)`                                                    | 描述                                                                      |
 | ----------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| bordered    | boolean                                                            | 显示消息框边框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)    |
-| centered    | boolean                                                            | 垂直居中消息框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)    |
+| bordered    | boolean                                                            | 显示消息框边框 <br/>![][5.53.0]                                           |
+| centered    | boolean                                                            | 垂直居中消息框 <br/>![][5.53.0]                                           |
 | children    | ReactNode                                                          | 消息描述信息                                                              |
 | classPrefix | string `('message')`                                               | 组件 CSS 类的前缀                                                         |
 | closable    | boolean                                                            | 可以关闭消息框                                                            |
@@ -73,3 +73,5 @@ Message 的 `role` 为 `alert`。
 | onClose     | (event?: MouseEvent) => void                                       | 消息关闭后调用                                                            |
 | showIcon    | boolean                                                            | 显示图标                                                                  |
 | type        | 'info' &#124; 'success' &#124; 'warning' &#124; 'error' `('info')` | 消息框类型                                                                |
+
+[5.53.0]: https://img.shields.io/badge/>=-v5.53.0-blue

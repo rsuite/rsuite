@@ -57,19 +57,19 @@ Radios are used when only one choice may be selected in a series of options.
 
 ### `<Radio>`
 
-| Property       | Type `(Default)`                                 | Description                                                                                 |
-| -------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| as             | ElementType`(div)`                               | Custom element type for the component                                                       |
-| checked        | boolean                                          | Specifies whether the radio is selected                                                     |
-| color          | [Color](#code-ts-color-code)                     | The color of the radio when checked <br/>![](https://img.shields.io/badge/min-v5.56.0-blue) |
-| defaultChecked | boolean                                          | Specifies the initial state: whether or not the radio is selected                           |
-| disabled       | boolean                                          | The disable of component                                                                    |
-| inline         | boolean                                          | Inline layout                                                                               |
-| inputProps     | object                                           | Attributes applied to the input element                                                     |
-| inputRef       | ref                                              | Pass a ref to the input element.                                                            |
-| name           | string                                           | Name to use for form                                                                        |
-| onChange       | (value: string, checked: boolean, event) => void | callback function that has been checked for changes in state                                |
-| value          | string                                           | Value, corresponding to the value of the Radiogroup, to determine whether the               |
+| Property       | Type `(Default)`                                 | Description                                                                   |
+| -------------- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
+| as             | ElementType`(div)`                               | Custom element type for the component                                         |
+| checked        | boolean                                          | Specifies whether the radio is selected                                       |
+| color          | [Color](#code-ts-color-code)                     | The color of the radio when checked <br/>![][5.56.0]                          |
+| defaultChecked | boolean                                          | Specifies the initial state: whether or not the radio is selected             |
+| disabled       | boolean                                          | The disable of component                                                      |
+| inline         | boolean                                          | Inline layout                                                                 |
+| inputProps     | object                                           | Attributes applied to the input element                                       |
+| inputRef       | ref                                              | Pass a ref to the input element.                                              |
+| name           | string                                           | Name to use for form                                                          |
+| onChange       | (value: string, checked: boolean, event) => void | callback function that has been checked for changes in state                  |
+| value          | string                                           | Value, corresponding to the value of the Radiogroup, to determine whether the |
 
 ### `<RadioGroup>`
 
@@ -83,3 +83,5 @@ Radios are used when only one choice may be selected in a series of options.
 | value        | string                        | Value (Controlled)                           |
 
 <!--{include:(_common/types/color.md)}-->
+
+[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

@@ -75,5 +75,5 @@ limits: 10 - 100
 | step             | number `(1)`                          | The value of each step. can be decimal.                            |
 | value            | number                                | Value (Controlled).                                                |
 
-[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue
-[5.55.0]: https://img.shields.io/badge/min-v5.55.0-blue
+[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
+[5.55.0]: https://img.shields.io/badge/>=-v5.55.0-blue

@@ -120,5 +120,5 @@
 [listprops]: #code-ts-list-props-code
 [node]: #code-ts-tree-node-code
 [drop]: #code-ts-drop-data-type-code
-[5.61.0]: https://img.shields.io/badge/min-v5.61.0-blue
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
+[5.61.0]: https://img.shields.io/badge/>=-v5.61.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue

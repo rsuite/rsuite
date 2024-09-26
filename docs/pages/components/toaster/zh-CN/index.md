@@ -74,4 +74,4 @@ toaster.remove(toastId: string): void;
 toaster.clear(): void;
 ```
 
-[5.65.0]: https://img.shields.io/badge/min-v5.65.0-blue
+[5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue
