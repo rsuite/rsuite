@@ -32,7 +32,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     const model = getCombinedModel();
 
     const checkField = (key: string, type: any, value: any, formErrorObj: any) => {
-      const checkResult = type.check(value);
+      model.setSchemaOptionsForAllType(formValue || {});
+
+      const checkResult = type.check(value, formValue, key);
 
       if (checkResult.hasError === true) {
         errorCount += 1;
