@@ -185,6 +185,21 @@ export interface DateRangePickerProps
   calendarSnapping?: boolean;
 
   /**
+   * Hide specific hour options
+   */
+  hideHours?: (hour: number, date: Date) => boolean;
+
+  /**
+   * Hide specific minute options
+   */
+  hideMinutes?: (minute: number, date: Date) => boolean;
+
+  /**
+   * Hide specific second options
+   */
+  hideSeconds?: (second: number, date: Date) => boolean;
+
+  /**
    * Disabled date
    * @deprecated Use {@link shouldDisableDate} instead
    */
@@ -299,6 +314,9 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     caretAs: caretAsProp,
     value: valueProp,
     monthDropdownProps,
+    hideHours,
+    hideMinutes,
+    hideSeconds,
     onChange,
     onClean,
     onEnter,
@@ -843,6 +861,9 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       value: selectedDates,
       monthDropdownProps,
       hoverRangeValue: hoverDateRange ?? undefined,
+      hideHours,
+      hideMinutes,
+      hideSeconds,
       disabledDate: disableCalendarDate,
       onSelect: handleSelectDate,
       onChangeCalendarMonth,
@@ -1072,6 +1093,9 @@ DateRangePicker.propTypes = {
   defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
   format: PropTypes.string,
+  hideHours: PropTypes.func,
+  hideMinutes: PropTypes.func,
+  hideSeconds: PropTypes.func,
   isoWeek: PropTypes.bool,
   weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
   oneTap: PropTypes.bool,
