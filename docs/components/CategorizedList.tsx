@@ -14,40 +14,14 @@ interface CategorizedListProps {
   language: string;
 }
 
-function getGroupedComponents(components: any[]) {
-  const groupedComponents = [];
-
-  components
-    ?.filter(c => c.components || c.apis || c.keywords || c.group)
-    .forEach(item => {
-      if (item.group) {
-        groupedComponents.push({
-          ...item,
-          components: []
-        });
-      } else {
-        if (!groupedComponents[groupedComponents.length - 1]) {
-          groupedComponents.push({
-            components: []
-          });
-        }
-        groupedComponents[groupedComponents.length - 1]?.components?.push(item);
-      }
-    });
-
-  return groupedComponents;
-}
-
 const CategorizedList = React.forwardRef(
   (props: CategorizedListProps, ref: React.Ref<HTMLDivElement>) => {
     const { components, language, ...rest } = props;
 
-    const groupedComponents = getGroupedComponents(components);
-
     return (
       <div ref={ref} {...rest}>
-        {groupedComponents
-          .filter(c => c.components || c.apis || c.group)
+        {components
+          .filter(c => c.children || c.apis || c.group)
           .map(item => {
             return (
               <VStack key={item.id} className="rs-co-group">
@@ -55,7 +29,7 @@ const CategorizedList = React.forwardRef(
                   {item.name}
                 </Heading>
                 <HStack wrap spacing={10} alignItems="flex-start">
-                  {item.components?.map(item => {
+                  {item.children?.map(item => {
                     return (
                       <VStack key={item.id} className="rs-co-box" justifyContent="space-between">
                         <div>
