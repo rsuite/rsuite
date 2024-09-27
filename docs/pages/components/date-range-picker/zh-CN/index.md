@@ -154,6 +154,9 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
 | format               | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                                |
+| hideHours            | (hour:number, date:Date) => boolean                             | 隐藏指定的小时选项<br/>![][5.71.0]                                                            |
+| hideMinutes          | (minute:number, date:Date) => boolean                           | 隐藏指定的分钟选项<br/>![][5.71.0]                                                            |
+| hideSeconds          | (second:number, date:Date) => boolean                           | 隐藏指定的秒选项<br/>![][5.71.0]                                                              |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | 点击日期时将选中的日期范围                                                                    |
 | isoWeek              | boolean                                                         | [ISO 8601 标准][iso-8601]， 每个日历星期从星期一开始，星期日为第 7 天                         |
 | label                | ReactNode                                                       | 在按钮开头显示的标签                                                                          |
@@ -247,6 +250,7 @@ const Ranges = [
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.52.0]: https://img.shields.io/badge/min-v5.52.0-blue
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
-[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue
+[5.52.0]: https://img.shields.io/badge/>=-v5.52.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
+[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
+[5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue

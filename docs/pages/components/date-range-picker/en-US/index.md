@@ -152,6 +152,9 @@ Has keyboard interaction for the DateRangeInput component by default.
 | ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                  |
 | editable             | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                                                                    |
 | format               | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input                                                                                     |
+| hideHours            | (hour:number, date:Date) => boolean                             | Hide specific hour options<br/>![][5.71.0]                                                                                        |
+| hideMinutes          | (minute:number, date:Date) => boolean                           | Hide specific minute options<br/>![][5.71.0]                                                                                      |
+| hideSeconds          | (second:number, date:Date) => boolean                           | Hide specific second options<br/>![][5.71.0]                                                                                      |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [Date, Date]         | The date range that will be selected when you click on the date                                                                   |
 | isoWeek              | boolean                                                         | [ISO 8601 standard][iso-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
 | label                | ReactNode                                                       | A label displayed at the beginning of toggle button                                                                               |
@@ -250,6 +253,7 @@ const Ranges = [
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.52.0]: https://img.shields.io/badge/min-v5.52.0-blue
-[5.62.0]: https://img.shields.io/badge/min-v5.62.0-blue
-[5.69.0]: https://img.shields.io/badge/min-v5.69.0-blue
+[5.52.0]: https://img.shields.io/badge/>=-v5.52.0-blue
+[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
+[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
+[5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue

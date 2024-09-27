@@ -181,17 +181,17 @@ export interface DatePickerProps
   shouldDisableSecond?: (second: number, date: Date) => boolean;
 
   /**
-   * Hidden hours on the time view
+   * Hide specific hour options
    */
   hideHours?: (hour: number, date: Date) => boolean;
 
   /**
-   * Hidden minutes on the time view
+   * Hide specific minute options
    */
   hideMinutes?: (minute: number, date: Date) => boolean;
 
   /**
-   * Hidden seconds on the time view
+   * Hide specific second options
    */
   hideSeconds?: (second: number, date: Date) => boolean;
 
