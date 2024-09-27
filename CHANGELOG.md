@@ -1,3 +1,17 @@
+# [5.71.0](https://github.com/rsuite/rsuite/compare/v5.70.3...v5.71.0) (2024-09-27)
+
+
+### Bug Fixes
+
+* **Form:** fix can't get form data in addRule callback ([#3980](https://github.com/rsuite/rsuite/issues/3980)) ([26417ef](https://github.com/rsuite/rsuite/commit/26417ef93c30249a95c0b548123f1adf31b9d6a1))
+
+
+### Features
+
+* **DateRangePicker:** add support for `hideHours`, `hideMinutes`, `hideSeconds` ([#3979](https://github.com/rsuite/rsuite/issues/3979)) ([1d48589](https://github.com/rsuite/rsuite/commit/1d48589df8b54e0ae0e6cbc62b5d53b58c61cf3c))
+
+
+
 ## [5.70.3](https://github.com/rsuite/rsuite/compare/v5.70.2...v5.70.3) (2024-09-20)
 
 
