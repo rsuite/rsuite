@@ -9,7 +9,7 @@ import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import { IoExtensionPuzzleOutline } from 'react-icons/io5';
-
+import NavGroup from './NavGroup';
 import BarsIcon from '@rsuite/icons/legacy/Bars';
 import { TypeAttributes } from 'rsuite/esm/internals/types';
 
@@ -51,7 +51,7 @@ const isNewComponent = (minVersion?: string) => {
   return false;
 };
 
-export default React.memo(function SideNavbar(props: SideNavbarProps) {
+export default function SideNavbar(props: SideNavbarProps) {
   const { onToggleMenu, showSubmenu, style } = props;
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
@@ -101,40 +101,46 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
     return null;
   };
 
+  const renderItem = (child: MenuItem) => {
+    const pathname = child.url ? child.url : `/${data.id}/${child.id}`;
+    const active = router.pathname === pathname;
+
+    const title =
+      language === 'en' || !child.title ? null : <span className="title-zh">{child.title}</span>;
+
+    if (child.target === '_blank' && child.url) {
+      return (
+        <Nav.Item key={child.id} href={child.url} target="_blank">
+          {child.name} {title}
+          <ExternalLinkSquare className="external-link" />
+        </Nav.Item>
+      );
+    } else {
+      return (
+        <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
+          {child.name}
+          {title}
+          {renderTag(child)}
+          {renderIcon(child.icon)}
+        </Nav.Item>
+      );
+    }
+  };
+
   if (children) {
     children.forEach(child => {
-      const pathname = child.url ? child.url : `/${data.id}/${child.id}`;
-      const active = router.pathname === pathname;
-
       if (child.group) {
         navItems.push(
-          <Nav.Item panel key={child.id}>
-            {child.name}
-          </Nav.Item>
+          <NavGroup key={child.id} title={child.name}>
+            {child.children?.map(item => {
+              return renderItem(item);
+            })}
+          </NavGroup>
         );
         return;
       }
 
-      const title =
-        language === 'en' || !child.title ? null : <span className="title-zh">{child.title}</span>;
-
-      if (child.target === '_blank' && child.url) {
-        navItems.push(
-          <Nav.Item key={child.id} href={child.url} target="_blank">
-            {child.name} {title}
-            <ExternalLinkSquare className="external-link" />
-          </Nav.Item>
-        );
-      } else {
-        navItems.push(
-          <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
-            {child.name}
-            {title}
-            {renderTag(child)}
-            {renderIcon(child.icon)}
-          </Nav.Item>
-        );
-      }
+      navItems.push(renderItem(child));
     });
   }
 
@@ -175,4 +181,4 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       />
     </>
   );
-});
+}

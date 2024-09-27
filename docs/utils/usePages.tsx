@@ -33,98 +33,109 @@ export default function usePages(): MenuItem[] {
         {
           group: true,
           id: 'getting-started',
-          name: locales?.common?.gettingStarted
+          name: locales?.common?.gettingStarted,
+          children: [
+            {
+              id: 'introduction',
+              name: locales?.common?.introduction
+            },
+            {
+              id: 'usage',
+              name: locales?.common?.usage
+            },
+            {
+              id: 'composition',
+              name: locales?.common?.composition
+            },
+            {
+              id: 'accessibility',
+              name: locales?.common?.accessibility
+            },
+            {
+              id: 'v5-features',
+              name: locales?.common?.v5Features
+            },
+            {
+              id: 'logs',
+              name: locales?.common?.changeLog,
+              target: '_blank',
+              url: 'https://github.com/rsuite/rsuite/releases'
+            }
+          ]
         },
-        {
-          id: 'introduction',
-          name: locales?.common?.introduction
-        },
-        {
-          id: 'usage',
-          name: locales?.common?.usage
-        },
-        {
-          id: 'composition',
-          name: locales?.common?.composition
-        },
-        {
-          id: 'accessibility',
-          name: locales?.common?.accessibility
-        },
-        {
-          id: 'v5-features',
-          name: locales?.common?.v5Features
-        },
-        {
-          id: 'logs',
-          name: locales?.common?.changeLog,
-          target: '_blank',
-          url: 'https://github.com/rsuite/rsuite/releases'
-        },
+
         {
           group: true,
           id: 'frameworks',
-          name: locales?.common?.frameworks
-        },
-        {
-          id: 'use-vite',
-          name: locales?.common?.useVite
-        },
-        {
-          id: 'use-next-app',
-          name: locales?.common?.useNextApp
-        },
-        {
-          id: 'use-next-pages',
-          name: locales?.common?.useNextPages
+          name: locales?.common?.frameworks,
+          children: [
+            {
+              id: 'use-vite',
+              name: locales?.common?.useVite
+            },
+            {
+              id: 'use-next-app',
+              name: locales?.common?.useNextApp
+            },
+            {
+              id: 'use-next-pages',
+              name: locales?.common?.useNextPages
+            },
+
+            {
+              id: 'use-with-create-react-app',
+              name: locales?.common?.useWithCreateReactApp
+            }
+          ]
         },
 
-        {
-          id: 'use-with-create-react-app',
-          name: locales?.common?.useWithCreateReactApp
-        },
         {
           group: true,
           id: 'customization',
-          name: locales?.common?.customization
-        },
-        {
-          id: 'official-themes',
-          name: locales?.common?.officialThemes
+          name: locales?.common?.customization,
+          children: [
+            {
+              id: 'official-themes',
+              name: locales?.common?.officialThemes
+            },
+
+            {
+              id: 'customization-less',
+              name: locales?.common?.customizationLess
+            },
+            {
+              id: 'css-variables',
+              name: locales?.common?.cssVariables
+            },
+            {
+              id: 'css-reset',
+              name: locales?.common?.cssReset
+            },
+            {
+              id: 'i18n',
+              name: locales?.common?.i18n
+            },
+            {
+              id: 'rtl',
+              name: locales?.common?.rtl
+            }
+          ]
         },
 
         {
-          id: 'customization-less',
-          name: locales?.common?.customizationLess
-        },
-        {
-          id: 'css-variables',
-          name: locales?.common?.cssVariables
-        },
-        {
-          id: 'css-reset',
-          name: locales?.common?.cssReset
-        },
-        {
-          id: 'i18n',
-          name: locales?.common?.i18n
-        },
-        {
-          id: 'rtl',
-          name: locales?.common?.rtl
-        },
-        {
           group: true,
           id: 'performance',
-          name: locales?.common?.performance
-        },
-        {
-          id: 'optimizing-performance',
-          name: locales?.common?.optimizingPerformance
-        },
-        {
-          id: 'modularized',
-          name: locales?.common?.modularized
+          name: locales?.common?.performance,
+          children: [
+            {
+              id: 'optimizing-performance',
+              name: locales?.common?.optimizingPerformance
+            },
+            {
+              id: 'modularized',
+              name: locales?.common?.modularized
+            }
+          ]
         }
       ]
     },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import { useApp } from '@/components/AppContext';
@@ -15,7 +15,6 @@ function includes(str: string, keyword: string) {
 
 const filterComponents = (item: MenuItem, search: string) => {
   const { name, title, keywords, apis, components } = item;
-
   return (
     includes(name, search) ||
     includes(title, search) ||
@@ -25,15 +24,31 @@ const filterComponents = (item: MenuItem, search: string) => {
   );
 };
 
-export default function Page() {
-  const { language, locales } = useApp();
+const useComponents = () => {
   const pages = usePages();
-  const [type, setType] = React.useState<'category' | 'sorted'>('category');
   const [search, setSearch] = React.useState('');
 
-  const components = (pages?.[1]?.children).filter(
-    item => !['overview', 'css-packs'].includes(item.id) && filterComponents(item, search)
-  );
+  const components = useMemo(() => {
+    return pages?.[1]?.children
+      .map(item => {
+        if (item.children) {
+          return {
+            ...item,
+            children: item.children.filter(child => filterComponents(child, search))
+          };
+        }
+        return filterComponents(item, search) ? item : null;
+      })
+      .filter(item => item?.children?.length);
+  }, [pages, search]);
+
+  return { components, search, setSearch };
+};
+
+export default function Page() {
+  const { language, locales } = useApp();
+  const [type, setType] = React.useState<'category' | 'sorted'>('category');
+  const { components, setSearch } = useComponents();
 
   return (
     <DefaultPage>

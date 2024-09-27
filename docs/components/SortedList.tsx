@@ -20,16 +20,19 @@ interface SortedListProps {
 
 function getSortedComponents(components): SortedObject {
   const list = [];
-  components.forEach(item => {
-    if (item.components) {
-      item.components.forEach(componentName => {
-        list.push({
-          category: componentName[0],
-          id: item.id,
-          componentName
+
+  components.forEach(child => {
+    child.children.forEach(item => {
+      if (item.components) {
+        item.components.forEach(componentName => {
+          list.push({
+            category: componentName[0],
+            id: item.id,
+            componentName
+          });
         });
-      });
-    }
+      }
+    });
   });
 
   const sortedList = sortBy(list, item => item.componentName);

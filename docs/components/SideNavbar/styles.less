@@ -97,7 +97,7 @@
     font-weight: 400;
     color: inherit;
     transition: none;
-    border-radius: 2px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -144,5 +144,37 @@
 .submenu-close {
   .rs-nav.nav-docs {
     overflow: hidden;
+  }
+}
+
+.nav-group {
+  .nav-title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 6px;
+    &:hover {
+      background: var(--rs-navs-bg-hover);
+    }
+  }
+
+  .nav-group-children {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease;
+  }
+
+  .nav-icon {
+    transition: transform 0.2s ease;
+    transform: rotate(90deg);
+  }
+
+  &.expanded {
+    .nav-icon {
+      transform: rotate(0deg);
+    }
+    .nav-group-children {
+      max-height: 1000px;
+    }
   }
 }
