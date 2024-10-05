@@ -1,6 +1,6 @@
 import sv from 'date-fns/locale/sv';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Sö',
   monday: 'Må',
   tuesday: 'Ti',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'OK',
   today: 'I dag',
   yesterday: 'I går',
+  now: 'Nu',
   hours: 'Timmar',
   minutes: 'Minuter',
   seconds: 'Sekunder',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'yyyy-MM-dd',
+  shortTimeFormat: 'HH:mm',
   dateLocale: sv as any
 };
 
 export default {
+  code: 'sv-SE',
   common: {
     loading: 'Laddar...',
     emptyMessage: 'Kunde inte hitta data',
@@ -45,12 +49,10 @@ export default {
     total: 'totalt: {0}',
     skip: 'Gå til{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Senaste 7 dagarna'
   },
   Picker: {

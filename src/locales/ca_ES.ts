@@ -1,5 +1,6 @@
 import ca from 'date-fns/locale/ca';
-const Calendar = {
+
+const DateTimeFormats = {
   sunday: 'Dg',
   monday: 'Dl',
   tuesday: 'Dt',
@@ -10,6 +11,7 @@ const Calendar = {
   ok: 'Acceptar',
   today: 'Avui',
   yesterday: 'Ahir',
+  now: 'Ara',
   hours: 'Hores',
   minutes: 'Minuts',
   seconds: 'Segons',
@@ -19,9 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ca
 };
+
 export default {
+  code: 'ca-ES',
   common: {
     loading: 'Carregant...',
     emptyMessage: 'Sense dades',
@@ -43,12 +49,10 @@ export default {
     total: 'Total: {0}',
     skip: 'Anar{0}'
   },
-  Calendar: Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Últims 7 dies'
   },
   Picker: {

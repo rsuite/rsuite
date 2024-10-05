@@ -1,7 +1,15 @@
 <!--start-code-->
 
 ```js
-import { CustomProvider, SelectPicker, DatePicker, Calendar, Stack, Divider } from 'rsuite';
+import {
+  CustomProvider,
+  SelectPicker,
+  DatePicker,
+  TimePicker,
+  Calendar,
+  Stack,
+  Divider
+} from 'rsuite';
 import * as locales from 'rsuite/locales';
 
 const data = Object.keys(locales).map(key => ({
@@ -17,6 +25,7 @@ const App = () => {
       <Stack divider={<Divider vertical style={{ height: 400 }} />} spacing={40}>
         <Stack direction="column" alignItems="flex-start" spacing={20}>
           <DatePicker showWeekNumbers />
+          <TimePicker />
           <Calendar showWeekNumbers compact style={{ width: 300 }} />
         </Stack>
         <Stack direction="column" alignItems="flex-start" spacing={30}>

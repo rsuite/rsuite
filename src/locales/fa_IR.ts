@@ -1,6 +1,6 @@
 import faIR from 'date-fns/locale/fa-IR';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'ی',
   monday: 'د',
   tuesday: 'س',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'تایید',
   today: 'امروز',
   yesterday: 'دیروز',
+  now: 'هم  اکنون',
   hours: 'ساعت',
   minutes: 'دقیقه',
   seconds: 'ثانیه',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'yyyy/MM/dd',
+  shortTimeFormat: 'hh:mm aa',
   dateLocale: faIR as any
 };
 
 export default {
+  code: 'fa-IR',
   common: {
     loading: 'در حال بارگذاری...',
     emptyMessage: 'داده ایی پیدا نشد',
@@ -41,12 +45,10 @@ export default {
     total: 'مجموع ردیف ها: {0}',
     skip: 'برو به{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: '7 روز اخر'
   },
   Picker: {

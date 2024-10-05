@@ -9,6 +9,7 @@ import {
   startOfISOWeek,
   endOfISOWeek,
   startOfWeek,
+  startOfToday,
   endOfWeek,
   differenceInCalendarMonths,
   copyTime
@@ -49,7 +50,7 @@ export function getSafeCalendarDate({
     return [value[0], addMonths(value[0], gap)];
   }
 
-  const todayDate = new Date();
+  const todayDate = startOfToday();
   return [todayDate, addMonths(todayDate, gap)];
 }
 

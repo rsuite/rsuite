@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
-import IconClockO from '@rsuite/icons/legacy/ClockO';
+import TimeIcon from '@rsuite/icons/Time';
 import CalendarContainer from '../Calendar/CalendarContainer';
-import useCalendarDate from '../Calendar/useCalendarDate';
+import { useCalendarDate } from '../Calendar/hooks';
 import Toolbar, { RangeType } from './Toolbar';
 import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
@@ -24,15 +24,11 @@ import {
   useEventCallback
 } from '@/internals/hooks';
 import {
-  shouldRenderMonth,
-  shouldRenderDate,
-  shouldRenderTime,
-  shouldOnlyRenderTime,
-  setHours,
-  getHours,
   isValid,
   copyTime,
   disableTime,
+  DateMode,
+  useDateMode,
   calendarOnlyProps,
   CalendarOnlyPropsType
 } from '@/internals/utils/date';
@@ -55,9 +51,10 @@ import type {
   PickerBaseProps,
   RsRefForwardingComponent
 } from '@/internals/types';
+import { startOfToday } from '@/internals/utils/date';
 import type { DatePickerLocale } from '../locales';
 import type { DeprecatedProps } from './types';
-import type { MonthDropdownProps } from '../Calendar/CalendarContext';
+import type { MonthDropdownProps } from '../Calendar/types';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
@@ -149,9 +146,14 @@ export interface DatePickerProps
   showWeekNumbers?: boolean;
 
   /**
-   * Meridian format for 12-hour time
+   * @deprecated Use `showMeridiem` instead
    */
   showMeridian?: boolean;
+
+  /**
+   * Meridiem format for 12-hour time
+   */
+  showMeridiem?: boolean;
 
   /**
    * The props for the Month Dropdown component.
@@ -270,8 +272,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       disabled,
       readOnly: readOnly,
       plaintext,
-      // todo Not consistent with locale.formatDayPattern
-      format: formatStr = 'yyyy-MM-dd',
+      format,
       id: idProp,
       isoWeek,
       weekStart = 0,
@@ -288,7 +289,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       placeholder = '',
       ranges,
       value: valueProp,
-      showMeridian,
+      showMeridian: DEPRECATED_showMeridian,
+      showMeridiem = DEPRECATED_showMeridian,
       showWeekNumbers,
       style,
       size,
@@ -321,6 +323,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
     const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
+    const formatStr = format || locale.shortDateFormat || 'yyyy-MM-dd';
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
@@ -329,10 +332,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const { setMonthView, monthView, toggleMonthView } = useMonthView({ onToggleMonthDropdown });
+    const { mode, has } = useDateMode(formatStr);
 
     // Show only the calendar month panel. formatStr = 'yyyy-MM'
-    const onlyShowMonth = shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr);
-    const showMonth = onlyShowMonth || monthView;
+    const showMonth = mode === DateMode.Month || monthView;
 
     const { focusInput, focusSelectedDate, onKeyFocusEvent } = useFocus({
       target,
@@ -378,7 +381,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * - If format is month, disable ok button if all dates in the month of selected date are disabled
      */
     const isOkButtonDisabled = (selectedDate: Date): boolean => {
-      if (shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr)) {
+      if (mode === DateMode.Month) {
         return isMonthDisabled(selectedDate);
       }
 
@@ -438,21 +441,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       trigger.current?.close?.();
     });
 
-    /**
-     * The callback triggered when PM/AM is switched.
-     */
-    const handleToggleMeridian = useEventCallback(() => {
-      const hours = getHours(calendarDate);
-      const nextHours = hours >= 12 ? hours - 12 : hours + 12;
-      const nextDate = setHours(calendarDate, nextHours);
-
-      handleChangeTime(nextDate);
-    });
-
     const updateValue = (event: React.SyntheticEvent, date?: Date | null, closeOverlay = true) => {
       const nextValue = typeof date !== 'undefined' ? date : calendarDate;
 
-      setCalendarDate(nextValue || new Date());
+      setCalendarDate(nextValue || startOfToday());
       setValue(nextValue);
 
       if (nextValue !== value) {
@@ -522,7 +514,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
         setCalendarDate(
           // Determine whether the current value contains time, if not, use calendarDate.
-          shouldRenderTime(formatStr) ? nextValue : copyTime({ from: calendarDate, to: nextValue })
+          has('time') ? nextValue : copyTime({ from: calendarDate, to: nextValue })
         );
 
         handleDateChange(nextValue);
@@ -541,7 +533,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       handleDateChange(nextPageDate);
       focusSelectedDate();
 
-      if (oneTap && onlyShowMonth) {
+      if (oneTap && mode === DateMode.Month) {
         updateValue(event, nextPageDate);
         focusInput();
       }
@@ -586,6 +578,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const { left, top, className } = positionProps;
       const classes = merge(menuClassName, className, prefix('popup-date'));
       const styles = { ...menuStyle, left, top };
+
       return (
         <PickerPopup
           role="dialog"
@@ -617,7 +610,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 targetId={id}
                 locale={locale}
                 showWeekNumbers={showWeekNumbers}
-                showMeridian={showMeridian}
+                showMeridiem={showMeridiem}
                 disabledDate={isDateDisabled}
                 disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
                 disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
@@ -637,7 +630,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 onToggleTimeDropdown={onToggleTimeDropdown}
                 onChangeMonth={handleChangeMonth}
                 onChangeTime={handleChangeTime}
-                onToggleMeridian={handleToggleMeridian}
               />
               <Toolbar
                 locale={locale}
@@ -669,8 +661,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       if (caretAsProp === null) {
         return null;
       }
-      return caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar);
-    }, [caretAsProp, formatStr]) as React.ElementType | null;
+      return caretAsProp || (mode === DateMode.Time ? TimeIcon : IconCalendar);
+    }, [caretAsProp, mode]) as React.ElementType | null;
 
     const handleTriggerClose = useEventCallback(cause => {
       // Unless overlay is closing on user clicking "OK" button,
@@ -779,7 +771,7 @@ DatePicker.propTypes = {
   onToggleTimeDropdown: PropTypes.func,
   oneTap: PropTypes.bool,
   ranges: PropTypes.array,
-  showMeridian: PropTypes.bool,
+  showMeridiem: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   value: PropTypes.instanceOf(Date)
 };

@@ -153,7 +153,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | disabled             | boolean                                                         | 禁用组件                                                                                      |
 | ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
-| format               | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                                |
+| format               | string `('dd/MM/yyyy')`                                         | 日期显示格式化                                                                                |
 | hideHours            | (hour:number, date:Date) => boolean                             | 隐藏指定的小时选项<br/>![][5.71.0]                                                            |
 | hideMinutes          | (minute:number, date:Date) => boolean                           | 隐藏指定的分钟选项<br/>![][5.71.0]                                                            |
 | hideSeconds          | (second:number, date:Date) => boolean                           | 隐藏指定的秒选项<br/>![][5.71.0]                                                              |
@@ -189,7 +189,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | renderValue          | (date: [Date, Date], format: string) => string                  | Custom render value                                                                           |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | 禁用日期                                                                                      |
 | showHeader           | boolean `(true)`                                                | 是否在日历面板的头部显示格式化的日期范围<br/>![][5.52.0]                                      |
-| showMeridian         | boolean                                                         | 显示 12 小时制的时间格式                                                                      |
+| showMeridiem         | boolean                                                         | 显示 12 小时制的时间格式                                                                      |
 | showOneCalendar      | boolen                                                          | 显示一个日历                                                                                  |
 | showWeekNumbers      | boolean                                                         | 显示周数量                                                                                    |
 | size                 | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | 设置组件尺寸                                                                                  |

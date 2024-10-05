@@ -13,7 +13,7 @@ describe('DatePicker styles', () => {
 
   it('Should render the clock icon', () => {
     render(<DatePicker format="HH:mm:ss" />);
-    expect(screen.getByLabelText('clock o')).to.have.class('rs-icon');
+    expect(screen.getByLabelText('time')).to.have.class('rs-icon');
   });
 
   it('Should hava a padding of 0px', () => {

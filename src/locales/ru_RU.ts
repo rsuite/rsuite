@@ -1,6 +1,6 @@
 import ru from 'date-fns/locale/ru';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Вс',
   monday: 'Пн',
   tuesday: 'Вт',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'ОК',
   today: 'Сегодня',
   yesterday: 'Вчера',
+  now: 'Сейчас',
   hours: 'Часов',
   minutes: 'Минут',
   seconds: 'Секунд',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ru as any
 };
 
 export default {
+  code: 'ru-RU',
   common: {
     loading: 'Загрузка...',
     emptyMessage: 'Данные не найдены',
@@ -41,12 +45,10 @@ export default {
     total: 'всего: {0}',
     skip: 'Перейти к {0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Последние 7 дней'
   },
   Picker: {

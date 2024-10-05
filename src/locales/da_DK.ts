@@ -1,6 +1,6 @@
 import da from 'date-fns/locale/da';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Sø',
   monday: 'Ma',
   tuesday: 'Ti',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'OK',
   today: 'I dag',
   yesterday: 'I går',
+  now: 'Nu',
   hours: 'Timer',
   minutes: 'Minutter',
   seconds: 'Sekunder',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: da as any
 };
 
 export default {
+  code: 'da-DK',
   common: {
     loading: 'Indlæser...',
     emptyMessage: 'Ingen data fundet',
@@ -45,12 +49,10 @@ export default {
     total: 'total: {0}',
     skip: 'Gå til{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Seneste 7 dage'
   },
   Picker: {

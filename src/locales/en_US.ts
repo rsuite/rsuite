@@ -1,6 +1,6 @@
 import enUS from 'date-fns/locale/en-US';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Mo',
   tuesday: 'Tu',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'OK',
   today: 'Today',
   yesterday: 'Yesterday',
+  now: 'Now',
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'MM/dd/yyyy',
+  shortTimeFormat: 'hh:mm aa',
   dateLocale: enUS as any
 };
 
 export default {
+  code: 'en-US',
   common: {
     loading: 'Loading...',
     emptyMessage: 'No data found',
@@ -41,12 +45,10 @@ export default {
     total: 'Total Rows: {0}',
     skip: 'Go to{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Last 7 Days'
   },
   Picker: {

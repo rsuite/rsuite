@@ -4,7 +4,7 @@ import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/W
 import { useClassNames } from '@/internals/hooks';
 import MonthDropdownItem from './MonthDropdownItem';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendarContext } from './CalendarContext';
+import { useCalendar } from './hooks';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -13,26 +13,6 @@ export interface MonthDropdownProps extends WithAsProps {
   height?: number;
   width?: number;
   disabledMonth?: (date: Date) => boolean;
-}
-
-export interface RowProps {
-  /** Index of row */
-  index: number;
-
-  /** The List is currently being scrolled */
-  isScrolling: boolean;
-
-  /** This row is visible within the List (eg it is not an overscanned row) */
-  isVisible: boolean;
-
-  /** Unique key within array of rendered rows */
-  key?: any;
-
-  /** Reference to the parent List (instance) */
-  parent: any;
-
-  /** Style object to be applied to row (to position it); */
-  style?: React.CSSProperties;
 }
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -67,7 +47,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       ...rest
     } = props;
 
-    const { date = new Date(), targetId, monthDropdownProps } = useCalendarContext();
+    const { date = new Date(), targetId, monthDropdownProps } = useCalendar();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const thisYear = getYear(new Date());
     const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;

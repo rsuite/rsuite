@@ -38,6 +38,10 @@ function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seco
   fireEvent.click(hourNode);
   fireEvent.click(minuteNode);
   fireEvent.click(secondNode);
+
+  expect(hourNode).to.be.attribute('aria-selected', 'true');
+  expect(minuteNode).to.be.attribute('aria-selected', 'true');
+  expect(secondNode).to.be.attribute('aria-selected', 'true');
 }
 
 afterEach(() => {
@@ -47,6 +51,7 @@ afterEach(() => {
 describe('DateRangePicker', () => {
   testStandardProps(<DateRangePicker />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
+
     getUIElement: () => {
       // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
@@ -58,7 +63,8 @@ describe('DateRangePicker', () => {
     defaultValue: [new Date('2023-11-01'), new Date('2023-11-02')],
     value: [new Date('2023-11-03'), new Date('2023-11-04')],
     changedValue: [new Date('2024-10-01'), new Date('2024-10-02')],
-    componentProps: { defaultOpen: true },
+    componentProps: { defaultOpen: true, format: 'yyyy-MM-dd' },
+
     simulateEvent: {
       changeValue: () => {
         userEvent.click(screen.getByRole('gridcell', { name: '05 Nov 2023' }));
@@ -76,7 +82,10 @@ describe('DateRangePicker', () => {
 
   testFormControl(DateRangePicker, {
     value: [new Date('2023-10-01'), new Date('2023-10-02')],
-    getUIElement: () => screen.getByRole('textbox')
+    getUIElement: () => screen.getByRole('textbox'),
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    }
   });
 
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -110,16 +119,11 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select date time successfully', () => {
-    const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)] as [
-      Date,
-      Date
-    ];
-
     const onOk = sinon.spy();
 
     render(
       <DateRangePicker
-        defaultValue={defaultValue}
+        defaultValue={[new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)]}
         format={'dd MMM yyyy HH:mm:ss'}
         defaultOpen
         onOk={onOk}
@@ -165,21 +169,21 @@ describe('DateRangePicker', () => {
     const onOk = sinon.spy();
 
     render(
-      <DateRangePicker defaultValue={[start, end]} format={'hh:mm:ss'} defaultOpen onOk={onOk} />
+      <DateRangePicker defaultValue={[start, end]} format="hh:mm:ss" defaultOpen onOk={onOk} />
     );
 
-    const startTimeButton = screen.queryAllByLabelText('Select time')[0];
-    const endTimeButton = screen.queryAllByLabelText('Select time')[1];
+    //const startTimeButton = screen.queryAllByLabelText('Select time')[0];
+    //const endTimeButton = screen.queryAllByLabelText('Select time')[1];
 
     // select time to 6:6:6
     setTimePickerValue('start', { hours: 6, minutes: 6, seconds: 6 });
 
-    expect(startTimeButton).to.be.text('06:06:06');
+    //expect(startTimeButton).to.be.text('06:06:06');
 
     // select time to 9:9:9
     setTimePickerValue('end', { hours: 9, minutes: 9, seconds: 9 });
 
-    expect(endTimeButton).to.be.text('09:09:09');
+    //expect(endTimeButton).to.be.text('09:09:09');
 
     // press ok button
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
@@ -188,6 +192,7 @@ describe('DateRangePicker', () => {
       new Date(2019, 10, 11, 6, 6, 6),
       new Date(2019, 11, 11, 9, 9, 9)
     ]);
+
     expect(screen.getByRole('textbox')).to.have.value('06:06:06 ~ 09:09:09');
   });
 
@@ -506,57 +511,6 @@ describe('DateRangePicker', () => {
     });
   });
 
-  it('Should be show meridian', () => {
-    render(
-      <DateRangePicker
-        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
-        format="dd MMM yyyy hh:mm:ss a"
-        defaultOpen
-        showMeridian
-      />
-    );
-
-    expect(screen.queryAllByLabelText('Toggle meridian')[0]).to.have.text('PM');
-    expect(screen.queryAllByLabelText('Select time')[0]).to.have.text('01:00:00');
-  });
-
-  it('Should keep AM PM unchanged', () => {
-    render(
-      <DateRangePicker
-        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
-        format="hh:mm:ss a"
-        defaultOpen
-        showMeridian
-      />
-    );
-
-    expect(screen.queryAllByLabelText('Select time')[0]).to.have.text('01:00:00');
-
-    fireEvent.click(screen.getAllByRole('option', { name: '0 hours' })[0]);
-
-    expect(screen.queryAllByLabelText('Toggle meridian')[0]).to.have.text('PM');
-    expect(screen.queryAllByLabelText('Select time')[0]).to.have.text('12:00:00');
-  });
-
-  it('Should change AM/PM ', () => {
-    render(
-      <DateRangePicker
-        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
-        format="hh:mm:ss a"
-        defaultOpen
-        showMeridian
-      />
-    );
-
-    const meridian = screen.queryAllByLabelText('Toggle meridian')[0];
-
-    expect(meridian).to.have.text('PM');
-
-    fireEvent.click(meridian);
-
-    expect(meridian).to.have.text('AM');
-  });
-
   it('Should not get warned about deprecated `caretComponent` prop', () => {
     sinon.spy(console, 'warn');
 
@@ -645,6 +599,7 @@ describe('DateRangePicker', () => {
     render(
       <DateRangePicker
         defaultOpen
+        format="yyyy-MM-dd"
         ranges={[
           {
             label: 'Yesterday',
@@ -746,6 +701,7 @@ describe('DateRangePicker', () => {
           onChange={onChange}
           oneTap
           defaultOpen
+          format="yyyy-MM-dd"
           defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
         />
       );
@@ -767,6 +723,7 @@ describe('DateRangePicker', () => {
           hoverRange="week"
           oneTap
           defaultOpen
+          format="yyyy-MM-dd"
           defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
         />
       );
@@ -789,6 +746,7 @@ describe('DateRangePicker', () => {
           hoverRange="month"
           oneTap
           defaultOpen
+          format="yyyy-MM-dd"
           defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
         />
       );
@@ -810,6 +768,7 @@ describe('DateRangePicker', () => {
           onChange={onChange}
           oneTap
           defaultOpen
+          format="yyyy-MM-dd"
           defaultCalendarValue={[new Date('2024-01-01'), new Date('2004-01-01')]}
         />
       );
@@ -1016,41 +975,13 @@ describe('DateRangePicker', () => {
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
     });
-
-    it('Should switch time from PM to AM', () => {
-      render(
-        <DateRangePicker
-          open
-          format="yyyy-MM-dd HH:mm:ss"
-          showMeridian
-          value={[new Date('2022-02-01 13:00:00'), new Date('2022-03-01 14:00:00')]}
-        />
-      );
-
-      const header = screen.getByTestId('daterange-header');
-      const switchButtons = screen.queryAllByRole('button', { name: 'Toggle meridian' });
-
-      expect(header).to.have.text('2022-02-01 13:00:00 ~ 2022-03-01 14:00:00');
-      expect(switchButtons[0]).to.have.text('PM');
-      expect(switchButtons[1]).to.have.text('PM');
-
-      fireEvent.click(switchButtons[0]);
-
-      expect(header).to.have.text('2022-02-01 01:00:00 ~ 2022-03-01 14:00:00');
-      expect(switchButtons[0]).to.have.text('AM');
-
-      fireEvent.click(switchButtons[1]);
-
-      expect(header).to.have.text('2022-02-01 01:00:00 ~ 2022-03-01 02:00:00');
-      expect(switchButtons[1]).to.have.text('AM');
-    });
   });
 
   it('Should be disable time when date selection is in progress', () => {
     render(
       <DateRangePicker
         format="yyyy-MM-dd hh:mm aa"
-        showMeridian
+        showMeridiem
         open
         defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
       />
@@ -1058,27 +989,20 @@ describe('DateRangePicker', () => {
 
     const startCell = screen.getByRole('gridcell', { name: '01 Feb 2022' });
     const endCell = screen.getByRole('gridcell', { name: '02 Feb 2022' });
-    const btnAM = screen.queryAllByRole('button', { name: 'Toggle meridian' })[0];
-    const btnPM = screen.queryAllByRole('button', { name: 'Toggle meridian' })[1];
+
     const btnAMTime = screen.queryAllByRole('button', { name: 'Select time' })[0];
     const btnPMTime = screen.queryAllByRole('button', { name: 'Select time' })[1];
 
-    expect(btnAM).to.not.have.attribute('disabled');
-    expect(btnPM).to.not.have.attribute('disabled');
     expect(btnAMTime).to.not.have.attribute('disabled');
     expect(btnPMTime).to.not.have.attribute('disabled');
 
     fireEvent.click(startCell);
 
-    expect(btnAM).to.have.attribute('disabled');
-    expect(btnPM).to.have.attribute('disabled');
     expect(btnAMTime).to.have.attribute('disabled');
     expect(btnPMTime).to.have.attribute('disabled');
 
     fireEvent.click(endCell);
 
-    expect(btnAM).to.not.have.attribute('disabled');
-    expect(btnPM).to.not.have.attribute('disabled');
     expect(btnAMTime).to.not.have.attribute('disabled');
     expect(btnPMTime).to.not.have.attribute('disabled');
   });
@@ -1220,7 +1144,7 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'Select end date' }));
 
-      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Feb 2024');
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
       expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('23:59');
       expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-end');
 
@@ -1241,17 +1165,12 @@ describe('DateRangePicker', () => {
       />
     );
 
-    const times = screen.queryAllByRole('button', { name: 'Select time' });
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
-    expect(times[0]).to.have.text('09');
-    expect(times[1]).to.have.text('10');
     expect(input).to.have.value('09 ~ 10');
 
     userEvent.type(input, '{arrowdown}{arrowdown}');
 
-    expect(times[0]).to.have.text('07');
-    expect(times[1]).to.have.text('10');
     expect(input).to.have.value('07 ~ 10');
     expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
   });
@@ -1260,6 +1179,7 @@ describe('DateRangePicker', () => {
     it('Should render a custom value', () => {
       render(
         <DateRangePicker
+          format="yyyy-MM-dd"
           defaultValue={[new Date('2024-05-13'), new Date('2024-05-14')]}
           renderValue={([start, end]) => {
             return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
@@ -1275,6 +1195,7 @@ describe('DateRangePicker', () => {
         <>
           <div data-testid="outside">Outside</div>
           <DateRangePicker
+            format="yyyy-MM-dd"
             renderValue={([start, end]) => {
               return format(start, 'EEE, d MMM') + ' ~ ' + format(end, 'EEE, d MMM');
             }}

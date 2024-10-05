@@ -48,7 +48,7 @@ DateRangeInput 组件允许用户使用键盘选择日期范围。
 | character    | string `(' ~ ')`                            | 日期范围分隔符     |
 | defaultValue | [Date, Date]〡 null                         | 默认值             |
 | disabled     | boolean                                     | 禁用               |
-| format       | string `('yyyy-MM-dd')`                     | 日期显示格式化     |
+| format       | string `('dd/MM/yyyy')`                     | 日期显示格式化     |
 | onChange     | (date: [Date, Date]〡 null , event) => void | 值改变后的回调函数 |
 | plaintext    | boolean                                     | 为纯文本呈现       |
 | readOnly     | boolean                                     | 日期输入框为只读   |

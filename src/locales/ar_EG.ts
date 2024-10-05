@@ -1,6 +1,6 @@
 import arSA from 'date-fns/locale/ar-SA';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'ح',
   monday: 'ن',
   tuesday: 'ث',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'حسناً',
   today: 'اليوم',
   yesterday: 'أمس',
+  now: 'الآن',
   hours: 'ساعات',
   minutes: 'دقائق',
   seconds: 'ثواني',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'MM/dd/yyyy',
+  shortTimeFormat: 'HH:mm aa',
   dateLocale: arSA as any
 };
 
 export default {
+  code: 'ar-SA',
   common: {
     loading: 'جاري التحميل...',
     emptyMessage: 'لا يوجد المزيد من البيانات',
@@ -42,12 +46,10 @@ export default {
     total: 'الإجمالي: {0}',
     skip: 'اذهب إل {0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'أخر 7 أيام'
   },
   Picker: {

@@ -1,6 +1,6 @@
 import zhTW from 'date-fns/locale/zh-TW';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: '日',
   monday: '一',
   tuesday: '二',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: '確定',
   today: '今天',
   yesterday: '昨天',
+  now: '此刻',
   hours: '時',
   minutes: '分',
   seconds: '秒',
   formattedMonthPattern: 'yyyy年MM月',
   formattedDayPattern: 'yyyy年MM月dd日',
+  shortDateFormat: 'yyyy-MM-dd',
+  shortTimeFormat: 'aa hh:mm',
   dateLocale: zhTW as any
 };
 
 export default {
+  code: 'zh-TW',
   common: {
     loading: '讀取中...',
     emptyMessage: '沒有資料',
@@ -41,12 +45,10 @@ export default {
     total: '共 {0} 條資料',
     skip: '跳至{0}頁'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: '最近 7 天'
   },
   Picker: {

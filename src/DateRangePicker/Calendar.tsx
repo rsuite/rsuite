@@ -1,6 +1,8 @@
-import React from 'react';
-import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
-import { addMonths } from '@/internals/utils/date';
+import React, { useCallback, useMemo } from 'react';
+import CalendarContainer, {
+  CalendarProps as CalendarContainerProps
+} from '../Calendar/CalendarContainer';
+import { addMonths, startOfToday } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
 import { DateRange } from './types';
@@ -13,11 +15,12 @@ type OmitCalendarCoreTypes =
   | 'onMouseMove'
   | 'calendarDate'
   | 'format'
-  | 'locale'
-  | 'onToggleMeridian';
+  | 'locale';
 
-export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
-  calendarDate?: DateRange;
+export interface CalendarProps
+  extends WithAsProps,
+    Omit<CalendarContainerProps, OmitCalendarCoreTypes> {
+  calendarDateRange?: DateRange;
   disabledDate?: (
     date: Date,
     selectValue: [] | [Date] | [Date, Date],
@@ -35,7 +38,6 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   value?: [] | [Date] | [Date, Date];
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
-  onToggleMeridian: (index: number, event: React.MouseEvent) => void;
   onSelect?: (index: number, date: Date, event: React.SyntheticEvent) => void;
   onMouseMove?: (date: Date) => void;
 }
@@ -43,8 +45,8 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
-      as: Component = CalendarCore,
-      calendarDate = [new Date(), addMonths(new Date(), 1)],
+      as: Component = CalendarContainer,
+      calendarDateRange = [startOfToday(), addMonths(startOfToday(), 1)],
       format = 'yyyy-MM-dd',
       disabledDate,
       index = 0,
@@ -52,11 +54,12 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       limitStartYear,
       onChangeCalendarMonth,
       onChangeCalendarTime,
-      onToggleMeridian,
       onSelect,
       value = [],
       ...rest
     } = props;
+
+    const calendarDate = useMemo(() => calendarDateRange[index], [calendarDateRange, index]);
 
     const onMoveForward = useEventCallback((nextPageDate: Date) => {
       onChangeCalendarMonth?.(index, nextPageDate);
@@ -78,40 +81,37 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onChangeCalendarTime?.(index, nextPageDate);
     });
 
-    const handleToggleMeridian = useEventCallback((event: React.MouseEvent) => {
-      onToggleMeridian(index, event);
-    });
-
-    const getCalendarDate = () => calendarDate[index];
-
     const handleMoveForward = useEventCallback(() => {
-      onMoveForward?.(addMonths(getCalendarDate(), 1));
+      onMoveForward?.(addMonths(calendarDate, 1));
     });
 
     const handleMoveBackward = useEventCallback(() => {
-      onMoveBackward?.(addMonths(getCalendarDate(), -1));
+      onMoveBackward?.(addMonths(calendarDate, -1));
     });
 
-    const disabledMonth = (date: Date) =>
-      disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
+    const disabledMonth = useCallback(
+      (date: Date) => {
+        disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
+      },
+      [disabledDate, value]
+    );
 
     return (
       <Component
         data-testid={`calendar-${index === 0 ? 'start' : 'end'}`}
         {...rest}
+        index={index}
         format={format}
         dateRange={value}
         disabledDate={disabledMonth}
-        index={index}
         limitEndYear={limitEndYear}
         limitStartYear={limitStartYear}
         onChangeMonth={handleChangeMonth}
         onChangeTime={handleChangeTime}
         onMoveBackward={handleMoveBackward}
         onMoveForward={handleMoveForward}
-        onToggleMeridian={handleToggleMeridian}
         onSelect={handleSelect}
-        calendarDate={getCalendarDate()}
+        calendarDate={calendarDate}
         ref={ref}
       />
     );

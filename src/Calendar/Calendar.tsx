@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import isSameMonth from 'date-fns/isSameMonth';
+import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import CalendarContainer from './CalendarContainer';
-import useCalendarDate from './useCalendarDate';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
 import { useClassNames, useCustom } from '@/internals/hooks';
+import { useCalendarDate } from './hooks';
 import type { CalendarLocale } from '../locales';
 import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import type { MonthDropdownProps } from './CalendarContext';
+import type { MonthDropdownProps } from './types';
 
 export interface CalendarProps extends WithAsProps {
   /**
@@ -97,7 +97,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       className,
       classPrefix = 'calendar',
       compact,
-      defaultValue = new Date(),
+      defaultValue = startOfDay(new Date()),
       isoWeek,
       weekStart = 0,
       locale: overrideLocale,

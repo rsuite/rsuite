@@ -1,4 +1,4 @@
-import defaultLocale from './default';
+import defaultLocale from './en_GB';
 import { Locale as DateFnsLocale } from 'date-fns';
 
 export { default as arEG } from './ar_EG';

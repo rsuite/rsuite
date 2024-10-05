@@ -3,7 +3,7 @@ import { setMonth, setYear } from '@/internals/utils/date';
 import { useClassNames, useCustom } from '@/internals/hooks';
 import { composeFunctions } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendarContext } from './CalendarContext';
+import { useCalendar } from './hooks';
 import { getAriaLabel } from './utils';
 
 export interface MonthDropdownItemProps extends WithAsProps {
@@ -26,7 +26,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       ...rest
     } = props;
 
-    const { date, onChangeMonth: onSelect } = useCalendarContext();
+    const { date, onChangeMonth: onSelect } = useCalendar();
     const { locale, formatDate } = useCustom('Calendar');
     const formatStr = locale.formattedMonthPattern;
 

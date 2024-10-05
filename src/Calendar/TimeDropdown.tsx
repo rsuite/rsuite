@@ -4,15 +4,25 @@ import scrollTop from 'dom-lib/scrollTop';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
-import { scrollTopAnimation } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
-import * as DateUtils from '@/internals/utils/date';
-import { useCalendarContext } from './CalendarContext';
+import ScrollView from '@/internals/ScrollView';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
+import {
+  startOfToday,
+  getHours,
+  getMinutes,
+  getSeconds,
+  setHours,
+  setMinutes,
+  setSeconds,
+  omitHideDisabledProps
+} from '@/internals/utils/date';
+
+import { useCalendar } from './hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;
-  showMeridian?: boolean;
+  showMeridiem?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -22,21 +32,22 @@ export interface TimeDropdownProps extends WithAsProps {
   hideSeconds?: (second: number, date: Date) => boolean;
 }
 
-interface Time {
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+interface ClockTime {
+  hours?: number | null;
+  minutes?: number | null;
+  seconds?: number | null;
+  meridiem?: 'AM' | 'PM' | null;
 }
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
 
 /**
  * Get the effective range of hours, minutes and seconds
- * @param meridian
+ * @param meridiem
  */
-export function getRanges(meridian: boolean) {
+function getTimeRanges(meridiem: boolean) {
   return {
-    hours: { start: 0, end: meridian ? 11 : 23 },
+    hours: { start: 0, end: meridiem ? 11 : 23 },
     minutes: { start: 0, end: 59 },
     seconds: { start: 0, end: 59 }
   };
@@ -46,33 +57,42 @@ export function getRanges(meridian: boolean) {
  * Convert the 24-hour clock to the 12-hour clock
  * @param hours
  */
-export function getMeridianHours(hours: number): number {
+function getMeridiemHours(hours: number): number {
   return hours >= 12 ? hours - 12 : hours;
 }
 
-const getTime = (props: { date: Date; format?: string; showMeridian: boolean }) => {
-  const { format, date, showMeridian } = props;
-  const time = date || new Date();
-  const nextTime: Time = {};
+const getClockTime = (props: { date?: Date; format?: string; showMeridiem: boolean }) => {
+  const { format, date, showMeridiem } = props;
+  const clockTime: ClockTime = {
+    hours: null,
+    minutes: null,
+    seconds: null,
+    meridiem: null
+  };
 
   if (!format) {
-    return nextTime;
+    return clockTime;
   }
 
-  if (/(H|h)/.test(format)) {
-    const hours = DateUtils.getHours(time);
-    nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
+  // If date is provided, extract hours and meridiem
+  if (/(H|h)/.test(format) && date) {
+    const hours = getHours(date);
+
+    clockTime.hours = showMeridiem ? getMeridiemHours(hours) : hours;
+    clockTime.meridiem = hours >= 12 ? 'PM' : 'AM';
   }
-  if (/m/.test(format)) {
-    nextTime.minutes = DateUtils.getMinutes(time);
+  // Extract minutes if 'm' is present in format and date is provided
+  if (/m/.test(format) && date) {
+    clockTime.minutes = getMinutes(date);
   }
-  if (/s/.test(format)) {
-    nextTime.seconds = DateUtils.getSeconds(time);
+  // // Extract seconds if 's' is present in format and date is provided
+  if (/s/.test(format) && date) {
+    clockTime.seconds = getSeconds(date);
   }
-  return nextTime;
+  return clockTime;
 };
 
-const scrollTo = (time: Time, row: HTMLDivElement) => {
+const scrollTo = (time: ClockTime, row: HTMLDivElement) => {
   if (!row) {
     return;
   }
@@ -85,10 +105,32 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
       const position = getPosition(node, container);
 
       if (position) {
-        scrollTopAnimation(container, position.top, scrollTop(container) !== 0);
+        scrollTop(container, position.top);
       }
     }
   });
+};
+
+const formatTimePart = (number: number) => {
+  return number < 10 ? `0${number}` : number;
+};
+
+interface ColumnProps {
+  prefix: (name: string) => string;
+  title: React.ReactNode;
+  children: React.ReactNode;
+}
+
+const Column = (props: ColumnProps) => {
+  const { prefix, title, children, ...rest } = props;
+  return (
+    <div className={prefix('column')}>
+      <div className={prefix('column-title')}>{title}</div>
+      <ScrollView customScrollbar as="ul" role="listbox" {...rest}>
+        {children}
+      </ScrollView>
+    </div>
+  );
 };
 
 const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
@@ -98,40 +140,58 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       className,
       classPrefix = 'calendar-time-dropdown',
       show,
-      showMeridian = false,
+      showMeridiem = false,
       ...rest
     } = props;
-    const { locale, format, date, onChangeTime: onSelect, targetId } = useCalendarContext();
+
+    const { locale, format, date, onChangeTime: onSelect, targetId } = useCalendar();
     const rowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      const time = getTime({ format, date, showMeridian });
+      const time = getClockTime({ format, date, showMeridiem });
       // The currently selected time scrolls to the visible range.
       if (show && rowRef.current) {
         scrollTo(time, rowRef.current);
       }
-    }, [date, format, show, showMeridian]);
+    }, [date, format, show, showMeridiem]);
 
-    const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
-      let nextDate = date || new Date();
+    const handleClick = useEventCallback((type: TimeType, d: number, event: React.MouseEvent) => {
+      let nextDate = date || startOfToday();
 
       switch (type) {
         case 'hours':
-          nextDate = DateUtils.setHours(
-            date,
-            showMeridian && DateUtils.getHours(nextDate) >= 12 ? d + 12 : d
-          );
+          nextDate = setHours(nextDate, showMeridiem && getHours(nextDate) >= 12 ? d + 12 : d);
           break;
         case 'minutes':
-          nextDate = DateUtils.setMinutes(date, d);
+          nextDate = setMinutes(nextDate, d);
           break;
         case 'seconds':
-          nextDate = DateUtils.setSeconds(date, d);
+          nextDate = setSeconds(nextDate, d);
           break;
       }
 
       onSelect?.(nextDate, event);
-    };
+    });
+
+    const handleClickMeridiem = useEventCallback(
+      (meridiem: 'AM' | 'PM', event: React.MouseEvent) => {
+        const tempDate = date || startOfToday();
+        const hours = getHours(tempDate);
+        const isAM = hours < 12;
+
+        const adjustHours = (meridiem: 'AM' | 'PM', hours: number): number => {
+          if (meridiem === 'AM') {
+            return isAM ? hours : hours - 12;
+          }
+          return isAM ? hours + 12 : hours;
+        };
+
+        const nextHours = adjustHours(meridiem, hours);
+        const nextDate = setHours(tempDate, nextHours);
+
+        onSelect?.(nextDate, event);
+      }
+    );
 
     const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
 
@@ -139,7 +199,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       if (!isNumber(active)) {
         return null;
       }
-      const { start, end } = getRanges(showMeridian)[type];
+      const { start, end } = getTimeRanges(showMeridiem)[type];
       const items: React.ReactElement[] = [];
       const hideFunc = props[camelCase(`hide_${type}`)];
       const disabledFunc = props[camelCase(`disabled_${type}`)];
@@ -164,7 +224,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
               onClick={!disabled ? partial(handleClick, type, i) : undefined}
             >
               <span className={itemClasses}>
-                {showMeridian && type === 'hours' && i === 0 ? '12' : i}
+                {showMeridiem && type === 'hours' && i === 0 ? 12 : formatTimePart(i)}
               </span>
             </li>
           );
@@ -172,16 +232,46 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       }
 
       return (
-        <div className={prefix('column')}>
-          <div className={prefix('column-title')}>{locale?.[type]}</div>
-          <ul data-type={type} role="listbox" aria-label={`Select ${type}`}>
-            {items}
-          </ul>
-        </div>
+        <Column
+          prefix={prefix}
+          title={locale?.[type]}
+          data-type={type}
+          aria-label={`Select ${type}`}
+        >
+          {items}
+        </Column>
       );
     };
 
-    const time = getTime({ format, date, showMeridian });
+    const renderMeridiemColumn = () => {
+      const columns = ['AM', 'PM'];
+      return (
+        <Column prefix={prefix} title={'AM/PM'} data-type="meridiem" aria-label="Select meridiem">
+          {columns.map((meridiem, index) => {
+            const ampm = date && (getHours(date) >= 12 ? 'PM' : 'AM');
+            const itemClasses = prefix('cell', {
+              'cell-active': ampm === meridiem
+            });
+
+            return (
+              <li
+                key={index}
+                role="option"
+                tabIndex={-1}
+                aria-label={meridiem}
+                aria-selected={ampm === meridiem}
+                data-key={`meridiem-${meridiem}`}
+                onClick={partial(handleClickMeridiem, meridiem)}
+              >
+                <span className={itemClasses}>{meridiem}</span>
+              </li>
+            );
+          })}
+        </Column>
+      );
+    };
+
+    const time = getClockTime({ format, date, showMeridiem });
     const classes = merge(className, rootPrefix(classPrefix), { show });
 
     return (
@@ -189,7 +279,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         role="group"
         tabIndex={-1}
         id={targetId ? `${targetId}-${classPrefix}` : undefined}
-        {...DateUtils.omitHideDisabledProps<TimeDropdownProps>(rest)}
+        {...omitHideDisabledProps<TimeDropdownProps>(rest)}
         ref={ref}
         className={classes}
       >
@@ -198,6 +288,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
             {renderColumn('hours', time.hours)}
             {renderColumn('minutes', time.minutes)}
             {renderColumn('seconds', time.seconds)}
+            {showMeridiem && renderMeridiemColumn()}
           </div>
         </div>
       </Component>

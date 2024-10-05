@@ -6,21 +6,22 @@ import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import {
+  startOfToday,
   disableTime,
   addMonths,
-  shouldRenderDate,
-  shouldRenderTime,
-  shouldRenderMonth,
   isSameMonth,
   calendarOnlyProps,
   omitHideDisabledProps,
+  DateMode,
+  useDateMode,
   isValid
 } from '@/internals/utils/date';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
-import { CalendarProvider, MonthDropdownProps } from './CalendarContext';
-import useCalendarState, { CalendarState } from './useCalendarState';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+import { CalendarProvider } from './CalendarProvider';
+import { useCalendarState, CalendarState } from './hooks';
+import { MonthDropdownProps } from './types';
+import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 
 export interface CalendarProps
   extends WithAsProps,
@@ -107,6 +108,11 @@ export interface CalendarProps
    * @see https://en.wikipedia.org/wiki/ISO_week_date
    */
   isoWeek?: boolean;
+
+  /**
+   * The index of the calendar
+   */
+  index?: number;
 
   /**
    * the index of the first day of the week (0 - Sunday)
@@ -215,7 +221,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       limitStartYear,
       locale,
       monthDropdownProps,
-      showMeridian,
+      showMeridiem,
       showWeekNumbers,
       cellClassName,
       disabledDate,
@@ -225,7 +231,6 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onMoveBackward,
       onMoveForward,
       onSelect,
-      onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       renderCell,
@@ -239,7 +244,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
 
     const calendarDate = useMemo(() => {
-      return isValid(calendarDateProp) ? calendarDateProp : new Date();
+      return isValid(calendarDateProp) ? calendarDateProp : startOfToday();
     }, [calendarDateProp]);
 
     const isDateDisabled = useEventCallback((date: Date) => disabledDate?.(date) ?? false);
@@ -276,22 +281,17 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
 
     const handleCloseDropdown = useEventCallback(() => reset());
 
-    const renderDate = shouldRenderDate(format);
-    const renderTime = shouldRenderTime(format);
-    const renderMonth = shouldRenderMonth(format);
-
-    const onlyShowTime = renderTime && !renderDate && !renderMonth;
-    const onlyShowMonth = renderMonth && !renderDate && !renderTime;
-    const showTime = calendarState === CalendarState.TIME || onlyShowTime;
-    const showMonth = calendarState === CalendarState.MONTH || onlyShowMonth;
-
+    const { mode, has } = useDateMode(format);
+    const timeMode = calendarState === CalendarState.TIME || mode === DateMode.Time;
+    const monthMode = calendarState === CalendarState.MONTH || mode === DateMode.Month;
     const inSameThisMonthDate = (date: Date) => isSameMonth(calendarDate, date);
 
     const calendarClasses = merge(
       className,
       withClassPrefix({
-        'time-view': showTime,
-        'month-view': showMonth,
+        'time-view': timeMode,
+        'month-view': monthMode,
+        'only-time': mode === DateMode.Time,
         'show-week-numbers': showWeekNumbers
       })
     );
@@ -333,42 +333,43 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
           className={calendarClasses}
           ref={ref}
         >
-          <CalendarHeader
-            showMonth={renderMonth}
-            showDate={renderDate}
-            showTime={renderTime}
-            showMeridian={showMeridian}
-            disabledTime={isTimeDisabled}
-            onMoveForward={handleMoveForward}
-            onMoveBackward={handleMoveBackward}
-            onToggleMonthDropdown={toggleMonthView}
-            onToggleTimeDropdown={toggleTimeView}
-            onToggleMeridian={onToggleMeridian}
-            renderTitle={renderTitle}
-            renderToolbar={renderToolbar}
-            disabledBackward={disabledBackward}
-            disabledForward={disabledForward}
-          />
-          {renderDate && <CalendarBody />}
-          {renderMonth && (
+          {mode !== DateMode.Time && (
+            <CalendarHeader
+              showMonth={has('month')}
+              showDate={has('day')}
+              showTime={has('time')}
+              showMeridiem={showMeridiem}
+              disabledTime={isTimeDisabled}
+              onMoveForward={handleMoveForward}
+              onMoveBackward={handleMoveBackward}
+              onToggleMonthDropdown={toggleMonthView}
+              onToggleTimeDropdown={toggleTimeView}
+              renderTitle={renderTitle}
+              renderToolbar={renderToolbar}
+              disabledBackward={disabledBackward}
+              disabledForward={disabledForward}
+            />
+          )}
+          {has('day') && <CalendarBody />}
+          {has('month') && (
             <MonthDropdown
-              show={showMonth}
+              show={monthMode}
               limitEndYear={limitEndYear}
               limitStartYear={limitStartYear}
               disabledMonth={isDateDisabled}
             />
           )}
-          {renderTime && (
-            <TimeDropdown {...timeDropdownProps} show={showTime} showMeridian={showMeridian} />
+          {has('time') && (
+            <TimeDropdown {...timeDropdownProps} show={timeMode} showMeridiem={showMeridiem} />
           )}
 
-          {(showMonth || showTime) && renderDate && (
+          {(monthMode || timeMode) && has('day') && (
             <button
               className={prefix('btn-close')}
               onClick={handleCloseDropdown}
-              aria-label={`Collapse ${showMonth ? 'month' : 'time'} view`}
+              aria-label={`Collapse ${monthMode ? 'month' : 'time'} view`}
             >
-              <AngleUpIcon />
+              <ArrowUpIcon />
             </button>
           )}
         </Component>

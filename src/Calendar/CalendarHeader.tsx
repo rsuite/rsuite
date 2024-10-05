@@ -6,14 +6,13 @@ import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendarContext } from './CalendarContext';
+import { useCalendar } from './hooks';
 import { useDateRangePickerContext } from '../DateRangePicker/DateRangePickerContext';
 
 export interface CalendarHeaderProps {
   disabledBackward?: boolean;
   disabledForward?: boolean;
-  showMeridian?: boolean;
-  onToggleMeridian?: (event: React.MouseEvent) => void;
+  showMeridiem?: boolean;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
 }
@@ -38,13 +37,12 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       disabledBackward,
       disabledForward,
       showDate,
-      showMeridian,
+      showMeridiem,
       showMonth,
       showTime,
       disabledTime,
       onMoveBackward,
       onMoveForward,
-      onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       renderTitle: renderTitleProp,
@@ -52,14 +50,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       ...rest
     } = props;
 
-    const {
-      locale,
-      date = new Date(),
-      format,
-      inline,
-      disabledDate,
-      targetId
-    } = useCalendarContext();
+    const { locale, date = new Date(), format, inline, disabledDate, targetId } = useCalendar();
     const { isSelectedIdle } = useDateRangePickerContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
@@ -68,24 +59,23 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
     };
 
     const getTimeFormat = useCallback(() => {
-      const timeFormat: string[] = [];
+      if (!format) return '';
 
-      if (!format) {
-        return '';
+      const timeFormat = [
+        /([Hh])/.test(format) ? (showMeridiem ? 'hh' : 'HH') : null,
+        /m/.test(format) ? 'mm' : null,
+        /s/.test(format) ? 'ss' : null
+      ].filter(Boolean);
+
+      let formatStr = timeFormat.join(':');
+
+      // Check the position of 'a' in the format string
+      if (/a/.test(format)) {
+        formatStr = format.startsWith('a') ? `aa ${formatStr}` : `${formatStr} aa`;
       }
 
-      if (/([Hh])/.test(format)) {
-        timeFormat.push(showMeridian ? 'hh' : 'HH');
-      }
-      if (/m/.test(format)) {
-        timeFormat.push('mm');
-      }
-      if (/s/.test(format)) {
-        timeFormat.push('ss');
-      }
-
-      return timeFormat.join(':');
-    }, [format, showMeridian]);
+      return formatStr;
+    }, [format, showMeridiem]);
 
     const getDateFormat = useCallback(() => {
       if (showMonth) {
@@ -159,18 +149,6 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
             >
               {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
             </Button>
-
-            {showMeridian && (
-              <Button
-                {...btnProps}
-                aria-label="Toggle meridian"
-                className={prefix('meridian')}
-                onClick={onToggleMeridian}
-                disabled={disableSelectTime}
-              >
-                {date && <FormattedDate date={date} formatStr="a" />}
-              </Button>
-            )}
           </div>
         )}
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Calendar from '../Calendar';
 import { getDefaultPalette, itChrome, toRGB } from '@test/utils';
-import { CalendarState } from '../useCalendarState';
+import { CalendarState } from '../hooks';
 import '../styles/index.less';
 
 const { H500, H700 } = getDefaultPalette();

@@ -1,6 +1,6 @@
 import zhCN from 'date-fns/locale/zh-CN';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: '日',
   monday: '一',
   tuesday: '二',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: '确定',
   today: '今天',
   yesterday: '昨天',
+  now: '此刻',
   hours: '时',
   minutes: '分',
   seconds: '秒',
   formattedMonthPattern: 'yyyy年MM月',
   formattedDayPattern: 'yyyy年MM月dd日',
+  shortDateFormat: 'yyyy-MM-dd',
+  shortTimeFormat: 'aa hh:mm',
   dateLocale: zhCN as any
 };
 
 export default {
+  code: 'zh-CN',
   common: {
     loading: '加载中...',
     emptyMessage: '数据为空',
@@ -41,12 +45,10 @@ export default {
     total: '共 {0} 条数据',
     skip: '跳至{0}页'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: '最近 7 天'
   },
   Picker: {

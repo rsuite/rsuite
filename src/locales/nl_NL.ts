@@ -1,6 +1,6 @@
 import nl from 'date-fns/locale/nl';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Zo',
   monday: 'Ma',
   tuesday: 'Di',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'Oke',
   today: 'Vandaag',
   yesterday: 'Gisteren',
+  now: 'Nu',
   hours: 'Uren',
   minutes: 'Mimnuten',
   seconds: 'Seconden',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'dd MMM, yyyy',
+  shortDateFormat: 'dd-MM-yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: nl as any
 };
 
 export default {
+  code: 'nl-NL',
   common: {
     loading: 'Laden...',
     emptyMessage: 'Geen data gevonden',
@@ -41,12 +45,10 @@ export default {
     total: 'Totaal Rijen: {0}',
     skip: 'Ga naar{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Laatste 7 Dagen'
   },
   Picker: {
