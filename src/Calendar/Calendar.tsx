@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
 import type { CalendarLocale } from '../locales';
 import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
@@ -113,39 +113,34 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
     const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
     const { locale } = useCustom('Calendar', overrideLocale);
 
-    const handleChange = useCallback(
-      (nextValue: Date) => {
-        setCalendarDate(nextValue);
-        onChange?.(nextValue);
+    const handleChange = useEventCallback((nextValue: Date) => {
+      setCalendarDate(nextValue);
+      onChange?.(nextValue);
 
-        if (!isSameMonth(nextValue, calendarDate)) {
-          onMonthChange?.(nextValue);
-        }
-      },
-      [setCalendarDate, onChange, calendarDate, onMonthChange]
-    );
+      if (!isSameMonth(nextValue, calendarDate)) {
+        onMonthChange?.(nextValue);
+      }
+    });
 
-    const handleClickToday = useCallback(() => {
+    const handleClickToday = useEventCallback(() => {
       handleChange(new Date());
-    }, [handleChange]);
+    });
 
-    const handleSelect = useCallback(
-      (nextValue: Date) => {
-        onSelect?.(nextValue);
-        handleChange(nextValue);
-      },
-      [handleChange, onSelect]
-    );
+    const handleSelect = useEventCallback((nextValue: Date) => {
+      onSelect?.(nextValue);
+      handleChange(nextValue);
+    });
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
-    const renderToolbar = useCallback(
-      () => (
-        <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
-          {locale.today || 'Today'}
-        </Button>
-      ),
-      [handleClickToday, locale.today, prefix]
+    const renderToolbar = () => (
+      <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
+        {locale.today || 'Today'}
+      </Button>
+    );
+
+    const renderTitle = (date: Date) => (
+      <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
     const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
@@ -162,9 +157,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         calendarDate={calendarDate}
         limitEndYear={1000}
         locale={locale}
-        renderTitle={date => (
-          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-        )}
+        renderTitle={renderTitle}
         renderToolbar={renderToolbar}
         renderCell={renderCell}
         cellClassName={cellClassName}

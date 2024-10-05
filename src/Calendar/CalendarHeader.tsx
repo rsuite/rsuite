@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
@@ -81,7 +81,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       return formatStr;
     }, [format, showMeridiem]);
 
-    const getDateFormat = useCallback(() => {
+    const dateFormat = useMemo(() => {
       if (showMonth) {
         return locale?.formattedMonthPattern || 'yyyy-MM';
       }
@@ -89,12 +89,11 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       return 'yyyy';
     }, [locale, showMonth]);
 
-    const renderTitle = useCallback(
-      () =>
-        renderTitleProp?.(date) ??
-        (date && <FormattedDate date={date} formatStr={getDateFormat()} />),
-      [date, getDateFormat, renderTitleProp]
-    );
+    const renderTitle = () => {
+      return (
+        renderTitleProp?.(date) ?? (date && <FormattedDate date={date} formatStr={dateFormat} />)
+      );
+    };
 
     const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
     const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
