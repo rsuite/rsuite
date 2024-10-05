@@ -148,8 +148,6 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       [handleClickToday, locale.today, prefix]
     );
 
-    const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
-
     const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
 
     return (
@@ -168,7 +166,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
           <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
         )}
         renderToolbar={renderToolbar}
-        renderCell={customRenderCell}
+        renderCell={renderCell}
         cellClassName={cellClassName}
         onMoveForward={handleChange}
         onMoveBackward={handleChange}
