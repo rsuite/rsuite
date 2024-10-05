@@ -786,6 +786,28 @@ describe('DatePicker', () => {
     expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
   });
 
+  it('Should display AM/PM in the correct position', () => {
+    const { rerender } = render(
+      <DatePicker
+        format="yyyy-MM-dd aa HH:mm"
+        defaultValue={new Date('2024-10-01 08:00:00')}
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('AM 08:00');
+
+    rerender(
+      <DatePicker
+        format="yyyy-MM-dd HH:mm aa"
+        defaultValue={new Date('2024-10-01 08:00:00')}
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('08:00 AM');
+  });
+
   describe('Custom week ', () => {
     it('Should render the correct week numbers', () => {
       const { rerender } = render(

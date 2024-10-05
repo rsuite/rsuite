@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
@@ -58,20 +58,24 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       size: inline ? 'sm' : 'xs'
     };
 
-    const getTimeFormat = useCallback(() => {
+    const timeFormat = useMemo(() => {
       if (!format) return '';
 
-      const timeFormat = [
+      const formatArray = [
         /([Hh])/.test(format) ? (showMeridiem ? 'hh' : 'HH') : null,
         /m/.test(format) ? 'mm' : null,
         /s/.test(format) ? 'ss' : null
       ].filter(Boolean);
 
-      let formatStr = timeFormat.join(':');
+      let formatStr = formatArray.join(':');
 
       // Check the position of 'a' in the format string
       if (/a/.test(format)) {
-        formatStr = format.startsWith('a') ? `aa ${formatStr}` : `${formatStr} aa`;
+        const aPosition = format.indexOf('a');
+        const hPosition = format.search(/[Hh]/);
+
+        // Use ternary operator to decide the position of 'aa'
+        formatStr = aPosition < hPosition ? `aa ${formatStr}` : `${formatStr} aa`;
       }
 
       return formatStr;
@@ -147,7 +151,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
               onClick={onToggleTimeDropdown}
               disabled={disableSelectTime}
             >
-              {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
+              {date && <FormattedDate date={date} formatStr={timeFormat} />}
             </Button>
           </div>
         )}
