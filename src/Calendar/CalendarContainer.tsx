@@ -247,7 +247,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       return isValid(calendarDateProp) ? calendarDateProp : startOfToday();
     }, [calendarDateProp]);
 
-    const isDateDisabled = useEventCallback((date: Date) => disabledDate?.(date) ?? false);
+    const isDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
     const isTimeDisabled = (date: Date) => disableTime(props, date);
     const handleMoveForward = useEventCallback(() => {
       onMoveForward?.(addMonths(calendarDate, 1));

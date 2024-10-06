@@ -8,7 +8,7 @@ import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
-import DateRangePickerContext from './DateRangePickerContext';
+import { DateRangePickerProvider } from './DateRangePickerProvider';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
 import Header from './Header';
@@ -988,9 +988,9 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
                   <div
                     className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                   >
-                    <DateRangePickerContext.Provider value={{ isSelectedIdle }}>
+                    <DateRangePickerProvider value={{ isSelectedIdle }}>
                       {getCalendars()}
-                    </DateRangePickerContext.Provider>
+                    </DateRangePickerProvider>
                   </div>
                 </div>
                 <Toolbar<SelectedDatesState, DateRange>

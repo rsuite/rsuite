@@ -270,69 +270,6 @@ describe('DateRangePicker', () => {
     expect(screen.getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
-  it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-    sinon.spy(console, 'warn');
-    const ranges: RangeType<DateRange>[] = [
-      {
-        label: 'Yesterday',
-        value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-      },
-      {
-        label: 'Today',
-        value: [new Date(), new Date()]
-      },
-      {
-        label: 'Tomorrow',
-        value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-      },
-      {
-        label: 'Last 7 days',
-        value: [subDays(new Date(), 6), new Date()]
-      }
-    ];
-    render(<DateRangePicker ranges={ranges} disabledDate={() => true} open />);
-
-    ranges.forEach(range => {
-      expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-    });
-
-    expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-    );
-  });
-
-  it('Should disable shortcuts according to `shouldDisableDate`', () => {
-    const ranges: RangeType<DateRange>[] = [
-      {
-        label: 'Yesterday',
-        value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-      },
-      {
-        label: 'Today',
-        value: [new Date(), new Date()]
-      },
-      {
-        label: 'Tomorrow',
-        value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-      },
-      {
-        label: 'Last 7 days',
-        value: [subDays(new Date(), 6), new Date()]
-      }
-    ];
-    render(<DateRangePicker ranges={ranges} shouldDisableDate={() => true} open />);
-
-    ranges.forEach(range => {
-      expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-    });
-  });
-
   it('Should select a whole week', () => {
     const onOk = sinon.spy();
 
@@ -440,20 +377,6 @@ describe('DateRangePicker', () => {
   it('Should have a error style when start date is after end date', () => {
     const { container } = render(
       <DateRangePicker value={[new Date('2023-10-02'), new Date('2023-10-01')]} />
-    );
-
-    expect(container.firstChild).to.have.class('rs-picker-error');
-    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
-  });
-
-  it('Should have a error style when date is disabled', () => {
-    const { container } = render(
-      <DateRangePicker
-        value={[new Date('2023-10-01'), new Date('2023-10-02')]}
-        shouldDisableDate={date => {
-          return date.getDay() === 1;
-        }}
-      />
     );
 
     expect(container.firstChild).to.have.class('rs-picker-error');
@@ -1407,6 +1330,94 @@ describe('DateRangePicker', () => {
       );
 
       expect(screen.queryByRole('option', { name: '1 seconds' })).to.not.exist;
+    });
+  });
+
+  describe('Disabled', () => {
+    it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
+      sinon.spy(console, 'warn');
+      const ranges: RangeType<DateRange>[] = [
+        {
+          label: 'Yesterday',
+          value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+        },
+        {
+          label: 'Today',
+          value: [new Date(), new Date()]
+        },
+        {
+          label: 'Tomorrow',
+          value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+        },
+        {
+          label: 'Last 7 days',
+          value: [subDays(new Date(), 6), new Date()]
+        }
+      ];
+      render(<DateRangePicker ranges={ranges} disabledDate={() => true} open />);
+
+      ranges.forEach(range => {
+        expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
+          'aria-disabled',
+          'true'
+        );
+      });
+
+      expect(console.warn).to.have.been.calledWith(
+        '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
+      );
+    });
+
+    it('Should disable shortcuts according to `shouldDisableDate`', () => {
+      const ranges: RangeType<DateRange>[] = [
+        {
+          label: 'Yesterday',
+          value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+        },
+        {
+          label: 'Today',
+          value: [new Date(), new Date()]
+        },
+        {
+          label: 'Tomorrow',
+          value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+        },
+        {
+          label: 'Last 7 days',
+          value: [subDays(new Date(), 6), new Date()]
+        }
+      ];
+      render(<DateRangePicker ranges={ranges} shouldDisableDate={() => true} open />);
+
+      ranges.forEach(range => {
+        expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
+          'aria-disabled',
+          'true'
+        );
+      });
+    });
+
+    it('Should disable dates on the calendar', () => {
+      render(<DateRangePicker ranges={[]} shouldDisableDate={() => true} defaultOpen />);
+
+      screen.getAllByRole('gridcell').forEach(cell => {
+        expect(cell).to.have.attribute('aria-disabled', 'true');
+        expect(cell).to.have.class('rs-calendar-table-cell-disabled');
+      });
+    });
+
+    it('Should have a error style when date is disabled', () => {
+      const { container } = render(
+        <DateRangePicker
+          value={[new Date('2023-10-01'), new Date('2023-10-02')]}
+          shouldDisableDate={date => {
+            return date.getDay() === 1;
+          }}
+        />
+      );
+
+      expect(container.firstChild).to.have.class('rs-picker-error');
+      expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
     });
   });
 });

@@ -7,7 +7,7 @@ import { useClassNames } from '@/internals/hooks';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendar } from './hooks';
-import { useDateRangePickerContext } from '../DateRangePicker/DateRangePickerContext';
+import { useDateRangePicker } from '../DateRangePicker/hooks';
 
 export interface CalendarHeaderProps {
   disabledBackward?: boolean;
@@ -51,7 +51,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
     } = props;
 
     const { locale, date = new Date(), format, inline, disabledDate, targetId } = useCalendar();
-    const { isSelectedIdle } = useDateRangePickerContext();
+    const { isSelectedIdle } = useDateRangePicker();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
       appearance: 'subtle',
