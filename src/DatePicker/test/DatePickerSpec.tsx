@@ -1113,17 +1113,51 @@ describe('DatePicker', () => {
     });
 
     it('Should disable date cells according to `shouldDisableDate`', () => {
+      const onSelect = sinon.spy();
       render(
         <DatePicker
           calendarDefaultDate={new Date(2023, 2, 7)}
           shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
+          onSelect={onSelect}
           open
         />
       );
 
-      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-        'rs-calendar-table-cell-disabled'
+      const gridcell = screen.getByRole('gridcell', { name: '08 Mar 2023' });
+
+      expect(gridcell).to.have.class('rs-calendar-table-cell-disabled');
+      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+
+      fireEvent.click(gridcell);
+
+      expect(onSelect).to.not.have.been.called;
+    });
+
+    it('Should disable month options according to `shouldDisableDate`', () => {
+      const onSelect = sinon.spy();
+
+      render(
+        <DatePicker
+          calendarDefaultDate={new Date(2024, 10, 1)}
+          shouldDisableDate={date => {
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            return month === 0 && year === 2024;
+          }}
+          onSelect={onSelect}
+          format="yyyy-MM"
+          open
+        />
       );
+
+      const gridcell = screen.getByRole('gridcell', { name: 'Jan 2024' });
+
+      expect(gridcell).to.have.class('disabled');
+      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+
+      fireEvent.click(gridcell);
+
+      expect(onSelect).to.not.have.been.called;
     });
 
     it('Should disable hour options according to `shouldDisableHour`', () => {
