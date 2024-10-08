@@ -54,6 +54,7 @@ export { omitHideDisabledProps } from './omitHideDisabledProps';
 export { copyTime } from './copyTime';
 export { disableTime } from './disableTime';
 export { useDateMode, DateMode } from './useDateMode';
+export { extractTimeFormat } from './extractTimeFormat';
 export * from './formatCheck';
 
 // Export types

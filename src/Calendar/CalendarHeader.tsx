@@ -4,6 +4,7 @@ import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
+import { extractTimeFormat } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendar } from './hooks';
@@ -12,7 +13,6 @@ import { useDateRangePicker } from '../DateRangePicker/hooks';
 export interface CalendarHeaderProps {
   disabledBackward?: boolean;
   disabledForward?: boolean;
-  showMeridiem?: boolean;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
 }
@@ -37,7 +37,6 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       disabledBackward,
       disabledForward,
       showDate,
-      showMeridiem,
       showMonth,
       showTime,
       disabledTime,
@@ -59,27 +58,12 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
     };
 
     const timeFormat = useMemo(() => {
-      if (!format) return '';
-
-      const formatArray = [
-        /([Hh])/.test(format) ? (showMeridiem ? 'hh' : 'HH') : null,
-        /m/.test(format) ? 'mm' : null,
-        /s/.test(format) ? 'ss' : null
-      ].filter(Boolean);
-
-      let formatStr = formatArray.join(':');
-
-      // Check the position of 'a' in the format string
-      if (/a/.test(format)) {
-        const aPosition = format.indexOf('a');
-        const hPosition = format.search(/[Hh]/);
-
-        // Use ternary operator to decide the position of 'aa'
-        formatStr = aPosition < hPosition ? `aa ${formatStr}` : `${formatStr} aa`;
+      const defaultTimeFormat = locale?.shortTimeFormat || 'HH:mm';
+      if (!format) {
+        return defaultTimeFormat;
       }
-
-      return formatStr;
-    }, [format, showMeridiem]);
+      return extractTimeFormat(format) || defaultTimeFormat;
+    }, [format, locale]);
 
     const dateFormat = useMemo(() => {
       if (showMonth) {

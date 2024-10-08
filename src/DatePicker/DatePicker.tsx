@@ -332,7 +332,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const { setMonthView, monthView, toggleMonthView } = useMonthView({ onToggleMonthDropdown });
-    const { mode, has } = useDateMode(formatStr);
+    const { mode } = useDateMode(formatStr);
 
     // Show only the calendar month panel. formatStr = 'yyyy-MM'
     const showMonth = mode === DateMode.Month || monthView;
@@ -510,14 +510,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      * Callback after the date is selected.
      */
-    const handleSelect = useEventCallback(
-      (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
-        setCalendarDate(
-          // Determine whether the current value contains time, if not, use calendarDate.
-          has('time') ? nextValue : copyTime({ from: calendarDate, to: nextValue })
-        );
+    const handleCalendarSelect = useEventCallback(
+      (date: Date, event: React.SyntheticEvent, updatableValue = true) => {
+        const nextValue = copyTime({ from: calendarDate, to: date });
 
+        setCalendarDate(nextValue);
         handleDateChange(nextValue);
+
         if (oneTap && updatableValue) {
           updateValue(event, nextValue);
           focusInput();
@@ -544,7 +543,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      */
     const handleInputChange = useEventCallback((value, event) => {
       if (!isErrorValue(value)) {
-        handleSelect(value, event);
+        handleCalendarSelect(value, event);
       }
 
       updateValue(event, value, false);
@@ -625,7 +624,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 renderCellOnPicker={renderCell}
                 onMoveForward={handleMoveForward}
                 onMoveBackward={handleMoveBackward}
-                onSelect={handleSelect}
+                onSelect={handleCalendarSelect}
                 onToggleMonthDropdown={toggleMonthView}
                 onToggleTimeDropdown={onToggleTimeDropdown}
                 onChangeMonth={handleChangeMonth}

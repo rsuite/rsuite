@@ -191,6 +191,30 @@ describe('DatePicker', () => {
     expect(onSelect).to.calledOnce;
   });
 
+  it('Should keep the time unchanged when clicking on the date', () => {
+    const onChange = sinon.spy();
+    const onSelect = sinon.spy();
+
+    render(
+      <DatePicker
+        onChange={onChange}
+        onSelect={onSelect}
+        defaultOpen
+        format="yyyy-MM-dd HH:mm:ss"
+        defaultValue={new Date('2024-10-01 13:30:10')}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2024' }));
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('13:30:10');
+    expect(onSelect).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
+
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
+
+    expect(onChange).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
+  });
+
   it('Should call `onOk` callback', () => {
     const onOk = sinon.spy();
     render(<DatePicker onOk={onOk} defaultOpen />);
@@ -416,7 +440,12 @@ describe('DatePicker', () => {
     const onChange = sinon.spy();
 
     render(
-      <DatePicker onChange={onChange} oneTap defaultOpen defaultValue={new Date('2023-10-01')} />
+      <DatePicker
+        onChange={onChange}
+        oneTap
+        defaultOpen
+        defaultValue={new Date('2023-10-01 00:00:00')}
+      />
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
@@ -1299,6 +1328,7 @@ describe('DatePicker', () => {
   describe('Error handling', () => {
     it('Should render an error message when the format is deprecated', () => {
       sinon.spy(console, 'error');
+
       expect(() => {
         render(<DatePicker format="YY" value={new Date()} />);
       }).to.not.throw();

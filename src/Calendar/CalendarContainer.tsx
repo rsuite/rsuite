@@ -8,7 +8,6 @@ import { useClassNames, useEventCallback } from '@/internals/hooks';
 import {
   startOfToday,
   disableTime,
-  addMonths,
   isSameMonth,
   calendarOnlyProps,
   omitHideDisabledProps,
@@ -46,6 +45,11 @@ export interface CalendarProps
    * Whether to show week numbers
    */
   showWeekNumbers?: boolean;
+
+  /**
+   * Whether to show meridiem
+   */
+  showMeridiem?: boolean;
 
   /**
    * Whether inline mode
@@ -241,43 +245,22 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     } = props;
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
 
     const calendarDate = useMemo(() => {
       return isValid(calendarDateProp) ? calendarDateProp : startOfToday();
     }, [calendarDateProp]);
 
+    const { calendarState, reset, handlers } = useCalendarState({
+      defaultState,
+      calendarDate,
+      onMoveForward,
+      onMoveBackward,
+      onToggleTimeDropdown,
+      onToggleMonthDropdown
+    });
+
     const isDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
     const isTimeDisabled = (date: Date) => disableTime(props, date);
-    const handleMoveForward = useEventCallback(() => {
-      onMoveForward?.(addMonths(calendarDate, 1));
-    });
-
-    const handleMoveBackward = useEventCallback(() => {
-      onMoveBackward?.(addMonths(calendarDate, -1));
-    });
-
-    // It is displayed as the month to be selected.
-    const toggleMonthView = useEventCallback(() => {
-      if (calendarState === CalendarState.MONTH) {
-        reset();
-      } else {
-        openMonth();
-      }
-
-      onToggleMonthDropdown?.(calendarState !== CalendarState.MONTH);
-    });
-
-    // It is displayed as a time to be selected.
-    const toggleTimeView = useEventCallback(() => {
-      if (calendarState === CalendarState.TIME) {
-        reset();
-      } else {
-        openTime();
-      }
-
-      onToggleTimeDropdown?.(calendarState !== CalendarState.TIME);
-    });
 
     const handleCloseDropdown = useEventCallback(() => reset());
 
@@ -335,15 +318,11 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         >
           {mode !== DateMode.Time && (
             <CalendarHeader
+              {...handlers}
               showMonth={has('month')}
               showDate={has('day')}
               showTime={has('time')}
-              showMeridiem={showMeridiem}
               disabledTime={isTimeDisabled}
-              onMoveForward={handleMoveForward}
-              onMoveBackward={handleMoveBackward}
-              onToggleMonthDropdown={toggleMonthView}
-              onToggleTimeDropdown={toggleTimeView}
               renderTitle={renderTitle}
               renderToolbar={renderToolbar}
               disabledBackward={disabledBackward}
