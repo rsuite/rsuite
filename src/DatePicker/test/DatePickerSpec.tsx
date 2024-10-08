@@ -87,6 +87,20 @@ describe('DatePicker', () => {
     expect(screen.getByRole('textbox')).to.have.value('2017-08-14');
   });
 
+  it('Should output a date with a custom format', () => {
+    render(
+      <DatePicker
+        defaultValue={new Date('2024-10-08 17:17:00')}
+        format="dd.MM.yyyy HH.mm"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('08.10.2024 17.17');
+    expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Oct 2024');
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('17.17');
+  });
+
   it('Should open a dialog containing grid view of dates in a month', () => {
     render(<DatePicker defaultOpen defaultValue={new Date('2023-10-01')} />);
     expect(screen.getByRole('dialog')).to.be.visible;
