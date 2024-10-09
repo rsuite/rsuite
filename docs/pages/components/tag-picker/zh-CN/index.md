@@ -73,7 +73,7 @@
 | container              | HTMLElement &#124; (() => HTMLElement)                                           | 设置渲染的容器                             |
 | creatable              | boolean                                                                          | 设置可以新建选项                           |
 | data \*                | [ItemDataType][item][]                                                           | 组件数据                                   |
-| defaultValue           | string[]                                                                         | 设置默认值 `非受控`                        |
+| defaultValue           | string[]                                                                         | 默认值（非受控）                                     |
 | disabled               | boolean                                                                          | 禁用组件                                   |
 | disabledItemValues     | string[]                                                                         | 禁用选项                                   |
 | groupBy                | string                                                                           | 设置分组条件在 `data` 中的 `key`           |
@@ -115,7 +115,7 @@
 | tagProps               | [TagProps][tagprops]                                                             | 设置 Tag 的属性                            |
 | toggleAs               | ElementType `('a')`                                                              | 为组件自定义元素类型                       |
 | trigger                | 'Enter' &#124; 'Space' &#124; 'Comma' `('Enter')`                                | 设置创建标签的触发事件                     |
-| value                  | string[]                                                                         | 设置值 `受控`                              |
+| value                  | string[]                                                                         | 当前值（受控）                             |
 | valueKey               | string `('value')`                                                               | 设置选项值在 `data` 中的 `key`             |
 | virtualized            | boolean                                                                          | 是否开启虚拟列表                           |
 

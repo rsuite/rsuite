@@ -70,13 +70,13 @@ MaskedInput is an input mask component. It can create input masks for phone numb
 | Property     | Type `(Default)`                                  | Description                                              |
 | ------------ | ------------------------------------------------- | -------------------------------------------------------- |
 | classPrefix  | string `('input')`                                | The prefix of the component CSS class                    |
-| defaultValue | string                                            | Default value                                            |
+| defaultValue | string                                            | The default value (uncontrolled)                                            |
 | disabled     | boolean                                           | Disabled component                                       |
 | htmlSize     | number                                            | The native HTML size attribute to be passed to the input |
 | onChange     | (value: string, event) => void                    | The callback function in which value is changed.         |
 | size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | An input can have different sizes                        |
 | type         | string `('text' )`                                | HTML input type                                          |
-| value        | string                                            | Value (Controlled)                                       |
+| value        | string                                            | The current value (controlled)                                       |
 
 ### `<InputGroup>`
 

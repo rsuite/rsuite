@@ -145,7 +145,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | cleanable             | boolean `(true)`                                       | 可以清除                                                                            |
 | container             | HTMLElement \| (() => HTMLElement)                     | 设置渲染的容器                                                                      |
 | defaultOpen           | boolean                                                | 默认打开                                                                            |
-| defaultValue          | Date                                                   | 默认值                                                                              |
+| defaultValue          | Date                                                   | 默认值（非受控）                                                                    |
 | disabled              | boolean                                                | 禁用组件                                                                            |
 | ~disabledDate~        | (date:Date) => boolean                                 | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                          |
 | ~disabledHours~       | (hour:number, date:Date) => boolean                    | ⚠️`[已弃用]` 使用 `shouldDisableHour` 代替                                          |
@@ -161,7 +161,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | limitEndYear          | number `(1000)`                                        | 相对当前选择日期，设置可选年份上限                                                  |
 | limitStartYear        | number                                                 | 相对当前选择日期，设置可选年份下限                                                  |
 | loading               | boolean `(false)`                                      | 是否显示一个加载中状态指示器                                                        |
-| locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)         | 本地化的文本                                                                        |
+| locale                | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)   | 定义本地化设置，使组件文本根据用户地区显示相应语言                                  |
 | menuClassName         | string                                                 | 选项菜单的 className                                                                |
 | monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]             | 月份下拉框属性                                                                      |
 | onChange              | (date: Date) => void                                   | 值改变后的回调函数                                                                  |

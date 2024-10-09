@@ -147,7 +147,7 @@ Has keyboard interaction for the DateInput component by default.
 | cleanable             | boolean `(true)`                                       | Whether the selected value can be cleared                                                                                         |
 | container             | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                                                                      |
 | defaultOpen           | boolean                                                | Default value of open property                                                                                                    |
-| defaultValue          | Date                                                   | Default value                                                                                                                     |
+| defaultValue          | Date                                                   | The default value (uncontrolled)                                                                                                  |
 | disabled              | boolean                                                | Whether disabled the component                                                                                                    |
 | ~disabledDate~        | (date:Date) => boolean                                 | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                  |
 | ~disabledHours~       | (hour:number, date:Date) => boolean                    | ⚠️`[Deprecated]` Use `shouldDisableHour` instead                                                                                  |
@@ -163,7 +163,7 @@ Has keyboard interaction for the DateInput component by default.
 | limitEndYear          | number `(1000)`                                        | Set the upper limit of the available year relative to the current selection date                                                  |
 | limitStartYear        | number                                                 | Set the lower limit of the available year relative to the current selection date                                                  |
 | loading               | boolean `(false)`                                      | Whether to display a loading state indicator                                                                                      |
-| locale                | [CalendarLocaleType](/guide/i18n/#calendar)            | Locale text                                                                                                                       |
+| locale                | [DateTimeFormats](/guide/i18n/#date-time-formats)      | Define localization settings to show component text in the user's regional language                                               |
 | monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]             | Props for the month dropdown                                                                                                      |
 | onChange              | (date: Date) => void                                   | Callback fired when value changed                                                                                                 |
 | onChangeCalendarDate  | (date: Date, event) => void                            | Callback function that changes the calendar date.                                                                                 |
@@ -198,7 +198,7 @@ Has keyboard interaction for the DateInput component by default.
 | showMeridiem          | boolean                                                | Display hours in 12 format                                                                                                        |
 | showWeekNumbers       | boolean                                                | Whether to show week numbers                                                                                                      |
 | size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | A picker can have different sizes                                                                                                 |
-| value                 | Date                                                   | Value (Controlled)                                                                                                                |
+| value                 | Date                                                   | The current value (controlled)                                                                                                    |
 | weekStart             | 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 `(0)`                  | The index of the first day of the week (0 - Sunday). If `isoWeek` is `true`, the value of `weekStart` is ignored <br/>![][5.62.0] |
 
 <!--{include:(_common/types/placement.md)}-->

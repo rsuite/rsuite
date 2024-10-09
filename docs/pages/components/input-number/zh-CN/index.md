@@ -62,7 +62,7 @@
 | ---------------- | ------------------------------------- | -------------------------------- |
 | classPrefix      | string `('input-number')`             | 组件 CSS 类的前缀                |
 | decimalSeparator | string                                | 小数点分隔符<br/>![][5.69.0]     |
-| defaultValue     | number                                | 设置默认值                       |
+| defaultValue     | number                                | 默认值（非受控）                 |
 | disabled         | boolean                               | 禁用                             |
 | formatter        | (value: number) => string             | 格式化输入框的值<br/>![][5.55.0] |
 | max              | number                                | 最大值                           |
@@ -73,7 +73,7 @@
 | scrollable       | boolean `(true)`                      | 是否可以通过鼠标滚动更新值       |
 | size             | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 设置输入框尺寸                   |
 | step             | number `(1)`                          | 每次改变步数，可以为小数         |
-| value            | number                                | 设置值 `受控`                    |
+| value            | number                                | 当前值（受控）                   |
 
 [5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
 [5.55.0]: https://img.shields.io/badge/>=-v5.55.0-blue

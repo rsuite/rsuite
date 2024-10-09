@@ -54,88 +54,90 @@ return (
 React Suite 能够非常方便的定义语言环境。 您可以自己创建一个 locale 配置。
 
 ```jsx
-import enGB from 'date-fns/locale/en-GB';
+import zhCN from 'date-fns/locale/zh-CN';
 
-const Calendar = {
-  sunday: 'Su',
-  monday: 'Mo',
-  tuesday: 'Tu',
-  wednesday: 'We',
-  thursday: 'Th',
-  friday: 'Fr',
-  saturday: 'Sa',
-  ok: 'OK',
-  today: 'Today',
-  yesterday: 'Yesterday',
-  hours: 'Hours',
-  minutes: 'Minutes',
-  seconds: 'Seconds',
-  /**
-   * Format of the string is based on Unicode Technical Standard #35:
-   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
-   **/
-  formattedMonthPattern: 'MMM yyyy',
-  formattedDayPattern: 'dd MMM yyyy',
-  dateLocale: enGB
+const DateTimeFormats = {
+  sunday: '日',
+  monday: '一',
+  tuesday: '二',
+  wednesday: '三',
+  thursday: '四',
+  friday: '五',
+  saturday: '六',
+  ok: '确定',
+  today: '今天',
+  yesterday: '昨天',
+  now: '此刻',
+  hours: '时',
+  minutes: '分',
+  seconds: '秒',
+  formattedMonthPattern: 'yyyy年MM月',
+  formattedDayPattern: 'yyyy年MM月dd日',
+  shortDateFormat: 'yyyy-MM-dd',
+  shortTimeFormat: 'aa hh:mm',
+  dateLocale: zhCN as any
 };
 
-const locale = {
+export default {
+  code: 'zh-CN',
   common: {
-    loading: 'Loading...',
-    emptyMessage: 'No data found'
+    loading: '加载中...',
+    emptyMessage: '数据为空',
+    remove: '移除',
+    clear: '清除'
   },
   Plaintext: {
-    unfilled: 'Unfilled',
-    notSelected: 'Not selected',
-    notUploaded: 'Not uploaded'
+    unfilled: '未填写',
+    notSelected: '未选择',
+    notUploaded: '未上传'
   },
   Pagination: {
-    more: 'More',
-    prev: 'Previous',
-    next: 'Next',
-    first: 'First',
-    last: 'Last',
-    limit: '{0} / page',
-    total: 'Total Rows: {0}',
-    skip: 'Go to{0}'
+    more: '更多',
+    prev: '上一页',
+    next: '下一页',
+    first: '第一页',
+    last: '最后一页',
+    limit: '{0} 条/页',
+    total: '共 {0} 条数据',
+    skip: '跳至{0}页'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
-    last7Days: 'Last 7 Days'
+    ...DateTimeFormats,
+    last7Days: '最近 7 天'
   },
   Picker: {
-    noResultsText: 'No results found',
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    checkAll: 'All'
+    noResultsText: '无匹配选项',
+    placeholder: '选择',
+    searchPlaceholder: '搜索',
+    checkAll: '全部'
   },
   InputPicker: {
-    newItem: 'New item',
-    createOption: 'Create option "{0}"'
+    newItem: '新选项',
+    createOption: '新建选项 "{0}"'
   },
   Uploader: {
-    inited: 'Initial',
-    progress: 'Uploading',
-    error: 'Error',
-    complete: 'Finished',
-    emptyFile: 'Empty',
-    upload: 'Upload'
+    inited: '初始状态',
+    progress: '上传中',
+    error: '上传出错',
+    complete: '上传完成',
+    emptyFile: '无文件',
+    upload: '上传',
+    removeFile: '删除文件'
   },
   CloseButton: {
-    closeLabel: 'Close'
+    closeLabel: '关闭'
   },
   Breadcrumb: {
-    expandText: 'Show path'
+    expandText: '显示路径'
   },
   Toggle: {
-    on: 'Open',
-    off: 'Close'
+    on: '开启',
+    off: '关闭'
   }
 };
+
 
 return (
   <CustomProvider locale={locale}>

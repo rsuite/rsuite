@@ -46,9 +46,9 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 | Property     | Type `(Default)`                            | Description                          |
 | ------------ | ------------------------------------------- | ------------------------------------ |
-| defaultValue | string &#124; number                        | Default value                        |
+| defaultValue | string &#124; number                        | The default value (uncontrolled)     |
 | disabled     | boolean                                     | The disable of component             |
 | inline       | boolean                                     | Inline layout                        |
 | name         | string                                      | Name to use for form                 |
 | onChange     | (value:string &#124; number, event) => void | Callback function with value changed |
-| value        | string &#124; number                        | Value (Controlled)                   |
+| value        | string &#124; number                        | The current value (controlled)       |

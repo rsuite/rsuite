@@ -43,9 +43,9 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 | Property     | Type `(Default)`                            | Description        |
 | ------------ | ------------------------------------------- | ------------------ |
-| defaultValue | string &#124; number                        | 默认值             |
+| defaultValue | string &#124; number                        | 默认值（非受控）   |
 | disabled     | boolean                                     | 禁用               |
 | inline       | boolean                                     | 水平布局           |
 | name         | string                                      | 用于表单对应的名称 |
 | onChange     | (value:string &#124; number, event) => void | 值改变后的回调     |
-| value        | string &#124; number                        | 值(受控)           |
+| value        | string &#124; number                        | 当前值(受控)       |

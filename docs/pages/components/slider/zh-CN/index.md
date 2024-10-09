@@ -89,7 +89,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | 属性名称          | 类型`(默认值)`                  | 描述                                          |
 | ----------------- | ------------------------------- | --------------------------------------------- |
 | barClassName      | string                          | 应用于滑动条 DOM 节点的 css class             |
-| defaultValue      | number                          | 默认值                                        |
+| defaultValue      | number                          | 默认值（非受控）                              |
 | disabled          | boolean                         | 是否禁用                                      |
 | getAriaValueText  | (value: number) => string;      | 提供 Slider 的当前值的用户友好名称            |
 | graduated         | boolean                         | 显示刻度                                      |
@@ -105,7 +105,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |
 | step              | number`(1)`                     | 滑动一步的值                                  |
 | tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |
-| value             | number                          | 值（受控）                                    |
+| value             | number                          | 当前值（受控）                                |
 | vertical          | boolean                         | 垂直滑动                                      |
 
 ### `<RangeSlider>`
@@ -114,7 +114,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
 | barClassName      | string                                                 | 应用于滑动条 DOM 节点的 css class                                          |
 | constraint        | `(value: [number, number]) => boolean`                 | 在 `onChange` 触发之前对下一个值进行检查, 返回 `false` 则不触发 `onChange` |
-| defaultValue      | [number,number]                                        | 默认值                                                                     |
+| defaultValue      | [number,number]                                        | 默认值（非受控）                                                           |
 | disabled          | boolean                                                | 是否禁用                                                                   |
 | getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | 提供 Slider 的当前值的用户友好名称                                         |
 | graduated         | boolean                                                | 显示刻度                                                                   |
@@ -130,5 +130,5 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |
 | step              | number`(1)`                                            | 滑动一步的值                                                               |
 | tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |
-| value             | [number,number]                                        | 值（受控）                                                                 |
+| value             | [number,number]                                        | 当前值（受控）                                                             |
 | vertical          | boolean                                                | 垂直滑动                                                                   |

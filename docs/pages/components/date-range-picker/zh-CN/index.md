@@ -149,7 +149,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | container            | HTMLElement \| (() => HTMLElement)                              | 设置渲染的容器                                                                                |
 | defaultCalendarValue | [Date, Date]                                                    | 默认日历面板日期                                                                              |
 | defaultOpen          | boolean                                                         | 默认打开                                                                                      |
-| defaultValue         | [Date, Date]                                                    | 默认值                                                                                        |
+| defaultValue         | [Date, Date]                                                    | 默认值（非受控）                                                                              |
 | disabled             | boolean                                                         | 禁用组件                                                                                      |
 | ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
@@ -163,7 +163,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | limitEndYear         | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                                                            |
 | limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                            |
 | loading              | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                                  |
-| locale               | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                                                                  |
+| locale               | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)            | 定义本地化设置，使组件文本根据用户地区显示相应语言                                            |
 | menuClassName        | string                                                          | 选项菜单的 className                                                                          |
 | monthDropdownProps   | [MonthDropdownProps][month-dropdown-props]                      | 月份下拉框属性                                                                                |
 | onChange             | (value: [Date, Date]) => void                                   | 值改变后的回调函数                                                                            |
@@ -176,7 +176,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | onExit               | () => void                                                      | 退出前动画过渡的回调函数                                                                      |
 | onExited             | () => void                                                      | 退出后动画过渡的回调函数                                                                      |
 | onExiting            | () => void                                                      | 退出中动画过渡的回调函数                                                                      |
-| onOk                 | (value: [Date, Date]) => void                                   | 点击 `确定` 按钮后的回调函数                                                                  |
+| onOk                 | (value: [Date, Date]) => void                                   | 点击 "确定" 按钮后的回调函数                                                                  |
 | onOpen               | () => void                                                      | 打开回调函数                                                                                  |
 | onSelect             | (data:Date) => void                                             | 选择日期的回调函数                                                                            |
 | onShortcutClick      | (shortcut: Range, event) => void                                | 点击快捷项的回调函数                                                                          |
@@ -193,7 +193,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | showOneCalendar      | boolen                                                          | 显示一个日历                                                                                  |
 | showWeekNumbers      | boolean                                                         | 显示周数量                                                                                    |
 | size                 | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | 设置组件尺寸                                                                                  |
-| value                | [Date, Date]˝                                                   | 值 `受控`                                                                                     |
+| value                | [Date, Date]                                                    | 当前值（受控）                                                                                |
 | weekStart            | 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 `(0)`                           | 一周的第一天索引 (0 - 星期日)。如果设置了 `isoWeek`，则忽略此属性 <br/>![][5.62.0]            |
 
 <!--{include:(_common/types/placement.md)}-->

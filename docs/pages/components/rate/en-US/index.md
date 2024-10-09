@@ -65,14 +65,14 @@ WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rat
 | allowHalf       | boolean`(false)`                                  | Whether to support half option                                |
 | character       | ReactNode                                         | custom character                                              |
 | cleanable       | boolean`(true)`                                   | Whether clear is supported                                    |
-| defaultValue    | number`(0)`                                       | Default value                                                 |
+| defaultValue    | number`(0)`                                       | The default value (uncontrolled)                              |
 | disabled        | boolean`(false)`                                  | Disabled，Cannot interact when value is true                  |
 | max             | number`(5)`                                       | Maximum score                                                 |
 | renderCharacter | (value: number) => ReactNode                      | Customize the render character function                       |
 | readOnly        | boolean                                           | Whether it is read-only, if true, no interaction is possible  |
 | size            | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set component size                                            |
 | color           | [Color](#code-ts-color-code)                      | A button can have different colors                            |
-| value           | number                                            | Value (Controlled)                                            |
+| value           | number                                            | The current value (controlled)                                |
 | vertical        | boolean`(false)`                                  | direction when half select                                    |
 | onChange        | (value: number, event) => void                    | Callback function that changes value                          |
 | onChangeActive  | (value: number, event) => void                    | Callback function that is fired when the hover state changes. |

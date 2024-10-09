@@ -71,7 +71,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | cleanable       | boolean `(true)`                                       | Whether the selected value can be cleared                                                 |
 | container       | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                              |
 | defaultOpen     | boolean                                                | Default value of open property                                                            |
-| defaultValue    | [Date, Date]                                           | Default value                                                                             |
+| defaultValue    | [Date, Date]                                           | The default value (uncontrolled)                                                          |
 | disabled        | boolean                                                | Whether disabled the component                                                            |
 | editable        | boolean `(true)`                                       | Rendered as an input, the date can be entered via the keyboard                            |
 | format          | string `('HH:mm')`                                     | Format of the date when rendered in the input                                             |
@@ -80,7 +80,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | hideSeconds     | (second:number, date:Date) => boolean                  | Hide specific second options                                                              |
 | label           | ReactNode                                              | A label displayed at the beginning of toggle button                                       |
 | loading         | boolean `(false)`                                      | Whether to display a loading state indicator                                              |
-| locale          | [CalendarLocaleType](/guide/i18n/#calendar)            | Locale text                                                                               |
+| locale          | [DateTimeFormats](/guide/i18n/#date-time-formats)      | Define localization settings to show component text in the user's regional language       |
 | onChange        | (value: [Date, Date]) => void                          | Callback fired when value changed                                                         |
 | onClean         | (event) => void                                        | Callback fired when value clean                                                           |
 | onClose         | () => void                                             | Callback fired when close component                                                       |
@@ -102,6 +102,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | showHeader      | boolean `(true)`                                       | Whether to display the formatted date range at the header of the calendar<br/>![][5.52.0] |
 | showMeridiem    | boolean                                                | Display hours in 12 format                                                                |
 | size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | A picker can have different sizes                                                         |
-| value           | [Date, Date]                                           | Value (Controlled)                                                                        |
+| value           | [Date, Date]                                           | The current value (controlled)                                                            |
 
 <!--{include:(_common/types/placement.md)}-->
+<!--{include:(_common/types/range.md)}-->

@@ -48,7 +48,7 @@ The `layout` prop can customize the layout of a paging component. It receives an
 | limitOptions  | number[] `([30,50,100])`                                | Customizes the options of the rows per page select field.                                 |
 | linkAs        | ElementType `(button)`                                  | Customizes the element type for the component                                             |
 | linkProps     | object                                                  | Additional props passed as-is to the underlying link for non-active items                 |
-| locale        | [PaginationLocale](/guide/i18n/#pagination)             | Locale text                                                                               |
+| locale        | [PaginationLocale](/guide/i18n/#pagination)             | Define localization settings to show component text in the user's regional language       |
 | maxButtons    | number                                                  | Page buttons display the maximum number of                                                |
 | next          | boolean                                                 | Displays the next page                                                                    |
 | onChangeLimit | (limit:number) => void;                                 | Callback fired when the number of rows per page is changed                                |
