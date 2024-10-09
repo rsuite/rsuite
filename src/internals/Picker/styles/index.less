@@ -433,3 +433,20 @@
   top: -1px;
   z-index: 1;
 }
+
+.rs-virt-list {
+  // Use for single selection
+  .rs-picker-select-menu-item,
+
+  // Use for multiple selection with Checkbox
+  .rs-check-item label {
+    .ellipsis-basic();
+  }
+}
+
+.rs-tree-virt-list {
+  // Use for single selection
+  .rs-tree-node-label {
+    .ellipsis-basic();
+  }
+}
