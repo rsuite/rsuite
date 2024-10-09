@@ -113,6 +113,26 @@ describe('DateInput', () => {
     expect(onChange).to.have.been.calledOnce;
   });
 
+  it('Should clear the value in the input box', () => {
+    const onChange = sinon.spy();
+
+    render(
+      <DateInput onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-10-01')} />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    fireEvent.click(input);
+
+    input.select();
+    fireEvent.keyDown(input, { key: 'Backspace' });
+    fireEvent.blur(input);
+
+    expect(input).to.value('');
+    expect(onChange).to.have.been.calledWith(null);
+    expect(onChange).to.have.been.calledOnce;
+  });
+
   it('Should format dates according to locale configuration', () => {
     const { rerender } = render(
       <CustomProvider locale={zhCN}>
