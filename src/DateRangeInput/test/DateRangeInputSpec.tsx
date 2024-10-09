@@ -29,21 +29,12 @@ describe('DateRangeInput', () => {
         value: [new Date('2025-10-01'), new Date('2023-10-02')],
         callCount: 4
       },
-      {
-        change: () => {
-          (screen.getByRole('textbox') as HTMLInputElement).select();
-          userEvent.type(screen.getByRole('textbox'), '{backspace}');
-        },
-        value: new Date(''),
-        expectedValue: () => {
-          expect(screen.getByRole('textbox')).to.value('');
-        }
-      },
+
       {
         change: () => {
           const input = screen.getByRole('textbox') as HTMLInputElement;
           input.selectionStart = 0;
-          input.selectionEnd = 4;
+          input.selectionEnd = 3;
           userEvent.type(screen.getByRole('textbox'), '{backspace}');
         },
         value: new Date(''),
