@@ -60,7 +60,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 
 ## Props
 
-### `<DateRangePicker>`
+### `<TimeRangePicker>`
 
 | Property        | Type`(default)`                                        | Description                                                                               |
 | --------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
