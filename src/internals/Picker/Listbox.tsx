@@ -135,7 +135,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       ...rest
     } = props;
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+    const { withClassPrefix, prefix, merge, rootPrefix } = useClassNames(classPrefix);
     const groupable = typeof groupBy !== 'undefined';
     const classes = merge(className, withClassPrefix('items', { grouped: groupable }));
     const { id, labelId, popupType, multiple } = useCombobox();
@@ -310,6 +310,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
                 itemCount={rowCount}
                 itemData={filteredItems}
                 itemSize={getRowHeight.bind(this, filteredItems)}
+                className={rootPrefix('virt-list')}
                 {...listProps}
               >
                 {renderItem}
