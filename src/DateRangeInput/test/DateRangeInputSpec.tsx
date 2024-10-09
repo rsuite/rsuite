@@ -36,6 +36,18 @@ describe('DateRangeInput', () => {
         },
         value: new Date(''),
         expectedValue: () => {
+          expect(screen.getByRole('textbox')).to.value('');
+        }
+      },
+      {
+        change: () => {
+          const input = screen.getByRole('textbox') as HTMLInputElement;
+          input.selectionStart = 0;
+          input.selectionEnd = 4;
+          userEvent.type(screen.getByRole('textbox'), '{backspace}');
+        },
+        value: new Date(''),
+        expectedValue: () => {
           expect(screen.getByRole('textbox')).to.value('yyyy-10-01 ~ 2023-10-02');
         }
       }
@@ -117,6 +129,29 @@ describe('DateRangeInput', () => {
 
     expect(input).to.value('');
     expect(onChange).to.have.been.calledWith([null, null]);
+    expect(onChange).to.have.been.calledOnce;
+  });
+
+  it('Should clear the value in the input box', () => {
+    const onChange = sinon.spy();
+
+    render(
+      <DateRangeInput
+        onChange={onChange}
+        format="yyyy-MM-dd"
+        defaultValue={[new Date('2024-10-09'), new Date('2024-10-09')]}
+      />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    fireEvent.click(input);
+    input.select();
+    fireEvent.keyDown(input, { key: 'Backspace' });
+    fireEvent.blur(input);
+
+    expect(input).to.value('');
+    expect(onChange).to.have.been.calledWith(null);
     expect(onChange).to.have.been.calledOnce;
   });
 

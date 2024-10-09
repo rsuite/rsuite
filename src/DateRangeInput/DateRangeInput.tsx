@@ -126,6 +126,17 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     }
   );
 
+  const handleClear = useEventCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
+    startDateState.setNewDate(null);
+    endDateState.setNewDate(null);
+
+    setSelectionRange(0, 0);
+    reset();
+
+    setValue(null);
+    onChange?.(null, event);
+  });
+
   const onSegmentChange = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
       const input = event.target as HTMLInputElement;
@@ -219,7 +230,11 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const onSegmentValueRemove = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
-    if (selectedState.selectedPattern) {
+    const value = input.value;
+
+    if (input.selectionStart === 0 && value && input.selectionEnd === value.length) {
+      handleClear(event);
+    } else if (selectedState.selectedPattern) {
       const nextState = getInputSelectedState({ ...keyPressOptions, input, valueOffset: null });
 
       setSelectedState(nextState);
