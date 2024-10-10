@@ -37,9 +37,9 @@
 
 <!--{include:`icon-group.md`}-->
 
-### 可访问性
+## 可访问性
 
-#### ARIA 属性
+### ARIA 属性
 
 - ButtonGroup 具有 `group` 的角色。
 

@@ -37,7 +37,7 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 <!--{include:`icon-group.md`}-->
 
-### Accessibility
+## Accessibility
 
 ### ARIA Properties
 
