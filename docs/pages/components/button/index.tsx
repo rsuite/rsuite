@@ -1,12 +1,15 @@
 import React from 'react';
-import { Button, ButtonGroup, ButtonToolbar, IconButton, Whisper, Popover, Dropdown } from 'rsuite';
+import { Button, ButtonGroup, ButtonToolbar, IconButton } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ImportGuide from '@/components/ImportGuide';
-import { FaFacebook, FaGooglePlus, FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
-import { SiWechat, SiSinaweibo } from 'react-icons/si';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
+import GearIcon from '@rsuite/icons/Gear';
+import PageEndIcon from '@rsuite/icons/PageEnd';
+import { FaExternalLinkSquareAlt } from 'react-icons/fa';
+
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Button', 'ButtonGroup', 'ButtonToolbar']} />
+  'import-guide': () => <ImportGuide components={['Button']} />
 };
 
 export default function Page() {
@@ -14,21 +17,15 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
-        Whisper,
-        Popover,
-        Dropdown,
         Button,
         ButtonGroup,
         IconButton,
         ButtonToolbar,
         ArrowDownIcon,
-        FaFacebook,
-        FaGooglePlus,
-        FaTwitter,
-        FaGithub,
-        FaLinkedin,
-        SiWechat,
-        SiSinaweibo
+        AddOutlineIcon,
+        GearIcon,
+        PageEndIcon,
+        FaExternalLinkSquareAlt
       }}
       sandboxDependencies={{ 'react-icons': 'latest' }}
     />

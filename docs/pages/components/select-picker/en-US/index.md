@@ -49,6 +49,10 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`custom.md`}-->
 
+### Country select
+
+<!--{include:`custom-country-select.md`}-->
+
 ### Disabled and read only
 
 <!--{include:`disabled.md`}-->

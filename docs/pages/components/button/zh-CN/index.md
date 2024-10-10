@@ -1,14 +1,12 @@
 # Button 按钮
 
-常用的操作按钮，按钮组合，按钮布局。
+常用的操作按钮。
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
 - `<Button>` 是组件中最基础的元素，可以快速创建一个带样式的按钮。
-- `<ButtonGroup>` 按钮组控件，可以把一组按钮放在一起，并统一控制布局。
-- `<ButtonToolbar>` 按钮工具栏控件。
 
 ## 演示
 
@@ -34,9 +32,13 @@
 
 <!--{include:`color.md`}-->
 
-### 自定义组合按钮
+### 图标在文字之前
 
-<!--{include:`custom.md`}-->
+<!--{include:`with-icon-before.md`}-->
+
+### 图标在文字之后
+
+<!--{include:`with-icon-after.md`}-->
 
 ### 适应容器宽度
 
@@ -53,28 +55,6 @@
 ### 加载中状态
 
 <!--{include:`loading.md`}-->
-
-### 按钮组
-
-<!--{include:`group.md`}-->
-
-### 垂直按钮组
-
-<!--{include:`vertical.md`}-->
-
-### 分体式按钮
-
-<!--{include:`split-button.md`}-->
-
-### 按钮工具栏
-
-<!--{include:`toolbar.md`}-->
-
-### 等宽
-
-按钮在按钮组中横向布局，并且等宽。
-
-<!--{include:`justified.md`}-->
 
 ## 可访问性
 
@@ -105,16 +85,6 @@
 | loading     | boolean                                              | 按钮可以显示加载指示器     |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置按钮尺寸               |
 | startIcon   | ReactNode                                            | 在按钮文字之前显示一个图标 |
-
-### `<ButtonGroup>`
-
-| 属性名称    | 类型`(默认值)`                        | 描述              |
-| ----------- | ------------------------------------- | ----------------- |
-| block       | boolean                               | 适应容器宽度      |
-| classPrefix | string `('btn-group')`                | 组件 CSS 类的前缀 |
-| justified   | boolean                               | 横向等宽布局      |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 设置按钮尺寸      |
-| vertical    | boolean                               | 按钮垂直布局      |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

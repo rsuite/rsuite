@@ -44,10 +44,6 @@ Icon button renders an icon within in a button.
 
 <!--{include:`loading.md`}-->
 
-### Button group
-
-<!--{include:`group.md`}-->
-
 ## Accessibility
 
 ### ARIA Properties

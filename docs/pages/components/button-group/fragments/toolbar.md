@@ -2,10 +2,12 @@
 
 ```js
 import { Button, ButtonToolbar, ButtonGroup } from 'rsuite';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 
 const App = () => (
   <ButtonToolbar>
-    <Button>Prev</Button>
+    <Button startIcon={<PagePreviousIcon />}>Prev</Button>
     <ButtonGroup>
       <Button>1</Button>
       <Button>2</Button>
@@ -13,7 +15,7 @@ const App = () => (
       <Button>4</Button>
       <Button>5</Button>
     </ButtonGroup>
-    <Button>Next</Button>
+    <Button endIcon={<PageNextIcon />}>Next</Button>
   </ButtonToolbar>
 );
 

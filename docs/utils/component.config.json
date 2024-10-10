@@ -55,13 +55,20 @@
         "id": "button",
         "name": "Button",
         "title": "按钮",
-        "components": ["Button", "ButtonGroup"]
+        "components": ["Button"]
       },
       {
         "id": "icon-button",
         "name": "IconButton",
         "title": "图标按钮",
         "components": ["IconButton"]
+      },
+      {
+        "id": "button-group",
+        "name": "ButtonGroup",
+        "title": "按钮组",
+        "components": ["ButtonGroup", "ButtonToolbar"],
+        "keywords": ["SplitButton"]
       }
     ]
   },
