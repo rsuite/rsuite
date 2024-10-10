@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from '../Input';
+import { createChainedFunction } from '@/internals/utils';
 
 export interface ChildrenProps {
   size?: 'lg' | 'md' | 'sm' | 'xs';
@@ -8,7 +9,7 @@ export interface ChildrenProps {
   plaintext?: boolean;
   value: any;
   onChange: (value: any, event: React.SyntheticEvent) => void;
-  onBlur?: (event: React.SyntheticEvent) => void;
+  onBlur?: (event?: React.FocusEvent) => void;
 }
 
 export function defaultRenderInput(props: ChildrenProps, ref: React.Ref<any>) {
@@ -18,6 +19,8 @@ export function defaultRenderInput(props: ChildrenProps, ref: React.Ref<any>) {
 const pickers = [
   'DatePicker',
   'DateRangePicker',
+  'TimePicker',
+  'TimeRangePicker',
   'InputPicker',
   'TagPicker',
   'Cascader',
@@ -49,9 +52,16 @@ export function renderChildren(
 
   if (pickers.includes(getDisplayName(children))) {
     const { onBlur, ...rest } = props;
+    const { onExit, onClean } = children.props;
 
-    // if the children is a picker, we should pass the onBlur to the onClose
-    return React.cloneElement(children, { ...rest, onClose: onBlur, ref });
+    return React.cloneElement(children, {
+      ...rest,
+      // Pass onBlur to the child component to automatically save or cancel after the focus event is processed.
+      // Special handling in the Picker component, call onBlur when onExit and onClean
+      onExit: createChainedFunction(() => onBlur?.(), onExit),
+      onClean: createChainedFunction(() => onBlur?.(), onClean),
+      ref
+    });
   }
 
   return React.cloneElement(children, { ...props, ref });
