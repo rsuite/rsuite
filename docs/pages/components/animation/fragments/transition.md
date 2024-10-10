@@ -24,6 +24,7 @@ const App = () => {
 
   return (
     <div className="row">
+      <Styles />
       <Button onClick={onChange}>transition</Button>
       <hr />
       <Animation.Transition
@@ -56,6 +57,64 @@ const App = () => {
     </div>
   );
 };
+
+function Styles() {
+  return (
+    <style>{`
+      .custom-exiting,
+      .custom-entering {
+        animation: 0.3s linear;
+        animation-fill-mode: forwards;
+      }
+
+      .custom-exiting {
+        animation-name: zoomOut;
+      }
+
+      .custom-entering {
+        animation-name: zoomIn;
+      }
+
+      .custom-entered {
+        opacity: 1;
+      }
+
+      .custom-exited {
+        opacity: 0;
+      }
+
+      @keyframes zoomIn {
+        from {
+          opacity: 0;
+          transform: scale3d(0.3, 0.3, 0.3);
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomOut {
+        from {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+          transform: scale3d(0.3, 0.3, 0.3);
+        }
+
+        to {
+          opacity: 0;
+        }
+      }
+
+      .zoomIn {
+        animation-name: zoomIn;
+      }
+    `}</style>
+  );
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
