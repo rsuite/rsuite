@@ -1,14 +1,12 @@
 # Button
 
-Commonly used operating buttons, button combinations, button layouts.
+Commonly used operating buttons。
 
 ## Import
 
 <!--{include:<import-guide>}-->
 
 - `<Button>` is the most basic element in the component, you can quickly create a styled button.
-- `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
-- `<ButtonToolbar>` Button Toolbar Controls.
 
 ## Examples
 
@@ -34,9 +32,17 @@ The `color` property sets the button style, Options include: `red`, `orange`, `y
 
 <!--{include:`color.md`}-->
 
-### Custom combination button
+### Icon before
 
-<!--{include:`custom.md`}-->
+Display an icon before the text.
+
+<!--{include:`with-icon-before.md`}-->
+
+### Icon after
+
+Display an icon after the text.
+
+<!--{include:`with-icon-after.md`}-->
 
 ### Block
 
@@ -55,28 +61,6 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 ### Loading
 
 <!--{include:`loading.md`}-->
-
-### Button group
-
-<!--{include:`group.md`}-->
-
-### Vertical group
-
-<!--{include:`vertical.md`}-->
-
-### Split button
-
-<!--{include:`split-button.md`}-->
-
-### Button toolbar
-
-<!--{include:`toolbar.md`}-->
-
-### Justified
-
-The buttons are laid out horizontally in the button set and are equally wide.
-
-<!--{include:`justified.md`}-->
 
 ## Accessibility
 
@@ -107,16 +91,6 @@ The buttons are laid out horizontally in the button set and are equally wide.
 | loading     | boolean                                              | A button can show a loading indicator                          |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                              |
 | startIcon   | ReactNode                                            | Display an icon before buttont text                            |
-
-### `<ButtonGroup>`
-
-| Property    | Type `(Default)`                      | Description                           |
-| ----------- | ------------------------------------- | ------------------------------------- |
-| block       | boolean                               | Display block buttongroups            |
-| classPrefix | string `('btn-group')`                | The prefix of the component CSS class |
-| justified   | boolean                               | Horizontal constant width layout      |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Set button size                       |
-| vertical    | boolean                               | Vertical layouts of button            |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

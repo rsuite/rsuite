@@ -6,7 +6,7 @@ In order to support the habits of languages ​​such as Arabic and Hebrew, the
 
 ### 1.HTML
 
-Make sure the `dir` attribute is set on the body:
+Make sure the `dir` attribute is set on the html:
 
 ```html
 <html dir="rtl"></html>

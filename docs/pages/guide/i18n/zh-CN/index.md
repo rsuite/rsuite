@@ -19,33 +19,33 @@ return (
 
 ## 目前支持的语言环境
 
-| 语言名称 | 描述              |
-| -------- | ----------------- |
-| ar_EG    | 阿拉伯语（埃及）  |
-| ca_ES    | 加泰罗尼亚语      |
-| cs_CZ    | 捷克语            |
-| da_DK    | 丹麦语            |
-| de_DE    | 德语              |
-| en_GB    | 英语              |
-| en_US    | 美式英语          |
-| es_AR    | 西班牙语 (阿根廷) |
-| es_ES    | 西班牙语 (西班牙) |
-| fa_IR    | 波斯语 (伊朗)     |
-| fi_FI    | 芬兰语            |
-| fr_FR    | 法语              |
-| hu_HU    | 匈牙利语          |
-| it_IT    | 意大利语          |
-| ja_JP    | 日语              |
-| kk_KZ    | 哈萨克语          |
-| ko_KR    | 韩语/朝鲜语       |
-| ne_NP    | 尼泊尔语          |
-| nl_NL    | 荷兰语            |
-| pt_BR    | 葡萄牙语(巴西)    |
-| ru_RU    | 俄罗斯语          |
-| sv_SE    | 瑞典语            |
-| tr_TR    | 土耳其语          |
-| zh_CN    | 简体中文          |
-| zh_TW    | 繁体中文          |
+| 语言环境              | IETF BCP 47 语言标签 | 导入名称 |
+| --------------------- | -------------------- | -------- |
+| 阿拉伯语（埃及）      | ar-EG                | `arEG`   |
+| 加泰罗尼亚语          | ca-ES                | `caES`   |
+| 捷克语                | cs-CZ                | `csCZ`   |
+| 丹麦语                | da-DK                | `daDK`   |
+| 德语                  | de-DE                | `deDE`   |
+| 英语                  | en-GB                | `enGB`   |
+| 美式英语              | en-US                | `enUS`   |
+| 西班牙语 (阿根廷)     | es-AR                | `esAR`   |
+| 西班牙语 (西班牙)     | es-ES                | `esES`   |
+| 波斯语 (伊朗)         | fa-IR                | `faIR`   |
+| 芬兰语                | fi-FI                | `fiFI`   |
+| 法语                  | fr-FR                | `frFR`   |
+| 匈牙利语              | hu-HU                | `huHU`   |
+| 意大利语              | it-IT                | `itIT`   |
+| 日语                  | ja-JP                | `jaJP`   |
+| 哈萨克语              | kk-KZ                | `kkKZ`   |
+| 韩语/朝鲜语           | ko-KR                | `koKR`   |
+| 尼泊尔语              | ne-NP                | `neNP`   |
+| 荷兰语                | nl-NL                | `nlNL`   |
+| 葡萄牙语 (巴西)       | pt-BR                | `ptBR`   |
+| 俄罗斯语              | ru-RU                | `ruRU`   |
+| 瑞典语                | sv-SE                | `svSE`   |
+| 土耳其语              | tr-TR                | `trTR`   |
+| 简体中文              | zh-CN                | `zhCN`   |
+| 繁体中文 （中国台湾） | zh-TW                | `zhTW`   |
 
 > [如何向 rsuite 添加新语言？](https://github.com/rsuite/rsuite/discussions/2927)
 

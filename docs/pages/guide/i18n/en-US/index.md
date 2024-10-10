@@ -19,33 +19,33 @@ return (
 
 ## Supported locales
 
-| Locale | Description         |
-| ------ | ------------------- |
-| ar_EG  | Arabic (Egypt)      |
-| ca_ES  | Catalan             |
-| cs_CZ  | Czech               |
-| da_DK  | Danish              |
-| de_DE  | German              |
-| en_GB  | English             |
-| en_US  | American English    |
-| es_AR  | Spanish (Argentina) |
-| es_ES  | Spanish (Spain)     |
-| fa_IR  | Persian (Iran)      |
-| fi_FI  | Finnish             |
-| fr_FR  | French              |
-| hu_HU  | Hungarian           |
-| it_IT  | Italian             |
-| ja_JP  | Japanese            |
-| kk_KZ  | Kazakh              |
-| ko_KR  | Korean              |
-| ne_NP  | Nepali              |
-| nl_NL  | Dutch               |
-| pt_BR  | Portuguese (Brazil) |
-| ru_RU  | Russian             |
-| sv_SE  | Swedish             |
-| tr_TR  | Turkish             |
-| zh_CN  | Simplified Chinese  |
-| zh_TW  | traditional Chinese |
+| Locale                                           | BCP 47 language tag | Import name |
+| ------------------------------------------------ | ------------------- | ----------- |
+| Arabic (Egypt)                                   | ar-EG               | `arEG`      |
+| Catalan                                          | ca-ES               | `caES`      |
+| Czech                                            | cs-CZ               | `csCZ`      |
+| Danish                                           | da-DK               | `daDK`      |
+| German                                           | de-DE               | `deDE`      |
+| British English                                  | en-GB               | `enGB`      |
+| American English                                 | en-US               | `enUS`      |
+| Spanish (Argentina)                              | es-AR               | `esAR`      |
+| Spanish (Spain)                                  | es-ES               | `esES`      |
+| Persian (Iran)                                   | fa-IR               | `faIR`      |
+| Finnish                                          | fi-FI               | `fiFI`      |
+| French                                           | fr-FR               | `frFR`      |
+| Hungarian                                        | hu-HU               | `huHU`      |
+| Italian                                          | it-IT               | `itIT`      |
+| Japanese                                         | ja-JP               | `jaJP`      |
+| Kazakh                                           | kk-KZ               | `kkKZ`      |
+| Korean                                           | ko-KR               | `koKR`      |
+| Nepali                                           | ne-NP               | `neNP`      |
+| Dutch                                            | nl-NL               | `nlNL`      |
+| Portuguese (Brazil)                              | pt-BR               | `ptBR`      |
+| Russian                                          | ru-RU               | `ruRU`      |
+| Swedish                                          | sv-SE               | `svSE`      |
+| Turkish                                          | tr-TR               | `trTR`      |
+| Simplified Chinese                               | zh-CN               | `zhCN`      |
+| Traditional Chinese（Taiwan, Province of China） | zh-TW               | `zhTW`      |
 
 > [How to add new language to rsuite?](https://github.com/rsuite/rsuite/discussions/2927)
 

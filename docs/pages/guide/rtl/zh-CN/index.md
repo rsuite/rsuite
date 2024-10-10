@@ -6,7 +6,7 @@
 
 ### 1.HTML 设置
 
-确保在 body 上设置了 dir 属性：
+确保在 html 上设置了 dir 属性：
 
 ```html
 <html dir="rtl"></html>

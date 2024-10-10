@@ -34,7 +34,7 @@ const frameworks = [
 
 const FrameworkGuide = () => {
   return (
-    <Stack spacing={16} className="framework-guide">
+    <Stack spacing={16} className="framework-guide" wrap>
       {frameworks.map((fw, index) => {
         const Icon = fw.icon;
         return (

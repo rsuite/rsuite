@@ -10,7 +10,9 @@ const App = () => {
   const [action, setAction] = React.useState(0);
   return (
     <ButtonGroup>
-      <Button appearance="primary">{options[action]}</Button>
+      <Button appearance="primary" color="green">
+        {options[action]}
+      </Button>
       <Whisper
         placement="bottomEnd"
         trigger="click"
@@ -33,7 +35,7 @@ const App = () => {
           );
         }}
       >
-        <IconButton appearance="primary" icon={<ArrowDownIcon />} />
+        <IconButton appearance="primary" color="green" icon={<ArrowDownIcon />} />
       </Whisper>
     </ButtonGroup>
   );

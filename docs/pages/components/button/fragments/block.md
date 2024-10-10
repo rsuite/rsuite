@@ -2,7 +2,7 @@
 
 ```js
 import { Button, IconButton, ButtonToolbar } from 'rsuite';
-import { FaGithub } from 'react-icons/fa';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 
 const App = () => (
   <ButtonToolbar>
@@ -10,10 +10,10 @@ const App = () => (
       Block
     </Button>
     <Button appearance="primary" block>
-      Block
+      Block Primary
     </Button>
-    <Button block startIcon={<FaGithub />}>
-      Github
+    <Button block startIcon={<AddOutlineIcon />}>
+      Block With Icon
     </Button>
   </ButtonToolbar>
 );
