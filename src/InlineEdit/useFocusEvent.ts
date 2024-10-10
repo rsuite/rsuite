@@ -7,8 +7,8 @@ import { RSUITE_PICKER_TYPE } from '@/internals/symbols';
 interface FocusEventProps {
   isEditing: boolean;
   stateOnBlur?: 'save' | 'cancel';
-  onSave?: (event?: React.FocusEvent) => void;
-  onCancel?: (event?: React.FocusEvent) => void;
+  onSave?: (event?: React.FocusEvent | null) => void;
+  onCancel?: (event?: React.FocusEvent | null) => void;
 }
 
 const useFocusEvent = ({ isEditing, stateOnBlur, onSave, onCancel }: FocusEventProps) => {
@@ -20,14 +20,19 @@ const useFocusEvent = ({ isEditing, stateOnBlur, onSave, onCancel }: FocusEventP
   const focus = () => {
     if (isPicker) {
       setTimeout(() => {
-        (ref.current as PickerHandle)?.target?.focus?.();
+        const picker = ref.current as PickerHandle;
+        // Auto focus the search input
+        picker?.target?.focus?.();
+
+        // Open the picker
+        picker?.open?.();
       }, 100);
     } else {
       (ref.current as HTMLInputElement)?.focus?.();
     }
   };
 
-  const handleBlur = useEventCallback((event?: React.FocusEvent) => {
+  const handleBlur = useEventCallback((event?: React.FocusEvent | null) => {
     if (event) {
       const relatedTarget = (event.relatedTarget ??
         ownerDocument(event.currentTarget).activeElement) as HTMLElement;

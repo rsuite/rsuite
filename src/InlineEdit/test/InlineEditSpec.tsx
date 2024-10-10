@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Sinon from 'sinon';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
 import InlineEdit from '../InlineEdit';
 import SelectPicker from '../../SelectPicker';
+import InputPicker from '../../InputPicker';
 import Input from '../../Input';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
@@ -19,7 +20,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onEdit callback', () => {
-    const onEdit = Sinon.spy();
+    const onEdit = sinon.spy();
 
     render(<InlineEdit onEdit={onEdit} defaultValue="input something" />);
 
@@ -29,7 +30,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onCancel callback', () => {
-    const onCancel = Sinon.spy();
+    const onCancel = sinon.spy();
 
     render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
 
@@ -40,7 +41,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onCancel callback and reset value', () => {
-    const onCancel = Sinon.spy();
+    const onCancel = sinon.spy();
 
     render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
 
@@ -53,7 +54,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onCancel callback and reset value when blur', () => {
-    const onCancel = Sinon.spy();
+    const onCancel = sinon.spy();
 
     render(<InlineEdit onCancel={onCancel} stateOnBlur="cancel" defaultValue="input something" />);
 
@@ -66,7 +67,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onSave callback', () => {
-    const onSave = Sinon.spy();
+    const onSave = sinon.spy();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
@@ -77,7 +78,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onSave callback and update value', () => {
-    const onSave = Sinon.spy();
+    const onSave = sinon.spy();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
@@ -90,7 +91,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onSave callback and update value when blur', () => {
-    const onSave = Sinon.spy();
+    const onSave = sinon.spy();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
@@ -103,7 +104,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(<InlineEdit onChange={onChange} defaultValue="input something" />);
 
@@ -133,7 +134,7 @@ describe('InlineEdit', () => {
   });
 
   it('Should be disabled', () => {
-    const onEdit = Sinon.spy();
+    const onEdit = sinon.spy();
     render(<InlineEdit disabled onEdit={onEdit} defaultValue="input something" />);
 
     expect(screen.getByText('input something')).to.exist;
@@ -208,9 +209,64 @@ describe('InlineEdit', () => {
     });
   });
 
+  describe('InlineEdit with InputPicker', () => {
+    it('Should open the popup picker automatically when clicked', async () => {
+      const onSave = sinon.spy();
+      render(
+        <InlineEdit value="Louisa" onSave={onSave}>
+          <InputPicker data={data} />
+        </InlineEdit>
+      );
+
+      fireEvent.click(screen.getByText('Louisa'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('listbox')).to.exist;
+      });
+    });
+
+    it('Should call onSave callback when clicked on an option', async () => {
+      const onSave = sinon.spy();
+      const onExit = sinon.spy();
+      render(
+        <InlineEdit value="Louisa" onSave={onSave}>
+          <InputPicker data={data} onExit={onExit} />
+        </InlineEdit>
+      );
+
+      fireEvent.click(screen.getByText('Louisa'));
+
+      await screen.findByRole('listbox');
+
+      fireEvent.click(screen.getByRole('option', { name: 'Kariane' }));
+
+      expect(onSave).to.have.been.calledOnce;
+      expect(onExit).to.have.been.calledOnce;
+    });
+
+    it('Should call onSave callback when clicked on clear button', async () => {
+      const onSave = sinon.spy();
+      const onClean = sinon.spy();
+      render(
+        <InlineEdit value="Louisa" onSave={onSave}>
+          <InputPicker data={data} onClean={onClean} />
+        </InlineEdit>
+      );
+
+      fireEvent.click(screen.getByText('Louisa'));
+
+      await screen.findByRole('listbox');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
+
+      expect(onSave).to.have.been.calledOnce;
+      expect(onClean).to.have.been.calledOnce;
+    });
+  });
+
   describe('InlineEdit with keyboard', () => {
     it('Should change value by pressing Enter', () => {
-      const onSave = Sinon.spy();
+      const onSave = sinon.spy();
 
       render(<InlineEdit onSave={onSave} defaultValue="input something" />);
       fireEvent.click(screen.getByText('input something'));
@@ -223,7 +279,7 @@ describe('InlineEdit', () => {
     });
 
     it('Should not change value by pressing Enter when the input is a textarea', () => {
-      const onSave = Sinon.spy();
+      const onSave = sinon.spy();
 
       render(
         <InlineEdit onSave={onSave} defaultValue="input something">
@@ -240,7 +296,7 @@ describe('InlineEdit', () => {
     });
 
     it('Should cancel editing by pressing Escape', () => {
-      const onCancel = Sinon.spy();
+      const onCancel = sinon.spy();
 
       render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
       fireEvent.click(screen.getByText('input something'));
