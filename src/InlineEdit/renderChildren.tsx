@@ -54,12 +54,14 @@ export function renderChildren(
     const { onBlur, ...rest } = props;
     const { onExit, onClean } = children.props;
 
-    const handleExit = createChainedFunction(() => onBlur?.(), onExit);
-    const handleBlur = createChainedFunction(() => onBlur?.(), onClean);
-
-    // Pass onBlur to the child component to automatically save or cancel after the focus event is processed.
-    // Special handling in the Picker component, call onBlur when onExit and onClean
-    return React.cloneElement(children, { ...rest, onExit: handleExit, onClean: handleBlur, ref });
+    return React.cloneElement(children, {
+      ...rest,
+      // Pass onBlur to the child component to automatically save or cancel after the focus event is processed.
+      // Special handling in the Picker component, call onBlur when onExit and onClean
+      onExit: createChainedFunction(() => onBlur?.(), onExit),
+      onClean: createChainedFunction(() => onBlur?.(), onClean),
+      ref
+    });
   }
 
   return React.cloneElement(children, { ...props, ref });
