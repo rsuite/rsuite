@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Header from '../CalendarHeader';
-import CalendarContext from '../CalendarContext';
+import { CalendarProvider } from '../CalendarProvider';
 
 describe('Calendar-Header', () => {
   testStandardProps(<Header />);
@@ -47,11 +47,11 @@ describe('Calendar-Header', () => {
     const onToggleTimeDropdown = sinon.spy();
 
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{ date: new Date(), format: 'HH:mm:ss', locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <Header showTime onToggleTimeDropdown={onToggleTimeDropdown} />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select time' }));

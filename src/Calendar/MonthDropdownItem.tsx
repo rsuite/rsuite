@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { composeFunctions } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendarContext } from './CalendarContext';
+import { useCalendar } from './hooks';
 import { getAriaLabel } from './utils';
 
 export interface MonthDropdownItemProps extends WithAsProps {
@@ -26,7 +26,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       ...rest
     } = props;
 
-    const { date, onChangeMonth: onSelect } = useCalendarContext();
+    const { date, onChangeMonth: onSelect } = useCalendar();
     const { locale, formatDate } = useCustom('Calendar');
     const formatStr = locale.formattedMonthPattern;
 
@@ -40,16 +40,13 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       return date;
     }, [date, month, year]);
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        if (disabled) {
-          return;
-        }
+    const handleClick = useEventCallback((event: React.MouseEvent) => {
+      if (disabled) {
+        return;
+      }
 
-        onSelect?.(currentMonth, event);
-      },
-      [currentMonth, disabled, onSelect]
-    );
+      onSelect?.(currentMonth, event);
+    });
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }), { disabled });

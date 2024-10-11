@@ -3,7 +3,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import { getYear } from 'date-fns';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
-import CalendarContext from '../CalendarContext';
+import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/utils';
 
 describe('Calendar-MonthDropdown', () => {
@@ -11,7 +11,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should output year and month ', () => {
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{
           date: new Date(),
           locale: {},
@@ -20,7 +20,7 @@ describe('Calendar-MonthDropdown', () => {
         }}
       >
         <MonthDropdown show />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
 
     expect(screen.getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
@@ -29,7 +29,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should output year and month of current year', () => {
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{
           date: new Date(),
           locale: {},
@@ -38,7 +38,7 @@ describe('Calendar-MonthDropdown', () => {
         }}
       >
         <MonthDropdown show limitStartYear={1} limitEndYear={1} />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
     const currentYear = getYear(new Date());
     expect(screen.getAllByRole('row', { hidden: true })).to.be.lengthOf(1);
@@ -49,7 +49,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should output year and month of two previous years', () => {
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{
           date: new Date(),
           locale: {},
@@ -58,7 +58,7 @@ describe('Calendar-MonthDropdown', () => {
         }}
       >
         <MonthDropdown show limitStartYear={3} limitEndYear={0} />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
     const currentYear = getYear(new Date());
     expect(screen.getAllByRole('row', { hidden: true })).to.be.lengthOf(2);
@@ -72,7 +72,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should output a range of year and month between previous and next year', () => {
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{
           date: new Date(),
           locale: {},
@@ -81,7 +81,7 @@ describe('Calendar-MonthDropdown', () => {
         }}
       >
         <MonthDropdown show limitStartYear={2} limitEndYear={2} />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
     const currentYear = getYear(new Date());
     const nextYear = currentYear + 1;
@@ -101,7 +101,7 @@ describe('Calendar-MonthDropdown', () => {
   it('Should call `onChangeMonth` callback ', () => {
     const onChangeMonthSpy = sinon.spy();
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{
           onChangeMonth: onChangeMonthSpy,
           date: new Date(),
@@ -111,7 +111,7 @@ describe('Calendar-MonthDropdown', () => {
         }}
       >
         <MonthDropdown show />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
 
     fireEvent.click(
@@ -125,7 +125,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should disable month', () => {
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{ date: new Date(2019, 8, 1), locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <MonthDropdown
@@ -136,7 +136,7 @@ describe('Calendar-MonthDropdown', () => {
             return d.getTime() > today.getTime() || d.getTime() < d2.getTime();
           }}
         />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
 
     const cells = within(screen.getByRole('row', { name: '2019', hidden: true })).getAllByRole(

@@ -35,8 +35,9 @@ export interface DateInputProps
  * @see https://rsuitejs.com/components/date-input/
  */
 const DateInput = React.forwardRef((props: DateInputProps, ref) => {
+  const { locale, parseDate } = useCustom('Calendar');
   const {
-    format: formatStr = 'yyyy-MM-dd',
+    format: formatStr = locale.shortDateFormat,
     value: valueProp,
     defaultValue,
     placeholder,
@@ -51,8 +52,6 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   const inputRef = useRef<HTMLInputElement>();
 
   const { selectedState, setSelectedState } = useSelectedState();
-
-  const { locale, parseDate } = useCustom('Calendar');
 
   const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);

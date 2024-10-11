@@ -45,11 +45,11 @@ DateInput 组件允许用户使用键盘选择日期。
 
 | 属性名称     | 类型`(默认值)`                  | 描述               |
 | ------------ | ------------------------------- | ------------------ |
-| defaultValue | Date                            | 默认值             |
+| defaultValue | Date                            | 默认值（非受控）             |
 | disabled     | boolean                         | 禁用               |
 | format       | string `('yyyy-MM-dd')`         | 日期显示格式化     |
 | onChange     | (date: Date, event) => void     | 值改变后的回调函数 |
 | plaintext    | boolean                         | 为纯文本呈现       |
 | readOnly     | boolean                         | 日期输入框为只读   |
 | size         | 'lg'〡'md'〡'sm'〡'xs' `('md')` | 设置日期输入框尺寸 |
-| value        | Date                            | 设置值 `受控`      |
+| value        | Date                            | 当前值 （受控）    |

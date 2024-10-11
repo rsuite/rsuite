@@ -41,9 +41,8 @@
   }
 
   .rs-calendar {
-    display: inline-block;
     height: 274px;
-    padding-bottom: 12px;
+    padding-bottom: @calendar-picker-padding;
 
     &-header {
       width: 100%;
@@ -68,6 +67,12 @@
       &-ranges {
         width: 190px;
       }
+    }
+  }
+
+  .rs-picker-daterange-panel-only-time {
+    .rs-picker-daterange-calendar-group {
+      min-width: auto;
     }
   }
 

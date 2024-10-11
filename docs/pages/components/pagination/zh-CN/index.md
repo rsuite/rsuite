@@ -48,7 +48,7 @@
 | limitOptions  | number[] `([30,50,100])`                                | 每页条数的选择项                                     |
 | linkAs        | ElementType `(button)`                                  | 为组件选项自定义元素类型                             |
 | linkProps     | object                                                  | 为组件选项添加属性                                   |
-| locale        | [PaginationLocale](/zh/guide/i18n/#pagination)          | 本地化的文本                                         |
+| locale        | [PaginationLocale](/zh/guide/i18n/#pagination)          | 定义本地化设置，使组件文本根据用户地区显示相应语言   |
 | maxButtons    | number                                                  | 分页按钮最多显示数                                   |
 | next          | boolean                                                 | 显示下一页                                           |
 | onChangeLimit | (limit:number) => void;                                 | 每页显示的条数改变的回调                             |

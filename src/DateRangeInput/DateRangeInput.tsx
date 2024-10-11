@@ -47,11 +47,13 @@ export interface DateRangeInputProps
  * @see https://rsuitejs.com/components/date-range-input/
  */
 const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
+  const { locale, parseDate } = useCustom('Calendar');
+
   const {
     className,
     classPrefix = 'date-range-input',
     character = ' ~ ',
-    format: formatStr = 'yyyy-MM-dd',
+    format: formatStr = locale.shortDateFormat,
     value: valueProp,
     defaultValue = [],
     placeholder,
@@ -70,7 +72,6 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const { selectedState, setSelectedState } = useSelectedState();
 
-  const { locale, parseDate } = useCustom('Calendar');
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   const dateLocale = locale.dateLocale;

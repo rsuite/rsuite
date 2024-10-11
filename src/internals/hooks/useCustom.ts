@@ -1,6 +1,6 @@
 import { useContext, useCallback } from 'react';
 import { format, parse, isValid } from '@/internals/utils/date';
-import defaultLocale from '../../locales/default';
+import defaultLocale from '../../locales/en_GB';
 import { CustomContext, CustomValue, FormatDateOptions } from '../../CustomProvider/CustomProvider';
 
 const mergeObject = (list: any[]) =>

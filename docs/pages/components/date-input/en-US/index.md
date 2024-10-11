@@ -47,7 +47,7 @@ The DateInput component lets users select a date with the keyboard.
 
 | Property     | Type`(default)`                 | Description                                               |
 | ------------ | ------------------------------- | --------------------------------------------------------- |
-| defaultValue | Date                            | Default value                                             |
+| defaultValue | Date                            | The default value (uncontrolled)                                             |
 | disabled     | boolean                         | Whether disabled the component                            |
 | format       | string `('yyyy-MM-dd')`         | Format of the date when rendered in the input             |
 | onChange     | (date: Date, event) => void     | Callback fired when value changed                         |

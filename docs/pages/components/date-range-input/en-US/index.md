@@ -48,9 +48,9 @@ The DateRangeInput components let the user select a date range with the keyboard
 | Property     | Type`(default)`                             | Description                                               |
 | ------------ | ------------------------------------------- | --------------------------------------------------------- |
 | character    | string `(' ~ ')`                            | The character between the start and end dates             |
-| defaultValue | [Date, Date]〡 null                         | Default value                                             |
+| defaultValue | [Date, Date]〡 null                         | The default value (uncontrolled)                                             |
 | disabled     | boolean                                     | Whether disabled the component                            |
-| format       | string `('yyyy-MM-dd')`                     | Format of the date when rendered in the input             |
+| format       | string `('dd/MM/yyyy')`                     | Format of the date when rendered in the input             |
 | onChange     | (date: [Date, Date]〡 null , event) => void | Callback fired when value changed                         |
 | plaintext    | boolean                                     | Whether plaintext the component                           |
 | readOnly     | boolean                                     | Whether read only the component                           |

@@ -1,6 +1,6 @@
 import ja from 'date-fns/locale/ja';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: '日',
   monday: '月',
   tuesday: '火',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: '確認',
   today: '今日',
   yesterday: '昨日',
+  now: '現在',
   hours: '時',
   minutes: '分',
   seconds: '秒',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'yyyy年 MMM',
   formattedDayPattern: 'yyyy年 MMM dd',
+  shortDateFormat: 'yyyy/MM/dd',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ja as any
 };
 
 export default {
+  code: 'ja-JP',
   common: {
     loading: '読み込み中...',
     emptyMessage: 'データはありません。',
@@ -45,12 +49,10 @@ export default {
     total: '合計: {0}',
     skip: '{0}に逝く'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: '直近7日間'
   },
   Picker: {

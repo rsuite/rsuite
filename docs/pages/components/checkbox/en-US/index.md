@@ -75,7 +75,7 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 
 | Property     | Type `(default)`                            | Description                                                 |
 | ------------ | ------------------------------------------- | ----------------------------------------------------------- |
-| defaultValue | string[] \| number[]                        | Default value                                               |
+| defaultValue | string[] \| number[]                        | The default value                                           |
 | inline       | boolean                                     | Inline layout                                               |
 | name         | string                                      | Used for the name of the form                               |
 | onChange     | (value:string[] \| number[], event) => void | Callback fired when checkbox is triggered and state changes |

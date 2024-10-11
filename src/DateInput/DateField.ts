@@ -11,7 +11,7 @@ export const patternMap = {
   h: 'hour',
   m: 'minute',
   s: 'second',
-  a: 'meridian'
+  a: 'meridiem'
 };
 
 export class DateField extends Object {
@@ -188,7 +188,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
       return new Date('');
     }
 
-    if (type === 'meridian' && typeof hour === 'number') {
+    if (type === 'meridiem' && typeof hour === 'number') {
       const newHour = hour > 12 ? hour - 12 : hour + 12;
       type = 'hour';
       value = newHour as number;

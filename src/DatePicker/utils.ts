@@ -3,12 +3,18 @@ import omit from 'lodash/omit';
 import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { omitTriggerPropKeys } from '@/internals/Picker';
 import { ToolbarProps } from './Toolbar';
-import { subDays, startOfDay, endOfDay, calendarOnlyProps } from '@/internals/utils/date';
+import {
+  subDays,
+  startOfDay,
+  endOfDay,
+  calendarOnlyProps,
+  startOfToday
+} from '@/internals/utils/date';
 import { InnerRange, RangeType } from './types';
 import { DateRange } from '../DateRangePicker/types';
 
 export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRange<T>[] {
-  const today = new Date();
+  const today = startOfToday();
 
   /**
    * If it is an array type, it returns the default shortcut key suitable for DateRangePicker Toolbar,

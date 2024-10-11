@@ -1,9 +1,7 @@
 import Calendar from './Calendar';
 import CalendarContainer from './CalendarContainer';
-import { CalendarState } from './useCalendarState';
-import CalendarContext, { CalendarContextValue } from './CalendarContext';
+import { CalendarState } from './hooks';
 
-export { CalendarContainer, CalendarContext, CalendarState };
-export type { CalendarContextValue };
+export { CalendarContainer, CalendarState };
 export type { CalendarProps } from './Calendar';
 export default Calendar;

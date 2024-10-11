@@ -13,10 +13,10 @@ const App = () => (
     <DateRangePicker format="MMMM dd, yyyy" />
     <DateRangePicker format="yyyy年MM月dd日" />
     <DateRangePicker format="MM/dd/yyyy HH:mm" />
-    <DateRangePicker format="MM/dd/yyyy hh:mm aa" showMeridian />
+    <DateRangePicker format="MM/dd/yyyy hh:mm aa" showMeridiem />
     <DateRangePicker format="MMM yyyy" caretAs={BsCalendar2MonthFill} />
     <DateRangePicker format="HH:mm:ss" caretAs={FaClock} />
-    <DateRangePicker format="dd MMM yyyy hh:mm:ss aa" showMeridian caretAs={FaCalendar} />
+    <DateRangePicker format="dd MMM yyyy hh:mm:ss aa" showMeridiem caretAs={FaCalendar} />
   </Stack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -35,7 +35,7 @@ describe('DatePicker', () => {
     defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
     changedValue: new Date('2023-10-02'),
-    componentProps: { defaultOpen: true },
+    componentProps: { defaultOpen: true, format: 'yyyy-MM-dd' },
     simulateEvent: {
       changeValue: () => {
         userEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2023' }));
@@ -50,7 +50,10 @@ describe('DatePicker', () => {
 
   testFormControl(DatePicker, {
     value: new Date('2023-10-01'),
-    getUIElement: () => screen.getByRole('textbox')
+    getUIElement: () => screen.getByRole('textbox'),
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    }
   });
 
   it('Should render a div with "rs-picker-date" class', () => {
@@ -79,9 +82,23 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    render(<DatePicker defaultValue={parseISO('2017-08-14')} />);
+    render(<DatePicker defaultValue={parseISO('2017-08-14')} format="yyyy-MM-dd" />);
 
     expect(screen.getByRole('textbox')).to.have.value('2017-08-14');
+  });
+
+  it('Should output a date with a custom format', () => {
+    render(
+      <DatePicker
+        defaultValue={new Date('2024-10-08 17:17:00')}
+        format="dd.MM.yyyy HH.mm"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('08.10.2024 17.17');
+    expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Oct 2024');
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('17.17');
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {
@@ -186,6 +203,30 @@ describe('DatePicker', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2023' }));
 
     expect(onSelect).to.calledOnce;
+  });
+
+  it('Should keep the time unchanged when clicking on the date', () => {
+    const onChange = sinon.spy();
+    const onSelect = sinon.spy();
+
+    render(
+      <DatePicker
+        onChange={onChange}
+        onSelect={onSelect}
+        defaultOpen
+        format="yyyy-MM-dd HH:mm:ss"
+        defaultValue={new Date('2024-10-01 13:30:10')}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2024' }));
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('13:30:10');
+    expect(onSelect).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
+
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
+
+    expect(onChange).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
   });
 
   it('Should call `onOk` callback', () => {
@@ -375,7 +416,14 @@ describe('DatePicker', () => {
   it('Should not change for the value  when it is controlled', () => {
     const onChange = sinon.spy();
 
-    render(<DatePicker value={parseISO('2018-01-05')} onChange={onChange} defaultOpen />);
+    render(
+      <DatePicker
+        format="yyyy-MM-dd"
+        value={parseISO('2018-01-05')}
+        onChange={onChange}
+        defaultOpen
+      />
+    );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '06 Jan 2018' }));
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
@@ -406,7 +454,12 @@ describe('DatePicker', () => {
     const onChange = sinon.spy();
 
     render(
-      <DatePicker onChange={onChange} oneTap defaultOpen defaultValue={new Date('2023-10-01')} />
+      <DatePicker
+        onChange={onChange}
+        oneTap
+        defaultOpen
+        defaultValue={new Date('2023-10-01 00:00:00')}
+      />
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
@@ -431,27 +484,6 @@ describe('DatePicker', () => {
     expect(onChange).to.be.calledWithMatch(new Date('2023-10-01'));
   });
 
-  it('Should be show meridian', async () => {
-    render(
-      <DatePicker
-        value={parseISO('2017-08-14 13:00:00')}
-        format="dd MMM yyyy hh:mm:ss a"
-        open
-        showMeridian
-      />
-    );
-
-    expect(screen.getByRole('button', { name: 'Toggle meridian' })).to.have.text('PM');
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:00:00');
-
-    fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
-
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.queryAllByRole('listbox')[0]?.children).to.have.length(12);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.queryAllByRole('listbox')[0]?.children[0]).to.have.text('12');
-  });
-
   it('Should show dates that are not in the same month', () => {
     render(<DatePicker value={new Date('6/10/2021')} open />);
 
@@ -473,7 +505,7 @@ describe('DatePicker', () => {
   });
 
   it('Should accept controlled value', () => {
-    render(<DatePicker value={new Date('7/11/2021')} open />);
+    render(<DatePicker value={new Date('7/11/2021')} open format="yyyy-MM-dd" />);
 
     expect(screen.getByRole('textbox')).to.have.value('2021-07-11');
     expect(screen.getByRole('grid', { name: 'Jul 2021' })).to.contain(
@@ -490,43 +522,6 @@ describe('DatePicker', () => {
 
     rerender(<DatePicker value={null} open format="yyyy-MM-dd" />);
     expect(screen.getByRole('textbox')).to.have.value('');
-  });
-
-  it('Should keep AM PM unchanged', () => {
-    render(
-      <DatePicker
-        value={parseISO('2017-08-14 13:00:00')}
-        format="hh:mm:ss a"
-        defaultOpen
-        showMeridian
-      />
-    );
-
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:00:00');
-
-    fireEvent.click(screen.getByRole('option', { name: '0 hours' }));
-
-    expect(screen.getByRole('button', { name: 'Toggle meridian' })).to.have.text('PM');
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('12:00:00');
-  });
-
-  it('Should change AM/PM ', () => {
-    render(
-      <DatePicker
-        value={parseISO('2017-08-14 13:00:00')}
-        format="hh:mm:ss a"
-        defaultOpen
-        showMeridian
-      />
-    );
-
-    const meridian = screen.getByRole('button', { name: 'Toggle meridian' });
-
-    expect(meridian).to.have.text('PM');
-
-    fireEvent.click(meridian);
-
-    expect(meridian).to.have.text('AM');
   });
 
   it('Should render week numbers given `showWeekNumbers=true`', () => {
@@ -667,29 +662,6 @@ describe('DatePicker', () => {
 
     expect(screen.queryAllByRole('textbox')[0]).to.not.have.attribute('readonly');
     expect(screen.queryAllByRole('textbox')[1]).to.have.attribute('readonly');
-  });
-
-  it('Should call onSelect when meridian toggled', () => {
-    const onSelect = sinon.spy();
-
-    render(
-      <DatePicker
-        value={parseISO('2017-08-14 13:00:00')}
-        format="hh:mm:ss a"
-        defaultOpen
-        showMeridian
-        onSelect={onSelect}
-      />
-    );
-
-    const meridian = screen.getByRole('button', { name: 'Toggle meridian' });
-
-    expect(meridian).to.have.text('PM');
-
-    fireEvent.click(meridian);
-
-    expect(meridian).to.have.text('AM');
-    expect(onSelect).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
   });
 
   it('Should change calendar title after clicking on the month', () => {
@@ -855,6 +827,28 @@ describe('DatePicker', () => {
 
     expect(screen.getByRole('textbox')).to.have.value('01/00/2024');
     expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should display AM/PM in the correct position', () => {
+    const { rerender } = render(
+      <DatePicker
+        format="yyyy-MM-dd aa HH:mm"
+        defaultValue={new Date('2024-10-01 08:00:00')}
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('AM 08:00');
+
+    rerender(
+      <DatePicker
+        format="yyyy-MM-dd HH:mm aa"
+        defaultValue={new Date('2024-10-01 08:00:00')}
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('08:00 AM');
   });
 
   describe('Custom week ', () => {
@@ -1133,17 +1127,51 @@ describe('DatePicker', () => {
     });
 
     it('Should disable date cells according to `shouldDisableDate`', () => {
+      const onSelect = sinon.spy();
       render(
         <DatePicker
           calendarDefaultDate={new Date(2023, 2, 7)}
           shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
+          onSelect={onSelect}
           open
         />
       );
 
-      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-        'rs-calendar-table-cell-disabled'
+      const gridcell = screen.getByRole('gridcell', { name: '08 Mar 2023' });
+
+      expect(gridcell).to.have.class('rs-calendar-table-cell-disabled');
+      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+
+      fireEvent.click(gridcell);
+
+      expect(onSelect).to.not.have.been.called;
+    });
+
+    it('Should disable month options according to `shouldDisableDate`', () => {
+      const onSelect = sinon.spy();
+
+      render(
+        <DatePicker
+          calendarDefaultDate={new Date(2024, 10, 1)}
+          shouldDisableDate={date => {
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            return month === 0 && year === 2024;
+          }}
+          onSelect={onSelect}
+          format="yyyy-MM"
+          open
+        />
       );
+
+      const gridcell = screen.getByRole('gridcell', { name: 'Jan 2024' });
+
+      expect(gridcell).to.have.class('disabled');
+      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+
+      fireEvent.click(gridcell);
+
+      expect(onSelect).to.not.have.been.called;
     });
 
     it('Should disable hour options according to `shouldDisableHour`', () => {
@@ -1263,6 +1291,7 @@ describe('DatePicker', () => {
     it('Should render a custom value', () => {
       render(
         <DatePicker
+          format="yyyy-MM-dd"
           defaultValue={new Date('2024-05-13')}
           renderValue={value => format(value, 'EEE, d MMM')}
         />
@@ -1275,7 +1304,7 @@ describe('DatePicker', () => {
       render(
         <>
           <div data-testid="outside">Outside</div>
-          <DatePicker renderValue={value => format(value, 'EEE, d MMM')} />
+          <DatePicker format="yyyy-MM-dd" renderValue={value => format(value, 'EEE, d MMM')} />
         </>
       );
 
@@ -1347,6 +1376,7 @@ describe('DatePicker', () => {
   describe('Error handling', () => {
     it('Should render an error message when the format is deprecated', () => {
       sinon.spy(console, 'error');
+
       expect(() => {
         render(<DatePicker format="YY" value={new Date()} />);
       }).to.not.throw();

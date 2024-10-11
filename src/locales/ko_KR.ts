@@ -1,6 +1,6 @@
 import ko from 'date-fns/locale/ko';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: '일',
   monday: '월',
   tuesday: '화',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: '승인',
   today: '오늘',
   yesterday: '어제',
+  now: '지금',
   hours: '시간',
   minutes: '분',
   seconds: '초',
@@ -20,9 +21,12 @@ const Calendar = {
    **/
   formattedMonthPattern: 'yyyy 년 MM 월',
   formattedDayPattern: 'yyyy 년 MM 월 dd 일',
+  shortDateFormat: 'yyyy.MM.dd',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ko as any
 };
 export default {
+  code: 'ko-KR',
   common: {
     loading: '로딩...',
     emptyMessage: '데이터가 없습니다',
@@ -44,12 +48,10 @@ export default {
     total: '전체 {0} 개',
     skip: '이동{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: '지난 7 일'
   },
   Picker: {

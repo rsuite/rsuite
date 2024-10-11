@@ -20,6 +20,9 @@ describe('DateRangeInput', () => {
     value: [new Date('2023-10-01'), new Date('2023-10-02')],
     changedValue: [new Date('2023-10-02'), new Date('2023-10-03')],
     simulateEvent: null,
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    },
     simulateChangeEvents: [
       {
         change: () => {
@@ -51,11 +54,14 @@ describe('DateRangeInput', () => {
   });
 
   testFormControl(DateRangeInput, {
-    value: [new Date('2023-10-01'), new Date('2023-10-02')]
+    value: [new Date('2023-10-01'), new Date('2023-10-02')],
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    }
   });
 
   it('Should render placeholder according to the default format', () => {
-    render(<DateRangeInput />);
+    render(<DateRangeInput format="yyyy-MM-dd" />);
 
     expect(screen.getByRole('textbox')).to.have.attribute('placeholder', 'yyyy-MM-dd ~ yyyy-MM-dd');
 
@@ -64,7 +70,7 @@ describe('DateRangeInput', () => {
   });
 
   it('Should render a custom character', () => {
-    const { rerender } = render(<DateRangeInput character=" to " />);
+    const { rerender } = render(<DateRangeInput format="yyyy-MM-dd" character=" to " />);
 
     expect(screen.getByRole('textbox')).to.have.attribute(
       'placeholder',
@@ -75,7 +81,11 @@ describe('DateRangeInput', () => {
     expect(screen.getByRole('textbox')).to.have.value('yyyy-MM-dd to yyyy-MM-dd');
 
     rerender(
-      <DateRangeInput character=" to " value={[new Date('2023-10-01'), new Date('2023-10-02')]} />
+      <DateRangeInput
+        format="yyyy-MM-dd"
+        character=" to "
+        value={[new Date('2023-10-01'), new Date('2023-10-02')]}
+      />
     );
 
     expect(screen.getByRole('textbox')).to.have.value('2023-10-01 to 2023-10-02');
@@ -528,7 +538,7 @@ describe('DateRangeInput', () => {
     it('Should call `onChange` with pasted value', () => {
       const onChange = sinon.spy();
 
-      render(<DateRangeInput onChange={onChange} />);
+      render(<DateRangeInput format="yyyy-MM-dd" onChange={onChange} />);
 
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const event = mockClipboardEvent('2024-07-21 ~ 2024-07-22');
@@ -545,6 +555,7 @@ describe('DateRangeInput', () => {
 
       render(
         <DateRangeInput
+          format="yyyy-MM-dd"
           onChange={onChange}
           defaultValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
         />

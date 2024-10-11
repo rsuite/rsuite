@@ -1,8 +1,8 @@
 import React from 'react';
 import { getWeekStartDates, setDate } from '@/internals/utils/date';
 import { useClassNames, useCustom } from '@/internals/hooks';
-import Table from './Table';
-import { useCalendarContext } from './CalendarContext';
+import Grid from './Grid';
+import { useCalendar } from './hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export type CalendarBodyProps = WithAsProps;
@@ -10,7 +10,7 @@ export type CalendarBodyProps = WithAsProps;
 const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.forwardRef(
   (props, ref) => {
     const { as: Component = 'div', className, classPrefix = 'calendar-body', ...rest } = props;
-    const { date = new Date(), isoWeek, locale: overrideLocale, weekStart } = useCalendarContext();
+    const { date = new Date(), isoWeek, locale: overrideLocale, weekStart } = useCalendar();
     const { locale, formatDate } = useCustom('Calendar', overrideLocale);
 
     const thisMonthDate = setDate(date, 1);
@@ -19,7 +19,7 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
 
     return (
       <Component {...rest} ref={ref} className={classes}>
-        <Table
+        <Grid
           rows={getWeekStartDates(thisMonthDate, {
             isoWeek,
             weekStart,

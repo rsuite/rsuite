@@ -16,7 +16,7 @@ interface DateDisabledOptions {
 /**
  * Returns a function that determines whether a date is disabled and is compatible with the deprecated `disabledDate` prop.
  */
-function useDateDisabled(props: UseDateDisabledProps) {
+export function useDateDisabled(props: UseDateDisabledProps) {
   const { shouldDisableDate, DEPRECATED_disabledDate } = props;
 
   const isDateDisabled = useCallback(

@@ -1,11 +1,13 @@
-import React from 'react';
-import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
-import { addMonths } from '@/internals/utils/date';
+import React, { useCallback } from 'react';
+import CalendarContainer, {
+  CalendarProps as CalendarContainerProps
+} from '../Calendar/CalendarContainer';
+import { addMonths, startOfToday } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
-import { useEventCallback } from '@/internals/hooks';
 import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { DatePickerLocale } from '../locales';
+import { useCalendarHandlers } from './hooks';
 
 type OmitCalendarCoreTypes =
   | 'disabledDate'
@@ -13,11 +15,12 @@ type OmitCalendarCoreTypes =
   | 'onMouseMove'
   | 'calendarDate'
   | 'format'
-  | 'locale'
-  | 'onToggleMeridian';
+  | 'locale';
 
-export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
-  calendarDate?: DateRange;
+export interface CalendarProps
+  extends WithAsProps,
+    Omit<CalendarContainerProps, OmitCalendarCoreTypes> {
+  calendarDateRange?: DateRange;
   disabledDate?: (
     date: Date,
     selectValue: [] | [Date] | [Date, Date],
@@ -35,7 +38,6 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   value?: [] | [Date] | [Date, Date];
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
-  onToggleMeridian: (index: number, event: React.MouseEvent) => void;
   onSelect?: (index: number, date: Date, event: React.SyntheticEvent) => void;
   onMouseMove?: (date: Date) => void;
 }
@@ -43,8 +45,8 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
-      as: Component = CalendarCore,
-      calendarDate = [new Date(), addMonths(new Date(), 1)],
+      as: Component = CalendarContainer,
+      calendarDateRange = [startOfToday(), addMonths(startOfToday(), 1)],
       format = 'yyyy-MM-dd',
       disabledDate,
       index = 0,
@@ -52,66 +54,37 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       limitStartYear,
       onChangeCalendarMonth,
       onChangeCalendarTime,
-      onToggleMeridian,
       onSelect,
       value = [],
       ...rest
     } = props;
 
-    const onMoveForward = useEventCallback((nextPageDate: Date) => {
-      onChangeCalendarMonth?.(index, nextPageDate);
+    const calendarHandlers = useCalendarHandlers({
+      index,
+      calendarDateRange,
+      onChangeCalendarMonth,
+      onChangeCalendarTime,
+      onSelect
     });
 
-    const onMoveBackward = useEventCallback((nextPageDate: Date) => {
-      onChangeCalendarMonth?.(index, nextPageDate);
-    });
-
-    const handleSelect = useEventCallback((date: Date, event: React.SyntheticEvent) => {
-      onSelect?.(index, date, event);
-    });
-
-    const handleChangeMonth = useEventCallback((nextPageDate: Date) => {
-      onChangeCalendarMonth?.(index, nextPageDate);
-    });
-
-    const handleChangeTime = useEventCallback((nextPageDate: Date) => {
-      onChangeCalendarTime?.(index, nextPageDate);
-    });
-
-    const handleToggleMeridian = useEventCallback((event: React.MouseEvent) => {
-      onToggleMeridian(index, event);
-    });
-
-    const getCalendarDate = () => calendarDate[index];
-
-    const handleMoveForward = useEventCallback(() => {
-      onMoveForward?.(addMonths(getCalendarDate(), 1));
-    });
-
-    const handleMoveBackward = useEventCallback(() => {
-      onMoveBackward?.(addMonths(getCalendarDate(), -1));
-    });
-
-    const disabledMonth = (date: Date) =>
-      disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
+    const disableCalendarDate = useCallback(
+      (date: Date) => {
+        return disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
+      },
+      [disabledDate, value]
+    );
 
     return (
       <Component
         data-testid={`calendar-${index === 0 ? 'start' : 'end'}`}
         {...rest}
+        {...calendarHandlers}
+        index={index}
         format={format}
         dateRange={value}
-        disabledDate={disabledMonth}
-        index={index}
+        disabledDate={disableCalendarDate}
         limitEndYear={limitEndYear}
         limitStartYear={limitStartYear}
-        onChangeMonth={handleChangeMonth}
-        onChangeTime={handleChangeTime}
-        onMoveBackward={handleMoveBackward}
-        onMoveForward={handleMoveForward}
-        onToggleMeridian={handleToggleMeridian}
-        onSelect={handleSelect}
-        calendarDate={getCalendarDate()}
         ref={ref}
       />
     );

@@ -76,11 +76,11 @@ Radios are used when only one choice may be selected in a series of options.
 | Property     | Type `(Default)`              | Description                                  |
 | ------------ | ----------------------------- | -------------------------------------------- |
 | appearance   | 'default' &#124; 'picker'     | A radio group can have different appearances |
-| defaultValue | string                        | Default value                                |
+| defaultValue | string                        | The default value (uncontrolled)                                |
 | inline       | boolean                       | Inline layout                                |
 | name         | string                        | Name to use for form                         |
 | onChange     | (value:string, event) => void | Callback function with value changed         |
-| value        | string                        | Value (Controlled)                           |
+| value        | string                        | The current value (controlled)                           |
 
 <!--{include:(_common/types/color.md)}-->
 

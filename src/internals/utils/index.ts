@@ -13,7 +13,6 @@ export { placementPolyfill } from './placementPolyfill';
 export { mergeRefs } from './mergeRefs';
 export { shallowEqual, shallowEqualArray } from './shallowEqual';
 export { composeFunctions } from './composeFunctions';
-export { scrollTopAnimation } from './scrollTopAnimation';
 export { render } from './render';
 export { safeSetSelection } from './safeSetSelection';
 export { getStringLength } from './getStringLength';

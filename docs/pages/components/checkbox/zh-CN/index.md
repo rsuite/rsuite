@@ -79,11 +79,11 @@ type ValueType = string | number;
 
 | 属性名称     | 类型 `(默认值)`                             | 描述               |
 | ------------ | ------------------------------------------- | ------------------ |
-| defaultValue | string[] \| number[]                        | 默认值             |
+| defaultValue | string[] \| number[]                        | 默认值（非受控）   |
 | inline       | boolean                                     | 内联布局           |
 | name         | string                                      | 用于表单对应的名称 |
 | onChange     | (value:string[] \| number[], event) => void | 值改变后的回调函数 |
-| value        | string[] \| number[]                        | 值(受控)           |
+| value        | string[] \| number[]                        | 当前值(受控)       |
 
 <!--{include:(_common/types/color.md)}-->
 

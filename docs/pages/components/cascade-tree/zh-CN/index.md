@@ -52,7 +52,7 @@ CascadeTree 是一个按列显示树形结构数据的组件。
 | columnHeight       | number                                                                             | 设置菜单的高度                       |
 | columnWidth        | number                                                                             | 设置菜单的宽度                       |
 | data \*            | [ItemDataType][item][]                                                             | 组件数据                             |
-| defaultValue       | string                                                                             | 默认值                               |
+| defaultValue       | string                                                                             | 默认值（非受控）                     |
 | disabledItemValues | string[]                                                                           | 禁用选项                             |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子级                 |
 | labelKey           | string `('label')`                                                                 | 设置选项显示内容在 `data` 中的 `key` |
@@ -62,7 +62,7 @@ CascadeTree 是一个按列显示树形结构数据的组件。
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | 自定义渲染菜单列表                   |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义选项                           |
 | searchable         | boolean                                                                            | 是否启用搜索                         |
-| value              | string                                                                             | 设置值（受控）                       |
+| value              | string                                                                             | 当前值（受控）                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 

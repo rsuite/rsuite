@@ -1,6 +1,6 @@
 import fi from 'date-fns/locale/fi';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Ma',
   tuesday: 'Ti',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'OK',
   today: 'Tänään',
   yesterday: 'Eilen',
+  now: 'Nyt',
   hours: 'Tunnit',
   minutes: 'Minuuttia',
   seconds: 'Sekunttia',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH.mm',
   dateLocale: fi as any
 };
 
 export default {
+  code: 'fi-FI',
   common: {
     loading: 'Hetkinen...',
     emptyMessage: 'Dataa ei löytynyt',
@@ -45,12 +49,10 @@ export default {
     total: 'yhteensä: {0}',
     skip: 'Mene{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Viimeiset 7 päivää'
   },
   Picker: {

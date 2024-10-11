@@ -1,6 +1,6 @@
 import kk from 'date-fns/locale/kk';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Жк',
   monday: 'Дс',
   tuesday: 'Сс',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'ОК',
   today: 'Бүгін',
   yesterday: 'Кеше',
+  now: 'Қазір',
   hours: 'Сағат',
   minutes: 'Минут',
   seconds: 'Секунд',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: kk as any
 };
 
 export default {
+  code: 'kk-KZ',
   common: {
     loading: 'Жүктелуде...',
     emptyMessage: 'Мәліметтер жоқ',
@@ -41,12 +45,10 @@ export default {
     total: 'Барлығы: {0}',
     skip: '{0}-бетке өтіңіз'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Соңғы 7 күн'
   },
   Picker: {

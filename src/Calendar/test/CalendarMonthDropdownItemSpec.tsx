@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from 'date-fns';
-import CalendarContext from '../CalendarContext';
+import { CalendarProvider } from '../CalendarProvider';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 
@@ -19,11 +19,11 @@ describe('Calendar-MonthDropdownItem', () => {
     const onChangeMonth = Sinon.spy();
 
     render(
-      <CalendarContext.Provider
+      <CalendarProvider
         value={{ date: new Date(), onChangeMonth, locale: {}, isoWeek: false, weekStart: 0 }}
       >
         <MonthDropdownItem month={1} year={2017} />
-      </CalendarContext.Provider>
+      </CalendarProvider>
     );
 
     fireEvent.click(screen.getByRole('gridcell'));
@@ -47,11 +47,9 @@ describe('Calendar-MonthDropdownItem', () => {
 
     it('Should have a aria-label attribute', () => {
       render(
-        <CalendarContext.Provider
-          value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}
-        >
+        <CalendarProvider value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}>
           <MonthDropdownItem month={1} year={2023} />
-        </CalendarContext.Provider>
+        </CalendarProvider>
       );
       expect(screen.getByRole('gridcell')).to.have.attribute('aria-label', 'Jan 2023');
     });

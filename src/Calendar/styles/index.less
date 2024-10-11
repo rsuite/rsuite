@@ -154,6 +154,10 @@
     justify-content: center;
     background: var(--rs-bg-overlay);
     z-index: 1;
+
+    &:hover {
+      background-color: var(--rs-btn-subtle-hover-bg)
+    }
   }
 
   &-panel &-btn-close {
@@ -265,7 +269,7 @@
     margin: 0 @calendar-header-title-margin;
   }
 
-  &-meridian {
+  &-meridiem {
     // Designer think it's nice!
     font-size: @font-size-small;
     margin-left: 4px;
@@ -567,6 +571,12 @@
     display: table-cell;
     width: 1%;
 
+    ::after {
+      content: '';
+      display: block;
+      height: calc(100% - 30px);
+    }
+
     > ul,
     > ul > li {
       list-style: none;
@@ -577,7 +587,7 @@
     > ul {
       height: 230px;
       overflow-y: auto;
-      padding-bottom: 200px;
+      scroll-behavior: smooth;
     }
   }
 
@@ -590,6 +600,11 @@
     line-height: @line-height-small;
     padding-top: 2px;
     padding-bottom: 2px;
+    margin-bottom: 2px;
+
+    .rs-calendar-only-time & {
+      border-top: none;
+    }
   }
 
   &-cell {
@@ -600,6 +615,7 @@
     display: block;
     text-align: center;
     cursor: pointer;
+    margin: 1px;
 
     &,
     &:hover,
@@ -633,6 +649,22 @@
       opacity: 0.3;
       cursor: not-allowed;
     }
+  }
+}
+
+.rs-calendar-only-time {
+  padding-top: @calendar-picker-padding;
+  display: block;
+
+  .rs-calendar-time-dropdown {
+    position: relative;
+    top: 2px;
+  }
+  .rs-calendar-time-dropdown-row {
+    display: flex;
+  }
+  .rs-calendar-time-dropdown-column {
+    min-width: 60px;
   }
 }
 

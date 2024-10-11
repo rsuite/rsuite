@@ -1,6 +1,6 @@
 import ptBR from 'date-fns/locale/pt-BR';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Do',
   monday: 'Se',
   tuesday: 'Te',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'OK',
   today: 'Hoje',
   yesterday: 'Ontem',
+  now: 'Agora',
   hours: 'Horas',
   minutes: 'Minutos',
   seconds: 'Segundos',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'dd MMM, yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ptBR as any
 };
 
 export default {
+  code: 'pt-BR',
   common: {
     loading: 'Carregando...',
     emptyMessage: 'Nenhum dado encontrado',
@@ -41,12 +45,10 @@ export default {
     total: 'Total: {0}',
     skip: 'Ir{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Últimos 7 dias'
   },
   Picker: {

@@ -1,19 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
+import { extractTimeFormat } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendarContext } from './CalendarContext';
-import { useDateRangePickerContext } from '../DateRangePicker/DateRangePickerContext';
+import { useCalendar } from './hooks';
+import { useDateRangePicker } from '../DateRangePicker/hooks';
 
 export interface CalendarHeaderProps {
   disabledBackward?: boolean;
   disabledForward?: boolean;
-  showMeridian?: boolean;
-  onToggleMeridian?: (event: React.MouseEvent) => void;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
 }
@@ -38,13 +37,11 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       disabledBackward,
       disabledForward,
       showDate,
-      showMeridian,
       showMonth,
       showTime,
       disabledTime,
       onMoveBackward,
       onMoveForward,
-      onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       renderTitle: renderTitleProp,
@@ -52,42 +49,23 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       ...rest
     } = props;
 
-    const {
-      locale,
-      date = new Date(),
-      format,
-      inline,
-      disabledDate,
-      targetId
-    } = useCalendarContext();
-    const { isSelectedIdle } = useDateRangePickerContext();
+    const { locale, date = new Date(), format, inline, disabledDate, targetId } = useCalendar();
+    const { isSelectedIdle } = useDateRangePicker();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
       appearance: 'subtle',
       size: inline ? 'sm' : 'xs'
     };
 
-    const getTimeFormat = useCallback(() => {
-      const timeFormat: string[] = [];
-
+    const timeFormat = useMemo(() => {
+      const defaultTimeFormat = locale?.shortTimeFormat || 'HH:mm';
       if (!format) {
-        return '';
+        return defaultTimeFormat;
       }
+      return extractTimeFormat(format) || defaultTimeFormat;
+    }, [format, locale]);
 
-      if (/([Hh])/.test(format)) {
-        timeFormat.push(showMeridian ? 'hh' : 'HH');
-      }
-      if (/m/.test(format)) {
-        timeFormat.push('mm');
-      }
-      if (/s/.test(format)) {
-        timeFormat.push('ss');
-      }
-
-      return timeFormat.join(':');
-    }, [format, showMeridian]);
-
-    const getDateFormat = useCallback(() => {
+    const dateFormat = useMemo(() => {
       if (showMonth) {
         return locale?.formattedMonthPattern || 'yyyy-MM';
       }
@@ -95,12 +73,11 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       return 'yyyy';
     }, [locale, showMonth]);
 
-    const renderTitle = useCallback(
-      () =>
-        renderTitleProp?.(date) ??
-        (date && <FormattedDate date={date} formatStr={getDateFormat()} />),
-      [date, getDateFormat, renderTitleProp]
-    );
+    const renderTitle = () => {
+      return (
+        renderTitleProp?.(date) ?? (date && <FormattedDate date={date} formatStr={dateFormat} />)
+      );
+    };
 
     const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
     const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
@@ -157,20 +134,8 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
               onClick={onToggleTimeDropdown}
               disabled={disableSelectTime}
             >
-              {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
+              {date && <FormattedDate date={date} formatStr={timeFormat} />}
             </Button>
-
-            {showMeridian && (
-              <Button
-                {...btnProps}
-                aria-label="Toggle meridian"
-                className={prefix('meridian')}
-                onClick={onToggleMeridian}
-                disabled={disableSelectTime}
-              >
-                {date && <FormattedDate date={date} formatStr="a" />}
-              </Button>
-            )}
           </div>
         )}
 

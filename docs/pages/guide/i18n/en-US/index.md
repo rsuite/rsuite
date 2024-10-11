@@ -56,7 +56,7 @@ React Suite is very easy to customize. In general, you should create a locale se
 ```jsx
 import enGB from 'date-fns/locale/en-GB';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Mo',
   tuesday: 'Tu',
@@ -67,19 +67,19 @@ const Calendar = {
   ok: 'OK',
   today: 'Today',
   yesterday: 'Yesterday',
+  now: 'Now',
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
-  /**
-   * Format of the string is based on Unicode Technical Standard #35:
-   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
-   **/
-  formattedMonthPattern: 'MMM yyyy',
-  formattedDayPattern: 'dd MMM yyyy',
-  dateLocale: enGB
+  formattedMonthPattern: 'MMM, yyyy',
+  formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'MM/dd/yyyy',
+  shortTimeFormat: 'hh:mm aa',
+  dateLocale: enUS as any
 };
 
 const locale = {
+  code: 'en-US',
   common: {
     loading: 'Loading...',
     emptyMessage: 'No data found'
@@ -99,12 +99,10 @@ const locale = {
     total: 'Total Rows: {0}',
     skip: 'Go to{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Last 7 Days'
   },
   Picker: {

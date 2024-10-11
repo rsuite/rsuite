@@ -87,7 +87,7 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
         break;
     }
 
-    if (actionName && value) {
+    if (actionName && typeof value === 'number') {
       dispatch({ type: actionName, value });
 
       const field = patternMap[pattern];

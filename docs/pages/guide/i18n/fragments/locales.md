@@ -6,12 +6,10 @@ type BreadcrumbLocaleType = {
 };
 ```
 
-### Calendar
-
-Calendar、DatePicker、DateRangePicker
+### DateTimeFormats
 
 ```ts
-type CalendarLocaleType = {
+type DateTimeFormats = {
   sunday?: string;
   monday?: string;
   tuesday?: string;
@@ -27,9 +25,14 @@ type CalendarLocaleType = {
   seconds?: string;
   formattedMonthPattern?: string;
   formattedDayPattern?: string;
+  shortDateFormat?: string;
+  shortTimeFormat?: string;
 
-  // for DateRangePicker
+  //  Only for DateRangePicker
   last7Days?: string;
+
+  // Only for TimePicker
+  now?: string;
 };
 ```
 

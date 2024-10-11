@@ -70,13 +70,13 @@ MaskedInput 是一个输入掩码组件。 它可以为电话、日期、货币�
 | 属性名称     | 类型 `(默认值)`                                   | 描述                        |
 | ------------ | ------------------------------------------------- | --------------------------- |
 | classPrefix  | string `('input')`                                | 组件 CSS 类的前缀           |
-| defaultValue | string                                            | 设置默认值                  |
+| defaultValue | string                                            | 默认值（非受控）            |
 | disabled     | boolean                                           | 禁用                        |
 | htmlSize     | number                                            | 设置原生 input 的 size 属性 |
 | onChange     | (value: string, event) => void                    | value 发生变化的回调函数    |
 | size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置输入框尺寸              |
 | type         | string `('text' )`                                | HTML input type.            |
-| value        | string                                            | 设置值 `受控`               |
+| value        | string                                            | 当前值（受控）              |
 
 ### `<InputGroup>`
 

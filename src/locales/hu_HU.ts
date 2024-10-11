@@ -1,6 +1,6 @@
 import hu from 'date-fns/locale/hu';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'V',
   monday: 'H',
   tuesday: 'K',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'Rendben',
   today: 'Ma',
   yesterday: 'Tegnap',
+  now: 'Most',
   hours: 'Óra',
   minutes: 'Perc',
   seconds: 'Másodperc',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'yyyy MMM',
   formattedDayPattern: 'yyyy MMM dd',
+  shortDateFormat: 'yyyy. MM. dd.',
+  shortTimeFormat: 'HH:mm',
   dateLocale: hu as any
 };
 
 export default {
+  code: 'hu-HU',
   common: {
     loading: 'Betöltés...',
     emptyMessage: 'Nem található adat'
@@ -45,12 +49,10 @@ export default {
     total: 'Összes sor: {0}',
     skip: 'Lapozz ide: {0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Utolsó 7 nap'
   },
   Picker: {

@@ -1,6 +1,6 @@
 import enGB from 'date-fns/locale/en-GB';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'आ',
   monday: 'सो',
   tuesday: 'म',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'हुन्छ',
   today: 'आज',
   yesterday: 'हिजो',
+  now: 'अब',
   hours: 'घण्टा',
   minutes: 'मिनेट',
   seconds: 'सेकेन्ड',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: enGB as any
 };
 
 export default {
+  code: 'ne-NP',
   common: {
     loading: 'लोड हुँदैछ...',
     emptyMessage: 'कुनै डाटा छैन',
@@ -45,12 +49,10 @@ export default {
     total: 'कुल पङ्क्तिहरू: {0}',
     skip: '{0} पृष्ठमा जानुहोस्'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'पछिल्लो ७ दिन'
   },
   Picker: {

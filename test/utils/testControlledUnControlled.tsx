@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 interface ChangeEvent {
   change: () => void;
@@ -124,7 +124,7 @@ export function testControlledUnControlled(
 
     if (simulateEvent) {
       it('Should be uncontrolled and render user-changed value', () => {
-        const onChange = Sinon.spy();
+        const onChange = sinon.spy();
         render(
           <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
         );
@@ -143,7 +143,7 @@ export function testControlledUnControlled(
 
     simulateChangeEvents.forEach(event => {
       it('Should be uncontrolled and render user-changed value', () => {
-        const onChange = Sinon.spy();
+        const onChange = sinon.spy();
         render(
           <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
         );
@@ -166,7 +166,7 @@ export function testControlledUnControlled(
 
     if (simulateEvent) {
       it('Should call `onChange` and render the updated value', () => {
-        const onChange = Sinon.spy();
+        const onChange = sinon.spy();
         const TestApp = () => {
           const [controlledValue, setControlledValue] = React.useState(value);
           const handleChange = (nextValue, event) => {
@@ -194,7 +194,7 @@ export function testControlledUnControlled(
 
     simulateChangeEvents.forEach(event => {
       it('Should call `onChange` and render the updated value', () => {
-        const onChange = Sinon.spy();
+        const onChange = sinon.spy();
         const TestApp = () => {
           const [controlledValue, setControlledValue] = React.useState(value);
           const handleChange = (nextValue, event) => {

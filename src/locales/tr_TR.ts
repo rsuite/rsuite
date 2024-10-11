@@ -1,6 +1,6 @@
 import tr from 'date-fns/locale/tr';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Pz',
   monday: 'Pt',
   tuesday: 'Sa',
@@ -11,15 +11,19 @@ const Calendar = {
   ok: 'Tamam',
   today: 'Bugün',
   yesterday: 'Dün',
+  now: 'Şimdi',
   hours: 'Saat',
   minutes: 'Dakika',
   seconds: 'Saniye',
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: tr as any
 };
 
 export default {
+  code: 'tr-TR',
   common: {
     loading: 'Yükleniyor...',
     emptyMessage: 'Veri bulunamadı',
@@ -41,12 +45,10 @@ export default {
     total: 'Toplam Satır: {0}',
     skip: 'Git{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Son 7 Gün'
   },
   Picker: {

@@ -6,11 +6,10 @@ import Calendar from '../Calendar';
 import { testStandardProps } from '@test/utils';
 
 describe('DateRangePicker - Calendar', () => {
-  testStandardProps(<Calendar index={0} onToggleMeridian={() => void 0} />);
+  testStandardProps(<Calendar index={0} />);
+
   it('Should render a div with "rs-calendar" class', () => {
-    const { container } = render(
-      <Calendar onChangeCalendarMonth={() => 1} index={0} onToggleMeridian={() => void 0} />
-    );
+    const { container } = render(<Calendar onChangeCalendarMonth={() => 1} index={0} />);
     expect(container.firstChild).to.have.class('rs-calendar');
     expect(container.firstChild).to.have.tagName('DIV');
   });
@@ -18,11 +17,10 @@ describe('DateRangePicker - Calendar', () => {
   it('Should output a date', () => {
     render(
       <Calendar
-        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarMonth={() => 1}
         format="yyyy-MM"
-        onToggleMeridian={() => void 0}
       />
     );
 
@@ -33,10 +31,9 @@ describe('DateRangePicker - Calendar', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
     render(
       <Calendar
-        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarMonth={onChangeCalendarMonthSpy}
-        onToggleMeridian={() => void 0}
       />
     );
 
@@ -48,10 +45,9 @@ describe('DateRangePicker - Calendar', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
     render(
       <Calendar
-        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarMonth={onChangeCalendarMonthSpy}
-        onToggleMeridian={() => void 0}
       />
     );
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
@@ -62,10 +58,9 @@ describe('DateRangePicker - Calendar', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
     const { container } = render(
       <Calendar
-        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarMonth={onChangeCalendarMonthSpy}
-        onToggleMeridian={() => void 0}
       />
     );
 

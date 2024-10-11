@@ -1,0 +1,1 @@
+export { getAriaLabel } from './getAriaLabel';

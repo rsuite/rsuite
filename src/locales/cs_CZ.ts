@@ -1,6 +1,6 @@
 import cs from 'date-fns/locale/cs';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Ne',
   monday: 'Po',
   tuesday: 'Út',
@@ -11,6 +11,7 @@ const Calendar = {
   ok: 'OK',
   today: 'Dnes',
   yesterday: 'Včera',
+  now: 'Nyní',
   hours: 'Hodiny',
   minutes: 'Minuty',
   seconds: 'Sekundy',
@@ -20,10 +21,13 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd. MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: cs as any
 };
 
 export default {
+  code: 'cs-CZ',
   common: {
     loading: 'Načítaní...',
     emptyMessage: 'Nejsou k dispozici žádné data',
@@ -45,12 +49,10 @@ export default {
     total: 'Celkový počet řádků : {0}',
     skip: 'Jít na {0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  Calendar: { ...DateTimeFormats },
+  DatePicker: { ...DateTimeFormats },
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Posledních 7 dní'
   },
   Picker: {

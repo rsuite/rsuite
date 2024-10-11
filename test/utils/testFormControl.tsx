@@ -11,6 +11,11 @@ interface TestFormControlOptions {
   value?: any;
 
   /**
+   * The value type.
+   */
+  valueType?: 'time' | 'data-time' | 'string' | 'number';
+
+  /**
    * The component props.
    */
   componentProps?: Record<string, any>;
@@ -26,11 +31,11 @@ interface TestFormControlOptions {
   getUIElement?: () => any;
 }
 
-function expectedRenderedValue(value: any) {
+function expectedRenderedValue(value: any, datetimeFormat = 'yyyy-MM-dd') {
   if (Array.isArray(value) && value[0] instanceof Date) {
-    return value.map(item => format(item, 'yyyy-MM-dd')).join(' ~ ');
+    return value.map(item => format(item, datetimeFormat)).join(' ~ ');
   } else if (value instanceof Date) {
-    return format(value, 'yyyy-MM-dd');
+    return format(value, datetimeFormat);
   } else if (typeof value !== 'string') {
     return value.toString();
   }
@@ -44,11 +49,14 @@ export function testFormControl(
 ) {
   const {
     value = 'default value',
+    valueType,
     componentProps,
     getUIElement = () => screen.getByRole('textbox'),
     getRootElement = view => view.container.firstChild as HTMLElement
   } = options || {};
   const displayName = TestComponent.displayName;
+
+  const datetimeFormat = valueType === 'time' ? 'HH:mm' : 'yyyy-MM-dd';
 
   describe(`${displayName} - Status of FormControl`, () => {
     it('Should be disabled', () => {
@@ -83,14 +91,14 @@ export function testFormControl(
       if (typeof value === 'string' || typeof value === 'number') {
         expect(screen.getByRole('text')).to.have.text(value.toString());
       } else if (value instanceof Date) {
-        expect(screen.getByRole('text')).to.have.text(format(value, 'yyyy-MM-dd'));
+        expect(screen.getByRole('text')).to.have.text(format(value, datetimeFormat));
       }
     });
 
     it('Should render a default plain text', () => {
       render(<TestComponent plaintext {...componentProps} />);
 
-      const plaintext = ['Unfilled', 'Not selected', 'Not uploaded', 'yyyy-MM-dd'];
+      const plaintext = ['Unfilled', 'Not selected', 'Not uploaded', datetimeFormat];
 
       expect(screen.getByRole('text').textContent).to.match(new RegExp(plaintext.join('|')));
     });
@@ -110,7 +118,7 @@ export function testFormControl(
       const element = getUIElement();
       const pickerInput = screen.queryByTestId('picker-toggle-input');
 
-      const renderedValue = expectedRenderedValue(value);
+      const renderedValue = expectedRenderedValue(value, datetimeFormat);
 
       if (element.tagName === 'INPUT') {
         expect(element).to.have.value(renderedValue);
@@ -167,7 +175,7 @@ export function testFormControl(
       if (typeof value === 'string' || typeof value === 'number') {
         expect(screen.getByRole('text')).to.have.text(value.toString());
       } else if (value instanceof Date) {
-        expect(screen.getByRole('text')).to.have.text(format(value, 'yyyy-MM-dd'));
+        expect(screen.getByRole('text')).to.have.text(format(value, datetimeFormat));
       }
     });
 
@@ -178,7 +186,7 @@ export function testFormControl(
         </Form>
       );
 
-      const plaintext = ['Unfilled', 'Not selected', 'Not uploaded', 'yyyy-MM-dd'];
+      const plaintext = ['Unfilled', 'Not selected', 'Not uploaded', datetimeFormat];
 
       expect(screen.getByRole('text').textContent).to.match(new RegExp(plaintext.join('|')));
     });

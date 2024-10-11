@@ -199,11 +199,17 @@ export type { DateInputProps } from './DateInput';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 
+export { default as TimePicker } from './TimePicker';
+export type { TimePickerProps } from './TimePicker';
+
 export { default as DateRangeInput } from './DateRangeInput';
 export type { DateRangeInputProps } from './DateRangeInput';
 
 export { default as DateRangePicker } from './DateRangePicker';
 export type { DateRangePickerProps } from './DateRangePicker';
+
+export { default as TimeRangePicker } from './TimeRangePicker';
+export type { TimeRangePickerProps } from './TimeRangePicker';
 
 export { default as AutoComplete } from './AutoComplete';
 export type { AutoCompleteProps } from './AutoComplete';

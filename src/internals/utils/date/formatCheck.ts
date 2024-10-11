@@ -32,3 +32,9 @@ export const shouldRenderDate = (format: string): boolean =>
  */
 export const shouldOnlyRenderTime = (format: string): boolean =>
   /([Hhms])/.test(format) && !/([YyMDd])/.test(format);
+
+/**
+ * Check if only the month should be rendered based on the format.
+ */
+export const shouldOnlyRenderMonth = (format: string): boolean =>
+  shouldRenderMonth(format) && !shouldRenderDate(format);

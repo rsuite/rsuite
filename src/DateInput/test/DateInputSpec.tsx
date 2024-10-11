@@ -20,6 +20,9 @@ describe('DateInput', () => {
     value: new Date('2023-10-01'),
     changedValue: new Date('2023-10-02'),
     simulateEvent: null,
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    },
     simulateChangeEvents: [
       {
         change: () => {
@@ -44,11 +47,14 @@ describe('DateInput', () => {
   });
 
   testFormControl(DateInput, {
-    value: new Date('2023-10-01')
+    value: new Date('2023-10-01'),
+    componentProps: {
+      format: 'yyyy-MM-dd'
+    }
   });
 
   it('Should render placeholder according to the default format', () => {
-    render(<DateInput />);
+    render(<DateInput format="yyyy-MM-dd" />);
 
     expect(screen.getByRole('textbox')).to.have.attribute('placeholder', 'yyyy-MM-dd');
 
@@ -309,6 +315,18 @@ describe('DateInput', () => {
         ]
       });
     });
+
+    it('Should support the hour format', () => {
+      testContinuousKeyPress({
+        format: 'HH',
+        defaultValue: new Date('2024-01-01 01:00:00'),
+        keySequences: [
+          { key: '{arrowdown}', expected: '00' },
+          { key: '{arrowdown}', expected: '23' }
+        ]
+      });
+    });
+
     it('Should support 12 hour format', () => {
       testContinuousKeyPress({
         format: 'hh',
@@ -526,7 +544,7 @@ describe('DateInput', () => {
     it('Should call `onChange` with pasted value', () => {
       const onChange = sinon.spy();
 
-      render(<DateInput onChange={onChange} />);
+      render(<DateInput onChange={onChange} format="yyyy-MM-dd" />);
 
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const event = mockClipboardEvent('2024-07-21');
@@ -540,7 +558,9 @@ describe('DateInput', () => {
     it('Should not call `onChange` with invalid pasted value', () => {
       const onChange = sinon.spy();
 
-      render(<DateInput onChange={onChange} defaultValue={new Date('2023-10-01')} />);
+      render(
+        <DateInput onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-10-01')} />
+      );
 
       const input = screen.getByRole('textbox') as HTMLInputElement;
 

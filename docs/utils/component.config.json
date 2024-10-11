@@ -544,6 +544,22 @@
         "title": "日期范围选择器",
         "components": ["DateRangePicker"],
         "keywords": ["date", "time", "combobox"]
+      },
+      {
+        "id": "time-picker",
+        "name": "TimePicker",
+        "title": "时间选择器",
+        "components": ["TimePicker"],
+        "keywords": ["date", "time", "combobox"],
+        "minVersion": "5.72.0"
+      },
+      {
+        "id": "time-range-picker",
+        "name": "TimeRangePicker",
+        "title": "时间范围选择器",
+        "components": ["TimeRangePicker"],
+        "keywords": ["date", "time", "combobox"],
+        "minVersion": "5.72.0"
       }
     ]
   },
