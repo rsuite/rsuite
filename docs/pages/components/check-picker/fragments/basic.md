@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker, Stack } from 'rsuite';
+import { CheckPicker, VStack } from 'rsuite';
 
 const data = [
   'Eugenia',
@@ -25,7 +25,7 @@ const data = [
 ].map(item => ({ label: item, value: item }));
 
 const App = () => (
-  <Stack spacing={10} direction="column" alignItems="flex-start">
+  <VStack>
     <CheckPicker data={data} style={{ width: 224 }} />
     <CheckPicker
       data={data}
@@ -33,7 +33,7 @@ const App = () => (
       style={{ width: 224 }}
       placeholder="Select without search"
     />
-  </Stack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

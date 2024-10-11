@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputPicker, Button } from 'rsuite';
+import { InputPicker, Button, VStack, HStack } from 'rsuite';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -26,7 +26,16 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
-      dependencies={{ InputPicker, Button, SpinnerIcon, mockUsers, FaUserGroup, FaUser }}
+      dependencies={{
+        InputPicker,
+        Button,
+        VStack,
+        HStack,
+        SpinnerIcon,
+        mockUsers,
+        FaUserGroup,
+        FaUser
+      }}
     />
   );
 }

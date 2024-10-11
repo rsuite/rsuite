@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckTreePicker, Button, Toggle, Checkbox, Stack } from 'rsuite';
+import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack } from 'rsuite';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
@@ -39,7 +39,8 @@ export default function Page() {
         SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
-        Stack,
+        VStack,
+        HStack,
         mockTreeData,
         mockAsyncData
       }}

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
+import { MultiCascader, HStack, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,30 +12,28 @@ const data = mockTreeData({
   }
 });
 
-const ControlLabel = ({ children }) => (
-  <label style={{ width: 120, display: 'inline-block', color: 'var(--rs-text-secondary)' }}>
-    {children}:
-  </label>
-);
-
 const App = () => (
-  <>
-    <ControlLabel>Disabled</ControlLabel>
-    <MultiCascader disabled defaultValue={['1-1']} data={data} style={{ width: 224 }} />
-    <hr />
-    <ControlLabel>Disabled options</ControlLabel>
-    <MultiCascader data={data} disabledItemValues={['1', '2-1']} style={{ width: 224 }} />
-    <hr />
-    <ControlLabel>Read only</ControlLabel>
-    <MultiCascader readOnly defaultValue={['1-1']} data={data} style={{ width: 224 }} />
-
-    <hr />
-    <ControlLabel>Plaintext</ControlLabel>
-    <MultiCascader plaintext defaultValue={['1-1']} data={data} style={{ width: 224 }} />
-  </>
+  <VStack>
+    <Select label="Disabled" disabled defaultValue={['2-2-1']} data={data} />
+    <Select
+      label="Disabled option"
+      data={data}
+      defaultValue={['2-2-1']}
+      disabledItemValues={['1', '2-1']}
+    />
+    <Select label="Read only" readOnly defaultValue={['2-2-1']} data={data} />
+    <Select label="Plaintext" plaintext defaultValue={['2-2-1']} data={data} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <MultiCascader {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->
