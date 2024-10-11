@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader, Stack } from 'rsuite';
+import { Cascader, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -14,7 +14,7 @@ const data = mockTreeData({
 
 const App = () => {
   return (
-    <Stack spacing={10} direction="column" alignItems="flex-start">
+    <VStack>
       <Cascader data={data} style={{ width: 224 }} />
       <Cascader
         data={data}
@@ -22,7 +22,7 @@ const App = () => {
         style={{ width: 224 }}
         placeholder="Select without search"
       />
-    </Stack>
+    </VStack>
   );
 };
 

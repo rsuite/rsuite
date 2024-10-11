@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckPicker, Button, Checkbox, RadioGroup, Radio, Stack } from 'rsuite';
+import { CheckPicker, Button, Checkbox, RadioGroup, Radio, VStack, HStack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import ImportGuide from '@/components/ImportGuide';
@@ -28,7 +28,8 @@ export default function Page() {
       sandboxFiles={[mockfile]}
       dependencies={{
         mockUsers,
-        Stack,
+        VStack,
+        HStack,
         CheckPicker,
         Button,
         Checkbox,

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker } from 'rsuite';
+import { CheckTreePicker, VStack, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,42 +12,36 @@ const data = mockTreeData({
   }
 });
 
-const ControlLabel = ({ children }) => (
-  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
-);
-
 const App = () => (
-  <>
-    <ControlLabel>Disabled: </ControlLabel>
-    <CheckTreePicker disabled data={data} defaultValue={[24]} style={{ width: 220 }} />
-    <hr />
-    <ControlLabel>Disabled option: </ControlLabel>
-    <CheckTreePicker
+  <VStack spacing={16}>
+    <Select label="Disabled" disabled data={data} defaultValue={['1-2']} />
+    <Select
+      label="Disabled option"
       defaultExpandAll
       data={data}
       disabledItemValues={['1-1', '1-1-2']}
-      defaultValue={[24]}
-      style={{ width: 220 }}
+      defaultValue={['1-2']}
     />
-    <hr />
-    <ControlLabel>Uncheckable: </ControlLabel>
-    <CheckTreePicker
+    <Select
+      label="Uncheckable"
       defaultExpandAll
       data={data}
       uncheckableItemValues={['1-1', '1-1-2']}
-      defaultValue={[24]}
-      style={{ width: 220 }}
+      defaultValue={['1-2']}
     />
-
-    <hr />
-    <ControlLabel>Read only: </ControlLabel>
-    <CheckTreePicker readOnly data={data} defaultValue={[24]} style={{ width: 220 }} />
-    <hr />
-    <ControlLabel>Plaintext: </ControlLabel>
-    <CheckTreePicker plaintext data={data} defaultValue={[24]} style={{ width: 220 }} />
-  </>
+    <Select label="Read only" readOnly data={data} defaultValue={['1-2']} />
+    <Select label="Plaintext" plaintext data={data} defaultValue={['1-2']} />
+  </VStack>
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <CheckTreePicker {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->

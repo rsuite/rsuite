@@ -9,34 +9,26 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <VStack spacing={16}>
-    <HStack>
-      <Label>Disabled: </Label>
-      <SelectPicker disabled data={data} defaultValue={'Bryan'} style={{ width: 224 }} />
-    </HStack>
-    <HStack warp>
-      <Label>Disabled option: </Label>
-      <SelectPicker
-        data={data}
-        style={{ width: 224 }}
-        defaultValue={'Bryan'}
-        disabledItemValues={['Nancy', 'Alice', 'Julia']}
-      />
-    </HStack>
-    <HStack>
-      <Label>Read only: </Label>
-      <SelectPicker readOnly data={data} defaultValue={'Bryan'} style={{ width: 224 }} />
-    </HStack>
-
-    <HStack>
-      <Label>Plaintext: </Label>
-      <SelectPicker plaintext data={data} defaultValue={'Bryan'} style={{ width: 224 }} />
-    </HStack>
+    <Select label="Disabled" disabled data={data} defaultValue={'Bryan'} />
+    <Select
+      label="Disabled option"
+      data={data}
+      defaultValue={'Bryan'}
+      disabledItemValues={['Nancy', 'Alice', 'Julia']}
+    />
+    <Select label="Read only" readOnly data={data} defaultValue={'Bryan'} />
+    <Select label="Plaintext" plaintext data={data} defaultValue={'Bryan'} />
   </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const Label = ({ style, ...rest }) => <label style={{ width: 120, ...style }} {...rest} />;
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <SelectPicker {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->

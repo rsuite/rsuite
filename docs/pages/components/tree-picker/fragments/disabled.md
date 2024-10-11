@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
+import { TreePicker, VStack, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,35 +12,29 @@ const data = mockTreeData({
   }
 });
 
-const ControlLabel = ({ children }) => (
-  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
-);
-
 const App = () => (
-  <div>
-    <ControlLabel>Disabled: </ControlLabel>
-    <TreePicker disabled data={data} defaultValue={'1-1'} style={{ width: 246 }} />
-    <hr />
-    <ControlLabel>Disabled option: </ControlLabel>
-    <TreePicker
+  <VStack spacing={16}>
+    <Select label="Disabled" disabled data={data} defaultValue={'1-1'} />
+    <Select
+      label="Disabled option"
       defaultExpandAll
       data={data}
       defaultValue={'1-1'}
       disabledItemValues={['1-1-1', '2']}
-      style={{ width: 246 }}
     />
-
-    <hr />
-    <ControlLabel>Read only: </ControlLabel>
-    <TreePicker readOnly data={data} defaultValue={'1-1'} style={{ width: 246 }} />
-
-    <hr />
-    <ControlLabel>Plaintext: </ControlLabel>
-    <TreePicker plaintext data={data} defaultValue={'1-1'} style={{ width: 246 }} />
-  </div>
+    <Select label="Read only" readOnly data={data} defaultValue={'1-1'} />
+    <Select label="Plaintext" plaintext data={data} defaultValue={'1-1'} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <TreePicker {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->

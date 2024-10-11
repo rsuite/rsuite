@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { Cascader, VStack, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,35 +12,28 @@ const data = mockTreeData({
   }
 });
 
-const ControlLabel = ({ children }) => (
-  <label style={{ width: 120, display: 'inline-block', color: 'var(--rs-text-secondary)' }}>
-    {children}:
-  </label>
-);
-
 const App = () => (
-  <>
-    <ControlLabel>Disabled</ControlLabel>
-    <Cascader disabled defaultValue="1-1" data={data} style={{ widht: 224 }} />
-
-    <hr />
-    <ControlLabel>Disabled options</ControlLabel>
-    <Cascader
+  <VStack spacing={16}>
+    <Select label="Disabled" disabled defaultValue="1-1" data={data} />
+    <Select
+      label="Disabled option"
       data={data}
       defaultValue="1-1"
       disabledItemValues={['2', '1-1']}
-      style={{ widht: 224 }}
     />
-    <hr />
-    <ControlLabel>Read only</ControlLabel>
-    <Cascader readOnly defaultValue="1-1" data={data} style={{ widht: 224 }} />
-
-    <hr />
-    <ControlLabel>Plaintext</ControlLabel>
-    <Cascader plaintext defaultValue="1-1" data={data} style={{ widht: 224 }} />
-  </>
+    <Select label="Read only" readOnly defaultValue="1-1" data={data} />
+    <Select label="Plaintext" plaintext defaultValue="1-1" data={data} />
+  </VStack>
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <Cascader {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->

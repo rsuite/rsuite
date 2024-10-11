@@ -1,34 +1,33 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker } from 'rsuite';
+import { CheckPicker, VStack, HStack } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
 const App = () => (
-  <>
-    <label>Disabled: </label>
-    <CheckPicker disabled data={data} defaultValue={['Julius']} />
-
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
-    <CheckPicker
+  <VStack spacing={16}>
+    <Select label="Disabled" disabled data={data} defaultValue={['Bryan']} />
+    <Select
+      label="Disabled option"
       data={data}
-      defaultValue={['Julius']}
-      style={{ width: 224 }}
+      defaultValue={['Bryan']}
       disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
     />
-    <hr />
-    <label>Read only: </label>
-    <CheckPicker readOnly data={data} defaultValue={['Julius']} />
-
-    <hr />
-    <label>Plaintext: </label>
-    <CheckPicker plaintext data={data} defaultValue={['Julius']} />
-  </>
+    <Select label="Read only" readOnly data={data} defaultValue={['Bryan']} />
+    <Select label="Plaintext" plaintext data={data} defaultValue={['Bryan']} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const Select = ({ label, children, ...rest }) => (
+  <HStack>
+    <label style={{ width: 120 }}>{label}:</label>
+    <CheckPicker {...rest} style={{ width: 180 }} />
+  </HStack>
+);
 ```
 
 <!--end-code-->

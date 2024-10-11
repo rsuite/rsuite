@@ -1,5 +1,5 @@
 import React from 'react';
-import { TreePicker, Button, Stack } from 'rsuite';
+import { TreePicker, Button, VStack, HStack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
@@ -37,7 +37,8 @@ export default function Page() {
       dependencies={{
         TreePicker,
         Button,
-        Stack,
+        VStack,
+        HStack,
         SpinnerIcon,
         PeoplesIcon,
         AdminIcon,

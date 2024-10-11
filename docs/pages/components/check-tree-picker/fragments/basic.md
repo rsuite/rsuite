@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker, Stack } from 'rsuite';
+import { CheckTreePicker, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -13,7 +13,7 @@ const data = mockTreeData({
 });
 
 const App = () => (
-  <Stack spacing={10} direction="column" alignItems="flex-start">
+  <VStack>
     <CheckTreePicker defaultExpandAll data={data} style={{ width: 280 }} />
     <CheckTreePicker
       defaultExpandAll
@@ -22,7 +22,7 @@ const App = () => (
       style={{ width: 280 }}
       placeholder="Select without search"
     />
-  </Stack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
