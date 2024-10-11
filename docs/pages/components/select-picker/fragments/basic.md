@@ -1,14 +1,14 @@
 <!--start-code-->
 
 ```js
-import { SelectPicker, Stack } from 'rsuite';
+import { SelectPicker, VStack } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
 
 const App = () => (
-  <Stack spacing={10} direction="column" alignItems="flex-start">
+  <VStack>
     <SelectPicker data={data} style={{ width: 224 }} />
     <SelectPicker
       data={data}
@@ -16,7 +16,7 @@ const App = () => (
       style={{ width: 224 }}
       placeholder="Select without search"
     />
-  </Stack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
