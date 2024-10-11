@@ -1,3 +1,20 @@
+# [5.72.0](https://github.com/rsuite/rsuite/compare/v5.71.0...v5.72.0) (2024-10-11)
+
+
+### Bug Fixes
+
+* **DateInput,DateRangeInput:** fix the issue that the value cannot be cleared by the Backspace key ([#3987](https://github.com/rsuite/rsuite/issues/3987)) ([7a25979](https://github.com/rsuite/rsuite/commit/7a2597928d429321d981bbbf958bf1ff01936d2c))
+* **InlineEdit:** ix the issue that InputPicker needs to be clicked twice to focus ([#3990](https://github.com/rsuite/rsuite/issues/3990)) ([7d123b0](https://github.com/rsuite/rsuite/commit/7d123b0f546ac4a61736e147b288bbdca5a1bd5a))
+* **SelectPicker,CheckPicker:** fix the virtual list option text being wrapped ([#3988](https://github.com/rsuite/rsuite/issues/3988)) ([c8f39ef](https://github.com/rsuite/rsuite/commit/c8f39ef2cac3ce6a5df36bec4884d3781ca4e2d1))
+
+
+### Features
+
+* add support for TimePicker and TimeRangePicker ([#3984](https://github.com/rsuite/rsuite/issues/3984)) ([6cadccf](https://github.com/rsuite/rsuite/commit/6cadccf2af96a4af0495c3bdce5190f4556b6004))
+* **Animation.Fade:** add support for CSS variable control animation duration ([#3989](https://github.com/rsuite/rsuite/issues/3989)) ([3952929](https://github.com/rsuite/rsuite/commit/39529298d50d58961644e20b86f7d24bdbc32f81))
+
+
+
 # [5.71.0](https://github.com/rsuite/rsuite/compare/v5.70.3...v5.71.0) (2024-09-27)
 
 
