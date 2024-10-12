@@ -75,6 +75,6 @@ describe('Calendar styles', () => {
   it('Should render compact calendar', () => {
     render(<Calendar compact value={new Date('2024-05-01')} />);
 
-    expect(screen.queryByRole('gridcell', { name: '01 May 2024' })).to.have.style('height', '50px');
+    expect(screen.queryByRole('gridcell', { name: '01 May 2024' })).to.have.style('height', '38px');
   });
 });

@@ -89,25 +89,14 @@
   }
 
   &-panel &-table-cell-day {
-    margin-top: 3px;
     display: block;
     text-align: center;
   }
 
   &-panel &-month-dropdown {
-    margin-top: -2px;
-    margin-left: 12px;
-    margin-right: 12px;
-    top: 54px;
-    width: ~'calc(100% - 24px)';
-  }
-
-  &-panel:not(&-compact) &-month-dropdown-scroll {
-    height: 644px; // Flow design
-  }
-
-  &-panel&-compact &-month-dropdown-scroll {
-    height: 344px; // Flow design
+    margin-left: 10px;
+    margin-right: 10px;
+    width: ~'calc(100% - 20px)';
   }
 
   &-panel:not(&-compact) &-table-row:not(&-table-header-row) &-table-cell-content {
@@ -139,7 +128,11 @@
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
-    height: @calendar-panel-compact-cell-height;
+    min-height: @calendar-panel-compact-cell-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
   &-btn-close {
@@ -156,13 +149,18 @@
     z-index: 1;
 
     &:hover {
-      background-color: var(--rs-btn-subtle-hover-bg)
+      background-color: var(--rs-btn-subtle-hover-bg);
     }
   }
 
   &-panel &-btn-close {
-    bottom: 11px;
-    margin: 0 20px;
+    bottom: 4px;
+    margin: 0 11px;
+    border-radius: 0 0 6px 6px;
+  }
+
+  &-panel&-bordered &-btn-close {
+    bottom: 5px;
   }
 }
 
@@ -463,6 +461,7 @@
   background-color: var(--rs-bg-overlay);
   overflow: hidden;
   z-index: @zindex-date-range-picker-table-cell-content;
+  height: calc(100% - 48px);
 
   .rs-calendar-month-view & {
     display: block;
@@ -473,7 +472,7 @@
   }
 
   &-scroll {
-    height: 230px;
+    height: 100%;
   }
 
   &-row {
