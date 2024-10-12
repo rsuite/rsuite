@@ -1,9 +1,12 @@
 <!--start-code-->
 
 ```js
-import { Calendar, Badge } from 'rsuite';
+import { Calendar, Badge, List } from 'rsuite';
 
 function getTodoList(date) {
+  if (!date) {
+    return [];
+  }
   const day = date.getDate();
 
   switch (day) {
@@ -18,30 +21,57 @@ function getTodoList(date) {
         { time: '12:30 pm', title: 'Client entertaining' },
         { time: '02:00 pm', title: 'Product design discussion' },
         { time: '05:00 pm', title: 'Product test and acceptance' },
-        { time: '06:30 pm', title: 'Reporting' },
-        { time: '10:00 pm', title: 'Going home to walk the dog' }
+        { time: '06:30 pm', title: 'Reporting' }
       ];
     default:
       return [];
   }
 }
 
-const App = () => {
-  function renderCell(date) {
-    const list = getTodoList(date);
+function renderCell(date) {
+  const list = getTodoList(date);
 
-    if (list.length) {
-      return <Badge className="calendar-todo-item-badge" />;
-    }
-
-    return null;
+  if (list.length) {
+    return <Badge className="calendar-todo-item-badge" />;
   }
+
+  return null;
+}
+
+const App = () => {
+  const [selectedDate, setSelectedDate] = React.useState(null);
+
+  const handleSelect = date => {
+    setSelectedDate(date);
+  };
+
   return (
-    <div style={{ width: 280 }}>
-      <Calendar compact bordered renderCell={renderCell} />
-    </div>
+    <HStack spacing={10} style={{ height: 320 }} alignItems="flex-start" wrap>
+      <Calendar compact renderCell={renderCell} onSelect={handleSelect} style={{ width: 320 }} />
+      <TodoList date={selectedDate} />
+    </HStack>
   );
 };
+
+const TodoList = ({ date }) => {
+  const list = getTodoList(date);
+
+  if (!list.length) {
+    return null;
+  }
+
+  return (
+    <List style={{ flex: 1 }} bordered>
+      {list.map(item => (
+        <List.Item key={item.time} index={item.time}>
+          <div>{item.time}</div>
+          <div>{item.title}</div>
+        </List.Item>
+      ))}
+    </List>
+  );
+};
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

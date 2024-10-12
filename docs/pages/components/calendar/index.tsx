@@ -3,8 +3,6 @@ import {
   Calendar,
   Button,
   Tag,
-  Popover,
-  Whisper,
   Badge,
   RadioGroup,
   Radio,
@@ -12,6 +10,7 @@ import {
   VStack,
   HStack,
   Divider,
+  List,
   Text
 } from 'rsuite';
 import { HolidayUtil, Lunar, Solar } from 'lunar-typescript';
@@ -38,13 +37,12 @@ export default function Page() {
         Button,
         Divider,
         Tag,
-        Popover,
-        Whisper,
         Badge,
         RadioGroup,
         Radio,
         Toggle,
-        Text
+        Text,
+        List
       }}
       sandboxFiles={files}
     />

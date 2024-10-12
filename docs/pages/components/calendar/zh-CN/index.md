@@ -12,15 +12,15 @@
 
 <!--{include:`basic.md`}-->
 
+### 紧凑型
+
+<!--{include:`compact.md`}-->
+
 ### 自定义单元格样式
 
 使用 `cellClassName` 函数指定各单元格添加的自定义类名。例如，下面的代码中，我们指定周一、周三、周五添加 `.bg-gray` 类名，从而实现这三列的单元格背景色为灰色。
 
 <!--{include:`custom-cell.md`}-->
-
-### 紧凑型
-
-<!--{include:`compact.md`}-->
 
 ### 自定义周
 

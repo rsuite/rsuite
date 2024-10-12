@@ -89,7 +89,6 @@
   }
 
   &-panel &-table-cell-day {
-    margin-top: 3px;
     display: block;
     text-align: center;
   }
@@ -139,7 +138,11 @@
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
-    height: @calendar-panel-compact-cell-height;
+    min-height: @calendar-panel-compact-cell-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
   &-btn-close {

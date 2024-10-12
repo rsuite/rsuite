@@ -11,7 +11,6 @@ const App = () => {
     <HStack divider={<Divider vertical />} spacing={40} style={{ height: 410 }}>
       <HStack style={{ width: 340 }}>
         <Calendar
-          bordered
           compact
           weekStart={weekStart}
           showWeekNumbers={showWeekNumbers}
