@@ -3,7 +3,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
-import IconCalendar from '@rsuite/icons/legacy/Calendar';
+import IconCalendar from '@rsuite/icons/Calendar';
 import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
