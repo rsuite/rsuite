@@ -1,4 +1,4 @@
-import da from 'date-fns/locale/da';
+import { da } from 'date-fns/locale/da';
 
 const DateTimeFormats = {
   sunday: 'Sø',

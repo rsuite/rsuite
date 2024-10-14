@@ -1,4 +1,4 @@
-import nl from 'date-fns/locale/nl';
+import { nl } from 'date-fns/locale/nl';
 
 const DateTimeFormats = {
   sunday: 'Zo',

@@ -62,7 +62,7 @@
     "@types/prop-types": "^15.7.5",
     "@types/react-window": "^1.8.5",
     "classnames": "^2.3.1",
-    "date-fns": "^2.29.3",
+    "date-fns": "^4.1.0",
     "dom-lib": "^3.3.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",

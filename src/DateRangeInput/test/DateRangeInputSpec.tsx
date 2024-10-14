@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { format } from 'date-fns/format';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

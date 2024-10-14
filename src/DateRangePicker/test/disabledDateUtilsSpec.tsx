@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import { parseISO } from 'date-fns/parseISO';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import * as utils from '../disabledDateUtils';
 

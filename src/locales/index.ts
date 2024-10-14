@@ -1,5 +1,5 @@
 import defaultLocale from './en_GB';
-import { Locale as DateFnsLocale } from 'date-fns';
+import type { Locale as DateFnsLocale } from 'date-fns';
 
 export { default as arEG } from './ar_EG';
 export { default as daDK } from './da_DK';

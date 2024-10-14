@@ -1,4 +1,4 @@
-import enGB from 'date-fns/locale/en-GB';
+import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
   sunday: 'आ',

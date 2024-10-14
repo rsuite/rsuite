@@ -1,4 +1,4 @@
-import faIR from 'date-fns/locale/fa-IR';
+import { faIR } from 'date-fns/locale/fa-IR';
 
 const DateTimeFormats = {
   sunday: 'ی',

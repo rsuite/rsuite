@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 import delay from 'lodash/delay';
-import addMonths from 'date-fns/addMonths';
-import addDays from 'date-fns/addDays';
+import { addMonths } from 'date-fns/addMonths';
+import { addDays } from 'date-fns/addDays';
 import { useEventCallback, useCustom } from '@/internals/hooks';
 import { getAriaLabel } from '../../Calendar/utils';
 import { DatePickerLocale } from '../../locales';

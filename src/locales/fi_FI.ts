@@ -1,4 +1,4 @@
-import fi from 'date-fns/locale/fi';
+import { fi } from 'date-fns/locale/fi';
 
 const DateTimeFormats = {
   sunday: 'Su',

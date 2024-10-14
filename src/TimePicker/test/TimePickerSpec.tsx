@@ -9,7 +9,7 @@ import {
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { format } from 'date-fns';
+import { format } from 'date-fns/format';
 import TimePicker from '../TimePicker';
 
 afterEach(() => {

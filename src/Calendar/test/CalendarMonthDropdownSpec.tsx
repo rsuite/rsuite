@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { getYear } from 'date-fns';
+import { getYear } from 'date-fns/getYear';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import { CalendarProvider } from '../CalendarProvider';
