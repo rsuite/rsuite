@@ -1,7 +1,7 @@
 import React from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
@@ -104,7 +104,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = node.loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
+      const Icon = node.loading ? SpinnerIcon : rtl ? PagePreviousIcon : PageNextIcon;
       let active = value.some(v => v === nodeValue);
 
       if (cascade) {

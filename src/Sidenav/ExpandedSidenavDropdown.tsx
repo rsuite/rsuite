@@ -7,7 +7,7 @@ import { useClassNames, useInternalId } from '@/internals/hooks';
 import { placementPolyfill, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '@/internals/Disclosure/Disclosure';

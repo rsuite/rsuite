@@ -3,7 +3,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
-import IconCalendar from '@rsuite/icons/legacy/Calendar';
+import CalendarIcon from '@rsuite/icons/Calendar';
 import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
@@ -1024,7 +1024,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       if (caretAsProp === null) {
         return null;
       }
-      return caretAsProp || (onlyShowTime ? TimeIcon : IconCalendar);
+      return caretAsProp || (onlyShowTime ? TimeIcon : CalendarIcon);
     }, [caretAsProp, onlyShowTime]) as React.ElementType | null;
 
     const isErrorValue = (value?: [Date, Date] | [] | null) => {

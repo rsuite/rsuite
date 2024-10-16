@@ -6,7 +6,7 @@ import { useClassNames, useCustom } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { SidenavContext } from './Sidenav';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';

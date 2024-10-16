@@ -1,7 +1,7 @@
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { SidenavContext } from './Sidenav';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import MenuItem from '@/internals/Menu/MenuItem';

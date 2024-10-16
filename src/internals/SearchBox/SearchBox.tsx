@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from '@rsuite/icons/legacy/Search';
+import SearchIcon from '@rsuite/icons/Search';
 import { useClassNames } from '@/internals/hooks';
 import Input from '../../Input';
 import InputGroup from '../../InputGroup';
@@ -41,7 +41,7 @@ const SearchBox: RsRefForwardingComponent<'div', SearchBoxProps> = React.forward
           />
 
           <InputGroup.Addon>
-            <Search className={prefix`icon`} />
+            <SearchIcon className={prefix`icon`} />
           </InputGroup.Addon>
         </InputGroup>
       </Component>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 import { useClassNames } from '@/internals/hooks';
 

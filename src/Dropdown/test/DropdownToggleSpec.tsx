@@ -1,6 +1,6 @@
 import React from 'react';
 import DropdownToggle from '../DropdownToggle';
-import User from '@rsuite/icons/legacy/User';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
@@ -23,7 +23,7 @@ describe('DropdownToggle', () => {
   });
 
   it('Should have an icon', () => {
-    const { container } = render(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
+    const { container } = render(<DropdownToggle icon={<AddOutlineIcon />}>abc</DropdownToggle>);
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('.rs-dropdown-toggle-icon.rs-icon')).to.exist;
   });

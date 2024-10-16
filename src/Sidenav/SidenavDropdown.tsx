@@ -7,7 +7,7 @@ import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';

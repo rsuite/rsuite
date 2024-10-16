@@ -1,7 +1,7 @@
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import isNil from 'lodash/isNil';

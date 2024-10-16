@@ -12,8 +12,8 @@ import {
   DataProps,
   ToArray
 } from '@/internals/types';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import { SelectNode, CascadeColumn } from './types';
@@ -128,7 +128,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
+      const Icon = loading ? SpinnerIcon : rtl ? PagePreviousIcon : PageNextIcon;
 
       return (
         <ListItem

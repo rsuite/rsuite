@@ -6,9 +6,9 @@ import { useClassNames, useCustom } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import { IconProps } from '@rsuite/icons/Icon';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 import NavContext from './NavContext';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
 
@@ -97,7 +97,7 @@ const NavDropdownMenu = React.forwardRef<
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
-  const Icon = rtl ? AngleLeft : AngleRight;
+  const Icon = rtl ? PagePreviousIcon : PageNextIcon;
 
   return (
     <Menu
