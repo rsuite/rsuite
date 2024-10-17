@@ -41,15 +41,36 @@ return (
 );
 ```
 
+### Content Security Policy
+
+在 `@rsuite/icons` 中的图标动画使用了内联样式，如果您的项目启用了 [Content Security Policy][csp]，请确保配置了 [nonce][nonce] 值。
+
+```jsx
+import { CustomProvider } from 'rsuite';
+
+return (
+  <CustomProvider csp={{ nonce: 'xxxxxx' }}>
+    <App />
+  </CustomProvider>
+);
+```
+
 ## Props
 
 ### `<CustomProvider>`
 
-| 属性名称      | 类型`(默认值)`                                     | 描述                                                                      |
-| ------------- | -------------------------------------------------- | ------------------------------------------------------------------------- |
-| disableRipple | boolean                                            | 禁用组件的涟漪效果，受影响的组件包括：`Button`、`Nav.Item`、 `Pagination` |
-| formatDate    | (date: Date, format?: string) => string            | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |
-| locale        | object`(rsuite/locales/default)`                   | 语言包配置                                                                |
-| parseDate     | (dateString: string, formatString: string) => Date | 使用给定的格式字符串返回从字符串解析的日期                                |
-| rtl           | boolean                                            | 可设置文本和其他元素的默认方向是从左到右                                  |
-| theme         | 'light' &#124; 'dark' &#124; 'high-contrast'       | 支持的主题                                                                |
+| 属性名称            | 类型`(默认值)`                                     | 描述                                                                      |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------------- |
+| csp                 | { nonce: string }                                  | 配置 [Content Security Policy][csp] 的 [nonce][nonce] 值 <br/>![][5.73.0] |
+| disableInlineStyles | boolean                                            | 禁用内联样式 <br/>![][5.73.0]                                             |
+| disableRipple       | boolean                                            | 禁用组件的涟漪效果，受影响的组件包括：`Button`、`Nav.Item`、 `Pagination` |
+| formatDate          | (date: Date, format?: string) => string            | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |
+| locale              | object [`(en-GB)`][en_GB]                          | 语言包配置                                                                |
+| parseDate           | (dateString: string, formatString: string) => Date | 使用给定的格式字符串返回从字符串解析的日期                                |
+| rtl                 | boolean                                            | 可设置文本和其他元素的默认方向是从左到右                                  |
+| theme               | 'light' \| 'dark' \| 'high-contrast'               | 支持的主题                                                                |
+
+[csp]: https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP
+[nonce]: https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/nonce
+[5.73.0]: https://img.shields.io/badge/>=-v5.73.0-blue
+[en_GB]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts

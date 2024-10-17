@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef, useMemo } from 'react';
+import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
 import { Locale } from '../locales';
@@ -122,17 +123,39 @@ export interface CustomValue<T = Locale> {
 }
 
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
-  /** Supported themes */
+  /**
+   * Supported themes
+   */
   theme?: 'light' | 'dark' | 'high-contrast';
 
-  /** The prefix of the component CSS class */
+  /**
+   * The prefix of the component CSS class
+   */
   classPrefix?: string;
 
-  /** Primary content */
+  /**
+   * Primary content
+   */
   children?: React.ReactNode;
 
-  /** Sets a container for toast rendering */
+  /**
+   * Sets a container for toast rendering
+   */
   toastContainer?: HTMLElement | (() => HTMLElement | null) | null;
+
+  csp?: {
+    /**
+     * Content Security Policy nonce
+     * https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce
+     */
+    nonce?: string;
+  };
+
+  /**
+   * Disable inline styles
+   * @default false
+   */
+  disableInlineStyles?: boolean;
 }
 
 const CustomContext = React.createContext<CustomProviderProps>({});
@@ -150,14 +173,21 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
     theme,
     toastContainer: container,
     disableRipple,
+    csp,
+    disableInlineStyles,
     ...rest
   } = props;
-  const toasters = React.useRef(new Map<string, ToastContainerInstance>());
+  const toasters = useRef(new Map<string, ToastContainerInstance>());
   const { Portal } = usePortal({ container, waitMount: true });
 
-  const value = React.useMemo(
+  const value = useMemo(
     () => ({ classPrefix, theme, toasters, disableRipple, ...rest }),
     [classPrefix, theme, disableRipple, rest]
+  );
+
+  const iconContext = useMemo(
+    () => ({ classPrefix, csp, disableInlineStyles }),
+    [classPrefix, csp, disableInlineStyles]
   );
 
   useIsomorphicLayoutEffect(() => {
@@ -175,20 +205,22 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
 
   return (
     <CustomContext.Provider value={value}>
-      {children}
-      <Portal>
-        <div className="rs-toast-provider">
-          {toastPlacements.map(placement => (
-            <ToastContainer
-              key={placement}
-              placement={placement}
-              ref={ref => {
-                toasters.current.set(placement, ref);
-              }}
-            />
-          ))}
-        </div>
-      </Portal>
+      <IconProvider value={iconContext}>
+        {children}
+        <Portal>
+          <div className={`${classPrefix}toast-provider`}>
+            {toastPlacements.map(placement => (
+              <ToastContainer
+                key={placement}
+                placement={placement}
+                ref={ref => {
+                  toasters.current.set(placement, ref);
+                }}
+              />
+            ))}
+          </div>
+        </Portal>
+      </IconProvider>
     </CustomContext.Provider>
   );
 };
