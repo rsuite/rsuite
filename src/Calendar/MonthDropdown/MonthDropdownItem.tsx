@@ -3,8 +3,8 @@ import { setMonth, setYear } from '@/internals/utils/date';
 import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { composeFunctions } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendar } from './hooks';
-import { getAriaLabel } from './utils';
+import { useCalendar } from '../hooks';
+import { getAriaLabel } from '../utils';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -65,7 +65,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
         onClick={handleClick}
         {...rest}
       >
-        <span className={prefix('content')}>{month}</span>
+        <span className={prefix('content')}>{formatDate(currentMonth, 'MMM')}</span>
       </Component>
     );
   }

@@ -1,22 +1,26 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import MonthDropdownItem from '../MonthDropdownItem';
+import MonthDropdownItem from '../MonthDropdown/MonthDropdownItem';
 import { format } from 'date-fns';
 import { CalendarProvider } from '../CalendarProvider';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 
 describe('Calendar-MonthDropdownItem', () => {
   testStandardProps(<MonthDropdownItem />);
 
-  it('Should output a `1` ', () => {
-    render(<MonthDropdownItem month={1} />);
+  it('Should output specified month', () => {
+    render(
+      <CalendarProvider value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}>
+        <MonthDropdownItem year={2024} month={1} />
+      </CalendarProvider>
+    );
 
-    expect(screen.getByRole('gridcell')).to.have.text('1');
+    expect(screen.getByRole('gridcell')).to.have.text('Jan');
   });
 
   it('Should call `onSelect` callback with correct date', () => {
-    const onChangeMonth = Sinon.spy();
+    const onChangeMonth = sinon.spy();
 
     render(
       <CalendarProvider

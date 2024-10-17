@@ -1,10 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { getDaysInMonth, getMonth, getYear } from '@/internals/utils/date';
+import { getMonth, getYear } from '@/internals/utils/date';
 import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
 import { useClassNames } from '@/internals/hooks';
 import MonthDropdownItem from './MonthDropdownItem';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { useCalendar } from './hooks';
+import { useCalendar } from '../hooks';
+import { isEveryDateInMonth } from '../utils';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -15,22 +16,11 @@ export interface MonthDropdownProps extends WithAsProps {
   disabledMonth?: (date: Date) => boolean;
 }
 
-const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+// Array representing the index of each month
+const MONTHS_INDEX = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-export function isEveryDateInMonth(
-  year: number,
-  month: number,
-  predicate: (date: Date) => boolean
-): boolean {
-  const days = getDaysInMonth(new Date(year, month));
-
-  for (let i = 1; i <= days; i++) {
-    if (!predicate(new Date(year, month, i))) {
-      return false;
-    }
-  }
-  return true;
-}
+// The height of each item
+const ITEM_SIZE = 108;
 
 const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
   (props: MonthDropdownProps, ref) => {
@@ -99,7 +89,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
               {year}
             </div>
             <div className={prefix('list')}>
-              {monthMap.map((item, month) => {
+              {MONTHS_INDEX.map((item, month) => {
                 return (
                   <MonthDropdownItem
                     disabled={isMonthDisabled(year, month)}
@@ -118,9 +108,8 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     );
 
     const classes = merge(className, withClassPrefix(), { show });
-    const itemSize = 75;
     const initialItemIndex = getYear(date) - startYear;
-    const initialScrollOffset = itemSize * initialItemIndex;
+    const initialScrollOffset = ITEM_SIZE * initialItemIndex;
 
     if (!show) {
       return null;
@@ -144,7 +133,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
                 className={merge(prefix('row-wrapper'), listClassName)}
                 width={width || defaultWidth}
                 height={height || defaultHeight}
-                itemSize={itemSize}
+                itemSize={ITEM_SIZE}
                 itemCount={rowCount}
                 initialScrollOffset={initialScrollOffset}
                 innerElementType={List}
