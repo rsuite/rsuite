@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import { useClassNames } from '@/internals/hooks';
 import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';

@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import More from '@rsuite/icons/legacy/More';
-import PagePrevious from '@rsuite/icons/legacy/PagePrevious';
-import PageNext from '@rsuite/icons/legacy/PageNext';
-import PageTop from '@rsuite/icons/legacy/PageTop';
-import PageEnd from '@rsuite/icons/legacy/PageEnd';
+import MoreIcon from '@rsuite/icons/More';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageTopIcon from '@rsuite/icons/PageTop';
+import PageNextIcon from '@rsuite/icons/PageNext';
+import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import { useClassNames, useCustom } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '@/internals/types';
 import { PaginationLocale } from '../locales';
 
 const PAGINATION_ICONS = {
-  more: <More />,
-  prev: <PagePrevious />,
-  next: <PageNext />,
-  first: <PageTop />,
-  last: <PageEnd />
+  more: <MoreIcon />,
+  prev: <PagePreviousIcon />,
+  next: <PageNextIcon />,
+  first: <PageTopIcon />,
+  last: <PageEndIcon />
 };
 
 export interface PaginationProps extends WithAsProps {

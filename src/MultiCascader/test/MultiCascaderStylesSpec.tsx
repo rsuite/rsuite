@@ -19,6 +19,6 @@ describe('MultiCascader styles', () => {
       '8px 26px 8px 38px'
     );
 
-    expect(tree.querySelector('[aria-label="angle right"]')).to.exist;
+    expect(tree.querySelector('[aria-label="page next"]')).to.exist;
   });
 });

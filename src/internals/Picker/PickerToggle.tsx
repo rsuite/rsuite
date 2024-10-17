@@ -4,7 +4,7 @@ import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
 import { mergeRefs } from '@/internals/utils';
 import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '@/internals/types';
 import Plaintext from '../Plaintext';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import Stack from '../../Stack';
 import PickerIndicator from './PickerIndicator';
 import PickerLabel from './PickerLabel';

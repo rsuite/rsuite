@@ -5,7 +5,7 @@ import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { createChainedFunction, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';

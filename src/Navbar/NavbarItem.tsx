@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';

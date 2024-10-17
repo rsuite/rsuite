@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 import IconButton from '../IconButton';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import { deprecatePropType } from '@/internals/propTypes';
 import { SidenavContext } from './Sidenav';
 
@@ -42,7 +42,7 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
-    const Icon = expanded ? AngleLeft : AngleRight;
+    const Icon = expanded ? PagePreviousIcon : PageNextIcon;
 
     const handleToggle = (event: React.MouseEvent) => {
       onToggle?.(!expanded, event);

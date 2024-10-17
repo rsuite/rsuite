@@ -16,6 +16,6 @@ describe('Cascader styles', () => {
     const caret = treeitem.querySelector('.rs-cascade-tree-caret') as HTMLElement;
 
     expect(treeitem).to.have.style('padding', '8px 28px 8px 12px');
-    expect(caret).to.have.attribute('aria-label', 'angle right');
+    expect(caret).to.have.attribute('aria-label', 'page next');
   });
 });

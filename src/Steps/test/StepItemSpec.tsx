@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import StepItem from '../StepItem';
-import User from '@rsuite/icons/legacy/User';
+import AddOutline from '@rsuite/icons/AddOutline';
 
 describe('StepItem', () => {
   testStandardProps(<StepItem />);
@@ -26,7 +26,7 @@ describe('StepItem', () => {
   });
 
   it('Should render custom icon', () => {
-    const { container } = render(<StepItem icon={<User data-testid="custom-icon" />} />);
+    const { container } = render(<StepItem icon={<AddOutline data-testid="custom-icon" />} />);
 
     expect(container.firstChild).to.have.class('rs-steps-item-custom');
     expect(screen.getByTestId('custom-icon')).to.exist;

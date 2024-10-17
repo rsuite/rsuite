@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
+
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
@@ -92,7 +93,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
           aria-label="Previous month"
           className={backwardClass}
           onClick={disabledBackward ? undefined : onMoveBackward}
-          icon={<AngleLeftIcon />}
+          icon={<PagePreviousIcon />}
         />
         <Button
           {...btnProps}
@@ -108,7 +109,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
           aria-label="Next month"
           className={forwardClass}
           onClick={disabledForward ? undefined : onMoveForward}
-          icon={<AngleRightIcon />}
+          icon={<PageNextIcon />}
         />
       </div>
     );
