@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { format } from 'date-fns';
+import { format } from 'date-fns/format';
 import Form from '../../src/Form';
 import FormControl from '../../src/FormControl';
 

@@ -1,4 +1,4 @@
-import zhTW from 'date-fns/locale/zh-TW';
+import { zhTW } from 'date-fns/locale/zh-TW';
 
 const DateTimeFormats = {
   sunday: '日',

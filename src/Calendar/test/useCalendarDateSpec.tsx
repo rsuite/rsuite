@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { act } from '@testing-library/react';
 import { renderHook } from '@test/utils';
 import { useCalendarDate } from '../hooks';

@@ -1,4 +1,4 @@
-import { type Locale } from 'date-fns';
+import type { Locale } from 'date-fns';
 import { getSelectIndexGap, isCursorAfterMonth, getDatePattern } from '../DateInput';
 
 export enum DateType {

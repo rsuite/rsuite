@@ -1,4 +1,4 @@
-import arSA from 'date-fns/locale/ar-SA';
+import { arSA } from 'date-fns/locale/ar-SA';
 
 const DateTimeFormats = {
   sunday: 'ح',

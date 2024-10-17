@@ -6,7 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
 const markdownRenderer = require('./scripts/markdownRenderer');
-const format = require('date-fns/format');
+const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
@@ -14,7 +14,7 @@ const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const {
   // 'production' on main branch
   // 'preview' on pr branches
-  // emtpy on local machine
+  // empty on local machine
   // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
   VERCEL_ENV = 'local'
 } = process.env;

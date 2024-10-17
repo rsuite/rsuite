@@ -2,7 +2,7 @@
 
 ```js
 import { DateRangePicker } from 'rsuite';
-import subDays from 'date-fns/subDays';
+import { subDays } from 'date-fns/subDays';
 
 const ranges = [
   {

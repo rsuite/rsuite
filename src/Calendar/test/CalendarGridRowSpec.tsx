@@ -1,11 +1,12 @@
 import React from 'react';
-import { getDate, format } from 'date-fns';
+import { getDate } from 'date-fns/getDate';
+import { format } from 'date-fns/format';
+import { isToday } from 'date-fns/isToday';
 import { render, screen, fireEvent } from '@testing-library/react';
 import GridRow from '../Grid/GridRow';
 import { CalendarProvider } from '../CalendarProvider';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
-import { isToday } from 'date-fns';
 
 describe('Calendar-GridRow', () => {
   testStandardProps(<GridRow />);

@@ -1,4 +1,4 @@
-import ko from 'date-fns/locale/ko';
+import { ko } from 'date-fns/locale/ko';
 
 const DateTimeFormats = {
   sunday: '일',

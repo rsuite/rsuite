@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
-import { Locale } from '../locales';
+import type { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
 import type { Locale as DateFnsLocale } from 'date-fns';
@@ -79,8 +79,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import format from 'date-fns/format';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { format } from 'date-fns/format';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function formatDate(date, formatStr) {
    *    return format(date, formatStr, { locale: eo });
@@ -94,8 +94,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import parse from 'date-fns/parse';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { parse } from 'date-fns/parse';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function parseDate(date, formatStr) {
    *    return parse(date, formatStr, new Date(), { locale: eo });
