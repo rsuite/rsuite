@@ -1,15 +1,15 @@
 import React from 'react';
-import Info from '@rsuite/icons/legacy/Info';
-import CheckCircle from '@rsuite/icons/legacy/CheckCircle';
-import CloseCircle from '@rsuite/icons/legacy/CloseCircle';
+import InfoRoundIcon from '@rsuite/icons/InfoRound';
+import CheckRoundIcon from '@rsuite/icons/CheckRound';
+import WarningRoundIcon from '@rsuite/icons/WarningRound';
+import RemindRoundIcon from '@rsuite/icons/RemindRound';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-import RemindRoundIcon from '@rsuite/icons/RemindRound';
 
 export const MESSAGE_STATUS_ICONS = {
-  info: <Info />,
-  success: <CheckCircle />,
-  error: <CloseCircle />,
+  info: <InfoRoundIcon />,
+  success: <CheckRoundIcon />,
+  error: <WarningRoundIcon />,
   warning: <RemindRoundIcon />
 };
 

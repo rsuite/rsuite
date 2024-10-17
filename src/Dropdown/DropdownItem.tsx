@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import MenuItem from '@/internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';

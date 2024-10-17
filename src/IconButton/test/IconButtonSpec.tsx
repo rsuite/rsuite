@@ -1,6 +1,6 @@
 import React from 'react';
 import { testStandardProps } from '@test/utils';
-import User from '@rsuite/icons/legacy/User';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import IconButton from '../IconButton';
 import { render, screen } from '@testing-library/react';
 
@@ -16,7 +16,7 @@ describe('IconButton', () => {
   });
 
   it('Should output an icon', async () => {
-    render(<IconButton icon={<User />} />);
+    render(<IconButton icon={<AddOutlineIcon />} />);
     const icon = await screen.findByRole('button');
 
     expect(icon).to.exist;

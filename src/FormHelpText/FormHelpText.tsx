@@ -5,7 +5,7 @@ import Whisper from '../Whisper';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
-import HelpIcon from '@rsuite/icons/legacy/HelpO';
+import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 
 export interface FormHelpTextProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
   /** Whether to show through the Tooltip component */
@@ -44,7 +44,7 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
           }
         >
           <Component role="img" aria-label="help" className={classes}>
-            <HelpIcon aria-hidden={true} />
+            <HelpOutlineIcon aria-hidden={true} />
           </Component>
         </Whisper>
       );

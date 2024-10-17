@@ -1,7 +1,7 @@
 import React from 'react';
 import { useClassNames } from '../hooks';
 import { WithAsProps } from '@/internals/types';
-import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 
 export interface ListItemGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,7 +21,7 @@ const ListItemGroup = React.forwardRef(
       <Component role="group" {...rest} ref={ref} className={classes}>
         <div className={prefix`title`} tabIndex={-1}>
           <span>{children}</span>
-          <ArrowDown aria-hidden className={prefix`caret`} />
+          <ArrowDownIcon aria-hidden className={prefix`caret`} />
         </div>
       </Component>
     );

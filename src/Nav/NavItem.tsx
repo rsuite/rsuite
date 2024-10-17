@@ -6,7 +6,7 @@ import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import NavContext from './NavContext';
 import classNames from 'classnames';
 

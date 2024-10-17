@@ -34,7 +34,7 @@ describe('Notification', () => {
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.have.attribute(
       'aria-label',
-      'info'
+      'info round'
     );
   });
 

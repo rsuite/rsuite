@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { useCustom, useClassNames } from '../hooks';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';

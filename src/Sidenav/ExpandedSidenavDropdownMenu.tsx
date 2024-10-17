@@ -8,7 +8,7 @@ import { SidenavContext } from './Sidenav';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Ripple from '@/internals/Ripple';
 import Disclosure from '@/internals/Disclosure/Disclosure';

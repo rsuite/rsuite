@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 import { RsRefForwardingComponent } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';

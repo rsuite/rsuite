@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
-import User from '@rsuite/icons/legacy/User';
+import AddOutline from '@rsuite/icons/AddOutline';
 import Nav from '../../Nav';
 
 describe('<Dropdown.Item>', () => {
@@ -83,7 +83,7 @@ describe('<Dropdown.Item>', () => {
   it('Should render a icon', () => {
     render(
       <Dropdown open>
-        <DropdownItem icon={<User data-testid="icon" />} />
+        <DropdownItem icon={<AddOutline data-testid="icon" />} />
       </Dropdown>
     );
 
