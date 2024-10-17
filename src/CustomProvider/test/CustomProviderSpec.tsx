@@ -8,6 +8,7 @@ import ruRU from '../../locales/ru_RU';
 import TreePicker from '../../TreePicker';
 import CheckTreePicker from '../../CheckTreePicker';
 import Button from '../../Button';
+import AddOutline from '@rsuite/icons/AddOutline';
 
 describe('CustomProvider', () => {
   it('Should render the correct local language', () => {
@@ -72,9 +73,17 @@ describe('CustomProvider', () => {
       </>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByTestId('btn-1').querySelector('.rs-ripple')).to.exist;
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByTestId('btn-2').querySelector('.rs-ripple')).to.not.exist;
+    expect(screen.getByRole('button', { name: 'has ripple effect' })).to.contain('.rs-ripple');
+    expect(screen.getByRole('button', { name: 'no ripple effect' })).to.not.contain('.rs-ripple');
+  });
+
+  it('Should render the correct class prefix', () => {
+    render(
+      <CustomProvider classPrefix="my-">
+        <AddOutline />
+      </CustomProvider>
+    );
+
+    expect(screen.getByLabelText('add outline')).to.have.class('my-icon');
   });
 });
