@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { addMonths } from '@/internals/utils/date';
 import { useEventCallback } from '@/internals/hooks';
 
@@ -19,9 +19,15 @@ export interface CalendarStateProps {
 export const useCalendarState = (props: CalendarStateProps) => {
   const [calendarState, setCalendarState] = useState<CalendarState | undefined>(props.defaultState);
 
-  const reset = useCallback(() => {
+  const reset = useEventCallback(() => {
     setCalendarState(undefined);
-  }, []);
+
+    if (calendarState === CalendarState.TIME) {
+      props.onToggleTimeDropdown?.(false);
+    } else if (calendarState === CalendarState.MONTH) {
+      props.onToggleMonthDropdown?.(false);
+    }
+  });
 
   const onMoveForward = useEventCallback(() => {
     props.onMoveForward?.(addMonths(props.calendarDate, 1));
@@ -33,7 +39,7 @@ export const useCalendarState = (props: CalendarStateProps) => {
 
   const onToggleTimeDropdown = useEventCallback(() => {
     if (calendarState === CalendarState.TIME) {
-      reset();
+      setCalendarState(undefined);
     } else {
       setCalendarState(CalendarState.TIME);
     }
@@ -43,7 +49,7 @@ export const useCalendarState = (props: CalendarStateProps) => {
 
   const onToggleMonthDropdown = useEventCallback(() => {
     if (calendarState === CalendarState.MONTH) {
-      reset();
+      setCalendarState(undefined);
     } else {
       setCalendarState(CalendarState.MONTH);
     }
