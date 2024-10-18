@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, Button, Toggle, Rate } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import HeartIcon from '@rsuite/icons/legacy/Heart';
 import BeerIcon from '@rsuite/icons/legacy/Beer';
 import FrownIcon from '@rsuite/icons/legacy/FrownO';

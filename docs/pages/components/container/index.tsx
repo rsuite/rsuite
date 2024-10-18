@@ -24,7 +24,7 @@ import {
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import FakeBrowser from '@/components/FakeBrowser';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { FaGithub, FaRegEye, FaRegEyeSlash, FaReact, FaCog } from 'react-icons/fa';
 import {
   MdDashboard,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { Light, Dark, HighContrast } from '@/components/SvgIcons';
 import { useApp } from '@/components/AppContext';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import components from './component.config.json';
 import { useApp } from '@/components/AppContext';
 import * as SvgIcons from '@/components/SvgIcons';

@@ -8,7 +8,7 @@ import {
   RadioTileGroup,
   useMediaQuery
 } from 'rsuite';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { VscRepo, VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';

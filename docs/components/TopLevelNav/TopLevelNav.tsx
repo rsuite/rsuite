@@ -8,7 +8,7 @@ import * as SvgIcons from '@/components/SvgIcons';
 import { useApp } from '../AppContext';
 import Link from '@/components/Link';
 import { useRouter } from 'next/router';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import Github from '@rsuite/icons/legacy/Github';
