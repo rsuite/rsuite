@@ -1,3 +1,20 @@
+# [5.73.0](https://github.com/rsuite/rsuite/compare/v5.72.0...v5.73.0) (2024-10-18)
+
+
+### Bug Fixes
+
+* bump @rsuite/icons 1.2.0 and replace deprecated icons ([#4002](https://github.com/rsuite/rsuite/issues/4002)) ([2a287c1](https://github.com/rsuite/rsuite/commit/2a287c1145abac326d56412f9fc5fabbf55c19d6))
+* **Calendar:** fix the week not aligning in the cell ([#3994](https://github.com/rsuite/rsuite/issues/3994)) ([14ae7a4](https://github.com/rsuite/rsuite/commit/14ae7a4ed5a3e267358de083e84c4fa086d1f1f0))
+* examples/custom-multiple-themes/package.json to reduce vulnerabilities ([#3962](https://github.com/rsuite/rsuite/issues/3962)) ([16bc650](https://github.com/rsuite/rsuite/commit/16bc650b87e3c8ab0b70a07e1c44b44d6838c022))
+
+
+### Features
+
+* **Calendar:** support localized month calendar ([#3995](https://github.com/rsuite/rsuite/issues/3995)) ([b4f80d8](https://github.com/rsuite/rsuite/commit/b4f80d85abbc5760ab29e19bf5bb55715dbd0988))
+* **CustomProvider:** add support for csp and disableInlineStyles ([#4004](https://github.com/rsuite/rsuite/issues/4004)) ([84b6e98](https://github.com/rsuite/rsuite/commit/84b6e9832127db8ef66e74e072387729dedd5388))
+
+
+
 # [5.72.0](https://github.com/rsuite/rsuite/compare/v5.71.0...v5.72.0) (2024-10-11)
 
 
