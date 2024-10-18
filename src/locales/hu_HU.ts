@@ -30,7 +30,9 @@ export default {
   code: 'hu-HU',
   common: {
     loading: 'Betöltés...',
-    emptyMessage: 'Nem található adat'
+    emptyMessage: 'Nem található adat',
+    remove: 'eltávolít',
+    clear: 'töröl'
   },
   Plaintext: {
     unfilled: 'Kitöltetlen',
