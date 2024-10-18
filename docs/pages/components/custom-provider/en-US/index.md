@@ -65,7 +65,7 @@ return (
 | disableInlineStyles | boolean                                 | Disable inline styles <br/>![][5.73.0]                                                                  |
 | disableRipple       | boolean                                 | If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination` |
 | formatDate          | (date: Date, format?: string) => string | Return the formatted date string in the given format. The result may vary by locale.                    |
-| locale              | [Locale][Locale] [`(en-GB)`][en_GB]     | Configure Language Pack                                                                                 |
+| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | Configure Language Pack                                                                                 |
 | parseDate           | (date: string, format: string) => Date  | Return the date parsed from string using the given format string.                                       |
 | rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |
@@ -73,5 +73,5 @@ return (
 [nonce]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce
 [csp]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
 [5.73.0]: https://img.shields.io/badge/>=-v5.73.0-blue
-[en_GB]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
-[Locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts
+[en_gb]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
+[locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts
