@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav } from 'rsuite';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
 import StaticCodeView from '../CodeView/StaticCodeView';
 

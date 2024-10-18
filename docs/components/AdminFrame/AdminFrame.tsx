@@ -26,7 +26,7 @@ import {
   DatePicker,
   HStack
 } from 'rsuite';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import {
   MdDashboard,
   MdGroup,

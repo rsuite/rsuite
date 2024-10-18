@@ -1,6 +1,6 @@
 import { Nav, NavProps } from 'rsuite';
 import { useApp, Theme } from '@/components/AppContext';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 
 function ThemeGroup(props: NavProps) {

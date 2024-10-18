@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import classnames from 'classnames';
-import { IconProps } from '@rsuite/icons/lib/Icon';
+import { IconProps } from '@rsuite/icons/Icon';
 
 export interface IconItemProps {
   onSelect: (name: string, event: React.MouseEvent) => void;

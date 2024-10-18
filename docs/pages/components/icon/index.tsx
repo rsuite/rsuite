@@ -1,7 +1,8 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import { IconButton } from 'rsuite';
-import { Icon, createIconFont } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
+import createIconFont from '@rsuite/icons/createIconFont';
 import GearIcon from '@rsuite/icons/Gear';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PieChartIcon from '@rsuite/icons/PieChart';

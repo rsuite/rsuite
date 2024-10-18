@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
 import GithubIcon from '@rsuite/icons/legacy/Github';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import stackBlitzSDK, { Project } from '@stackblitz/sdk';
 
 import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '../SvgIcons';

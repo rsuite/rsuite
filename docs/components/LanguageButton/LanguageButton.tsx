@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { IconButton } from 'rsuite';
 import * as SvgIcons from '@/components/SvgIcons';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 
 interface ButtonProps {
   className?: string;

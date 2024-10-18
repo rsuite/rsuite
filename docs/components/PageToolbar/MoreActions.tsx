@@ -8,7 +8,7 @@ import Twitter from '@rsuite/icons/legacy/Twitter';
 import MenuIcon from '@rsuite/icons/Menu';
 import Diamond from '@rsuite/icons/legacy/Diamond';
 import { SwitchTheme } from './SwitchTheme';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import * as SvgIcons from '@/components/SvgIcons';
 
 interface MoreActionsProps {

@@ -7,7 +7,7 @@ import { useApp } from '@/components/AppContext';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
 import ThemeGroup from '@/components/ThemeGroup';
 import { MdPalette } from 'react-icons/md';
-import { Icon } from '@rsuite/icons';
+import Icon from '@rsuite/icons/Icon';
 import grayLight from './color-light-gray.json';
 import grayDark from './color-dark-gray.json';
 
