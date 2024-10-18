@@ -134,6 +134,11 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
   classPrefix?: string;
 
   /**
+   * The prefix of the icon CSS class
+   */
+  iconClassPrefix?: string;
+
+  /**
    * Primary content
    */
   children?: React.ReactNode;
@@ -170,6 +175,7 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   const {
     children,
     classPrefix = getClassNamePrefix(),
+    iconClassPrefix = classPrefix,
     theme,
     toastContainer: container,
     disableRipple,
@@ -186,8 +192,8 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   );
 
   const iconContext = useMemo(
-    () => ({ classPrefix, csp, disableInlineStyles }),
-    [classPrefix, csp, disableInlineStyles]
+    () => ({ classPrefix: iconClassPrefix, csp, disableInlineStyles }),
+    [iconClassPrefix, csp, disableInlineStyles]
   );
 
   useIsomorphicLayoutEffect(() => {

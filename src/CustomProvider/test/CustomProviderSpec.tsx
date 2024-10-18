@@ -86,4 +86,14 @@ describe('CustomProvider', () => {
 
     expect(screen.getByLabelText('add outline')).to.have.class('my-icon');
   });
+
+  it('Should render the correct class prefix for icon', () => {
+    render(
+      <CustomProvider classPrefix="my-" iconClassPrefix="hy-">
+        <AddOutline />
+      </CustomProvider>
+    );
+
+    expect(screen.getByLabelText('add outline')).to.have.class('hy-icon');
+  });
 });
