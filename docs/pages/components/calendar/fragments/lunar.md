@@ -26,12 +26,12 @@ const App = () => {
   const holiday = HolidayUtil.getHoliday(date.getFullYear(), date.getMonth() + 1, date.getDate());
 
   return (
-    <HStack divider={<Divider vertical style={{ height: 400 }} />} spacing={40} wrap>
+    <HStack divider={<Divider vertical style={{ height: 400 }} />} spacing={10} wrap>
       <Calendar
         compact
         bordered
         renderCell={renderCell}
-        style={{ width: 340 }}
+        style={{ width: 320 }}
         onChange={setDate}
       />
       <DayView date={date} />
