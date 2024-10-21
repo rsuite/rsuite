@@ -4,8 +4,9 @@ import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { partitionHTMLProps } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export type ValueType = string | number;
 
@@ -46,6 +47,7 @@ export interface RadioTileProps<T = ValueType>
  * @see https://rsuitejs.com/components/radio-tile/
  */
 const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
+  const { propsWithDefaults } = useCustom('RadioTile', props);
   const {
     value: groupValue,
     name: nameContext,
@@ -68,7 +70,7 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
     tabIndex = 0,
     onChange,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const [checked, setChecked] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,

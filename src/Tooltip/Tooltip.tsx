@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TooltipProps extends WithAsProps {
   /** Dispaly placement */
@@ -24,6 +25,7 @@ export interface TooltipProps extends WithAsProps {
  */
 const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
   (props: TooltipProps, ref) => {
+    const { propsWithDefaults } = useCustom('Tooltip', props);
     const {
       as: Component = 'div',
       className,
@@ -33,7 +35,7 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
       visible,
       arrow = true,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(

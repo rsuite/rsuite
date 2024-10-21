@@ -101,8 +101,9 @@ export default {
     total: '共 {0} 条数据',
     skip: '跳至{0}页'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+ Calendar: DateTimeFormats,
+  DatePicker:DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '最近 7 天'

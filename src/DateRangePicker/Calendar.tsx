@@ -6,7 +6,7 @@ import { addMonths, startOfToday } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { DatePickerLocale } from '../locales';
+import { DateRangePickerLocale } from '../locales';
 import { useCalendarHandlers } from './hooks';
 
 type OmitCalendarCoreTypes =
@@ -33,7 +33,7 @@ export interface CalendarProps
   weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   limitEndYear?: number;
   limitStartYear?: number;
-  locale?: DatePickerLocale;
+  locale?: Partial<DateRangePickerLocale>;
   showWeekNumbers?: boolean;
   value?: [] | [Date] | [Date, Date];
   onChangeCalendarMonth?: (index: number, date: Date) => void;

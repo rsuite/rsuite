@@ -1,13 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
 import isNil from 'lodash/isNil';
-import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import IndentLine from '../Tree/IndentLine';
-import { useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import SearchBox from '@/internals/SearchBox';
+import useTreeSearch from '../Tree/hooks/useTreeSearch';
+import useFocusTree from '../Tree/hooks/useFocusTree';
+import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
+import useTreeCheckState from './hooks/useTreeCheckState';
+import useTreeNodeProps from './hooks/useTreeNodeProps';
+import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView } from '@/internals/Tree';
-import SearchBox from '@/internals/SearchBox';
 import {
   hasGrandchild,
   isEveryFirstLevelNodeUncheckable,
@@ -15,12 +20,8 @@ import {
   isNodeUncheckable
 } from './utils';
 import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
-import useTreeSearch from '../Tree/hooks/useTreeSearch';
-import useFocusTree from '../Tree/hooks/useFocusTree';
-import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
-import useTreeCheckState from './hooks/useTreeCheckState';
-import useTreeNodeProps from './hooks/useTreeNodeProps';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import { useCustom } from '../CustomProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { ItemDataType, RsRefForwardingComponent, ToArray, DataProps } from '@/internals/types';
 import type { TreeViewBaseProps } from '../Tree/types';
@@ -140,7 +141,8 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       ...rest
     } = props;
 
-    const { locale } = useCustom('Picker', overrideLocale);
+    const { getLocale } = useCustom();
+    const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
     const { childrenKey, valueKey, virtualized, scrollShadow } = useTreeContextProps();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
@@ -349,7 +351,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
       <Component ref={ref} className={classes} style={style}>
         {searchable ? (
           <SearchBox
-            placeholder={locale.searchPlaceholder}
+            placeholder={searchPlaceholder}
             onChange={handleSearch}
             value={keyword}
             inputRef={searchInputRef}
@@ -357,7 +359,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         ) : null}
 
         {keyword && formattedNodes.length === 0 ? (
-          <div className={prefix('empty')}>{locale.noResultsText}</div>
+          <div className={prefix('empty')}>{noResultsText}</div>
         ) : null}
 
         <TreeView

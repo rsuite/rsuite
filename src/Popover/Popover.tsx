@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import Heading from '../Heading';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface PopoverProps extends WithAsProps {
   /** The title of the component. */
@@ -24,6 +25,7 @@ export interface PopoverProps extends WithAsProps {
  */
 const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
   (props: PopoverProps, ref) => {
+    const { propsWithDefaults } = useCustom('Popover', props);
     const {
       as: Component = 'div',
       classPrefix = 'popover',
@@ -35,7 +37,7 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
       full,
       arrow = true,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ full }));

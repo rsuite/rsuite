@@ -1,7 +1,8 @@
 import React from 'react';
 import partial from 'lodash/partial';
 import { isSameDay, getDate } from '@/internals/utils/date';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
@@ -41,8 +42,10 @@ const GridCell: RsRefForwardingComponent<'div', GridCellProps> = React.forwardRe
       locale: overrideLocale
     } = useCalendar();
     const { prefix, merge } = useClassNames(classPrefix);
-    const { locale, formatDate } = useCustom('Calendar', overrideLocale);
-    const formatStr = locale.formattedDayPattern;
+    const { getLocale, formatDate } = useCustom();
+    const { formattedDayPattern, today } = getLocale('Calendar', overrideLocale);
+
+    const formatStr = formattedDayPattern;
     const ariaLabel = getAriaLabel(date, formatStr, formatDate);
     const todayDate = new Date();
     const isToday = isSameDay(date, todayDate);
@@ -68,7 +71,7 @@ const GridCell: RsRefForwardingComponent<'div', GridCellProps> = React.forwardRe
         aria-selected={selected || undefined}
         aria-disabled={disabled || undefined}
         tabIndex={selected ? 0 : -1}
-        title={isToday ? `${ariaLabel} (${locale?.today})` : ariaLabel}
+        title={isToday ? `${ariaLabel} (${today})` : ariaLabel}
         className={classes}
         onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, date) : undefined}
         onClick={onSelect ? partial(onSelect, date, disabled) : undefined}

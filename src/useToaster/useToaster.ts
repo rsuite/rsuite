@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import toaster from '../toaster';
-import { useCustom } from '@/internals/hooks';
+import { CustomContext } from '../CustomProvider';
 import { ToastContainerProps } from '../toaster/ToastContainer';
 
 /**
@@ -11,7 +11,7 @@ import { ToastContainerProps } from '../toaster/ToastContainer';
  * @see https://rsuitejs.com/components/use-toaster/
  */
 const useToaster = () => {
-  const { toasters } = useCustom();
+  const { toasters } = useContext(CustomContext);
 
   return useMemo(
     () => ({

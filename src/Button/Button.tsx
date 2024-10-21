@@ -6,6 +6,7 @@ import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
 import { isOneOf } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
@@ -55,6 +56,7 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
  */
 const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
   (props: ButtonProps, ref) => {
+    const { propsWithDefaults } = useCustom('Button', props);
     const {
       as,
       active,
@@ -72,7 +74,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       endIcon,
       type: typeProp,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const buttonGroup = useContext(ButtonGroupContext);
 

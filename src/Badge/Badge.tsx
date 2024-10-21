@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
+
 export interface BadgeProps extends WithAsProps {
   /** Main content */
   content?: React.ReactNode;
@@ -20,6 +22,7 @@ export interface BadgeProps extends WithAsProps {
  */
 const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
   (props: BadgeProps, ref) => {
+    const { propsWithDefaults } = useCustom('Badge', props);
     const {
       as: Component = 'div',
       content: contentText,
@@ -29,7 +32,7 @@ const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
       children,
       maxCount = 99,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const dot = contentText === undefined || contentText === null;

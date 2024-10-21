@@ -1,10 +1,9 @@
 import React from 'react';
 import { WithAsProps } from '@/internals/types';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../../CustomProvider';
 
 type LocaleKey = 'unfilled' | 'notSelected' | 'notUploaded';
-
-type PlaintextLocale = Record<LocaleKey, string>;
 
 export interface PlaintextProps extends WithAsProps {
   placeholder?: React.ReactNode;
@@ -16,14 +15,14 @@ export interface PlaintextProps extends WithAsProps {
  * @private
  */
 const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
-  const { locale } = useCustom<PlaintextLocale>('Plaintext');
+  const { getLocale } = useCustom();
   const {
     as: Component = 'div',
     classPrefix = 'plaintext',
     className,
     children,
     localeKey = '',
-    placeholder = locale[localeKey],
+    placeholder = getLocale('Plaintext')[localeKey] || '',
     ...rest
   } = props;
 

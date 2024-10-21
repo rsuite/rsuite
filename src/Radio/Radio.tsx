@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { partitionHTMLProps } from '@/internals/utils';
-import { WithAsProps, TypeAttributes } from '@/internals/types';
 import { refType } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, TypeAttributes } from '@/internals/types';
 
 export type ValueType = string | number;
 export interface RadioProps<T = ValueType>
@@ -85,6 +86,7 @@ export interface RadioProps<T = ValueType>
  */
 const Radio = React.forwardRef((props: RadioProps, ref) => {
   const radioContext = useContext(RadioContext);
+  const { propsWithDefaults } = useCustom('Radio', props);
   const {
     value: groupValue,
     inline: inlineContext,
@@ -116,7 +118,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     onChange,
     onClick,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const [checked, setChecked, selfControlled] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,

@@ -4,8 +4,9 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
+import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
-import { useCustom, useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';
 import {
   Listbox,
@@ -25,10 +26,10 @@ import {
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import SearchBox from '@/internals/SearchBox';
-import { ListProps } from '@/internals/Windowing';
 import { oneOf } from '@/internals/propTypes';
-import { FormControlPickerProps, ItemDataType } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { ListProps } from '@/internals/Windowing';
+import type { FormControlPickerProps, ItemDataType } from '@/internals/types';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */
@@ -89,7 +90,7 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
   ) => React.ReactNode;
 }
 
-export interface SelectPickerProps<T>
+export interface SelectPickerProps<T = any>
   extends Omit<
       FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
       'value' | 'defaultValue' | 'onChange'
@@ -124,6 +125,7 @@ export interface SelectPickerComponent {
  */
 const SelectPicker = React.forwardRef(
   <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+    const { propsWithDefaults } = useCustom('SelectPicker', props);
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -142,7 +144,7 @@ const SelectPicker = React.forwardRef(
       menuMaxHeight = 320,
       menuStyle,
       groupBy,
-      locale: overrideLocale,
+      locale,
       toggleAs,
       style,
       searchable = true,
@@ -165,10 +167,9 @@ const SelectPicker = React.forwardRef(
       renderMenuItem,
       renderExtraFooter,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
-    const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
       (value: React.SetStateAction<T | null>) => void,

@@ -2,14 +2,15 @@ import React, { useCallback, useRef, useImperativeHandle, useReducer, useEffect 
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import FileItem from './UploadFileItem';
-import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
-import { useClassNames, useCustom, useWillUnmount } from '@/internals/hooks';
-import { guid } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
 import Plaintext from '@/internals/Plaintext';
-import { oneOf } from '@/internals/propTypes';
-import { UploaderLocale } from '../locales';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
+import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
+import { useClassNames, useWillUnmount } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { guid } from '@/internals/utils';
+import { oneOf } from '@/internals/propTypes';
+import type { WithAsProps } from '@/internals/types';
+import type { UploaderLocale } from '../locales';
 
 export interface FileType {
   /** File Name */
@@ -258,6 +259,8 @@ const useFileList = (
  * @see https://rsuitejs.com/components/uploader
  */
 const Uploader = React.forwardRef((props: UploaderProps, ref) => {
+  const { propsWithDefaults } = useCustom('Uploader', props);
+
   const {
     as: Component = 'div',
     classPrefix = 'uploader',
@@ -266,7 +269,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     defaultFileList,
     fileList: fileListProp,
     fileListVisible = true,
-    locale: localeProp,
+    locale,
     style,
     draggable,
     name = 'file',
@@ -301,10 +304,10 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     onProgress,
     onReupload,
     ...rest
-  } = props;
+  } = propsWithDefaults;
+
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(listType, { draggable }));
-  const { locale } = useCustom<UploaderLocale>('Uploader', localeProp);
 
   const rootRef = useRef<HTMLDivElement>();
   const xhrs = useRef({});

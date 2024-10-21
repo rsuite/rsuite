@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: ptBR as any
 };
 
+const Combobox = {
+  noResultsText: 'Nenhum resultado encontrado',
+  placeholder: 'Selecionar',
+  searchPlaceholder: 'Pesquisar',
+  checkAll: 'Todos'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Novo item',
+  createOption: 'Criar opção "{0}"'
+};
+
 export default {
   code: 'pt-BR',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'Total: {0}',
     skip: 'Ir{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Últimos 7 dias'
   },
-  Picker: {
-    noResultsText: 'Nenhum resultado encontrado',
-    placeholder: 'Selecionar',
-    searchPlaceholder: 'Pesquisar',
-    checkAll: 'Todos'
-  },
-  InputPicker: {
-    newItem: 'Novo item',
-    createOption: 'Criar opção "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Inicializado',
     progress: 'Em progresso',

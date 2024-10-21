@@ -5,66 +5,15 @@ import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
-import type { Locale as DateFnsLocale } from 'date-fns';
-import type { DateFns } from '@/internals/types';
-
-export interface FormatDateOptions {
-  /**
-   * The locale object that contains the language and formatting rules for the date.
-   */
-  locale?: DateFnsLocale;
-
-  /**
-   * Defines which day of the week should be considered the start of the week.
-   *
-   * The value should be an integer from 0 to 6, where:
-   * - `0` represents Sunday,
-   * - `1` represents Monday,
-   * - `2` represents Tuesday,
-   * - `3` represents Wednesday,
-   * - `4` represents Thursday,
-   * - `5` represents Friday,
-   * - `6` represents Saturday.
-   *
-   * This option is important for functions that operate on weeks, such as calculating
-   * the start or end of a week, determining which week a date falls in, or generating
-   * calendar views. The default value varies depending on the locale, with Monday (`1`)
-   * being the default in most regions following ISO 8601, while Sunday (`0`) is often
-   * the default in regions like the United States.
-   */
-  weekStartsOn?: DateFns.Day;
-
-  /**
-   * `firstWeekContainsDate` is used to determine which week is considered the first week of the year.
-   *
-   * This option specifies the minimum day of January that must be included in the first week.
-   *
-   * The value can be set to:
-   * - `1`: The first week of the year must include January 1st.
-   * - `4`: The first week of the year must include January 4th, which is the default according to ISO 8601.
-   *
-   * The choice between `1` and `4` typically depends on the regional or business conventions for week numbering.
-   *
-   * Please note that this option only accepts `1` (Sunday) or `4` (Thursday), aligning with common international standards.
-   *
-   * For more detailed information, please refer to https://en.wikipedia.org/wiki/Week#Week_numbering.
-   */
-  firstWeekContainsDate?: DateFns.FirstWeekContainsDate;
-
-  /**
-   * If true, allows usage of the week-numbering year tokens `YY` and `YYYY`.
-   * See: https://date-fns.org/docs/Unicode-Tokens
-   **/
-  useAdditionalWeekYearTokens?: boolean;
-
-  /**
-   * If true, allows usage of the day of year tokens `D` and `DD`.
-   * See: https://date-fns.org/docs/Unicode-Tokens
-   */
-  useAdditionalDayOfYearTokens?: boolean;
-}
+import type { FormatDateOptions } from '@/internals/utils/date/types';
+import type { ReactSuiteComponents } from './types';
 
 export interface CustomValue<T = Locale> {
+  /**
+   * The prefix of the component CSS class
+   */
+  classPrefix?: string;
+
   /**
    * The locale object that contains the language and formatting rules for the date.
    */
@@ -129,11 +78,6 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
   theme?: 'light' | 'dark' | 'high-contrast';
 
   /**
-   * The prefix of the component CSS class
-   */
-  classPrefix?: string;
-
-  /**
    * The prefix of the icon CSS class
    */
   iconClassPrefix?: string;
@@ -161,6 +105,24 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
    * @default false
    */
   disableInlineStyles?: boolean;
+
+  /**
+   * components allows setting default props for specific components globally.
+   * It accepts an object where each key represents a component name (e.g., 'Button', 'Input'),
+   * and the corresponding value is an object containing the `defaultProps` object.
+   * The `defaultProps` object defines the default props for that component.
+   * These props will be automatically applied to the component unless overridden by specific props
+   * passed in an individual component instance.
+   *
+   * @example
+   * ```js
+   * components={{
+   *   Button: { defaultProps: { appearance: 'primary', size: 'lg' } },
+   *   Input: { defaultProps: { placeholder: 'Enter text', size: 'lg' } }
+   * }}
+   * ```
+   */
+  components?: Partial<ReactSuiteComponents>;
 }
 
 const CustomContext = React.createContext<CustomProviderProps>({});
@@ -175,6 +137,7 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   const {
     children,
     classPrefix = getClassNamePrefix(),
+    components,
     iconClassPrefix = classPrefix,
     theme,
     toastContainer: container,
@@ -187,8 +150,8 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   const { Portal } = usePortal({ container, waitMount: true });
 
   const value = useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, ...rest }),
-    [classPrefix, theme, disableRipple, rest]
+    () => ({ classPrefix, theme, toasters, disableRipple, components, ...rest }),
+    [classPrefix, theme, disableRipple, components, rest]
   );
 
   const iconContext = useMemo(

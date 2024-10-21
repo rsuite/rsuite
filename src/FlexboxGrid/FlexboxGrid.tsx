@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
 import FlexboxGridItem from './FlexboxGridItem';
+import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export interface FlexboxGridProps extends WithAsProps {
   /** align */
@@ -22,6 +23,7 @@ interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGrid
  * @see https://rsuitejs.com/components/flexbox-grid
  */
 const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProps, ref) => {
+  const { propsWithDefaults } = useCustom('FlexboxGrid', props);
   const {
     as: Component = 'div',
     className,
@@ -29,7 +31,7 @@ const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProp
     align = 'top',
     justify = 'start',
     ...rest
-  } = props;
+  } = propsWithDefaults;
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(align, justify));
   return <Component {...rest} ref={ref} className={classes} />;

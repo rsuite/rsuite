@@ -3,12 +3,11 @@ import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-
 import { TypeAttributes } from '@/internals/types';
-import useCustom from './useCustom';
+import { useCustom } from '../../CustomProvider';
 
 export function useToggleCaret(placement: TypeAttributes.Placement8 | TypeAttributes.Placement) {
-  const { rtl } = useCustom('Dropdown');
+  const { rtl } = useCustom();
   return useMemo(() => {
     switch (true) {
       case /^top/.test(placement):

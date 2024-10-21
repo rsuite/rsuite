@@ -4,6 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
@@ -33,6 +34,7 @@ export const AvatarGroupContext = React.createContext<{ size?: Size; spacing?: n
  */
 const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.forwardRef(
   (props: AvatarGroupProps, ref) => {
+    const { propsWithDefaults } = useCustom('AvatarGroup', props);
     const {
       as: Component = 'div',
       classPrefix = 'avatar-group',
@@ -43,7 +45,7 @@ const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.for
       size,
       style,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ stack }));

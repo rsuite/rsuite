@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface FormControlLabelProps
   extends WithAsProps,
@@ -17,6 +18,7 @@ export interface FormControlLabelProps
  */
 const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
   (props: FormControlLabelProps, ref) => {
+    const { propsWithDefaults } = useCustom('FormControlLabel', props);
     const { labelId, controlId } = useFormGroup();
     const {
       as: Component = 'label',
@@ -25,7 +27,7 @@ const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps>
       className,
       id = labelId,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());

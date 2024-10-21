@@ -1,11 +1,12 @@
 import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
-import { useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { FormControlBaseProps } from '@/internals/types';
 import { isValid } from '@/internals/utils/date';
 import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
+import { useCustom } from '../CustomProvider';
 import useDateInputState from './hooks/useDateInputState';
 import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
 import useIsFocused from './hooks/useIsFocused';
@@ -35,9 +36,10 @@ export interface DateInputProps
  * @see https://rsuitejs.com/components/date-input/
  */
 const DateInput = React.forwardRef((props: DateInputProps, ref) => {
-  const { locale, parseDate } = useCustom('Calendar');
+  const { propsWithDefaults, parseDate, getLocale } = useCustom('DateInput', props);
+  const { dateLocale, shortDateFormat } = getLocale('DateTimeFormats');
   const {
-    format: formatStr = locale.shortDateFormat,
+    format: formatStr = shortDateFormat,
     value: valueProp,
     defaultValue,
     placeholder,
@@ -47,13 +49,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     onFocus,
     onPaste,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const inputRef = useRef<HTMLInputElement>();
-
   const { selectedState, setSelectedState } = useSelectedState();
 
-  const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
   const {
     dateField,

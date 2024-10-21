@@ -99,8 +99,9 @@ const locale = {
     total: 'Total Rows: {0}',
     skip: 'Go to{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+ Calendar: DateTimeFormats,
+  DatePicker:DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Last 7 Days'

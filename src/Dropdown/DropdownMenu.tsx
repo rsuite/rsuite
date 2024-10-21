@@ -1,19 +1,20 @@
 import React, { useCallback, useContext, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
 import Menubar from '@/internals/Menu/Menubar';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames, useCustom } from '@/internals/hooks';
-import { mergeRefs, warnOnce } from '@/internals/utils';
-import PropTypes from 'prop-types';
-import { StandardProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import DropdownContext from './DropdownContext';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
+import { oneOf } from '@/internals/propTypes';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { mergeRefs, warnOnce } from '@/internals/utils';
+import type { StandardProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -78,7 +79,7 @@ const DropdownMenu = React.forwardRef<
   const nav = useContext(NavContext);
 
   const dropdown = useContext(DropdownContext);
-  const { rtl } = useCustom('DropdownMenu');
+  const { rtl } = useCustom();
 
   const handleToggleSubmenu = useCallback(
     (_: boolean, event: React.SyntheticEvent) => {

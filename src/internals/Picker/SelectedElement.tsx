@@ -8,7 +8,7 @@ export interface SelectedElementProps {
   labelKey: string;
   countable: boolean;
   cascade?: boolean;
-  locale?: PickerLocale;
+  locale?: Partial<PickerLocale>;
   childrenKey?: string;
   prefix: (name: string) => string;
 }

@@ -1,7 +1,15 @@
 import React, { useMemo } from 'react';
-import { pick, omit, isNil, isFunction } from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
+import isFunction from 'lodash/isFunction';
+import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useFlattenTree from '../Tree/hooks/useFlattenTree';
+import useFocusState from './hooks/useFocusState';
+import useExpandTree from '../Tree/hooks/useExpandTree';
+import TreeView, { type TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
@@ -20,11 +28,7 @@ import {
 } from '@/internals/Picker';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { TreeNode } from '@/internals/Tree/types';
-import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
-import useFlattenTree from '../Tree/hooks/useFlattenTree';
-import useFocusState from './hooks/useFocusState';
-import useExpandTree from '../Tree/hooks/useExpandTree';
-import TreeView, { type TreeViewProps } from '../Tree/TreeView';
+import { useCustom } from '../CustomProvider';
 import type { FormControlPickerProps, DeprecatedPickerProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
@@ -72,6 +76,7 @@ export interface TreePickerProps<V = number | string | null>
  * @see https://rsuitejs.com/components/tree-picker/
  */
 const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
+  const { propsWithDefaults } = useCustom('TreePicker', props);
   const {
     as: Component = 'div',
     appearance = 'default',
@@ -86,7 +91,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     defaultExpandItemValues = [],
     expandItemValues: controlledExpandItemValues,
     id,
-    locale: overrideLocale,
+    locale,
     labelKey = 'label',
     placeholder,
     placement = 'bottomStart',
@@ -108,7 +113,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     toggleAs,
     searchBy,
     getChildren,
-
     onClean,
     onSearch,
     onSelect,
@@ -125,9 +129,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     renderTreeNode,
     renderExtraFooter,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
   const [value, setValue] = useControlled(controlledValue, defaultValue);
   const itemDataKeys = { childrenKey, labelKey, valueKey };
@@ -240,7 +243,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         flattenedNodes={flattenedNodes}
         listProps={listProps}
         listRef={list}
-        locale={overrideLocale}
+        locale={locale}
         height={treeHeight}
         onExpand={handleExpandTreeNode}
         onSearch={onSearch}
@@ -325,7 +328,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           inputValue={value}
           focusItemValue={focusItemValue}
         >
-          {selectedElement || locale.placeholder}
+          {selectedElement || locale?.placeholder}
         </PickerToggle>
       </Component>
     </PickerToggleTrigger>

@@ -6,9 +6,10 @@ import PageTopIcon from '@rsuite/icons/PageTop';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
-import { useClassNames, useCustom } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '@/internals/types';
-import { PaginationLocale } from '../locales';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import type { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '@/internals/types';
+import type { PaginationLocale } from '../locales';
 
 const PAGINATION_ICONS = {
   more: <MoreIcon />,
@@ -72,12 +73,13 @@ export interface PaginationProps extends WithAsProps {
  */
 const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
   (props: PaginationProps, ref) => {
+    const { propsWithDefaults } = useCustom('Pagination', props);
     const {
       as: Component = 'div',
       className,
       classPrefix = 'pagination',
       disabled: disabledProp,
-      locale: overrideLocale,
+      locale,
       activePage = 1,
       maxButtons,
       pages = 1,
@@ -92,10 +94,9 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
       linkProps,
       onSelect,
       ...rest
-    } = props;
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const { locale } = useCustom<PaginationLocale>('Pagination', overrideLocale);
+    } = propsWithDefaults;
 
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const renderItem = (key: string | number, itemProps: PaginationButtonProps) => {
       const { eventKey, disabled, ...itemRest } = itemProps;
 

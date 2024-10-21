@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useUniqueId } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface FormGroupProps extends WithAsProps {
   /**
@@ -50,13 +51,14 @@ export const useFormGroup = (controlId?: string) => {
  */
 const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forwardRef(
   (props: FormGroupProps, ref) => {
+    const { propsWithDefaults } = useCustom('FormGroup', props);
     const {
       as: Component = 'div',
       classPrefix = 'form-group',
       controlId: controlIdProp,
       className,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());

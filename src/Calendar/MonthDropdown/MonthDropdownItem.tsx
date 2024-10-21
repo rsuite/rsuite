@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { composeFunctions } from '@/internals/utils';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { useCustom } from '../../CustomProvider';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
+import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -26,9 +27,9 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       ...rest
     } = props;
 
-    const { date, onChangeMonth: onSelect } = useCalendar();
-    const { locale, formatDate } = useCustom('Calendar');
-    const formatStr = locale.formattedMonthPattern;
+    const { date, onChangeMonth: onSelect, locale: overrideLocale } = useCalendar();
+    const { getLocale, formatDate } = useCustom('Calendar');
+    const { formattedMonthPattern: formatStr } = getLocale('Calendar', overrideLocale);
 
     const currentMonth = useMemo(() => {
       if (year && month) {

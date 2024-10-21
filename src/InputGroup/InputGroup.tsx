@@ -5,6 +5,7 @@ import InputGroupButton from './InputGroupButton';
 import { useClassNames } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export const InputGroupContext = React.createContext<{
   onFocus: () => void;
@@ -35,6 +36,7 @@ export interface InputGroupComponent extends RsRefForwardingComponent<'div', Inp
  * @see https://rsuitejs.com/components/input/#input-group
  */
 const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('InputGroup', props);
   const {
     as: Component = 'div',
     classPrefix = 'input-group',
@@ -44,7 +46,7 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
     size,
     children,
     ...rest
-  } = props;
+  } = propsWithDefaults;
   const [focus, setFocus] = useState(false);
 
   const handleFocus = useCallback(() => {

@@ -18,6 +18,7 @@ import Calendar from './Calendar';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
+import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
   omitTriggerPropKeys,
   PickerComponent,
@@ -32,13 +33,6 @@ import {
   usePickerRef,
   onMenuKeyDown
 } from '@/internals/Picker';
-import {
-  useClassNames,
-  useControlled,
-  useCustom,
-  useUniqueId,
-  useEventCallback
-} from '@/internals/hooks';
 import {
   createChainedFunction,
   mergeRefs,
@@ -61,6 +55,7 @@ import {
   DateMode,
   useDateMode
 } from '@/internals/utils/date';
+import { useCustom } from '../CustomProvider';
 import type { DisabledDateFunction, RangeType, DateRange, SelectedDatesState } from './types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DateRangePickerLocale } from '../locales';
@@ -292,6 +287,7 @@ export interface DateRangePickerComponent extends PickerComponent<DateRangePicke
  */
 const DateRangePicker: DateRangePickerComponent = React.forwardRef(
   (props: DateRangePickerProps, ref) => {
+    const { formatDate, propsWithDefaults } = useCustom('DateRangePicker', props);
     const {
       as: Component = 'div',
       classPrefix = 'picker',
@@ -317,7 +313,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       weekStart = 0,
       limitEndYear = 1000,
       limitStartYear,
-      locale: overrideLocale,
+      locale,
       loading,
       label,
       menuClassName,
@@ -350,16 +346,13 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       renderTitle,
       renderValue,
       ...restProps
-    } = props;
+    } = propsWithDefaults;
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
     const { merge, prefix } = useClassNames(classPrefix);
-    const { locale, formatDate } = useCustom<DateRangePickerLocale>(
-      'DateRangePicker',
-      overrideLocale
-    );
-    const formatStr = format || locale.shortDateFormat || 'yyyy-MM-dd';
+
+    const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
 
     const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 

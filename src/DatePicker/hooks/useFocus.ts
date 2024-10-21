@@ -2,9 +2,9 @@ import { RefObject } from 'react';
 import delay from 'lodash/delay';
 import addMonths from 'date-fns/addMonths';
 import addDays from 'date-fns/addDays';
-import { useEventCallback, useCustom } from '@/internals/hooks';
+import { useEventCallback } from '@/internals/hooks';
+import { useCustom } from '../../CustomProvider';
 import { getAriaLabel } from '../../Calendar/utils';
-import { DatePickerLocale } from '../../locales';
 import { onMenuKeyDown } from '@/internals/Picker/utils';
 
 interface UseFocusProps {
@@ -16,7 +16,8 @@ interface UseFocusProps {
 
 function useFocus(props: UseFocusProps) {
   const { target, showMonth, id, locale: localeProp } = props;
-  const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', localeProp);
+  const { getLocale, formatDate } = useCustom();
+  const { formattedMonthPattern, formattedDayPattern } = getLocale('DateTimeFormats', localeProp);
 
   /**
    * Get the corresponding container based on date selection and month selection
@@ -31,7 +32,7 @@ function useFocus(props: UseFocusProps) {
    * Check whether the date is focusable
    */
   const checkFocusable = (date: Date) => {
-    const formatStr = showMonth ? locale.formattedMonthPattern : locale.formattedDayPattern;
+    const formatStr = showMonth ? formattedMonthPattern : formattedDayPattern;
     const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
     const container = getOverlayContainer();
 

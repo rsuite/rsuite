@@ -1,7 +1,6 @@
 import React, { FormHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { Schema, SchemaModel } from 'schema-typed';
-import { FormValueProvider, FormProvider } from './FormContext';
 import FormControl from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
@@ -10,11 +9,14 @@ import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { useEventCallback } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
+import { FormValueProvider, FormProvider } from './FormContext';
+import { useCustom } from '../CustomProvider';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
+
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
     Omit<FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError' | 'onReset'> {
@@ -136,6 +138,7 @@ const defaultSchema = SchemaModel({});
  * @see https://rsuitejs.com/components/form
  */
 const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
+  const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
     classPrefix = 'form',
@@ -158,7 +161,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     onError,
     onChange,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(
     formModel,

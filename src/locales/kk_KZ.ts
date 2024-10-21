@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: kk as any
 };
 
+const Combobox = {
+  noResultsText: 'Нәтижелер жоқ',
+  placeholder: 'Таңдаңыз',
+  searchPlaceholder: 'Іздеу',
+  checkAll: 'Барлығын таңдау'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Жаңа элемент',
+  createOption: 'Жаңа элемент "{0}" құру'
+};
+
 export default {
   code: 'kk-KZ',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'Барлығы: {0}',
     skip: '{0}-бетке өтіңіз'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Соңғы 7 күн'
   },
-  Picker: {
-    noResultsText: 'Нәтижелер жоқ',
-    placeholder: 'Таңдаңыз',
-    searchPlaceholder: 'Іздеу',
-    checkAll: 'Барлығын таңдау'
-  },
-  InputPicker: {
-    newItem: 'Жаңа элемент',
-    createOption: 'Жаңа элемент "{0}" құру'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Бастау',
     progress: 'Жүктеу',

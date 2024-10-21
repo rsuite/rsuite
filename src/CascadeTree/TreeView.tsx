@@ -2,21 +2,22 @@ import React, { useEffect, useRef } from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
+import getPosition from 'dom-lib/getPosition';
+import scrollTop from 'dom-lib/scrollTop';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
-import {
+import { useCustom } from '../CustomProvider';
+import type { SelectNode, CascadeColumn } from './types';
+import type {
   ItemDataType,
   WithAsProps,
   RsRefForwardingComponent,
   DataProps,
   ToArray
 } from '@/internals/types';
-import PagePreviousIcon from '@rsuite/icons/PagePrevious';
-import PageNextIcon from '@rsuite/icons/PageNext';
-import getPosition from 'dom-lib/getPosition';
-import scrollTop from 'dom-lib/scrollTop';
-import { SelectNode, CascadeColumn } from './types';
 
 type SetLike<T = unknown> = {
   has(value: T): boolean;

@@ -1,11 +1,11 @@
 // Headless ARIA `menubar`
 import React, { useCallback, useRef } from 'react';
 import isNil from 'lodash/isNil';
+import useMenu from './useMenu';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES } from '../constants';
-import { useCustom } from '../hooks';
+import { useCustom } from '../../CustomProvider';
 import { isFocusEntering, isFocusLeaving, isFocusableElement } from '@/internals/utils/';
-import useMenu from './useMenu';
 
 export interface MenubarProps {
   /** Whether menubar is arranged in vertical form, defaults to false */
@@ -56,7 +56,7 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
     [dispatch]
   );
 
-  const { rtl } = useCustom('Menubar');
+  const { rtl } = useCustom();
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLUListElement>) => {

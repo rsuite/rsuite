@@ -1,16 +1,17 @@
 import React, { useCallback, useContext } from 'react';
+import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
-import { useClassNames, useCustom } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import PropTypes from 'prop-types';
-import { StandardProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import NavContext from './NavContext';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { StandardProps } from '@/internals/types';
+import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export interface NavDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
@@ -74,8 +75,7 @@ const NavDropdownMenu = React.forwardRef<
     ...rest
   } = props;
 
-  const { rtl } = useCustom('DropdownMenu');
-
+  const { rtl } = useCustom();
   const handleToggleSubmenu = useCallback(
     (open: boolean, event: React.SyntheticEvent) => {
       onToggle?.(open, eventKey, event);

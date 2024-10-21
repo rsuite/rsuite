@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: fi as any
 };
 
+const Combobox = {
+  noResultsText: 'Ei tuloksia',
+  placeholder: 'Valitse',
+  searchPlaceholder: 'Etsi',
+  checkAll: 'Kaikki'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Uusi nimike',
+  createOption: 'Luo vaihtoehto "{0}"'
+};
+
 export default {
   code: 'fi-FI',
   common: {
@@ -49,26 +62,16 @@ export default {
     total: 'yhteensä: {0}',
     skip: 'Mene{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Viimeiset 7 päivää'
   },
-  Picker: {
-    noResultsText: 'Ei tuloksia',
-    placeholder: 'Valitse',
-    searchPlaceholder: 'Etsi',
-    checkAll: 'Kaikki',
-    loading: 'Hetkinen...'
-  },
-  Input: {
-    emptyPlaintext: 'täyttämättömät'
-  },
-  InputPicker: {
-    newItem: 'Uusi nimike',
-    createOption: 'Luo vaihtoehto "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Ensimmäinen',
     progress: 'Lataa',
