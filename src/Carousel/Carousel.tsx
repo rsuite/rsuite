@@ -2,15 +2,10 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { oneOf } from '@/internals/propTypes';
-import {
-  useClassNames,
-  useCustom,
-  useControlled,
-  useUpdateEffect,
-  useTimeout
-} from '@/internals/hooks';
+import { useClassNames, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
 import { guid, ReactChildren, mergeRefs } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface CarouselProps extends WithAsProps {
   /** Autoplay element */
@@ -47,6 +42,7 @@ export interface CarouselProps extends WithAsProps {
  */
 const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRef(
   (props: CarouselProps, ref) => {
+    const { rtl, propsWithDefaults } = useCustom('Carousel', props);
     const {
       as: Component = 'div',
       children,
@@ -62,9 +58,8 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       onSlideStart,
       onSlideEnd,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
-    const { rtl } = useCustom('Carousel');
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const count = ReactChildren.count(children as React.ReactChildren);
     const labels: React.ReactElement[] = [];

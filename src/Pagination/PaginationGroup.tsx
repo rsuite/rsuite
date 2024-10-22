@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import Pagination, { PaginationProps } from './Pagination';
 import Divider from '../Divider';
 import Input from '../Input';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
-import { tplTransform } from '@/internals/utils';
-import { RsRefForwardingComponent } from '@/internals/types';
-import { PaginationLocale } from '../locales';
 import LimitPicker from './LimitPicker';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { tplTransform } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
+import type { RsRefForwardingComponent } from '@/internals/types';
 
 /**
  * The layout of the paging component.
@@ -91,9 +91,12 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const [limit, setLimit] = useControlled(limitProp, 30);
     const [activePage, setActivePage] = useControlled(activePageProp, 1);
-    const { locale } = useCustom<PaginationLocale>('Pagination', localeProp);
+
     const pages = Math.floor(total / limit) + (total % limit ? 1 : 0);
     const classes = merge(className, withClassPrefix(size));
+
+    const { getLocale } = useCustom();
+    const locale = getLocale('Pagination', localeProp);
 
     const handleInputBlur = useEventCallback(event => {
       const value = parseInt(event.target.value);

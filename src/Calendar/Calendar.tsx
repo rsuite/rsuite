@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
+import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
+import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
 import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import type { MonthDropdownProps } from './types';
@@ -91,6 +92,7 @@ export interface CalendarProps extends WithAsProps {
  */
 const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
   React.forwardRef((props: CalendarProps, ref) => {
+    const { propsWithDefaults } = useCustom('Calendar', props);
     const {
       as: Component = CalendarContainer,
       bordered,
@@ -100,7 +102,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       defaultValue = startOfDay(new Date()),
       isoWeek,
       weekStart = 0,
-      locale: overrideLocale,
+      locale,
       onChange,
       onMonthChange,
       onSelect,
@@ -108,10 +110,9 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       value,
       cellClassName,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
-    const { locale } = useCustom('Calendar', overrideLocale);
 
     const handleChange = useEventCallback((nextValue: Date) => {
       setCalendarDate(nextValue);
@@ -135,12 +136,12 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
 
     const renderToolbar = () => (
       <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
-        {locale.today || 'Today'}
+        {locale?.today || 'Today'}
       </Button>
     );
 
     const renderTitle = (date: Date) => (
-      <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
+      <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
     const classes = merge(className, withClassPrefix('panel', { bordered, compact }));

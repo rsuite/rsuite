@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button, { ButtonProps } from '../Button';
 import { IconProps } from '@rsuite/icons/Icon';
 import { RsRefForwardingComponent } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
-import Button, { ButtonProps } from '../Button';
+import { useCustom } from '../CustomProvider';
 
 export interface IconButtonProps extends ButtonProps {
   /** Set the icon */
@@ -27,6 +28,7 @@ const IconButton: RsRefForwardingComponent<
     ref?: React.Ref<HTMLElement>;
   }
 > = React.forwardRef((props: IconButtonProps, ref) => {
+  const { propsWithDefaults } = useCustom('IconButton', props);
   const {
     icon,
     placement = 'left',
@@ -35,7 +37,7 @@ const IconButton: RsRefForwardingComponent<
     classPrefix = 'btn-icon',
     className,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(

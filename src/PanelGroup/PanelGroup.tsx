@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 type KeyType = string | number;
 export interface PanelGroupProps<T = KeyType> extends WithAsProps {
@@ -37,6 +38,7 @@ export const PanelGroupContext = React.createContext<PanelGroupContext>({});
  * @see https://rsuitejs.com/components/panel
  */
 const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('PanelGroup', props);
   const {
     as: Component = 'div',
     accordion,
@@ -48,7 +50,8 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
     activeKey: activeProp,
     onSelect,
     ...rest
-  } = props;
+  } = propsWithDefaults;
+
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const [activeKey, setActiveKey] = useControlled(activeProp, defaultActiveKey);
   const classes = merge(className, withClassPrefix({ accordion, bordered }));

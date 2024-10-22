@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
-import { RsRefForwardingComponent } from '@/internals/types';
-import TreeView, { type TreeViewProps } from './TreeView';
-import { useControlled, useEventCallback } from '@/internals/hooks';
-import { TreeProvider } from '@/internals/Tree/TreeProvider';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';
+import TreeView, { type TreeViewProps } from './TreeView';
+import { useControlled, useEventCallback } from '@/internals/hooks';
+import { TreeProvider } from '@/internals/Tree/TreeProvider';
+import { useCustom } from '../CustomProvider';
+import type { RsRefForwardingComponent } from '@/internals/types';
+
 import type { TreeExtraProps } from './types';
 
 export interface TreeProps<T = string | number | null> extends TreeViewProps<T>, TreeExtraProps {
@@ -27,6 +29,7 @@ export interface TreeProps<T = string | number | null> extends TreeViewProps<T>,
  */
 const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
   (props: TreeProps, ref: React.Ref<HTMLDivElement>) => {
+    const { propsWithDefaults } = useCustom('Tree', props);
     const {
       value: controlledValue,
       defaultValue,
@@ -45,7 +48,7 @@ const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
       onChange,
       onExpand,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const [value, setValue] = useControlled(controlledValue, defaultValue);
     const itemDataKeys = { childrenKey, labelKey, valueKey };

@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: da as any
 };
 
+const Combobox = {
+  noResultsText: 'Ingen resultater fundet',
+  placeholder: 'Vælg',
+  searchPlaceholder: 'Søg',
+  checkAll: 'Alle'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Ny besked',
+  createOption: 'Opret mulighed "{0}"'
+};
+
 export default {
   code: 'da-DK',
   common: {
@@ -49,22 +62,16 @@ export default {
     total: 'total: {0}',
     skip: 'Gå til{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Seneste 7 dage'
   },
-  Picker: {
-    noResultsText: 'Ingen resultater fundet',
-    placeholder: 'Vælg',
-    searchPlaceholder: 'Søg',
-    checkAll: 'Alle'
-  },
-  InputPicker: {
-    newItem: 'Ny besked',
-    createOption: 'Opret mulighed "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Initial',
     progress: 'Uploade',

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 import { oneOf } from '@/internals/propTypes';
+import type { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 
 const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
 
@@ -51,6 +52,7 @@ export interface TextProps extends WithAsProps {
  * @see https://rsuitejs.com/components/text
  */
 const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: TextProps, ref) => {
+  const { propsWithDefaults } = useCustom('Text', props);
   const {
     as: Component = 'p',
     align,
@@ -64,7 +66,7 @@ const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: 
     size,
     style,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(

@@ -6,9 +6,10 @@ import OverlayTrigger, {
   OverlayTriggerType
 } from '@/internals/Overlay/OverlayTrigger';
 import { PositionChildProps } from '@/internals/Overlay/Position';
-import { useCustom, useUniqueId } from '@/internals/hooks';
+import { useUniqueId } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, AnimationEventProps } from '@/internals/types';
+import { useCustom } from '../../CustomProvider';
+import type { TypeAttributes, AnimationEventProps } from '@/internals/types';
 
 export type { OverlayTriggerHandle, PositionChildProps };
 

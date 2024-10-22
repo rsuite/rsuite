@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: enGB as any
 };
 
+const Combobox = {
+  noResultsText: 'कुनै परिणाम फेला परेन',
+  placeholder: 'चयन गर्नुहोस्',
+  searchPlaceholder: 'खोजी गर्नुहोस्',
+  checkAll: 'सबै'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'नयाँ थप्नुहोस्',
+  createOption: 'विकल्प सिर्जना गर्नुहोस् "{0}"'
+};
+
 export default {
   code: 'ne-NP',
   common: {
@@ -49,22 +62,16 @@ export default {
     total: 'कुल पङ्क्तिहरू: {0}',
     skip: '{0} पृष्ठमा जानुहोस्'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'पछिल्लो ७ दिन'
   },
-  Picker: {
-    noResultsText: 'कुनै परिणाम फेला परेन',
-    placeholder: 'चयन गर्नुहोस्',
-    searchPlaceholder: 'खोजी गर्नुहोस्',
-    checkAll: 'सबै'
-  },
-  InputPicker: {
-    newItem: 'नयाँ थप्नुहोस्',
-    createOption: 'विकल्प सिर्जना गर्नुहोस् "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'प्रारम्भिक',
     progress: 'अपलोड गर्दै',

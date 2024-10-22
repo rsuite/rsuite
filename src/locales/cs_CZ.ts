@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: cs as any
 };
 
+const Combobox = {
+  noResultsText: 'Nenalezeny žádné výsledky',
+  placeholder: 'Vybrat',
+  searchPlaceholder: 'Vyhledat',
+  checkAll: 'Vybrat vše'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nová položka ',
+  createOption: 'Vytvořit možnost "{0}"'
+};
+
 export default {
   code: 'cs-CZ',
   common: {
@@ -49,22 +62,16 @@ export default {
     total: 'Celkový počet řádků : {0}',
     skip: 'Jít na {0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Posledních 7 dní'
   },
-  Picker: {
-    noResultsText: 'Nenalezeny žádné výsledky',
-    placeholder: 'Vybrat',
-    searchPlaceholder: 'Vyhledat',
-    checkAll: 'Vybrat vše'
-  },
-  InputPicker: {
-    newItem: 'Nová položka ',
-    createOption: 'Vytvořit možnost "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Púvodní',
     progress: 'Nahrávání',

@@ -6,9 +6,10 @@ import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import { useClassNames, useControlled } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { mergeRefs, shallowEqual } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface SidenavProps<T = string | number> extends WithAsProps {
   /** Whether to expand the Sidenav */
@@ -69,6 +70,7 @@ const emptyArray = [];
  * @see https://rsuitejs.com/components/sidenav/
  */
 const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) => {
+  const { propsWithDefaults } = useCustom('Sidenav', props);
   const {
     as: Component = 'nav',
     className,
@@ -81,7 +83,7 @@ const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) =>
     onSelect,
     onOpenChange,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const [openKeys, setOpenKeys] = useControlled(openKeysProp, defaultOpenKeys);
   const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);

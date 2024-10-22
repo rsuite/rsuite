@@ -141,7 +141,7 @@ export interface CalendarProps
    *
    * @see https://rsuitejs.com/guide/i18n/#calendar
    */
-  locale: CalendarLocale;
+  locale?: CalendarLocale;
 
   /**
    * The props for the Month Dropdown component.

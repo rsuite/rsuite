@@ -487,7 +487,7 @@ describe('MultiCascader', () => {
       render(
         <CustomProvider
           locale={{
-            Picker: PickerZhCN
+            Combobox: PickerZhCN
           }}
         >
           <MultiCascader defaultOpen data={items} />

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import CloseButton from '@/internals/CloseButton';
+import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import { STATUS } from '@/internals/constants';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
-import CloseButton from '@/internals/CloseButton';
-import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
+import { useCustom } from '../CustomProvider';
 
 export interface MessageProps extends WithAsProps {
   /**
@@ -70,6 +71,7 @@ export interface MessageProps extends WithAsProps {
  */
 const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
   (props: MessageProps, ref) => {
+    const { propsWithDefaults } = useCustom('Message', props);
     const {
       as: Component = 'div',
       bordered,
@@ -85,7 +87,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
       showIcon,
       onClose,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const [display, setDisplay] = useState<TypeAttributes.DisplayState>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);

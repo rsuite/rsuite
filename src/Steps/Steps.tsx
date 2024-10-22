@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import StepItem from './StepItem';
 import { ReactChildren } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import StepItem from './StepItem';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface StepsProps extends WithAsProps {
   /** Vertical display */
@@ -33,6 +34,7 @@ interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
  * @see https://rsuitejs.com/components/steps
  */
 const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
+  const { propsWithDefaults } = useCustom('Steps', props);
   const {
     as: Component = 'div',
     classPrefix = 'steps',
@@ -43,7 +45,7 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
     current = 0,
     currentStatus = 'process',
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const horizontal = !vertical;

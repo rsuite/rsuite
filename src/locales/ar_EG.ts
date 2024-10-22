@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: arSA as any
 };
 
+const Combobox = {
+  noResultsText: 'لا يوجد نتائج',
+  placeholder: 'إختيار',
+  searchPlaceholder: 'البحث',
+  checkAll: 'الجميع'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'عنصر جديد',
+  createOption: 'إنشاء العنصر "{0}"'
+};
+
 export default {
   code: 'ar-SA',
   common: {
@@ -46,22 +59,16 @@ export default {
     total: 'الإجمالي: {0}',
     skip: 'اذهب إل {0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'أخر 7 أيام'
   },
-  Picker: {
-    noResultsText: 'لا يوجد نتائج',
-    placeholder: 'إختيار',
-    searchPlaceholder: 'البحث',
-    checkAll: 'الجميع'
-  },
-  InputPicker: {
-    newItem: 'عنصر جديد',
-    createOption: 'إنشاء العنصر "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'تم البدء',
     progress: 'جاري الرفع',

@@ -1,19 +1,20 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
-import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
-import { NavbarContext } from '../Navbar/Navbar';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import NavContext, { NavContextProps } from './NavContext';
 import Menubar from '@/internals/Menu/Menubar';
-import { oneOf } from '@/internals/propTypes';
-import { deprecateComponent } from '@/internals/utils';
 import NavDropdown from './NavDropdown';
 import NavMenu from './NavMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
+import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
+import { NavbarContext } from '../Navbar/Navbar';
+import { SidenavContext } from '../Sidenav/Sidenav';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { oneOf } from '@/internals/propTypes';
+import { deprecateComponent } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -76,6 +77,7 @@ interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
  * @see https://rsuitejs.com/components/nav
  */
 const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+  const { propsWithDefaults } = useCustom('Nav', props);
   const {
     as: Component = 'div',
     classPrefix = 'nav',
@@ -90,7 +92,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     defaultActiveKey,
     onSelect: onSelectProp,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const sidenav = useContext(SidenavContext);
 

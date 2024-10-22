@@ -6,10 +6,11 @@ import getOffset from 'dom-lib/getOffset';
 import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
-import { useClassNames, useControlled, useCustom, useEventCallback } from '@/internals/hooks';
-import { precisionMath, checkValue, getPosition } from './utils';
-import { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
 import Plaintext from '@/internals/Plaintext';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { precisionMath, checkValue, getPosition } from './utils';
+import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -113,6 +114,7 @@ export const sliderPropTypes = {
  * @see https://rsuitejs.com/components/slider
  */
 const Slider = React.forwardRef((props: SliderProps, ref) => {
+  const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
@@ -143,7 +145,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     onChange,
     onChangeCommitted,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const barRef = useRef<HTMLDivElement>(null);
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);

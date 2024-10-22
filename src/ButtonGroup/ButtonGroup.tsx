@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 import ButtonGroupContext from './ButtonGroupContext';
+
 export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
   block?: boolean;
@@ -34,6 +36,7 @@ export interface ButtonGroupProps extends WithAsProps {
  */
 const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
   (props: ButtonGroupProps, ref) => {
+    const { propsWithDefaults } = useCustom('ButtonGroup', props);
     const {
       as: Component = 'div',
       classPrefix = 'btn-group',
@@ -45,7 +48,7 @@ const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.for
       justified,
       size,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));

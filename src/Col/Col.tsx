@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 import { COLUMN_SIZE } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface ColProps extends WithAsProps {
   /** The number of columns you wish to span for Extra small devices Phones (< 576px) */
@@ -102,7 +103,8 @@ export interface ColProps extends WithAsProps {
  * @see https://rsuitejs.com/en/components/grid
  */
 const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
-  const { as: Component = 'div', classPrefix = 'col', className, ...rest } = props;
+  const { propsWithDefaults } = useCustom('Col', props);
+  const { as: Component = 'div', classPrefix = 'col', className, ...rest } = propsWithDefaults;
   const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);
 
   const colClasses = {};

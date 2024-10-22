@@ -1,9 +1,10 @@
 import React from 'react';
 import Icon from '@rsuite/icons/Icon';
-import { useCustom, useClassNames } from '../hooks';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
+import { useClassNames } from '../hooks';
+import { useCustom } from '../../CustomProvider';
 
 interface PickerIndicatorProps {
   loading?: boolean;
@@ -22,7 +23,8 @@ const PickerIndicator = ({
   as: Component = InputGroup.Addon,
   disabled
 }: PickerIndicatorProps) => {
-  const { locale } = useCustom();
+  const { getLocale } = useCustom();
+  const { clear } = getLocale('common');
   const { prefix } = useClassNames('picker');
 
   const addon = () => {
@@ -34,7 +36,7 @@ const PickerIndicator = ({
         <CloseButton
           className={prefix('clean')}
           tabIndex={-1}
-          locale={{ closeLabel: locale?.clear }}
+          locale={{ closeLabel: clear }}
           onClick={onClose}
         />
       );

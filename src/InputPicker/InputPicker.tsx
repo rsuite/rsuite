@@ -10,7 +10,7 @@ import pick from 'lodash/pick';
 import { shallowEqual, getDataGroupBy } from '@/internals/utils';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { createChainedFunction, tplTransform, mergeRefs, isOneOf } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
@@ -33,14 +33,14 @@ import {
   listPickerPropTypes,
   PickerToggleProps
 } from '@/internals/Picker';
-
 import Tag from '../Tag';
 import TextBox from './TextBox';
-import { useTagContext } from './InputPickerContext';
 import Stack, { type StackProps } from '../Stack';
 import useInput from './hooks/useInput';
 import useData, { type InputItemDataType } from './hooks/useData';
+import { useTagContext } from './InputPickerContext';
 import { convertSize } from './utils';
+import { useCustom } from '../CustomProvider';
 import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
@@ -88,6 +88,7 @@ export interface InputPickerProps<V = ValueType>
  */
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
   (props: InputPickerProps, ref) => {
+    const { propsWithDefaults } = useCustom('InputPicker', props);
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -101,7 +102,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       defaultValue,
       defaultOpen = false,
       disabledItemValues = [],
-      locale: overrideLocale,
+      locale,
       toggleAs,
       style,
       size,
@@ -142,7 +143,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onFocus,
       searchBy,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { multi, tagProps, trigger, disabledOptions, onTagRemove, renderCheckbox } =
       useTagContext();
@@ -152,8 +153,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }
 
     const { trigger: triggerRef, root, target, overlay, list } = usePickerRef(ref);
-    const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
-
     const { prefix, merge } = useClassNames(classPrefix);
     const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
     const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
@@ -499,7 +498,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const renderListItem = (label: React.ReactNode, item: InputItemDataType) => {
       // 'Create option "{0}"' =>  Create option "xxxxx"
       const newLabel = item.create ? (
-        <span>{tplTransform(locale.createOption, label)}</span>
+        <span>{tplTransform(locale?.createOption || '', label)}</span>
       ) : (
         label
       );

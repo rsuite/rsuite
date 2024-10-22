@@ -2,11 +2,12 @@ import React from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
-import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { ItemDataType, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
 
 export interface TreeViewProps<T = any> extends WithAsProps {

@@ -27,12 +27,10 @@ import {
 } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
 import { transformData, shouldDisplay } from './utils';
-
+import { useCustom } from '../CustomProvider';
 import Combobox from './Combobox';
 
-export type ValueType = string;
-
-export interface AutoCompleteProps<T = ValueType>
+export interface AutoCompleteProps<T = string>
   extends WithAsProps,
     FormControlPickerProps<T, any, ItemDataType | string> {
   /** Additional classes for menu */
@@ -99,6 +97,7 @@ export interface AutoCompleteProps<T = ValueType>
  */
 const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
   (props: AutoCompleteProps, ref) => {
+    const { propsWithDefaults } = useCustom('AutoComplete', props);
     const {
       as: Component = 'div',
       disabled,
@@ -129,7 +128,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       onBlur,
       onMenuFocus,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const datalist = transformData(data);
     const [value, setValue] = useControlled(valueProp, defaultValue);
@@ -208,7 +207,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     });
 
     const handleItemSelect = useEventCallback(
-      (nextItemValue: ValueType, item: ItemDataType, event: React.SyntheticEvent) => {
+      (nextItemValue: string, item: ItemDataType, event: React.SyntheticEvent) => {
         setValue(nextItemValue);
         setFocusItemValue(nextItemValue);
         handleSelect(item, event);

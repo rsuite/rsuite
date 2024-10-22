@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface PlaceholderGridProps extends WithAsProps {
   /**
@@ -50,6 +51,7 @@ export interface PlaceholderGridProps extends WithAsProps {
  */
 const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
   (props: PlaceholderGridProps, ref) => {
+    const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
     const {
       as: Component = 'div',
       className,
@@ -61,7 +63,7 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
       rowSpacing = rowMargin,
       active,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix('grid', { active }));

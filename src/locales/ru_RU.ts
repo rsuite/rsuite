@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: ru as any
 };
 
+const Combobox = {
+  noResultsText: 'Результаты не найдены',
+  placeholder: 'Выбрать',
+  searchPlaceholder: 'Поиск',
+  checkAll: 'Все'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Новый',
+  createOption: 'Создать опцию "{0}"'
+};
+
 export default {
   code: 'ru-RU',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'всего: {0}',
     skip: 'Перейти к {0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Последние 7 дней'
   },
-  Picker: {
-    noResultsText: 'Результаты не найдены',
-    placeholder: 'Выбрать',
-    searchPlaceholder: 'Поиск',
-    checkAll: 'Все'
-  },
-  InputPicker: {
-    newItem: 'Новый',
-    createOption: 'Создать опцию "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Начало',
     progress: 'Загрузка',

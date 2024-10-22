@@ -3,6 +3,7 @@ import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../../CustomProvider';
 
 export type ComponentProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 
@@ -23,13 +24,14 @@ export function createComponent<TElement extends React.ElementType = 'div'>({
 }: Props<TElement>) {
   const Component: RsRefForwardingComponent<TElement, ComponentProps> = React.forwardRef(
     (props: ComponentProps, ref) => {
+      const { propsWithDefaults } = useCustom(name as any, props);
       const {
         as: Component = componentAs || 'div',
         classPrefix = componentClassPrefix || kebabCase(name),
         className,
         role,
         ...rest
-      } = props;
+      } = propsWithDefaults;
       const { withClassPrefix, merge } = useClassNames(classPrefix);
       const classes = merge(className, withClassPrefix());
 

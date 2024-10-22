@@ -12,13 +12,7 @@ import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
 import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { PickerLocale } from '../locales';
-import {
-  useControlled,
-  useCustom,
-  useClassNames,
-  useEventCallback,
-  useMap
-} from '@/internals/hooks';
+import { useControlled, useClassNames, useEventCallback, useMap } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
 import {
   PickerToggle,
@@ -37,6 +31,7 @@ import {
 } from '@/internals/Picker';
 import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 import useActive from './useActive';
 
 export interface CascaderProps<T = DataItemValue>
@@ -139,6 +134,7 @@ const emptyArray = [];
  * @see https://rsuitejs.com/components/cascader
  */
 const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps<T>, ref) => {
+  const { rtl, propsWithDefaults } = useCustom('Cascader', props);
   const {
     as: Component = 'div',
     data = emptyArray,
@@ -152,7 +148,7 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
     disabledItemValues = emptyArray,
     appearance = 'default',
     cleanable = true,
-    locale: overrideLocale,
+    locale,
     toggleAs,
     style,
     value: valueProp,
@@ -183,7 +179,7 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
     renderMenuItem: DEPRECATED_renderMenuItem,
     renderMenu: DEPRECATED_renderMenu,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { trigger, root, target, overlay, searchInput } = usePickerRef(ref);
   const [value, setValue] = useControlled(valueProp, defaultValue) as [
@@ -255,7 +251,6 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
       childrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
   });
 
-  const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.

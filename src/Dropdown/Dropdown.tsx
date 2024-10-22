@@ -9,13 +9,14 @@ import { mergeRefs, placementPolyfill, warnOnce } from '@/internals/utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { initialState, reducer } from './DropdownState';
+import { useCustom } from '../CustomProvider';
 import DropdownItem from './DropdownItem';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import DropdownToggle from './DropdownToggle';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
-import { initialState, reducer } from './DropdownState';
 import Button from '../Button';
 import Nav from '../Nav';
 import DropdownSeparator from './DropdownSeparator';
@@ -111,14 +112,11 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
  * - Otherwise renders a `<MenuRoot>`
  */
 const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: DropdownProps, ref) => {
-  const { activeKey, onSelect, ...rest } = props;
-
+  const { propsWithDefaults } = useCustom('Dropdown', props);
   const {
     as: Component = 'div',
+    activeKey,
     title,
-    onClose,
-    onOpen,
-    onToggle,
     trigger = 'click',
     placement = 'bottomStart',
     toggleAs,
@@ -131,11 +129,14 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     children,
     menuStyle,
     style,
+    onClose,
+    onOpen,
+    onToggle,
+    onSelect,
     ...toggleProps
-  } = rest;
+  } = propsWithDefaults;
 
   const nav = useContext(NavContext);
-
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =

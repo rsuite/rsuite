@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: sv as any
 };
 
+const Combobox = {
+  noResultsText: 'Inga resultat funna',
+  placeholder: 'Välj',
+  searchPlaceholder: 'Sök',
+  checkAll: 'Alla'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Ny inkorg',
+  createOption: 'Skapa meddelande "{0}"'
+};
+
 export default {
   code: 'sv-SE',
   common: {
@@ -49,22 +62,16 @@ export default {
     total: 'totalt: {0}',
     skip: 'Gå til{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Senaste 7 dagarna'
   },
-  Picker: {
-    noResultsText: 'Inga resultat funna',
-    placeholder: 'Välj',
-    searchPlaceholder: 'Sök',
-    checkAll: 'Alla'
-  },
-  InputPicker: {
-    newItem: 'Ny inkorg',
-    createOption: 'Skapa meddelande "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Första',
     progress: 'Uppladdning',

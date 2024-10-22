@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom } from '@/internals/hooks';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import CloseButton from '@/internals/CloseButton';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import type { CommonLocale } from '../locales';
 
 export interface TagProps extends WithAsProps {
   /** Different sizes */
@@ -17,6 +19,9 @@ export interface TagProps extends WithAsProps {
   /** The content of the component */
   children?: React.ReactNode;
 
+  /** Custom locale */
+  locale?: CommonLocale;
+
   /** Click the callback function for the Close button */
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -28,6 +33,7 @@ export interface TagProps extends WithAsProps {
  * @see https://rsuitejs.com/components/tag
  */
 const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
+  const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
     as: Component = 'div',
     classPrefix = 'tag',
@@ -36,13 +42,14 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
     children,
     closable,
     className,
+    locale: overrideLocale,
     onClose,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
+  const { remove } = getLocale('common', overrideLocale);
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, color, { closable }));
-  const { locale } = useCustom();
 
   return (
     <Component {...rest} ref={ref} className={classes}>
@@ -52,7 +59,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
           className={prefix`icon-close`}
           onClick={onClose}
           tabIndex={-1}
-          locale={{ closeLabel: locale?.remove }}
+          locale={{ closeLabel: remove }}
         />
       )}
     </Component>

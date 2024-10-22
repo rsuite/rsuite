@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { ReactChildren } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface RowProps extends WithAsProps {
   gutter?: number;
@@ -13,6 +14,7 @@ export interface RowProps extends WithAsProps {
  * @see https://rsuitejs.com/components/grid
  */
 const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: RowProps, ref) => {
+  const { propsWithDefaults } = useCustom('Row', props);
   const {
     as: Component = 'div',
     classPrefix = 'row',
@@ -21,7 +23,7 @@ const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: 
     children,
     style,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());

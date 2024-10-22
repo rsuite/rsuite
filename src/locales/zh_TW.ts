@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: zhTW as any
 };
 
+const Combobox = {
+  noResultsText: '沒有符合的選項',
+  placeholder: '選擇',
+  searchPlaceholder: '搜索',
+  checkAll: '全部'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: '新選項',
+  createOption: '新建選項 "{0}"'
+};
+
 export default {
   code: 'zh-TW',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: '共 {0} 條資料',
     skip: '跳至{0}頁'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '最近 7 天'
   },
-  Picker: {
-    noResultsText: '沒有符合的選項',
-    placeholder: '選擇',
-    searchPlaceholder: '搜索',
-    checkAll: '全部'
-  },
-  InputPicker: {
-    newItem: '新選項',
-    createOption: '新建選項 "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: '初始狀態',
     progress: '上傳中',

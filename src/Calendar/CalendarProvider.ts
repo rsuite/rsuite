@@ -124,7 +124,7 @@ export interface CalendarInnerContextValue {
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {
-  locale: CalendarLocale;
+  locale?: CalendarLocale;
   formatDate?: typeof format;
 }
 

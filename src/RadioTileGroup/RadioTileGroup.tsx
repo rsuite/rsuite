@@ -1,9 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled } from '@/internals/hooks';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';
-import { ValueType } from '../RadioTile';
 import Stack from '../Stack';
+import { useClassNames, useControlled } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import type {
+  WithAsProps,
+  FormControlBaseProps,
+  RsRefForwardingComponent
+} from '@/internals/types';
+import type { ValueType } from '../RadioTile';
 
 export interface RadioTileContextProps {
   name?: string;
@@ -36,6 +41,7 @@ export const RadioTileContext = React.createContext<RadioTileContextProps>({});
  */
 const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = React.forwardRef(
   (props: RadioTileGroupProps, ref) => {
+    const { propsWithDefaults } = useCustom('RadioTileGroup', props);
     const {
       as: Component = Stack,
       className,
@@ -48,7 +54,7 @@ const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = Rea
       name,
       onChange,
       ...rest
-    } = props;
+    } = propsWithDefaults;
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const [value, setValue] = useControlled(valueProp, defaultValue);

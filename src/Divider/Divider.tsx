@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface DividerProps extends WithAsProps {
   /**
@@ -16,6 +17,7 @@ export interface DividerProps extends WithAsProps {
  */
 const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
   (props: DividerProps, ref) => {
+    const { propsWithDefaults } = useCustom('Divider', props);
     const {
       as: Component = 'div',
       className,
@@ -23,7 +25,8 @@ const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
       children,
       vertical,
       ...rest
-    } = props;
+    } = propsWithDefaults;
+
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(
       className,

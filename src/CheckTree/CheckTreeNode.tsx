@@ -1,18 +1,14 @@
 import React, { forwardRef, useMemo } from 'react';
 import ListCheckItem from '@/internals/Picker/ListCheckItem';
+import TreeNodeToggle from '../Tree/TreeNodeToggle';
+import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { stringifyReactNode, mergeRefs } from '@/internals/utils';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import {
-  useClassNames,
-  useEventCallback,
-  useCustom,
-  useFocusVirtualListItem
-} from '@/internals/hooks';
-import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import { useClassNames, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
-import TreeNodeToggle from '../Tree/TreeNodeToggle';
 export interface CheckTreeNodeProps extends WithAsProps {
   /**
    * The label of the node.

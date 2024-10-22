@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
-
+import Head from './Head';
+import PageContainer from './PageContainer';
+import components from '../utils/component.config.json';
+import scrollIntoView from '../utils/scrollIntoView';
+import CustomCodeView, { CustomCodeViewProps } from './CodeView';
+import InstallGuide from './InstallGuide';
 import { useRouter } from 'next/router';
 import { Divider, Footer } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
 import { useApp } from './AppContext';
-import PageContainer from './PageContainer';
-import Head from './Head';
-import components from '../utils/component.config.json';
 import { getTitle, getDescription } from '../utils/parseHTML';
-import scrollIntoView from '../utils/scrollIntoView';
 import { VercelBanner } from './VercelBanner';
-import CustomCodeView, { CustomCodeViewProps } from './CodeView';
-import InstallGuide from './InstallGuide';
 import { installCarbon, installBadges } from './scripts';
-import { type MenuItem } from '../utils/usePages';
+import type { MenuItem } from '../utils/usePages';
 
 const defaultInDocsComponents = {
   'install-guide': InstallGuide
@@ -39,10 +38,9 @@ const PageContent = (props: PageContentProps) => {
     sandboxDependencies,
     inDocsComponents = defaultInDocsComponents
   } = props;
+
   const { localePath } = useApp();
-
   const router = useRouter();
-
   const pathname = router.pathname;
   const id = pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
 

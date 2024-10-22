@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
+import { useCustom } from '../CustomProvider';
 import type { PickerComponent } from '@/internals/Picker/types';
 import type { CheckboxProps } from '../Checkbox';
 
@@ -19,13 +20,14 @@ export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> 
  */
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
+    const { propsWithDefaults } = useCustom('TagPicker', props);
     const {
       tagProps = {},
       trigger = 'Enter',
       onTagRemove,
       renderMenuItemCheckbox,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const contextValue = useMemo(
       () => ({

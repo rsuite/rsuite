@@ -1,4 +1,5 @@
 import React, { useRef, useImperativeHandle, useCallback, useMemo } from 'react';
+import ScrollView from '../ScrollView';
 import {
   VariableSizeList,
   Align,
@@ -7,9 +8,8 @@ import {
   ListOnItemsRenderedProps,
   ListProps as BaseListProps
 } from 'react-window';
-import { RsRefForwardingComponent } from '@/internals/types';
-import { useCustom } from '@/internals/hooks';
-import ScrollView from '../ScrollView';
+import { useCustom } from '../../CustomProvider';
+import type { RsRefForwardingComponent } from '@/internals/types';
 
 export const defaultItemSize = () => 36;
 

@@ -5,6 +5,7 @@ import { partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { refType } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export type ValueType = string | number;
 export interface CheckboxProps<V = ValueType>
@@ -116,6 +117,7 @@ export interface CheckboxProps<V = ValueType>
  */
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
   (props: CheckboxProps, ref) => {
+    const { propsWithDefaults } = useCustom('Checkbox', props);
     const checkboxGroupContext = useContext(CheckboxGroupContext);
 
     const {
@@ -152,7 +154,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       onCheckboxClick,
       onChange,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const [selfChecked, setSelfChecked, selfControlled] = useControlled(
       controlledChecked,

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { ReactChildren } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TimelineProps extends WithAsProps {
   /** The content of the component */
@@ -39,6 +40,7 @@ interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProp
  * @see https://rsuitejs.com/components/timeline
  */
 const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref) => {
+  const { propsWithDefaults } = useCustom('Timeline', props);
   const {
     children,
     as: Component = 'ul',
@@ -48,7 +50,7 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
     endless,
     isItemActive = Timeline.ACTIVE_LAST,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const count = ReactChildren.count(children);

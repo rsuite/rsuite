@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
-import { getParentMap } from '@/internals/Tree/utils';
-import { flattenTree } from '../Tree/utils';
-import { type SelectNode } from './types';
-import { useMap, useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
-import { ItemDataType, DataItemValue } from '@/internals/types';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
+import { getParentMap } from '@/internals/Tree/utils';
+import { flattenTree } from '../Tree/utils';
+import { useMap, useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
 import { useSearch, useSelect, usePaths } from './hooks';
-import { CascadeTreeProps } from './types';
+import { useCustom } from '../CustomProvider';
+import type { ItemDataType, DataItemValue } from '@/internals/types';
+import type { CascadeTreeProps } from './types';
+import type { SelectNode } from './types';
 
 export interface CascadeTreeComponent {
   <T>(props: CascadeTreeProps<T> & { ref?: React.Ref<HTMLDivElement> }): JSX.Element | null;
@@ -21,6 +22,7 @@ export interface CascadeTreeComponent {
  * @see https://rsuitejs.com/components/cascade-tree
  */
 const CascadeTree = React.forwardRef(<T extends DataItemValue>(props: CascadeTreeProps<T>, ref) => {
+  const { propsWithDefaults } = useCustom('CascadeTree', props);
   const {
     as: Component = 'div',
     data = [],
@@ -43,7 +45,7 @@ const CascadeTree = React.forwardRef(<T extends DataItemValue>(props: CascadeTre
     onChange,
     getChildren,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const [value, setValue] = useControlled(valueProp, defaultValue) as [
     T | null | undefined,

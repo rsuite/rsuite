@@ -742,7 +742,7 @@ describe('CheckTreePicker', () => {
       render(
         <CustomProvider
           locale={{
-            Picker: PickerZhCN
+            Combobox: PickerZhCN
           }}
         >
           <CheckTreePicker defaultOpen data={data} />

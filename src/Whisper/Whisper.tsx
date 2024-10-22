@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger, {
   OverlayTriggerHandle,
@@ -7,10 +7,9 @@ import OverlayTrigger, {
 import { PLACEMENT } from '@/internals/constants';
 import { oneOf } from '@/internals/propTypes';
 import { createChainedFunction, placementPolyfill } from '@/internals/utils';
-import { CustomContext } from '../CustomProvider';
+import { useCustom } from '../CustomProvider';
 
 export type WhisperProps = OverlayTriggerProps;
-
 export type WhisperInstance = OverlayTriggerHandle;
 
 /**
@@ -20,6 +19,7 @@ export type WhisperInstance = OverlayTriggerHandle;
  * @see https://rsuitejs.com/components/whisper
  */
 const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperInstance>) => {
+  const { propsWithDefaults, rtl } = useCustom('Whisper', props);
   const {
     onOpen,
     onClose,
@@ -28,15 +28,14 @@ const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperIns
     placement = 'right',
     preventOverflow,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const context = useContext(CustomContext);
   return (
     <OverlayTrigger
       {...rest}
       ref={ref}
       preventOverflow={preventOverflow}
-      placement={placementPolyfill(placement, context?.rtl)}
+      placement={placementPolyfill(placement, rtl)}
       onEntered={createChainedFunction(onOpen, onEntered)}
       onExited={createChainedFunction(onClose as any, onExited)}
     />

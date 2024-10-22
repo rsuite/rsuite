@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
 import { isValid } from '@/internals/utils/date';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import {
   validateDateTime,
@@ -13,6 +13,7 @@ import {
   useSelectedState,
   useFieldCursor
 } from '../DateInput';
+import { useCustom } from '../CustomProvider';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
 import { FormControlBaseProps } from '@/internals/types';
 
@@ -47,13 +48,14 @@ export interface DateRangeInputProps
  * @see https://rsuitejs.com/components/date-range-input/
  */
 const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
-  const { locale, parseDate } = useCustom('Calendar');
+  const { propsWithDefaults, parseDate, getLocale } = useCustom('Calendar', props);
+  const { shortDateFormat, dateLocale } = getLocale('DateTimeFormats');
 
   const {
     className,
     classPrefix = 'date-range-input',
     character = ' ~ ',
-    format: formatStr = locale.shortDateFormat,
+    format: formatStr = shortDateFormat,
     value: valueProp,
     defaultValue = [],
     placeholder,
@@ -63,7 +65,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     onFocus,
     onPaste,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
@@ -74,7 +76,6 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
-  const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
   const [dateType, setDateType] = useState<DateType>(DateType.Start);
 

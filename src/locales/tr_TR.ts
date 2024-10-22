@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: tr as any
 };
 
+const Combobox = {
+  noResultsText: 'Sonuç bulunamadı',
+  placeholder: 'Seç',
+  searchPlaceholder: 'Ara',
+  checkAll: 'Tümü'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Yeni öğe',
+  createOption: 'Seçenek ekle "{0}"'
+};
+
 export default {
   code: 'tr-TR',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'Toplam Satır: {0}',
     skip: 'Git{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Son 7 Gün'
   },
-  Picker: {
-    noResultsText: 'Sonuç bulunamadı',
-    placeholder: 'Seç',
-    searchPlaceholder: 'Ara',
-    checkAll: 'Tümü'
-  },
-  InputPicker: {
-    newItem: 'Yeni öğe',
-    createOption: 'Seçenek ekle "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Başlangıç',
     progress: 'Yükleniyor',

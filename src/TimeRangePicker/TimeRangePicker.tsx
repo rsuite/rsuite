@@ -1,6 +1,6 @@
 import React from 'react';
-import { useCustom } from '@/internals/hooks';
 import DateRangePicker, { RangeType, DateRange } from '../DateRangePicker';
+import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { PickerComponent } from '@/internals/Picker/types';
 import type { DatePickerLocale } from '../locales';
@@ -98,15 +98,16 @@ const defaultRanges = [];
 
 const TimeRangePicker: PickerComponent<TimeRangePickerProps> = React.forwardRef(
   (props: TimeRangePickerProps, ref) => {
-    const { locale } = useCustom('Calendar');
+    const { propsWithDefaults, getLocale } = useCustom('TimeRangePicker', props);
+    const { shortTimeFormat } = getLocale('DateTimeFormats');
 
     return (
       <DateRangePicker
         ref={ref}
         showHeader={false}
-        format={locale.shortTimeFormat}
+        format={shortTimeFormat}
         ranges={defaultRanges}
-        {...props}
+        {...propsWithDefaults}
       />
     );
   }

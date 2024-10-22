@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
+import ListContext, { ListContextType } from './ListContext';
+import ListItem from './ListItem';
 import { useClassNames } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
-import ListContext, { ListContextType } from './ListContext';
-import ListItem from './ListItem';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export interface ListProps extends WithAsProps, SortConfig {
   /* Size of list item */
@@ -31,6 +32,7 @@ export interface ListComponent extends RsRefForwardingComponent<'div', ListProps
  * @see https://rsuitejs.com/components/list
  */
 const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
+  const { propsWithDefaults } = useCustom('List', props);
   const {
     as: Component = 'div',
     classPrefix = 'list',
@@ -48,7 +50,7 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     onSortMove,
     onSortStart,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({

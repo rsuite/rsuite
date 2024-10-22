@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react';
 import startCase from 'lodash/startCase';
+import { useCallback, useEffect } from 'react';
 import {
   addDays,
   addMonths,
@@ -11,7 +11,7 @@ import {
   lastDayOfMonth,
   isValid
 } from '@/internals/utils/date';
-import { useCustom } from '@/internals/hooks';
+import { useCustom } from '../../CustomProvider';
 import { useDateField, patternMap } from '../DateField';
 import type { Locale } from 'date-fns';
 

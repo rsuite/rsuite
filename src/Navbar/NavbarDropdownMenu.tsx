@@ -4,14 +4,15 @@ import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
+import Disclosure from '@/internals/Disclosure';
+import NavContext from '../Nav/NavContext';
 import { StandardProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { mergeRefs } from '@/internals/utils';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames } from '@/internals/hooks';
 import { NavbarContext } from '.';
-import Disclosure from '@/internals/Disclosure';
-import NavContext from '../Nav/NavContext';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
@@ -85,8 +86,7 @@ const NavbarDropdownMenu = React.forwardRef<
     ...rest
   } = props;
 
-  const { rtl } = useCustom('DropdownMenu');
-
+  const { rtl } = useCustom();
   const { prefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =

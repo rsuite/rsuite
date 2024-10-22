@@ -690,7 +690,7 @@ describe('Cascader', () => {
       render(
         <CustomProvider
           locale={{
-            Picker: PickerZhCN
+            Combobox: PickerZhCN
           }}
         >
           <Cascader defaultOpen data={items} />

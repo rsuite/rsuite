@@ -16,13 +16,7 @@ import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
 import { mergeRefs, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
-import {
-  useClassNames,
-  useControlled,
-  useCustom,
-  useUniqueId,
-  useEventCallback
-} from '@/internals/hooks';
+import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
   isValid,
   copyTime,
@@ -52,6 +46,7 @@ import type {
   RsRefForwardingComponent
 } from '@/internals/types';
 import { startOfToday } from '@/internals/utils/date';
+import { useCustom } from '../CustomProvider';
 import type { DatePickerLocale } from '../locales';
 import type { DeprecatedProps } from './types';
 import type { MonthDropdownProps } from '../Calendar/types';
@@ -260,6 +255,7 @@ export interface DatePickerProps
  */
 const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
   (props: DatePickerProps, ref) => {
+    const { propsWithDefaults } = useCustom('DatePicker', props);
     const {
       as: Component = 'div',
       className,
@@ -278,7 +274,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       weekStart = 0,
       limitEndYear = 1000,
       limitStartYear,
-      locale: overrideLocale,
+      locale,
       loading,
       label,
       menuClassName,
@@ -318,12 +314,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       disabledMinutes: DEPRECATED_disabledMinutes,
       disabledSeconds: DEPRECATED_disabledSeconds,
       ...restProps
-    } = props;
+    } = propsWithDefaults;
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
-    const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
-    const formatStr = format || locale.shortDateFormat || 'yyyy-MM-dd';
+    const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(

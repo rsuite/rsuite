@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
 import { findNodeOfTree } from '@/internals/Tree/utils';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { PickerLocale } from '../locales';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -29,12 +29,13 @@ import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
+import useActive from '../Cascader/useActive';
 import { oneOf } from '@/internals/propTypes';
 import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
-import useActive from '../Cascader/useActive';
+import { useCustom } from '../CustomProvider';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
-export interface MultiCascaderProps<T extends DataItemValue>
+export interface MultiCascaderProps<T extends DataItemValue = any>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
     MultiCascadeTreeProps<T, T[], PickerLocale>,
     Pick<PickerToggleProps, 'loading'> {
@@ -125,6 +126,7 @@ const emptyArray = [];
  */
 const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.forwardRef(
   <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
+    const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -140,7 +142,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
       value: valueProp,
       valueKey = 'value',
       labelKey = 'label',
-      locale: overrideLocale,
+      locale,
       toggleAs,
       style,
       countable = true,
@@ -171,10 +173,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
       renderMenu: DEPRECATED_renderMenu,
       renderMenuItem: DEPRECATED_renderMenuItem,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { trigger, root, target, overlay, searchInput } = usePickerRef(ref);
-    const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
     const { prefix, merge } = useClassNames(classPrefix);
 
     const onSelectCallback = useCallback(
@@ -469,7 +470,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
             placement={placement}
             inputValue={value}
           >
-            {selectedElement || locale.placeholder}
+            {selectedElement || locale?.placeholder}
           </PickerToggle>
         </Component>
       </PickerToggleTrigger>

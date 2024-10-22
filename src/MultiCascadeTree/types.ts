@@ -7,7 +7,7 @@ export interface ItemKeys {
   childrenKey: string;
 }
 
-export interface MultiCascadeTreeProps<T, V = T[], L = any>
+export interface MultiCascadeTreeProps<T = any, V = T[], L = any>
   extends WithAsProps,
     CascadeTreeProps<T, V> {
   /**

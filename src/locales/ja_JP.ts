@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: ja as any
 };
 
+const Combobox = {
+  noResultsText: '結果は見つかりませんでした。',
+  placeholder: '選択',
+  searchPlaceholder: '検索',
+  checkAll: 'すべて'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: '新要素',
+  createOption: 'オプション作成: "{0}"'
+};
+
 export default {
   code: 'ja-JP',
   common: {
@@ -49,22 +62,16 @@ export default {
     total: '合計: {0}',
     skip: '{0}に逝く'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '直近7日間'
   },
-  Picker: {
-    noResultsText: '結果は見つかりませんでした。',
-    placeholder: '選択',
-    searchPlaceholder: '検索',
-    checkAll: 'すべて'
-  },
-  InputPicker: {
-    newItem: '新要素',
-    createOption: 'オプション作成: "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: '始動',
     progress: 'アップロード中',

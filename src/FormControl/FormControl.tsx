@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import type { CheckType } from 'schema-typed';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
-import { useClassNames } from '@/internals/hooks';
-import { TypeAttributes, FormControlBaseProps, WithAsProps } from '@/internals/types';
 import FormContext, { FormValueContext } from '../Form/FormContext';
-import { useFormGroup } from '../FormGroup';
-import { useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import useRegisterModel from './hooks/useRegisterModel';
 import useField from './hooks/useField';
 import Toggle from '../Toggle';
+import { useClassNames } from '@/internals/hooks';
+import { TypeAttributes, FormControlBaseProps, WithAsProps } from '@/internals/types';
+import { useFormGroup } from '../FormGroup';
+import { useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 /**
  * Props that FormControl passes to its accepter
@@ -82,6 +83,7 @@ interface FormControlComponent extends React.FC<FormControlProps> {
  * @see https://rsuitejs.com/components/form/
  */
 const FormControl: FormControlComponent = React.forwardRef((props: FormControlProps, ref) => {
+  const { propsWithDefaults } = useCustom('FormControl', props);
   const {
     readOnly: readOnlyContext,
     plaintext: plaintextContext,
@@ -117,7 +119,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     rule,
     id,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { controlId, helpTextId, labelId, errorMessageId } = useFormGroup(id);
 

@@ -4,6 +4,7 @@ import NavbarHeader from './NavbarHeader';
 import NavbarBrand from './NavbarBrand';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export const NavbarContext = React.createContext<boolean>(false);
 
@@ -32,13 +33,14 @@ interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
  */
 const Navbar: NavbarComponent = React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
+    const { propsWithDefaults } = useCustom('Navbar', props);
     const {
       className,
       as: Component = 'nav',
       classPrefix = 'navbar',
       appearance = 'default',
       ...rest
-    } = props;
+    } = propsWithDefaults;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(appearance));
     return (

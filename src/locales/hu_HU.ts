@@ -26,6 +26,19 @@ const DateTimeFormats = {
   dateLocale: hu as any
 };
 
+const Combobox = {
+  noResultsText: 'Nincs találat',
+  placeholder: 'Válassza ki',
+  searchPlaceholder: 'Keresés',
+  checkAll: 'Összes'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Új elem',
+  createOption: 'Opció létrehozása "{0}"'
+};
+
 export default {
   code: 'hu-HU',
   common: {
@@ -51,22 +64,16 @@ export default {
     total: 'Összes sor: {0}',
     skip: 'Lapozz ide: {0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Utolsó 7 nap'
   },
-  Picker: {
-    noResultsText: 'Nincs találat',
-    placeholder: 'Válassza ki',
-    searchPlaceholder: 'Keresés',
-    checkAll: 'Összes'
-  },
-  InputPicker: {
-    newItem: 'Új elem',
-    createOption: 'Opció létrehozása "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Kezdés',
     progress: 'Feltöltés',

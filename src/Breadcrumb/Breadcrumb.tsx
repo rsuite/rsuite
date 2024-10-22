@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { ReactChildren, createComponent } from '@/internals/utils';
 import BreadcrumbItem from './BreadcrumbItem';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { BreadcrumbLocale } from '../locales';
+import { useCustom } from '../CustomProvider';
 
 export interface BreadcrumbProps extends WithAsProps {
   /**
@@ -50,6 +51,7 @@ const Separator = createComponent({
  * @see https://rsuitejs.com/components/breadcrumb
  */
 const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
+  const { propsWithDefaults } = useCustom('Breadcrumb', props);
   const {
     as: Component = 'nav',
     className,
@@ -58,14 +60,13 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
     ellipsis = '...',
     maxItems = 5,
     separator = '/',
-    locale: overrideLocale,
+    locale,
     onExpand,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const [showEllipsis, setShowEllipsis] = useState(true);
-  const { locale } = useCustom<BreadcrumbLocale>('Breadcrumb', overrideLocale);
 
   const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
     setShowEllipsis(false);
@@ -89,8 +90,8 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
           <BreadcrumbItem
             role="button"
             key="ellipsis"
-            title={locale.expandText}
-            aria-label={locale.expandText}
+            title={locale?.expandText}
+            aria-label={locale?.expandText}
             separator={<Separator>{separator}</Separator>}
             onClick={handleClickEllipsis}
           >
@@ -105,7 +106,7 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
     children,
     ellipsis,
     handleClickEllipsis,
-    locale.expandText,
+    locale?.expandText,
     maxItems,
     separator,
     showEllipsis

@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: faIR as any
 };
 
+const Combobox = {
+  noResultsText: 'نتیجه ایی یافت نشد',
+  placeholder: 'انتخاب',
+  searchPlaceholder: 'جستجو',
+  checkAll: 'همه'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'گزینه جدید',
+  createOption: 'ساخت گزینه "{0}"'
+};
+
 export default {
   code: 'fa-IR',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'مجموع ردیف ها: {0}',
     skip: 'برو به{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '7 روز اخر'
   },
-  Picker: {
-    noResultsText: 'نتیجه ایی یافت نشد',
-    placeholder: 'انتخاب',
-    searchPlaceholder: 'جستجو',
-    checkAll: 'همه'
-  },
-  InputPicker: {
-    newItem: 'گزینه جدید',
-    createOption: 'ساخت گزینه "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'اولیه',
     progress: 'در حال اپلود',
