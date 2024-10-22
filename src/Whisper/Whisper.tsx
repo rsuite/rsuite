@@ -10,7 +10,6 @@ import { createChainedFunction, placementPolyfill } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
 export type WhisperProps = OverlayTriggerProps;
-
 export type WhisperInstance = OverlayTriggerHandle;
 
 /**

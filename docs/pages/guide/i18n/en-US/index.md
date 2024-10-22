@@ -71,18 +71,37 @@ const DateTimeFormats = {
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
-  formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy',
-  shortDateFormat: 'MM/dd/yyyy',
-  shortTimeFormat: 'hh:mm aa',
-  dateLocale: enUS as any
+  /**
+   * Format of the string is based on Unicode Technical Standard #35:
+   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   **/
+  formattedMonthPattern: 'MMM yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: enGB as any
+};
+
+const Combobox = {
+  noResultsText: 'No results found',
+  placeholder: 'Select',
+  searchPlaceholder: 'Search',
+  checkAll: 'All'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'New item',
+  createOption: 'Create option "{0}"'
 };
 
 const locale = {
-  code: 'en-US',
+  code: 'en-GB',
   common: {
     loading: 'Loading...',
-    emptyMessage: 'No data found'
+    emptyMessage: 'No data found',
+    remove: 'Remove',
+    clear: 'Clear'
   },
   Plaintext: {
     unfilled: 'Unfilled',
@@ -100,29 +119,23 @@ const locale = {
     skip: 'Go to{0}'
   },
   DateTimeFormats,
- Calendar: DateTimeFormats,
-  DatePicker:DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Last 7 Days'
   },
-  Picker: {
-    noResultsText: 'No results found',
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    checkAll: 'All'
-  },
-  InputPicker: {
-    newItem: 'New item',
-    createOption: 'Create option "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Initial',
     progress: 'Uploading',
     error: 'Error',
     complete: 'Finished',
     emptyFile: 'Empty',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Remove file'
   },
   CloseButton: {
     closeLabel: 'Close'
@@ -135,6 +148,8 @@ const locale = {
     off: 'Close'
   }
 };
+
+
 
 return (
   <CustomProvider locale={locale}>

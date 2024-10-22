@@ -33,7 +33,7 @@ export interface TagProps extends WithAsProps {
  * @see https://rsuitejs.com/components/tag
  */
 const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
-  const { propsWithDefaults } = useCustom('Tag', props);
+  const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
     as: Component = 'div',
     classPrefix = 'tag',
@@ -42,11 +42,12 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
     children,
     closable,
     className,
-    locale,
+    locale: overrideLocale,
     onClose,
     ...rest
   } = propsWithDefaults;
 
+  const { remove } = getLocale('common', overrideLocale);
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, color, { closable }));
 
@@ -58,7 +59,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
           className={prefix`icon-close`}
           onClick={onClose}
           tabIndex={-1}
-          locale={{ closeLabel: locale?.remove }}
+          locale={{ closeLabel: remove }}
         />
       )}
     </Component>

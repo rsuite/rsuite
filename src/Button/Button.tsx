@@ -1,9 +1,9 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Ripple from '@/internals/Ripple';
+import SafeAnchor from '../SafeAnchor';
 import { oneOf } from '@/internals/propTypes';
 import { ButtonGroupContext } from '../ButtonGroup';
-import SafeAnchor from '../SafeAnchor';
 import { isOneOf } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';

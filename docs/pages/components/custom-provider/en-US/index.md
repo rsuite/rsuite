@@ -2,12 +2,15 @@
 
 Support personalized configurations such as localization, Right to Left, and themes.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 ## Usage
 
 ### Localization
 
 ```jsx
-import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/locales/zh_CN';
 
 return (
@@ -20,8 +23,6 @@ return (
 ### Right to Left
 
 ```jsx
-import { CustomProvider } from 'rsuite';
-
 return (
   <CustomProvider rtl>
     <App />
@@ -32,10 +33,28 @@ return (
 ### Themes
 
 ```jsx
-import { CustomProvider } from 'rsuite';
-
 return (
   <CustomProvider theme="dark">
+    <App />
+  </CustomProvider>
+);
+```
+
+### Global Configuration of Default Values for Components
+
+```jsx
+const components = {
+  Button: {
+    defaultProps: { size: 'sm' }
+  },
+  Input: {
+    defaultProps: { size: 'sm' }
+  }
+  // more components...
+};
+
+return (
+  <CustomProvider components={components}>
     <App />
   </CustomProvider>
 );
@@ -46,8 +65,6 @@ return (
 The icon animations in `@rsuite/icons` use inline styles. If your project enables [Content Security Policy][csp], make sure to configure the [nonce][nonce] value.
 
 ```jsx
-import { CustomProvider } from 'rsuite';
-
 return (
   <CustomProvider csp={{ nonce: 'xxxxxx' }}>
     <App />
@@ -61,6 +78,7 @@ return (
 
 | Property            | Type`(Default)`                         | Description                                                                                             |
 | ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| components          | [Components](#code-ts-components-code)  | Custom component default configuration <br/>![][5.74.0]                                                 |
 | csp                 | { nonce: string }                       | Configure the [nonce][nonce] value of [Content Security Policy][csp] <br/>![][5.73.0]                   |
 | disableInlineStyles | boolean                                 | Disable inline styles <br/>![][5.73.0]                                                                  |
 | disableRipple       | boolean                                 | If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination` |
@@ -70,8 +88,11 @@ return (
 | rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |
 
+<!--{include:(_common/types/react-suite-components.md)}-->
+
 [nonce]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce
 [csp]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
 [5.73.0]: https://img.shields.io/badge/>=-v5.73.0-blue
+[5.74.0]: https://img.shields.io/badge/>=-v5.74.0-blue
 [en_gb]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
 [locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts

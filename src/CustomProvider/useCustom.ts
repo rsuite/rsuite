@@ -27,10 +27,9 @@ function toLocaleKey(componentName: string): LocaleKey {
 
   if (Picker.includes(componentName)) {
     return 'Combobox';
-  } else if (enGB[componentName]) {
-    return componentName as LocaleKey;
   }
-  return 'common';
+
+  return componentName as LocaleKey;
 }
 
 /**

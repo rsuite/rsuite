@@ -1,12 +1,15 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
+import StyleHead from '../components/StyleHead';
+import canUseDOM from 'dom-lib/canUseDOM';
+import loadCssFile from '@/utils/loadCssFile';
+import TypedPrompt from '@/components/TypedPrompt';
 import NProgress from 'nprogress';
-import type { AppProps } from 'next/app';
-import { Analytics } from '@vercel/analytics/react';
-import Router, { useRouter } from 'next/router';
-import { AppProvider } from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
+import Router, { useRouter } from 'next/router';
+import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
+import { Analytics } from '@vercel/analytics/react';
+import { AppProvider } from '@/components/AppContext';
 import { getMessages } from '../locales';
 import {
   DirectionType,
@@ -16,10 +19,7 @@ import {
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
-import StyleHead from '../components/StyleHead';
-import canUseDOM from 'dom-lib/canUseDOM';
-import loadCssFile from '@/utils/loadCssFile';
-import TypedPrompt from '@/components/TypedPrompt';
+import type { AppProps } from 'next/app';
 import '../less/index.less';
 
 Router.events.on('routeChangeStart', url => {

@@ -125,7 +125,7 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
   components?: Partial<ReactSuiteComponents>;
 }
 
-const CustomContext = React.createContext<CustomProviderProps>({});
+export const CustomContext = React.createContext<CustomProviderProps>({});
 const themes = ['light', 'dark', 'high-contrast'];
 
 /**
@@ -133,7 +133,7 @@ const themes = ['light', 'dark', 'high-contrast'];
  *
  * @see https://rsuitejs.com/components/custom-provider
  */
-const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
+export default function CustomProvider(props: Omit<CustomProviderProps, 'toasters'>) {
   const {
     children,
     classPrefix = getClassNamePrefix(),
@@ -192,8 +192,4 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
       </IconProvider>
     </CustomContext.Provider>
   );
-};
-
-export { CustomContext };
-
-export default CustomProvider;
+}

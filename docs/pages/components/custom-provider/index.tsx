@@ -1,3 +1,10 @@
-import Page from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+import DefaultPage from '@/components/Page';
 
-export default Page;
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['CustomProvider']} />
+};
+
+export default function Page() {
+  return <DefaultPage inDocsComponents={inDocsComponents} />;
+}
