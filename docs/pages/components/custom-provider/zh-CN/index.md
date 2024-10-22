@@ -96,7 +96,3 @@ return (
 [5.74.0]: https://img.shields.io/badge/>=-v5.74.0-blue
 [en_gb]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
 [locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts
-
-```
-
-```
