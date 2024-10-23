@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { isValidElement, useCallback, useMemo } from 'react';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { nameToPath } from '../utils';
@@ -29,6 +29,10 @@ function getErrorMessage(error?: ErrorType | string) {
    */
   if (error?.array && error.array?.length > 0) {
     return error.array[0].errorMessage;
+  }
+
+  if (isValidElement(error)) {
+    return error;
   }
 
   return error?.errorMessage;
