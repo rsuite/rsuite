@@ -7,7 +7,6 @@ import CloseButton from '@/internals/CloseButton';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import Close from '@rsuite/icons/Close';
 import IconButton from '../IconButton';
-import DrawerContext from '../Drawer/DrawerContext';
 
 export interface ModalHeaderProps extends WithAsProps {
   /** Primary content */
@@ -34,8 +33,8 @@ const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.for
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
-    const onModalClose = useContext(ModalContext)?.onModalClose;
-    const isDrawer = useContext(DrawerContext)?.isDrawer;
+    const context = useContext(ModalContext);
+    const { isDrawer, onModalClose } = context || {};
 
     const buttonElement = isDrawer ? (
       <IconButton
