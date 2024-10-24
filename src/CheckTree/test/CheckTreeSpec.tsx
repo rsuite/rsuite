@@ -406,4 +406,37 @@ describe('CheckTree', () => {
       });
     });
   });
+
+  describe('Searchable', () => {
+    it('Should render the search input', () => {
+      render(<CheckTree data={data} searchable />);
+      expect(screen.getByRole('searchbox')).to.exist;
+    });
+
+    it('Should filter the tree nodes', () => {
+      render(<CheckTree data={data} searchable />);
+
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'disabled' } });
+
+      expect(screen.getAllByRole('treeitem')).to.have.length(1);
+    });
+
+    it('Should filter the tree nodes with virtualized', () => {
+      render(<CheckTree data={data} searchable virtualized />);
+
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'disabled' } });
+
+      expect(screen.getAllByRole('treeitem')).to.have.length(1);
+    });
+
+    it('Should call `onSearch` callback', () => {
+      const onSearch = sinon.spy();
+
+      render(<CheckTree data={data} searchable onSearch={onSearch} />);
+
+      fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'disabled' } });
+
+      expect(onSearch).to.have.been.calledWith('disabled');
+    });
+  });
 });
