@@ -5,7 +5,6 @@ import { ModalContext } from './ModalContext';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
-import DrawerContext from '../Drawer/DrawerContext';
 
 export type ModalBodyProps = WithAsProps;
 
@@ -23,8 +22,8 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
     const classes = merge(className, withClassPrefix());
 
     const context = useContext(ModalContext);
-    const bodyStyles = context?.getBodyStyles?.();
-    const closeButton = useContext(DrawerContext)?.closeButton;
+    const { getBodyStyles, closeButton, onModalClose } = context || {};
+    const bodyStyles = getBodyStyles?.();
     let buttonElement: React.ReactNode = null;
 
     if (closeButton) {
@@ -35,7 +34,7 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
             appearance="subtle"
             size="sm"
             className={prefix('close')}
-            onClick={context?.onModalClose}
+            onClick={onModalClose}
           />
         ) : (
           closeButton

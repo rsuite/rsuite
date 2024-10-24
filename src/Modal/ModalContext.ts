@@ -9,6 +9,12 @@ export interface ModalContextProps {
 
   /** Pass the latest style to body. */
   getBodyStyles?: () => React.CSSProperties | null;
+
+  /** Indicates if the component should be displayed as a drawer */
+  isDrawer?: boolean;
+
+  /** Custom close button used when rendered as a Drawer */
+  closeButton?: React.ReactNode | boolean;
 }
 
 export const ModalContext = React.createContext<ModalContextProps | null>(null);
