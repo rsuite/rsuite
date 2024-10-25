@@ -124,4 +124,84 @@ describe('CalendarContainer', () => {
       expect(screen.getAllByRole('rowheader')[0]).to.have.text('1');
     });
   });
+
+  it('Should call `onToggleMonthDropdown` callback', () => {
+    const onToggleMonthDropdown = sinon.spy();
+    render(
+      <CalendarContainer
+        locale={enUS.Calendar}
+        calendarDate={new Date(2024, 10, 18, 0, 0, 0)}
+        format="yyyy-MM-dd"
+        onToggleMonthDropdown={onToggleMonthDropdown}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+    expect(onToggleMonthDropdown).to.have.been.calledWith(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+    expect(onToggleMonthDropdown).to.have.been.calledWith(false);
+  });
+
+  it('Should call `onToggleMonthDropdown` callback when click collapse button', () => {
+    const onToggleMonthDropdown = sinon.spy();
+    render(
+      <CalendarContainer
+        locale={enUS.Calendar}
+        calendarDate={new Date(2024, 10, 18, 0, 0, 0)}
+        format="yyyy-MM-dd"
+        onToggleMonthDropdown={onToggleMonthDropdown}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+    expect(onToggleMonthDropdown).to.have.been.calledWith(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Collapse month view' }));
+
+    expect(onToggleMonthDropdown).to.have.been.calledWith(false);
+  });
+
+  it('Should call `onToggleTimeDropdown` callback', () => {
+    const onToggleTimeDropdown = sinon.spy();
+    render(
+      <CalendarContainer
+        locale={enUS.Calendar}
+        calendarDate={new Date(2024, 10, 18, 0, 0, 0)}
+        format="yyyy-MM-dd HH:mm:ss"
+        onToggleTimeDropdown={onToggleTimeDropdown}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
+
+    expect(onToggleTimeDropdown).to.have.been.calledWith(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
+
+    expect(onToggleTimeDropdown).to.have.been.calledWith(false);
+  });
+
+  it('Should call `onToggleTimeDropdown` callback when click collapse button', () => {
+    const onToggleTimeDropdown = sinon.spy();
+    render(
+      <CalendarContainer
+        locale={enUS.Calendar}
+        calendarDate={new Date(2024, 10, 18, 0, 0, 0)}
+        format="yyyy-MM-dd HH:mm:ss"
+        onToggleTimeDropdown={onToggleTimeDropdown}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
+
+    expect(onToggleTimeDropdown).to.have.been.calledWith(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Collapse time view' }));
+
+    expect(onToggleTimeDropdown).to.have.been.calledWith(false);
+  });
 });
