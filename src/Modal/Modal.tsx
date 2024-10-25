@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback, useContext } from 'react';
+import React, { useRef, useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
@@ -53,6 +53,12 @@ export interface ModalProps
 
   /** Automatically sets the height when the body content is too long. */
   overflow?: boolean;
+
+  /** Indicates if the component should be displayed as a drawer */
+  isDrawer?: boolean;
+
+  /** Custom close button, used when rendered as a Drawer */
+  closeButton?: React.ReactNode | boolean;
 }
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
@@ -93,6 +99,8 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     role = 'dialog',
     size = 'sm',
     id: idProp,
+    isDrawer = false,
+    closeButton,
     ...rest
   } = propsWithDefaults;
 
@@ -102,9 +110,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>();
-
-  // Render Modal as Drawer
-  const { isDrawer = false } = useContext(DrawerContext) || {};
 
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
@@ -118,9 +123,11 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     () => ({
       dialogId,
       onModalClose: onClose,
-      getBodyStyles: () => bodyStyles
+      getBodyStyles: () => bodyStyles,
+      closeButton,
+      isDrawer
     }),
-    [dialogId, onClose, bodyStyles]
+    [dialogId, onClose, closeButton, isDrawer, bodyStyles]
   );
 
   const handleExited = useCallback(

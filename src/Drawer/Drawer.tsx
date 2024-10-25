@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
 import Modal, { ModalProps } from '../Modal';
@@ -54,20 +54,18 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
     placement
   };
 
-  const contextValue = useMemo(() => ({ closeButton, isDrawer: true }), [closeButton]);
-
   return (
-    <DrawerContext.Provider value={contextValue}>
-      <Modal
-        {...rest}
-        ref={ref}
-        overflow={false}
-        classPrefix={classPrefix}
-        className={classes}
-        animation={animation}
-        animationProps={animationProps}
-      />
-    </DrawerContext.Provider>
+    <Modal
+      {...rest}
+      ref={ref}
+      overflow={false}
+      classPrefix={classPrefix}
+      className={classes}
+      animation={animation}
+      animationProps={animationProps}
+      isDrawer={true}
+      closeButton={closeButton}
+    />
   );
 }) as unknown as DrawerComponent;
 
