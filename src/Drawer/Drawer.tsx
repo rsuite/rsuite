@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
 import Modal, { ModalProps } from '../Modal';
-import DrawerContext from './DrawerContext';
 import { TypeAttributes } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
