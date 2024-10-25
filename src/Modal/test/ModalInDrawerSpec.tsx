@@ -31,4 +31,19 @@ describe('Modal in Drawer', () => {
 
     expect(screen.getByTestId('body').style.maxHeight).to.be.empty;
   });
+
+  it('Should render correct Modal close button', () => {
+    render(
+      <Drawer open size="full">
+        <Modal open>
+          <Modal.Header>
+            <Modal.Title>Modal Title</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Modal Title</Modal.Body>
+        </Modal>
+      </Drawer>
+    );
+
+    expect(screen.getAllByRole('button', { name: 'Close' })).to.have.length(1);
+  });
 });
