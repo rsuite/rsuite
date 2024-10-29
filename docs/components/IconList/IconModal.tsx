@@ -8,22 +8,38 @@ import {
   IconButton,
   InputGroup,
   Input,
+  HStack,
   ModalProps
 } from 'rsuite';
 import * as Icons from '@rsuite/icons';
 
-interface IcomModalProps extends ModalProps {
+export interface IconMeta {
   iconName: string;
+  categoryName: string;
+  version?: string;
+}
+interface IcomModalProps extends ModalProps {
+  activeIcon: IconMeta;
 }
 
 function IcomModal(props: IcomModalProps) {
-  const { open, iconName, onClose } = props;
+  const { open, activeIcon, onClose } = props;
+  const { iconName, version } = activeIcon || {};
   const IconComponent = iconName ? Icons[iconName] : null;
 
   return (
     <Modal open={open} onClose={onClose}>
       <Modal.Header>
-        <Modal.Title>{iconName}</Modal.Title>
+        <Modal.Title as={HStack}>
+          {iconName}
+          {version && (
+            <img
+              src={`https://img.shields.io/badge/@rsuite\/icons->=${version}-blue`}
+              alt={`Supported from version ${version}`}
+              title={`Supported from version ${version}`}
+            />
+          )}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="doc-highlight rcv-highlight" style={{ margin: '0 0 1em 0' }}>

@@ -1,22 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
+import getPosition from 'dom-lib/getPosition';
+import scrollTop from 'dom-lib/scrollTop';
+import SpinnerIcon from '@rsuite/icons/Spinner';
+import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
+import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
-import {
+import type { SelectNode, CascadeColumn } from './types';
+import type {
   ItemDataType,
   WithAsProps,
   RsRefForwardingComponent,
   DataProps,
   ToArray
 } from '@/internals/types';
-import PagePreviousIcon from '@rsuite/icons/PagePrevious';
-import PageNextIcon from '@rsuite/icons/PageNext';
-import getPosition from 'dom-lib/getPosition';
-import scrollTop from 'dom-lib/scrollTop';
-import { SelectNode, CascadeColumn } from './types';
 
 type SetLike<T = unknown> = {
   has(value: T): boolean;
@@ -128,7 +128,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = loading ? SpinnerIcon : rtl ? PagePreviousIcon : PageNextIcon;
+      const Icon = loading ? SpinnerIcon : rtl ? ArrowLeftLineIcon : ArrowRightLineIcon;
 
       return (
         <ListItem

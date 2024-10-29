@@ -8,7 +8,7 @@ describe('DatePicker styles', () => {
   it('Should render the calendar icon', () => {
     render(<DatePicker />);
 
-    expect(screen.getByLabelText('calendar')).to.have.class('rs-icon');
+    expect(screen.getByLabelText('calender simple')).to.have.class('rs-icon');
   });
 
   it('Should render the clock icon', () => {

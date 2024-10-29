@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
-import HeartIcon from '@rsuite/icons/legacy/Heart';
+import HeartIcon from '@rsuite/icons/Heart';
 import Rate, { RateProps } from '../Rate';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';

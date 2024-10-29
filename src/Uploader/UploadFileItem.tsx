@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Attachment from '@rsuite/icons/legacy/Attachment';
+import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
