@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Toggle from '../PickerToggle';
+import CustomProvider from '../../../CustomProvider';
 import { getDOMNode, testStandardProps } from '@test/utils';
 import { TypeAttributes } from '../../types';
 
@@ -145,14 +146,14 @@ describe('<PickerToggle>', () => {
       'leftEnd'
     ];
 
-    const getArrow = placement => {
+    const getArrow = (placement, rtl?: boolean) => {
       switch (true) {
         case /^top/.test(placement):
           return 'arrow up line';
         case /^right/.test(placement):
-          return 'arrow right line';
+          return rtl ? 'arrow left line' : 'arrow right line';
         case /^left/.test(placement):
-          return 'arrow left line';
+          return rtl ? 'arrow right line' : 'arrow left line';
         case /^bottom/.test(placement):
       }
     };
@@ -162,6 +163,18 @@ describe('<PickerToggle>', () => {
         render(<Toggle placement={placement} />);
 
         expect(screen.getByTestId('caret')).to.have.attr('aria-label', getArrow(placement));
+      });
+    });
+
+    placements.forEach(placement => {
+      it(`Should have correct caret icon for placement: ${placement} in RTL`, () => {
+        render(
+          <CustomProvider rtl>
+            <Toggle placement={placement} />
+          </CustomProvider>
+        );
+
+        expect(screen.getByTestId('caret')).to.have.attr('aria-label', getArrow(placement, true));
       });
     });
   });
