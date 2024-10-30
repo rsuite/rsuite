@@ -67,6 +67,7 @@
 | classPrefix | string `('popover')` | 组件 CSS 类的前缀  |
 | title       | ReactNode            | 标题               |
 | visible     | boolean              | 组件默认可见的     |
+| full        | boolean              | 撑满容器           |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
 <!--{include:(_common/types/placement-all.md)}-->
