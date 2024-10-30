@@ -21,7 +21,7 @@ const IconFont = createIconFont({
 });
 
 const App = () => (
-  <div className="icon-example-list">
+  <div style={{ display: 'flex', gap: 10 }}>
     <IconFont icon="rs-iconuser-badge" />
     <IconFont icon="rs-iconmember" />
     <IconFont icon="rs-icongear-16" spin />

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Star from '@rsuite/icons/legacy/Star';
+import Star from '@rsuite/icons/Star';
 import { oneOf } from '@/internals/propTypes';
 import { SIZE, KEY_VALUES } from '@/internals/constants';
 import { useControlled, useClassNames } from '@/internals/hooks';

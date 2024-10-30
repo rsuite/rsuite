@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 import on from 'dom-lib/on';
+import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
+import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
@@ -379,7 +379,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           disabled={stepUpDisabled}
           aria-label="Increment"
         >
-          <AngleUpIcon />
+          <ArrowUpLineIcon />
         </Button>
         <Button
           tabIndex={-1}
@@ -389,7 +389,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           disabled={stepDownDisabled}
           aria-label="Decrement"
         >
-          <AngleDownIcon />
+          <ArrowDownLineIcon />
         </Button>
       </span>
       {postfix && <InputGroupAddon>{postfix}</InputGroupAddon>}

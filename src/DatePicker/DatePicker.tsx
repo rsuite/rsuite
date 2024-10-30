@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
-import CalendarIcon from '@rsuite/icons/Calendar';
+import CalenderSimpleIcon from '@rsuite/icons/CalenderSimple';
 import TimeIcon from '@rsuite/icons/Time';
 import CalendarContainer from '../Calendar/CalendarContainer';
 import { useCalendarDate } from '../Calendar/hooks';
@@ -660,7 +660,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       if (caretAsProp === null) {
         return null;
       }
-      return caretAsProp || (mode === DateMode.Time ? TimeIcon : CalendarIcon);
+      return caretAsProp || (mode === DateMode.Time ? TimeIcon : CalenderSimpleIcon);
     }, [caretAsProp, mode]) as React.ElementType | null;
 
     const handleTriggerClose = useEventCallback(cause => {

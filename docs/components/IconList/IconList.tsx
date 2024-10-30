@@ -6,35 +6,30 @@ import IconItem from './IconItem';
 import { useApp } from '@/components/AppContext';
 import iconList from '@rsuite/icons/meta.json';
 import * as Icons from '@rsuite/icons';
-import IcomModal from './IconModal';
-
-interface IconMeta {
-  iconName: string;
-  componentName: string;
-  categoryName: string;
-}
-
-const usableIconList: IconMeta[] = iconList.filter(({ categoryName }) => categoryName !== 'legacy');
+import IcomModal, { IconMeta } from './IconModal';
 
 function searchFilter(keyword: string) {
-  return usableIconList.filter(({ categoryName, componentName }: IconMeta) => {
+  return iconList.filter(({ categoryName, iconName }: IconMeta) => {
     const key = keyword.toUpperCase();
     return (
-      categoryName.toLocaleUpperCase().includes(key) ||
-      componentName.toLocaleUpperCase().includes(key)
+      categoryName.toLocaleUpperCase().includes(key) || iconName.toLocaleUpperCase().includes(key)
     );
   });
 }
 
 function IconList() {
   const { locales } = useApp();
-  const [iconName, setIconName] = useState('');
+  const [activeIcon, setActiveIcon] = useState<IconMeta>(null);
   const [showIcon, setShowIcon] = useState(false);
   const [keyword, setKeyword] = useState('');
 
   const handleSelect = useCallback(name => {
-    setIconName(name);
-    setShowIcon(true);
+    const icon = iconList.find(({ iconName }) => iconName === name);
+
+    if (icon) {
+      setActiveIcon(icon);
+      setShowIcon(true);
+    }
   }, []);
 
   const handleClose = useCallback(() => {
@@ -69,12 +64,12 @@ function IconList() {
 
     return (
       <div className="row icon-item-list">
-        {filteredIcons.map(({ componentName }, j) => {
+        {filteredIcons.map(({ iconName }, j) => {
           return (
             <IconItem
-              icon={Icons[componentName]}
-              name={componentName}
-              key={`${j}-${componentName}`}
+              icon={Icons[iconName]}
+              name={iconName}
+              key={`${j}-${iconName}`}
               onSelect={handleSelect}
             />
           );
@@ -88,7 +83,7 @@ function IconList() {
       <InputGroup inside size="lg" className="icon-search-input">
         <Input
           type="text"
-          placeholder={`Search ${usableIconList.length} icons ...`}
+          placeholder={`Search ${iconList.length} icons ...`}
           onChange={setKeyword}
         />
         <InputGroup.Addon>
@@ -96,7 +91,7 @@ function IconList() {
         </InputGroup.Addon>
       </InputGroup>
       {iconElements}
-      <IcomModal open={showIcon} onClose={handleClose} iconName={iconName} />
+      <IcomModal open={showIcon} onClose={handleClose} activeIcon={activeIcon} />
     </div>
   );
 }

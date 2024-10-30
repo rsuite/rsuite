@@ -1,40 +1,38 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-
 import Toggle from '../PickerToggle';
-import { getDOMNode } from '@test/utils';
+import CustomProvider from '../../../CustomProvider';
+import { getDOMNode, testStandardProps } from '@test/utils';
+import { TypeAttributes } from '../../types';
 
 describe('<PickerToggle>', () => {
-  it('Should output a toggle', () => {
-    const Title = 'Title';
-    const instance = getDOMNode(<Toggle title="title">{Title}</Toggle>);
+  testStandardProps(<Toggle />);
 
-    assert.equal(instance.tagName, 'DIV');
-    assert.include(instance.className, 'toggle');
-    assert.equal(instance.textContent, Title);
+  it('Should output a toggle', () => {
+    render(<Toggle title="title">Toggle</Toggle>);
+
+    expect(screen.getByRole('combobox')).to.have.class('rs-picker-toggle');
+    expect(screen.getByRole('combobox')).to.have.attr('aria-haspopup', 'listbox');
+    expect(screen.getByRole('combobox')).to.have.text('Toggle');
+    expect(screen.getByRole('combobox').tagName).to.equal('DIV');
   });
 
   it('Should output a button', () => {
-    const Title = 'Title';
-    const instance = getDOMNode(
+    render(
       <Toggle title="title" as="button">
-        {Title}
+        Toggle
       </Toggle>
     );
 
-    assert.equal(instance.tagName, 'BUTTON');
-    assert.include(instance.className, 'toggle');
-    assert.equal(instance.textContent, Title);
+    expect(screen.getByRole('combobox').tagName).to.equal('BUTTON');
   });
 
   it('Should render a hidden <input> element with given "name" attribute', () => {
-    const { container } = render(<Toggle name="field" />);
+    render(<Toggle name="field" />);
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    expect(container.querySelector('input')).to.have.attr('name', 'field');
+    expect(screen.getByTestId('picker-toggle-input')).to.have.attr('name', 'field');
   });
 
   describe('Cleanable (`cleanable`=true)', () => {
@@ -49,17 +47,17 @@ describe('<PickerToggle>', () => {
     });
 
     it('Should call `onClean` callback when clicking clear button', () => {
-      const onCleanSpy = sinon.spy();
+      const onClean = sinon.spy();
 
       render(
-        <Toggle cleanable hasValue onClean={onCleanSpy}>
+        <Toggle cleanable hasValue onClean={onClean}>
           Title
         </Toggle>
       );
 
       fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-      expect(onCleanSpy).to.have.been.called;
+      expect(onClean).to.have.been.called;
     });
   });
 
@@ -79,41 +77,22 @@ describe('<PickerToggle>', () => {
 
   it('Should call onBlur callback', async () => {
     const onBlur = sinon.spy();
-    const instance = getDOMNode(<Toggle onBlur={onBlur} />);
-    act(() => {
-      ReactTestUtils.Simulate.blur(instance);
-    });
 
-    await waitFor(() => {
-      expect(onBlur).to.have.been.calledOnce;
-    });
+    render(<Toggle onBlur={onBlur} />);
+
+    fireEvent.blur(screen.getByRole('combobox'));
+
+    expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should call onFocus callback', async () => {
     const onFocus = sinon.spy();
-    const instance = getDOMNode(<Toggle onFocus={onFocus} />);
 
-    ReactTestUtils.Simulate.focus(instance);
+    render(<Toggle onFocus={onFocus} />);
 
-    await waitFor(() => {
-      expect(onFocus).to.have.been.calledOnce;
-    });
-  });
+    fireEvent.focus(screen.getByRole('combobox'));
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Toggle className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Toggle style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(onFocus).to.have.been.calledOnce;
   });
 
   it('Should add value to input', async () => {
@@ -145,10 +124,58 @@ describe('<PickerToggle>', () => {
   });
 
   it('Should not show caret icon when it has value', () => {
-    const { container } = render(<Toggle hasValue cleanable />);
+    render(<Toggle hasValue cleanable />);
 
     expect(screen.getByRole('button', { name: /clear/i })).to.exist;
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('.rs-picker-caret-icon')).to.not.exist;
+    expect(screen.getByRole('combobox')).to.not.have.contain('.rs-picker-caret-icon');
+  });
+
+  describe('Placement', () => {
+    const placements: TypeAttributes.Placement[] = [
+      'top',
+      'bottom',
+      'right',
+      'left',
+      'bottomStart',
+      'bottomEnd',
+      'topStart',
+      'topEnd',
+      'rightStart',
+      'rightEnd',
+      'leftStart',
+      'leftEnd'
+    ];
+
+    const getArrow = (placement, rtl?: boolean) => {
+      switch (true) {
+        case /^top/.test(placement):
+          return 'arrow up line';
+        case /^right/.test(placement):
+          return rtl ? 'arrow left line' : 'arrow right line';
+        case /^left/.test(placement):
+          return rtl ? 'arrow right line' : 'arrow left line';
+        case /^bottom/.test(placement):
+      }
+    };
+
+    placements.forEach(placement => {
+      it(`Should have correct caret icon for placement: ${placement}`, () => {
+        render(<Toggle placement={placement} />);
+
+        expect(screen.getByTestId('caret')).to.have.attr('aria-label', getArrow(placement));
+      });
+    });
+
+    placements.forEach(placement => {
+      it(`Should have correct caret icon for placement: ${placement} in RTL`, () => {
+        render(
+          <CustomProvider rtl>
+            <Toggle placement={placement} />
+          </CustomProvider>
+        );
+
+        expect(screen.getByTestId('caret')).to.have.attr('aria-label', getArrow(placement, true));
+      });
+    });
   });
 });

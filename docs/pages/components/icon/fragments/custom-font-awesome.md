@@ -7,6 +7,7 @@ import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBoo
 <!--start-code-->
 
 ```js
+import { HStack } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import * as faCamera from '@fortawesome/free-solid-svg-icons/faCamera';
 import * as faReact from '@fortawesome/free-brands-svg-icons/faReact';
@@ -22,11 +23,11 @@ const FaSvgIcon = ({ faIcon, ...rest }) => {
 };
 
 const App = () => (
-  <div className="icon-example-list">
+  <HStack spacing={10}>
     <Icon as={FaSvgIcon} faIcon={faCamera} />
     <Icon as={FaSvgIcon} faIcon={faReact} style={{ color: '#61dafb' }} />
     <Icon as={FaSvgIcon} faIcon={faAddressBook} />
-  </div>
+  </HStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

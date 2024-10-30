@@ -1,5 +1,7 @@
 ```js
+import { HStack } from 'rsuite';
 import { Icon } from '@rsuite/icons';
+
 const SvgIcon = <svg>...</svg>;
 
 return () => {
@@ -12,6 +14,19 @@ return () => {
 ```js
 import { IconButton } from 'rsuite';
 import { Icon } from '@rsuite/icons';
+
+const App = () => (
+  <HStack spacing={10}>
+    <Icon as={HeartSvg} style={{ color: 'hotpink' }} />
+    <Icon as={PeopleFoldSvg} style={{ fontSize: 30 }} />
+    <Icon as={RSuiteLogoSvg} />
+    <IconButton circle icon={<Icon as={HeartSvg} style={{ color: 'hotpink' }} />} />
+    <IconButton circle icon={<Icon as={PeopleFoldSvg} />} />
+    <IconButton circle icon={<Icon as={RSuiteLogoSvg} />} />
+  </HStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 
 const HeartSvg = React.forwardRef((props, ref) => (
   <svg {...props} width="2em" height="2em" fill="currentColor" viewBox="0 0 1024 1024" ref={ref}>
@@ -107,19 +122,6 @@ const RSuiteLogoSvg = React.forwardRef((props, ref) => (
     </g>
   </svg>
 ));
-
-const App = () => (
-  <div className="icon-example-list">
-    <Icon as={HeartSvg} style={{ color: 'hotpink' }} />
-    <Icon as={PeopleFoldSvg} style={{ fontSize: 30 }} />
-    <Icon as={RSuiteLogoSvg} />
-    <IconButton icon={<Icon as={HeartSvg} style={{ color: 'hotpink' }} />} />
-    <IconButton icon={<Icon as={PeopleFoldSvg} />} />
-    <IconButton icon={<Icon as={RSuiteLogoSvg} />} />
-  </div>
-);
-
-ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

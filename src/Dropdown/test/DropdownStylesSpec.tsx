@@ -1,32 +1,21 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getStyle, inChrome, getGrayScale } from '@test/utils';
+import { getGrayScale } from '@test/utils';
 import Dropdown from '../Dropdown';
-
 import '../styles/index.less';
 
 describe('Dropdown styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
     render(
-      <Dropdown title="Default" ref={instanceRef}>
+      <Dropdown title="Default">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    const dom = instanceRef.current as HTMLElement;
-    const toggleDom = dom.querySelector('.rs-dropdown-toggle') as HTMLElement;
-    assert.equal(getStyle(dom, 'position'), 'relative', 'Dropdown  position');
-    inChrome &&
-      assert.equal(
-        getStyle(toggleDom, 'padding'),
-        '8px 32px 8px 12px',
-        'Dropdown toggle button  padding'
-      );
-    assert.isNotNull(
-      toggleDom.querySelector('[aria-label="angle down"]'),
-      'Dropdown toggle button caret content'
-    );
+
+    expect(screen.getByRole('button')).to.have.style('position', 'relative');
+    expect(screen.getByRole('button')).to.have.style('padding', '8px 32px 8px 12px');
+    expect(screen.getByRole('button')).to.have.contain('.rs-icon[aria-label="arrow down line"]');
   });
 
   it('Should render a Button in default appearance', () => {
