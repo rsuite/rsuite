@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@rsuite/icons/Icon';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
+import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import { useClassNames } from '@/internals/hooks';
 
 interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
@@ -20,7 +20,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
     controlId,
     children,
     disabled,
-    caretAs = AngleDownIcon,
+    caretAs = ArrowDownLineIcon,
     ...rest
   } = props;
   const { prefix, withClassPrefix } = useClassNames(classPrefix);

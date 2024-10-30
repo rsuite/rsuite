@@ -2,7 +2,7 @@ import React from 'react';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ArrowRightIcon from '@rsuite/icons/ArrowRight';
 import ArrowLeftIcon from '@rsuite/icons/ArrowLeft';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+import Spinner from '@rsuite/icons/Spinner';
 import { useClassNames } from '@/internals/hooks';
 import { useTreeCustomRenderer } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';

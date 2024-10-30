@@ -41,7 +41,7 @@ const PickerIndicator = ({
         />
       );
     }
-    return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} />;
+    return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />;
   };
 
   const props = Component === InputGroup.Addon ? { disabled } : undefined;

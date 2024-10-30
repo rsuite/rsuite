@@ -1,3 +1,19 @@
+## [5.73.1](https://github.com/rsuite/rsuite/compare/v5.73.0...v5.73.1) (2024-10-25)
+
+
+### Bug Fixes
+
+* **Calendar:** fix not triggering the `onToggleTimeDropdown` event when collapsing the time panel ([#4009](https://github.com/rsuite/rsuite/issues/4009)) ([9e2d69e](https://github.com/rsuite/rsuite/commit/9e2d69e232b1317e00b856a470e97c2d7b4ddd37))
+* **CheckTree:** fix focus lost when search keyword matches selected item ([#4017](https://github.com/rsuite/rsuite/issues/4017)) ([119fed2](https://github.com/rsuite/rsuite/commit/119fed2778c2defb5cb772050cc52e9f72f63d87))
+* **Modal:** the style of Modal is messy when it's rendered inside of a Drawer ([#4016](https://github.com/rsuite/rsuite/issues/4016)) ([922ab04](https://github.com/rsuite/rsuite/commit/922ab04eb09f0437fa21db91b69cf7c8d9e407fc))
+
+
+### Features
+
+* **FormErrorMessage:** support display react element ([#4013](https://github.com/rsuite/rsuite/issues/4013)) ([50f22fc](https://github.com/rsuite/rsuite/commit/50f22fc104aa0e32c255aed4da89b6cb2c6a2447))
+
+
+
 # [5.73.0](https://github.com/rsuite/rsuite/compare/v5.72.0...v5.73.0) (2024-10-18)
 
 
