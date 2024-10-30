@@ -2,7 +2,7 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
@@ -15,18 +15,18 @@ describe('<Sidenav>', () => {
   testStandardProps(<Sidenav />);
 
   it('Should render a navigation', () => {
-    const instance = getDOMNode(<Sidenav />);
-    assert.include(instance.className, 'rs-sidenav');
+    const { container } = render(<Sidenav />);
+    expect(container.firstChild).to.have.class('rs-sidenav');
   });
 
   it('Should apply appearance', () => {
-    const instance = getDOMNode(<Sidenav appearance="subtle" />);
-    assert.include(instance.className, 'rs-sidenav-subtle');
+    const { container } = render(<Sidenav appearance="subtle" />);
+    expect(container.firstChild).to.have.class('rs-sidenav-subtle');
   });
 
   it('Should be expanded', () => {
-    const instance = getDOMNode(<Sidenav expanded />);
-    assert.include(instance.className, 'rs-sidenav-collapse-in');
+    const { container } = render(<Sidenav expanded />);
+    expect(container.firstChild).to.have.class('rs-sidenav-collapse-in');
   });
 
   it('Should call onSelect callback', () => {
