@@ -559,6 +559,19 @@ describe('Form Validation', () => {
       fireEvent.click(screen.getByRole('button'));
       expect(onSubmit).to.be.not.called;
     });
+    it('Should pass event object to onSubmit callback', () => {
+      const onSubmit = sinon.spy();
+      render(
+        <Form onSubmit={onSubmit}>
+          <FormControl name="name" />
+          <Button type="submit">submit</Button>
+        </Form>
+      );
+
+      userEvent.click(screen.getByRole('button'));
+
+      expect(onSubmit).to.be.calledWithMatch(sinon.match.object, sinon.match.object);
+    });
   });
 
   describe('The onReset callback', () => {
