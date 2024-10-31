@@ -222,7 +222,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       return;
     }
 
-    submit();
+    submit(event);
   });
 
   const handleReset = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
