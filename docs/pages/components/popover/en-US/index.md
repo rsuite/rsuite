@@ -67,6 +67,7 @@ You can enable the `Popover` to follow the cursor by setting `followCursor={true
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | ReactNode            | The title of the component.            |
 | visible     | boolean              | The component is visible by default.   |
+| full        | boolean              | The content full the container         |
 
 <!--{include:(components/whisper/en-US/props.md)}-->
 <!--{include:(_common/types/placement-all.md)}-->

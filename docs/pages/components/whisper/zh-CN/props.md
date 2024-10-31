@@ -10,7 +10,6 @@
 | delayOpen       | number                                                 | 延迟打开时间 (ms)                                                         |
 | enterable       | boolean                                                | 当 `trigger` 值为 `hover`时候，鼠标是否可进入提示框浮层中                 |
 | followCursor    | boolean                                                | 是否启用光标跟随                                                          |
-| full            | boolean                                                | 撑满容器                                                                  |
 | onBlur          | () => void                                             | 失去焦点回调函数                                                          |
 | onClick         | () => void                                             | 点击的回调函数                                                            |
 | onClose         | () => void                                             | 关闭回调函数                                                              |

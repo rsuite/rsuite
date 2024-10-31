@@ -10,7 +10,6 @@
 | delayOpen       | number                                                 | Delay open time (ms) Time                                                                                    |
 | enterable       | boolean                                                | Whether mouse is allowed to enter the floating layer of popover,when the value of `trigger` is set to`hover` |
 | followCursor    | boolean                                                | Whether enable `speaker` to follow the cursor                                                                |
-| full            | boolean                                                | The content full the container                                                                               |
 | onBlur          | () => void                                             | Lose Focus callback function                                                                                 |
 | onClick         | () => void                                             | Click on the callback function                                                                               |
 | onClose         | () => void                                             | Callback fired when close component                                                                          |
