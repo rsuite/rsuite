@@ -195,6 +195,12 @@
         "name": "Tooltip",
         "title": "工具提示框",
         "components": ["Tooltip"]
+      },
+      {
+        "id": "modal-integrations",
+        "name": "Modal Integrations",
+        "title": "",
+        "icon": "IoExtensionPuzzleOutline"
       }
     ]
   },
