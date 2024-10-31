@@ -1,6 +1,5 @@
 import {
   Modal,
-  FlexboxGrid,
   Heading,
   Stack,
   ButtonGroup,
@@ -9,7 +8,8 @@ import {
   InputGroup,
   Input,
   HStack,
-  ModalProps
+  ModalProps,
+  VStack
 } from 'rsuite';
 import * as Icons from '@rsuite/icons';
 
@@ -25,7 +25,7 @@ interface IcomModalProps extends ModalProps {
 function IcomModal(props: IcomModalProps) {
   const { open, activeIcon, onClose } = props;
   const { iconName, version } = activeIcon || {};
-  const IconComponent = iconName ? Icons[iconName] : null;
+  const Icon = iconName ? Icons[iconName] : null;
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -52,55 +52,50 @@ function IcomModal(props: IcomModalProps) {
             </code>
           </pre>
         </div>
-        {IconComponent ? (
+        {Icon ? (
           <>
-            <FlexboxGrid>
-              <FlexboxGrid.Item colspan={12}>
-                <div className="icon-bg-transparent" style={{ padding: 10, textAlign: 'center' }}>
-                  <IconComponent style={{ fontSize: 200 }} />
-                </div>
-              </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={12}>
+            <HStack justifyContent="space-between">
+              <div className="icon-bg-transparent icon-box">
+                <Icon style={{ fontSize: 200 }} />
+              </div>
+              <VStack spacing={20}>
                 <div className="icon-example-list">
-                  <IconComponent style={{ fontSize: '2em' }} />
-                  <IconComponent style={{ fontSize: '3em' }} />
-                  <IconComponent style={{ fontSize: '4em' }} />
-                  <IconComponent style={{ fontSize: '5em' }} />
+                  <Icon style={{ fontSize: '2em' }} />
+                  <Icon style={{ fontSize: '3em' }} />
+                  <Icon style={{ fontSize: '4em' }} />
+                  <Icon style={{ fontSize: '5em' }} />
                 </div>
-                <div className="icon-example-list" style={{ marginTop: 20 }}>
-                  <IconComponent className="icon-item-box" style={{ color: '#1675e0' }} />
-                  <IconComponent
+                <div className="icon-example-list">
+                  <Icon className="icon-item-box" style={{ color: '#1675e0' }} />
+                  <Icon
                     className="icon-item-box"
                     style={{ background: '#1675e0', color: '#fff' }}
                   />
-                  <IconComponent className="icon-item-box" style={{ color: '#000' }} />
-                  <IconComponent
-                    className="icon-item-box"
-                    style={{ background: '#000', color: '#fff' }}
-                  />
+                  <Icon className="icon-item-box" style={{ color: '#000' }} />
+                  <Icon className="icon-item-box" style={{ background: '#000', color: '#fff' }} />
                 </div>
-              </FlexboxGrid.Item>
-            </FlexboxGrid>
+              </VStack>
+            </HStack>
             <Heading level={5} style={{ margin: '20px 0' }}>
               Examples
             </Heading>
             <Stack spacing={10} wrap>
-              <Button startIcon={<IconComponent />} appearance="primary">
+              <Button startIcon={<Icon />} appearance="primary">
                 Button
               </Button>
-              <Button startIcon={<IconComponent />}>Button</Button>
+              <Button startIcon={<Icon />}>Button</Button>
               <InputGroup inside>
                 <InputGroup.Addon>
-                  <IconComponent />
+                  <Icon />
                 </InputGroup.Addon>
                 <Input placeholder="Input group" />
               </InputGroup>
-              <IconButton icon={<IconComponent />} appearance="primary" />
-              <IconButton icon={<IconComponent />} />
+              <IconButton icon={<Icon />} appearance="primary" />
+              <IconButton icon={<Icon />} />
               <ButtonGroup>
-                <IconButton icon={<IconComponent />} />
-                <IconButton icon={<IconComponent />} />
-                <IconButton icon={<IconComponent />} />
+                <IconButton icon={<Icon />} />
+                <IconButton icon={<Icon />} />
+                <IconButton icon={<Icon />} />
               </ButtonGroup>
             </Stack>
           </>
