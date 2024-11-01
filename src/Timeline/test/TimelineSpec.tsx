@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import Timeline from '../Timeline';
 import { render, screen } from '@testing-library/react';
 
@@ -7,32 +7,32 @@ describe('Timeline', () => {
   testStandardProps(<Timeline />);
 
   it('Should output a Timeline', () => {
-    const instance = getDOMNode(<Timeline />);
-    assert.ok(instance.className.match(/\brs-timeline\b/));
+    const { container } = render(<Timeline />);
+    expect(container.firstChild).to.have.class('rs-timeline');
   });
 
   it('Should output a div', () => {
-    const instance = getDOMNode(<Timeline as={'div'} />);
-    assert.equal(instance.tagName, 'DIV');
+    const { container } = render(<Timeline as={'div'} />);
+    expect(container.firstChild).to.have.tagName('DIV');
   });
 
   it('Should be endless', () => {
-    const instance = getDOMNode(<Timeline endless />);
-    assert.ok(instance.className.match(/\bendless\b/));
+    const { container } = render(<Timeline endless />);
+    expect(container.firstChild).to.have.class('rs-timeline-endless');
   });
 
   it('Should have a with-time className', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Timeline>
         <Timeline.Item time="2018-03-01 16:27:42" />
       </Timeline>
     );
-    assert.ok(instance.className.match(/\brs-timeline-with-time\b/));
+    expect(container.firstChild).to.have.class('rs-timeline-with-time');
   });
 
   it('Should have a custom align', () => {
-    const instance = getDOMNode(<Timeline align="left" />);
-    assert.ok(instance.className.match(/\brs-timeline-align-left\b/));
+    const { container } = render(<Timeline align="left" />);
+    expect(container.firstChild).to.have.class('rs-timeline-align-left');
   });
 
   describe('Active item', () => {
