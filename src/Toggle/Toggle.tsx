@@ -1,18 +1,13 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useClassNames,
-  useControlled,
-  useCustom,
-  useUniqueId,
-  useEventCallback
-} from '@/internals/hooks';
+import Plaintext from '@/internals/Plaintext';
+import Loader from '../Loader';
+import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { partitionHTMLProps } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import Plaintext from '@/internals/Plaintext';
-import { ToggleLocale } from '../locales';
-import Loader from '../Loader';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import type { ToggleLocale } from '../locales';
 
 export interface ToggleProps
   extends WithAsProps,
@@ -87,6 +82,7 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   HTMLLabelElement,
   ToggleProps
 >((props, ref) => {
+  const { propsWithDefaults } = useCustom('Toggle', props);
   const {
     as: Component = 'span',
     disabled,
@@ -102,18 +98,18 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
     checked: checkedProp,
     defaultChecked,
     size,
-    locale: localeProp,
+    locale,
     onChange,
     ...rest
-  } = props;
+  } = propsWithDefaults;
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
-  const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, color, { checked, disabled, loading }));
   const inner = checked ? checkedChildren : unCheckedChildren;
-  const label = checked ? locale.on : locale.off;
+  const label = checked ? locale?.on : locale?.off;
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;

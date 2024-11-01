@@ -4,6 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { highlightText } from './utils/highlightText';
 import { stringifyReactNode } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
 
 export interface HighlightProps extends WithAsProps {
   query?: string | string[];
@@ -26,6 +27,7 @@ function defaultRenderMark(match: string, index: number) {
  */
 const Highlight: RsRefForwardingComponent<'div', HighlightProps> = React.forwardRef(
   (props: HighlightProps, ref) => {
+    const { propsWithDefaults } = useCustom('Highlight', props);
     const {
       as: Component = 'div',
       classPrefix = 'highlight',
@@ -34,7 +36,7 @@ const Highlight: RsRefForwardingComponent<'div', HighlightProps> = React.forward
       query,
       renderMark = defaultRenderMark,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());

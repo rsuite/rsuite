@@ -8,6 +8,7 @@ import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
 import { renderChildren, defaultRenderInput, type ChildrenProps } from './renderChildren';
+import { useCustom } from '../CustomProvider';
 
 export interface InlineEditProps extends Omit<WithAsProps, 'children'> {
   /**
@@ -78,6 +79,7 @@ const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwa
   HTMLDivElement,
   InlineEditProps
 >((props, ref) => {
+  const { propsWithDefaults } = useCustom('InlineEdit', props);
   const {
     as: Component = 'div',
     children = defaultRenderInput,
@@ -89,7 +91,7 @@ const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwa
     stateOnBlur = 'save',
     placeholder,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, htmlProps } =

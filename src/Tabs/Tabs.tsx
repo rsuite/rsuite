@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import {
-  useClassNames,
-  useControlled,
-  useEventCallback,
-  useUniqueId,
-  useCustom
-} from '@/internals/hooks';
-import { ReactChildren } from '@/internals/utils';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
+import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { ReactChildren } from '@/internals/utils';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 /**
  * Props for the Tabs component.
@@ -173,6 +168,7 @@ const renderTabs = (
  * @see https://rsuitejs.com/components/tabs
  */
 const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
+  const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
     as: Component = 'div',
     classPrefix = 'tabs',
@@ -186,10 +182,9 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
     vertical,
     onSelect,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const id = useUniqueId('tab-', idProp);
-  const { rtl } = useCustom();
   const [activeKey, setActiveKey] = useControlled(activeKeyProp, defaultActiveKey);
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const tablistRef = React.useRef<HTMLDivElement>(null);

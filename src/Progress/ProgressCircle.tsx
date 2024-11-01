@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { useClassNames } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ProgressCircleProps extends WithAsProps {
   /** Line color */
@@ -43,6 +44,7 @@ export interface ProgressCircleProps extends WithAsProps {
  */
 const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = React.forwardRef(
   (props: ProgressCircleProps, ref) => {
+    const { propsWithDefaults } = useCustom('ProgressCircle', props);
     const {
       as: Component = 'div',
       strokeWidth = 6,
@@ -59,7 +61,7 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
       trailColor,
       strokeColor,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const getPathStyles = useCallback(() => {
       const radius = 50 - strokeWidth / 2;

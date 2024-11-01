@@ -25,6 +25,20 @@ const DateTimeFormats = {
   shortTimeFormat: 'HH:mm',
   dateLocale: ko as any
 };
+
+const Combobox = {
+  noResultsText: '일치하지 않습니다',
+  placeholder: '고르십시오',
+  searchPlaceholder: '검색',
+  checkAll: '모두'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: '새 옵션',
+  createOption: '+새 옵션 "{0}"'
+};
+
 export default {
   code: 'ko-KR',
   common: {
@@ -48,22 +62,16 @@ export default {
     total: '전체 {0} 개',
     skip: '이동{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '지난 7 일'
   },
-  Picker: {
-    noResultsText: '일치하지 않습니다',
-    placeholder: '고르십시오',
-    searchPlaceholder: '검색',
-    checkAll: '모두'
-  },
-  InputPicker: {
-    newItem: '새 옵션',
-    createOption: '+새 옵션 "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: '머리 글자',
     progress: '업로드 중',

@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { KEY_VALUES } from '@/internals/constants';
-import { useEventCallback, useCustom } from '@/internals/hooks';
+import { useEventCallback } from '@/internals/hooks';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { useItemDataKeys, useRegisterTreeMethods } from '@/internals/Tree/TreeProvider';
-
 import {
   isSearching,
   focusNextItem,
@@ -16,6 +15,7 @@ import {
   handleLeftArrow,
   handleRightArrow
 } from '../utils';
+import { useCustom } from '../../CustomProvider';
 import useTreeNodeRefs from './useTreeNodeRefs';
 import type { TreeNode } from '@/internals/Tree/types';
 

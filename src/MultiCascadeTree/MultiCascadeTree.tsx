@@ -1,8 +1,9 @@
 import React from 'react';
 import TreeView from './TreeView';
+import SearchView from './SearchView';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
 import { useClassNames, useControlled } from '@/internals/hooks';
-import SearchView from './SearchView';
+import { useCustom } from '../CustomProvider';
 import type { DataItemValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 
@@ -14,6 +15,7 @@ const emptyArray = [];
  */
 const MultiCascadeTree = React.forwardRef(
   <T extends DataItemValue>(props: MultiCascadeTreeProps<T>, ref) => {
+    const { propsWithDefaults } = useCustom('MultiCascadeTree', props);
     const {
       as: Component = 'div',
       data = emptyArray,
@@ -39,7 +41,7 @@ const MultiCascadeTree = React.forwardRef(
       onChange,
       onSearch,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const itemKeys = { childrenKey, labelKey, valueKey };
 

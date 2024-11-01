@@ -1,10 +1,11 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames } from '@/internals/hooks';
 import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
 
@@ -75,7 +76,7 @@ export interface AvatarProps extends WithAsProps {
 const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
   (props: AvatarProps, ref) => {
     const { size: groupSize, spacing } = useContext(AvatarGroupContext);
-
+    const { rtl, propsWithDefaults } = useCustom('Avatar', props);
     const {
       as: Component = 'div',
       bordered,
@@ -93,13 +94,12 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
       imgProps,
       onError,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, color, { circle, bordered }));
     const imageProps = { ...imgProps, alt, src, srcSet, sizes };
     const { loaded } = useImage({ ...imageProps, onError });
-    const { rtl } = useCustom('Avatar');
 
     const altComponent = useMemo(() => {
       if (alt) {

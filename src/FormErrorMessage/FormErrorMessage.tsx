@@ -5,6 +5,7 @@ import { useClassNames } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface FormErrorMessageProps extends WithAsProps {
   /** Show error messages */
@@ -20,6 +21,7 @@ export interface FormErrorMessageProps extends WithAsProps {
  */
 const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> = React.forwardRef(
   (props: FormErrorMessageProps, ref: React.Ref<HTMLDivElement>) => {
+    const { propsWithDefaults } = useCustom('FormErrorMessage', props);
     const {
       as: Component = 'div',
       classPrefix = 'form-error-message',
@@ -28,7 +30,7 @@ const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> =
       children,
       placement,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = withClassPrefix('show');

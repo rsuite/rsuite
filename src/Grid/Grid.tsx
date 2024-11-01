@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface GridProps extends WithAsProps {
   /** Fluid layout */
@@ -14,13 +15,14 @@ export interface GridProps extends WithAsProps {
  */
 const Grid: RsRefForwardingComponent<'div', GridProps> = React.forwardRef(
   (props: GridProps, ref) => {
+    const { propsWithDefaults } = useCustom('Grid', props);
     const {
       as: Component = 'div',
       classPrefix = 'grid-container',
       className,
       fluid,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, fluid ? prefix({ fluid }) : withClassPrefix());

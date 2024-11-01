@@ -1,5 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import isNil from 'lodash/isNil';
+import TreeViewNode from './TreeNode';
+import IndentLine from './IndentLine';
+import useTreeSearch from './hooks/useTreeSearch';
+import useTreeDrag from './hooks/useTreeDrag';
+import useFocusTree from './hooks/useFocusTree';
+import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
+import useTreeNodeProps from './hooks/useTreeNodeProps';
+import SearchBox from '@/internals/SearchBox';
 import {
   List,
   AutoSizer,
@@ -7,21 +15,14 @@ import {
   defaultItemSize,
   type ListHandle
 } from '@/internals/Windowing';
-import TreeViewNode from './TreeNode';
-import IndentLine from './IndentLine';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView as BaseTreeView } from '@/internals/Tree';
-import useTreeSearch from './hooks/useTreeSearch';
-import useTreeDrag from './hooks/useTreeDrag';
-import useFocusTree from './hooks/useFocusTree';
-import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
-import useTreeNodeProps from './hooks/useTreeNodeProps';
-import SearchBox from '@/internals/SearchBox';
 import { RsRefForwardingComponent, DataProps, ToArray } from '@/internals/types';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import { useCustom } from '../CustomProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { TreeViewBaseProps, TreeDragProps } from './types';
 
@@ -142,7 +143,8 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       ...rest
     } = props;
 
-    const { locale } = useCustom('Picker', overrideLocale);
+    const { getLocale } = useCustom();
+    const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
     const { valueKey, childrenKey, scrollShadow, virtualized } = useTreeContextProps();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
@@ -333,7 +335,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
       <Component ref={ref} className={classes} style={style}>
         {searchable ? (
           <SearchBox
-            placeholder={locale.searchPlaceholder}
+            placeholder={searchPlaceholder}
             onChange={handleSearch}
             value={keyword}
             inputRef={searchInputRef}
@@ -341,7 +343,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
         ) : null}
 
         {keyword && formattedNodes.length === 0 ? (
-          <div className={prefix('empty')}>{locale.noResultsText}</div>
+          <div className={prefix('empty')}>{noResultsText}</div>
         ) : null}
 
         <BaseTreeView

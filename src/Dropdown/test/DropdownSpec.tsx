@@ -2,7 +2,7 @@ import React, { Ref, useState } from 'react';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { KEY_VALUES } from '@/internals/constants';
-import * as hooks from '@/internals/hooks';
+import CustomProvider from '../../CustomProvider';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import Nav from '../../Nav';
@@ -621,19 +621,14 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
-          sinon.stub(hooks, 'useCustom').returns({
-            rtl: true,
-            locale: {},
-            formatDate: () => '',
-            parseDate: () => new Date()
-          });
-
           render(
-            <Dropdown>
-              <Dropdown.Menu data-testid="submenu">
-                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <CustomProvider rtl>
+              <Dropdown>
+                <Dropdown.Menu data-testid="submenu">
+                  <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </CustomProvider>
           );
 
           // Open the menu
@@ -674,19 +669,14 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
-          sinon.stub(hooks, 'useCustom').returns({
-            rtl: true,
-            locale: {},
-            formatDate: () => '',
-            parseDate: () => new Date()
-          });
-
           render(
-            <Dropdown>
-              <Dropdown.Menu data-testid="submenu">
-                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <CustomProvider rtl>
+              <Dropdown>
+                <Dropdown.Menu data-testid="submenu">
+                  <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </CustomProvider>
           );
 
           // Open the menu
@@ -701,16 +691,12 @@ describe('<Dropdown>', () => {
         });
 
         it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
-          sinon.stub(hooks, 'useCustom').returns({
-            rtl: true,
-            locale: {},
-            formatDate: () => '',
-            parseDate: () => new Date()
-          });
           const { menu } = renderDropdown(
-            <Dropdown>
-              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
-            </Dropdown>,
+            <CustomProvider rtl>
+              <Dropdown>
+                <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              </Dropdown>
+            </CustomProvider>,
             true
           );
 

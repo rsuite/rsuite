@@ -5,6 +5,7 @@ import getOffset from 'dom-lib/getOffset';
 import { Offset, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
 
 export interface AffixProps extends WithAsProps {
   /** Specify the container. */
@@ -126,6 +127,7 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
  */
 const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
   (props: AffixProps, ref) => {
+    const { propsWithDefaults } = useCustom('Affix', props);
     const {
       as: Component = 'div',
       classPrefix = 'affix',
@@ -136,7 +138,7 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
       onChange,
       onOffsetChange,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const mountRef = useRef(null);
     const offset = useOffset(mountRef, onOffsetChange);

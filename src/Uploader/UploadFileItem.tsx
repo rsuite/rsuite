@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
+import CloseButton from '@/internals/CloseButton';
 import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
-import { FileType } from './Uploader';
-import { UploaderLocale } from '../locales';
-import CloseButton from '@/internals/CloseButton';
-import { WithAsProps } from '@/internals/types';
+import type { FileType } from './Uploader';
+import type { WithAsProps } from '@/internals/types';
+import type { UploaderLocale } from '../locales';
 
 export interface UploadFileItemProps extends WithAsProps {
   file: FileType;

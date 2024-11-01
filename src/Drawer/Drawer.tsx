@@ -6,6 +6,7 @@ import { TypeAttributes } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 import DrawerBody from './DrawerBody';
 import DrawerHeader from './DrawerHeader';
 import DrawerActions from './DrawerActions';
@@ -35,6 +36,7 @@ interface DrawerComponent extends React.FC<DrawerProps> {
  * @see https://rsuitejs.com/components/drawer
  */
 const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
+  const { propsWithDefaults } = useCustom('Drawer', props);
   const {
     className,
     placement = 'right',
@@ -42,7 +44,8 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
     animation = Slide,
     closeButton = true,
     ...rest
-  } = props;
+  } = propsWithDefaults;
+
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix(placement));
 

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { PanelGroupContext } from '../PanelGroup';
 import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
+import { useClassNames, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { PanelGroupContext } from '../PanelGroup';
+import type { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+
 export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
   /**
    * Show border
@@ -94,6 +96,7 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
  */
 const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
   (props: PanelProps, ref) => {
+    const { propsWithDefaults } = useCustom('Panel', props);
     const {
       as: Component = 'div',
       bodyFill,
@@ -122,7 +125,8 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       onExiting,
       onSelect,
       ...rest
-    } = props;
+    } = propsWithDefaults;
+
     const id = useUniqueId('rs-', idProp);
     const bodyId = `${id}-panel`;
     const buttonId = `${id}-btn`;

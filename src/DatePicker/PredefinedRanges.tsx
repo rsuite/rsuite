@@ -9,7 +9,7 @@ import { CalendarLocale } from '../locales';
 export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps {
   ranges?: RangeType<Shortcut>[];
   calendarDate: T;
-  locale: CalendarLocale;
+  locale?: CalendarLocale;
   disableShortcut?: (value: T) => boolean;
   onShortcutClick?: (
     range: InnerRange<Shortcut>,

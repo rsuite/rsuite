@@ -78,7 +78,20 @@ const DateTimeFormats = {
   dateLocale: zhCN as any
 };
 
-export default {
+const Combobox = {
+  noResultsText: '无匹配选项',
+  placeholder: '选择',
+  searchPlaceholder: '搜索',
+  checkAll: '全部'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: '新选项',
+  createOption: '新建选项 "{0}"'
+};
+
+const locale = {
   code: 'zh-CN',
   common: {
     loading: '加载中...',
@@ -101,22 +114,16 @@ export default {
     total: '共 {0} 条数据',
     skip: '跳至{0}页'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: '最近 7 天'
   },
-  Picker: {
-    noResultsText: '无匹配选项',
-    placeholder: '选择',
-    searchPlaceholder: '搜索',
-    checkAll: '全部'
-  },
-  InputPicker: {
-    newItem: '新选项',
-    createOption: '新建选项 "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: '初始状态',
     progress: '上传中',

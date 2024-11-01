@@ -640,7 +640,7 @@ describe('TreePicker', () => {
       render(
         <CustomProvider
           locale={{
-            Picker: PickerZhCN
+            Combobox: PickerZhCN
           }}
         >
           <TreePicker defaultOpen data={data} />

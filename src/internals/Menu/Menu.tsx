@@ -2,9 +2,10 @@ import React, { useCallback, useContext, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
-import { useCustom, useUniqueId, useFocus, useClickOutside } from '../hooks';
-import { KEY_VALUES } from '../constants';
 import useMenu from './useMenu';
+import { useUniqueId, useFocus, useClickOutside } from '../hooks';
+import { KEY_VALUES } from '../constants';
+import { useCustom } from '../../CustomProvider';
 import { isFocusLeaving, isFocusableElement } from '@/internals/utils';
 
 export interface MenuProps {
@@ -99,7 +100,7 @@ function Menu({
   const openControlled = typeof openProp !== 'undefined';
   const open = openControlled ? openProp : openState;
 
-  const { rtl } = useCustom('Menu');
+  const { rtl } = useCustom();
 
   const activeItem: HTMLElement | null = isNil(activeItemIndex)
     ? null

@@ -5,17 +5,18 @@ import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps, modalPropTypes } from '@/internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
-import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
-import { ModalContext, ModalContextProps } from './ModalContext';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
+import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
 import { RsRefForwardingComponent } from '@/internals/types';
 import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
@@ -71,6 +72,7 @@ interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
  * @see https://rsuitejs.com/components/modal
  */
 const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
+  const { propsWithDefaults } = useCustom('Modal', props);
   const {
     animation = Bounce,
     animationProps,
@@ -99,7 +101,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     isDrawer = false,
     closeButton,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const inClass = { in: open && !animation };
   const { merge, prefix } = useClassNames(classPrefix);

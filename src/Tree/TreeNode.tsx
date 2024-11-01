@@ -1,16 +1,12 @@
 import React, { forwardRef, useMemo } from 'react';
-import { mergeRefs, stringifyReactNode } from '@/internals/utils';
-import {
-  useFocusVirtualListItem,
-  useClassNames,
-  useEventCallback,
-  useCustom
-} from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import TreeNodeToggle from './TreeNodeToggle';
+import { mergeRefs, stringifyReactNode } from '@/internals/utils';
+import { useFocusVirtualListItem, useClassNames, useEventCallback } from '@/internals/hooks';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 import { indentTreeNode } from './utils';
+import { useCustom } from '../CustomProvider';
+import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
 

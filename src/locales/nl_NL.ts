@@ -22,6 +22,19 @@ const DateTimeFormats = {
   dateLocale: nl as any
 };
 
+const Combobox = {
+  noResultsText: 'Geen resultaten gevonden',
+  placeholder: 'Selecteren',
+  searchPlaceholder: 'Zoeken',
+  checkAll: 'Alles'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nieuw item',
+  createOption: 'Creëer optie "{0}"'
+};
+
 export default {
   code: 'nl-NL',
   common: {
@@ -45,22 +58,16 @@ export default {
     total: 'Totaal Rijen: {0}',
     skip: 'Ga naar{0}'
   },
-  Calendar: { ...DateTimeFormats },
-  DatePicker: { ...DateTimeFormats },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
     ...DateTimeFormats,
     last7Days: 'Laatste 7 Dagen'
   },
-  Picker: {
-    noResultsText: 'Geen resultaten gevonden',
-    placeholder: 'Selecteren',
-    searchPlaceholder: 'Zoeken',
-    checkAll: 'Alles'
-  },
-  InputPicker: {
-    newItem: 'Nieuw item',
-    createOption: 'Creëer optie "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Gestart',
     progress: 'Uploaden',

@@ -2,6 +2,7 @@ import React from 'react';
 import PanelGroup, { type PanelGroupProps } from '../PanelGroup';
 import AccordionPanel from './AccordionPanel';
 import { RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export type AccordionProps = Omit<PanelGroupProps, 'accordion'>;
 
@@ -14,7 +15,9 @@ export interface AccordionComponent extends RsRefForwardingComponent<'div', Acco
  * @see https://rsuitejs.com/components/accordion
  */
 const Accordion = React.forwardRef((props, ref) => {
-  return <PanelGroup accordion ref={ref} {...props} />;
+  const { propsWithDefaults } = useCustom('Accordion', props);
+
+  return <PanelGroup accordion ref={ref} {...propsWithDefaults} />;
 }) as unknown as AccordionComponent;
 
 Accordion.Panel = AccordionPanel;

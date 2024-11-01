@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
-import { sliderPropTypes } from '../Slider/Slider';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { sliderPropTypes } from '../Slider/Slider';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
 import { SliderProps } from '../Slider';
 import { tupleType } from '@/internals/propTypes';
-import { Offset } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { Offset } from '@/internals/types';
 
 export type Range = [number, number];
 export type RangeSliderProps = SliderProps<Range> & {
@@ -35,6 +36,7 @@ const defaultDefaultValue: Range = [0, 0];
  * @see https://rsuitejs.com/components/slider/
  */
 const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
+  const { propsWithDefaults } = useCustom('RangeSlider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
@@ -64,7 +66,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     onChange,
     onChangeCommitted,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const barRef = useRef<HTMLDivElement>(null);
 

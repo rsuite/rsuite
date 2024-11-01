@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import DatePicker, { RangeType } from '../DatePicker';
-import { useCustom } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { PickerComponent } from '@/internals/Picker/types';
 import type { DatePickerLocale } from '../locales';
@@ -101,15 +101,21 @@ export interface TimePickerProps
 
 const TimePicker: PickerComponent<TimePickerProps> = React.forwardRef(
   (props: TimePickerProps, ref) => {
-    const { locale } = useCustom('Calendar');
+    const { propsWithDefaults, getLocale } = useCustom('TimePicker', props);
+    const locale = getLocale('DateTimeFormats');
 
     const defaultRanges: RangeType<Date>[] = useMemo(
-      () => [{ label: locale.now, value: () => new Date() }],
+      () => [{ label: locale?.now, value: () => new Date() }],
       [locale]
     );
 
     return (
-      <DatePicker ref={ref} format={locale.shortTimeFormat} ranges={defaultRanges} {...props} />
+      <DatePicker
+        ref={ref}
+        format={locale?.shortTimeFormat}
+        ranges={defaultRanges}
+        {...propsWithDefaults}
+      />
     );
   }
 );

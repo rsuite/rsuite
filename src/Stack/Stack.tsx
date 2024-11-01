@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import StackItem from './StackItem';
 import { isSupportFlexGap, ReactChildren } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
-import { useClassNames, useCustom } from '@/internals/hooks';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import StackItem from './StackItem';
 
 export interface StackProps extends WithAsProps {
   /**
@@ -54,6 +55,7 @@ function isStackItem(child: React.ReactElement<StackProps, React.FunctionCompone
  * @see https://rsuitejs.com/components/stack
  */
 const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement>) => {
+  const { propsWithDefaults, rtl } = useCustom('Stack', props);
   const {
     as: Component = 'div',
     alignItems = 'center',
@@ -68,9 +70,8 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     style,
     wrap,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const { rtl } = useCustom('Stack');
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
   const isSupportGap = isSupportFlexGap();

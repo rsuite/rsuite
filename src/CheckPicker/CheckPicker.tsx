@@ -8,7 +8,7 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
-import { useClassNames, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, shallowEqual, mergeRefs, getDataGroupBy } from '@/internals/utils';
 import {
   Listbox,
@@ -33,9 +33,10 @@ import SearchBox from '@/internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { MultipleSelectProps } from '../SelectPicker';
 import { oneOf } from '@/internals/propTypes';
+import { useCustom } from '../CustomProvider';
 
 export type ValueType = (number | string)[];
-export interface CheckPickerProps<T>
+export interface CheckPickerProps<T = any>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
     MultipleSelectProps<T>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
@@ -64,6 +65,7 @@ export interface CheckPickerComponent {
  */
 const CheckPicker = React.forwardRef(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+    const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -81,7 +83,7 @@ const CheckPicker = React.forwardRef(
       menuMaxHeight = 320,
       menuClassName,
       menuStyle,
-      locale: overrideLocale,
+      locale,
       placeholder,
       disabled,
       toggleAs,
@@ -108,10 +110,9 @@ const CheckPicker = React.forwardRef(
       onChange,
       onSelect,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
-    const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`

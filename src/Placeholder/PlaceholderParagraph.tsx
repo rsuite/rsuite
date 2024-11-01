@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 import { oneOf } from '@/internals/propTypes';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 export interface PlaceholderParagraphProps extends WithAsProps {
   /**
    * The number of rows.
@@ -46,6 +47,7 @@ export interface PlaceholderParagraphProps extends WithAsProps {
  */
 const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
   React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+    const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
     const {
       as: Component = 'div',
       className,
@@ -57,7 +59,7 @@ const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraph
       active,
       classPrefix = 'placeholder',
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const graphShape = graph === true ? 'square' : graph;

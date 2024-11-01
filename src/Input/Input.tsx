@@ -14,6 +14,7 @@ import {
 } from '@/internals/types';
 import { refType, oneOf } from '@/internals/propTypes';
 import { PrependParameters } from '@/internals/types/utils';
+import { useCustom } from '../CustomProvider';
 
 export interface LocaleType {
   unfilled: string;
@@ -59,6 +60,7 @@ export interface InputProps
  */
 const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
   (props: InputProps, ref) => {
+    const { propsWithDefaults } = useCustom('Input', props);
     const {
       className,
       classPrefix = 'input',
@@ -80,7 +82,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       onKeyDown,
       onChange,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === KEY_VALUES.ENTER) {

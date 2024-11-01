@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { useClassNames } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ProgressLineProps extends WithAsProps {
   /** Line color */
@@ -37,6 +38,7 @@ export interface ProgressLineProps extends WithAsProps {
  */
 const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.forwardRef(
   (props: ProgressLineProps, ref) => {
+    const { propsWithDefaults } = useCustom('ProgressLine', props);
     const {
       as: Component = 'div',
       className,
@@ -50,7 +52,7 @@ const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.f
       classPrefix = 'progress',
       vertical,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 

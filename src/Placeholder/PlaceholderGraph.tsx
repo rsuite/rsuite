@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface PlaceholderGraphProps extends WithAsProps {
   /**
@@ -30,6 +31,7 @@ export interface PlaceholderGraphProps extends WithAsProps {
  */
 const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> = React.forwardRef(
   (props: PlaceholderGraphProps, ref) => {
+    const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
     const {
       as: Component = 'div',
       className,
@@ -39,7 +41,7 @@ const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> =
       active,
       classPrefix = 'placeholder',
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
 

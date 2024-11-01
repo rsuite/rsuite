@@ -12,7 +12,7 @@ export interface CascadeColumn<T> {
   layer?: number;
 }
 
-export interface CascadeTreeProps<T, V = T, L = any>
+export interface CascadeTreeProps<T = any, V = T, L = any>
   extends WithAsProps,
     DataProps<ItemDataType<T>> {
   /**

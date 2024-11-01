@@ -6,6 +6,7 @@ import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import { TreeProvider } from '@/internals/Tree/TreeProvider';
+import { useCustom } from '../CustomProvider';
 import type { RsRefForwardingComponent } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
@@ -28,6 +29,7 @@ export interface CheckTreeProps<T = ValueType> extends CheckTreeViewProps<T>, Tr
  */
 const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forwardRef(
   (props, ref: React.Ref<HTMLDivElement>) => {
+    const { propsWithDefaults } = useCustom('CheckTree', props);
     const {
       value: controlledValue,
       data,
@@ -48,7 +50,7 @@ const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forward
       onExpand,
       onChange,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const [value, setValue] = useTreeValue(controlledValue, {
       defaultValue,

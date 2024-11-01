@@ -1,17 +1,18 @@
 import React, { useCallback, useContext } from 'react';
+import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
-import { useClassNames, useCustom } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { createChainedFunction } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
-import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
-import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Ripple from '@/internals/Ripple';
 import Disclosure from '@/internals/Disclosure/Disclosure';
+import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
+import { useClassNames } from '@/internals/hooks';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { createChainedFunction } from '@/internals/utils';
+import { SidenavContext } from './Sidenav';
+import { IconProps } from '@rsuite/icons/Icon';
+import { useCustom } from '../CustomProvider';
 
 export interface SidenavDropdownMenuProps<T = any>
   extends WithAsProps,
@@ -69,8 +70,7 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
       ...rest
     } = props;
 
-    const { rtl } = useCustom('DropdownMenu');
-
+    const { rtl } = useCustom();
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = sidenavContext;
 

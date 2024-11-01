@@ -13,6 +13,7 @@ import { KEY_VALUES } from '@/internals/constants';
 import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface InputNumberProps<T = number | string | null>
   extends Omit<
@@ -147,6 +148,7 @@ function valueReachesMin(value: number | string | null | undefined, min: number)
  * @see https://rsuitejs.com/components/input-number
  */
 const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
+  const { propsWithDefaults } = useCustom('InputNumber', props);
   const {
     as: Component = InputGroup,
     className,
@@ -171,7 +173,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     onBlur,
     onFocus,
     ...restProps
-  } = props;
+  } = propsWithDefaults;
 
   const min = minProp ?? -Infinity;
   const max = maxProp ?? Infinity;

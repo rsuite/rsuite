@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames, useUniqueId } from '@/internals/hooks';
 import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface LoaderProps extends WithAsProps {
   /** Centered in the container */
@@ -33,6 +34,7 @@ export interface LoaderProps extends WithAsProps {
  */
 const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
   (props: LoaderProps, ref) => {
+    const { propsWithDefaults } = useCustom('Loader', props);
     const {
       as: Component = 'div',
       classPrefix = 'loader',
@@ -45,7 +47,7 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
       content,
       size,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const labelId = useUniqueId('loader-label-');

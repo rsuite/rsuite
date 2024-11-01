@@ -1,7 +1,8 @@
 import React from 'react';
 import Close from '@rsuite/icons/Close';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { useClassNames, useCustom } from '../hooks';
+import { useClassNames } from '../hooks';
+import { useCustom } from '../../CustomProvider';
 import { CloseButtonLocale } from '../../locales';
 
 export interface CloseButtonProps extends WithAsProps {
@@ -21,19 +22,13 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
       locale: overrideLocale,
       ...rest
     } = props;
-
+    const { getLocale } = useCustom();
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const { locale } = useCustom<CloseButtonLocale>('CloseButton', overrideLocale);
-
+    const { closeLabel } = getLocale('CloseButton', overrideLocale);
     const classes = merge(className, withClassPrefix());
+
     return (
-      <Component
-        type="button"
-        ref={ref}
-        className={classes}
-        aria-label={locale?.closeLabel}
-        {...rest}
-      >
+      <Component type="button" ref={ref} className={classes} aria-label={closeLabel} {...rest}>
         <Close />
       </Component>
     );

@@ -1,4 +1,9 @@
 import React from 'react';
+import TableCell from './TableCell';
+import TableHeaderCell from './TableHeaderCell';
+import TableColumn from './TableColumn';
+import TableColumnGroup from './TableColumnGroup';
+import { useCustom } from '../CustomProvider';
 import {
   Table as RsTable,
   TableProps,
@@ -7,12 +12,6 @@ import {
   CellProps as TableCellProps,
   RowKeyType
 } from 'rsuite-table';
-import { useCustom } from '@/internals/hooks';
-
-import TableCell from './TableCell';
-import TableHeaderCell from './TableHeaderCell';
-import TableColumn from './TableColumn';
-import TableColumnGroup from './TableColumnGroup';
 
 export interface CellProps<Row extends RowDataType>
   extends Omit<TableCellProps<Row>, 'rowData' | 'dataKey'> {
@@ -24,8 +23,8 @@ export interface CellProps<Row extends RowDataType>
 }
 
 const CustomTable = React.forwardRef((props, ref) => {
-  const { locale: localeProp, loadAnimation = true, ...rest } = props;
-  const { locale, rtl } = useCustom('Table', localeProp);
+  const { propsWithDefaults, rtl } = useCustom('Table', props);
+  const { locale, loadAnimation = true, ...rest } = propsWithDefaults;
 
   return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
 }) as <Row extends RowDataType, Key extends RowKeyType>(

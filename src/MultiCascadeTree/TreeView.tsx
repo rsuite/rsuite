@@ -2,10 +2,11 @@ import React from 'react';
 import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
-import { useClassNames, useCustom, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
+import { useCustom } from '../CustomProvider';
 import type { ItemDataType, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
 

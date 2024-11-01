@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit } from 'lodash';
 import { PickerLocale } from '../locales';
-import { useCustom, useClassNames, useEventCallback } from '@/internals/hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
@@ -20,14 +20,14 @@ import {
   PositionChildProps
 } from '@/internals/Picker';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
-import { getSelectedItems } from '../CheckTree/utils';
-
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import useFocusState from './hooks/useFocusState';
+import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
+import { useCustom } from '../CustomProvider';
 import type { TreeNode } from '@/internals/Tree/types';
 import type {
   FormControlPickerProps,
@@ -86,6 +86,7 @@ export interface CheckTreePickerProps<V = ValueType>
  * @see https://rsuitejs.com/components/check-tree-picker
  */
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
+  const { propsWithDefaults } = useCustom('CheckTreePicker', props);
   const {
     as: Component = 'div',
     id,
@@ -121,7 +122,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     value: controlledValue,
     virtualized = false,
     uncheckableItemValues = [],
-    locale: overrideLocale,
+    locale,
     labelKey = 'label',
     listProps,
     getChildren,
@@ -141,10 +142,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     renderTreeIcon,
     renderTreeNode,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
-  const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const { prefix } = useClassNames(classPrefix);
 
   const [value, setValue] = useTreeValue(controlledValue, {
@@ -235,7 +235,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         showIndentLine={showIndentLine}
         listProps={listProps}
         listRef={list}
-        locale={overrideLocale}
+        locale={locale}
         searchBy={searchBy}
         searchable={searchable}
         searchKeyword={searchKeyword}
@@ -345,7 +345,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           inputValue={value}
           focusItemValue={focusItemValue}
         >
-          {selectedElement || locale.placeholder}
+          {selectedElement || locale?.placeholder}
         </PickerToggle>
       </Component>
     </PickerToggleTrigger>

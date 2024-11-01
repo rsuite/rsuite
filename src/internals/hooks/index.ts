@@ -1,7 +1,6 @@
 export { useClassNames } from './useClassNames';
 export { useClickOutside } from './useClickOutside';
 export { useControlled } from './useControlled';
-export { useCustom } from './useCustom';
 export { useElementResize } from './useElementResize';
 export { useEnsuredRef } from './useEnsuredRef';
 export { useEventCallback } from './useEventCallback';

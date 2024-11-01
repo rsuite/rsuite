@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
-import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
+import { useCustom } from '../CustomProvider';
 
 export interface FormHelpTextProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
   /** Whether to show through the Tooltip component */
@@ -19,6 +20,7 @@ export interface FormHelpTextProps extends WithAsProps, React.HTMLAttributes<HTM
 const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
   (props: FormHelpTextProps, ref: React.Ref<any>) => {
     const { helpTextId } = useFormGroup();
+    const { propsWithDefaults } = useCustom('FormHelpText', props);
     const {
       as: Component = 'span',
       classPrefix = 'form-help-text',
@@ -27,7 +29,7 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
       children,
       id = helpTextId,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ tooltip }));

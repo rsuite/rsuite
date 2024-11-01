@@ -7,6 +7,7 @@ import capitalize from 'lodash/capitalize';
 import Transition, { transitionPropTypes, TransitionProps } from './Transition';
 import { useClassNames } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
 
 export enum DIMENSION {
   HEIGHT = 'height',
@@ -49,6 +50,7 @@ function getScrollDimensionValue(elem: Element, dimension: DIMENSION) {
  * @see https://rsuitejs.com/components/animation/#collapse
  */
 const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) => {
+  const { propsWithDefaults } = useCustom('Collapse', props);
   const {
     className,
     timeout = 300,
@@ -64,7 +66,7 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
     onExit,
     onExiting,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { prefix, merge } = useClassNames('anim');
   const dimension = typeof dimensionProp === 'function' ? dimensionProp() : dimensionProp;

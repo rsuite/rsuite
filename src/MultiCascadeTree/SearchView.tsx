@@ -1,10 +1,11 @@
 import React from 'react';
-import { ItemDataType, WithAsProps } from '@/internals/types';
-import { useClassNames, useCustom } from '@/internals/hooks';
 import SearchBox from '@/internals/SearchBox';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
+import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import { isSomeChildChecked, getNodeParents } from './utils';
+import type { ItemDataType, WithAsProps } from '@/internals/types';
 
 interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;
@@ -43,7 +44,8 @@ function SearchView<T>(props: SearchViewProps<T>) {
 
   const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const { locale } = useCustom('Picker', overrideLocale);
+  const { getLocale } = useCustom();
+  const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const nodes = getNodeParents(item);
@@ -101,7 +103,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
   return (
     <Component className={classes} {...rest}>
       <SearchBox
-        placeholder={locale?.searchPlaceholder}
+        placeholder={searchPlaceholder}
         onChange={onSearch}
         value={searchKeyword}
         inputRef={inputRef}
@@ -111,9 +113,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
           {data.length ? (
             data.map(renderSearchRow)
           ) : (
-            <div className={merge(prefix('none'), rootPrefix('picker-none'))}>
-              {locale.noResultsText}
-            </div>
+            <div className={merge(prefix('none'), rootPrefix('picker-none'))}>{noResultsText}</div>
           )}
         </div>
       )}
