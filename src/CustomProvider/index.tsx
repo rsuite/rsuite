@@ -1,8 +1,8 @@
-import CustomProvider, { CustomContext } from './CustomProvider';
-import FormattedDate from './FormattedDate';
+import CustomProvider from './CustomProvider';
 
-export { CustomContext, FormattedDate };
+export { FormattedDate } from './FormattedDate';
 export { useCustom } from './useCustom';
+export { CustomContext } from './CustomProvider';
 export type { CustomProviderProps } from './CustomProvider';
 export type { ReactSuiteComponents } from './types';
 

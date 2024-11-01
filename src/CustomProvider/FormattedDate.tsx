@@ -6,7 +6,7 @@ interface FormattedDateProps {
   formatStr: string;
 }
 
-function FormattedDate({ date, formatStr }: FormattedDateProps) {
+export function FormattedDate({ date, formatStr }: FormattedDateProps) {
   const { formatDate } = useCustom('Calendar');
 
   return <React.Fragment>{formatDate(date, formatStr)}</React.Fragment>;
