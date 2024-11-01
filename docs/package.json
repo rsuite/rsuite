@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "5.74.0",
+  "version": "5.74.1",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -51,7 +51,7 @@
     "react-icons": "^5.0.1",
     "react-json-tree": "^0.18.0",
     "react-select": "^5.5.9",
-    "rsuite": "^5.74.0",
+    "rsuite": "^5.74.1",
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^2.3.1",
     "svgo-loader": "^3.0.3",

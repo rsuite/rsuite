@@ -1,3 +1,12 @@
+## [5.74.1](https://github.com/rsuite/rsuite/compare/v5.74.0...v5.74.1) (2024-11-01)
+
+
+### Bug Fixes
+
+* **CustomProvider:** fix CustomContext is undefined after Babel compiles commonjs module ([#4032](https://github.com/rsuite/rsuite/issues/4032)) ([beec3e1](https://github.com/rsuite/rsuite/commit/beec3e1c7ccbcb305ad4f26e0d445773c7d95b2b))
+
+
+
 # [5.74.0](https://github.com/rsuite/rsuite/compare/v5.73.1...v5.74.0) (2024-11-01)
 
 

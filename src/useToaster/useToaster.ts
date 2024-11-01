@@ -1,6 +1,8 @@
 import React, { useMemo, useContext } from 'react';
 import toaster from '../toaster';
-import { CustomContext } from '../CustomProvider';
+// From CustomProvider/CustomProvider.tsx import CustomContext instead of directly from 'CustomProvider/index.ts'
+// because babel compiles commonjs, which causes CustomContext to be undefined
+import { CustomContext } from '../CustomProvider/CustomProvider';
 import { ToastContainerProps } from '../toaster/ToastContainer';
 
 /**
