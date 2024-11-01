@@ -1,3 +1,17 @@
+# [5.74.0](https://github.com/rsuite/rsuite/compare/v5.73.1...v5.74.0) (2024-11-01)
+
+
+### Bug Fixes
+
+* **Form:** add missing event object to onSubmit callback ([#4026](https://github.com/rsuite/rsuite/issues/4026)) ([1a80d3f](https://github.com/rsuite/rsuite/commit/1a80d3fe5a31b84786f00c694c67a3b3b37c5b19))
+
+
+### Features
+
+* **CustomProvider:** support setting the default value of the component props globally ([#4012](https://github.com/rsuite/rsuite/issues/4012)) ([b845907](https://github.com/rsuite/rsuite/commit/b8459079e7b0332bb29577535442f7b715e3d78a))
+
+
+
 ## [5.73.1](https://github.com/rsuite/rsuite/compare/v5.73.0...v5.73.1) (2024-10-25)
 
 
