@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Container from '../index';
-import { getDOMNode, getStyle } from '@test/utils';
+import { getStyle } from '@test/utils';
 
 import '../styles/index.less';
 
@@ -13,6 +13,7 @@ describe('Container styles', () => {
         <span>Title</span>
       </Container>
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'display'), 'flex');
+    const dom = instanceRef.current as Element;
+    assert.equal(getStyle(dom, 'display'), 'flex');
   });
 });
