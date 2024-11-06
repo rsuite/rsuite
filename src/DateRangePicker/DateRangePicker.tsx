@@ -721,6 +721,10 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       setCalendarDateRange({ dateRange: nextCalendarDate });
     });
 
+    const handleExit = useEventCallback(() => {
+      setSelectedIdle(true);
+    });
+
     /**
      * Toolbar operation callback function
      */
@@ -1077,7 +1081,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         pickerProps={pick(props, pickTriggerPropKeys)}
         placement={placement}
         onEnter={createChainedFunction(events.onActive, handleEnter, onEnter)}
-        onExit={createChainedFunction(events.onInactive, onExit)}
+        onExit={createChainedFunction(events.onInactive, handleExit, onExit)}
         speaker={renderCalendarOverlay}
       >
         <Component
