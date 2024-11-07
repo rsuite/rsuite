@@ -90,7 +90,6 @@
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.25.9",
     "@babel/plugin-transform-optional-chaining": "^7.25.9",
     "@babel/plugin-transform-runtime": "^7.25.9",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
