@@ -1048,15 +1048,15 @@ describe('DateRangePicker', () => {
       <DateRangePicker ref={ref} defaultValue={[new Date('2024-11-01'), new Date('2024-12-01')]} />
     );
 
-    fireEvent.click(screen.getByRole('textbox'));
+    userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.getByTestId('daterange-header')).to.have.text('01/11/2024 ~ 01/12/2024');
 
-    fireEvent.click(screen.getByRole('gridcell', { name: '02 Nov 2024' }));
+    userEvent.click(screen.getByRole('gridcell', { name: '02 Nov 2024' }));
 
     ref.current.close();
 
-    fireEvent.click(screen.getByRole('textbox'));
+    userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.getByTestId('daterange-header')).to.have.text('01/11/2024 ~ 01/12/2024');
   });
