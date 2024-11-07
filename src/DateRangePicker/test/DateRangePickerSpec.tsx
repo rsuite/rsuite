@@ -291,11 +291,11 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select a whole month', () => {
-    const onOkSpy = sinon.spy();
+    const onOk = sinon.spy();
 
     render(
       <DateRangePicker
-        onOk={onOkSpy}
+        onOk={onOk}
         hoverRange="month"
         open
         defaultCalendarValue={[new Date('2023-10-01'), new Date('2023-11-01')]}
@@ -307,9 +307,8 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(isSameDay(startOfMonth(new Date('2023-10-01')), onOkSpy.firstCall.firstArg[0])).to.be
-      .true;
-    expect(isSameDay(endOfMonth(new Date('2023-10-31')), onOkSpy.firstCall.firstArg[1])).to.be.true;
+    expect(isSameDay(startOfMonth(new Date('2023-10-01')), onOk.firstCall.firstArg[0])).to.be.true;
+    expect(isSameDay(endOfMonth(new Date('2023-10-31')), onOk.firstCall.firstArg[1])).to.be.true;
   });
 
   it('Should select a date range by hover', () => {
@@ -489,8 +488,8 @@ describe('DateRangePicker', () => {
   });
 
   it('Should close picker after predefined range is clicked', async () => {
-    const onCloseSpy = sinon.spy();
-    const onChangeSpy = sinon.spy();
+    const onClose = sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <DateRangePicker
@@ -501,16 +500,16 @@ describe('DateRangePicker', () => {
             value: [addDays(new Date(), -1), addDays(new Date(), -1)]
           }
         ]}
-        onChange={onChangeSpy}
-        onExit={onCloseSpy}
+        onChange={onChange}
+        onExit={onClose}
       />
     );
 
     userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
-      expect(onCloseSpy).to.been.calledOnce;
-      expect(onChangeSpy).to.been.calledOnce;
+      expect(onClose).to.been.calledOnce;
+      expect(onChange).to.been.calledOnce;
     });
   });
 
@@ -876,12 +875,12 @@ describe('DateRangePicker', () => {
     });
 
     it('Should render the default datetime after clicking the clear button', () => {
-      const onCleanSpy = sinon.spy();
+      const onClean = sinon.spy();
       render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
-          onClean={onCleanSpy}
+          onClean={onClean}
           defaultValue={[new Date('2022-02-01 01:01:01'), new Date('2022-03-01 02:02:02')]}
           defaultCalendarValue={[new Date('2022-04-04 00:00:00'), new Date('2022-05-05 23:59:59')]}
         />
@@ -894,7 +893,7 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
-      expect(onCleanSpy).to.have.been.calledOnce;
+      expect(onClean).to.have.been.calledOnce;
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
     });
@@ -1023,6 +1022,45 @@ describe('DateRangePicker', () => {
     expect(screen.queryByTestId('daterange-header')).to.not.exist;
   });
 
+  it('Should update time when entering time via keyboard', () => {
+    render(
+      <DateRangePicker
+        open
+        format="HH"
+        defaultValue={[new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]}
+      />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    expect(input).to.have.value('09 ~ 10');
+
+    userEvent.type(input, '{arrowdown}{arrowdown}');
+
+    expect(input).to.have.value('07 ~ 10');
+    expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
+  });
+
+  // fix: https://github.com/rsuite/rsuite/issues/4038
+  it('Should restore the last selected date on the calendar', () => {
+    const ref = React.createRef<any>();
+    render(
+      <DateRangePicker ref={ref} defaultValue={[new Date('2024-11-01'), new Date('2024-12-01')]} />
+    );
+
+    userEvent.click(screen.getByRole('textbox'));
+
+    expect(screen.getByTestId('daterange-header')).to.have.text('01/11/2024 ~ 01/12/2024');
+
+    userEvent.click(screen.getByRole('gridcell', { name: '02 Nov 2024' }));
+
+    ref.current.close();
+
+    userEvent.click(screen.getByRole('textbox'));
+
+    expect(screen.getByTestId('daterange-header')).to.have.text('01/11/2024 ~ 01/12/2024');
+  });
+
   describe('Show one calendar', () => {
     it('Should have only one calendar', () => {
       render(<DateRangePicker showOneCalendar open />);
@@ -1077,25 +1115,6 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
       expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
     });
-  });
-
-  it('Should update time when entering time via keyboard', () => {
-    render(
-      <DateRangePicker
-        open
-        format="HH"
-        defaultValue={[new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]}
-      />
-    );
-
-    const input = screen.getByRole('textbox') as HTMLInputElement;
-
-    expect(input).to.have.value('09 ~ 10');
-
-    userEvent.type(input, '{arrowdown}{arrowdown}');
-
-    expect(input).to.have.value('07 ~ 10');
-    expect(screen.getByTestId('daterange-header')).to.have.text('07 ~ 10');
   });
 
   describe('Customize value', () => {
