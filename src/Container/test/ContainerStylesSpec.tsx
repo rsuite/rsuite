@@ -1,8 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Container from '../index';
-import { getStyle } from '@test/utils';
-
 import '../styles/index.less';
 
 describe('Container styles', () => {
@@ -14,6 +12,6 @@ describe('Container styles', () => {
       </Container>
     );
     const dom = instanceRef.current as Element;
-    assert.equal(getStyle(dom, 'display'), 'flex');
+    expect(dom).to.have.style('display', 'flex');
   });
 });
