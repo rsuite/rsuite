@@ -119,6 +119,27 @@ describe('Panel', () => {
     await waitFor(() => expect(onExited).to.have.been.called);
   });
 
+  // fix: https://github.com/rsuite/rsuite/issues/4043
+  it('Should not call onSubmit on form when click on header', () => {
+    const onSubmit = sinon.spy();
+    render(
+      <form
+        onSubmit={event => {
+          onSubmit();
+          event.preventDefault();
+        }}
+      >
+        <Panel header="Panel title" collapsible>
+          Panel content
+        </Panel>
+      </form>
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'Panel title' }));
+
+    expect(onSubmit).to.not.have.been.called;
+  });
+
   describe('Collapsible - `collapsible=true`', () => {
     it('Should call onSelect callback with correct `eventKey`', () => {
       const onSelectSpy = sinon.spy();
