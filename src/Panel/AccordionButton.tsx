@@ -28,6 +28,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
   return (
     <button
       id={id}
+      type="button"
       aria-controls={controlId}
       aria-expanded={expanded}
       aria-disabled={disabled}
