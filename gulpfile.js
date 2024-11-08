@@ -121,10 +121,8 @@ function buildLess({
   return () =>
     gulp
       .src(src)
-      .pipe(sourcemaps.init())
       .pipe(less(lessOptions))
       .pipe(postcss([require('autoprefixer'), postcssCustomProperties(), ...postcssPlugins]))
-      .pipe(sourcemaps.write('./'))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(dist));
 }

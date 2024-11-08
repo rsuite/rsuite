@@ -18,6 +18,7 @@
     "dist:dev": "cross-env NODE_ENV=development  webpack --progress",
     "dist:pro": "webpack --mode production --progress",
     "build": "npm run build:gulp && npm run dist && npm run build:types",
+    "build:styles": "gulp buildStyles --gulpfile ./gulpfile.js",
     "build:css": "gulp buildComponentCSS --gulpfile ./gulpfile.js",
     "build:gulp": "gulp build --gulpfile ./gulpfile.js",
     "build:types-cjs": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && resolve-tspaths --project tsconfig.build.json --out lib/cjs ",
