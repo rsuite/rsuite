@@ -1,3 +1,15 @@
+## [5.74.2](https://github.com/rsuite/rsuite/compare/v5.74.1...v5.74.2) (2024-11-08)
+
+
+### Bug Fixes
+
+* **CSS:** fix the problem of failing to load index.css.map ([#4041](https://github.com/rsuite/rsuite/issues/4041)) ([f7ac0a9](https://github.com/rsuite/rsuite/commit/f7ac0a92773406a6a134b6db2e10eb2f8b1284f8))
+* **DateRangePicker:** fix the date range is not restored after deselecting ([#4039](https://github.com/rsuite/rsuite/issues/4039)) ([ecc71fa](https://github.com/rsuite/rsuite/commit/ecc71fa2dd54fa089f07a9803c1a967a91dabade))
+* **Panel:** fix AccordionButton missing type causing form submission ([#4044](https://github.com/rsuite/rsuite/issues/4044)) ([56672fd](https://github.com/rsuite/rsuite/commit/56672fd6243517b3a057c4f5ddf874f3c3c2b44c))
+* **Table:** fix the problem that the global locale configuration cannot be overridden ([#4037](https://github.com/rsuite/rsuite/issues/4037)) ([31d5b99](https://github.com/rsuite/rsuite/commit/31d5b991bad22522247848dec4478c3f44e420fc))
+
+
+
 ## [5.74.1](https://github.com/rsuite/rsuite/compare/v5.74.0...v5.74.1) (2024-11-01)
 
 
