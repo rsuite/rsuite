@@ -47,7 +47,7 @@ module.exports = (api, options) => {
           [
             'istanbul',
             {
-              exclude: ['src/**/*Spec.js', 'test/**/*']
+              exclude: ['src/**/*Spec.js', 'src/**/*Spec.tsx', 'test/**/*']
             }
           ]
         ]
