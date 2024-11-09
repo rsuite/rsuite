@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getStyle, toRGB } from '@test/utils';
+import { toRGB } from '@test/utils';
 import Nav from '../../Nav';
 import Navbar from '../Navbar';
 
@@ -11,7 +11,7 @@ describe('Navbar styles', () => {
     const instanceRef = React.createRef<HTMLDivElement>();
     render(<Navbar ref={instanceRef} />);
     const dom = instanceRef.current as Element;
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'NavBar background-color');
+    expect(dom).to.have.style('background-color', toRGB('#f7f7fa'));
   });
 
   context('Navbar.Item', () => {
