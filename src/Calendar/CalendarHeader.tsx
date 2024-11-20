@@ -76,7 +76,10 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
 
     const renderTitle = () => {
       return (
-        renderTitleProp?.(date) ?? (date && <FormattedDate date={date} formatStr={dateFormat} />)
+        renderTitleProp?.(date) ??
+        (date && (
+          <FormattedDate date={date} formatStr={dateFormat} dateLocale={locale?.dateLocale} />
+        ))
       );
     };
 
@@ -97,7 +100,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
         />
         <Button
           {...btnProps}
-          aria-label="Select month"
+          aria-label="Select month 2222222222"
           id={targetId ? `${targetId}-grid-label` : undefined}
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
@@ -135,7 +138,9 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
               onClick={onToggleTimeDropdown}
               disabled={disableSelectTime}
             >
-              {date && <FormattedDate date={date} formatStr={timeFormat} />}
+              {date && (
+                <FormattedDate date={date} formatStr={timeFormat} dateLocale={locale?.dateLocale} />
+              )}
             </Button>
           </div>
         )}

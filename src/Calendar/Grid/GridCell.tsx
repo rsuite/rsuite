@@ -46,7 +46,9 @@ const GridCell: RsRefForwardingComponent<'div', GridCellProps> = React.forwardRe
     const { formattedDayPattern, today } = getLocale('Calendar', overrideLocale);
 
     const formatStr = formattedDayPattern;
-    const ariaLabel = getAriaLabel(date, formatStr, formatDate);
+    const ariaLabel = getAriaLabel(date, formatStr, formatDate, {
+      locale: overrideLocale?.dateLocale
+    });
     const todayDate = new Date();
     const isToday = isSameDay(date, todayDate);
 

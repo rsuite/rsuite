@@ -141,7 +141,11 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
     );
 
     const renderTitle = (date: Date) => (
-      <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
+      <FormattedDate
+        date={date}
+        formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'}
+        dateLocale={locale?.dateLocale}
+      />
     );
 
     const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
