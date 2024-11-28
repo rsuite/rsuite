@@ -1,0 +1,71 @@
+.rs-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &-bordered {
+    border: 1px solid var(--rs-border-primary);
+    border-radius: 6px;
+    padding: 16px;
+  }
+
+  &-label {
+    font-weight: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    &-uppercase {
+      text-transform: uppercase;
+    }
+  }
+
+  &-value {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &-value-unit {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+
+    &-up {
+      color: var(--rs-green-900);
+    }
+
+    &-down {
+      color: var(--rs-red-900);
+    }
+
+    &-default {
+      padding: 2px 6px;
+    }
+
+    &-default&-up {
+      background-color: var(--rs-green-100);
+    }
+
+    &-default&-down {
+      background-color: var(--rs-red-100);
+    }
+  }
+
+  &-help-text {
+    color: var(--rs-text-secondary);
+  }
+
+  .rs-progress-line {
+    padding: 0;
+  }
+}

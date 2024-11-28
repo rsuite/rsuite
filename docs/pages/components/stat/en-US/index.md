@@ -1,0 +1,85 @@
+# Stat
+
+Used to display statistical data with a title and its corresponding value, emphasizing the current value of a particular attribute.
+
+## Import
+
+<!--{include:<import-guide>}-->
+
+## Examples
+
+### Basic
+
+<!--{include:`basic.md`}-->
+
+### Format Options
+
+<!--{include:`format-options.md`}-->
+
+### Trend
+
+<!--{include:`trend.md`}-->
+
+### Border
+
+<!--{include:`bordered.md`}-->
+
+### Progress Bar
+
+<!--{include:`progress-bar.md`}-->
+
+### Info Tip
+
+<!--{include:`info-tip.md`}-->
+
+### Value Unit
+
+<!--{include:`value-unit.md`}-->
+
+## Props
+
+### `<Stat>`
+
+| Property    | Type `(Default)`     | Description                           |
+| ----------- | -------------------- | ------------------------------------- |
+| as          | elementType `('dl')` | HTML tag of the component             |
+| bordered    | boolean              | Whether to display a border           |
+| children    | ReactNode            | The children of the component         |
+| classPrefix | string `('stat')`    | The prefix of the component CSS class |
+
+### `<Stat.Label>`
+
+| Property    | Type `(Default)`        | Description                               |
+| ----------- | ----------------------- | ----------------------------------------- |
+| as          | elementType `('dt')`    | HTML tag of the component                 |
+| children    | ReactNode               | The children of the component             |
+| classPrefix | string `('stat-label')` | The prefix of the component CSS class     |
+| info        | string                  | The info tip of the label                 |
+| uppercase   | boolean                 | Whether to display the label in uppercase |
+
+### `<Stat.Value>`
+
+| Property      | Type `(Default)`         | Description                           |
+| ------------- | ------------------------ | ------------------------------------- |
+| as            | elementType `('dd')`     | HTML tag of the component             |
+| children      | ReactNode                | The children of the component         |
+| classPrefix   | string `('stat-value')`  | The prefix of the component CSS class |
+| formatOptions | Intl.NumberFormatOptions | The format options of the value       |
+| value         | number                   | The value of the component            |
+
+### `<Stat.Trend>`
+
+| Property    | Type `(Default)`        | Description                           |
+| ----------- | ----------------------- | ------------------------------------- |
+| as          | elementType `('span')`  | HTML tag of the component             |
+| children    | ReactNode               | The children of the component         |
+| classPrefix | string `('stat-trend')` | The prefix of the component CSS class |
+| indicator   | 'up' \| 'down'          | The trend indicator of the component  |
+
+### `<Stat.HelpText>`
+
+| Property    | Type `(Default)`            | Description                           |
+| ----------- | --------------------------- | ------------------------------------- |
+| as          | elementType `('span')`      | HTML tag of the component             |
+| children    | ReactNode                   | The children of the component         |
+| classPrefix | string `('stat-help-text')` | The prefix of the component CSS class |
