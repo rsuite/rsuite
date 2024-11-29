@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
 import Whisper from '../Whisper';
 import Tooltip from '../Tooltip';
+import IconButton from '../IconButton';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -37,7 +38,7 @@ const StatLabel: RsRefForwardingComponent<'dt', StatLabelProps> = React.forwardR
         {children}
         {info && (
           <Whisper placement="top" trigger={'click'} enterable speaker={<Tooltip>{info}</Tooltip>}>
-            <InfoOutlineIcon data-testid="info-icon" />
+            <IconButton circle size="xs" appearance="subtle" icon={<InfoOutlineIcon />} />
           </Whisper>
         )}
       </Component>

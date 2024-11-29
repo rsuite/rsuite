@@ -28,6 +28,10 @@ Used to display statistical data with a title and its corresponding value, empha
 
 <!--{include:`progress-bar.md`}-->
 
+### Icon
+
+<!--{include:`icon.md`}-->
+
 ### Info Tip
 
 <!--{include:`info-tip.md`}-->
@@ -42,10 +46,11 @@ Used to display statistical data with a title and its corresponding value, empha
 
 | Property    | Type `(Default)`     | Description                           |
 | ----------- | -------------------- | ------------------------------------- |
-| as          | elementType `('dl')` | HTML tag of the component             |
+| as          | elementType `('div')` | HTML tag of the component             |
 | bordered    | boolean              | Whether to display a border           |
 | children    | ReactNode            | The children of the component         |
 | classPrefix | string `('stat')`    | The prefix of the component CSS class |
+| icon        | ReactNode            | The icon of the component             |
 
 ### `<Stat.Label>`
 

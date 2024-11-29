@@ -13,9 +13,14 @@ export interface StatProps extends WithAsProps {
    * Add a border to the component.
    */
   bordered?: boolean;
+
+  /**
+   * The icon displayed on the left side of the component.
+   */
+  icon?: React.ReactNode;
 }
 
-interface StatComponent extends RsRefForwardingComponent<'dl', StatProps> {
+interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
   Label: typeof StatLabel;
   Value: typeof StatValue;
   Trend: typeof StatTrend;
@@ -25,19 +30,21 @@ interface StatComponent extends RsRefForwardingComponent<'dl', StatProps> {
 
 const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
   const {
-    as: Component = 'dl',
+    as: Component = 'div',
     classPrefix = 'stat',
     className,
     children,
     bordered,
+    icon,
     ...rest
   } = props;
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ bordered }));
 
   return (
     <Component className={classes} ref={ref} {...rest}>
-      {children}
+      {icon && <div className={prefix('icon')}>{icon}</div>}
+      <dl className={prefix('body')}>{children}</dl>
     </Component>
   );
 }) as unknown as StatComponent;

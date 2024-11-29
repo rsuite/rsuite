@@ -15,7 +15,7 @@ describe('StatLabel', () => {
   it('Should render info', async () => {
     render(<StatLabel info="info">Test</StatLabel>);
 
-    fireEvent.click(screen.getByTestId('info-icon'));
+    fireEvent.click(screen.getByRole('button'));
 
     await waitFor(() => {
       expect(screen.getByRole('tooltip')).to.exist;

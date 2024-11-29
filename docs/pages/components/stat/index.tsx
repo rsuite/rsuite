@@ -2,6 +2,7 @@ import React from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Stat, HStack, Progress } from 'rsuite';
+import PeoplesIcon from '@rsuite/icons/Peoples';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -16,7 +17,8 @@ export default function Page() {
       dependencies={{
         HStack,
         Progress,
-        Stat
+        Stat,
+        PeoplesIcon
       }}
     />
   );

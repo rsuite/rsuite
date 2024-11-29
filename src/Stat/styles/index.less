@@ -1,7 +1,27 @@
+@import '../../styles/common.less';
+@import '../../IconButton/styles/index.less';
+@import '../../Tooltip/styles/index.less';
+
 .rs-stat {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+  align-items: center;
+
+  &-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+  }
 
   &-bordered {
     border: 1px solid var(--rs-border-primary);
