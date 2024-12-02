@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    width: 100%;
     margin: 0;
   }
 
@@ -41,6 +42,9 @@
   }
 
   &-value {
+    display: flex;
+    gap: 4px;
+    align-items: baseline;
     font-size: 24px;
     font-weight: 600;
     margin: 0;
@@ -78,6 +82,14 @@
 
     &-default&-down {
       background-color: var(--rs-red-100);
+    }
+
+    &-subtle&-up {
+      color: var(--rs-green-600);
+    }
+
+    &-subtle&-down {
+      color: var(--rs-red-600);
     }
   }
 

@@ -44,13 +44,13 @@ Used to display statistical data with a title and its corresponding value, empha
 
 ### `<Stat>`
 
-| Property    | Type `(Default)`     | Description                           |
-| ----------- | -------------------- | ------------------------------------- |
+| Property    | Type `(Default)`      | Description                           |
+| ----------- | --------------------- | ------------------------------------- |
 | as          | elementType `('div')` | HTML tag of the component             |
-| bordered    | boolean              | Whether to display a border           |
-| children    | ReactNode            | The children of the component         |
-| classPrefix | string `('stat')`    | The prefix of the component CSS class |
-| icon        | ReactNode            | The icon of the component             |
+| bordered    | boolean               | Whether to display a border           |
+| children    | ReactNode             | The children of the component         |
+| classPrefix | string `('stat')`     | The prefix of the component CSS class |
+| icon        | ReactNode             | The icon of the component             |
 
 ### `<Stat.Label>`
 
@@ -64,13 +64,13 @@ Used to display statistical data with a title and its corresponding value, empha
 
 ### `<Stat.Value>`
 
-| Property      | Type `(Default)`         | Description                           |
-| ------------- | ------------------------ | ------------------------------------- |
-| as            | elementType `('dd')`     | HTML tag of the component             |
-| children      | ReactNode                | The children of the component         |
-| classPrefix   | string `('stat-value')`  | The prefix of the component CSS class |
-| formatOptions | Intl.NumberFormatOptions | The format options of the value       |
-| value         | number                   | The value of the component            |
+| Property      | Type `(Default)`                 | Description                           |
+| ------------- | -------------------------------- | ------------------------------------- |
+| as            | elementType `('dd')`             | HTML tag of the component             |
+| children      | ReactNode                        | The children of the component         |
+| classPrefix   | string `('stat-value')`          | The prefix of the component CSS class |
+| formatOptions | [Intl.NumberFormatOptions][Intl] | The format options of the value       |
+| value         | number                           | The value of the component            |
 
 ### `<Stat.Trend>`
 
@@ -88,3 +88,5 @@ Used to display statistical data with a title and its corresponding value, empha
 | as          | elementType `('span')`      | HTML tag of the component             |
 | children    | ReactNode                   | The children of the component         |
 | classPrefix | string `('stat-help-text')` | The prefix of the component CSS class |
+
+[Intl]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat

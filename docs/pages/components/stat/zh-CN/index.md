@@ -44,13 +44,13 @@
 
 ### `<Stat>`
 
-| 属性        | 类型 `(默认值)`      | 描述                |
-| ----------- | -------------------- | ------------------- |
+| 属性        | 类型 `(默认值)`       | 描述                |
+| ----------- | --------------------- | ------------------- |
 | as          | elementType `('div')` | 组件的 HTML 标签    |
-| bordered    | boolean              | 是否显示边框        |
-| children    | ReactNode            | 组件的子元素        |
-| classPrefix | string `('stat')`    | 组件 CSS 类名的前缀 |
-| icon        | ReactNode            | 组件的图标          |
+| bordered    | boolean               | 是否显示边框        |
+| children    | ReactNode             | 组件的子元素        |
+| classPrefix | string `('stat')`     | 组件 CSS 类名的前缀 |
+| icon        | ReactNode             | 组件的图标          |
 
 ### `<Stat.Label>`
 
@@ -64,13 +64,13 @@
 
 ### `<Stat.Value>`
 
-| 属性          | 类型 `(默认值)`          | 描述                |
-| ------------- | ------------------------ | ------------------- |
-| as            | elementType `('dd')`     | 组件的 HTML 标签    |
-| children      | ReactNode                | 组件的子元素        |
-| classPrefix   | string `('stat-value')`  | 组件 CSS 类名的前缀 |
-| formatOptions | Intl.NumberFormatOptions | 组件的值的格式选项  |
-| value         | number                   | 组件的值            |
+| 属性          | 类型 `(默认值)`                  | 描述                |
+| ------------- | -------------------------------- | ------------------- |
+| as            | elementType `('dd')`             | 组件的 HTML 标签    |
+| children      | ReactNode                        | 组件的子元素        |
+| classPrefix   | string `('stat-value')`          | 组件 CSS 类名的前缀 |
+| formatOptions | [Intl.NumberFormatOptions][Intl] | 组件的值的格式选项  |
+| value         | number                           | 组件的值            |
 
 ### `<Stat.Trend>`
 
@@ -88,3 +88,5 @@
 | as          | elementType `('span')`      | 组件的 HTML 标签    |
 | children    | ReactNode                   | 组件的子元素        |
 | classPrefix | string `('stat-help-text')` | 组件 CSS 类名的前缀 |
+
+[Intl]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat

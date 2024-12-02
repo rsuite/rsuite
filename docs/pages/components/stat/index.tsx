@@ -3,6 +3,7 @@ import React from 'react';
 // @ts-ignore
 import { Stat, HStack, Progress } from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
+import FunnelStepsIcon from '@rsuite/icons/FunnelSteps';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -18,7 +19,8 @@ export default function Page() {
         HStack,
         Progress,
         Stat,
-        PeoplesIcon
+        PeoplesIcon,
+        FunnelStepsIcon
       }}
     />
   );
