@@ -51,7 +51,8 @@ const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
 
 Stat.displayName = 'Stat';
 Stat.propTypes = {
-  bordered: PropTypes.bool
+  bordered: PropTypes.bool,
+  icon: PropTypes.node
 };
 
 Stat.Label = StatLabel;

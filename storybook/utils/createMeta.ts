@@ -9,7 +9,7 @@ function createMeta<T>(Component: React.ComponentType<T>) {
       layout: 'padded'
     },
     argTypes: propTypesToArgTypes(Component)
-  } as Meta<typeof Component>;
+  } as unknown as Meta<typeof Component>;
 }
 
 export default createMeta;
