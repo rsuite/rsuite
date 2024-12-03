@@ -20,6 +20,7 @@
       box-sizing: border-box;
       padding: 0px;
       outline: none;
+      position: relative;
 
       &.red {
         background-color: rgb(236, 106, 94);
@@ -41,6 +42,20 @@
 
       &:not(:last-child) {
         margin-right: 8px;
+      }
+
+      &-icon {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        transform: rotate(315deg);
+        opacity: 0;
+      }
+
+      &:hover &-icon {
+        opacity: 0.6;
       }
     }
   }
