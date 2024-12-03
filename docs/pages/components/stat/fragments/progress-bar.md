@@ -4,7 +4,7 @@
 import { Stat, StatGroup, Progress } from 'rsuite';
 
 const App = () => (
-  <StatGroup spacing={20}>
+  <StatGroup spacing={20} columns={3}>
     <Stat bordered>
       <Stat.Label>Processing</Stat.Label>
       <Stat.Value>1,200</Stat.Value>
