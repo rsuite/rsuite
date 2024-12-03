@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface StatGroupProps extends WithAsProps {
@@ -17,6 +18,7 @@ export interface StatGroupProps extends WithAsProps {
 
 const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forwardRef(
   (props: StatGroupProps, ref) => {
+    const { propsWithDefaults } = useCustom('StatGroup', props);
     const {
       as: Component = 'div',
       classPrefix = 'stat-group',
@@ -26,7 +28,7 @@ const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forward
       spacing = 6,
       style,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());

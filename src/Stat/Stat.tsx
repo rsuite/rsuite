@@ -6,6 +6,7 @@ import StatValueUnit from './StatValueUnit';
 import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface StatProps extends WithAsProps {
@@ -29,6 +30,7 @@ interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
 }
 
 const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
+  const { propsWithDefaults } = useCustom('Stat', props);
   const {
     as: Component = 'div',
     classPrefix = 'stat',
@@ -37,7 +39,7 @@ const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
     bordered,
     icon,
     ...rest
-  } = props;
+  } = propsWithDefaults;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ bordered }));
 

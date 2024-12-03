@@ -85,6 +85,8 @@ import type { SidenavProps } from '../Sidenav';
 import type { SliderProps } from '../Slider';
 import type { StackProps } from '../Stack';
 import type { StepsProps } from '../Steps';
+import type { StatProps } from '../Stat';
+import type { StatGroupProps } from '../StatGroup';
 import type { TableProps } from '../Table';
 import type { TabsProps } from '../Tabs';
 import type { TagProps } from '../Tag';
@@ -194,6 +196,8 @@ export interface ReactSuiteComponents {
   Slider: ComponentProps<SliderProps>;
   Stack: ComponentProps<StackProps>;
   Steps: ComponentProps<StepsProps>;
+  Stat: ComponentProps<StatProps>;
+  StatGroup: ComponentProps<StatGroupProps>;
   Table: ComponentProps<TableProps>;
   Tabs: ComponentProps<TabsProps>;
   Tag: ComponentProps<TagProps>;
