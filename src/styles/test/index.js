@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-
 function runAllTests(tests) {
   tests.keys().forEach(tests);
 }
