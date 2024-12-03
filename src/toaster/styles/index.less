@@ -23,30 +23,6 @@
     box-shadow: var(--rs-shadow-overlay);
   }
 
-  // Animations
-  .rs-toast-fade-entered,
-  .rs-toast-fade-exiting {
-    animation-fill-mode: forwards;
-  }
-
-  .rs-toast-fade-entered {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
-  }
-
-  .rs-toast-fade-exited,
-  .rs-toast-fade-entering {
-    opacity: 0;
-  }
-
-  // The same to @keyframe notificationMoveOut  100%.
-  .rs-toast-fade-exited {
-    transform-origin: 0 0;
-    transform: scaleY(0.8);
-    max-height: 0;
-    overflow: hidden;
-  }
-
   &-top-center,
   &-bottom-center {
     align-items: center;
@@ -89,10 +65,34 @@
   &-bottom-end {
     bottom: @toast-spacing;
   }
+}
 
-  .rs-toast-fade-exiting {
-    animation-duration: 0.3s;
-    animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
-    animation-name: notificationMoveOut;
-  }
+// Animations
+.rs-toast-fade-entered,
+.rs-toast-fade-exiting {
+  animation-fill-mode: forwards;
+}
+
+.rs-toast-fade-entered {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
+}
+
+.rs-toast-fade-exited,
+.rs-toast-fade-entering {
+  opacity: 0;
+}
+
+// The same to @keyframe notificationMoveOut  100%.
+.rs-toast-fade-exited {
+  transform-origin: 0 0;
+  transform: scaleY(0.8);
+  max-height: 0;
+  overflow: hidden;
+}
+
+.rs-toast-fade-exiting {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
+  animation-name: notificationMoveOut;
 }

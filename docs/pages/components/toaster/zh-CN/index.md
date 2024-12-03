@@ -20,6 +20,10 @@ Toaster 用于在应用程序中显示简短的、临时的通知，用于表示
 
 <!--{include:`custom.md`}-->
 
+### 自定义容器
+
+<!--{include:`custom-container.md`}-->
+
 ## Hooks
 
 ### useToaster
