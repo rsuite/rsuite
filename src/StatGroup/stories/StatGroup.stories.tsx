@@ -1,8 +1,8 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import HStack from '../../Stack/HStack';
-import Stat, { StatProps } from '../../Stat';
-import StatGroup from '../StatGroup';
+import Stat from '../../Stat';
+import StatGroup, { StatGroupProps } from '../StatGroup';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
 import '../../Stat/styles/index.less';
@@ -17,7 +17,7 @@ export default {
 
 type Story = StoryObj<typeof meta>;
 
-const defaultArgs: StatProps = {
+const defaultArgs: StatGroupProps = {
   children: (
     <>
       <Stat bordered>

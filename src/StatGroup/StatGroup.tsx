@@ -27,6 +27,7 @@ const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forward
       style,
       ...rest
     } = props;
+
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const styles = {
@@ -45,7 +46,7 @@ const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forward
 
 StatGroup.displayName = 'StatGroup';
 StatGroup.propTypes = {
-  comlumns: PropTypes.number,
+  columns: PropTypes.number,
   spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
