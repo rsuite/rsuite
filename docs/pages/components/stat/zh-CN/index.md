@@ -40,6 +40,14 @@
 
 <!--{include:`value-unit.md`}-->
 
+### 统计数值组
+
+<!--{include:`group.md`}-->
+
+### 响应式的统计数值组
+
+<!--{include:`responsive-group.md`}-->
+
 ## Props
 
 ### `<Stat>`
@@ -88,5 +96,15 @@
 | as          | elementType `('span')`      | 组件的 HTML 标签    |
 | children    | ReactNode                   | 组件的子元素        |
 | classPrefix | string `('stat-help-text')` | 组件 CSS 类名的前缀 |
+
+### `<StatGroup>`
+
+| 属性        | 类型 `(默认值)`         | 描述                |
+| ----------- | ----------------------- | ------------------- |
+| as          | elementType `('div')`   | 组件的 HTML 标签    |
+| children    | ReactNode               | 组件的子元素        |
+| classPrefix | string `('stat-group')` | 组件 CSS 类名的前缀 |
+| columns     | number `(4)`            | 组件的列数          |
+| spacing     | number `(6)`            | 组件的间距          |
 
 [Intl]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat

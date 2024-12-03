@@ -4,9 +4,9 @@ import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
-import { useApp } from '@/components/AppContext';
 import Head from '@/components/Head';
 import PageToolbar from '@/components/PageToolbar';
+import { useApp } from '@/components/AppContext';
 
 function HomePage() {
   const [running, setRuning] = useState(false);

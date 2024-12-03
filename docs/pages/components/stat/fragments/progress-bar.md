@@ -1,28 +1,28 @@
 <!--start-code-->
 
 ```js
-import { Stat, Progress, HStack } from 'rsuite';
+import { Stat, StatGroup, Progress } from 'rsuite';
 
 const App = () => (
-  <HStack spacing={20}>
-    <Stat bordered style={{ width: 200 }}>
+  <StatGroup spacing={20}>
+    <Stat bordered>
       <Stat.Label>Processing</Stat.Label>
       <Stat.Value>1,200</Stat.Value>
       <Progress.Line percent={50} showInfo={false} />
     </Stat>
 
-    <Stat bordered style={{ width: 200 }}>
+    <Stat bordered>
       <Stat.Label>Pending</Stat.Label>
       <Stat.Value>100</Stat.Value>
       <Progress.Line percent={10} showInfo={false} strokeColor="#ffc107" />
     </Stat>
 
-    <Stat bordered style={{ width: 200 }}>
+    <Stat bordered>
       <Stat.Label>Completed</Stat.Label>
       <Stat.Value>1,000</Stat.Value>
       <Progress.Line percent={45} showInfo={false} status="success" />
     </Stat>
-  </HStack>
+  </StatGroup>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

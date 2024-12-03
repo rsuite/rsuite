@@ -23,10 +23,14 @@ export interface StackProps extends WithAsProps {
    */
   justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
 
-  /** Define the spacing between immediate children */
+  /**
+   * Define the spacing between immediate children
+   */
   spacing?: number | string | (number | string)[];
 
-  /** Add an element between each child */
+  /**
+   * Add an element between each child
+   */
   divider?: React.ReactNode;
 
   /**

@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Stat } from 'rsuite';
+import { Stat, StatGroup } from 'rsuite';
 
 const App = () => (
-  <HStack spacing={100}>
+  <StatGroup spacing={20}>
     <Stat>
       <Stat.Label>Profits</Stat.Label>
       <Stat.Value
@@ -17,7 +17,7 @@ const App = () => (
     </Stat>
 
     <Stat>
-      <Stat.Label> Speed </Stat.Label>
+      <Stat.Label>Speed</Stat.Label>
       <Stat.Value
         value={120}
         formatOptions={{
@@ -26,7 +26,7 @@ const App = () => (
         }}
       />
     </Stat>
-  </HStack>
+  </StatGroup>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

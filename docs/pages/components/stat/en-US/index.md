@@ -40,6 +40,14 @@ Used to display statistical data with a title and its corresponding value, empha
 
 <!--{include:`value-unit.md`}-->
 
+### Stat Group
+
+<!--{include:`group.md`}-->
+
+### Responsive Stat Group
+
+<!--{include:`responsive-group.md`}-->
+
 ## Props
 
 ### `<Stat>`
@@ -88,5 +96,15 @@ Used to display statistical data with a title and its corresponding value, empha
 | as          | elementType `('span')`      | HTML tag of the component             |
 | children    | ReactNode                   | The children of the component         |
 | classPrefix | string `('stat-help-text')` | The prefix of the component CSS class |
+
+### `<StatGroup>`
+
+| Property    | Type `(Default)`        | Description                           |
+| ----------- | ----------------------- | ------------------------------------- |
+| as          | elementType `('div')`   | HTML tag of the component             |
+| children    | ReactNode               | The children of the component         |
+| classPrefix | string `('stat-group')` | The prefix of the component CSS class |
+| columns     | number `(4)`            | The number of columns of the group    |
+| spacing     | number `(6)`            | The spacing between the stats         |
 
 [Intl]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
