@@ -1,7 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { Stat, StatGroup, HStack, Progress, SelectPicker, useBreakpointValue } from 'rsuite';
+import {
+  // @ts-ignore
+  Stat,
+  // @ts-ignore
+  StatGroup,
+  HStack,
+  VStack,
+  Progress,
+  SelectPicker,
+  useBreakpointValue
+} from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import FunnelStepsIcon from '@rsuite/icons/FunnelSteps';
 import DefaultPage from '@/components/Page';
@@ -17,6 +26,7 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         HStack,
+        VStack,
         Progress,
         Stat,
         StatGroup,

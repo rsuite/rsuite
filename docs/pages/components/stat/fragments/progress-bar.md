@@ -20,7 +20,7 @@ const App = () => (
     <Stat bordered>
       <Stat.Label>Completed</Stat.Label>
       <Stat.Value>1,000</Stat.Value>
-      <Progress.Line percent={45} showInfo={false} status="success" />
+      <Progress.Line percent={45} showInfo={false} strokeColor="#87d068" />
     </Stat>
   </StatGroup>
 );

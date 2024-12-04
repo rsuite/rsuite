@@ -24,9 +24,13 @@ Used to display statistical data with a title and its corresponding value, empha
 
 <!--{include:`bordered.md`}-->
 
-### Progress Bar
+### Stat with Progress
 
 <!--{include:`progress-bar.md`}-->
+
+### Stat with Ring Progress
+
+<!--{include:`ring-progress.md`}-->
 
 ### Icon
 

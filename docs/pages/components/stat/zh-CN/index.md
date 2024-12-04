@@ -24,9 +24,11 @@
 
 <!--{include:`bordered.md`}-->
 
-### 进度条
+### 带进度条
 
 <!--{include:`progress-bar.md`}-->
+
+### 带环形进度条
 
 ### 图标
 
