@@ -16,6 +16,10 @@ Card is a container component for displaying data, which can contain multiple ch
 
 <!--{include:`shadow.md`}-->
 
+### Hover Shadow
+
+<!--{include:`hover-shadow.md`}-->
+
 ### Sizes
 
 <!--{include:`size.md`}-->
@@ -57,7 +61,7 @@ Card is a container component for displaying data, which can contain multiple ch
 | children    | ReactNode            | The children of the component          |
 | classPrefix | string `('card')`    | The prefix of the component class name |
 | direction   | 'row' \| 'column'    | The direction of the card              |
-| shaded      | boolean              | Whether there is a shadow              |
+| shaded      | boolean \| 'hover'   | Whether there is a shadow              |
 | size        | 'sm' \| 'md' \| 'lg' | The size of the card                   |
 | width       | string \| number     | The width of the card                  |
 

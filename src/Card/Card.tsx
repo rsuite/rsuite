@@ -16,7 +16,7 @@ export interface CardProps extends WithAsProps {
   /**
    * Whether there is a shadow
    */
-  shaded?: boolean;
+  shaded?: boolean | 'hover';
 
   /**
    * The width of the card
@@ -57,7 +57,14 @@ const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
   } = propsWithDefaults;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(direction, size, { bordered, shaded }));
+  const classes = merge(
+    className,
+    withClassPrefix(direction, size, {
+      bordered,
+      shaded: shaded === true,
+      ['shaded-hover']: shaded === 'hover'
+    })
+  );
   const styles = { ...style, '--rs-card-width': typeof width === 'number' ? `${width}px` : width };
 
   return (

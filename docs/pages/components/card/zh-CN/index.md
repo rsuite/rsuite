@@ -57,7 +57,7 @@ Card 是一个数据展示的容器组件，可以包含多个子组件，如图
 | children    | ReactNode            | 组件的子元素     |
 | classPrefix | string `('card')`    | 组件类名的前缀   |
 | direction   | 'row' \| 'column'    | 卡片的排列方向   |
-| shaded      | boolean              | 是否有阴影       |
+| shaded      | boolean \| 'hover'   | 是否有阴影       |
 | size        | 'sm' \| 'md' \| 'lg' | 卡片的尺寸       |
 | width       | string \| number     | 卡片的宽度       |
 

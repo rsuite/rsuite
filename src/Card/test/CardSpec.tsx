@@ -18,6 +18,11 @@ describe('Card', () => {
     expect(container.firstChild).to.have.class('rs-card-shaded');
   });
 
+  it('Should have a shadow on hover', () => {
+    const { container } = render(<Card shaded="hover" />);
+    expect(container.firstChild).to.have.class('rs-card-shaded-hover');
+  });
+
   it('Should have a direction', () => {
     const { container } = render(<Card direction="row" />);
     expect(container.firstChild).to.have.class('rs-card-row');
