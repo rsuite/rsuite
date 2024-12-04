@@ -18,6 +18,8 @@ import type { CalendarProps } from '../Calendar';
 import type { CarouselProps } from '../Carousel';
 import type { CascadeTreeProps } from '../CascadeTree';
 import type { CascaderProps } from '../Cascader';
+import type { CardProps } from '../Card';
+import type { CardGroupProps } from '../CardGroup';
 import type { CheckPickerProps } from '../CheckPicker';
 import type { CheckTreeProps } from '../CheckTree';
 import type { CheckTreePickerProps } from '../CheckTreePicker';
@@ -127,6 +129,8 @@ export interface ReactSuiteComponents {
   Carousel: ComponentProps<CarouselProps>;
   CascadeTree: ComponentProps<CascadeTreeProps>;
   Cascader: ComponentProps<CascaderProps>;
+  Card: ComponentProps<CardProps>;
+  CardGroup: ComponentProps<CardGroupProps>;
   CheckPicker: ComponentProps<CheckPickerProps>;
   CheckTree: ComponentProps<CheckTreeProps>;
   CheckTreePicker: ComponentProps<CheckTreePickerProps>;
