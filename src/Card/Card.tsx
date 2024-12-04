@@ -81,7 +81,7 @@ Card.Footer = CardFooter;
 
 Card.propTypes = {
   bordered: PropTypes.bool,
-  shaded: PropTypes.bool
+  shaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['hover'])])
 };
 
 export default Card;
