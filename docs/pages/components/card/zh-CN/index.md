@@ -16,6 +16,10 @@ Card 是一个数据展示的容器组件，可以包含多个子组件，如图
 
 <!--{include:`shadow.md`}-->
 
+### 鼠标悬停阴影
+
+<!--{include:`hover-shadow.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
