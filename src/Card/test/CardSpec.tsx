@@ -1,6 +1,7 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Card from '../Card';
 
 describe('Card', () => {
@@ -19,8 +20,11 @@ describe('Card', () => {
   });
 
   it('Should have a shadow on hover', () => {
-    const { container } = render(<Card shaded="hover" />);
-    expect(container.firstChild).to.have.class('rs-card-shaded-hover');
+    render(<Card shaded="hover">Card </Card>);
+
+    userEvent.hover(screen.getByText('Card'));
+
+    expect(screen.getByText('Card')).to.have.class('rs-card-shaded-hover');
   });
 
   it('Should have a direction', () => {
