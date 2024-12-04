@@ -44,7 +44,7 @@ Card is a container component for displaying data, which can contain multiple ch
 
 <!--{include:`within-form.md`}-->
 
-### Group
+### Card Group
 
 <!--{include:`group.md`}-->
 

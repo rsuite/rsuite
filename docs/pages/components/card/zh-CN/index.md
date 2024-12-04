@@ -44,7 +44,7 @@ Card 是一个数据展示的容器组件，可以包含多个子组件，如图
 
 <!--{include:`within-form.md`}-->
 
-### 分组
+### 卡片组
 
 <!--{include:`group.md`}-->
 
