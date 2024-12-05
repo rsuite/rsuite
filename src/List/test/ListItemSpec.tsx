@@ -5,7 +5,9 @@ import ListItem from '../ListItem';
 import { render, screen } from '@testing-library/react';
 
 describe('ListItem', () => {
-  testStandardProps(<ListItem />);
+  testStandardProps(<ListItem />, {
+    sizes: ['lg', 'md', 'sm', 'xs']
+  });
 
   it('Should render a ListItem', () => {
     const { container } = render(
