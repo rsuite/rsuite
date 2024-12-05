@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
+import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 const svgProps: React.SVGProps<SVGSVGElement> = {
@@ -65,8 +65,8 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
 
 StatTrend.displayName = 'StatTrend';
 StatTrend.propTypes = {
-  indicator: PropTypes.oneOf(['up', 'down']),
-  appearance: PropTypes.oneOf(['default', 'subtle'])
+  indicator: oneOf(['up', 'down']),
+  appearance: oneOf(['default', 'subtle'])
 };
 
 export default StatTrend;
