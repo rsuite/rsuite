@@ -7,22 +7,22 @@ const App = () => {
   return (
     <Card width={500} shaded direction="row">
       <img
-        src="https://images.unsplash.com/photo-1619590694371-7eed5838e880?q=80&w=2083&auto=format&fit=crop"
-        alt="Cream"
+        src="https://images.unsplash.com/photo-1576606539605-b2a44fa58467?q=80&w=1974&auto=format&fit=crop"
+        alt="Shadow"
         width={200}
         style={{ objectFit: 'cover' }}
       />
       <VStack spacing={2}>
         <Card.Header as="h5">Cream</Card.Header>
         <Card.Body>
-          The dog's name is "Cream." She is a gentle and lovable senior Labrador with soft,
-          cream-colored fur that radiates warmth.
+          Meet Shadow, a spirited little explorer with a heart full of adventure! This charming pup
+          loves to roam the fields, soaking up the sights and sounds of nature.
         </Card.Body>
         <Card.Footer>
           <TagGroup>
-            <Tag size="sm">Dog</Tag>
-            <Tag size="sm">Pet</Tag>
-            <Tag size="sm">Labrador</Tag>
+            <Tag size="sm">🐶 Dog</Tag>
+            <Tag size="sm">☀️ Sunny</Tag>
+            <Tag size="sm">🌈 Rainbow</Tag>
           </TagGroup>
         </Card.Footer>
       </VStack>
