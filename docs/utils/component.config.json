@@ -621,6 +621,13 @@
     "title": "数据展示",
     "children": [
       {
+        "id": "card",
+        "name": "Card",
+        "title": "卡片",
+        "components": ["Card", "Card.Header", "Card.Body", "Card.Footer", "CardGroup"],
+        "minVersion": "5.75.0"
+      },
+      {
         "id": "carousel",
         "name": "Carousel",
         "title": "轮播",

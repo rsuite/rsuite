@@ -237,6 +237,12 @@ export type { TreeProps } from './Tree';
 export { default as CheckTree } from './CheckTree';
 export type { CheckTreeProps } from './CheckTree';
 
+export { default as Card } from './Card';
+export type { CardProps } from './Card';
+
+export { default as CardGroup } from './CardGroup';
+export type { CardGroupProps } from './CardGroup';
+
 export { default as CascadeTree } from './CascadeTree';
 export type { CascadeTreeProps } from './CascadeTree';
 

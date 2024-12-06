@@ -1,0 +1,7 @@
+{
+  "components": {
+    "CardBody": "Card/CardBody",
+    "CardFooter": "Card/CardFooter",
+    "CardHeader": "Card/CardHeader"
+  }
+}
