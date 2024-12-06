@@ -13,8 +13,12 @@ describe('StatGroup', () => {
   });
 
   it('Should render a spacing CSS variable', () => {
-    const { container } = render(<StatGroup spacing={20} />);
+    const { container, rerender } = render(<StatGroup spacing={20} />);
 
     expect(container.firstChild).to.have.style('--rs-spacing', '20px');
+
+    rerender(<StatGroup spacing="1rem" />);
+
+    expect(container.firstChild).to.have.style('--rs-spacing', '1rem');
   });
 });
