@@ -1,3 +1,19 @@
+# [5.75.0](https://github.com/rsuite/rsuite/compare/v5.74.2...v5.75.0) (2024-12-06)
+
+
+### Bug Fixes
+
+* **useToaster:** fix the container parameter of `toaster.push` does not work ([#4057](https://github.com/rsuite/rsuite/issues/4057)) ([c0073c3](https://github.com/rsuite/rsuite/commit/c0073c37e087a15bfd5c7457418da2890b18b573))
+
+
+### Features
+
+* **Card:** add support for Card ([#4061](https://github.com/rsuite/rsuite/issues/4061)) ([1c25622](https://github.com/rsuite/rsuite/commit/1c2562236d8be0b9a68862168e2bb4abd9e8b222))
+* **List:** add support divider on List ([#4062](https://github.com/rsuite/rsuite/issues/4062)) ([7f170b7](https://github.com/rsuite/rsuite/commit/7f170b782c0c60ce9abafdcfae71feadb25c93c7))
+* **Stat:** add support for Stat ([#4056](https://github.com/rsuite/rsuite/issues/4056)) ([c270e87](https://github.com/rsuite/rsuite/commit/c270e87f52d4881133eb73403102df5c9a5ad5a9))
+
+
+
 ## [5.74.2](https://github.com/rsuite/rsuite/compare/v5.74.1...v5.74.2) (2024-11-08)
 
 
