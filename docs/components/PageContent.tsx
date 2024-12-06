@@ -50,9 +50,17 @@ const PageContent = (props: PageContentProps) => {
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  const component: MenuItem = components.find(item => item.id === id || item.name === id);
-  const designHash = component?.designHash;
+  let component: MenuItem;
 
+  components.forEach(group => {
+    group.children?.forEach(item => {
+      if (item.id === id || item.name === id) {
+        component = item;
+      }
+    });
+  });
+
+  const designHash = component?.designHash;
   const fragments = context.split(/<!--{(\S+)}-->/);
 
   useEffect(() => {

@@ -249,6 +249,12 @@ export type { PanelProps } from './Panel';
 export { default as PanelGroup } from './PanelGroup';
 export type { PanelGroupProps } from './PanelGroup';
 
+export { default as Stat } from './Stat';
+export type { StatProps } from './Stat';
+
+export { default as StatGroup } from './StatGroup';
+export type { StatGroupProps } from './StatGroup';
+
 export { default as Table } from './Table';
 export type {
   TableProps,
