@@ -1,45 +1,38 @@
 <!--start-code-->
 
 ```js
-import { List } from 'rsuite';
+import { List, RadioGroup, Radio } from 'rsuite';
 
 const data = ['Roses are red', 'Violets are blue', 'Sugar is sweet', 'And so are you'];
 
-const App = () => (
-  <>
-    <Panel header="Small" bordered>
-      <List size="sm">
+const App = () => {
+  const [size, setSize] = React.useState('sm');
+  return (
+    <>
+      <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
+        <RadioLabel>Size: </RadioLabel>
+        <Radio value="xs">Extra Small</Radio>
+        <Radio value="sm">Small</Radio>
+        <Radio value="md">Medium</Radio>
+        <Radio value="lg">Large</Radio>
+      </RadioGroup>
+
+      <hr />
+
+      <List size={size}>
         {data.map((item, index) => (
           <List.Item key={index} index={index}>
             {item}
           </List.Item>
         ))}
       </List>
-    </Panel>
-    <hr />
-    <Panel header="Medium (Default)" bordered>
-      <List size="md">
-        {data.map((item, index) => (
-          <List.Item key={index} index={index}>
-            {item}
-          </List.Item>
-        ))}
-      </List>
-    </Panel>
-    <hr />
-    <Panel header="Large" bordered>
-      <List size="lg">
-        {data.map((item, index) => (
-          <List.Item key={index} index={index}>
-            {item}
-          </List.Item>
-        ))}
-      </List>
-    </Panel>
-  </>
-);
+    </>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 ```
 
 <!--end-code-->

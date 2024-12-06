@@ -18,7 +18,7 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
   disabled?: boolean;
 
   /* Size of list item */
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'xs';
 }
 
 /**
