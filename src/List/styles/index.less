@@ -6,14 +6,12 @@
 
 .rs-list {
   position: relative;
-  // border-top and border-bottom
-  box-shadow: 0 1px 0 var(--rs-list-border), 0 -1px 0 var(--rs-list-border);
   overflow-x: hidden;
   overflow-y: auto;
 
   &-bordered {
     border-radius: @border-radius;
-    box-shadow: 0 0 0 1px var(--rs-list-border);
+    border: @list-border-width solid var(--rs-list-border);
   }
 
   &-hover .rs-list-item:hover {
@@ -54,13 +52,17 @@
     padding-top: 8px;
     padding-bottom: 8px;
   }
+
+  &-xs {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
 }
 
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */ // For RTL Scope
 .rs-list-item {
   background-color: var(--rs-list-bg);
-  box-shadow: 0 -1px 0 var(--rs-list-border), 0 1px 0 var(--rs-list-border);
 
   &-helper {
     position: absolute;
@@ -99,6 +101,12 @@
       height: calc(100% - 2 * @list-border-width);
       border: @list-border-width var(--rs-list-placeholder-border) dashed;
     }
+  }
+}
+
+.rs-list-divider {
+  .rs-list-item + .rs-list-item {
+    border-top: @list-border-width solid var(--rs-list-border);
   }
 }
 

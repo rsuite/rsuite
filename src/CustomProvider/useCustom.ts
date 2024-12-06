@@ -51,6 +51,7 @@ export function useCustom<P = any>(componentName?: keyof ReactSuiteComponents, c
 
   const { locale: componentLocale, ...restProps } = (componentProps as any) || {};
   const dateLocale = globalLocale?.DateTimeFormats?.dateLocale;
+  const code = globalLocale?.code;
 
   const getLocale = useCallback(
     (key: LocaleKey | LocaleKey[], overrideLocale?: Record<string, any>) => {
@@ -125,6 +126,7 @@ export function useCustom<P = any>(componentName?: keyof ReactSuiteComponents, c
   );
 
   return {
+    code,
     rtl,
     toasters,
     disableRipple,

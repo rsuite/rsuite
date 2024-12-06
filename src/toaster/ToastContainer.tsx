@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
@@ -56,6 +57,7 @@ export interface ToastContainerProps extends WithAsProps {
 interface PushOptions {
   duration?: number;
   mouseReset?: boolean;
+  container?: HTMLElement | (() => HTMLElement);
 }
 
 export interface ToastContainerInstance {
@@ -96,12 +98,12 @@ const useMessages = () => {
   );
 
   const push = useCallback((message, options?: PushOptions) => {
-    const { duration, mouseReset = true } = options || {};
+    const { duration, mouseReset = true, container } = options || {};
     const key = guid();
 
     setMessages(prevMessages => [
       ...prevMessages,
-      { key, visible: true, node: message, duration, mouseReset }
+      { key, visible: true, node: message, duration, mouseReset, container }
     ]);
 
     return key;
@@ -161,28 +163,37 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
     useImperativeHandle(ref, () => ({ root: rootRef.current, push, clear, remove }));
 
     const elements = messages.map(item => {
-      const { mouseReset, duration, node } = item;
+      const { mouseReset, duration, node, container } = item;
+      const toastWithTransition = (
+        <Transition
+          in={item.visible}
+          exitedClassName={rootPrefix('toast-fade-exited')}
+          exitingClassName={rootPrefix('toast-fade-exiting')}
+          enteringClassName={rootPrefix('toast-fade-entering')}
+          enteredClassName={rootPrefix('toast-fade-entered')}
+          timeout={300}
+        >
+          {(transitionProps, ref) => {
+            const { className: transitionClassName, ...rest } = transitionProps;
+            return React.cloneElement(node, {
+              ...rest,
+              ref,
+              duration,
+              onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
+              className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
+            });
+          }}
+        </Transition>
+      );
+
       return (
         <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
-          <Transition
-            in={item.visible}
-            exitedClassName={rootPrefix('toast-fade-exited')}
-            exitingClassName={rootPrefix('toast-fade-exiting')}
-            enteringClassName={rootPrefix('toast-fade-entering')}
-            enteredClassName={rootPrefix('toast-fade-entered')}
-            timeout={300}
-          >
-            {(transitionProps, ref) => {
-              const { className: transitionClassName, ...rest } = transitionProps;
-              return React.cloneElement(node, {
-                ...rest,
-                ref,
-                duration,
-                onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
-                className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
-              });
-            }}
-          </Transition>
+          {container
+            ? createPortal(
+                toastWithTransition,
+                typeof container === 'function' ? container() : container
+              )
+            : toastWithTransition}
         </ToastContext.Provider>
       );
     });

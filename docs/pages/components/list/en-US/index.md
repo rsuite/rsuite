@@ -1,6 +1,6 @@
 # List
 
-Used to display a set of data
+The List component is used to display a group of data, suitable for presenting list-like content, and supports drag-and-drop sorting.
 
 ## Import
 
@@ -26,52 +26,57 @@ Used to display a set of data
 
 ### Sortable
 
-> `index` of List.Item is required. (be unique in the collection)
+`index` of List.Item is required.
 
 <!--{include:`sortable.md`}-->
 
 ### Collection Sort
 
-> `colection` has its own space, `index` of List.Item is required. (be unique in the collection)
+Each `collection` is independent, `index` of List.Item is required. (be unique in the collection)
 
 <!--{include:`collection.md`}-->
 
 ### Fixed Item Sort
 
-> based on `collection`, Item can fixed during sort order.
+Based on `Collection Sort`, the items in the list are fixed in position during sorting.
 
 <!--{include:`sort-fixed.md`}-->
 
-### Custom
+### List with Custom Item
 
 <!--{include:`custom.md`}-->
+
+### No Divider
+
+<!--{include:`no-divider.md`}-->
 
 ## Props
 
 ### `<List>`
 
-| Property           | Type `(Default)`                                   | Description                          |
-| ------------------ | -------------------------------------------------- | ------------------------------------ |
-| autoScroll         | boolean `(true)`                                   | auto scroll when overflow            |
-| bordered           | boolean                                            | bordered                             |
-| hover              | boolean                                            | hover animation                      |
-| onSort             | (payload:[Payload](#code-ts-payload-code)) => void | callback of end of sorting           |
-| onSortEnd          | (payload:[Payload](#code-ts-payload-code)) => void | callback of end of sorting           |
-| onSortMove         | (payload:[Payload](#code-ts-payload-code)) => void | callback of moving over a list items |
-| onSortStart        | (payload:[Payload](#code-ts-payload-code)) => void | callback of beginning of sorting     |
-| pressDelay         | number `(0)`                                       | delay before trigger sort            |
-| size               | 'lg' &#124; 'md' &#124; 'sm' `(md)`                | list items size                      |
-| sortable           | boolean                                            | can change list item order           |
-| transitionDuration | number `(300)`                                     | duration of sort animation           |
+| Property           | Type `(Default)`                                   | Description                                               |
+| ------------------ | -------------------------------------------------- | --------------------------------------------------------- |
+| autoScroll         | boolean `(true)`                                   | Enables automatic scrolling when the list overflows       |
+| bordered           | boolean                                            | Displays borders around the list items                    |
+| divider            | boolean                                            | Displays a divider between the list items<br/>![][5.75.0] |
+| hover              | boolean                                            | Enables hover animation on list items                     |
+| onSort             | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when sorting ends                      |
+| onSortEnd          | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered after the sorting operation ends       |
+| onSortMove         | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when an item is moved in the list      |
+| onSortStart        | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered at the start of sorting                |
+| pressDelay         | number `(0)`                                       | Delay before sorting is triggered after pressing          |
+| size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `(md)`    | Defines the size of the list items                        |
+| sortable           | boolean                                            | Enables sorting functionality for the list items          |
+| transitionDuration | number `(300)`                                     | Duration (in milliseconds) of the sort animation          |
 
 ### `<List.Item>`
 
-| Property   | Type `(Default)`                    | Description                                     |
-| ---------- | ----------------------------------- | ----------------------------------------------- |
-| collection | number &#124; string `(0)`          | collection of list item                         |
-| disabled   | boolean                             | not allowed to move this item                   |
-| index \*   | number(required when sortable)      | index of item(must be unique in the collection) |
-| size       | 'lg' &#124; 'md' &#124; 'sm' `(md)` | current item size                               |
+| Property   | Type `(Default)`                                | Description                                                              |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------ |
+| collection | number &#124; string `(0)`                      | The collection identifier for the list item                              |
+| disabled   | boolean                                         | Disables the item, preventing it from being moved                        |
+| index \*   | number                                          | The unique index of the item within its collection, required for sorting |
+| size       | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `(md)` | Defines the size of the individual list item                             |
 
 ### `ts:Payload`
 
@@ -83,3 +88,5 @@ interface Payload {
   oldIndex: number;
 }
 ```
+
+[5.75.0]: https://img.shields.io/badge/>=-v5.75.0-blue

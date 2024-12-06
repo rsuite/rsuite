@@ -20,6 +20,10 @@ Toaster display brief, temporary notifications of actions, errors, or other even
 
 <!--{include:`custom.md`}-->
 
+### Custom Container
+
+<!--{include:`custom-container.md`}-->
+
 ## Hooks
 
 ### useToaster

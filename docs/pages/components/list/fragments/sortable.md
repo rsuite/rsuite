@@ -4,10 +4,10 @@
 import { List } from 'rsuite';
 
 const defaultData = [
-  { text: 'Roses are red' },
-  { text: 'Violets are blue' },
-  { text: 'Sugar is sweet' },
-  { text: 'And so are you' }
+  { text: 'Finish the project report' },
+  { text: 'Attend team meeting at 3 PM' },
+  { text: 'Buy groceries for the week' },
+  { text: 'Call mom to check in' }
 ];
 
 const App = () => {
@@ -22,8 +22,8 @@ const App = () => {
     }, []);
 
   return (
-    <List sortable onSort={handleSortEnd}>
-      {data.map(({ text, disabled }, index) => (
+    <List sortable bordered onSort={handleSortEnd}>
+      {data.map(({ text }, index) => (
         <List.Item key={index} index={index}>
           {text}
         </List.Item>

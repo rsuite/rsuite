@@ -642,6 +642,21 @@
         "keywords": ["array", "data"]
       },
       {
+        "id": "stat",
+        "name": "Stat",
+        "title": "统计数值",
+        "components": [
+          "Stat",
+          "Stat.Label",
+          "Stat.ValueText",
+          "Stat.ValueUnit",
+          "Stat.HelpText",
+          "Stat.Trend"
+        ],
+        "keywords": ["statistic"],
+        "minVersion": "5.75.0"
+      },
+      {
         "id": "tag",
         "name": "Tag",
         "title": "标签",

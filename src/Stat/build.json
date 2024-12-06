@@ -1,0 +1,9 @@
+{
+  "components": {
+    "StatLabel": "Stat/StatLabel",
+    "StatValue": "Stat/StatValue",
+    "StatValueUnit": "Stat/StatValueUnit",
+    "StatHelpText": "Stat/StatHelpText",
+    "StatTrend": "Stat/StatTrend"
+  }
+}

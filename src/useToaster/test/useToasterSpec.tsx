@@ -163,4 +163,25 @@ describe('useToaster', () => {
 
     expect(toaster1).to.equal(toaster2);
   });
+
+  it('Should push a message to a custom container', () => {
+    const container = React.createRef<HTMLDivElement>();
+    const App = React.forwardRef<HTMLDivElement, any>((props, ref) => {
+      const { children, ...rest } = props;
+      return (
+        <CustomProvider {...rest} ref={ref}>
+          <div role="alert" ref={container} />
+          {children}
+        </CustomProvider>
+      );
+    });
+
+    const toaster = renderHook(() => useToaster(), { wrapper: App }).result.current;
+
+    act(() => {
+      toaster.push(<div>message</div>, { container: container.current });
+    });
+
+    expect(container.current).to.have.text('message');
+  });
 });

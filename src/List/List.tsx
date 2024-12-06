@@ -10,17 +10,33 @@ import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export interface ListProps extends WithAsProps, SortConfig {
-  /* Size of list item */
-  size?: 'lg' | 'md' | 'sm';
+  /**
+   * Size of list item.
+   */
 
-  /* Bordered */
+  size?: 'lg' | 'md' | 'sm' | 'xs';
+
+  /**
+   * Whether the list is bordered.
+   */
   bordered?: boolean;
 
-  /* Animation when hover */
+  /**
+   * Whether the list is hoverable.
+   */
   hover?: boolean;
 
-  /* Sortable */
+  /**
+   * Whether the list is sortable.
+   */
   sortable?: boolean;
+
+  /**
+   * Whether to display a divider between items.
+   *
+   * @version 5.75.0
+   */
+  divider?: boolean;
 }
 
 export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
@@ -35,16 +51,17 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
   const { propsWithDefaults } = useCustom('List', props);
   const {
     as: Component = 'div',
+    autoScroll = true,
+    bordered,
     classPrefix = 'list',
     className,
-    bordered,
+    children,
+    divider = true,
     hover,
     size = 'md',
     sortable,
-    autoScroll = true,
     pressDelay = 0,
     transitionDuration = 300,
-    children,
     onSort,
     onSortEnd,
     onSortMove,
@@ -63,7 +80,10 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     transitionDuration
   });
 
-  const classes = merge(className, withClassPrefix({ bordered, sortable, sorting, hover }));
+  const classes = merge(
+    className,
+    withClassPrefix({ bordered, sortable, sorting, hover, divider })
+  );
   const contextValue = useMemo<ListContextType>(
     () => ({ bordered, size, register }),
     [bordered, register, size]
@@ -89,9 +109,10 @@ List.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   bordered: PropTypes.bool,
+  divider: PropTypes.bool,
   hover: PropTypes.bool,
   sortable: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm']),
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
   autoScroll: PropTypes.bool,
   pressDelay: PropTypes.number,
   transitionDuration: PropTypes.number,
