@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import {
-  // @ts-ignore
   Stat,
-  // @ts-ignore
   StatGroup,
   HStack,
   VStack,

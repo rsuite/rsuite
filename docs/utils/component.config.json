@@ -272,8 +272,14 @@
       {
         "id": "icon",
         "name": "Icon",
-        "components": ["Icon"],
-        "title": "图标"
+        "title": "图标",
+        "components": ["Icon"]
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "title": "图片",
+        "components": ["Image"]
       }
     ]
   },

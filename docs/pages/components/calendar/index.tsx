@@ -26,7 +26,6 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      examples={['basic', 'compact']}
       dependencies={{
         HolidayUtil,
         Lunar,
