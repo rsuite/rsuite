@@ -1,13 +1,19 @@
 import React, { CSSProperties } from 'react';
+import PropTypes from 'prop-types';
 import { useCustom } from '../CustomProvider';
 import { useClassNames } from '@/internals/hooks';
+import { useImage } from './hooks/useImage';
+import { ImageWrapper } from './ImageWrapper';
+
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
-export interface ImageProps extends WithAsProps, React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImageProps
+  extends WithAsProps,
+    Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder'> {
   /**
-   * An image may appear rounded.
+   * An image may appear with border.
    */
-  rounded?: boolean;
+  bordered?: boolean;
 
   /**
    * An image may appear circular.
@@ -15,19 +21,19 @@ export interface ImageProps extends WithAsProps, React.ImgHTMLAttributes<HTMLIma
   circle?: boolean;
 
   /**
-   * An image may appear with border.
+   * The fallback image when the src fails to load.
    */
-  bordered?: boolean;
+  fallbackSrc?: string;
+
+  /**
+   * An image may appear rounded.
+   */
+  rounded?: boolean;
 
   /**
    * Whether there is a shadow.
    */
   shaded?: boolean;
-
-  /**
-   * The fallback image when the src fails to load.
-   */
-  fallbackSrc?: string;
 
   /**
    * It maps to css `object-fit` property.
@@ -38,6 +44,11 @@ export interface ImageProps extends WithAsProps, React.ImgHTMLAttributes<HTMLIma
    * It maps to css `object-position` property.
    */
   position?: CSSProperties['objectPosition'];
+
+  /**
+   * The placeholder to display when the image is loading.
+   */
+  placeholder?: React.ReactNode;
 
   /**
    * Whether the image should be zoomed when hovered.
@@ -55,11 +66,16 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
       className,
       circle,
       fit,
+      fallbackSrc,
       rounded,
       shaded,
+      src,
       style,
       position,
+      placeholder,
       zoomed,
+      width,
+      height,
       ...rest
     } = propsWithDefaults;
 
@@ -69,12 +85,51 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
       withClassPrefix({ circle, bordered, rounded, shaded, zoomed })
     );
 
-    const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
+    const { imgSrc, isLoading } = useImage({ src, fallbackSrc });
 
-    return <Component ref={ref} className={classes} style={styles} {...rest} />;
+    const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
+    const wrapperStyles = { width, height };
+
+    const image = (
+      <Component
+        ref={ref}
+        src={imgSrc}
+        className={classes}
+        style={styles}
+        width={width}
+        height={height}
+        {...rest}
+      />
+    );
+
+    if (zoomed) {
+      return <ImageWrapper style={wrapperStyles}>{image}</ImageWrapper>;
+    }
+
+    if (placeholder) {
+      return (
+        <ImageWrapper style={wrapperStyles}>
+          {isLoading && placeholder}
+          {image}
+        </ImageWrapper>
+      );
+    }
+
+    return image;
   }
 );
 
 Image.displayName = 'Image';
+Image.propTypes = {
+  bordered: PropTypes.bool,
+  circle: PropTypes.bool,
+  fallbackSrc: PropTypes.string,
+  fit: PropTypes.string,
+  position: PropTypes.string,
+  rounded: PropTypes.bool,
+  shaded: PropTypes.bool,
+  placeholder: PropTypes.node,
+  zoomed: PropTypes.bool
+};
 
 export default Image;

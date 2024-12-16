@@ -6,9 +6,8 @@ import { Image } from 'rsuite';
 const App = () => {
   return (
     <Image
-      src="https://app.requestly.io/delay/1000/https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=416"
-      fallbackSrc="https://via.placeholder.com/416x277"
-      alt="black and white short coated dog"
+      src="https://example.com/nonexistent-image.jpg"
+      fallbackSrc="https://via.placeholder.com/300x200"
     />
   );
 };

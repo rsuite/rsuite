@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 // @ts-ignore
-import { Image } from 'rsuite';
+import { Image, Placeholder } from 'rsuite';
+import NextImage from 'next/image';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -14,6 +15,8 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Placeholder,
+        NextImage,
         Image
       }}
     />

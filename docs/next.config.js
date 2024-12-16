@@ -205,5 +205,12 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true
+  swcMinify: true,
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'images.unsplash.com'
+      }
+    ]
+  }
 };

@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Card width={320} shaded>
       <img
-        src="https://images.unsplash.com/photo-1576606539605-b2a44fa58467?q=80&w=1974&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1576606539605-b2a44fa58467?q=80&w=1974"
         alt="Shadow"
       />
       <Card.Header as="h5">Shadow</Card.Header>

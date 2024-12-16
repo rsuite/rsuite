@@ -1,15 +1,16 @@
 <!--start-code-->
 
 ```js
+import NextImage from 'next/image';
 import { Image } from 'rsuite';
 
 const App = () => {
   return (
     <Image
-      circle
-      src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=265"
-      alt="brown french bulldog puppy lying on yellow textile"
-      width={160}
+      width={300}
+      height={200}
+      as={NextImage}
+      src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=300"
     />
   );
 };

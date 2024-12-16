@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Image
       rounded
-      src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=265&auto=format&fit=crop"
+      src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=265"
       alt="brown french bulldog puppy lying on yellow textile"
       width={160}
     />

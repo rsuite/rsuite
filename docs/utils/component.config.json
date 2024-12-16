@@ -279,7 +279,8 @@
         "id": "image",
         "name": "Image",
         "title": "图片",
-        "components": ["Image"]
+        "components": ["Image"],
+        "minVersion": "5.76.0"
       }
     ]
   },
