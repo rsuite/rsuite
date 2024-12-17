@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from '../Image';
+import { render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import { render, screen } from '@testing-library/react';
 
 describe('Image', () => {
   testStandardProps(<Image />);
@@ -59,5 +59,38 @@ describe('Image', () => {
   it('Should apply height', () => {
     render(<Image src="https://placehold.co/300x200" height={100} />);
     expect(screen.getByRole('img')).to.have.style('height', '100px');
+  });
+
+  it('Should apply crossOrigin', () => {
+    render(<Image src="https://placehold.co/300x200" crossOrigin="anonymous" />);
+    expect(screen.getByRole('img')).to.have.attr('crossorigin', 'anonymous');
+  });
+
+  it('Should apply srcSet', () => {
+    render(<Image src="https://placehold.co/300x200" srcSet="https://placehold.co/300x200 1x" />);
+    expect(screen.getByRole('img')).to.have.attr('srcset', 'https://placehold.co/300x200 1x');
+  });
+
+  it('Should apply sizes', () => {
+    render(<Image src="https://placehold.co/300x200" sizes="100vw" />);
+    expect(screen.getByRole('img')).to.have.attr('sizes', '100vw');
+  });
+
+  it('Should apply loading', () => {
+    render(<Image src="https://placehold.co/300x200" loading="lazy" />);
+    expect(screen.getByRole('img')).to.have.attr('loading', 'lazy');
+  });
+
+  it('Should render with fallbackSrc', async () => {
+    render(
+      <Image
+        src="https://example.com/nonexistent-image.jpg"
+        fallbackSrc="https://placehold.co/300x200"
+      />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
+    });
   });
 });
