@@ -1,10 +1,9 @@
 import React, { CSSProperties } from 'react';
 import PropTypes from 'prop-types';
-import { useCustom } from '../CustomProvider';
 import { useClassNames } from '@/internals/hooks';
-import { useImage } from './hooks/useImage';
 import { ImageWrapper } from './ImageWrapper';
-
+import { useImage } from './hooks/useImage';
+import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface ImageProps
@@ -65,17 +64,21 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
       classPrefix = 'image',
       className,
       circle,
+      crossOrigin,
       fit,
       fallbackSrc,
+      loading,
       rounded,
+      srcSet,
+      sizes,
       shaded,
       src,
       style,
       position,
       placeholder,
-      zoomed,
       width,
       height,
+      zoomed,
       ...rest
     } = propsWithDefaults;
 
@@ -84,11 +87,11 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
       className,
       withClassPrefix({ circle, bordered, rounded, shaded, zoomed })
     );
-
-    const { imgSrc, isLoading } = useImage({ src, fallbackSrc });
+    const imgProps = { crossOrigin, srcSet, sizes, loading };
+    const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
 
     const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
-    const wrapperStyles = { width, height };
+    const wrapStyles = { width, height };
 
     const image = (
       <Component
@@ -98,17 +101,18 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
         style={styles}
         width={width}
         height={height}
+        {...imgProps}
         {...rest}
       />
     );
 
     if (zoomed) {
-      return <ImageWrapper style={wrapperStyles}>{image}</ImageWrapper>;
+      return <ImageWrapper style={wrapStyles}>{image}</ImageWrapper>;
     }
 
     if (placeholder) {
       return (
-        <ImageWrapper style={wrapperStyles}>
+        <ImageWrapper style={wrapStyles}>
           {isLoading && placeholder}
           {image}
         </ImageWrapper>

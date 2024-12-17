@@ -52,17 +52,17 @@ Display a placeholder while the image is loading.
 
 ### `<Image>`
 
-| Property    | Type `(Default)`                | Description                                          |
-| ----------- | ------------------------------- | ---------------------------------------------------- |
-| bordered    | boolean                         | An image may appear with border                      |
-| circle      | boolean                         | An image may appear as a circle                      |
-| fallbackSrc | string                          | The fallback image when the src fails to load        |
-| fit         | CSSProperties['objectFit']      | It maps to CSS `object-fit` property                 |
-| height      | number                          | The height of the image                              |
-| placeholder | ReactNode                       | The placeholder to display when the image is loading |
-| position    | CSSProperties['objectPosition'] | It maps to CSS `object-position` property            |
-| rounded     | boolean                         | An image may appear rounded                          |
-| shaded      | boolean                         | Whether there is a shadow                            |
-| src         | string                          | The image source                                     |
-| width       | number                          | The width of the image                               |
-| zoomed      | boolean                         | Whether the image should be zoomed when hovered      |
+| Property    | Type `(Default)`                | Description                                             |
+| ----------- | ------------------------------- | ------------------------------------------------------- |
+| bordered    | boolean                         | An image may appear with border                         |
+| circle      | boolean                         | An image may appear as a circle                         |
+| fallbackSrc | string                          | The fallback image when the src fails to load           |
+| fit         | CSSProperties['objectFit']      | It maps to CSS `object-fit` property                    |
+| height      | number \| string                | The height of the image                                 |
+| placeholder | ReactNode                       | The placeholder to display when the image is loading    |
+| position    | CSSProperties['objectPosition'] | It maps to CSS `object-position` property               |
+| rounded     | boolean                         | An image may appear rounded                             |
+| shaded      | boolean                         | Whether there is a shadow                               |
+| src         | string                          | The image source                                        |
+| width       | number \| string                | The width of the image                                  |
+| zoomed      | boolean                         | Whether to zoom in when the mouse hovers over the image |

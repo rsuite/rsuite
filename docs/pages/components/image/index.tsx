@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 // @ts-ignore
-import { Image, Placeholder } from 'rsuite';
+import { Image, Placeholder, Button } from 'rsuite';
 import NextImage from 'next/image';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -17,7 +17,8 @@ export default function Page() {
       dependencies={{
         Placeholder,
         NextImage,
-        Image
+        Image,
+        Button
       }}
     />
   );

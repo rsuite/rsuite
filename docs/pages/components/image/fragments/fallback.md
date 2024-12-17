@@ -7,7 +7,8 @@ const App = () => {
   return (
     <Image
       src="https://example.com/nonexistent-image.jpg"
-      fallbackSrc="https://via.placeholder.com/300x200"
+      fallbackSrc="https://placehold.co/300x200"
+      alt="nonexistent-image"
     />
   );
 };

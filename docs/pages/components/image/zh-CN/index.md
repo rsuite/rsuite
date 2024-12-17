@@ -58,11 +58,11 @@
 | circle      | boolean                         | 图像显示为圆形                    |
 | fallbackSrc | string                          | 当 src 加载失败时的回退图像       |
 | fit         | CSSProperties['objectFit']      | 映射到 CSS `object-fit` 属性      |
-| height      | number                          | 图像的高度                        |
+| height      | number \| string                | 图像的高度                        |
 | placeholder | ReactNode                       | 图像加载时显示的占位符            |
 | position    | CSSProperties['objectPosition'] | 映射到 CSS `object-position` 属性 |
 | rounded     | boolean                         | 图像显示为圆角                    |
 | shaded      | boolean                         | 是否有阴影                        |
 | src         | string                          | 图像的 URL                        |
-| width       | number                          | 图像的宽度                        |
-| zoomed      | boolean                         | 图像显示为放大                    |
+| width       | number \| string                | 图像的宽度                        |
+| zoomed      | boolean                         | 当鼠标悬停在图像上时是否放大      |
