@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
-  getInstance,
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
@@ -121,10 +120,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should render a group', () => {
-    const instance = getInstance(<SelectPicker defaultOpen groupBy="role" data={data} />);
+    render(<SelectPicker defaultOpen groupBy="role" data={data} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
+    expect(screen.getByRole('group')).to.exist;
   });
 
   it('Should toggle expansion of a group by clicking on the group title', () => {
@@ -207,12 +205,12 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onChange` callback with correct value', () => {
-    const onChangeSpy = sinon.spy();
-    render(<SelectPicker defaultOpen onChange={onChangeSpy} data={data} />);
+    const onChange = sinon.spy();
+    render(<SelectPicker defaultOpen onChange={onChange} data={data} />);
 
     fireEvent.click(screen.getByRole('option', { name: 'Eugenia' }));
 
-    expect(onChangeSpy).to.have.been.calledWith('Eugenia');
+    expect(onChange).to.have.been.calledWith('Eugenia');
   });
 
   it('Should call `onClean` callback', () => {
@@ -248,15 +246,13 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
-    const onSelectSpy = sinon.spy();
-    const instance = getInstance(
-      <SelectPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={'Kariane'} />
-    );
+    const onSelect = sinon.spy();
+    render(<SelectPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onSelectSpy).to.have.been.calledWith('Louisa');
+    expect(onSelect).to.have.been.calledWith('Louisa');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -278,40 +274,34 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <SelectPicker defaultOpen data={data} onChange={onChangeSpy} defaultValue={'Kariane'} />
-    );
+    const onChange = sinon.spy();
+    render(<SelectPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChangeSpy).to.calledOnce;
+    expect(onChange).to.calledOnce;
   });
 
   it('Should call onBlur callback', async () => {
-    const onBlurSpy = sinon.spy();
-    // FIXME SelectPicker does not have `onBlur` prop
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getInstance(<SelectPicker defaultOpen data={data} onBlur={onBlurSpy} />);
+    const onBlur = sinon.spy();
 
-    fireEvent.blur(instance.target);
+    render(<SelectPicker defaultOpen data={data} onBlur={onBlur} />);
+
+    fireEvent.blur(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onBlurSpy).to.calledOnce;
+      expect(onBlur).to.calledOnce;
     });
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = sinon.spy();
-    // FIXME SelectPicker does not have `onFocus` prop
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getInstance(<SelectPicker defaultOpen data={data} onFocus={onFocusSpy} />);
+    const onFocus = sinon.spy();
 
-    fireEvent.focus(instance.target);
+    render(<SelectPicker defaultOpen data={data} onFocus={onFocus} />);
 
-    expect(onFocusSpy).to.calledOnce;
+    fireEvent.focus(screen.getByRole('combobox'));
+
+    expect(onFocus).to.calledOnce;
   });
 
   it('Should render a button by toggleAs={Button}', () => {

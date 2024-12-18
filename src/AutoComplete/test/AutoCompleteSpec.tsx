@@ -1,11 +1,6 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import {
-  getInstance,
-  testStandardProps,
-  testControlledUnControlled,
-  testFormControl
-} from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 
@@ -45,8 +40,9 @@ describe('AutoComplete', () => {
   });
 
   it('Should be a `top-end` for placement', () => {
-    const instance = getInstance(<AutoComplete data={data} open placement="topEnd" />);
-    expect(instance.overlay.className).to.contain('placement-top-end');
+    render(<AutoComplete data={data} open placement="topEnd" />);
+
+    expect(screen.getByTestId('picker-popup')).to.have.class('placement-top-end');
   });
 
   it('Should call onSelect callback with correct args', () => {
@@ -59,14 +55,14 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChangeSpy = sinon.spy();
+    const onChange = sinon.spy();
 
-    render(<AutoComplete data={data} onChange={onChangeSpy} />);
+    render(<AutoComplete data={data} onChange={onChange} />);
     const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'a' } });
-    expect(onChangeSpy).to.have.been.calledOnce;
-    expect(onChangeSpy).to.have.been.calledWith('a');
+    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).to.have.been.calledWith('a');
   });
 
   it('Should call onFocus callback', () => {
@@ -87,67 +83,65 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onKeyDown callback on input', () => {
-    const onKeyDownSpy = sinon.spy();
+    const onKeyDown = sinon.spy();
 
-    render(<AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />);
+    render(<AutoComplete onKeyDown={onKeyDown} data={['a', 'b', 'ab']} open />);
     const input = screen.getByRole('combobox');
     fireEvent.keyDown(input);
-    expect(onKeyDownSpy).to.have.been.calledOnce;
+    expect(onKeyDown).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on menu', () => {
-    const onKeyDownSpy = sinon.spy();
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onKeyDown={onKeyDownSpy} data={['a', 'b']} open />
-    );
-    fireEvent.keyDown(instance.overlay);
+    const onKeyDown = sinon.spy();
 
-    expect(onKeyDownSpy).to.be.calledOnce;
+    render(<AutoComplete defaultValue="a" onKeyDown={onKeyDown} data={['a', 'b']} open />);
+
+    fireEvent.keyDown(screen.getByTestId('picker-popup'));
+
+    expect(onKeyDown).to.be.calledOnce;
   });
 
   it('Should call onMenuFocus callback when key=ArrowDown', () => {
-    const onMenuFocusSpy = sinon.spy();
+    const onMenuFocus = sinon.spy();
 
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocusSpy} data={['a', 'ab', 'ac']} open />
+    render(
+      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocus} data={['a', 'ab', 'ac']} open />
     );
-    fireEvent.keyDown(instance.overlay, {
+
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), {
       key: 'ArrowDown'
     });
 
-    expect(onMenuFocusSpy).to.be.calledOnce;
+    expect(onMenuFocus).to.be.calledOnce;
   });
 
   it('Should call onMenuFocus callback when key=ArrowUp', () => {
-    const onMenuFocusSpy = sinon.spy();
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocusSpy} data={['a', 'ab', 'ac']} open />
+    const onMenuFocus = sinon.spy();
+    render(
+      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocus} data={['a', 'ab', 'ac']} open />
     );
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowUp' });
 
-    expect(onMenuFocusSpy).to.be.calledTwice;
+    expect(onMenuFocus).to.be.calledTwice;
   });
 
   it('Should call onChange callback when key=Enter', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onChange={onChangeSpy} data={['a', 'ab', 'ac']} open />
-    );
+    const onChange = sinon.spy();
+    render(<AutoComplete defaultValue="a" onChange={onChange} data={['a', 'ab', 'ac']} open />);
 
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
-    expect(onChangeSpy).to.be.calledOnce;
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Enter' });
+    expect(onChange).to.be.calledOnce;
   });
 
   it('Should call onSelect callback with selected item when key=Enter', () => {
     const onSelectSpy = sinon.spy();
 
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onSelect={onSelectSpy} data={['a', 'ab', 'ac']} open />
-    );
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
+    render(<AutoComplete defaultValue="a" onSelect={onSelectSpy} data={['a', 'ab', 'ac']} open />);
+
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Enter' });
 
     expect(onSelectSpy).to.be.calledOnce;
     expect(onSelectSpy).to.be.calledWith('ab', { value: 'ab', label: 'ab' });
@@ -156,7 +150,7 @@ describe('AutoComplete', () => {
   it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
     const onSelectSpy = sinon.spy();
 
-    const instance = getInstance(
+    render(
       <AutoComplete
         defaultValue="a"
         onSelect={onSelectSpy}
@@ -166,18 +160,16 @@ describe('AutoComplete', () => {
         open
       />
     );
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowUp' });
 
     expect(onSelectSpy).to.be.not.called;
   });
 
   it('Should call onClose callback when key=Escape', () => {
     const onCloseSpy = sinon.spy();
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onClose={onCloseSpy} data={['a', 'ab', 'ac']} open />
-    );
-    fireEvent.keyDown(instance.overlay, { key: 'Escape' });
+    render(<AutoComplete defaultValue="a" onClose={onCloseSpy} data={['a', 'ab', 'ac']} open />);
+    fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Escape' });
     expect(onCloseSpy).to.be.calledOnce;
   });
 

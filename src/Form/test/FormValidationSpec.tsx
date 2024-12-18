@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
-import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/utils';
 import { FormInstance } from '../hooks/useFormRef';
 import Form from '../Form';
 import FormControl from '../../FormControl';
@@ -28,24 +27,23 @@ const modelAsync = Schema.Model({
 
 describe('Form Validation', () => {
   it('Should be `false` for check status', () => {
-    const values = {
-      name: 'abc'
-    };
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const values = { name: 'abc' };
+    const ref = React.createRef<FormInstance>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
     );
 
-    expect(form.check()).to.be.false;
+    expect(ref.current?.check()).to.be.false;
   });
 
   it('Should be `false` for check status by checkForField', () => {
-    const values = {
-      name: 'abc'
-    };
-    const form = getInstance(
+    const values = { name: 'abc' };
+    const ref = React.createRef<FormInstance>();
+    render(
       <Form
+        ref={ref}
         model={model}
         formDefaultValue={values}
         onError={formError => {
@@ -55,7 +53,7 @@ describe('Form Validation', () => {
         <FormControl name="name" />
       </Form>
     );
-    const checkStatus = form.checkForField('name', checkResult => {
+    const checkStatus = ref.current?.checkForField('name', checkResult => {
       expect(checkResult).to.be.deep.equal({
         hasError: true,
         errorMessage: 'Email error'
@@ -69,24 +67,26 @@ describe('Form Validation', () => {
     const values = {
       name: 'abc@gmail.com'
     };
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const ref = React.createRef<FormInstance>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
     );
-    expect(form.check()).to.be.true;
+    expect(ref.current?.check()).to.be.true;
   });
 
   it('Should be `true` for check status by checkForField', () => {
     const values = {
       name: 'abc@gmail.com'
     };
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const ref = React.createRef<FormInstance>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
     );
-    const checkStatus = form.checkForField('name', checkResult => {
+    const checkStatus = ref.current?.checkForField('name', checkResult => {
       expect(checkResult).to.be.deep.equal({
         hasError: false
       });
@@ -96,18 +96,16 @@ describe('Form Validation', () => {
   });
 
   it('Should be {} for formError when call cleanErrors', () => {
-    const values = {
-      name: 'abc.com'
-    };
-
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const values = { name: 'abc.com' };
+    const ref = React.createRef<any>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
     );
-    form.check();
-    form.cleanErrors(() => {
-      expect(form.state.formError).to.be.deep.equal({});
+    ref.current?.check();
+    ref.current?.cleanErrors(() => {
+      expect(ref.current?.state.formError).to.be.deep.equal({});
     });
   });
 
@@ -120,16 +118,16 @@ describe('Form Validation', () => {
       n1: Schema.Types.NumberType().min(2, 'error'),
       n2: Schema.Types.NumberType().min(2, 'error')
     });
-
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const ref = React.createRef<any>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="n1" />
         <FormControl name="n2" />
       </Form>
     );
-    form.check();
-    form.cleanErrorForField('n2', () => {
-      expect(form.state.formError).to.be.deep.equal({ n1: 'error' });
+    ref.current.check();
+    ref.current.cleanErrorForField('n2', () => {
+      expect(ref.current.state.formError).to.be.deep.equal({ n1: 'error' });
     });
   });
 
@@ -137,13 +135,14 @@ describe('Form Validation', () => {
     const values = {
       name: 'abc.com'
     };
-    const form = getInstance(
-      <Form model={model} formDefaultValue={values}>
+    const ref = React.createRef<any>();
+    render(
+      <Form ref={ref} model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
     );
-    form.resetErrors({ name: 'error' }, () => {
-      expect(form.state.formError).to.be.deep.equal({ name: 'error' });
+    ref.current.resetErrors({ name: 'error' }, () => {
+      expect(ref.current.state.formError).to.be.deep.equal({ name: 'error' });
     });
   });
 
@@ -227,12 +226,13 @@ describe('Form Validation', () => {
     const values = {
       name: 'abc'
     };
-    const form = getInstance(
-      <Form formDefaultValue={values} model={modelAsync}>
+    const ref = React.createRef<FormInstance>();
+    render(
+      <Form ref={ref} formDefaultValue={values} model={modelAsync}>
         <FormControl name="name" checkAsync />
       </Form>
     );
-    const result = await form.checkAsync();
+    const result = await ref.current?.checkAsync();
 
     expect(result.hasError).to.be.true;
   });
@@ -241,12 +241,13 @@ describe('Form Validation', () => {
     const values = {
       name: 'abc'
     };
-    const form = getInstance(
-      <Form formDefaultValue={values} model={modelAsync}>
+    const ref = React.createRef<any>();
+    render(
+      <Form ref={ref} formDefaultValue={values} model={modelAsync}>
         <FormControl name="name" checkAsync />
       </Form>
     );
-    const result = await form.checkForFieldAsync('name');
+    const result = await ref.current?.checkForFieldAsync('name');
 
     expect(result.hasError).to.be.true;
   });
@@ -343,16 +344,18 @@ describe('Form Validation', () => {
   });
 
   it('Should provide public objects and methods', () => {
-    const form = getInstance(<Form />);
+    const ref = React.createRef<FormInstance>();
 
-    expect(form.root).to.exist;
-    expect(form.check).to.instanceOf(Function);
-    expect(form.checkAsync).to.instanceOf(Function);
-    expect(form.checkForField).to.instanceOf(Function);
-    expect(form.checkForFieldAsync).to.instanceOf(Function);
-    expect(form.cleanErrors).to.instanceOf(Function);
-    expect(form.cleanErrorForField).to.instanceOf(Function);
-    expect(form.resetErrors).to.instanceOf(Function);
+    render(<Form ref={ref} />);
+
+    expect(ref.current?.root).to.exist;
+    expect(ref.current?.check).to.instanceOf(Function);
+    expect(ref.current?.checkAsync).to.instanceOf(Function);
+    expect(ref.current?.checkForField).to.instanceOf(Function);
+    expect(ref.current?.checkForFieldAsync).to.instanceOf(Function);
+    expect(ref.current?.cleanErrors).to.instanceOf(Function);
+    expect(ref.current?.cleanErrorForField).to.instanceOf(Function);
+    expect(ref.current?.resetErrors).to.instanceOf(Function);
   });
 
   describe('The onCheck callback', () => {

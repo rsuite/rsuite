@@ -1,7 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance, testStandardProps } from '@test/utils';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
@@ -62,8 +62,11 @@ describe('Uploader', () => {
       blobFile: new File(['foo'], 'foo.txt', { type: 'text/plain' })
     };
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
-    instance.start(file);
+    const ref = React.createRef<any>();
+
+    render(<Uploader ref={ref} name="file" action="" onUpload={onUpload} />);
+
+    ref.current.start(file);
 
     expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
     expect(onUpload).to.been.calledOnce;
@@ -72,9 +75,10 @@ describe('Uploader', () => {
   it('Should call `onUpload` callback', () => {
     const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
+    const ref = React.createRef<any>();
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
-    instance.start(file);
+    render(<Uploader ref={ref} name="file" action="" onUpload={onUpload} />);
+    ref.current.start(file);
 
     expect(onUpload).to.been.calledOnce;
   });
@@ -82,9 +86,11 @@ describe('Uploader', () => {
   it('Should upload a FormData', () => {
     const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
+    const ref = React.createRef<any>();
 
-    const instance = getInstance(<Uploader name="file" action="" onUpload={onUpload} />);
-    instance.start(file);
+    render(<Uploader ref={ref} name="file" action="" onUpload={onUpload} />);
+
+    ref.current.start(file);
 
     expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
   });
@@ -92,11 +98,11 @@ describe('Uploader', () => {
   it('Should upload a File', () => {
     const onUpload = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
+    const ref = React.createRef<any>();
 
-    const instance = getInstance(
-      <Uploader name="file" action="" onUpload={onUpload} disableMultipart />
-    );
-    instance.start(file);
+    render(<Uploader ref={ref} name="file" action="" onUpload={onUpload} disableMultipart />);
+
+    ref.current.start(file);
 
     expect(onUpload.args[0][1] instanceof File).to.equal(true);
   });
@@ -119,18 +125,18 @@ describe('Uploader', () => {
   });
 
   it('Should call `onRemove` callback', () => {
-    const onRemoveSpy = sinon.spy();
+    const onRemove = sinon.spy();
     const file = {
       blobFile: new File(['foo'], 'foo.txt'),
       status: 'finished',
       name: 'foo.txt'
     } as const;
 
-    render(<Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />);
+    render(<Uploader name="file" action="" onRemove={onRemove} defaultFileList={[file]} />);
 
     userEvent.click(screen.getByRole('button', { name: 'Remove file: foo.txt' }));
 
-    expect(onRemoveSpy).to.have.been.calledOnce;
+    expect(onRemove).to.have.been.calledOnce;
   });
 
   it('Should apply appearance', () => {

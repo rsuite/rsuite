@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import SafeAnchor from '../SafeAnchor';
 
 describe('SafeAnchor', () => {
@@ -16,18 +15,20 @@ describe('SafeAnchor', () => {
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
     render(<SafeAnchor onClick={onClick}>Title</SafeAnchor>);
-    ReactTestUtils.Simulate.click(screen.getByText('Title'));
+
+    fireEvent.click(screen.getByText('Title'));
+
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
     render(
-      <SafeAnchor onClick={onClick} href="http://a.com">
+      <SafeAnchor onClick={onClick} href="#">
         Title
       </SafeAnchor>
     );
-    ReactTestUtils.Simulate.click(screen.getByText('Title'));
+    fireEvent.click(screen.getByText('Title'));
 
     expect(onClick).to.have.been.calledOnce;
   });
@@ -39,7 +40,7 @@ describe('SafeAnchor', () => {
         Title
       </SafeAnchor>
     );
-    ReactTestUtils.Simulate.click(screen.getByText('Title'));
+    fireEvent.click(screen.getByText('Title'));
 
     expect(handleClick).to.have.been.calledOnce;
     expect(handleClick.getCall(0).args[0].isDefaultPrevented()).to.be.false;
@@ -52,7 +53,7 @@ describe('SafeAnchor', () => {
         Title
       </SafeAnchor>
     );
-    ReactTestUtils.Simulate.click(screen.getByText('Title'));
+    fireEvent.click(screen.getByText('Title'));
 
     expect(handleClick).to.not.have.been.calledOnce;
     expect(container.firstChild).to.have.attr('tabindex', '-1');

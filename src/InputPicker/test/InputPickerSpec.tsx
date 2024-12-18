@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import {
-  getInstance,
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
@@ -78,17 +77,17 @@ describe('InputPicker', () => {
   });
 
   it('Should be plaintext', () => {
-    const instance1 = getInstance(<InputPicker plaintext data={data} value={'Eugenia'} />);
-    const instance2 = getInstance(<InputPicker plaintext data={data} />);
-    const instance3 = getInstance(<InputPicker plaintext data={data} placeholder="-" />);
-    const instance4 = getInstance(
-      <InputPicker plaintext data={data} placeholder="-" value={'Eugenia'} />
-    );
+    const { rerender } = render(<InputPicker plaintext data={data} value={'Eugenia'} />);
+    expect(screen.getByText('Eugenia')).to.exist;
 
-    expect(instance1.target).to.text('Eugenia');
-    expect(instance2.target).to.text('Not selected');
-    expect(instance3.target).to.text('-');
-    expect(instance4.target).to.text('Eugenia');
+    rerender(<InputPicker plaintext data={data} />);
+    expect(screen.getByText('Not selected')).to.exist;
+
+    rerender(<InputPicker plaintext data={data} placeholder="-" />);
+    expect(screen.getByText('-')).to.exist;
+
+    rerender(<InputPicker plaintext data={data} placeholder="-" value={'Eugenia'} />);
+    expect(screen.getByText('Eugenia')).to.exist;
   });
 
   it('Should be readOnly', () => {
@@ -227,42 +226,38 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onChange` callback with correct value', () => {
-    const onChangeSpy = sinon.spy();
-    render(<InputPicker defaultOpen onChange={onChangeSpy} data={data} />);
+    const onChange = sinon.spy();
+    render(<InputPicker defaultOpen onChange={onChange} data={data} />);
 
     fireEvent.click(screen.getByRole('option', { name: 'Eugenia' }));
 
-    expect(onChangeSpy).to.have.been.calledWith('Eugenia');
+    expect(onChange).to.have.been.calledWith('Eugenia');
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
-    render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />);
+    const onClean = sinon.spy();
+    render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onCleanSpy).to.calledOnce;
+    expect(onClean).to.calledOnce;
   });
 
   it('Should call `onClean` callback by keyDown', () => {
-    const onCleanSpy = sinon.spy();
-    const instance = getInstance(
-      <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onCleanSpy} />
-    );
-    fireEvent.keyDown(instance.target, { key: 'Backspace' });
+    const onClean = sinon.spy();
+    render(<InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onClean} />);
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
 
-    expect(onCleanSpy).to.calledOnce;
+    expect(onClean).to.calledOnce;
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
-    const onSelectSpy = sinon.spy();
-    const instance = getInstance(
-      <InputPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={'Kariane'} />
-    );
+    const onSelect = sinon.spy();
+    render(<InputPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
-    expect(onSelectSpy).to.have.been.calledWith('Louisa');
+    expect(onSelect).to.have.been.calledWith('Louisa');
   });
 
   it('Should output a clean button', () => {
@@ -272,20 +267,20 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
-    const onSearchSpy = sinon.spy();
-    render(<InputPicker data={[]} defaultOpen onSearch={onSearchSpy} />);
+    const onSearch = sinon.spy();
+    render(<InputPicker data={[]} defaultOpen onSearch={onSearch} />);
 
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearchSpy).to.have.been.calledOnce;
-    expect(onSearchSpy).to.have.been.calledWith('a');
+    expect(onSearch).to.have.been.calledOnce;
+    expect(onSearch).to.have.been.calledWith('a');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
-    const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    render(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
 
     expect(screen.getByRole('option', { name: 'Kariane' }).firstChild).to.have.class(
       'rs-picker-select-menu-item-focus'
@@ -293,8 +288,8 @@ describe('InputPicker', () => {
   });
 
   it('Should focus item by key=ArrowUp ', () => {
-    const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+    render(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowUp' });
 
     expect(screen.getByRole('option', { name: 'Eugenia' }).firstChild).to.have.class(
       'rs-picker-select-menu-item-focus'
@@ -302,30 +297,28 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <InputPicker defaultOpen data={data} onChange={onChangeSpy} defaultValue={'Kariane'} />
-    );
+    const onChange = sinon.spy();
+    render(<InputPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
-    expect(onChangeSpy).to.calledOnce;
+    expect(onChange).to.calledOnce;
   });
 
   it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
-    render(<InputPicker data={[]} onBlur={onBlurSpy} />);
+    const onBlur = sinon.spy();
+    render(<InputPicker data={[]} onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).to.calledOnce;
+    expect(onBlur).to.calledOnce;
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = sinon.spy();
-    render(<InputPicker data={[]} onFocus={onFocusSpy} />);
+    const onFocus = sinon.spy();
+    render(<InputPicker data={[]} onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('textbox'));
 
-    expect(onFocusSpy).to.called;
+    expect(onFocus).to.called;
   });
 
   it('Should render a button by toggleAs={Button}', () => {

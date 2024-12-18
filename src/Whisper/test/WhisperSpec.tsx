@@ -1,8 +1,6 @@
 import React, { CSSProperties, Ref } from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/utils';
-
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 
@@ -83,13 +81,14 @@ describe('Whisper', () => {
 
   it('Should call onOpen callback by open()', async () => {
     const onOpen = sinon.spy();
-    const instance = getInstance(
-      <Whisper onOpen={onOpen} trigger="none" speaker={<Tooltip />}>
+    const ref = React.createRef<WhisperInstance>();
+    render(
+      <Whisper ref={ref} onOpen={onOpen} trigger="none" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    instance.open();
+    ref.current?.open();
     await waitFor(() => {
       expect(onOpen).to.have.been.calledOnce;
     });

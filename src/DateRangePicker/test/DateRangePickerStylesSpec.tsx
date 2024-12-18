@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DateRangePicker from '../index';
-import { getInstance } from '@test/utils';
 import getWidth from 'dom-lib/getWidth';
 
 import '../styles/index.less';
@@ -14,10 +13,10 @@ describe('DateRangePicker styles', () => {
   });
 
   it('Should keep size in `block` mode', function () {
-    const instance = getInstance(<DateRangePicker block defaultOpen />);
+    const { container } = render(<DateRangePicker block defaultOpen />);
 
-    expect(instance.root).to.have.class('rs-picker-block');
-    expect(getWidth(instance.overlay)).to.equal(264 * 2);
+    expect(container.firstChild).to.have.class('rs-picker-block');
+    expect(getWidth(screen.getByRole('dialog'))).to.equal(264 * 2);
   });
 
   it('Should hava a padding of 0px', () => {
