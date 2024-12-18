@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, act, screen } from '@testing-library/react';
+import { render, act, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { mergeRefs } from '@/internals/utils';
 import TextMask, { TextMaskProps } from '../TextMask';
@@ -152,9 +151,8 @@ describe('TextMask', () => {
 
     expect((inputRef.current as TextMastTestInstance).input.value).to.equal('');
 
-    act(() => {
-      (inputRef.current as TextMastTestInstance).input.value = '12345';
-      ReactTestUtils.Simulate.change((inputRef.current as TextMastTestInstance).input);
+    fireEvent.change((inputRef.current as TextMastTestInstance).input, {
+      target: { value: '12345' }
     });
 
     expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 45_-____');
@@ -242,39 +240,41 @@ describe('TextMask', () => {
   });
 
   it('calls `onChange` when a change event is received', () => {
-    const onChangeSpy = sinon.spy(event => {
-      expect(event.target.value).to.equal('123');
-    });
-    render(
-      <TextMask
-        data-testid="test"
-        value="123"
-        onChange={onChangeSpy}
-        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        guide={true}
-      />
-    );
-    ReactTestUtils.Simulate.change(screen.getByTestId('test'), {
-      target: { value: '123' } as any
-    });
-    expect(onChangeSpy.callCount).to.equal(1);
-  });
-
-  it('calls props.onBlur when a change event is received', () => {
-    const onBlurSpy = sinon.spy(event => {
+    const onChange = sinon.spy(event => {
       expect(event.target.value).to.equal('(123) ___-____');
     });
     render(
       <TextMask
         data-testid="test"
         value="123"
-        onBlur={onBlurSpy}
+        onChange={onChange}
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.blur(screen.getByTestId('test'));
-    expect(onBlurSpy.callCount).to.equal(1);
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: '123' }
+    });
+
+    expect(onChange).to.be.calledOnce;
+  });
+
+  it('calls props.onBlur when a change event is received', () => {
+    const onBlur = sinon.spy(event => {
+      expect(event.target.value).to.equal('(123) ___-____');
+    });
+    render(
+      <TextMask
+        data-testid="test"
+        value="123"
+        onBlur={onBlur}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+        guide={true}
+      />
+    );
+    fireEvent.blur(screen.getByTestId('test'));
+    expect(onBlur.callCount).to.equal(1);
   });
 
   // test fix for issues #230, #483, #778 etc.
@@ -297,7 +297,7 @@ describe('TextMask', () => {
     (inputRef.current as TextMastTestInstance).input.value = '(123';
 
     // Simulate onChange event with current value "(123"
-    ReactTestUtils.Simulate.change((inputRef.current as TextMastTestInstance).input, {
+    fireEvent.change((inputRef.current as TextMastTestInstance).input, {
       target: { value: '(123' } as any
     });
 

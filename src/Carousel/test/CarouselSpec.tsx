@@ -1,7 +1,6 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Carousel from '../Carousel';
 
@@ -39,12 +38,12 @@ describe('Carousel', () => {
 
   it('Should be autoplay', async () => {
     const style = { height: 20 };
-    const onSlideStartSpy = sinon.spy();
+    const onSlideStart = sinon.spy();
     render(
       <Carousel
         autoplay
         autoplayInterval={500}
-        onSlideStart={onSlideStartSpy}
+        onSlideStart={onSlideStart}
         style={{ width: 200, height: 20 }}
       >
         <div style={style}>1</div>
@@ -53,78 +52,61 @@ describe('Carousel', () => {
     );
 
     await waitFor(() => {
-      expect(onSlideStartSpy).to.called;
+      expect(onSlideStart).to.called;
     });
   });
 
   it('Should call `onSlideStart` callback', async () => {
-    const onSlideStartSpy = sinon.spy();
-    const { container } = render(
-      <Carousel onSlideStart={onSlideStartSpy}>
+    const onSlideStart = sinon.spy();
+    render(
+      <Carousel onSlideStart={onSlideStart}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    // eslint-disable-next-line testing-library/no-container
-    const input = container
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelectorAll('.rs-carousel-label-wrapper')[1]
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelector('input') as HTMLInputElement;
-
-    fireEvent.click(input);
+    fireEvent.click(screen.getAllByRole('radio')[1]);
 
     await waitFor(() => {
-      expect(onSlideStartSpy).to.called;
+      expect(onSlideStart).to.called;
     });
   });
 
   it('Should call `onSelect` callback', async () => {
-    const onSelectSpy = sinon.spy();
-    const { container } = render(
-      <Carousel onSelect={onSelectSpy}>
+    const onSelect = sinon.spy();
+    render(
+      <Carousel onSelect={onSelect}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    // eslint-disable-next-line testing-library/no-container
-    const input = container
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelectorAll('.rs-carousel-label-wrapper')[1]
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelector('input') as HTMLInputElement;
-
-    act(() => {
-      Simulate.change(input);
-    });
+    fireEvent.click(screen.getAllByRole('radio')[1]);
 
     await waitFor(() => {
-      expect(onSelectSpy).to.called;
+      expect(onSelect).to.called;
     });
   });
 
   it('Should call `onSlideEnd` callback', async () => {
-    const onSlideEndSpy = sinon.spy();
+    const onSlideEnd = sinon.spy();
 
-    const { container } = render(
-      <Carousel onSlideEnd={onSlideEndSpy}>
+    render(
+      <Carousel onSlideEnd={onSlideEnd}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    Simulate.transitionEnd(container.querySelector('.rs-carousel-slider') as HTMLElement);
+    fireEvent.transitionEnd(screen.getByTestId('carousel-slider'));
 
     await waitFor(() => {
-      expect(onSlideEndSpy).to.called;
+      expect(onSlideEnd).to.called;
     });
   });
 
   it('Should initialize with the default index position', () => {
-    const { container } = render(
+    render(
       <Carousel defaultActiveIndex={2}>
         <div>1</div>
         <div>2</div>
@@ -132,10 +114,7 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '3'
-    );
+    expect(screen.getByText('3')).to.have.attribute('aria-hidden', 'false');
   });
 
   it('Should handle active index dynamically', () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import {
-  getInstance,
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
@@ -257,19 +256,20 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
-    render(<MultiCascader data={items} defaultValue={['1']} onClean={onCleanSpy} />);
+    const onClean = sinon.spy();
+    render(<MultiCascader data={items} defaultValue={['1']} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(onCleanSpy).to.have.been.calledOnce;
+    expect(onClean).to.have.been.calledOnce;
   });
 
   it('Should call `onOpen` callback', () => {
     const onOpen = sinon.spy();
-    const picker = getInstance(<MultiCascader onOpen={onOpen} data={items} />);
+    const ref = React.createRef<any>();
+    render(<MultiCascader ref={ref} onOpen={onOpen} data={items} />);
 
     act(() => {
-      picker.open();
+      ref.current.open();
     });
 
     expect(onOpen).to.be.calledOnce;
@@ -277,10 +277,11 @@ describe('MultiCascader', () => {
 
   it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
-    const picker = getInstance(<MultiCascader defaultOpen onClose={onClose} data={items} />);
+    const ref = React.createRef<any>();
+    render(<MultiCascader ref={ref} defaultOpen onClose={onClose} data={items} />);
 
     act(() => {
-      picker.close();
+      ref.current.close();
     });
 
     await waitFor(() => {
@@ -366,12 +367,12 @@ describe('MultiCascader', () => {
   });
 
   it('Should call onCheck callback', () => {
-    const onCheckSpy = sinon.spy();
-    render(<MultiCascader data={items} defaultOpen onCheck={onCheckSpy} />);
+    const onCheck = sinon.spy();
+    render(<MultiCascader data={items} defaultOpen onCheck={onCheck} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
-    expect(onCheckSpy).to.have.been.calledWith(['1'], { label: '1', value: '1' }, true);
+    expect(onCheck).to.have.been.calledWith(['1'], { label: '1', value: '1' }, true);
   });
 
   it('Should update columns', () => {

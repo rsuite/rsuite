@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
+import sinon from 'sinon';
+import { render, screen, fireEvent } from '@testing-library/react';
 import InputAutosize from '../InputAutosize';
 import InputSearch from '../InputSearch';
-import Sinon from 'sinon';
-import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
 describe('InputPicker - InputSearch', () => {
@@ -18,10 +16,9 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should render a input', () => {
-    const { container } = render(<InputSearch />);
+    render(<InputSearch />);
 
-    //eslint-disable-next-line
-    expect(container.querySelectorAll('.rs-picker-search-input')).to.have.lengthOf(1);
+    expect(screen.getByRole('textbox')).to.exist;
   });
 
   it('Should have a InputAutosize', () => {
@@ -34,11 +31,10 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = Sinon.spy();
-    const { container } = render(<InputSearch onChange={onChange} />);
-    //eslint-disable-next-line
-    ReactTestUtils.Simulate.change(container.querySelector('input') as HTMLInputElement);
+    const onChange = sinon.spy();
+    render(<InputSearch onChange={onChange} />);
 
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
     expect(onChange).to.have.been.calledOnce;
   });
 });

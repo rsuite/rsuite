@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import Sinon from 'sinon';
-import { getInstance } from './getInstance';
+import sinon from 'sinon';
 
 interface TestPickerOptions {
   data?: any;
@@ -48,15 +47,15 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     });
 
     it('Should have a custom menuStyle', () => {
-      const instance = getInstance(<TestComponent open menuStyle={{ fontSize: 12 }} data={data} />);
+      render(<TestComponent open menuStyle={{ fontSize: 12 }} data={data} />);
 
-      expect(instance.overlay).to.have.style('font-size', '12px');
+      expect(screen.getByTestId('picker-popup')).to.have.style('font-size', '12px');
     });
 
     it('Should have a custom menuClassName', () => {
-      const instance = getInstance(<TestComponent open menuClassName="custom-class" data={data} />);
+      render(<TestComponent open menuClassName="custom-class" data={data} />);
 
-      expect(instance.overlay).to.have.class('custom-class');
+      expect(screen.getByTestId('picker-popup')).to.have.class('custom-class');
     });
 
     if (popupAutoWidth) {
@@ -122,21 +121,25 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
     describe('ref testing', () => {
       it('Should call `onOpen` callback', async () => {
-        const onOpenSpy = Sinon.spy();
-        const instance = getInstance(<TestComponent onOpen={onOpenSpy} data={data} />);
+        const onOpen = sinon.spy();
+        const ref = React.createRef<any>();
 
-        act(() => instance.open());
+        render(<TestComponent onOpen={onOpen} data={data} ref={ref} />);
+
+        act(() => ref.current.open());
         await waitFor(() => {
-          expect(onOpenSpy).to.have.been.calledOnce;
+          expect(onOpen).to.have.been.calledOnce;
         });
       });
 
       it('Should call `onClose` callback', async () => {
-        const onCloseSpy = Sinon.spy();
-        const instance = getInstance(<TestComponent onClose={onCloseSpy} data={data} />);
+        const onCloseSpy = sinon.spy();
+        const ref = React.createRef<any>();
 
-        act(() => instance.open());
-        act(() => instance.close());
+        render(<TestComponent onClose={onCloseSpy} data={data} ref={ref} />);
+
+        act(() => ref.current.open());
+        act(() => ref.current.close());
 
         await waitFor(() => {
           expect(onCloseSpy).to.have.been.calledOnce;
@@ -144,24 +147,25 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should provide public objects and methods', () => {
-        const instance = getInstance(<TestComponent data={data} open virtualized={virtualized} />);
+        const ref = React.createRef<any>();
+        render(<TestComponent data={data} open virtualized={virtualized} ref={ref} />);
 
-        expect(instance.root).to.exist;
-        expect(instance.target).to.exist;
-        expect(instance.updatePosition).to.instanceOf(Function);
-        expect(instance.open).to.instanceOf(Function);
-        expect(instance.close).to.instanceOf(Function);
-        expect(instance.overlay).to.exist;
+        expect(ref.current.root).to.exist;
+        expect(ref.current.target).to.exist;
+        expect(ref.current.updatePosition).to.instanceOf(Function);
+        expect(ref.current.open).to.instanceOf(Function);
+        expect(ref.current.close).to.instanceOf(Function);
+        expect(ref.current.overlay).to.exist;
 
         if (virtualized) {
-          expect(instance.list).to.exist;
+          expect(ref.current.list).to.exist;
         }
       });
     });
 
     describe('Open state', () => {
       it('Should open the popup on click', () => {
-        const onOpen = Sinon.spy();
+        const onOpen = sinon.spy();
 
         render(<TestComponent data={data} onOpen={onOpen} />);
 
@@ -174,7 +178,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should open the popup on Enter key', () => {
-        const onOpen = Sinon.spy();
+        const onOpen = sinon.spy();
 
         render(<TestComponent data={data} onOpen={onOpen} />);
 
@@ -187,7 +191,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should close the popup on outside click', () => {
-        const onClose = Sinon.spy();
+        const onClose = sinon.spy();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 
@@ -197,7 +201,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should close the popup on Escape key', () => {
-        const onClose = Sinon.spy();
+        const onClose = sinon.spy();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 
@@ -210,7 +214,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should close the popup on Tab key', () => {
-        const onClose = Sinon.spy();
+        const onClose = sinon.spy();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 

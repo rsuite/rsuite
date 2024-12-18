@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   testStandardProps,
-  getInstance,
   testControlledUnControlled,
   testFormControl,
   testPickers
@@ -152,11 +151,10 @@ describe('DatePicker', () => {
   it('Should call `onChange` callback when click shortcut', () => {
     const onChange = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChange={onChange} defaultOpen />);
-    // eslint-disable-next-line testing-library/no-node-access
-    const today = instance.overlay.querySelector('.rs-picker-toolbar button');
+    render(<DatePicker onChange={onChange} defaultOpen />);
+    const today = screen.getByRole('dialog').querySelector('.rs-picker-toolbar button');
 
-    fireEvent.click(today);
+    fireEvent.click(today as Element);
 
     expect(onChange).to.calledOnce;
     expect(isSameDay(onChange.firstCall.firstArg, new Date())).to.true;

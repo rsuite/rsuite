@@ -3,7 +3,6 @@ import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getInstance } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '@/internals/constants';
@@ -412,22 +411,19 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should to reset the option height', () => {
-    const instance = getInstance(
-      <CheckTreePicker open virtualized data={data} listProps={{ itemSize: () => 28 }} />
-    );
+    render(<CheckTreePicker open virtualized data={data} listProps={{ itemSize: () => 28 }} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const node = instance.overlay.querySelector('.rs-check-tree-node');
-    assert.equal(node.style.height, '28px');
+    const node = screen.getByTestId('picker-popup').querySelector('.rs-check-tree-node');
+
+    expect(node).to.have.style('height', '28px');
   });
 
   it('Should display indeterminate state when only one child node selected', () => {
-    const instance = getInstance(<CheckTreePicker open defaultExpandAll data={data} />);
+    render(<CheckTreePicker open defaultExpandAll data={data} />);
 
     fireEvent.click(screen.getByLabelText('tester2', { selector: 'input' }));
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate')).to.length(1);
+    expect(screen.getByRole('tree').querySelectorAll('.rs-checkbox-indeterminate')).to.length(1);
   });
 
   it('Should not has duplicated key when data changed', () => {
@@ -451,26 +447,26 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should item able to stringify', () => {
-    const onSelectSpy = sinon.spy();
-    const renderTreeNodeSpy = sinon.spy();
+    const onSelect = sinon.spy();
+    const renderTreeNode = sinon.spy();
 
-    const instance = getInstance(
+    render(
       <CheckTreePicker
         defaultOpen
         data={data}
-        onSelect={onSelectSpy}
-        renderTreeNode={renderTreeNodeSpy}
+        onSelect={onSelect}
+        renderTreeNode={renderTreeNode}
       />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.overlay.querySelector('div[data-key="String_Master"] input'));
+    expect(renderTreeNode).to.called;
 
-    expect(onSelectSpy).to.called;
-    expect(renderTreeNodeSpy).to.called;
+    fireEvent.click(screen.getAllByRole('checkbox')[0]);
+
+    expect(onSelect).to.called;
     expect(() => JSON.stringify(data[0])).not.to.throw();
-    expect(() => JSON.stringify(onSelectSpy.firstCall.args[0])).not.to.throw();
-    expect(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(onSelect.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(renderTreeNode.firstCall.args[0])).not.to.throw();
   });
 
   it('Should children can be removed', () => {

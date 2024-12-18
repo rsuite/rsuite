@@ -171,6 +171,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       <Component {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
         <div className={prefix('content')}>
           <div
+            data-testid="carousel-slider"
             className={prefix('slider')}
             style={sliderStyles}
             onTransitionEnd={handleTransitionEnd}

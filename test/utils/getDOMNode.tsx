@@ -1,8 +1,4 @@
-/* eslint-disable react/no-find-dom-node */
-
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import * as ReactTestUtils from 'react-dom/test-utils';
 import { render as testRender } from '@testing-library/react';
 import { guid } from '@/internals/utils';
 
@@ -38,10 +34,6 @@ export function getDOMNode(children) {
 
   if (isDOMElement(children.child)) {
     return children.child;
-  }
-
-  if (ReactTestUtils.isCompositeComponent(children)) {
-    return findDOMNode(children);
   }
 
   return getTestDOMNode(children);

@@ -3,7 +3,6 @@
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
-  getInstance,
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
@@ -232,10 +231,11 @@ describe('DateRangePicker', () => {
 
   it('Should call `onOpen` callback', async () => {
     const onOpen = sinon.spy();
-    const picker = getInstance(<DateRangePicker onOpen={onOpen} />);
+    const ref = React.createRef<any>();
+    render(<DateRangePicker onOpen={onOpen} ref={ref} />);
 
     act(() => {
-      picker.open();
+      ref.current.open();
     });
 
     await waitFor(() => {
@@ -245,10 +245,11 @@ describe('DateRangePicker', () => {
 
   it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
-    const picker = getInstance(<DateRangePicker defaultOpen onClose={onClose} />);
+    const ref = React.createRef<any>();
+    render(<DateRangePicker defaultOpen onClose={onClose} ref={ref} />);
 
     act(() => {
-      picker.close();
+      ref.current.close();
     });
 
     await waitFor(() => {
