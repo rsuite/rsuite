@@ -80,17 +80,8 @@
 
 ### `<Cascader>`
 
-<!-- prettier-sort-markdown-table -->
-
 | 属性名称           | 类型`(默认值)`                                                                                | 描述                                               |
 | ------------------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| ~inline~           | boolean                                                                                       | ⚠️`[已弃用]` 使用 `<CascadeTree>` 组件代替         |
-| ~menuClassName~    | string                                                                                        | ⚠️`[已弃用]` 使用 `popupClassName` 代替            |
-| ~menuHeight~       | number                                                                                        | ⚠️`[已弃用]` 使用 `columnHeight` 代替              |
-| ~menuStyle~        | CSSProperties                                                                                 | ⚠️`[已弃用]` 使用 `popupStyle` 代替                |
-| ~menuWidth~        | number                                                                                        | ⚠️`[已弃用]` 使用 `columnWidth` 代替               |
-| ~rendeMenu~        | (node: ReactNode, column: { items, parentItem, layer}) => ReactNode                           | ⚠️`[已弃用]` 使用 `renderColumn` 代替              |
-| ~renderMenuItem~   | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                    | ⚠️`[已弃用]` 使用 `renderTreeNode` 代替            |
 | appearance         | 'default' \| 'subtle' `('default')`                                                           | 设置外观                                           |
 | block              | boolean                                                                                       | 堵塞整行                                           |
 | caretAs            | ElementType                                                                                   | 自定义右侧箭头图标的组件                           |
@@ -101,14 +92,19 @@
 | columnWidth        | number                                                                                        | 设置菜单的宽度                                     |
 | container          | HTMLElement \| (() => HTMLElement)                                                            | 设置渲染的容器                                     |
 | data \*            | [ItemDataType][item][]                                                                        | 组件数据                                           |
-| defaultValue       | string                                                                                        | 默认值（非受控）                                         |
+| defaultValue       | string                                                                                        | 默认值（非受控）                                   |
 | disabled           | boolean                                                                                       | 禁用组件                                           |
 | disabledItemValues | string[]                                                                                      | 禁用选项                                           |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                         | 异步加载树节点的子级                               |
 | height             | number `(320)`                                                                                | 设置 Dropdown 的高度                               |
+| ~inline~           | boolean                                                                                       | ⚠️`[已弃用]` 使用 `<CascadeTree>` 组件代替         |
 | labelKey           | string `('label')`                                                                            | 设置选项显示内容在 `data` 中的 `key`               |
 | loading            | boolean `(false)`                                                                             | 是否显示一个加载中状态指示器                       |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 定义本地化设置，使组件文本根据用户地区显示相应语言 |
+| ~menuClassName~    | string                                                                                        | ⚠️`[已弃用]` 使用 `popupClassName` 代替            |
+| ~menuHeight~       | number                                                                                        | ⚠️`[已弃用]` 使用 `columnHeight` 代替              |
+| ~menuStyle~        | CSSProperties                                                                                 | ⚠️`[已弃用]` 使用 `popupStyle` 代替                |
+| ~menuWidth~        | number                                                                                        | ⚠️`[已弃用]` 使用 `columnWidth` 代替               |
 | onChange           | (value:string, event) => void                                                                 | `value` 发生改变时的回调函数                       |
 | onClean            | (event:SyntheticEvent) => void                                                                | 清除值后的回调函数                                 |
 | onClose            | () => void                                                                                    | 关闭回调函数                                       |
@@ -128,8 +124,10 @@
 | popupClassName     | string                                                                                        | 设置弹出层的 CSS 类名                              |
 | popupStyle         | CSSProperties                                                                                 | 设置弹出层的样式                                   |
 | preventOverflow    | boolean                                                                                       | 防止浮动元素溢出                                   |
+| ~rendeMenu~        | (node: ReactNode, column: { items, parentItem, layer}) => ReactNode                           | ⚠️`[已弃用]` 使用 `renderColumn` 代替              |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                     | 自定义渲染菜单列表                                 |
 | renderExtraFooter  | () => ReactNode                                                                               | 自定义页脚内容                                     |
+| ~renderMenuItem~   | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                    | ⚠️`[已弃用]` 使用 `renderTreeNode` 代替            |
 | renderSearchItem   | (node: ReactNode, items: [ItemDataType][item][]) => ReactNode                                 | 自定义渲染搜索结果选项                             |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                    | 自定义选项                                         |
 | renderValue        | (value:string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | 自定义被选中的选项                                 |

@@ -54,6 +54,7 @@ import type { InputProps } from '../Input';
 import type { InputGroupProps } from '../InputGroup';
 import type { InputNumberProps } from '../InputNumber';
 import type { InputPickerProps } from '../InputPicker';
+import type { ImageProps } from '../Image';
 import type { ListProps } from '../List';
 import type { LoaderProps } from '../Loader';
 import type { MaskedInputProps } from '../MaskedInput';
@@ -167,6 +168,7 @@ export interface ReactSuiteComponents {
   InputGroup: ComponentProps<InputGroupProps>;
   InputNumber: ComponentProps<InputNumberProps>;
   InputPicker: ComponentProps<InputPickerProps>;
+  Image: ComponentProps<ImageProps>;
   List: ComponentProps<ListProps>;
   Loader: ComponentProps<LoaderProps>;
   MaskedInput: ComponentProps<MaskedInputProps>;

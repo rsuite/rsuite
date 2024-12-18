@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import {
   Stack,
-  // @ts-ignore
   HStack,
-  // @ts-ignore
   VStack,
   Button,
   Divider,

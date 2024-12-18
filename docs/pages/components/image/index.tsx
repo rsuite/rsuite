@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import { Stack, useBreakpointValue, Avatar, Button } from 'rsuite';
+// @ts-ignore
+import { Image, Placeholder, Button } from 'rsuite';
+import NextImage from 'next/image';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['useBreakpointValue']} hasCssComponents={[]} />
+  'import-guide': () => <ImportGuide components={['Image']} />
 };
 
 export default function Page() {
@@ -12,9 +15,9 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
-        useBreakpointValue,
-        Avatar,
-        Stack,
+        Placeholder,
+        NextImage,
+        Image,
         Button
       }}
     />

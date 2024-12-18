@@ -93,6 +93,9 @@ export type { AvatarProps } from './Avatar';
 export { default as AvatarGroup } from './AvatarGroup';
 export type { AvatarGroupProps } from './AvatarGroup';
 
+export { default as Image } from './Image';
+export type { ImageProps } from './Image';
+
 // Nav
 // --------------------------------------------------------
 export { default as Nav } from './Nav';

@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-
 import {
-  // @ts-ignore
   Card,
-  // @ts-ignore
   CardGroup,
   Text,
   Heading,
@@ -29,7 +25,6 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      examples={['basic', 'bordered', 'shaded']}
       dependencies={{
         Card,
         CardGroup,
