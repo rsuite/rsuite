@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useState, useImperativeHandle } from 'react';
-import PropTypes from 'prop-types';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
 import { isIE11 } from '@/internals/utils';
@@ -170,22 +169,5 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
 });
 
 UploadTrigger.displayName = 'UploadTrigger';
-UploadTrigger.propTypes = {
-  locale: PropTypes.any,
-  name: PropTypes.string,
-  multiple: PropTypes.bool,
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  accept: PropTypes.string,
-  onChange: PropTypes.func,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  draggable: PropTypes.bool,
-  onDragEnter: PropTypes.func,
-  onDragLeave: PropTypes.func,
-  onDragOver: PropTypes.func,
-  onDrop: PropTypes.func
-};
 
 export default UploadTrigger;

@@ -1,17 +1,15 @@
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/Icon';
-import { SidenavContext } from './Sidenav';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
+import classNames from 'classnames';
 import MenuItem from '@/internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
+import NavContext from '../Nav/NavContext';
+import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { IconProps } from '@rsuite/icons/Icon';
+import { SidenavContext } from './Sidenav';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, shallowEqual } from '@/internals/utils';
-import NavContext from '../Nav/NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
-import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
-import classNames from 'classnames';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -178,25 +176,5 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
   });
 
 SidenavDropdownItem.displayName = 'Sidenav.Dropdown.Item';
-SidenavDropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
-  open: deprecatePropType(PropTypes.bool),
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  pullLeft: deprecatePropType(PropTypes.bool),
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number
-};
 
 export default SidenavDropdownItem;

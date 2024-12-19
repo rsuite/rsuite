@@ -82,7 +82,7 @@ export const AsyncLoadData: Story = {
     ...defaultArgs,
     columnWidth: 180,
     data: getNodes(5) as any,
-    getChildren: (node: ItemDataType<string>) => {
+    getChildren: (node: ItemDataType<any>) => {
       return fetchNodes(node.id) as Promise<ItemDataType<string>>[];
     },
     renderTreeNode: (label, item) => {

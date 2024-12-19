@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
@@ -314,21 +312,5 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
 });
 
 UploadFileItem.displayName = 'UploadFileItem';
-UploadFileItem.propTypes = {
-  locale: PropTypes.any,
-  file: PropTypes.object.isRequired,
-  listType: oneOf(['text', 'picture-text', 'picture'] as const),
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  maxPreviewFileSize: PropTypes.number,
-  classPrefix: PropTypes.string,
-  removable: PropTypes.bool,
-  allowReupload: PropTypes.bool,
-  renderFileInfo: PropTypes.func,
-  renderThumbnail: PropTypes.func,
-  onCancel: PropTypes.func,
-  onPreview: PropTypes.func,
-  onReupload: PropTypes.func
-};
 
 export default UploadFileItem;

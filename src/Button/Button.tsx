@@ -1,8 +1,6 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { oneOf } from '@/internals/propTypes';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { isOneOf } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
@@ -137,19 +135,5 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 );
 
 Button.displayName = 'Button';
-Button.propTypes = {
-  as: PropTypes.elementType,
-  active: PropTypes.bool,
-  appearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-  block: PropTypes.bool,
-  children: PropTypes.node,
-  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
-  disabled: PropTypes.bool,
-  href: PropTypes.string,
-  loading: PropTypes.bool,
-  ripple: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  type: oneOf(['button', 'reset', 'submit'])
-};
 
 export default Button;

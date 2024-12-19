@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -51,10 +50,5 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
 );
 
 ModalBody.displayName = 'ModalBody';
-ModalBody.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string
-};
 
 export default ModalBody;

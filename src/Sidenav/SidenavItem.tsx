@@ -1,19 +1,18 @@
 import React, { useContext, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import isNil from 'lodash/isNil';
-import { useClassNames } from '@/internals/hooks';
-import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
-import { SidenavContext } from './Sidenav';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
-import classNames from 'classnames';
+import { useClassNames } from '@/internals/hooks';
+import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { IconProps } from '@rsuite/icons/Icon';
+import { SidenavContext } from './Sidenav';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -186,20 +185,5 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
 });
 
 SidenavItem.displayName = 'Sidenav.Item';
-SidenavItem.propTypes = {
-  classPrefix: PropTypes.string,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  style: PropTypes.object,
-  onSelect: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func
-};
 
 export default SidenavItem;

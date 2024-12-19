@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import { unmountComponentAtNode } from 'react-dom';
+
+const SuperposedReactDOM = ReactDOM as any;
 
 // https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support
 import * as testLibrary from '@testing-library/react';
@@ -33,7 +34,7 @@ export function createTestContainer() {
 function cleanupAtContainer(container) {
   testLibrary['act'](() => {
     if (majorVersion < 18) {
-      unmountComponentAtNode(container);
+      SuperposedReactDOM.unmountComponentAtNode(container);
     }
   });
   if (container.parentNode === document.body) {
@@ -58,17 +59,14 @@ afterEach(() => {
 /**
  * @todo Deprecate and remove usage of this util, use `render` from `@testing-library/react`
  */
-export function render(children) {
+export async function render(children) {
   const container = createTestContainer();
 
   if (majorVersion >= 18) {
-    /**
-     * Fix react 18 warnings
-     * Error: Warning: You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".
-     */
-    ReactDOM['__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'].usingClientEntryPoint = true;
+    const { createRoot } = await import('react-dom/client');
 
-    const root = ReactDOM['createRoot']?.(container);
+    const root = createRoot(container);
+
     root.render(children);
 
     mountedRoots.add(root);
@@ -76,7 +74,7 @@ export function render(children) {
     return container;
   }
 
-  ReactDOM.render(children, container);
+  SuperposedReactDOM.render(children, container);
 
   return container;
 }

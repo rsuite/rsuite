@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -65,16 +63,5 @@ const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.for
 );
 
 ButtonGroup.displayName = 'ButtonGroup';
-ButtonGroup.propTypes = {
-  className: PropTypes.string,
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  block: PropTypes.bool,
-  vertical: PropTypes.bool,
-  justified: PropTypes.bool,
-  role: PropTypes.string,
-  size: oneOf(['lg', 'md', 'sm', 'xs'])
-};
 
 export default ButtonGroup;

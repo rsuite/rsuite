@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Pagination, { PaginationProps } from './Pagination';
 import Divider from '../Divider';
@@ -186,15 +185,5 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
 );
 
 PaginationGroup.displayName = 'PaginationGroup';
-PaginationGroup.propTypes = {
-  ...Pagination.propTypes,
-  locale: PropTypes.any,
-  layout: PropTypes.array,
-  limitOptions: PropTypes.array,
-  limit: PropTypes.number,
-  total: PropTypes.number,
-  onChangePage: PropTypes.func,
-  onChangeLimit: PropTypes.func
-};
 
 export default PaginationGroup;

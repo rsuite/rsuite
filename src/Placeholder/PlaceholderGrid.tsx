@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -95,14 +94,5 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
 );
 
 PlaceholderGrid.displayName = 'PlaceholderGrid';
-PlaceholderGrid.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  columns: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  active: PropTypes.bool
-};
 
 export default PlaceholderGrid;

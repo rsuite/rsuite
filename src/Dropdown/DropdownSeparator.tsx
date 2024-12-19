@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
@@ -38,8 +37,5 @@ const DropdownSeparator: RsRefForwardingComponent<'li', DropdownSeparatorProps> 
 );
 
 DropdownSeparator.displayName = 'Dropdown.Separator';
-DropdownSeparator.propTypes = {
-  as: PropTypes.elementType
-};
 
 export default DropdownSeparator;

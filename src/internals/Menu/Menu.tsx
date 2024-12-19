@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import useMenu from './useMenu';
@@ -491,8 +490,5 @@ function Menu({
 }
 
 Menu.displayName = 'Menu';
-Menu.propTypes = {
-  children: PropTypes.func.isRequired
-};
 
 export default Menu;

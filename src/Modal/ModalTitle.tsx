@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { ModalContext } from './ModalContext';
 import { useClassNames } from '@/internals/hooks';
 import type { ComponentProps } from '@/internals/utils';
@@ -28,11 +27,5 @@ const ModalTitle: RsRefForwardingComponent<'h4', ComponentProps> = React.forward
 );
 
 ModalTitle.displayName = 'Modal.Title';
-ModalTitle.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node
-};
 
 export default ModalTitle;

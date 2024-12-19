@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -76,15 +75,5 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
 );
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
-BreadcrumbItem.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  href: PropTypes.string,
-  title: PropTypes.string,
-  target: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default BreadcrumbItem;

@@ -1,6 +1,5 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../../CustomProvider';
@@ -40,12 +39,6 @@ export function createComponent<TElement extends React.ElementType = 'div'>({
   );
 
   Component.displayName = name;
-  Component.propTypes = {
-    as: PropTypes.elementType,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node
-  };
 
   return Component;
 }

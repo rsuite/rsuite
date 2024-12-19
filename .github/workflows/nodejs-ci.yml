@@ -38,7 +38,7 @@ jobs:
     strategy:
       matrix:
         browser: [ChromeCi, Firefox]
-        react: ['React17', 'React18']
+        react: ['React17', 'React18', 'React19']
 
     steps:
       - uses: actions/checkout@v4
@@ -69,6 +69,10 @@ jobs:
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
         run: npm run install:react-18
+
+      - name: install react 19
+        if: ${{ matrix.react == 'React19' }}
+        run: npm run install:react-19
 
       - name: Run headless tests
         run: xvfb-run --auto-servernum npm test

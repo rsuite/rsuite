@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -39,15 +38,5 @@ const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.for
 );
 
 ProgressBar.displayName = 'ProgressBar';
-ProgressBar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  style: PropTypes.object,
-  className: PropTypes.string,
-  vertical: PropTypes.bool,
-  rtl: PropTypes.bool,
-  start: PropTypes.number,
-  end: PropTypes.number
-};
 
 export default ProgressBar;

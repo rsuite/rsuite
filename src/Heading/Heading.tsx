@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -33,11 +32,5 @@ const Heading: RsRefForwardingComponent<'h3', HeadingProps> = React.forwardRef(
 );
 
 Heading.displayName = 'Heading';
-Heading.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType,
-  level: PropTypes.oneOf([1, 2, 3, 4, 5, 6])
-};
 
 export default Heading;

@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button, { ButtonProps } from '../Button';
 import { IconProps } from '@rsuite/icons/Icon';
 import { RsRefForwardingComponent } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 
@@ -57,13 +55,5 @@ const IconButton: RsRefForwardingComponent<
 });
 
 IconButton.displayName = 'IconButton';
-IconButton.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  circle: PropTypes.bool,
-  children: PropTypes.node,
-  placement: oneOf(['left', 'right'])
-};
 
 export default IconButton;

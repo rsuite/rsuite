@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Plaintext from '@/internals/Plaintext';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type {
   WithAsProps,
@@ -104,17 +102,5 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
 );
 
 RadioGroup.displayName = 'RadioGroup';
-RadioGroup.propTypes = {
-  appearance: oneOf(['default', 'picker']),
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.any,
-  defaultValue: PropTypes.any,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  plaintext: PropTypes.bool
-};
 
 export default RadioGroup;

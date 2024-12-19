@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '../Button';
 import { useClassNames, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
@@ -48,24 +46,5 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
   });
 
 DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default DropdownToggle;

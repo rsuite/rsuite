@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
@@ -95,22 +94,5 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 );
 
 Handle.displayName = 'Handle';
-Handle.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  vertical: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  rtl: PropTypes.bool,
-  position: PropTypes.number,
-  value: PropTypes.number,
-  renderTooltip: PropTypes.func,
-  style: PropTypes.object,
-  onDragMove: PropTypes.func,
-  onDragStart: PropTypes.func,
-  onDragEnd: PropTypes.func
-};
 
 export default Handle;

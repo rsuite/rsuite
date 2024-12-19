@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
@@ -132,17 +131,5 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
 });
 
 RadioTile.displayName = 'RadioTile';
-RadioTile.propTypes = {
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  label: PropTypes.node,
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func
-};
 
 export default RadioTile;

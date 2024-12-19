@@ -4,7 +4,6 @@ import { useClassNames } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { createChainedFunction, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
@@ -155,26 +154,5 @@ const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdow
   });
 
 ExpandedSidenavDropdownItem.displayName = 'Sidenav.Dropdown.Item';
-ExpandedSidenavDropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  expanded: PropTypes.bool,
-  active: PropTypes.bool,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  disabled: PropTypes.bool,
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
-  title: PropTypes.node,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func
-};
 
 export default ExpandedSidenavDropdownItem;

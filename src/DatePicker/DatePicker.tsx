@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import CalenderSimpleIcon from '@rsuite/icons/CalenderSimple';
@@ -31,7 +30,6 @@ import {
   PickerLabel,
   PickerIndicator,
   PickerToggleTrigger,
-  pickerPropTypes,
   pickTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
@@ -39,7 +37,7 @@ import {
   onMenuKeyDown
 } from '@/internals/Picker';
 import { OverlayCloseCause } from '@/internals/Overlay/OverlayTrigger';
-import { splitRanges, deprecatedPropTypes, getRestProps } from './utils';
+import { splitRanges, getRestProps } from './utils';
 import type {
   FormControlBaseProps,
   PickerBaseProps,
@@ -738,36 +736,5 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 );
 
 DatePicker.displayName = 'DatePicker';
-DatePicker.propTypes = {
-  ...pickerPropTypes,
-  ...deprecatedPropTypes,
-  calendarDefaultDate: PropTypes.instanceOf(Date),
-  defaultValue: PropTypes.instanceOf(Date),
-  shouldDisableDate: PropTypes.func,
-  shouldDisableHour: PropTypes.func,
-  shouldDisableMinute: PropTypes.func,
-  shouldDisableSecond: PropTypes.func,
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  onChange: PropTypes.func,
-  onChangeCalendarDate: PropTypes.func,
-  onNextMonth: PropTypes.func,
-  onOk: PropTypes.func,
-  onPrevMonth: PropTypes.func,
-  onSelect: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  oneTap: PropTypes.bool,
-  ranges: PropTypes.array,
-  showMeridiem: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool,
-  value: PropTypes.instanceOf(Date)
-};
 
 export default DatePicker;

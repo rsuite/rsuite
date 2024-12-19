@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useImperativeHandle, useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
@@ -8,7 +7,6 @@ import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './Uplo
 import { useClassNames, useWillUnmount } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { guid } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
 
@@ -603,44 +601,5 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 });
 
 Uploader.displayName = 'Uploader';
-Uploader.propTypes = {
-  action: PropTypes.string.isRequired,
-  accept: PropTypes.string,
-  autoUpload: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  defaultFileList: PropTypes.array,
-  fileList: PropTypes.array,
-  data: PropTypes.object,
-  multiple: PropTypes.bool,
-  disabled: PropTypes.bool,
-  disabledFileItem: PropTypes.bool,
-  name: PropTypes.string,
-  timeout: PropTypes.number,
-  withCredentials: PropTypes.bool,
-  headers: PropTypes.object,
-  locale: PropTypes.any,
-  listType: oneOf(['text', 'picture-text', 'picture']),
-  shouldQueueUpdate: PropTypes.func,
-  shouldUpload: PropTypes.func,
-  onChange: PropTypes.func,
-  onUpload: PropTypes.func,
-  onReupload: PropTypes.func,
-  onPreview: PropTypes.func,
-  onError: PropTypes.func,
-  onSuccess: PropTypes.func,
-  onProgress: PropTypes.func,
-  onRemove: PropTypes.func,
-  maxPreviewFileSize: PropTypes.number,
-  method: PropTypes.string,
-  style: PropTypes.object,
-  renderFileInfo: PropTypes.func,
-  renderThumbnail: PropTypes.func,
-  removable: PropTypes.bool,
-  fileListVisible: PropTypes.bool,
-  draggable: PropTypes.bool,
-  disableMultipart: PropTypes.bool
-};
 
 export default Uploader;

@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
@@ -10,7 +9,6 @@ import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
-import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { PickerLocale } from '../locales';
 import { useControlled, useClassNames, useEventCallback, useMap } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
@@ -25,12 +23,10 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
 import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import useActive from './useActive';
 
@@ -124,7 +120,6 @@ export interface CascaderComponent {
     }
   ): JSX.Element | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<CascaderProps<any>>;
 }
 
 const emptyArray = [];
@@ -537,26 +532,5 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
 }) as CascaderComponent;
 
 Cascader.displayName = 'Cascader';
-Cascader.propTypes = {
-  ...listPickerPropTypes,
-  disabledItemValues: PropTypes.array,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  onSelect: PropTypes.func,
-  onSearch: PropTypes.func,
-  cleanable: PropTypes.bool,
-  renderColumn: PropTypes.func,
-  renderTreeNode: PropTypes.func,
-  renderSearchItem: PropTypes.func,
-  columnWidth: PropTypes.number,
-  columnHeight: PropTypes.number,
-  searchable: PropTypes.bool,
-  parentSelectable: PropTypes.bool,
-  inline: deprecatePropTypeNew(PropTypes.bool, 'Use `<CascadeTree>` instead.'),
-  renderMenu: deprecatePropTypeNew(PropTypes.func, 'Use "renderColumn" property instead.'),
-  renderMenuItem: deprecatePropTypeNew(PropTypes.func, 'Use "renderTreeNode" property instead.'),
-  menuWidth: deprecatePropTypeNew(PropTypes.number, 'Use "columnWidth" property instead.'),
-  menuHeight: deprecatePropTypeNew(PropTypes.number, 'Use "columnHeight" property instead.')
-};
 
 export default Cascader;

@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent, act, screen } from '@testing-library/react';
-import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { addStyle } from 'dom-lib';
 import { testStandardProps } from '@test/utils';
 import RangeSlider from '../RangeSlider';
-import { addStyle } from 'dom-lib';
 
 import '../../Slider/styles/index.less';
 
@@ -93,12 +93,12 @@ describe('RangeSlider', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChangeSpy = sinon.spy();
-    const { container } = render(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
+    const onChange = sinon.spy();
+    const { container } = render(<RangeSlider defaultValue={[10, 50]} onChange={onChange} />);
     // eslint-disable-next-line
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
 
-    expect(onChangeSpy).to.have.been.calledWith([0, 50]);
+    expect(onChange).to.have.been.calledWith([0, 50]);
   });
 
   it('Should respond to keyboard event', async () => {
@@ -224,14 +224,9 @@ describe('RangeSlider', () => {
   });
 
   it('Should be reversed start and end values', () => {
-    const onChangeSpy = sinon.spy();
+    const onChange = sinon.spy();
     const { container } = render(
-      <RangeSlider
-        style={{ height: 100 }}
-        defaultValue={[10, 50]}
-        onChange={onChangeSpy}
-        vertical
-      />
+      <RangeSlider style={{ height: 100 }} defaultValue={[10, 50]} onChange={onChange} vertical />
     );
 
     // eslint-disable-next-line
@@ -240,22 +235,18 @@ describe('RangeSlider', () => {
     // `margin` will cause the values of `pageX` and `pageY` to be inaccurate in the test environment, so you need to set them manually here.
     addStyle(document.body, 'margin', '0');
 
-    act(() => {
-      Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
-    });
+    userEvent.click(sliderBar, { clientX: 0, clientY: 80 });
 
-    expect(onChangeSpy).to.have.been.calledWith([20, 50]);
+    expect(onChange).to.have.been.calledWith([20, 50]);
 
-    act(() => {
-      Simulate.click(sliderBar, { pageX: 0, pageY: 0 });
-    });
+    userEvent.click(sliderBar, { clientX: 0, clientY: 0 });
 
     /**
      * fix: https://github.com/rsuite/rsuite/issues/2425
      * Error thrown before fix: expected [ 100, 20 ] to deeply equal [ 20, 100 ]
      */
-    expect(onChangeSpy).to.have.been.calledWith([20, 100]);
+    expect(onChange).to.have.been.calledWith([20, 100]);
 
-    expect(onChangeSpy).to.have.been.calledTwice;
+    expect(onChange).to.have.been.calledTwice;
   });
 });

@@ -1,5 +1,4 @@
 import React, { useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import remove from 'lodash/remove';
 import Transition from '../Animation/Transition';
 import SidenavBody from './SidenavBody';
@@ -8,7 +7,6 @@ import SidenavToggle from './SidenavToggle';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { mergeRefs, shallowEqual } from '@/internals/utils';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface SidenavProps<T = string | number> extends WithAsProps {
@@ -149,17 +147,5 @@ Sidenav.Body = SidenavBody;
 Sidenav.Toggle = SidenavToggle;
 
 Sidenav.displayName = 'Sidenav';
-Sidenav.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  expanded: PropTypes.bool,
-  appearance: oneOf(['default', 'inverse', 'subtle']),
-  defaultOpenKeys: PropTypes.array,
-  openKeys: PropTypes.array,
-  onOpenChange: PropTypes.func,
-  activeKey: deprecatePropType(PropTypes.any, 'Use `activeKey` on <Nav> component instead'),
-  onSelect: deprecatePropType(PropTypes.func, 'Use `onSelect` on <Nav> component instead')
-};
 
 export default Sidenav;

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -54,10 +53,5 @@ const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forward
 );
 
 SafeAnchor.displayName = 'SafeAnchor';
-SafeAnchor.propTypes = {
-  href: PropTypes.string,
-  disabled: PropTypes.bool,
-  as: PropTypes.elementType
-};
 
 export default SafeAnchor;

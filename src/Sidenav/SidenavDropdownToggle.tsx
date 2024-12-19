@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import SidenavItem from './SidenavItem';
-import { oneOf } from '@/internals/propTypes';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
@@ -48,23 +46,5 @@ const SidenavDropdownToggle: RsRefForwardingComponent<typeof Button, SidenavDrop
   });
 
 SidenavDropdownToggle.displayName = 'Sidenav.Dropdown.Toggle';
-SidenavDropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default SidenavDropdownToggle;

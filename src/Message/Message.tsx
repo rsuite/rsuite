@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import CloseButton from '@/internals/CloseButton';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
-import { STATUS } from '@/internals/constants';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export interface MessageProps extends WithAsProps {
@@ -140,18 +137,5 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 );
 
 Message.displayName = 'Message';
-Message.propTypes = {
-  bordered: PropTypes.bool,
-  centered: PropTypes.bool,
-  closable: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  description: PropTypes.node,
-  full: PropTypes.bool,
-  onClose: PropTypes.func,
-  showIcon: PropTypes.bool,
-  title: PropTypes.node,
-  type: oneOf(STATUS)
-};
 
 export default Message;

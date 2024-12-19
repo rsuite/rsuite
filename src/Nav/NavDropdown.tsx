@@ -1,12 +1,9 @@
 import React, { useContext, useMemo, useReducer } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import { PLACEMENT_8 } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill } from '@/internals/utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
@@ -233,31 +230,5 @@ NavDropdown.Item = NavDropdownItem;
 NavDropdown.Menu = NavDropdownMenu;
 
 NavDropdown.displayName = 'Nav.Dropdown';
-NavDropdown.propTypes = {
-  classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
-  placement: oneOf(PLACEMENT_8),
-  title: PropTypes.node,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  menuStyle: PropTypes.object,
-  className: PropTypes.string,
-  toggleClassName: PropTypes.string,
-  children: PropTypes.node,
-  open: deprecatePropType(PropTypes.bool),
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  toggleAs: PropTypes.elementType,
-  noCaret: PropTypes.bool,
-  style: PropTypes.object,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  onToggle: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func,
-  renderToggle: PropTypes.func
-};
 
 export default NavDropdown;

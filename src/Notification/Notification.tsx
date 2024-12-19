@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -122,15 +120,5 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
 );
 
 Notification.displayName = 'Notification';
-Notification.propTypes = {
-  as: PropTypes.elementType,
-  duration: PropTypes.number,
-  header: PropTypes.node,
-  closable: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  type: oneOf(['info', 'success', 'warning', 'error']),
-  onClose: PropTypes.func
-};
 
 export default Notification;

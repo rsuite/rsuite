@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -39,10 +38,5 @@ const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDi
 });
 
 Container.displayName = 'Container';
-Container.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string
-};
 
 export default Container;

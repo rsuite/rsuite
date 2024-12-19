@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useFormGroup } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import Plaintext from '@/internals/Plaintext';
@@ -12,7 +11,6 @@ import {
   TypeAttributes,
   FormControlBaseProps
 } from '@/internals/types';
-import { refType, oneOf } from '@/internals/propTypes';
 import { PrependParameters } from '@/internals/types/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -140,21 +138,5 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
 );
 
 Input.displayName = 'Input';
-Input.propTypes = {
-  type: PropTypes.string,
-  as: PropTypes.elementType,
-  id: PropTypes.string,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  inputRef: refType,
-  onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onPressEnter: PropTypes.func
-};
+
 export default Input;

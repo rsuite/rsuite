@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { ReactChildren, createComponent } from '@/internals/utils';
 import BreadcrumbItem from './BreadcrumbItem';
@@ -123,16 +122,5 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
 
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.displayName = 'Breadcrumb';
-
-Breadcrumb.propTypes = {
-  as: PropTypes.elementType,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  ellipsis: PropTypes.node,
-  separator: PropTypes.node,
-  maxItems: PropTypes.number,
-  onExpand: PropTypes.func
-};
 
 export default Breadcrumb;

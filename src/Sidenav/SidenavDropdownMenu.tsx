@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
@@ -167,20 +166,5 @@ const SidenavDropdownMenu = React.forwardRef<
 });
 
 SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
-SidenavDropdownMenu.propTypes = {
-  active: PropTypes.bool,
-  activeKey: PropTypes.any,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  pullLeft: PropTypes.bool,
-  title: PropTypes.node,
-  open: PropTypes.bool,
-  eventKey: PropTypes.any,
-  expanded: PropTypes.bool,
-  collapsible: PropTypes.bool,
-  onToggle: PropTypes.func
-};
 
 export default SidenavDropdownMenu;

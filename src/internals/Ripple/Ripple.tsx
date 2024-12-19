@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../../Animation/Transition';
@@ -92,10 +91,5 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 });
 
 Ripple.displayName = 'Ripple';
-Ripple.propTypes = {
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  onMouseDown: PropTypes.func
-};
 
 export default Ripple;

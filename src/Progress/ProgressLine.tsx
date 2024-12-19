@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -103,17 +101,5 @@ const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.f
 );
 
 ProgressLine.displayName = 'ProgressLine';
-ProgressLine.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  percent: PropTypes.number,
-  strokeColor: PropTypes.string,
-  strokeWidth: PropTypes.number,
-  trailColor: PropTypes.string,
-  trailWidth: PropTypes.number,
-  showInfo: PropTypes.bool,
-  vertical: PropTypes.bool,
-  status: oneOf(['success', 'fail', 'active'])
-};
 
 export default ProgressLine;

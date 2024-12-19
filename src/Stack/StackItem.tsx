@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { WithAsProps } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 
 export interface StackItemProps extends WithAsProps {
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
@@ -46,13 +44,3 @@ export default function StackItem(props: StackItemProps) {
 }
 
 StackItem.displayName = 'StackItem';
-StackItem.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  alignSelf: oneOf(['flex-start', 'flex-end', 'center', 'baseline', 'stretch']),
-  flex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  grow: PropTypes.number,
-  shrink: PropTypes.number,
-  order: PropTypes.number,
-  basis: PropTypes.string
-};

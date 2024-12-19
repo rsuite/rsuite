@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames, useUniqueId } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -85,17 +83,5 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
 );
 
 Loader.displayName = 'Loader';
-Loader.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  center: PropTypes.bool,
-  backdrop: PropTypes.bool,
-  inverse: PropTypes.bool,
-  vertical: PropTypes.bool,
-  content: PropTypes.node,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  speed: oneOf(['normal', 'fast', 'slow', 'paused'])
-};
 
 export default Loader;
