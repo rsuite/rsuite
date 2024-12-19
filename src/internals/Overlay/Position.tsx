@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
@@ -207,14 +206,5 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 });
 
 Position.displayName = 'Position';
-Position.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.func.isRequired,
-  container: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  triggerTarget: PropTypes.any
-};
 
 export default Position;

@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -89,16 +87,5 @@ const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRe
 );
 
 StepItem.displayName = 'StepItem';
-StepItem.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  style: PropTypes.object,
-  itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  status: oneOf(['finish', 'wait', 'process', 'error']),
-  icon: PropTypes.object,
-  stepNumber: PropTypes.number,
-  description: PropTypes.node,
-  title: PropTypes.node
-};
 
 export default StepItem;

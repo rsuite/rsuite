@@ -1,5 +1,4 @@
 import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { partitionHTMLProps, isIE, guid } from '@/internals/utils';
 
 const sizerStyle: React.CSSProperties = {
@@ -175,18 +174,5 @@ const InputAutosize = React.forwardRef(
 );
 
 InputAutosize.displayName = 'InputAutosize';
-InputAutosize.propTypes = {
-  className: PropTypes.string,
-  defaultValue: PropTypes.any,
-  inputId: PropTypes.string,
-  inputClassName: PropTypes.string,
-  inputStyle: PropTypes.object,
-  minWidth: PropTypes.number,
-  onChange: PropTypes.func,
-  placeholder: PropTypes.string,
-  style: PropTypes.object,
-  value: PropTypes.any,
-  onAutosize: PropTypes.func
-};
 
 export default InputAutosize;

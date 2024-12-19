@@ -84,15 +84,9 @@ export function testControlledUnControlled(
     });
 
     it('Should render `value` when both `value` and `defaultValue` are present', () => {
-      if (displayName === 'Input') {
-        expect(() => {
-          render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
-        }).to.throw();
-      } else {
-        render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
+      render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
 
-        expectedValue(value);
-      }
+      expectedValue(value);
     });
 
     it('Should render `value`', () => {

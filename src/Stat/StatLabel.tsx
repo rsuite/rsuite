@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
 import Whisper from '../Whisper';
 import Tooltip from '../Tooltip';
@@ -47,9 +46,5 @@ const StatLabel: RsRefForwardingComponent<'dt', StatLabelProps> = React.forwardR
 );
 
 StatLabel.displayName = 'StatLabel';
-StatLabel.propTypes = {
-  info: PropTypes.node,
-  uppercase: PropTypes.bool
-};
 
 export default StatLabel;

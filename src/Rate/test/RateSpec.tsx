@@ -1,7 +1,6 @@
 /* eslint-disable testing-library/no-node-access, testing-library/no-container */
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, act, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/utils';
 import Heart from '@rsuite/icons/Heart';
@@ -29,14 +28,9 @@ describe('Rate', () => {
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate defaultValue={1} ref={ref} />);
 
-    userEvent.click(
-      (ref.current as HTMLElement).querySelector('.rs-rate-character-full') as HTMLElement
-    );
+    userEvent.click(ref.current?.querySelector('.rs-rate-character-full') as HTMLElement);
 
-    assert.equal(
-      (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-full').length,
-      0
-    );
+    expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
   });
 
   it('Should allow clean half value', () => {
@@ -132,31 +126,16 @@ describe('Rate', () => {
 
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1],
-        {
-          key: 'ArrowRight'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1], {
+      key: 'ArrowRight'
     });
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
-        {
-          key: 'ArrowRight'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2], {
+      key: 'ArrowRight'
     });
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
-        {
-          key: 'Enter'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2], {
+      key: 'Enter'
     });
 
     expect(onChange).to.have.been.calledWith(3);

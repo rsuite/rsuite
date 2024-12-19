@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
@@ -9,7 +8,6 @@ import { mergeRefs, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '@/internals/types';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
-import { animationPropTypes } from '../../Animation/utils';
 import OverlayContext from './OverlayContext';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {
@@ -314,33 +312,6 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
   );
 });
 
-export const modalPropTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  backdropClassName: PropTypes.string,
-  style: PropTypes.object,
-  backdropStyle: PropTypes.object,
-  open: PropTypes.bool,
-  backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  keyboard: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  enforceFocus: PropTypes.bool,
-  animationProps: PropTypes.object,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func
-};
-
 Modal.displayName = 'OverlayModal';
-Modal.propTypes = {
-  ...animationPropTypes,
-  ...modalPropTypes,
-  children: PropTypes.func,
-  container: PropTypes.any,
-  containerClassName: PropTypes.string,
-  dialogTransitionTimeout: PropTypes.number,
-  backdropTransitionTimeout: PropTypes.number,
-  transition: PropTypes.any,
-  onEsc: PropTypes.func
-};
 
 export default Modal;

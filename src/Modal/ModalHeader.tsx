@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
 import { ModalContext } from './ModalContext';
@@ -61,12 +60,5 @@ const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.for
 );
 
 ModalHeader.displayName = 'ModalHeader';
-ModalHeader.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  closeButton: PropTypes.bool,
-  children: PropTypes.node
-};
 
 export default ModalHeader;

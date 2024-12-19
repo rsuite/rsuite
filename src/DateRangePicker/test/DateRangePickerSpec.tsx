@@ -434,16 +434,6 @@ describe('DateRangePicker', () => {
     });
   });
 
-  it('Should not get warned about deprecated `caretComponent` prop', () => {
-    sinon.spy(console, 'warn');
-
-    render(<DateRangePicker />);
-
-    expect(console.warn).not.to.have.been.calledWith(
-      sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
-    );
-  });
-
   it('Should render a custom caret', () => {
     render(<DateRangePicker caretAs={GearIcon} />);
 
@@ -1355,7 +1345,6 @@ describe('DateRangePicker', () => {
 
   describe('Disabled', () => {
     it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-      sinon.spy(console, 'warn');
       const ranges: RangeType<DateRange>[] = [
         {
           label: 'Yesterday',
@@ -1382,10 +1371,6 @@ describe('DateRangePicker', () => {
           'true'
         );
       });
-
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-      );
     });
 
     it('Should disable shortcuts according to `shouldDisableDate`', () => {

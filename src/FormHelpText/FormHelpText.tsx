@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
@@ -61,11 +60,5 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
 );
 
 FormHelpText.displayName = 'FormHelpText';
-FormHelpText.propTypes = {
-  className: PropTypes.string,
-  tooltip: PropTypes.bool,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string
-};
 
 export default FormHelpText;

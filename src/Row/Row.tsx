@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { ReactChildren } from '@/internals/utils';
@@ -57,13 +56,5 @@ const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: 
 });
 
 Row.displayName = 'Row';
-Row.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  gutter: PropTypes.number,
-  style: PropTypes.any,
-  as: PropTypes.elementType,
-  children: PropTypes.node
-};
 
 export default Row;

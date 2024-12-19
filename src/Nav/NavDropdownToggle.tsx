@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import NavItem, { NavItemProps } from './NavItem';
-import { oneOf } from '@/internals/propTypes';
 
 export interface NavDropdownToggleProps extends WithAsProps {
   icon?: NavItemProps['icon'];
@@ -50,23 +48,5 @@ const NavDropdownToggle: RsRefForwardingComponent<typeof Button, NavDropdownTogg
   });
 
 NavDropdownToggle.displayName = 'Nav.Dropdown.Toggle';
-NavDropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default NavDropdownToggle;

@@ -1,6 +1,5 @@
 import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
 import { useClassNames } from '@/internals/hooks';
@@ -228,17 +227,10 @@ ToastContainer.getInstance = (props: ToastContainerProps) => {
     const { unmount } = render(
       <ToastContainer {...rest} ref={containerRef} callback={renderCallback} />,
       containerElement
-    );
+    ) as any;
   });
 };
 
 ToastContainer.displayName = 'ToastContainer';
-ToastContainer.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  placement: PropTypes.elementType,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  callback: PropTypes.func
-};
 
 export default ToastContainer;

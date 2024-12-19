@@ -8,7 +8,7 @@ const SuperposedReactDOM = ReactDOM as any;
  * Renders a React element into a container element.
  *
  */
-export function render(element: React.ReactElement<any>, container: HTMLElement) {
+export async function render(element: React.ReactElement<any>, container: HTMLElement) {
   const mountElement = document.createElement('div');
 
   mountElement.className = 'rs-mount-element';
@@ -19,13 +19,7 @@ export function render(element: React.ReactElement<any>, container: HTMLElement)
   containerElement.appendChild(mountElement);
 
   if (majorVersion >= 18) {
-    /**
-     * ignore react 18 warnings
-     * Warning: You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".
-     */
-    ReactDOM['__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'].usingClientEntryPoint = true;
-
-    const { createRoot } = SuperposedReactDOM;
+    const { createRoot } = await import('react-dom/client');
 
     const root =
       containerElement.__root || createRoot(mountElement, { identifierPrefix: 'rs-root-' });

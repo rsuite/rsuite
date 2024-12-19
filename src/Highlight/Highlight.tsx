@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { highlightText } from './utils/highlightText';
@@ -51,10 +50,5 @@ const Highlight: RsRefForwardingComponent<'div', HighlightProps> = React.forward
 );
 
 Highlight.displayName = 'Highlight';
-Highlight.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default Highlight;

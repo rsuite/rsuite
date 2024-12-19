@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import on from 'dom-lib/on';
 import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
@@ -11,7 +10,6 @@ import Button from '../Button';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -400,24 +398,5 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 });
 
 InputNumber.displayName = 'InputNumber';
-InputNumber.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  prefix: PropTypes.node,
-  postfix: PropTypes.node,
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  scrollable: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  buttonAppearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-  onWheel: PropTypes.func,
-  onChange: PropTypes.func
-};
 
 export default InputNumber;

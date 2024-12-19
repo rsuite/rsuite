@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { isNil } from 'lodash';
 import contains from 'dom-lib/contains';
 import { useClassNames } from '@/internals/hooks';
@@ -76,17 +75,5 @@ const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardR
 );
 
 Character.displayName = 'Character';
-Character.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  vertical: PropTypes.bool,
-  status: PropTypes.number,
-  disabled: PropTypes.bool,
-  onMouseMove: PropTypes.func,
-  onClick: PropTypes.func,
-  onKeyDown: PropTypes.func
-};
 
 export default Character;

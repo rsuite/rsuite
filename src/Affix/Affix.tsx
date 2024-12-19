@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
 import { Offset, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
@@ -174,10 +173,5 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
 );
 
 Affix.displayName = 'Affix';
-Affix.propTypes = {
-  top: PropTypes.number,
-  onChange: PropTypes.func,
-  container: PropTypes.oneOfType([PropTypes.any, PropTypes.func])
-};
 
 export default Affix;

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
@@ -21,16 +20,13 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
   PickerComponent,
   PickerToggleProps
 } from '@/internals/Picker';
-import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
 import useActive from '../Cascader/useActive';
-import { oneOf } from '@/internals/propTypes';
 import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
@@ -479,24 +475,5 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
 );
 
 MultiCascader.displayName = 'MultiCascader';
-MultiCascader.propTypes = {
-  ...listPickerPropTypes,
-  value: PropTypes.array,
-  disabledItemValues: PropTypes.array,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  cascade: PropTypes.bool,
-  countable: PropTypes.bool,
-  uncheckableItemValues: PropTypes.array,
-  searchable: PropTypes.bool,
-  onSearch: PropTypes.func,
-  onSelect: PropTypes.func,
-  onCheck: PropTypes.func,
-  inline: deprecatePropTypeNew(PropTypes.bool, 'Use `<MultiCascadeTree>` instead.'),
-  renderMenu: deprecatePropTypeNew(PropTypes.func, 'Use "renderColumn" property instead.'),
-  renderMenuItem: deprecatePropTypeNew(PropTypes.func, 'Use "renderTreeNode" property instead.'),
-  menuWidth: deprecatePropTypeNew(PropTypes.number, 'Use "columnWidth" property instead.'),
-  menuHeight: deprecatePropTypeNew(PropTypes.number, 'Use "columnHeight" property instead.')
-};
 
 export default MultiCascader;

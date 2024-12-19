@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { partitionHTMLProps } from '@/internals/utils';
-import { refType } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, TypeAttributes } from '@/internals/types';
 
@@ -196,19 +194,5 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 });
 
 Radio.displayName = 'Radio';
-Radio.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  inputProps: PropTypes.any,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  value: PropTypes.any,
-  inputRef: refType,
-  onChange: PropTypes.func
-};
+
 export default Radio;

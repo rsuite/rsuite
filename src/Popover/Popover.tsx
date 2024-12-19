@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Heading from '../Heading';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -63,15 +62,5 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
 );
 
 Popover.displayName = 'Popover';
-Popover.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  title: PropTypes.node,
-  style: PropTypes.object,
-  visible: PropTypes.bool,
-  className: PropTypes.string,
-  full: PropTypes.bool,
-  arrow: PropTypes.bool
-};
+
 export default Popover;

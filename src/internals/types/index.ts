@@ -26,7 +26,6 @@ export interface RsRefForwardingComponent<T extends React.ElementType, P = unkno
     props: React.PropsWithChildren<ReplaceProps<As, WithAsProps<As> & P>>,
     context?: any
   ): React.ReactElement | null;
-  propTypes?: any;
   contextTypes?: any;
   displayName?: string;
 }

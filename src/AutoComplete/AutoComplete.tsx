@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import { useClassNames, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { mergeRefs, partitionHTMLProps } from '@/internals/utils';
-import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
@@ -17,7 +15,6 @@ import {
   PositionChildProps,
   PickerComponent
 } from '@/internals/Picker';
-import { PLACEMENT } from '@/internals/constants';
 import Plaintext from '@/internals/Plaintext';
 import {
   WithAsProps,
@@ -25,7 +22,6 @@ import {
   TypeAttributes,
   ItemDataType
 } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { transformData, shouldDisplay } from './utils';
 import { useCustom } from '../CustomProvider';
 import Combobox from './Combobox';
@@ -306,33 +302,5 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 );
 
 AutoComplete.displayName = 'AutoComplete';
-AutoComplete.propTypes = {
-  ...animationPropTypes,
-  data: PropTypes.array,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onChange: PropTypes.func,
-  classPrefix: PropTypes.string,
-  value: PropTypes.string,
-  defaultValue: PropTypes.string,
-  className: PropTypes.string,
-  menuClassName: PropTypes.string,
-  menuAutoWidth: PropTypes.bool,
-  placement: oneOf(PLACEMENT),
-  onFocus: PropTypes.func,
-  onMenuFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  readOnly: PropTypes.bool,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  style: PropTypes.object,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  open: PropTypes.bool,
-  selectOnEnter: PropTypes.bool,
-  filterBy: PropTypes.func
-};
 
 export default AutoComplete;

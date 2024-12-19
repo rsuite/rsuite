@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { COLUMN_SIZE } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
@@ -135,43 +134,5 @@ const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: 
 });
 
 Col.displayName = 'Col';
-Col.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-
-  xs: PropTypes.number,
-  sm: PropTypes.number,
-  md: PropTypes.number,
-  lg: PropTypes.number,
-  xl: PropTypes.number,
-  xxl: PropTypes.number,
-
-  xsOffset: PropTypes.number,
-  smOffset: PropTypes.number,
-  mdOffset: PropTypes.number,
-  lgOffset: PropTypes.number,
-  xlOffset: PropTypes.number,
-  xxlOffset: PropTypes.number,
-
-  xsPush: PropTypes.number,
-  smPush: PropTypes.number,
-  mdPush: PropTypes.number,
-  lgPush: PropTypes.number,
-  xsPull: PropTypes.number,
-  smPull: PropTypes.number,
-  mdPull: PropTypes.number,
-  lgPull: PropTypes.number,
-  xlPull: PropTypes.number,
-  xxlPull: PropTypes.number,
-
-  xsHidden: PropTypes.bool,
-  smHidden: PropTypes.bool,
-  mdHidden: PropTypes.bool,
-  lgHidden: PropTypes.bool,
-  xlHidden: PropTypes.bool,
-  xxlHidden: PropTypes.bool,
-
-  as: PropTypes.elementType
-};
 
 export default Col;

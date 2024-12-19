@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CloseButton from '@/internals/CloseButton';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -67,13 +66,5 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
 });
 
 Tag.displayName = 'Tag';
-Tag.propTypes = {
-  closable: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default Tag;

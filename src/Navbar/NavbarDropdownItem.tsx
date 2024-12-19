@@ -1,8 +1,6 @@
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/Icon';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import isNil from 'lodash/isNil';
 import { createChainedFunction, shallowEqual } from '@/internals/utils';
@@ -169,25 +167,5 @@ const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps
   });
 
 NavbarDropdownItem.displayName = 'Navbar.Dropdown.Item';
-NavbarDropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
-  open: deprecatePropType(PropTypes.bool),
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  pullLeft: deprecatePropType(PropTypes.bool),
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number
-};
 
 export default NavbarDropdownItem;

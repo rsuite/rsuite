@@ -231,14 +231,9 @@ describe('Modal', () => {
 
     // Remove this case when full prop is dropped
     it('[Deprecated] Should have .rs-modal-full class when full=true', () => {
-      sinon.spy(console, 'warn');
       render(<Modal open full></Modal>);
 
       expect(screen.getByRole('dialog')).to.have.class('rs-modal-full');
-
-      expect(console.warn).to.have.been.calledWith(
-        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
-      );
     });
 
     it('Should not have a style attribute on body when size="full" ', () => {

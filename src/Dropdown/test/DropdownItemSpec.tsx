@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import AddOutline from '@rsuite/icons/AddOutline';
-import Nav from '../../Nav';
 
 describe('<Dropdown.Item>', () => {
   it('Should render element with role="menuitem" and given content', () => {
@@ -36,7 +35,6 @@ describe('<Dropdown.Item>', () => {
   });
 
   it('[Deprecated] Should render a divider with deprecation message', () => {
-    const warn = sinon.spy(console, 'warn');
     render(
       <Dropdown>
         <DropdownItem divider data-testid="item" />
@@ -44,9 +42,6 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(screen.getByTestId('item')).to.have.class('rs-dropdown-item-divider');
-    expect(warn).to.have.been.calledWith(
-      '[rsuite] "divider" property of Dropdown.Item component has been deprecated.\nUse Dropdown.Separator component instead.'
-    );
   });
 
   it('Should render a panel with given content', () => {
@@ -182,23 +177,5 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(screen.getByRole('menuitem')).to.contain.text('Ctrl + A');
-  });
-
-  context('[Deprecated] Within <Nav>', () => {
-    it('Should warn deprecation message', () => {
-      sinon.spy(console, 'warn');
-
-      render(
-        <Nav>
-          <Dropdown title="Dropdown">
-            <Dropdown.Item>Dropdown item</Dropdown.Item>
-          </Dropdown>
-        </Nav>
-      );
-
-      expect(console.warn).to.have.been.calledWith(
-        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
-      );
-    });
   });
 });

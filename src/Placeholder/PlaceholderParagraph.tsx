@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 export interface PlaceholderParagraphProps extends WithAsProps {
   /**
@@ -93,14 +91,5 @@ const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraph
   });
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
-PlaceholderParagraph.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderParagraph;

@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import { useCustom } from '../CustomProvider';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface CardProps extends WithAsProps {
@@ -79,13 +77,5 @@ Card.displayName = 'Card';
 Card.Header = CardHeader;
 Card.Body = CardBody;
 Card.Footer = CardFooter;
-
-Card.propTypes = {
-  bordered: PropTypes.bool,
-  shaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['hover'])]),
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  direction: oneOf(['row', 'column']),
-  size: oneOf(['lg', 'md', 'sm'])
-};
 
 export default Card;

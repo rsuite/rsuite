@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
-import { oneOf } from '@/internals/propTypes';
-import { SIZE, KEY_VALUES } from '@/internals/constants';
+import { KEY_VALUES } from '@/internals/constants';
 import { useControlled, useClassNames } from '@/internals/hooks';
 import { shallowEqualArray } from '@/internals/utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
@@ -220,21 +218,5 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
 );
 
 Rate.displayName = 'Rate';
-Rate.propTypes = {
-  allowHalf: PropTypes.bool,
-  character: PropTypes.node,
-  classPrefix: PropTypes.string,
-  cleanable: PropTypes.bool,
-  defaultValue: PropTypes.number,
-  disabled: PropTypes.bool,
-  max: PropTypes.number,
-  renderCharacter: PropTypes.func,
-  readOnly: PropTypes.bool,
-  size: oneOf(SIZE),
-  value: PropTypes.number,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  onChangeActive: PropTypes.func
-};
 
 export default Rate;

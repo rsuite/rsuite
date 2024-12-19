@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
@@ -61,14 +59,5 @@ const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.for
 );
 
 AvatarGroup.displayName = 'AvatarGroup';
-AvatarGroup.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  stack: PropTypes.bool,
-  spacing: PropTypes.number,
-  size: oneOf(['lg', 'md', 'sm', 'xs'])
-};
 
 export default AvatarGroup;

@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StackItem from './StackItem';
 import { isSupportFlexGap, ReactChildren } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
@@ -135,16 +133,5 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
 Stack.Item = StackItem;
 
 Stack.displayName = 'Stack';
-Stack.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  direction: oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
-  alignItems: oneOf(['flex-start', 'center', 'flex-end', 'stretch', 'baseline']),
-  justifyContent: oneOf(['flex-start', 'center', 'flex-end', 'space-between', 'space-around']),
-  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.array]),
-  divider: PropTypes.node,
-  wrap: PropTypes.bool
-};
 
 export default Stack;

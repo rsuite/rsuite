@@ -1,5 +1,4 @@
 import React, { useState, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
 import { isValid } from '@/internals/utils/date';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
@@ -326,16 +325,5 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 });
 
 DateRangeInput.displayName = 'DateRangeInput';
-DateRangeInput.propTypes = {
-  character: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  format: PropTypes.string,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
-};
 
 export default DateRangeInput;

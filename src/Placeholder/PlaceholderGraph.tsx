@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -52,13 +51,5 @@ const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> =
 );
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';
-PlaceholderGraph.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  classPrefix: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderGraph;
