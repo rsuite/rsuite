@@ -1,3 +1,12 @@
+# [5.76.0](https://github.com/rsuite/rsuite/compare/v5.75.0...v5.76.0) (2024-12-20)
+
+
+### Features
+
+* **Image:** add support for Image ([#4068](https://github.com/rsuite/rsuite/issues/4068)) ([46980f9](https://github.com/rsuite/rsuite/commit/46980f985094110925fa5e2ad5c69a46cd84e7eb))
+
+
+
 # [5.75.0](https://github.com/rsuite/rsuite/compare/v5.74.2...v5.75.0) (2024-12-06)
 
 
