@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
@@ -124,16 +123,5 @@ const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
 );
 
 Image.displayName = 'Image';
-Image.propTypes = {
-  bordered: PropTypes.bool,
-  circle: PropTypes.bool,
-  fallbackSrc: PropTypes.string,
-  fit: PropTypes.string,
-  position: PropTypes.string,
-  rounded: PropTypes.bool,
-  shaded: PropTypes.bool,
-  placeholder: PropTypes.node,
-  zoomed: PropTypes.bool
-};
 
 export default Image;
