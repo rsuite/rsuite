@@ -81,7 +81,6 @@ export default function usePages(): MenuItem[] {
               id: 'use-next-pages',
               name: locales?.common?.useNextPages
             },
-
             {
               id: 'use-with-create-react-app',
               name: locales?.common?.useWithCreateReactApp
