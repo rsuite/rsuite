@@ -14,7 +14,7 @@ import NavContext from '../Nav/NavContext';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

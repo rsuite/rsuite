@@ -21,7 +21,7 @@ import DropdownSeparator from './DropdownSeparator';
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

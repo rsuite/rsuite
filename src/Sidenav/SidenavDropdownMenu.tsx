@@ -51,7 +51,8 @@ export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
  */
 const SidenavDropdownMenu = React.forwardRef<
   HTMLElement,
-  SidenavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+  SidenavDropdownMenuProps &
+    Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onToggle' | 'onSelect'>
 >((props, ref) => {
   const sidenav = useContext(SidenavContext);
   const nav = useContext(NavContext);

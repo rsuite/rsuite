@@ -63,7 +63,8 @@ export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
  */
 const NavbarDropdownMenu = React.forwardRef<
   HTMLElement,
-  NavbarDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+  NavbarDropdownMenuProps &
+    Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onToggle' | 'onSelect'>
 >((props, ref) => {
   const navbar = useContext(NavbarContext);
   const nav = useContext(NavContext);

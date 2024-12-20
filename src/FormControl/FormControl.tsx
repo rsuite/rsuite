@@ -73,7 +73,7 @@ export interface FormControlProps<P = any, ValueType = any>
 interface FormControlComponent extends React.FC<FormControlProps> {
   <Accepter extends React.ElementType = typeof Input>(
     props: FormControlProps & { accepter?: Accepter } & React.ComponentPropsWithRef<Accepter>
-  ): React.ReactElement | null;
+  ): any;
 }
 
 /**
@@ -181,7 +181,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const fieldHasError = Boolean(fieldError);
 
   // Toggle component is a special case that uses `checked` and `defaultChecked` instead of `value` and `defaultValue` props.
-  const valueKey = AccepterComponent === Toggle ? 'checked' : 'value';
+  const valueKey = (AccepterComponent as any) === Toggle ? 'checked' : 'value';
   const accepterProps = {
     // need to distinguish between undefined and null
     [valueKey]: fieldValue === undefined ? defaultValue : fieldValue

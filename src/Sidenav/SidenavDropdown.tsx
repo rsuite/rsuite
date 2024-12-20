@@ -20,7 +20,7 @@ import { NavMenuContext } from '../Nav/NavMenu';
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
