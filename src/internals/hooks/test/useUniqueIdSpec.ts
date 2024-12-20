@@ -14,8 +14,8 @@ describe('internals/hooks/useUniqueId', () => {
     expect(result.current).to.be.contain('rs-');
   });
 
-  it('Should use the provided Id non-generated', () => {
-    const { result } = renderHook(() => useUniqueId('rs-', 'my-id'));
+  it('Should use the provided Id non-generated', async () => {
+    const { result } = await renderHook(() => useUniqueId('rs-', 'my-id'));
 
     expect(result.current).to.be.equal('my-id');
   });

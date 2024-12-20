@@ -62,7 +62,11 @@ afterEach(() => {
 export async function render(children) {
   const container = createTestContainer();
 
+  console.log({ majorVersion });
+
   if (majorVersion >= 18) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const { createRoot } = await import('react-dom/client');
 
     const root = createRoot(container);
