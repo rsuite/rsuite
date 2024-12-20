@@ -42,8 +42,8 @@
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",
     "install:react-17": "npm i --no-save --legacy-peer-deps react@17 react-dom@17 @testing-library/react@11 @testing-library/react-hooks@7",
-    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13 @testing-library/react-hooks@8 @testing-library/user-event@13",
-    "install:react-19": "npm i --no-save --legacy-peer-deps react@19.0.0 react-dom@19.0.0 @testing-library/react@16 @testing-library/react-hooks@8"
+    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13 @testing-library/user-event@13",
+    "install:react-19": "npm i --no-save --legacy-peer-deps react@19.0.0 react-dom@19.0.0 @testing-library/react@16"
   },
   "keywords": [
     "react",
@@ -101,7 +101,6 @@
     "@storybook/react": "^7.6.10",
     "@testing-library/dom": "^8.20.1",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/chai": "^4.3.3",
     "@types/chai-dom": "^1.11.0",
@@ -179,7 +178,6 @@
     "prettier-plugin-sort-markdown-table": "^1.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-test-renderer": "^17.0.2",
     "resolve-tspaths": "^0.8.19",
     "semver": "^7.5.1",
     "sinon": "^14.0.1",
