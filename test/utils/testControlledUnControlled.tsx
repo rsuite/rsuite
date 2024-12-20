@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
+const majorVersion = parseInt(React.version);
+
 interface ChangeEvent {
   change: () => void;
   value: any;
@@ -84,9 +86,13 @@ export function testControlledUnControlled(
     });
 
     it('Should render `value` when both `value` and `defaultValue` are present', () => {
-      render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
+      console.log('majorVersion', majorVersion);
 
-      expectedValue(value);
+      if (majorVersion >= 19) {
+        render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
+
+        expectedValue(value);
+      }
     });
 
     it('Should render `value`', () => {

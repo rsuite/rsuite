@@ -290,25 +290,30 @@ describe('TreePicker', () => {
       picker: PickerHandle;
       setExpandItemValues: (values: string[]) => void;
     };
-    const TestApp = React.forwardRef((props: Omit<TreePickerProps, 'data' | 'open'>, ref) => {
-      const pickerRef = React.useRef<PickerHandle>(null);
-      const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
-      React.useImperativeHandle(ref, () => {
-        return {
-          picker: pickerRef.current,
-          setExpandItemValues
-        };
-      });
-      return (
-        <TreePicker
-          ref={pickerRef}
-          {...props}
-          data={data}
-          open
-          expandItemValues={expandItemValues}
-        />
-      );
-    });
+
+    type AppProps = Omit<TreePickerProps, 'data' | 'open'>;
+
+    const TestApp = React.forwardRef<TestAppInstance, AppProps>(
+      (props: AppProps, ref: React.Ref<any>) => {
+        const pickerRef = React.useRef<PickerHandle>(null);
+        const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
+        React.useImperativeHandle(ref, () => {
+          return {
+            picker: pickerRef.current,
+            setExpandItemValues
+          };
+        });
+        return (
+          <TreePicker
+            ref={pickerRef}
+            {...props}
+            data={data}
+            open
+            expandItemValues={expandItemValues}
+          />
+        );
+      }
+    );
 
     TestApp.displayName = 'TestApp';
 

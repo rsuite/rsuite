@@ -59,7 +59,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     } = propsWithDefaults;
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const count = ReactChildren.count(children as React.ReactChildren);
+    const count = ReactChildren.count(children);
     const labels: React.ReactElement[] = [];
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';

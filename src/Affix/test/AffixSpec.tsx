@@ -1,7 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor, act } from '@testing-library/react';
 import sinon from 'sinon';
 import getOffset from 'dom-lib/getOffset';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Affix from '../Affix';
 

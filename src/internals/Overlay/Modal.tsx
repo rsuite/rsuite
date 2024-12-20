@@ -5,17 +5,17 @@ import on from 'dom-lib/on';
 import { KEY_VALUES } from '@/internals/constants';
 import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsPropsWithoutChildren, AnimationEventProps } from '@/internals/types';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
 
-export interface BaseModalProps extends WithAsProps, AnimationEventProps {
+export interface BaseModalProps extends WithAsPropsWithoutChildren, AnimationEventProps {
   /** Animation-related properties */
   animationProps?: any;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: any;
 
   /**
    * Add an optional extra class name to .modal-backdrop
@@ -62,6 +62,8 @@ export interface BaseModalProps extends WithAsProps, AnimationEventProps {
   dialogTransitionTimeout?: number;
   transition?: React.ElementType;
   onEsc?: React.KeyboardEventHandler;
+  onClick?: React.MouseEventHandler;
+  onMouseDown?: React.MouseEventHandler;
 
   // @deprecated
   onBackdropClick?: React.MouseEventHandler;
@@ -95,10 +97,7 @@ const useModalManager = () => {
   };
 };
 
-const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
-  HTMLDivElement,
-  BaseModalProps
->((props, ref) => {
+const Modal = React.forwardRef<HTMLDivElement, BaseModalProps>((props, ref) => {
   const {
     as: Component = 'div',
     children,

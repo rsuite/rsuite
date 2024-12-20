@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
-import { Offset, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { Offset, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -124,53 +124,54 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
  *
  * @see https://rsuitejs.com/components/affix/
  */
-const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
-  (props: AffixProps, ref) => {
-    const { propsWithDefaults } = useCustom('Affix', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'affix',
-      className,
-      children,
-      container,
-      top = 0,
-      onChange,
-      onOffsetChange,
-      ...rest
-    } = propsWithDefaults;
+const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef<
+  HTMLDivElement,
+  AffixProps
+>((props: AffixProps, ref) => {
+  const { propsWithDefaults } = useCustom('Affix', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'affix',
+    className,
+    children,
+    container,
+    top = 0,
+    onChange,
+    onOffsetChange,
+    ...rest
+  } = propsWithDefaults;
 
-    const mountRef = useRef(null);
-    const offset = useOffset(mountRef, onOffsetChange);
-    const containerOffset = useContainerOffset(container);
+  const mountRef = useRef(null);
+  const offset = useOffset(mountRef, onOffsetChange);
+  const containerOffset = useContainerOffset(container);
 
-    const fixed = useFixed(offset, containerOffset, { top, onChange });
+  const fixed = useFixed(offset, containerOffset, { top, onChange });
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, {
-      [withClassPrefix()]: fixed
-    });
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, {
+    [withClassPrefix()]: fixed
+  });
 
-    const { width, height } = offset || {};
-    const placeholderStyles = fixed ? { width, height } : undefined;
-    const fixedStyles: React.CSSProperties = {
-      position: 'fixed',
-      top,
-      width,
-      zIndex: 10
-    };
+  const { width, height } = offset || {};
+  const placeholderStyles = fixed ? { width, height } : undefined;
+  const fixedStyles: React.CSSProperties = {
+    position: 'fixed',
+    top,
+    width,
+    zIndex: 10
+  };
 
-    const affixStyles = fixed ? fixedStyles : undefined;
+  const affixStyles = fixed ? fixedStyles : undefined;
 
-    return (
-      <Component {...rest} ref={mergeRefs(mountRef, ref)}>
-        <div className={classes} style={affixStyles}>
-          {children}
-        </div>
-        {fixed && <div aria-hidden style={placeholderStyles}></div>}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component {...rest} ref={mergeRefs(mountRef, ref)}>
+      <div className={classes} style={affixStyles}>
+        {children}
+      </div>
+      {fixed && <div aria-hidden style={placeholderStyles}></div>}
+    </Component>
+  );
+});
 
 Affix.displayName = 'Affix';
 

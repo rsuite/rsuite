@@ -1,4 +1,11 @@
-import React from 'react';
+import {
+  ReactNode,
+  CSSProperties,
+  ElementType,
+  InputHTMLAttributes,
+  SyntheticEvent,
+  FocusEventHandler
+} from 'react';
 import { ReplaceProps } from './utils';
 
 export interface StandardProps {
@@ -9,23 +16,36 @@ export interface StandardProps {
   className?: string;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /** Additional style */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
-export interface WithAsProps<As extends React.ElementType | string = React.ElementType>
-  extends StandardProps {
+export interface WithAsProps<As extends ElementType | string = ElementType> extends StandardProps {
   /** You can use a custom element for this component */
   as?: As;
 }
 
-export interface RsRefForwardingComponent<T extends React.ElementType, P = unknown> {
-  <As extends React.ElementType = T>(
-    props: React.PropsWithChildren<ReplaceProps<As, WithAsProps<As> & P>>,
+export interface WithAsPropsWithoutChildren<As extends ElementType | string = ElementType>
+  extends Omit<StandardProps, 'children'> {
+  /** You can use a custom element for this component */
+  as?: As;
+}
+
+export interface RsRefForwardingComponent<
+  T extends ElementType,
+  P = unknown,
+  ExcludeChildren extends boolean = false
+> {
+  <As extends ElementType = T>(
+    props: ReplaceProps<
+      As,
+      ExcludeChildren extends true ? WithAsPropsWithoutChildren<As> & P : WithAsProps<As> & P
+    >,
     context?: any
-  ): React.ReactElement | null;
+  ): any;
+  propTypes?: any;
   contextTypes?: any;
   displayName?: string;
 }
@@ -74,13 +94,13 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
   disabled?: boolean;
 
   /** You can use a custom element for this component */
-  toggleAs?: React.ElementType;
+  toggleAs?: ElementType;
 
   /** A CSS class to apply to the Menu DOM node. */
   menuClassName?: string;
 
   /** A style to apply to the Menu DOM node. */
-  menuStyle?: React.CSSProperties;
+  menuStyle?: CSSProperties;
 
   /** Picker menu auto width */
   menuAutoWidth?: boolean;
@@ -89,7 +109,7 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
   menuMaxHeight?: number;
 
   /** Placeholder text */
-  placeholder?: React.ReactNode;
+  placeholder?: ReactNode;
 
   /** The placement of picker */
   placement?: TypeAttributes.Placement;
@@ -118,15 +138,15 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
   /**
    * Called when the component is focused.
    */
-  onFocus?: React.FocusEventHandler<any>;
+  onFocus?: FocusEventHandler<any>;
 
   /**
    * Called when the component is blurred.
    */
-  onBlur?: React.FocusEventHandler<any>;
+  onBlur?: FocusEventHandler<any>;
 
   /** Custom render extra footer */
-  renderExtraFooter?: () => React.ReactNode;
+  renderExtraFooter?: () => ReactNode;
 }
 
 export interface DeprecatedPickerProps {
@@ -140,7 +160,7 @@ export interface DeprecatedPickerProps {
    * Custom menu style
    * @deprecated Use `popupStyle` instead
    */
-  menuStyle?: React.CSSProperties;
+  menuStyle?: CSSProperties;
 
   /**
    * Picker menu auto width
@@ -153,12 +173,10 @@ export interface DeprecatedPickerProps {
    * Custom render tree
    * @deprecated Use `renderTree` instead
    */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
+  renderMenu?: (menu: ReactNode) => ReactNode;
 }
 
-export interface FormControlBaseProps<
-  ValueType = React.InputHTMLAttributes<HTMLInputElement>['value']
-> {
+export interface FormControlBaseProps<ValueType = InputHTMLAttributes<HTMLInputElement>['value']> {
   /** Name of the form field */
   name?: string;
 
@@ -170,10 +188,10 @@ export interface FormControlBaseProps<
 
   /**
    * Called after the value has been changed
-   * todo Override event as React.ChangeEvent in components where onChange is delegated
+   * todo Override event as ChangeEvent in components where onChange is delegated
    *      to an underlying <input> element
    */
-  onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
+  onChange?: (value: ValueType, event: SyntheticEvent) => void;
 
   /** Set the component to be disabled and cannot be entered */
   disabled?: boolean;
@@ -260,7 +278,7 @@ export interface SVGIcon {
 }
 
 export interface ItemDataType<T = number | string> extends Record<string, any> {
-  label?: string | React.ReactNode;
+  label?: string | ReactNode;
   value?: T;
   groupBy?: string;
   parent?: ItemDataType<T>;
@@ -277,7 +295,7 @@ export interface Offset {
   height: number;
 }
 
-export type OnChangeCallback<T, E = React.SyntheticEvent> = (value: T, event: E) => void;
+export type OnChangeCallback<T, E = SyntheticEvent> = (value: T, event: E) => void;
 
 export type CursorPosition = {
   top: number;

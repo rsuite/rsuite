@@ -3,7 +3,7 @@ import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
-export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
+export interface BreadcrumbItemProps extends WithAsProps {
   /**
    * The wrapper element of the BreadcrumbItem.
    */

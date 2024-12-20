@@ -86,7 +86,7 @@ function Menu({
   renderMenuButton,
   renderMenuPopup,
   onToggleMenu
-}: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
+}: MenuProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>) {
   const buttonElementRef = useRef<HTMLButtonElement>(null);
   const menuElementRef = useRef<HTMLUListElement>(null);
 
@@ -427,7 +427,7 @@ function Menu({
   // fixme Wrong children here
   const menuElement = customMenuPopup ?? (
     <ul ref={menuElementRef} {...menuProps} hidden={!open}>
-      {children}
+      {children as any}
     </ul>
   );
 

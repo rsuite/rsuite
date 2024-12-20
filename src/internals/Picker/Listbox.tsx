@@ -102,7 +102,7 @@ export interface ListboxProps<Multiple = false>
 }
 
 export type ListboxComponent = React.ForwardRefExoticComponent<ListboxProps> & {
-  <Multiple = false>(props: ListboxProps<Multiple>): React.ReactElement | null;
+  <Multiple = false>(props: ListboxProps<Multiple>): any;
 };
 
 const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<any>>(
@@ -215,7 +215,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       : data;
     const rowCount = filteredItems.length;
 
-    const renderItem = ({
+    const renderItem: any = ({
       index = 0,
       style,
       data,

@@ -3,11 +3,17 @@ import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import {
+  WithAsPropsWithoutChildren,
+  TypeAttributes,
+  RsRefForwardingComponent
+} from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
-export interface NotificationProps extends WithAsProps {
+export interface NotificationProps extends WithAsPropsWithoutChildren {
+  children?: React.ReactNode | (() => React.ReactNode);
+
   /** Title of the message */
   header?: React.ReactNode;
 
@@ -43,7 +49,7 @@ export interface NotificationProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/notification
  */
-const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.forwardRef(
+const Notification: RsRefForwardingComponent<'div', NotificationProps, true> = React.forwardRef(
   (props: NotificationProps, ref) => {
     const { propsWithDefaults } = useCustom('Notification', props);
     const {

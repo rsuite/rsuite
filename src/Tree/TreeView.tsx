@@ -184,7 +184,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewInnerProps> = React.forw
         getKeyParentMap(
           data,
           node => node[valueKey],
-          node => node[childrenKey]
+          node => node[childrenKey] as TreeNode[]
         ),
       [childrenKey, data, valueKey]
     );

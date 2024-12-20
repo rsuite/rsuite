@@ -1,5 +1,4 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -65,29 +64,38 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
     } = propsWithDefaults;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('grid', { active }));
-    const colItems: React.ReactElement[] = [];
 
-    for (let i = 0; i < columns; i++) {
-      const rowItems: React.ReactElement[] = [];
-      for (let j = 0; j < rows; j++) {
-        rowItems.push(
-          <div
-            key={j}
-            style={{ height: rowHeight, marginTop: j > 0 ? rowSpacing : undefined }}
-            className={prefix`row`}
-          />
+    const classes = merge(className, withClassPrefix('grid', { active }));
+
+    const items = useMemo(() => {
+      const colItems: React.ReactElement[] = [];
+      const rowClassName = prefix`row`;
+      const columnClassName = prefix`grid-col`;
+
+      for (let i = 0; i < columns; i++) {
+        const rowItems: React.ReactElement[] = [];
+        for (let j = 0; j < rows; j++) {
+          rowItems.push(
+            <div
+              key={j}
+              style={{ height: rowHeight, marginTop: j > 0 ? rowSpacing : undefined }}
+              className={rowClassName}
+            />
+          );
+        }
+        colItems.push(
+          <div key={i} className={columnClassName}>
+            {rowItems}
+          </div>
         );
       }
-      colItems.push(
-        <div key={i} className={classNames(prefix('grid-col'))}>
-          {rowItems}
-        </div>
-      );
-    }
+
+      return colItems;
+    }, [columns, prefix, rowHeight, rowSpacing, rows]);
+
     return (
       <Component {...rest} ref={ref} className={classes}>
-        {colItems}
+        {items}
       </Component>
     );
   }
