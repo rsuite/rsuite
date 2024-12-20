@@ -86,8 +86,6 @@ export function testControlledUnControlled(
     });
 
     it('Should render `value` when both `value` and `defaultValue` are present', () => {
-      console.log('majorVersion', majorVersion);
-
       if (majorVersion >= 19) {
         render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
 
