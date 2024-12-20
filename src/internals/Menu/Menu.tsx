@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import useMenu from './useMenu';
@@ -87,7 +86,7 @@ function Menu({
   renderMenuButton,
   renderMenuPopup,
   onToggleMenu
-}: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
+}: MenuProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>) {
   const buttonElementRef = useRef<HTMLButtonElement>(null);
   const menuElementRef = useRef<HTMLUListElement>(null);
 
@@ -428,7 +427,7 @@ function Menu({
   // fixme Wrong children here
   const menuElement = customMenuPopup ?? (
     <ul ref={menuElementRef} {...menuProps} hidden={!open}>
-      {children}
+      {children as any}
     </ul>
   );
 
@@ -491,8 +490,5 @@ function Menu({
 }
 
 Menu.displayName = 'Menu';
-Menu.propTypes = {
-  children: PropTypes.func.isRequired
-};
 
 export default Menu;

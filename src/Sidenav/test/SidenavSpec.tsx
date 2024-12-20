@@ -1,7 +1,6 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
-import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
+import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
@@ -30,12 +29,10 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const consoleWarnStub = sinon.stub(console, 'warn').callsFake(() => null);
-
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
-      <Sidenav onSelect={onSelectSpy}>
+      <Sidenav onSelect={onSelect}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
           <Nav.Item eventKey="2">b</Nav.Item>
@@ -45,10 +42,7 @@ describe('<Sidenav>', () => {
 
     fireEvent.click(screen.getByText('a'));
 
-    expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
-      sinon.match(/onselect.+deprecated/i)
-    );
-    expect(onSelectSpy, 'onSelect').to.have.been.calledWith('1');
+    expect(onSelect, 'onSelect').to.have.been.calledWith('1');
   });
 
   describe('<Dropdown> inside <Sidenav>', () => {
@@ -162,8 +156,6 @@ describe('<Sidenav>', () => {
   });
 
   it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {
-    const consoleWarnStub = sinon.stub(console, 'warn').callsFake(() => null);
-
     render(
       <Sidenav activeKey="1">
         <Nav>
@@ -174,9 +166,7 @@ describe('<Sidenav>', () => {
         </Nav>
       </Sidenav>
     );
-    expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
-      sinon.match(/activekey.+deprecated/i)
-    );
+
     expect(screen.getByTestId('selected-item')).to.have.attr('aria-selected', 'true');
   });
 
@@ -199,10 +189,10 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call <Nav onSelect> with correct eventKey', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Sidenav>
-        <Nav onSelect={onSelectSpy}>
+        <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1-1" data-testid="nav-item">
             Nav item
           </Nav.Item>
@@ -216,24 +206,21 @@ describe('<Sidenav>', () => {
     );
 
     fireEvent.click(screen.getByTestId('nav-item'));
-    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+    expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
 
-    onSelectSpy.resetHistory();
+    onSelect.resetHistory();
     // opens the dropdown
     fireEvent.click(screen.getByTestId('dropdown'));
 
     fireEvent.click(screen.getByTestId('dropdown-item'));
-    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
-      '2-1',
-      sinon.match.any
-    );
+    expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith('2-1', sinon.match.any);
   });
 
   it('Should call <Nav onSelect> with correct eventKey when <Sidenav expanded={false}>', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Sidenav expanded={false}>
-        <Nav onSelect={onSelectSpy}>
+        <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1-1" data-testid="nav-item">
             Nav item
           </Nav.Item>
@@ -247,17 +234,14 @@ describe('<Sidenav>', () => {
     );
 
     fireEvent.click(screen.getByTestId('nav-item'));
-    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+    expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
 
-    onSelectSpy.resetHistory();
+    onSelect.resetHistory();
     // opens the dropdown
     fireEvent.click(screen.getByTestId('dropdown'));
 
     fireEvent.click(screen.getByTestId('dropdown-item'));
-    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
-      '2-1',
-      sinon.match.any
-    );
+    expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith('2-1', sinon.match.any);
   });
 
   it('Should add "selected-within" className on <Nav.Menu> when some item inside is selected', () => {
@@ -310,14 +294,14 @@ describe('<Sidenav>', () => {
         </Sidenav>
       );
 
-      Simulate.mouseOver(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
+      fireEvent.mouseOver(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
 
       await waitFor(() => {
         expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
         expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
       });
 
-      Simulate.click(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
 
       await waitFor(() => {
         expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');

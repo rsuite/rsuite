@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StatLabel from './StatLabel';
 import StatValue from './StatValue';
 import StatValueUnit from './StatValueUnit';
@@ -52,10 +51,6 @@ const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
 }) as unknown as StatComponent;
 
 Stat.displayName = 'Stat';
-Stat.propTypes = {
-  bordered: PropTypes.bool,
-  icon: PropTypes.node
-};
 
 Stat.Label = StatLabel;
 Stat.Value = StatValue;

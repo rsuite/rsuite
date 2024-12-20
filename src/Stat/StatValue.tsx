@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { FormattedNumber } from '../CustomProvider';
@@ -33,9 +32,5 @@ const StatValue: RsRefForwardingComponent<'dd', StatValueProps> = React.forwardR
 );
 
 StatValue.displayName = 'StatValue';
-StatValue.propTypes = {
-  value: PropTypes.number,
-  formatOptions: PropTypes.object
-};
 
 export default StatValue;

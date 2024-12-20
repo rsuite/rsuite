@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -58,13 +57,5 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
 );
 
 Tooltip.displayName = 'Tooltip';
-Tooltip.propTypes = {
-  visible: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  arrow: PropTypes.bool
-};
 
 export default Tooltip;

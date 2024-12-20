@@ -1,14 +1,11 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import { PLACEMENT_8 } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
@@ -23,7 +20,7 @@ import { NavMenuContext } from '../Nav/NavMenu';
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -262,33 +259,5 @@ SidenavDropdown.Item = NavDropdownItem;
 SidenavDropdown.Menu = NavDropdownMenu;
 
 SidenavDropdown.displayName = 'Sidenav.Dropdown';
-SidenavDropdown.propTypes = {
-  activeKey: PropTypes.any,
-  classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
-  placement: oneOf(PLACEMENT_8),
-  title: PropTypes.node,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  menuStyle: PropTypes.object,
-  className: PropTypes.string,
-  toggleClassName: PropTypes.string,
-  children: PropTypes.node,
-  open: deprecatePropType(PropTypes.bool),
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  toggleAs: PropTypes.elementType,
-  noCaret: PropTypes.bool,
-  style: PropTypes.object,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  onToggle: PropTypes.func,
-  onSelect: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func,
-  renderToggle: PropTypes.func
-};
 
 export default SidenavDropdown;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
@@ -30,10 +29,5 @@ const InputGroupAddon: RsRefForwardingComponent<'span', InputGroupAddonProps> = 
 );
 
 InputGroupAddon.displayName = 'InputGroupAddon';
-InputGroupAddon.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  disabled: PropTypes.bool
-};
 
 export default InputGroupAddon;

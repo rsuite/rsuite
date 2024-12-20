@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
@@ -138,20 +137,5 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 );
 
 NavItem.displayName = 'Nav.Item';
-NavItem.propTypes = {
-  as: PropTypes.elementType,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  onClick: PropTypes.func,
-  style: PropTypes.object,
-  icon: PropTypes.node,
-  onSelect: PropTypes.func,
-  children: PropTypes.node,
-  eventKey: PropTypes.any
-};
 
 export default NavItem;

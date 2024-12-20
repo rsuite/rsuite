@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -25,14 +24,12 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
 import SearchBox from '@/internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { MultipleSelectProps } from '../SelectPicker';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export type ValueType = (number | string)[];
@@ -56,7 +53,6 @@ export interface CheckPickerComponent {
     }
   ): JSX.Element | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
 }
 
 /**
@@ -397,25 +393,5 @@ const CheckPicker = React.forwardRef(
 ) as CheckPickerComponent;
 
 CheckPicker.displayName = 'CheckPicker';
-CheckPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  searchable: PropTypes.bool,
-  countable: PropTypes.bool,
-  sticky: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default CheckPicker;

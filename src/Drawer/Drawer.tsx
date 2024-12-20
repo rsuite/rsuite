@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
 import Modal, { ModalProps } from '../Modal';
 import { TypeAttributes } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import DrawerBody from './DrawerBody';
 import DrawerHeader from './DrawerHeader';
@@ -84,12 +82,5 @@ Drawer.Footer = deprecateComponent(
 Drawer.Title = DrawerTitle;
 
 Drawer.displayName = 'Drawer';
-Drawer.propTypes = {
-  ...Modal.propTypes,
-  classPrefix: PropTypes.string,
-  placement: oneOf(['top', 'right', 'bottom', 'left']),
-  children: PropTypes.node,
-  className: PropTypes.string
-};
 
 export default Drawer;

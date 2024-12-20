@@ -1,10 +1,8 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
@@ -128,18 +126,5 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
 );
 
 Avatar.displayName = 'Avatar';
-Avatar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  size: oneOf(['xxl', 'xl', 'lg', 'md', 'sm', 'xs']),
-  src: PropTypes.string,
-  sizes: PropTypes.string,
-  srcSet: PropTypes.string,
-  imgProps: PropTypes.object,
-  circle: PropTypes.bool,
-  alt: PropTypes.string
-};
 
 export default Avatar;

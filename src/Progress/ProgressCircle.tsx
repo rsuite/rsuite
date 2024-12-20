@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -163,19 +161,5 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
 );
 
 ProgressCircle.displayName = 'ProgressCircle';
-ProgressCircle.propTypes = {
-  className: PropTypes.string,
-  strokeColor: PropTypes.string,
-  strokeLinecap: oneOf(['butt', 'round', 'square']),
-  trailColor: PropTypes.string,
-  percent: PropTypes.number,
-  strokeWidth: PropTypes.number,
-  trailWidth: PropTypes.number,
-  gapDegree: PropTypes.number,
-  gapPosition: oneOf(['top', 'bottom', 'left', 'right']),
-  showInfo: PropTypes.bool,
-  status: oneOf(['success', 'fail', 'active']),
-  classPrefix: PropTypes.string
-};
 
 export default ProgressCircle;

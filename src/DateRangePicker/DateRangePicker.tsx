@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import PropTypes from 'prop-types';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
@@ -16,14 +15,12 @@ import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 import Calendar from './Calendar';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
   omitTriggerPropKeys,
   PickerComponent,
   PickerPopup,
-  pickerPropTypes,
   PickerToggleTrigger,
   PickerIndicator,
   PickerLabel,
@@ -1138,30 +1135,5 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
 ) as unknown as DateRangePickerComponent;
 
 DateRangePicker.displayName = 'DateRangePicker';
-DateRangePicker.propTypes = {
-  ...pickerPropTypes,
-  ranges: PropTypes.array,
-  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  oneTap: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  onChange: PropTypes.func,
-  onOk: PropTypes.func,
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
-  shouldDisableDate: PropTypes.func,
-  onSelect: PropTypes.func,
-  showWeekNumbers: PropTypes.bool,
-  showMeridiem: PropTypes.bool,
-  showOneCalendar: PropTypes.bool
-};
 
 export default DateRangePicker;

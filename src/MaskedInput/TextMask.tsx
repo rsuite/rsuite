@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import omit from 'lodash/omit';
-import PropTypes from 'prop-types';
 import createTextMaskInputElement from './createTextMaskInputElement';
 import { MaskType, MaskFunctionType, ConfigType } from './types';
 import { mergeRefs } from '@/internals/utils';
@@ -101,16 +100,5 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
 });
 
 TextMask.displayName = 'TextMask';
-TextMask.propTypes = {
-  render: PropTypes.func,
-  onChange: PropTypes.func,
-  mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func, PropTypes.bool]).isRequired,
-  guide: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pipe: PropTypes.func,
-  placeholderChar: PropTypes.string,
-  keepCharPositions: PropTypes.bool,
-  showMask: PropTypes.bool
-};
 
 export default TextMask;

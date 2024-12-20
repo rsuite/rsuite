@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import OverlayTrigger, {
   OverlayTriggerHandle,
   OverlayTriggerProps
 } from '@/internals/Overlay/OverlayTrigger';
-import { PLACEMENT } from '@/internals/constants';
-import { oneOf } from '@/internals/propTypes';
 import { createChainedFunction, placementPolyfill } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -43,20 +40,5 @@ const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperIns
 });
 
 Whisper.displayName = 'Whisper';
-Whisper.propTypes = {
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExited: PropTypes.func,
-  placement: oneOf(PLACEMENT),
-  /**
-   * Prevent floating element overflow
-   */
-  preventOverflow: PropTypes.bool,
-  /**
-   * Whether enable speaker follow cursor
-   */
-  followCursor: PropTypes.bool
-};
 
 export default Whisper;

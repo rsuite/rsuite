@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -35,13 +34,5 @@ const Mark: RsRefForwardingComponent<'span', MarkProps> = React.forwardRef(
 );
 
 Mark.displayName = 'Mark';
-Mark.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  mark: PropTypes.number,
-  last: PropTypes.bool,
-  renderMark: PropTypes.func
-};
 
 export default Mark;

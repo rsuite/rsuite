@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
@@ -11,7 +10,6 @@ import { IconProps } from '@rsuite/icons/Icon';
 import { mergeRefs } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { NavbarContext } from '.';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
@@ -65,7 +63,8 @@ export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
  */
 const NavbarDropdownMenu = React.forwardRef<
   HTMLElement,
-  NavbarDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+  NavbarDropdownMenuProps &
+    Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onToggle' | 'onSelect'>
 >((props, ref) => {
   const navbar = useContext(NavbarContext);
   const nav = useContext(NavContext);
@@ -180,21 +179,5 @@ const NavbarDropdownMenu = React.forwardRef<
 });
 
 NavbarDropdownMenu.displayName = 'Nav.Dropdown.Menu';
-NavbarDropdownMenu.propTypes = {
-  active: PropTypes.bool,
-  activeKey: PropTypes.any,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  pullLeft: deprecatePropType(PropTypes.bool, 'Use openDirection="start" instead.'),
-  openDirection: oneOf(['start', 'end']),
-  title: PropTypes.node,
-  open: PropTypes.bool,
-  eventKey: PropTypes.any,
-  expanded: PropTypes.bool,
-  collapsible: PropTypes.bool,
-  onToggle: PropTypes.func
-};
 
 export default NavbarDropdownMenu;

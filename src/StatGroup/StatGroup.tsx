@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -47,9 +46,5 @@ const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forward
 );
 
 StatGroup.displayName = 'StatGroup';
-StatGroup.propTypes = {
-  columns: PropTypes.number,
-  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-};
 
 export default StatGroup;

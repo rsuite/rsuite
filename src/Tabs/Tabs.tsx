@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
@@ -266,17 +265,5 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
 
 Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
-Tabs.propTypes = {
-  appearance: PropTypes.oneOf(['tabs', 'subtle', 'pills']),
-  activeKey: PropTypes.any,
-  defaultActiveKey: PropTypes.any,
-  reversed: PropTypes.bool,
-  vertical: PropTypes.bool,
-  id: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onSelect: PropTypes.func
-};
 
 export default Tabs;

@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 
 const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
@@ -84,16 +82,5 @@ const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: 
 });
 
 Text.displayName = 'Text';
-Text.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType,
-  size: PropTypes.oneOfType([PropTypes.number, oneOf(['sm', 'md', 'lg', 'xl', 'xxl'])]),
-  muted: PropTypes.bool,
-  transform: oneOf(['uppercase', 'lowercase', 'capitalize']),
-  align: oneOf(['left', 'center', 'right', 'justify']),
-  weight: oneOf(['thin', 'light', 'regular', 'medium', 'semibold', 'bold', 'extrabold']),
-  maxLines: PropTypes.number
-};
 
 export default Text;

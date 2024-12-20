@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -39,9 +38,5 @@ const ButtonToolbar: RsRefForwardingComponent<typeof Stack, ButtonToolbarProps> 
 );
 
 ButtonToolbar.displayName = 'ButtonToolbar';
-ButtonToolbar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string
-};
 
 export default ButtonToolbar;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -32,11 +31,5 @@ const Grid: RsRefForwardingComponent<'div', GridProps> = React.forwardRef(
 );
 
 Grid.displayName = 'Grid';
-Grid.propTypes = {
-  className: PropTypes.string,
-  fluid: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default Grid;

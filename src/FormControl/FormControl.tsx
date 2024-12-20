@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import type { CheckType } from 'schema-typed';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
@@ -11,7 +10,6 @@ import { useClassNames } from '@/internals/hooks';
 import { TypeAttributes, FormControlBaseProps, WithAsProps } from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 /**
@@ -75,7 +73,7 @@ export interface FormControlProps<P = any, ValueType = any>
 interface FormControlComponent extends React.FC<FormControlProps> {
   <Accepter extends React.ElementType = typeof Input>(
     props: FormControlProps & { accepter?: Accepter } & React.ComponentPropsWithRef<Accepter>
-  ): React.ReactElement | null;
+  ): any;
 }
 
 /**
@@ -183,7 +181,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const fieldHasError = Boolean(fieldError);
 
   // Toggle component is a special case that uses `checked` and `defaultChecked` instead of `value` and `defaultValue` props.
-  const valueKey = AccepterComponent === Toggle ? 'checked' : 'value';
+  const valueKey = (AccepterComponent as any) === Toggle ? 'checked' : 'value';
   const accepterProps = {
     // need to distinguish between undefined and null
     [valueKey]: fieldValue === undefined ? defaultValue : fieldValue
@@ -222,26 +220,5 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 });
 
 FormControl.displayName = 'FormControl';
-FormControl.propTypes = {
-  name: PropTypes.string.isRequired,
-  checkTrigger: oneOf(['change', 'blur', 'none']),
-  checkAsync: PropTypes.bool,
-  accepter: PropTypes.any,
-  onChange: PropTypes.func,
-  onBlur: PropTypes.func,
-  classPrefix: PropTypes.string,
-  errorMessage: PropTypes.node,
-  errorPlacement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ]),
-  value: PropTypes.any
-};
 
 export default FormControl;

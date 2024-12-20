@@ -1,5 +1,4 @@
 import React, { useMemo, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
@@ -7,10 +6,8 @@ import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { sliderPropTypes } from '../Slider/Slider';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
 import { SliderProps } from '../Slider';
-import { tupleType } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { Offset } from '@/internals/types';
 
@@ -375,10 +372,5 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 });
 
 RangeSlider.displayName = 'RangeSlider';
-RangeSlider.propTypes = {
-  ...sliderPropTypes,
-  value: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired),
-  defaultValue: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired)
-};
 
 export default RangeSlider;

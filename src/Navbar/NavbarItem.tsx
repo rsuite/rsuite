@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import { IconProps } from '@rsuite/icons/Icon';
 import Ripple from '@/internals/Ripple';
@@ -98,18 +97,5 @@ const NavbarItem: RsRefForwardingComponent<'a', NavbarItemProps> = React.forward
 );
 
 NavbarItem.displayName = 'Navbar.Item';
-NavbarItem.propTypes = {
-  as: PropTypes.elementType,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  onClick: PropTypes.func,
-  style: PropTypes.object,
-  icon: PropTypes.node,
-  onSelect: PropTypes.func,
-  children: PropTypes.node,
-  eventKey: PropTypes.any
-};
 
 export default NavbarItem;

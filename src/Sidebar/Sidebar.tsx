@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { ContainerContext } from '../Container/Container';
@@ -49,11 +48,5 @@ const Sidebar: RsRefForwardingComponent<'aside', SidebarProps> = React.forwardRe
 );
 
 Sidebar.displayName = 'Sidebar';
-Sidebar.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  collapsible: PropTypes.bool,
-  style: PropTypes.object
-};
+
 export default Sidebar;

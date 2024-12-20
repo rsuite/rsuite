@@ -83,7 +83,7 @@ const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
  *
  * @private
  */
-const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
+const List: RsRefForwardingComponent<'div', ListProps, true> = React.forwardRef((props, ref) => {
   const {
     rowHeight,
     as: Component = VariableSizeList,

@@ -1069,33 +1069,23 @@ describe('DatePicker', () => {
 
   describe('Disable Date, Hour, Minute, Second', () => {
     it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
-      sinon.spy(console, 'warn');
       render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
 
       expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
         'aria-disabled',
         'true'
       );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
-      );
     });
 
     it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
-      sinon.spy(console, 'warn');
       render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
 
       expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
         'aria-disabled',
         'true'
       );
-
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
-      );
     });
     it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
-      sinon.spy(console, 'warn');
       render(
         <DatePicker
           calendarDefaultDate={new Date(2023, 2, 7)}
@@ -1106,21 +1096,14 @@ describe('DatePicker', () => {
       expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
         'rs-calendar-table-cell-disabled'
       );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-      );
     });
 
     it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
-      sinon.spy(console, 'warn');
       render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
 
       expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
         'aria-disabled',
         'true'
-      );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
       );
     });
 

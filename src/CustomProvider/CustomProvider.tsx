@@ -182,7 +182,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
               <ToastContainer
                 key={placement}
                 placement={placement}
-                ref={ref => {
+                ref={(ref: any) => {
                   toasters.current.set(placement, ref);
                 }}
               />

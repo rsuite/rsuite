@@ -1,9 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
-import { SIZE } from '@/internals/constants';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 
 export interface ModalDialogProps extends WithAsProps {
   /** A modal can have different sizes */
@@ -11,16 +8,6 @@ export interface ModalDialogProps extends WithAsProps {
   dialogClassName?: string;
   dialogStyle?: React.CSSProperties;
 }
-
-export const modalDialogPropTypes = {
-  size: oneOf(SIZE),
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  style: PropTypes.object,
-  dialogStyle: PropTypes.object,
-  children: PropTypes.node
-};
 
 const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.forwardRef(
   (props: ModalDialogProps, ref) => {
@@ -63,6 +50,5 @@ const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.for
 );
 
 ModalDialog.displayName = 'ModalDialog';
-ModalDialog.propTypes = modalDialogPropTypes;
 
 export default ModalDialog;

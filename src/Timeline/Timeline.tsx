@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { ReactChildren } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TimelineProps extends WithAsProps {
@@ -78,13 +76,5 @@ Timeline.ACTIVE_LAST = (index, totalItemsCount) => index === totalItemsCount - 1
 Timeline.Item = TimelineItem;
 
 Timeline.displayName = 'Timeline';
-Timeline.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  align: oneOf(['left', 'right', 'alternate']),
-  endless: PropTypes.bool
-};
 
 export default Timeline;

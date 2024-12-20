@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -37,10 +36,5 @@ const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps>
 );
 
 FormControlLabel.displayName = 'FormControlLabel';
-FormControlLabel.propTypes = {
-  className: PropTypes.string,
-  htmlFor: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default FormControlLabel;

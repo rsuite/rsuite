@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
 import { guid, ReactChildren, mergeRefs } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -61,7 +59,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     } = propsWithDefaults;
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const count = ReactChildren.count(children as React.ReactChildren);
+    const count = ReactChildren.count(children);
     const labels: React.ReactElement[] = [];
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
@@ -201,19 +199,5 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 );
 
 Carousel.displayName = 'Carousel';
-Carousel.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  activeIndex: PropTypes.number,
-  defaultActiveIndex: PropTypes.number,
-  autoplay: PropTypes.bool,
-  autoplayInterval: PropTypes.number,
-  placement: oneOf(['top', 'bottom', 'left', 'right']),
-  shape: oneOf(['dot', 'bar']),
-  onSelect: PropTypes.func,
-  onSlideStart: PropTypes.func,
-  onSlideEnd: PropTypes.func
-};
 
 export default Carousel;

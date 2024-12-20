@@ -3,6 +3,8 @@ import ButtonToolbar from '../ButtonToolbar';
 
 <ButtonToolbar spacing={20} alignItems="flex-end" />;
 
+<ButtonToolbar as="div" />;
+
 // @ts-expect-error should not have a spacing prop
 <ButtonToolbar as="div" spacing={20} alignItems="flex-end" />;
 

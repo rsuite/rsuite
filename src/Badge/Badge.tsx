@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export interface BadgeProps extends WithAsProps {
@@ -68,14 +66,5 @@ const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
 );
 
 Badge.displayName = 'Badge';
-Badge.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  as: PropTypes.elementType,
-  content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-  maxCount: PropTypes.number,
-  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
-};
 
 export default Badge;

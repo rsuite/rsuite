@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
@@ -149,22 +148,5 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
   });
 
 ExpandedSidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
-ExpandedSidenavDropdownMenu.propTypes = {
-  as: PropTypes.elementType,
-  expanded: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
-  title: PropTypes.node,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func
-};
 
 export default ExpandedSidenavDropdownMenu;

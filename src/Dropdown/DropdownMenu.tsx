@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
@@ -9,7 +8,6 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import DropdownContext from './DropdownContext';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
-import { oneOf } from '@/internals/propTypes';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { mergeRefs, warnOnce } from '@/internals/utils';
@@ -206,22 +204,5 @@ const DropdownMenu = React.forwardRef<
 });
 
 DropdownMenu.displayName = 'Dropdown.Menu';
-DropdownMenu.propTypes = {
-  active: PropTypes.bool,
-  activeKey: PropTypes.any,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  pullLeft: PropTypes.bool,
-  title: PropTypes.node,
-  open: PropTypes.bool,
-  trigger: oneOf(['click', 'hover']),
-  eventKey: PropTypes.any,
-  expanded: PropTypes.bool,
-  collapsible: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onToggle: PropTypes.func
-};
 
 export default DropdownMenu;

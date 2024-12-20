@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsPropsWithoutChildren, RsRefForwardingComponent } from '@/internals/types';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
 import { renderChildren, defaultRenderInput, type ChildrenProps } from './renderChildren';
 import { useCustom } from '../CustomProvider';
 
-export interface InlineEditProps extends Omit<WithAsProps, 'children'> {
+export interface InlineEditProps extends WithAsPropsWithoutChildren {
   /**
    * If true, the InlineEdit will be disabled.
    */
@@ -75,7 +73,7 @@ export interface InlineEditProps extends Omit<WithAsProps, 'children'> {
     | React.ReactElement;
 }
 
-const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwardRef<
+const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps, true> = React.forwardRef<
   HTMLDivElement,
   InlineEditProps
 >((props, ref) => {
@@ -132,21 +130,5 @@ const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwa
 });
 
 InlineEdit.displayName = 'InlineEdit';
-InlineEdit.propTypes = {
-  children: PropTypes.any,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  defaultValue: PropTypes.any,
-  value: PropTypes.any,
-  showControls: PropTypes.bool,
-  placeholder: PropTypes.string,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  stateOnBlur: oneOf(['save', 'cancel']),
-  onChange: PropTypes.func,
-  onCancel: PropTypes.func,
-  onSave: PropTypes.func,
-  onEdit: PropTypes.func
-};
 
 export default InlineEdit;

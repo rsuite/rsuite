@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -73,13 +72,5 @@ const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.f
 );
 
 TimelineItem.displayName = 'TimelineItem';
-TimelineItem.propTypes = {
-  last: PropTypes.bool,
-  dot: PropTypes.node,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default TimelineItem;

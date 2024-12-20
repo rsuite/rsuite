@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { precisionMath } from './utils';
 import Mark from './Mark';
@@ -76,13 +75,5 @@ const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forward
 );
 
 Graduated.displayName = 'Graduated';
-Graduated.propTypes = {
-  step: PropTypes.number,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  count: PropTypes.number,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
-  renderMark: PropTypes.func
-};
 
 export default Graduated;
