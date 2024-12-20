@@ -60,7 +60,7 @@ jobs:
             ${{ runner.OS }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: install react 17
         if: ${{ matrix.react == 'React17' }}
