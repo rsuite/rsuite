@@ -109,9 +109,9 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         aria-haspopup={popupType}
         aria-expanded={active}
         aria-disabled={disabled}
-        aria-controls={`${id}-${popupType}`}
+        aria-controls={id ? `${id}-${popupType}` : undefined}
         aria-labelledby={labelId}
-        aria-describedby={`${id}-describe`}
+        aria-describedby={id ? `${id}-describe` : undefined}
         aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
         {...rest}
         ref={mergeRefs(combobox, ref)}

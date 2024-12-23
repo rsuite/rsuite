@@ -1,7 +1,7 @@
 import _ from 'lodash';
+import { renderHook } from '@testing-library/react';
 import { getOtherItemValuesByUnselectChild, removeAllChildrenValue } from '../utils';
 import useFlattenData from '../hooks/useFlattenData';
-import { renderHook } from '@test/utils';
 
 const itemKeys = { childrenKey: 'children', labelKey: 'label', valueKey: 'value' };
 
@@ -135,7 +135,10 @@ function setParent() {
 
     data.forEach(item => {
       item.parent = parent;
+
+      // eslint-disable-next-line testing-library/no-node-access
       if (item.children) {
+        // eslint-disable-next-line testing-library/no-node-access
         loop(item.children, item);
       }
     });

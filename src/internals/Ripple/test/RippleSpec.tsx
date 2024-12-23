@@ -1,17 +1,21 @@
 import React from 'react';
+import sinon from 'sinon';
 import { render, act } from '@testing-library/react';
-import { getDOMNode } from '@test/utils';
+import { testStandardProps } from '@test/utils';
+
 import Ripple from '../Ripple';
-import Sinon from 'sinon';
 
 describe('Ripple', () => {
+  testStandardProps(<Ripple />);
+
   it('Should render a Ripple', () => {
-    const instance = getDOMNode(<Ripple />);
-    assert.include(instance.className, 'rs-ripple');
+    const { container } = render(<Ripple />);
+
+    expect(container.firstChild).to.have.contain('.rs-ripple');
   });
 
   it('Should call onMouseDown callback', () => {
-    const onMouseDown = Sinon.spy();
+    const onMouseDown = sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <div ref={ref} style={{ width: 100, height: 100 }}>
@@ -25,10 +29,5 @@ describe('Ripple', () => {
     });
 
     expect(onMouseDown).to.have.been.calledOnce;
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Ripple classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });
