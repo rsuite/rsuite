@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
 import { useCustom } from '../CustomProvider';
@@ -73,8 +72,8 @@ export interface AvatarProps extends WithAsProps {
  */
 const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
   (props: AvatarProps, ref) => {
-    const { size: groupSize, spacing } = useContext(AvatarGroupContext);
-    const { rtl, propsWithDefaults } = useCustom('Avatar', props);
+    const { size: groupSize } = useContext(AvatarGroupContext);
+    const { propsWithDefaults } = useCustom('Avatar', props);
     const {
       as: Component = 'div',
       bordered,
@@ -88,7 +87,6 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
       src,
       srcSet,
       sizes,
-      style,
       imgProps,
       onError,
       ...rest
@@ -114,11 +112,8 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
     const placeholder = children || altComponent || <AvatarIcon className={prefix`icon`} />;
     const image = loaded ? <img {...imageProps} className={prefix`image`} /> : placeholder;
 
-    const margin = rtl ? 'marginLeft' : 'marginRight';
-    const insertStyles = isIE() && spacing ? { [margin]: spacing, ...style } : style;
-
     return (
-      <Component {...rest} ref={ref} className={classes} style={insertStyles}>
+      <Component {...rest} ref={ref} className={classes}>
         {src ? image : placeholder}
       </Component>
     );

@@ -1355,25 +1355,33 @@ describe('DatePicker', () => {
   });
 
   describe('Error handling', () => {
-    it('Should render an error message when the format is deprecated', () => {
-      sinon.spy(console, 'error');
+    let consoleErrorStub;
 
+    beforeEach(() => {
+      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+        // do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+    it('Should render an error message when the format is deprecated', () => {
       expect(() => {
         render(<DatePicker format="YY" value={new Date()} />);
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DatePicker format="_error_" value={new Date()} />);
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 

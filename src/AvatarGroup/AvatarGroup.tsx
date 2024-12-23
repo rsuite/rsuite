@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
+import { getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { isIE } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -48,7 +48,7 @@ const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.for
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ stack }));
     const contextValue = useMemo(() => ({ size }), [size]);
-    const styles = isIE() ? style : { ...style, gap: spacing };
+    const styles = { '--rs-avatar-group-gap': getCssValue(spacing), ...style };
 
     return (
       <Component role="group" {...rest} ref={ref} className={classes} style={styles}>
