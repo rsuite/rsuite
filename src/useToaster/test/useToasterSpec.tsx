@@ -1,11 +1,10 @@
 import React from 'react';
-import { screen, render, act, fireEvent, waitFor } from '@testing-library/react';
+import { screen, render, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 import sinon from 'sinon';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
-import { renderHook } from '@test/utils';
 import Message from '../../Message';
 
 afterEach(() => {
@@ -165,7 +164,7 @@ describe('useToaster', () => {
   });
 
   it('Should push a message to a custom container', () => {
-    const container = React.createRef<HTMLDivElement>();
+    const container = React.createRef<any>();
     const App = props => {
       const { children, ...rest } = props;
       return (

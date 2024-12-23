@@ -1,4 +1,4 @@
-import { renderHook } from '@test/utils';
+import { renderHook } from '@testing-library/react';
 import useFormClassNames from '../hooks/useFormClassNames';
 
 describe('useFormClassNames', () => {

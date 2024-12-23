@@ -1,7 +1,6 @@
 import sinon from 'sinon';
-import { renderHook } from '@test/utils';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import useElementResize from '../useElementResize';
-import { act, waitFor } from '@testing-library/react';
 
 afterEach(() => {
   sinon.restore();

@@ -1,4 +1,4 @@
-import { renderHook } from '@test/utils';
+import { renderHook } from '@testing-library/react';
 import useUniqueId from '../useUniqueId';
 
 describe('internals/hooks/useUniqueId', () => {

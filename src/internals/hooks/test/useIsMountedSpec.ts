@@ -1,4 +1,4 @@
-import { renderHook } from '@test/utils';
+import { renderHook } from '@testing-library/react';
 import useIsMounted from '../useIsMounted';
 
 describe('internals/hooks/useIsMounted', () => {

@@ -38,7 +38,7 @@ jobs:
     strategy:
       matrix:
         browser: [ChromeCi, Firefox]
-        react: ['React17', 'React18', 'React19']
+        react: ['React18', 'React19']
 
     steps:
       - uses: actions/checkout@v4
@@ -61,10 +61,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
-
-      - name: install react 17
-        if: ${{ matrix.react == 'React17' }}
-        run: npm run install:react-17
 
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}

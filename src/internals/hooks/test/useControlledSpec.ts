@@ -1,5 +1,4 @@
-import { act } from '@testing-library/react';
-import { renderHook } from '@test/utils';
+import { act, renderHook } from '@testing-library/react';
 
 import useControlled from '../useControlled';
 

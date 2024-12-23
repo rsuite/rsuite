@@ -16,9 +16,9 @@ describe('internals/utils/getDataGroupBy', () => {
 
     const groups = getDataGroupBy(items, 'group');
 
-    assert.equal((groups[0] as any).groupTitle, 'title');
-    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
-    assert.equal(groups.length, 3);
+    expect(groups[0]['groupTitle']).to.equal('title');
+    expect(groups[0][RSUITE_PICKER_GROUP_KEY]).to.equal(true);
+    expect(groups).to.have.length(3);
   });
 
   it('Should be grouped by country.name Using dot.notation syntax', () => {
@@ -59,11 +59,11 @@ describe('internals/utils/getDataGroupBy', () => {
 
     const groups = getDataGroupBy(items, 'country.name');
 
-    assert.equal((groups[0] as any).groupTitle, 'Egypt');
-    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
-    assert.equal((groups[3] as any).groupTitle, 'USA');
-    assert.equal(groups[3][RSUITE_PICKER_GROUP_KEY], true);
-    assert.equal(groups.length, 6);
+    expect(groups[0]['groupTitle']).to.equal('Egypt');
+    expect(groups[0][RSUITE_PICKER_GROUP_KEY]).to.equal(true);
+    expect(groups[3]['groupTitle']).to.equal('USA');
+    expect(groups[3][RSUITE_PICKER_GROUP_KEY]).to.equal(true);
+    expect(groups).to.have.length(6);
   });
 
   it('Should be grouped by title and sorted', () => {
@@ -86,18 +86,7 @@ describe('internals/utils/getDataGroupBy', () => {
       }
     ];
 
-    function compare(a, b) {
-      const nameA = a.toUpperCase();
-      const nameB = b.toUpperCase();
-
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    }
+    const compare = (a, b) => a.toUpperCase().localeCompare(b.toUpperCase());
 
     function sort(isGroup) {
       if (isGroup) {
@@ -113,10 +102,10 @@ describe('internals/utils/getDataGroupBy', () => {
 
     const groups = getDataGroupBy(items, 'group', sort);
 
-    assert.equal((groups[0] as any).groupTitle, 'group-1');
-    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
-    assert.equal((groups[3] as any).groupTitle, 'group-2');
-    assert.equal(groups[3][RSUITE_PICKER_GROUP_KEY], true);
-    assert.equal(groups.length, 6);
+    expect(groups[0]['groupTitle']).to.equal('group-1');
+    expect(groups[0][RSUITE_PICKER_GROUP_KEY]).to.equal(true);
+    expect(groups[3]['groupTitle']).to.equal('group-2');
+    expect(groups[3][RSUITE_PICKER_GROUP_KEY]).to.equal(true);
+    expect(groups).to.have.length(6);
   });
 });

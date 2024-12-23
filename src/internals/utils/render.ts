@@ -1,8 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
-
-const majorVersion = parseInt(React.version);
-const SuperposedReactDOM = ReactDOM as any;
+import { createRoot } from 'react-dom/client';
 
 /**
  * Renders a React element into a container element.
@@ -18,27 +15,14 @@ export async function render(element: React.ReactElement<any>, container: HTMLEl
   // Add the detached element to the root
   containerElement.appendChild(mountElement);
 
-  if (majorVersion >= 18) {
-    const { createRoot } = await import('react-dom/client');
+  const root =
+    containerElement.__root || createRoot(mountElement, { identifierPrefix: 'rs-root-' });
 
-    const root =
-      containerElement.__root || createRoot(mountElement, { identifierPrefix: 'rs-root-' });
+  root.render(element);
 
-    root.render(element);
+  containerElement.__root = root;
 
-    containerElement.__root = root;
-
-    return root;
-  }
-
-  SuperposedReactDOM.render(element, mountElement);
-
-  return {
-    unmount: () => {
-      SuperposedReactDOM.unmountComponentAtNode(mountElement);
-      containerElement.removeChild(mountElement);
-    }
-  };
+  return root;
 }
 
 export default render;

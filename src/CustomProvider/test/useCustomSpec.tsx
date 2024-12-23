@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook } from '@test/utils';
+import { renderHook } from '@testing-library/react';
 import CustomProvider from '../CustomProvider';
 import useCustom from '../useCustom';
 

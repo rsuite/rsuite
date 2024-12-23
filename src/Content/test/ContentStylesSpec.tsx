@@ -1,14 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Content from '../index';
-import { getDOMNode, getStyle, itChrome } from '@test/utils';
-
 import '../styles/index.less';
 
 describe('Content styles', () => {
-  itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Content ref={instanceRef}>Title</Content>);
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'flex'), '1 1 auto');
+  it('Should render the correct styles', () => {
+    render(<Content>Title</Content>);
+
+    expect(screen.getByText('Title')).to.have.style('flex', '1 1 auto');
   });
 });

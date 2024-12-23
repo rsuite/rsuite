@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 
@@ -10,6 +10,7 @@ describe('Modal', () => {
   testStandardProps(<Modal open></Modal>, {
     getRootElement: () => screen.getByRole('dialog')
   });
+
   it('Should render the modal content', () => {
     render(
       <Modal open>
@@ -49,13 +50,13 @@ describe('Modal', () => {
   });
 
   it('Should be automatic height', () => {
-    const instance = getDOMNode(
+    render(
       <Modal overflow open>
-        <Modal.Body style={{ height: 2000 }} />
+        <Modal.Body style={{ height: 2000 }}>body</Modal.Body>
       </Modal>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('.rs-modal-body') as HTMLElement).style.overflow, 'auto');
+
+    expect(screen.getByText('body')).to.have.style('overflow', 'auto');
   });
 
   it('Should call onClose callback', () => {
