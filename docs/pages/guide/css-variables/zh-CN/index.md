@@ -77,7 +77,7 @@
   // ...
 }
 
-..rs-theme-high-contrast {
+.rs-theme-high-contrast {
   // high contrast mode
   // ...
 }

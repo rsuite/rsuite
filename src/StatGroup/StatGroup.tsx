@@ -1,4 +1,5 @@
 import React from 'react';
+import { getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -32,9 +33,9 @@ const StatGroup: RsRefForwardingComponent<'div', StatGroupProps> = React.forward
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const styles = {
-      ...style,
       '--rs-columns': columns,
-      '--rs-spacing': typeof spacing === 'number' ? `${spacing}px` : spacing
+      '--rs-spacing': getCssValue(spacing),
+      ...style
     } as React.CSSProperties;
 
     return (

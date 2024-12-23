@@ -24,3 +24,4 @@ export type { ComponentProps } from './createComponent';
 export { attachParent } from './attachParent';
 export { isFocusEntering, isFocusLeaving } from './events';
 export { isFocusableElement } from './dom';
+export { getCssValue } from './css';

@@ -1,6 +1,6 @@
 import React from 'react';
 import StackItem from './StackItem';
-import { isSupportFlexGap, ReactChildren } from '@/internals/utils';
+import { ReactChildren } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
@@ -57,7 +57,7 @@ function isStackItem(child: React.ReactElement<StackProps, React.FunctionCompone
  * @see https://rsuitejs.com/components/stack
  */
 const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement>) => {
-  const { propsWithDefaults, rtl } = useCustom('Stack', props);
+  const { propsWithDefaults } = useCustom('Stack', props);
   const {
     as: Component = 'div',
     alignItems = 'center',
@@ -76,20 +76,13 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const isSupportGap = isSupportFlexGap();
-
-  const flexGap = Array.isArray(spacing) ? spacing : [spacing, spacing];
-  const itemStyles: React.CSSProperties = {
-    [rtl ? 'marginLeft' : 'marginRight']: flexGap[0],
-    marginBottom: flexGap[1]
-  };
 
   const styles = {
     alignItems,
     justifyContent,
     flexDirection: direction,
     flexWrap: wrap ? 'wrap' : undefined,
-    gap: isSupportGap ? spacing : undefined,
+    gap: spacing,
     ...style
   };
 
@@ -105,22 +98,12 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
       {ReactChildren.map(filterChildren as React.ReactElement[], (child, index) => {
         const childNode =
           childrenRenderMode === 'wrap' && !isStackItem(child) ? (
-            <StackItem
-              key={index}
-              className={prefix('item')}
-              style={!isSupportGap ? itemStyles : undefined}
-            >
+            <StackItem key={index} className={prefix('item')}>
               {child}
             </StackItem>
           ) : (
             React.cloneElement(child, {
-              className: merge(prefix('item'), child.props.className),
-              style: !isSupportGap
-                ? {
-                    ...itemStyles,
-                    ...child.props.style
-                  }
-                : child.props.style
+              className: merge(prefix('item'), child.props.className)
             })
           );
 
