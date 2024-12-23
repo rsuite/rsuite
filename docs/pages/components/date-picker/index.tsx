@@ -1,9 +1,6 @@
 import React from 'react';
 import { DatePicker, Button, InputGroup, Input, Stack, RadioGroup, Radio } from 'rsuite';
-import format from 'date-fns/format';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
-import isBefore from 'date-fns/isBefore';
+import { format, addDays, subDays, isBefore } from 'date-fns';
 import {
   FaCalendar,
   FaCalendarWeek,
@@ -42,7 +39,7 @@ export default function Page() {
         FaClock,
         BsCalendar2MonthFill
       }}
-      sandboxDependencies={{ 'date-fns': '^2.13.0' }}
+      sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />
   );
 }

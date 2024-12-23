@@ -54,7 +54,7 @@ return (
 React Suite is very easy to customize. In general, you should create a locale setting with your customizations.
 
 ```jsx
-import enGB from 'date-fns/locale/en-GB';
+import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
   sunday: 'Su',
