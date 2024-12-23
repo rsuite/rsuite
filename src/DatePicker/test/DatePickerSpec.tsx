@@ -10,7 +10,7 @@ import { render, fireEvent, waitFor, screen, within } from '@testing-library/rea
 import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
 import sinon from 'sinon';
-import enGB from 'date-fns/locale/en-GB';
+import { enGB } from 'date-fns/locale/en-GB';
 import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';

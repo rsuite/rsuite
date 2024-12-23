@@ -9,9 +9,9 @@ import {
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import format from 'date-fns/format';
-import startOfToday from 'date-fns/startOfToday';
-import addHours from 'date-fns/addHours';
+import { format } from 'date-fns/format';
+import { startOfToday } from 'date-fns/startOfToday';
+import { addHours } from 'date-fns/addHours';
 import TimeRangePicker from '../TimeRangePicker';
 
 afterEach(() => {

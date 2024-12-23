@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { format } from 'date-fns';
-import ru from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale/ru';
 import CustomProvider from '../CustomProvider';
 import FormattedDate from '../FormattedDate';
 
