@@ -2,7 +2,7 @@
 
 ```js
 import { DatePicker } from 'rsuite';
-import isBefore from 'date-fns/isBefore';
+import { isBefore } from 'date-fns/isBefore';
 
 const Label = props => {
   return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;

@@ -54,7 +54,7 @@ return (
 React Suite 能够非常方便的定义语言环境。 您可以自己创建一个 locale 配置。
 
 ```jsx
-import zhCN from 'date-fns/locale/zh-CN';
+import { zhCN } from 'date-fns/locale/zh-CN';
 
 const DateTimeFormats = {
   sunday: '日',

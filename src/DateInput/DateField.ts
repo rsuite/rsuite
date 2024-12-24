@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import type { Locale } from 'date-fns';
-import isValid from 'date-fns/isValid';
+import type { Locale, Month } from 'date-fns';
+import { isValid } from 'date-fns/isValid';
 import { modifyDate } from './utils';
 
 export const patternMap = {
@@ -105,9 +105,9 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
 
       if (value !== null) {
         if (pattern === 'MMM' && typeof value === 'number') {
-          value = localize?.month(value - 1, { width: 'abbreviated' });
+          value = localize?.month((value - 1) as Month, { width: 'abbreviated' });
         } else if (pattern === 'MMMM' && typeof value === 'number') {
-          value = localize?.month(value - 1, { width: 'wide' });
+          value = localize?.month((value - 1) as Month, { width: 'wide' });
         } else if (pattern === 'aa') {
           if (typeof hour === 'number') {
             value = hour > 12 ? 'PM' : 'AM';

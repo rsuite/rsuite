@@ -2,13 +2,13 @@
 
 ```js
 import { DateRangePicker, Stack } from 'rsuite';
-import subDays from 'date-fns/subDays';
-import startOfWeek from 'date-fns/startOfWeek';
-import endOfWeek from 'date-fns/endOfWeek';
-import addDays from 'date-fns/addDays';
-import startOfMonth from 'date-fns/startOfMonth';
-import endOfMonth from 'date-fns/endOfMonth';
-import addMonths from 'date-fns/addMonths';
+import { subDays } from 'date-fns/subDays';
+import { startOfWeek } from 'date-fns/startOfWeek';
+import { endOfWeek } from 'date-fns/endOfWeek';
+import { addDays } from 'date-fns/addDays';
+import { startOfMonth } from 'date-fns/startOfMonth';
+import { endOfMonth } from 'date-fns/endOfMonth';
+import { addMonths } from 'date-fns/addMonths';
 
 const predefinedRanges = [
   {

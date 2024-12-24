@@ -1,4 +1,4 @@
-import cs from 'date-fns/locale/cs';
+import { cs } from 'date-fns/locale/cs';
 
 const DateTimeFormats = {
   sunday: 'Ne',

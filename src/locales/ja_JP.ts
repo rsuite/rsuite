@@ -1,4 +1,4 @@
-import ja from 'date-fns/locale/ja';
+import { ja } from 'date-fns/locale/ja';
 
 const DateTimeFormats = {
   sunday: '日',

@@ -29,8 +29,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import format from 'date-fns/format';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { format } from 'date-fns/format';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function formatDate(date, formatStr) {
    *    return format(date, formatStr, { locale: eo });
@@ -44,8 +44,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import parse from 'date-fns/parse';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { parse } from 'date-fns/parse';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function parseDate(date, formatStr) {
    *    return parse(date, formatStr, new Date(), { locale: eo });

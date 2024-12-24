@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import isMatch from 'date-fns/isMatch';
-import formatDate from 'date-fns/format';
+import { isMatch } from 'date-fns/isMatch';
+import { formatDate } from 'date-fns/format';
 import { keyPress } from '@test/utils/simulateEvent';
 
 export function keyPressTests(TestComponent: React.FC<any>) {

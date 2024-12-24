@@ -1,4 +1,4 @@
-import ru from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale/ru';
 
 const DateTimeFormats = {
   sunday: 'Вс',
