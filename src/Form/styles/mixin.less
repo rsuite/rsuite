@@ -82,7 +82,10 @@
 }
 
 .reset-input-group-addon-size(@size-name) {
-  @padding-horizontal-name: ~'padding-@{size-name}-horizontal';
+ 
+  .map-size(@size-name);
+
+  @padding-horizontal-name: ~'padding-x@{suffix}';
 
   @width: (@@padding-horizontal-name * 2 - @input-border-width*2 + @font-size-base);
   @padding-horizontal: ((@width - @font-size-base)/2);
@@ -93,9 +96,12 @@
 }
 
 .reset-inside-input-group-btn-size(@size-name) {
+ 
+  .map-size(@size-name);
+
   @height: ~'input-height-@{size-name}';
-  @vertical: ~'padding-@{size-name}-vertical';
-  @horizontal: ~'padding-@{size-name}-horizontal';
+  @vertical: ~'padding-y@{suffix}';
+  @horizontal: ~'padding-x@{suffix}';
   @font-size: ~'font-size-@{size-name}';
   @line-height: ~'line-height-@{size-name}';
 

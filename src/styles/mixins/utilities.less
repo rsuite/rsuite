@@ -165,3 +165,28 @@
   box-shadow: none;
   outline: none;
 }
+
+/**
+  * Map mixin
+  * @param {string} @size-name - The size name
+  * @param {string} @suffix - The suffix
+  */
+.map-size(@size-name) {
+  .map(base) {
+    @suffix: '';
+  }
+  .map(small) {
+    @suffix: '-sm';
+  }
+  .map(medium) {
+    @suffix: '-md';
+  }
+  .map(large) {
+    @suffix: '-lg';
+  }
+  .map(extra-small) {
+    @suffix: '-xs';
+  }
+
+  .map(@size-name);
+}

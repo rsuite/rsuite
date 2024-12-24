@@ -1,20 +1,23 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import CheckPicker from '../index';
-import { getStyle, inChrome } from '@test/utils';
+import { testPickerSize } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
-import getWidth from 'dom-lib/getWidth';
+import CheckPicker from '../index';
 import '../styles/index.less';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('CheckPicker styles', () => {
+  testPickerSize(CheckPicker);
+
   it('Should render the correct styles', () => {
     render(<CheckPicker data={data} open />);
-    const menuItemLabel = document.body.querySelector(
-      '.rs-picker-check-menu-items .rs-checkbox-checker label'
-    ) as HTMLElement;
-    inChrome && assert.equal(getStyle(menuItemLabel, 'padding'), '8px 12px 8px 38px');
+
+    const menuItemLabel = screen
+      .getByRole('listbox')
+      .querySelector('.rs-picker-check-menu-items .rs-checkbox-checker label');
+
+    expect(menuItemLabel).to.have.style('padding', '8px 12px 8px 38px');
   });
 
   it('Should change the width of the virtualized list', () => {
@@ -22,8 +25,9 @@ describe('CheckPicker styles', () => {
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(
-      getWidth((screen.getByRole('listbox').firstChild as HTMLElement).firstChild as HTMLElement)
-    ).to.equal(400);
+    expect(screen.getByRole('listbox').querySelector('.rs-virt-list')).to.have.style(
+      'width',
+      '400px'
+    );
   });
 });

@@ -201,8 +201,10 @@
   }
 }
 
-.date-picker-button-size(@size) {
-  @padding-name: 'padding-@{size}-vertical';
+.picker-button-size(@size) {
+  .map-size(@size);
+
+  @padding-name: 'padding-y@{suffix}';
   @padding-vertical: @@padding-name;
 
   .rs-picker-default & {
@@ -211,7 +213,8 @@
 }
 
 .picker-default-button-reset-padding-left(@size) {
-  @padding-name: 'padding-@{size}-horizontal';
+  .map-size(@size);
+  @padding-name: 'padding-x@{suffix}';
   @padding-horizontal: @@padding-name;
 
   .rs-picker-default & {

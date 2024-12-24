@@ -253,3 +253,80 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     });
   });
 }
+
+interface TestPickerSizeOptions {
+  role?: 'combobox' | 'textbox';
+  maxHeight?: number;
+  heightStep?: number;
+  subtle?: boolean;
+  [key: string]: any;
+}
+
+export function testPickerSize(
+  TestComponent: React.ComponentType<any>,
+  pickerProps: TestPickerSizeOptions = {}
+) {
+  const displayName = TestComponent.displayName;
+  const {
+    role = 'combobox',
+    maxHeight = 42,
+    heightStep = 6,
+    subtle = true,
+    ...restProps
+  } = pickerProps;
+
+  describe(`${displayName} - Size`, () => {
+    it('Should have different sizes', () => {
+      render(
+        <>
+          <TestComponent size="lg" placeholder="Large" {...restProps} />
+          <TestComponent size="md" placeholder="Medium" {...restProps} />
+          <TestComponent size="sm" placeholder="Small" {...restProps} />
+          <TestComponent size="xs" placeholder="Xsmall" {...restProps} />
+        </>
+      );
+
+      const paddings = [
+        '9px 36px 9px 15px',
+        '7px 32px 7px 11px',
+        '4px 30px 4px 9px',
+        '1px 28px 1px 7px'
+      ];
+
+      screen.getAllByRole(role).forEach((picker, index) => {
+        if (role === 'combobox') {
+          expect(picker).to.have.style('padding', paddings[index]);
+        }
+
+        expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+      });
+    });
+
+    if (subtle) {
+      it('Should have different sizes with subtle appearance', () => {
+        render(
+          <>
+            <TestComponent size="lg" appearance="subtle" placeholder="Large" {...restProps} />
+            <TestComponent size="md" appearance="subtle" placeholder="Medium" {...restProps} />
+            <TestComponent size="sm" appearance="subtle" placeholder="Small" {...restProps} />
+            <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...restProps} />
+          </>
+        );
+
+        const paddings = [
+          '10px 36px 10px 16px',
+          '8px 32px 8px 12px',
+          '5px 30px 5px 10px',
+          '2px 28px 2px 8px'
+        ];
+
+        screen.getAllByRole(role).forEach((picker, index) => {
+          if (role === 'combobox') {
+            expect(picker).to.have.style('padding', paddings[index]);
+          }
+          expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+        });
+      });
+    }
+  });
+}
