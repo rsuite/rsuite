@@ -253,3 +253,41 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     });
   });
 }
+
+export function testPickerSize(TestComponent: React.ComponentType<any>, pickerProps?: any) {
+  const displayName = TestComponent.displayName;
+
+  describe(`${displayName} - Size`, () => {
+    it('Should have different sizes', () => {
+      render(
+        <>
+          <TestComponent size="lg" placeholder="Large" {...pickerProps} />
+          <TestComponent size="md" placeholder="Medium" {...pickerProps} />
+          <TestComponent size="sm" placeholder="Small" {...pickerProps} />
+          <TestComponent size="xs" placeholder="Xsmall" {...pickerProps} />
+        </>
+      );
+
+      expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '9px 36px 9px 15px');
+      expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '7px 32px 7px 11px');
+      expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '4px 30px 4px 9px');
+      expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '1px 28px 1px 7px');
+    });
+
+    it('Should have different sizes with subtle appearance', () => {
+      render(
+        <>
+          <TestComponent size="lg" appearance="subtle" placeholder="Large" {...pickerProps} />
+          <TestComponent size="md" appearance="subtle" placeholder="Medium" {...pickerProps} />
+          <TestComponent size="sm" appearance="subtle" placeholder="Small" {...pickerProps} />
+          <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...pickerProps} />
+        </>
+      );
+
+      expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '10px 36px 10px 16px');
+      expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '8px 32px 8px 12px');
+      expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '5px 30px 5px 10px');
+      expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '2px 28px 2px 8px');
+    });
+  });
+}

@@ -1,13 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SelectPicker from '../index';
-import { toRGB, itChrome } from '@test/utils';
+import { toRGB, testPickerSize } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
+import SelectPicker from '../index';
 import '../styles/index.less';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('SelectPicker styles', () => {
+  testPickerSize(SelectPicker);
+
   it('Default select picker should render correct toggle styles', () => {
     render(<SelectPicker data={[]} open />);
 
@@ -26,38 +28,6 @@ describe('SelectPicker styles', () => {
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#0000'));
     expect(screen.getByRole('combobox')).to.have.style('border-width', '0px');
     expect(screen.getByRole('combobox')).to.have.style('padding', '8px 32px 8px 12px');
-  });
-
-  itChrome('Select picker default toggle should render correct size', () => {
-    render(
-      <>
-        <SelectPicker size="lg" placeholder="Large" data={data} />
-        <SelectPicker size="md" placeholder="Medium" data={data} />
-        <SelectPicker size="sm" placeholder="Small" data={data} />
-        <SelectPicker size="xs" placeholder="Xsmall" data={data} />
-      </>
-    );
-
-    expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '9px 36px 9px 15px');
-    expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '7px 32px 7px 11px');
-    expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '4px 30px 4px 9px');
-    expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '1px 28px 1px 7px');
-  });
-
-  itChrome('Select picker subtle toggle should render correct size', () => {
-    render(
-      <>
-        <SelectPicker size="lg" appearance="subtle" placeholder="Large" data={data} />
-        <SelectPicker size="md" appearance="subtle" placeholder="Medium" data={data} />
-        <SelectPicker size="sm" appearance="subtle" placeholder="Small" data={data} />
-        <SelectPicker size="xs" appearance="subtle" placeholder="Xsmall" data={data} />
-      </>
-    );
-
-    expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '10px 36px 10px 16px');
-    expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '8px 32px 8px 12px');
-    expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '5px 30px 5px 10px');
-    expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '2px 28px 2px 8px');
   });
 
   it('Block select picker should render correct toggle styles', () => {
