@@ -165,3 +165,23 @@
   box-shadow: none;
   outline: none;
 }
+
+.map-size(@size-name, @suffix) {
+  .map(base) {
+    @suffix: '';
+  }
+  .map(small) {
+    @suffix: '-sm';
+  }
+  .map(medium) {
+    @suffix: '-md';
+  }
+  .map(large) {
+    @suffix: '-lg';
+  }
+  .map(extra-small) {
+    @suffix: '-xs';
+  }
+
+  .map(@size-name);
+}

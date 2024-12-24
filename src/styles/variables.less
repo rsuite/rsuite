@@ -9,16 +9,13 @@
 // Controls
 
 // Polyfill for IE 11
-@ie-polyfill:           true; // @deprecated use @enable-ie-polyfill instead
-@enable-ie-polyfill:    @ie-polyfill;
+@enable-ie-polyfill:    true;
 
 // CSS Resets
-@reset-import:          true; // @deprecated use @enable-css-reset instead
-@enable-css-reset:      @reset-import;
+@enable-css-reset:      true;
 
 // Global button ripple switch
-@button-ripple:         true; // @deprecated use @enable-ripple-effect instead
-@enable-ripple-effect:  @button-ripple;
+@enable-ripple-effect:  true;
 
 // Whether include styles for dark mode
 @enable-dark-mode:      true;
@@ -84,7 +81,6 @@
 // Color system
 
 // Primary palette
-@base-color:      #3498ff; // @deprecated use @primary-color instead
 @primary-color:   #3498ff;
 
 // Secondary palette
@@ -164,42 +160,23 @@
 
 
 // Box shadows
-
-@default-box-shadow:  0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06); // @deprecated use @box-shadow instead
-@box-shadow:          @default-box-shadow;
+@box-shadow:          0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
 
 // Spacing
 // Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
-@padding-base-vertical:           8px; // @deprecated use @padding-y instead
-@padding-base-horizontal:         12px; // @deprecated use @padding-x instead
-
-@padding-large-vertical:          10px; // @deprecated use @padding-y-lg instead
-@padding-large-horizontal:        16px; // @deprecated use @padding-x-lg instead
-
-@padding-small-vertical:          5px; // @deprecated use @padding-y-sm instead
-@padding-small-horizontal:        10px; // @deprecated use @padding-x-sm instead
-
-@padding-extra-small-vertical:    2px; // @deprecated use @padding-y-xs instead
-@padding-extra-small-horizontal:  8px; // @deprecated use @padding-x-xs instead
-
-@padding-y:         @padding-base-vertical;
-@padding-x:         @padding-base-horizontal;
-
-@padding-y-lg:      @padding-large-vertical;
-@padding-x-lg:      @padding-large-horizontal;
-
-@padding-y-sm:      @padding-small-vertical;
-@padding-x-sm:      @padding-small-horizontal;
-
-@padding-y-xs:      @padding-extra-small-vertical;
-@padding-x-xs:      @padding-extra-small-horizontal;
+@padding-y:         8px;
+@padding-x:         12px;
+@padding-y-lg:      10px;
+@padding-x-lg:      16px;
+@padding-y-sm:      5px;
+@padding-x-sm:      10px;
+@padding-y-xs:      2px;
+@padding-x-xs:      8px;
 
 // Border radius
-
-@border-radius-base:  6px;  // @deprecate use @border-radius instead
-@border-radius:       @border-radius-base;
+@border-radius:       6px;
 
 // Scaffolding
 // Settings for some of the most global styles.
@@ -214,21 +191,17 @@
 
 // Table
 
-@table-header-content-padding-vertical: 10px; // @deprecated use @table-header-padding-y instead
-@table-header-padding-y:                @table-header-content-padding-vertical;
+@table-header-padding-y:                10px;
 @table-header-padding-x:                10px;
 @table-header-font-size:                @font-size-small;
-@table-header-line-small:               @line-height-small; // @deprecated use @table-header-line-height instead
-@table-header-line-height:              @table-header-line-small;
+@table-header-line-height:              @line-height-small;
 @table-header-sort-wrapper-margin-left: 5px;
 
 @table-column-resize-spanner-width:                 3px;
 @table-column-resize-spanner-triangle-side-length:  3px;
 
-@table-body-content-padding-vertical:   13px; // @deprecated use @table-cell-padding-y instead
-@table-content-padding-horizontal:      10px; // @deprecated use @table-cell-padding-x instead
-@table-cell-padding-y:                  @table-body-content-padding-vertical;
-@table-cell-padding-x:                  @table-content-padding-horizontal;
+@table-cell-padding-y:                  13px;
+@table-cell-padding-x:                  10px;
 @table-cell-hover-color:                var(--rs-primary-500);
 
 @table-scrollbar-timing-duration:       0.1s;
@@ -242,12 +215,11 @@
 // Buttons
 
 @btn-font-weight:           normal;
-
-@btn-border-radius-base:    @border-radius; // @deprecated use @btn-border-radius instead
-@btn-border-radius:         @btn-border-radius-base;
+@btn-border-radius:         @border-radius;
 
 @btn-transition:            color 0.15s ease-out, background-color 0.15s ease-out;
 @btn-disabled-opacity:      0.3;
+
 
 // Ghost Button
 @btn-ghost-border-width:    1px;
@@ -262,13 +234,11 @@
 
 // Ripple
 
-@btn-ripple-background-color: rgba(0, 0, 0, 0.2); // @deprecated use @ripple-bg instead
-@ripple-bg:                   @btn-ripple-background-color;
+@ripple-bg: rgba(0, 0, 0, 0.2);
 
 // Badge
 
-@badge-dot-side-length: 8px; // @deprecated use @badge-dot-size instead
-@badge-dot-size:        @badge-dot-side-length;
+@badge-dot-size:        8px;
 
 // Avatar
 @avatar-size-xxl:         120px;
@@ -304,13 +274,11 @@
 @form-error-message-triangle-vertical:    4px;
 @form-error-message-translate-distance:   2px;
 
+
 // Input
 
-@padding-base-input-vertical:   @padding-y; // @deprecated use @input-padding-y instead
-@padding-base-input-horizontal: @padding-x; // @deprecated use @input-padding-x instead
-
-@input-padding-y:               @padding-base-input-vertical;
-@input-padding-x:               @padding-base-input-horizontal;
+@input-padding-y:               @padding-y;
+@input-padding-x:               @padding-x;
 @input-border-width:            1px;
 @input-transition:              border-color ease-in-out 0.15s;
 
@@ -322,14 +290,8 @@
 @input-height-small:        (@line-height-computed + (@padding-y-sm * 2));
 @input-height-extra-small:  (@line-height-computed + (@padding-y-xs * 2));
 
-// InputGroup padding for add-on
-@input-group-padding-for-add-on-large:        46px;
-@input-group-padding-for-add-on-base:         36px;
-@input-group-padding-for-add-on-small:        30px;
-@input-group-padding-for-add-on-extra-small:  26px;
 
 // Number input
-
 @number-input-touchspin-font-size: 12px;
 
 // Dropdowns
@@ -342,14 +304,12 @@
 @dropdown-divider-bg:         @divider-border-color;
 @dropdown-shadow:             0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
-@dropdown-menu-radius:              @border-radius;
-@dropdown-menu-padding-y:           @dropdown-menu-radius;
+@dropdown-menu-radius:        @border-radius;
+@dropdown-menu-padding-y:     @dropdown-menu-radius;
 
-@dropdown-item-padding-vertical:    8px; // @deprecated use @dropdown-item-padding-y instead
-@dropdown-item-padding-horizontal:  12px; // @deprecated use @dropdown-item-padding-x instead
 
-@dropdown-item-padding-y:           @dropdown-item-padding-vertical;
-@dropdown-item-padding-x:           @dropdown-item-padding-horizontal;
+@dropdown-item-padding-y:     8px;
+@dropdown-item-padding-x:     12px;
 
 // Dropdown item content submenu icon
 @dropdown-item-submenu-icon-angle-spacing:              10px;
@@ -405,11 +365,6 @@
 @nav-divider-margin-vertical:     6px;
 
 // Navbar
-
-@nav-bar-padding-vertical:        18px; // @deprecated use @navbar-item-padding-y instead
-@nav-bar-padding-horizontal:      16px; // @deprecated use @navbar-item-padding-x instead
-@nav-bar-height:                  (@nav-bar-padding-vertical * 2 + @line-height-computed); // @deprecated use @navbar-height instead
-
 @navbar-item-padding-y:           18px;
 @navbar-item-padding-x:           16px;
 @navbar-height:                   (@navbar-item-padding-y * 2 + @line-height-computed);
