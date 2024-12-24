@@ -2,9 +2,7 @@
  * Forked from Semantic-Org/Semantic-UI-React:
  * https://github.com/Semantic-Org/Semantic-UI-React/blob/master/src/lib/htmlPropsUtils.js
  */
-
-import forEach from 'lodash/forEach';
-import includes from 'lodash/includes';
+import { forEach, includes } from 'lodash-es';
 
 export const htmlInputAttrs = [
   // REACT

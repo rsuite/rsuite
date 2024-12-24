@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
-import { isNil } from 'lodash';
 import contains from 'dom-lib/contains';
+import { isNil } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 

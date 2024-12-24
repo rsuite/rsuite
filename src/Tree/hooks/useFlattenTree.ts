@@ -1,6 +1,5 @@
 import { useCallback, useRef, useEffect } from 'react';
-import omit from 'lodash/omit';
-import isNil from 'lodash/isNil';
+import { omit, isNil } from 'lodash-es';
 import { shallowEqual } from '@/internals/utils';
 import { formatNodeRefKey } from '../utils';
 import useForceUpdate from './useForceUpdate';

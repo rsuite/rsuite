@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import uniq from 'lodash/uniq';
-import remove from 'lodash/remove';
+import { uniq, remove } from 'lodash-es';
 import { MultiCascadeTreeProps, ItemKeys } from '../types';
 import { useEventCallback } from '@/internals/hooks';
 import { ItemDataType } from '@/internals/types';

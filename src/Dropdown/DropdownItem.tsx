@@ -1,18 +1,18 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import classNames from 'classnames';
-import { IconProps } from '@rsuite/icons/Icon';
 import MenuItem from '@/internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
-import isNil from 'lodash/isNil';
-import pick from 'lodash/pick';
-import { useClassNames, useInternalId } from '@/internals/hooks';
-import { mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import NavContext from '../Nav/NavContext';
-import { DropdownActionType } from './DropdownState';
-import { useRenderDropdownItem } from './useRenderDropdownItem';
 import Nav from '../Nav';
 import Text from '../Text';
 import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
+import { IconProps } from '@rsuite/icons/Icon';
+import { isNil, pick } from 'lodash-es';
+import { useClassNames, useInternalId } from '@/internals/hooks';
+import { mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
+import { DropdownActionType } from './DropdownState';
+import { useRenderDropdownItem } from './useRenderDropdownItem';
+
 import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 
 export interface DropdownMenuItemProps<T = any>

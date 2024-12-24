@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react';
-import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import NavContext from './NavContext';
+import { omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { StandardProps } from '@/internals/types';

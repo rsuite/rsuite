@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-import intersection from 'lodash/intersection';
-import isUndefined from 'lodash/isUndefined';
+import { intersection, isUndefined } from 'lodash-es';
 import { getNodeParentKeys } from '../utils/getNodeParentKeys';
 import { isSearching } from '../utils/isSearching';
 import { UNSAFE_flattenTree } from '../utils/flattenTree';

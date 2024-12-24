@@ -1,6 +1,6 @@
 import React from 'react';
-import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
+import { some } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { ReactChildren } from '@/internals/utils';

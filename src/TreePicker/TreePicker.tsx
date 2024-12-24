@@ -1,13 +1,10 @@
 import React, { useMemo } from 'react';
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
-import isNil from 'lodash/isNil';
-import isFunction from 'lodash/isFunction';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
+import { pick, omit, isNil, isFunction } from 'lodash-es';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';

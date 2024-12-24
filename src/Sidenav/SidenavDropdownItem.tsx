@@ -1,9 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import MenuItem from '@/internals/Menu/MenuItem';
-import isNil from 'lodash/isNil';
 import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
+import { isNil } from 'lodash-es';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { SidenavContext } from './Sidenav';

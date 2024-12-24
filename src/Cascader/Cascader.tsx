@@ -1,11 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
-import isNil from 'lodash/isNil';
-import isFunction from 'lodash/isFunction';
 import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
-import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
+import useActive from './useActive';
+import { omit, pick, isNil, isFunction } from 'lodash-es';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
@@ -28,7 +25,7 @@ import {
 } from '@/internals/Picker';
 import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
-import useActive from './useActive';
+import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 
 export interface CascaderProps<T = DataItemValue>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,

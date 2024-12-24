@@ -1,5 +1,4 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
-import pick from 'lodash/pick';
 import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps } from '@/internals/Overlay/Modal';
@@ -9,6 +8,7 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
+import { pick } from 'lodash-es';
 import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';

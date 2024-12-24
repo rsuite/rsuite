@@ -1,22 +1,20 @@
 import React, { useContext, useMemo, useReducer } from 'react';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
+import DropdownItem from './DropdownItem';
+import DropdownContext, { DropdownContextProps } from './DropdownContext';
+import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
+import DropdownToggle from './DropdownToggle';
+import NavContext from '../Nav/NavContext';
+import Button from '../Button';
+import Nav from '../Nav';
+import DropdownSeparator from './DropdownSeparator';
+import { omit, pick, kebabCase } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill, warnOnce } from '@/internals/utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { initialState, reducer } from './DropdownState';
 import { useCustom } from '../CustomProvider';
-import DropdownItem from './DropdownItem';
-import DropdownContext, { DropdownContextProps } from './DropdownContext';
-import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
-import DropdownToggle from './DropdownToggle';
-import kebabCase from 'lodash/kebabCase';
-import NavContext from '../Nav/NavContext';
-import Button from '../Button';
-import Nav from '../Nav';
-import DropdownSeparator from './DropdownSeparator';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>

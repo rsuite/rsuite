@@ -1,4 +1,4 @@
-import isNil from 'lodash/isNil';
+import { isNil } from 'lodash-es';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';

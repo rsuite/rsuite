@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, useImperativeHandle, useReducer, useEffect } from 'react';
-import find from 'lodash/find';
 import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
+import { find } from 'lodash-es';
 import { useClassNames, useWillUnmount } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { guid } from '@/internals/utils';

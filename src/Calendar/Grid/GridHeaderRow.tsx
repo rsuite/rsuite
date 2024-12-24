@@ -1,5 +1,5 @@
 import React from 'react';
-import upperFirst from 'lodash/upperFirst';
+import { upperFirst } from 'lodash-es';
 import { getWeekKeys } from '@/internals/utils/date';
 import { useClassNames } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';

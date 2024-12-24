@@ -1,5 +1,5 @@
 import React from 'react';
-import kebabCase from 'lodash/kebabCase';
+import { kebabCase } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';

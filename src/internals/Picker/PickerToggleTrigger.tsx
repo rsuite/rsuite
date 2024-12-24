@@ -1,10 +1,10 @@
 import React from 'react';
-import pick from 'lodash/pick';
 import OverlayTrigger, {
   OverlayTriggerHandle,
   OverlayTriggerProps,
   OverlayTriggerType
 } from '@/internals/Overlay/OverlayTrigger';
+import { pick } from 'lodash-es';
 import { PositionChildProps } from '@/internals/Overlay/Position';
 import { useUniqueId } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';

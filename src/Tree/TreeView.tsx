@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import isNil from 'lodash/isNil';
 import TreeViewNode from './TreeNode';
 import IndentLine from './IndentLine';
 import useTreeSearch from './hooks/useTreeSearch';
@@ -8,6 +7,7 @@ import useFocusTree from './hooks/useFocusTree';
 import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '@/internals/SearchBox';
+import { isNil } from 'lodash-es';
 import {
   List,
   AutoSizer,

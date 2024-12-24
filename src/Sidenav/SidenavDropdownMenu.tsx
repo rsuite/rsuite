@@ -1,11 +1,11 @@
 import React, { useCallback, useContext } from 'react';
-import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
+import { omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';

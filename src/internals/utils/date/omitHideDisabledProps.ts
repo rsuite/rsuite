@@ -1,4 +1,4 @@
-import omitBy from 'lodash/omitBy';
+import { omitBy } from 'lodash-es';
 import { TimeProp } from './types';
 
 type CalendarOnlyPropsType = TimeProp;

@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import getStyle from 'dom-lib/getStyle';
 import addStyle from 'dom-lib/addStyle';
-import get from 'lodash/get';
-import capitalize from 'lodash/capitalize';
 import Transition, { TransitionProps } from './Transition';
+import { get, capitalize } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';

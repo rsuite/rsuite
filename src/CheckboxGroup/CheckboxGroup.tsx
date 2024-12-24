@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
-import cloneDeep from 'lodash/cloneDeep';
-import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
+import { cloneDeep, remove } from 'lodash-es';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';

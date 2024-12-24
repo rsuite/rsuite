@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import { pick } from 'lodash-es';
 import { getHours } from 'date-fns/getHours';
 import { getMinutes } from 'date-fns/getMinutes';
 import { getSeconds } from 'date-fns/getSeconds';

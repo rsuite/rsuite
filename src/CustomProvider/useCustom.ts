@@ -1,8 +1,8 @@
 import { useContext, useCallback, useMemo } from 'react';
-import assign from 'lodash/assign';
-import enGB from '../locales/en_GB';
+import { assign } from 'lodash-es';
 import { format, parse, isValid } from '@/internals/utils/date';
 import { CustomContext } from './CustomProvider';
+import enGB from '../locales/en_GB';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
 import type { ReactSuiteComponents } from './types';
 

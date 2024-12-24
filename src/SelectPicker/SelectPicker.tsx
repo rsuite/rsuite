@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import pick from 'lodash/pick';
-import isNil from 'lodash/isNil';
-import isFunction from 'lodash/isFunction';
-import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
+import { omit, pick, isNil, isFunction } from 'lodash-es';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';

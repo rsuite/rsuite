@@ -1,5 +1,4 @@
-import kebabCase from 'lodash/kebabCase';
-import omit from 'lodash/omit';
+import { kebabCase, omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { TypeAttributes } from '@/internals/types';
 import { placementPolyfill } from '@/internals/utils';

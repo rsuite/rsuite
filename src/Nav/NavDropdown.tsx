@@ -1,17 +1,15 @@
 import React, { useContext, useMemo, useReducer } from 'react';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
-import kebabCase from 'lodash/kebabCase';
 import NavContext from './NavContext';
 import Button from '../Button';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
+import { kebabCase, pick, omit } from 'lodash-es';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs, placementPolyfill } from '@/internals/utils';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { initialState, reducer } from '../Dropdown/DropdownState';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 

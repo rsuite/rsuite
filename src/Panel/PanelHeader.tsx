@@ -1,7 +1,7 @@
 import React, { isValidElement, cloneElement } from 'react';
-import get from 'lodash/get';
-import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
+import Heading from '../Heading';
+import { get } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 

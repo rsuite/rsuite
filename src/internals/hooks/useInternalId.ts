@@ -1,5 +1,5 @@
 import { useDebugValue, useRef } from 'react';
-import uniqueId from 'lodash/uniqueId';
+import { uniqueId } from 'lodash-es';
 
 /**
  * Used for generating unique ID for DOM elements

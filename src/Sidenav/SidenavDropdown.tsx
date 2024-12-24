@@ -1,20 +1,18 @@
 import React, { useContext, useMemo } from 'react';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
-import kebabCase from 'lodash/kebabCase';
 import ExpandedSidenavDropdown from './ExpandedSidenavDropdown';
 import Button from '../Button';
 import NavContext from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
+import { omit, pick, kebabCase } from 'lodash-es';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs, placementPolyfill } from '@/internals/utils';
+import { SidenavContext } from './Sidenav';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { IconProps } from '@rsuite/icons/Icon';
 import { NavMenuContext } from '../Nav/NavMenu';
 
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';

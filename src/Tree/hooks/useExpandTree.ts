@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import isFunction from 'lodash/isFunction';
+import { isFunction } from 'lodash-es';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { createConcatChildrenFunction } from '@/internals/Picker';
 import { getExpandItemValues, flattenTree } from '../utils';

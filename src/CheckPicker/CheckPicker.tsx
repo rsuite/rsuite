@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import clone from 'lodash/clone';
-import isFunction from 'lodash/isFunction';
-import remove from 'lodash/remove';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
-import isNil from 'lodash/isNil';
+import { clone, omit, pick, remove, isNil, isFunction } from 'lodash-es';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';

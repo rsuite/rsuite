@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import omit from 'lodash/omit';
 import Menu from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
 import Menubar from '@/internals/Menu/Menubar';
@@ -8,6 +7,7 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import DropdownContext from './DropdownContext';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
+import { omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { mergeRefs, warnOnce } from '@/internals/utils';

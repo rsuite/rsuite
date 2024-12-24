@@ -9,12 +9,10 @@ import React, {
   isValidElement,
   cloneElement
 } from 'react';
-import get from 'lodash/get';
-import isNil from 'lodash/isNil';
-import isUndefined from 'lodash/isUndefined';
 import contains from 'dom-lib/contains';
 import OverlayContext from './OverlayContext';
 import Overlay, { OverlayProps } from './Overlay';
+import { get, isNil, isUndefined } from 'lodash-es';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
 import { isFragment } from '@/internals/utils/ReactChildren';

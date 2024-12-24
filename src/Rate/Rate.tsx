@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
+import { isNil } from 'lodash-es';
 import { KEY_VALUES } from '@/internals/constants';
 import { useControlled, useClassNames } from '@/internals/hooks';
 import { shallowEqualArray } from '@/internals/utils';

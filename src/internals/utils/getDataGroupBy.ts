@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { groupBy } from 'lodash-es';
 import { WalkTreeStrategy, flattenTree } from '../../Tree/utils';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
 
@@ -9,7 +9,7 @@ export function getDataGroupBy<T>(
   key: string,
   sort?: (isGroup: boolean) => <T>(a: T, b: T) => number
 ): (T | { groupTitle: string; children: T[] })[] {
-  const groupMap = _.groupBy(data, key);
+  const groupMap = groupBy(data, key);
   const isSort = typeof sort === 'function';
 
   const groups = Object.entries(groupMap).map(([groupTitle, children]: [string, any[]]) => ({

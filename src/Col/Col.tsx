@@ -1,5 +1,5 @@
 import React from 'react';
-import omit from 'lodash/omit';
+import { omit } from 'lodash-es';
 import { COLUMN_SIZE } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';

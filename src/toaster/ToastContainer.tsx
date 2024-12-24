@@ -1,11 +1,11 @@
 import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
+import ToastContext from './ToastContext';
+import { createPortal } from 'react-dom';
+import { kebabCase } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { guid, createChainedFunction, render } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import ToastContext from './ToastContext';
 
 export type PlacementType =
   | 'topCenter'

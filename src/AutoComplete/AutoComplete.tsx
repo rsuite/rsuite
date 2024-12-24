@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
+import { pick, omit } from 'lodash-es';
 import { useClassNames, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import {

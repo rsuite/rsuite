@@ -1,6 +1,3 @@
-import maxBy from 'lodash/maxBy';
-import minBy from 'lodash/minBy';
-import kebabCase from 'lodash/kebabCase';
 import ownerDocument from 'dom-lib/ownerDocument';
 import getOffset from 'dom-lib/getOffset';
 import scrollTop from 'dom-lib/scrollTop';
@@ -8,6 +5,7 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
+import { maxBy, minBy, kebabCase } from 'lodash-es';
 import { CursorPosition, TypeAttributes } from '@/internals/types';
 
 type Offset = {

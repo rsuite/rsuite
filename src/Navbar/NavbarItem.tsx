@@ -1,13 +1,13 @@
 import React, { useCallback, useContext } from 'react';
-import isNil from 'lodash/isNil';
-import { IconProps } from '@rsuite/icons/Icon';
+import classNames from 'classnames';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
+import { isNil } from 'lodash-es';
+import { IconProps } from '@rsuite/icons/Icon';
 import { useClassNames } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import NavContext, { NavContextProps } from '../Nav/NavContext';
-import classNames from 'classnames';
 
 export interface NavbarItemProps<T = string | number>
   extends WithAsProps,

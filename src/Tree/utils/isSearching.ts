@@ -1,4 +1,5 @@
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from 'lodash-es';
+
 export function isSearching(searchKeyword?: string) {
   return !isEmpty(searchKeyword);
 }

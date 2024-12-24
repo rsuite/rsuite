@@ -1,5 +1,5 @@
 import React from 'react';
-import trim from 'lodash/trim';
+import { trim } from 'lodash-es';
 import { KEY_VALUES } from '../constants';
 import { findNodeOfTree } from '../Tree/utils';
 import { reactToString } from '@/internals/utils';
