@@ -198,16 +198,15 @@
 /* stylelint-disable-next-line */ // Custom button sizes
 .rs-picker-toggle.rs-btn {
   .picker-button-caret-md();
+  .picker-button-size(base);
   .date-picker-button-caret-md();
-  .date-picker-button-size(base);
 
   &-lg {
+    .button-size-lg();
     .picker-button-caret-lg();
+    .picker-button-size(large);
     .picker-default-button-reset-padding-left(large);
     .date-picker-button-caret-lg();
-    .date-picker-button-size(large);
-
-    .button-size-lg();
 
     .rs-picker-value-count {
       line-height: @line-height-large-computed;
@@ -216,27 +215,25 @@
 
   &-md {
     .picker-button-caret-md();
+    .picker-button-size(base);
     .picker-default-button-reset-padding-left(base);
     .date-picker-button-caret-md();
-    .date-picker-button-size(base);
   }
 
   &-sm {
     .button-size-sm();
-
     .picker-button-caret-sm();
+    .picker-button-size(small);
     .picker-default-button-reset-padding-left(small);
     .date-picker-button-caret-sm();
-    .date-picker-button-size(small);
   }
 
   &-xs {
     .button-size-xs();
-
     .picker-button-caret-xs();
+    .picker-button-size(extra-small);
     .picker-default-button-reset-padding-left(extra-small);
     .date-picker-button-caret-xs();
-    .date-picker-button-size(extra-small);
   }
 }
 

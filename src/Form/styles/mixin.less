@@ -82,8 +82,8 @@
 }
 
 .reset-input-group-addon-size(@size-name) {
-  @suffix: '';
-  .map-size(@size-name, @suffix);
+ 
+  .map-size(@size-name);
 
   @padding-horizontal-name: ~'padding-x@{suffix}';
 
@@ -96,8 +96,8 @@
 }
 
 .reset-inside-input-group-btn-size(@size-name) {
-  @suffix: '';
-  .map-size(@size-name, @suffix);
+ 
+  .map-size(@size-name);
 
   @height: ~'input-height-@{size-name}';
   @vertical: ~'padding-y@{suffix}';

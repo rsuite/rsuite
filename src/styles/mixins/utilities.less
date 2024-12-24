@@ -166,7 +166,12 @@
   outline: none;
 }
 
-.map-size(@size-name, @suffix) {
+/**
+  * Map mixin
+  * @param {string} @size-name - The size name
+  * @param {string} @suffix - The suffix
+  */
+.map-size(@size-name) {
   .map(base) {
     @suffix: '';
   }
