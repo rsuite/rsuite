@@ -81,6 +81,7 @@
 | backdrop          | unions: boolean &#124; 'static'                                                            | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
 | backdropClassName | string                                                                                     | 应用于 backdrop DOM 节点的 css class                                                                 |
 | classPrefix       | string `('modal')`                                                                         | 组件 CSS 类的前缀                                                                                    |
+| container         | HTMLElement &#124; (() => HTMLElement)                                                     | 设置渲染的容器                                                                                       |
 | dialogAs          | ElementType `(ModalDialog)`                                                                | 以对 Dialog 使用自定义元素类型                                                                       |
 | dialogClassName   | string                                                                                     | 应用于 Dialog DOM 节点的 css class                                                                   |
 | enforceFocus      | boolean `(true)`                                                                           | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
