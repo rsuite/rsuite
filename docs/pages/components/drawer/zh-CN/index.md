@@ -44,6 +44,7 @@
 | backdropClassName | string                                                                            | 为背景设置一个自定义 className                                                                          |
 | classPrefix       | string `('drawer')`                                                               | 组件 CSS 类的前缀                                                                                       |
 | closeButton       | ReactNode &#124; boolean                                                          | 自定义关闭按钮，设置为 false 时不显示关闭按钮                                                           |
+| container         | HTMLElement &#124; (() => HTMLElement)                                            | 设置渲染的容器                                                                                          |
 | enforceFocus      | boolean `(true)`                                                                  | 当设置为 true, Drawer 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                     |
 | ~full~            | boolean                                                                           | 已废弃，使用 size="full" 代替。 撑满全屏                                                                |
 | keyboard          | boolean                                                                           | 按下 esc 键时关闭 Drawer                                                                                |
