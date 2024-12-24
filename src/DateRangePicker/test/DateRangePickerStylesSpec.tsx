@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { testPickerSize } from '@test/utils';
 import DateRangePicker from '../index';
-import getWidth from 'dom-lib/getWidth';
-
 import '../styles/index.less';
 
 describe('DateRangePicker styles', () => {
+  testPickerSize(DateRangePicker, { role: 'textbox', maxHeight: 40 });
   it('Should render the correct styles', () => {
     render(<DateRangePicker open />);
 
@@ -16,7 +16,7 @@ describe('DateRangePicker styles', () => {
     const { container } = render(<DateRangePicker block defaultOpen />);
 
     expect(container.firstChild).to.have.class('rs-picker-block');
-    expect(getWidth(screen.getByRole('dialog'))).to.equal(264 * 2);
+    expect(screen.getByRole('dialog')).to.have.style('width', `${264 * 2}px`);
   });
 
   it('Should hava a padding of 0px', () => {

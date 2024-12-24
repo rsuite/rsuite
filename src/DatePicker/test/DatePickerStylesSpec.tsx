@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { testPickerSize } from '@test/utils';
 import DatePicker from '../index';
-
 import '../styles/index.less';
 
 describe('DatePicker styles', () => {
+  testPickerSize(DatePicker, { role: 'textbox', maxHeight: 40 });
+
   it('Should render the calendar icon', () => {
     render(<DatePicker />);
 

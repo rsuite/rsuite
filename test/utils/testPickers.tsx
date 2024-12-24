@@ -254,40 +254,79 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
   });
 }
 
-export function testPickerSize(TestComponent: React.ComponentType<any>, pickerProps?: any) {
+interface TestPickerSizeOptions {
+  role?: 'combobox' | 'textbox';
+  maxHeight?: number;
+  heightStep?: number;
+  subtle?: boolean;
+  [key: string]: any;
+}
+
+export function testPickerSize(
+  TestComponent: React.ComponentType<any>,
+  pickerProps: TestPickerSizeOptions = {}
+) {
   const displayName = TestComponent.displayName;
+  const {
+    role = 'combobox',
+    maxHeight = 42,
+    heightStep = 6,
+    subtle = true,
+    ...restProps
+  } = pickerProps;
 
   describe(`${displayName} - Size`, () => {
     it('Should have different sizes', () => {
       render(
         <>
-          <TestComponent size="lg" placeholder="Large" {...pickerProps} />
-          <TestComponent size="md" placeholder="Medium" {...pickerProps} />
-          <TestComponent size="sm" placeholder="Small" {...pickerProps} />
-          <TestComponent size="xs" placeholder="Xsmall" {...pickerProps} />
+          <TestComponent size="lg" placeholder="Large" {...restProps} />
+          <TestComponent size="md" placeholder="Medium" {...restProps} />
+          <TestComponent size="sm" placeholder="Small" {...restProps} />
+          <TestComponent size="xs" placeholder="Xsmall" {...restProps} />
         </>
       );
 
-      expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '9px 36px 9px 15px');
-      expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '7px 32px 7px 11px');
-      expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '4px 30px 4px 9px');
-      expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '1px 28px 1px 7px');
+      const paddings = [
+        '9px 36px 9px 15px',
+        '7px 32px 7px 11px',
+        '4px 30px 4px 9px',
+        '1px 28px 1px 7px'
+      ];
+
+      screen.getAllByRole(role).forEach((picker, index) => {
+        if (role === 'combobox') {
+          expect(picker).to.have.style('padding', paddings[index]);
+        }
+
+        expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+      });
     });
 
-    it('Should have different sizes with subtle appearance', () => {
-      render(
-        <>
-          <TestComponent size="lg" appearance="subtle" placeholder="Large" {...pickerProps} />
-          <TestComponent size="md" appearance="subtle" placeholder="Medium" {...pickerProps} />
-          <TestComponent size="sm" appearance="subtle" placeholder="Small" {...pickerProps} />
-          <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...pickerProps} />
-        </>
-      );
+    if (subtle) {
+      it('Should have different sizes with subtle appearance', () => {
+        render(
+          <>
+            <TestComponent size="lg" appearance="subtle" placeholder="Large" {...restProps} />
+            <TestComponent size="md" appearance="subtle" placeholder="Medium" {...restProps} />
+            <TestComponent size="sm" appearance="subtle" placeholder="Small" {...restProps} />
+            <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...restProps} />
+          </>
+        );
 
-      expect(screen.getAllByRole('combobox')[0]).to.have.style('padding', '10px 36px 10px 16px');
-      expect(screen.getAllByRole('combobox')[1]).to.have.style('padding', '8px 32px 8px 12px');
-      expect(screen.getAllByRole('combobox')[2]).to.have.style('padding', '5px 30px 5px 10px');
-      expect(screen.getAllByRole('combobox')[3]).to.have.style('padding', '2px 28px 2px 8px');
-    });
+        const paddings = [
+          '10px 36px 10px 16px',
+          '8px 32px 8px 12px',
+          '5px 30px 5px 10px',
+          '2px 28px 2px 8px'
+        ];
+
+        screen.getAllByRole(role).forEach((picker, index) => {
+          if (role === 'combobox') {
+            expect(picker).to.have.style('padding', paddings[index]);
+          }
+          expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+        });
+      });
+    }
   });
 }
