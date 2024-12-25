@@ -1,0 +1,24 @@
+name: Size Limit
+on:
+  pull_request:
+    branches:
+      - main
+      - next
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Size Limit
+        run: npm run size
