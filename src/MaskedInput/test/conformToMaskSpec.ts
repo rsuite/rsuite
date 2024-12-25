@@ -69,7 +69,7 @@ describe('conformToMask', () => {
     const mask = () => [/\d/, /\d/, '[]', '.', '[]', /\d/, /\d/];
     const result = conformToMask('2', mask);
 
-    expect(result.conformedValue).to.equal('2__');
+    expect(result.conformedValue).to.equal('2_.__');
   });
 
   describe('Accepted character in mask', () => {
@@ -236,7 +236,7 @@ describe('conformToMask', () => {
       const mask = () => [/\d/, /\d/, '[]', '.', '[]', /\d/, /\d/];
       const result = conformToMask('2', mask);
 
-      expect(result.conformedValue).to.equal('2__');
+      expect(result.conformedValue).to.equal('2_.__');
     });
 
     dynamicTests(

@@ -16,10 +16,8 @@ export const getLineNumber = () => {
   return lineNumber;
 };
 
-// export default _.filter((t) => false, [{
 export default [
   {
-    // export default _.filter((t) => t.only, [{
     line: getLineNumber(),
 
     previousConformedValue: '(___)',
@@ -29,8 +27,6 @@ export default [
 
     conformedValue: '(3__)',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -43,8 +39,6 @@ export default [
 
     conformedValue: '$11,122',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -57,8 +51,6 @@ export default [
 
     conformedValue: '$1,245',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -71,8 +63,6 @@ export default [
 
     conformedValue: '$123,457',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -85,8 +75,6 @@ export default [
 
     conformedValue: '$123,456',
     adjustedCaretPosition: 8
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -99,8 +87,6 @@ export default [
 
     conformedValue: '$134,567',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -123,8 +109,6 @@ export default [
 
     conformedValue: '(12_) _',
     adjustedCaretPosition: 3
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -147,8 +131,6 @@ export default [
 
     conformedValue: '(1__) ___-____',
     adjustedCaretPosition: 9
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -171,8 +153,6 @@ export default [
 
     conformedValue: '(333) 3__-____',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -184,8 +164,6 @@ export default [
 
     conformedValue: '(123) 94_-____',
     adjustedCaretPosition: 8
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -219,8 +197,6 @@ export default [
 
     conformedValue: '(__4) 444-____',
     adjustedCaretPosition: 9
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -232,8 +208,6 @@ export default [
 
     conformedValue: '(__4) 444-____',
     adjustedCaretPosition: 9
-
-    // only: true,
   },
   {
     line: getLineNumber(),
@@ -245,7 +219,6 @@ export default [
 
     conformedValue: '(__4) 44_-____',
     adjustedCaretPosition: 8
-    // only: true,
   },
   {
     line: getLineNumber(),
@@ -257,8 +230,6 @@ export default [
 
     conformedValue: '(505) ___-____',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -292,8 +263,6 @@ export default [
 
     conformedValue: '(5__) ___-____',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -327,8 +296,6 @@ export default [
 
     conformedValue: '(124) _',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -340,8 +307,6 @@ export default [
 
     conformedValue: '(449) 5',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -353,8 +318,6 @@ export default [
 
     conformedValue: '(__4) ___-____',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -366,8 +329,6 @@ export default [
 
     conformedValue: '11_',
     adjustedCaretPosition: 2
-
-    //only: true
   },
   {
     line: getLineNumber(),
@@ -390,8 +351,6 @@ export default [
 
     conformedValue: '(3__)',
     adjustedCaretPosition: 2
-
-    //only: true
   },
   {
     line: getLineNumber(),
@@ -414,8 +373,6 @@ export default [
 
     conformedValue: '11_',
     adjustedCaretPosition: 2
-
-    //only: true
   },
   {
     line: getLineNumber(),
@@ -427,8 +384,6 @@ export default [
 
     conformedValue: '(132) _',
     adjustedCaretPosition: 3
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -440,8 +395,6 @@ export default [
 
     conformedValue: '(5__) ___/____',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -453,8 +406,6 @@ export default [
 
     conformedValue: '2938',
     adjustedCaretPosition: 4
-
-    //only: true
   },
   {
     line: getLineNumber(),
@@ -542,8 +493,6 @@ export default [
 
     conformedValue: '(777) ___-____',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -566,8 +515,6 @@ export default [
 
     conformedValue: '1_/__/___1',
     adjustedCaretPosition: 10
-
-    //only: true
   },
   {
     line: getLineNumber(),
@@ -579,8 +526,6 @@ export default [
 
     conformedValue: '1_/1_/____',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -592,8 +537,6 @@ export default [
 
     conformedValue: '(1__) ___-____',
     adjustedCaretPosition: 1
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -653,8 +596,6 @@ export default [
 
     conformedValue: '(222) ___-____',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -677,8 +618,6 @@ export default [
 
     conformedValue: '_2/__',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -766,8 +705,6 @@ export default [
 
     conformedValue: '77/77',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -790,8 +727,6 @@ export default [
 
     conformedValue: '__/5_',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -851,8 +786,6 @@ export default [
 
     conformedValue: '22/39/95__',
     adjustedCaretPosition: 8
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -864,8 +797,6 @@ export default [
 
     conformedValue: '2_',
     adjustedCaretPosition: 1
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -877,8 +808,6 @@ export default [
 
     conformedValue: '(123) 3',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -890,8 +819,6 @@ export default [
 
     conformedValue: '___ ___',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -936,8 +863,6 @@ export default [
 
     conformedValue: 'M2j ___',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -971,8 +896,6 @@ export default [
 
     conformedValue: '(21_)',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -984,8 +907,6 @@ export default [
 
     conformedValue: '(324) 3__',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -997,8 +918,6 @@ export default [
 
     conformedValue: '(21_)',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1010,8 +929,6 @@ export default [
 
     conformedValue: '(1__)',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1034,8 +951,6 @@ export default [
 
     conformedValue: '(___) ___-____',
     adjustedCaretPosition: 1
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1047,8 +962,6 @@ export default [
 
     conformedValue: '(395) 34_-____',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1060,8 +973,6 @@ export default [
 
     conformedValue: '(___) ___-____',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1073,8 +984,6 @@ export default [
 
     conformedValue: '___ ___',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1086,8 +995,6 @@ export default [
 
     conformedValue: '00 (1__)',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1099,8 +1006,6 @@ export default [
 
     conformedValue: '2___',
     adjustedCaretPosition: 1
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1123,17 +1028,9 @@ export default [
 
     conformedValue: '23__',
     adjustedCaretPosition: 1
-
-    // only: true
   }
 ];
 
-//####################################################################################
-//####################################################################################
-//####################################################################################
-//####################################################################################
-
-// export const noGuideMode = _.filter((t) => false, [{
 export const noGuideMode = [
   {
     mask: ['(', /\d/, /\d/, /\d/, ')'],
@@ -1143,8 +1040,6 @@ export const noGuideMode = [
 
     conformedValue: '(',
     adjustedCaretPosition: 1
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1156,8 +1051,6 @@ export const noGuideMode = [
 
     conformedValue: '(2',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1169,8 +1062,6 @@ export const noGuideMode = [
 
     conformedValue: '(23',
     adjustedCaretPosition: 3
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1182,8 +1073,6 @@ export const noGuideMode = [
 
     conformedValue: '(32',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1195,8 +1084,6 @@ export const noGuideMode = [
 
     conformedValue: '(234) 5',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1208,8 +1095,6 @@ export const noGuideMode = [
 
     conformedValue: '(1',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1254,8 +1139,6 @@ export const noGuideMode = [
 
     conformedValue: '(987) 56',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1289,8 +1172,6 @@ export const noGuideMode = [
 
     conformedValue: '',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1302,23 +1183,13 @@ export const noGuideMode = [
 
     conformedValue: '',
     adjustedCaretPosition: 0
-
-    // only: true
   }
 ];
 
-//####################################################################################
-//####################################################################################
-//####################################################################################
-//####################################################################################
-
-// export const acceptedCharInMask = _.filter((t) => false, [{
 export const acceptedCharInMask = [
   {
-    // export const acceptedCharInMask = _.filter((t) => t.only, [{
     line: getLineNumber(),
 
-    // placeholder 0 _ 0 __
     mask: ['0', ' ', /\d/, ' ', '0', ' ', /\d/, /\d/],
     previousConformedValue: '0 _ 0 __',
     rawValue: '0 3_ 0 __',
@@ -1326,13 +1197,10 @@ export const acceptedCharInMask = [
 
     conformedValue: '0 3 0 __',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
 
-    // placeholder 0 _ 0 __
     mask: ['0', ' ', /\d/, ' ', '0', ' ', /\d/, /\d/],
     previousConformedValue: '0 _ 0 __',
     rawValue: '0 _ 0 __',
@@ -1340,13 +1208,10 @@ export const acceptedCharInMask = [
 
     conformedValue: '0 _ 0 __',
     adjustedCaretPosition: 3
-
-    // only: true
   },
   {
     line: getLineNumber(),
 
-    // placeholder 0 _ 0 __
     mask: ['0', ' ', /\d/, ' ', '0', ' ', /\d/, /\d/],
     previousConformedValue: '0 3 0 __',
     rawValue: '0  0 __',
@@ -1354,8 +1219,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '0 _ 0 __',
     adjustedCaretPosition: 0
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1367,8 +1230,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '0 _ 0 __',
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1380,8 +1241,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (1__)',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1393,8 +1252,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (234)',
     adjustedCaretPosition: 8
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1432,8 +1289,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (344) 00 83 ___ 93 ___',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1471,8 +1326,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (1__) 00 83 ___ 93 ___',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1511,8 +1364,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (00_) 00 83 ___ 93 ___',
     adjustedCaretPosition: 6
-
-    // only: true,
   },
   {
     line: getLineNumber(),
@@ -1550,8 +1401,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (34_) 00 83 ___ 93 ___',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1589,8 +1438,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '00 (34_) 00 83 ___ 93 ___',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1620,8 +1467,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '+1 (1__) ___-____',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1651,8 +1496,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '+1 (1__) ___-____',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1682,8 +1525,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '+1 (12_) ___-____',
     adjustedCaretPosition: 5
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1713,8 +1554,6 @@ export const acceptedCharInMask = [
 
     conformedValue: '+1 (12_) ___-____',
     adjustedCaretPosition: 4
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -1745,17 +1584,9 @@ export const acceptedCharInMask = [
 
     conformedValue: '+1 (1__) ___-____',
     adjustedCaretPosition: 0
-
-    // only: true
   }
 ];
 
-//####################################################################################
-//####################################################################################
-//####################################################################################
-//####################################################################################
-
-// export const escapedMaskChar = _.filter((t) => false, [{
 export const escapedMaskChar = [
   {
     mask: [
@@ -1810,20 +1641,11 @@ export const escapedMaskChar = [
 
     conformedValue: '+1 (___) ___-____',
     adjustedCaretPosition: 4
-
-    // only: true
   }
 ];
 
-//####################################################################################
-//####################################################################################
-//####################################################################################
-//####################################################################################
-
 export const caretTrapTests = [
   {
-    // export const escapedMaskChar = _.filter((t) => false, [{
-    // export const escapedMaskChar = _.filter((t) => t.only, [{
     line: getLineNumber(),
 
     mask: ['$', /\d/, ',', /\d/, /\d/, /\d/, /\d/, '.'],

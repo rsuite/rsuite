@@ -1,6 +1,5 @@
 import { getLineNumber } from './testParameters';
 
-// export default _.filter((t) => false, [{
 export default [
   {
     previousConformedValue: '$100',
@@ -21,8 +20,6 @@ export default [
     conformedValue: '24 $',
 
     adjustedCaretPosition: 2
-
-    // only: true,
   },
   {
     line: getLineNumber(),
@@ -34,8 +31,6 @@ export default [
     conformedValue: 'asf@asdf',
 
     adjustedCaretPosition: 2
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -47,8 +42,6 @@ export default [
     conformedValue: 'asd@ .com',
 
     adjustedCaretPosition: 4,
-
-    // only: true,
 
     skips: ['adjustCaretPosition']
   }

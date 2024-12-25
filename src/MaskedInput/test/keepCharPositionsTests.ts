@@ -1,9 +1,7 @@
 import { getLineNumber } from './testParameters';
 
-// export default _.filter((t) => false, [{
 export default [
   {
-    // export default _.filter((t) => t.only, [{
     line: getLineNumber(),
 
     previousConformedValue: '(650) 394-2911',
@@ -13,8 +11,6 @@ export default [
 
     conformedValue: '(650) 394-2_11',
     adjustedCaretPosition: 11
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -26,8 +22,6 @@ export default [
 
     conformedValue: '(650) _94-2_11',
     adjustedCaretPosition: 6
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -39,8 +33,6 @@ export default [
 
     conformedValue: '(650) 394-2_11',
     adjustedCaretPosition: 9
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -52,8 +44,6 @@ export default [
 
     conformedValue: '(650) 3__-2_11',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -65,8 +55,6 @@ export default [
 
     conformedValue: '(65_) ___-2_11',
     adjustedCaretPosition: 3
-
-    // only: true
 
     // ##########################
     // Addition operation
@@ -82,8 +70,6 @@ export default [
 
     conformedValue: '(650) 4__-3___',
     adjustedCaretPosition: 7
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -95,8 +81,6 @@ export default [
 
     conformedValue: '(650) ___-3___',
     adjustedCaretPosition: 8
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -108,8 +92,6 @@ export default [
 
     conformedValue: '(650) __2-3___',
     adjustedCaretPosition: 11
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -121,8 +103,6 @@ export default [
 
     conformedValue: '(902) 394-8__3',
     adjustedCaretPosition: 11
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -134,8 +114,6 @@ export default [
 
     conformedValue: '(830) 203-8__3',
     adjustedCaretPosition: 11
-
-    // only: true
   },
   {
     line: getLineNumber(),
@@ -147,8 +125,6 @@ export default [
 
     conformedValue: '(830) 203-8__3',
     adjustedCaretPosition: 11
-
-    // only: true
   },
   {
     // ##########################
@@ -163,7 +139,5 @@ export default [
 
     conformedValue: '(830) 203-4__3',
     adjustedCaretPosition: 11
-
-    // only: true
   }
 ];
