@@ -73,6 +73,7 @@ const Timeline: TimelineComponent = React.forwardRef(function Timeline(props: Ti
   );
 }) as unknown as TimelineComponent;
 
+Timeline.displayName = 'Timeline';
 Timeline.ACTIVE_FIRST = ACTIVE_FIRST;
 Timeline.ACTIVE_LAST = ACTIVE_LAST;
 
