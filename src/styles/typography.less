@@ -17,12 +17,6 @@ h6 {
   font-weight: @headings-font-weight;
   color: @headings-color;
   margin: 0;
-
-  small {
-    font-weight: normal;
-    line-height: 1;
-    color: var(--rs-text-disabled);
-  }
 }
 
 h1 {
@@ -73,6 +67,17 @@ p {
 // Ex: (12px small font / 14px base font) * 100% = about 85%
 small {
   font-size: floor((100% * @font-size-small / @font-size-base));
+}
+
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+  font-weight: normal;
+  line-height: 1;
+  color: var(--rs-text-disabled);
 }
 
 mark {
