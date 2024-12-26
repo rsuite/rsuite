@@ -11,12 +11,3 @@ export const isIE11 = () =>
   window.navigator.userAgent.indexOf('rv:11.0') > -1;
 
 export const isAndroid = () => canUseDOM && /Android/i.test(navigator.userAgent);
-
-export const getChromeVersion = () => {
-  if (canUseDOM) {
-    const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([\d\.]+)\./);
-    return match ? parseFloat(match[2]) : false;
-  }
-
-  return false;
-};

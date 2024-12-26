@@ -9,9 +9,7 @@ describe('TimelineItem', () => {
   it('Should output a TimelineItem', () => {
     const { container } = render(<TimelineItem />);
     expect(container.firstChild).to.have.class('rs-timeline-item');
-    // eslint-disable-next-line
     expect(container.querySelector('.rs-timeline-item-dot')).to.have.class('rs-timeline-item-dot');
-    // eslint-disable-next-line
     expect(container.querySelector('.rs-timeline-item-tail')).to.have.class(
       'rs-timeline-item-tail'
     );

@@ -10,7 +10,6 @@ function useMaxWidth(triggerRef: React.RefObject<OverlayTriggerHandle>) {
     if (triggerRef.current?.root) {
       setMaxWidth(getWidth(triggerRef.current?.root));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return maxWidth;

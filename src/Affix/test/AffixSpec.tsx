@@ -40,9 +40,8 @@ describe('Affix', () => {
 
     const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(affix).to.have.class('rs-affix');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(affix).to.have.style('position', 'fixed');
   });
 

@@ -12,7 +12,7 @@ describe('StackItem', () => {
       </Stack>
     );
     expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByText('stack item').parentNode).to.have.class('rs-stack');
   });
 

@@ -215,7 +215,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
       triggerRef.current?.updatePosition?.();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKeyword, value]);
 
     const getDataItem = (value: any) => {

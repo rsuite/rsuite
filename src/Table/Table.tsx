@@ -22,10 +22,10 @@ export interface CellProps<Row extends RowDataType>
   rowData?: Row;
 }
 
-const CustomTable = React.forwardRef((props, ref) => {
+const CustomTable = React.forwardRef(function Table(props, ref) {
   const { propsWithDefaults, rtl, getLocale } = useCustom('Table', props);
   const { locale: overrideLocale, loadAnimation = true, ...rest } = propsWithDefaults;
-  const locale = getLocale('Calendar', overrideLocale);
+  const locale = getLocale('common', overrideLocale);
 
   return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
 }) as <Row extends RowDataType, Key extends RowKeyType>(

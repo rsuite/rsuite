@@ -326,7 +326,7 @@ describe('<Sidenav>', () => {
       );
 
       const menu = screen.getByText('menu3');
-      // eslint-disable-next-line testing-library/no-node-access
+
       expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
         'rs-dropdown-item-collapse-icon'
       );
@@ -334,7 +334,6 @@ describe('<Sidenav>', () => {
       // opens the menu
       fireEvent.click(menu);
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
         'rs-dropdown-item-expand-icon'
       );

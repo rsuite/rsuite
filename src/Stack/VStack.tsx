@@ -10,7 +10,7 @@ export interface StackComponent extends RsRefForwardingComponent<'div', VStackPr
   Item: typeof Stack.Item;
 }
 
-const VStack: StackComponent = React.forwardRef((props: VStackProps, ref) => {
+const VStack: StackComponent = React.forwardRef(function VStack(props: VStackProps, ref) {
   const {
     reverse,
     spacing = 6,

@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import {
   testStandardProps,
@@ -23,7 +22,6 @@ describe('DatePicker', () => {
   testStandardProps(<DatePicker />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });
@@ -488,7 +486,7 @@ describe('DatePicker', () => {
     expect(
       screen
         .getByRole('grid', { name: 'Jun 2021' })
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
 
@@ -497,7 +495,7 @@ describe('DatePicker', () => {
     expect(
       screen
         .getByRole('grid', { name: 'Jul 2021' })
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7']);
   });

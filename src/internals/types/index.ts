@@ -45,7 +45,6 @@ export interface RsRefForwardingComponent<
     >,
     context?: any
   ): any;
-  propTypes?: any;
   contextTypes?: any;
   displayName?: string;
 }

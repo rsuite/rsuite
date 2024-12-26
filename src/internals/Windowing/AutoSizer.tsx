@@ -121,4 +121,6 @@ const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) 
   );
 });
 
+AutoSizer.displayName = 'AutoSizer';
+
 export default AutoSizer;

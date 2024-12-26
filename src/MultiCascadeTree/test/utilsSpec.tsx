@@ -136,9 +136,7 @@ function setParent() {
     data.forEach(item => {
       item.parent = parent;
 
-      // eslint-disable-next-line testing-library/no-node-access
       if (item.children) {
-        // eslint-disable-next-line testing-library/no-node-access
         loop(item.children, item);
       }
     });

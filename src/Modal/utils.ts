@@ -88,7 +88,6 @@ export const useBodyStyles = (
 
   useEffect(() => {
     return onDestroyEvents;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [overflow ? bodyStyles : null, onChangeBodyStyles, onDestroyEvents];

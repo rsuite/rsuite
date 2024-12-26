@@ -47,7 +47,7 @@ describe('Drawer', () => {
         <Drawer.Body />
       </Drawer>
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.exist;
   });
 
@@ -57,7 +57,7 @@ describe('Drawer', () => {
         <Drawer.Body />
       </Drawer>
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.not.exist;
   });
 

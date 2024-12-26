@@ -277,7 +277,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const handleChange = useEventCallback(
     (value: any, event: React.ChangeEvent<HTMLInputElement>) => {
       const separator = decimalSeparator || '.';
-      const escapedSeparator = separator.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const escapedSeparator = separator.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 
       const regex = new RegExp(`^-?(?:\\d+)?(${escapedSeparator})?\\d*$`);
 

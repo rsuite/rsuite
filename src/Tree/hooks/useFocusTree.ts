@@ -149,7 +149,6 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     return () => {
       unregister?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

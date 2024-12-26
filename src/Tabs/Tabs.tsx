@@ -166,7 +166,10 @@ const renderTabs = (
  * @version 5.53.0
  * @see https://rsuitejs.com/components/tabs
  */
-const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
+const Tabs: TabsComponent = React.forwardRef(function Tabs(
+  props: TabsProps,
+  ref: React.Ref<HTMLDivElement>
+) {
   const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
     as: Component = 'div',
@@ -225,15 +228,16 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
         item = getFocusableTabs(tablistRef.current)?.[0];
         event.preventDefault();
         break;
-      case 'End':
+      case 'End': {
         const tabs = getFocusableTabs(tablistRef.current);
         item = tabs[tabs.length - 1];
         event.preventDefault();
         break;
+      }
     }
 
     if (item) {
-      const { eventKey } = item?.dataset;
+      const eventKey = item ? item.dataset.eventKey : undefined;
       handleSelect(eventKey, event);
       item.focus();
     }

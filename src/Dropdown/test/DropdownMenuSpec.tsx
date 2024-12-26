@@ -223,9 +223,6 @@ describe('<Dropdown.Menu>', () => {
     const onSelectSpy = sinon.spy();
 
     render(
-      // FIXME Correct activeKey type declaration
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       <DropdownMenu onSelect={onSelectSpy} activeKey={1}>
         <DropdownItem eventKey={1}>1</DropdownItem>
         <DropdownItem eventKey={2}>2</DropdownItem>

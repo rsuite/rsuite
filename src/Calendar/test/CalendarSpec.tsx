@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
@@ -78,13 +77,11 @@ describe('Calendar', () => {
 
     const calendar = (ref.current as AppInstance).calendar;
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
 
     (ref.current as AppInstance).setDate(new Date('7/11/2021'));
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
   });
@@ -95,7 +92,7 @@ describe('Calendar', () => {
     const cells = Array.from(
       screen
         .getByRole('grid', { name: 'Apr 2023' })
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).map(cell => (cell as HTMLDivElement).innerText);
 
@@ -120,7 +117,6 @@ describe('Calendar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
     fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
       screen.getByRole('gridcell', { name: 'Jan 2023' })?.nextElementSibling as HTMLDivElement
     );
 

@@ -32,12 +32,15 @@ interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProp
   ACTIVE_LAST: (index: number, totalItemsCount: number) => boolean;
 }
 
+const ACTIVE_FIRST = (index: number) => index === 0;
+const ACTIVE_LAST = (index: number, totalItemsCount: number) => index === totalItemsCount - 1;
+
 /**
  * The `Timeline` component is used to display a list of items in chronological order.
  *
  * @see https://rsuitejs.com/components/timeline
  */
-const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref) => {
+const Timeline: TimelineComponent = React.forwardRef(function Timeline(props: TimelineProps, ref) {
   const { propsWithDefaults } = useCustom('Timeline', props);
   const {
     children,
@@ -46,7 +49,7 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
     className,
     align = 'left',
     endless,
-    isItemActive = Timeline.ACTIVE_LAST,
+    isItemActive = ACTIVE_LAST,
     ...rest
   } = propsWithDefaults;
 
@@ -70,11 +73,9 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
   );
 }) as unknown as TimelineComponent;
 
-Timeline.ACTIVE_FIRST = index => index === 0;
-Timeline.ACTIVE_LAST = (index, totalItemsCount) => index === totalItemsCount - 1;
+Timeline.ACTIVE_FIRST = ACTIVE_FIRST;
+Timeline.ACTIVE_LAST = ACTIVE_LAST;
 
 Timeline.Item = TimelineItem;
-
-Timeline.displayName = 'Timeline';
 
 export default Timeline;

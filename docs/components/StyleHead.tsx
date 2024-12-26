@@ -13,7 +13,6 @@ const StyleHead = React.memo((props: StyleHeadProps) => {
     document.documentElement.setAttribute('dir', defaultDirection);
     setLoading(false);
     props.onLoaded?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <>{loading && <GlobalLoader />}</>;
 });

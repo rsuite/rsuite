@@ -99,7 +99,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
 
-  // The count of values ​​that can be entered.
+  // The count of values that can be entered.
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -232,7 +232,8 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    const { key } = event.target?.['dataset'];
+    const target = event.target as HTMLElement;
+    const { key } = target?.dataset || {};
     const nextValue: Range = [...value];
     const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
     const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
@@ -282,7 +283,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     let [start, end] = value;
     const v = getValueByPosition(event);
 
-    //  Judging that the current click value is closer to the values ​​of `start` and` end`.
+    // Judging that the current click value is closer to the values of `start` and `end`.
     if (Math.abs(start - v) < Math.abs(end - v)) {
       start = v;
     } else {

@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';

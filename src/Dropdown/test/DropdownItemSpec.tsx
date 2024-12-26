@@ -30,7 +30,7 @@ describe('<Dropdown.Item>', () => {
     const element = screen.getByTestId('dropdown-item');
 
     expect(element).to.have.tagName('A');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(element.parentElement).to.have.tagName('LI');
   });
 

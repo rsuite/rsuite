@@ -67,7 +67,7 @@ const emptyArray = [];
  * The `Sidenav` component is an encapsulation of the page sidebar `Nav`.
  * @see https://rsuitejs.com/components/sidenav/
  */
-const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) => {
+const Sidenav: SidenavComponent = React.forwardRef(function Sidenav(props: SidenavProps, ref) {
   const { propsWithDefaults } = useCustom('Sidenav', props);
   const {
     as: Component = 'nav',

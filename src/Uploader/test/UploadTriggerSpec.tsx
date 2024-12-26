@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
 import React from 'react';
 import sinon from 'sinon';
 

@@ -87,7 +87,7 @@ export interface NavbarDropdownComponent
  * @private
  */
 const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
-  (props: NavbarDropdownProps, ref) => {
+  function NavbarDropdown(props: NavbarDropdownProps, ref) {
     const navbar = useContext(NavbarContext);
 
     if (!navbar) {

@@ -435,7 +435,6 @@ describe('InputPicker', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });

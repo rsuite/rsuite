@@ -48,7 +48,6 @@ describe('Message', () => {
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.exist;
     expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
   });

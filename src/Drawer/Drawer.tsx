@@ -33,7 +33,7 @@ interface DrawerComponent extends React.FC<DrawerProps> {
  * The Drawer component is used to display extra content from a main content.
  * @see https://rsuitejs.com/components/drawer
  */
-const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
+const Drawer: DrawerComponent = React.forwardRef(function Drawer(props: DrawerProps, ref) {
   const { propsWithDefaults } = useCustom('Drawer', props);
   const {
     className,

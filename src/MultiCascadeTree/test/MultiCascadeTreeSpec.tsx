@@ -126,7 +126,6 @@ describe('MultiCascadeTree', () => {
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
       .exist;
   });

@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
@@ -52,7 +50,6 @@ describe('DateRangePicker', () => {
     sizes: ['lg', 'md', 'sm', 'xs'],
 
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });

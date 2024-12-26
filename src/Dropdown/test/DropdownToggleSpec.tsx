@@ -11,7 +11,6 @@ describe('DropdownToggle', () => {
     const { container } = render(<DropdownToggle>{title}</DropdownToggle>);
     expect(container.firstChild).to.have.class('rs-dropdown-toggle');
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('.rs-dropdown-toggle-caret')).to.exist;
     expect(container.firstChild).to.have.text(title);
   });
@@ -24,7 +23,7 @@ describe('DropdownToggle', () => {
 
   it('Should have an icon', () => {
     const { container } = render(<DropdownToggle icon={<AddOutlineIcon />}>abc</DropdownToggle>);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('.rs-dropdown-toggle-icon.rs-icon')).to.exist;
   });
 
@@ -35,7 +34,7 @@ describe('DropdownToggle', () => {
 
   it('Should not show caret', () => {
     const { container } = render(<DropdownToggle noCaret>abc</DropdownToggle>);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('.rs-dropdown-toggle-caret')).to.not.exist;
   });
 

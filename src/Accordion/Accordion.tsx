@@ -14,7 +14,7 @@ export interface AccordionComponent extends RsRefForwardingComponent<'div', Acco
  * The `Accordion` component is used to display content that can be collapsed.
  * @see https://rsuitejs.com/components/accordion
  */
-const Accordion = React.forwardRef((props, ref) => {
+const Accordion = React.forwardRef(function Accordion(props, ref) {
   const { propsWithDefaults } = useCustom('Accordion', props);
 
   return <PanelGroup accordion ref={ref} {...propsWithDefaults} />;

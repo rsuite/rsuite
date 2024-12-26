@@ -58,7 +58,6 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
 
   useEffect(() => {
     handleSearch(searchKeyword ?? '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchKeyword]);
 
   useEffect(() => {

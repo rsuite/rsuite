@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 export function useWillUnmount(fn: () => void) {
   const onUnmount = useUpdatedRef(fn);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => onUnmount.current(), []);
 }
 

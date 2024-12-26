@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import sinon from 'sinon';
 
 export default function useElementResize(eventTarget, listener) {
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function useElementResize(eventTarget, listener) {
           }
         });
       }
-      currentNode = treeWalker.nextNode();
+      currentNode = treeWalker.nextNode() as Node;
     }
 
     return () => {
