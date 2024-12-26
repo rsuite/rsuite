@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import isNil from 'lodash/isNil';
+import { isNil } from 'lodash-es';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
 import { shallowEqual as equal, stringifyReactNode } from '@/internals/utils';

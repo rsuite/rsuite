@@ -1,17 +1,15 @@
 import React, { useContext } from 'react';
-import castArray from 'lodash/castArray';
-import omit from 'lodash/omit';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
-import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '.';
 import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure';
 import Button from '../Button';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs, placementPolyfill } from '@/internals/utils';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { IconProps } from '@rsuite/icons/Icon';
+import { NavbarContext } from './Navbar';
+import { kebabCase, castArray, omit } from 'lodash-es';
 
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>

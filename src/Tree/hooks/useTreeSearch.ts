@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import isArray from 'lodash/isArray';
+import { isArray } from 'lodash-es';
 import { shouldDisplay } from '@/internals/Picker';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 

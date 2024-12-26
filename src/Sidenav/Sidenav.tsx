@@ -1,9 +1,9 @@
 import React, { useMemo, useCallback } from 'react';
-import remove from 'lodash/remove';
 import Transition from '../Animation/Transition';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
+import { remove } from 'lodash-es';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { mergeRefs, shallowEqual } from '@/internals/utils';

@@ -1,9 +1,10 @@
 import React, { HTMLAttributes, useMemo } from 'react';
-import pick from 'lodash/pick';
+import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
+import { pick } from 'lodash-es';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import {
   startOfToday,
@@ -20,7 +21,6 @@ import { CalendarLocale } from '../locales';
 import { CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
-import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 
 export interface CalendarProps
   extends WithAsProps,

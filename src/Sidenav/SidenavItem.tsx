@@ -1,13 +1,12 @@
 import React, { useContext, useCallback } from 'react';
 import classNames from 'classnames';
-import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '@/internals/Menu/MenuItem';
-import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
+import { isNil, omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
+import { debounce } from 'lodash-es';
 import { Offset, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';

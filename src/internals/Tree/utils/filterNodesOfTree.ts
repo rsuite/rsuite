@@ -1,4 +1,4 @@
-import clone from 'lodash/clone';
+import { clone } from 'lodash-es';
 
 type HasChildren<T extends Record<string, unknown>> = T & {
   children?: readonly HasChildren<T>[];

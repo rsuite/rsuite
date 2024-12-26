@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import isNil from 'lodash/isNil';
 import CheckTreeNode from './CheckTreeNode';
 import IndentLine from '../Tree/IndentLine';
 import SearchBox from '@/internals/SearchBox';
@@ -8,6 +7,7 @@ import useFocusTree from '../Tree/hooks/useFocusTree';
 import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
 import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
+import { isNil } from 'lodash-es';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';

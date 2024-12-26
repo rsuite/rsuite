@@ -1,13 +1,13 @@
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import React, { useCallback, useContext } from 'react';
+import classNames from 'classnames';
+import MenuItem from '@/internals/Menu/MenuItem';
+import NavContext from './NavContext';
+import { isNil } from 'lodash-es';
+import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { useClassNames } from '@/internals/hooks';
-import MenuItem from '@/internals/Menu/MenuItem';
-import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual } from '@/internals/utils';
-import NavContext from './NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
-import classNames from 'classnames';
 
 export interface NavDropdownItemProps<T = any>
   extends WithAsProps,

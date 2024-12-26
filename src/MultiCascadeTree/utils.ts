@@ -1,4 +1,4 @@
-import remove from 'lodash/remove';
+import { remove } from 'lodash-es';
 import { ItemDataType } from '@/internals/types';
 export interface ItemType<T = any> extends ItemDataType<T> {
   parent?: ItemType<T>;

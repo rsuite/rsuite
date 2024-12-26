@@ -1,14 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import isUndefined from 'lodash/isUndefined';
-import isString from 'lodash/isString';
-import isNumber from 'lodash/isNumber';
-import findIndex from 'lodash/findIndex';
-import pickBy from 'lodash/pickBy';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
-import get from 'lodash/get';
 import classNames from 'classnames';
+import ListItemGroup from './ListItemGroup';
+import useCombobox from './hooks/useCombobox';
+import Highlight from '../../Highlight';
+import { get, isUndefined, isString, isNumber, findIndex, pickBy } from 'lodash-es';
 import {
   List,
   AutoSizer,
@@ -21,10 +19,7 @@ import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
 import { useClassNames, useMount, useEventCallback } from '../hooks';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
-import ListItemGroup from './ListItemGroup';
 import { StandardProps, ItemDataType, Offset, DataProps } from '@/internals/types';
-import useCombobox from './hooks/useCombobox';
-import Highlight from '../../Highlight';
 
 interface InnerItemDataType extends ItemDataType {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;

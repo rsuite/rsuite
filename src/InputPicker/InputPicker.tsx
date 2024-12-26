@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import isNil from 'lodash/isNil';
-import isFunction from 'lodash/isFunction';
-import remove from 'lodash/remove';
-import clone from 'lodash/clone';
-import isArray from 'lodash/isArray';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
+import { clone, omit, remove, pick, isArray, isNil, isFunction } from 'lodash-es';
 import { shallowEqual, getDataGroupBy } from '@/internals/utils';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';

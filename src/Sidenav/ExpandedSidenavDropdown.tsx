@@ -1,16 +1,15 @@
 import React, { useContext, useCallback } from 'react';
-import kebabCase from 'lodash/kebabCase';
-import omit from 'lodash/omit';
+import SidenavDropdownCollapse from './SidenavDropdownCollapse';
+import Disclosure from '@/internals/Disclosure/Disclosure';
+import SidenavDropdownToggle from './SidenavDropdownToggle';
+import NavContext from '../Nav/NavContext';
+import { kebabCase, omit } from 'lodash-es';
 import { useClassNames, useInternalId } from '@/internals/hooks';
 import { placementPolyfill, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
-import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Disclosure from '@/internals/Disclosure/Disclosure';
-import SidenavDropdownToggle from './SidenavDropdownToggle';
 import { NavMenuContext } from '../Nav/NavMenu';
-import NavContext from '../Nav/NavContext';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,

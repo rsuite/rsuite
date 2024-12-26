@@ -1,7 +1,10 @@
 export default function dynamicTests(arrayOfTests, generateTestDefinition) {
   arrayOfTests = arrayOfTests || [];
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  generateTestDefinition = generateTestDefinition || function () {};
+  generateTestDefinition =
+    generateTestDefinition ||
+    function () {
+      // noop
+    };
 
   arrayOfTests.forEach(function (test) {
     test = test || {};

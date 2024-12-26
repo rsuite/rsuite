@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import isNil from 'lodash/isNil';
+import { isNil } from 'lodash-es';
 
 /**
  * Custom hook that manages references to tree nodes. */

@@ -8,7 +8,6 @@ module.exports = (api, options) => {
   }
 
   const plugins = [
-    'lodash',
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-transform-optional-chaining',
     '@babel/plugin-transform-nullish-coalescing-operator',

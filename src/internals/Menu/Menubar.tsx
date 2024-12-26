@@ -1,8 +1,8 @@
 // Headless ARIA `menubar`
 import React, { useCallback, useRef } from 'react';
-import isNil from 'lodash/isNil';
 import useMenu from './useMenu';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
+import { isNil } from 'lodash-es';
 import { KEY_VALUES } from '../constants';
 import { useCustom } from '../../CustomProvider';
 import { isFocusEntering, isFocusLeaving, isFocusableElement } from '@/internals/utils/';

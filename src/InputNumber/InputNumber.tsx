@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import isNil from 'lodash/isNil';
 import on from 'dom-lib/on';
 import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
@@ -7,6 +6,7 @@ import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
+import { isNil } from 'lodash-es';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';

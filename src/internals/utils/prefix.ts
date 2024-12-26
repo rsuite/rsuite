@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import curry from 'lodash/curry';
+import { curry } from 'lodash-es';
 
 export const globalKey = 'rs-';
 export const getClassNamePrefix = () => {

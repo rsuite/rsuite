@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef, useMemo } from 'react';
-import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import useMenu from './useMenu';
+import { isNil } from 'lodash-es';
 import { useUniqueId, useFocus, useClickOutside } from '../hooks';
 import { KEY_VALUES } from '../constants';
 import { useCustom } from '../../CustomProvider';

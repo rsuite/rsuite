@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import isUndefined from 'lodash/isUndefined';
-import isNil from 'lodash/isNil';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
+import { isUndefined, isNil } from 'lodash-es';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';

@@ -1,5 +1,5 @@
-import startCase from 'lodash/startCase';
 import { useCallback, useEffect } from 'react';
+import { startCase } from 'lodash-es';
 import {
   addDays,
   addMonths,

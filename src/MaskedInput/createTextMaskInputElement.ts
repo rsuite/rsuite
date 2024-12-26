@@ -1,7 +1,6 @@
-import isString from 'lodash/isString';
-import isNumber from 'lodash/isNumber';
 import adjustCaretPosition from './adjustCaretPosition';
 import conformToMask from './conformToMask';
+import { isString, isNumber } from 'lodash-es';
 import { convertMaskToPlaceholder, processCaretTraps, defaultPlaceholderChar } from './utilities';
 import { safeSetSelection } from '@/internals/utils';
 

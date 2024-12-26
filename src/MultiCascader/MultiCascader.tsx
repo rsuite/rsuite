@@ -1,8 +1,5 @@
 import React, { useCallback } from 'react';
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
-import isFunction from 'lodash/isFunction';
-import isNil from 'lodash/isNil';
+import { pick, omit, isFunction, isNil } from 'lodash-es';
 import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';

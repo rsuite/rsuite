@@ -1,11 +1,10 @@
 import React, { useCallback, useContext } from 'react';
-import isNil from 'lodash/isNil';
-import omit from 'lodash/omit';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Ripple from '@/internals/Ripple';
 import Disclosure from '@/internals/Disclosure/Disclosure';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
+import { isNil, omit } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import { createChainedFunction } from '@/internals/utils';

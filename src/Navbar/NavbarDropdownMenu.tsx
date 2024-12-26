@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import omit from 'lodash/omit';
-import isNil from 'lodash/isNil';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import Disclosure from '@/internals/Disclosure';
 import NavContext from '../Nav/NavContext';
+import { omit, isNil } from 'lodash-es';
 import { StandardProps } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { mergeRefs } from '@/internals/utils';

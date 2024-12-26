@@ -1,5 +1,5 @@
 import React from 'react';
-import kebabCase from 'lodash/kebabCase';
+import { kebabCase } from 'lodash-es';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../../CustomProvider';

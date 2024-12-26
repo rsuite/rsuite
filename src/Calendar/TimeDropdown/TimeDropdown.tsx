@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import partial from 'lodash/partial';
-import camelCase from 'lodash/camelCase';
-import isNumber from 'lodash/isNumber';
+import { partial, camelCase, isNumber } from 'lodash-es';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import {
   startOfToday,

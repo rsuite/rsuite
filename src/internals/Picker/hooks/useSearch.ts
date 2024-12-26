@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import isUndefined from 'lodash/isUndefined';
+import { isUndefined } from 'lodash-es';
 import { shouldDisplay } from '../utils';
 
 interface SearchOptions<T> {

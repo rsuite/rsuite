@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import delay from 'lodash/delay';
+import { delay } from 'lodash-es';
 import { addMonths } from 'date-fns/addMonths';
 import { addDays } from 'date-fns/addDays';
 import { useEventCallback } from '@/internals/hooks';

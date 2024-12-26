@@ -1,6 +1,5 @@
 import { useRef, useCallback } from 'react';
-import omit from 'lodash/omit';
-import set from 'lodash/set';
+import { omit, set } from 'lodash-es';
 import { useControlled } from '@/internals/hooks';
 
 type RecordAny = Record<string, any>;

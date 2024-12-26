@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from 'lodash-es';
 import type { TreeNode } from '@/internals/Tree/types';
 
 export interface ArrowHandlerProps {

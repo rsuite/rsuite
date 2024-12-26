@@ -1,4 +1,4 @@
-import omit from 'lodash/omit';
+import { omit } from 'lodash-es';
 import { omitTriggerPropKeys } from '@/internals/Picker';
 import { ToolbarProps } from './Toolbar';
 import {

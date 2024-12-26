@@ -1,4 +1,4 @@
-import trim from 'lodash/trim';
+import { trim } from 'lodash-es';
 
 export function transformData(data: any[]) {
   if (!data) {

@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
-import omit from 'lodash/omit';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
+import { omit } from 'lodash-es';
 import { mergeRefs } from '@/internals/utils';
 import { useElementResize, useClassNames, useEventCallback } from '@/internals/hooks';
 import { getDOMNode } from '../utils';

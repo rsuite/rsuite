@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import omit from 'lodash/omit';
 import createTextMaskInputElement from './createTextMaskInputElement';
+import { omit } from 'lodash-es';
 import { MaskType, MaskFunctionType, ConfigType } from './types';
 import { mergeRefs } from '@/internals/utils';
 

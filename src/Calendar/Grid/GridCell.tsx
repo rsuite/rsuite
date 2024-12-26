@@ -1,5 +1,5 @@
 import React from 'react';
-import partial from 'lodash/partial';
+import { partial } from 'lodash-es';
 import { isSameDay, getDate } from '@/internals/utils/date';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
