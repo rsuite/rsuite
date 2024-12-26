@@ -58,7 +58,7 @@
     "url": "git@github.com:rsuite/rsuite.git"
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.1",
+    "@babel/runtime": "^7.26.0",
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.3.0",
     "@types/lodash": "^4.14.184",
@@ -82,8 +82,8 @@
     "lib"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.25.9",
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
     "@babel/plugin-proposal-export-default-from": "^7.25.9",
     "@babel/plugin-transform-class-properties": "^7.25.9",
     "@babel/plugin-transform-export-namespace-from": "^7.25.9",
@@ -91,7 +91,7 @@
     "@babel/plugin-transform-optional-chaining": "^7.25.9",
     "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^13.2.0",
