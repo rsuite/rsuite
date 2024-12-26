@@ -19,13 +19,17 @@ React Suite is a set of React components. It is committed to providing high-qual
 
 ## Supported Platforms
 
-### Browser
+### Browsers support
 
-React Suite supports the latest, stable releases of all major browsers and platforms. IE<=10 is no longer supported since React Suite 5.0. React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
+| ![][edge]<br/>Edge | ![][firefox]<br/>Firefox | ![][chrome]<br/>Chrome | ![][safari]<br/>Safari | ![][electron]<br/>Electron |
+| ------------------ | ------------------------ | ---------------------- | ---------------------- | -------------------------- |
+| Edge               | last 2 versions          | last 2 versions        | last 2 versions        | last 2 versions            |
 
-| IE   | Edge | Firefox | Chrome | Safari |
-| ---- | ---- | ------- | ------ | ------ |
-| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
+[edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[safari]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png
+[electron]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png
 
 ### Server
 

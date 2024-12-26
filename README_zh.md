@@ -21,11 +21,15 @@ React Suite 是一套 React 组件库。致力于提供高质量并且全面的 
 
 ### 浏览器
 
-React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 5 开始不支持 IE10 以下版本(包括 IE10)。不推荐在移动端使用。
+| ![][edge]<br/>Edge | ![][firefox]<br/>Firefox | ![][chrome]<br/>Chrome | ![][safari]<br/>Safari | ![][electron]<br/>Electron |
+| ------------------ | ------------------------ | ---------------------- | ---------------------- | -------------------------- |
+| Edge               | last 2 versions          | last 2 versions        | last 2 versions        | last 2 versions            |
 
-| IE   | Edge | Firefox | Chrome | Safari |
-| ---- | ---- | ------- | ------ | ------ |
-| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
+[edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[safari]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png
+[electron]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png
 
 ### 服务端
 
