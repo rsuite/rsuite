@@ -77,11 +77,10 @@ module.exports = {
             sourceMap: true,
             postcssOptions: {
               plugins: [
-                require('autoprefixer'),
+                require('autoprefixer')
                 // Do not use postcss-rtl which generates a LTR+RTL css
                 // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({}),
-                require('postcss-custom-properties')()
+                // require('postcss-rtl')({})
               ]
             }
           }

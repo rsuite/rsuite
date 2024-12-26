@@ -11,9 +11,6 @@
 
 .tooltip-arrow(top, @size, @color) {
   top: -@size;
-  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-  .ie11-edge-direction(top, -(@size+1px));
-
   margin-left: -@size;
   border-width: 0 @size @size;
   border-bottom-color: @color;
@@ -21,9 +18,6 @@
 
 .tooltip-arrow(bottom, @size, @color) {
   bottom: -@size;
-  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-  .ie11-edge-direction(bottom, -(@size+1px));
-
   margin-left: -@size;
   border-width: @size @size 0;
   border-top-color: @color;
@@ -32,9 +26,6 @@
 /* rtl:begin:ignore */
 .tooltip-arrow(right, @size, @color) {
   right: -@size;
-  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-  .ie11-edge-direction(right, -(@size+1px));
-
   margin-top: -@size;
   border-width: @size 0 @size @size;
   border-left-color: @color;
@@ -42,9 +33,6 @@
 
 .tooltip-arrow(left, @size, @color) {
   left: -@size;
-  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-  .ie11-edge-direction(left, -(@size+1px));
-
   margin-top: -@size;
   border-width: @size @size @size 0;
   border-right-color: @color;

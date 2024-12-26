@@ -41,8 +41,6 @@
   padding: (@padding-vertical - @input-border-width) (@padding-horizontal - @input-border-width);
   font-size: @font-size;
   line-height: @line-height;
-  // You must declared height in IE
-  .ie11-height(@ie-height);
 
   textarea& {
     height: auto;
@@ -82,7 +80,7 @@
 }
 
 .reset-input-group-addon-size(@size-name) {
- 
+
   .map-size(@size-name);
 
   @padding-horizontal-name: ~'padding-x@{suffix}';
@@ -96,7 +94,7 @@
 }
 
 .reset-inside-input-group-btn-size(@size-name) {
- 
+
   .map-size(@size-name);
 
   @height: ~'input-height-@{size-name}';

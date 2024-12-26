@@ -78,7 +78,6 @@
     "markdown-loader": "2.0.2",
     "mini-css-extract-plugin": "^2.1.0",
     "postcss": "^8.4.31",
-    "postcss-custom-properties": "^12.0.0",
     "postcss-loader": "^4.2.0",
     "postcss-rtl": "^1.7.3",
     "rimraf": "^3.0.2",
