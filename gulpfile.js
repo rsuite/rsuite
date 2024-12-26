@@ -4,7 +4,6 @@ const del = require('del');
 const path = require('path');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
-const postcssCustomProperties = require('postcss-custom-properties');
 const postcssPruneVar = require('postcss-prune-var');
 const postcssDiscardEmpty = require('postcss-discard-empty');
 const sourcemaps = require('gulp-sourcemaps');
@@ -122,7 +121,7 @@ function buildLess({
     gulp
       .src(src)
       .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), postcssCustomProperties(), ...postcssPlugins]))
+      .pipe(postcss([require('autoprefixer'), ...postcssPlugins]))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(dist));
 }
