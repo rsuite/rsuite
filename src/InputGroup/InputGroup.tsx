@@ -33,7 +33,10 @@ export interface InputGroupComponent extends RsRefForwardingComponent<'div', Inp
  * The `InputGroup` component is used to specify an input field with an add-on.
  * @see https://rsuitejs.com/components/input/#input-group
  */
-const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+const InputGroup: InputGroupComponent = React.forwardRef(function InputGroup(
+  props: InputGroupProps,
+  ref
+) {
   const { propsWithDefaults } = useCustom('InputGroup', props);
   const {
     as: Component = 'div',

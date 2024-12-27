@@ -16,7 +16,7 @@ describe('Radio', () => {
 
   it('Should have a `title` attribute', () => {
     const { container } = render(<Radio title="My title">Radio</Radio>);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 

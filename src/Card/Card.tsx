@@ -39,7 +39,7 @@ interface CardComponent extends RsRefForwardingComponent<'div', CardProps> {
   Footer: typeof CardFooter;
 }
 
-const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
+const Card: CardComponent = React.forwardRef(function Card(props: CardProps, ref) {
   const { propsWithDefaults } = useCustom('Card', props);
   const {
     as: Component = 'div',

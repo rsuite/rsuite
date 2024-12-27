@@ -14,7 +14,7 @@ import { mergeRefs, warnOnce } from '@/internals/utils';
 import type { StandardProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface DropdownMenuProps<T = string> extends StandardProps {
+export interface DropdownMenuProps<T = string | number> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

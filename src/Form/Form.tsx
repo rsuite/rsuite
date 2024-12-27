@@ -135,7 +135,10 @@ const defaultSchema = SchemaModel({});
  * The `Form` component is a form interface for collecting and validating user input.
  * @see https://rsuitejs.com/components/form
  */
-const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
+const Form: FormComponent = React.forwardRef(function Form(
+  props: FormProps,
+  ref: React.Ref<FormInstance>
+) {
   const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',

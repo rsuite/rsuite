@@ -46,10 +46,9 @@ describe('FormControl', () => {
       </Form>
     );
 
-    expect(
-      // eslint-disable-next-line
-      (container.querySelector('div') as HTMLDivElement).className
-    ).to.match(/\bcustom-prefix\b/);
+    expect((container.querySelector('div') as HTMLDivElement).className).to.match(
+      /\bcustom-prefix\b/
+    );
   });
 
   it('Should call onChange callback', () => {

@@ -28,7 +28,7 @@ interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
   HelpText: typeof StatHelpText;
 }
 
-const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
+const Stat: StatComponent = React.forwardRef(function Stat(props: StatProps, ref) {
   const { propsWithDefaults } = useCustom('Stat', props);
   const {
     as: Component = 'div',

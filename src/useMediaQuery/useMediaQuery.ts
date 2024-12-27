@@ -37,7 +37,6 @@ export function useMediaQuery(query: Query | Query[]): boolean[] {
 
   const mediaQueries = useMemo(
     () => queries.map(query => mediaQuerySizeMap[query] || query),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [...queries]
   );
 

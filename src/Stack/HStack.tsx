@@ -13,7 +13,7 @@ export interface StackComponent extends RsRefForwardingComponent<'div', HStackPr
   Item: typeof Stack.Item;
 }
 
-const HStack: StackComponent = React.forwardRef((props: HStackProps, ref) => {
+const HStack: StackComponent = React.forwardRef(function HStack(props: HStackProps, ref) {
   const { reverse, spacing = 6, childrenRenderMode = 'clone', ...rest } = props;
   const direction = reverse ? 'row-reverse' : 'row';
 

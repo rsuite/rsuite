@@ -27,9 +27,7 @@ describe('UploadFileItem', () => {
     const fileRow = screen.getByTestId('upload-file-row');
 
     expect(fileRow).to.have.class('rs-uploader-file-item-picture-text');
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.exist;
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.exist;
   });
 
@@ -38,9 +36,7 @@ describe('UploadFileItem', () => {
 
     const fileRow = screen.getByTestId('upload-file-row');
     expect(fileRow).to.have.class('rs-uploader-file-item-picture');
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.not.exist;
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.not.exist;
   });
 

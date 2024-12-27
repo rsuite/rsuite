@@ -108,7 +108,10 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
  * - When used inside `<Sidenav>`, renders a `<TreeviewRootItem>`;
  * - Otherwise renders a `<MenuRoot>`
  */
-const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: DropdownProps, ref) => {
+const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>(function Dropdown(
+  props: DropdownProps,
+  ref
+) {
   const { propsWithDefaults } = useCustom('Dropdown', props);
   const {
     as: Component = 'div',

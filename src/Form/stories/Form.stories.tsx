@@ -22,9 +22,9 @@ interface TextareaProps extends InputProps {
   rows?: number;
 }
 
-const Textarea = React.forwardRef((props: TextareaProps, ref: any) => (
-  <Input {...props} as="textarea" ref={ref} />
-));
+const Textarea = React.forwardRef(function Textarea(props: TextareaProps, ref: any) {
+  return <Input {...props} as="textarea" ref={ref} />;
+});
 
 export default {
   title: 'Components/Form',

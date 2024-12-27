@@ -31,7 +31,7 @@ interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
  *
  * @see https://rsuitejs.com/components/steps
  */
-const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
+const Steps: StepsComponent = React.forwardRef(function Steps(props: StepsProps, ref) {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
     as: Component = 'div',

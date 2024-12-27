@@ -145,7 +145,6 @@ function some(children: React.ReactNode, func: any, context?: any) {
       return;
     }
 
-    /* eslint-disable */
     if (func.call(context, child, (index += 1))) {
       result = true;
     }

@@ -121,7 +121,6 @@ function App({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     loadStylesheetForDirection(direction);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [direction]);
 
   return (

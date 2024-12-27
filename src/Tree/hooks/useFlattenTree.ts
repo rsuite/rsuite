@@ -134,7 +134,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
     // when data is changed, should clear the flattenedNodes, avoid duplicate keys
     flattenedNodes.current = {};
     flattenTreeData(data);
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     if (multiple) {
@@ -147,7 +147,6 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
      * data may change and the node status needs to be updated.
      * @see https://github.com/rsuite/rsuite/issues/3973
      */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, data]);
 
   return flattenedNodes.current;

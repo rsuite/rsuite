@@ -74,7 +74,7 @@ export interface ListHandle extends Partial<VariableSizeList> {
   scrollToRow?: (index: number) => void;
 }
 
-const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+const OuterElementType = React.forwardRef<HTMLDivElement>(function OuterElementType(props, ref) {
   return <ScrollView scrollShadow ref={ref} {...props} />;
 });
 
@@ -137,5 +137,7 @@ const List: RsRefForwardingComponent<'div', ListProps, true> = React.forwardRef(
     />
   );
 });
+
+List.displayName = 'List';
 
 export default List;

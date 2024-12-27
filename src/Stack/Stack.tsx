@@ -56,7 +56,7 @@ function isStackItem(child: React.ReactElement<StackProps, React.FunctionCompone
  *
  * @see https://rsuitejs.com/components/stack
  */
-const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement>) => {
+const Stack = React.forwardRef(function Stack(props: StackProps, ref: React.Ref<HTMLDivElement>) {
   const { propsWithDefaults } = useCustom('Stack', props);
   const {
     as: Component = 'div',

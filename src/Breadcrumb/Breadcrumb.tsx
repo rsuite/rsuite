@@ -49,7 +49,10 @@ const Separator = createComponent({
  * The Breadcrumb component is used to indicate the current page location and navigate.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
+const Breadcrumb: BreadcrumbComponent = React.forwardRef(function Breadcrumb(
+  props: BreadcrumbProps,
+  ref
+) {
   const { propsWithDefaults } = useCustom('Breadcrumb', props);
   const {
     as: Component = 'nav',

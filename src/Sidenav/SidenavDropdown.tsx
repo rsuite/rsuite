@@ -102,7 +102,7 @@ export interface SidenavDropdownComponent
  * </Sidenav>
  */
 const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
-  (props: NavDropdownProps, ref) => {
+  function SidenavDropdown(props: NavDropdownProps, ref) {
     const sidenav = useContext(SidenavContext);
     const nav = useContext(NavContext);
     const navMenu = useContext(NavMenuContext);

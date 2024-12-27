@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import React, { useEffect } from 'react';
 import Head from './Head';
 import PageContainer from './PageContainer';
@@ -42,9 +43,8 @@ const PageContent = (props: PageContentProps) => {
   const { localePath } = useApp();
   const router = useRouter();
   const pathname = router.pathname;
-  const id = pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
+  const id = pathname.match(new RegExp(`/${category}/(\\S*)`))?.[1];
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const context = require(`../pages${pathname}${localePath}/index.md`).default;
   const title = getTitle(context);
   const description = getDescription(context);
@@ -68,7 +68,6 @@ const PageContent = (props: PageContentProps) => {
     installCarbon();
 
     installBadges({ minVersion: component?.minVersion, componentName: component?.name });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -106,16 +105,13 @@ const PageContent = (props: PageContentProps) => {
         if (markdownFile) {
           return (
             <MarkdownRenderer key={index}>
-              {
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
-                require(`../pages/${markdownFile}`)?.default
-              }
+              {require(`../pages/${markdownFile}`)?.default}
             </MarkdownRenderer>
           );
         }
 
         // Render component
-        const componentKey = item.match(/include:\<([A-Za-z-]+)\>/)?.[1];
+        const componentKey = item.match(/include:<([A-Za-z-]+)>/)?.[1];
 
         if (componentKey) {
           const Component = inDocsComponents[componentKey];

@@ -130,6 +130,7 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
   );
 }) as any;
 
+Disclosure.displayName = 'Disclosure';
 Disclosure.Button = DisclosureButton;
 Disclosure.Content = DisclosureContent;
 

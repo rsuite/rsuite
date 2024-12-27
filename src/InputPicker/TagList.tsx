@@ -16,4 +16,6 @@ const TagList = React.forwardRef(
   }
 );
 
+TagList.displayName = 'TagList';
+
 export default TagList;
