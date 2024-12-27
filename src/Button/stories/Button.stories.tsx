@@ -125,6 +125,14 @@ export const Active: Story = {
   }
 };
 
+export const Toggleable: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    toggleable: true
+  }
+};
+
 export const Block: Story = {
   render: AppearanceTemplate,
   args: {
