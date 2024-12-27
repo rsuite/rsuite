@@ -7,7 +7,9 @@ import { useClassNames, useControlled, useEventCallback } from '@/internals/hook
 import { useCustom } from '../CustomProvider';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
-export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface ButtonProps
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
   /** A button can have different appearances. */
   appearance?: TypeAttributes.Appearance;
 
