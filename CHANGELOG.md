@@ -1,3 +1,12 @@
+## [5.76.1](https://github.com/rsuite/rsuite/compare/v5.76.0...v5.76.1) (2024-12-30)
+
+
+### Bug Fixes
+
+* **useToaster:** support dynamic container of useToaster with correct styles ([#4088](https://github.com/rsuite/rsuite/issues/4088)) ([62b1a12](https://github.com/rsuite/rsuite/commit/62b1a128bd0f68ddc22a5b0f1acf27c5bc56a69e))
+
+
+
 # [5.76.0](https://github.com/rsuite/rsuite/compare/v5.75.0...v5.76.0) (2024-12-20)
 
 
