@@ -1,5 +1,12 @@
 import React from 'react';
-import ToastContainer, { ToastContainerProps, ToastContainerInstance } from './ToastContainer';
+import ToastContainer, {
+  ToastContainerProps,
+  ToastContainerInstance,
+  PlacementType,
+  defaultToasterContainer,
+  type GetInstancePropsType
+} from './ToastContainer';
+import { toasterKeyOfContainerElement } from './render';
 
 export interface Toaster {
   /**
@@ -27,17 +34,16 @@ export interface Toaster {
   clear(): void;
 }
 
-const defaultContainerId = 'default';
 const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
 
 /**
- * Create a container by Id.
- * @param containerId
- * @param options
+ * Create a container instance.
+ * @param placement
+ * @param props
  */
-async function createContainer(containerId: string, props: ToastContainerProps) {
-  const [container] = await ToastContainer.getInstance(props);
-  containers.set(containerId || defaultContainerId, container);
+async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
+  const [container, containerId] = await ToastContainer.getInstance(props);
+  containers.set(`${containerId}_${placement}`, container);
 
   return container;
 }
@@ -45,25 +51,30 @@ async function createContainer(containerId: string, props: ToastContainerProps) 
 /**
  * Get the container by ID. Use default ID when ID is not available.
  * @param containerId
+ * @param placement
  */
-function getContainer(containerId?: string) {
-  if (containers.size == 0) {
-    return null;
-  }
-  return containers.get(containerId || defaultContainerId);
+function getContainer(containerId: string, placement: PlacementType) {
+  return containers.get(`${containerId}_${placement}`);
 }
 
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
 toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
-  const { placement: containerId, ...restOptions } = options;
-  const container = getContainer(containerId);
+  const { placement = 'topCenter', container, ...restOptions } = options;
 
-  if (container?.current) {
-    return container.current.push(message, restOptions);
+  const containerElement =
+    (typeof container === 'function' ? container() : container) || defaultToasterContainer;
+
+  const containerElementId = containerElement[toasterKeyOfContainerElement];
+
+  if (containerElementId) {
+    const existedContainer = getContainer(containerElementId, placement);
+    if (existedContainer) {
+      return existedContainer.current?.push(message, restOptions);
+    }
   }
-
-  return createContainer(containerId ?? '', options).then(ref => {
+  const newOptions = { ...options, container: containerElement, placement };
+  return createContainer(placement, newOptions).then(ref => {
     return ref.current?.push(message, restOptions);
   });
 };
