@@ -102,7 +102,12 @@ export { default as Nav } from './Nav';
 export type { NavProps, NavItemProps } from './Nav';
 
 export { default as Navbar } from './Navbar';
-export type { NavbarProps, NavbarBodyProps, NavbarHeaderProps, NavbarBrandProps } from './Navbar';
+export type {
+  NavbarProps,
+  NavbarContentProps,
+  NavbarToggleProps,
+  NavbarBrandProps
+} from './Navbar';
 
 export { default as Sidenav } from './Sidenav';
 export type {

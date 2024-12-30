@@ -1,28 +1,23 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav } from 'rsuite';
-import CogIcon from '@rsuite/icons/legacy/Cog';
+import { Navbar, Nav, Avatar, Text } from 'rsuite';
+import { IoLogoReact } from 'react-icons/fa';
 
 const App = () => (
   <Navbar>
-    <Navbar.Brand href="#">RSUITE</Navbar.Brand>
+    <Navbar.Brand href="#">
+      <IoLogoReact size={26} /> Brand
+    </Navbar.Brand>
     <Nav>
-      <Nav.Item>Home</Nav.Item>
-      <Nav.Item>News</Nav.Item>
-      <Nav.Item>Products</Nav.Item>
-      <Nav.Menu title="About">
-        <Nav.Item>Company</Nav.Item>
-        <Nav.Item>Team</Nav.Item>
-        <Nav.Menu title="Contact">
-          <Nav.Item>Via email</Nav.Item>
-          <Nav.Item>Via telephone</Nav.Item>
-        </Nav.Menu>
-      </Nav.Menu>
+      <Nav.Item>Docs</Nav.Item>
+      <Nav.Item>Components</Nav.Item>
+      <Nav.Item>Tools</Nav.Item>
     </Nav>
-    <Nav pullRight>
-      <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
-    </Nav>
+    <HStack>
+      <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
+      <Text>John Doe</Text>
+    </HStack>
   </Navbar>
 );
 
