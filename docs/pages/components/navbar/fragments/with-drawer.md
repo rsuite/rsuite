@@ -2,7 +2,7 @@
 
 ```js
 import { Navbar, Nav, Avatar, Drawer } from 'rsuite';
-import { IoLogoReact } from 'react-icons/fa';
+import { IoLogoReact } from 'react-icons/io5';
 
 const App = () => {
   return (

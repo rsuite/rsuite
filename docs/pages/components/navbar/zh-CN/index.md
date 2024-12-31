@@ -44,6 +44,8 @@
 
 使用 `useMediaQuery` 使导航栏响应式。
 
+<!--{include:`responsive.md`}-->
+
 ## Props
 
 ### `<Navbar>`

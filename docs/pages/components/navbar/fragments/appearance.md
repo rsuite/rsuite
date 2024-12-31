@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav, Avatar } from 'rsuite';
-import { IoLogoReact } from 'react-icons/fa';
+import { Navbar, Nav, Avatar, Badge, IconButton } from 'rsuite';
+import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
 const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
   return (
@@ -17,7 +17,12 @@ const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
           <Nav.Item>Tools</Nav.Item>
         </Nav>
       </Navbar.Content>
-      <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
+      <Navbar.Content>
+        <Badge content={6} shape="circle">
+          <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="sm" />
+        </Badge>
+        <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
+      </Navbar.Content>
     </Navbar>
   );
 };

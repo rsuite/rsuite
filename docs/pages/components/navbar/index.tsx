@@ -14,6 +14,7 @@ import {
   HStack,
   Text,
   Drawer,
+  Badge,
   useMediaQuery
 } from 'rsuite';
 import { IoLogoReact, IoLanguage, IoNotifications } from 'react-icons/io5';
@@ -30,6 +31,7 @@ export default function Page() {
         Navbar,
         Nav,
         Button,
+        Badge,
         HStack,
         Text,
         Input,

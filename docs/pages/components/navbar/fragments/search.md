@@ -2,7 +2,7 @@
 
 ```js
 import { Navbar, Nav, Avatar, Input, InputGroup } from 'rsuite';
-import { IoLogoReact } from 'react-icons/fa';
+import { IoLogoReact } from 'react-icons/io5';
 import SearchIcon from '@rsuite/icons/Search';
 
 const Searchbox = () => (

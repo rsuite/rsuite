@@ -2,7 +2,7 @@
 
 ```js
 import { Navbar, Nav, Avatar } from 'rsuite';
-import { IoLogoReact, IoLanguage } from 'react-icons/fa';
+import { IoLogoReact, IoLanguage } from 'react-icons/io5';
 
 const App = () => (
   <Navbar>
