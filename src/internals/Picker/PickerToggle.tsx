@@ -2,7 +2,7 @@ import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
 import { mergeRefs } from '@/internals/utils';
-import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '@/internals/types';
+import { RsRefForwardingComponent, Placement, DataItemValue } from '@/internals/types';
 import Plaintext from '../Plaintext';
 import { IconProps } from '@rsuite/icons/Icon';
 import Stack from '../../Stack';
@@ -25,7 +25,7 @@ export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps 
    */
   caretAs?: React.ElementType;
   disabled?: boolean;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;

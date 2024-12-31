@@ -1,7 +1,7 @@
 import React from 'react';
 import Slide from '../Animation/Slide';
 import Modal, { ModalProps } from '../Modal';
-import { TypeAttributes } from '@/internals/types';
+import { PlacementCardinal } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -12,7 +12,7 @@ import DrawerFooter from './DrawerFooter';
 import DrawerTitle from './DrawerTitle';
 export interface DrawerProps extends Omit<ModalProps, 'overflow'> {
   /** The placement of Drawer */
-  placement?: TypeAttributes.Placement4;
+  placement?: PlacementCardinal;
 
   /** Custom close button */
   closeButton?: React.ReactNode | boolean;

@@ -8,7 +8,7 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
-import { CursorPosition, TypeAttributes } from '@/internals/types';
+import { CursorPosition, Placement } from '@/internals/types';
 
 type Offset = {
   top: number;
@@ -26,7 +26,7 @@ export interface PositionType {
 }
 
 export interface UtilProps {
-  placement: TypeAttributes.Placement;
+  placement: Placement;
   preventOverflow: boolean;
   padding: number;
 }

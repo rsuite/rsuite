@@ -1,11 +1,11 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { Placement, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface TooltipProps extends WithAsProps {
   /** Dispaly placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Whether visible */
   visible?: boolean;

@@ -20,6 +20,7 @@ import {
   WithAsProps,
   FormControlPickerProps,
   TypeAttributes,
+  Placement,
   ItemDataType
 } from '@/internals/types';
 import { transformData, shouldDisplay } from './utils';
@@ -33,7 +34,7 @@ export interface AutoCompleteProps<T = string>
   menuClassName?: string;
 
   /** The placement of component */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** When set to false, the Enter key selection function is invalid */
   selectOnEnter?: boolean;
