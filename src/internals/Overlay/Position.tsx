@@ -17,7 +17,7 @@ import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
 import { getDOMNode } from '../utils';
-import { CursorPosition, TypeAttributes } from '@/internals/types';
+import { CursorPosition, Placement } from '@/internals/types';
 import { useUpdateEffect } from '../hooks';
 
 export interface PositionChildProps {
@@ -33,7 +33,7 @@ export interface PositionProps {
   className?: string;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   triggerTarget?: React.RefObject<any>;
   followCursor?: boolean;

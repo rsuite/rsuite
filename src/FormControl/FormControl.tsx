@@ -7,7 +7,12 @@ import useRegisterModel from './hooks/useRegisterModel';
 import useField from './hooks/useField';
 import Toggle from '../Toggle';
 import { useClassNames } from '@/internals/hooks';
-import { TypeAttributes, FormControlBaseProps, WithAsProps } from '@/internals/types';
+import {
+  TypeAttributes,
+  PlacementCorners,
+  FormControlBaseProps,
+  WithAsProps
+} from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -49,7 +54,7 @@ export interface FormControlProps<P = any, ValueType = any>
   errorMessage?: React.ReactNode;
 
   /** The placement of error messages */
-  errorPlacement?: TypeAttributes.Placement8;
+  errorPlacement?: PlacementCorners;
 
   /** Make the control readonly */
   readOnly?: boolean;

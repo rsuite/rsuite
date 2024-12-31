@@ -7,6 +7,11 @@ import {
   FocusEventHandler
 } from 'react';
 import { ReplaceProps } from './utils';
+import { Placement } from './placement';
+import { Colours } from './colours';
+
+export * from './placement';
+export * from './colours';
 
 export interface StandardProps {
   /** The prefix of the component CSS class */
@@ -111,7 +116,7 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
   placeholder?: ReactNode;
 
   /** The placement of picker */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Prevent floating element overflow */
   preventOverflow?: boolean;
@@ -245,28 +250,8 @@ export interface FormControlPickerProps<T = any, L = any, D = Record<string, any
 export declare namespace TypeAttributes {
   type Size = 'lg' | 'md' | 'sm' | 'xs';
   type Status = 'success' | 'warning' | 'error' | 'info';
-  type Color = 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';
+  type Color = `${Colours}`;
   type Appearance = 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
-  type Placement4 = 'top' | 'bottom' | 'right' | 'left';
-  type Placement8 =
-    | 'bottomStart'
-    | 'bottomEnd'
-    | 'topStart'
-    | 'topEnd'
-    | 'leftStart'
-    | 'rightStart'
-    | 'leftEnd'
-    | 'rightEnd';
-  type PlacementAuto =
-    | 'auto'
-    | 'autoVertical'
-    | 'autoVerticalStart'
-    | 'autoVerticalEnd'
-    | 'autoHorizontal'
-    | 'autoHorizontalStart'
-    | 'autoHorizontalEnd';
-
-  type Placement = Placement4 | Placement8 | PlacementAuto;
   type CheckTrigger = 'change' | 'blur' | 'none' | null;
   type DisplayState = 'show' | 'hide' | 'hiding';
 }

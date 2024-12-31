@@ -9,7 +9,7 @@ import { PositionChildProps } from '@/internals/Overlay/Position';
 import { useUniqueId } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
-import type { TypeAttributes, AnimationEventProps } from '@/internals/types';
+import type { Placement, AnimationEventProps } from '@/internals/types';
 
 export type { OverlayTriggerHandle, PositionChildProps };
 
@@ -24,7 +24,7 @@ export interface PickerToggleTriggerProps
    */
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
   multiple?: boolean;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   pickerProps: any;
   open?: boolean;
   trigger?: OverlayTriggerType | OverlayTriggerType[];

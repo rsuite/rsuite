@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import Position, { PositionChildProps, PositionProps } from './Position';
 import { useRootClose } from '../hooks';
-import { TypeAttributes, AnimationEventProps, CursorPosition } from '@/internals/types';
+import { Placement, AnimationEventProps, CursorPosition } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
@@ -18,7 +18,7 @@ export interface OverlayProps extends AnimationEventProps {
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   open?: boolean;
   rootClose?: boolean;

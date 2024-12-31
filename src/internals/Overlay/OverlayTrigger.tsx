@@ -22,7 +22,7 @@ import type {
   AnimationEventProps,
   CursorPosition,
   StandardProps,
-  TypeAttributes
+  Placement
 } from '@/internals/types';
 import type { PositionChildProps, PositionInstance } from './Position';
 
@@ -44,7 +44,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   trigger?: OverlayTriggerType | OverlayTriggerType[];
 
   /** Display placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Delay time */
   delay?: number;

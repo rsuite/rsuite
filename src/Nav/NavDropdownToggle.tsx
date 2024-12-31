@@ -2,14 +2,14 @@ import React from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
 import NavItem, { NavItemProps } from './NavItem';
 
 export interface NavDropdownToggleProps extends WithAsProps {
   icon?: NavItemProps['icon'];
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**

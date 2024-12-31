@@ -2,7 +2,7 @@ import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface FormErrorMessageProps extends WithAsProps {
@@ -10,7 +10,7 @@ export interface FormErrorMessageProps extends WithAsProps {
   show?: boolean;
 
   /** The placement of error messages */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**

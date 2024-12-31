@@ -1,11 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Toggle from '../PickerToggle';
 import CustomProvider from '../../../CustomProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import { TypeAttributes } from '../../types';
 
 describe('<PickerToggle>', () => {
   testStandardProps(<Toggle />);
@@ -132,7 +131,7 @@ describe('<PickerToggle>', () => {
   });
 
   describe('Placement', () => {
-    const placements: TypeAttributes.Placement[] = [
+    const placements: any = [
       'top',
       'bottom',
       'right',

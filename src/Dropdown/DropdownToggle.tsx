@@ -2,13 +2,13 @@ import React from 'react';
 import Button from '../Button';
 import { useClassNames, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
