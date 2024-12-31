@@ -1,27 +1,47 @@
 <!--start-code-->
 
 ```js
-import { Badge } from 'rsuite';
+import { Badge, Avatar, HStack } from 'rsuite';
 
 const App = () => (
   <>
-    <Badge color="red">Red</Badge>
-    <Badge color="orange">Orange</Badge>
-    <Badge color="yellow">Yellow</Badge>
-    <Badge color="green">Green</Badge>
-    <Badge color="cyan">Cyan</Badge>
-    <Badge color="blue">Blue</Badge>
-    <Badge color="violet">Violet</Badge>
+    <HStack spacing={10}>
+      <Badge color="red" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="orange" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="yellow" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="green" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="cyan" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="blue" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="violet" content={6}>
+        <Avatar />
+      </Badge>
+      <Badge color="#000000" content={6} content="Custom">
+        <Avatar />
+      </Badge>
+    </HStack>
     <hr />
-    <Badge color="red" />
-    <Badge color="orange" />
-    <Badge color="yellow" />
-    <Badge color="green" />
-    <Badge color="cyan" />
-    <Badge color="blue" />
-    <Badge color="violet" />
-    <Badge color="blue" content="99+" />
-    <Badge color="violet" content="NEW" />
+    <HStack spacing={10}>
+      <Badge color="red" content="red" />
+      <Badge color="orange" content="orange" />
+      <Badge color="yellow" content="yellow" />
+      <Badge color="green" content="green" />
+      <Badge color="cyan" content="cyan" />
+      <Badge color="blue" content="blue" />
+      <Badge color="violet" content="violet" />
+      <Badge color="#000000" content={6} content="custom" />
+    </HStack>
   </>
 );
 

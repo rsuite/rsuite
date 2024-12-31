@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
@@ -31,7 +31,7 @@ export interface NavDropdownProps<T = any>
   trigger?: SidenavDropdownTrigger | readonly SidenavDropdownTrigger[];
 
   /** The placement of Menu */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 
   /** Whether or not component is disabled */
   disabled?: boolean;

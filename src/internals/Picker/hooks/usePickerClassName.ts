@@ -1,14 +1,14 @@
 import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
 import { useClassNames } from '@/internals/hooks';
-import { TypeAttributes } from '@/internals/types';
+import { Placement } from '@/internals/types';
 import { placementPolyfill } from '@/internals/utils';
 
 export interface PickerClassNameProps {
   name?: string;
   classPrefix: string;
   className?: string;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   appearance?: 'default' | 'subtle';
   cleanable?: boolean;
   block?: boolean;

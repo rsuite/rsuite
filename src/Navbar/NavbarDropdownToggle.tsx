@@ -3,12 +3,12 @@ import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import NavbarItem from './NavbarItem';
 import Button from '../Button';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
 
 export interface NavbarDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**

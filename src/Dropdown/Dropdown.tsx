@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill, warnOnce } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import { initialState, reducer } from './DropdownState';
 import { useCustom } from '../CustomProvider';
@@ -35,7 +35,7 @@ export interface DropdownProps<T = any>
   trigger?: DropdownTrigger | DropdownTrigger[];
 
   /** The placement of Menu */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 
   /** Whether or not component is disabled */
   disabled?: boolean;

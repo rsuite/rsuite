@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
@@ -28,7 +28,7 @@ export interface NavDropdownProps<T = any>
   trigger?: NavDropdownTrigger | readonly NavDropdownTrigger[];
 
   /** The placement of Menu */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 
   /** Whether or not component is disabled */
   disabled?: boolean;

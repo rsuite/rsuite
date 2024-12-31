@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 import { useClassNames, useInternalId } from '@/internals/hooks';
 import { placementPolyfill, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { IconProps } from '@rsuite/icons/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '@/internals/Disclosure/Disclosure';
@@ -22,7 +22,7 @@ export interface SidenavDropdownProps<T = any>
   icon?: React.ReactElement<IconProps>;
 
   /** The placement of Menu */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 
   /** Whether or not component is disabled */
   disabled?: boolean;
