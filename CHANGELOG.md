@@ -1,3 +1,12 @@
+## [5.76.2](https://github.com/rsuite/rsuite/compare/v5.76.1...v5.76.2) (2025-01-01)
+
+
+### Bug Fixes
+
+* **ToastContainer:** fix the server-side rendering error ([#4099](https://github.com/rsuite/rsuite/issues/4099)) ([e5113a2](https://github.com/rsuite/rsuite/commit/e5113a2478fce93ea45353c8e808c0691eed02ee))
+
+
+
 ## [5.76.1](https://github.com/rsuite/rsuite/compare/v5.76.0...v5.76.1) (2024-12-30)
 
 
