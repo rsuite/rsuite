@@ -2,12 +2,16 @@ import React, { useState, useImperativeHandle, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
+import ToastContext from './ToastContext';
+import canUseDOM from 'dom-lib/canUseDOM';
 import { useClassNames } from '@/internals/hooks';
 import { guid, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import ToastContext from './ToastContext';
 import { render } from './render';
-export const defaultToasterContainer = document.body;
+
+export const defaultToasterContainer = () => {
+  return canUseDOM ? document.body : null;
+};
 
 export type PlacementType =
   | 'topCenter'
@@ -74,7 +78,7 @@ interface MessageType extends PushOptions {
 }
 
 export type GetInstancePropsType = Omit<ToastContainerProps, 'container' | 'placement'> & {
-  container: HTMLElement;
+  container: HTMLElement | null;
   placement: PlacementType;
 };
 
