@@ -12,7 +12,7 @@ afterEach(() => {
 
 describe('toaster', () => {
   it('Should push a message', async () => {
-    toaster.push(<div data-testid="msg-1">abc</div>);
+    await toaster.push(<div data-testid="msg-1">abc</div>);
 
     await waitFor(() => {
       const message = screen.queryByTestId('msg-1') as HTMLElement;
@@ -21,8 +21,26 @@ describe('toaster', () => {
     });
   });
 
+  it('Should render 1 container', async () => {
+    await toaster.push(<div>topEnd1</div>, {
+      container: element,
+      placement: 'topEnd'
+    });
+    await toaster.push(<div>topEnd2</div>, {
+      container: element,
+      placement: 'topEnd'
+    });
+
+    await waitFor(() => {
+      expect(
+        // eslint-disable-next-line testing-library/no-node-access
+        element.querySelectorAll('.rs-toast-container.rs-toast-container-top-end')
+      ).to.have.length(1);
+    });
+  });
+
   it('Should render 2 containers', async () => {
-    toaster.push(<div>topEnd</div>, {
+    await toaster.push(<div>topEnd</div>, {
       container: element,
       placement: 'topEnd'
     });
@@ -31,7 +49,7 @@ describe('toaster', () => {
       expect(element.querySelector('.rs-toast-container.rs-toast-container-top-end')).to.exist;
     });
 
-    toaster.push(<div>bottomEnd</div>, {
+    await toaster.push(<div>bottomEnd</div>, {
       container: element,
       placement: 'bottomEnd'
     });
@@ -104,7 +122,7 @@ describe('toaster', () => {
     );
   });
 
-  it('Should not throw errors when push() is called via useEffect', () => {
+  it('Should not throw errors when push() is called via useEffect', async () => {
     function MyComponent() {
       useEffect(() => {
         toaster.push(<div>Hi toaster!</div>);
@@ -114,6 +132,6 @@ describe('toaster', () => {
     }
 
     expect(() => render(<MyComponent />)).not.to.throw();
-    expect(screen.getByText('Hi toaster!')).to.exist;
+    await waitFor(() => expect(screen.getByText('Hi toaster!')).to.exist);
   });
 });
