@@ -60,12 +60,13 @@ function getContainer(containerId: string, placement: PlacementType) {
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
 toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
-  const { placement = 'topCenter', container, ...restOptions } = options;
+  const { placement = 'topCenter', container = defaultToasterContainer, ...restOptions } = options;
 
-  const containerElement =
-    (typeof container === 'function' ? container() : container) || defaultToasterContainer;
+  const containerElement = typeof container === 'function' ? container() : container;
 
-  const containerElementId = containerElement[toasterKeyOfContainerElement];
+  const containerElementId = containerElement
+    ? containerElement[toasterKeyOfContainerElement]
+    : null;
 
   if (containerElementId) {
     const existedContainer = getContainer(containerElementId, placement);

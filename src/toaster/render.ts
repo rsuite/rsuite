@@ -7,7 +7,7 @@ const SuperposedReactDOM = ReactDOM as any;
 
 export const toasterKeyOfContainerElement = 'toasterId';
 
-export function render(element: React.ReactElement<any>, container: HTMLElement): string {
+export function render(element: React.ReactElement<any>, container: HTMLElement | null): string {
   const mountElement = document.createElement('div');
 
   mountElement.className = 'rs-toaster-mount-element';
