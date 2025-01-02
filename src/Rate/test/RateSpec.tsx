@@ -180,6 +180,49 @@ describe('Rate', () => {
     );
   });
 
+  describe('Custom colors', () => {
+    it('Should render with preset color', () => {
+      render(<Rate defaultValue={3} color="red" />);
+      expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-red');
+    });
+
+    it('Should render with custom hex color', () => {
+      const { container } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+    });
+
+    it('Should render with custom rgb color', () => {
+      const { container } = render(<Rate defaultValue={3} color="rgb(255, 87, 51)" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked')).to.equal('rgb(255, 87, 51)');
+    });
+
+    it('Should update color when prop changes', () => {
+      const { container, rerender } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+
+      rerender(<Rate defaultValue={3} color="#33FF57" />);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#33ff57');
+    });
+
+    it('Should render correctly when switching between preset and custom colors', () => {
+      const { container, rerender } = render(<Rate defaultValue={3} color="red" />);
+      let rateElement = screen.getByRole('radiogroup');
+      expect(rateElement).to.have.class('rs-rate-red');
+
+      rerender(<Rate defaultValue={3} color="#FF5733" />);
+      rateElement = container.querySelector('.rs-rate') as HTMLElement;
+      const style = getComputedStyle(rateElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+      expect(rateElement).to.not.have.class('rs-rate-red');
+    });
+  });
+
   describe('Plain text', () => {
     it('Should render current value and max value', () => {
       render(

@@ -1,32 +1,28 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
+import { Rate, VStack } from 'rsuite';
 
 const App = () => (
-  <>
-    <div>
+  <VStack spacing={20}>
+    {/* Preset theme colors */}
+    <VStack>
       <Rate defaultValue={5} color="red" />
-    </div>
-    <div>
       <Rate defaultValue={4} color="orange" />
-    </div>
-    <div>
       <Rate defaultValue={3} color="yellow" />
-    </div>
-    <div>
       <Rate defaultValue={2} color="green" />
-    </div>
-    <div>
       <Rate defaultValue={3} color="cyan" />
-    </div>
-    <div>
       <Rate defaultValue={4} color="blue" />
-    </div>
-    <div>
       <Rate defaultValue={5} color="violet" />
-    </div>
-  </>
+    </VStack>
+
+    {/* Custom colors */}
+    <VStack>
+      <Rate defaultValue={3} color="#FF5733" />
+      <Rate defaultValue={3} color="rgb(51, 204, 108)" />
+      <Rate defaultValue={3} color="#8A2BE2" />
+    </VStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

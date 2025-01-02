@@ -67,7 +67,9 @@ export const createColorVariables = (
   textFieldName?: string
 ): React.CSSProperties | undefined => {
   if (color && !isPresetColor(color)) {
-    const bgColor = expandHexColor(color.toString());
+    const colorStr = color.toString();
+    // Only convert to hex if it's a hex color
+    const bgColor = colorStr.startsWith('#') ? expandHexColor(colorStr) : colorStr;
     const styles: React.CSSProperties = {
       [bgFieldName]: bgColor
     };

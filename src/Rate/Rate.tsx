@@ -1,15 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
 import { KEY_VALUES } from '@/internals/constants';
-import { useControlled, useClassNames } from '@/internals/hooks';
-import { shallowEqualArray } from '@/internals/utils';
+import { useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
+import {
+  shallowEqualArray,
+  isPresetColor,
+  createColorVariables,
+  mergeStyles
+} from '@/internals/utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import { useCustom } from '../CustomProvider';
 import type {
   WithAsProps,
+  Color,
   TypeAttributes,
   RsRefForwardingComponent,
   FormControlBaseProps
@@ -28,11 +34,11 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
   // Whether to allow cancel selection
   cleanable?: boolean;
 
-  /** A tate can have different sizes */
+  /** A rate can have different sizes */
   size?: TypeAttributes.Size;
 
-  /** A tate can have different colors */
-  color?: TypeAttributes.Color;
+  /** A rate can have different colors */
+  color?: Color | React.CSSProperties['color'];
 
   // Maximum rate
   max?: number;
@@ -70,6 +76,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
       defaultValue = 0,
       cleanable = true,
       plaintext,
+      style,
       onChange,
       renderCharacter,
       onChangeActive,
@@ -91,7 +98,12 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(
       className,
-      withClassPrefix(size, color, { disabled, readonly: readOnly })
+      withClassPrefix(size, isPresetColor(color) && color, { disabled, readonly: readOnly })
+    );
+
+    const styles = useMemo(
+      () => mergeStyles(style, createColorVariables(color, '--rs-rate-symbol-checked')),
+      [style, color]
     );
 
     const resetCharacterMap = useCallback(() => {
@@ -103,56 +115,47 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
       setCharacterMap(getCharacterMap(valueProp));
     }, [valueProp]);
 
-    const handleMouseLeave = useCallback(
-      (event: React.SyntheticEvent) => {
-        resetCharacterMap();
-        onChangeActive?.(value, event);
-      },
-      [onChangeActive, resetCharacterMap, value]
-    );
+    const handleMouseLeave = useEventCallback((event: React.SyntheticEvent) => {
+      resetCharacterMap();
+      onChangeActive?.(value, event);
+    });
 
-    const handleChangeValue = useCallback(
-      (index: number, event: React.SyntheticEvent) => {
-        let nextValue = transformCharacterMapToValue(characterMap);
+    const handleChangeValue = useEventCallback((index: number, event: React.SyntheticEvent) => {
+      let nextValue = transformCharacterMapToValue(characterMap);
 
-        if (
-          cleanable &&
-          value === nextValue &&
-          getCharacterMap(value)[index] === characterMap[index]
-        ) {
-          nextValue = 0;
-        }
+      if (
+        cleanable &&
+        value === nextValue &&
+        getCharacterMap(value)[index] === characterMap[index]
+      ) {
+        nextValue = 0;
+      }
 
-        if (nextValue !== value) {
-          setValue(nextValue);
-          setCharacterMap(getCharacterMap(nextValue));
-          onChange?.(nextValue, event);
-        }
-      },
-      [characterMap, cleanable, getCharacterMap, onChange, setValue, value]
-    );
-
-    const handleKeyDown = useCallback(
-      (index: number, event: React.KeyboardEvent) => {
-        const { key } = event;
-        let nextValue = transformCharacterMapToValue(characterMap);
-
-        if (key === KEY_VALUES.RIGHT && nextValue < max) {
-          nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
-        } else if (key === KEY_VALUES.LEFT && nextValue > 0) {
-          nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
-        }
-
+      if (nextValue !== value) {
+        setValue(nextValue);
         setCharacterMap(getCharacterMap(nextValue));
+        onChange?.(nextValue, event);
+      }
+    });
 
-        if (key === KEY_VALUES.ENTER) {
-          handleChangeValue(index, event);
-        }
-      },
-      [allowHalf, characterMap, getCharacterMap, handleChangeValue, max]
-    );
+    const handleKeyDown = useEventCallback((index: number, event: React.KeyboardEvent) => {
+      const { key } = event;
+      let nextValue = transformCharacterMapToValue(characterMap);
 
-    const handleChangeCharacterMap = useCallback(
+      if (key === KEY_VALUES.RIGHT && nextValue < max) {
+        nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
+      } else if (key === KEY_VALUES.LEFT && nextValue > 0) {
+        nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
+      }
+
+      setCharacterMap(getCharacterMap(nextValue));
+
+      if (key === KEY_VALUES.ENTER) {
+        handleChangeValue(index, event);
+      }
+    });
+
+    const handleChangeCharacterMap = useEventCallback(
       (index: number, key: string, event: React.MouseEvent) => {
         const nextCharacterMap = characterMap.map((_item, i) => {
           if (i === index && key === 'before' && allowHalf) {
@@ -165,17 +168,13 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
           setCharacterMap(nextCharacterMap);
           onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
         }
-      },
-      [allowHalf, characterMap, onChangeActive]
+      }
     );
 
-    const handleClick = useCallback(
-      (index: number, key: string, event: React.MouseEvent) => {
-        handleChangeCharacterMap(index, key, event);
-        handleChangeValue(index, event);
-      },
-      [handleChangeCharacterMap, handleChangeValue]
-    );
+    const handleClick = useEventCallback((index: number, key: string, event: React.MouseEvent) => {
+      handleChangeCharacterMap(index, key, event);
+      handleChangeValue(index, event);
+    });
 
     if (plaintext) {
       return (
@@ -189,10 +188,11 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
       <Component
         role="radiogroup"
         tabIndex={0}
-        {...rest}
         ref={ref}
         className={classes}
+        style={styles}
         onMouseLeave={handleMouseLeave}
+        {...rest}
       >
         {characterMap.map((item, index) => (
           <Character
