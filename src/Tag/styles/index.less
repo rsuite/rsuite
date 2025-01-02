@@ -8,7 +8,7 @@
 .rs-tag {
   display: inline-block;
   background-color: var(--rs-tag-bg);
-  color: var(--rs-text-primary);
+  color: var(--rs-tag-text);
   border-radius: 6px;
   line-height: 20px;
 
@@ -69,7 +69,10 @@
 // Colorful tags
 each(@spectrum, .(@color) {
   .rs-tag-@{color} {
-    background-color: var(~'--rs-@{color}-500');
-    color: #ffffff;
+    --rs-tag-bg: var(~'--rs-@{color}-500');
+    --rs-tag-text: #fff;
+
+    background-color: var(--rs-tag-bg);
+    color: var(--rs-tag-text);
   }
 });

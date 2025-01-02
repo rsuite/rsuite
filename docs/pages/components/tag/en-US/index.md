@@ -31,15 +31,15 @@ Tag for categorizing or markup.
 
 ### `<Tag>`
 
-| Property    | Type `(Default)`              | Description                                          |
-| ----------- | ----------------------------- | ---------------------------------------------------- |
-| as          | ElementType `('div')`         | You can use a custom element type for this component |
-| children \* | ReactNode                     | The content of the component.                        |
-| classPrefix | string `('tag')`              | The prefix of the component CSS class                |
-| closable    | boolean                       | Whether to display the Close button                  |
-| color       | [Color](#code-ts-color-code)  | Set the tag color                                    |
-| onClose     | (event) => void               | Click the callback function for the Close button     |
-| size        | 'sm' \| 'md' \| 'lg' `('md')` | Set the tag size                                     |
+| Property    | Type `(Default)`                                       | Description                                                     |
+| ----------- | ------------------------------------------------------ | --------------------------------------------------------------- |
+| as          | ElementType `('div')`                                  | You can use a custom element type for this component            |
+| children \* | ReactNode                                              | The content of the component.                                   |
+| classPrefix | string `('tag')`                                       | The prefix of the component CSS class                           |
+| closable    | boolean                                                | Whether to display the Close button                             |
+| color       | [Color](#code-ts-color-code) \| CSSProperties['color'] | Set the tag color, supports preset colors and custom CSS colors |
+| onClose     | (event) => void                                        | Click the callback function for the Close button                |
+| size        | 'sm' \| 'md' \| 'lg' `('md')`                          | Set the tag size                                                |
 
 ### `<TagGroup>`
 

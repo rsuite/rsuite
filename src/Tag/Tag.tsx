@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import type { WithAsProps, Color, RsRefForwardingComponent } from '@/internals/types';
 import type { CommonLocale } from '../locales';
 
 export interface TagProps extends WithAsProps {
@@ -10,7 +11,7 @@ export interface TagProps extends WithAsProps {
   size?: 'lg' | 'md' | 'sm';
 
   /** A tag can have different colors */
-  color?: TypeAttributes.Color;
+  color?: Color | React.CSSProperties['color'];
 
   /** Whether to close */
   closable?: boolean;
@@ -37,21 +38,30 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
     as: Component = 'div',
     classPrefix = 'tag',
     size = 'md',
-    color = 'default',
+    color,
     children,
     closable,
     className,
     locale: overrideLocale,
+    style,
     onClose,
     ...rest
   } = propsWithDefaults;
 
   const { remove } = getLocale('common', overrideLocale);
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, color, { closable }));
+  const classes = merge(
+    className,
+    withClassPrefix(size, isPresetColor(color) && color, { closable })
+  );
+
+  const styles = useMemo(
+    () => mergeStyles(style, createColorVariables(color, '--rs-tag-bg', '--rs-tag-text')),
+    [style, color]
+  );
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Component ref={ref} className={classes} style={styles} {...rest}>
       <span className={prefix`text`}>{children}</span>
       {closable && (
         <CloseButton

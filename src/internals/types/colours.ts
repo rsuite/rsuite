@@ -9,11 +9,3 @@ export enum Colours {
 }
 
 export type Color = `${Colours}`;
-
-export const isPresetColor = (color?: Color | string) => {
-  if (!color) {
-    return false;
-  }
-
-  return Object.values(Colours).includes(color as Colours);
-};

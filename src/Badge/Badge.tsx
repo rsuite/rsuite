@@ -1,15 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
-import { getCssValue } from '@/internals/utils';
+import { mergeStyles, createOffsetStyles } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import {
-  Color,
-  isPresetColor,
-  WithAsProps,
-  PlacementCorners,
-  RsRefForwardingComponent
-} from '@/internals/types';
+import { isPresetColor, createColorVariables } from '@/internals/utils/colours';
+import { Color, WithAsProps, PlacementCorners, RsRefForwardingComponent } from '@/internals/types';
 
 export interface BadgeProps extends WithAsProps {
   /**
@@ -25,7 +20,7 @@ export interface BadgeProps extends WithAsProps {
   /**
    * A badge can have different colors
    */
-  color?: Color | string;
+  color?: Color | React.CSSProperties['color'];
 
   /**
    * The badge will have an outline
@@ -54,7 +49,7 @@ export interface BadgeProps extends WithAsProps {
    * Define the horizontal and vertical offset of the badge relative to its wrapped element
    * @version 6.0.0
    */
-  offset?: [number, number] | [string, string];
+  offset?: [number | string, number | string];
 
   /**
    * The badge will be hidden
@@ -105,20 +100,15 @@ const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef<
     })
   );
 
-  const styles = {
-    ...style,
-
-    // Custom offset value
-    ...(offset && {
-      '--rs-badge-offset-x': getCssValue(offset[0]),
-      '--rs-badge-offset-y': getCssValue(offset[1])
-    })
-  };
-
-  // Custom color
-  if (color && !isPresetColor(color)) {
-    styles['--rs-badge-bg'] = color;
-  }
+  const styles = useMemo(
+    () =>
+      mergeStyles(
+        style,
+        createOffsetStyles(offset, '--rs-badge-offset'),
+        createColorVariables(color, '--rs-badge-bg')
+      ),
+    [style, offset, color]
+  );
 
   if (!children) {
     return (

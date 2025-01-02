@@ -1,5 +1,7 @@
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
+export * from './css';
+export * from './colours';
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
 export { getDOMNode } from './getDOMNode';
@@ -23,4 +25,3 @@ export type { ComponentProps } from './createComponent';
 export { attachParent } from './attachParent';
 export { isFocusEntering, isFocusLeaving } from './events';
 export { isFocusableElement } from './dom';
-export { getCssValue } from './css';
