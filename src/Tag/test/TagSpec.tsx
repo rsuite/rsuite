@@ -30,4 +30,41 @@ describe('Tag', () => {
 
     expect(onClose).to.have.been.calledOnce;
   });
+
+  it('Should render with custom color', () => {
+    const customColor = '#FF5733';
+    const { container } = render(<Tag color={customColor} />);
+    const tagElement = container.firstChild as HTMLElement;
+
+    expect(tagElement).to.have.style('--rs-tag-bg', customColor);
+    expect(tagElement).to.have.style('--rs-tag-text', '#fff');
+  });
+
+  it('Should render with custom light color and dark text', () => {
+    const customColor = '#FFEB3B';
+    const { container } = render(<Tag color={customColor} />);
+    const tagElement = container.firstChild as HTMLElement;
+
+    expect(tagElement).to.have.style('--rs-tag-bg', customColor);
+    expect(tagElement).to.have.style('--rs-tag-text', '#000');
+  });
+
+  it('Should render with short hex color', () => {
+    const shortHex = '#f00';
+    const fullHex = '#ff0000';
+    const { container } = render(<Tag color={shortHex} />);
+    const tagElement = container.firstChild as HTMLElement;
+
+    expect(tagElement).to.have.style('--rs-tag-bg', fullHex);
+    expect(tagElement).to.have.style('--rs-tag-text', '#fff');
+  });
+
+  it('Should not apply custom color styles for preset colors', () => {
+    const { container } = render(<Tag color="red" />);
+    const tagElement = container.firstChild as HTMLElement;
+
+    expect(tagElement).to.have.class('rs-tag-red');
+    expect(tagElement.style.getPropertyValue('--rs-tag-bg')).to.equal('');
+    expect(tagElement.style.getPropertyValue('--rs-tag-text')).to.equal('');
+  });
 });
