@@ -7,7 +7,7 @@ import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, {
   ToastContainerInstance,
   toastPlacements,
-  defaultToasterContainer
+  getDefaultToasterContainer
 } from '../toaster/ToastContainer';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
 import type { ReactSuiteComponents } from './types';
@@ -144,7 +144,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     components,
     iconClassPrefix = classPrefix,
     theme,
-    toastContainer = defaultToasterContainer,
+    toastContainer = getDefaultToasterContainer(),
     disableRipple,
     csp,
     disableInlineStyles,
@@ -187,7 +187,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
                 key={placement}
                 placement={placement}
                 ref={ref => {
-                  toasters.current.set(placement, ref);
+                  toasters.current.set(placement, ref as any);
                 }}
               />
             ))}

@@ -7,7 +7,9 @@ import { guid, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import ToastContext from './ToastContext';
 import { render } from './render';
-export const defaultToasterContainer = document.body;
+import { canUseDOM } from 'dom-lib';
+
+export const getDefaultToasterContainer = () => (canUseDOM ? document.body : null);
 
 export type PlacementType =
   | 'topCenter'

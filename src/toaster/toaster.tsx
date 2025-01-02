@@ -3,7 +3,7 @@ import ToastContainer, {
   ToastContainerProps,
   ToastContainerInstance,
   PlacementType,
-  defaultToasterContainer,
+  getDefaultToasterContainer,
   type GetInstancePropsType
 } from './ToastContainer';
 import { toasterKeyOfContainerElement } from './render';
@@ -63,20 +63,24 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
   const { placement = 'topCenter', container, ...restOptions } = options;
 
   const containerElement =
-    (typeof container === 'function' ? container() : container) || defaultToasterContainer;
+    (typeof container === 'function' ? container() : container) || getDefaultToasterContainer();
 
-  const containerElementId = containerElement[toasterKeyOfContainerElement];
+  if (containerElement) {
+    const containerElementId = containerElement && containerElement[toasterKeyOfContainerElement];
 
-  if (containerElementId) {
-    const existedContainer = getContainer(containerElementId, placement);
-    if (existedContainer) {
-      return existedContainer.current?.push(message, restOptions);
+    if (containerElementId) {
+      const existedContainer = getContainer(containerElementId, placement);
+      if (existedContainer) {
+        return existedContainer.current?.push(message, restOptions);
+      }
     }
+    const newOptions = { ...options, container: containerElement, placement };
+    return createContainer(placement, newOptions).then(ref => {
+      return ref.current?.push(message, restOptions);
+    });
+  } else {
+    return Promise.reject(new Error('Container is not available.'));
   }
-  const newOptions = { ...options, container: containerElement, placement };
-  return createContainer(placement, newOptions).then(ref => {
-    return ref.current?.push(message, restOptions);
-  });
 };
 
 toaster.remove = (key: string) => {
