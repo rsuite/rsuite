@@ -1,16 +1,23 @@
 /**
  * Processes and returns a value suitable for CSS (with a unit).
  */
-export function getCssValue(value?: number | string, unit = 'px') {
+export function getCssValue(value?: number | string | null, unit = 'px') {
+  if (value === undefined || value === null || value === '') {
+    return '';
+  }
+
+  // If the value is 0, return it as a string without unit
+  if (value === 0) {
+    return '0';
+  }
+
   // If the value is a number, append the default unit (defaults to 'px')
   if (typeof value === 'number') {
     return `${value}${unit}`;
   }
 
-  // If the value is already a string (and likely contains a unit), return it as is
-  if (typeof value === 'string') {
-    return value;
-  }
+  // Return string values as is
+  return value.toString();
 }
 
 type CSSVariables = Partial<Record<`--${string}`, string>>;
@@ -19,8 +26,10 @@ type StyleProperties = React.CSSProperties & CSSVariables;
 /**
  * Merge multiple style objects, filtering out undefined values
  */
-export function mergeStyles(...styles: (React.CSSProperties | undefined)[]): StyleProperties {
-  return styles.reduce<StyleProperties>((acc, style) => {
+export function mergeStyles(
+  ...styles: (React.CSSProperties | undefined | null)[]
+): StyleProperties {
+  return styles.filter(Boolean).reduce<StyleProperties>((acc, style) => {
     if (!style) return acc;
     return { ...acc, ...style };
   }, {});

@@ -16,19 +16,19 @@ export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
  * Convert short hex color to full hex color
  * e.g. #fff -> #ffffff
  */
-const expandHexColor = (color: string): string => {
-  const hex = color.replace('#', '');
+export const expandHexColor = (color: string): string => {
+  const hex = color.toLowerCase().replace('#', '');
   if (hex.length === 3) {
     return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
   }
-  return color;
+  return `#${hex}`;
 };
 
 /**
  * Calculate relative luminance of a color
  * Using the formula from WCAG 2.0
  */
-const getLuminance = (color: string): number => {
+export const getLuminance = (color: string): number => {
   // Convert hex to rgb
   const fullHex = expandHexColor(color);
   const hex = fullHex.replace('#', '');
@@ -47,14 +47,14 @@ const getLuminance = (color: string): number => {
 /**
  * Get contrasting text color (black or white) based on background color
  */
-const getContrastText = (bgColor: string): string => {
+export const getContrastText = (bgColor: string): string => {
   // For non-hex colors, return default dark text
   if (!bgColor.startsWith('#')) {
     return 'var(--rs-text-primary)';
   }
 
   const luminance = getLuminance(bgColor);
-  return luminance > 0.5 ? '#000' : '#fff';
+  return luminance > 0.5 ? '#000000' : '#ffffff';
 };
 
 /**
