@@ -1,9 +1,0 @@
-{
-  "defaultSeverity": "error",
-  "extends": ["dtslint/dtslint.json"],
-  "jsRules": {},
-  "rules": {
-    "file-name-casing": false,
-    "no-unnecessary-generics": false
-  }
-}

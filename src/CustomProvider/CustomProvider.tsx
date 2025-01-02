@@ -4,7 +4,11 @@ import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
-import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
+import ToastContainer, {
+  ToastContainerInstance,
+  toastPlacements,
+  defaultToasterContainer
+} from '../toaster/ToastContainer';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
 import type { ReactSuiteComponents } from './types';
 
@@ -140,18 +144,18 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     components,
     iconClassPrefix = classPrefix,
     theme,
-    toastContainer: container,
+    toastContainer = defaultToasterContainer,
     disableRipple,
     csp,
     disableInlineStyles,
     ...rest
   } = props;
   const toasters = useRef(new Map<string, ToastContainerInstance>());
-  const { Portal } = usePortal({ container, waitMount: true });
+  const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
   const value = useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, components, ...rest }),
-    [classPrefix, theme, disableRipple, components, rest]
+    () => ({ classPrefix, theme, toasters, disableRipple, components, toastContainer, ...rest }),
+    [classPrefix, theme, disableRipple, components, toastContainer, rest]
   );
 
   const iconContext = useMemo(

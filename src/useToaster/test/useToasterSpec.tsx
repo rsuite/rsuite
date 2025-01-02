@@ -161,8 +161,8 @@ describe('useToaster', () => {
     expect(toaster1).to.equal(toaster2);
   });
 
-  it('Should push a message to a custom container', () => {
-    const container = React.createRef<any>();
+  it('Should push a message to a custom container', async () => {
+    const container = React.createRef<HTMLDivElement>();
     const App = props => {
       const { children, ...rest } = props;
       return (
@@ -179,6 +179,6 @@ describe('useToaster', () => {
       toaster.push(<div>message</div>, { container: container.current });
     });
 
-    expect(container.current).to.have.text('message');
+    await waitFor(() => expect(container.current).to.have.text('message'));
   });
 });
