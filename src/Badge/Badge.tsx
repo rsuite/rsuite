@@ -1,9 +1,13 @@
 import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
-import { mergeStyles, createOffsetStyles } from '@/internals/utils';
+import {
+  mergeStyles,
+  createOffsetStyles,
+  isPresetColor,
+  createColorVariables
+} from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import { isPresetColor, createColorVariables } from '@/internals/utils/colours';
 import { Color, WithAsProps, PlacementCorners, RsRefForwardingComponent } from '@/internals/types';
 
 export interface BadgeProps extends WithAsProps {

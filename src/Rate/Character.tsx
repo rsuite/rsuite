@@ -1,7 +1,7 @@
-import React, { useCallback, useRef } from 'react';
-import { isNil } from 'lodash';
+import React, { useRef } from 'react';
 import contains from 'dom-lib/contains';
-import { useClassNames } from '@/internals/hooks';
+import isNil from 'lodash/isNil';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 const characterStatus = {
@@ -41,19 +41,13 @@ const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardR
     const beforeRef = useRef<HTMLDivElement>(null);
     const classes = merge(className, withClassPrefix(!isNil(status) && characterStatus[status]));
 
-    const handleMouseMove = useCallback(
-      (event: React.MouseEvent) => {
-        onMouseMove?.(getKey(beforeRef.current, event.target), event);
-      },
-      [onMouseMove]
-    );
+    const handleMouseMove = useEventCallback((event: React.MouseEvent) => {
+      onMouseMove?.(getKey(beforeRef.current, event.target), event);
+    });
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        onClick?.(getKey(beforeRef.current, event.target), event);
-      },
-      [onClick]
-    );
+    const handleClick = useEventCallback((event: React.MouseEvent) => {
+      onClick?.(getKey(beforeRef.current, event.target), event);
+    });
 
     return (
       <Component

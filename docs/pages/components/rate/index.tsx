@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Toggle, Rate } from 'rsuite';
+import { Badge, Button, Toggle, Rate, VStack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Icon from '@rsuite/icons/Icon';
@@ -23,6 +23,7 @@ export default function Page() {
         Toggle,
         Rate,
         Icon,
+        VStack,
         HeartIcon,
         BeerIcon,
         FrownIcon,

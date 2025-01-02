@@ -1,30 +1,31 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
-import { Icon } from '@rsuite/icons';
+import { Rate, VStack } from 'rsuite';
 import HeartIcon from '@rsuite/icons/legacy/Heart';
+import BeerIcon from '@rsuite/icons/legacy/Beer';
+import FrownIcon from '@rsuite/icons/legacy/FrownO';
 
-const App = () => {
-  const [value, setValue] = React.useState(2.5);
-
-  return (
-    <>
-      <div>
-        <Rate allowHalf value={value} character={<HeartIcon />} color="red" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="鼎" color="blue" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="A" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="👍" onChange={setValue} />
-      </div>
-    </>
-  );
-};
+const App = () => (
+  <VStack>
+    <Rate defaultValue={3} character={<HeartIcon />} />
+    <Rate defaultValue={3} character={<BeerIcon />} color="yellow" />
+    <Rate defaultValue={3} character="A" />
+    <Rate
+      defaultValue={2}
+      character={({ index }) => {
+        return index + 1;
+      }}
+    />
+    <Rate
+      defaultValue={2}
+      character={<FrownIcon />}
+      renderCharacter={(value, index) => {
+        return index < value ? <HeartIcon style={{ color: 'red' }} /> : <FrownIcon />;
+      }}
+    />
+  </VStack>
+);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
