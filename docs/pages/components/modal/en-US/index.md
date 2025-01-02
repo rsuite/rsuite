@@ -73,8 +73,6 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 
 ### `<Modal>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property          | Type `(Default)`                                                                           | Description                                                                                                                                                                            |
 | ----------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                                                           | When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers                                                                            |

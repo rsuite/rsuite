@@ -1,45 +1,37 @@
 <!--start-code-->
 
 ```js
-import React from 'react';
-import { useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
-
-const Toast = React.forwardRef((props, ref) => {
-  const { type, placement, duration, children, onClose, ...rest } = props;
-
-  return (
-    <div
-      ref={ref}
-      {...rest}
-      style={{ padding: 10, background: '#fff', borderRadius: 4, marginTop: 10 }}
-    >
-      {children}
-      <hr />
-      <button onClick={onClose}>Close</button>
-    </div>
-  );
-});
+import { useToaster, ButtonToolbar, Button, Message } from 'rsuite';
 
 const App = () => {
   const toaster = useToaster();
   const container = React.useRef();
 
+  const toggleFullScreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      container.current.requestFullscreen();
+    }
+  };
+
+  const pushMessage = () => {
+    toaster.push(
+      <Message showIcon type="success" closable>
+        rendered in custom container
+      </Message>,
+      { container: document.fullscreenElement }
+    );
+  };
+
   return (
     <div ref={container}>
-      <Button
-        onClick={() =>
-          toaster.push(
-            <Toast>
-              <h4>Custom Toast</h4>
-              <p>This is a custom toast with a close button.</p>
-            </Toast>,
-            { container: () => container.current }
-          )
-        }
-        appearance="primary"
-      >
-        Push
-      </Button>
+      <ButtonToolbar>
+        <Button onClick={toggleFullScreen}>Full Screen</Button>
+        <Button onClick={pushMessage} appearance="primary">
+          Push
+        </Button>
+      </ButtonToolbar>
     </div>
   );
 };

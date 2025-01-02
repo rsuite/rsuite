@@ -13,7 +13,7 @@ import { ToastContainerProps } from '../toaster/ToastContainer';
  * @see https://rsuitejs.com/components/use-toaster/
  */
 const useToaster = () => {
-  const { toasters } = useContext(CustomContext);
+  const { toasters, toastContainer } = useContext(CustomContext);
 
   return useMemo(
     () => ({
@@ -26,11 +26,15 @@ const useToaster = () => {
        * @returns The key of the toast message.
        */
       push: (message: React.ReactNode, options?: ToastContainerProps) => {
-        const customToaster = toasters?.current?.get(options?.placement || 'topCenter');
+        const container =
+          (typeof options?.container === 'function' ? options?.container() : options?.container) ||
+          toastContainer;
 
-        return customToaster
-          ? customToaster.push(message, options)
-          : toaster.push(message, options);
+        if (container === toastContainer) {
+          return toasters?.current?.get(options?.placement || 'topCenter')?.push(message, options);
+        } else {
+          return toaster.push(message, options);
+        }
       },
       /**
        * Remove a toast message.
@@ -48,7 +52,7 @@ const useToaster = () => {
         toasters ? Array.from(toasters.current).forEach(([, c]) => c?.clear()) : toaster.clear();
       }
     }),
-    [toasters]
+    [toastContainer, toasters]
   );
 };
 

@@ -111,7 +111,7 @@
 | cleanable          | boolean `(true)`                                                                               | 可以清除                                           |
 | container          | HTMLElement &#124; (() => HTMLElement)                                                         | 设置渲染的容器                                     |
 | data \*            | [ItemDataType][item][]                                                                         | 组件数据                                           |
-| defaultValue       | [ValueType][value]                                                                             | 默认值（非受控）                                         |
+| defaultValue       | [ValueType][value]                                                                             | 默认值（非受控）                                   |
 | disabled           | boolean                                                                                        | 禁用组件                                           |
 | disabledItemValues | [ValueType][value][]                                                                           | 禁用选项                                           |
 | groupBy            | string                                                                                         | 设置分组条件在 `data` 中的 `key`                   |

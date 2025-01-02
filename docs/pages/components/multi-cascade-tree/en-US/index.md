@@ -51,8 +51,6 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ### `<MultiCascadeTree>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property              | Type`(Default)`                                                                    | Description                                                                                      |
 | --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | cascade               | boolean `(true)`                                                                   | Determines whether selection should cascade both from parent to child and child to parent nodes. |

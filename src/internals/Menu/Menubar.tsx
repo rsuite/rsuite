@@ -62,7 +62,7 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
     (event: React.KeyboardEvent<HTMLUListElement>) => {
       const activeItemElement: HTMLElement | null = isNil(activeItemIndex)
         ? null
-        : items[activeItemIndex]?.element ?? null;
+        : (items[activeItemIndex]?.element ?? null);
       switch (true) {
         case !vertical && !rtl && event.key === KEY_VALUES.RIGHT:
         case !vertical && rtl && event.key === KEY_VALUES.LEFT:

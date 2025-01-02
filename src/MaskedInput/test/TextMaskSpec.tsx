@@ -501,7 +501,7 @@ describe('TextMask as controlled component', () => {
           ({
             value: `Tel. ${conformedValue}`,
             indexesOfPipedChars: [0, 1, 2, 3, 4]
-          } as any)
+          }) as any
       });
     });
 

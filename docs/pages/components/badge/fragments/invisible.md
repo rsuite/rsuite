@@ -16,7 +16,7 @@ const App = () => {
         <Badge content={'New'} invisible={!show} />
       </HStack>
       <hr />
-      <Toggle checked={show} onChange={setShow} >
+      <Toggle checked={show} onChange={setShow}>
         Show Badge
       </Toggle>
     </>

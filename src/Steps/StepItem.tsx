@@ -65,7 +65,7 @@ const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRe
 
     let iconNode = (
       <span className={prefix('icon', `icon-${status}`)}>
-        {status ? STEP_STATUS_ICON[status] ?? stepNumber : stepNumber}
+        {status ? (STEP_STATUS_ICON[status] ?? stepNumber) : stepNumber}
       </span>
     );
 
