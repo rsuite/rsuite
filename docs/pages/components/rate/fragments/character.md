@@ -2,30 +2,19 @@
 
 ```js
 import { Rate, VStack } from 'rsuite';
-import HeartIcon from '@rsuite/icons/legacy/Heart';
-import BeerIcon from '@rsuite/icons/legacy/Beer';
-import FrownIcon from '@rsuite/icons/legacy/FrownO';
+import { FaHeart } from 'react-icons/fa';
 
-const App = () => (
-  <VStack>
-    <Rate defaultValue={3} character={<HeartIcon />} />
-    <Rate defaultValue={3} character={<BeerIcon />} color="yellow" />
-    <Rate defaultValue={3} character="A" />
-    <Rate
-      defaultValue={2}
-      character={({ index }) => {
-        return index + 1;
-      }}
-    />
-    <Rate
-      defaultValue={2}
-      character={<FrownIcon />}
-      renderCharacter={(value, index) => {
-        return index < value ? <HeartIcon style={{ color: 'red' }} /> : <FrownIcon />;
-      }}
-    />
-  </VStack>
-);
+const App = () => {
+  const [value, setValue] = React.useState(2.5);
+  return (
+    <VStack>
+      <Rate allowHalf value={value} character={<FaHeart />} color="red" onChange={setValue} />
+      <Rate allowHalf value={value} character="鼎" color="blue" onChange={setValue} />
+      <Rate allowHalf value={value} character="A" onChange={setValue} />
+      <Rate allowHalf value={value} character="👍" onChange={setValue} />
+    </VStack>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

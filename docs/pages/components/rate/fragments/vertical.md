@@ -2,10 +2,10 @@
 
 ```js
 import { Rate } from 'rsuite';
-import BeerIcon from '@rsuite/icons/legacy/Beer';
+import { FaBeer } from "react-icons/fa";
 
 const App = () => (
-  <Rate defaultValue={2.5} allowHalf vertical character={<BeerIcon />} color="blue" />
+  <Rate defaultValue={2.5} allowHalf vertical character={<FaBeer />} color="blue" />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

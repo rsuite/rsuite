@@ -16,9 +16,10 @@ const App = () => (
       <Rate defaultValue={5} color="violet" />
     </VStack>
 
-    {/* Custom colors */}
+    <p>Custom colors</p>
+
     <VStack>
-      <Rate defaultValue={3} color="#FF5733" />
+      <Rate defaultValue={3} color="#FF0000" />
       <Rate defaultValue={3} color="rgb(51, 204, 108)" />
       <Rate defaultValue={3} color="#8A2BE2" />
     </VStack>
