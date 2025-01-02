@@ -38,7 +38,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
     as: Component = 'div',
     classPrefix = 'tag',
     size = 'md',
-    color = 'default',
+    color,
     children,
     closable,
     className,

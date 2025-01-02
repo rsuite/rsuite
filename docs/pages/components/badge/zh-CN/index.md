@@ -48,19 +48,19 @@
 
 ### `<Badge>`
 
-| 属性名称    | 类型`(默认值)`                                      | 描述                                                      |
-| ----------- | --------------------------------------------------- | --------------------------------------------------------- |
-| children    | ReactNode                                           | 包裹的组件                                                |
-| classPrefix | string `('badge')`                                  | 组件 CSS 类名的前缀                                       |
-| color       | [Color](#code-ts-color-code) \| string              | 设置标记的颜色                                            |
-| compact     | boolean                                             | 是否为紧凑模式<br/>![][6.0.0]                             |
-| content     | number \| ReactNode                                 | 标记内容                                                  |
-| invisible   | boolean                                             | 标记是否不可见<br/>![][6.0.0]                             |
-| maxCount    | number`(99)`                                        | 最大计数（仅当 `content` 为 number 类型时有效）           |
-| offset      | [number,number] \| [string, string]                 | 定义标记相对于其被包裹元素的水平和垂直偏移<br/>![][6.0.0] |
-| outline     | boolean`(true)`                                     | 是否为轮廓模式<br/>![][6.0.0]                             |
-| placement   | [PlacementCorners](#code-ts-placement-corners-code) | 设置标记在被包裹元素的位置<br/>![][6.0.0]                 |
-| shape       | 'rectangle' \| 'circle'                             | 被包裹元素的形状<br/>![][6.0.0]                           |
+| 属性名称    | 类型`(默认值)`                                         | 描述                                                      |
+| ----------- | ------------------------------------------------------ | --------------------------------------------------------- |
+| children    | ReactNode                                              | 包裹的组件                                                |
+| classPrefix | string `('badge')`                                     | 组件 CSS 类名的前缀                                       |
+| color       | [Color](#code-ts-color-code) \| CSSProperties['color'] | 设置标记的颜色                                            |
+| compact     | boolean                                                | 是否为紧凑模式<br/>![][6.0.0]                             |
+| content     | number \| ReactNode                                    | 标记内容                                                  |
+| invisible   | boolean                                                | 标记是否不可见<br/>![][6.0.0]                             |
+| maxCount    | number`(99)`                                           | 最大计数（仅当 `content` 为 number 类型时有效）           |
+| offset      | [number,number] \| [string, string]                    | 定义标记相对于其被包裹元素的水平和垂直偏移<br/>![][6.0.0] |
+| outline     | boolean`(true)`                                        | 是否为轮廓模式<br/>![][6.0.0]                             |
+| placement   | [PlacementCorners](#code-ts-placement-corners-code)    | 设置标记在被包裹元素的位置<br/>![][6.0.0]                 |
+| shape       | 'rectangle' \| 'circle'                                | 被包裹元素的形状<br/>![][6.0.0]                           |
 
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/placement-corners.md)}-->

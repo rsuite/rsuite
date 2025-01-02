@@ -15,7 +15,6 @@ describe('Tag', () => {
 
     expect(screen.getByTestId('tag')).to.have.class('rs-tag');
     expect(screen.getByTestId('tag')).to.have.class('rs-tag-md');
-    expect(screen.getByTestId('tag')).to.have.class('rs-tag-default');
   });
 
   it('Should call onClose callback', () => {

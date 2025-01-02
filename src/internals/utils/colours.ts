@@ -5,6 +5,10 @@ export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
     return false;
   }
 
+  if (color === 'default') {
+    return true;
+  }
+
   return Object.values(Colours).includes(color as Colours);
 };
 
