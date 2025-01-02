@@ -40,7 +40,7 @@ export interface ToastContainerProps extends WithAsProps {
   /**
    * Set the message to appear in the specified container
    */
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement) | null;
 
   /**
    * The number of milliseconds to wait before automatically closing a message.
@@ -56,7 +56,7 @@ export interface ToastContainerProps extends WithAsProps {
 interface PushOptions {
   duration?: number;
   mouseReset?: boolean;
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement) | null;
 }
 
 export interface ToastContainerInstance {
@@ -198,27 +198,32 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
 ) as any;
 
 ToastContainer.getInstance = async (props: GetInstancePropsType) => {
-  const { container, ...rest } = props;
-  let getRefResolve: null | ((value?: unknown) => void) = null;
-  const getRefPromise = new Promise(res => {
-    getRefResolve = res;
+  const { container, ...toastProps } = props;
+
+  // Promise to wait for containerRef to be assigned
+  let resolveContainerRef: null | ((value?: unknown) => void) = null;
+  const containerRefReady = new Promise(resolve => {
+    resolveContainerRef = resolve;
   });
 
-  const containerRef = React.createRef<ToastContainerInstance>();
+  // Create a React ref for the ToastContainer instance
+  const toastContainerRef = React.createRef<ToastContainerInstance>();
 
-  // promise containerId & containerRef all have value
+  // Render the ToastContainer component into the specified container
   const containerId = render(
     <ToastContainer
-      {...rest}
+      {...toastProps}
       ref={ref => {
-        (containerRef as any).current = ref;
-        getRefResolve && getRefResolve();
+        (toastContainerRef.current as any) = ref;
+        resolveContainerRef?.();
       }}
     />,
     container
   );
-  await getRefPromise;
-  return [containerRef, containerId];
+
+  await containerRefReady;
+
+  return [toastContainerRef, containerId];
 };
 
 ToastContainer.displayName = 'ToastContainer';
