@@ -419,7 +419,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
 
     if (hasValue && isFunction(renderValue)) {
       selectedElement = renderValue(
-        value.length ? value : valueProp ?? [],
+        value.length ? value : (valueProp ?? []),
         selectedItems,
         selectedElement
       );

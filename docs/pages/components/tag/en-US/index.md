@@ -31,8 +31,6 @@ Tag for categorizing or markup.
 
 ### `<Tag>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property    | Type `(Default)`              | Description                                          |
 | ----------- | ----------------------------- | ---------------------------------------------------- |
 | as          | ElementType `('div')`         | You can use a custom element type for this component |
@@ -44,8 +42,6 @@ Tag for categorizing or markup.
 | size        | 'sm' \| 'md' \| 'lg' `('md')` | Set the tag size                                     |
 
 ### `<TagGroup>`
-
-<!-- prettier-sort-markdown-table -->
 
 | Property    | Type `(Default)`       | Description                                          |
 | ----------- | ---------------------- | ---------------------------------------------------- |

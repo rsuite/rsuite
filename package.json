@@ -170,7 +170,6 @@
     "postcss-less": "^6.0.0",
     "postcss-prune-var": "^1.1.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-sort-markdown-table": "^1.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resolve-tspaths": "^0.8.19",

@@ -3,7 +3,7 @@
 ```js
 import { Container, Header, Content, Footer, Navbar, Nav } from 'rsuite';
 import FakeBrowser from '@/components/FakeBrowser';
-import { FaCog } from "react-icons/fa";
+import { FaCog } from 'react-icons/fa';
 
 const App = () => (
   <FakeBrowser height={600}>

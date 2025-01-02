@@ -21,12 +21,12 @@ const data = [
   {
     id: 3,
     icon: <EmailIcon />,
-    value:<a href='mailto:john.doe@rsuitejs.com'>john.doe@rsuitejs.com</a>
+    value: <a href="mailto:john.doe@rsuitejs.com">john.doe@rsuitejs.com</a>
   },
   {
     id: 4,
     icon: <GlobalIcon />,
-    value:  <a href='http://rsuitejs.com'>rsuitejs.com</a>
+    value: <a href="http://rsuitejs.com">rsuitejs.com</a>
   }
 ];
 

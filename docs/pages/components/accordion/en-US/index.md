@@ -64,8 +64,6 @@ When `defaultActiveKey` or `activeKey` is set, only one panel can be expanded.
 
 ### `<Accordion>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property         | Type `(Default)`                  | Description                                  |
 | ---------------- | --------------------------------- | -------------------------------------------- |
 | activeKey        | string                            | The active item's event key.                 |
@@ -75,8 +73,6 @@ When `defaultActiveKey` or `activeKey` is set, only one panel can be expanded.
 | onSelect         | (eventKey: string, event) => void | Callback fired when the active item changes. |
 
 ### `<Accordion.Panel>`
-
-<!-- prettier-sort-markdown-table -->
 
 | Property        | Type `(Default)`   | Description                               |
 | --------------- | ------------------ | ----------------------------------------- |
