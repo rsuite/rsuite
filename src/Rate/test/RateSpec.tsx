@@ -5,7 +5,7 @@ import { testStandardProps } from '@test/utils';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 describe('Rate', () => {
   testStandardProps(<Rate />, {
@@ -106,7 +106,7 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
@@ -119,7 +119,7 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback by KeyDown event', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
 
@@ -180,6 +180,25 @@ describe('Rate', () => {
     );
   });
 
+  it('Should handle mouse leave correctly', () => {
+    const onChangeActive = sinon.spy();
+    const ref = React.createRef<HTMLUListElement>();
+
+    render(<Rate ref={ref} defaultValue={3} onChangeActive={onChangeActive} />);
+
+    // Simulate hovering over a different rating
+    userEvent.hover(ref.current?.querySelectorAll('.rs-rate-character')[3] as HTMLElement);
+
+    // Simulate mouse leave
+    fireEvent.mouseLeave(ref.current as HTMLElement);
+
+    // Should call onChangeActive with the original value
+    expect(onChangeActive).to.have.been.calledWith(3);
+
+    // Should reset the visual state
+    expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(3);
+  });
+
   describe('Custom colors', () => {
     it('Should render with preset color', () => {
       render(<Rate defaultValue={3} color="red" />);
@@ -220,6 +239,138 @@ describe('Rate', () => {
       const style = getComputedStyle(rateElement);
       expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
       expect(rateElement).to.not.have.class('rs-rate-red');
+    });
+  });
+
+  describe('Keyboard navigation', () => {
+    it('Should handle right arrow key with allowHalf=false', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={2} onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowRight'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(3);
+    });
+
+    it('Should handle right arrow key with allowHalf=true', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={2} allowHalf onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowRight'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2.5);
+    });
+
+    it('Should handle left arrow key with allowHalf=false', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={3} onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2);
+    });
+
+    it('Should handle left arrow key with allowHalf=true', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={3} allowHalf onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2.5);
+    });
+
+    it('Should not exceed max value when using right arrow key', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+      const max = 5;
+
+      render(<Rate ref={ref} defaultValue={max - 1} onChange={onChange} />);
+
+      // First press right arrow to reach max
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'ArrowRight'
+        }
+      );
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'Enter'
+        }
+      );
+
+      expect(onChange).to.have.been.calledWith(max);
+      onChange.resetHistory();
+
+      // Try to exceed max
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'ArrowRight'
+        }
+      );
+
+      // Verify visual state still shows max stars
+      expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(max);
+    });
+
+    it('Should not go below 0 when using left arrow key', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
+
+      // First press left arrow to reach 0
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(0);
+      onChange.resetHistory();
+
+      // Try to go below 0
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      // Verify visual state shows no filled stars
+      expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
     });
   });
 
