@@ -98,7 +98,7 @@ const usePosition = (
 
       const overlay = getDOMNode(ref.current);
       const containerElement = getContainer(
-        typeof container === 'function' ? container() : container ?? (null as any),
+        typeof container === 'function' ? container() : (container ?? (null as any)),
         ownerDocument(ref.current).body
       ) as HTMLElement;
 

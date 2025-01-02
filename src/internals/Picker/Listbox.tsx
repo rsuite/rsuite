@@ -91,8 +91,8 @@ export interface ListboxProps<Multiple = false>
   onSelect?: Multiple extends true
     ? (value: any, item: any, event: React.MouseEvent, checked: boolean) => void
     : Multiple extends false
-    ? (value: any, item: any, event: React.MouseEvent) => void
-    : any;
+      ? (value: any, item: any, event: React.MouseEvent) => void
+      : any;
 
   /**
    * Event handler for clicking on a group title.

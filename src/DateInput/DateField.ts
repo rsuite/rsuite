@@ -73,26 +73,29 @@ interface Action {
 }
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
-  const [dateField, dispatch] = useReducer((state: DateField, action: Action) => {
-    switch (action.type) {
-      case 'setYear':
-        return { ...state, year: action.value };
-      case 'setMonth':
-        return { ...state, month: action.value };
-      case 'setDay':
-        return { ...state, day: action.value };
-      case 'setHour':
-        return { ...state, hour: action.value };
-      case 'setMinute':
-        return { ...state, minute: action.value };
-      case 'setSecond':
-        return { ...state, second: action.value };
-      case 'setNewDate':
-        return new DateField(format, action.value);
-      default:
-        return state;
-    }
-  }, new DateField(format, date));
+  const [dateField, dispatch] = useReducer(
+    (state: DateField, action: Action) => {
+      switch (action.type) {
+        case 'setYear':
+          return { ...state, year: action.value };
+        case 'setMonth':
+          return { ...state, month: action.value };
+        case 'setDay':
+          return { ...state, day: action.value };
+        case 'setHour':
+          return { ...state, hour: action.value };
+        case 'setMinute':
+          return { ...state, minute: action.value };
+        case 'setSecond':
+          return { ...state, second: action.value };
+        case 'setNewDate':
+          return new DateField(format, action.value);
+        default:
+          return state;
+      }
+    },
+    new DateField(format, date)
+  );
 
   const toDateString = () => {
     let str = format;

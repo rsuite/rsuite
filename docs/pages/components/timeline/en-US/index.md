@@ -44,8 +44,6 @@ Two preset values are provided for convenience.
 
 ### `<Timeline>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property     | Type `(Default)`                                    | Description                                          |
 | ------------ | --------------------------------------------------- | ---------------------------------------------------- |
 | align        | 'left' &#124; 'right' &#124; 'alternate' `('left')` | Timeline content alignment                           |

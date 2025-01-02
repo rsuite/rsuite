@@ -29,7 +29,8 @@ const App = () => {
             style={{ width: 100, display: 'inline-block' }}
             onChange={setHeight}
             value={height}
-          /> rem
+          />{' '}
+          rem
         </HStack>
       </HStack>
       <hr />

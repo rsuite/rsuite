@@ -43,12 +43,10 @@ The DateRangeInput components let the user select a date range with the keyboard
 
 ### `<DateRangeInput>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property     | Type`(default)`                             | Description                                               |
 | ------------ | ------------------------------------------- | --------------------------------------------------------- |
 | character    | string `(' ~ ')`                            | The character between the start and end dates             |
-| defaultValue | [Date, Date]〡 null                         | The default value (uncontrolled)                                             |
+| defaultValue | [Date, Date]〡 null                         | The default value (uncontrolled)                          |
 | disabled     | boolean                                     | Whether disabled the component                            |
 | format       | string `('dd/MM/yyyy')`                     | Format of the date when rendered in the input             |
 | onChange     | (date: [Date, Date]〡 null , event) => void | Callback fired when value changed                         |

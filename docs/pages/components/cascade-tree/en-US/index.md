@@ -43,8 +43,6 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ### `<CascadeTree>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property           | Type`(Default)`                                                                    | Description                                            |
 | ------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------ |
 | childrenKey        | string `('children')`                                                              | Set children key in data                               |
