@@ -1,7 +1,6 @@
 <!--start-code-->
 
 ```js
-import React from 'react';
 import { useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
 
 const Toast = React.forwardRef((props, ref) => {
@@ -11,11 +10,13 @@ const Toast = React.forwardRef((props, ref) => {
     <div
       ref={ref}
       {...rest}
-      style={{ padding: 10, background: '#fff', borderRadius: 4, marginTop: 10 }}
+      style={{ padding: 10, background: 'var(--rs-bg-card)', borderRadius: 4, marginTop: 10 }}
     >
       {children}
       <hr />
-      <button onClick={onClose}>Close</button>
+      <Button onClick={onClose} size="sm">
+        Close
+      </Button>
     </div>
   );
 });
@@ -23,22 +24,20 @@ const Toast = React.forwardRef((props, ref) => {
 const App = () => {
   const toaster = useToaster();
 
+  const pushMessage = () => {
+    toaster.push(
+      <Toast>
+        <h4>Custom Toast</h4>
+        <p>
+          This is a custom toast with a close button. You can also set the duration and placement.
+        </p>
+      </Toast>,
+      { placement: 'topCenter', duration: 5000 }
+    );
+  };
+
   return (
-    <Button
-      onClick={() =>
-        toaster.push(
-          <Toast>
-            <h4>Custom Toast</h4>
-            <p>
-              This is a custom toast with a close button. You can also set the duration and
-              placement.
-            </p>
-          </Toast>,
-          { placement: 'topCenter', duration: 5000 }
-        )
-      }
-      appearance="primary"
-    >
+    <Button onClick={pushMessage} appearance="primary">
       Push
     </Button>
   );

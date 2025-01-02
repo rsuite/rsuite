@@ -1,11 +1,7 @@
 import React from 'react';
+import { createRoot } from 'react-dom/client';
 import { guid } from '@/internals/utils';
-import * as ReactDOM from 'react-dom';
-
-const majorVersion = parseInt(React.version);
-const SuperposedReactDOM = ReactDOM as any;
-
-export const toasterKeyOfContainerElement = 'toasterId';
+import { RSUITE_TOASTER_ID } from '@/internals/symbols';
 
 export function render(element: React.ReactElement<any>, container: HTMLElement | null): string {
   const mountElement = document.createElement('div');
@@ -17,27 +13,14 @@ export function render(element: React.ReactElement<any>, container: HTMLElement 
   // Add the detached element to the root
   containerElement.appendChild(mountElement);
 
-  const newContainerId = guid();
-
-  if (!containerElement[toasterKeyOfContainerElement]) {
-    // attach the containerId to the containerElement
-    containerElement[toasterKeyOfContainerElement] = newContainerId;
+  if (!containerElement[RSUITE_TOASTER_ID]) {
+    // Attach the containerId to the containerElement
+    containerElement[RSUITE_TOASTER_ID] = guid();
   }
 
-  if (majorVersion >= 18) {
-    /**
-     * ignore react 18 warnings
-     * Warning: You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".
-     */
-    ReactDOM['__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'].usingClientEntryPoint = true;
+  const root = createRoot(mountElement, { identifierPrefix: 'rs-root-' });
 
-    const { createRoot } = SuperposedReactDOM;
-    const root = createRoot(mountElement, { identifierPrefix: 'rs-root-' });
+  root.render(element);
 
-    root.render(element);
-  } else {
-    SuperposedReactDOM.render(element, mountElement);
-  }
-
-  return containerElement[toasterKeyOfContainerElement];
+  return containerElement[RSUITE_TOASTER_ID];
 }
