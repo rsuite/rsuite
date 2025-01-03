@@ -143,7 +143,7 @@
     "gulp-postcss": "^10.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^3.0.0",
     "husky": "^7.0.2",
     "inquirer": "^9.2.7",
     "karma": "^6.3.14",
