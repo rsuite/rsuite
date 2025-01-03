@@ -5,7 +5,7 @@ import { testStandardProps } from '@test/utils';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 describe('Rate', () => {
   testStandardProps(<Rate />, {
@@ -106,7 +106,7 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
@@ -119,7 +119,7 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback by KeyDown event', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
 
@@ -181,7 +181,7 @@ describe('Rate', () => {
   });
 
   it('Should handle mouse leave correctly', () => {
-    const onChangeActive = Sinon.spy();
+    const onChangeActive = sinon.spy();
     const ref = React.createRef<HTMLUListElement>();
 
     render(<Rate ref={ref} defaultValue={3} onChangeActive={onChangeActive} />);
@@ -199,9 +199,52 @@ describe('Rate', () => {
     expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(3);
   });
 
+  describe('Custom colors', () => {
+    it('Should render with preset color', () => {
+      render(<Rate defaultValue={3} color="red" />);
+      expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-red');
+    });
+
+    it('Should render with custom hex color', () => {
+      const { container } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+    });
+
+    it('Should render with custom rgb color', () => {
+      const { container } = render(<Rate defaultValue={3} color="rgb(255, 87, 51)" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked')).to.equal('rgb(255, 87, 51)');
+    });
+
+    it('Should update color when prop changes', () => {
+      const { container, rerender } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+
+      rerender(<Rate defaultValue={3} color="#33FF57" />);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#33ff57');
+    });
+
+    it('Should render correctly when switching between preset and custom colors', () => {
+      const { container, rerender } = render(<Rate defaultValue={3} color="red" />);
+      let rateElement = screen.getByRole('radiogroup');
+      expect(rateElement).to.have.class('rs-rate-red');
+
+      rerender(<Rate defaultValue={3} color="#FF5733" />);
+      rateElement = container.querySelector('.rs-rate') as HTMLElement;
+      const style = getComputedStyle(rateElement);
+      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+      expect(rateElement).to.not.have.class('rs-rate-red');
+    });
+  });
+
   describe('Keyboard navigation', () => {
     it('Should handle right arrow key with allowHalf=false', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={2} onChange={onChange} />);
@@ -218,7 +261,7 @@ describe('Rate', () => {
     });
 
     it('Should handle right arrow key with allowHalf=true', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={2} allowHalf onChange={onChange} />);
@@ -235,7 +278,7 @@ describe('Rate', () => {
     });
 
     it('Should handle left arrow key with allowHalf=false', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={3} onChange={onChange} />);
@@ -252,7 +295,7 @@ describe('Rate', () => {
     });
 
     it('Should handle left arrow key with allowHalf=true', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={3} allowHalf onChange={onChange} />);
@@ -269,7 +312,7 @@ describe('Rate', () => {
     });
 
     it('Should not exceed max value when using right arrow key', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
       const max = 5;
 
@@ -305,7 +348,7 @@ describe('Rate', () => {
     });
 
     it('Should not go below 0 when using left arrow key', () => {
-      const onChange = Sinon.spy();
+      const onChange = sinon.spy();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);

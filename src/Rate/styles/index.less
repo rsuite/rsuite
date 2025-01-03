@@ -71,7 +71,8 @@
       bottom: 3px;
     }
 
-    .rs-icon {
+    .rs-icon,
+    svg {
       position: absolute;
       height: 1em;
       width: 1em;
@@ -122,7 +123,10 @@
   // Color variants
   each(@spectrum, .(@color) {
     &-@{color} {
-      color: var(~'--rs-@{color}-500');
+
+      --rs-rate-symbol-checked: var(~'--rs-@{color}-500');
+
+      color: var(--rs-rate-symbol-checked);
     }
   });
 }
