@@ -1,4 +1,5 @@
-import { isNil, isUndefined } from 'lodash';
+import isNil from 'lodash/isNil';
+import isUndefined from 'lodash/isUndefined';
 import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { attachParent } from '@/internals/utils';

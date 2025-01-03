@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { isNil, pick, isFunction, omit } from 'lodash';
+import isNil from 'lodash/isNil';
+import pick from 'lodash/pick';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
