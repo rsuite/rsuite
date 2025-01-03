@@ -1,7 +1,6 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { isIE11 } from '@/internals/utils';
 import type { UploaderLocale } from '../locales';
 export interface UploadTriggerProps extends ButtonProps {
   as?: React.ElementType;
@@ -96,21 +95,6 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     onDrop?.(event);
   });
 
-  const handleChange = useEventCallback(event => {
-    if (isIE11()) {
-      /**
-       * IE11 triggers onChange event of file input when element.value is assigned
-       * https://github.com/facebook/react/issues/8793
-       */
-      if (event.target?.files?.length > 0) {
-        onChange?.(event);
-      }
-      return;
-    }
-
-    onChange?.(event);
-  });
-
   useImperativeHandle(ref, () => ({
     root: rootRef.current,
     clearInput: handleClearInput
@@ -146,7 +130,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
         readOnly={readOnly}
         accept={accept}
         ref={inputRef}
-        onChange={handleChange}
+        onChange={onChange}
       />
       {trigger}
     </div>
