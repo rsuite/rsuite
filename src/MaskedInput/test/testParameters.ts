@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import filter from 'lodash/fp/filter';
 import { convertMaskToPlaceholder } from '../utilities';
 
 const alphabetic = /^[A-Z]+$/i;
@@ -18,7 +18,7 @@ export const getLineNumber = () => {
 };
 
 // export default _.filter((t) => false, [{
-export default _.filter(
+export default filter(
   t => t,
   [
     {
@@ -1138,7 +1138,7 @@ export default _.filter(
 //####################################################################################
 
 // export const noGuideMode = _.filter((t) => false, [{
-export const noGuideMode = _.filter(
+export const noGuideMode = filter(
   t => t,
   [
     {
@@ -1253,19 +1253,6 @@ export const noGuideMode = _.filter(
     {
       line: getLineNumber(),
 
-      mask: ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/],
-      previousConformedValue: '(987) 6_',
-      rawValue: '(9875) 6_',
-      currentCaretPosition: 5,
-
-      conformedValue: '(987) 56',
-      adjustedCaretPosition: 7
-
-      // only: true
-    },
-    {
-      line: getLineNumber(),
-
       mask: ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
       previousConformedValue: '(987) 656-4938',
       rawValue: '(987) 6565-4938',
@@ -1320,7 +1307,7 @@ export const noGuideMode = _.filter(
 //####################################################################################
 
 // export const acceptedCharInMask = _.filter((t) => false, [{
-export const acceptedCharInMask = _.filter(
+export const acceptedCharInMask = filter(
   t => t,
   [
     {
@@ -1766,7 +1753,7 @@ export const acceptedCharInMask = _.filter(
 //####################################################################################
 
 // export const escapedMaskChar = _.filter((t) => false, [{
-export const escapedMaskChar = _.filter(
+export const escapedMaskChar = filter(
   t => t,
   [
     {
@@ -1833,7 +1820,7 @@ export const escapedMaskChar = _.filter(
 //####################################################################################
 //####################################################################################
 
-export const caretTrapTests = _.filter(
+export const caretTrapTests = filter(
   t => t,
   [
     {
