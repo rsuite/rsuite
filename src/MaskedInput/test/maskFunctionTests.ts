@@ -1,8 +1,8 @@
-import _ from 'lodash/fp';
+import filter from 'lodash/fp/filter';
 import { getLineNumber } from './testParameters';
 
 // export default _.filter((t) => false, [{
-export default _.filter(
+export default filter(
   t => t,
   [
     {

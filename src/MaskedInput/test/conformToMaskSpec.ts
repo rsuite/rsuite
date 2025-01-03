@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import filter from 'lodash/filter';
+import pick from 'lodash/pick';
 import sinon from 'sinon';
 import conformToMask from '../conformToMask';
 import dynamicTests from './dynamicTests';
@@ -74,11 +75,11 @@ describe('conformToMask', () => {
 
   describe('Accepted character in mask', () => {
     dynamicTests(
-      _.filter(acceptedCharInMask, test => !(test as any).skip),
+      filter(acceptedCharInMask, test => !(test as any).skip),
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}' Line: ${test.line}`,
 
         body: () => {
@@ -101,7 +102,7 @@ describe('conformToMask', () => {
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}' Line: ${test.line}`,
 
         body: () => {
@@ -123,7 +124,7 @@ describe('conformToMask', () => {
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}'`,
 
         body: () => {
@@ -146,7 +147,7 @@ describe('conformToMask', () => {
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}'`,
 
         body: () => {
@@ -169,7 +170,7 @@ describe('conformToMask', () => {
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}' Line: ${test.line}`,
 
         body: () => {
@@ -244,7 +245,7 @@ describe('conformToMask', () => {
 
       test => ({
         description:
-          `for input ${JSON.stringify(_.pick(test, testInputs))}, ` +
+          `for input ${JSON.stringify(pick(test, testInputs))}, ` +
           `it outputs '${test.conformedValue}' Line: ${test.line}`,
 
         body: () => {

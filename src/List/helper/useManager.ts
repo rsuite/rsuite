@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react';
-import _ from 'lodash';
+import flatten from 'lodash/flatten';
 import type { EdgeOffset } from './utils';
+
 export type Collection = string | number;
 
 export interface ManagedItem {
@@ -32,7 +33,7 @@ const useManager = () => {
     };
   }, []);
   const getManagedItem = useCallback((node: HTMLElement) => {
-    const allItems = _.flatten(Object.values(collectionMapRef.current));
+    const allItems = flatten(Object.values(collectionMapRef.current));
     return allItems.find(managerRef => managerRef.node === node);
   }, []);
   const getOrderedItems = useCallback(collection => {

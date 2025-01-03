@@ -1,9 +1,12 @@
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import isArray from 'lodash/isArray';
+import includes from 'lodash/includes';
+import filter from 'lodash/filter';
 import testParameters, { noGuideMode, caretTrapTests, acceptedCharInMask } from './testParameters';
 import maskFunctionTests from './maskFunctionTests';
-import { convertMaskToPlaceholder } from '../utilities';
 import adjustCaretPosition from '../adjustCaretPosition';
 import dynamicTests from './dynamicTests';
+import { convertMaskToPlaceholder } from '../utilities';
 
 const placeholderChar = '_';
 
@@ -215,15 +218,15 @@ describe('adjustCaretPosition', () => {
 
   describe('Guide mode', () => {
     dynamicTests(
-      _.filter(testParameters, (testParameter: any) => {
+      filter(testParameters, (testParameter: any) => {
         return !(
-          _.isArray(testParameter.skips) && _.includes(testParameter.skips, 'adjustCaretPosition')
+          isArray(testParameter.skips) && includes(testParameter.skips, 'adjustCaretPosition')
         );
       }),
 
       test => ({
         description: `for input: ${JSON.stringify(
-          _.pick(test, testInputs)
+          pick(test, testInputs)
         )}, it knows to adjust the caret to '${test.adjustedCaretPosition}'. Line: ${test.line}`,
 
         body: () => {
@@ -246,15 +249,15 @@ describe('adjustCaretPosition', () => {
 
   describe('No-guide mode', () => {
     dynamicTests(
-      _.filter(noGuideMode, (testParameter: any) => {
+      filter(noGuideMode, (testParameter: any) => {
         return !(
-          _.isArray(testParameter.skips) && _.includes(testParameter.skips, 'adjustCaretPosition')
+          isArray(testParameter.skips) && includes(testParameter.skips, 'adjustCaretPosition')
         );
       }),
 
       test => ({
         description: `for input: ${JSON.stringify(
-          _.pick(test, testInputs)
+          pick(test, testInputs)
         )}, it knows to adjust the caret to '${test.adjustedCaretPosition}' Line: ${test.line}`,
 
         body: () => {
@@ -276,16 +279,15 @@ describe('adjustCaretPosition', () => {
 
   describe('Mask function tests', () => {
     dynamicTests(
-      _.filter(
+      filter(
         maskFunctionTests,
-        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
         description:
-          `for input: ${JSON.stringify(
-            _.pick(test, testInputs)
-          )}, it knows to adjust the caret to ` + `'${test.adjustedCaretPosition}'`,
+          `for input: ${JSON.stringify(pick(test, testInputs))}, it knows to adjust the caret to ` +
+          `'${test.adjustedCaretPosition}'`,
 
         body: () => {
           expect(
@@ -306,16 +308,15 @@ describe('adjustCaretPosition', () => {
 
   describe('Caret trap tests', () => {
     dynamicTests(
-      _.filter(
+      filter(
         caretTrapTests,
-        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
         description:
-          `for input: ${JSON.stringify(
-            _.pick(test, testInputs)
-          )}, it knows to adjust the caret to ` + `'${test.adjustedCaretPosition}'`,
+          `for input: ${JSON.stringify(pick(test, testInputs))}, it knows to adjust the caret to ` +
+          `'${test.adjustedCaretPosition}'`,
 
         body: () => {
           expect(
@@ -337,16 +338,14 @@ describe('adjustCaretPosition', () => {
 
   describe('Accepted char in mask', () => {
     dynamicTests(
-      _.filter(
+      filter(
         acceptedCharInMask,
-        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
         description:
-          `for input: ${JSON.stringify(
-            _.pick(test, testInputs)
-          )}, it knows to adjust the caret to ` +
+          `for input: ${JSON.stringify(pick(test, testInputs))}, it knows to adjust the caret to ` +
           `'${test.adjustedCaretPosition}'. Line: '${test.line}'`,
 
         body: () => {

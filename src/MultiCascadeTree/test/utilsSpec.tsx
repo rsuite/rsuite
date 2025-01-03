@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import find from 'lodash/find';
+import isArray from 'lodash/isArray';
 import { renderHook } from '@testing-library/react';
 import { getOtherItemValuesByUnselectChild, removeAllChildrenValue } from '../utils';
 import useFlattenData from '../hooks/useFlattenData';
@@ -129,7 +130,7 @@ const data2 = [
 
 function setParent() {
   function loop(data, parent) {
-    if (!_.isArray(data)) {
+    if (!isArray(data)) {
       return;
     }
 
@@ -148,14 +149,19 @@ setParent();
 
 describe('MultiCascader - utils', () => {
   it('getOtherItemValuesByUnselectChild', () => {
-    const item = _.get(data, '0.children.1.children.0'); // 自流井区  1-2-1
+    const item = find(data, { value: '1-2-1' }); // 自流井区  1-2-1
     const values = item ? getOtherItemValuesByUnselectChild(item, ['1'], itemKeys) : [];
 
     expect(values).to.deep.equal(['1-1', '1-2-2', '1-2-3', '1-2-4', '1-2-5', '1-2-6', '1-3']);
   });
 
   it('removeAllChildrenValue', () => {
-    const item = _.get(data, '0'); // 四川  1
+    const item = find(data, { value: '1' }); // 四川  1
+
+    if (!item) {
+      throw new Error('Test item not found');
+    }
+
     const value = ['1', '1-3', '1-2'];
     const removedValue = removeAllChildrenValue(value, item, itemKeys) as string[];
 
