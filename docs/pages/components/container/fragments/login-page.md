@@ -12,10 +12,11 @@ import {
   Panel,
   Input,
   Stack,
-  VStack
+  VStack,
+  Button
 } from 'rsuite';
 import FakeBrowser from '@/components/FakeBrowser';
-import { FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import { FaReact, FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 const Password = React.forwardRef((props, ref) => {
   const [visible, setVisible] = React.useState(false);
@@ -38,7 +39,10 @@ const App = () => (
     <Container>
       <Header>
         <Navbar appearance="inverse">
-          <Navbar.Brand>Brand</Navbar.Brand>
+          <Navbar.Brand>
+            <FaReact size={26} /> Brand
+          </Navbar.Brand>
+          <Button appearance="primary">Create account</Button>
         </Navbar>
       </Header>
       <Content>

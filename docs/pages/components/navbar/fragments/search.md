@@ -1,8 +1,18 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav, Avatar, Text, Badge, IconButton } from 'rsuite';
-import { IoLogoReact, IoNotifications } from 'react-icons/io5';
+import { Navbar, Nav, Avatar, Input, InputGroup } from 'rsuite';
+import { IoLogoReact } from 'react-icons/io5';
+import SearchIcon from '@rsuite/icons/Search';
+
+const Searchbox = () => (
+  <InputGroup inside>
+    <InputGroup.Addon>
+      <SearchIcon />
+    </InputGroup.Addon>
+    <Input type="search" placeholder="Search here..." />
+  </InputGroup>
+);
 
 const App = () => (
   <Navbar>
@@ -18,13 +28,8 @@ const App = () => (
     </Navbar.Content>
 
     <Navbar.Content>
-      <Badge content={6} shape="circle">
-        <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="xs" />
-      </Badge>
-      <HStack>
-        <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
-        <Text>John Doe</Text>
-      </HStack>
+      <Searchbox />
+      <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
     </Navbar.Content>
   </Navbar>
 );

@@ -234,7 +234,14 @@
         "id": "navbar",
         "name": "Navbar",
         "title": "导航栏",
-        "components": ["Navbar", "Navbar.Brand"]
+        "components": [
+          "Navbar",
+          "Navbar.Brand",
+          "Navbar.Content",
+          "Navbar.Drawer",
+          "Navbar.Toggle"
+        ],
+        "keywords": ["menu", "header"]
       },
       {
         "id": "sidenav",

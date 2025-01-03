@@ -1,5 +1,6 @@
 import React from 'react';
 import Close from '@rsuite/icons/Close';
+import IconButton from '../../IconButton';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useClassNames } from '../hooks';
 import { useCustom } from '../../CustomProvider';
@@ -14,7 +15,7 @@ export interface CloseButtonProps extends WithAsProps {
  * Close button for components such as Message and Notification.
  */
 const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.forwardRef(
-  (props: CloseButtonProps, ref) => {
+  (props: CloseButtonProps, ref: React.Ref<HTMLButtonElement>) => {
     const {
       as: Component = 'button',
       classPrefix = 'btn-close',
@@ -26,6 +27,20 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const { closeLabel } = getLocale('CloseButton', overrideLocale);
     const classes = merge(className, withClassPrefix());
+
+    if (Component === IconButton) {
+      return (
+        <IconButton
+          icon={<Close />}
+          ref={ref}
+          className={classes}
+          aria-label={closeLabel}
+          appearance="subtle"
+          size="sm"
+          {...rest}
+        />
+      );
+    }
 
     return (
       <Component type="button" ref={ref} className={classes} aria-label={closeLabel} {...rest}>

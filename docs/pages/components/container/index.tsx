@@ -18,6 +18,7 @@ import {
   HStack,
   Text,
   Input,
+  Avatar,
   InputGroup,
   Breadcrumb
 } from 'rsuite';
@@ -25,7 +26,7 @@ import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import FakeBrowser from '@/components/FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
-import { FaGithub, FaRegEye, FaRegEyeSlash, FaReact, FaCog } from 'react-icons/fa';
+import { FaGithub, FaRegEye, FaRegEyeSlash, FaReact } from 'react-icons/fa';
 import {
   MdDashboard,
   MdGroup,
@@ -50,6 +51,7 @@ export default function Page() {
       sandboxFiles={files}
       dependencies={{
         FakeBrowser,
+        Avatar,
         Divider,
         IconButton,
         Button,
@@ -75,7 +77,6 @@ export default function Page() {
         FaGithub,
         FaRegEye,
         FaRegEyeSlash,
-        FaCog,
         MdDashboard,
         MdGroup,
         MdSettings,

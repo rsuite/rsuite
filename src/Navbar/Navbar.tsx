@@ -1,34 +1,34 @@
-import React from 'react';
-import NavbarBody from './NavbarBody';
-import NavbarHeader from './NavbarHeader';
+import React, { useMemo } from 'react';
 import NavbarBrand from './NavbarBrand';
-import { useClassNames } from '@/internals/hooks';
+import NavbarContent from './NavbarContent';
+import NavbarToggle from './NavbarToggle';
+import NavbarDrawer from './NavbarDrawer';
+import { useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
-
-export const NavbarContext = React.createContext<boolean>(false);
-
-type AppearanceType = 'default' | 'inverse' | 'subtle';
+import { NavbarContext } from './NavbarContext';
 
 export interface NavbarProps extends WithAsProps {
-  appearance?: AppearanceType;
-  classPrefix?: string;
+  /**
+   * The appearance style of the Navbar component.
+   */
+  appearance?: 'default' | 'inverse' | 'subtle';
+
+  /**
+   * Callback when the drawer is opened or closed.
+   */
+  onDrawerOpenChange?: (open: boolean) => void;
 }
 
 interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
-  /**
-   * @deprecated use Navbar.Brand instead
-   */
-  Header: typeof NavbarHeader;
-  /**
-   * @deprecated use Nav as direct child of Navbar
-   */
-  Body: typeof NavbarBody;
   Brand: typeof NavbarBrand;
+  Content: typeof NavbarContent;
+  Toggle: typeof NavbarToggle;
+  Drawer: typeof NavbarDrawer;
 }
 
 /**
- * The `Navbar` component is used to create a navigation header.
+ * The `Navbar` component is a wrapper that positions navigation elements.
  * @see https://rsuitejs.com/components/navbar
  */
 const Navbar: NavbarComponent = React.forwardRef(function Navbar(
@@ -41,21 +41,36 @@ const Navbar: NavbarComponent = React.forwardRef(function Navbar(
     as: Component = 'nav',
     classPrefix = 'navbar',
     appearance = 'default',
+    onDrawerOpenChange,
     ...rest
   } = propsWithDefaults;
+
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(appearance));
+  const [open, setOpen] = React.useState(false);
+
+  const handleToggle = useEventCallback((nextOpen: boolean) => {
+    setOpen(nextOpen);
+    onDrawerOpenChange?.(nextOpen);
+  });
+
+  const navbarId = useUniqueId('navbar-');
+  const context = useMemo(
+    () => ({ appearance, open, navbarId, onToggle: handleToggle }),
+    [appearance, navbarId, open]
+  );
+
   return (
-    <NavbarContext.Provider value={true}>
+    <NavbarContext.Provider value={context}>
       <Component {...rest} ref={ref} className={classes} />
     </NavbarContext.Provider>
   );
 }) as unknown as NavbarComponent;
 
-Navbar.Header = NavbarHeader;
-Navbar.Body = NavbarBody;
 Navbar.Brand = NavbarBrand;
-
+Navbar.Content = NavbarContent;
+Navbar.Toggle = NavbarToggle;
+Navbar.Drawer = NavbarDrawer;
 Navbar.displayName = 'Navbar';
 
 export default Navbar;

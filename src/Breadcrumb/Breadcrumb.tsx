@@ -39,7 +39,7 @@ export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', Brea
   Item: typeof BreadcrumbItem;
 }
 
-const Separator = createComponent({
+const Separator = createComponent<'span', React.HTMLAttributes<HTMLSpanElement>>({
   name: 'BreadcrumbSeparator',
   componentAs: 'span',
   'aria-hidden': true
