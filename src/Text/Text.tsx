@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import type { WithAsProps, RsRefForwardingComponent, Color } from '@/internals/types';
 
 const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
 
 export interface TextProps extends WithAsProps {
   /**
    * The font color of the text.
+   * Accepts preset colors or CSS color values
    */
-  color?: TypeAttributes.Color;
+  color?: Color | React.CSSProperties['color'];
 
   /**
    * The font size of the text.
@@ -69,14 +71,24 @@ const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(color, align, weight, transform, { muted, ellipsis: maxLines })
+    withClassPrefix(isPresetColor(color) && color, align, weight, transform, {
+      muted,
+      ellipsis: maxLines
+    })
   );
 
-  const styles = {
-    fontSize: fontSizeMap[size as keyof typeof fontSizeMap] || size,
-    ...(maxLines ? { WebkitLineClamp: maxLines } : null),
-    ...style
-  };
+  const styles = useMemo(
+    () =>
+      mergeStyles(
+        {
+          fontSize: fontSizeMap[size as keyof typeof fontSizeMap] || size,
+          ...(maxLines ? { WebkitLineClamp: maxLines } : null)
+        },
+        createColorVariables(color, '--rs-text-color'),
+        style
+      ),
+    [style, color, size, maxLines]
+  );
 
   return <Component {...rest} ref={ref} className={classes} style={styles} />;
 });

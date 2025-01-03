@@ -47,7 +47,7 @@ Text 是一个基本组件，允许您在页面上显示文本内容。
 | align       | 'left' \| 'center' \| 'right' \| 'justify'                                        | 文本的对齐方式。                               |
 | as          | ElementType`(div)`                                                                | 组件的自定义元素类型。                         |
 | classPrefix | string `('text')`                                                                 | 组件 CSS 类名的前缀。                          |
-| color       | [Color](#code-ts-color-code)                                                      | 文本的颜色。                                   |
+| color       | [Color](#code-ts-color-code) \| CSSProperties['color']                            | 文本的颜色。                                   |
 | maxLines    | number                                                                            | 限制提供文本的行数, 文本将被截断并显示省略号。 |
 | muted       | boolean                                                                           | 文本是否为静音。                               |
 | size        | 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| number \| string                         | 文本的大小。                                   |
