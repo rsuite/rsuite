@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Button from '../Button';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Button', () => {
   testStandardProps(<Button />, {
@@ -133,5 +133,33 @@ describe('Button', () => {
     render(<Button endIcon={<i>Icon</i>}>Text</Button>);
 
     expect(screen.getByRole('button')).to.have.text('TextIcon');
+  });
+
+  it('Should be toggleable', () => {
+    render(<Button toggleable>button</Button>);
+
+    expect(screen.getByRole('button')).to.not.have.class('rs-btn-active');
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('button')).to.have.class('rs-btn-active');
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('button')).to.not.have.class('rs-btn-active');
+  });
+
+  it('Should call onToggle callback', () => {
+    const onToggle = sinon.spy();
+
+    render(
+      <Button toggleable onToggle={onToggle}>
+        button
+      </Button>
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(onToggle).to.have.been.calledWith(true);
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(onToggle).to.have.been.calledWith(false);
   });
 });

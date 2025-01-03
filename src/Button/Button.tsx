@@ -3,11 +3,13 @@ import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { isOneOf } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
-export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface ButtonProps
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
   /** A button can have different appearances. */
   appearance?: TypeAttributes.Appearance;
 
@@ -46,6 +48,12 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
 
   /** Defines HTML button type attribute */
   type?: 'button' | 'reset' | 'submit';
+
+  /** A button can toggle its state between active and inactive. */
+  toggleable?: boolean;
+
+  /** Called when the button is clicked */
+  onToggle?: (active: boolean, event: React.MouseEvent) => void;
 }
 
 /**
@@ -57,7 +65,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
     const { propsWithDefaults } = useCustom('Button', props);
     const {
       as,
-      active,
+      active: activeProp,
       appearance = 'default',
       block,
       className,
@@ -71,9 +79,13 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       startIcon,
       endIcon,
       type: typeProp,
+      toggleable,
+      onToggle,
+      onClick,
       ...rest
     } = propsWithDefaults;
 
+    const [active, setActive] = useControlled(activeProp, false);
     const buttonGroup = useContext(ButtonGroupContext);
 
     const size = sizeProp ?? buttonGroup?.size;
@@ -99,6 +111,16 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       );
     }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
 
+    const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
+      if (toggleable) {
+        const nextActive = !active;
+
+        setActive(nextActive);
+        onToggle?.(nextActive, event);
+      }
+      onClick?.(event);
+    });
+
     if (rest.href) {
       return (
         <SafeAnchor
@@ -108,6 +130,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
           aria-disabled={disabled}
           disabled={disabled}
           className={classes}
+          onClick={handleClick}
         >
           {buttonContent}
         </SafeAnchor>
@@ -127,6 +150,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
         disabled={disabled}
         aria-disabled={disabled}
         className={classes}
+        onClick={handleClick}
       >
         {buttonContent}
       </Component>
