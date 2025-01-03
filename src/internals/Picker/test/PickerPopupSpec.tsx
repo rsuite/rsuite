@@ -44,7 +44,7 @@ describe('PickerPopup', () => {
             ({
               root: targetRef.current as HTMLButtonElement,
               updatePosition
-            } as any)
+            }) as any
         );
         return <button ref={targetRef} {...props} />;
       }
@@ -93,7 +93,7 @@ describe('PickerPopup', () => {
           () =>
             ({
               root: targetRef.current as HTMLButtonElement
-            } as any)
+            }) as any
         );
         return <button ref={targetRef} {...props} />;
       }

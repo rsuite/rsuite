@@ -18,4 +18,6 @@ const MaskedInput: RsRefForwardingComponent<'input', MaskedInputProps> = React.f
   return <Input {...propsWithDefaults} as={inputAs} ref={ref} />;
 });
 
+MaskedInput.displayName = 'MaskedInput';
+
 export default MaskedInput;

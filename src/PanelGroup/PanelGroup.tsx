@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -76,15 +75,5 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
 });
 
 PanelGroup.displayName = 'PanelGroup';
-PanelGroup.propTypes = {
-  accordion: PropTypes.bool,
-  activeKey: PropTypes.any,
-  bordered: PropTypes.bool,
-  defaultActiveKey: PropTypes.any,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  onSelect: PropTypes.func
-};
 
 export default PanelGroup;

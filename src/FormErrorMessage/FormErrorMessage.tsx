@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
 import { placementPolyfill } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface FormErrorMessageProps extends WithAsProps {
@@ -12,7 +10,7 @@ export interface FormErrorMessageProps extends WithAsProps {
   show?: boolean;
 
   /** The placement of error messages */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**
@@ -53,21 +51,5 @@ const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> =
 );
 
 FormErrorMessage.displayName = 'FormErrorMessage';
-FormErrorMessage.propTypes = {
-  show: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default FormErrorMessage;

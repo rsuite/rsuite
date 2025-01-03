@@ -13,7 +13,7 @@ export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesPro
 }
 
 type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
-  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): React.ReactElement | null;
+  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): any;
 };
 
 interface OkButtonProps {
@@ -41,10 +41,7 @@ const OkButton = ({ disableOkBtn, calendarDate, onOk, children }: OkButtonProps)
 /**
  * Toolbar for DatePicker and DateRangePicker
  */
-const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
-  props,
-  ref
-) {
+const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>((props, ref) => {
   const {
     className,
     classPrefix = 'picker-toolbar',

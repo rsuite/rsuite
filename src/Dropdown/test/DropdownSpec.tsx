@@ -178,7 +178,6 @@ describe('<Dropdown>', () => {
 
   it('Should not show caret', () => {
     const { container } = render(<Dropdown noCaret />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     expect(container.querySelector('.rs-dropdown-toggle-caret')).not.to.exist;
   });
 

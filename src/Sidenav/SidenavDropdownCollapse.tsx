@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
 import { useClassNames } from '@/internals/hooks';
@@ -45,11 +44,5 @@ const SidenavDropdownCollapse = React.forwardRef(
 );
 
 SidenavDropdownCollapse.displayName = 'Sidenav.Dropdown.Collapse';
-SidenavDropdownCollapse.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  open: PropTypes.bool
-};
 
 export default SidenavDropdownCollapse;

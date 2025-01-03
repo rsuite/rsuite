@@ -71,8 +71,6 @@ Tabs are a set of layered sections of content, known as tab panels, that display
 
 ### `<Tabs>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property         | Type `(Default)`                                 | Description                                  |
 | ---------------- | ------------------------------------------------ | -------------------------------------------- |
 | activeKey        | string                                           | The `eventKey` of the active tab.            |
@@ -85,8 +83,6 @@ Tabs are a set of layered sections of content, known as tab panels, that display
 | vertical         | boolean                                          | Whether to display the component vertically. |
 
 ### `<Tabs.Tab>`
-
-<!-- prettier-sort-markdown-table -->
 
 | Property | Type `(Default)`           | Description                       |
 | -------- | -------------------------- | --------------------------------- |

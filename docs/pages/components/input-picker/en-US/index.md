@@ -66,8 +66,6 @@ Single item selector with text box input.
 
 ### `<InputPicker>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property                  | Type `(Default)`                                                                  | Description                                                                         |
 | ------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | block                     | boolean                                                                           | Blocking an entire row                                                              |

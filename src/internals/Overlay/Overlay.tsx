@@ -1,9 +1,8 @@
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import Position, { PositionChildProps, PositionProps } from './Position';
 import { useRootClose } from '../hooks';
-import { TypeAttributes, AnimationEventProps, CursorPosition } from '@/internals/types';
+import { Placement, AnimationEventProps, CursorPosition } from '@/internals/types';
 import { mergeRefs } from '@/internals/utils';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
@@ -19,7 +18,7 @@ export interface OverlayProps extends AnimationEventProps {
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   open?: boolean;
   rootClose?: boolean;
@@ -29,27 +28,6 @@ export interface OverlayProps extends AnimationEventProps {
   followCursor?: boolean;
   cursorPosition?: CursorPosition | null;
 }
-
-export const overlayPropTypes = {
-  container: PropTypes.any,
-  children: PropTypes.any,
-  childrenProps: PropTypes.object,
-  className: PropTypes.string,
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  open: PropTypes.bool,
-  rootClose: PropTypes.bool,
-  transition: PropTypes.any,
-  triggerTarget: PropTypes.any,
-  onClose: PropTypes.func,
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
-};
 
 /**
  * Overlay is a powerful component that helps you create floating components.
@@ -161,6 +139,5 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 });
 
 Overlay.displayName = 'Overlay';
-Overlay.propTypes = overlayPropTypes;
 
 export default Overlay;

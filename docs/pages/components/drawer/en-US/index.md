@@ -35,8 +35,6 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 ### `<Drawer>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property          | Type `(Default)`                                                                  | Description                                                                                                                                                                               |
 | ----------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                                                  | When set to true, the Drawer is opened and is automatically focused on its own, accessible to screen readers                                                                              |

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import MoreIcon from '@rsuite/icons/More';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageTopIcon from '@rsuite/icons/PageTop';
@@ -266,23 +265,5 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
 );
 
 Pagination.displayName = 'Pagination';
-Pagination.propTypes = {
-  onSelect: PropTypes.func,
-  activePage: PropTypes.number,
-  pages: PropTypes.number,
-  maxButtons: PropTypes.number,
-  boundaryLinks: PropTypes.bool,
-  ellipsis: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-  first: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-  last: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-  prev: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-  next: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-  linkAs: PropTypes.elementType,
-  linkProps: PropTypes.object,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  locale: PropTypes.any,
-  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
-};
 
 export default Pagination;

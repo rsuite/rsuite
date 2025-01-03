@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
@@ -192,26 +191,5 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 );
 
 Panel.displayName = 'Panel';
-Panel.propTypes = {
-  collapsible: PropTypes.bool,
-  bordered: PropTypes.bool,
-  shaded: PropTypes.bool,
-  bodyFill: PropTypes.bool,
-  header: PropTypes.any,
-  defaultExpanded: PropTypes.bool,
-  expanded: PropTypes.bool,
-  eventKey: PropTypes.any,
-  panelRole: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onSelect: PropTypes.func,
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func,
-  className: PropTypes.string
-};
 
 export default Panel;

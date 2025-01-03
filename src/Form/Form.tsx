@@ -1,5 +1,4 @@
 import React, { FormHTMLAttributes } from 'react';
-import PropTypes from 'prop-types';
 import { Schema, SchemaModel } from 'schema-typed';
 import FormControl from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
@@ -8,7 +7,6 @@ import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { FormValueProvider, FormProvider } from './FormContext';
 import { useCustom } from '../CustomProvider';
 import useSchemaModel from './hooks/useSchemaModel';
@@ -137,7 +135,10 @@ const defaultSchema = SchemaModel({});
  * The `Form` component is a form interface for collecting and validating user input.
  * @see https://rsuitejs.com/components/form
  */
-const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
+const Form: FormComponent = React.forwardRef(function Form(
+  props: FormProps,
+  ref: React.Ref<FormInstance>
+) {
   const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
@@ -303,25 +304,5 @@ Form.Group = FormGroup;
 Form.HelpText = FormHelpText;
 
 Form.displayName = 'Form';
-Form.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  errorFromContext: PropTypes.bool,
-  layout: oneOf(['horizontal', 'vertical', 'inline']),
-  fluid: PropTypes.bool,
-  formValue: PropTypes.object,
-  formDefaultValue: PropTypes.object,
-  formError: PropTypes.object,
-  checkTrigger: oneOf(['change', 'blur', 'none']),
-  onChange: PropTypes.func,
-  onError: PropTypes.func,
-  onCheck: PropTypes.func,
-  onSubmit: PropTypes.func,
-  model: PropTypes.any,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  disabled: PropTypes.bool
-};
 
 export default Form;

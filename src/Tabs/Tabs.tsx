@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
@@ -167,7 +166,10 @@ const renderTabs = (
  * @version 5.53.0
  * @see https://rsuitejs.com/components/tabs
  */
-const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
+const Tabs: TabsComponent = React.forwardRef(function Tabs(
+  props: TabsProps,
+  ref: React.Ref<HTMLDivElement>
+) {
   const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
     as: Component = 'div',
@@ -226,15 +228,16 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
         item = getFocusableTabs(tablistRef.current)?.[0];
         event.preventDefault();
         break;
-      case 'End':
+      case 'End': {
         const tabs = getFocusableTabs(tablistRef.current);
         item = tabs[tabs.length - 1];
         event.preventDefault();
         break;
+      }
     }
 
     if (item) {
-      const { eventKey } = item?.dataset;
+      const eventKey = item ? item.dataset.eventKey : undefined;
       handleSelect(eventKey, event);
       item.focus();
     }
@@ -266,17 +269,5 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
 
 Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
-Tabs.propTypes = {
-  appearance: PropTypes.oneOf(['tabs', 'subtle', 'pills']),
-  activeKey: PropTypes.any,
-  defaultActiveKey: PropTypes.any,
-  reversed: PropTypes.bool,
-  vertical: PropTypes.bool,
-  id: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onSelect: PropTypes.func
-};
 
 export default Tabs;

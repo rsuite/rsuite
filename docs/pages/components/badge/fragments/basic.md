@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Badge, Button } from 'rsuite';
+import { Avatar, Badge } from 'rsuite';
 
 const App = () => (
-  <Badge>
-    <Button>New Message</Button>
+  <Badge content={6}>
+    <Avatar src="https://i.pravatar.cc/150?u=1" />
   </Badge>
 );
 

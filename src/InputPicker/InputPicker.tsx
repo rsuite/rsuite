@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -13,7 +12,6 @@ import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { createChainedFunction, tplTransform, mergeRefs, isOneOf } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import {
   Listbox,
   ListItem,
@@ -30,7 +28,6 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   PickerComponent,
-  listPickerPropTypes,
   PickerToggleProps
 } from '@/internals/Picker';
 import Tag from '../Tag';
@@ -218,7 +215,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
       triggerRef.current?.updatePosition?.();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKeyword, value]);
 
     const getDataItem = (value: any) => {
@@ -748,26 +744,5 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 );
 
 InputPicker.displayName = 'InputPicker';
-InputPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  cacheData: PropTypes.array,
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  searchable: PropTypes.bool,
-  creatable: PropTypes.bool,
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onCreate: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default InputPicker;

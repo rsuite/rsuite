@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
@@ -95,19 +94,5 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
 );
 
 CheckboxGroup.displayName = 'CheckboxGroup';
-CheckboxGroup.propTypes = {
-  as: PropTypes.elementType,
-  name: PropTypes.string,
-  className: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.array,
-  defaultValue: PropTypes.array,
-  onChange: PropTypes.func,
-  children: PropTypes.array,
-  classPrefix: PropTypes.string,
-  readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool
-};
 
 export default CheckboxGroup;

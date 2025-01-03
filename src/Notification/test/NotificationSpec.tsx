@@ -31,7 +31,7 @@ describe('Notification', () => {
     render(<Notification type="info" header="info" />);
 
     expect(screen.getByRole('alert')).to.have.class('rs-notification-info');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.have.attribute(
       'aria-label',
       'info round'

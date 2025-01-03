@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
@@ -40,12 +39,5 @@ const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = R
 );
 
 FlexboxGridItem.displayName = 'FlexboxGridItem';
-FlexboxGridItem.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  colspan: PropTypes.number,
-  order: PropTypes.number,
-  classPrefix: PropTypes.string
-};
 
 export default FlexboxGridItem;

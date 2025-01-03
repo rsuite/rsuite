@@ -1,5 +1,4 @@
 import React, { useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
@@ -251,15 +250,5 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 });
 
 DateInput.displayName = 'DateInput';
-DateInput.propTypes = {
-  defaultValue: PropTypes.instanceOf(Date),
-  format: PropTypes.string,
-  value: PropTypes.instanceOf(Date),
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func
-};
 
 export default DateInput;

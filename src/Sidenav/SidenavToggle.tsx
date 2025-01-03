@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import IconButton from '../IconButton';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { deprecatePropType } from '@/internals/propTypes';
 import { SidenavContext } from './Sidenav';
 
 export interface SidenavToggleProps extends WithAsProps {
@@ -62,11 +60,5 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
 );
 
 SidenavToggle.displayName = 'Sidenav.Toggle';
-SidenavToggle.propTypes = {
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  expanded: deprecatePropType(PropTypes.bool, 'Use <Sidenav expanded> instead.'),
-  onToggle: PropTypes.func
-};
 
 export default SidenavToggle;

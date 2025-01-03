@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
@@ -33,9 +33,9 @@ const CardGroup: RsRefForwardingComponent<'div', CardGroupProps> = React.forward
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const styles = {
-      ...style,
       '--rs-columns': columns,
-      '--rs-spacing': typeof spacing === 'number' ? `${spacing}px` : spacing
+      '--rs-spacing': getCssValue(spacing),
+      ...style
     } as React.CSSProperties;
 
     return (
@@ -47,9 +47,5 @@ const CardGroup: RsRefForwardingComponent<'div', CardGroupProps> = React.forward
 );
 
 CardGroup.displayName = 'CardGroup';
-CardGroup.propTypes = {
-  columns: PropTypes.number,
-  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-};
 
 export default CardGroup;

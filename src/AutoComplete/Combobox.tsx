@@ -7,7 +7,10 @@ interface ComboboxProps extends InputProps {
   focusItemValue?: string | null;
 }
 
-const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInputElement>) => {
+const Combobox = React.forwardRef(function Combobox(
+  props: ComboboxProps,
+  ref: React.Ref<HTMLInputElement>
+) {
   const { id, popupType } = useCombobox();
   const { expanded, focusItemValue, ...rest } = props;
 

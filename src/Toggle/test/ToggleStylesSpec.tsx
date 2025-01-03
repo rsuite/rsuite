@@ -8,7 +8,6 @@ describe('Toggle styles', () => {
   it('Should render the correct background color', () => {
     const { container } = render(<Toggle />);
 
-    // eslint-disable-next-line testing-library/no-container
     expect(container.querySelector('.rs-toggle-presentation')).to.have.style(
       'background-color',
       toRGB('#b6b7b8')

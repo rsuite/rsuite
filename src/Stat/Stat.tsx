@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StatLabel from './StatLabel';
 import StatValue from './StatValue';
 import StatValueUnit from './StatValueUnit';
@@ -29,7 +28,7 @@ interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
   HelpText: typeof StatHelpText;
 }
 
-const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
+const Stat: StatComponent = React.forwardRef(function Stat(props: StatProps, ref) {
   const { propsWithDefaults } = useCustom('Stat', props);
   const {
     as: Component = 'div',
@@ -52,10 +51,6 @@ const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
 }) as unknown as StatComponent;
 
 Stat.displayName = 'Stat';
-Stat.propTypes = {
-  bordered: PropTypes.bool,
-  icon: PropTypes.node
-};
 
 Stat.Label = StatLabel;
 Stat.Value = StatValue;

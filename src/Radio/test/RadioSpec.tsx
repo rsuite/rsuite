@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { Simulate } from 'react-dom/test-utils';
 import { testStandardProps } from '@test/utils';
 import Radio from '../Radio';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 describe('Radio', () => {
   testStandardProps(<Radio />, {
@@ -17,7 +16,7 @@ describe('Radio', () => {
 
   it('Should have a `title` attribute', () => {
     const { container } = render(<Radio title="My title">Radio</Radio>);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 
@@ -67,7 +66,7 @@ describe('Radio', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = Sinon.spy();
+    const onClick = sinon.spy();
 
     const { container } = render(<Radio onClick={onClick}>Title</Radio>);
 
@@ -77,20 +76,20 @@ describe('Radio', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <Radio onChange={onChange} value={'test'}>
         Label
       </Radio>
     );
-    Simulate.change(screen.getByRole('radio'));
+    fireEvent.click(screen.getByRole('radio'));
 
     expect(onChange).to.have.been.calledWith('test');
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = Sinon.spy();
+    const onBlur = sinon.spy();
     render(<Radio onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('radio'));
 
@@ -98,7 +97,7 @@ describe('Radio', () => {
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = Sinon.spy();
+    const onFocus = sinon.spy();
     render(<Radio onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('radio'));
 
@@ -106,14 +105,15 @@ describe('Radio', () => {
   });
 
   it('Should be checked with change', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <Radio onChange={onChange} value="100">
         Title
       </Radio>
     );
 
-    Simulate.change(screen.getByRole('radio'));
+    fireEvent.click(screen.getByRole('radio'));
+
     expect(onChange).to.have.been.calledWith('100');
   });
 });

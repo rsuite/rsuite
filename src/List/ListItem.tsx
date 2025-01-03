@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useContext, useEffect, useRef } from 'react';
 import { WithAsProps } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
@@ -70,10 +69,5 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
 });
 
 ListItem.displayName = 'ListItem';
-ListItem.propTypes = {
-  index: PropTypes.number,
-  collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  children: PropTypes.node
-};
+
 export default ListItem;

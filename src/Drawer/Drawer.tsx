@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
 import Modal, { ModalProps } from '../Modal';
-import { TypeAttributes } from '@/internals/types';
+import { PlacementCardinal } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { deprecateComponent } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import DrawerBody from './DrawerBody';
 import DrawerHeader from './DrawerHeader';
@@ -14,7 +12,7 @@ import DrawerFooter from './DrawerFooter';
 import DrawerTitle from './DrawerTitle';
 export interface DrawerProps extends Omit<ModalProps, 'overflow'> {
   /** The placement of Drawer */
-  placement?: TypeAttributes.Placement4;
+  placement?: PlacementCardinal;
 
   /** Custom close button */
   closeButton?: React.ReactNode | boolean;
@@ -35,7 +33,7 @@ interface DrawerComponent extends React.FC<DrawerProps> {
  * The Drawer component is used to display extra content from a main content.
  * @see https://rsuitejs.com/components/drawer
  */
-const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
+const Drawer: DrawerComponent = React.forwardRef(function Drawer(props: DrawerProps, ref) {
   const { propsWithDefaults } = useCustom('Drawer', props);
   const {
     className,
@@ -84,12 +82,5 @@ Drawer.Footer = deprecateComponent(
 Drawer.Title = DrawerTitle;
 
 Drawer.displayName = 'Drawer';
-Drawer.propTypes = {
-  ...Modal.propTypes,
-  classPrefix: PropTypes.string,
-  placement: oneOf(['top', 'right', 'bottom', 'left']),
-  children: PropTypes.node,
-  className: PropTypes.string
-};
 
 export default Drawer;

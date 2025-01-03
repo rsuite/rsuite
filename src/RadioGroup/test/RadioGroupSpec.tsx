@@ -41,7 +41,7 @@ describe('RadioGroup', () => {
     );
 
     expect(container.firstChild).to.have.class('rs-radio-group-inline');
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelectorAll('.rs-radio-inline')).to.have.lengthOf(2);
   });
 

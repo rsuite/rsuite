@@ -1,5 +1,7 @@
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
+export * from './css';
+export * from './colours';
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
 export { getDOMNode } from './getDOMNode';

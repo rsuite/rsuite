@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -50,12 +49,5 @@ const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
 );
 
 Divider.displayName = 'Divider';
-Divider.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  vertical: PropTypes.bool
-};
 
 export default Divider;

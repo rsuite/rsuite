@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { partitionHTMLProps } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
@@ -166,25 +164,5 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
 });
 
 Toggle.displayName = 'Toggle';
-Toggle.propTypes = {
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  checkedChildren: PropTypes.node,
-  unCheckedChildren: PropTypes.node,
-  loading: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  as: PropTypes.elementType,
-  size: oneOf(['sm', 'md', 'lg']),
-  locale: PropTypes.shape({
-    on: PropTypes.string,
-    off: PropTypes.string
-  })
-};
 
 export default Toggle;

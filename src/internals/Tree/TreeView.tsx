@@ -10,11 +10,12 @@ interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement
   height?: number;
 }
 
-const ScrollShadowView = React.forwardRef(
-  (props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
-    return <ScrollView scrollShadow ref={ref} {...props} />;
-  }
-);
+const ScrollShadowView = React.forwardRef(function ScrollShadowView(
+  props: ScrollViewProps,
+  ref: React.Ref<HTMLDivElement>
+) {
+  return <ScrollView scrollShadow ref={ref} {...props} />;
+});
 
 const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivElement>) => {
   const {
@@ -49,5 +50,7 @@ const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivE
     </Component>
   );
 });
+
+TreeView.displayName = 'TreeView';
 
 export default TreeView;

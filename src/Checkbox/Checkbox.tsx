@@ -1,10 +1,8 @@
 import React, { useContext, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useControlled, useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { refType } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 export type ValueType = string | number;
@@ -256,23 +254,5 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
 );
 
 Checkbox.displayName = 'Checkbox';
-Checkbox.propTypes = {
-  as: PropTypes.elementType,
-  checked: PropTypes.bool,
-  checkable: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  disabled: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  inline: PropTypes.bool,
-  indeterminate: PropTypes.bool,
-  inputProps: PropTypes.any,
-  inputRef: refType,
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  onClick: PropTypes.func,
-  onCheckboxClick: PropTypes.func
-};
 
 export default Checkbox;

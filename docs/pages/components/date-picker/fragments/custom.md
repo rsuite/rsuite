@@ -2,8 +2,8 @@
 
 ```js
 import { DatePicker, Stack } from 'rsuite';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
+import { addDays } from 'date-fns/addDays';
+import { subDays } from 'date-fns/subDays';
 
 const predefinedBottomRanges = [
   {

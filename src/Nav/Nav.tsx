@@ -1,5 +1,4 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import NavContext, { NavContextProps } from './NavContext';
 import Menubar from '@/internals/Menu/Menubar';
@@ -12,7 +11,6 @@ import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 import { deprecateComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -76,7 +74,10 @@ interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
  * The `Nav` component is used to create navigation links.
  * @see https://rsuitejs.com/components/nav
  */
-const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+const Nav: NavComponent = React.forwardRef(function Nav(
+  props: NavProps,
+  ref: React.Ref<HTMLElement>
+) {
   const { propsWithDefaults } = useCustom('Nav', props);
   const {
     as: Component = 'div',
@@ -190,18 +191,5 @@ Nav.Item = AdaptiveNavItem;
 Nav.Menu = NavMenu;
 
 Nav.displayName = 'Nav';
-Nav.propTypes = {
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  appearance: oneOf(['default', 'subtle', 'tabs', 'pills']),
-  // Reverse Direction of tabs/subtle
-  reversed: PropTypes.bool,
-  justified: PropTypes.bool,
-  vertical: PropTypes.bool,
-  pullRight: PropTypes.bool,
-  activeKey: PropTypes.any,
-  onSelect: PropTypes.func
-};
 
 export default Nav;

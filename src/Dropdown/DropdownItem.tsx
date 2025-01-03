@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { IconProps } from '@rsuite/icons/Icon';
-import { deprecatePropType, deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import MenuItem from '@/internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
@@ -221,25 +219,5 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 );
 
 DropdownItem.displayName = 'Dropdown.Item';
-DropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  divider: deprecatePropTypeNew(PropTypes.bool, 'Use Dropdown.Separator component instead.'),
-  panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
-  open: deprecatePropType(PropTypes.bool),
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  pullLeft: deprecatePropType(PropTypes.bool),
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number
-};
 
 export default DropdownItem;

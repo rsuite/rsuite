@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames, useUniqueId } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -75,10 +74,5 @@ const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forward
 );
 
 FormGroup.displayName = 'FormGroup';
-FormGroup.propTypes = {
-  controlId: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default FormGroup;

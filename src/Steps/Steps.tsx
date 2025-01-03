@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StepItem from './StepItem';
 import { ReactChildren } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
 import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
 export interface StepsProps extends WithAsProps {
@@ -33,7 +31,7 @@ interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
  *
  * @see https://rsuitejs.com/components/steps
  */
-const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
+const Steps: StepsComponent = React.forwardRef(function Steps(props: StepsProps, ref) {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
     as: Component = 'div',
@@ -91,14 +89,5 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
 Steps.Item = StepItem;
 
 Steps.displayName = 'Steps';
-Steps.propTypes = {
-  classPrefix: PropTypes.string,
-  vertical: PropTypes.bool,
-  small: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  current: PropTypes.number,
-  currentStatus: oneOf(['finish', 'wait', 'process', 'error'])
-};
 
 export default Steps;

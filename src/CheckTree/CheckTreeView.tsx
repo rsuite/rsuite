@@ -213,7 +213,7 @@ const CheckTreeView: RsRefForwardingComponent<'div', CheckTreeViewInnerProps> = 
         getKeyParentMap(
           data,
           node => node[valueKey],
-          node => node[childrenKey]
+          node => node[childrenKey] as TreeNode[]
         ),
       [childrenKey, data, valueKey]
     );

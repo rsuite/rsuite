@@ -347,7 +347,7 @@ describe('TagPicker', () => {
     const { rerender } = render(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
 
     expect(screen.getByRole('listbox')).to.have.text('1');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('combobox').parentNode).to.have.class('rs-picker-has-value');
 
     rerender(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
@@ -477,7 +477,6 @@ describe('TagPicker', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });

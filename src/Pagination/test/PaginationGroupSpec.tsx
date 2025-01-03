@@ -133,7 +133,6 @@ describe('Pagination Group', () => {
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('picker-popup').parentNode).to.have.class(
       'rs-pagination-group-limit'
     );

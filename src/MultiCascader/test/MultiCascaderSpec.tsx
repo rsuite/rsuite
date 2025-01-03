@@ -354,7 +354,7 @@ describe('MultiCascader', () => {
     render(
       <MultiCascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     const checkbox = screen.getByRole('tree').querySelectorAll('.rs-checkbox')[2];
 
     fireEvent.click(checkbox);
@@ -421,7 +421,6 @@ describe('MultiCascader', () => {
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
       .exist;
   });

@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Stack from '../Stack';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -97,15 +96,5 @@ const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = Rea
 );
 
 RadioTileGroup.displayName = 'RadioTileGroup';
-RadioTileGroup.propTypes = {
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.any,
-  defaultValue: PropTypes.any,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func
-};
 
 export default RadioTileGroup;

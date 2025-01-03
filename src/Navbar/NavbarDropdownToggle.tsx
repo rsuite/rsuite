@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
+import NavbarItem from './NavbarItem';
 import Button from '../Button';
 import { useClassNames } from '@/internals/hooks';
-import NavbarItem from './NavbarItem';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
 
 export interface NavbarDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**
@@ -48,23 +46,5 @@ const NavbarDropdownToggle: RsRefForwardingComponent<typeof Button, NavbarDropdo
   });
 
 NavbarDropdownToggle.displayName = 'Navbar.Dropdown.Toggle';
-NavbarDropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default NavbarDropdownToggle;

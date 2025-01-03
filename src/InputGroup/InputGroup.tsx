@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -35,7 +33,10 @@ export interface InputGroupComponent extends RsRefForwardingComponent<'div', Inp
  * The `InputGroup` component is used to specify an input field with an add-on.
  * @see https://rsuitejs.com/components/input/#input-group
  */
-const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+const InputGroup: InputGroupComponent = React.forwardRef(function InputGroup(
+  props: InputGroupProps,
+  ref
+) {
   const { propsWithDefaults } = useCustom('InputGroup', props);
   const {
     as: Component = 'div',
@@ -87,14 +88,6 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
 }) as unknown as InputGroupComponent;
 
 InputGroup.displayName = 'InputGroup';
-InputGroup.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  inside: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs'])
-};
 
 InputGroup.Addon = InputGroupAddon;
 InputGroup.Button = InputGroupButton;

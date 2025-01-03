@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import {
   testStandardProps,
@@ -20,7 +19,6 @@ describe('TimePicker', () => {
   testStandardProps(<TimePicker />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });

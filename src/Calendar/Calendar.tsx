@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
@@ -171,19 +170,5 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
   });
 
 Calendar.displayName = 'Calendar';
-Calendar.propTypes = {
-  value: PropTypes.instanceOf(Date),
-  defaultValue: PropTypes.instanceOf(Date),
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  compact: PropTypes.bool,
-  bordered: PropTypes.bool,
-  locale: PropTypes.object,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  onChange: PropTypes.func,
-  onSelect: PropTypes.func,
-  renderCell: PropTypes.func
-};
 
 export default Calendar;

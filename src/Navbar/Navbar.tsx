@@ -31,25 +31,26 @@ interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
  * The `Navbar` component is used to create a navigation header.
  * @see https://rsuitejs.com/components/navbar
  */
-const Navbar: NavbarComponent = React.forwardRef(
-  (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
-    const { propsWithDefaults } = useCustom('Navbar', props);
-    const {
-      className,
-      as: Component = 'nav',
-      classPrefix = 'navbar',
-      appearance = 'default',
-      ...rest
-    } = propsWithDefaults;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(appearance));
-    return (
-      <NavbarContext.Provider value={true}>
-        <Component {...rest} ref={ref} className={classes} />
-      </NavbarContext.Provider>
-    );
-  }
-) as unknown as NavbarComponent;
+const Navbar: NavbarComponent = React.forwardRef(function Navbar(
+  props: NavbarProps,
+  ref: React.Ref<HTMLElement>
+) {
+  const { propsWithDefaults } = useCustom('Navbar', props);
+  const {
+    className,
+    as: Component = 'nav',
+    classPrefix = 'navbar',
+    appearance = 'default',
+    ...rest
+  } = propsWithDefaults;
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(appearance));
+  return (
+    <NavbarContext.Provider value={true}>
+      <Component {...rest} ref={ref} className={classes} />
+    </NavbarContext.Provider>
+  );
+}) as unknown as NavbarComponent;
 
 Navbar.Header = NavbarHeader;
 Navbar.Body = NavbarBody;

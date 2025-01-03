@@ -47,7 +47,7 @@ describe('Drawer', () => {
         <Drawer.Body />
       </Drawer>
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.exist;
   });
 
@@ -57,7 +57,7 @@ describe('Drawer', () => {
         <Drawer.Body />
       </Drawer>
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.not.exist;
   });
 
@@ -208,14 +208,9 @@ describe('Drawer', () => {
 
     // Remove this case when full prop is dropped
     it('[Deprecated] Should have .rs-drawer-full class when full=true', () => {
-      sinon.spy(console, 'warn');
       render(<Drawer open full></Drawer>);
 
       expect(screen.getByRole('dialog')).to.have.class('rs-drawer-full');
-
-      expect(console.warn).to.have.been.calledWith(
-        '"full" property of "Drawer" has been deprecated.\nUse size="full" instead.'
-      );
     });
 
     it('Should set a fixed width for the dialog', () => {

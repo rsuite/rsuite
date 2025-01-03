@@ -34,7 +34,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell .rs-calendar-table-cell-content'
       ) as HTMLElement
@@ -59,7 +58,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
@@ -82,7 +80,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
@@ -111,7 +108,6 @@ describe('Calendar-GridRow', () => {
     );
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-is-today'
       ) as HTMLElement

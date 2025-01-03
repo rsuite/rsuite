@@ -13,7 +13,6 @@ import type { SelectNode } from './types';
 export interface CascadeTreeComponent {
   <T>(props: CascadeTreeProps<T> & { ref?: React.Ref<HTMLDivElement> }): JSX.Element | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<CascadeTreeProps<any>>;
 }
 
 /**

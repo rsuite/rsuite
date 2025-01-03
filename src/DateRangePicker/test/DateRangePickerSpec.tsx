@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
@@ -52,7 +50,6 @@ describe('DateRangePicker', () => {
     sizes: ['lg', 'md', 'sm', 'xs'],
 
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });
@@ -432,16 +429,6 @@ describe('DateRangePicker', () => {
     screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
       expect(item).to.have.text(['Sep 2024', 'Oct 2024'][index]);
     });
-  });
-
-  it('Should not get warned about deprecated `caretComponent` prop', () => {
-    sinon.spy(console, 'warn');
-
-    render(<DateRangePicker />);
-
-    expect(console.warn).not.to.have.been.calledWith(
-      sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
-    );
   });
 
   it('Should render a custom caret', () => {
@@ -1055,7 +1042,9 @@ describe('DateRangePicker', () => {
 
     userEvent.click(screen.getByRole('gridcell', { name: '02 Nov 2024' }));
 
-    ref.current.close();
+    act(() => {
+      ref.current.close();
+    });
 
     userEvent.click(screen.getByRole('textbox'));
 
@@ -1284,8 +1273,19 @@ describe('DateRangePicker', () => {
   });
 
   describe('Error handling', () => {
+    let consoleErrorStub;
+
+    beforeEach(() => {
+      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+        // do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
     it('Should render an error message when the format is deprecated', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DateRangePicker format="YY" value={[new Date(), new Date()]} />);
       }).to.not.throw();
@@ -1293,11 +1293,10 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DateRangePicker format="_error_" value={[new Date(), new Date()]} />);
       }).to.not.throw();
@@ -1305,7 +1304,7 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 
@@ -1355,7 +1354,6 @@ describe('DateRangePicker', () => {
 
   describe('Disabled', () => {
     it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-      sinon.spy(console, 'warn');
       const ranges: RangeType<DateRange>[] = [
         {
           label: 'Yesterday',
@@ -1382,10 +1380,6 @@ describe('DateRangePicker', () => {
           'true'
         );
       });
-
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-      );
     });
 
     it('Should disable shortcuts according to `shouldDisableDate`', () => {

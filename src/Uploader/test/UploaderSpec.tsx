@@ -41,7 +41,7 @@ describe('Uploader', () => {
     const { container } = render(
       <Uploader action="" fileList={fileList} fileListVisible={false} />
     );
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('.rs-uploader-file-items')).to.not.exist;
   });
 
@@ -112,7 +112,6 @@ describe('Uploader', () => {
 
     render(<Uploader name="file" action="" onChange={onChange} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
     const input = screen.getByRole('button', { name: 'Upload' }).previousElementSibling;
 
     fireEvent.change(input as HTMLInputElement, {
