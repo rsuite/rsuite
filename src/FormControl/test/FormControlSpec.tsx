@@ -216,7 +216,7 @@ describe('FormControl', () => {
       emails: ArrayType().of(StringType('The tag should be a string').isEmail('Should be an email'))
     });
     render(
-      <Form model={model} formDefaultValue={{ emails: ['xxx'] }}>
+      <Form model={model} formDefaultValue={{ emails: ['123@gmail.com', 'xxx'] }}>
         <Form.Control name="emails" style={{ width: 300 }} accepter={TagInput} />
         <Button appearance="primary" type="submit">
           Submit
