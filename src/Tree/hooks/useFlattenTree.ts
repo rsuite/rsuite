@@ -1,9 +1,9 @@
-import { useCallback, useRef, useEffect } from 'react';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
+import useForceUpdate from './useForceUpdate';
+import { useCallback, useRef, useEffect } from 'react';
 import { shallowEqual } from '@/internals/utils';
 import { formatNodeRefKey } from '../utils';
-import useForceUpdate from './useForceUpdate';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 
 interface UseFlattenTreeOptions {
@@ -67,6 +67,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
 
   const forceUpdate = useForceUpdate();
   const flattenedNodes = useRef<TreeNodeMap>({});
+  const seenValues = useRef<Set<any>>(new Set());
 
   const updateTreeNodeCheckState = useCallback(
     (value = []) => {
@@ -100,12 +101,15 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
 
       treeData.map(node => {
         const value = node[valueKey];
-        /**
-         * because the value of the node's type is string or number,
-         * so it can used as the key of the object directly
-         * to avoid number value is converted to string. 1 and '1' will be convert to '1'
-         * we used `String_` or `Number_` prefix
-         */
+
+        // Check for duplicate values
+        if (seenValues.current.has(value)) {
+          console.error(
+            `[rsuite] The value '${value}' is duplicated. Each node in the tree data must have a unique value.`
+          );
+        }
+        seenValues.current.add(value);
+
         const refKey = formatNodeRefKey(value);
         node.refKey = refKey;
         flattenedNodes.current[refKey] = {
@@ -133,6 +137,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
   useEffect(() => {
     // when data is changed, should clear the flattenedNodes, avoid duplicate keys
     flattenedNodes.current = {};
+    seenValues.current.clear();
     flattenTreeData(data);
   }, [data]);
 
