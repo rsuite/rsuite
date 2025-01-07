@@ -102,13 +102,10 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | disabledItemValues      | string[]                                                                                       | Disabled tree node values                                  |
 | expandItemValues        | string[]                                                                                       | Set the value of the expanded node (controlled)            |
 | getChildren             | (item: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                    | Load node children data asynchronously                     |
-| ~height~                | number                                                                                         | ⚠️`[Deprecated]` Use `treeHeight` instead                  |
 | labelKey                | string `('label')`                                                                             | Set the tree node display content to the `key` in `data`   |
 | listProps               | [ListProps][listprops]                                                                         | Properties of virtualized lists                            |
 | loading                 | boolean `(false)`                                                                              | Whether the component is in a loading state                |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                       | Localization configuration                                 |
-| ~menuClassName~         | string                                                                                         | ⚠️`[Deprecated]` Use `popupClassName` instead              |
-| ~menuStyle~             | CSSProperties                                                                                  | ⚠️`[Deprecated]` Use `popupStyle` instead                  |
 | onChange                | (values:string[]) => void                                                                      | Called when the tree value changes                         |
 | onClean                 | (event:SyntheticEvent) => void                                                                 | Called when the clear button is clicked                    |
 | onClose                 | () => void                                                                                     | Called when the popup is closed                            |
@@ -129,7 +126,6 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | popupStyle              | CSSProperties                                                                                  | Custom style for the popup                                 |
 | preventOverflow         | boolean                                                                                        | Prevent popup element overflow                             |
 | renderExtraFooter       | () => ReactNode                                                                                | Custom render extra footer                                 |
-| ~renderMenu~            | (tree:ReactNode) => ReactNode                                                                  | ⚠️`[Deprecated]` Use `renderTree` instead                  |
 | renderTree              | (tree:ReactNode) => ReactNode                                                                  | Custom render tree                                         |
 | renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | Custom render tree node icon                               |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | Custom render tree node                                    |
