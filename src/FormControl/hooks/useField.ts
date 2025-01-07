@@ -15,7 +15,7 @@ interface FieldProps {
 
 interface ErrorType {
   errorMessage?: string;
-  array: { errorMessage: string }[];
+  array: { errorMessage?: string; hasError: boolean }[];
 }
 
 function getErrorMessage(error?: ErrorType | string) {
@@ -28,7 +28,7 @@ function getErrorMessage(error?: ErrorType | string) {
    * the error object won't contain the errorMessage directly. @see https://github.com/rsuite/rsuite/issues/3866
    */
   if (error?.array && error.array?.length > 0) {
-    return error.array[0].errorMessage;
+    return error.array.find(item => item.hasError)?.errorMessage;
   }
 
   if (isValidElement(error)) {
