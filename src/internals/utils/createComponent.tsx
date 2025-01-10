@@ -6,22 +6,22 @@ import { useCustom } from '../../CustomProvider';
 
 export type ComponentProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 
-interface Props<TElement extends React.ElementType> extends React.HTMLAttributes<HTMLDivElement> {
+interface Props<T extends React.ElementType> extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
-  componentAs?: TElement;
+  componentAs?: T;
   componentClassPrefix?: string;
 }
 
 /**
  * Create a component with `classPrefix` and `as` attributes.
  */
-export function createComponent<TElement extends React.ElementType = 'div'>({
+export function createComponent<T extends React.ElementType = 'div', P = ComponentProps>({
   name,
   componentAs,
   componentClassPrefix,
   ...defaultProps
-}: Props<TElement>) {
-  const Component: RsRefForwardingComponent<TElement, ComponentProps> = React.forwardRef(
+}: Props<T> & Partial<P>) {
+  const Component: RsRefForwardingComponent<T, Partial<P>> = React.forwardRef(
     (props: ComponentProps, ref) => {
       const { propsWithDefaults } = useCustom(name as any, props);
       const {

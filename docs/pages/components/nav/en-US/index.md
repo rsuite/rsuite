@@ -65,7 +65,6 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | classPrefix | string `('nav')`                                                     | The prefix of the component CSS class                      |
 | justified   | boolean                                                              | Justified navigation                                       |
 | onSelect    | (eventKey: string, event) => void                                    | Callback function triggered after selection                |
-| pullRight   | boolean                                                              | appears on the right.                                      |
 | vertical    | boolean                                                              | Stacked navigation                                         |
 
 ### `<Nav.Item>`

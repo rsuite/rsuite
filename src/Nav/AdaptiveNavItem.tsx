@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import NavItem, { NavItemProps } from './NavItem';
 import { useInternalId } from '@/internals/hooks';
-import { NavbarContext } from '../Navbar/Navbar';
+import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import NavContext from './NavContext';
 import { NavMenuActionType, NavMenuContext } from './NavMenu';

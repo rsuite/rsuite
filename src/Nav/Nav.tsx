@@ -8,7 +8,7 @@ import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
 import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
-import { NavbarContext } from '../Navbar/Navbar';
+import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { deprecateComponent } from '@/internals/utils';
@@ -42,6 +42,8 @@ export interface NavProps<T = any>
 
   /**
    * Whether the Nav component is pulled to the right.
+   *
+   * @deprecated Use `Navbar.Content` instead.
    */
   pullRight?: boolean;
 
@@ -86,7 +88,6 @@ const Nav: NavComponent = React.forwardRef(function Nav(
     vertical,
     justified,
     reversed,
-    pullRight,
     className,
     children,
     activeKey: activeKeyProp,
@@ -108,11 +109,10 @@ const Nav: NavComponent = React.forwardRef(function Nav(
     className,
     rootPrefix({
       'navbar-nav': navbar,
-      'navbar-right': pullRight,
       'sidenav-nav': sidenav
     }),
     withClassPrefix(appearance, {
-      horizontal: navbar || (!vertical && !sidenav),
+      horizontal: (navbar || !sidenav) && !vertical,
       vertical: vertical || sidenav,
       justified,
       reversed
