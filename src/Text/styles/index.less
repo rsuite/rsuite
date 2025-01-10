@@ -4,9 +4,11 @@
 // -------------------------
 
 .rs-text {
+  --rs-text-color: var(--rs-text-primary);
+
   font-family: @font-family-base;
   line-height: @line-height-base;
-  color: var(--rs-text-primary);
+  color: var(--rs-text-color);
   margin: 0;
 
   blockquote& {
@@ -112,6 +114,8 @@
 // Colorful tags
 each(@spectrum, .(@color) {
   .rs-text-@{color} {
-    color: var(~'--rs-@{color}-500');
+    --rs-text-color:  var(~'--rs-@{color}-500');
+
+    color: var(--rs-text-color);
   }
 });
