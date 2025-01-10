@@ -1,3 +1,14 @@
+## [5.76.3](https://github.com/rsuite/rsuite/compare/v5.76.2...v5.76.3) (2025-01-10)
+
+
+### Bug Fixes
+
+* **FormControl:** show correct error when the value of filed is an array ([#4112](https://github.com/rsuite/rsuite/issues/4112)) ([a30c990](https://github.com/rsuite/rsuite/commit/a30c99076861eec8ae9491745b3d6b812ea37b80))
+* **Picker:** fix loader icon position in different sizes ([#4114](https://github.com/rsuite/rsuite/issues/4114)) ([7c03307](https://github.com/rsuite/rsuite/commit/7c0330726285342823eb30b1dc3d3104e1da38ce))
+* **styles:** fix system font stack reference and configuration ([#4110](https://github.com/rsuite/rsuite/issues/4110)) ([6952ce4](https://github.com/rsuite/rsuite/commit/6952ce43f447e23feb7984fc9c9b041943cde67d))
+
+
+
 ## [5.76.2](https://github.com/rsuite/rsuite/compare/v5.76.1...v5.76.2) (2025-01-01)
 
 
