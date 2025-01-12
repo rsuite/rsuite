@@ -147,4 +147,4 @@ export * from './Accordion';
 
 // Types
 // --------------------------------------------------------
-export { PickerHandle } from '@/internals/Picker/types';
+export type { PickerHandle } from '@/internals/Picker/types';
