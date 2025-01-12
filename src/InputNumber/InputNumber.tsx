@@ -9,9 +9,14 @@ import Input from '../Input';
 import Button from '../Button';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
-import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, TypeAttributes, FormControlBaseProps } from '@/internals/types';
+import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type {
+  WithAsProps,
+  SizeType,
+  AppearanceType,
+  FormControlBaseProps
+} from '@/internals/types';
 
 export interface InputNumberProps<T = number | string | null>
   extends Omit<
@@ -28,7 +33,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * Button can have different appearances
    */
-  buttonAppearance?: TypeAttributes.Appearance;
+  buttonAppearance?: AppearanceType;
 
   /**
    * An input can show that it is disabled
@@ -78,7 +83,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * An Input can have different sizes
    */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 
   /**
    * Whether the value can be changed through the wheel event
@@ -145,7 +150,7 @@ function valueReachesMin(value: number | string | null | undefined, min: number)
  * The `InputNumber` component is used to enter a numerical value.
  * @see https://rsuitejs.com/components/input-number
  */
-const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
+const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputNumber', props);
   const {
     as: Component = InputGroup,

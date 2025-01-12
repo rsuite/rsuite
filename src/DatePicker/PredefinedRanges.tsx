@@ -3,11 +3,12 @@ import Button from '../Button';
 import Stack, { StackProps } from '../Stack';
 import { useUpdateEffect } from '@/internals/hooks';
 import { getDefaultRanges, getRanges } from './utils';
-import { InnerRange, RangeType } from './types';
+import { InnerRange } from './types';
 import { CalendarLocale } from '../locales';
+import type { DateOptionPreset } from '@/internals/types';
 
 export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps {
-  ranges?: RangeType<Shortcut>[];
+  ranges?: DateOptionPreset<Shortcut>[];
   calendarDate: T;
   locale?: CalendarLocale;
   disableShortcut?: (value: T) => boolean;

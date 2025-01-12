@@ -5,10 +5,10 @@ import DisclosureContext, { DisclosureActionTypes } from '@/internals/Disclosure
 import NavContext from '../Nav/NavContext';
 import { IconProps } from '@rsuite/icons/Icon';
 import { useClassNames } from '@/internals/hooks';
-import { createChainedFunction, shallowEqual } from '@/internals/utils';
+import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface NavbarDropdownItemProps<T = any>
   extends WithAsProps,
@@ -60,111 +60,110 @@ export interface NavbarDropdownItemProps<T = any>
 /**
  * @private
  */
-const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps> =
-  React.forwardRef((props: NavbarDropdownItemProps, ref: React.Ref<any>) => {
-    const navbar = useContext(NavbarContext);
-    const nav = useContext(NavContext);
+const NavbarDropdownItem = forwardRef<'li', NavbarDropdownItemProps>((props, ref) => {
+  const navbar = useContext(NavbarContext);
+  const nav = useContext(NavContext);
 
-    if (!navbar || !nav) {
-      throw new Error(
-        '<Navbar.Dropdown.Item> must be rendered within a <Nav> component within a <Navbar> component.'
-      );
-    }
-
-    const {
-      classPrefix = 'dropdown-item',
-      className,
-      active: activeProp,
-      eventKey,
-      onSelect,
-      icon,
-      as: Component = 'li',
-      divider,
-      panel,
-      children,
-      disabled,
-      ...restProps
-    } = props;
-
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-
-    const handleSelectItem = useCallback(
-      (event: React.SyntheticEvent) => {
-        onSelect?.(eventKey, event);
-        nav.onSelect?.(eventKey, event);
-      },
-      [onSelect, eventKey, nav]
+  if (!navbar || !nav) {
+    throw new Error(
+      '<Navbar.Dropdown.Item> must be rendered within a <Nav> component within a <Navbar> component.'
     );
-    const disclosure = useContext(DisclosureContext);
+  }
 
-    const [, dispatchDisclosure] = disclosure ?? [];
+  const {
+    classPrefix = 'dropdown-item',
+    className,
+    active: activeProp,
+    eventKey,
+    onSelect,
+    icon,
+    as: Component = 'li',
+    divider,
+    panel,
+    children,
+    disabled,
+    ...restProps
+  } = props;
 
-    const handleClickNavbarDropdownItem = useCallback(
-      (event: React.SyntheticEvent) => {
-        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide, cascade: true });
-        handleSelectItem?.(event);
-      },
-      [dispatchDisclosure, handleSelectItem]
-    );
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
-    const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav.activeKey, eventKey));
+  const handleSelectItem = useCallback(
+    (event: React.SyntheticEvent) => {
+      onSelect?.(eventKey, event);
+      nav.onSelect?.(eventKey, event);
+    },
+    [onSelect, eventKey, nav]
+  );
+  const disclosure = useContext(DisclosureContext);
 
-    const renderDropdownItem = useRenderDropdownItem(Component);
+  const [, dispatchDisclosure] = disclosure ?? [];
 
-    if (divider) {
-      return renderDropdownItem({
-        ref,
-        role: 'separator',
-        className: merge(prefix('divider'), className),
-        ...restProps
-      });
-    }
+  const handleClickNavbarDropdownItem = useCallback(
+    (event: React.SyntheticEvent) => {
+      dispatchDisclosure?.({ type: DisclosureActionTypes.Hide, cascade: true });
+      handleSelectItem?.(event);
+    },
+    [dispatchDisclosure, handleSelectItem]
+  );
 
-    if (panel) {
-      return renderDropdownItem({
-        ref,
-        className: merge(prefix('panel'), className),
-        children,
-        ...restProps
-      });
-    }
+  const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav.activeKey, eventKey));
 
-    const classes = merge(
-      className,
-      withClassPrefix({
-        'with-icon': icon,
-        disabled,
-        divider,
-        panel,
-        active: selected
-      })
-    );
+  const renderDropdownItem = useRenderDropdownItem(Component);
 
-    const dataAttributes: { [key: string]: any } = {
-      'data-event-key': eventKey
-    };
-
-    if (!isNil(eventKey) && typeof eventKey !== 'string') {
-      dataAttributes['data-event-key-type'] = typeof eventKey;
-    }
+  if (divider) {
     return renderDropdownItem({
       ref,
-      className: classes,
-      'aria-current': selected || undefined,
-      ...dataAttributes,
-      ...restProps,
-      onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
-      children: (
-        <>
-          {icon &&
-            React.cloneElement(icon, {
-              className: classNames(prefix('menu-icon'), icon.props.className)
-            })}
-          {children}
-        </>
-      )
+      role: 'separator',
+      className: merge(prefix('divider'), className),
+      ...restProps
     });
+  }
+
+  if (panel) {
+    return renderDropdownItem({
+      ref,
+      className: merge(prefix('panel'), className),
+      children,
+      ...restProps
+    });
+  }
+
+  const classes = merge(
+    className,
+    withClassPrefix({
+      'with-icon': icon,
+      disabled,
+      divider,
+      panel,
+      active: selected
+    })
+  );
+
+  const dataAttributes: { [key: string]: any } = {
+    'data-event-key': eventKey
+  };
+
+  if (!isNil(eventKey) && typeof eventKey !== 'string') {
+    dataAttributes['data-event-key-type'] = typeof eventKey;
+  }
+  return renderDropdownItem({
+    ref,
+    className: classes,
+    'aria-current': selected || undefined,
+    ...dataAttributes,
+    ...restProps,
+    onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
+    children: (
+      <>
+        {icon &&
+          React.cloneElement(icon, {
+            className: classNames(prefix('menu-icon'), icon.props.className)
+          })}
+        {children}
+      </>
+    )
   });
+});
 
 NavbarDropdownItem.displayName = 'Navbar.Dropdown.Item';
 

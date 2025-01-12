@@ -1,16 +1,16 @@
 import React from 'react';
 import Stack, { StackProps } from './Stack';
-import { RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 
 export interface VStackProps extends Omit<StackProps, 'direction'> {
   reverse?: boolean;
 }
 
-export interface StackComponent extends RsRefForwardingComponent<'div', VStackProps> {
-  Item: typeof Stack.Item;
-}
+const Subcomponents = {
+  Item: Stack.Item
+};
 
-const VStack: StackComponent = React.forwardRef(function VStack(props: VStackProps, ref) {
+const VStack = forwardRef<'div', VStackProps, typeof Subcomponents>((props, ref) => {
   const {
     reverse,
     spacing = 6,
@@ -31,9 +31,8 @@ const VStack: StackComponent = React.forwardRef(function VStack(props: VStackPro
       ref={ref}
     />
   );
-}) as unknown as StackComponent;
+}, Subcomponents);
 
 VStack.displayName = 'VStack';
-VStack.Item = Stack.Item;
 
 export default VStack;

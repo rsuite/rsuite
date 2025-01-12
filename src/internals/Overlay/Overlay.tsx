@@ -1,11 +1,12 @@
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import Position, { PositionChildProps, PositionProps } from './Position';
-import { useRootClose } from '../hooks';
-import { Placement, AnimationEventProps, CursorPosition } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
+import Position, { PositionChildProps, PositionProps } from './Position';
+import { useRootClose } from '../hooks';
+import { mergeRefs } from '@/internals/utils';
+import type { Placement, AnimationEventProps } from '@/internals/types';
+import type { CursorPosition } from './types';
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement | null) | null;

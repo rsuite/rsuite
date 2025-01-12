@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from '../Button';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
-import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
+import { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
@@ -11,8 +12,8 @@ export interface DropdownToggleProps extends WithAsProps {
   placement?: PlacementCorners;
 }
 
-const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
-  React.forwardRef((props: DropdownToggleProps, ref) => {
+const DropdownToggle = forwardRef<typeof Button, DropdownToggleProps>(
+  (props: DropdownToggleProps, ref) => {
     const {
       as: Component = Button,
       className,
@@ -43,7 +44,8 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  }
+);
 
 DropdownToggle.displayName = 'DropdownToggle';
 

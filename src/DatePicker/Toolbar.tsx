@@ -4,8 +4,6 @@ import { useClassNames } from '@/internals/hooks';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
 import Stack from '../Stack';
 
-export type { RangeType } from './types';
-
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
   disableOkBtn?: (value: T) => boolean;

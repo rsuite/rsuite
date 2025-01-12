@@ -1,8 +1,9 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { useFormGroup } from '../FormGroup';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import { useFormGroup } from '../FormGroup';
+import type { WithAsProps } from '@/internals/types';
 
 export interface FormControlLabelProps
   extends WithAsProps,
@@ -15,7 +16,7 @@ export interface FormControlLabelProps
  * The `<Form.ControlLabel>` component renders a label with required indicator, for form controls.
  * @see https://rsuitejs.com/components/form/
  */
-const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
+const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
   (props: FormControlLabelProps, ref) => {
     const { propsWithDefaults } = useCustom('FormControlLabel', props);
     const { labelId, controlId } = useFormGroup();

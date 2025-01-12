@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { PanelGroupContext } from '../PanelGroup';
-import type { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { AnimationEventProps, WithAsProps } from '@/internals/types';
 
 export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
   /**
@@ -93,102 +94,100 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
  * The `Panel` component is used to display content that can be collapsed.
  * @see https://rsuitejs.com/components/panel
  */
-const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
-  (props: PanelProps, ref) => {
-    const { propsWithDefaults } = useCustom('Panel', props);
-    const {
-      as: Component = 'div',
-      bodyFill,
-      bodyProps,
-      bordered,
-      children,
-      className,
-      classPrefix = 'panel',
-      caretAs,
-      collapsible: collapsibleProp,
-      defaultExpanded,
-      disabled,
-      eventKey,
-      expanded: expandedProp,
-      header,
-      headerRole,
-      panelRole = 'region',
-      shaded,
-      scrollShadow,
-      id: idProp,
-      onEnter,
-      onEntered,
-      onEntering,
-      onExit,
-      onExited,
-      onExiting,
-      onSelect,
-      ...rest
-    } = propsWithDefaults;
+const Panel = forwardRef<'div', PanelProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Panel', props);
+  const {
+    as: Component = 'div',
+    bodyFill,
+    bodyProps,
+    bordered,
+    children,
+    className,
+    classPrefix = 'panel',
+    caretAs,
+    collapsible: collapsibleProp,
+    defaultExpanded,
+    disabled,
+    eventKey,
+    expanded: expandedProp,
+    header,
+    headerRole,
+    panelRole = 'region',
+    shaded,
+    scrollShadow,
+    id: idProp,
+    onEnter,
+    onEntered,
+    onEntering,
+    onExit,
+    onExited,
+    onExiting,
+    onSelect,
+    ...rest
+  } = propsWithDefaults;
 
-    const id = useUniqueId('rs-', idProp);
-    const bodyId = `${id}-panel`;
-    const buttonId = `${id}-btn`;
+  const id = useUniqueId('rs-', idProp);
+  const bodyId = `${id}-panel`;
+  const buttonId = `${id}-btn`;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const { onGroupSelect } = useContext(PanelGroupContext) || {};
-    const [expanded, setExpanded, collapsible] = useExpanded({
-      expanded: expandedProp,
-      defaultExpanded,
-      eventKey,
-      collapsible: collapsibleProp
-    });
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { onGroupSelect } = useContext(PanelGroupContext) || {};
+  const [expanded, setExpanded, collapsible] = useExpanded({
+    expanded: expandedProp,
+    defaultExpanded,
+    eventKey,
+    collapsible: collapsibleProp
+  });
 
-    const handleSelect = useEventCallback((event: React.MouseEvent) => {
-      onSelect?.(eventKey, event);
-      onGroupSelect?.(eventKey, event);
-      setExpanded(!expanded);
-    });
+  const handleSelect = useEventCallback((event: React.MouseEvent) => {
+    onSelect?.(eventKey, event);
+    onGroupSelect?.(eventKey, event);
+    setExpanded(!expanded);
+  });
 
-    const classes = merge(
-      className,
-      withClassPrefix({ in: expanded, collapsible, bordered, shaded })
-    );
+  const classes = merge(
+    className,
+    withClassPrefix({ in: expanded, collapsible, bordered, shaded })
+  );
 
-    return (
-      <Component {...rest} ref={ref} className={classes} id={idProp}>
-        {header && (
-          <PanelHeader
-            collapsible={collapsible}
-            expanded={expanded}
-            caretAs={caretAs}
-            role={headerRole}
-            buttonId={buttonId}
-            bodyId={bodyId}
-            disabled={disabled}
-            onClickButton={handleSelect}
-          >
-            {header}
-          </PanelHeader>
-        )}
-
-        <PanelBody
+  return (
+    <Component {...rest} ref={ref} className={classes} id={idProp}>
+      {header && (
+        <PanelHeader
           collapsible={collapsible}
           expanded={expanded}
-          bodyFill={bodyFill}
-          role={panelRole}
-          id={bodyId}
-          scrollShadow={scrollShadow}
-          labelId={buttonId}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={onEntered}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={onExited}
-          {...bodyProps}
+          caretAs={caretAs}
+          role={headerRole}
+          buttonId={buttonId}
+          bodyId={bodyId}
+          disabled={disabled}
+          onClickButton={handleSelect}
         >
-          {children}
-        </PanelBody>
-      </Component>
-    );
-  }
-);
+          {header}
+        </PanelHeader>
+      )}
+
+      <PanelBody
+        collapsible={collapsible}
+        expanded={expanded}
+        bodyFill={bodyFill}
+        role={panelRole}
+        id={bodyId}
+        scrollShadow={scrollShadow}
+        labelId={buttonId}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={onEntered}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={onExited}
+        {...bodyProps}
+      >
+        {children}
+      </PanelBody>
+    </Component>
+  );
+});
 
 Panel.displayName = 'Panel';
 

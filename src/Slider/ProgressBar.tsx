@@ -1,6 +1,7 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 interface ProgressBarProps extends WithAsProps {
   vertical?: boolean;
@@ -9,33 +10,31 @@ interface ProgressBarProps extends WithAsProps {
   end?: number;
 }
 
-const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.forwardRef(
-  (props: ProgressBarProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'slider-progress-bar',
-      vertical,
-      rtl,
-      end = 0,
-      start = 0,
-      style,
-      className
-    } = props;
+const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'slider-progress-bar',
+    vertical,
+    rtl,
+    end = 0,
+    start = 0,
+    style,
+    className
+  } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
 
-    const sizeKey = vertical ? 'height' : 'width';
-    const dirKey = rtl ? 'right' : 'left';
-    const startKey = vertical ? 'bottom' : dirKey;
+  const sizeKey = vertical ? 'height' : 'width';
+  const dirKey = rtl ? 'right' : 'left';
+  const startKey = vertical ? 'bottom' : dirKey;
 
-    const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
-    const classes = merge(className, withClassPrefix());
+  const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
+  const classes = merge(className, withClassPrefix());
 
-    return (
-      <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />
-    );
-  }
-);
+  return (
+    <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />
+  );
+});
 
 ProgressBar.displayName = 'ProgressBar';
 

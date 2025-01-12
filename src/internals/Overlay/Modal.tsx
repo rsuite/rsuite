@@ -2,13 +2,13 @@ import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
-import { KEY_VALUES } from '@/internals/constants';
-import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsPropsWithoutChildren, AnimationEventProps } from '@/internals/types';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
+import { KEY_VALUES } from '@/internals/constants';
+import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
+import type { WithAsPropsWithoutChildren, AnimationEventProps } from '@/internals/types';
 
 export interface BaseModalProps extends WithAsPropsWithoutChildren, AnimationEventProps {
   /** Animation-related properties */
@@ -97,7 +97,7 @@ const useModalManager = () => {
   };
 };
 
-const Modal = React.forwardRef<HTMLDivElement, BaseModalProps>((props, ref) => {
+const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) => {
   const {
     as: Component = 'div',
     children,

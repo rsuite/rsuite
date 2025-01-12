@@ -2,6 +2,9 @@ export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 export * from './css';
 export * from './colours';
+
+export type { ComponentProps } from './createComponent';
+
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
 export { getDOMNode } from './getDOMNode';
@@ -21,7 +24,7 @@ export { getDataGroupBy } from './getDataGroupBy';
 export { deprecateComponent } from './deprecateComponent';
 export { warnOnce } from './warnOnce';
 export { createComponent } from './createComponent';
-export type { ComponentProps } from './createComponent';
 export { attachParent } from './attachParent';
 export { isFocusEntering, isFocusLeaving } from './events';
 export { isFocusableElement } from './dom';
+export { forwardRef } from './forwardRef';

@@ -1,8 +1,9 @@
 import React from 'react';
 import omit from 'lodash/omit';
+import { forwardRef } from '@/internals/utils';
 import { COLUMN_SIZE } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface ColProps extends WithAsProps {
@@ -101,7 +102,7 @@ export interface ColProps extends WithAsProps {
  * The `Col` component is used for layout and grids.
  * @see https://rsuitejs.com/en/components/grid
  */
-const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
+const Col = forwardRef<'div', ColProps>((props: ColProps, ref) => {
   const { propsWithDefaults } = useCustom('Col', props);
   const { as: Component = 'div', classPrefix = 'col', className, ...rest } = propsWithDefaults;
   const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);

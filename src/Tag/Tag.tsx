@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import type { WithAsProps, Color, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import type { WithAsProps, Color } from '@/internals/types';
 import type { CommonLocale } from '../locales';
 
 export interface TagProps extends WithAsProps {
@@ -32,7 +32,7 @@ export interface TagProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/tag
  */
-const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
+const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
   const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
     as: Component = 'div',

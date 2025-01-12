@@ -1,4 +1,8 @@
 import React from 'react';
+import DateRangePicker from '../DateRangePicker';
+import GearIcon from '@rsuite/icons/Gear';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
   testStandardProps,
@@ -6,8 +10,6 @@ import {
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
 import {
   addDays,
@@ -21,9 +23,8 @@ import {
   subDays,
   addMonths
 } from 'date-fns';
-import DateRangePicker from '../DateRangePicker';
-import GearIcon from '@rsuite/icons/Gear';
-import { RangeType, DateRange } from '../types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { DateRange } from '../types';
 
 function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seconds }) {
   const calendar = screen.queryByTestId(`calendar-${calendarKey}`) as HTMLDivElement;
@@ -1354,7 +1355,7 @@ describe('DateRangePicker', () => {
 
   describe('Disabled', () => {
     it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-      const ranges: RangeType<DateRange>[] = [
+      const ranges: DateOptionPreset<DateRange>[] = [
         {
           label: 'Yesterday',
           value: [addDays(new Date(), -1), addDays(new Date(), -1)]
@@ -1383,7 +1384,7 @@ describe('DateRangePicker', () => {
     });
 
     it('Should disable shortcuts according to `shouldDisableDate`', () => {
-      const ranges: RangeType<DateRange>[] = [
+      const ranges: DateOptionPreset<DateRange>[] = [
         {
           label: 'Yesterday',
           value: [addDays(new Date(), -1), addDays(new Date(), -1)]

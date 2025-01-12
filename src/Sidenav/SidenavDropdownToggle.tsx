@@ -1,9 +1,10 @@
 import React from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, PlacementCorners } from '@/internals/types';
 import SidenavItem from './SidenavItem';
+import { forwardRef } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import type { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
@@ -20,8 +21,8 @@ export interface SidenavDropdownToggleProps extends WithAsProps {
  *   </Nav.Menu>
  * </Nav>
  */
-const SidenavDropdownToggle: RsRefForwardingComponent<typeof Button, SidenavDropdownToggleProps> =
-  React.forwardRef((props: SidenavDropdownToggleProps, ref) => {
+const SidenavDropdownToggle = forwardRef<typeof Button, SidenavDropdownToggleProps>(
+  (props, ref) => {
     const {
       as: Component = SidenavItem,
       className,
@@ -43,7 +44,8 @@ const SidenavDropdownToggle: RsRefForwardingComponent<typeof Button, SidenavDrop
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  }
+);
 
 SidenavDropdownToggle.displayName = 'Sidenav.Dropdown.Toggle';
 

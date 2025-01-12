@@ -1,13 +1,14 @@
 import React from 'react';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
+import { forwardRef } from '@/internals/utils';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 import type { MonthDropdownProps } from './types';
 
 export interface CalendarProps extends WithAsProps {
@@ -89,8 +90,8 @@ export interface CalendarProps extends WithAsProps {
  * The Calendar component is used to select dates.
  * @see https://rsuitejs.com/components/calendar
  */
-const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
-  React.forwardRef((props: CalendarProps, ref) => {
+const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
+  (props: CalendarProps, ref) => {
     const { propsWithDefaults } = useCustom('Calendar', props);
     const {
       as: Component = CalendarContainer,
@@ -167,7 +168,8 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         onSelect={handleSelect}
       />
     );
-  });
+  }
+);
 
 Calendar.displayName = 'Calendar';
 

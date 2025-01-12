@@ -5,7 +5,7 @@ import AccordionButton from './AccordionButton';
 import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 
-interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
+export interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;

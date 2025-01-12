@@ -4,9 +4,10 @@ import StatValue from './StatValue';
 import StatValueUnit from './StatValueUnit';
 import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface StatProps extends WithAsProps {
   /**
@@ -20,15 +21,15 @@ export interface StatProps extends WithAsProps {
   icon?: React.ReactNode;
 }
 
-interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
-  Label: typeof StatLabel;
-  Value: typeof StatValue;
-  Trend: typeof StatTrend;
-  ValueUnit: typeof StatValueUnit;
-  HelpText: typeof StatHelpText;
-}
+const Subcomponents = {
+  Label: StatLabel,
+  Value: StatValue,
+  Trend: StatTrend,
+  ValueUnit: StatValueUnit,
+  HelpText: StatHelpText
+};
 
-const Stat: StatComponent = React.forwardRef(function Stat(props: StatProps, ref) {
+const Stat = forwardRef<'div', StatProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Stat', props);
   const {
     as: Component = 'div',
@@ -48,14 +49,8 @@ const Stat: StatComponent = React.forwardRef(function Stat(props: StatProps, ref
       <dl className={prefix('body')}>{children}</dl>
     </Component>
   );
-}) as unknown as StatComponent;
+}, Subcomponents);
 
 Stat.displayName = 'Stat';
-
-Stat.Label = StatLabel;
-Stat.Value = StatValue;
-Stat.Trend = StatTrend;
-Stat.ValueUnit = StatValueUnit;
-Stat.HelpText = StatHelpText;
 
 export default Stat;

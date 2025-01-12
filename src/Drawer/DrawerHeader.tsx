@@ -1,11 +1,11 @@
 import React from 'react';
 import ModalHeader, { ModalHeaderProps } from '../Modal/ModalHeader';
-import { RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 
-const DrawerHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
-  function DrawerHeader(props, ref: React.Ref<HTMLDivElement>) {
-    return <ModalHeader classPrefix="drawer-header" {...props} ref={ref} />;
-  }
-);
+export type DrawerHeaderProps = ModalHeaderProps;
+
+const DrawerHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
+  return <ModalHeader classPrefix="drawer-header" {...props} ref={ref} />;
+});
 
 export default DrawerHeader;

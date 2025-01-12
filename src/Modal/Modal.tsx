@@ -10,10 +10,9 @@ import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
-import { RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
@@ -57,22 +56,20 @@ export interface ModalProps
   /** Custom close button, used when rendered as a Drawer */
   closeButton?: React.ReactNode | boolean;
 }
-interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
-  Body: typeof ModalBody;
-  Header: typeof ModalHeader;
-  Title: typeof ModalTitle;
-  Footer: typeof ModalFooter;
-  Dialog: typeof ModalDialog;
-}
+
+const Subcomponents = {
+  Body: ModalBody,
+  Header: ModalHeader,
+  Title: ModalTitle,
+  Footer: ModalFooter,
+  Dialog: ModalDialog
+};
 
 /**
  * The `Modal` component is used to show content in a layer above the app.
  * @see https://rsuitejs.com/components/modal
  */
-const Modal: ModalComponent = React.forwardRef(function Modal(
-  props: ModalProps,
-  ref: React.Ref<HTMLDivElement>
-) {
+const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Modal', props);
   const {
     animation = Bounce,
@@ -275,12 +272,8 @@ const Modal: ModalComponent = React.forwardRef(function Modal(
       </BaseModal>
     </ModalContext.Provider>
   );
-}) as unknown as ModalComponent;
-Modal.Body = ModalBody;
-Modal.Header = ModalHeader;
-Modal.Title = ModalTitle;
-Modal.Footer = ModalFooter;
-Modal.Dialog = ModalDialog;
+}, Subcomponents);
+
 Modal.displayName = 'Modal';
 
 export default Modal;

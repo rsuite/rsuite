@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
-import { Offset, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { Offset, WithAsProps } from '@/internals/types';
 import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import { mergeRefs, forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
 export interface AffixProps extends WithAsProps {
@@ -124,10 +124,7 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
  *
  * @see https://rsuitejs.com/components/affix/
  */
-const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef<
-  HTMLDivElement,
-  AffixProps
->((props: AffixProps, ref) => {
+const Affix = forwardRef<'div', AffixProps>((props: AffixProps, ref) => {
   const { propsWithDefaults } = useCustom('Affix', props);
   const {
     as: Component = 'div',

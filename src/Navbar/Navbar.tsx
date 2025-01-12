@@ -3,10 +3,11 @@ import NavbarBrand from './NavbarBrand';
 import NavbarContent from './NavbarContent';
 import NavbarToggle from './NavbarToggle';
 import NavbarDrawer from './NavbarDrawer';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 import { NavbarContext } from './NavbarContext';
+import type { WithAsProps } from '@/internals/types';
 
 export interface NavbarProps extends WithAsProps {
   /**
@@ -20,21 +21,18 @@ export interface NavbarProps extends WithAsProps {
   onDrawerOpenChange?: (open: boolean) => void;
 }
 
-interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
-  Brand: typeof NavbarBrand;
-  Content: typeof NavbarContent;
-  Toggle: typeof NavbarToggle;
-  Drawer: typeof NavbarDrawer;
-}
+const Subcomponents = {
+  Brand: NavbarBrand,
+  Content: NavbarContent,
+  Toggle: NavbarToggle,
+  Drawer: NavbarDrawer
+};
 
 /**
  * The `Navbar` component is a wrapper that positions navigation elements.
  * @see https://rsuitejs.com/components/navbar
  */
-const Navbar: NavbarComponent = React.forwardRef(function Navbar(
-  props: NavbarProps,
-  ref: React.Ref<HTMLElement>
-) {
+const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Navbar', props);
   const {
     className,
@@ -65,12 +63,8 @@ const Navbar: NavbarComponent = React.forwardRef(function Navbar(
       <Component {...rest} ref={ref} className={classes} />
     </NavbarContext.Provider>
   );
-}) as unknown as NavbarComponent;
+}, Subcomponents);
 
-Navbar.Brand = NavbarBrand;
-Navbar.Content = NavbarContent;
-Navbar.Toggle = NavbarToggle;
-Navbar.Drawer = NavbarDrawer;
 Navbar.displayName = 'Navbar';
 
 export default Navbar;

@@ -1,10 +1,10 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
 import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { TypeAttributes } from '@/internals/types';
+import type { SizeType } from '@/internals/types';
 
-export type ModalSize = TypeAttributes.Size | 'full' | number | string;
+export type ModalSize = SizeType | 'full' | number | string;
 
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,

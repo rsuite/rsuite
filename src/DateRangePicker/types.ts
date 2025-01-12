@@ -1,16 +1,8 @@
-import React from 'react';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 
 export type ValueType = [Date?, Date?];
 
 export type DateRange = [Date, Date];
-
-export interface RangeType<T = DateRange> {
-  label: React.ReactNode;
-  value: T | ((value?: T) => T);
-  closeOverlay?: boolean;
-  placement?: 'bottom' | 'left';
-}
 
 export type DisabledDateFunction = (
   /**

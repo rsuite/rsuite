@@ -1,9 +1,8 @@
-import React from 'react';
-import { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import ListContext from './ListContext';
+import { forwardRef, mergeRefs } from '@/internals/utils';
 import { WithAsProps } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import ListContext from './ListContext';
 import { Collection } from './helper/useManager';
 
 export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
@@ -24,7 +23,7 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
  * The `List.Item` component is used to specify the layout of the list item.
  * @see https://rsuitejs.com/components/list
  */
-const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
+const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
   const {
     as: Component = 'div',
     children,

@@ -8,8 +8,9 @@ import {
   calendarOnlyProps,
   startOfToday
 } from '@/internals/utils/date';
-import { InnerRange, RangeType } from './types';
-import { DateRange } from '../DateRangePicker/types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { InnerRange } from './types';
+import type { DateRange } from '../DateRangePicker/types';
 
 export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRange<T>[] {
   const today = startOfToday();
@@ -37,7 +38,7 @@ export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRan
 
 const generateRangesIterator =
   <T extends Date | DateRange>({ calendarDate }: Pick<ToolbarProps<T>, 'calendarDate'>) =>
-  ({ value, ...rest }: RangeType<T>): InnerRange<T> => ({
+  ({ value, ...rest }: DateOptionPreset<T>): InnerRange<T> => ({
     value: typeof value === 'function' ? value(calendarDate) : value,
     ...rest
   });
@@ -56,7 +57,7 @@ export const getRanges = <T extends Date | DateRange>({
     : ranges.map(generateRangesIterator({ calendarDate }));
 };
 
-export function splitRanges(ranges?: RangeType<Date>[]) {
+export function splitRanges(ranges?: DateOptionPreset<Date>[]) {
   // The shortcut option on the left side of the calendar panel
   const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
 

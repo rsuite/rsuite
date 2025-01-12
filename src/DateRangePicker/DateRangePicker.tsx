@@ -7,13 +7,13 @@ import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
-import { DateRangePickerProvider } from './DateRangePickerProvider';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 import Calendar from './Calendar';
+import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
@@ -53,7 +53,8 @@ import {
   useDateMode
 } from '@/internals/utils/date';
 import { useCustom } from '../CustomProvider';
-import type { DisabledDateFunction, RangeType, DateRange, SelectedDatesState } from './types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { DisabledDateFunction, DateRange, SelectedDatesState } from './types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DateRangePickerLocale } from '../locales';
 import type { MonthDropdownProps } from '../Calendar/types';
@@ -69,7 +70,7 @@ export interface DateRangePickerProps
   /**
    * Predefined date ranges
    */
-  ranges?: RangeType[];
+  ranges?: DateOptionPreset<DateRange>[];
 
   /**
    * Format of the date displayed in the input box
@@ -233,7 +234,7 @@ export interface DateRangePickerProps
   /**
    * Called after clicking the shortcut button
    */
-  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+  onShortcutClick?: (range: DateOptionPreset<DateRange>, event: React.MouseEvent) => void;
 
   /**
    * Called when the value is cleared
@@ -722,7 +723,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(function Date
    * Toolbar operation callback function
    */
   const handleShortcutPageDate = useEventCallback(
-    (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
+    (range: DateOptionPreset<DateRange>, closeOverlay = false, event: React.MouseEvent) => {
       const value = range.value as DateRange;
 
       setCalendarDateRange({ dateRange: value, eventName: 'shortcutSelection' });

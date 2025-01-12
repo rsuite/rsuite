@@ -1,8 +1,8 @@
 import ProgressCircle from './ProgressCircle';
 import ProgressLine, { ProgressLineProps } from './ProgressLine';
-import { RsRefForwardingComponent } from '@/internals/types';
+import { InternalRefForwardingComponent } from '@/internals/types';
 
-export interface Progress extends RsRefForwardingComponent<'div', ProgressLineProps> {
+export interface Progress extends InternalRefForwardingComponent<'div', ProgressLineProps> {
   Line: typeof ProgressLine;
   Circle: typeof ProgressCircle;
 }
@@ -11,7 +11,7 @@ export interface Progress extends RsRefForwardingComponent<'div', ProgressLinePr
  * The `Progress` component is used to display the progress of current operation.
  * @see https://rsuitejs.com/components/progress
  */
-const Progress: Progress = ProgressLine as Progress;
+const Progress: Progress = ProgressLine as unknown as Progress;
 
 Progress.Line = ProgressLine;
 Progress.Circle = ProgressCircle;

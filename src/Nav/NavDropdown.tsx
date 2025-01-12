@@ -1,17 +1,17 @@
 import React, { useContext, useMemo, useReducer } from 'react';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from './NavContext';
-import Button from '../Button';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
+import { forwardRef } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import { mergeRefs, placementPolyfill } from '@/internals/utils';
+import { initialState, reducer } from '../Dropdown/DropdownState';
+import type { PlacementCorners, WithAsProps } from '@/internals/types';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
@@ -72,25 +72,10 @@ export interface NavDropdownProps<T = any>
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
-export interface NavDropdownComponent extends RsRefForwardingComponent<'div', NavDropdownProps> {
-  // Infer toggleAs props
-  <ToggleAs extends React.ElementType = typeof Button>(
-    props: NavDropdownProps & {
-      ref?: React.Ref<any>;
-      toggleAs?: ToggleAs;
-    } & React.ComponentProps<ToggleAs>,
-    context: any
-  ): JSX.Element | null;
-
-  /**
-   * @deprecated Use <Nav.Item> instead.
-   */
-  Item: typeof NavDropdownItem;
-  /**
-   * @deprecated Use <Nav.Menu> instead.
-   */
-  Menu: typeof NavDropdownMenu;
-}
+const Subcomponents = {
+  Item: NavDropdownItem,
+  Menu: NavDropdownMenu
+};
 
 /**
  * @private this component is not supposed to be used directly
@@ -102,10 +87,7 @@ export interface NavDropdownComponent extends RsRefForwardingComponent<'div', Na
  *   </Nav.Menu>
  * </Nav>
  */
-const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(function NavDropdown(
-  props: NavDropdownProps,
-  ref
-) {
+const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((props, ref) => {
   const nav = useContext(NavContext);
 
   if (!nav) {
@@ -225,10 +207,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(function
       }}
     </Menu>
   );
-}) as unknown as NavDropdownComponent;
-
-NavDropdown.Item = NavDropdownItem;
-NavDropdown.Menu = NavDropdownMenu;
+}, Subcomponents);
 
 NavDropdown.displayName = 'Nav.Dropdown';
 

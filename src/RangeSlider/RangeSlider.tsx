@@ -5,10 +5,11 @@ import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
-import { SliderProps } from '../Slider';
 import { useCustom } from '../CustomProvider';
+import type { SliderProps } from '../Slider';
 import type { Offset } from '@/internals/types';
 
 export type Range = [number, number];
@@ -32,7 +33,7 @@ const defaultDefaultValue: Range = [0, 0];
  * The `RangeSlider` component is used to select a range from a given numerical range.
  * @see https://rsuitejs.com/components/slider/
  */
-const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
+const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RangeSlider', props);
   const {
     'aria-label': ariaLabel,

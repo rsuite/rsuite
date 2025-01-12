@@ -1,8 +1,9 @@
 import React from 'react';
+import { forwardRef } from '@/internals/utils';
 import { getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface CardGroupProps extends WithAsProps {
   /**
@@ -16,35 +17,33 @@ export interface CardGroupProps extends WithAsProps {
   spacing?: number | string;
 }
 
-const CardGroup: RsRefForwardingComponent<'div', CardGroupProps> = React.forwardRef(
-  (props: CardGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('CardGroup', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'card-group',
-      className,
-      children,
-      columns,
-      spacing = 16,
-      style,
-      ...rest
-    } = propsWithDefaults;
+const CardGroup = forwardRef<'div', CardGroupProps>((props: CardGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('CardGroup', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'card-group',
+    className,
+    children,
+    columns,
+    spacing = 16,
+    style,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
-    const styles = {
-      '--rs-columns': columns,
-      '--rs-spacing': getCssValue(spacing),
-      ...style
-    } as React.CSSProperties;
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  const styles = {
+    '--rs-columns': columns,
+    '--rs-spacing': getCssValue(spacing),
+    ...style
+  } as React.CSSProperties;
 
-    return (
-      <Component ref={ref} className={classes} style={styles} {...rest}>
-        {children}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component ref={ref} className={classes} style={styles} {...rest}>
+      {children}
+    </Component>
+  );
+});
 
 CardGroup.displayName = 'CardGroup';
 

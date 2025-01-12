@@ -1,7 +1,8 @@
 import React from 'react';
 import SafeAnchor from '../SafeAnchor';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsProps } from '@/internals/types';
 
 export interface BreadcrumbItemProps extends WithAsProps {
   /**
@@ -39,7 +40,7 @@ export interface BreadcrumbItemProps extends WithAsProps {
  * The `<Breadcrumb.Item>` component is used to specify each section of the Breadcrumb.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
+const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
       wrapperAs: WrapperComponent = 'li',

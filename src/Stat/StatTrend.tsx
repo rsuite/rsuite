@@ -1,6 +1,7 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 const svgProps: React.SVGProps<SVGSVGElement> = {
   xmlns: 'http://www.w3.org/2000/svg',
@@ -32,35 +33,33 @@ const ArrowDown = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
-interface StatTrendProps extends WithAsProps {
+export interface StatTrendProps extends WithAsProps {
   indicator?: 'up' | 'down';
   appearance?: 'default' | 'subtle';
 }
 
-const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardRef(
-  (props: StatTrendProps, ref) => {
-    const {
-      as: Component = 'span',
-      appearance = 'default',
-      classPrefix = 'stat-trend',
-      indicator = 'up',
-      className,
-      children,
-      ...rest
-    } = props;
+const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
+  const {
+    as: Component = 'span',
+    appearance = 'default',
+    classPrefix = 'stat-trend',
+    indicator = 'up',
+    className,
+    children,
+    ...rest
+  } = props;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(appearance, indicator));
-    const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(appearance, indicator));
+  const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
 
-    return (
-      <Component ref={ref} className={classes} {...rest}>
-        {children}
-        {<IndicatorIcon className={prefix('indicator')} />}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component ref={ref} className={classes} {...rest}>
+      {children}
+      {<IndicatorIcon className={prefix('indicator')} />}
+    </Component>
+  );
+});
 
 StatTrend.displayName = 'StatTrend';
 

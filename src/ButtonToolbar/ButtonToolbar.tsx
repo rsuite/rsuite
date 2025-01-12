@@ -1,8 +1,9 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
 import Stack, { StackProps } from '../Stack';
+import { useClassNames } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface ButtonToolbarProps extends WithAsProps {
   /**
@@ -17,7 +18,7 @@ export interface ButtonToolbarProps extends WithAsProps {
  * The ButtonToolbar component is used to group a series of buttons together in a single line.
  * @see https://rsuitejs.com/components/button/#button-toolbar
  */
-const ButtonToolbar: RsRefForwardingComponent<typeof Stack, ButtonToolbarProps> = React.forwardRef(
+const ButtonToolbar = forwardRef<typeof Stack, ButtonToolbarProps>(
   (props: ButtonToolbarProps, ref) => {
     const { propsWithDefaults } = useCustom('ButtonToolbar', props);
     const {

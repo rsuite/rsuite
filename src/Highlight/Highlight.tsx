@@ -1,9 +1,10 @@
 import React from 'react';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { highlightText } from './utils/highlightText';
 import { stringifyReactNode } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export interface HighlightProps extends WithAsProps {
   query?: string | string[];
@@ -24,30 +25,28 @@ function defaultRenderMark(match: string, index: number) {
  *
  * @see https://rsuitejs.com/components/highlight
  */
-const Highlight: RsRefForwardingComponent<'div', HighlightProps> = React.forwardRef(
-  (props: HighlightProps, ref) => {
-    const { propsWithDefaults } = useCustom('Highlight', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'highlight',
-      className,
-      children,
-      query,
-      renderMark = defaultRenderMark,
-      ...rest
-    } = propsWithDefaults;
+const Highlight = forwardRef<'div', HighlightProps>((props: HighlightProps, ref) => {
+  const { propsWithDefaults } = useCustom('Highlight', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'highlight',
+    className,
+    children,
+    query,
+    renderMark = defaultRenderMark,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
-    const text = stringifyReactNode(children);
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  const text = stringifyReactNode(children);
 
-    return (
-      <Component ref={ref} className={classes} {...rest}>
-        {highlightText(text, { query, renderMark })}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component ref={ref} className={classes} {...rest}>
+      {highlightText(text, { query, renderMark })}
+    </Component>
+  );
+});
 
 Highlight.displayName = 'Highlight';
 

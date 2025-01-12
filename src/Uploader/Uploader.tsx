@@ -4,9 +4,9 @@ import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
-import { useClassNames, useWillUnmount } from '@/internals/hooks';
+import { forwardRef, guid } from '@/internals/utils';
+import { useClassNames, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { guid } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
 
@@ -38,6 +38,11 @@ export interface UploaderInstance {
 export interface UploaderProps
   extends WithAsProps,
     Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
+  /**
+   * Custom ref for Uploader
+   */
+  ref?: React.Ref<UploaderInstance | undefined>;
+
   /** Uploading URL */
   action: string;
 
@@ -256,7 +261,7 @@ const useFileList = (
  *
  * @see https://rsuitejs.com/components/uploader
  */
-const Uploader = React.forwardRef((props: UploaderProps, ref) => {
+const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Uploader', props);
 
   const {
@@ -398,32 +403,8 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * Upload a single file.
    * @param file
    */
-  const handleUploadFile = useCallback(
-    (file: FileType) => {
-      const { xhr, data: uploadData } = ajaxUpload({
-        name,
-        timeout,
-        headers,
-        data,
-        method,
-        withCredentials,
-        disableMultipart,
-        file: file.blobFile as File,
-        url: action,
-        onError: handleAjaxUploadError.bind(null, file),
-        onSuccess: handleAjaxUploadSuccess.bind(null, file),
-        onProgress: handleAjaxUploadProgress.bind(null, file)
-      });
-
-      updateFileStatus({ ...file, status: 'uploading' });
-
-      if (file.fileKey) {
-        xhrs.current[file.fileKey] = xhr;
-      }
-
-      onUpload?.(file, uploadData, xhr);
-    },
-    [
+  const handleUploadFile = useEventCallback((file: FileType) => {
+    const { xhr, data: uploadData } = ajaxUpload({
       name,
       timeout,
       headers,
@@ -431,16 +412,23 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       method,
       withCredentials,
       disableMultipart,
-      action,
-      handleAjaxUploadError,
-      handleAjaxUploadSuccess,
-      handleAjaxUploadProgress,
-      updateFileStatus,
-      onUpload
-    ]
-  );
+      file: file.blobFile as File,
+      url: action,
+      onError: handleAjaxUploadError.bind(null, file),
+      onSuccess: handleAjaxUploadSuccess.bind(null, file),
+      onProgress: handleAjaxUploadProgress.bind(null, file)
+    });
 
-  const handleAjaxUpload = useCallback(() => {
+    updateFileStatus({ ...file, status: 'uploading' });
+
+    if (file.fileKey) {
+      xhrs.current[file.fileKey] = xhr;
+    }
+
+    onUpload?.(file, uploadData, xhr);
+  });
+
+  const handleAjaxUpload = useEventCallback(() => {
     fileList.current.forEach(file => {
       const checkState = shouldUpload?.(file);
 
@@ -461,50 +449,52 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     });
 
     cleanInputValue();
-  }, [cleanInputValue, fileList, handleUploadFile, shouldUpload]);
+  });
 
-  const handleUploadTriggerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files: File[] = getFiles(event);
-    const newFileList: FileType[] = [];
+  const handleUploadTriggerChange = useEventCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files: File[] = getFiles(event);
+      const newFileList: FileType[] = [];
 
-    Array.from(files).forEach((file: File) => {
-      newFileList.push({
-        blobFile: file,
-        name: file.name,
-        status: 'inited',
-        fileKey: guid()
-      });
-    });
-
-    const nextFileList = [...fileList.current, ...newFileList];
-    const checkState = shouldQueueUpdate?.(nextFileList, newFileList);
-
-    if (checkState === false) {
-      cleanInputValue();
-      return;
-    }
-
-    const upload = () => {
-      onChange?.(nextFileList, event);
-
-      if (rootRef.current) {
-        dispatch({ type: 'push', files: newFileList }, () => {
-          autoUpload && handleAjaxUpload();
+      Array.from(files).forEach((file: File) => {
+        newFileList.push({
+          blobFile: file,
+          name: file.name,
+          status: 'inited',
+          fileKey: guid()
         });
-      }
-    };
-
-    if (checkState instanceof Promise) {
-      checkState.then(res => {
-        res && upload();
       });
-      return;
+
+      const nextFileList = [...fileList.current, ...newFileList];
+      const checkState = shouldQueueUpdate?.(nextFileList, newFileList);
+
+      if (checkState === false) {
+        cleanInputValue();
+        return;
+      }
+
+      const upload = () => {
+        onChange?.(nextFileList, event);
+
+        if (rootRef.current) {
+          dispatch({ type: 'push', files: newFileList }, () => {
+            autoUpload && handleAjaxUpload();
+          });
+        }
+      };
+
+      if (checkState instanceof Promise) {
+        checkState.then(res => {
+          res && upload();
+        });
+        return;
+      }
+
+      upload();
     }
+  );
 
-    upload();
-  };
-
-  const handleRemoveFile = (fileKey: string | number, event: React.MouseEvent) => {
+  const handleRemoveFile = useEventCallback((fileKey: string | number, event: React.MouseEvent) => {
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
@@ -517,21 +507,24 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     onRemove?.(file);
     onChange?.(nextFileList, event);
     cleanInputValue();
-  };
+  });
 
-  const handleReupload = (file: FileType) => {
+  const handleReupload = useEventCallback((file: FileType) => {
     autoUpload && handleUploadFile(file);
     onReupload?.(file);
-  };
+  });
 
   // public API
-  const start = (file?: FileType) => {
-    if (file) {
-      handleUploadFile(file);
-      return;
-    }
-    handleAjaxUpload();
-  };
+  const start = useCallback(
+    (file?: FileType) => {
+      if (file) {
+        handleUploadFile(file);
+        return;
+      }
+      handleAjaxUpload();
+    },
+    [handleAjaxUpload, handleUploadFile]
+  );
 
   useImperativeHandle(ref, () => ({
     root: rootRef.current,
