@@ -10,14 +10,14 @@ describe('Uploader/utils/ajaxUpload', () => {
     const file = new File(['foo'], 'foo.txt');
     const { data } = ajaxUpload({ name: 'file', file, url: '' });
 
-    assert.ok(data instanceof FormData);
+    expect(data).to.be.instanceOf(FormData);
   });
 
   it('Should upload a File', () => {
     const file = new File(['foo'], 'foo.txt');
     const { data } = ajaxUpload({ name: 'file', file, url: '', disableMultipart: true });
 
-    assert.ok(data instanceof File);
+    expect(data).to.be.instanceOf(File);
   });
 
   it('Should add data to FormData', () => {
@@ -30,7 +30,7 @@ describe('Uploader/utils/ajaxUpload', () => {
       headers: { name: 'my-header' }
     });
     // TODO Make ajaxUpload returned type determinated
-    assert.equal((data as FormData).get('name'), 'myfile');
+    expect((data as FormData).get('name')).to.equal('myfile');
   });
 
   it('Should be withCredentials', () => {
@@ -42,7 +42,7 @@ describe('Uploader/utils/ajaxUpload', () => {
       withCredentials: true,
       data: { name: 'myfile' }
     });
-    assert.ok(xhr.withCredentials);
+    expect(xhr.withCredentials).to.be.true;
   });
 
   it('Should time out', () => {

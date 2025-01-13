@@ -2,17 +2,17 @@ import isElement from '../isElement';
 
 describe('DOMHelper - isElement', () => {
   it('Should be an element node', () => {
-    assert.isTrue(isElement(document.createElement('div')));
-    assert.isTrue(isElement(document.createElementNS('http://www.w3.org/2000/svg', 'svg')));
+    expect(isElement(document.createElement('div'))).to.be.true;
+    expect(isElement(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))).to.be.true;
   });
 
   it('Should not be an element node', () => {
-    assert.isFalse(isElement(undefined));
-    assert.isFalse(isElement(null));
-    assert.isFalse(isElement({}));
-    assert.isFalse(isElement(document.createAttribute('class')));
-    assert.isFalse(isElement(document));
-    assert.isFalse(isElement(document.createTextNode('text')));
-    assert.isFalse(isElement(document.createDocumentFragment()));
+    expect(isElement(undefined)).to.be.false;
+    expect(isElement(null)).to.be.false;
+    expect(isElement({})).to.be.false;
+    expect(isElement(document.createAttribute('class'))).to.be.false;
+    expect(isElement(document)).to.be.false;
+    expect(isElement(document.createTextNode('text'))).to.be.false;
+    expect(isElement(document.createDocumentFragment())).to.be.false;
   });
 });

@@ -6,7 +6,7 @@ afterEach(() => {
   sinon.restore();
 });
 
-describe('internals/hooks/useTimeput', () => {
+describe('internals/hooks/useTimeout', () => {
   it('Should return clear and reset functions', () => {
     const { result } = renderHook(() => useTimeout(() => void 0, 10));
 
@@ -16,64 +16,64 @@ describe('internals/hooks/useTimeput', () => {
 
   it('Should call passed function after given amount of time', () => {
     const clock = sinon.useFakeTimers();
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    renderHook(() => useTimeout(callbackSpy, 10));
-
-    clock.tick(5);
-    assert.isFalse(callbackSpy.calledOnce);
+    renderHook(() => useTimeout(callback, 10));
 
     clock.tick(5);
-    assert.isTrue(callbackSpy.calledOnce);
+    expect(callback).not.to.be.calledOnce;
+
+    clock.tick(5);
+    expect(callback).to.be.calledOnce;
   });
 
   it('Should cancel timeout', () => {
     const clock = sinon.useFakeTimers();
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    const { result } = renderHook(() => useTimeout(callbackSpy, 10));
+    const { result } = renderHook(() => useTimeout(callback, 10));
 
     act(() => {
       result.current.clear();
     });
 
     clock.tick(10);
-    expect(callbackSpy).not.to.have.been.called;
+    expect(callback).not.to.have.been.called;
   });
 
   it('Should reset timeout', () => {
     const clock = sinon.useFakeTimers();
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    const { result } = renderHook(() => useTimeout(callbackSpy, 10));
+    const { result } = renderHook(() => useTimeout(callback, 10));
 
     act(() => {
       result.current.clear();
     });
 
     clock.tick(10);
-    expect(callbackSpy).not.to.have.been.called;
+    expect(callback).not.to.have.been.called;
 
     act(() => {
       result.current.reset();
     });
 
     clock.tick(10);
-    expect(callbackSpy).to.have.been.calledOnce;
+    expect(callback).to.have.been.calledOnce;
   });
 
   it('Should reset timeout on delay change', () => {
     const clock = sinon.useFakeTimers();
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
     const { rerender } = renderHook(({ delay, cb }) => useTimeout(cb, delay), {
-      initialProps: { delay: 20, cb: callbackSpy }
+      initialProps: { delay: 20, cb: callback }
     });
 
-    rerender({ delay: 5, cb: callbackSpy });
+    rerender({ delay: 5, cb: callback });
 
     clock.tick(5);
 
-    expect(callbackSpy).to.have.been.calledOnce;
+    expect(callback).to.have.been.calledOnce;
   });
 });

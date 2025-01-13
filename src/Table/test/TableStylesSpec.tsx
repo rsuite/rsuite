@@ -26,6 +26,5 @@ describe('Table styles', () => {
       </Table>
     );
     expect(document.querySelector('.rs-table')).to.have.style('position', 'relative');
-    // assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Table background-color');
   });
 });
