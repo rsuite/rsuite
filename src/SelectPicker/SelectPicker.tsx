@@ -27,7 +27,6 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
@@ -113,11 +112,7 @@ export interface SelectPickerProps<T = any>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(
-    props: SelectPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: SelectPickerProps<T>): JSX.Element | null;
   displayName?: string;
 }
 

@@ -1,10 +1,8 @@
 import React from 'react';
-import InputPicker from '../InputPicker';
+import TimePicker from '../TimePicker';
 import type { PickerHandle } from '@/internals/Picker';
-
-<InputPicker caretAs={() => <div />} data={[]} />;
 
 // Check ref type
 const ref = React.useRef<PickerHandle>();
-<InputPicker data={[]} ref={ref} />;
+<TimePicker ref={ref} />;
 ref.current?.open?.();
