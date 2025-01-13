@@ -154,6 +154,9 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
                     locale.skip,
                     <Input
                       size={size}
+                      disabled={
+                        typeof disabled === 'function' ? disabled('skip') : Boolean(disabled)
+                      }
                       onBlur={handleInputBlur}
                       onPressEnter={handleInputPressEnter}
                     />
