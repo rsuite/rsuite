@@ -1,10 +1,10 @@
 import React from 'react';
-import Sinon from 'sinon';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Tabs from '../Tabs';
 import CustomProvider from '../../CustomProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Tabs', () => {
   testStandardProps(<Tabs />);
@@ -101,7 +101,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -118,7 +118,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -141,7 +141,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback when keydown Home or End', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -167,7 +167,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown when vertical', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs vertical onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -190,7 +190,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown when rtl', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <CustomProvider rtl>
         <Tabs onSelect={onSelect}>

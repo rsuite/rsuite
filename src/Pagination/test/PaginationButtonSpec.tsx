@@ -1,8 +1,8 @@
 import React, { Ref } from 'react';
+import sinon from 'sinon';
+import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
-import Sinon from 'sinon';
 
 describe('PaginationButton', () => {
   testStandardProps(<PaginationButton eventKey="" />);
@@ -25,7 +25,7 @@ describe('PaginationButton', () => {
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(<PaginationButton onSelect={onSelect} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
 
@@ -33,7 +33,7 @@ describe('PaginationButton', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = Sinon.spy();
+    const onClick = sinon.spy();
     render(<PaginationButton onClick={onClick} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
 

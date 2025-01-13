@@ -1,8 +1,8 @@
 import React from 'react';
+import sinon from 'sinon';
+import RadioTile from '../RadioTile';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import RadioTile from '../RadioTile';
-import Sinon from 'sinon';
 
 describe('RadioTile', () => {
   testStandardProps(<RadioTile />);
@@ -65,7 +65,7 @@ describe('RadioTile', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClickSpy = Sinon.spy();
+    const onClickSpy = sinon.spy();
 
     render(<RadioTile onClick={onClickSpy}>Title</RadioTile>);
     fireEvent.click(screen.getByText('Title'));
@@ -74,7 +74,7 @@ describe('RadioTile', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChangeSpy = Sinon.spy();
+    const onChangeSpy = sinon.spy();
     render(
       <RadioTile onChange={onChangeSpy} value="100">
         Title
@@ -86,7 +86,7 @@ describe('RadioTile', () => {
   });
 
   it('Should call onBlur callback', () => {
-    const onBlurSpy = Sinon.spy();
+    const onBlurSpy = sinon.spy();
 
     render(<RadioTile onBlur={onBlurSpy}>Title</RadioTile>);
     fireEvent.blur(screen.getByRole('radio'));
@@ -95,7 +95,7 @@ describe('RadioTile', () => {
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = Sinon.spy();
+    const onFocusSpy = sinon.spy();
 
     render(<RadioTile onFocus={onFocusSpy}>Title</RadioTile>);
     fireEvent.focus(screen.getByRole('radio'));

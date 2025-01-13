@@ -1,8 +1,8 @@
 import React from 'react';
+import sinon from 'sinon';
+import Slider from '../Slider';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps, getStyle } from '@test/utils';
-import Slider from '../Slider';
-import Sinon from 'sinon';
 
 describe('Slider', () => {
   testStandardProps(<Slider />);
@@ -35,8 +35,8 @@ describe('Slider', () => {
   });
 
   it('Should be disabled', () => {
-    const onChange = Sinon.spy();
-    const onChangeCommitted = Sinon.spy();
+    const onChange = sinon.spy();
+    const onChangeCommitted = sinon.spy();
     const { container } = render(
       <Slider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
@@ -51,8 +51,8 @@ describe('Slider', () => {
   });
 
   it('Should be readOnly', () => {
-    const onChange = Sinon.spy();
-    const onChangeCommitted = Sinon.spy();
+    const onChange = sinon.spy();
+    const onChangeCommitted = sinon.spy();
     const { container } = render(
       <Slider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
@@ -128,7 +128,7 @@ describe('Slider', () => {
   });
 
   it('Should call `onChangeCommitted` callback', () => {
-    const onChangeCommitted = Sinon.spy();
+    const onChangeCommitted = sinon.spy();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     render(<Slider onChangeCommitted={onChangeCommitted} />);
@@ -144,7 +144,7 @@ describe('Slider', () => {
   });
 
   it('Should call `onChangeCommitted` callback when click bar', () => {
-    const onChangeCommitted = Sinon.spy();
+    const onChangeCommitted = sinon.spy();
     render(<Slider onChangeCommitted={onChangeCommitted} />);
 
     fireEvent.click(screen.getByTestId('slider-bar'));
@@ -153,7 +153,7 @@ describe('Slider', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(<Slider onChange={onChange} />);
 
     fireEvent.click(screen.getByTestId('slider-bar'));

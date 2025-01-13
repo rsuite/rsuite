@@ -1,7 +1,7 @@
 import React from 'react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import Tag from '../Tag';
-import Sinon from 'sinon';
+import { testStandardProps } from '@test/utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Tag', () => {
@@ -18,7 +18,7 @@ describe('Tag', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = Sinon.spy();
+    const onClose = sinon.spy();
     render(
       <Tag closable onClose={onClose}>
         tag

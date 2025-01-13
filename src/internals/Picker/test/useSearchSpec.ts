@@ -1,6 +1,6 @@
-import { act, renderHook } from '@testing-library/react';
+import sinon from 'sinon';
 import useSearch from '../hooks/useSearch';
-import Sinon from 'sinon';
+import { act, renderHook } from '@testing-library/react';
 
 describe('useSearch(data, opts)', () => {
   const data = ['wanted', 'other'];
@@ -56,7 +56,7 @@ describe('useSearch(data, opts)', () => {
   });
 
   it('Should filter data based on opts.searchBy function when specified', () => {
-    const searchBy = Sinon.spy((_keyword, _label, item: string) => item === 'other');
+    const searchBy = sinon.spy((_keyword, _label, item: string) => item === 'other');
 
     const { result } = renderHook(() => useSearch(data, { labelKey: '', searchBy }));
 
@@ -69,7 +69,7 @@ describe('useSearch(data, opts)', () => {
   });
 
   it('Should call opts.callback when keyword is updated', () => {
-    const callback = Sinon.spy();
+    const callback = sinon.spy();
 
     const { result } = renderHook(() => useSearch(data, { labelKey: '', callback }));
 
