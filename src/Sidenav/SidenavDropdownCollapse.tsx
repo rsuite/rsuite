@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
-import { StandardProps } from '@/internals/types';
+import type { StandardProps } from '@/internals/types';
 
 export interface SidenavDropdownCollapseProps extends StandardProps {
   open?: boolean;

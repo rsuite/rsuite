@@ -8,4 +8,6 @@ const DrawerTitle = forwardRef<'div', ModalTitleProps>((props, ref) => {
   return <ModalTitle classPrefix="drawer-title" {...props} ref={ref} />;
 });
 
+DrawerTitle.displayName = 'DrawerTitle';
+
 export default DrawerTitle;

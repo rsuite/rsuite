@@ -3,11 +3,15 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
+import TreeView from '../MultiCascadeTree/TreeView';
+import SearchView from '../MultiCascadeTree/SearchView';
+import useActive from '../Cascader/useActive';
 import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
-import { PickerLocale } from '../locales';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
+import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
+import { useCustom } from '../CustomProvider';
 import {
   PickerToggle,
   PickerPopup,
@@ -20,15 +24,10 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerComponent,
   PickerToggleProps
 } from '@/internals/Picker';
-import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
-import TreeView from '../MultiCascadeTree/TreeView';
-import SearchView from '../MultiCascadeTree/SearchView';
-import useActive from '../Cascader/useActive';
-import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
+import type { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
+import type { PickerLocale } from '../locales';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
 export interface MultiCascaderProps<T extends DataItemValue = any>
@@ -120,7 +119,7 @@ const emptyArray = [];
  * The `MultiCascader` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascader/
  */
-const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.forwardRef(
+const MultiCascader = forwardRef<'div', MultiCascaderProps<DataItemValue>>(
   <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {

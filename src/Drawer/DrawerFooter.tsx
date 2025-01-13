@@ -7,4 +7,7 @@ export type DrawerFooterProps = ModalFooterProps;
 const DrawerFooter = forwardRef<'div', ModalFooterProps>((props, ref) => {
   return <ModalFooter classPrefix="drawer-footer" {...props} ref={ref} />;
 });
+
+DrawerFooter.displayName = 'DrawerFooter';
+
 export default DrawerFooter;

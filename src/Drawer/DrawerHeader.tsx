@@ -8,4 +8,6 @@ const DrawerHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
   return <ModalHeader classPrefix="drawer-header" {...props} ref={ref} />;
 });
 
+DrawerHeader.displayName = 'DrawerHeader';
+
 export default DrawerHeader;

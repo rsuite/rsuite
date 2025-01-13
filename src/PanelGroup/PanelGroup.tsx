@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -36,7 +37,7 @@ export const PanelGroupContext = React.createContext<PanelGroupContext>({});
  * The `PanelGroup` component is used to display content that can be collapsed.
  * @see https://rsuitejs.com/components/panel
  */
-const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
+const PanelGroup = forwardRef<'div', PanelGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PanelGroup', props);
   const {
     as: Component = 'div',

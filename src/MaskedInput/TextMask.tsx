@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import omit from 'lodash/omit';
 import createTextMaskInputElement from './createTextMaskInputElement';
-import { MaskType, MaskFunctionType, ConfigType } from './types';
 import { mergeRefs } from '@/internals/utils';
+import type { MaskType, MaskFunctionType, ConfigType } from './types';
 
 /**
  * https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
