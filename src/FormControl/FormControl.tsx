@@ -1,32 +1,33 @@
 import React, { useContext } from 'react';
-import type { CheckType } from 'schema-typed';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import useRegisterModel from './hooks/useRegisterModel';
 import useField from './hooks/useField';
 import Toggle from '../Toggle';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import {
-  TypeAttributes,
-  PlacementCorners,
-  FormControlBaseProps,
-  WithAsProps
-} from '@/internals/types';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import type { CheckType } from 'schema-typed';
+import type {
+  PlacementCorners,
+  FormControlBaseProps,
+  WithAsProps,
+  CheckTriggerType
+} from '@/internals/types';
 
 /**
  * Props that FormControl passes to its accepter
  */
 export type FormControlAccepterProps<ValueType = any> = FormControlBaseProps<ValueType>;
 
-export interface FormControlProps<P = any, ValueType = any>
+export interface FormControlProps<ValueType = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLFormElement>, 'value' | 'onChange'> {
   /** Proxied components */
-  accepter?: React.ElementType<P & FormControlBaseProps<ValueType>>;
+  accepter?: React.ElementType;
 
   /**
    * The name of form-control, support nested path. such as `address.city`.
@@ -41,14 +42,11 @@ export interface FormControlProps<P = any, ValueType = any>
    **/
   name: string;
 
-  /** Value */
+  /** The current value (controlled) */
   value?: ValueType;
 
-  /** Callback fired when data changing */
-  onChange?(value: ValueType, event: React.SyntheticEvent): void;
-
   /** The data validation trigger type, and it wiill overrides the setting on <Form> */
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  checkTrigger?: CheckTriggerType;
 
   /** Show error messages */
   errorMessage?: React.ReactNode;
@@ -73,19 +71,22 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Validation rule */
   rule?: CheckType<unknown, any>;
+
+  /** Callback fired when data changing */
+  onChange?(value: ValueType, event: React.SyntheticEvent): void;
 }
 
-interface FormControlComponent extends React.FC<FormControlProps> {
+export interface FormControlComponent extends React.FC<FormControlProps> {
   <Accepter extends React.ElementType = typeof Input>(
     props: FormControlProps & { accepter?: Accepter } & React.ComponentPropsWithRef<Accepter>
-  ): any;
+  ): React.ReactElement | null;
 }
 
 /**
  * The `<Form.Control>` component is used to wrap the components that need to be validated.
  * @see https://rsuitejs.com/components/form/
  */
-const FormControl: FormControlComponent = React.forwardRef((props: FormControlProps, ref) => {
+const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('FormControl', props);
   const {
     readOnly: readOnlyContext,
@@ -222,7 +223,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       </FormErrorMessage>
     </Component>
   );
-});
+}) as FormControlComponent;
 
 FormControl.displayName = 'FormControl';
 

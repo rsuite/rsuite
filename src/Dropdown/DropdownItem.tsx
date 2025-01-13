@@ -1,19 +1,19 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import classNames from 'classnames';
-import { IconProps } from '@rsuite/icons/Icon';
 import MenuItem from '@/internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
 import pick from 'lodash/pick';
-import { useClassNames, useInternalId } from '@/internals/hooks';
-import { mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
-import NavContext from '../Nav/NavContext';
-import { DropdownActionType } from './DropdownState';
-import { useRenderDropdownItem } from './useRenderDropdownItem';
 import Nav from '../Nav';
+import NavContext from '../Nav/NavContext';
 import Text from '../Text';
 import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { useClassNames, useInternalId } from '@/internals/hooks';
+import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
+import { DropdownActionType } from './DropdownState';
+import { useRenderDropdownItem } from './useRenderDropdownItem';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { WithAsProps } from '@/internals/types';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -79,7 +79,7 @@ export interface DropdownMenuItemProps<T = any>
  * - When used inside `<Sidenav>`, renders a `<TreeviewItem>`
  * - Otherwise renders a `<MenuItem>`
  */
-const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
+const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
       classPrefix = 'dropdown-item',

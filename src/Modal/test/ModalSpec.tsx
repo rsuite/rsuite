@@ -46,7 +46,7 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('dialog'));
     fireEvent.click(screen.getByRole('document'));
 
-    assert.isFalse(onClose.calledOnce);
+    expect(onClose).to.be.not.called;
   });
 
   it('Should be automatic height', () => {
@@ -132,7 +132,7 @@ describe('Modal', () => {
 
     const event = new KeyboardEvent('keydown', { key: 'Escape' });
     document.dispatchEvent(event);
-    assert.isTrue(onClose.calledOnce);
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should be rendered inside Modal', () => {
@@ -146,7 +146,7 @@ describe('Modal', () => {
       </Modal>
     );
 
-    assert.isNotEmpty(screen.getByRole('listbox'));
+    expect(screen.getByRole('listbox')).to.be.exist;
   });
 
   describe('Focused state', () => {

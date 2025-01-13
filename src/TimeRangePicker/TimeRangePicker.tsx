@@ -1,8 +1,9 @@
 import React from 'react';
-import DateRangePicker, { RangeType, DateRange } from '../DateRangePicker';
+import DateRangePicker, { DateRange } from '../DateRangePicker';
 import { useCustom } from '../CustomProvider';
+import { forwardRef } from '@/internals/utils';
+import type { DateOptionPreset } from '@/internals/types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
-import type { PickerComponent } from '@/internals/Picker/types';
 import type { DatePickerLocale } from '../locales';
 
 export interface TimeRangePickerProps
@@ -14,7 +15,7 @@ export interface TimeRangePickerProps
   caretAs?: React.ElementType | null;
 
   /** Predefined date ranges */
-  ranges?: RangeType[];
+  ranges?: DateOptionPreset<DateRange>[];
 
   /**
    * Format of the date displayed in the input box
@@ -76,7 +77,7 @@ export interface TimeRangePickerProps
   /**
    * Called after clicking the shortcut button
    */
-  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+  onShortcutClick?: (range: DateOptionPreset<DateRange>, event: React.MouseEvent) => void;
 
   /**
    * Called when the value is cleared
@@ -96,22 +97,20 @@ export interface TimeRangePickerProps
 
 const defaultRanges = [];
 
-const TimeRangePicker: PickerComponent<TimeRangePickerProps> = React.forwardRef(
-  (props: TimeRangePickerProps, ref) => {
-    const { propsWithDefaults, getLocale } = useCustom('TimeRangePicker', props);
-    const { shortTimeFormat } = getLocale('DateTimeFormats');
+const TimeRangePicker = forwardRef<'div', TimeRangePickerProps>((props, ref) => {
+  const { propsWithDefaults, getLocale } = useCustom('TimeRangePicker', props);
+  const { shortTimeFormat } = getLocale('DateTimeFormats');
 
-    return (
-      <DateRangePicker
-        ref={ref}
-        showHeader={false}
-        format={shortTimeFormat}
-        ranges={defaultRanges}
-        {...propsWithDefaults}
-      />
-    );
-  }
-);
+  return (
+    <DateRangePicker
+      ref={ref}
+      showHeader={false}
+      format={shortTimeFormat}
+      ranges={defaultRanges}
+      {...propsWithDefaults}
+    />
+  );
+});
 
 TimeRangePicker.displayName = 'TimeRangePicker';
 

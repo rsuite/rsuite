@@ -8,14 +8,8 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
-import { CursorPosition, Placement } from '@/internals/types';
-
-type Offset = {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-};
+import type { Offset, Placement } from '@/internals/types';
+import type { CursorPosition } from './types';
 
 export interface PositionType {
   positionLeft?: number;

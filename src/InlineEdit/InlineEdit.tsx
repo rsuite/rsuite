@@ -1,12 +1,12 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import { WithAsPropsWithoutChildren, RsRefForwardingComponent } from '@/internals/types';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
-import { renderChildren, defaultRenderInput, type ChildrenProps } from './renderChildren';
+import { useClassNames } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { renderChildren, defaultRenderInput, ChildrenProps } from './renderChildren';
 import { useCustom } from '../CustomProvider';
+import type { WithAsPropsWithoutChildren } from '@/internals/types';
 
 export interface InlineEditProps extends WithAsPropsWithoutChildren {
   /**
@@ -73,10 +73,7 @@ export interface InlineEditProps extends WithAsPropsWithoutChildren {
     | React.ReactElement;
 }
 
-const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps, true> = React.forwardRef<
-  HTMLDivElement,
-  InlineEditProps
->((props, ref) => {
+const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, ref) => {
   const { propsWithDefaults } = useCustom('InlineEdit', props);
   const {
     as: Component = 'div',

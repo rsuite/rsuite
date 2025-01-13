@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
@@ -48,7 +49,7 @@ export const formatSize = (size = 0): string => {
   return `${size}B`;
 };
 
-const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((props, ref) => {
+const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   const {
     as: Component = 'div',
     disabled,

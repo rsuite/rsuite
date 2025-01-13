@@ -14,11 +14,12 @@ describe('internals/utils/createChainedFunction', () => {
     }
     const d = createChainedFunction(a, b, undefined, null, c) as () => void;
     d();
-    assert.equal(i, 4);
+    expect(i).to.be.equal(4);
   });
 
   it('Should return a `undefined`', () => {
     const c = createChainedFunction(null, undefined);
-    assert.ok(c === undefined);
+
+    expect(c).to.be.undefined;
   });
 });

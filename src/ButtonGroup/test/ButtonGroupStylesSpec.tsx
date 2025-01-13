@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
+import { render, screen } from '@testing-library/react';
 import { getStyle, itChrome } from '@test/utils';
 
 import '../../Button/styles/index.less';
@@ -11,13 +11,14 @@ describe('Button Group styles', () => {
   it('Should render the correct width', () => {
     render(
       <ButtonGroup justified>
-        <Button>Text</Button>
-        <Button>Text2</Button>
+        <Button>button1</Button>
+        <Button>button2</Button>
       </ButtonGroup>
     );
-    const buttons = screen.getAllByRole('button');
 
-    assert.equal(getStyle(buttons[0], 'width'), getStyle(buttons[1], 'width'));
+    expect(getStyle(screen.getByRole('button', { name: 'button1' }), 'width')).to.equal(
+      getStyle(screen.getByRole('button', { name: 'button2' }), 'width')
+    );
   });
 
   itChrome('Should render the correct padding', () => {
@@ -27,6 +28,6 @@ describe('Button Group styles', () => {
       </ButtonGroup>
     );
 
-    expect(screen.getByTestId('button')).to.have.style('padding', '10px 16px');
+    expect(screen.getByRole('button')).to.have.style('padding', '10px 16px');
   });
 });

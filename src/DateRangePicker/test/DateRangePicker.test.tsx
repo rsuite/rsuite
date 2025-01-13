@@ -1,5 +1,6 @@
 import React from 'react';
 import DateRangePicker from '../DateRangePicker';
+import type { PickerHandle } from '@/internals/Picker';
 
 <DateRangePicker shouldDisableDate={DateRangePicker.afterToday()} />;
 <DateRangePicker shouldDisableDate={DateRangePicker.beforeToday()} />;
@@ -16,3 +17,8 @@ import DateRangePicker from '../DateRangePicker';
     DateRangePicker.allowedDays(3)
   )}
 />;
+
+// Check ref type
+const ref = React.useRef<PickerHandle>();
+<DateRangePicker ref={ref} />;
+ref.current?.open?.();

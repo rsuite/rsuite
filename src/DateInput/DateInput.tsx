@@ -1,16 +1,16 @@
 import React, { useRef, useMemo } from 'react';
 import Input, { InputProps } from '../Input';
-import { useControlled, useEventCallback } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import { FormControlBaseProps } from '@/internals/types';
-import { isValid } from '@/internals/utils/date';
-import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
-import { useCustom } from '../CustomProvider';
 import useDateInputState from './hooks/useDateInputState';
 import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
 import useIsFocused from './hooks/useIsFocused';
 import useFieldCursor from './hooks/useFieldCursor';
 import useSelectedState from './hooks/useSelectedState';
+import { useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { isValid } from '@/internals/utils/date';
+import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
+import { useCustom } from '../CustomProvider';
+import type { FormControlBaseProps } from '@/internals/types';
 
 export interface DateInputProps
   extends Omit<InputProps, 'value' | 'onChange' | 'defaultValue'>,
@@ -34,7 +34,7 @@ export interface DateInputProps
  * @version 5.58.0
  * @see https://rsuitejs.com/components/date-input/
  */
-const DateInput = React.forwardRef((props: DateInputProps, ref) => {
+const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
   const { propsWithDefaults, parseDate, getLocale } = useCustom('DateInput', props);
   const { dateLocale, shortDateFormat } = getLocale('DateTimeFormats');
   const {

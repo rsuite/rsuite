@@ -1,8 +1,8 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { ReactChildren } from '@/internals/utils';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, ReactChildren } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface RowProps extends WithAsProps {
   gutter?: number;
@@ -12,7 +12,7 @@ export interface RowProps extends WithAsProps {
  * The `Row` component is used for layout and grids.
  * @see https://rsuitejs.com/components/grid
  */
-const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: RowProps, ref) => {
+const Row = forwardRef<'div', RowProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Row', props);
   const {
     as: Component = 'div',

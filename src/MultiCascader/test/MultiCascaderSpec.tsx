@@ -1,17 +1,17 @@
 import React from 'react';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import MultiCascader from '../MultiCascader';
+import Button from '../../Button';
+import CustomProvider from '@/CustomProvider';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { mockTreeData } from '@test/mocks/data-mock';
 import {
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import MultiCascader from '../MultiCascader';
-import Button from '../../Button';
-import { PickerHandle } from '@/internals/Picker';
-import CustomProvider from '@/CustomProvider';
-import { mockTreeData } from '@test/mocks/data-mock';
+import type { PickerHandle } from '@/internals/Picker';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 

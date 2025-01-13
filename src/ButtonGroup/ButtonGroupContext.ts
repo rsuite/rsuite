@@ -1,8 +1,8 @@
 import React from 'react';
-import { TypeAttributes } from '@/internals/types';
+import { SizeType } from '@/internals/types';
 
 export interface ButtonGroupContextProps {
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 }
 
 const ButtonGroupContext = React.createContext<ButtonGroupContextProps | null>(null);

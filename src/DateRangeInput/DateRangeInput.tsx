@@ -14,7 +14,7 @@ import {
 } from '../DateInput';
 import { useCustom } from '../CustomProvider';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
-import { FormControlBaseProps } from '@/internals/types';
+import type { FormControlBaseProps } from '@/internals/types';
 
 type ValueType = [Date | null, Date | null] | null;
 

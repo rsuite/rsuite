@@ -1,6 +1,7 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface TimelineItemProps extends WithAsProps {
   /**
@@ -42,34 +43,32 @@ export interface TimelineItemProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/compo◊nents/timeline
  */
-const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.forwardRef(
-  (props: TimelineItemProps, ref) => {
-    const {
-      as: Component = 'li',
-      children,
-      classPrefix = 'timeline-item',
-      last: DEPRECATED_last,
-      className,
-      dot,
-      time,
-      INTERNAL_active,
-      ...rest
-    } = props;
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({ last: DEPRECATED_last, active: INTERNAL_active })
-    );
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        <span className={prefix('tail')} />
-        <span className={prefix('dot', { 'custom-dot': dot })}>{dot}</span>
-        {time && <div className={prefix('time')}>{time}</div>}
-        <div className={prefix('content')}>{children}</div>
-      </Component>
-    );
-  }
-);
+const TimelineItem = forwardRef<'div', TimelineItemProps>((props, ref) => {
+  const {
+    as: Component = 'li',
+    children,
+    classPrefix = 'timeline-item',
+    last: DEPRECATED_last,
+    className,
+    dot,
+    time,
+    INTERNAL_active,
+    ...rest
+  } = props;
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const classes = merge(
+    className,
+    withClassPrefix({ last: DEPRECATED_last, active: INTERNAL_active })
+  );
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <span className={prefix('tail')} />
+      <span className={prefix('dot', { 'custom-dot': dot })}>{dot}</span>
+      {time && <div className={prefix('time')}>{time}</div>}
+      <div className={prefix('content')}>{children}</div>
+    </Component>
+  );
+});
 
 TimelineItem.displayName = 'TimelineItem';
 

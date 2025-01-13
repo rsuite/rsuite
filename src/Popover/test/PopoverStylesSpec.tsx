@@ -1,23 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import Popover from '../index';
-import { getStyle, toRGB } from '@test/utils';
-
-import '../styles/index.less';
 import Whisper from '../../Whisper/index';
 import Button from '../../Button/index';
+import { render, screen } from '@testing-library/react';
+import { toRGB } from '@test/utils';
+import '../styles/index.less';
 
 describe('Popover styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(
-      <Popover ref={instanceRef} visible>
-        Text
-      </Popover>
-    );
-    const dom = instanceRef.current as HTMLElement;
+    render(<Popover visible>Text</Popover>);
 
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Popover background-color');
+    expect(screen.getByRole('dialog')).to.have.style('background-color', toRGB('#fff'));
   });
 
   it('Should render top start', () => {
@@ -35,10 +28,12 @@ describe('Popover styles', () => {
         <Button appearance="subtle">Test</Button>
       </Whisper>
     );
-    const dom = document.querySelector('.popover-top-start') as HTMLElement;
-    assert.equal(getStyle(dom, 'marginTop'), '-8px', 'Popover margin value');
-    const arrowDom = dom.querySelector('.rs-popover-arrow') as HTMLElement;
-    assert.equal(getStyle(arrowDom, 'bottom'), '-6px', 'Popover arrow bottom value');
-    assert.equal(getStyle(arrowDom, 'marginLeft'), '-6px', 'Popover arrow bottom value');
+
+    expect(screen.getByRole('dialog')).to.have.style('margin-top', '-8px');
+
+    const arrow = screen.getByRole('dialog').querySelector('.rs-popover-arrow');
+
+    expect(arrow).to.have.style('margin-left', '-6px');
+    expect(arrow).to.have.style('bottom', '-6px');
   });
 });

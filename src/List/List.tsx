@@ -3,9 +3,9 @@ import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
 import { useClassNames } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
+import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export interface ListProps extends WithAsProps, SortConfig {
   /**
@@ -37,18 +37,15 @@ export interface ListProps extends WithAsProps, SortConfig {
   divider?: boolean;
 }
 
-export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
-  Item: typeof ListItem;
-}
+const Subcomponents = {
+  Item: ListItem
+};
 
 /**
  * The `List` component is used to specify the layout of the list.
  * @see https://rsuitejs.com/components/list
  */
-const List: ListComponent = React.forwardRef(function List(
-  props: ListProps,
-  ref: React.Ref<HTMLDivElement>
-) {
+const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('List', props);
   const {
     as: Component = 'div',
@@ -101,9 +98,7 @@ const List: ListComponent = React.forwardRef(function List(
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
     </Component>
   );
-}) as unknown as ListComponent;
-
-List.Item = ListItem;
+}, Subcomponents);
 
 List.displayName = 'List';
 

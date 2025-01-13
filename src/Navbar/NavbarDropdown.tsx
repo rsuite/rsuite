@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 import castArray from 'lodash/castArray';
 import omit from 'lodash/omit';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { PlacementCorners, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '.';
 import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure';
-import Button from '../Button';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
+import { useClassNames } from '@/internals/hooks';
+import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
+import { NavbarContext } from './NavbarContext';
+import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>
@@ -68,26 +67,16 @@ export interface NavbarDropdownProps<T = any>
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
-export interface NavbarDropdownComponent
-  extends RsRefForwardingComponent<'div', NavbarDropdownProps> {
-  // Infer toggleAs props
-  <ToggleAs extends React.ElementType = typeof Button>(
-    props: NavbarDropdownProps & {
-      ref?: React.Ref<any>;
-      toggleAs?: ToggleAs;
-    } & React.ComponentProps<ToggleAs>,
-    context: any
-  ): JSX.Element | null;
-
-  Item: typeof NavDropdownItem;
-  Menu: typeof NavDropdownMenu;
-}
+const Subcomponents = {
+  Item: NavDropdownItem,
+  Menu: NavDropdownMenu
+};
 
 /**
  * @private
  */
-const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
-  function NavbarDropdown(props: NavbarDropdownProps, ref) {
+const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponents>(
+  (props, ref) => {
     const navbar = useContext(NavbarContext);
 
     if (!navbar) {
@@ -182,11 +171,9 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
         }}
       </Disclosure>
     );
-  }
-) as unknown as NavbarDropdownComponent;
-
-NavbarDropdown.Item = NavDropdownItem;
-NavbarDropdown.Menu = NavDropdownMenu;
+  },
+  Subcomponents
+);
 
 NavbarDropdown.displayName = 'Navbar.Dropdown';
 

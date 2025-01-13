@@ -1,5 +1,4 @@
 import React, { useContext, useMemo } from 'react';
-import NavItem from './NavItem';
 import NavContext, { NavContextProps } from './NavContext';
 import Menubar from '@/internals/Menu/Menubar';
 import NavDropdown from './NavDropdown';
@@ -7,12 +6,12 @@ import NavMenu from './NavMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
+import { forwardRef, deprecateComponent } from '@/internals/utils';
 import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { deprecateComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -63,23 +62,33 @@ export interface NavProps<T = any>
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
-interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
+const DeprecatedNavDropdown = deprecateComponent(
+  NavDropdown,
+  '<Nav.Dropdown> is deprecated, use <Nav.Menu> instead.'
+);
+DeprecatedNavDropdown.Menu = deprecateComponent(
+  NavDropdownMenu,
+  '<Nav.Dropdown.Menu> is deprecated, use <Nav.Menu> instead'
+);
+DeprecatedNavDropdown.Item = deprecateComponent(
+  NavDropdownItem,
+  '<Nav.Dropdown.Item> is deprecated, use <Nav.Item> instead'
+);
+
+const Subcomponents = {
   /**
    * @deprecated Use <Nav.Menu> instead.
    */
-  Dropdown: typeof NavDropdown;
-  Item: typeof NavItem;
-  Menu: typeof NavMenu;
-}
+  Dropdown: DeprecatedNavDropdown,
+  Item: AdaptiveNavItem,
+  Menu: NavMenu
+};
 
 /**
  * The `Nav` component is used to create navigation links.
  * @see https://rsuitejs.com/components/nav
  */
-const Nav: NavComponent = React.forwardRef(function Nav(
-  props: NavProps,
-  ref: React.Ref<HTMLElement>
-) {
+const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Nav', props);
   const {
     as: Component = 'div',
@@ -171,24 +180,7 @@ const Nav: NavComponent = React.forwardRef(function Nav(
       </Component>
     </NavContext.Provider>
   );
-}) as unknown as NavComponent;
-
-const DeprecatedNavDropdown = deprecateComponent(
-  NavDropdown,
-  '<Nav.Dropdown> is deprecated, use <Nav.Menu> instead.'
-);
-DeprecatedNavDropdown.Menu = deprecateComponent(
-  NavDropdownMenu,
-  '<Nav.Dropdown.Menu> is deprecated, use <Nav.Menu> instead'
-);
-DeprecatedNavDropdown.Item = deprecateComponent(
-  NavDropdownItem,
-  '<Nav.Dropdown.Item> is deprecated, use <Nav.Item> instead'
-);
-
-Nav.Dropdown = DeprecatedNavDropdown;
-Nav.Item = AdaptiveNavItem;
-Nav.Menu = NavMenu;
+}, Subcomponents);
 
 Nav.displayName = 'Nav';
 

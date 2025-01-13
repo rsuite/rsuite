@@ -164,20 +164,21 @@ describe('Rate', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef<TestAppInstance>();
+
     render(<TestApp ref={ref} />);
 
-    expect(
-      (ref.current as TestAppInstance).root.querySelector('[aria-checked="true"]') as HTMLElement
-    ).to.have.attr('aria-posinset', '2');
+    const current = ref.current as TestAppInstance;
+
+    expect(current.root.querySelector('[aria-checked="true"]') as HTMLElement).to.have.attr(
+      'aria-posinset',
+      '2'
+    );
 
     act(() => {
-      (ref.current as TestAppInstance).setValue(0);
+      current.setValue(0);
     });
 
-    assert.equal(
-      (ref.current as TestAppInstance).root.querySelectorAll('[aria-checked="false"]').length,
-      5
-    );
+    expect(current.root.querySelectorAll('[aria-checked="false"]')).to.have.length(5);
   });
 
   it('Should handle mouse leave correctly', () => {

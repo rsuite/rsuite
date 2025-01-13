@@ -8,11 +8,11 @@ import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
+import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import { SidenavContext } from './Sidenav';
+import type { WithAsProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -45,10 +45,7 @@ export interface SidenavItemProps<T = any>
 /**
  * @private
  */
-const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forwardRef<
-  HTMLLIElement,
-  SidenavItemProps
->((props: SidenavItemProps, ref) => {
+const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   const sidenav = useContext(SidenavContext);
 
   if (!sidenav) {

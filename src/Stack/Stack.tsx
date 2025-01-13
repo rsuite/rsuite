@@ -1,9 +1,9 @@
 import React from 'react';
 import StackItem from './StackItem';
-import { ReactChildren } from '@/internals/utils';
+import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface StackProps extends WithAsProps {
   /**
@@ -42,13 +42,13 @@ export interface StackProps extends WithAsProps {
   childrenRenderMode?: 'clone' | 'wrap';
 }
 
-export interface StackComponent extends RsRefForwardingComponent<'div', StackProps> {
-  Item: typeof StackItem;
-}
-
 function isStackItem(child: React.ReactElement<StackProps, React.FunctionComponent>) {
   return child.type === StackItem || child.type?.displayName === 'StackItem';
 }
+
+const Subcomponents = {
+  Item: StackItem
+};
 
 /**
  * The `Stack` component is a quick layout component through Flexbox,
@@ -56,7 +56,7 @@ function isStackItem(child: React.ReactElement<StackProps, React.FunctionCompone
  *
  * @see https://rsuitejs.com/components/stack
  */
-const Stack = React.forwardRef(function Stack(props: StackProps, ref: React.Ref<HTMLDivElement>) {
+const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Stack', props);
   const {
     as: Component = 'div',
@@ -111,9 +111,7 @@ const Stack = React.forwardRef(function Stack(props: StackProps, ref: React.Ref<
       })}
     </Component>
   );
-}) as unknown as StackComponent;
-
-Stack.Item = StackItem;
+}, Subcomponents);
 
 Stack.displayName = 'Stack';
 

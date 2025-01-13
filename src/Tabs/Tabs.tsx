@@ -2,10 +2,10 @@ import React from 'react';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
+import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { ReactChildren } from '@/internals/utils';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 /**
  * Props for the Tabs component.
@@ -51,10 +51,6 @@ export interface TabsProps extends WithAsProps {
    * @param event - The event object.
    */
   onSelect?: (eventKey: string | number | undefined, event: React.SyntheticEvent) => void;
-}
-
-interface TabsComponent extends RsRefForwardingComponent<'div', TabsProps> {
-  Tab: typeof Tab;
 }
 
 function getFocusableTabs(tablist?: HTMLElement | null) {
@@ -160,16 +156,17 @@ const renderTabs = (
   });
 };
 
+const Subcomponents = {
+  Tab
+};
+
 /**
  * Tabs are a set of layered sections of content, known as tab panels, that display one panel of content at a time.
  *
  * @version 5.53.0
  * @see https://rsuitejs.com/components/tabs
  */
-const Tabs: TabsComponent = React.forwardRef(function Tabs(
-  props: TabsProps,
-  ref: React.Ref<HTMLDivElement>
-) {
+const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
     as: Component = 'div',
@@ -265,9 +262,8 @@ const Tabs: TabsComponent = React.forwardRef(function Tabs(
       <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
     </Component>
   );
-}) as unknown as TabsComponent;
+}, Subcomponents);
 
-Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
 
 export default Tabs;

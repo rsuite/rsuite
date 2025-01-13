@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
-import Sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('RadioGroup', () => {
   testStandardProps(<RadioGroup />);
@@ -93,7 +93,7 @@ describe('RadioGroup', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <RadioGroup onChange={onChange}>
         <Radio value={1}>Test1</Radio>
@@ -108,8 +108,8 @@ describe('RadioGroup', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = Sinon.spy();
-    const onGroupChange = Sinon.spy();
+    const onChange = sinon.spy();
+    const onGroupChange = sinon.spy();
 
     render(
       <RadioGroup onChange={onGroupChange}>
@@ -129,7 +129,7 @@ describe('RadioGroup', () => {
   });
 
   it('Should call onChange callback with correct event target', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(
       <RadioGroup name="test" onChange={onChange}>
         <Radio value={1}>Test1</Radio>
@@ -143,7 +143,7 @@ describe('RadioGroup', () => {
 
     expect(onChange).to.have.been.calledWith(
       3,
-      Sinon.match({
+      sinon.match({
         target: {
           name: 'test'
         }

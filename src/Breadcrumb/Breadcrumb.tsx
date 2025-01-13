@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { ReactChildren, createComponent } from '@/internals/utils';
 import BreadcrumbItem from './BreadcrumbItem';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { BreadcrumbLocale } from '../locales';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { BreadcrumbLocale } from '../locales';
+import type { WithAsProps } from '@/internals/types';
 
 export interface BreadcrumbProps extends WithAsProps {
   /**
@@ -35,9 +35,9 @@ export interface BreadcrumbProps extends WithAsProps {
   onExpand?: (event: React.MouseEvent) => void;
 }
 
-export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', BreadcrumbProps> {
-  Item: typeof BreadcrumbItem;
-}
+const Subcomponents = {
+  Item: BreadcrumbItem
+};
 
 const Separator = createComponent<'span', React.HTMLAttributes<HTMLSpanElement>>({
   name: 'BreadcrumbSeparator',
@@ -49,81 +49,80 @@ const Separator = createComponent<'span', React.HTMLAttributes<HTMLSpanElement>>
  * The Breadcrumb component is used to indicate the current page location and navigate.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const Breadcrumb: BreadcrumbComponent = React.forwardRef(function Breadcrumb(
-  props: BreadcrumbProps,
-  ref
-) {
-  const { propsWithDefaults } = useCustom('Breadcrumb', props);
-  const {
-    as: Component = 'nav',
-    className,
-    classPrefix = 'breadcrumb',
-    children,
-    ellipsis = '...',
-    maxItems = 5,
-    separator = '/',
-    locale,
-    onExpand,
-    ...rest
-  } = propsWithDefaults;
+const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
+  (props: BreadcrumbProps, ref) => {
+    const { propsWithDefaults } = useCustom('Breadcrumb', props);
+    const {
+      as: Component = 'nav',
+      className,
+      classPrefix = 'breadcrumb',
+      children,
+      ellipsis = '...',
+      maxItems = 5,
+      separator = '/',
+      locale,
+      onExpand,
+      ...rest
+    } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const [showEllipsis, setShowEllipsis] = useState(true);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const [showEllipsis, setShowEllipsis] = useState(true);
 
-  const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
-    setShowEllipsis(false);
-    onExpand?.(event);
-  });
-
-  const content = useMemo(() => {
-    const count = ReactChildren.count(children);
-    const items = ReactChildren.mapCloneElement(children, (item, index) => {
-      const isLast = index === count - 1;
-      return {
-        ...item.props,
-        separator: isLast ? null : <Separator>{separator}</Separator>
-      };
+    const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
+      setShowEllipsis(false);
+      onExpand?.(event);
     });
 
-    if (count > maxItems && count > 2 && showEllipsis) {
-      return [
-        ...items.slice(0, 1),
-        [
-          <BreadcrumbItem
-            role="button"
-            key="ellipsis"
-            title={locale?.expandText}
-            aria-label={locale?.expandText}
-            separator={<Separator>{separator}</Separator>}
-            onClick={handleClickEllipsis}
-          >
-            <span aria-hidden>{ellipsis}</span>
-          </BreadcrumbItem>
-        ],
-        ...items.slice(items.length - 1, items.length)
-      ];
-    }
-    return items;
-  }, [
-    children,
-    ellipsis,
-    handleClickEllipsis,
-    locale?.expandText,
-    maxItems,
-    separator,
-    showEllipsis
-  ]);
+    const content = useMemo(() => {
+      const count = ReactChildren.count(children);
+      const items = ReactChildren.mapCloneElement(children, (item, index) => {
+        const isLast = index === count - 1;
+        return {
+          ...item.props,
+          separator: isLast ? null : <Separator>{separator}</Separator>
+        };
+      });
 
-  const classes = merge(className, withClassPrefix());
+      if (count > maxItems && count > 2 && showEllipsis) {
+        return [
+          ...items.slice(0, 1),
+          [
+            <BreadcrumbItem
+              role="button"
+              key="ellipsis"
+              title={locale?.expandText}
+              aria-label={locale?.expandText}
+              separator={<Separator>{separator}</Separator>}
+              onClick={handleClickEllipsis}
+            >
+              <span aria-hidden>{ellipsis}</span>
+            </BreadcrumbItem>
+          ],
+          ...items.slice(items.length - 1, items.length)
+        ];
+      }
+      return items;
+    }, [
+      children,
+      ellipsis,
+      handleClickEllipsis,
+      locale?.expandText,
+      maxItems,
+      separator,
+      showEllipsis
+    ]);
 
-  return (
-    <Component {...rest} ref={ref} className={classes}>
-      <ol>{content}</ol>
-    </Component>
-  );
-}) as unknown as BreadcrumbComponent;
+    const classes = merge(className, withClassPrefix());
 
-Breadcrumb.Item = BreadcrumbItem;
+    return (
+      <Component {...rest} ref={ref} className={classes}>
+        <ol>{content}</ol>
+      </Component>
+    );
+  },
+  Subcomponents
+);
+
 Breadcrumb.displayName = 'Breadcrumb';
 
 export default Breadcrumb;

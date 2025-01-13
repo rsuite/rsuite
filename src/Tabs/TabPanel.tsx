@@ -1,8 +1,9 @@
 import React from 'react';
-import { WithAsProps } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
+import type { WithAsProps } from '@/internals/types';
 
-interface TabPanelProps extends WithAsProps {
+export interface TabPanelProps extends WithAsProps {
   /** The active state of the tab. */
   active?: boolean;
 
@@ -10,7 +11,7 @@ interface TabPanelProps extends WithAsProps {
   id?: string;
 }
 
-const TabPanel = React.forwardRef((props: TabPanelProps, ref: React.Ref<HTMLDivElement>) => {
+const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'tab-panel',

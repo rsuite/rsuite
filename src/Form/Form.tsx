@@ -1,19 +1,20 @@
 import React, { FormHTMLAttributes } from 'react';
-import { Schema, SchemaModel } from 'schema-typed';
-import FormControl from '../FormControl';
+import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { useEventCallback } from '@/internals/hooks';
-import { FormValueProvider, FormProvider } from './FormContext';
-import { useCustom } from '../CustomProvider';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
+import { forwardRef } from '@/internals/utils';
+import { Schema, SchemaModel } from 'schema-typed';
+import { useEventCallback } from '@/internals/hooks';
+import { FormValueProvider, FormProvider } from './FormContext';
+import { useCustom } from '../CustomProvider';
+import type { WithAsProps, CheckTriggerType } from '@/internals/types';
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
@@ -50,7 +51,7 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
    *
    * @default 'change'
    */
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  checkTrigger?: CheckTriggerType;
 
   /**
    * SchemaModel object
@@ -120,25 +121,25 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
   onReset?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export interface FormComponent
-  extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
-  Control: typeof FormControl;
-  ControlLabel: typeof FormControlLabel;
-  ErrorMessage: typeof FormErrorMessage;
-  Group: typeof FormGroup;
-  HelpText: typeof FormHelpText;
-}
-
 const defaultSchema = SchemaModel({});
+
+const Subcomponents = {
+  Control: FormControl as FormControlComponent,
+  ControlLabel: FormControlLabel,
+  ErrorMessage: FormErrorMessage,
+  Group: FormGroup,
+  HelpText: FormHelpText
+};
 
 /**
  * The `Form` component is a form interface for collecting and validating user input.
  * @see https://rsuitejs.com/components/form
  */
-const Form: FormComponent = React.forwardRef(function Form(
-  props: FormProps,
-  ref: React.Ref<FormInstance>
-) {
+const Form = forwardRef<
+  'form',
+  FormProps & { ref?: React.Ref<FormInstance> },
+  typeof Subcomponents
+>((props, ref) => {
   const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
@@ -295,13 +296,7 @@ const Form: FormComponent = React.forwardRef(function Form(
       </FormProvider>
     </form>
   );
-}) as unknown as FormComponent;
-
-Form.Control = FormControl;
-Form.ControlLabel = FormControlLabel;
-Form.ErrorMessage = FormErrorMessage;
-Form.Group = FormGroup;
-Form.HelpText = FormHelpText;
+}, Subcomponents);
 
 Form.displayName = 'Form';
 

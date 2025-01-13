@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Checkbox from '../Checkbox';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Checkbox', () => {
   testStandardProps(<Checkbox />, {

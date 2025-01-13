@@ -8,6 +8,7 @@ import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
 import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
 
@@ -86,7 +87,7 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
  *
  * @see https://rsuitejs.com/components/slider
  */
-const Slider = React.forwardRef((props: SliderProps, ref) => {
+const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,

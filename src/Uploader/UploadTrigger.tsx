@@ -1,18 +1,16 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 import type { UploaderLocale } from '../locales';
+
 export interface UploadTriggerProps extends ButtonProps {
-  as?: React.ElementType;
   name?: string;
   multiple?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   draggable?: boolean;
   accept?: string;
-  classPrefix?: string;
-  className?: string;
-  children?: React.ReactNode;
   locale?: UploaderLocale;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onDragEnter?: React.DragEventHandler<HTMLInputElement>;
@@ -25,7 +23,7 @@ export interface UploadTriggerInstance {
   clearInput: () => void;
 }
 
-const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
+const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref) => {
   const {
     as: Component = Button,
     name,

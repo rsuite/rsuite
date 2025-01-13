@@ -1,9 +1,9 @@
 import React from 'react';
+import sinon from 'sinon';
+import GridRow from '../Grid/GridRow';
 import { getDate, format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
-import GridRow from '../Grid/GridRow';
 import { CalendarProvider } from '../CalendarProvider';
-import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import { isToday } from 'date-fns';
 
@@ -24,7 +24,7 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarProvider

@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import SearchBox from '../SearchBox';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import Sinon from 'sinon';
 
 describe('SearchBox', () => {
   testStandardProps(<SearchBox />);
@@ -13,7 +13,7 @@ describe('SearchBox', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(<SearchBox onChange={onChange} />);
     fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'a' } });
 

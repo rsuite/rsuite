@@ -1,8 +1,9 @@
 import React from 'react';
 import Heading from '../Heading';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface PopoverProps extends WithAsProps {
   /** The title of the component. */
@@ -22,44 +23,42 @@ export interface PopoverProps extends WithAsProps {
  * The `Popover` component is used to display a popup window for a target component.
  * @see https://rsuitejs.com/components/popover
  */
-const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
-  (props: PopoverProps, ref) => {
-    const { propsWithDefaults } = useCustom('Popover', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'popover',
-      title,
-      children,
-      style,
-      visible,
-      className,
-      full,
-      arrow = true,
-      ...rest
-    } = propsWithDefaults;
+const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Popover', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'popover',
+    title,
+    children,
+    style,
+    visible,
+    className,
+    full,
+    arrow = true,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ full }));
+  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ full }));
 
-    const styles = {
-      display: 'block',
-      opacity: visible ? 1 : undefined,
-      ...style
-    };
+  const styles = {
+    display: 'block',
+    opacity: visible ? 1 : undefined,
+    ...style
+  };
 
-    return (
-      <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
-        {arrow && <div className={prefix`arrow`} aria-hidden />}
-        {title && (
-          <Heading level={3} className={prefix`title`}>
-            {title}
-          </Heading>
-        )}
-        <div className={prefix`content`}>{children}</div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
+      {arrow && <div className={prefix`arrow`} aria-hidden />}
+      {title && (
+        <Heading level={3} className={prefix`title`}>
+          {title}
+        </Heading>
+      )}
+      <div className={prefix`content`}>{children}</div>
+    </Component>
+  );
+});
 
 Popover.displayName = 'Popover';
 

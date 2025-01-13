@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle, useCallback, useMemo } from 'react';
-import ScrollView from '../ScrollView';
+import ScrollView, { ScrollViewProps } from '../ScrollView';
 import {
   VariableSizeList,
   Align,
@@ -9,11 +9,14 @@ import {
   ListProps as BaseListProps
 } from 'react-window';
 import { useCustom } from '../../CustomProvider';
-import type { RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsPropsWithoutChildren } from '@/internals/types';
 
 export const defaultItemSize = () => 36;
 
-export interface ListProps<T = any> extends Omit<BaseListProps, 'width'> {
+export interface ListProps<T = any>
+  extends WithAsPropsWithoutChildren,
+    Omit<BaseListProps, 'width'> {
   ref?: React.Ref<ListHandle>;
   /**
    * Width of the list.
@@ -74,7 +77,7 @@ export interface ListHandle extends Partial<VariableSizeList> {
   scrollToRow?: (index: number) => void;
 }
 
-const OuterElementType = React.forwardRef<HTMLDivElement>(function OuterElementType(props, ref) {
+const OuterElementType = forwardRef<'div', ScrollViewProps>(function OuterElementType(props, ref) {
   return <ScrollView scrollShadow ref={ref} {...props} />;
 });
 
@@ -83,7 +86,7 @@ const OuterElementType = React.forwardRef<HTMLDivElement>(function OuterElementT
  *
  * @private
  */
-const List: RsRefForwardingComponent<'div', ListProps, true> = React.forwardRef((props, ref) => {
+const List = forwardRef<'div', ListProps, any, 'children'>((props, ref) => {
   const {
     rowHeight,
     as: Component = VariableSizeList,

@@ -18,13 +18,9 @@ import Overlay, { OverlayProps } from './Overlay';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
 import { isFragment } from '@/internals/utils/ReactChildren';
-import type {
-  AnimationEventProps,
-  CursorPosition,
-  StandardProps,
-  Placement
-} from '@/internals/types';
+import type { AnimationEventProps, StandardProps, Placement } from '@/internals/types';
 import type { PositionChildProps, PositionInstance } from './Position';
+import type { CursorPosition } from './types';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 

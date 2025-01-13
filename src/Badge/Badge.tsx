@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { Color, WithAsProps, PlacementCorners } from '@/internals/types';
 import {
+  forwardRef,
   mergeStyles,
   createOffsetStyles,
   isPresetColor,
   createColorVariables
 } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
-import { Color, WithAsProps, PlacementCorners, RsRefForwardingComponent } from '@/internals/types';
 
 export interface BadgeProps extends WithAsProps {
   /**
@@ -66,10 +67,7 @@ export interface BadgeProps extends WithAsProps {
  * The Badge component is usually used to mark or highlight the status or quantity of an object.
  * @see https://rsuitejs.com/components/badge
  */
-const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef<
-  HTMLDivElement,
-  BadgeProps
->((props: BadgeProps, ref) => {
+const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
   const { propsWithDefaults } = useCustom('Badge', props);
   const {
     as: Component = 'div',

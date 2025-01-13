@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import PaginationGroup from '../PaginationGroup';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import Sinon from 'sinon';
 
 describe('Pagination Group', () => {
   testStandardProps(<PaginationGroup total={10} />);
@@ -93,7 +93,7 @@ describe('Pagination Group', () => {
   });
 
   it('Should call onChangePage callback', () => {
-    const onChangePage = Sinon.spy();
+    const onChangePage = sinon.spy();
     render(
       <PaginationGroup
         last={false}
@@ -207,5 +207,157 @@ describe('Pagination Group', () => {
     );
 
     fireEvent.click(screen.getByLabelText('more'));
+  });
+
+  it('Should render limit picker with custom options', () => {
+    render(<PaginationGroup layout={['limit']} limitOptions={[10, 20, 30]} total={100} />);
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    const options = screen.getAllByRole('option');
+    expect(options).to.have.length(3);
+    expect(options[0]).to.have.text('10 / page');
+    expect(options[1]).to.have.text('20 / page');
+    expect(options[2]).to.have.text('30 / page');
+  });
+
+  it('Should call onChangeLimit callback when limit changes', () => {
+    const onChangeLimit = sinon.spy();
+    render(
+      <PaginationGroup
+        layout={['limit']}
+        limitOptions={[10, 20, 30]}
+        total={100}
+        onChangeLimit={onChangeLimit}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+    const option20 = screen.getAllByRole('option')[1];
+    fireEvent.click(option20);
+
+    expect(onChangeLimit).to.have.been.calledWith(20);
+  });
+
+  it('Should handle skip input correctly', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: '5' } });
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.have.been.calledWith(5);
+  });
+
+  it('Should ignore invalid skip input', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: '15' } });
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.not.have.been.called;
+  });
+
+  it('Should handle input blur with valid page number', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: '5' } });
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.have.been.calledWith(5);
+  });
+
+  it('Should not call onChangePage when input value is invalid', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: '15' } });
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.not.have.been.called;
+  });
+
+  it('Should not call onChangePage when input value is less than 1', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: '0' } });
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.not.have.been.called;
+  });
+
+  it('Should handle Enter key press with valid page number', () => {
+    const onChangePage = sinon.spy();
+    render(
+      <PaginationGroup
+        layout={['skip', 'pager']}
+        total={100}
+        limit={10}
+        onChangePage={onChangePage}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+
+    fireEvent.change(input, { target: { value: '2' } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+
+    // TODO: The Enter key will automatically lose focus, but it will not be simulated by fireEvent.keyDown
+    fireEvent.blur(input);
+
+    expect(onChangePage).to.have.been.calledWith(2);
+  });
+
+  it('Should render all layout elements in correct order', () => {
+    const { container } = render(
+      <PaginationGroup
+        layout={['total', '|', 'limit', '-', 'pager', 'skip']}
+        total={100}
+        limitOptions={[10, 20]}
+      />
+    );
+
+    const children = (container.firstChild as HTMLDivElement).childNodes;
+    expect(children[0]).to.have.text('Total Rows: 100');
+    expect(children[1]).to.have.class('rs-divider');
+    expect(children[2]).to.have.class('rs-pagination-group-limit'); // limit picker
+    expect(children[4]).to.have.class('rs-pagination'); // pager
+    expect(children[5]).to.have.class('rs-pagination-group-skip'); // skip input
+  });
+
+  it('Should apply size prop to all components', () => {
+    const { container } = render(
+      <PaginationGroup layout={['limit', 'pager', 'skip']} total={100} size="lg" />
+    );
+
+    expect(container.firstChild).to.have.class('rs-pagination-group-lg');
+  });
+
+  it('Should disable all interactive elements when disabled', () => {
+    render(<PaginationGroup layout={['limit', 'pager', 'skip']} total={100} disabled />);
+
+    expect(screen.getByRole('combobox')).to.have.attr('disabled');
+    expect(screen.getByRole('textbox')).to.have.attr('disabled');
+    screen.getAllByRole('button').forEach(button => {
+      expect(button).to.have.attr('disabled');
+    });
   });
 });

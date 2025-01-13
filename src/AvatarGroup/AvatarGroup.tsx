@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { getCssValue } from '@/internals/utils';
+import { forwardRef, getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
@@ -30,33 +30,31 @@ export const AvatarGroupContext = React.createContext<{ size?: Size; spacing?: n
  * The AvatarGroup component is used to represent a collection of avatars.
  * @see https://rsuitejs.com/components/avatar
  */
-const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.forwardRef(
-  (props: AvatarGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('AvatarGroup', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'avatar-group',
-      spacing,
-      className,
-      children,
-      stack,
-      size,
-      style,
-      ...rest
-    } = propsWithDefaults;
+const AvatarGroup = forwardRef<'div', AvatarGroupProps>((props: AvatarGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('AvatarGroup', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'avatar-group',
+    spacing,
+    className,
+    children,
+    stack,
+    size,
+    style,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ stack }));
-    const contextValue = useMemo(() => ({ size }), [size]);
-    const styles = { '--rs-avatar-group-gap': getCssValue(spacing), ...style };
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ stack }));
+  const contextValue = useMemo(() => ({ size }), [size]);
+  const styles = { '--rs-avatar-group-gap': getCssValue(spacing), ...style };
 
-    return (
-      <Component role="group" {...rest} ref={ref} className={classes} style={styles}>
-        <AvatarGroupContext.Provider value={contextValue}>{children}</AvatarGroupContext.Provider>
-      </Component>
-    );
-  }
-);
+  return (
+    <Component role="group" {...rest} ref={ref} className={classes} style={styles}>
+      <AvatarGroupContext.Provider value={contextValue}>{children}</AvatarGroupContext.Provider>
+    </Component>
+  );
+});
 
 AvatarGroup.displayName = 'AvatarGroup';
 

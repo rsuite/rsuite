@@ -13,12 +13,13 @@ import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
 import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
-import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
+import { ResizeObserver } from '@juggle/resize-observer';
 import { getDOMNode } from '../utils';
-import { CursorPosition, Placement } from '@/internals/types';
 import { useUpdateEffect } from '../hooks';
+import type { Placement } from '@/internals/types';
+import type { CursorPosition } from './types';
 
 export interface PositionChildProps {
   className: string;

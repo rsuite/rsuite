@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps, ColorType, SizeType } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
 export interface ToggleProps
@@ -13,7 +13,7 @@ export interface ToggleProps
   /**
    * The color of the toggle.
    */
-  color?: TypeAttributes.Color;
+  color?: ColorType;
 
   /**
    * Whether to disabled toggle
@@ -58,7 +58,7 @@ export interface ToggleProps
   /**
    * The size of the toggle
    */
-  size?: Omit<TypeAttributes.Size, 'xs'>;
+  size?: Omit<SizeType, 'xs'>;
 
   /**
    * Custom locale
@@ -76,10 +76,7 @@ export interface ToggleProps
  *
  * @see https://rsuitejs.com/components/toggle
  */
-const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
-  HTMLLabelElement,
-  ToggleProps
->((props, ref) => {
+const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
     as: Component = 'span',

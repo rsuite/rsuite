@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes } from '@/internals/types';
+import type { WithAsProps, ColorType } from '@/internals/types';
 
-export type ValueType = string | number;
-export interface RadioProps<T = ValueType>
+export interface RadioProps<T = string | number>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
@@ -14,7 +13,7 @@ export interface RadioProps<T = ValueType>
    *
    * @version 5.56.0
    */
-  color?: TypeAttributes.Color;
+  color?: ColorType;
 
   /**
    * The disable of component
@@ -82,7 +81,7 @@ export interface RadioProps<T = ValueType>
  * The `Radio` component is a simple radio button.
  * @see https://rsuitejs.com/components/radio
  */
-const Radio = React.forwardRef((props: RadioProps, ref) => {
+const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   const radioContext = useContext(RadioContext);
   const { propsWithDefaults } = useCustom('Radio', props);
   const {

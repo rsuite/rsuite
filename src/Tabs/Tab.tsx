@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface TabProps {
+export interface TabProps {
   /**
    * The children of the tab.
    */

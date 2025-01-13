@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import type { WithAsProps, RsRefForwardingComponent, Color } from '@/internals/types';
+import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import type { WithAsProps, Color } from '@/internals/types';
 
 const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
 
@@ -51,7 +51,7 @@ export interface TextProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/text
  */
-const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: TextProps, ref) => {
+const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   const { propsWithDefaults } = useCustom('Text', props);
   const {
     as: Component = 'p',

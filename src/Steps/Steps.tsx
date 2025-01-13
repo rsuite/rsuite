@@ -1,9 +1,9 @@
 import React from 'react';
 import StepItem from './StepItem';
-import { ReactChildren } from '@/internals/utils';
+import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface StepsProps extends WithAsProps {
   /** Vertical display */
@@ -22,16 +22,16 @@ export interface StepsProps extends WithAsProps {
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
-  Item: typeof StepItem;
-}
+const Subcomponents = {
+  Item: StepItem
+};
 
 /**
  * The `Steps` component is used to guide users to complete tasks in accordance with the process.
  *
  * @see https://rsuitejs.com/components/steps
  */
-const Steps: StepsComponent = React.forwardRef(function Steps(props: StepsProps, ref) {
+const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
     as: Component = 'div',
@@ -84,9 +84,7 @@ const Steps: StepsComponent = React.forwardRef(function Steps(props: StepsProps,
       {items}
     </Component>
   );
-}) as unknown as StepsComponent;
-
-Steps.Item = StepItem;
+}, Subcomponents);
 
 Steps.displayName = 'Steps';
 

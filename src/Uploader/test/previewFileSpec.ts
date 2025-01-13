@@ -1,6 +1,6 @@
-import { waitFor } from '@testing-library/react';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import previewFile from '../utils/previewFile';
+import { waitFor } from '@testing-library/react';
 
 describe('[utils] previewFile', () => {
   it('Should output image base64 string', async () => {
@@ -8,7 +8,7 @@ describe('[utils] previewFile', () => {
       type: 'image/png'
     });
 
-    const callback = Sinon.spy();
+    const callback = sinon.spy();
 
     previewFile(file, callback);
 
@@ -22,7 +22,7 @@ describe('[utils] previewFile', () => {
       type: 'text/plain'
     });
 
-    const callback = Sinon.spy();
+    const callback = sinon.spy();
 
     previewFile(file, callback);
 

@@ -5,9 +5,10 @@ import PageTopIcon from '@rsuite/icons/PageTop';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '@/internals/types';
+import type { WithAsProps, SizeType } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
 const PAGINATION_ICONS = {
@@ -59,7 +60,7 @@ export interface PaginationProps extends WithAsProps {
   locale?: PaginationLocale;
 
   /** A pagination can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 
   /** callback function for pagination clicked */
   onSelect?: (eventKey: string | number, event: React.MouseEvent) => void;
@@ -70,199 +71,195 @@ export interface PaginationProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/pagination
  */
-const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
-  (props: PaginationProps, ref) => {
-    const { propsWithDefaults } = useCustom('Pagination', props);
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'pagination',
-      disabled: disabledProp,
-      locale,
-      activePage = 1,
-      maxButtons,
-      pages = 1,
-      ellipsis,
-      boundaryLinks,
-      first,
-      prev,
-      next,
-      last,
-      size = 'xs',
-      linkAs,
-      linkProps,
-      onSelect,
-      ...rest
-    } = propsWithDefaults;
+const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Pagination', props);
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'pagination',
+    disabled: disabledProp,
+    locale,
+    activePage = 1,
+    maxButtons,
+    pages = 1,
+    ellipsis,
+    boundaryLinks,
+    first,
+    prev,
+    next,
+    last,
+    size = 'xs',
+    linkAs,
+    linkProps,
+    onSelect,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const renderItem = (key: string | number, itemProps: PaginationButtonProps) => {
-      const { eventKey, disabled, ...itemRest } = itemProps;
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const renderItem = (key: string | number, itemProps: PaginationButtonProps) => {
+    const { eventKey, disabled, ...itemRest } = itemProps;
 
-      let disabledButton = disabled;
+    let disabledButton = disabled;
 
-      if (typeof disabledProp !== 'undefined') {
-        disabledButton = typeof disabledProp === 'function' ? disabledProp(eventKey) : disabledProp;
-      }
+    if (typeof disabledProp !== 'undefined') {
+      disabledButton = typeof disabledProp === 'function' ? disabledProp(eventKey) : disabledProp;
+    }
 
-      const title = locale?.[key] || eventKey;
+    const title = locale?.[key] || eventKey;
 
-      return (
-        <PaginationButton
-          aria-label={title}
-          title={title}
-          {...itemRest}
-          {...linkProps}
-          key={`${key}-${eventKey}`}
-          eventKey={eventKey}
-          as={linkAs}
-          disabled={disabledButton}
-          onSelect={disabledButton ? undefined : onSelect}
-        />
-      );
-    };
+    return (
+      <PaginationButton
+        aria-label={title}
+        title={title}
+        {...itemRest}
+        {...linkProps}
+        key={`${key}-${eventKey}`}
+        eventKey={eventKey}
+        as={linkAs}
+        disabled={disabledButton}
+        onSelect={disabledButton ? undefined : onSelect}
+      />
+    );
+  };
 
-    const renderFirst = () => {
-      if (!first) {
-        return null;
-      }
+  const renderFirst = () => {
+    if (!first) {
+      return null;
+    }
 
-      return renderItem('first', {
-        eventKey: 1,
-        disabled: activePage === 1,
-        children: (
-          <span className={prefix`symbol`}>{first === true ? PAGINATION_ICONS.first : first}</span>
-        )
-      });
-    };
+    return renderItem('first', {
+      eventKey: 1,
+      disabled: activePage === 1,
+      children: (
+        <span className={prefix`symbol`}>{first === true ? PAGINATION_ICONS.first : first}</span>
+      )
+    });
+  };
 
-    const renderPrev = () => {
-      if (!prev) {
-        return null;
-      }
+  const renderPrev = () => {
+    if (!prev) {
+      return null;
+    }
 
-      return renderItem('prev', {
-        eventKey: activePage - 1,
-        disabled: activePage === 1,
-        children: (
-          <span className={prefix`symbol`}>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
-        )
-      });
-    };
+    return renderItem('prev', {
+      eventKey: activePage - 1,
+      disabled: activePage === 1,
+      children: (
+        <span className={prefix`symbol`}>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
+      )
+    });
+  };
 
-    const renderPageButtons = () => {
-      const pageButtons: React.ReactElement[] = [];
-      let startPage;
-      let endPage;
-      let hasHiddenPagesAfter;
+  const renderPageButtons = () => {
+    const pageButtons: React.ReactElement[] = [];
+    let startPage;
+    let endPage;
+    let hasHiddenPagesAfter;
 
-      if (maxButtons) {
-        const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
-        startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
-        hasHiddenPagesAfter = startPage + maxButtons <= pages;
+    if (maxButtons) {
+      const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
+      startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
+      hasHiddenPagesAfter = startPage + maxButtons <= pages;
 
-        if (!hasHiddenPagesAfter) {
-          endPage = pages;
-          startPage = pages - maxButtons + 1;
-          if (startPage < 1) {
-            startPage = 1;
-          }
-        } else {
-          endPage = startPage + maxButtons - 1;
+      if (!hasHiddenPagesAfter) {
+        endPage = pages;
+        startPage = pages - maxButtons + 1;
+        if (startPage < 1) {
+          startPage = 1;
         }
       } else {
-        startPage = 1;
-        endPage = pages;
+        endPage = startPage + maxButtons - 1;
       }
+    } else {
+      startPage = 1;
+      endPage = pages;
+    }
 
-      for (let pagenumber = startPage; pagenumber <= endPage; pagenumber += 1) {
-        pageButtons.push(
-          renderItem(pagenumber, {
-            eventKey: pagenumber,
-            active: pagenumber === activePage,
-            children: pagenumber
-          })
-        );
+    for (let pagenumber = startPage; pagenumber <= endPage; pagenumber += 1) {
+      pageButtons.push(
+        renderItem(pagenumber, {
+          eventKey: pagenumber,
+          active: pagenumber === activePage,
+          children: pagenumber
+        })
+      );
+    }
+
+    if (boundaryLinks && ellipsis && startPage !== 1) {
+      pageButtons.unshift(
+        renderItem('more', {
+          eventKey: 'ellipsisFirst',
+          disabled: true,
+          children: (
+            <span className={prefix`symbol`}>
+              {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
+            </span>
+          )
+        })
+      );
+
+      pageButtons.unshift(renderItem(1, { eventKey: 1, children: 1 }));
+    }
+
+    if (maxButtons && hasHiddenPagesAfter && ellipsis) {
+      pageButtons.push(
+        renderItem('more', {
+          eventKey: 'ellipsis',
+          disabled: true,
+          children: (
+            <span className={prefix`symbol`}>
+              {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
+            </span>
+          )
+        })
+      );
+
+      if (boundaryLinks && endPage !== pages) {
+        pageButtons.push(renderItem(pages, { eventKey: pages, disabled: false, children: pages }));
       }
+    }
+    return pageButtons;
+  };
 
-      if (boundaryLinks && ellipsis && startPage !== 1) {
-        pageButtons.unshift(
-          renderItem('more', {
-            eventKey: 'ellipsisFirst',
-            disabled: true,
-            children: (
-              <span className={prefix`symbol`}>
-                {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
-              </span>
-            )
-          })
-        );
+  const renderNext = () => {
+    if (!next) {
+      return null;
+    }
 
-        pageButtons.unshift(renderItem(1, { eventKey: 1, children: 1 }));
-      }
+    return renderItem('next', {
+      eventKey: activePage + 1,
+      disabled: activePage >= pages,
+      children: (
+        <span className={prefix`symbol`}>{next === true ? PAGINATION_ICONS.next : next}</span>
+      )
+    });
+  };
 
-      if (maxButtons && hasHiddenPagesAfter && ellipsis) {
-        pageButtons.push(
-          renderItem('more', {
-            eventKey: 'ellipsis',
-            disabled: true,
-            children: (
-              <span className={prefix`symbol`}>
-                {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
-              </span>
-            )
-          })
-        );
+  const renderLast = () => {
+    if (!last) {
+      return null;
+    }
 
-        if (boundaryLinks && endPage !== pages) {
-          pageButtons.push(
-            renderItem(pages, { eventKey: pages, disabled: false, children: pages })
-          );
-        }
-      }
-      return pageButtons;
-    };
+    return renderItem('last', {
+      eventKey: pages,
+      disabled: activePage >= pages,
+      children: (
+        <span className={prefix`symbol`}>{last === true ? PAGINATION_ICONS.last : last}</span>
+      )
+    });
+  };
 
-    const renderNext = () => {
-      if (!next) {
-        return null;
-      }
-
-      return renderItem('next', {
-        eventKey: activePage + 1,
-        disabled: activePage >= pages,
-        children: (
-          <span className={prefix`symbol`}>{next === true ? PAGINATION_ICONS.next : next}</span>
-        )
-      });
-    };
-
-    const renderLast = () => {
-      if (!last) {
-        return null;
-      }
-
-      return renderItem('last', {
-        eventKey: pages,
-        disabled: activePage >= pages,
-        children: (
-          <span className={prefix`symbol`}>{last === true ? PAGINATION_ICONS.last : last}</span>
-        )
-      });
-    };
-
-    const classes = merge(className, withClassPrefix(size));
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        {renderFirst()}
-        {renderPrev()}
-        {renderPageButtons()}
-        {renderNext()}
-        {renderLast()}
-      </Component>
-    );
-  }
-);
+  const classes = merge(className, withClassPrefix(size));
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {renderFirst()}
+      {renderPrev()}
+      {renderPageButtons()}
+      {renderNext()}
+      {renderLast()}
+    </Component>
+  );
+});
 
 Pagination.displayName = 'Pagination';
 

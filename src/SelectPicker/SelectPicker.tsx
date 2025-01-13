@@ -6,7 +6,13 @@ import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';
+import {
+  forwardRef,
+  createChainedFunction,
+  mergeRefs,
+  shallowEqual,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListItem,
@@ -21,7 +27,6 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
@@ -107,11 +112,7 @@ export interface SelectPickerProps<T = any>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(
-    props: SelectPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: SelectPickerProps<T>): JSX.Element | null;
   displayName?: string;
 }
 
@@ -119,8 +120,8 @@ export interface SelectPickerComponent {
  * The `SelectPicker` component is used to select an item from a list of data.
  * @see https://rsuitejs.com/components/select-picker/
  */
-const SelectPicker = React.forwardRef(
-  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+const SelectPicker = forwardRef<'div', SelectPickerProps>(
+  <T extends number | string>(props: SelectPickerProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('SelectPicker', props);
     const {
       as: Component = 'div',

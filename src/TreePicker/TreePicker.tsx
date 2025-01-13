@@ -10,7 +10,7 @@ import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
@@ -22,7 +22,6 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerComponent,
   useToggleKeyDownEvent,
   PickerToggleProps
 } from '@/internals/Picker';
@@ -75,7 +74,7 @@ export interface TreePickerProps<V = number | string | null>
  *
  * @see https://rsuitejs.com/components/tree-picker/
  */
-const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
+const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('TreePicker', props);
   const {
     as: Component = 'div',

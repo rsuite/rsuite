@@ -3,7 +3,8 @@ import { useClassNames } from '@/internals/hooks';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface ImageProps
   extends WithAsProps,
@@ -54,73 +55,68 @@ export interface ImageProps
   zoomed?: boolean;
 }
 
-const Image: RsRefForwardingComponent<'img', ImageProps> = React.forwardRef(
-  (props: ImageProps, ref: React.Ref<HTMLImageElement>) => {
-    const { propsWithDefaults } = useCustom('Image', props);
-    const {
-      as: Component = 'img',
-      bordered,
-      classPrefix = 'image',
-      className,
-      circle,
-      crossOrigin,
-      fit,
-      fallbackSrc,
-      loading,
-      rounded,
-      srcSet,
-      sizes,
-      shaded,
-      src,
-      style,
-      position,
-      placeholder,
-      width,
-      height,
-      zoomed,
-      ...rest
-    } = propsWithDefaults;
+const Image = forwardRef<'img', ImageProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Image', props);
+  const {
+    as: Component = 'img',
+    bordered,
+    classPrefix = 'image',
+    className,
+    circle,
+    crossOrigin,
+    fit,
+    fallbackSrc,
+    loading,
+    rounded,
+    srcSet,
+    sizes,
+    shaded,
+    src,
+    style,
+    position,
+    placeholder,
+    width,
+    height,
+    zoomed,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({ circle, bordered, rounded, shaded, zoomed })
-    );
-    const imgProps = { crossOrigin, srcSet, sizes, loading };
-    const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ circle, bordered, rounded, shaded, zoomed }));
+  const imgProps = { crossOrigin, srcSet, sizes, loading };
+  const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
 
-    const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
-    const wrapStyles = { width, height };
+  const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
+  const wrapStyles = { width, height };
 
-    const image = (
-      <Component
-        ref={ref}
-        src={imgSrc}
-        className={classes}
-        style={styles}
-        width={width}
-        height={height}
-        {...imgProps}
-        {...rest}
-      />
-    );
+  const image = (
+    <Component
+      ref={ref}
+      src={imgSrc}
+      className={classes}
+      style={styles}
+      width={width}
+      height={height}
+      {...imgProps}
+      {...rest}
+    />
+  );
 
-    if (zoomed) {
-      return <ImageWrapper style={wrapStyles}>{image}</ImageWrapper>;
-    }
-
-    if (placeholder) {
-      return (
-        <ImageWrapper style={wrapStyles}>
-          {isLoading && placeholder}
-          {image}
-        </ImageWrapper>
-      );
-    }
-
-    return image;
+  if (zoomed) {
+    return <ImageWrapper style={wrapStyles}>{image}</ImageWrapper>;
   }
-);
+
+  if (placeholder) {
+    return (
+      <ImageWrapper style={wrapStyles}>
+        {isLoading && placeholder}
+        {image}
+      </ImageWrapper>
+    );
+  }
+
+  return image;
+});
 
 Image.displayName = 'Image';
 

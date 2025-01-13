@@ -4,10 +4,10 @@ import Transition from '../Animation/Transition';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
+import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { mergeRefs, shallowEqual } from '@/internals/utils';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface SidenavProps<T = string | number> extends WithAsProps {
   /** Whether to expand the Sidenav */
@@ -55,19 +55,18 @@ export interface SidenavContextType<T = string | number> {
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
-export interface SidenavComponent extends RsRefForwardingComponent<'div', SidenavProps> {
-  Header: typeof SidenavHeader;
-  Body: typeof SidenavBody;
-  Toggle: typeof SidenavToggle;
-}
-
 const emptyArray = [];
+const Subcomponents = {
+  Header: SidenavHeader,
+  Body: SidenavBody,
+  Toggle: SidenavToggle
+};
 
 /**
  * The `Sidenav` component is an encapsulation of the page sidebar `Nav`.
  * @see https://rsuitejs.com/components/sidenav/
  */
-const Sidenav: SidenavComponent = React.forwardRef(function Sidenav(props: SidenavProps, ref) {
+const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Sidenav', props);
   const {
     as: Component = 'nav',
@@ -140,11 +139,7 @@ const Sidenav: SidenavComponent = React.forwardRef(function Sidenav(props: Siden
       </Transition>
     </SidenavContext.Provider>
   );
-}) as unknown as SidenavComponent;
-
-Sidenav.Header = SidenavHeader;
-Sidenav.Body = SidenavBody;
-Sidenav.Toggle = SidenavToggle;
+}, Subcomponents);
 
 Sidenav.displayName = 'Sidenav';
 

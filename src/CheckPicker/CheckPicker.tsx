@@ -5,10 +5,17 @@ import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
+import SearchBox from '@/internals/SearchBox';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, shallowEqual, mergeRefs, getDataGroupBy } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
+import {
+  forwardRef,
+  createChainedFunction,
+  shallowEqual,
+  mergeRefs,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListCheckItem,
@@ -27,10 +34,9 @@ import {
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import SearchBox from '@/internals/SearchBox';
-import { ItemDataType, FormControlPickerProps } from '@/internals/types';
+import type { PickerLocale } from '../locales';
+import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { MultipleSelectProps } from '../SelectPicker';
-import { useCustom } from '../CustomProvider';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
@@ -47,11 +53,7 @@ export interface CheckPickerProps<T = any>
 const emptyArray = [];
 
 export interface CheckPickerComponent {
-  <T>(
-    props: CheckPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: CheckPickerProps<T>): JSX.Element | null;
   displayName?: string;
 }
 
@@ -59,7 +61,7 @@ export interface CheckPickerComponent {
  * A component for selecting checkable items in a dropdown list.
  * @see https://rsuitejs.com/components/check-picker
  */
-const CheckPicker = React.forwardRef(
+const CheckPicker = forwardRef<'div', CheckPickerProps>(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {

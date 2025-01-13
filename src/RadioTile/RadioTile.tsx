@@ -2,14 +2,12 @@ import React, { useCallback, useContext } from 'react';
 import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { partitionHTMLProps } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
-export type ValueType = string | number;
-
-export interface RadioTileProps<T = ValueType>
+export interface RadioTileProps<T = string | number>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Additional description, if needed*/
@@ -45,7 +43,7 @@ export interface RadioTileProps<T = ValueType>
  * @version 5.35.0
  * @see https://rsuitejs.com/components/radio-tile/
  */
-const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
+const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RadioTile', props);
   const {
     value: groupValue,

@@ -1,10 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Notification from '../Notification';
-import Sinon from 'sinon';
-import { waitFor, render, fireEvent, screen } from '@testing-library/react';
 import ToastContext from '../../toaster/ToastContext';
+import { waitFor, render, fireEvent, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Notification', () => {
   testStandardProps(<Notification />);
@@ -45,7 +44,7 @@ describe('Notification', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = Sinon.spy();
+    const onClose = sinon.spy();
     render(<Notification closable onClose={onClose} />);
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 

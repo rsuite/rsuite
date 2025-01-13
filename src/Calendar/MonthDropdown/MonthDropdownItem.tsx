@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
+import { forwardRef, composeFunctions } from '@/internals/utils';
 import { setMonth, setYear } from '@/internals/utils/date';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { composeFunctions } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -14,7 +14,7 @@ export interface MonthDropdownItemProps extends WithAsProps {
   disabled?: boolean;
 }
 
-const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
+const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
   (props: MonthDropdownItemProps, ref) => {
     const {
       as: Component = 'div',

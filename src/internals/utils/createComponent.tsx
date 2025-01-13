@@ -1,8 +1,9 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export type ComponentProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 
@@ -21,22 +22,20 @@ export function createComponent<T extends React.ElementType = 'div', P = Compone
   componentClassPrefix,
   ...defaultProps
 }: Props<T> & Partial<P>) {
-  const Component: RsRefForwardingComponent<T, Partial<P>> = React.forwardRef(
-    (props: ComponentProps, ref) => {
-      const { propsWithDefaults } = useCustom(name as any, props);
-      const {
-        as: Component = componentAs || 'div',
-        classPrefix = componentClassPrefix || kebabCase(name),
-        className,
-        role,
-        ...rest
-      } = propsWithDefaults;
-      const { withClassPrefix, merge } = useClassNames(classPrefix);
-      const classes = merge(className, withClassPrefix());
+  const Component = forwardRef<T, Partial<P>>((props: ComponentProps, ref) => {
+    const { propsWithDefaults } = useCustom(name as any, props);
+    const {
+      as: Component = componentAs || 'div',
+      classPrefix = componentClassPrefix || kebabCase(name),
+      className,
+      role,
+      ...rest
+    } = propsWithDefaults;
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
-      return <Component {...defaultProps} {...rest} role={role} ref={ref} className={classes} />;
-    }
-  );
+    return <Component {...defaultProps} {...rest} role={role} ref={ref} className={classes} />;
+  });
 
   Component.displayName = name;
 

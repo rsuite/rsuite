@@ -1,9 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-
 import ModalHeader from '../ModalHeader';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
 const headerText = 'Test';
@@ -21,7 +20,7 @@ describe('ModalHeader', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = Sinon.spy();
+    const onClose = sinon.spy();
     render(<ModalHeader onClose={onClose} />);
     userEvent.click(screen.getByRole('button'));
 

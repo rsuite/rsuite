@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
 import ButtonGroupContext from './ButtonGroupContext';
+import { forwardRef } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, SizeType } from '@/internals/types';
+import { useCustom } from '../CustomProvider';
 
 export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
@@ -25,42 +26,40 @@ export interface ButtonGroupProps extends WithAsProps {
   role?: string;
 
   /** A button group can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 }
 
 /**
  * The ButtonGroup component is used to group a series of buttons together in a single line or column.
  * @see https://rsuitejs.com/components/button/#button-group
  */
-const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
-  (props: ButtonGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('ButtonGroup', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'btn-group',
-      role = 'group',
-      className,
-      children,
-      block,
-      vertical,
-      justified,
-      size,
-      ...rest
-    } = propsWithDefaults;
+const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('ButtonGroup', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'btn-group',
+    role = 'group',
+    className,
+    children,
+    block,
+    vertical,
+    justified,
+    size,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
-    const contextValue = useMemo(() => ({ size }), [size]);
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
+  const contextValue = useMemo(() => ({ size }), [size]);
 
-    return (
-      <ButtonGroupContext.Provider value={contextValue}>
-        <Component {...rest} role={role} ref={ref} className={classes}>
-          {children}
-        </Component>
-      </ButtonGroupContext.Provider>
-    );
-  }
-);
+  return (
+    <ButtonGroupContext.Provider value={contextValue}>
+      <Component {...rest} role={role} ref={ref} className={classes}>
+        {children}
+      </Component>
+    </ButtonGroupContext.Provider>
+  );
+});
 
 ButtonGroup.displayName = 'ButtonGroup';
 

@@ -1,37 +1,37 @@
 import sinon from 'sinon';
-import { renderHook } from '@testing-library/react';
 import useMount from '../useMount';
+import { renderHook } from '@testing-library/react';
 
 describe('internals/hooks/useMount', () => {
   it('should call provided callback on mount', () => {
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    renderHook(() => useMount(callbackSpy));
+    renderHook(() => useMount(callback));
 
-    assert.equal(callbackSpy.callCount, 1);
+    expect(callback).to.be.calledOnce;
   });
 
   it('should not call provided callback on unmount', () => {
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    const { unmount } = renderHook(() => useMount(callbackSpy));
+    const { unmount } = renderHook(() => useMount(callback));
 
-    assert.equal(callbackSpy.callCount, 1);
+    expect(callback).to.be.calledOnce;
 
     unmount();
 
-    assert.equal(callbackSpy.callCount, 1);
+    expect(callback).to.be.calledOnce;
   });
 
   it('should not call provided callback on rerender', () => {
-    const callbackSpy = sinon.spy();
+    const callback = sinon.spy();
 
-    const { rerender } = renderHook(() => useMount(callbackSpy));
+    const { rerender } = renderHook(() => useMount(callback));
 
-    assert.equal(callbackSpy.callCount, 1);
+    expect(callback).to.be.calledOnce;
 
     rerender();
 
-    assert.equal(callbackSpy.callCount, 1);
+    expect(callback).to.be.calledOnce;
   });
 });

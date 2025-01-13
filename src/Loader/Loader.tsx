@@ -1,7 +1,8 @@
 import React from 'react';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames, useUniqueId } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps, SizeType } from '@/internals/types';
 
 export interface LoaderProps extends WithAsProps {
   /** Centered in the container */
@@ -23,64 +24,62 @@ export interface LoaderProps extends WithAsProps {
   speed?: 'normal' | 'fast' | 'slow' | 'paused';
 
   /** A loader can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 }
 
 /**
  * The `Loader` component is used to indicate the loading state of a page or a section.
  * @see https://rsuitejs.com/components/loader
  */
-const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
-  (props: LoaderProps, ref) => {
-    const { propsWithDefaults } = useCustom('Loader', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'loader',
-      className,
-      inverse,
-      backdrop,
-      speed = 'normal',
-      center,
+const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Loader', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'loader',
+    className,
+    inverse,
+    backdrop,
+    speed = 'normal',
+    center,
+    vertical,
+    content,
+    size,
+    ...rest
+  } = propsWithDefaults;
+
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const labelId = useUniqueId('loader-label-');
+
+  const classes = merge(
+    className,
+    prefix('wrapper', `speed-${speed}`, size, {
+      'backdrop-wrapper': backdrop,
       vertical,
-      content,
-      size,
-      ...rest
-    } = propsWithDefaults;
+      inverse,
+      center
+    })
+  );
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const labelId = useUniqueId('loader-label-');
-
-    const classes = merge(
-      className,
-      prefix('wrapper', `speed-${speed}`, size, {
-        'backdrop-wrapper': backdrop,
-        vertical,
-        inverse,
-        center
-      })
-    );
-
-    return (
-      <Component
-        role="status"
-        aria-labelledby={content ? labelId : undefined}
-        {...rest}
-        ref={ref}
-        className={classes}
-      >
-        {backdrop && <div className={prefix('backdrop')} />}
-        <div className={withClassPrefix()}>
-          <span className={prefix('spin')} />
-          {content && (
-            <span id={labelId} className={prefix('content')}>
-              {content}
-            </span>
-          )}
-        </div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Component
+      role="status"
+      aria-labelledby={content ? labelId : undefined}
+      {...rest}
+      ref={ref}
+      className={classes}
+    >
+      {backdrop && <div className={prefix('backdrop')} />}
+      <div className={withClassPrefix()}>
+        <span className={prefix('spin')} />
+        {content && (
+          <span id={labelId} className={prefix('content')}>
+            {content}
+          </span>
+        )}
+      </div>
+    </Component>
+  );
+});
 
 Loader.displayName = 'Loader';
 

@@ -1,6 +1,7 @@
 import React from 'react';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface FlexboxGridItemProps extends WithAsProps {
   /** spacing between grids */
@@ -14,7 +15,7 @@ export interface FlexboxGridItemProps extends WithAsProps {
  * The `FlexboxGrid.Item` component is used to specify the layout of the child element in the `FlexboxGrid` component.
  * @see https://rsuitejs.com/components/flexbox-grid
  */
-const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = React.forwardRef(
+const FlexboxGridItem = forwardRef<'div', FlexboxGridItemProps>(
   (props: FlexboxGridItemProps, ref) => {
     const {
       as: Component = 'div',
