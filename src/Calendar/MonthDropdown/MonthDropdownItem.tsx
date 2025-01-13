@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, composeFunctions } from '@/internals/utils';
 import { setMonth, setYear } from '@/internals/utils/date';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { composeFunctions } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';

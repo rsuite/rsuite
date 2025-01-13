@@ -1,8 +1,7 @@
 import React from 'react';
-import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { highlightText } from './utils/highlightText';
-import { stringifyReactNode } from '@/internals/utils';
+import { forwardRef, stringifyReactNode } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 

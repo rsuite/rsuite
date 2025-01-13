@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import SelectPicker, { type SelectPickerProps } from '../SelectPicker';
-import { forwardRef, mergeRefs } from '@/internals/utils';
+import { forwardRef, mergeRefs, tplTransform } from '@/internals/utils';
 import { PaginationLocale } from '../locales';
-import { tplTransform } from '@/internals/utils';
 import type { OnChangeCallback, SizeType } from '@/internals/types';
 
 interface LimitPickerProps extends Omit<SelectPickerProps<any>, 'locale' | 'disabled' | 'data'> {

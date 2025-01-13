@@ -8,11 +8,10 @@ import SearchView from '../CascadeTree/SearchView';
 import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { forwardRef } from '@/internals/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useControlled, useClassNames, useEventCallback, useMap } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
+import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
 import {
   PickerToggle,
   PickerPopup,

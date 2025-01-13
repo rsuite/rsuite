@@ -1,8 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
-import { forwardRef } from '@/internals/utils';
 import { useClassNames, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
-import { guid, ReactChildren, mergeRefs } from '@/internals/utils';
+import { forwardRef, guid, ReactChildren, mergeRefs } from '@/internals/utils';
 import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 

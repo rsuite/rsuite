@@ -2,10 +2,9 @@ import React, { useContext, useMemo } from 'react';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
-import { isOneOf } from '@/internals/utils';
+import { forwardRef, isOneOf } from '@/internals/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef } from '@/internals/utils';
 import { ColorType, SizeType, AppearanceType, WithAsProps } from '@/internals/types';
 
 export interface ButtonProps

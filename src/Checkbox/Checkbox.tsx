@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useRef } from 'react';
-import { forwardRef } from '@/internals/utils';
 import { useControlled, useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { partitionHTMLProps, mergeRefs } from '@/internals/utils';
+import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, ColorType } from '@/internals/types';
 import { useCustom } from '../CustomProvider';

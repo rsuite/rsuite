@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import IconButton from '../IconButton';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, createChainedFunction } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { createChainedFunction } from '@/internals/utils';
 import { ModalContext } from './ModalContext';
 import type { WithAsProps } from '@/internals/types';
 

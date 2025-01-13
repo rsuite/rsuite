@@ -12,10 +12,14 @@ import InputGroup from '../InputGroup';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
-import { forwardRef } from '@/internals/utils';
 import { useCalendarDate } from '../Calendar/hooks';
 import { isEveryDateInMonth } from '../Calendar/utils';
-import { mergeRefs, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
+import {
+  forwardRef,
+  mergeRefs,
+  partitionHTMLProps,
+  createChainedFunction
+} from '@/internals/utils';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
   isValid,

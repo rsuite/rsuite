@@ -7,9 +7,8 @@ import NavContext from './NavContext';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
-import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
+import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
 

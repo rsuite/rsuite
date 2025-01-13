@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { ReactChildren, createComponent } from '@/internals/utils';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { BreadcrumbLocale } from '../locales';
 import type { WithAsProps } from '@/internals/types';

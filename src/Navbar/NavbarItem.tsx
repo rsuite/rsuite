@@ -5,8 +5,7 @@ import NavContext, { NavContextProps } from '../Nav/NavContext';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';
-import { shallowEqual } from '@/internals/utils';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
 

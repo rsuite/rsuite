@@ -6,12 +6,23 @@ import clone from 'lodash/clone';
 import isArray from 'lodash/isArray';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import { shallowEqual, getDataGroupBy } from '@/internals/utils';
-import { filterNodesOfTree } from '@/internals/Tree/utils';
+import Tag from '../Tag';
+import TextBox from './TextBox';
+import Stack, { type StackProps } from '../Stack';
+import useInput from './hooks/useInput';
+import useData, { type InputItemDataType } from './hooks/useData';
 import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
+import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
-import { createChainedFunction, tplTransform, mergeRefs, isOneOf } from '@/internals/utils';
+import {
+  shallowEqual,
+  getDataGroupBy,
+  createChainedFunction,
+  tplTransform,
+  mergeRefs,
+  isOneOf
+} from '@/internals/utils';
 import {
   Listbox,
   ListItem,
@@ -30,11 +41,6 @@ import {
   PickerComponent,
   PickerToggleProps
 } from '@/internals/Picker';
-import Tag from '../Tag';
-import TextBox from './TextBox';
-import Stack, { type StackProps } from '../Stack';
-import useInput from './hooks/useInput';
-import useData, { type InputItemDataType } from './hooks/useData';
 import { useTagContext } from './InputPickerContext';
 import { convertSize } from './utils';
 import { useCustom } from '../CustomProvider';

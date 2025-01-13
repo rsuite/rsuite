@@ -1,6 +1,5 @@
 import React from 'react';
-import { forwardRef } from '@/internals/utils';
-import { getCssValue } from '@/internals/utils';
+import { forwardRef, getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';

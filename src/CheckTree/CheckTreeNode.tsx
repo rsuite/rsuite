@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import ListCheckItem from '@/internals/Picker/ListCheckItem';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, stringifyReactNode, mergeRefs } from '@/internals/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { WithAsProps } from '@/internals/types';
-import { stringifyReactNode, mergeRefs } from '@/internals/utils';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
 import { useClassNames, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
