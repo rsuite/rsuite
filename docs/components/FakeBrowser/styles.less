@@ -13,10 +13,6 @@
     padding: 3px 13px;
     background: var(--rs-bg-card);
 
-    :root[data-theme='light'] & {
-      background-image: linear-gradient(rgb(237, 235, 237), rgb(226, 224, 226), rgb(215, 213, 215));
-    }
-
     &-button {
       height: 12px;
       width: 12px;
@@ -71,5 +67,11 @@
     > .rs-container {
       height: 100%;
     }
+  }
+}
+
+.rs-theme-light {
+  .fake-browser-header {
+    background-image: linear-gradient(rgb(237, 235, 237), rgb(226, 224, 226), rgb(215, 213, 215));
   }
 }
