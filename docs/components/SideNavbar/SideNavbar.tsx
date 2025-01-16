@@ -1,17 +1,18 @@
 import React from 'react';
 import classnames from 'classnames';
-import { useRouter } from 'next/router';
-import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
+import NavGroup from './NavGroup';
+import BarsIcon from '@rsuite/icons/legacy/Bars';
 import Link from '@/components/Link';
-import { useApp } from '../AppContext';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
+import { useApp } from '../AppContext';
+import { useRouter } from 'next/router';
+import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import { IoExtensionPuzzleOutline } from 'react-icons/io5';
-import NavGroup from './NavGroup';
-import BarsIcon from '@rsuite/icons/legacy/Bars';
-import { TypeAttributes } from 'rsuite/esm/internals/types';
+
+import type { Color } from 'rsuite/esm/internals/types';
 
 import pkg from '../../package.json';
 
@@ -79,7 +80,7 @@ export default function SideNavbar(props: SideNavbarProps) {
       return (
         <Badge
           content={item.tag}
-          color={(item.tagColor as TypeAttributes.Color) ?? 'blue'}
+          color={(item.tagColor as Color) ?? 'blue'}
           style={{ marginLeft: 5 }}
         />
       );

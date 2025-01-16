@@ -10,8 +10,12 @@
     display: flex;
     align-items: center;
     height: 32px;
-    background-image: linear-gradient(rgb(237, 235, 237), rgb(226, 224, 226), rgb(215, 213, 215));
     padding: 3px 13px;
+    background: var(--rs-bg-card);
+
+    :root[data-theme='light'] & {
+      background-image: linear-gradient(rgb(237, 235, 237), rgb(226, 224, 226), rgb(215, 213, 215));
+    }
 
     &-button {
       height: 12px;

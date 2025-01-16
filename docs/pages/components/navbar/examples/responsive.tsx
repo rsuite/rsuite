@@ -1,10 +1,11 @@
-<!--start-code-->
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+'use client';
 
-```js
+import React from 'react';
 import { Navbar, Nav, Avatar, Drawer } from 'rsuite';
 import { IoLogoReact } from 'react-icons/io5';
 
-const NavContent = ({ vertical }) => (
+const NavContent = ({ vertical }: { vertical?: boolean }) => (
   <Nav vertical={vertical}>
     <Nav.Item>Docs</Nav.Item>
     <Nav.Item>Components</Nav.Item>
@@ -22,12 +23,14 @@ const App = () => {
   return (
     <Navbar>
       {/* Navigation content for large screens */}
+      {/** @ts-ignore */}
       <Navbar.Content hidden="sm">
         <NavbarBrand />
         <NavContent />
       </Navbar.Content>
 
       {/* Drawer menu for small screens */}
+      {/** @ts-ignore */}
       <Navbar.Content visible="sm">
         <Navbar.Toggle />
         <Navbar.Drawer placement="left" size="xs">
@@ -49,7 +52,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-<!--end-code-->
+export default App;

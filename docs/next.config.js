@@ -174,26 +174,27 @@ module.exports = {
     // we should stick `react` and `react-dom` imports to docs/node_modules
     // preventing "more than one copy of React" error
     if (__USE_SRC__) {
-      Object.assign(config.resolve.alias, {
+      config.resolve.alias = {
+        ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
         rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom')
-      });
+      };
     }
 
     return config;
   },
-  typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
-  },
-  trailingSlash: true,
   onDemandEntries: {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
   },
+  typescript: {
+    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
+  },
+  trailingSlash: true,
   pageExtensions: ['tsx'],
   redirects() {
     return [

@@ -65,7 +65,10 @@ export default {
     transparentBackground: '背景透明',
     seeTheSourceOnGitHub: '查看源码',
     openCodeSandbox: '在 CodeSandbox 中打开',
-    openStackBlitz: '在  StackBlitz 中打开'
+    openStackBlitz: '在  StackBlitz 中打开',
+    mobile: '移动端',
+    tablet: '平板端',
+    desktop: '桌面端'
   },
   components: {
     noComponent: '没有找到想要的组件？',

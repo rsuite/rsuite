@@ -1,30 +1,30 @@
 # Navbar
 
-For navigation at the top of the page.
+A wrapper for Nav that is generally used for the top navigation of a page.
 
-## Usage
+## Import
 
 <!--{include:<import-guide>}-->
 
 - `<Navbar>` The navigation bar component.
-- `<Navbar.Brand>` Set a brand, which can be your company, product or project name.
-- `<Navbar.Content>` The navigation bar content container, which groups a set of elements together.
-- `<Navbar.Toggle>` The button to show the drawer menu on small screens.
-- `<Navbar.Drawer>` The drawer menu container.
+- `<Navbar.Brand>` Set up your brand, which can be the name of your company, product, or project.
+- `<Navbar.Content>` Navigation bar content container, group a set of elements together.
+- `<Navbar.Toggle>` Button to show drawer menu on small screens.
+- `<Navbar.Drawer>` Drawer menu container.
 
 ## Examples
 
-### Basic
+### Default
 
 <!--{include:`basic.md`}-->
 
 ### Appearance
 
-`appearance` property sets the appearance of the navigation bar:
+The `appearance` property sets the navigation bar appearance:
 
-- `default` (default) Default navigation bar.
-- `inverse` Inverted navigation bar.
-- `subtle` Subtle navigation bar.
+- 'default' (default value) Default navigation bar.
+- 'inverse' Inverse color navigation bar.
+- 'subtle' Subtle navigation bar.
 
 <!--{include:`appearance.md`}-->
 
@@ -32,60 +32,74 @@ For navigation at the top of the page.
 
 <!--{include:`search.md`}-->
 
-### Subnav
+### Sub Nav
 
 <!--{include:`subnav.md`}-->
 
-### With Drawer Menu
+### With Drawer
 
 <!--{include:`with-drawer.md`}-->
 
-### Responsive
+## Responsive
 
-Use `useMediaQuery` to make the navigation bar responsive.
+<!--{include:<example-responsive>}-->
 
-<!--{include:`responsive.md`}-->
+You can use the `visible` and `hidden` props to control visibility at different breakpoints:
+
+```jsx
+// Show on small screens
+<Navbar.Content visible="sm">
+  {/* Content for small screens */}
+</Navbar.Content>
+
+// Hide on small screens
+<Navbar.Content hidden="sm">
+  {/* Content for large screens */}
+</Navbar.Content>
+```
 
 ## Props
 
 ### `<Navbar>`
 
-| Property           | Type `(Default)`                                        | Description                                                       |
-| ------------------ | ------------------------------------------------------- | ----------------------------------------------------------------- |
-| as                 | ElementType `('div')`                                   | You can use a custom element type for this component              |
-| appearance         | 'default' &#124; 'inverse' &#124; 'subtle'`('default')` | The appearance of the navigation bar                              |
-| classPrefix        | string `('navbar')`                                     | The prefix of the component CSS class                             |
-| onDrawerOpenChange | (open: boolean) => void                                 | Callback when the drawer menu is opened or closed<br/> ![][6.0.0] |
+| Property name      | Type `(Default)`                                | Description                                               |
+| ------------------ | ----------------------------------------------- | --------------------------------------------------------- |
+| as                 | ElementType `('div')`                           | Custom element type                                       |
+| appearance         | 'default' \| 'inverse' \| 'subtle'`('default')` | Navigation bar appearance                                 |
+| classPrefix        | string `('navbar')`                             | The prefix of the component CSS class                     |
+| onDrawerOpenChange | (open: boolean) => void                         | Callback when drawer menu opens or closes<br/> ![][6.0.0] |
 
 ### `<Navbar.Brand>`
 
-| Property    | Type `(Default)`          | Description                                          |
-| ----------- | ------------------------- | ---------------------------------------------------- |
-| as          | ElementType `('a')`       | You can use a custom element type for this component |
-| href        | string                    | The URL of the brand link                            |
-| classPrefix | string `('navbar-brand')` | The prefix of the component CSS class                |
-| children    | ReactNode                 | The content of the brand                             |
+| Property name | Type `(Default)`          | Description                 |
+| ------------- | ------------------------- | --------------------------- |
+| as            | ElementType `('a')`       | Custom element type         |
+| href          | string                    | The URL of the brand link   |
+| classPrefix   | string `('navbar-brand')` | The prefix of the CSS class |
+| children      | ReactNode                 | Brand content               |
 
 ### `<Navbar.Content>`
 
 ![][6.0.0]
 
-| Property    | Type `(Default)`            | Description                                          |
-| ----------- | --------------------------- | ---------------------------------------------------- |
-| as          | ElementType `('div')`       | You can use a custom element type for this component |
-| classPrefix | string `('navbar-content')` | The prefix of the component CSS class                |
-| children    | ReactNode                   | The content of the brand                             |
+| Property name | Type `(Default)`                              | Description                          |
+| ------------- | --------------------------------------------- | ------------------------------------ |
+| as            | ElementType `('div')`                         | Custom element type                  |
+| classPrefix   | string `('navbar-content')`                   | The prefix of the CSS class          |
+| children      | ReactNode                                     | Content                              |
+| visible       | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | Show content at specified breakpoint |
+| hidden        | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | Hide content at specified breakpoint |
 
 ### `<Navbar.Toggle>`
 
 ![][6.0.0]
 
-Exdends [`IconButton`](/components/icon-button)
+Extends [`IconButton`](/components/icon-button)
 
 ### `<Navbar.Drawer>`
 
 ![][6.0.0]
 
-Exdends [`Drawer`](/components/drawer)
+Extends [`Drawer`](/components/drawer)
 
 [6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue

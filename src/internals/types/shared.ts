@@ -9,6 +9,7 @@ export type ColorType = `${Colours}`;
 export type AppearanceType = 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
 export type CheckTriggerType = 'change' | 'blur' | 'none' | null;
 export type DisplayStateType = 'show' | 'hide' | 'hiding';
+export type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 export interface StandardProps {
   /** The prefix of the component CSS class */
