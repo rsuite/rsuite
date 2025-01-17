@@ -46,8 +46,9 @@ module.exports = {
   /**
    *
    * @param {import('webpack').Configuration} config
+   * @param {{ isServer: boolean }}
    */
-  webpack(config) {
+  webpack(config, { isServer }) {
     const originEntry = config.entry;
 
     config.module.rules.unshift({
@@ -183,6 +184,14 @@ module.exports = {
       };
     }
 
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false
+      };
+    }
+
     return config;
   },
   onDemandEntries: {
@@ -195,7 +204,7 @@ module.exports = {
     tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
-  pageExtensions: ['tsx'],
+  pageExtensions: ['tsx', 'ts'],
   redirects() {
     return [
       {

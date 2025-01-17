@@ -68,7 +68,8 @@ export default {
     openStackBlitz: 'Open in StackBlitz',
     mobile: 'Mobile',
     tablet: 'Tablet',
-    desktop: 'Desktop'
+    desktop: 'Desktop',
+    code: 'Code'
   },
   components: {
     noComponent: "Can't find the component you want? ",

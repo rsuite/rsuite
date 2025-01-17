@@ -68,7 +68,8 @@ export default {
     openStackBlitz: '在  StackBlitz 中打开',
     mobile: '移动端',
     tablet: '平板端',
-    desktop: '桌面端'
+    desktop: '桌面端',
+    code: '代码'
   },
   components: {
     noComponent: '没有找到想要的组件？',
