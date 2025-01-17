@@ -10,18 +10,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const rootDir = path.join(process.cwd(), 'pages', 'components');
-    const filePath = path.resolve(rootDir, componentName, 'examples', `${example}.tsx`);
+    const examplesPath = path.join(process.cwd(), 'public', 'examples.json');
 
-    if (!filePath.startsWith(rootDir)) {
-      return res.status(403).json({ error: 'Forbidden' });
+    if (!fs.existsSync(examplesPath)) {
+      return res.status(500).json({ error: 'Examples file not found' });
     }
 
-    if (!fs.existsSync(filePath)) {
+    const examples = JSON.parse(fs.readFileSync(examplesPath, 'utf-8'));
+
+    if (!examples[componentName] || !examples[componentName][example]) {
       return res.status(404).json({ error: 'Example not found' });
     }
 
-    const sourceCode = fs.readFileSync(filePath, 'utf-8');
+    const sourceCode = examples[componentName][example];
     res.status(200).json({ sourceCode });
   } catch (error) {
     console.error('Error reading source code:', error);
