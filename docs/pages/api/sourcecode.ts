@@ -10,14 +10,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const filePath = path.join(
-      process.cwd(),
-      'pages',
-      'components',
+    const rootDir = path.join(process.cwd(), 'pages', 'components');
+    const filePath = path.resolve(
+      rootDir,
       componentName,
       'examples',
       `${example}.tsx`
     );
+
+    if (!filePath.startsWith(rootDir)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
 
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ error: 'Example not found' });
