@@ -204,7 +204,7 @@ module.exports = {
     tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
-  pageExtensions: ['tsx', 'ts'],
+  pageExtensions: ['tsx'],
   redirects() {
     return [
       {
