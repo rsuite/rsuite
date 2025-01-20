@@ -6,14 +6,15 @@
   "scripts": {
     "check:type": "tsc",
     "clear": "rimraf ./.next && rimraf ./out ",
-    "dev": "next dev",
+    "dev": "npm run generate-examples && next dev",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "prebuild": "npm run clear",
-    "build": "next build",
+    "build": "npm run generate-examples && next build",
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "start": "next start",
     "parsing-design-docs": "node ./scripts/parsingDesignDocs.js",
-    "algolia": "node ./scripts/algolia-indices.js"
+    "algolia": "node ./scripts/algolia-indices.js",
+    "generate-examples": "node ./scripts/generate-examples.js"
   },
   "dependencies": {
     "@docsearch/react": "^3.2.1",
@@ -51,7 +52,7 @@
     "react-icons": "^5.0.1",
     "react-json-tree": "^0.18.0",
     "react-select": "^5.5.9",
-    "rsuite": "^5.76.3",
+    "rsuite": "^6.0.0-canary-2025011413",
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^2.3.1",
     "svgo-loader": "^3.0.3",

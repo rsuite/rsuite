@@ -1,0 +1,101 @@
+@import '../../../styles/common.less';
+
+.rs-box {
+  display: var(--rs-box-display, inherit);
+}
+
+// Mobile first breakpoint mixins
+.make-visible(@breakpoint) {
+  .rs-box-visible-@{breakpoint} {
+    display: none !important;
+
+    & when (@breakpoint = xs) {
+      @media (max-width: (@screen-sm - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    & when (@breakpoint = sm) {
+      @media (max-width: (@screen-md - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    & when (@breakpoint = md) {
+      @media (max-width: (@screen-lg - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    & when (@breakpoint = lg) {
+      @media (max-width: (@screen-xl - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    & when (@breakpoint = xl) {
+      @media (max-width: (@screen-xxl - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    & when (@breakpoint = xxl) {
+      display: var(--rs-box-display, inherit) !important;
+    }
+  }
+}
+
+.make-hidden(@breakpoint) {
+  .rs-box-hidden-@{breakpoint} {
+    display: var(--rs-box-display, inherit) !important;
+
+    & when (@breakpoint = xs) {
+      @media (max-width: (@screen-sm - 1)) {
+        display: none !important;
+      }
+    }
+
+    & when (@breakpoint = sm) {
+      @media (max-width: (@screen-md - 1)) {
+        display: none !important;
+      }
+    }
+
+    & when (@breakpoint = md) {
+      @media (max-width: (@screen-lg - 1)) {
+        display: none !important;
+      }
+    }
+
+    & when (@breakpoint = lg) {
+      @media (max-width: (@screen-xl - 1)) {
+        display: none !important;
+      }
+    }
+
+    & when (@breakpoint = xl) {
+      @media (max-width: (@screen-xxl - 1)) {
+        display: none !important;
+      }
+    }
+
+    & when (@breakpoint = xxl) {
+      display: none !important;
+    }
+  }
+}
+
+// Generate breakpoint classes
+.make-visible(xs);
+.make-visible(sm);
+.make-visible(md);
+.make-visible(lg);
+.make-visible(xl);
+.make-visible(xxl);
+
+.make-hidden(xs);
+.make-hidden(sm);
+.make-hidden(md);
+.make-hidden(lg);
+.make-hidden(xl);
+.make-hidden(xxl);

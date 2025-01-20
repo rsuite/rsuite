@@ -40,22 +40,34 @@
 
 <!--{include:`with-drawer.md`}-->
 
-### 响应式
+## 响应式
 
-使用 `useMediaQuery` 使导航栏响应式。
+<!--{include:<example-responsive>}-->
 
-<!--{include:`responsive.md`}-->
+你可以使用 `visible` 和 `hidden` 属性来控制在不同断点下的显示和隐藏：
+
+```jsx
+// 在小屏幕上显示
+<Navbar.Content visible="sm">
+  {/* 小屏幕内容 */}
+</Navbar.Content>
+
+// 在小屏幕上隐藏
+<Navbar.Content hidden="sm">
+  {/* 大屏幕内容 */}
+</Navbar.Content>
+```
 
 ## Props
 
 ### `<Navbar>`
 
-| 属性名称           | 类型`(默认值)`                                          | 描述                                           |
-| ------------------ | ------------------------------------------------------- | ---------------------------------------------- |
-| as                 | ElementType `('div')`                                   | 为组件自定义元素类型                           |
-| appearance         | 'default' &#124; 'inverse' &#124; 'subtle'`('default')` | 导航栏外观                                     |
-| classPrefix        | string `('navbar')`                                     | 组件 CSS 类的前缀                              |
-| onDrawerOpenChange | (open: boolean) => void                                 | 抽屉菜单打开或关闭时的回调函数<br/> ![][6.0.0] |
+| 属性名称           | 类型`(默认值)`                                  | 描述                                           |
+| ------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| as                 | ElementType `('div')`                           | 为组件自定义元素类型                           |
+| appearance         | 'default' \| 'inverse' \| 'subtle'`('default')` | 导航栏外观                                     |
+| classPrefix        | string `('navbar')`                             | 组件 CSS 类的前缀                              |
+| onDrawerOpenChange | (open: boolean) => void                         | 抽屉菜单打开或关闭时的回调函数<br/> ![][6.0.0] |
 
 ### `<Navbar.Brand>`
 
@@ -70,11 +82,13 @@
 
 ![][6.0.0]
 
-| 属性名称    | 类型 `(默认值)`             | 描述                 |
-| ----------- | --------------------------- | -------------------- |
-| as          | ElementType `('div')`       | 为组件自定义元素类型 |
-| classPrefix | string `('navbar-content')` | 组件 CSS 类的前缀    |
-| children    | ReactNode                   | 内容的内容           |
+| 属性名称    | 类型 `(默认值)`                               | 描述                 |
+| ----------- | --------------------------------------------- | -------------------- |
+| as          | ElementType `('div')`                         | 为组件自定义元素类型 |
+| classPrefix | string `('navbar-content')`                   | 组件 CSS 类的前缀    |
+| children    | ReactNode                                     | 内容                 |
+| visible     | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | 在指定断点显示内容   |
+| hidden      | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | 在指定断点隐藏内容   |
 
 ### `<Navbar.Toggle>`
 

@@ -63,9 +63,13 @@ export default {
     highContrast: 'High contrast',
     showTheSource: 'Show the source',
     transparentBackground: 'Transparent background',
-    seeTheSourceOnGitHub: 'See the source on GitHub',
+    seeTheSourceOnGitHub: 'View source on GitHub',
     openCodeSandbox: 'Open in CodeSandbox',
-    openStackBlitz: 'Open in StackBlitz'
+    openStackBlitz: 'Open in StackBlitz',
+    mobile: 'Mobile',
+    tablet: 'Tablet',
+    desktop: 'Desktop',
+    code: 'Code'
   },
   components: {
     noComponent: "Can't find the component you want? ",
