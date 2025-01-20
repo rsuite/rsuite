@@ -16,10 +16,6 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 
 <!--{include:`basic.md`}-->
 
-### Responsive
-
-<!--{include:`responsive.md`}-->
-
 ### Gutter
 
 <!--{include:`gutter.md`}-->
@@ -39,6 +35,10 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 ### Nesting
 
 <!--{include:`nested.md`}-->
+
+## Responsive
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

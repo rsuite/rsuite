@@ -32,13 +32,13 @@
 
 <!--{include:`wrap.md`}-->
 
-### 响应式堆叠
-
-<!--{include:`responsive.md`}-->
-
 ### 交互
 
 <!--{include:`interactive.md`}-->
+
+## 响应式
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

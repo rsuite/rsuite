@@ -6,11 +6,11 @@ import { Grid, Row, Col } from 'rsuite';
 const App = () => (
   <Grid fluid>
     <Row className="show-grid">
-      <Col xsHidden xs={12}>
-        xsHidden xs={12}
+      <Col xsHidden md={12}>
+        xsHidden md={12}
       </Col>
-      <Col xs={12} xs={12}>
-        xs={12} xs={12}
+      <Col xs={24} md={12}>
+        xs={24} md={12}
       </Col>
     </Row>
   </Grid>
