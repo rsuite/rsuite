@@ -5,7 +5,8 @@ import InstallGuide from '@/components/InstallGuide';
 const nwlCommands = {
   npm: 'npm i next-with-less',
   yarn: 'yarn add next-with-less',
-  pnpm: 'pnpm add next-with-less'
+  pnpm: 'pnpm add next-with-less',
+  bun: 'bun add next-with-less'
 };
 
 const inDocsComponents = {
@@ -13,6 +14,10 @@ const inDocsComponents = {
   'install-next-with-less': () => <InstallGuide commands={nwlCommands} />
 };
 
-export default () => {
+const PageComponent = () => {
   return <Page inDocsComponents={inDocsComponents} />;
 };
+
+PageComponent.displayName = 'NextPagesGuidePage';
+
+export default PageComponent;

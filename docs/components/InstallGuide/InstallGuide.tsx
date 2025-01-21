@@ -1,13 +1,15 @@
 import React from 'react';
-import { Nav } from 'rsuite';
 import Icon from '@rsuite/icons/Icon';
-import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
 import StaticCodeView from '../CodeView/StaticCodeView';
+import { Nav } from 'rsuite';
+import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
+import { BunIcon } from './BunIcon';
 
 const defaultCommands = {
-  npm: 'npm install rsuite --save',
+  npm: 'npm install rsuite',
   yarn: 'yarn add rsuite',
-  pnpm: 'pnpm add rsuite'
+  pnpm: 'pnpm add rsuite',
+  bun: 'bun add rsuite'
 };
 
 interface InstallGuideProps {
@@ -30,6 +32,9 @@ const InstallGuide = (props: InstallGuideProps) => {
         </Nav.Item>
         <Nav.Item eventKey="pnpm" icon={<Icon as={SiPnpm} color="#f9ad00" />}>
           pnpm
+        </Nav.Item>
+        <Nav.Item eventKey="bun" icon={<Icon as={BunIcon} style={{ fontSize: 18 }} />}>
+          bun
         </Nav.Item>
       </Nav>
       <div>
