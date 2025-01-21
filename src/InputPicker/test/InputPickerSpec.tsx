@@ -335,6 +335,42 @@ describe('InputPicker', () => {
     expect(list[0]).to.text('Louisa');
   });
 
+  describe('handleClean', () => {
+    it('Should not render clean button when disabled', () => {
+      render(<InputPicker data={data} value="Eugenia" disabled />);
+
+      const cleanButton = screen.queryByLabelText('Clear');
+
+      expect(cleanButton).to.not.exist;
+    });
+
+    it('Should not trigger clean when clicking delete with search keyword', () => {
+      const onChange = sinon.spy();
+      render(<InputPicker data={data} value="Eugenia" onChange={onChange} />);
+
+      // Find the input and type a search keyword
+      const input = screen.getByTestId('picker-toggle-input');
+      fireEvent.change(input, { target: { value: 'search' } });
+
+      // Simulate pressing the delete key on the input
+      fireEvent.keyDown(input, { key: 'Delete' });
+      fireEvent.keyDown(input, { key: 'Backspace' });
+
+      expect(onChange).to.not.have.been.called;
+    });
+
+    it('Should trigger clean when clicking clean button normally', () => {
+      const onChange = sinon.spy();
+      render(<InputPicker data={data} value="Eugenia" onChange={onChange} />);
+
+      // Find and click the clean button
+      const cleanButton = screen.getByLabelText('Clear');
+      fireEvent.click(cleanButton);
+
+      expect(onChange).to.have.been.calledWith(null);
+    });
+  });
+
   it('Should call renderValue', () => {
     const { container, rerender } = render(
       <InputPicker data={[]} value="Test" renderValue={() => '1'} />
