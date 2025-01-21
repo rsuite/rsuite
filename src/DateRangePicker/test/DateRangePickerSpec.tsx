@@ -457,6 +457,22 @@ describe('DateRangePicker', () => {
     expect(secondTitle).to.have.text('2 - 2022');
   });
 
+  it('Should custom render cell', () => {
+    render(
+      <DateRangePicker
+        open
+        value={[new Date('2025-01-01'), new Date('2025-01-02')]}
+        renderCell={date => {
+          const day = date.getDate();
+
+          return day === 1 ? <span>1🎉</span> : day;
+        }}
+      />
+    );
+
+    expect(screen.getByRole('gridcell', { name: '01 Jan 2025' })).to.have.text('1🎉');
+  });
+
   it('Should cancel the Ok button disable when the shortcut button is clicked', () => {
     render(
       <DateRangePicker

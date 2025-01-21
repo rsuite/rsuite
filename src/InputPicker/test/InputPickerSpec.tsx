@@ -234,22 +234,6 @@ describe('InputPicker', () => {
     expect(onChange).to.have.been.calledWith('Eugenia');
   });
 
-  it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
-    render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
-    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-
-    expect(onClean).to.calledOnce;
-  });
-
-  it('Should call `onClean` callback by keyDown', () => {
-    const onClean = sinon.spy();
-    render(<InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onClean} />);
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
-
-    expect(onClean).to.calledOnce;
-  });
-
   it('Should call `onSelect` with correct args by key=Enter ', () => {
     const onSelect = sinon.spy();
     render(<InputPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
@@ -333,6 +317,79 @@ describe('InputPicker', () => {
 
     expect(list).to.be.lengthOf(1);
     expect(list[0]).to.text('Louisa');
+  });
+
+  describe('handleClean', () => {
+    it('Should not render clean button when disabled', () => {
+      render(<InputPicker data={data} value="Eugenia" disabled />);
+
+      const cleanButton = screen.queryByLabelText('Clear');
+
+      expect(cleanButton).to.not.exist;
+    });
+
+    it('Should not call `onClean` callback when disabled', () => {
+      const onClean = sinon.spy();
+      render(<InputPicker defaultOpen data={data} value="Eugenia" disabled onClean={onClean} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
+
+      expect(onClean).to.not.have.been.called;
+    });
+
+    it('Should call `onClean` callback', () => {
+      const onClean = sinon.spy();
+      render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
+      fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+
+      expect(onClean).to.calledOnce;
+    });
+
+    it('Should call `onClean` callback by keyDown', () => {
+      const onClean = sinon.spy();
+      render(<InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onClean} />);
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
+
+      expect(onClean).to.have.been.calledOnce;
+    });
+
+    it('Should not trigger clean when clicking delete with search keyword', () => {
+      const onChange = sinon.spy();
+      const onSearch = sinon.spy();
+      const onClean = sinon.spy();
+      render(
+        <InputPicker
+          data={data}
+          defaultOpen
+          defaultValue="Eugenia"
+          onChange={onChange}
+          onSearch={onSearch}
+          onClean={onClean}
+        />
+      );
+
+      const input = screen.getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: 'a' } });
+
+      expect(onSearch).to.have.been.calledWith('a');
+
+      fireEvent.keyDown(input, { key: 'Backspace' });
+
+      expect(onChange).to.not.have.been.called;
+      expect(onClean).to.not.have.been.called;
+    });
+
+    it('Should trigger clean when clicking clean button normally', () => {
+      const onChange = sinon.spy();
+      render(<InputPicker data={data} value="Eugenia" onChange={onChange} />);
+
+      // Find and click the clean button
+      const cleanButton = screen.getByLabelText('Clear');
+      fireEvent.click(cleanButton);
+
+      expect(onChange).to.have.been.calledWith(null);
+    });
   });
 
   it('Should call renderValue', () => {

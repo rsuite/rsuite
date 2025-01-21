@@ -413,9 +413,16 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   });
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
-    if (disabled || searchKeyword !== '') {
+    if (disabled) {
       return;
     }
+
+    // When there is a value in the search box and the user presses the delete key on the keyboard,
+    // do not trigger clearing
+    if (inputRef.current === event.target && searchKeyword !== '') {
+      return;
+    }
+
     setValue(null);
     setFocusItemValue(null);
     resetSearch();

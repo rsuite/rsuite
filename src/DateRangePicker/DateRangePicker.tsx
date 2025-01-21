@@ -251,6 +251,13 @@ export interface DateRangePickerProps
    * Custom render for calendar title
    */
   renderTitle?: (date: Date) => React.ReactNode;
+
+  /**
+   * Custom rendering calendar cell content.
+   *
+   * @version 5.77.0
+   */
+  renderCell?: (date: Date) => React.ReactNode;
 }
 
 /**
@@ -318,6 +325,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       onShortcutClick,
       renderTitle,
       renderValue,
+      renderCell,
       ...restProps
     } = propsWithDefaults;
 
@@ -892,7 +900,8 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         onChangeCalendarMonth,
         onChangeCalendarTime,
         onMouseMove,
-        renderTitle
+        renderTitle,
+        renderCellOnPicker: renderCell
       };
 
       const getCalendars = () => {

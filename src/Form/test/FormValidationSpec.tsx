@@ -966,6 +966,193 @@ describe('Form Validation', () => {
         );
       });
     });
+
+    it('Should validate deeply nested ObjectType', async () => {
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required.'),
+        address: Schema.Types.ObjectType().shape({
+          city: Schema.Types.StringType().isRequired('City is required.'),
+          postCode: Schema.Types.ObjectType().shape({
+            general: Schema.Types.NumberType().isRequired('General is required.')
+          })
+        })
+      });
+
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+
+      render(
+        <Form model={model} ref={formRef} onError={onError} nestedField>
+          <FormControl name="name" />
+          <FormControl name="address.city" />
+          <FormControl name="address.postCode.general" />
+        </Form>
+      );
+
+      act(() => {
+        formRef.current?.check();
+      });
+
+      await waitFor(() => {
+        expect(onError).to.have.been.calledWith({
+          name: 'Name is required.',
+          address: {
+            object: {
+              city: 'City is required.',
+              postCode: { object: { general: 'General is required.' } }
+            }
+          }
+        });
+
+        expect(screen.getAllByRole('alert')).to.have.length(3);
+
+        screen.getAllByRole('alert').forEach((alert, index) => {
+          expect(alert).to.have.text(
+            ['Name is required.', 'City is required.', 'General is required.'][index]
+          );
+        });
+      });
+    });
+
+    it('Should validate deeply nested ObjectType without error', async () => {
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required.'),
+        address: Schema.Types.ObjectType().shape({
+          city: Schema.Types.StringType().isRequired('City is required.'),
+          postCode: Schema.Types.ObjectType().shape({
+            general: Schema.Types.NumberType().isRequired('General is required.')
+          })
+        })
+      });
+
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+
+      const validFormValue = {
+        name: 'John',
+        address: {
+          city: 'New York',
+          postCode: {
+            general: 10001
+          }
+        }
+      };
+
+      render(
+        <Form model={model} ref={formRef} onError={onError} formValue={validFormValue} nestedField>
+          <FormControl name="name" />
+          <FormControl name="address.city" />
+          <FormControl name="address.postCode.general" />
+        </Form>
+      );
+
+      act(() => {
+        const result = formRef.current?.check();
+        expect(result).to.be.true;
+      });
+
+      await waitFor(() => {
+        expect(onError).to.not.have.been.called;
+        expect(screen.queryAllByRole('alert')).to.have.length(0);
+      });
+    });
+
+    it('Should validate deeply nested ArrayType', async () => {
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required.'),
+        address: Schema.Types.ArrayType()
+          .of(
+            Schema.Types.ObjectType().shape({
+              city: Schema.Types.StringType().isRequired('City is required.'),
+              postCode: Schema.Types.StringType().isRequired('Post Code is required.')
+            })
+          )
+          .isRequired('Address is required.')
+      });
+
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+      const defaultValues = {
+        name: '',
+        address: [
+          {
+            city: '',
+            postCode: ''
+          },
+          {
+            city: '',
+            postCode: ''
+          }
+        ]
+      };
+
+      render(
+        <Form model={model} formValue={defaultValues} ref={formRef} onError={onError} nestedField>
+          <FormControl name="name" />
+          <FormControl name="address[0].city" />
+          <FormControl name="address[0].postCode" />
+          <FormControl name="address[1].city" />
+          <FormControl name="address[1].postCode" />
+        </Form>
+      );
+
+      act(() => {
+        formRef.current?.check();
+      });
+
+      expect(onError).to.have.been.calledOnce;
+
+      await waitFor(() => {
+        expect(onError).to.have.been.calledWith({
+          name: 'Name is required.',
+          address: {
+            hasError: true,
+            array: [
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              },
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              }
+            ]
+          }
+        });
+      });
+
+      expect(screen.getAllByRole('alert')).to.have.length(5);
+
+      screen.getAllByRole('alert').forEach((alert, index) => {
+        expect(alert).to.have.text(
+          [
+            'Name is required.',
+            'City is required.',
+            'Post Code is required.',
+            'City is required.',
+            'Post Code is required.'
+          ][index]
+        );
+      });
+    });
   });
 
   describe('Custom validation rules', () => {
