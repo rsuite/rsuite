@@ -469,6 +469,22 @@ describe('DateRangePicker', () => {
     expect(secondTitle).to.have.text('2 - 2022');
   });
 
+  it('Should custom render cell', () => {
+    render(
+      <DateRangePicker
+        open
+        value={[new Date('2025-01-01'), new Date('2025-01-02')]}
+        renderCell={date => {
+          const day = date.getDate();
+
+          return day === 1 ? <span>1🎉</span> : day;
+        }}
+      />
+    );
+
+    expect(screen.getByRole('gridcell', { name: '01 Jan 2025' })).to.have.text('1🎉');
+  });
+
   it('Should cancel the Ok button disable when the shortcut button is clicked', () => {
     render(
       <DateRangePicker
@@ -1284,8 +1300,19 @@ describe('DateRangePicker', () => {
   });
 
   describe('Error handling', () => {
+    let consoleErrorStub;
+
+    beforeEach(() => {
+      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+        // do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
     it('Should render an error message when the format is deprecated', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DateRangePicker format="YY" value={[new Date(), new Date()]} />);
       }).to.not.throw();
@@ -1293,11 +1320,10 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DateRangePicker format="_error_" value={[new Date(), new Date()]} />);
       }).to.not.throw();
@@ -1305,7 +1331,7 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 
