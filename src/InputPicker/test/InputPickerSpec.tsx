@@ -328,6 +328,15 @@ describe('InputPicker', () => {
       expect(cleanButton).to.not.exist;
     });
 
+    it('Should not call `onClean` callback when disabled', () => {
+      const onClean = sinon.spy();
+      render(<InputPicker defaultOpen data={data} value="Eugenia" disabled onClean={onClean} />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
+
+      expect(onClean).to.not.have.been.called;
+    });
+
     it('Should call `onClean` callback', () => {
       const onClean = sinon.spy();
       render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
