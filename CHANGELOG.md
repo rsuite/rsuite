@@ -1,3 +1,18 @@
+# [5.77.0](https://github.com/rsuite/rsuite/compare/v5.76.3...v5.77.0) (2025-01-21)
+
+
+### Bug Fixes
+
+* **Form:** support deeply nested object validation ([#4125](https://github.com/rsuite/rsuite/issues/4125)) ([2de3f90](https://github.com/rsuite/rsuite/commit/2de3f901970d982ac4a0a2329fd4e6af83962804))
+* **InputPicker:** do not trigger clean when clicking delete with search keyword ([#4124](https://github.com/rsuite/rsuite/issues/4124)) ([98a0019](https://github.com/rsuite/rsuite/commit/98a001908df884c8cd5a87959a9b9608d6bba37c))
+
+
+### Features
+
+* **DateRangePicker:** support custom render calendar cell content ([#4126](https://github.com/rsuite/rsuite/issues/4126)) ([74171d1](https://github.com/rsuite/rsuite/commit/74171d17f36aa611009e0048c1f490b6ac31fcea))
+
+
+
 ## [5.76.3](https://github.com/rsuite/rsuite/compare/v5.76.2...v5.76.3) (2025-01-10)
 
 
