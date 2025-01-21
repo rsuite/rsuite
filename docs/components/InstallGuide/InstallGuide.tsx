@@ -1,9 +1,9 @@
 import React from 'react';
 import Icon from '@rsuite/icons/Icon';
 import StaticCodeView from '../CodeView/StaticCodeView';
+import BunIcon from './BunIcon';
 import { Nav } from 'rsuite';
 import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
-import { BunIcon } from './BunIcon';
 
 const defaultCommands = {
   npm: 'npm install rsuite',
