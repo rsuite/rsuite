@@ -182,6 +182,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`          | The placement of component                                                                                                        |
 | preventOverflow      | boolean                                                         | Prevent floating element overflow                                                                                                 |
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | Set predefined date ranges the user can select from. Default: `Today`,`Yesterday`，`Last 7 days`                                  |
+| renderCell           | (date: Date) => ReactNode                                       | Custom calendar cell rendering <br/>![][5.77.0]                                                                                   |
 | renderTitle          | (date: Date) => ReactNode                                       | Custom render for month's title                                                                                                   |
 | renderValue          | (date: [Date, Date], format: string) => string                  | Custom render value                                                                                                               |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | Disabled date                                                                                                                     |
@@ -257,3 +258,4 @@ const Ranges = [
 [5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
 [5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
 [5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue
+[5.77.0]: https://img.shields.io/badge/>=-v5.77.0-blue

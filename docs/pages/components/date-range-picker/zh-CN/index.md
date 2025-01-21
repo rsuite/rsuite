@@ -185,8 +185,9 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`          | 显示位置                                                                                      |
 | preventOverflow      | boolean                                                         | 防止浮动元素溢出                                                                              |
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                                   |
+| renderCell           | (date: Date) => ReactNode                                       | 自定义渲染日历面板上的日期单元格<br/>![][5.77.0]                                              |
 | renderTitle          | (date: Date) => ReactNode                                       | 自定义渲染日历面板上的月份标题                                                                |
-| renderValue          | (date: [Date, Date], format: string) => string                  | Custom render value                                                                           |
+| renderValue          | (date: [Date, Date], format: string) => string                  | 自定义渲染值                                                                                  |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | 禁用日期                                                                                      |
 | showHeader           | boolean `(true)`                                                | 是否在日历面板的头部显示格式化的日期范围<br/>![][5.52.0]                                      |
 | showMeridiem         | boolean                                                         | 显示 12 小时制的时间格式                                                                      |
@@ -254,3 +255,4 @@ const Ranges = [
 [5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
 [5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
 [5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue
+[5.77.0]: https://img.shields.io/badge/>=-v5.77.0-blue
