@@ -46,4 +46,27 @@ describe('Badge styles', () => {
       toRGB('#00bcd4')
     );
   });
+
+  it('Should render badge with correct CSS variables', () => {
+    const { container } = render(<Badge />);
+    const badgeElement = container.querySelector('.rs-badge') as HTMLElement;
+
+    expect(getStyle(badgeElement, '--rs-badge-offset-x')).to.equal('5%');
+    expect(getStyle(badgeElement, '--rs-badge-offset-y')).to.equal('5%');
+    expect(getStyle(badgeElement, '--rs-badge-translate')).to.equal('40%');
+  });
+
+  it('Should render circle badge with correct translate variable', () => {
+    const { container } = render(<Badge className="rs-badge-circle" />);
+    const badgeElement = container.querySelector('.rs-badge-circle') as HTMLElement;
+
+    expect(getStyle(badgeElement, '--rs-badge-translate')).to.equal('30%');
+  });
+
+  it('Should render independent badge with inline-flex display', () => {
+    const { container } = render(<Badge />);
+    const badgeElement = container.firstChild as HTMLElement;
+
+    expect(badgeElement).to.have.style('display', 'inline-flex');
+  });
 });
