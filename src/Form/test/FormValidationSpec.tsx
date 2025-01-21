@@ -1056,6 +1056,103 @@ describe('Form Validation', () => {
         expect(screen.queryAllByRole('alert')).to.have.length(0);
       });
     });
+
+    it('Should validate deeply nested ArrayType', async () => {
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required.'),
+        address: Schema.Types.ArrayType()
+          .of(
+            Schema.Types.ObjectType().shape({
+              city: Schema.Types.StringType().isRequired('City is required.'),
+              postCode: Schema.Types.StringType().isRequired('Post Code is required.')
+            })
+          )
+          .isRequired('Address is required.')
+      });
+
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+      const defaultValues = {
+        name: '',
+        address: [
+          {
+            city: '',
+            postCode: ''
+          },
+          {
+            city: '',
+            postCode: ''
+          }
+        ]
+      };
+
+      render(
+        <Form model={model} formValue={defaultValues} ref={formRef} onError={onError} nestedField>
+          <FormControl name="name" />
+          <FormControl name="address[0].city" />
+          <FormControl name="address[0].postCode" />
+          <FormControl name="address[1].city" />
+          <FormControl name="address[1].postCode" />
+        </Form>
+      );
+
+      act(() => {
+        formRef.current?.check();
+      });
+
+      expect(onError).to.have.been.calledOnce;
+
+      await waitFor(() => {
+        expect(onError).to.have.been.calledWith({
+          name: 'Name is required.',
+          address: {
+            hasError: true,
+            array: [
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              },
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              }
+            ]
+          }
+        });
+      });
+
+      expect(screen.getAllByRole('alert')).to.have.length(5);
+
+      screen.getAllByRole('alert').forEach((alert, index) => {
+        expect(alert).to.have.text(
+          [
+            'Name is required.',
+            'City is required.',
+            'Post Code is required.',
+            'City is required.',
+            'Post Code is required.'
+          ][index]
+        );
+      });
+    });
   });
 
   describe('Custom validation rules', () => {
