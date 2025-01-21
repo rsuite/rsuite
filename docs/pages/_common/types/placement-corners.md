@@ -1,5 +1,5 @@
 ### `ts:PlacementCorners`
 
 ```ts
-type PlacementCorners =  'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd' |
+type PlacementCorners = 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
 ```
