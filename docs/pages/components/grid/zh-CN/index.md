@@ -16,10 +16,6 @@
 
 <!--{include:`basic.md`}-->
 
-### 响应式
-
-<!--{include:`responsive.md`}-->
-
 ### 栅格间隔
 
 <!--{include:`gutter.md`}-->
@@ -39,6 +35,10 @@
 ### 嵌套
 
 <!--{include:`nested.md`}-->
+
+## 响应式
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

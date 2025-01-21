@@ -20,8 +20,8 @@ interface SimulationProps {
   defaultDevice?: Device;
 }
 
-const DeviceFrame = ({ width, height, children }) => (
-  <FakeBrowser className="rs-device-frame" style={{ width, height }}>
+const DeviceFrame = ({ style, children }) => (
+  <FakeBrowser className="rs-device-frame" style={style}>
     {children}
   </FakeBrowser>
 );
@@ -37,7 +37,6 @@ const Simulation: React.FC<SimulationProps> = ({
   const { locales } = useApp();
   const codeRef = useRef<HTMLElement>(null);
 
-  // 根据设备类型设置尺寸
   const getDeviceDimensions = () => {
     switch (device) {
       case 'mobile':
@@ -45,7 +44,7 @@ const Simulation: React.FC<SimulationProps> = ({
       case 'tablet':
         return { width: 768, height: 1024 };
       default:
-        return { width: '100%', height: 500 };
+        return { width: '100%', maxWidth: 960, height: 600 };
     }
   };
 
@@ -110,7 +109,7 @@ const Simulation: React.FC<SimulationProps> = ({
         />
       </HStack>
 
-      <DeviceFrame width={dimensions.width} height={dimensions.height}>
+      <DeviceFrame style={dimensions}>
         {loading ? (
           <div
             style={{
