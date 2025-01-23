@@ -1,6 +1,7 @@
-<!--start-code-->
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+'use client';
 
-```js
+import React from 'react';
 import {
   Container,
   Header,
@@ -13,12 +14,13 @@ import {
   Input,
   Stack,
   VStack,
-  Button
+  Divider,
+  InputGroup
 } from 'rsuite';
-import FakeBrowser from '@/components/FakeBrowser';
-import { FaReact, FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import { FaGithub, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import { SiProtondb } from 'react-icons/si';
 
-const Password = React.forwardRef((props, ref) => {
+const Password = React.forwardRef((props: any, ref: React.RefObject<HTMLInputElement>) => {
   const [visible, setVisible] = React.useState(false);
 
   const handleChange = () => {
@@ -28,26 +30,28 @@ const Password = React.forwardRef((props, ref) => {
     <InputGroup inside ref={ref} {...props}>
       <Input type={visible ? 'text' : 'password'} />
       <InputGroup.Button onClick={handleChange}>
-        {visible ? <FaRegEye /> : <FaRegEyeSlash />}
+        {visible ? <FaRegEyeSlash /> : <FaRegEye />}
       </InputGroup.Button>
     </InputGroup>
   );
 });
 
-const App = () => (
-  <FakeBrowser height={800}>
+Password.displayName = 'Password';
+
+const App = () => {
+  return (
     <Container>
       <Header>
-        <Navbar appearance="inverse">
+        <Navbar>
           <Navbar.Brand>
-            <FaReact size={26} /> Brand
+            <SiProtondb size={26} /> Brand
           </Navbar.Brand>
-          <Button appearance="primary">Create account</Button>
+          <Button>Create account</Button>
         </Navbar>
       </Header>
-      <Content>
+      <Content style={{ padding: 20 }}>
         <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
-          <Panel header="Sign in" bordered style={{ width: 400 }}>
+          <Panel header="Sign in" bordered style={{ width: 360 }}>
             <Form fluid>
               <Form.Group>
                 <Form.ControlLabel>Email address</Form.ControlLabel>
@@ -74,11 +78,12 @@ const App = () => (
           </Panel>
         </Stack>
       </Content>
+
+      <Footer style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+        Copyright &copy; 2022-present React Suite.
+      </Footer>
     </Container>
-  </FakeBrowser>
-);
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-<!--end-code-->
+export default App;

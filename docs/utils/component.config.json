@@ -247,7 +247,13 @@
         "id": "sidenav",
         "name": "Sidenav",
         "title": "侧导航",
-        "components": ["Sidenav", "Sidenav.Header", "Sidenav.Body"]
+        "components": [
+          "Sidenav",
+          "Sidenav.Header",
+          "Sidenav.Body",
+          "Sidenav.Footer",
+          "Sidenav.Toggle"
+        ]
       },
       {
         "id": "steps",

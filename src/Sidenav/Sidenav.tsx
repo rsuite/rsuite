@@ -3,7 +3,9 @@ import remove from 'lodash/remove';
 import Transition from '../Animation/Transition';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
+import SidenavFooter from './SidenavFooter';
 import SidenavToggle from './SidenavToggle';
+import SidenavGroupLabel from './SidenavGroupLabel';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -59,6 +61,8 @@ const emptyArray = [];
 const Subcomponents = {
   Header: SidenavHeader,
   Body: SidenavBody,
+  Footer: SidenavFooter,
+  GroupLabel: SidenavGroupLabel,
   Toggle: SidenavToggle
 };
 

@@ -240,6 +240,10 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
     }
   });
 
+  const hasChildren = React.Children.toArray(children).some(
+    child => React.isValidElement(child) && child.props.children
+  );
+
   return (
     <Component
       className={merge(className, withClassPrefix({ reversed, vertical }))}
@@ -259,7 +263,9 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
       >
         {renderTabs(children, { id, activeKey })}
       </Nav>
-      <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
+      {hasChildren && (
+        <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
+      )}
     </Component>
   );
 }, Subcomponents);

@@ -8,11 +8,10 @@ import {
   IoDesktopOutline,
   IoPhonePortraitOutline,
   IoTabletPortraitOutline,
-  IoLogoGithub,
-  IoCodeSlash
+  IoLogoGithub
 } from 'react-icons/io5';
 
-type Device = 'desktop' | 'tablet' | 'mobile' | 'code';
+type Device = 'desktop' | 'tablet' | 'mobile';
 
 interface SimulationProps {
   componentName: string;
@@ -32,6 +31,7 @@ const Simulation: React.FC<SimulationProps> = ({
   defaultDevice = 'desktop'
 }) => {
   const [device, setDevice] = useState(defaultDevice);
+  const [type, setType] = useState<'preview' | 'code'>('preview');
   const [sourceCode, setSourceCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { locales } = useApp();
@@ -51,7 +51,7 @@ const Simulation: React.FC<SimulationProps> = ({
   const dimensions = getDeviceDimensions();
 
   useEffect(() => {
-    if (device === 'code' && !sourceCode) {
+    if (type === 'code' && !sourceCode) {
       setLoading(true);
       fetch(`/api/sourcecode?componentName=${componentName}&example=${example}`)
         .then(res => res.json())
@@ -67,7 +67,7 @@ const Simulation: React.FC<SimulationProps> = ({
           setLoading(false);
         });
     }
-  }, [device, componentName, example]);
+  }, [type, componentName, example]);
 
   useEffect(() => {
     if (codeRef.current && sourceCode) {
@@ -78,6 +78,15 @@ const Simulation: React.FC<SimulationProps> = ({
   return (
     <div className="rs-simulation">
       <HStack justifyContent="space-between" alignItems="flex-start">
+        <Tabs
+          appearance="pills"
+          activeKey={type}
+          onSelect={(key: 'preview' | 'code') => setType(key)}
+        >
+          <Tabs.Tab eventKey="preview" title="Preview" />
+          <Tabs.Tab eventKey="code" title="Code" />
+        </Tabs>
+
         <HStack spacing={8}>
           <Tabs
             appearance="pills"
@@ -86,27 +95,28 @@ const Simulation: React.FC<SimulationProps> = ({
           >
             <Tabs.Tab
               eventKey="desktop"
-              title={<IoDesktopOutline title={locales?.common.desktop} />}
+              title={<IoDesktopOutline title={locales?.common.desktop} size={20} />}
             />
             <Tabs.Tab
               eventKey="tablet"
-              title={<IoTabletPortraitOutline title={locales?.common.tablet} />}
+              title={<IoTabletPortraitOutline title={locales?.common.tablet} size={20} />}
             />
             <Tabs.Tab
               eventKey="mobile"
-              title={<IoPhonePortraitOutline title={locales?.common.mobile} />}
+              title={<IoPhonePortraitOutline title={locales?.common.mobile} size={20} />}
             />
-            <Tabs.Tab eventKey="code" title={<IoCodeSlash title={locales?.common.code} />} />
           </Tabs>
         </HStack>
 
-        <IconButton
-          size="sm"
-          icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
-          target="_blank"
-          title={locales?.common.seeTheSourceOnGitHub}
-          href={`https://github.com/rsuite/rsuite/tree/main/docs/pages/components/${componentName}/examples/${example}.tsx`}
-        />
+        <HStack spacing={8}>
+          <IconButton
+            size="sm"
+            icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
+            target="_blank"
+            title={locales?.common.seeTheSourceOnGitHub}
+            href={`https://github.com/rsuite/rsuite/tree/main/docs/pages/components/${componentName}/examples/${example}.tsx`}
+          />
+        </HStack>
       </HStack>
 
       <DeviceFrame style={dimensions}>
@@ -122,7 +132,7 @@ const Simulation: React.FC<SimulationProps> = ({
             <Loader size="md" content="Loading..." />
           </div>
         ) : (
-          <pre className="hljs" style={{ display: device === 'code' ? 'block' : 'none' }}>
+          <pre className="hljs" style={{ display: type === 'code' ? 'block' : 'none' }}>
             <code ref={codeRef} className="typescript">
               {sourceCode}
             </code>
@@ -134,7 +144,7 @@ const Simulation: React.FC<SimulationProps> = ({
             width: '100%',
             height: '100%',
             border: 'none',
-            display: device === 'code' ? 'none' : 'block'
+            display: type === 'code' ? 'none' : 'block'
           }}
         />
       </DeviceFrame>

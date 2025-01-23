@@ -1,5 +1,5 @@
 import React from 'react';
-import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
+import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import Button from '../Button';
 import SidenavItem from './SidenavItem';
 import { forwardRef } from '@/internals/utils';
@@ -25,21 +25,21 @@ const SidenavDropdownToggle = forwardRef<typeof Button, SidenavDropdownTogglePro
   (props, ref) => {
     const {
       as: Component = SidenavItem,
+      classPrefix = 'sidenav-dropdown-toggle',
       className,
-      classPrefix = 'dropdown-toggle',
       renderToggle,
       children,
       noCaret,
       ...rest
     } = props;
 
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     const toggle = (
-      <Component {...rest} ref={ref} className={classes} tooltip={children}>
-        {children}
-        {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
+      <Component className={classes} ref={ref} tooltip={children} {...rest}>
+        <span className={prefix('title')}>{children}</span>
+        {!noCaret && <ArrowRightLineIcon className={prefix('caret')} />}
       </Component>
     );
 
