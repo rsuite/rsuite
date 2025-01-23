@@ -105,7 +105,6 @@ const App = () => {
       <Container>
         <Header>
           <HStack spacing={16} alignItems="center" style={{ padding: '1rem' }}>
-            <h4 style={{ margin: 0 }}>Page Title</h4>
             <Breadcrumb>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>Components</Breadcrumb.Item>
@@ -113,8 +112,8 @@ const App = () => {
             </Breadcrumb>
           </HStack>
         </Header>
-        <Content style={{ padding: '1rem' }}>
-          <Placeholder.Paragraph rows={20} />
+        <Content style={{ padding: '0 1rem' }}>
+          <Placeholder.Paragraph rows={10} />
         </Content>
       </Container>
     </Container>
