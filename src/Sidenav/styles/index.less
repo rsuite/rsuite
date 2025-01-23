@@ -24,11 +24,20 @@
   width: @sidenav-default-width;
   display: flex;
   flex-direction: column;
+
+  &.rs-sidenav-collapse-out .rs-dropdown-menu {
+    border: none;
+    left: 28px;
+    top: 0;
+  }
 }
 
 .rs-sidenav-nav {
   list-style: none;
   padding: var(--rs-sidenav-p);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 
   .rs-sidenav-item,
   .rs-sidenav-dropdown-toggle,
@@ -469,10 +478,11 @@
     color: var(--rs-sidenav-default-hover-text);
   }
 
+  // Active
   .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
+  .rs-dropdown-item.rs-dropdown-item-active {
     color: var(--rs-sidenav-default-selected-text);
+    background-color: var(--rs-sidenav-default-selected-bg);
   }
 
   .rs-sidenav-footer {
@@ -513,15 +523,6 @@
     .high-contrast-mode({
       text-decoration: underline;
     });
-  }
-}
-
-.rs-sidenav-default.rs-sidenav-collapse-in,
-.rs-sidenav-default.rs-sidenav-collapsing,
-.rs-sidenav-default.rs-sidenav-collapse-out {
-  // Set active Level1 style
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
-    color: var(--rs-sidenav-default-selected-text);
   }
 }
 
@@ -570,14 +571,6 @@
   }
 
   // Active
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-dropdown-toggle {
-    .high-contrast-mode({
-      color: var(--rs-sidenav-inverse-selected-text);
-    });
-  }
-
-  // Active
   .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-dropdown-toggle,
   .rs-sidenav-item,
   .rs-dropdown .rs-sidenav-dropdown-toggle {
@@ -592,6 +585,7 @@
 
   .rs-sidenav-item.rs-sidenav-item-active,
   .rs-dropdown-item.rs-dropdown-item-active {
+    color: var(--rs-sidenav-inverse-selected-text);
     background-color: var(--rs-sidenav-inverse-selected-bg);
   }
 
@@ -624,9 +618,9 @@
 
   // Active
   .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
+  .rs-dropdown-item.rs-dropdown-item-active {
     color: var(--rs-sidenav-subtle-selected-text);
+    background-color: var(--rs-sidenav-subtle-selected-bg);
   }
 
   .rs-dropdown-open > .rs-sidenav-dropdown-toggle.btn {
