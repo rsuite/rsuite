@@ -10,20 +10,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const examplesPath = path.join(process.cwd(), 'public', 'examples.json');
+    const examplePath = path.join(
+      process.cwd(),
+      'public',
+      'examples',
+      `${componentName}-${example}.json`
+    );
 
-    if (!fs.existsSync(examplesPath)) {
-      return res.status(500).json({ error: 'Examples file not found' });
-    }
-
-    const examples = JSON.parse(fs.readFileSync(examplesPath, 'utf-8'));
-
-    if (!examples[componentName] || !examples[componentName][example]) {
+    if (!fs.existsSync(examplePath)) {
       return res.status(404).json({ error: 'Example not found' });
     }
 
-    const sourceCode = examples[componentName][example];
-    res.status(200).json({ sourceCode });
+    const exampleData = JSON.parse(fs.readFileSync(examplePath, 'utf-8'));
+    res.status(200).json({ sourceCode: exampleData.content });
   } catch (error) {
     console.error('Error reading source code:', error);
     res.status(500).json({ error: 'Internal server error' });
