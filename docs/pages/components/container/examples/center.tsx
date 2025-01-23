@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
+import dynamic from 'next/dynamic';
 import React from 'react';
 import {
   Container,
@@ -86,4 +87,5 @@ const App = () => {
   );
 };
 
-export default App;
+// Use dynamic import with ssr disabled
+export default dynamic(() => Promise.resolve(App), { ssr: false });

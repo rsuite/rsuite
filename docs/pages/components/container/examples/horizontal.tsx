@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import DashboardIcon from '@rsuite/icons/Dashboard';
 import PeoplesIcon from '@rsuite/icons/Peoples';
@@ -48,6 +49,7 @@ const NavHeader = ({ expanded }) => {
     </VStack>
   );
 };
+
 const App = () => {
   const [expanded, setExpanded] = useState(true);
   const [activeKey, setActiveKey] = useState('1');
@@ -100,21 +102,24 @@ const App = () => {
           </Sidenav.Footer>
         </Sidenav>
       </Sidebar>
-
-      <Container style={{ padding: 20 }}>
+      <Container>
         <Header>
-          <Breadcrumb>
-            <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-            <Breadcrumb.Item href="##">Dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item active>Overview</Breadcrumb.Item>
-          </Breadcrumb>
+          <HStack spacing={16} alignItems="center" style={{ padding: '1rem' }}>
+            <h4 style={{ margin: 0 }}>Page Title</h4>
+            <Breadcrumb>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>Components</Breadcrumb.Item>
+              <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
+            </Breadcrumb>
+          </HStack>
         </Header>
-        <Content>
-          <Placeholder rows={10} />
+        <Content style={{ padding: '1rem' }}>
+          <Placeholder.Paragraph rows={20} />
         </Content>
       </Container>
     </Container>
   );
 };
 
-export default App;
+// Use dynamic import with ssr disabled
+export default dynamic(() => Promise.resolve(App), { ssr: false });
