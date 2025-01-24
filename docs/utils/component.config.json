@@ -200,7 +200,7 @@
         "id": "modal-integrations",
         "name": "Modal Integrations",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       }
     ]
   },
@@ -252,7 +252,8 @@
           "Sidenav.Header",
           "Sidenav.Body",
           "Sidenav.Footer",
-          "Sidenav.Toggle"
+          "Sidenav.Toggle",
+          "Sidenav.GroupLabel"
         ]
       },
       {
@@ -328,13 +329,13 @@
         "id": "form-formik",
         "name": "Formik",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "form-react-hook-form",
         "name": "React Hook Form",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "schema",
