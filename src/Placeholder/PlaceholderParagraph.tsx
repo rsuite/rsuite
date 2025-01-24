@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
+
 export interface PlaceholderParagraphProps extends WithAsProps {
   /**
    * The number of rows.
@@ -45,8 +45,8 @@ export interface PlaceholderParagraphProps extends WithAsProps {
  * The `Placeholder.Paragraph` component is used to display the loading state of the block.
  * @see https://rsuitejs.com/components/placeholder
  */
-const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
-  React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
+  (props: PlaceholderParagraphProps, ref) => {
     const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
     const {
       as: Component = 'div',
@@ -90,17 +90,9 @@ const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraph
         <div className={prefix('paragraph-group')}>{rowElements}</div>
       </Component>
     );
-  });
+  }
+);
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
-PlaceholderParagraph.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderParagraph;

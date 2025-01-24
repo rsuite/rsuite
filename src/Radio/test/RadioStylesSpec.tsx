@@ -8,7 +8,6 @@ describe('Radio styles', () => {
   itChrome('Should render the correct border', () => {
     const { container } = render(<Radio />);
 
-    // eslint-disable-next-line testing-library/no-container
     const inner = container.querySelector('.rs-radio-inner') as HTMLElement;
 
     expect(window.getComputedStyle(inner, '::before').border).to.equal(
@@ -19,7 +18,6 @@ describe('Radio styles', () => {
   it('Should render checked style even in disabled state', () => {
     const { container } = render(<Radio checked disabled />);
 
-    // eslint-disable-next-line testing-library/no-container
     const inner = container.querySelector('.rs-radio-inner') as HTMLElement;
 
     expect(window.getComputedStyle(inner, '::before').backgroundColor).to.equal(toRGB('#3498ff'));

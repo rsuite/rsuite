@@ -2,8 +2,8 @@
 
 ```js
 import { DateRangePicker } from 'rsuite';
-import subDays from 'date-fns/subDays';
-import addDays from 'date-fns/addDays';
+import { subDays } from 'date-fns/subDays';
+import { addDays } from 'date-fns/addDays';
 
 const App = () => (
   <div className="field">
@@ -13,7 +13,8 @@ const App = () => (
       Select Whole Week,
       <a href="https://en.wikipedia.org/wiki/ISO_week_date" target="_blank">
         ISO 8601 standard
-      </a>, each calendar week begins on Monday and Sunday is the seventh day
+      </a>
+      , each calendar week begins on Monday and Sunday is the seventh day
     </p>
     <DateRangePicker hoverRange="week" isoWeek ranges={[]} />
 

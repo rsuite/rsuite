@@ -39,7 +39,6 @@ export default {
     changeLanguage: '切换语言',
     flow: 'Flow',
     extension: '扩展组件',
-
     htmlElements: '支持的 HTML 元素',
     modularized: '最小化打包文件大小',
     v2: '2.* 版本',
@@ -65,7 +64,12 @@ export default {
     transparentBackground: '背景透明',
     seeTheSourceOnGitHub: '查看源码',
     openCodeSandbox: '在 CodeSandbox 中打开',
-    openStackBlitz: '在  StackBlitz 中打开'
+    openStackBlitz: '在  StackBlitz 中打开',
+    mobile: '移动端',
+    tablet: '平板端',
+    desktop: '桌面端',
+    code: '代码',
+    openInNewTab: '在新的 Tab 中打开'
   },
   components: {
     noComponent: '没有找到想要的组件？',

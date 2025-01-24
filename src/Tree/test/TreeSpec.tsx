@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -165,8 +164,6 @@ describe('Tree', () => {
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragEnter(treeNode);
-      assert.isTrue(onDragEnter.calledOnce);
-      assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
 
       expect(onDragEnter).to.have.calledOnce;
       expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });

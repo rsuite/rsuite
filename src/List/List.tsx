@@ -1,13 +1,11 @@
-import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
 import { useClassNames } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
+import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export interface ListProps extends WithAsProps, SortConfig {
   /**
@@ -39,15 +37,15 @@ export interface ListProps extends WithAsProps, SortConfig {
   divider?: boolean;
 }
 
-export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
-  Item: typeof ListItem;
-}
+const Subcomponents = {
+  Item: ListItem
+};
 
 /**
  * The `List` component is used to specify the layout of the list.
  * @see https://rsuitejs.com/components/list
  */
-const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
+const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('List', props);
   const {
     as: Component = 'div',
@@ -100,26 +98,8 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
     </Component>
   );
-}) as unknown as ListComponent;
-
-List.Item = ListItem;
+}, Subcomponents);
 
 List.displayName = 'List';
-List.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  bordered: PropTypes.bool,
-  divider: PropTypes.bool,
-  hover: PropTypes.bool,
-  sortable: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  autoScroll: PropTypes.bool,
-  pressDelay: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  onSortStart: PropTypes.func,
-  onSortMove: PropTypes.func,
-  onSortEnd: PropTypes.func,
-  onSort: PropTypes.func
-};
 
 export default List;

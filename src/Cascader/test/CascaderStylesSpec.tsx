@@ -1,15 +1,17 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Cascader from '../index';
-import { itChrome } from '@test/utils';
+import { testPickerSize } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
+import Cascader from '../index';
 
 import '../styles/index.less';
 
 const data = mockTreeData([['node1', 'node-1-1', 'node-1-2']]);
 
 describe('Cascader styles', () => {
-  itChrome('Should render the correct caret', () => {
+  testPickerSize(Cascader);
+
+  it('Should render the correct caret', () => {
     render(<Cascader data={data} open />);
 
     const treeitem = screen.getByRole('treeitem').children[0];

@@ -13,15 +13,12 @@ describe('Popover', () => {
     expect(container.firstChild).to.have.tagName('DIV');
     expect(container.firstChild).to.have.class('rs-popover');
     expect(container.firstChild?.textContent).to.equal(title);
-
-    //eslint-disable-next-line
     expect(container.querySelectorAll('.rs-popover-arrow')).to.have.lengthOf(1);
   });
 
   it('Popover should without arrow', () => {
     const { container } = render(<Popover arrow={false}>Test</Popover>);
 
-    //eslint-disable-next-line
     expect(container.querySelectorAll('.rs-popover-arrow')).to.have.lengthOf(0);
   });
 

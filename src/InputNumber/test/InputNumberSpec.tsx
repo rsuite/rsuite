@@ -257,7 +257,6 @@ describe('InputNumber', () => {
       // Move focus out
       userEvent.tab();
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(container).not.to.contain(document.activeElement);
     });
 

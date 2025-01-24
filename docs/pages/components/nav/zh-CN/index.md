@@ -65,7 +65,6 @@
 | classPrefix | string `('nav')`                                                     | 组件 CSS 类的前缀                             |
 | justified   | boolean                                                              | 宽度自适应                                    |
 | onSelect    | (eventKey: string, event: SyntheticEvent) => void                    | 选择事件触发的回调函数                        |
-| pullRight   | boolean                                                              | 显示在右侧                                    |
 | vertical    | boolean                                                              | 垂直导航                                      |
 
 ### `<Nav.Item>`

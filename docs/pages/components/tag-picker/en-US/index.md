@@ -63,8 +63,6 @@ Multi-select by tag and support new options
 
 ### `<TagPicker>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property               | Type`(Default)`                                                                | Description                                                                         |
 | ---------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | cacheData              | [ItemDataType][item][]                                                         | Option to cache `value` when searching asynchronously                               |

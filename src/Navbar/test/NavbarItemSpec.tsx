@@ -7,7 +7,7 @@ import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
 
-const wrapper: React.FC = ({ children }) => (
+const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Navbar>
     <Nav>{children}</Nav>
   </Navbar>
@@ -96,6 +96,7 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
     render(<NavbarItem classPrefix="custom-prefix" data-testid="navbar-item" />, {
       wrapper
     });
-    assert.ok(screen.getByTestId('navbar-item').className.match(/\bcustom-prefix\b/));
+
+    expect(screen.getByTestId('navbar-item')).to.have.class('rs-custom-prefix');
   });
 });

@@ -18,13 +18,9 @@ import Overlay, { OverlayProps } from './Overlay';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
 import { isFragment } from '@/internals/utils/ReactChildren';
-import type {
-  AnimationEventProps,
-  CursorPosition,
-  StandardProps,
-  TypeAttributes
-} from '@/internals/types';
+import type { AnimationEventProps, StandardProps, Placement } from '@/internals/types';
 import type { PositionChildProps, PositionInstance } from './Position';
+import type { CursorPosition } from './types';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 
@@ -44,7 +40,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   trigger?: OverlayTriggerType | OverlayTriggerType[];
 
   /** Display placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Delay time */
   delay?: number;
@@ -153,13 +149,13 @@ export enum OverlayCloseCause {
 function onMouseEventHandler(
   handler: (event: React.MouseEvent, delay?: number) => void,
   event: React.MouseEvent,
-  delay?: number
+  relatedNative: 'fromElement' | 'toElement'
 ) {
   const target = event.currentTarget;
-  const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
+  const related = event.relatedTarget || get(event, ['nativeEvent', relatedNative]);
 
   if ((!related || related !== target) && !contains(target as HTMLElement, related)) {
-    handler(event, delay);
+    handler(event);
   }
 }
 
@@ -406,6 +402,20 @@ const OverlayTrigger = React.forwardRef(
       }));
     }, []);
 
+    const handleMouseOver = useCallback(
+      (event: React.MouseEvent<Element, MouseEvent>) => {
+        onMouseEventHandler(handleDelayedOpen, event, 'fromElement');
+      },
+      [handleDelayedOpen]
+    );
+
+    const handleMouseOut = useCallback(
+      (event: React.MouseEvent<Element, MouseEvent>) => {
+        onMouseEventHandler(handleDelayedClose, event, 'toElement');
+      },
+      [handleDelayedClose]
+    );
+
     const preventDefault = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
     }, []);
@@ -447,11 +457,8 @@ const OverlayTrigger = React.forwardRef(
       }
 
       if (isOneOf('hover', trigger)) {
-        const onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
-        const onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
-
-        events.onMouseOver = createChainedFunction(onMouseOverListener, events.onMouseOver);
-        events.onMouseOut = createChainedFunction(onMouseOutListener, events.onMouseOut);
+        events.onMouseOver = createChainedFunction(handleMouseOver, events.onMouseOver);
+        events.onMouseOut = createChainedFunction(handleMouseOut, events.onMouseOut);
       }
 
       if (isOneOf('focus', trigger)) {
@@ -473,6 +480,8 @@ const OverlayTrigger = React.forwardRef(
       followCursor,
       handleDelayedClose,
       handleDelayedOpen,
+      handleMouseOut,
+      handleMouseOver,
       handleOpenState,
       handledMoveOverlay,
       onBlur,

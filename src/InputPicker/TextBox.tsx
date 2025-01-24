@@ -1,7 +1,7 @@
 import React from 'react';
 import TagList from './TagList';
-import { useClassNames } from '@/internals/hooks';
 import InputSearch, { InputSearchProps } from './InputSearch';
+import { useClassNames } from '@/internals/hooks';
 
 interface TextBoxProps {
   tags?: React.ReactNode;
@@ -59,5 +59,7 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     </div>
   );
 });
+
+TextBox.displayName = 'TextBox';
 
 export default TextBox;

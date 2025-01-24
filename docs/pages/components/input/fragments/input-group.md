@@ -3,7 +3,7 @@
 ```js
 import { Input, InputGroup } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const styles = {
   width: 300,

@@ -1,13 +1,13 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Whisper from '../../Whisper';
 import Tooltip from '../../Tooltip';
 import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 afterEach(() => {
   sinon.restore();
@@ -191,8 +191,7 @@ describe('Navbar', () => {
       // @see https://codesandbox.io/s/tooltip-in-navbar-94gxk
       render(
         <Navbar>
-          {/* pullRight makes the bug more obvious */}
-          <Nav pullRight>
+          <Nav>
             <Whisper
               open
               trigger="hover"

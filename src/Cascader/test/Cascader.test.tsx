@@ -28,6 +28,7 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
   }}
 />;
 
-const pickerRef = React.createRef<PickerHandle>();
-
-<Cascader ref={pickerRef} data={[]} />;
+// Check ref type
+const ref = React.useRef<PickerHandle>();
+<Cascader data={[]} ref={ref} />;
+ref.current?.open?.();

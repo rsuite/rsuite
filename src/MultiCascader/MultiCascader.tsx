@@ -1,14 +1,17 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
+import TreeView from '../MultiCascadeTree/TreeView';
+import SearchView from '../MultiCascadeTree/SearchView';
+import useActive from '../Cascader/useActive';
 import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
-import { PickerLocale } from '../locales';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
+import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
+import { useCustom } from '../CustomProvider';
 import {
   PickerToggle,
   PickerPopup,
@@ -21,18 +24,10 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
-  PickerComponent,
   PickerToggleProps
 } from '@/internals/Picker';
-import { deprecatePropTypeNew } from '@/internals/propTypes';
-import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
-import TreeView from '../MultiCascadeTree/TreeView';
-import SearchView from '../MultiCascadeTree/SearchView';
-import useActive from '../Cascader/useActive';
-import { oneOf } from '@/internals/propTypes';
-import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
+import type { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
+import type { PickerLocale } from '../locales';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
 export interface MultiCascaderProps<T extends DataItemValue = any>
@@ -124,7 +119,7 @@ const emptyArray = [];
  * The `MultiCascader` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascader/
  */
-const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.forwardRef(
+const MultiCascader = forwardRef<'div', MultiCascaderProps<DataItemValue>>(
   <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {
@@ -423,7 +418,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
 
     if (hasValue && isFunction(renderValue)) {
       selectedElement = renderValue(
-        value.length ? value : valueProp ?? [],
+        value.length ? value : (valueProp ?? []),
         selectedItems,
         selectedElement
       );
@@ -479,24 +474,5 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
 );
 
 MultiCascader.displayName = 'MultiCascader';
-MultiCascader.propTypes = {
-  ...listPickerPropTypes,
-  value: PropTypes.array,
-  disabledItemValues: PropTypes.array,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  cascade: PropTypes.bool,
-  countable: PropTypes.bool,
-  uncheckableItemValues: PropTypes.array,
-  searchable: PropTypes.bool,
-  onSearch: PropTypes.func,
-  onSelect: PropTypes.func,
-  onCheck: PropTypes.func,
-  inline: deprecatePropTypeNew(PropTypes.bool, 'Use `<MultiCascadeTree>` instead.'),
-  renderMenu: deprecatePropTypeNew(PropTypes.func, 'Use "renderColumn" property instead.'),
-  renderMenuItem: deprecatePropTypeNew(PropTypes.func, 'Use "renderTreeNode" property instead.'),
-  menuWidth: deprecatePropTypeNew(PropTypes.number, 'Use "columnWidth" property instead.'),
-  menuHeight: deprecatePropTypeNew(PropTypes.number, 'Use "columnHeight" property instead.')
-};
 
 export default MultiCascader;

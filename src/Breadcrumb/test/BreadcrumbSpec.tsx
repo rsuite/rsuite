@@ -117,10 +117,12 @@ describe('Breadcrumb', () => {
   });
 
   it('Should not render null or undefined children', () => {
+    const show = false;
     render(
       <Breadcrumb>
         <Breadcrumb.Item>1</Breadcrumb.Item>
-        {false && <Breadcrumb.Item>2</Breadcrumb.Item>}
+
+        {show && <Breadcrumb.Item>2</Breadcrumb.Item>}
         {null}
         {undefined}
         <Breadcrumb.Item>3</Breadcrumb.Item>

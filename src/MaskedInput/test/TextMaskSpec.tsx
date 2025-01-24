@@ -11,7 +11,6 @@ type TextMastTestInstance = {
 };
 
 const TextMaskTest = React.forwardRef((props: TextMaskProps, ref) => {
-  // eslint-disable-next-line react/prop-types
   const { value: valueProp, ...rest } = props;
   const [value, setValue] = React.useState(valueProp || '');
   const [restProps, setRestProps] = React.useState(rest);
@@ -502,7 +501,7 @@ describe('TextMask as controlled component', () => {
           ({
             value: `Tel. ${conformedValue}`,
             indexesOfPipedChars: [0, 1, 2, 3, 4]
-          } as any)
+          }) as any
       });
     });
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import Listbox from '../Listbox';
 import ListItem from '../ListItem';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import { getDataGroupBy } from '@/internals/utils';
-import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';
 
@@ -107,7 +107,7 @@ describe('picker -  Listbox', () => {
   });
 
   it('Should call onSelect callback with correct value', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <Listbox
@@ -125,7 +125,7 @@ describe('picker -  Listbox', () => {
   });
 
   it('Should call onGroupTitleClick callback', () => {
-    const onGroupTitleClick = Sinon.spy();
+    const onGroupTitleClick = sinon.spy();
 
     render(
       <Listbox

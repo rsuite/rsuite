@@ -46,17 +46,15 @@ node_modules
 .stylelintcache
 
 # custom
-
-.vscode
-_build
-build
 .DS_Store
-lib/
-es/
+
+# Editor
+.vscode
 .idea
-karma.sauce.conf.js
-dev-publish.sh
-dist
-docs/out/
-/types
-/less/
+
+# build
+lib/
+
+
+# generated
+docs/public/examples

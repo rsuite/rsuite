@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Checkbox from '../Checkbox';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Checkbox', () => {
   testStandardProps(<Checkbox />, {
@@ -18,7 +18,6 @@ describe('Checkbox', () => {
 
   it('Should have a `title` attribute', () => {
     const { container } = render(<Checkbox title="My title">Test</Checkbox>);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 

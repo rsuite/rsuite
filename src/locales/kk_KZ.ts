@@ -1,4 +1,4 @@
-import kk from 'date-fns/locale/kk';
+import { kk } from 'date-fns/locale/kk';
 
 const DateTimeFormats = {
   sunday: 'Жк',

@@ -40,9 +40,6 @@
 //drop-shadow
 .drop-shadow(@shadow) {
   filter: drop-shadow(@shadow);
-  // IE don't support `drop-shadow`,replace it with `box-shadow`.
-  // FIXME duplicated shadows
-  .ie-box-shadow(@shadow);
 }
 
 .set-translate-transition(@translateX:0,@translateY:0) {
@@ -164,4 +161,29 @@
 .unset-focus-ring() {
   box-shadow: none;
   outline: none;
+}
+
+/**
+  * Map mixin
+  * @param {string} @size-name - The size name
+  * @param {string} @suffix - The suffix
+  */
+.map-size(@size-name) {
+  .map(base) {
+    @suffix: '';
+  }
+  .map(small) {
+    @suffix: '-sm';
+  }
+  .map(medium) {
+    @suffix: '-md';
+  }
+  .map(large) {
+    @suffix: '-lg';
+  }
+  .map(extra-small) {
+    @suffix: '-xs';
+  }
+
+  .map(@size-name);
 }

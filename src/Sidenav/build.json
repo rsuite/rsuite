@@ -2,6 +2,8 @@
   "components": {
     "SidenavHeader": "Sidenav/SidenavHeader",
     "SidenavBody": "Sidenav/SidenavBody",
-    "SidenavToggle": "Sidenav/SidenavToggle"
+    "SidenavFooter": "Sidenav/SidenavFooter",
+    "SidenavToggle": "Sidenav/SidenavToggle",
+    "SidenavGroupLabel": "Sidenav/SidenavGroupLabel"
   }
 }

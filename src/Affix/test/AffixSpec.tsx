@@ -1,7 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor, act } from '@testing-library/react';
 import sinon from 'sinon';
 import getOffset from 'dom-lib/getOffset';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Affix from '../Affix';
 
@@ -40,9 +40,8 @@ describe('Affix', () => {
 
     const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(affix).to.have.class('rs-affix');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(affix).to.have.style('position', 'fixed');
   });
 

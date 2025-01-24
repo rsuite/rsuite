@@ -2,7 +2,7 @@
 
 ```js
 import { TimePicker } from 'rsuite';
-import isBefore from 'date-fns/isBefore';
+import { isBefore } from 'date-fns/isBefore';
 
 const App = () => (
   <div>

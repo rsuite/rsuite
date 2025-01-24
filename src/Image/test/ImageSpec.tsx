@@ -84,7 +84,7 @@ describe('Image', () => {
   it('Should render with fallbackSrc', async () => {
     render(
       <Image
-        src="https://example.com/nonexistent-image.jpg"
+        src="https://rsuitejs.com/nonexistent-image.jpg"
         fallbackSrc="https://placehold.co/300x200"
       />
     );

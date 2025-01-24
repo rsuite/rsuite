@@ -6,32 +6,40 @@
 // --------------------------------------------------
 
 .rs-navbar {
-  .clearfix();
-}
+  --rs-navbar-padding-y: 10px;
+  --rs-navbar-padding-x: 16px;
+  --rs-navbar-gap: 16px;
 
-.rs-navbar-header {
-  float: left;
-  display: inline-block;
-  height: @navbar-height;
-  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--rs-navbar-padding-y) var(--rs-navbar-padding-x);
+  gap: var(--rs-navbar-gap);
 
-  a {
-    color: inherit;
+  .rs-input,
+  .rs-input-group {
+    width: auto;
   }
 }
 
-.rs-navbar-brand {
-  &:extend(.rs-navbar-header); // TODO deprecate .rs-navbar-header
+.rs-navbar-content {
+  display: flex;
+  align-items: center;
+  gap: var(--rs-navbar-gap);
+}
 
-  padding: 18px 20px;
+.rs-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 // Common
 .rs-navbar-nav {
-  float: left;
+  display: flex;
 
-  &.rs-navbar-right {
-    float: right;
+  &.rs-nav-vertical {
+    flex-direction: column;
   }
 
   &:focus {
@@ -54,10 +62,8 @@
 .rs-navbar-item {
   // Reset padding
   padding: @navbar-item-padding-y @navbar-item-padding-x;
-  height: @navbar-height;
-  border-radius: 0;
+  border-radius: 6px;
   color: inherit;
-  float: left;
   background-color: transparent;
   position: relative;
   overflow: hidden;
@@ -182,6 +188,11 @@
       color: var(--rs-navbar-inverse-selected-text);
     });
   }
+
+  .rs-navbar-brand,
+  .rs-text {
+    color: var(--rs-navbar-inverse-text);
+  }
 }
 
 // Subtle Navbar
@@ -202,5 +213,13 @@
   .rs-navbar-item.rs-navbar-item-active,
   .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
     color: var(--rs-navbar-subtle-selected-text);
+  }
+}
+
+.rs-navbar-drawer {
+  --rs-drawer-body-padding: 16px;
+
+  .rs-drawer-body {
+    padding: var(--rs-drawer-body-padding);
   }
 }

@@ -1,17 +1,17 @@
 import React from 'react';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import MultiCascader from '../MultiCascader';
+import Button from '../../Button';
+import CustomProvider from '@/CustomProvider';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { mockTreeData } from '@test/mocks/data-mock';
 import {
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import MultiCascader from '../MultiCascader';
-import Button from '../../Button';
-import { PickerHandle } from '@/internals/Picker';
-import CustomProvider from '@/CustomProvider';
-import { mockTreeData } from '@test/mocks/data-mock';
+import type { PickerHandle } from '@/internals/Picker';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
@@ -354,7 +354,7 @@ describe('MultiCascader', () => {
     render(
       <MultiCascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     const checkbox = screen.getByRole('tree').querySelectorAll('.rs-checkbox')[2];
 
     fireEvent.click(checkbox);
@@ -421,7 +421,6 @@ describe('MultiCascader', () => {
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
       .exist;
   });

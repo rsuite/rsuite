@@ -1,15 +1,8 @@
-import { ReactNode } from 'react';
+import type { DateOptionPreset } from '@/internals/types';
 
 export type ToolbarValue = Date | [Date?, Date?];
 
-export interface RangeType<T> {
-  label: ReactNode;
-  closeOverlay?: boolean;
-  value: T | ((value: T) => T);
-  placement?: 'bottom' | 'left';
-}
-
-export interface InnerRange<T> extends Omit<RangeType<T>, 'value'> {
+export interface InnerRange<T> extends Omit<DateOptionPreset<T>, 'value'> {
   value: T;
 }
 

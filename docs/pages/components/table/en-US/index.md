@@ -132,19 +132,21 @@ Set a `sortable` attribute in the column `<Column>` that you want to sort.
 While the `<Table>` defines a `onSortColumn` callback function, clicking the column header to sort the icon triggers the method and returns `sortColumn` and `sortType`.
 
 ```html
-<Table onSortColumn={(sortColumn, sortType) => { console.log(sortColumn, sortType); }} >
+<table onSortColumn="{(sortColumn," sortType)="">
+  { console.log(sortColumn, sortType); }} >
 
-<Column width="{50}" sortable>
-  <HeaderCell>Id</HeaderCell>
-  <Cell dataKey="id" />
-</Column>
+  <Column width="{50}" sortable>
+    <HeaderCell>Id</HeaderCell>
+    <Cell dataKey="id" />
+  </Column>
 
-<Column width="{130}" sortable>
-  <HeaderCell>First Name</HeaderCell>
-  <Cell dataKey="firstName" />
-</Column>
+  <Column width="{130}" sortable>
+    <HeaderCell>First Name</HeaderCell>
+    <Cell dataKey="firstName" />
+  </Column>
 
-...
+  ...
+</table>
 ```
 
 ### Pagination
@@ -240,8 +242,6 @@ Display the hidden text in its entirety when hovering over the cell.
 ## Props
 
 ### `<Table>`
-
-<!-- prettier-sort-markdown-table -->
 
 | Property                 | Type `(Default)`                                                                                  | Description                                                                                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

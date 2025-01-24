@@ -178,7 +178,6 @@ describe('<Dropdown>', () => {
 
   it('Should not show caret', () => {
     const { container } = render(<Dropdown noCaret />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     expect(container.querySelector('.rs-dropdown-toggle-caret')).not.to.exist;
   });
 
@@ -378,13 +377,8 @@ describe('<Dropdown>', () => {
 
             fireEvent.keyDown(button, { key });
 
-            assert.isFalse(menu.hidden, 'The menu is open');
-
-            assert.equal(
-              menu.getAttribute('aria-activedescendant'),
-              'first-menuitem',
-              'aria-activedescendant'
-            );
+            expect(menu.hidden).to.be.false;
+            expect(menu).to.have.attribute('aria-activedescendant', 'first-menuitem');
           });
           it('Should skip disabled items', () => {
             const { button, menu } = renderDropdown(

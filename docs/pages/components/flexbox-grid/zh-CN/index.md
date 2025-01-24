@@ -24,11 +24,11 @@
 
  <!--{include:`order.md`}-->
 
-### 响应式
+## 响应式
 
 与 `<Col>` 组件结合可以实现响应式。
 
- <!--{include:`responsive.md`}-->
+<!--{include:<example-responsive>}-->
 
 ## Props
 

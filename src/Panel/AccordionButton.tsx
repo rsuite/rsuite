@@ -3,7 +3,7 @@ import Icon from '@rsuite/icons/Icon';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import { useClassNames } from '@/internals/hooks';
 
-interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   expanded?: boolean;
   controlId?: string;
   classPrefix?: string;

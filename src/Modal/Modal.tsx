@@ -1,21 +1,18 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
-import BaseModal, { BaseModalProps, modalPropTypes } from '@/internals/Overlay/Modal';
+import BaseModal, { BaseModalProps } from '@/internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
-import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
+import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
-import { RsRefForwardingComponent } from '@/internals/types';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
@@ -59,19 +56,20 @@ export interface ModalProps
   /** Custom close button, used when rendered as a Drawer */
   closeButton?: React.ReactNode | boolean;
 }
-interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
-  Body: typeof ModalBody;
-  Header: typeof ModalHeader;
-  Title: typeof ModalTitle;
-  Footer: typeof ModalFooter;
-  Dialog: typeof ModalDialog;
-}
+
+const Subcomponents = {
+  Body: ModalBody,
+  Header: ModalHeader,
+  Title: ModalTitle,
+  Footer: ModalFooter,
+  Dialog: ModalDialog
+};
 
 /**
  * The `Modal` component is used to show content in a layer above the app.
  * @see https://rsuitejs.com/components/modal
  */
-const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
+const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Modal', props);
   const {
     animation = Bounce,
@@ -82,7 +80,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     backdropClassName,
     backdrop = true,
     className,
-    children,
     classPrefix = 'modal',
     dialogClassName,
     dialogStyle,
@@ -255,38 +252,28 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
               aria-describedby={ariaDescribedby}
               style={{ [sizeKey]: modalSizes.includes(size) ? undefined : size }}
               {...transitionRest}
-              {...pick(rest, Object.keys(modalDialogPropTypes))}
+              {...pick(rest, [
+                'size',
+                'className',
+                'classPrefix',
+                'dialogClassName',
+                'style',
+                'dialogStyle',
+                'children'
+              ])}
               ref={mergeRefs(dialogRef, transitionRef)}
               classPrefix={classPrefix}
               className={merge(classes, transitionClassName, prefix({ shake }))}
               dialogClassName={dialogClassName}
               dialogStyle={dialogStyle}
-            >
-              {children}
-            </Dialog>
+            />
           );
         }}
       </BaseModal>
     </ModalContext.Provider>
   );
-}) as unknown as ModalComponent;
-Modal.Body = ModalBody;
-Modal.Header = ModalHeader;
-Modal.Title = ModalTitle;
-Modal.Footer = ModalFooter;
-Modal.Dialog = ModalDialog;
+}, Subcomponents);
+
 Modal.displayName = 'Modal';
-Modal.propTypes = {
-  ...modalPropTypes,
-  animation: PropTypes.any,
-  animationTimeout: PropTypes.number,
-  classPrefix: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  size: PropTypes.oneOfType([oneOf(modalSizes), PropTypes.number, PropTypes.string]),
-  dialogStyle: PropTypes.object,
-  dialogAs: PropTypes.elementType,
-  full: deprecatePropType(PropTypes.bool, 'Use size="full" instead.'),
-  overflow: PropTypes.bool
-};
 
 export default Modal;

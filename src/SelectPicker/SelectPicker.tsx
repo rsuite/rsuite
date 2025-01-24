@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -7,7 +6,13 @@ import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';
+import {
+  forwardRef,
+  createChainedFunction,
+  mergeRefs,
+  shallowEqual,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListItem,
@@ -22,11 +27,8 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
-  PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import { oneOf } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
 import type { ListProps } from '@/internals/Windowing';
 import type { FormControlPickerProps, ItemDataType } from '@/internals/types';
@@ -110,21 +112,16 @@ export interface SelectPickerProps<T = any>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(
-    props: SelectPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: SelectPickerProps<T>): JSX.Element | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<SelectPickerProps<any>>;
 }
 
 /**
  * The `SelectPicker` component is used to select an item from a list of data.
  * @see https://rsuitejs.com/components/select-picker/
  */
-const SelectPicker = React.forwardRef(
-  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+const SelectPicker = forwardRef<'div', SelectPickerProps>(
+  <T extends number | string>(props: SelectPickerProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('SelectPicker', props);
     const {
       as: Component = 'div',
@@ -413,26 +410,5 @@ const SelectPicker = React.forwardRef(
 ) as SelectPickerComponent;
 
 SelectPicker.displayName = 'SelectPicker';
-SelectPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  /**
-   * group by key in `data`
-   */
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  searchable: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default SelectPicker;
