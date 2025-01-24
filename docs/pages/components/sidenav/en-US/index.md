@@ -58,6 +58,10 @@ The `appearance` prop allows you to define the appearance of the Sidenav. The av
 
 <!--{include:`appearance.md`}-->
 
+### In Modal
+
+<!--{include:`in-modal.md`}-->
+
 ## Props
 
 ### `<Sidenav>`

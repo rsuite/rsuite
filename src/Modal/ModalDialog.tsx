@@ -31,7 +31,7 @@ const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps
   return (
     <Component role="dialog" aria-modal {...rest} ref={ref} className={classes} style={modalStyle}>
       <div role="document" className={dialogClasses} style={dialogStyle}>
-        <div className={prefix`content`}>{children}</div>
+        {children}
       </div>
     </Component>
   );

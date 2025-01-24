@@ -14,7 +14,24 @@ import SearchIcon from '@rsuite/icons/Search';
 import NoticeIcon from '@rsuite/icons/Notice';
 import CalenderDateIcon from '@rsuite/icons/CalenderDate';
 import HistoryIcon from '@rsuite/icons/History';
-import { Sidenav, Nav, Button, Toggle, HStack, VStack, Input, InputGroup, Badge } from 'rsuite';
+import PageIcon from '@rsuite/icons/Page';
+import ImageIcon from '@rsuite/icons/Image';
+import FolderIcon from '@rsuite/icons/Folder';
+import StarIcon from '@rsuite/icons/Star';
+import TrashIcon from '@rsuite/icons/Trash';
+import {
+  Sidenav,
+  Nav,
+  Button,
+  Toggle,
+  HStack,
+  VStack,
+  Input,
+  InputGroup,
+  Badge,
+  Modal,
+  Placeholder
+} from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 
 const inDocsComponents = {
@@ -35,6 +52,8 @@ export default function Page() {
         Toggle,
         Input,
         InputGroup,
+        Modal,
+        Placeholder,
         SettingIcon,
         PeoplesIcon,
         OperatePeopleIcon,
@@ -48,6 +67,11 @@ export default function Page() {
         GearIcon,
         SearchIcon,
         NoticeIcon,
+        PageIcon,
+        ImageIcon,
+        FolderIcon,
+        StarIcon,
+        TrashIcon,
         SiProtondb
       }}
     />

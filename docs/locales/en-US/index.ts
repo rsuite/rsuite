@@ -69,7 +69,8 @@ export default {
     mobile: 'Mobile',
     tablet: 'Tablet',
     desktop: 'Desktop',
-    code: 'Code'
+    code: 'Code',
+    openInNewTab: 'Open in New Tab'
   },
   components: {
     noComponent: "Can't find the component you want? ",

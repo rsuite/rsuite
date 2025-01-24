@@ -8,6 +8,7 @@ import {
   IoDesktopOutline,
   IoPhonePortraitOutline,
   IoTabletPortraitOutline,
+  IoExpandOutline,
   IoLogoGithub
 } from 'react-icons/io5';
 
@@ -36,6 +37,7 @@ const Simulation: React.FC<SimulationProps> = ({
   const [loading, setLoading] = useState(false);
   const { locales } = useApp();
   const codeRef = useRef<HTMLElement>(null);
+  const exampleUrl = `/components/${componentName}/examples?example=${example}`;
 
   const getDeviceDimensions = () => {
     switch (device) {
@@ -75,42 +77,47 @@ const Simulation: React.FC<SimulationProps> = ({
     }
   }, [sourceCode]);
 
+  const handleChangeDevice = (key: string) => {
+    if (key === 'openInNewTab') {
+      window.open(exampleUrl, '_blank');
+      return;
+    }
+
+    setDevice(key as Device);
+  };
+
   return (
     <div className="rs-simulation">
       <HStack justifyContent="space-between" alignItems="flex-start">
-        <Tabs
-          appearance="pills"
-          activeKey={type}
-          onSelect={(key: 'preview' | 'code') => setType(key)}
-        >
-          <Tabs.Tab eventKey="preview" title="Preview" />
-          <Tabs.Tab eventKey="code" title="Code" />
+        <Tabs appearance="pills" activeKey={device} onSelect={handleChangeDevice}>
+          <Tabs.Tab
+            eventKey="desktop"
+            title={<IoDesktopOutline title={locales?.common.desktop} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="tablet"
+            title={<IoTabletPortraitOutline title={locales?.common.tablet} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="mobile"
+            title={<IoPhonePortraitOutline title={locales?.common.mobile} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="openInNewTab"
+            title={<IoExpandOutline title={locales?.common.openInNewTab} size={20} />}
+          />
         </Tabs>
 
         <HStack spacing={8}>
           <Tabs
             appearance="pills"
-            activeKey={device}
-            onSelect={(key: string) => setDevice(key as Device)}
+            activeKey={type}
+            onSelect={(key: 'preview' | 'code') => setType(key)}
           >
-            <Tabs.Tab
-              eventKey="desktop"
-              title={<IoDesktopOutline title={locales?.common.desktop} size={20} />}
-            />
-            <Tabs.Tab
-              eventKey="tablet"
-              title={<IoTabletPortraitOutline title={locales?.common.tablet} size={20} />}
-            />
-            <Tabs.Tab
-              eventKey="mobile"
-              title={<IoPhonePortraitOutline title={locales?.common.mobile} size={20} />}
-            />
+            <Tabs.Tab eventKey="preview" title="Preview" />
+            <Tabs.Tab eventKey="code" title="Code" />
           </Tabs>
-        </HStack>
-
-        <HStack spacing={8}>
           <IconButton
-            size="sm"
             icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
             target="_blank"
             title={locales?.common.seeTheSourceOnGitHub}
@@ -139,7 +146,7 @@ const Simulation: React.FC<SimulationProps> = ({
           </pre>
         )}
         <iframe
-          src={`/components/${componentName}/examples?example=${example}`}
+          src={exampleUrl}
           style={{
             width: '100%',
             height: '100%',

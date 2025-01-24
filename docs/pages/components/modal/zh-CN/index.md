@@ -82,6 +82,7 @@
 | container         | HTMLElement &#124; (() => HTMLElement)                                                     | 设置渲染的容器                                                                                       |
 | dialogAs          | ElementType `(ModalDialog)`                                                                | 以对 Dialog 使用自定义元素类型                                                                       |
 | dialogClassName   | string                                                                                     | 应用于 Dialog DOM 节点的 css class                                                                   |
+| dialogStyle       | CSSProperties                                                                              | 应用于 Dialog DOM 节点的 css style                                                                   |
 | enforceFocus      | boolean `(true)`                                                                           | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
 | keyboard          | boolean `(true)`                                                                           | 按下 esc 键时关闭 Modal                                                                              |
 | onClose           | () => void                                                                                 | 隐藏时的回调函数                                                                                     |
