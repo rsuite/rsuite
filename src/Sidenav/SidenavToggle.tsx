@@ -15,7 +15,8 @@ const SidenavToggle = forwardRef<'div', SidenavToggleProps>((props, ref) => {
   const sidenav = useContext(SidenavContext);
 
   if (!sidenav) {
-    throw new Error('<Sidenav.Toggle> must be rendered within a <Sidenav>');
+    console.error('<Sidenav.Toggle> must be rendered within a <Sidenav>');
+    return null;
   }
 
   const { className, classPrefix = 'sidenav-toggle', onToggle, ...rest } = props;

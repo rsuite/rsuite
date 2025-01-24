@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Sidenav.Toggle', () => {
   testStandardProps(<SidenavToggle />, {
@@ -44,5 +44,25 @@ describe('Sidenav.Toggle', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Collapse' }));
 
     expect(onToggle).to.have.been.calledWith(false);
+  });
+
+  describe('When rendered outside of Sidenav', () => {
+    let errorStub;
+
+    beforeEach(() => {
+      errorStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      errorStub.restore();
+    });
+
+    it('Should throw error', () => {
+      render(<SidenavToggle />);
+
+      expect(errorStub).to.have.been.calledWith(
+        '<Sidenav.Toggle> must be rendered within a <Sidenav>'
+      );
+    });
   });
 });
