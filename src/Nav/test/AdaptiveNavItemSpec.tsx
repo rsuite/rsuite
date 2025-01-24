@@ -65,7 +65,7 @@ describe('<AdaptiveNavItem>', () => {
       </Sidenav>
     );
 
-    expect(screen.getByText('Item')).to.have.class('rs-sidenav-item');
+    expect(screen.getByText('Item')).to.have.class('rs-sidenav-item-title');
   });
 
   it('Should render a adaptive Sidenav Dropdown Item', () => {

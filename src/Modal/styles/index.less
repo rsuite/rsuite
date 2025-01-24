@@ -75,7 +75,7 @@
     margin: 0;
     height: 100%;
 
-    .rs-modal-content {
+    .rs-modal-dialog {
       position: absolute;
       height: 100%;
       width: 100%;
@@ -104,7 +104,7 @@
 }
 
 // Actual modal
-.rs-modal-content {
+.rs-modal-dialog {
   position: relative;
   background-color: var(--rs-bg-overlay);
   border: var(--rs-modal-border, none);
@@ -113,6 +113,7 @@
   outline: 0;
   box-shadow: var(--rs-modal-shadow);
   padding: @modal-content-padding;
+  overflow: auto;
 }
 
 // Modal header

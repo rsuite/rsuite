@@ -144,8 +144,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
             [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
             [open ? 'expand' : 'collapse']: true,
             disabled,
-            'selected-within': hasSelectedItems,
-            'no-caret': noCaret
+            'selected-within': hasSelectedItems
           })
         );
 

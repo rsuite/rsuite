@@ -1,4 +1,9 @@
 import React from 'react';
+import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+import FakeBrowser from '@/components/FakeBrowser';
+import Icon from '@rsuite/icons/Icon';
+import Simulation from '@/components/Simulation';
 import {
   Container,
   Header,
@@ -22,10 +27,6 @@ import {
   InputGroup,
   Breadcrumb
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import ImportGuide from '@/components/ImportGuide';
-import FakeBrowser from '@/components/FakeBrowser';
-import Icon from '@rsuite/icons/Icon';
 import { FaGithub, FaRegEye, FaRegEyeSlash, FaReact } from 'react-icons/fa';
 import {
   MdDashboard,
@@ -41,7 +42,11 @@ import files from './files';
 const inDocsComponents = {
   'import-guide': () => (
     <ImportGuide components={['Container', 'Header', 'Content', 'Footer', 'Sidebar']} />
-  )
+  ),
+  'example-horizontal': () => <Simulation example="horizontal" componentName="container" />,
+  'example-vertical': () => <Simulation example="vertical" componentName="container" />,
+  'example-center': () => <Simulation example="center" componentName="container" />,
+  'example-right-sidebar': () => <Simulation example="right-sidebar" componentName="container" />
 };
 
 export default function Page() {

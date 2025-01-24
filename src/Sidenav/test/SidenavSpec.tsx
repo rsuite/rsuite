@@ -65,6 +65,30 @@ describe('<Sidenav>', () => {
       expect(screen.getByText('Dropdown Item')).to.be.visible;
     });
 
+    it('Should not render panel when sidenav is not expanded', () => {
+      const { container } = render(
+        <Sidenav expanded={false}>
+          <Nav>
+            <Nav.Item panel>Panel Item</Nav.Item>
+          </Nav>
+        </Sidenav>
+      );
+
+      expect(container.querySelector('.rs-dropdown-item-panel')).to.not.exist;
+    });
+
+    it('Should not render divider when sidenav is not expanded', () => {
+      const { container } = render(
+        <Sidenav expanded={false}>
+          <Nav>
+            <Nav.Item divider />
+          </Nav>
+        </Sidenav>
+      );
+
+      expect(container.querySelector('.rs-dropdown-item-divider')).to.not.exist;
+    });
+
     describe('<Dropdown.Item>', () => {
       it('Should render custom component defined by `as`', () => {
         const Link = ({ to, ...props }) => <a href={to} {...props} />;

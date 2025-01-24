@@ -8,11 +8,11 @@ import {
   IoDesktopOutline,
   IoPhonePortraitOutline,
   IoTabletPortraitOutline,
-  IoLogoGithub,
-  IoCodeSlash
+  IoExpandOutline,
+  IoLogoGithub
 } from 'react-icons/io5';
 
-type Device = 'desktop' | 'tablet' | 'mobile' | 'code';
+type Device = 'desktop' | 'tablet' | 'mobile';
 
 interface SimulationProps {
   componentName: string;
@@ -32,10 +32,12 @@ const Simulation: React.FC<SimulationProps> = ({
   defaultDevice = 'desktop'
 }) => {
   const [device, setDevice] = useState(defaultDevice);
+  const [type, setType] = useState<'preview' | 'code'>('preview');
   const [sourceCode, setSourceCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { locales } = useApp();
   const codeRef = useRef<HTMLElement>(null);
+  const exampleUrl = `/components/${componentName}/examples?example=${example}`;
 
   const getDeviceDimensions = () => {
     switch (device) {
@@ -51,7 +53,7 @@ const Simulation: React.FC<SimulationProps> = ({
   const dimensions = getDeviceDimensions();
 
   useEffect(() => {
-    if (device === 'code' && !sourceCode) {
+    if (type === 'code' && !sourceCode) {
       setLoading(true);
       fetch(`/api/sourcecode?componentName=${componentName}&example=${example}`)
         .then(res => res.json())
@@ -67,7 +69,7 @@ const Simulation: React.FC<SimulationProps> = ({
           setLoading(false);
         });
     }
-  }, [device, componentName, example]);
+  }, [type, componentName, example]);
 
   useEffect(() => {
     if (codeRef.current && sourceCode) {
@@ -75,38 +77,53 @@ const Simulation: React.FC<SimulationProps> = ({
     }
   }, [sourceCode]);
 
+  const handleChangeDevice = (key: string) => {
+    if (key === 'openInNewTab') {
+      window.open(exampleUrl, '_blank');
+      return;
+    }
+
+    setDevice(key as Device);
+  };
+
   return (
     <div className="rs-simulation">
       <HStack justifyContent="space-between" alignItems="flex-start">
+        <Tabs appearance="pills" activeKey={device} onSelect={handleChangeDevice}>
+          <Tabs.Tab
+            eventKey="desktop"
+            title={<IoDesktopOutline title={locales?.common.desktop} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="tablet"
+            title={<IoTabletPortraitOutline title={locales?.common.tablet} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="mobile"
+            title={<IoPhonePortraitOutline title={locales?.common.mobile} size={20} />}
+          />
+          <Tabs.Tab
+            eventKey="openInNewTab"
+            title={<IoExpandOutline title={locales?.common.openInNewTab} size={20} />}
+          />
+        </Tabs>
+
         <HStack spacing={8}>
           <Tabs
             appearance="pills"
-            activeKey={device}
-            onSelect={(key: string) => setDevice(key as Device)}
+            activeKey={type}
+            onSelect={(key: 'preview' | 'code') => setType(key)}
           >
-            <Tabs.Tab
-              eventKey="desktop"
-              title={<IoDesktopOutline title={locales?.common.desktop} />}
-            />
-            <Tabs.Tab
-              eventKey="tablet"
-              title={<IoTabletPortraitOutline title={locales?.common.tablet} />}
-            />
-            <Tabs.Tab
-              eventKey="mobile"
-              title={<IoPhonePortraitOutline title={locales?.common.mobile} />}
-            />
-            <Tabs.Tab eventKey="code" title={<IoCodeSlash title={locales?.common.code} />} />
+            <Tabs.Tab eventKey="preview" title="Preview" />
+            <Tabs.Tab eventKey="code" title="Code" />
           </Tabs>
+          <IconButton
+            icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
+            target="_blank"
+            title={locales?.common.seeTheSourceOnGitHub}
+            href={`https://github.com/rsuite/rsuite/tree/main/docs/pages/components/${componentName}/examples/${example}.tsx`}
+          />
         </HStack>
-
-        <IconButton
-          size="sm"
-          icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
-          target="_blank"
-          title={locales?.common.seeTheSourceOnGitHub}
-          href={`https://github.com/rsuite/rsuite/tree/main/docs/pages/components/${componentName}/examples/${example}.tsx`}
-        />
       </HStack>
 
       <DeviceFrame style={dimensions}>
@@ -122,19 +139,19 @@ const Simulation: React.FC<SimulationProps> = ({
             <Loader size="md" content="Loading..." />
           </div>
         ) : (
-          <pre className="hljs" style={{ display: device === 'code' ? 'block' : 'none' }}>
+          <pre className="hljs" style={{ display: type === 'code' ? 'block' : 'none' }}>
             <code ref={codeRef} className="typescript">
               {sourceCode}
             </code>
           </pre>
         )}
         <iframe
-          src={`/components/${componentName}/examples?example=${example}`}
+          src={exampleUrl}
           style={{
             width: '100%',
             height: '100%',
             border: 'none',
-            display: device === 'code' ? 'none' : 'block'
+            display: type === 'code' ? 'none' : 'block'
           }}
         />
       </DeviceFrame>

@@ -200,7 +200,7 @@
         "id": "modal-integrations",
         "name": "Modal Integrations",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       }
     ]
   },
@@ -247,7 +247,14 @@
         "id": "sidenav",
         "name": "Sidenav",
         "title": "侧导航",
-        "components": ["Sidenav", "Sidenav.Header", "Sidenav.Body"]
+        "components": [
+          "Sidenav",
+          "Sidenav.Header",
+          "Sidenav.Body",
+          "Sidenav.Footer",
+          "Sidenav.Toggle",
+          "Sidenav.GroupLabel"
+        ]
       },
       {
         "id": "steps",
@@ -322,13 +329,13 @@
         "id": "form-formik",
         "name": "Formik",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "form-react-hook-form",
         "name": "React Hook Form",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "schema",

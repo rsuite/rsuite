@@ -7,9 +7,8 @@ describe('SidenavHeader', () => {
   testStandardProps(<SidenavHeader />);
 
   it('Should render a header', () => {
-    const title = 'Test';
-    const { container } = render(<SidenavHeader>{title}</SidenavHeader>);
+    const { container } = render(<SidenavHeader>header</SidenavHeader>);
     expect(container.firstChild).to.have.class('rs-sidenav-header');
-    expect(container.firstChild).to.have.text(title);
+    expect(container.firstChild).to.have.text('header');
   });
 });

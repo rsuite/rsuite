@@ -9,21 +9,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Invalid parameters' });
   }
 
-  try {
-    const examplesPath = path.join(process.cwd(), 'public', 'examples.json');
+  // Validate input format
+  const namePattern = /^[a-zA-Z0-9-]+$/;
+  if (!namePattern.test(componentName) || !namePattern.test(example)) {
+    return res.status(400).json({ error: 'Invalid parameter format' });
+  }
 
-    if (!fs.existsSync(examplesPath)) {
-      return res.status(500).json({ error: 'Examples file not found' });
+  try {
+    // Define the root directory for examples
+    const rootDir = path.resolve(process.cwd(), 'public', 'examples');
+
+    // Construct and normalize the file path
+    const fileName = `${componentName}-${example}.json`;
+    const examplePath = path.resolve(rootDir, fileName);
+
+    // Verify the path is within the root directory
+    if (!examplePath.startsWith(rootDir)) {
+      return res.status(403).json({ error: 'Access denied' });
     }
 
-    const examples = JSON.parse(fs.readFileSync(examplesPath, 'utf-8'));
-
-    if (!examples[componentName] || !examples[componentName][example]) {
+    // Check if file exists
+    if (!fs.existsSync(examplePath)) {
       return res.status(404).json({ error: 'Example not found' });
     }
 
-    const sourceCode = examples[componentName][example];
-    res.status(200).json({ sourceCode });
+    const exampleData = JSON.parse(fs.readFileSync(examplePath, 'utf-8'));
+    res.status(200).json({ sourceCode: exampleData.content });
   } catch (error) {
     console.error('Error reading source code:', error);
     res.status(500).json({ error: 'Internal server error' });

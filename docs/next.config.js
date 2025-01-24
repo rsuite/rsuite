@@ -43,6 +43,19 @@ module.exports = {
   experimental: {
     externalDir: true
   },
+  // Exclude example pages from static generation
+  exportPathMap: async function (defaultPathMap) {
+    const pathMap = { ...defaultPathMap };
+    
+    // Remove example pages from static generation
+    Object.keys(pathMap).forEach(path => {
+      if (path.includes('/examples/')) {
+        delete pathMap[path];
+      }
+    });
+    
+    return pathMap;
+  },
   /**
    *
    * @param {import('webpack').Configuration} config

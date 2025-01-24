@@ -6,17 +6,16 @@ import Link from '@/components/Link';
 import usePages, { type MenuItem } from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
-import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import { useApp } from '../AppContext';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
-import { IoExtensionPuzzleOutline } from 'react-icons/io5';
+import { MdOutlineIntegrationInstructions, MdOutlineOpenInNew } from 'react-icons/md';
 
 import type { Color } from 'rsuite/esm/internals/types';
 
 import pkg from '../../package.json';
 
-const icons = { IoExtensionPuzzleOutline };
+const icons = { MdOutlineIntegrationInstructions };
 interface SideNavbarProps {
   style: React.CSSProperties;
   onToggleMenu?: (show: boolean) => void;
@@ -87,7 +86,7 @@ export default function SideNavbar(props: SideNavbarProps) {
     }
 
     if (isNewComponent(item.minVersion)) {
-      return <Badge content="New" color="blue" style={{ marginLeft: 5 }} />;
+      return <Badge content="New" color="green" style={{ marginLeft: 5 }} />;
     }
     return null;
   };
@@ -113,7 +112,7 @@ export default function SideNavbar(props: SideNavbarProps) {
       return (
         <Nav.Item key={child.id} href={child.url} target="_blank">
           {child.name} {title}
-          <ExternalLinkSquare className="external-link" />
+          <MdOutlineOpenInNew />
         </Nav.Item>
       );
     } else {

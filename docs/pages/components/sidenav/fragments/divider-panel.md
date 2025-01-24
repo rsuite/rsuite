@@ -1,58 +1,52 @@
 <!--start-code-->
 
 ```js
-import { Sidenav, Nav } from 'rsuite';
-import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
-import GroupIcon from '@rsuite/icons/legacy/Group';
-import MagicIcon from '@rsuite/icons/legacy/Magic';
-import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
+import DashboardIcon from '@rsuite/icons/Dashboard';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import SettingIcon from '@rsuite/icons/Setting';
+import PieChartIcon from '@rsuite/icons/PieChart';
+import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
+import { Sidenav, Nav, HStack, VStack } from 'rsuite';
+import { SiProtondb } from 'react-icons/si';
 
-const panelStyles = {
-  padding: '15px 20px',
-  color: '#aaa'
-};
-
-const headerStyles = {
-  padding: 20,
-  fontSize: 16,
-  background: '#34c3ff',
-  color: ' #fff'
-};
+const Header = () => (
+  <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
+    <HStack>
+      <SiProtondb size={32} /> Brand
+    </HStack>
+  </VStack>
+);
 
 const App = () => (
   <div style={{ width: 240 }}>
     <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Header>
-        <div style={headerStyles}>Custom Sidenav</div>
+        <Header />
       </Sidenav.Header>
       <Sidenav.Body>
         <Nav>
-          <Nav.Item eventKey="1" active icon={<DashboardIcon />}>
-            Dashboard
+          <Nav.Item eventKey="1" icon={<DashboardIcon />}>
+            Overview
           </Nav.Item>
-          <Nav.Item eventKey="2" icon={<GroupIcon />}>
-            User Group
+          <Nav.Item eventKey="2" icon={<PeoplesIcon />}>
+            Customers
           </Nav.Item>
-          <Nav.Menu eventKey="3" title="Advanced" icon={<MagicIcon />}>
+          <Nav.Menu eventKey="3" title="Analytics" icon={<PieChartIcon />}>
             <Nav.Item divider />
-            <Nav.Item panel style={panelStyles}>
-              Reports
+            <Nav.Item panel>
+              <Sidenav.GroupLabel>Reports</Sidenav.GroupLabel>
             </Nav.Item>
             <Nav.Item eventKey="3-1">Geo</Nav.Item>
             <Nav.Item eventKey="3-2">Devices</Nav.Item>
             <Nav.Item eventKey="3-3">Loyalty</Nav.Item>
             <Nav.Item eventKey="3-4">Visit Depth</Nav.Item>
             <Nav.Item divider />
-            <Nav.Item panel style={panelStyles}>
-              Settings
+            <Nav.Item panel>
+              <Sidenav.GroupLabel>Settings</Sidenav.GroupLabel>
             </Nav.Item>
-            <Nav.Item eventKey="4-1">Applications</Nav.Item>
-            <Nav.Item eventKey="4-2">Channels</Nav.Item>
-            <Nav.Item eventKey="4-3">Versions</Nav.Item>
-            <Nav.Menu eventKey="4-5" title="Custom Action">
-              <Nav.Item eventKey="4-5-1">Action Name</Nav.Item>
-              <Nav.Item eventKey="4-5-2">Action Params</Nav.Item>
-            </Nav.Menu>
+            <Nav.Item eventKey="3-5">Applications</Nav.Item>
+            <Nav.Item eventKey="3-6">Channels</Nav.Item>
+            <Nav.Item eventKey="3-7">Versions</Nav.Item>
           </Nav.Menu>
         </Nav>
       </Sidenav.Body>
