@@ -11,8 +11,7 @@ import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
 const App = () => (
   <Sidenav defaultOpenKeys={['3', '4']} style={{ width: 240 }}>
     <Sidenav.Body>
-    
-      <Nav activeKey="1">
+      <Nav>
         <Nav.Item eventKey="1" icon={<DashboardIcon />}>
           Overview
         </Nav.Item>
