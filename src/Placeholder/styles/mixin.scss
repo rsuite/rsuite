@@ -1,0 +1,8 @@
+@mixin generate-row-width($widths, $n) {
+  @if $n > 0 {
+    &:nth-child(#{$n}) {
+      width: nth($widths, $n);
+    }
+    @include generate-row-width($widths, $n - 1);
+  }
+}

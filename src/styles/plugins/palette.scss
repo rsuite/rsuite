@@ -1,0 +1,25 @@
+// A function to generate color palette
+@function palette($color, $tone) {
+  @if $tone == 50 {
+    @return mix(white, $color, 85%);
+  } @else if $tone == 100 {
+    @return mix(white, $color, 70%);
+  } @else if $tone == 200 {
+    @return mix(white, $color, 50%);
+  } @else if $tone == 300 {
+    @return mix(white, $color, 30%);
+  } @else if $tone == 400 {
+    @return mix(white, $color, 15%);
+  } @else if $tone == 500 {
+    @return $color;
+  } @else if $tone == 600 {
+    @return mix(black, $color, 15%);
+  } @else if $tone == 700 {
+    @return mix(black, $color, 30%);
+  } @else if $tone == 800 {
+    @return mix(black, $color, 50%);
+  } @else if $tone == 900 {
+    @return mix(black, $color, 70%);
+  }
+  @return $color;
+}

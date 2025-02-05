@@ -1,0 +1,101 @@
+@import '../../../scss/common';
+
+.rs-box {
+  display: var(--rs-box-display, inherit);
+}
+
+// Mobile first breakpoint mixins
+@mixin make-visible($breakpoint) {
+  .rs-box-visible-#{$breakpoint} {
+    display: none !important;
+
+    @if $breakpoint == xs {
+      @media (max-width: ($screen-sm - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    @if $breakpoint == sm {
+      @media (max-width: ($screen-md - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    @if $breakpoint == md {
+      @media (max-width: ($screen-lg - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    @if $breakpoint == lg {
+      @media (max-width: ($screen-xl - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    @if $breakpoint == xl {
+      @media (max-width: ($screen-xxl - 1)) {
+        display: var(--rs-box-display, inherit) !important;
+      }
+    }
+
+    @if $breakpoint == xxl {
+      display: var(--rs-box-display, inherit) !important;
+    }
+  }
+}
+
+@mixin make-hidden($breakpoint) {
+  .rs-box-hidden-#{$breakpoint} {
+    display: var(--rs-box-display, inherit) !important;
+
+    @if $breakpoint == xs {
+      @media (max-width: ($screen-sm - 1)) {
+        display: none !important;
+      }
+    }
+
+    @if $breakpoint == sm {
+      @media (max-width: ($screen-md - 1)) {
+        display: none !important;
+      }
+    }
+
+    @if $breakpoint == md {
+      @media (max-width: ($screen-lg - 1)) {
+        display: none !important;
+      }
+    }
+
+    @if $breakpoint == lg {
+      @media (max-width: ($screen-xl - 1)) {
+        display: none !important;
+      }
+    }
+
+    @if $breakpoint == xl {
+      @media (max-width: ($screen-xxl - 1)) {
+        display: none !important;
+      }
+    }
+
+    @if $breakpoint == xxl {
+      display: none !important;
+    }
+  }
+}
+
+// Generate breakpoint classes
+@include make-visible(xs);
+@include make-visible(sm);
+@include make-visible(md);
+@include make-visible(lg);
+@include make-visible(xl);
+@include make-visible(xxl);
+
+@include make-hidden(xs);
+@include make-hidden(sm);
+@include make-hidden(md);
+@include make-hidden(lg);
+@include make-hidden(xl);
+@include make-hidden(xxl);

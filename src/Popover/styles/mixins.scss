@@ -1,0 +1,75 @@
+@import '../../scss/variables';
+@import '../../scss/mixins/hacks';
+@import '../../scss/mixins/color-modes';
+
+// Draw a triangle towards given direction
+// @mixin popover-arrow($direction, $size, $color)
+//
+// $direction: top | right | bottom | left
+// $size:      Size (height) of the triangle
+// $color:     Filling color of the triangle
+
+@mixin popover-arrow-top($size, $color) {
+  top: -$size;
+  margin-left: -$size;
+  border-width: 0 $size $size;
+  border-bottom-color: $color;
+}
+
+@mixin popover-arrow-bottom($size, $color) {
+  bottom: -$size;
+  margin-left: -$size;
+  border-width: $size $size 0;
+  border-top-color: $color;
+}
+
+/* rtl:begin:ignore */
+@mixin popover-arrow-right($size, $color) {
+  right: -$size;
+  margin-top: -$size;
+  border-width: $size 0 $size $size;
+  border-left-color: $color;
+}
+
+@mixin popover-arrow-left($size, $color) {
+  left: -$size;
+  margin-top: -$size;
+  border-width: $size $size $size 0;
+  border-right-color: $color;
+}
+/* rtl:end:ignore */
+
+// Append Popover's arrow to Popover
+// $direction: The arrow's pointing direction. It's usually opposite of popover's placement
+//             e.g. popover[placement="top"] has an arrow[direction="bottom"]
+// $size:      The arrow's size (height)
+// $bg:        The arrow's background color, usually equal to popover's background
+// $border:    The arrow's border color, usually equal to popover's border (which only take effect
+//             in high-contrast theme)
+@mixin with-popover-arrow($direction, $size: $popover-arrow-width, $bg: var(--rs-bg-overlay), $border: var(--rs-border-primary)) {
+  &::after {
+    @if $direction == top {
+      @include popover-arrow-top($size, $bg);
+    } @else if $direction == bottom {
+      @include popover-arrow-bottom($size, $bg);
+    } @else if $direction == right {
+      @include popover-arrow-right($size, $bg);
+    } @else if $direction == left {
+      @include popover-arrow-left($size, $bg);
+    }
+  }
+
+  @include high-contrast-mode {
+    &::before {
+      @if $direction == top {
+        @include popover-arrow-top($size + 1px, $border);
+      } @else if $direction == bottom {
+        @include popover-arrow-bottom($size + 1px, $border);
+      } @else if $direction == right {
+        @include popover-arrow-right($size + 1px, $border);
+      } @else if $direction == left {
+        @include popover-arrow-left($size + 1px, $border);
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+@import '../../scss/common';
+@import '../../Dropdown/styles/index';
+@import '../../internals/Ripple/styles/index';
+
+// NavBar
+// --------------------------------------------------
+
+.rs-navbar {
+  --rs-navbar-padding-y: 10px;
+  --rs-navbar-padding-x: 16px;
+  --rs-navbar-gap: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--rs-navbar-padding-y) var(--rs-navbar-padding-x);
+  gap: var(--rs-navbar-gap);
+
+  .rs-input,
+  .rs-input-group {
+    width: auto;
+  }
+}
+
+.rs-navbar-content {
+  display: flex;
+  align-items: center;
+  gap: var(--rs-navbar-gap);
+}
+
+.rs-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+// Common
+.rs-navbar-nav {
+  display: flex;
+
+  &.rs-nav-vertical {
+    flex-direction: column;
+  }
+
+  &:focus {
+    .rs-navbar-item:focus-visible,
+    .rs-navbar-item.rs-navbar-item-focus,
+    .rs-dropdown .rs-dropdown-toggle:focus-visible,
+    .rs-dropdown.rs-dropdown-focus .rs-dropdown-toggle {
+      z-index: 1;
+
+      @include focus-ring;
+
+      @include high-contrast-mode {
+        @include focus-ring(slim-inset);
+      }
+    }
+  }
+}
+
+// Nav item content
+.rs-navbar-item {
+  // Reset padding
+  padding: $navbar-item-padding-y $navbar-item-padding-x;
+  border-radius: 6px;
+  color: inherit;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  &-icon {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+
+  &-caret {
+    font-size: 16px;
+    margin-left: 6px;
+  }
+}
+
+// Focus style
+.rs-navbar-brand,
+.rs-navbar-item,
+.rs-navbar-nav > .rs-dropdown-item {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    // Navbar is usually placed by the top edge of the page
+    // thus use an inset focus ring to prevent overflow clipping
+    @include focus-ring(inset);
+
+    @include high-contrast-mode {
+      @include focus-ring(slim-inset);
+    }
+
+    z-index: 2;
+  }
+}
+
+.rs-navbar-item,
+.rs-navbar-nav > .rs-dropdown {
+  margin: 0 !important;
+}
+
+.rs-navbar-item.rs-navbar-item-active {
+  @include high-contrast-mode {
+    text-decoration: underline;
+  }
+}
+
+// Dropdown
+.rs-navbar-nav > .rs-dropdown .rs-dropdown-toggle {
+  @extend .rs-navbar-item;
+
+  &:focus,
+  &:focus-visible {
+    @extend .rs-navbar-item:focus-visible;
+  }
+
+  padding-right: $navbar-item-padding-x + $dropdown-caret-width + $dropdown-caret-padding;
+
+  @include high-contrast-mode {
+    border: none;
+
+    &:focus-visible {
+      @include focus-ring(slim-inset);
+    }
+  }
+
+  .rs-dropdown-toggle-caret {
+    top: $navbar-item-padding-y;
+    right: $navbar-item-padding-x;
+  }
+}
+
+.rs-navbar .rs-dropdown-item {
+  &:hover {
+    @include menuitem-active;
+  }
+}
+
+// Default Navbar
+.rs-navbar-default {
+  background-color: var(--rs-navbar-default-bg);
+  color: var(--rs-navbar-default-text);
+
+  .rs-navbar-item:hover,
+  .rs-dropdown .rs-dropdown-toggle:hover,
+  .rs-dropdown.rs-dropdown-open .rs-dropdown-toggle {
+    background-color: var(--rs-navbar-default-hover-bg);
+    color: var(--rs-navbar-default-hover-text);
+  }
+
+  .rs-navbar-item.rs-navbar-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    color: var(--rs-navbar-default-selected-text);
+  }
+}
+
+// Inverse Navbar
+.rs-navbar-inverse {
+  background-color: var(--rs-navbar-inverse-bg);
+  color: var(--rs-navbar-inverse-text);
+
+  .rs-navbar-item,
+  .rs-dropdown .rs-dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-navbar-inverse-hover-bg);
+      color: var(--rs-navbar-inverse-hover-text);
+    }
+  }
+
+  // Active
+  .rs-navbar-item.rs-navbar-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    background-color: var(--rs-navbar-inverse-selected-bg);
+
+    @include high-contrast-mode {
+      color: var(--rs-navbar-inverse-selected-text);
+    }
+  }
+
+  .rs-navbar-brand,
+  .rs-text {
+    color: var(--rs-navbar-inverse-text);
+  }
+}
+
+// Subtle Navbar
+.rs-navbar-subtle {
+  background-color: transparent;
+  color: var(--rs-navbar-subtle-text);
+
+  .rs-navbar-item,
+  .rs-dropdown .rs-dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-navbar-subtle-hover-bg);
+      color: var(--rs-navbar-subtle-hover-text);
+    }
+  }
+
+  // Active
+  .rs-navbar-item.rs-navbar-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    color: var(--rs-navbar-subtle-selected-text);
+  }
+}
+
+.rs-navbar-drawer {
+  --rs-drawer-body-padding: 16px;
+
+  .rs-drawer-body {
+    padding: var(--rs-drawer-body-padding);
+  }
+}

@@ -1,0 +1,233 @@
+@import '../../scss/common';
+@import '../../scss/mixins/menu';
+@import '../../scss/mixins/combobox';
+@import './mixin';
+@import '../../Button/styles/index';
+
+//
+// Dropdown menus
+// --------------------------------------------------
+
+.rs-dropdown-toggle-caret {
+  @include combobox-indicator-icon;
+}
+
+// The dropdown wrapper (div)
+.rs-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
+
+  &-disabled &-toggle.rs-btn {
+    cursor: $cursor-disabled !important;
+    box-shadow: none;
+
+    &.rs-btn-subtle {
+      &,
+      &:focus,
+      &:active {
+        color: var(--rs-btn-subtle-disabled-text);
+        background: none;
+      }
+    }
+
+    &.rs-btn-primary {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        background-color: var(--rs-btn-primary-bg);
+      }
+    }
+
+    &.rs-btn-link {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        text-decoration: none;
+      }
+    }
+
+    &.rs-btn-ghost {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+      }
+    }
+
+    .rs-ripple-pond {
+      display: none !important;
+    }
+  }
+}
+
+.rs-dropdown-toggle {
+  @include dropdown-toggle-size;
+
+  &,
+  &.rs-btn {
+    // Force set style even if has `.btn`.
+    @include dropdown-toggle;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &.rs-dropdown-toggle-no-caret {
+    padding-right: $padding-x;
+  }
+}
+
+// The dropdown menu (ul)
+.rs-dropdown-menu {
+  margin: 0; // override default ul
+  list-style: none;
+  font-size: $font-size-base;
+  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  background-color: var(--rs-bg-overlay);
+  border-radius: $dropdown-menu-radius;
+  padding: $dropdown-menu-padding-y 0;
+  outline: 0;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  .rs-dropdown & {
+    position: absolute;
+    // dropdown-menu zindex value is greater than dropdown-toggle
+    z-index: $zindex-dropdown + 1;
+    float: left;
+    box-shadow: var(--rs-dropdown-shadow);
+    outline: none;
+
+    @include high-contrast-mode {
+      border: 1px solid var(--rs-border-secondary);
+    }
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Links within the dropdown menu
+.rs-dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+  padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+  clear: both;
+  font-weight: normal;
+  line-height: $line-height-base;
+  color: var(--rs-text-primary);
+  white-space: nowrap; // prevent links from randomly breaking onto new lines
+  cursor: pointer; //fixed link has not [href] style
+  @include reset-link-text-decoration(none);
+
+  &-content {
+    flex: 1;
+  }
+
+  .rs-dropdown-item-shortcut {
+    margin-inline-start: 20px;
+    border: none;
+  }
+
+  > .rs-icon {
+    width: $font-size-base;
+    text-align: center;
+  }
+
+  &#{&}-active {
+    outline: 0;
+    font-weight: bold;
+
+    &,
+    &:hover,
+    &:focus {
+      color: var(--rs-dropdown-item-text-active);
+      background-color: var(--rs-dropdown-item-bg-active);
+
+      .rs-text {
+        color: var(--rs-dropdown-item-text-active);
+      }
+    }
+  }
+
+  // Hover/Focus state
+  &:focus-visible,
+  &#{&}-focus {
+    @include menuitem-active;
+  }
+  &:focus {
+    outline: 0;
+  }
+
+  // Disabled state
+  //
+  // Gray out text and ensure the hover/focus state remains gray
+  &-disabled {
+    color: var(--rs-text-disabled);
+    cursor: $cursor-disabled;
+    pointer-events: none;
+
+    .rs-text {
+      color: var(--rs-text-disabled);
+    }
+
+    // Nuke hover/focus effects
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: transparent;
+      background-image: none; // Remove CSS gradient
+    }
+  }
+}
+
+.rs-dropdown-item-divider {
+  @include nav-divider(var(--rs-dropdown-divider));
+}
+
+// The dropdown submenu
+.rs-dropdown-item-submenu {
+  position: relative;
+
+  &:hover > .rs-dropdown-item-toggle {
+    @include menuitem-active;
+  }
+
+  > .rs-dropdown-item-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > .rs-dropdown-menu-toggle {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 12px;
+      vertical-align: middle;
+    }
+  }
+
+  > .rs-dropdown-menu {
+    position: absolute;
+    top: -#{$dropdown-menu-padding-y};
+    left: 100%;
+    margin-left: -2px;
+  }
+
+  &.rs-dropdown-item-submenu-pull-left {
+    > .rs-dropdown-menu {
+      left: auto;
+      right: 100%;
+      margin-right: -2px;
+      margin-left: 0;
+    }
+  }
+}

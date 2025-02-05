@@ -1,0 +1,12 @@
+@use '../../scss/common';
+@use '../../Stack/styles/index';
+@use '../../Button/styles/mixin';
+
+//
+// Button toolbar
+// --------------------------------------------------
+
+.rs-btn-toolbar {
+  // Clear whitespace
+  line-height: 0;
+}

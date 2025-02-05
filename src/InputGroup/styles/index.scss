@@ -1,0 +1,261 @@
+@use '../../scss/common';
+@use '../../Form/styles/mixin' as form;
+@use '../../Button/styles/index';
+@use '../../scss/variables' as vars;
+@use '../../scss/mixins/color-modes' as *;
+@use '../../scss/mixins/utilities' as *;
+
+//
+// Input groups
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+.rs-input-group {
+  position: relative; // For dropdowns
+  display: flex;
+  border-radius: vars.$input-border-radius;
+  transition: vars.$input-transition;
+  width: 100%;
+  cursor: text;
+  color: var(--rs-text-primary);
+  border: 1px solid var(--rs-border-primary);
+
+  @include high-contrast-mode {
+    transition: none;
+  }
+
+  &:hover {
+    border-color: var(--rs-input-hover-border);
+  }
+
+  &:not(.rs-input-group-disabled).rs-input-group-focus,
+  &:focus-within {
+    @include form.focus-ring;
+  }
+
+  & & {
+    margin-top: 0;
+  }
+
+  // Reset input group in input group
+  .rs-input-group {
+    border: none;
+    border-radius: 0;
+  }
+
+  &.rs-input-group-disabled {
+    cursor: not-allowed;
+
+    .rs-input-group-addon {
+      cursor: not-allowed;
+      background-color: var(--rs-input-disabled-bg);
+    }
+  }
+
+  // Inside input group
+  &.rs-input-group-inside {
+    border: none;
+    position: relative;
+
+    & > :first-child,
+    .rs-auto-complete:first-child .rs-input,
+    .rs-picker-date:first-child .rs-picker-toggle,
+    .rs-form-control-wrapper:first-child > .rs-input {
+      @include border-left-radius(vars.$input-border-radius);
+    }
+
+    & > :last-child,
+    .rs-auto-complete:last-child .rs-input,
+    .rs-picker-date:last-child .rs-picker-toggle,
+    .rs-form-control-wrapper:last-child > .rs-input {
+      @include border-right-radius(vars.$input-border-radius);
+    }
+
+    .rs-input {
+      border: 1px solid var(--rs-border-primary);
+      transition: border-color ease-in-out 0.3s;
+
+      @include high-contrast-mode {
+        transition: none;
+      }
+
+      &:focus {
+        z-index: 2;
+        border-color: var(--rs-input-focus-border);
+      }
+
+      &:hover {
+        border-color: var(--rs-input-hover-border);
+      }
+    }
+
+    .rs-input-group-btn {
+      @include rs-btn-subtle;
+
+      color: inherit;
+      @include reset-inside-input-group-btn-size(base);
+
+      &:focus {
+        outline: none;
+      }
+
+      // reset border radius
+      &:first-child {
+        @include border-left-radius(vars.$input-border-radius);
+      }
+
+      &:last-child {
+        @include border-right-radius(vars.$input-border-radius);
+      }
+    }
+
+    .rs-input-group-addon {
+      position: absolute;
+      z-index: 3;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color 0.3s linear;
+
+      @include high-contrast-mode {
+        transition: none;
+      }
+
+      &:first-child {
+        left: vars.$input-border-width;
+      }
+
+      &:last-child {
+        right: vars.$input-border-width;
+      }
+    }
+
+    // Reset border radius
+    &:not(.rs-input-group-inside-btn) {
+      .rs-input:first-child {
+        padding-left: 30px;
+      }
+
+      .rs-input:last-child {
+        padding-right: 30px;
+      }
+    }
+
+    &.rs-input-group-inside-btn {
+      .rs-input:first-child {
+        padding-left: 42px;
+      }
+
+      .rs-input:last-child {
+        padding-right: 42px;
+      }
+    }
+
+    // Fix position for AutoComplete
+    .rs-auto-complete ~ .rs-input-group-addon,
+    .rs-form-control-wrapper ~ .rs-input-group-addon {
+      left: inherit;
+      right: vars.$input-border-width;
+    }
+  }
+}
+
+// Reset rounded corners
+.rs-input-group .rs-input-group-addon:first-child,
+.rs-input-group .rs-input-group-btn:first-child > .rs-btn {
+  @include border-right-radius(0);
+}
+
+.rs-input-group .rs-input-group-addon:last-child,
+.rs-input-group .rs-input-group-btn:last-child > .rs-btn {
+  @include border-left-radius(0);
+}
+
+// Addon and addon wrapper for buttons
+.rs-input-group-addon {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;
+  color: var(--rs-text-primary);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid var(--rs-border-primary);
+  border-radius: vars.$input-border-radius;
+  transition: border-color ease-in-out 0.3s;
+
+  @include high-contrast-mode {
+    transition: none;
+  }
+}
+
+// Sizing options
+// ------------------------------
+
+.rs-input-group-lg {
+  > .rs-input {
+    @include form.input-lg;
+  }
+
+  > .rs-input-group-addon {
+    @include reset-input-group-addon-size(lg);
+  }
+
+  &.rs-input-group-inside {
+    .rs-input-group-btn {
+      @include reset-inside-input-group-btn-size(lg);
+    }
+  }
+}
+
+.rs-input-group-md {
+  > .rs-input {
+    @include form.input-md;
+  }
+
+  > .rs-input-group-addon {
+    @include reset-input-group-addon-size(md);
+  }
+
+  &.rs-input-group-inside {
+    .rs-input-group-btn {
+      @include reset-inside-input-group-btn-size(md);
+    }
+  }
+}
+
+.rs-input-group-sm {
+  > .rs-input {
+    @include form.input-sm;
+  }
+
+  > .rs-input-group-addon {
+    @include reset-input-group-addon-size(sm);
+  }
+
+  &.rs-input-group-inside {
+    .rs-input-group-btn {
+      @include reset-inside-input-group-btn-size(sm);
+    }
+  }
+}
+
+.rs-input-group-xs {
+  > .rs-input {
+    @include form.input-xs;
+  }
+
+  > .rs-input-group-addon {
+    @include reset-input-group-addon-size(xs);
+  }
+
+  &.rs-input-group-inside {
+    .rs-input-group-btn {
+      @include reset-inside-input-group-btn-size(xs);
+    }
+  }
+}

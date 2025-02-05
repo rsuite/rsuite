@@ -1,0 +1,86 @@
+@import '../../scss/common';
+@import '../../scss/mixins/listbox';
+@import '../../scss/mixins/combobox';
+@import '../../Highlight/styles/index';
+@import './search';
+
+// CascadeTree
+// ----------------------
+
+.rs-cascade-tree {
+  .rs-highlight-mark {
+    padding: 0;
+  }
+}
+
+// Menu Items
+.rs-cascade-tree-items {
+  padding: $border-radius 0;
+  display: flex;
+
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: $font-size-base;
+  }
+}
+
+// Column
+.rs-cascade-tree-column {
+  overflow-y: auto;
+
+  &-loading {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .rs-icon {
+      margin: 4px;
+    }
+  }
+}
+
+// Tree item
+.rs-cascade-tree-item {
+  @include listbox-option;
+
+  $padding-right: (16px + $picker-item-content-padding-horizontal);
+
+  position: relative;
+  padding: $picker-item-content-padding-vertical $padding-right
+    $picker-item-content-padding-vertical $picker-item-content-padding-horizontal;
+  word-break: break-word;
+
+  // Has children
+  .rs-cascade-tree-items-has-children & {
+    padding-right: $dropdown-toggle-padding-right;
+  }
+
+  &:hover,
+  &:focus,
+  &.rs-cascade-tree-item-focus {
+    @include listbox-option-active;
+  }
+
+  &.rs-cascade-tree-item-active {
+    @include listbox-option-selected;
+
+    .rs-cascade-tree-caret {
+      color: var(--rs-text-primary);
+    }
+  }
+
+  &:disabled,
+  &.rs-cascade-tree-item-disabled {
+    @include listbox-options-disabled;
+  }
+}
+
+.rs-cascade-tree-caret {
+  @include combobox-indicator-icon;
+
+  font-size: 14px;
+}

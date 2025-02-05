@@ -1,0 +1,24 @@
+@use 'variables' as vars;
+@use 'sass:color';
+@use 'color-modes/light' as light;
+@use 'color-modes/dark' as dark;
+@use 'color-modes/high-contrast' as hc;
+
+// Themes
+
+:root,
+[data-theme="light"] {
+  @include light.theme;
+}
+
+@if vars.$enable-dark-mode == true {
+  [data-theme="dark"] {
+    @include dark.theme;
+  }
+}
+
+@if vars.$enable-high-contrast == true {
+  [data-theme="high-contrast"] {
+    @include hc.theme;
+  }
+}

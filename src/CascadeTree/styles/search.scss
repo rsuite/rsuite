@@ -1,0 +1,35 @@
+// Search panel
+.rs-cascade-search-view-panel {
+  max-height: $cascader-search-panel-max-height;
+  margin-top: 6px;
+  overflow: auto;
+}
+
+.rs-cascade-search-view-row {
+  @include listbox-option;
+
+  &:hover {
+    @include listbox-option-active;
+  }
+
+  &.rs-cascade-search-view-row-focus {
+    @include listbox-option-active;
+  }
+
+  &:disabled,
+  &.rs-cascade-search-view-row-disabled {
+    @include listbox-options-disabled;
+  }
+}
+
+.rs-cascade-search-view-col {
+  display: inline-block;
+
+  &::after {
+    content: '\00a0/\00a0'; //content:' / '
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}

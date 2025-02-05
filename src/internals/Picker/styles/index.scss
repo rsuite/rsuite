@@ -1,0 +1,282 @@
+@import '../../../scss/common';
+@import '../../../Button/styles/index';
+@import '../../../styles/mixins/listbox';
+@import '../../../styles/mixins/combobox';
+@import '../../../Stack/styles/index';
+@import '../../../Form/styles/mixin';
+@import '../../../Loader/styles/index';
+@import '../../../Input/styles/index';
+@import '../../../InputGroup/styles/index';
+@import '../../../Highlight/styles/index';
+@import '../../CloseButton/styles/index';
+@import './mixin';
+
+//
+// Pickers
+// --------------------------------------------------
+
+// Common styles
+// ----------------------
+.rs-picker {
+  &-toggle-wrapper {
+    display: inline-block;
+    // Clear whitespace.
+    vertical-align: middle;
+    max-width: 100%;
+  }
+
+  &-toggle.rs-btn {
+    .rs-ripple-pond {
+      display: none !important;
+    }
+  }
+
+  &-block {
+    display: block;
+  }
+
+  &-disabled {
+    cursor: not-allowed;
+
+    .rs-picker-toggle-value,
+    .rs-picker-toggle-indicator,
+    .rs-picker-tag-list .rs-tag {
+      color: var(--rs-text-disabled) !important;
+    }
+
+    .rs-picker-value-count {
+      opacity: 0.5;
+    }
+  }
+
+  &-toggle &-toggle-placeholder {
+    color: var(--rs-text-secondary);
+  }
+
+  &-has-value .rs-btn &-toggle-value,
+  &-has-value &-toggle &-toggle-value {
+    color: var(--rs-picker-value);
+  }
+
+  // empty listbox
+  &-none {
+    padding: $picker-none-padding;
+    color: var(--rs-text-secondary);
+    cursor: default;
+  }
+
+  &-countable &-toggle-value {
+    display: flex;
+  }
+
+  &-value-list {
+    flex: 0 1 auto;
+    @include ellipsis-basic;
+  }
+
+  &-value-count {
+    margin: 0 $picker-value-count-margin;
+    background-color: var(--rs-picker-count-bg);
+    color: var(--rs-picker-count-text);
+    border-radius: $picker-value-count-border-radius;
+    padding: 0 $picker-value-count-padding;
+    line-height: $line-height-computed;
+  }
+
+  &-value-separator {
+    margin: 0 4px 0 0;
+  }
+
+  &:not(.rs-picker-disabled):hover,
+  &.rs-picker-focused {
+    border-color: var(--rs-input-focus-border);
+  }
+
+  &-toggle-active,
+  &.rs-picker-focused {
+    box-shadow: var(--rs-state-focus-shadow);
+  }
+
+  &-label.rs-input-group-addon {
+    color: var(--rs-text-primary);
+    padding-right: 4px !important;
+  }
+
+  &-loader {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  &-error > .rs-picker-input-group {
+    border-color: var(--rs-picker-state-error);
+
+    &:hover {
+      border-color: var(--rs-picker-state-error);
+    }
+
+    &:focus-within {
+      border-color: var(--rs-picker-state-error);
+      outline: var(--rs-picker-state-error-outline);
+    }
+  }
+}
+
+.rs-picker-toggle {
+  // TODO: Should inherit from <Input> styles?
+  @include rs-btn;
+
+  .rs-picker-default & {
+    $padding-vertical: ($padding-y - $picker-default-toggle-border-width);
+    $padding-horizontal: ($padding-x - $picker-default-toggle-border-width);
+
+    padding: $padding-vertical $padding-horizontal;
+  }
+
+  &-textbox {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: 1px solid #0000;
+    padding-left: 10px;
+    padding-right: 32px;
+    color: var(--rs-text-primary);
+    background-color: var(--rs-input-bg);
+    outline: none;
+  }
+
+  &.rs-btn-lg &-textbox {
+    padding-left: 14px;
+  }
+
+  &.rs-btn-sm &-textbox {
+    padding-left: 8px;
+  }
+
+  &.rs-btn-xs &-textbox {
+    padding-left: 6px;
+  }
+
+  &-read-only {
+    opacity: 0;
+  }
+}
+
+.rs-picker-toggle {
+  .rs-picker-default & {
+    transition: $picker-transition;
+
+    @include high-contrast-mode {
+      transition: none;
+    }
+  }
+
+  .rs-picker-default:not(.rs-picker-disabled) & {
+    &:hover,
+    &:focus,
+    &-active {
+      border-color: var(--rs-input-focus-border);
+    }
+  }
+
+  .rs-picker-subtle & {
+    @include rs-btn-subtle;
+
+    transition: none;
+
+    &-active {
+      background-color: var(--rs-btn-subtle-hover-bg);
+      color: var(--rs-btn-subtle-hover-text);
+    }
+  }
+}
+
+/* stylelint-disable-next-line */ // Custom button sizes
+.rs-picker-toggle.rs-btn {
+  @include picker-button-caret-md;
+  @include picker-button-size(base);
+  @include date-picker-button-caret-md;
+
+  &.rs-btn-lg {
+    @include picker-button-caret-lg;
+    @include picker-button-size(lg);
+    @include date-picker-button-caret-lg;
+  }
+
+  &.rs-btn-sm {
+    @include picker-button-caret-sm;
+    @include picker-button-size(sm);
+    @include date-picker-button-caret-sm;
+  }
+
+  &.rs-btn-xs {
+    @include picker-button-caret-xs;
+    @include picker-button-size(xs);
+    @include date-picker-button-caret-xs;
+  }
+}
+
+// Picker Menu
+.rs-picker-menu {
+  position: absolute;
+  text-align: left;
+  z-index: $zindex-picker-menu;
+  border-radius: $border-radius;
+  background-color: var(--rs-listbox-bg);
+  box-shadow: var(--rs-listbox-shadow);
+  overflow: hidden;
+
+  // Increase z-index when modal opened.
+  .rs-modal-open & {
+    z-index: ($zindex-modal + $zindex-picker-menu);
+  }
+
+  // Increase z-index when drawer opened.
+  .rs-drawer-open & {
+    z-index: ($zindex-drawer + $zindex-picker-menu);
+  }
+
+  &-active {
+    display: block;
+  }
+
+  &-items {
+    @include picker-menu-items-reset;
+  }
+
+  &-item {
+    display: block;
+    padding: $picker-item-content-padding-vertical $picker-item-content-padding-horizontal;
+    clear: both;
+    font-weight: normal;
+    line-height: $line-height-base;
+    color: var(--rs-text-primary);
+    cursor: pointer; //fixed firefox a tag without href cursor not correct
+    text-decoration: none;
+    width: 100%;
+
+    &-focus,
+    &:hover {
+      @include picker-item-hover;
+    }
+
+    &-active {
+      @include picker-item-active;
+    }
+
+    &-disabled {
+      color: var(--rs-text-disabled);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.rs-picker-menu-group {
+  background-color: var(--rs-listbox-option-group-bg);
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+}

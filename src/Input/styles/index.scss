@@ -1,0 +1,29 @@
+@use '../../scss/common';
+@use '../../Form/styles/mixin' as form-mixin;
+
+//
+// Forms
+// --------------------------------------------------
+
+// Common form controls
+.rs-input {
+  @include form-mixin.default-input;
+
+  // Reset height for `textarea`
+  &:where(textarea) {
+    height: auto;
+  }
+}
+
+// Form control sizing
+.rs-input-xs {
+  @include form-mixin.input-xs;
+}
+
+.rs-input-lg {
+  @include form-mixin.input-lg;
+}
+
+.rs-input-sm {
+  @include form-mixin.input-sm;
+}

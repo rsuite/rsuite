@@ -1,0 +1,28 @@
+@import '../../scss/common';
+@import '../../Checkbox/styles/index';
+@import '../../internals/Picker/styles/index';
+
+// Check Picker
+// ----------------------
+
+// Menu Items
+.rs-picker-check-menu-items {
+  @include picker-menu-items-reset;
+  @include picker-menu-group-common(picker);
+  @include picker-menu-group-title(picker);
+  @include picker-menu-group-closed(picker);
+
+  .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
+    @include picker-item-active;
+  }
+
+  &.rs-picker-check-menu-grouped {
+    .rs-check-item .rs-checkbox-checker > label {
+      padding-left: 52px;
+    }
+
+    .rs-check-item .rs-checkbox-checker .rs-checkbox-control {
+      left: 26px;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@import '../../../scss/common';
+@import '../../../Input/styles/index';
+@import '../../../InputGroup/styles/index';
+
+.rs-search-box {
+  position: relative;
+
+  &-icon {
+    color: var(--rs-text-secondary);
+  }
+}

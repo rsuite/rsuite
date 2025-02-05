@@ -1,0 +1,28 @@
+// SCSS implementation of the palette function
+@use "sass:color";
+@use "sass:math";
+
+@function palette($color, $level) {
+  @if $level == 50 {
+    @return color.mix(white, $color, 95%);
+  } @else if $level == 100 {
+    @return color.mix(white, $color, 90%);
+  } @else if $level == 200 {
+    @return color.mix(white, $color, 75%);
+  } @else if $level == 300 {
+    @return color.mix(white, $color, 50%);
+  } @else if $level == 400 {
+    @return color.mix(white, $color, 25%);
+  } @else if $level == 500 {
+    @return $color;
+  } @else if $level == 600 {
+    @return color.mix(black, $color, 20%);
+  } @else if $level == 700 {
+    @return color.mix(black, $color, 40%);
+  } @else if $level == 800 {
+    @return color.mix(black, $color, 60%);
+  } @else if $level == 900 {
+    @return color.mix(black, $color, 80%);
+  }
+  @return $color;
+}

@@ -1,0 +1,215 @@
+@import '../../scss/common';
+
+// Carousel
+// ----------------------
+
+.rs-carousel {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background-color: var(--rs-carousel-bg);
+
+  &-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &-slider {
+    position: relative;
+    left: 0;
+    height: 100%;
+    transition: transform $carousel-animation-duration ease;
+    will-change: transform;
+
+    &-item {
+      background-color: var(--rs-carousel-bg);
+      float: left;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &-slider-after {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--rs-carousel-bg);
+    top: 0;
+    animation: moveLeftHalf $carousel-animation-duration ease forwards;
+
+    &-vertical {
+      animation: moveLeftHalf-vertical $carousel-animation-duration ease forwards;
+    }
+  }
+
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &-label-wrapper {
+    margin: $carousel-handler-margin;
+
+    input {
+      width: 0;
+      height: 0;
+      position: absolute;
+      opacity: 0;
+
+      &:checked ~ label {
+        background-color: var(--rs-carousel-indicator-active);
+      }
+    }
+  }
+
+  &-label {
+    cursor: pointer;
+    display: block;
+    background-color: var(--rs-carousel-indicator);
+    transition: $carousel-handler-transition;
+    transition-property: background, width, height;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -1 * $carousel-handler-sense-width;
+      right: -1 * $carousel-handler-sense-width;
+      bottom: -1 * $carousel-handler-sense-width;
+      left: -1 * $carousel-handler-sense-width;
+    }
+
+    &:hover {
+      background-color: var(--rs-carousel-indicator-hover);
+    }
+  }
+
+  // Handler Shape
+  &-shape-dot {
+    .rs-carousel-label {
+      width: $carousel-dot-side-length;
+      height: $carousel-dot-side-length;
+      border-radius: 50%;
+    }
+  }
+
+  &-shape-bar {
+    .rs-carousel-label {
+      border-radius: ($carousel-bar-height / 2);
+    }
+  }
+
+  &-placement-top,
+  &-placement-bottom {
+    &.rs-carousel-shape-bar {
+      .rs-carousel-label {
+        width: $carousel-bar-width;
+        height: $carousel-bar-height;
+
+        &-wrapper input:checked ~ label {
+          width: $carousel-bar-active-width;
+        }
+      }
+    }
+  }
+
+  &-placement-left,
+  &-placement-right {
+    &.rs-carousel-shape-bar {
+      .rs-carousel-label {
+        width: $carousel-bar-height;
+        height: $carousel-bar-width;
+
+        &-wrapper input:checked ~ label {
+          height: $carousel-bar-active-width;
+        }
+      }
+    }
+  }
+
+  // Placement
+  &-placement-top,
+  &-placement-bottom {
+    .rs-carousel-toolbar {
+      left: 0;
+      width: 100%;
+
+      > ul {
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &-placement-top {
+    .rs-carousel-toolbar {
+      top: $carousel-toolbar-wrapper-margin;
+    }
+  }
+
+  &-placement-bottom {
+    .rs-carousel-toolbar {
+      bottom: $carousel-toolbar-wrapper-margin;
+    }
+  }
+
+  &-placement-left,
+  &-placement-right {
+    .rs-carousel-toolbar {
+      top: 0;
+      width: $carousel-dot-wrapper-side-length;
+      height: 100%;
+
+      > ul {
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+  }
+
+  &-placement-left {
+    .rs-carousel-toolbar {
+      left: $carousel-toolbar-wrapper-margin;
+    }
+  }
+
+  &-placement-right {
+    .rs-carousel-toolbar {
+      right: $carousel-toolbar-wrapper-margin;
+    }
+  }
+
+  @keyframes moveLeftHalf {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes moveLeftHalf-vertical {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+}

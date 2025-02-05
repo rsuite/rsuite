@@ -1,0 +1,44 @@
+@use '../../scss/variables' as vars;
+
+@mixin avatar-size($side-length, $font-size) {
+  width: $side-length;
+  height: $side-length;
+  font-size: $font-size;
+
+  & > .rs-icon {
+    $icon-font-size: (($side-length - $font-size)/2 + $font-size);
+
+    font-size: $icon-font-size;
+    height: $icon-font-size;
+  }
+
+  & > .rs-avatar-image {
+    width: $side-length;
+    height: $side-length;
+    line-height: $side-length;
+  }
+}
+
+@mixin avatar-xxl {
+  @include avatar-size(vars.$avatar-size-xxl, vars.$avatar-font-size-xxl);
+}
+
+@mixin avatar-xl {
+  @include avatar-size(vars.$avatar-size-xl, vars.$avatar-font-size-xl);
+}
+
+@mixin avatar-lg {
+  @include avatar-size(vars.$avatar-size-lg, vars.$avatar-font-size-lg);
+}
+
+@mixin avatar-md {
+  @include avatar-size(vars.$avatar-size, vars.$avatar-font-size);
+}
+
+@mixin avatar-sm {
+  @include avatar-size(vars.$avatar-size-sm, vars.$avatar-font-size-sm);
+}
+
+@mixin avatar-xs {
+  @include avatar-size(vars.$avatar-size-xs, vars.$avatar-font-size-xs);
+}

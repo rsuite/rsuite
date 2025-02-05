@@ -1,0 +1,285 @@
+@use '../colors/light' as colors;
+@use '../variables' as vars;
+
+// see https://rsuitejs.com/design/default
+@mixin theme {
+  // Base colors
+  --rs-primary: #{colors.$primary-color};
+  
+  // Gray scale
+  --rs-gray-0: #{colors.$B000};    // White
+  --rs-gray-50: #{colors.$B050};   // Background
+  --rs-gray-100: #{colors.$B100};  // Light background
+  --rs-gray-200: #{colors.$B200};  // Border
+  --rs-gray-300: #{colors.$B300};  // Secondary border
+  --rs-gray-400: #{colors.$B400};  // Disabled text
+  --rs-gray-500: #{colors.$B500};  // Secondary text
+  --rs-gray-600: #{colors.$B600};  // Primary text
+  --rs-gray-700: #{colors.$B700};  // Dark text
+  --rs-gray-800: #{colors.$B800};  // Darker text
+  --rs-gray-900: #{colors.$B900};  // Darkest text
+
+  // Primary color variations
+  --rs-primary-50: #{colors.$H050};   // Lightest
+  --rs-primary-100: #{colors.$H100};  // Lighter
+  --rs-primary-200: #{colors.$H200};  // Light
+  --rs-primary-300: #{colors.$H300};  // Base light
+  --rs-primary-400: #{colors.$H400};  // Base
+  --rs-primary-500: #{colors.$H500};  // Base dark
+  --rs-primary-600: #{colors.$H600};  // Dark
+  --rs-primary-700: #{colors.$H700};  // Darker
+  --rs-primary-800: #{colors.$H800};  // Darkest
+  --rs-primary-900: #{colors.$H900};  // Most dark
+
+  // Semantic colors
+  --rs-color-red: #{colors.$red};         // Error/Danger
+  --rs-color-orange: #{colors.$orange};   // Warning
+  --rs-color-yellow: #{colors.$yellow};   // Attention
+  --rs-color-green: #{colors.$green};     // Success
+  --rs-color-cyan: #{colors.$cyan};       // Info
+  --rs-color-blue: #{colors.$blue};       // Primary
+  --rs-color-violet: #{colors.$violet};   // Secondary
+
+  // Semantic color variations
+  @each $color-name in vars.$spectrum {
+    // Get the base color
+    $color: if($color-name == 'blue', colors.$blue,
+              if($color-name == 'red', colors.$red,
+              if($color-name == 'orange', colors.$orange,
+              if($color-name == 'yellow', colors.$yellow,
+              if($color-name == 'green', colors.$green,
+              if($color-name == 'cyan', colors.$cyan,
+              if($color-name == 'violet', colors.$violet,
+              null)))))));
+
+    @if $color {
+      // Generate color variations using the palette function
+      --rs-#{$color-name}-50: #{palette($color, 50)};
+      --rs-#{$color-name}-100: #{palette($color, 100)};
+      --rs-#{$color-name}-200: #{palette($color, 200)};
+      --rs-#{$color-name}-300: #{palette($color, 300)};
+      --rs-#{$color-name}-400: #{palette($color, 400)};
+      --rs-#{$color-name}-500: #{$color};
+      --rs-#{$color-name}-600: #{palette($color, 600)};
+      --rs-#{$color-name}-700: #{palette($color, 700)};
+      --rs-#{$color-name}-800: #{palette($color, 800)};
+      --rs-#{$color-name}-900: #{palette($color, 900)};
+    }
+  }
+
+  // State colors (semantic mappings)
+  --rs-state-success: var(--rs-color-green);
+  --rs-state-info: var(--rs-color-blue);
+  --rs-state-warning: var(--rs-color-orange);
+  --rs-state-error: var(--rs-color-red);
+
+  // Text colors
+  --rs-text-primary: var(--rs-gray-600);
+  --rs-text-secondary: var(--rs-gray-500);
+  --rs-text-tertiary: var(--rs-gray-400);
+  --rs-text-disabled: var(--rs-gray-400);
+  --rs-text-link: var(--rs-primary-500);
+  --rs-text-link-hover: var(--rs-primary-700);
+  --rs-text-link-active: var(--rs-primary-800);
+
+  // Border colors
+  --rs-border-primary: var(--rs-gray-200);
+  --rs-border-secondary: var(--rs-gray-300);
+
+  // Background colors
+  --rs-bg-card: var(--rs-gray-0);
+  --rs-bg-overlay: var(--rs-gray-50);
+  --rs-bg-disabled: var(--rs-gray-100);
+
+  // Reset
+  --rs-body: var(--rs-gray-0);
+
+  // States
+  --rs-bg-success: #edfae1;
+  --rs-bg-info: #e9f5fe;
+  --rs-bg-warning: #fff9e6;
+  --rs-bg-error: #fde9ef;
+
+  // Misc
+  --rs-text-heading: var(--rs-gray-900);
+  --rs-text-inverse: var(--rs-gray-50);
+  --rs-text-heading-inverse: var(--rs-gray-0);
+  --rs-text-active: var(--rs-primary-700);
+  --rs-text-error: var(--rs-color-red);
+  --rs-text-highlight-bg: #fff6c9;
+  --rs-text-weight-thin: 100;
+  --rs-text-weight-light: 300;
+  --rs-text-weight-regular: 400;
+  --rs-text-weight-medium: 500;
+  --rs-text-weight-semibold: 600;
+  --rs-text-weight-bold: 700;
+  --rs-text-weight-extrabold: 800;
+  --rs-bg-active: var(--rs-primary-500);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
+  --rs-state-hover-bg: var(--rs-primary-50);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-shadow: 0 0 0 3px rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-outline: 3px solid rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-error-outline: 3px solid rgb(from var(--rs-color-red) r g b / 25%);
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Scrollbar
+  --rs-scrollbar-bg: transparent;
+  --rs-scrollbar-thumb: var(--rs-gray-300);
+  --rs-scrollbar-thumb-active: var(--rs-gray-400);
+  --rs-scrollbar-width: 8px;
+  --rs-scrollbar-height: 8px;
+  --rs-scrollbar-vertical-track: rgb(from var(--rs-gray-200) r g b / 40%);
+  --rs-scrollbar-horizontal-track: rgb(from var(--rs-gray-200) r g b / 40%);
+
+  // Loader
+  --rs-loader-ring: var(--rs-gray-200);
+  --rs-loader-rotor: var(--rs-gray-500);
+  --rs-loader-backdrop: rgb(from var(--rs-gray-0) r g b / 90%);
+  --rs-loader-ring-inverse: rgb(from var(--rs-gray-50) r g b / 30%);
+  --rs-loader-rotor-inverse: var(--rs-gray-0);
+  --rs-loader-backdrop-inverse: rgb(from var(--rs-gray-900) r g b / 83%);
+
+  // Button
+  --rs-btn-default-bg: var(--rs-gray-50);
+  --rs-btn-default-text: var(--rs-gray-800);
+  --rs-btn-default-hover-bg: var(--rs-gray-100);
+  --rs-btn-default-active-bg: var(--rs-gray-200);
+  --rs-btn-default-disabled-bg: var(--rs-gray-50);
+  --rs-btn-default-disabled-text: var(--rs-text-disabled);
+  --rs-btn-primary-bg: var(--rs-primary-500);
+  --rs-btn-primary-text: #fff;
+  --rs-btn-primary-hover-bg: var(--rs-primary-600);
+  --rs-btn-primary-active-bg: var(--rs-primary-700);
+  --rs-btn-primary-disabled-bg: var(--rs-primary-200);
+  --rs-btn-primary-disabled-text: #fff;
+  --rs-btn-subtle-text: var(--rs-primary-700);
+  --rs-btn-subtle-hover-bg: var(--rs-primary-50);
+  --rs-btn-subtle-active-bg: var(--rs-primary-100);
+  --rs-btn-subtle-disabled-bg: transparent;
+  --rs-btn-subtle-disabled-text: var(--rs-text-disabled);
+  --rs-btn-ghost-border: var(--rs-gray-300);
+  --rs-btn-ghost-text: var(--rs-gray-800);
+  --rs-btn-ghost-hover-border: var(--rs-gray-400);
+  --rs-btn-ghost-hover-text: var(--rs-gray-800);
+  --rs-btn-ghost-active-border: var(--rs-gray-500);
+  --rs-btn-ghost-active-text: var(--rs-gray-800);
+  --rs-btn-ghost-disabled-border: var(--rs-gray-200);
+  --rs-btn-ghost-disabled-text: var(--rs-text-disabled);
+  --rs-btn-link-text: var(--rs-primary-700);
+  --rs-btn-link-hover-text: var(--rs-primary-800);
+  --rs-btn-link-active-text: var(--rs-primary-900);
+  --rs-btn-link-disabled-text: var(--rs-text-disabled);
+
+  // Picker
+  --rs-picker-default-hover-bg: var(--rs-gray-100);
+  --rs-picker-default-active-bg: var(--rs-gray-200);
+  --rs-picker-subtle-hover-bg: var(--rs-primary-50);
+  --rs-picker-subtle-active-bg: var(--rs-primary-100);
+  --rs-picker-disabled-bg: var(--rs-gray-50);
+  --rs-picker-disabled-text: var(--rs-text-disabled);
+
+  // Calendar
+  --rs-calendar-date-selected-bg: var(--rs-primary-500);
+  --rs-calendar-date-selected-text: #fff;
+  --rs-calendar-date-disabled-bg: var(--rs-gray-50);
+  --rs-calendar-date-disabled-text: var(--rs-text-disabled);
+  --rs-calendar-date-range-bg: var(--rs-primary-50);
+  --rs-calendar-date-range-text: var(--rs-primary-700);
+
+  // Input
+  --rs-input-bg: var(--rs-gray-0);
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-input-disabled-bg: var(--rs-gray-50);
+  --rs-input-disabled-text: var(--rs-text-disabled);
+
+  // Table
+  --rs-table-resize-mouse-bg: var(--rs-primary-500);
+  --rs-table-sort-text: var(--rs-gray-500);
+  --rs-table-row-even-bg: var(--rs-gray-50);
+  --rs-table-row-odd-bg: var(--rs-gray-0);
+  --rs-table-row-hover-bg: var(--rs-primary-50);
+  --rs-table-scrollbar-track: var(--rs-gray-100);
+  --rs-table-scrollbar-thumb: var(--rs-gray-800);
+  --rs-table-scrollbar-thumb-active: var(--rs-gray-900);
+  --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-200) r g b / 40%);
+
+  // Sidenav
+  --rs-sidenav-default-bg: var(--rs-gray-50);
+  --rs-sidenav-default-hover-bg: var(--rs-gray-100);
+  --rs-sidenav-default-selected-text: var(--rs-primary-700);
+  --rs-sidenav-default-selected-bg: var(--rs-primary-50);
+  --rs-sidenav-default-footer-border: var(--rs-gray-200);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-200);
+  --rs-sidenav-inverse-bg: var(--rs-primary-500);
+  --rs-sidenav-inverse-text: #fff;
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-700);
+  --rs-sidenav-inverse-selected-text: #fff;
+  --rs-sidenav-inverse-hover-bg: var(--rs-primary-600);
+  --rs-sidenav-inverse-footer-border: var(--rs-primary-600);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-primary-600);
+
+  // Drawer
+  --rs-drawer-bg: var(--rs-gray-0);
+  --rs-drawer-shadow: 0 0 12px 6px rgba(0, 0, 0, 0.12);
+
+  // Modal
+  --rs-modal-bg: var(--rs-gray-0);
+  --rs-modal-shadow: 0 0 12px 6px rgba(0, 0, 0, 0.12);
+
+  // Form
+  --rs-form-disabled-text: var(--rs-text-disabled);
+  --rs-form-hover-bg: var(--rs-gray-100);
+  --rs-form-error-text: var(--rs-color-red);
+  --rs-form-success-text: var(--rs-color-green);
+
+  // Uploader
+  --rs-uploader-drag-hover-border: var(--rs-primary-500);
+  --rs-uploader-drag-hover-bg: rgb(from var(--rs-primary-500) r g b / 10%);
+  --rs-uploader-drag-disabled-border: var(--rs-gray-300);
+  --rs-uploader-drag-disabled-bg: var(--rs-gray-50);
+
+  // Progress
+  --rs-progress-bg: var(--rs-gray-200);
+  --rs-progress-bar-bg: var(--rs-primary-500);
+
+  // Nav
+  --rs-nav-item-hover-bg: var(--rs-gray-100);
+  --rs-nav-item-active-bg: var(--rs-gray-200);
+  --rs-nav-item-active-text: var(--rs-primary-700);
+  --rs-nav-subtle-hover-bg: var(--rs-primary-50);
+  --rs-nav-subtle-active-bg: var(--rs-primary-100);
+  --rs-nav-bar-bg: var(--rs-primary-500);
+  --rs-nav-bar-active-bg: var(--rs-primary-700);
+
+  // Dropdown
+  --rs-dropdown-bg: var(--rs-gray-0);
+  --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
+  --rs-dropdown-item-hover-bg: var(--rs-gray-100);
+  --rs-dropdown-item-active-bg: var(--rs-gray-200);
+  --rs-dropdown-item-active-text: var(--rs-primary-700);
+  --rs-dropdown-item-disabled-text: var(--rs-text-disabled);
+  --rs-dropdown-item-focus-bg: var(--rs-primary-50);
+  --rs-dropdown-divider-border: var(--rs-gray-100);
+
+  // Steps
+  --rs-steps-border: var(--rs-gray-300);
+  --rs-steps-state-finish-bg: var(--rs-primary-500);
+  --rs-steps-state-wait-bg: var(--rs-gray-300);
+  --rs-steps-state-process-bg: var(--rs-primary-500);
+  --rs-steps-state-error-bg: var(--rs-color-red);
+
+  // Panel
+  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-panel-bg: var(--rs-gray-0);
+  --rs-panel-border: var(--rs-gray-100);
+
+  // Tag
+  --rs-tag-bg: var(--rs-gray-50);
+  --rs-tag-close-hover-bg: var(--rs-gray-300);
+  --rs-tag-close-hover-text: var(--rs-gray-700);
+
+  // Message
+  --rs-message-bg: var(--rs-gray-0);
+  --rs-message-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+}

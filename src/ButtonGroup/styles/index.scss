@@ -1,0 +1,81 @@
+@use '../../scss/common';
+@use '../../scss/mixins/border-radius' as radius;
+@use '../../scss/mixins/utilities' as utils;
+
+//
+// Button groups
+// --------------------------------------------------
+
+// Make the div behave like a button
+.rs-btn-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; // match .btn alignment given font-size hack above
+
+  > .rs-btn {
+    position: relative;
+
+    // Bring the "active" button to the front.
+    &:focus,
+    &:active {
+      z-index: 2;
+    }
+  }
+}
+
+// Horizontal Button remove border radius
+.rs-btn-group:not(.rs-btn-group-vertical) {
+  > .rs-btn {
+    float: left;
+
+    &:not(:last-child) {
+      @include radius.border-right-radius(0);
+    }
+
+    &:not(:first-child) {
+      @include radius.border-left-radius(0);
+    }
+  }
+
+  // collapse border
+  > .rs-btn-ghost + .rs-btn-ghost {
+    margin-left: -1px;
+  }
+}
+
+// Vertical button groups
+// ----------------------
+
+.rs-btn-group-vertical {
+  > .rs-btn {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    &:not(:last-child) {
+      @include radius.border-bottom-radius(0);
+    }
+
+    &:not(:first-child) {
+      @include radius.border-top-radius(0);
+    }
+  }
+
+  // collapse border
+  > .rs-btn-ghost + .rs-btn-ghost {
+    margin-top: -1px;
+  }
+}
+
+// Justified button groups
+// ----------------------
+
+.rs-btn-group-justified {
+  display: flex;
+  width: 100%;
+
+  > .rs-btn {
+    flex: 1 1 1%;
+    @include utils.ellipsis-basic;
+  }
+}

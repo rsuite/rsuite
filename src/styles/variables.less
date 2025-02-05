@@ -122,11 +122,11 @@
 
 @font-family-base:      -apple-system, BlinkMacSystemFont, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 
-@font-size-extra-large: 18px;
-@font-size-large:       16px;
-@font-size-base:        14px;
-@font-size-small:       12px;
-@font-size-extra-small: 12px;
+@font-size-extra-large: 1.25rem;    // 20px
+@font-size-large:       1.125rem;   // 18px
+@font-size-base:        16px;       // 16px
+@font-size-small:       0.875rem;   // 14px
+@font-size-extra-small: 0.75rem;    // 12px
 
 @font-size-h1: 46px;
 @font-size-h2: 36px;
@@ -147,11 +147,11 @@
 @line-height-large-computed:  22px;
 
 // Unit-less `line-height` for use in components like buttons.
-@line-height-extra-large:     unit((@line-height-large-computed / @font-size-extra-large)); // ~1.222
-@line-height-large:           unit((@line-height-large-computed / @font-size-large)); // ~1.375
-@line-height-base:            unit((@line-height-computed / @font-size-base)); // ~1.4285714285714286
-@line-height-small:           unit((@line-height-computed / @font-size-small)); // ~1.6666666666666667
-@line-height-extra-small:     unit((@line-height-computed / @font-size-extra-small)); // ~1.6666666666666667
+@line-height-extra-large:     unit((@line-height-large-computed / (20))); // 1.1 (20px is the computed value of 1.25rem)
+@line-height-large:           unit((@line-height-large-computed / (18))); // 1.222 (18px is the computed value of 1.125rem)
+@line-height-base:            unit((@line-height-computed / @font-size-base)); // 1.25
+@line-height-small:           unit((@line-height-computed / (14))); // 1.428 (14px is the computed value of 0.875rem)
+@line-height-extra-small:     unit((@line-height-computed / (12))); // 1.666 (12px is the computed value of 0.75rem)
 
 // By default, this inherits from the `<body>`.
 @headings-font-family:    inherit;

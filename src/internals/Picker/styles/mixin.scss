@@ -1,0 +1,227 @@
+@import '../../../scss/variables';
+@import '../../../styles/mixins/color-modes';
+@import '../../../Dropdown/styles/mixin';
+
+// Picker Menu items common styles
+@mixin picker-menu-items-reset {
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// Picker Menu group common styles
+@mixin picker-menu-group-common($prefix) {
+  // Set border & padding to menu group if  it isn't the first.
+  .rs-#{$prefix}-menu-group:not(:first-child) {
+    margin-top: $picker-group-select-menu-gap;
+    border-top: 1px solid $picker-group-select-menu-lin-color;
+    padding-top: $picker-group-select-menu-gap;
+  }
+}
+
+// Group title common styles
+@mixin picker-menu-group-title($prefix) {
+  .rs-#{$prefix}-menu-group-title {
+    padding: $picker-item-content-padding-vertical $picker-item-content-padding-horizontal;
+    padding-right: ($padding-x + $dropdown-caret-width + $dropdown-caret-padding);
+    position: relative;
+    cursor: pointer;
+    color: var(--rs-text-heading);
+
+    .rs-#{$prefix}-menu-group-caret {
+      display: inline-block;
+      margin-left: 2px;
+      position: absolute;
+      top: $padding-y;
+      right: $padding-x;
+      color: var(--rs-text-secondary);
+    }
+  }
+}
+
+// Group closed common styles
+@mixin picker-menu-group-closed($prefix) {
+  .rs-#{$prefix}-menu-group.folded {
+    .rs-#{$prefix}-menu-group-caret {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+@mixin picker-item-hover {
+  color: var(--rs-text-primary);
+  background-color: var(--rs-state-hover-bg);
+}
+
+@mixin picker-item-active {
+  font-weight: $picker-select-menu-item-selected-font-weight;
+}
+
+@mixin picker-calendar-cell-content {
+  display: inline-block;
+  font-size: $calendar-table-cell-content-font-size;
+  line-height: $calendar-table-cell-content-line-height;
+  padding: $calendar-table-cell-content-padding;
+  cursor: pointer;
+  border-radius: $border-radius;
+
+  &:hover {
+    background-color: var(--rs-state-hover-bg);
+  }
+}
+
+@mixin picker-calendar-cell-content-selected {
+  color: var(--rs-calendar-date-selected-text);
+  background-color: var(--rs-bg-active);
+  box-shadow: none;
+
+  @include high-contrast-mode {
+    text-decoration: underline;
+  }
+}
+
+@mixin picker-calendar-title-show {
+  color: var(--rs-text-active);
+  background: transparent;
+}
+
+@mixin picker-custom-button-caret-size($padding-horizontal, $padding-vertical, $clean-btn-margin: 2px) {
+  $clean-btn-width: $dropdown-caret-width;
+
+  .rs-picker-toggle-wrapper & {
+    padding-right: ($padding-horizontal + $dropdown-caret-width + $dropdown-caret-padding);
+  }
+
+  .rs-picker-has-value.rs-picker-cleanable & {
+    padding-right: ($padding-horizontal + $dropdown-caret-width + $dropdown-caret-padding);
+  }
+
+  .rs-picker-toggle-indicator {
+    .rs-picker-caret-icon,
+    .rs-picker-clean {
+      top: $padding-vertical;
+      right: $padding-horizontal;
+
+      .rs-picker-default & {
+        top: $padding-vertical - $picker-default-toggle-border-width;
+      }
+    }
+
+    .rs-picker-loader {
+      top: $padding-vertical;
+      right: $padding-horizontal;
+    }
+  }
+}
+
+@mixin picker-button-caret-lg {
+  @include picker-custom-button-caret-size(
+    $padding-x-lg,
+    $padding-y-lg,
+    $clean-btn-margin: 4px
+  );
+}
+
+@mixin picker-button-caret-md {
+  @include picker-custom-button-caret-size($padding-x, $padding-y);
+}
+
+@mixin picker-button-caret-sm {
+  @include picker-custom-button-caret-size($padding-x-sm, $padding-y-sm);
+}
+
+@mixin picker-button-caret-xs {
+  @include picker-custom-button-caret-size(
+    $padding-x-xs,
+    $padding-y-xs,
+    $clean-btn-margin: 2px
+  );
+}
+
+@mixin daterange-picker-custom-toggle($calendar-caret-width: 14px, $padding-horizontal, $top, $clean-btn-margin: 2px) {
+  $toggle-clean-padding: 4px;
+  $clean-btn-width: $dropdown-caret-width;
+
+  padding-right: ($padding-horizontal + $calendar-caret-width + $dropdown-caret-padding);
+
+  .rs-picker-toggle-indicator {
+    .rs-picker-clean,
+    .rs-picker-caret-icon {
+      top: $top;
+      right: $padding-horizontal;
+
+      .rs-picker-subtle & {
+        top: $top - $picker-default-toggle-border-width;
+      }
+    }
+  }
+}
+
+@mixin date-picker-button-caret-lg {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
+    @include daterange-picker-custom-toggle(
+      $calendar-caret-width: $font-size-large,
+      $padding-horizontal: $padding-x-lg,
+      $top: 10px,
+      $clean-btn-margin: 4px
+    );
+  }
+}
+
+@mixin date-picker-button-caret-md {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
+    @include daterange-picker-custom-toggle(
+      $calendar-caret-width: $font-size-base,
+      $padding-horizontal: $padding-x,
+      $top: 8px
+    );
+  }
+}
+
+@mixin date-picker-button-caret-sm {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
+    @include daterange-picker-custom-toggle(
+      $calendar-caret-width: $font-size-base,
+      $padding-horizontal: $padding-x-sm,
+      $top: 4px
+    );
+  }
+}
+
+@mixin date-picker-button-caret-xs {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
+    @include daterange-picker-custom-toggle(
+      $calendar-caret-width: $font-size-base,
+      $padding-horizontal: $padding-x-xs,
+      $top: 2px
+    );
+  }
+}
+
+@mixin picker-button-size($size) {
+  @include map-size($size);
+
+  $padding-name: 'padding-y#{$suffix}';
+  $padding-vertical: map-get($paddings, $padding-name);
+
+  &.rs-btn {
+    padding: $padding-vertical $padding-horizontal;
+  }
+
+  .rs-picker-default & {
+    padding: ($padding-vertical - $picker-default-toggle-border-width)
+      ($padding-horizontal - $picker-default-toggle-border-width);
+  }
+
+  .rs-picker-subtle & {
+    padding: $padding-vertical $padding-horizontal;
+  }
+}

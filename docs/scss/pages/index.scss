@@ -1,0 +1,103 @@
+/** Components **/
+@import './components/calendar';
+@import './components/carousel';
+@import './components/container';
+@import './components/grid';
+@import './components/icon';
+@import './components/input-number';
+@import './components/overview';
+@import './components/slider';
+@import './components/table';
+@import './components/tag';
+@import './components/timeline';
+@import './components/progress';
+
+/** Resources & Tools **/
+@import './resources/icons';
+@import './resources/palette';
+@import './resources/templates';
+@import './resources/colors';
+
+/** Guides **/
+@import './guide/usage';
+
+.page-home {
+  position: relative;
+
+  @media (min-width: $media-xs) {
+    &.rs-grid-container {
+      padding-left: 64px;
+    }
+  }
+
+  @media (max-width: $media-xs) {
+    .footerbar {
+      display: none;
+    }
+    .banner {
+      margin-top: 100px;
+    }
+    .home-page-badge-wrap a {
+      display: block;
+      line-height: 36px;
+    }
+    .primary-toolbar {
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+  }
+
+  .header {
+    text-align: right;
+    padding-top: 10px;
+  }
+
+  .banner {
+    height: calc(100vh - 56px);
+    flex-flow: wrap-reverse;
+
+    @media (min-width: $media-xs) {
+      flex-flow: nowrap;
+    }
+
+    @media (max-width: $media-xs) {
+      align-items: flex-end;
+
+      .react-logo {
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
+      }
+
+      .logo-react-suite .rsuite-logo {
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: calc(50% - 68px);
+      }
+    }
+
+    .logo-react-suite-wrapper {
+      pointer-events: none;
+    }
+
+    .title {
+      font-family: 'Raleway', 'Hiragino Sans GB', sans-serif;
+      font-weight: bold;
+
+      @media (max-width: $media-xs) {
+        font-size: 30px;
+        line-height: 36px;
+      }
+    }
+
+    .sub-title {
+      margin: 20px 0;
+      font-size: 14px;
+
+      @media (min-width: $media-xs) {
+        font-size: 22px;
+      }
+    }
+  }
+}

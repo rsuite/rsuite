@@ -1,0 +1,52 @@
+@use 'variables' as vars;
+
+//
+// Scaffolding
+// --------------------------------------------------
+
+// Body reset
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-base;
+  line-height: vars.$line-height-base;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-body);
+}
+
+// Links
+a {
+  color: var(--rs-text-link);
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: var(--rs-text-link-hover);
+    text-decoration: vars.$link-hover-decoration;
+  }
+
+  &:active {
+    color: var(--rs-text-link-active);
+    text-decoration: vars.$link-active-decoration;
+  }
+}
+
+// Images
+img {
+  vertical-align: middle;
+}
+
+// Horizontal rules
+hr {
+  margin-top: vars.$line-height-computed;
+  margin-bottom: vars.$line-height-computed;
+  border: 0;
+  border-top: 1px solid vars.$divider-border-color;
+}
+
+[role='button'] {
+  cursor: pointer;
+}

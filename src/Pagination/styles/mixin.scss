@@ -1,0 +1,14 @@
+@import '../../scss/mixins/color-modes';
+
+@mixin pagination-active {
+  @include rs-btn-ghost;
+
+  @include high-contrast-mode {
+    color: var(--rs-pagination-item-current-text);
+    text-decoration: underline;
+  }
+}
+
+@mixin pagination-active-size($padding-vertical: $padding-y, $padding-horizontal: $padding-x) {
+  padding: ($padding-vertical - 1) ($padding-horizontal - 1);
+}

@@ -1,0 +1,30 @@
+// Create grid for specific class
+@mixin make-grid($size) {
+  @for $value from 1 through 24 {
+    .rs-col-#{$size}-#{$value} {
+      width: percentage($value / 24);
+    }
+    .rs-col-#{$size}-pull-#{$value} {
+      right: percentage($value / 24);
+    }
+    .rs-col-#{$size}-push-#{$value} {
+      left: percentage($value / 24);
+    }
+
+    .rs-col-#{$size}-offset-#{$value} {
+      margin-left: percentage($value / 24);
+    }
+  }
+  .rs-col-#{$size}-pull-0 {
+    right: auto;
+  }
+  .rs-col-#{$size}-push-0 {
+    left: auto;
+  }
+}
+
+@mixin hidden($size) {
+  .rs-hidden-#{$size} {
+    display: none;
+  }
+}

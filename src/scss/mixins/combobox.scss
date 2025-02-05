@@ -1,0 +1,12 @@
+@use '../variables' as vars;
+
+@mixin combobox-indicator-icon($right: vars.$padding-x) {
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
+  position: absolute;
+  top: vars.$padding-y;
+  right: $right;
+  height: vars.$line-height-computed;
+  font-size: 12px;
+}

@@ -10,10 +10,10 @@
     "lib": "cjs/"
   },
   "scripts": {
-    "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\" --cache",
+    "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js,scss}\" --cache",
     "format:docs": "prettier --write \"docs/**/*.{tsx,ts,md}\" --cache",
-    "format:style": "stylelint src/**/*.less --fix --cache",
-    "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\" --cache",
+    "format:style": "stylelint src/**/*.{less,scss} --fix --cache",
+    "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js,scss}\" --cache",
     "dist": "npm run dist:dev && npm run dist:pro",
     "dist:dev": "cross-env NODE_ENV=development  webpack --progress",
     "dist:pro": "webpack --mode production --progress",
@@ -21,6 +21,9 @@
     "build:styles": "gulp buildStyles --gulpfile ./gulpfile.js",
     "build:css": "gulp buildComponentCSS --gulpfile ./gulpfile.js",
     "build:gulp": "gulp build --gulpfile ./gulpfile.js",
+    "build:scss": "gulp build --gulpfile ./gulpfile-build.js",
+    "build:scss:styles": "gulp buildStyles --gulpfile ./gulpfile-build.js",
+    "build:scss:css": "gulp buildComponentCSS --gulpfile ./gulpfile-build.js",
     "build:types-cjs": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && resolve-tspaths --project tsconfig.build.json --out lib/cjs ",
     "build:types-esm": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/esm && resolve-tspaths --project tsconfig.build.json --out lib/esm ",
     "build:types": "npm run build:types-cjs && npm run build:types-esm",
@@ -30,7 +33,7 @@
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "lint": "npm run lint:ts && npm run lint:style",
-    "lint:style": "stylelint src/**/*.less --cache",
+    "lint:style": "stylelint src/**/*.{less,scss} --cache",
     "lint:ts": "eslint src --cache && tsc --noEmit",
     "prepublishOnly": "npm run build",
     "size": "npm run dist:pro && size-limit",
@@ -139,10 +142,10 @@
     "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-insert": "^0.5.0",
-    "gulp-less": "^5.0.0",
     "gulp-postcss": "^10.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^2.0.0",
+    "gulp-sass": "^6.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "husky": "^7.0.2",
     "inquirer": "^9.2.7",
@@ -172,6 +175,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resolve-tspaths": "^0.8.19",
+    "sass": "^1.83.4",
     "semver": "^7.5.1",
     "sinon": "^14.0.1",
     "sinon-chai": "^3.7.0",
@@ -199,7 +203,8 @@
     "esm/**/styles/*",
     "dist/*",
     "*.less",
-    "*.css"
+    "*.css",
+    "*.scss"
   ],
   "size-limit": [
     {

@@ -1,0 +1,8 @@
+@use '../../../scss/mixins/utilities' as utils;
+
+@mixin with-ripple {
+  overflow: hidden;
+  position: relative;
+
+  @include utils.safari-border-radius-overflow-hidden;
+}

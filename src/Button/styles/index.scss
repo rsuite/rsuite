@@ -1,0 +1,318 @@
+@use '../../scss/common';
+@use '../../internals/Ripple/styles/mixins' as ripple;
+@use './mixin';
+@use '../../scss/variables' as vars;
+@use '../../scss/mixins/color-modes' as color-modes;
+@use '../../scss/colors/light' as light;
+@use '../../scss/mixins/utilities' as utils;
+
+//
+// Buttons
+// --------------------------------------------------
+
+// Default Button
+.rs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0; // For input.btn
+  font-weight: vars.$btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: vars.$btn-transition;
+  // Reset border style in all browser
+  border: var(--rs-btn-default-border, none);
+  user-select: none;
+  text-decoration: none;
+  color: var(--rs-btn-default-text);
+  background-color: var(--rs-btn-default-bg);
+  border-radius: vars.$btn-border-radius;
+
+  @include color-modes.high-contrast-mode {
+    transition: none;
+  }
+
+  @include mixin.button-size-md;
+
+  @include utils.with-focus-ring;
+
+  @include mixin.button-activated {
+    color: var(--rs-btn-default-hover-text);
+    background-color: var(--rs-btn-default-hover-bg);
+    text-decoration: none;
+  }
+
+  @include mixin.button-pressed {
+    color: var(--rs-btn-default-active-text);
+    background-color: var(--rs-btn-default-active-bg);
+  }
+
+  @include mixin.button-disabled {
+    cursor: vars.$cursor-disabled;
+    color: var(--rs-btn-default-disabled-text);
+    background-color: var(--rs-btn-default-disabled-bg);
+  }
+
+  @include ripple.with-ripple;
+}
+
+.rs-btn-start-icon {
+  line-height: 0; // Eliminate whitespace
+  margin-right: vars.$btn-icon-gap;
+}
+
+.rs-btn-end-icon {
+  line-height: 0; // Eliminate whitespace
+  margin-left: vars.$btn-icon-gap;
+}
+
+// Appearance variants
+// --------------------------------------------------
+
+// Primary Button
+.rs-btn-primary {
+  color: var(--rs-btn-primary-text);
+  background-color: var(--rs-btn-primary-bg);
+  border: none;
+
+  @include mixin.button-activated {
+    color: var(--rs-btn-primary-text);
+    background-color: var(--rs-btn-primary-hover-bg);
+  }
+
+  @include mixin.button-pressed {
+    color: var(--rs-btn-primary-text);
+    background-color: var(--rs-btn-primary-active-bg);
+  }
+
+  @include mixin.button-disabled {
+    color: var(--rs-btn-primary-text);
+    background-color: var(--rs-btn-primary-bg);
+    opacity: 0.3;
+  }
+}
+
+// Subtle Button
+.rs-btn-subtle {
+  color: var(--rs-btn-subtle-text);
+  background-color: transparent;
+  border: none;
+
+  @include mixin.button-activated {
+    color: var(--rs-btn-subtle-hover-text);
+    background-color: var(--rs-btn-subtle-hover-bg);
+  }
+
+  @include mixin.button-pressed {
+    color: var(--rs-btn-subtle-active-text);
+    background-color: var(--rs-btn-subtle-active-bg);
+  }
+
+  @include mixin.button-disabled {
+    color: var(--rs-btn-subtle-disabled-text);
+    background: none;
+  }
+}
+
+// Link buttons
+.rs-btn-link {
+  color: var(--rs-btn-link-text);
+  background-color: transparent;
+  border: none;
+
+  @include mixin.button-activated {
+    color: var(--rs-btn-link-hover-text);
+    background-color: transparent;
+    text-decoration: vars.$link-hover-decoration;
+  }
+
+  @include mixin.button-pressed {
+    color: var(--rs-btn-link-active-text);
+    background-color: transparent;
+  }
+
+  @include mixin.button-disabled {
+    color: var(--rs-btn-link-hover-text);
+    background-color: transparent;
+    text-decoration: none;
+    opacity: 0.3;
+  }
+}
+
+// Ghost Button
+.rs-btn-ghost {
+  color: var(--rs-btn-ghost-text);
+  background-color: transparent;
+  border: vars.$btn-ghost-border-width solid var(--rs-btn-ghost-border);
+
+  @include mixin.button-activated {
+    color: var(--rs-btn-ghost-hover-text);
+    background-color: transparent;
+    border-color: var(--rs-btn-ghost-hover-border);
+    box-shadow: 0 0 0 1px var(--rs-btn-ghost-hover-border);
+  }
+
+  @include mixin.button-pressed {
+    color: var(--rs-btn-ghost-active-text);
+    background-color: transparent;
+    border-color: var(--rs-btn-ghost-active-border);
+  }
+
+  @include mixin.button-disabled {
+    color: var(--rs-btn-ghost-text);
+    background-color: transparent;
+    opacity: 0.3;
+    border-color: var(--rs-btn-ghost-border);
+    box-shadow: none;
+  }
+}
+
+// Spectrum buttons
+@each $color in ('red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet') {
+  $C200: var(--rs-#{$color}-200);
+  $C300: var(--rs-#{$color}-300);
+  $C400: var(--rs-#{$color}-400);
+  $C500: var(--rs-#{$color}-500);
+  $C600: var(--rs-#{$color}-600);
+  $C700: var(--rs-#{$color}-700);
+  $C800: var(--rs-#{$color}-800);
+  $C900: var(--rs-#{$color}-900);
+
+  .rs-btn-#{$color} {
+    --rs-btn-primary-bg: #{$C500};
+    --rs-btn-primary-hover-bg: #{$C700};
+    --rs-btn-primary-active-bg: #{$C800};
+    --rs-btn-subtle-hover-bg: #{$C500};
+    --rs-btn-subtle-hover-text: #{light.$B200};
+    --rs-btn-subtle-active-bg: #{$C600};
+    --rs-btn-subtle-active-text: #{light.$B800};
+    --rs-btn-ghost-border: #{$C700};
+    --rs-btn-ghost-text: #{$C700};
+    --rs-btn-ghost-hover-border: #{$C900};
+    --rs-btn-ghost-hover-text: #{$C800};
+    --rs-btn-ghost-active-border: #{$C900};
+    --rs-btn-ghost-active-text: #{$C900};
+    --rs-btn-link-text: #{$C700};
+    --rs-btn-link-hover-text: #{$C800};
+    --rs-btn-link-active-text: #{$C900};
+    --rs-iconbtn-primary-addon: #{$C600};
+    --rs-iconbtn-primary-activated-addon: #{$C800};
+    --rs-iconbtn-primary-pressed-addon: #{$C900};
+  }
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+.rs-btn-lg {
+  @include mixin.button-size-lg;
+}
+
+.rs-btn-md {
+  @include mixin.button-size-md;
+}
+
+.rs-btn-sm {
+  @include mixin.button-size-sm;
+}
+
+.rs-btn-xs {
+  @include mixin.button-size-xs;
+}
+
+// Block button
+// --------------------------------------------------
+
+.rs-btn-block {
+  width: 100%;
+
+  // Vertically space out multiple block buttons
+  & + & {
+    margin-top: 5px;
+  }
+}
+
+// Button Loading state
+.rs-btn-loading {
+  color: transparent !important;
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+
+  // Spinner
+  > .rs-btn-spin {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: vars.$btn-loading-spin-default-diameter;
+      height: vars.$btn-loading-spin-default-diameter;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 50%;
+      z-index: 1;
+
+      &:where(.rs-btn-xs) {
+        width: vars.$btn-loading-spin-xs-diameter;
+        height: vars.$btn-loading-spin-xs-diameter;
+      }
+    }
+
+    &::after {
+      border: vars.$btn-loading-spin-ring-wide solid var(--rs-loader-ring);
+
+      &:where(.rs-btn-primary) {
+        border-color: rgba(248, 247, 250, 0.3);
+
+        @include color-modes.high-contrast-mode {
+          border-color: var(--rs-loader-ring-inverse);
+        }
+      }
+    }
+
+    &::before {
+      border-width: vars.$btn-loading-spin-ring-wide;
+      border-color: var(--rs-loader-rotor) transparent transparent;
+      border-style: solid;
+      animation: buttonSpin 0.6s infinite linear;
+
+      &:where(.rs-btn-primary) {
+        border-top-color: #fff;
+
+        @include color-modes.high-contrast-mode {
+          border-top-color: var(--rs-loader-rotor-inverse);
+        }
+      }
+    }
+  }
+
+  @keyframes buttonSpin {
+    from {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin btn-error {
+  @extend .rs-btn-subtle;
+
+  --rs-btn-subtle-text: var(--rs-red-500);
+  --rs-btn-subtle-hover-bg: var(--rs-red-500);
+  --rs-btn-subtle-hover-text: #fff;
+  --rs-btn-subtle-active-bg: var(--rs-red-600);
+  --rs-btn-subtle-active-text: #fff;
+
+  @include color-modes.dark-mode {
+    --rs-btn-subtle-hover-bg: var(--rs-red-600);
+    --rs-btn-subtle-active-bg: var(--rs-red-400);
+  }
+}

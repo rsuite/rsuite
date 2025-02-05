@@ -1,0 +1,102 @@
+@import './themes/default';
+
+/** Base **/
+@import './markdown';
+@import './code-view';
+@import '~@rsuite/document-nav/lib/less/index.less';
+@import './carbonads';
+
+/** Components **/
+@import '../components/TopLevelNav/styles';
+@import '../components/Logo/styles';
+@import '../components/SideNavbar/styles';
+@import '../components/ReactLogo/styles';
+@import '../components/PageContainer/styles';
+@import '../components/PageToolbar/styles';
+@import '../components/AdCarbon/styles';
+@import '../components/FakeBrowser/styles';
+@import '../components/ColorPalette/styles';
+@import '../components/ColorPicker/styles';
+@import '../components/AdminFrame/styles';
+@import '../components/Simulation/styles';
+
+/** Pages **/
+@import './pages/index';
+
+$enable-dark-mode: true;
+$enable-high-contrast: true;
+$enable-css-reset: true;
+
+$media-xs: 768px;
+$media-md: 992px;
+$bg-color: #fff;
+$banner-bg-color: #fff;
+$header-height: 64px;
+$scrollbar-width: 10px;
+$top-level-nav-height: 48px;
+$doc-nav-active-color: var(--rs-text-link);
+
+:root {
+  --font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    monospace;
+}
+
+body {
+  background-color: #fff;
+
+  // TODO use variable exported from rsuite
+  &.rs-theme-dark,
+  &.rs-theme-high-contrast {
+    background-color: #0f131a;
+  }
+}
+
+.main-container {
+  @media (max-width: $media-xs) {
+    margin-top: ($top-level-nav-height + 28px);
+  }
+}
+
+.app-container {
+  padding: 0;
+  .page-context {
+    @media (max-width: $media-xs) {
+      margin-left: 0 !important;
+      padding: 15px;
+    }
+
+    @media (min-width: $media-xs) {
+      margin-left: 324px;
+    }
+  }
+}
+
+pre {
+  border: none;
+  border-radius: 0;
+}
+
+.placement-table {
+  td {
+    padding: 4px;
+  }
+
+  tr td:first-child {
+    text-align: right;
+  }
+}
+
+.json-tree-wrapper {
+  background: rgb(0, 43, 54) !important;
+  margin-bottom: 20px !important;
+
+  .rs-panel-header {
+    background: #06232c;
+    border-radius: 6px;
+    color: #fff;
+  }
+
+  .rs-panel-body {
+    padding: 0 4px 8px 10px;
+  }
+}

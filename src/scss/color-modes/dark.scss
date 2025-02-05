@@ -1,0 +1,293 @@
+@use '../colors/dark' as colors;
+@use '../variables' as vars;
+
+// see https://rsuitejs.com/design/dark
+@mixin theme {
+  // Base colors
+  --rs-primary: #{colors.$primary-color-dark};
+  
+  // Gray scale (Inverted for dark theme)
+  --rs-gray-0: #{colors.$B900-dark};    // Darkest background
+  --rs-gray-50: #{colors.$B800-dark};   // Dark background
+  --rs-gray-100: #{colors.$B700-dark};  // Light dark background
+  --rs-gray-200: #{colors.$B600-dark};  // Border
+  --rs-gray-300: #{colors.$B500-dark};  // Secondary border
+  --rs-gray-400: #{colors.$B400-dark};  // Disabled text
+  --rs-gray-500: #{colors.$B300-dark};  // Secondary text
+  --rs-gray-600: #{colors.$B200-dark};  // Primary text
+  --rs-gray-700: #{colors.$B100-dark};  // Light text
+  --rs-gray-800: #{colors.$B050-dark};  // Lighter text
+  --rs-gray-900: #{colors.$B000-dark};  // Lightest text
+
+  // Primary color variations (Brighter for dark theme)
+  --rs-primary-50: #{colors.$H050-dark};   // Lightest
+  --rs-primary-100: #{colors.$H100-dark};  // Lighter
+  --rs-primary-200: #{colors.$H200-dark};  // Light
+  --rs-primary-300: #{colors.$H300-dark};  // Base light
+  --rs-primary-400: #{colors.$H400-dark};  // Base
+  --rs-primary-500: #{colors.$H500-dark};  // Base dark
+  --rs-primary-600: #{colors.$H600-dark};  // Dark
+  --rs-primary-700: #{colors.$H700-dark};  // Darker
+  --rs-primary-800: #{colors.$H800-dark};  // Darkest
+  --rs-primary-900: #{colors.$H900-dark};  // Most dark
+
+  // Semantic colors (Brighter variants for dark theme)
+  --rs-color-red: #{colors.$red-dark};         // Error/Danger
+  --rs-color-orange: #{colors.$orange-dark};   // Warning
+  --rs-color-yellow: #{colors.$yellow-dark};   // Attention
+  --rs-color-green: #{colors.$green-dark};     // Success
+  --rs-color-cyan: #{colors.$cyan-dark};       // Info
+  --rs-color-blue: #{colors.$blue-dark};       // Primary
+  --rs-color-violet: #{colors.$violet-dark};   // Secondary
+
+  // Semantic color variations
+  @each $color-name in vars.$spectrum {
+    // Get the base color
+    $color: if($color-name == 'blue', colors.$blue-dark,
+              if($color-name == 'red', colors.$red-dark,
+              if($color-name == 'orange', colors.$orange-dark,
+              if($color-name == 'yellow', colors.$yellow-dark,
+              if($color-name == 'green', colors.$green-dark,
+              if($color-name == 'cyan', colors.$cyan-dark,
+              if($color-name == 'violet', colors.$violet-dark,
+              null)))))));
+
+    @if $color {
+      // Generate color variations using the palette function
+      --rs-#{$color-name}-50: #{palette($color, 50)};
+      --rs-#{$color-name}-100: #{palette($color, 100)};
+      --rs-#{$color-name}-200: #{palette($color, 200)};
+      --rs-#{$color-name}-300: #{palette($color, 300)};
+      --rs-#{$color-name}-400: #{palette($color, 400)};
+      --rs-#{$color-name}-500: #{$color};
+      --rs-#{$color-name}-600: #{palette($color, 600)};
+      --rs-#{$color-name}-700: #{palette($color, 700)};
+      --rs-#{$color-name}-800: #{palette($color, 800)};
+      --rs-#{$color-name}-900: #{palette($color, 900)};
+    }
+  }
+
+  // State colors (semantic mappings - brighter for dark theme)
+  --rs-state-success: var(--rs-color-green);
+  --rs-state-info: var(--rs-color-blue);
+  --rs-state-warning: var(--rs-color-orange);
+  --rs-state-error: var(--rs-color-red);
+
+  // Text colors (Inverted for dark theme)
+  --rs-text-primary: var(--rs-gray-600);    // Lighter text for dark theme
+  --rs-text-secondary: var(--rs-gray-500);
+  --rs-text-tertiary: var(--rs-gray-400);
+  --rs-text-disabled: var(--rs-gray-400);
+  --rs-text-link: var(--rs-primary-500);
+  --rs-text-link-hover: var(--rs-primary-400);  // Lighter hover for dark theme
+  --rs-text-link-active: var(--rs-primary-300); // Lighter active for dark theme
+
+  // Border colors (Darker for dark theme)
+  --rs-border-primary: var(--rs-gray-200);
+  --rs-border-secondary: var(--rs-gray-300);
+
+  // Background colors (Inverted for dark theme)
+  --rs-bg-card: var(--rs-gray-50);      // Slightly lighter than base
+  --rs-bg-overlay: var(--rs-gray-0);    // Darkest for overlays
+  --rs-bg-disabled: var(--rs-gray-100); // Slightly lighter for disabled
+
+  // Reset for dark theme
+  --rs-body: var(--rs-gray-0);
+
+  // Status colors with dark theme adjustments
+  --rs-bg-success: rgba(from #{colors.$green-dark} r g b / 0.1);
+  --rs-bg-info: rgba(from #{colors.$blue-dark} r g b / 0.1);
+  --rs-bg-warning: rgba(from #{colors.$orange-dark} r g b / 0.1);
+  --rs-bg-error: rgba(from #{colors.$red-dark} r g b / 0.1);
+
+  // Misc adjustments for dark theme
+  --rs-text-heading: var(--rs-gray-900);
+  --rs-text-inverse: var(--rs-gray-50);
+  --rs-text-heading-inverse: var(--rs-gray-0);
+  --rs-text-active: var(--rs-primary-500);
+  --rs-text-error: var(--rs-color-red);
+  --rs-text-highlight-bg: rgba(255, 246, 201, 0.1);  // Dimmed highlight for dark theme
+  --rs-text-weight-thin: 100;
+  --rs-text-weight-light: 300;
+  --rs-text-weight-normal: 400;
+  --rs-text-weight-medium: 500;
+  --rs-text-weight-semibold: 600;
+  --rs-text-weight-bold: 700;
+  --rs-text-weight-extrabold: 800;
+  --rs-bg-active: var(--rs-primary-900);
+  --rs-bg-backdrop: rgb(0 0 0 / 80%);        // Darker backdrop for dark theme
+  --rs-state-hover-bg: var(--rs-primary-900); // Darker hover for dark theme
+
+  // Scrollbar
+  --rs-scrollbar-bg: transparent;
+  --rs-scrollbar-thumb: var(--rs-gray-600);
+  --rs-scrollbar-thumb-active: var(--rs-gray-500);
+  --rs-scrollbar-width: 8px;
+  --rs-scrollbar-height: 8px;
+  --rs-scrollbar-vertical-track: rgb(from var(--rs-gray-700) r g b / 40%);
+  --rs-scrollbar-horizontal-track: rgb(from var(--rs-gray-700) r g b / 40%);
+
+  // Loader
+  --rs-loader-ring: var(--rs-gray-700);
+  --rs-loader-rotor: var(--rs-gray-400);
+  --rs-loader-backdrop: rgb(from var(--rs-gray-900) r g b / 90%);
+  --rs-loader-ring-inverse: rgb(from var(--rs-gray-0) r g b / 30%);
+  --rs-loader-rotor-inverse: var(--rs-gray-900);
+  --rs-loader-backdrop-inverse: rgb(from var(--rs-gray-0) r g b / 90%);
+
+  // Message
+  --rs-message-success-header: #fff;
+  --rs-message-success-text: #fff;
+  --rs-message-success-icon: var(--rs-color-green);
+  --rs-message-success-bg: rgb(from var(--rs-color-green) r g b / 10%);
+  --rs-message-info-header: #fff;
+  --rs-message-info-text: #fff;
+  --rs-message-info-icon: var(--rs-color-blue);
+  --rs-message-info-bg: rgb(from var(--rs-color-blue) r g b / 10%);
+  --rs-message-warning-header: #fff;
+  --rs-message-warning-text: #fff;
+  --rs-message-warning-icon: var(--rs-color-yellow);
+  --rs-message-warning-bg: rgb(from var(--rs-color-yellow) r g b / 10%);
+  --rs-message-error-header: #fff;
+  --rs-message-error-text: #fff;
+  --rs-message-error-icon: var(--rs-color-red);
+  --rs-message-error-bg: rgb(from var(--rs-color-red) r g b / 10%);
+
+  // Button
+  --rs-btn-default-bg: var(--rs-gray-700);
+  --rs-btn-default-text: var(--rs-gray-50);
+  --rs-btn-default-hover-bg: var(--rs-gray-600);
+  --rs-btn-default-active-bg: var(--rs-gray-500);
+  --rs-btn-default-disabled-bg: var(--rs-gray-700);
+  --rs-btn-default-disabled-text: var(--rs-text-disabled);
+  --rs-btn-primary-bg: var(--rs-primary-500);
+  --rs-btn-primary-text: #fff;
+  --rs-btn-primary-hover-bg: var(--rs-primary-400);
+  --rs-btn-primary-active-bg: var(--rs-primary-300);
+  --rs-btn-primary-disabled-bg: var(--rs-primary-700);
+  --rs-btn-primary-disabled-text: #fff;
+  --rs-btn-subtle-text: var(--rs-primary-500);
+  --rs-btn-subtle-hover-bg: var(--rs-primary-900);
+  --rs-btn-subtle-active-bg: var(--rs-primary-800);
+  --rs-btn-subtle-disabled-bg: transparent;
+  --rs-btn-subtle-disabled-text: var(--rs-text-disabled);
+  --rs-btn-ghost-border: var(--rs-gray-600);
+  --rs-btn-ghost-text: var(--rs-gray-50);
+  --rs-btn-ghost-hover-border: var(--rs-gray-500);
+  --rs-btn-ghost-hover-text: var(--rs-gray-50);
+  --rs-btn-ghost-active-border: var(--rs-gray-400);
+  --rs-btn-ghost-active-text: var(--rs-gray-50);
+  --rs-btn-ghost-disabled-border: var(--rs-gray-700);
+  --rs-btn-ghost-disabled-text: var(--rs-text-disabled);
+  --rs-btn-link-text: var(--rs-primary-500);
+  --rs-btn-link-hover-text: var(--rs-primary-400);
+  --rs-btn-link-active-text: var(--rs-primary-300);
+  --rs-btn-link-disabled-text: var(--rs-text-disabled);
+
+  // Sidenav
+  --rs-sidenav-default-bg: var(--rs-gray-800);
+  --rs-sidenav-default-hover-bg: var(--rs-gray-700);
+  --rs-sidenav-default-selected-text: var(--rs-primary-500);
+  --rs-sidenav-default-selected-bg: var(--rs-primary-900);
+  --rs-sidenav-default-footer-border: var(--rs-gray-700);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-700);
+  --rs-sidenav-inverse-bg: var(--rs-primary-500);
+  --rs-sidenav-inverse-text: #fff;
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-300);
+  --rs-sidenav-inverse-selected-text: #fff;
+  --rs-sidenav-inverse-hover-bg: var(--rs-primary-400);
+  --rs-sidenav-inverse-footer-border: var(--rs-primary-400);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-primary-400);
+  --rs-sidenav-subtle-bg: transparent;
+  --rs-sidenav-subtle-hover-bg: var(--rs-gray-700);
+  --rs-sidenav-subtle-selected-text: var(--rs-primary-500);
+  --rs-sidenav-subtle-selected-bg: var(--rs-primary-900);
+  --rs-sidenav-subtle-footer-border: var(--rs-gray-600);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-600);
+
+  // Input
+  --rs-input-bg: var(--rs-gray-800);
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-input-disabled-bg: var(--rs-gray-700);
+  --rs-input-disabled-text: var(--rs-text-disabled);
+
+  // Dropdown
+  --rs-dropdown-bg: var(--rs-gray-800);
+  --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
+  --rs-dropdown-item-hover-bg: var(--rs-gray-700);
+  --rs-dropdown-item-active-bg: var(--rs-gray-600);
+  --rs-dropdown-item-active-text: var(--rs-primary-500);
+  --rs-dropdown-item-disabled-text: var(--rs-text-disabled);
+  --rs-dropdown-item-focus-bg: var(--rs-primary-900);
+  --rs-dropdown-divider-border: var(--rs-gray-700);
+
+  // Table
+  --rs-table-resize-mouse-bg: var(--rs-primary-500);
+  --rs-table-sort-text: var(--rs-gray-400);
+  --rs-table-row-even-bg: var(--rs-gray-700);
+  --rs-table-row-odd-bg: var(--rs-gray-800);
+  --rs-table-row-hover-bg: var(--rs-primary-900);
+  --rs-table-scrollbar-track: var(--rs-gray-800);
+  --rs-table-scrollbar-thumb: var(--rs-gray-100);
+  --rs-table-scrollbar-thumb-active: var(--rs-gray-0);
+  --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-700) r g b / 40%);
+
+  // Calendar
+  --rs-calendar-date-selected-bg: var(--rs-primary-500);
+  --rs-calendar-date-selected-text: #fff;
+  --rs-calendar-cell-selected-hover-bg: var(--rs-primary-700);
+  --rs-calendar-date-disabled-bg: var(--rs-gray-700);
+  --rs-calendar-date-disabled-text: var(--rs-text-disabled);
+  --rs-calendar-date-range-bg: var(--rs-primary-900);
+  --rs-calendar-date-range-text: var(--rs-primary-500);
+
+  // Popover
+  --rs-popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --rs-popover-bg: var(--rs-gray-800);
+
+  // Form
+  --rs-form-disabled-text: var(--rs-text-disabled);
+  --rs-form-hover-bg: var(--rs-gray-700);
+  --rs-form-error-text: var(--rs-color-red);
+  --rs-form-success-text: var(--rs-color-green);
+
+  // Uploader
+  --rs-uploader-drag-hover-border: var(--rs-primary-500);
+  --rs-uploader-drag-hover-bg: rgb(from var(--rs-primary-500) r g b / 10%);
+  --rs-uploader-drag-disabled-border: var(--rs-gray-600);
+  --rs-uploader-drag-disabled-bg: var(--rs-gray-700);
+
+  // Progress
+  --rs-progress-bg: var(--rs-gray-700);
+  --rs-progress-bar-bg: var(--rs-primary-500);
+
+  // Nav
+  --rs-nav-item-hover-bg: var(--rs-gray-700);
+  --rs-nav-item-active-bg: var(--rs-gray-600);
+  --rs-nav-item-active-text: var(--rs-primary-500);
+  --rs-nav-subtle-hover-bg: var(--rs-primary-900);
+  --rs-nav-subtle-active-bg: var(--rs-primary-800);
+  --rs-nav-bar-bg: var(--rs-primary-500);
+  --rs-nav-bar-active-bg: var(--rs-primary-300);
+
+  // Steps
+  --rs-steps-border: var(--rs-gray-600);
+  --rs-steps-state-finish-bg: var(--rs-primary-500);
+  --rs-steps-state-wait-bg: var(--rs-gray-600);
+  --rs-steps-state-process-bg: var(--rs-primary-500);
+  --rs-steps-state-error-bg: var(--rs-color-red);
+
+  // Panel
+  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-panel-bg: var(--rs-gray-800);
+  --rs-panel-border: var(--rs-gray-700);
+
+  // Tag
+  --rs-tag-bg: var(--rs-gray-700);
+  --rs-tag-close-hover-bg: var(--rs-gray-600);
+  --rs-tag-close-hover-text: var(--rs-gray-200);
+
+  // Message
+  --rs-message-bg: var(--rs-gray-800);
+  --rs-message-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+}

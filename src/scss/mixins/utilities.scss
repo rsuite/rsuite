@@ -1,0 +1,62 @@
+// WebKit-style focus
+@mixin tab-focus() {
+  outline: 0;
+}
+
+@mixin with-focus-ring {
+  &:focus-visible {
+    outline: 3px solid var(--rs-btn-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+// Safari needs explicit -webkit-mask-image to make overflow: hidden work with border-radius
+@mixin safari-border-radius-overflow-hidden {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+@mixin reset-link-text-decoration($text-decoration: none) {
+  text-decoration: $text-decoration;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: $text-decoration;
+  }
+}
+
+@mixin text-emphasis-variant($color) {
+  color: $color;
+
+  a&:hover,
+  a&:focus {
+    color: darken($color, 10%);
+  }
+}
+
+// Text overflow
+// Requires inline-block or block for proper styling
+
+@mixin ellipsis-basic() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin ellipsis($substract: 0) {
+  @include ellipsis-basic();
+  width: calc(100% - #{$substract});
+}
+
+//drop-shadow
+@mixin drop-shadow($shadow) {
+  filter: drop-shadow($shadow);
+}
+
+@mixin set-translate-transition($translateX: 0, $translateY: 0) {
+  transform: translate(0, 0);
+
+  &.rs-anim-in {
+    transform: translate($translateX, $translateY);
+  }
+}

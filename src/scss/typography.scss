@@ -1,0 +1,125 @@
+@use 'variables' as vars;
+@use 'sass:math';
+
+//
+// Typography
+// --------------------------------------------------
+
+// Headings
+// -------------------------
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: vars.$headings-font-family;
+  font-weight: vars.$headings-font-weight;
+  color: vars.$headings-color;
+  margin: 0;
+}
+
+h1 {
+  font-size: vars.$font-size-h1;
+  line-height: vars.$line-height-h1;
+}
+
+h2 {
+  font-size: vars.$font-size-h2;
+  line-height: vars.$line-height-h2;
+}
+
+h3 {
+  font-size: vars.$font-size-h3;
+  line-height: vars.$line-height-h3;
+}
+
+h4 {
+  font-size: vars.$font-size-h4;
+  line-height: vars.$line-height-h4;
+}
+
+h5 {
+  font-size: vars.$font-size-h5;
+  line-height: vars.$line-height-h5;
+}
+
+h6 {
+  font-size: vars.$font-size-h6;
+  line-height: vars.$line-height-h6;
+}
+
+// Body text
+// -------------------------
+
+p {
+  margin: 0;
+
+  // Multiple <p/> need set margin
+  & + p {
+    margin-top: vars.$padding-y;
+  }
+}
+
+// Emphasis & misc
+// -------------------------
+
+small {
+  font-size: 0.857rem;
+}
+
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+  font-weight: normal;
+  line-height: 1;
+  color: var(--rs-text-disabled);
+}
+
+mark {
+  background-color: var(--rs-bg-warning);
+  padding: 0.2em;
+  font-weight: bolder;
+}
+
+// Lists
+// -------------------------
+
+// Unordered and Ordered lists
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+
+  ul,
+  ol {
+    margin-bottom: 0;
+  }
+}
+
+// List options
+// Unstyled keeps list items block level, just removes default browser padding and list-style
+%list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.rs-list-unstyled {
+  @extend %list-unstyled;
+}
+
+// Inline turns list items into inline-block
+.rs-list-inline {
+  @extend %list-unstyled;
+  margin-left: -5px;
+
+  > li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}

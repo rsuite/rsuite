@@ -1,0 +1,125 @@
+@use '../../scss/mixins/color-modes' as color-modes;
+@use '../../scss/variables' as vars;
+@use "sass:math";
+
+// States
+@mixin button-activated {
+  &:hover {
+    @content;
+  }
+}
+
+@mixin button-pressed {
+  &:active,
+  &.rs-btn-active {
+    @content;
+  }
+}
+
+@mixin button-disabled {
+  &:disabled,
+  &.rs-btn-disabled {
+    @content;
+
+    @include color-modes.high-contrast-mode {
+      border-color: var(--rs-btn-default-disabled-boreder-color);
+    }
+  }
+}
+
+// Sizes
+@mixin button-size($height, $font-size, $line-height, $icon-size, $space-x) {
+  $space-y: math.div($height - $line-height, 2);
+
+  font-size: $font-size;
+  line-height: $line-height;
+  padding: $space-y $space-x;
+
+  &:where(.rs-btn-ghost) {
+    // Ghost button has 1px border
+    padding: ($space-y - vars.$btn-ghost-border-width) ($space-x - vars.$btn-ghost-border-width);
+  }
+
+  &:where(.rs-btn-icon) {
+    $space-y: math.div($height - $icon-size, 2);
+    $space-x: $space-y;
+
+    padding: $space-y $space-x;
+    line-height: $icon-size;
+
+    > .rs-icon {
+      font-size: $icon-size;
+    }
+  }
+
+  &:where(.rs-btn-icon-with-text) {
+    line-height: $line-height;
+
+    > .rs-icon {
+      $space-y: math.div($height - $icon-size, 2);
+      $space-x: $space-y;
+
+      padding: $space-y $space-x;
+      width: $height;
+      height: $height;
+    }
+
+    &:where(.rs-btn-icon-placement-left) {
+      padding: $space-y $space-x $space-y ($height + $space-x);
+
+      > .rs-icon {
+        left: 0;
+        border-right: var(--rs-btn-default-border, none);
+      }
+    }
+
+    &:where(.rs-btn-icon-placement-right) {
+      padding: $space-y ($height + $space-x) $space-y $space-x;
+
+      > .rs-icon {
+        right: 0;
+        border-left: var(--rs-btn-default-border, none);
+      }
+    }
+  }
+}
+
+@mixin button-size-lg {
+  @include button-size(
+    $height: 42px,
+    $font-size: 16px,
+    $line-height: 22px,
+    $icon-size: 20px,
+    $space-x: 16px
+  );
+}
+
+@mixin button-size-md {
+  @include button-size(
+    $height: 36px,
+    $font-size: 14px,
+    $line-height: 20px,
+    $icon-size: 16px,
+    $space-x: 12px
+  );
+}
+
+@mixin button-size-sm {
+  @include button-size(
+    $height: 30px,
+    $font-size: 14px,
+    $line-height: 20px,
+    $icon-size: 16px,
+    $space-x: 10px
+  );
+}
+
+@mixin button-size-xs {
+  @include button-size(
+    $height: 24px,
+    $font-size: 12px,
+    $line-height: 20px,
+    $icon-size: 12px,
+    $space-x: 8px
+  );
+}

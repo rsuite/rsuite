@@ -1,0 +1,41 @@
+@use '../../scss/common';
+@use '../../scss/mixins/utilities' as utils;
+@use '../../scss/variables' as vars;
+
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+.rs-breadcrumb {
+  margin-bottom: vars.$line-height-computed;
+  font-size: vars.$breadcrumb-font-size;
+  color: var(--rs-text-secondary);
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  // If breadcrumbs has a ci
+  &-item {
+    transition: color 0.3s linear;
+    display: flex;
+    align-items: center;
+
+    &:focus {
+      @include utils.tab-focus;
+    }
+
+    &-active {
+      color: var(--rs-breadcrumb-item-active-text);
+    }
+  }
+
+  // Separator has gap with text
+  &-separator {
+    margin: 0 vars.$breadcrumb-separator-margin;
+  }
+}

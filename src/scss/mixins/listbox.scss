@@ -1,0 +1,64 @@
+@use '../variables' as vars;
+@use 'color-modes' as *;
+
+// ARIA Listboxes and Options
+// used in picker menus, e.g. SelectPicker, CheckPicker, Cascader etc
+//
+// Common usage: (note the orders of different states)
+//
+// .item {
+//   @include listbox-option();
+//
+//   &:hover,
+//   &:focus {
+//     @include listbox-option-active();
+//   }
+//
+//   &-selected {
+//     @include listbox-option-selected();
+//   }
+//
+//   &-disabled {
+//     @include listbox-option-disabled();
+//   }
+// }
+
+@mixin listbox {
+  list-style: none;
+}
+
+@mixin listbox-option {
+  display: block;
+  padding: vars.$picker-item-content-padding-vertical vars.$picker-item-content-padding-horizontal;
+  clear: both;
+  font-weight: normal;
+  line-height: vars.$line-height-base;
+  color: var(--rs-text-primary);
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+}
+
+// "-active" for aria-activedescendant
+@mixin listbox-option-active {
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: var(--rs-listbox-option-hover-text);
+
+  @include high-contrast-mode {
+    @include focus-ring(slim-inset);
+    color: var(--rs-listbox-option-hover-text);
+    text-decoration: underline;
+  }
+}
+
+@mixin listbox-option-selected {
+  color: var(--rs-listbox-option-selected-text);
+  background-color: var(--rs-listbox-option-selected-bg);
+  font-weight: bold;
+}
+
+@mixin listbox-option-disabled {
+  color: var(--rs-text-disabled);
+  cursor: vars.$cursor-disabled;
+  text-decoration: none;
+}

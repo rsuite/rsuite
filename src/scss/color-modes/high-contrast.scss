@@ -1,0 +1,287 @@
+@use '../colors/high-contrast' as colors;
+@use '../variables' as vars;
+
+// see https://rsuitejs.com/design/high-contrast
+@mixin theme {
+  // Base colors - Using high contrast yellow for maximum visibility
+  --rs-primary: #{colors.$primary-color-high-contrast};
+  
+  // Gray scale (Maximum contrast for accessibility)
+  --rs-gray-0: #{colors.$B000-high-contrast};    // Pure white
+  --rs-gray-50: #{colors.$B050-high-contrast};   // Very light background
+  --rs-gray-100: #{colors.$B100-high-contrast};  // Light background
+  --rs-gray-200: #{colors.$B200-high-contrast};  // Border
+  --rs-gray-300: #{colors.$B300-high-contrast};  // Secondary border
+  --rs-gray-400: #{colors.$B400-high-contrast};  // Disabled text
+  --rs-gray-500: #{colors.$B500-high-contrast};  // Secondary text
+  --rs-gray-600: #{colors.$B600-high-contrast};  // Primary text
+  --rs-gray-700: #{colors.$B700-high-contrast};  // Dark text
+  --rs-gray-800: #{colors.$B800-high-contrast};  // Darker text
+  --rs-gray-900: #{colors.$B900-high-contrast};  // Almost black
+
+  // Primary color variations (High contrast yellow scale)
+  --rs-primary-50: #{colors.$H050-high-contrast};   // Nearly white yellow
+  --rs-primary-100: #{colors.$H100-high-contrast};  // Very light yellow
+  --rs-primary-200: #{colors.$H200-high-contrast};  // Light yellow
+  --rs-primary-300: #{colors.$H300-high-contrast};  // Medium light yellow
+  --rs-primary-400: #{colors.$H400-high-contrast};  // Medium yellow
+  --rs-primary-500: #{colors.$H500-high-contrast};  // Pure yellow
+  --rs-primary-600: #{colors.$H600-high-contrast};  // Medium dark yellow
+  --rs-primary-700: #{colors.$H700-high-contrast};  // Dark yellow
+  --rs-primary-800: #{colors.$H800-high-contrast};  // Very dark yellow
+  --rs-primary-900: #{colors.$H900-high-contrast};  // Nearly black yellow
+
+  // Semantic colors (High contrast variants for accessibility)
+  --rs-color-red: #{colors.$red-high-contrast};         // Strong red for errors
+  --rs-color-orange: #{colors.$orange-high-contrast};   // Bright orange for warnings
+  --rs-color-yellow: #{colors.$yellow-high-contrast};   // Vivid yellow for attention
+  --rs-color-green: #{colors.$green-high-contrast};     // Deep green for success
+  --rs-color-cyan: #{colors.$cyan-high-contrast};       // Bright cyan for info
+  --rs-color-blue: #{colors.$blue-high-contrast};       // Strong blue for primary
+  --rs-color-violet: #{colors.$violet-high-contrast};   // Deep violet for secondary
+
+  // Semantic color variations with high contrast
+  @each $color-name in vars.$spectrum {
+    // Get the base color
+    $color: if($color-name == 'blue', colors.$blue-high-contrast,
+              if($color-name == 'red', colors.$red-high-contrast,
+              if($color-name == 'orange', colors.$orange-high-contrast,
+              if($color-name == 'yellow', colors.$yellow-high-contrast,
+              if($color-name == 'green', colors.$green-high-contrast,
+              if($color-name == 'cyan', colors.$cyan-high-contrast,
+              if($color-name == 'violet', colors.$violet-high-contrast,
+              null)))))));
+
+    @if $color {
+      // Generate high contrast variations
+      --rs-#{$color-name}-50: #{palette($color, 50)};
+      --rs-#{$color-name}-100: #{palette($color, 100)};
+      --rs-#{$color-name}-200: #{palette($color, 200)};
+      --rs-#{$color-name}-300: #{palette($color, 300)};
+      --rs-#{$color-name}-400: #{palette($color, 400)};
+      --rs-#{$color-name}-500: #{$color};
+      --rs-#{$color-name}-600: #{palette($color, 600)};
+      --rs-#{$color-name}-700: #{palette($color, 700)};
+      --rs-#{$color-name}-800: #{palette($color, 800)};
+      --rs-#{$color-name}-900: #{palette($color, 900)};
+    }
+  }
+
+  // State colors (High contrast semantic mappings)
+  --rs-state-success: var(--rs-color-green);     // Deep green for clear success indication
+  --rs-state-info: var(--rs-color-blue);         // Strong blue for info
+  --rs-state-warning: var(--rs-color-orange);    // Bright orange for warnings
+  --rs-state-error: var(--rs-color-red);         // Strong red for errors
+
+  // Reset
+  --rs-body: var(--rs-gray-900);
+
+  // States
+  --rs-bg-success: rgb(from var(--rs-color-green) r g b / 10%);
+  --rs-bg-info: rgb(from var(--rs-color-blue) r g b / 10%);
+  --rs-bg-warning: rgb(from var(--rs-color-yellow) r g b / 10%);
+  --rs-bg-error: rgb(from var(--rs-color-red) r g b / 10%);
+
+  // Misc
+  --rs-text-link: var(--rs-primary-500);
+  --rs-text-link-hover: var(--rs-primary-400);
+  --rs-text-link-active: var(--rs-primary-300);
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-300);
+  --rs-text-tertiary: var(--rs-gray-400);
+  --rs-text-heading: var(--rs-gray-0);
+  --rs-text-inverse: var(--rs-gray-900);
+  --rs-text-heading-inverse: var(--rs-gray-900);
+  --rs-text-active: var(--rs-primary-500);
+  --rs-text-disabled: var(--rs-gray-600);
+  --rs-text-error: var(--rs-color-red);
+  --rs-text-highlight-bg: rgb(from var(--rs-color-yellow) r g b / 30%);
+  --rs-text-weight-thin: 100;
+  --rs-text-weight-light: 300;
+  --rs-text-weight-regular: 400;
+  --rs-text-weight-medium: 500;
+  --rs-text-weight-semibold: 600;
+  --rs-text-weight-bold: 700;
+  --rs-text-weight-extrabold: 800;
+  --rs-border-primary: var(--rs-gray-600);
+  --rs-border-secondary: var(--rs-gray-700);
+  --rs-bg-card: var(--rs-gray-700);
+  --rs-bg-overlay: var(--rs-gray-700);
+  --rs-bg-well: var(--rs-gray-600);
+  --rs-bg-active: var(--rs-primary-500);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
+  --rs-state-hover-bg: var(--rs-primary-900);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-shadow: 0 0 0 3px rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-outline: 3px solid rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-error-outline: 3px solid rgb(from var(--rs-color-red) r g b / 25%);
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Scrollbar
+  --rs-scrollbar-bg: transparent;
+  --rs-scrollbar-thumb: var(--rs-gray-600);
+  --rs-scrollbar-thumb-active: var(--rs-gray-500);
+  --rs-scrollbar-width: 8px;
+  --rs-scrollbar-height: 8px;
+  --rs-scrollbar-vertical-track: rgb(from var(--rs-gray-700) r g b / 40%);
+  --rs-scrollbar-horizontal-track: rgb(from var(--rs-gray-700) r g b / 40%);
+
+  // Loader
+  --rs-loader-ring: var(--rs-gray-700);
+  --rs-loader-rotor: var(--rs-gray-400);
+  --rs-loader-backdrop: rgb(from var(--rs-gray-900) r g b / 90%);
+  --rs-loader-ring-inverse: rgb(from var(--rs-gray-0) r g b / 30%);
+  --rs-loader-rotor-inverse: var(--rs-gray-900);
+  --rs-loader-backdrop-inverse: rgb(from var(--rs-gray-0) r g b / 90%);
+
+  // Button
+  --rs-btn-default-bg: var(--rs-gray-600);
+  --rs-btn-default-text: var(--rs-gray-50);
+  --rs-btn-default-hover-bg: var(--rs-gray-500);
+  --rs-btn-default-active-bg: var(--rs-gray-400);
+  --rs-btn-default-disabled-bg: var(--rs-gray-600);
+  --rs-btn-default-disabled-text: var(--rs-text-disabled);
+  --rs-btn-primary-bg: var(--rs-primary-500);
+  --rs-btn-primary-text: #fff;
+  --rs-btn-primary-hover-bg: var(--rs-primary-400);
+  --rs-btn-primary-active-bg: var(--rs-primary-300);
+  --rs-btn-primary-disabled-bg: var(--rs-primary-700);
+  --rs-btn-primary-disabled-text: #fff;
+  --rs-btn-subtle-text: var(--rs-primary-500);
+  --rs-btn-subtle-hover-bg: var(--rs-primary-900);
+  --rs-btn-subtle-active-bg: var(--rs-primary-800);
+  --rs-btn-subtle-disabled-bg: transparent;
+  --rs-btn-subtle-disabled-text: var(--rs-text-disabled);
+  --rs-btn-ghost-border: var(--rs-gray-500);
+  --rs-btn-ghost-text: var(--rs-gray-50);
+  --rs-btn-ghost-hover-border: var(--rs-gray-400);
+  --rs-btn-ghost-hover-text: var(--rs-gray-50);
+  --rs-btn-ghost-active-border: var(--rs-gray-300);
+  --rs-btn-ghost-active-text: var(--rs-gray-50);
+  --rs-btn-ghost-disabled-border: var(--rs-gray-600);
+  --rs-btn-ghost-disabled-text: var(--rs-text-disabled);
+  --rs-btn-link-text: var(--rs-primary-500);
+  --rs-btn-link-hover-text: var(--rs-primary-400);
+  --rs-btn-link-active-text: var(--rs-primary-300);
+  --rs-btn-link-disabled-text: var(--rs-text-disabled);
+
+  // IconButton
+  --rs-iconbtn-primary-addon: var(--rs-primary-500);
+  --rs-iconbtn-primary-activated-addon: var(--rs-primary-300);
+  --rs-iconbtn-primary-pressed-addon: var(--rs-primary-100);
+
+  // Divider
+  --rs-divider-border: var(--rs-gray-600);
+
+  // Sidenav
+  --rs-sidenav-default-bg: var(--rs-gray-700);
+  --rs-sidenav-default-hover-bg: var(--rs-gray-600);
+  --rs-sidenav-default-selected-text: var(--rs-primary-500);
+  --rs-sidenav-default-selected-bg: var(--rs-primary-900);
+  --rs-sidenav-default-footer-border: var(--rs-gray-600);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-600);
+  --rs-sidenav-inverse-bg: var(--rs-primary-500);
+  --rs-sidenav-inverse-text: #fff;
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-300);
+  --rs-sidenav-inverse-selected-text: #fff;
+  --rs-sidenav-inverse-hover-bg: transparent;
+  --rs-sidenav-inverse-footer-border: var(--rs-gray-500);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-gray-500);
+  --rs-sidenav-subtle-bg: var(--rs-gray-800);
+  --rs-sidenav-subtle-text: var(--rs-gray-50);
+  --rs-sidenav-subtle-hover-bg: var(--rs-gray-600);
+  --rs-sidenav-subtle-selected-text: var(--rs-primary-500);
+  --rs-sidenav-subtle-selected-bg: var(--rs-primary-900);
+  --rs-sidenav-subtle-footer-border: var(--rs-gray-500);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-500);
+
+  // Input
+  --rs-input-bg: var(--rs-gray-700);
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-input-disabled-bg: var(--rs-gray-600);
+  --rs-input-disabled-text: var(--rs-text-disabled);
+
+  // Dropdown
+  --rs-dropdown-bg: var(--rs-gray-700);
+  --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
+  --rs-dropdown-item-hover-bg: var(--rs-gray-600);
+  --rs-dropdown-item-active-bg: var(--rs-gray-500);
+  --rs-dropdown-item-active-text: var(--rs-primary-500);
+  --rs-dropdown-item-disabled-text: var(--rs-text-disabled);
+  --rs-dropdown-item-focus-bg: var(--rs-primary-900);
+  --rs-dropdown-divider-border: var(--rs-gray-600);
+
+  // Table
+  --rs-table-resize-mouse-bg: var(--rs-primary-500);
+  --rs-table-sort-text: var(--rs-gray-400);
+  --rs-table-row-even-bg: var(--rs-gray-600);
+  --rs-table-row-odd-bg: var(--rs-gray-700);
+  --rs-table-row-hover-bg: var(--rs-primary-900);
+  --rs-table-scrollbar-track: var(--rs-gray-700);
+  --rs-table-scrollbar-thumb: var(--rs-gray-100);
+  --rs-table-scrollbar-thumb-active: var(--rs-gray-0);
+  --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-700) r g b / 40%);
+
+  // Calendar
+  --rs-calendar-date-selected-bg: var(--rs-primary-500);
+  --rs-calendar-date-selected-text: #fff;
+  --rs-calendar-cell-selected-hover-bg: var(--rs-primary-700);
+  --rs-calendar-date-disabled-bg: var(--rs-gray-600);
+  --rs-calendar-date-disabled-text: var(--rs-text-disabled);
+  --rs-calendar-date-range-bg: var(--rs-primary-900);
+  --rs-calendar-date-range-text: var(--rs-primary-500);
+
+  // Drawer
+  --rs-drawer-bg: var(--rs-gray-700);
+  --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Modal
+  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-modal-bg: var(--rs-gray-700);
+
+  // Form
+  --rs-form-disabled-text: var(--rs-text-disabled);
+  --rs-form-hover-bg: var(--rs-gray-600);
+  --rs-form-error-text: var(--rs-color-red);
+  --rs-form-success-text: var(--rs-color-green);
+
+  // Uploader
+  --rs-uploader-drag-hover-border: var(--rs-primary-500);
+  --rs-uploader-drag-hover-bg: rgb(from var(--rs-primary-500) r g b / 10%);
+  --rs-uploader-drag-disabled-border: var(--rs-gray-500);
+  --rs-uploader-drag-disabled-bg: var(--rs-gray-600);
+
+  // Progress
+  --rs-progress-bg: var(--rs-gray-600);
+  --rs-progress-bar-bg: var(--rs-primary-500);
+
+  // Nav
+  --rs-nav-item-hover-bg: var(--rs-gray-600);
+  --rs-nav-item-active-bg: var(--rs-gray-500);
+  --rs-nav-item-active-text: var(--rs-primary-500);
+  --rs-nav-subtle-hover-bg: var(--rs-primary-900);
+  --rs-nav-subtle-active-bg: var(--rs-primary-800);
+  --rs-nav-bar-bg: var(--rs-primary-500);
+  --rs-nav-bar-active-bg: var(--rs-primary-300);
+
+  // Steps
+  --rs-steps-border: var(--rs-gray-500);
+  --rs-steps-state-finish-bg: var(--rs-primary-500);
+  --rs-steps-state-wait-bg: var(--rs-gray-500);
+  --rs-steps-state-process-bg: var(--rs-primary-500);
+  --rs-steps-state-error-bg: var(--rs-color-red);
+
+  // Panel
+  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-panel-bg: var(--rs-gray-700);
+  --rs-panel-border: var(--rs-gray-600);
+
+  // Tag
+  --rs-tag-bg: var(--rs-gray-600);
+  --rs-tag-close-hover-bg: var(--rs-gray-500);
+  --rs-tag-close-hover-text: var(--rs-gray-200);
+
+  // Message
+  --rs-message-bg: var(--rs-gray-700);
+  --rs-message-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+}

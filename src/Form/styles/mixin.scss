@@ -1,0 +1,161 @@
+@use '../../scss/mixins/color-modes' as *;
+@use '../../scss/mixins/utilities' as *;
+@use '../../scss/variables' as *;
+@use "sass:math";
+
+@mixin focus-ring {
+  &:focus {
+    border-color: var(--rs-input-focus-border);
+    outline: 0;
+  }
+}
+
+@mixin default-input {
+  display: block;
+  width: 100%;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-input-bg);
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid var(--rs-border-primary);
+  transition: $input-transition;
+  border-radius: $border-radius;
+  @include input-md;
+
+  @include high-contrast-mode {
+    transition: none;
+  }
+
+  // Placeholder
+  &::placeholder {
+    color: var(--rs-text-secondary);
+  }
+
+  &:focus,
+  &:hover:not(:disabled) {
+    border-color: var(--rs-input-focus-border);
+  }
+
+  &:focus {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    background-color: var(--rs-input-disabled-bg);
+    color: var(--rs-text-disabled);
+  }
+}
+
+@mixin input-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  border-radius: $border-radius;
+  padding: ($padding-vertical - $input-border-width) ($padding-horizontal - $input-border-width);
+  font-size: $font-size;
+  line-height: $line-height;
+
+  &:where(textarea) {
+    height: auto;
+  }
+}
+
+@mixin input-lg {
+  /* stylelint-disable */ //Formatted by prettier
+  @include input-size(
+    $padding-y-lg,
+    $input-padding-x,
+    $font-size-large,
+    $line-height-large,
+    $input-border-radius
+  );
+  /* stylelint-enable */
+}
+
+@mixin input-md {
+  /* stylelint-disable */ //Formatted by prettier
+  @include input-size(
+    $padding-y,
+    $input-padding-x,
+    $font-size-base,
+    $line-height-base,
+    $input-border-radius
+  );
+  /* stylelint-enable */
+}
+
+@mixin input-sm {
+  /* stylelint-disable */ //Formatted by prettier
+  @include input-size(
+    $padding-y-sm,
+    $input-padding-x,
+    $font-size-base,
+    $line-height-base,
+    $input-border-radius
+  );
+  /* stylelint-enable */
+}
+
+@mixin input-xs {
+  /* stylelint-disable */ //Formatted by prettier
+  @include input-size(
+    $padding-y-xs,
+    $input-padding-x,
+    $font-size-extra-small,
+    $line-height-extra-small,
+    $input-border-radius
+  );
+  /* stylelint-enable */
+}
+
+@mixin reset-input-group-addon-size($size-name) {
+  @include map-size($size-name);
+
+  $padding-horizontal-name: 'padding-x#{$suffix}';
+  $width: (map-get($map, $padding-horizontal-name) * 2 - $input-border-width * 2 + $font-size-base);
+  $padding-horizontal: (($width - $font-size-base) / 2);
+
+  min-width: $width;
+  padding-left: $padding-horizontal;
+  padding-right: $padding-horizontal;
+}
+
+@mixin reset-inside-input-group-btn-size($size-name) {
+  @include map-size($size-name);
+
+  $height: 'input-height-#{$size-name}';
+  $vertical: 'padding-y#{$suffix}';
+  $horizontal: 'padding-x#{$suffix}';
+  $font-size: 'font-size-#{$size-name}';
+  $line-height: 'line-height-#{$size-name}';
+
+  height: map-get($map, $height) - $input-border-width * 2;
+  padding: (map-get($map, $vertical) - $input-border-width) (map-get($map, $horizontal) - $input-border-width);
+  border-radius: 0 $border-radius $border-radius 0;
+
+  > .rs-icon {
+    // Extend font-size from parent.
+    font-size: map-get($map, $font-size);
+    line-height: map-get($map, $line-height);
+  }
+}
+
+@mixin reset-input-group-children-size($size-name) {
+  $height: 'input-height-#{$size-name}';
+  $useable-height: (map-get($map, $height) - 2px);
+  $vertical: 'padding-#{$size-name}-vertical';
+
+  &.rs-input-group-inside > .rs-input {
+    padding-right: 0;
+  }
+
+  &.rs-input-group {
+    > .rs-input {
+      height: $useable-height;
+    }
+
+    > .rs-input-group-addon {
+      height: $useable-height;
+
+      > .rs-icon {
+        font-size: inherit;
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.carbon-ad-inline {
+  display: block;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: #282c34;
+  color: #999;
+  cursor: pointer;
+  position: relative;
+  border-radius: 0 0 6px 6px;
+
+  &:hover {
+    background: #1d1d1d;
+    color: #ccc;
+  }
+
+  > img {
+    vertical-align: middle;
+    width: 20px;
+    margin-right: 0.5rem;
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  .carbon-ad-badge {
+    color: #999;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
+}
+
+.rs-show-editor {
+  .rcv-editor {
+    border-radius: 0;
+  }
+}
