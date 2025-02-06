@@ -644,6 +644,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const hasValue = isValid(value);
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      className,
       classPrefix,
       name: 'date',
       appearance,
@@ -689,7 +690,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         speaker={renderCalendarOverlay}
       >
         <Component
-          className={merge(className, classes, { [prefix('error')]: invalidValue })}
+          className={merge(classes, { [prefix('error')]: invalidValue })}
           style={style}
           ref={root}
         >

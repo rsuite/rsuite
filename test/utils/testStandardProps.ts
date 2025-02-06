@@ -24,7 +24,13 @@ export function testClassNameProp(
       renderOptions
     );
 
-    expect(getRootElement(view)).to.have.class(customClassName);
+    const rootElement = getRootElement(view);
+
+    expect(rootElement).to.have.class(customClassName);
+    expect(rootElement.className.split(customClassName).length).to.equal(
+      2,
+      `className "${customClassName}" should not appear multiple times`
+    );
   });
 }
 

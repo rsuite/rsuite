@@ -1020,6 +1020,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
       classPrefix,
+      className,
       name: 'daterange',
       appearance,
       hasValue,
@@ -1095,7 +1096,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       >
         <Component
           ref={root}
-          className={merge(className, classes, { [prefix('error')]: invalidValue })}
+          className={merge(classes, { [prefix('error')]: invalidValue })}
           style={style}
         >
           {plaintext ? (
