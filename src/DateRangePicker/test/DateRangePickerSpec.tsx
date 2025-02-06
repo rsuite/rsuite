@@ -530,6 +530,28 @@ describe('DateRangePicker', () => {
     });
   });
 
+  it('Should clear the value after predefined range is clicked', () => {
+    const onChange = sinon.spy();
+
+    render(
+      <DateRangePicker
+        defaultOpen
+        defaultValue={[new Date(), new Date()]}
+        ranges={[
+          {
+            label: 'Clear it',
+            value: null
+          }
+        ]}
+        onChange={onChange}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear it' }));
+
+    expect(onChange).to.been.calledWith(null);
+  });
+
   it('Should not close picker', async () => {
     const onClose = sinon.spy();
     const onChange = sinon.spy();
