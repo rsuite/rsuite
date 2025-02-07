@@ -16,14 +16,19 @@ const JSONView = ({ formValue, formError }) => (
   </div>
 );
 
-const { StringType, ObjectType, NumberType } = Schema.Types;
+const { StringType, ObjectType, NumberType, ArrayType } = Schema.Types;
 
 const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
+  name: StringType().isRequired('Name is required.'),
   address: ObjectType().shape({
-    city: StringType().isRequired('This field is required.'),
-    postCode: NumberType('Post Code must be a number').isRequired('This field is required.')
-  })
+    city: StringType().isRequired('City is required.'),
+    postCode: NumberType('Post Code must be a number').isRequired('Post Code is required.')
+  }),
+  skills: ArrayType().of(
+    ObjectType().shape({
+      name: StringType().isRequired('Skill name is required.')
+    })
+  )
 });
 
 const TextField = React.forwardRef((props, ref) => {
@@ -41,7 +46,8 @@ const App = () => {
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
     name: 'Tom',
-    address: { city: '', postCode: '' }
+    address: { city: '', postCode: '' },
+    skills: [{ name: '' }, { name: '' }]
   });
 
   const handleSubmit = () => {
@@ -66,6 +72,8 @@ const App = () => {
           <TextField name="name" label="Name" />
           <TextField name="address.city" label="City" />
           <TextField name="address.postCode" label="Post Code" />
+          <TextField name="skills[0].name" label="Skill 1" />
+          <TextField name="skills[1].name" label="Skill 2" />
 
           <ButtonToolbar>
             <Button appearance="primary" onClick={handleSubmit}>
