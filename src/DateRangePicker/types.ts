@@ -1,16 +1,11 @@
-import React from 'react';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
+import type { RangeType as DatePickerRangeType } from '../DatePicker/types';
 
-export type ValueType = [Date?, Date?];
+export type ValueType = [Date?, Date?] | null;
 
 export type DateRange = [Date, Date];
 
-export interface RangeType<T = DateRange> {
-  label: React.ReactNode;
-  value: T | ((value?: T) => T);
-  closeOverlay?: boolean;
-  placement?: 'bottom' | 'left';
-}
+export type RangeType<T = DateRange> = DatePickerRangeType<T>;
 
 export type DisabledDateFunction = (
   /**

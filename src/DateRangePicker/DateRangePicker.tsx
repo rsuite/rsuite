@@ -851,7 +851,11 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     /**
      * Check if a shortcut is disabled based on the selected date range
      */
-    const shouldDisableShortcut = (selectedDates: SelectedDatesState = []): boolean => {
+    const shouldDisableShortcut = (selectedDates: SelectedDatesState | null = []): boolean => {
+      if (selectedDates === null) {
+        return false;
+      }
+
       const [startDate, endDate] = selectedDates;
 
       // Disable if either start or end date is missing

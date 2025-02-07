@@ -5,12 +5,12 @@ export type ToolbarValue = Date | [Date?, Date?];
 export interface RangeType<T> {
   label: ReactNode;
   closeOverlay?: boolean;
-  value: T | ((value: T) => T);
+  value: T | ((value: T) => T) | null;
   placement?: 'bottom' | 'left';
 }
 
 export interface InnerRange<T> extends Omit<RangeType<T>, 'value'> {
-  value: T;
+  value: T | null;
 }
 
 export interface DeprecatedProps {
