@@ -1,3 +1,15 @@
+## [5.77.1](https://github.com/rsuite/rsuite/compare/v5.77.0...v5.77.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** allow ranges option value to be null ([#4141](https://github.com/rsuite/rsuite/issues/4141)) ([32017c4](https://github.com/rsuite/rsuite/commit/32017c4429d15e9d3ca881b0e59e9d63bb89427a))
+* **Dropdown:** prevent focus moving to first item when focusing on disabled item ([#4142](https://github.com/rsuite/rsuite/issues/4142)) ([caa4a9a](https://github.com/rsuite/rsuite/commit/caa4a9adad08f69fb09f226a99c17a6becb58041))
+* **Form:** validation for nested array fields ([#4139](https://github.com/rsuite/rsuite/issues/4139)) ([dbf15cb](https://github.com/rsuite/rsuite/commit/dbf15cb5232c25d54c691411884c2aad0583bedd))
+* prevent duplicate className in DatePicker and DateRangePicker components ([#4140](https://github.com/rsuite/rsuite/issues/4140)) ([fa3f40d](https://github.com/rsuite/rsuite/commit/fa3f40d30752a4af5a6d463c65d1df70adf9a74a))
+
+
+
 # [5.77.0](https://github.com/rsuite/rsuite/compare/v5.76.3...v5.77.0) (2025-01-21)
 
 
