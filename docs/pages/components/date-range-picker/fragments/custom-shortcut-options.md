@@ -62,6 +62,11 @@ const predefinedRanges = [
     placement: 'left'
   },
   {
+    label: 'Clear',
+    value: null,
+    placement: 'left'
+  },
+  {
     label: 'Last week',
     closeOverlay: false,
     value: value => {
@@ -127,6 +132,10 @@ const predefinedBottomRanges = [
   {
     label: 'All time',
     value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date()]
+  },
+  {
+    label: 'Clear',
+    value: null
   }
 ];
 
