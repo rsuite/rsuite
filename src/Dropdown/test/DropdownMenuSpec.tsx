@@ -1,10 +1,12 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
 import Dropdown from '../Dropdown';
-import userEvent from '@testing-library/user-event';
+import Popover from '../../Popover';
+import Whisper from '../../Whisper';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
 describe('<Dropdown.Menu>', () => {
@@ -284,5 +286,34 @@ describe('<Dropdown.Menu>', () => {
     expect(screen.getByTestId('menu'))
       .to.have.class('custom')
       .and.to.have.class('rs-dropdown-menu');
+  });
+
+  // fix: https://github.com/rsuite/rsuite/issues/4133
+  it('Should not move visual focus to first item when focus on a disabled item', () => {
+    const renderSpeaker = ({ left, top, className }: any, ref: React.Ref<HTMLDivElement>) => {
+      return (
+        <Popover ref={ref} className={className} style={{ left, top }} full>
+          <Dropdown.Menu>
+            <Dropdown.Item eventKey={1}>Item 1</Dropdown.Item>
+            <Dropdown.Item eventKey={2} disabled>
+              Item 2
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Popover>
+      );
+    };
+
+    render(
+      <Whisper trigger="click" speaker={renderSpeaker}>
+        <button>Click</button>
+      </Whisper>
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.focus(screen.getByRole('menuitem', { name: 'Item 2' }));
+
+    expect(screen.getByRole('menuitem', { name: 'Item 1' })).to.not.have.class(
+      'rs-dropdown-item-focus'
+    );
   });
 });
