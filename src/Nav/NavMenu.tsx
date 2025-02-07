@@ -1,12 +1,12 @@
 import React, { Dispatch, useContext, useReducer } from 'react';
 import NavDropdown, { NavDropdownProps } from './NavDropdown';
 import NavDropdownMenu, { NavDropdownMenuProps } from './NavDropdownMenu';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import SidenavDropdown from '../Sidenav/SidenavDropdown';
-import { NavbarContext } from '../Navbar';
 import NavbarDropdown from '../Navbar/NavbarDropdown';
 import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
+import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
+import { NavbarContext } from '../Navbar';
+import { SidenavContext } from '../Sidenav/Sidenav';
 
 export interface NavMenuProps extends NavDropdownProps, Omit<NavDropdownMenuProps, 'onToggle'> {}
 

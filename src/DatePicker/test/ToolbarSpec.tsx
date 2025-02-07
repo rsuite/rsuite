@@ -78,13 +78,12 @@ describe('DatePicker - Toolbar', () => {
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} locale={{}} />
     );
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('button')).to.not.exist;
   });
 
   it('Should be wrap in ranges', () => {
     const { container } = render(<Toolbar calendarDate={new Date()} locale={{}} />);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('.rs-picker-toolbar-ranges')).to.have.style('flex-wrap', 'wrap');
   });
 });

@@ -58,6 +58,12 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 
 <!--{include:`active.md`}-->
 
+### Toggleable
+
+The Button is `toggleable`, allowing you to switch its state between active and inactive.
+
+<!--{include:`toggleable.md`}-->
+
 ### Loading
 
 <!--{include:`loading.md`}-->
@@ -76,21 +82,25 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 
 ### `<Button>`
 
-| Property    | Type `(Default)`                                     | Description                                                    |
-| ----------- | ---------------------------------------------------- | -------------------------------------------------------------- |
-| active      | boolean                                              | A button can show it is currently the active user selection    |
-| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                        |
-| as          | ElementType `('button')`                             | You can use a custom element for this component                |
-| block       | boolean                                              | Spans the full width of the Button parent                      |
-| children    | ReactNode                                            | Primary content                                                |
-| classPrefix | string `('btn')`                                     | The prefix of the component CSS class                          |
-| color       | [Color](#code-ts-color-code)                         | A button can have different colors                             |
-| disabled    | boolean                                              | A button can show it is currently unable to be interacted with |
-| endIcon     | ReactNode                                            | Display an icon after buttont text                             |
-| href        | string                                               | Providing a `href` will render an `a` element                  |
-| loading     | boolean                                              | A button can show a loading indicator                          |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                              |
-| startIcon   | ReactNode                                            | Display an icon before buttont text                            |
+| Property    | Type `(Default)`                                     | Description                                                                           |
+| ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| active      | boolean                                              | A button can show it is currently the active user selection                           |
+| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                                               |
+| as          | ElementType `('button')`                             | You can use a custom element for this component                                       |
+| block       | boolean                                              | Spans the full width of the Button parent                                             |
+| children    | ReactNode                                            | Primary content                                                                       |
+| classPrefix | string `('btn')`                                     | The prefix of the component CSS class                                                 |
+| color       | [Color](#code-ts-color-code)                         | A button can have different colors                                                    |
+| disabled    | boolean                                              | A button can show it is currently unable to be interacted with                        |
+| endIcon     | ReactNode                                            | Display an icon after buttont text                                                    |
+| href        | string                                               | Providing a `href` will render an `a` element                                         |
+| loading     | boolean                                              | A button can show a loading indicator                                                 |
+| onToggle    | (active: boolean, event: MouseEvent) => void         | Callback when the button is toggled between active and inactive states<br/>![][6.0.0] |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                                                     |
+| startIcon   | ReactNode                                            | Display an icon before buttont text                                                   |
+| toggleable  | boolean                                              | A button can switch between active and inactive states<br/>![][6.0.0]                 |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->
+
+[6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue

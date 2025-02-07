@@ -81,7 +81,6 @@ describe('SelectPicker', () => {
   it('Should render a hidden <input> with given "name" attribute', () => {
     const { container } = render(<SelectPicker data={[]} name="field" />);
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('input')).to.have.attr('name', 'field');
   });
 
@@ -453,7 +452,6 @@ describe('SelectPicker', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });

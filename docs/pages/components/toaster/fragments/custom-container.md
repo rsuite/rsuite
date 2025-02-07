@@ -1,32 +1,34 @@
 <!--start-code-->
 
 ```js
-import React from 'react';
-import { useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
+import { useToaster, ButtonToolbar, Button, Message } from 'rsuite';
 
 const App = () => {
   const toaster = useToaster();
   const container = React.useRef();
 
-  const handleFullScreen = () => {
-    container.current.requestFullscreen();
+  const toggleFullScreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      container.current.requestFullscreen();
+    }
+  };
+
+  const pushMessage = () => {
+    toaster.push(
+      <Message showIcon type="success" closable>
+        rendered in custom container
+      </Message>,
+      { container: document.fullscreenElement }
+    );
   };
 
   return (
-    <div style={{ backgroundColor: '#fff' }} ref={container}>
+    <div ref={container}>
       <ButtonToolbar>
-        <Button onClick={handleFullScreen}>Full Screen</Button>
-        <Button
-          onClick={() =>
-            toaster.push(
-              <Message showIcon type='success' closable>
-                rendered in custom container
-              </Message>,
-              { container: () => document.fullscreenElement }
-            )
-          }
-          appearance="primary"
-        >
+        <Button onClick={toggleFullScreen}>Full Screen</Button>
+        <Button onClick={pushMessage} appearance="primary">
           Push
         </Button>
       </ButtonToolbar>

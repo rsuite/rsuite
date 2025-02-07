@@ -9,7 +9,6 @@ describe('convertMaskToPlaceholder', () => {
     expect(() => convertMaskToPlaceholder(123)).to.throw(err);
     expect(() => convertMaskToPlaceholder(null)).to.throw(err);
     expect(() => convertMaskToPlaceholder({})).to.throw(err);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(() => convertMaskToPlaceholder(() => {})).to.throw(err);
     expect(() => convertMaskToPlaceholder(['-'], '-')).to.throw();
   });

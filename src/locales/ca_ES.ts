@@ -1,4 +1,4 @@
-import ca from 'date-fns/locale/ca';
+import { ca } from 'date-fns/locale/ca';
 
 const DateTimeFormats = {
   sunday: 'Dg',

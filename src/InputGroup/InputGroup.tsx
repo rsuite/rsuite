@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import { WithAsProps, SizeType } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export const InputGroupContext = React.createContext<{
@@ -23,19 +22,19 @@ export interface InputGroupProps extends WithAsProps {
   children?: React.ReactNode;
 
   /** A component can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 }
 
-export interface InputGroupComponent extends RsRefForwardingComponent<'div', InputGroupProps> {
-  Addon: typeof InputGroupAddon;
-  Button: typeof InputGroupButton;
-}
+const Subcomponents = {
+  Addon: InputGroupAddon,
+  Button: InputGroupButton
+};
 
 /**
  * The `InputGroup` component is used to specify an input field with an add-on.
  * @see https://rsuitejs.com/components/input/#input-group
  */
-const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputGroup', props);
   const {
     as: Component = 'div',
@@ -84,19 +83,8 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
       </Component>
     </InputGroupContext.Provider>
   );
-}) as unknown as InputGroupComponent;
+}, Subcomponents);
 
 InputGroup.displayName = 'InputGroup';
-InputGroup.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  inside: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs'])
-};
-
-InputGroup.Addon = InputGroupAddon;
-InputGroup.Button = InputGroupButton;
 
 export default InputGroup;

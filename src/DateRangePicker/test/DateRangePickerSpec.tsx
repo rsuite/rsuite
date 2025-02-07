@@ -1,6 +1,8 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
+import DateRangePicker from '../DateRangePicker';
+import GearIcon from '@rsuite/icons/Gear';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
   testStandardProps,
@@ -8,8 +10,6 @@ import {
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
 import {
   addDays,
@@ -23,9 +23,8 @@ import {
   subDays,
   addMonths
 } from 'date-fns';
-import DateRangePicker from '../DateRangePicker';
-import GearIcon from '@rsuite/icons/Gear';
-import { RangeType, DateRange } from '../types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { DateRange } from '../types';
 
 function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seconds }) {
   const calendar = screen.queryByTestId(`calendar-${calendarKey}`) as HTMLDivElement;
@@ -52,7 +51,6 @@ describe('DateRangePicker', () => {
     sizes: ['lg', 'md', 'sm', 'xs'],
 
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });
@@ -432,16 +430,6 @@ describe('DateRangePicker', () => {
     screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
       expect(item).to.have.text(['Sep 2024', 'Oct 2024'][index]);
     });
-  });
-
-  it('Should not get warned about deprecated `caretComponent` prop', () => {
-    sinon.spy(console, 'warn');
-
-    render(<DateRangePicker />);
-
-    expect(console.warn).not.to.have.been.calledWith(
-      sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
-    );
   });
 
   it('Should render a custom caret', () => {
@@ -1093,7 +1081,9 @@ describe('DateRangePicker', () => {
 
     userEvent.click(screen.getByRole('gridcell', { name: '02 Nov 2024' }));
 
-    ref.current.close();
+    act(() => {
+      ref.current.close();
+    });
 
     userEvent.click(screen.getByRole('textbox'));
 
@@ -1403,8 +1393,7 @@ describe('DateRangePicker', () => {
 
   describe('Disabled', () => {
     it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-      sinon.spy(console, 'warn');
-      const ranges: RangeType<DateRange>[] = [
+      const ranges: DateOptionPreset<DateRange | null>[] = [
         {
           label: 'Yesterday',
           value: [addDays(new Date(), -1), addDays(new Date(), -1)]
@@ -1430,14 +1419,10 @@ describe('DateRangePicker', () => {
           'true'
         );
       });
-
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-      );
     });
 
     it('Should disable shortcuts according to `shouldDisableDate`', () => {
-      const ranges: RangeType<DateRange>[] = [
+      const ranges: DateOptionPreset<DateRange | null>[] = [
         {
           label: 'Yesterday',
           value: [addDays(new Date(), -1), addDays(new Date(), -1)]

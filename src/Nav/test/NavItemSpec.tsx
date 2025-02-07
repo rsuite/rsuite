@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { Simulate } from 'react-dom/test-utils';
 import { testStandardProps } from '@test/utils';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
@@ -140,20 +139,18 @@ describe('<Nav.Item>', () => {
     });
 
     it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
-      const onMouseOverSpy = sinon.spy();
+      const onMouseOver = sinon.spy();
       render(
         <Sidenav expanded={false}>
-          <Nav onMouseOver={onMouseOverSpy}>
+          <Nav onMouseOver={onMouseOver}>
             <Nav.Item data-testid="nav-item">item</Nav.Item>
           </Nav>
         </Sidenav>
       );
 
-      act(() => {
-        Simulate.mouseOver(screen.getByTestId('nav-item'));
-      });
+      fireEvent.mouseOver(screen.getByTestId('nav-item'));
 
-      expect(onMouseOverSpy).to.have.been.called;
+      expect(onMouseOver).to.have.been.called;
       expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
     });
   });

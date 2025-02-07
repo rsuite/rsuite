@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import { useUniqueId } from '../hooks';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
@@ -137,11 +136,5 @@ function MenuItem(props: MenuItemProps) {
 }
 
 MenuItem.displayName = 'MenuItem';
-MenuItem.propTypes = {
-  selected: PropTypes.bool,
-  disabled: PropTypes.bool,
-  children: PropTypes.func.isRequired,
-  onActivate: PropTypes.func
-};
 
 export default MenuItem;

@@ -108,8 +108,6 @@ Customize a select all function.
 
 ### `<CheckPicker>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property           | Type`(Default)`                                                                                    | Description                                                                         |
 | ------------------ | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | appearance         | 'default' &#124; 'subtle' `('default')`                                                            | Set picker appearence                                                               |

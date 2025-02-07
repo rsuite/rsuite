@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
+import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface CardProps extends WithAsProps {
   /**
@@ -35,13 +34,13 @@ export interface CardProps extends WithAsProps {
   size?: 'lg' | 'md' | 'sm';
 }
 
-interface CardComponent extends RsRefForwardingComponent<'div', CardProps> {
-  Header: typeof CardHeader;
-  Body: typeof CardBody;
-  Footer: typeof CardFooter;
-}
+const Subcomponents = {
+  Header: CardHeader,
+  Body: CardBody,
+  Footer: CardFooter
+};
 
-const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
+const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProps, ref) => {
   const { propsWithDefaults } = useCustom('Card', props);
   const {
     as: Component = 'div',
@@ -66,26 +65,18 @@ const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
       ['shaded-hover']: shaded === 'hover'
     })
   );
-  const styles = { ...style, '--rs-card-width': typeof width === 'number' ? `${width}px` : width };
+  const styles = {
+    ...style,
+    '--rs-card-width': typeof width === 'number' ? `${width}px` : width
+  };
 
   return (
     <Component ref={ref} className={classes} style={styles} {...rest}>
       {children}
     </Component>
   );
-}) as unknown as CardComponent;
+}, Subcomponents);
 
 Card.displayName = 'Card';
-Card.Header = CardHeader;
-Card.Body = CardBody;
-Card.Footer = CardFooter;
-
-Card.propTypes = {
-  bordered: PropTypes.bool,
-  shaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['hover'])]),
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  direction: oneOf(['row', 'column']),
-  size: oneOf(['lg', 'md', 'sm'])
-};
 
 export default Card;

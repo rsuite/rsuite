@@ -53,7 +53,6 @@ describe('<Nav.Menu>', () => {
         }
       );
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByText('Submenu').querySelector('.rs-dropdown-menu-toggle-icon')).to.not
         .exist;
     });

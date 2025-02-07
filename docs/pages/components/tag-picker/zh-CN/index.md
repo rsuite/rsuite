@@ -63,8 +63,6 @@
 
 ### `<TagPicker>`
 
-<!-- prettier-sort-markdown-table -->
-
 | 属性名称               | 类型`(默认值)`                                                                   | 描述                                       |
 | ---------------------- | -------------------------------------------------------------------------------- | ------------------------------------------ |
 | cacheData              | [ItemDataType][item][]                                                           | 当异步搜索时，用于缓存 `value` 的选项      |
@@ -73,7 +71,7 @@
 | container              | HTMLElement &#124; (() => HTMLElement)                                           | 设置渲染的容器                             |
 | creatable              | boolean                                                                          | 设置可以新建选项                           |
 | data \*                | [ItemDataType][item][]                                                           | 组件数据                                   |
-| defaultValue           | string[]                                                                         | 默认值（非受控）                                     |
+| defaultValue           | string[]                                                                         | 默认值（非受控）                           |
 | disabled               | boolean                                                                          | 禁用组件                                   |
 | disabledItemValues     | string[]                                                                         | 禁用选项                                   |
 | groupBy                | string                                                                           | 设置分组条件在 `data` 中的 `key`           |

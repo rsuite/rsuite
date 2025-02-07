@@ -1,11 +1,10 @@
 import React from 'react';
-import { screen, render, act, fireEvent, waitFor } from '@testing-library/react';
+import { screen, render, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 import sinon from 'sinon';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
-import { renderHook } from '@test/utils';
 import Message from '../../Message';
 
 afterEach(() => {
@@ -39,11 +38,9 @@ describe('useToaster', () => {
     });
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-top-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-top-end');
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-bottom-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-bottom-end');
   });

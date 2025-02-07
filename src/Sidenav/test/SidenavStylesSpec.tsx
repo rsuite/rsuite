@@ -11,7 +11,7 @@ describe('Sidenav styles', () => {
   it('Should be collapsed', () => {
     const { container } = render(<Sidenav expanded={false} />);
 
-    expect(container.firstChild).to.have.style('width', '56px');
+    expect(container.firstChild).to.have.style('width', '52px');
   });
 
   it('Should render Nav.Item as block', () => {
@@ -27,7 +27,7 @@ describe('Sidenav styles', () => {
       </Sidenav>
     );
 
-    expect(screen.getByText('Child Item')).to.have.style('display', 'block');
+    expect(screen.getByText('Child Item')).to.have.style('display', 'flex');
   });
 
   context('Default', () => {

@@ -38,12 +38,6 @@ describe('<Nav>', () => {
     expect(screen.getByText('Nav')).to.have.class('rs-nav-justified');
   });
 
-  it('Should have a `navbar-right` className', () => {
-    render(<Nav pullRight>Nav</Nav>);
-
-    expect(screen.getByText('Nav')).to.have.class('rs-navbar-right');
-  });
-
   it('Should be selected second option when activeKey = 2 ', () => {
     render(
       <Nav activeKey={2}>

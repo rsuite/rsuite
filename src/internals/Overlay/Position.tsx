@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
@@ -14,12 +13,13 @@ import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
 import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
-import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
+import { ResizeObserver } from '@juggle/resize-observer';
 import { getDOMNode } from '../utils';
-import { CursorPosition, TypeAttributes } from '@/internals/types';
 import { useUpdateEffect } from '../hooks';
+import type { Placement } from '@/internals/types';
+import type { CursorPosition } from './types';
 
 export interface PositionChildProps {
   className: string;
@@ -30,11 +30,14 @@ export interface PositionChildProps {
 }
 
 export interface PositionProps {
-  children: (props: PositionChildProps, ref: React.RefObject<HTMLElement>) => React.ReactElement;
+  children: (
+    props: PositionChildProps,
+    ref: React.RefObject<HTMLElement | null>
+  ) => React.ReactElement;
   className?: string;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   triggerTarget?: React.RefObject<any>;
   followCursor?: boolean;
@@ -43,7 +46,7 @@ export interface PositionProps {
 
 const usePosition = (
   props: PositionProps,
-  ref: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement | null>
 ): [PositionType, (placementChanged?: any) => void] => {
   const {
     placement = 'right',
@@ -57,7 +60,7 @@ const usePosition = (
 
   const containerRef = useRef<Element | null>(null);
   const lastTargetRef = useRef<Element | null>(null);
-  const overlayResizeObserver = useRef<ResizeObserver>();
+  const overlayResizeObserver = useRef<ResizeObserver>(null);
 
   const defaultPosition = {
     positionLeft: 0,
@@ -99,7 +102,7 @@ const usePosition = (
 
       const overlay = getDOMNode(ref.current);
       const containerElement = getContainer(
-        typeof container === 'function' ? container() : container ?? (null as any),
+        typeof container === 'function' ? container() : (container ?? (null as any)),
         ownerDocument(ref.current).body
       ) as HTMLElement;
 
@@ -207,14 +210,5 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 });
 
 Position.displayName = 'Position';
-Position.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.func.isRequired,
-  container: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  triggerTarget: PropTypes.any
-};
 
 export default Position;

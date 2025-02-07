@@ -1,8 +1,8 @@
 import React from 'react';
 import Ripple from '@/internals/Ripple';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, createChainedFunction } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface PaginationButtonProps<T = number | string>
   extends WithAsProps,
@@ -26,54 +26,53 @@ export interface PaginationButtonProps<T = number | string>
   onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 }
 
-const PaginationButton: RsRefForwardingComponent<'button', PaginationButtonProps> =
-  React.forwardRef((props: PaginationButtonProps, ref) => {
-    const {
-      as: Component = 'button',
-      active,
-      disabled,
-      className,
-      classPrefix = 'pagination-btn',
-      children,
-      eventKey,
-      style,
-      onSelect,
-      onClick,
-      ...rest
-    } = props;
+const PaginationButton = forwardRef<'button', PaginationButtonProps>((props, ref) => {
+  const {
+    as: Component = 'button',
+    active,
+    disabled,
+    className,
+    classPrefix = 'pagination-btn',
+    children,
+    eventKey,
+    style,
+    onSelect,
+    onClick,
+    ...rest
+  } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ active, disabled }));
 
-    const handleClick = useEventCallback((event: React.MouseEvent) => {
-      if (disabled) {
-        return;
-      }
-      onSelect?.(eventKey, event);
-    });
-
-    const asProps: Partial<PaginationButtonProps> = {};
-
-    if (typeof Component !== 'string') {
-      asProps.eventKey = eventKey;
-      asProps.active = active;
+  const handleClick = useEventCallback((event: React.MouseEvent) => {
+    if (disabled) {
+      return;
     }
-
-    return (
-      <Component
-        {...rest}
-        {...asProps}
-        disabled={disabled}
-        onClick={createChainedFunction(onClick, handleClick)}
-        ref={ref}
-        className={classes}
-        style={style}
-      >
-        {children}
-        {!disabled ? <Ripple /> : null}
-      </Component>
-    );
+    onSelect?.(eventKey, event);
   });
+
+  const asProps: Partial<PaginationButtonProps> = {};
+
+  if (typeof Component !== 'string') {
+    asProps.eventKey = eventKey;
+    asProps.active = active;
+  }
+
+  return (
+    <Component
+      {...rest}
+      {...asProps}
+      disabled={disabled}
+      onClick={createChainedFunction(onClick, handleClick)}
+      ref={ref}
+      className={classes}
+      style={style}
+    >
+      {children}
+      {!disabled ? <Ripple /> : null}
+    </Component>
+  );
+});
 
 PaginationButton.displayName = 'PaginationButton';
 

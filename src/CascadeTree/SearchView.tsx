@@ -18,7 +18,7 @@ interface SearchViewProps<T> extends WithAsProps {
   renderSearchItem?: (label: React.ReactNode, items: ItemDataType<T>[]) => React.ReactNode;
   onSelect: (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => void;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 function SearchView<T>(props: SearchViewProps<T>) {

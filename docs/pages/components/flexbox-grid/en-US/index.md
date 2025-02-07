@@ -24,11 +24,11 @@ Grid layout component implemented via CSS Flexbox, providing 24 grids.
 
  <!--{include:`order.md`}-->
 
-### Responsive
+## Responsive
 
 Responsiveness can be achieved by combining with the `<Col>` component.
 
- <!--{include:`responsive.md`}-->
+<!--{include:<example-responsive>}-->
 
 ## Props
 

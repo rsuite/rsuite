@@ -1,27 +1,28 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav } from 'rsuite';
-import HomeIcon from '@rsuite/icons/legacy/Home';
-import CogIcon from '@rsuite/icons/legacy/Cog';
+import { Navbar, Nav, Avatar, Badge, IconButton } from 'rsuite';
+import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
-const CustomNavbar = ({ onSelect, activeKey, ...props }) => {
+const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
   return (
-    <Navbar {...props}>
-      <Navbar.Brand href="#">RSUITE</Navbar.Brand>
-      <Nav onSelect={onSelect} activeKey={activeKey}>
-        <Nav.Item eventKey="1">Home</Nav.Item>
-        <Nav.Item eventKey="2">News</Nav.Item>
-        <Nav.Item eventKey="3">Products</Nav.Item>
-        <Nav.Menu title="About">
-          <Nav.Item eventKey="4">Company</Nav.Item>
-          <Nav.Item eventKey="5">Team</Nav.Item>
-          <Nav.Item eventKey="6">Contact</Nav.Item>
-        </Nav.Menu>
-      </Nav>
-      <Nav pullRight>
-        <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
-      </Nav>
+    <Navbar appearance={appearance} {...props}>
+      <Navbar.Content>
+        <Navbar.Brand href="#">
+          <IoLogoReact size={26} /> {appearance.toUpperCase()}
+        </Navbar.Brand>
+        <Nav>
+          <Nav.Item>Docs</Nav.Item>
+          <Nav.Item>Components</Nav.Item>
+          <Nav.Item>Tools</Nav.Item>
+        </Nav>
+      </Navbar.Content>
+      <Navbar.Content>
+        <Badge content={6} shape="circle">
+          <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="xs" />
+        </Badge>
+        <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
+      </Navbar.Content>
     </Navbar>
   );
 };
@@ -31,7 +32,7 @@ const App = () => {
 
   return (
     <>
-      <CustomNavbar activeKey={activeKey} onSelect={setActiveKey} />
+      <CustomNavbar appearance="default" activeKey={activeKey} onSelect={setActiveKey} />
       <hr />
       <CustomNavbar appearance="inverse" activeKey={activeKey} onSelect={setActiveKey} />
       <hr />

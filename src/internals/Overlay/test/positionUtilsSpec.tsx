@@ -66,9 +66,9 @@ function createElementToContainer(width, height) {
 describe('Overlay - positionUtils', () => {
   it('Should get the position of the element relative to the container', () => {
     const utils = positionUtils({ placement: 'left', preventOverflow: false, padding: 0 });
-    const positon = utils.getPosition(target, container);
+    const position = utils.getPosition(target, container);
 
-    assert.deepEqual(positon, {
+    expect(position).to.deep.equal({
       top: targetPositionTop,
       left: targetPositionLeft,
       width: targetWidth,
@@ -81,10 +81,10 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 40;
     const overlayHeight = 40;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, 0);
-    assert.equal(positon.positionClassName, 'placement-left');
+    expect(position.positionLeft).to.equal(0);
+    expect(position.positionClassName).to.equal('placement-left');
   });
 
   it('Should get relative position to `left` of `target`', () => {
@@ -92,11 +92,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
-    assert.equal(positon.positionClassName, 'placement-left');
+    expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
+    expect(position.positionClassName).to.equal('placement-left');
   });
 
   it('Should get relative position to `leftStart` of `target`', () => {
@@ -104,11 +104,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetPositionTop);
-    assert.equal(positon.positionClassName, 'placement-left-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
+    expect(position.positionTop).to.equal(targetPositionTop);
+    expect(position.positionClassName).to.equal('placement-left-start');
   });
 
   it('Should get relative position to `leftEnd` of `target`', () => {
@@ -116,11 +116,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetPositionTop - targetHeight);
-    assert.equal(positon.positionClassName, 'placement-left-end');
+    expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - targetHeight);
+    expect(position.positionClassName).to.equal('placement-left-end');
   });
 
   it('Should get relative position to `right` of `target`', () => {
@@ -128,11 +128,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
-    assert.equal(positon.positionClassName, 'placement-right');
+    expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
+    expect(position.positionClassName).to.equal('placement-right');
   });
 
   it('Should get relative position to `rightStart` of `target`', () => {
@@ -140,11 +140,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop);
-    assert.equal(positon.positionClassName, 'placement-right-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop);
+    expect(position.positionClassName).to.equal('placement-right-start');
   });
 
   it('Should get relative position to `rightEnd` of `target`', () => {
@@ -152,11 +152,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop - targetHeight);
-    assert.equal(positon.positionClassName, 'placement-right-end');
+    expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - targetHeight);
+    expect(position.positionClassName).to.equal('placement-right-end');
   });
 
   it('Should get relative position to `top` of `target`', () => {
@@ -164,11 +164,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
-    assert.equal(positon.positionClassName, 'placement-top');
+    expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
+    expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
+    expect(position.positionClassName).to.equal('placement-top');
   });
 
   it('Should get relative position to `topStart` of `target`', () => {
@@ -176,11 +176,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft);
-    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
-    assert.equal(positon.positionClassName, 'placement-top-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft);
+    expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
+    expect(position.positionClassName).to.equal('placement-top-start');
   });
 
   it('Should get relative position to `topEnd` of `target`', () => {
@@ -188,11 +188,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
-    assert.equal(positon.positionClassName, 'placement-top-end');
+    expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
+    expect(position.positionClassName).to.equal('placement-top-end');
   });
 
   it('Should get relative position to `bottom` of `target`', () => {
@@ -200,11 +200,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
-    assert.equal(positon.positionClassName, 'placement-bottom');
+    expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
+    expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
+    expect(position.positionClassName).to.equal('placement-bottom');
   });
 
   it('Should get relative position to `bottomStart` of `target`', () => {
@@ -212,11 +212,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft);
-    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
-    assert.equal(positon.positionClassName, 'placement-bottom-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft);
+    expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
+    expect(position.positionClassName).to.equal('placement-bottom-start');
   });
 
   it('Should get relative position to `bottomEnd` of `target`', () => {
@@ -224,11 +224,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
-    assert.equal(positon.positionClassName, 'placement-bottom-end');
+    expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
+    expect(position.positionClassName).to.equal('placement-bottom-end');
   });
 
   it('Should get relative position to `auto` of `target`', () => {
@@ -236,11 +236,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft);
-    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
-    assert.equal(positon.positionClassName, 'placement-bottom-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft);
+    expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
+    expect(position.positionClassName).to.equal('placement-bottom-start');
   });
 
   it('Should get relative position to `auto` of `target` in body', () => {
@@ -248,11 +248,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, document.body);
+    const position = utils.calcOverlayPosition(overlay, target, document.body);
 
-    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop);
-    assert.equal(positon.positionClassName, 'placement-right-start');
+    expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop);
+    expect(position.positionClassName).to.equal('placement-right-start');
   });
 
   it('Should get relative position to `autoVertical` of `target`', () => {
@@ -260,11 +260,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
-    assert.equal(positon.positionClassName, 'placement-bottom');
+    expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
+    expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
+    expect(position.positionClassName).to.equal('placement-bottom');
   });
 
   it('Should get relative position to `autoHorizontal` of `target`', () => {
@@ -276,11 +276,11 @@ describe('Overlay - positionUtils', () => {
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
-    const positon = utils.calcOverlayPosition(overlay, target, container);
+    const position = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
-    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
-    assert.equal(positon.positionClassName, 'placement-right');
+    expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
+    expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
+    expect(position.positionClassName).to.equal('placement-right');
   });
 
   it('Should get relative position to `left` of `cursorPosition`', () => {
@@ -294,10 +294,10 @@ describe('Overlay - positionUtils', () => {
       width: cursorPositionWidth,
       height: cursorPositionHeight
     };
-    const positon = utils.calcOverlayPosition(overlay, target, container, cursorPosition as any);
+    const position = utils.calcOverlayPosition(overlay, target, container, cursorPosition as any);
 
-    assert.equal(positon.positionLeft, cursorPositionLeft - overlayWidth);
-    assert.equal(positon.positionTop, cursorPositionTop - targetHeight / 2);
-    assert.equal(positon.positionClassName, 'placement-left');
+    expect(position.positionLeft).to.equal(cursorPositionLeft - overlayWidth);
+    expect(position.positionTop).to.equal(cursorPositionTop - targetHeight / 2);
+    expect(position.positionClassName).to.equal('placement-left');
   });
 });

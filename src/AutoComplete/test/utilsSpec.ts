@@ -1,4 +1,4 @@
-import Sinon from 'sinon';
+import sinon from 'sinon';
 import { shouldDisplay } from '../utils';
 
 describe('shouldDisplay(filterBy, value)', () => {
@@ -14,7 +14,7 @@ describe('shouldDisplay(filterBy, value)', () => {
   ];
   context('filterBy is a function', () => {
     it('Should call `filterBy` with each item and `value`', () => {
-      const filterBy = Sinon.spy();
+      const filterBy = sinon.spy();
       const keyword = 'keyword';
       data.filter(shouldDisplay(filterBy, keyword));
 

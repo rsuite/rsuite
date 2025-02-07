@@ -97,14 +97,9 @@ This tree allows the use of the `getChildren` option and the length of the child
 | disabledItemValues | string[]                                                                                       | Disabled items                                                                      |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                          | Asynchronously load the children of the tree node.                                  |
 | height             | number `(320)`                                                                                 | The height of Dropdown                                                              |
-| ~inline~           | boolean                                                                                        | ⚠️`[Deprecated]` Use the `<CascadeTree>` component instead                          |
 | labelKey           | string `('label')`                                                                             | Set label key in data                                                               |
 | loading            | boolean `(false)`                                                                              | Whether to display a loading state indicator                                        |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                       | Define localization settings to show component text in the user's regional language |
-| ~menuClassName~    | string                                                                                         | ⚠️`[Deprecated]` Use `popupClassName` instead                                       |
-| ~menuHeight~       | number                                                                                         | ⚠️`[Deprecated]` Use `columnHeight` instead                                         |
-| ~menuStyle~        | CSSProperties                                                                                  | ⚠️`[Deprecated]` Use `popupStyle` instead                                           |
-| ~menuWidth~        | number                                                                                         | ⚠️`[Deprecated]` Use `columnWidth` instead                                          |
 | onChange           | (value:string, event) => void                                                                  | Callback fired when value change                                                    |
 | onClean            | (event) => void                                                                                | Callback fired when value clean                                                     |
 | onClose            | () => void                                                                                     | Callback fired when close component                                                 |
@@ -124,10 +119,8 @@ This tree allows the use of the `getChildren` option and the length of the child
 | popupClassName     | string                                                                                         | Custom class name for the popup                                                     |
 | popupStyle         | CSSProperties                                                                                  | Custom style for the popup                                                          |
 | preventOverflow    | boolean                                                                                        | Prevent floating element overflow                                                   |
-| ~rendeMenu~        | (node: ReactNode, column: { items, parentItem, layer}) => ReactNode                            | ⚠️`[Deprecated]` Use `renderColumn` instead                                         |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                      | Customizing the Rendering Menu list                                                 |
 | renderExtraFooter  | () => ReactNode                                                                                | custom render extra footer                                                          |
-| ~renderMenuItem~   | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                     | ⚠️`[Deprecated]` Use `renderTreeNode` instead                                       |
 | renderSearchItem   | (node: ReactNode, items: [ItemDataType][item][]) => ReactNode                                  | Custom render search result items                                                   |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                     | Custom render menu items                                                            |
 | renderValue        | (value: string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | Custom render selected items                                                        |
