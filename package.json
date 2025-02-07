@@ -41,8 +41,8 @@
     "prepare": "husky install",
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",
-    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13",
-    "install:react-19": "npm i --no-save --legacy-peer-deps react@19.0.0 react-dom@19.0.0 @testing-library/react@16"
+    "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0 @testing-library/react@13 @testing-library/dom@8",
+    "install:react-19": "npm i --no-save --legacy-peer-deps react@19.0.0 react-dom@19.0.0"
   },
   "keywords": [
     "react",
