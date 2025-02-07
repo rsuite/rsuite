@@ -38,7 +38,10 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
         // Skip if focus is moving to a focusable element within this menu
         !(event.target !== event.currentTarget && isFocusableElement(event.target))
       ) {
-        if (activeItemIndex === null) {
+        const disabled = event.target.getAttribute('aria-disabled');
+
+        // Skip if the item is disabled
+        if (activeItemIndex === null && disabled !== 'true') {
           dispatch({ type: MenuActionTypes.MoveFocus, to: MoveFocusTo.First });
         }
       }
