@@ -11,8 +11,6 @@ export interface ChildrenProps {
   value: any;
   onChange: (value: any, event: React.SyntheticEvent) => void;
   onBlur?: (event?: React.FocusEvent) => void;
-  onExit?: () => void;
-  onClean?: () => void;
 }
 
 export function defaultRenderInput(props: ChildrenProps, ref: React.Ref<any>) {
@@ -54,9 +52,11 @@ export function renderChildren(
   }
 
   if (pickers.includes(getDisplayName(children))) {
-    const { onBlur, onExit, onClean, ...rest } = props;
+    const { onBlur, ...rest } = props;
+    const childElement = children as ReactElement;
+    const { onExit, onClean } = childElement.props;
 
-    return React.cloneElement(children as ReactElement, {
+    return React.cloneElement(childElement, {
       ...rest,
       // Pass onBlur to the child component to automatically save or cancel after the focus event is processed.
       // Special handling in the Picker component, call onBlur when onExit and onClean

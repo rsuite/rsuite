@@ -18,7 +18,7 @@ jobs:
           node-version: 'lts/*'
 
       - name: Install dependencies
-        run: npm install
+        run: npm i --legacy-peer-deps
 
       - name: Run Size Limit
         run: npm run size
