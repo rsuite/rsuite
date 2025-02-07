@@ -187,7 +187,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
   const classes = merge(className, withClassPrefix());
 
   const [htmlInputProps, rest] = partitionHTMLProps(restProps);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
   const getSafeValue = (value: number | string) => {
     if (!Number.isNaN(value)) {

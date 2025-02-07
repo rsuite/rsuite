@@ -24,7 +24,7 @@ const TextMaskTest = React.forwardRef((props: TextMaskProps, ref) => {
     }
   }));
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef(null);
   return <TextMask value={value} {...restProps} ref={mergeRefs(ref, inputRef)} />;
 });
 

@@ -49,8 +49,8 @@ export interface InputInstance {
  */
 const useInputWidth = (
   props: Partial<InputAutosizeProps>,
-  sizerRef: React.RefObject<HTMLDivElement>,
-  placeholderRef: React.RefObject<HTMLDivElement>
+  sizerRef: React.RefObject<HTMLDivElement | null>,
+  placeholderRef: React.RefObject<HTMLDivElement | null>
 ) => {
   const { minWidth = 1, placeholder, value, onAutosize } = props;
   const [inputWidth, setInputWidth] = useState(minWidth);

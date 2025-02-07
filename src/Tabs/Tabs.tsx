@@ -5,7 +5,7 @@ import TabPanel from './TabPanel';
 import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, ReactElement } from '@/internals/types';
 
 /**
  * Props for the Tabs component.
@@ -111,7 +111,7 @@ const renderPanels = (
   tabProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabProps;
-  return ReactChildren.map(children, (child: React.ReactElement) => {
+  return ReactChildren.map(children, (child: ReactElement) => {
     const { eventKey, children } = child.props;
     const selected = eventKey === activeKey;
     return (
@@ -132,7 +132,7 @@ const renderTabs = (
   tabPanelProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabPanelProps;
-  return ReactChildren.map(children, (child: React.ReactElement) => {
+  return ReactChildren.map(children, (child: ReactElement) => {
     const { eventKey, title, disabled, icon } = child.props;
     const selected = eventKey === activeKey;
     return (
@@ -241,7 +241,7 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
   });
 
   const hasChildren = React.Children.toArray(children).some(
-    child => React.isValidElement(child) && child.props.children
+    child => React.isValidElement(child) && (child.props as any).children
   );
 
   return (

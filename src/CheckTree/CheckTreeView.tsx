@@ -46,7 +46,7 @@ export interface CheckTreeViewProps<V = (string | number)[]>
   /**
    * Searchbox input ref object.
    */
-  searchInputRef?: React.RefObject<HTMLInputElement>;
+  searchInputRef?: React.RefObject<HTMLInputElement | null>;
 
   /**
    * Whether display search input box.

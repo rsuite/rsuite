@@ -6,12 +6,12 @@ import type { InputSearchProps } from '../InputSearch';
 
 interface InputProps {
   multi?: boolean;
-  triggerRef: React.RefObject<OverlayTriggerHandle>;
+  triggerRef: React.RefObject<OverlayTriggerHandle | null>;
 }
 const INPUT_MARGIN_RIGHT = 60;
 function useInput(props: InputProps) {
   const { multi, triggerRef } = props;
-  const inputRef = useRef<any>();
+  const inputRef = useRef<any>(null);
   const maxWidth = useMaxWidth(triggerRef);
 
   const getInput = useCallback(() => {

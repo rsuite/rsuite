@@ -1153,6 +1153,99 @@ describe('Form Validation', () => {
         );
       });
     });
+
+    it('Should validate deeply nested ArrayType when checkTrigger = blur', async () => {
+      const model = Schema.Model({
+        address: Schema.Types.ArrayType().of(
+          Schema.Types.ObjectType().shape({
+            city: Schema.Types.StringType().isRequired('City is required.')
+          })
+        )
+      });
+
+      const onError = sinon.spy();
+      const defaultValues = { address: [{ city: '' }] };
+
+      render(
+        <Form
+          model={model}
+          formValue={defaultValues}
+          onError={onError}
+          nestedField
+          checkTrigger="blur"
+        >
+          <FormControl name="address[0].city" />
+        </Form>
+      );
+
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWith({
+        address: {
+          array: [
+            {
+              object: {
+                city: {
+                  hasError: true,
+                  errorMessage: 'City is required.'
+                }
+              }
+            }
+          ]
+        }
+      });
+
+      expect(screen.getByRole('alert')).to.have.text('City is required.');
+    });
+
+    it('Should validate deeply nested ArrayType when checkTrigger = change', () => {
+      const model = Schema.Model({
+        address: Schema.Types.ArrayType().of(
+          Schema.Types.ObjectType().shape({
+            city: Schema.Types.StringType().isRequired('City is required.')
+          })
+        )
+      });
+
+      const onError = sinon.spy();
+      const defaultValues = { address: [{ city: 'Shanghai' }] };
+
+      render(
+        <Form
+          model={model}
+          formValue={defaultValues}
+          onError={onError}
+          nestedField
+          checkTrigger="change"
+        >
+          <FormControl name="address[0].city" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWith({
+        address: {
+          array: [
+            {
+              object: {
+                city: {
+                  hasError: true,
+                  errorMessage: 'City is required.'
+                }
+              }
+            }
+          ]
+        }
+      });
+
+      expect(screen.getByRole('alert')).to.have.text('City is required.');
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Beijing' } });
+      expect(screen.queryAllByRole('alert')).to.be.empty;
+    });
   });
 
   describe('Custom validation rules', () => {

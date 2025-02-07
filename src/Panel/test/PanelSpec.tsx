@@ -1,21 +1,20 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Panel from '../Panel';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Panel', () => {
   testStandardProps(<Panel />);
 
   it('Should render a panel', () => {
-    const title = 'Test';
-    render(<Panel data-testid="panel">{title}</Panel>);
+    render(<Panel data-testid="panel">Panel Content</Panel>);
     const panel = screen.getByTestId('panel');
 
     expect(panel).to.have.tagName('div');
-    expect(panel).to.have.class(/\bpanel\b/);
-    expect(panel).to.have.text(title);
+    expect(panel).to.have.class('rs-panel');
+    expect(panel).to.have.text('Panel Content');
   });
 
   it('Should default expanded', () => {

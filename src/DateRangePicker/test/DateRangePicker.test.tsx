@@ -19,6 +19,6 @@ import type { PickerHandle } from '@/internals/Picker';
 />;
 
 // Check ref type
-const ref = React.useRef<PickerHandle>();
+const ref = React.useRef<PickerHandle>(null);
 <DateRangePicker ref={ref} />;
 ref.current?.open?.();

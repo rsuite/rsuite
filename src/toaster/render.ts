@@ -1,9 +1,9 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { guid } from '@/internals/utils';
 import { RSUITE_TOASTER_ID } from '@/internals/symbols';
+import type { ReactElement } from '@/internals/types';
 
-export function render(element: React.ReactElement<any>, container: HTMLElement | null): string {
+export function render(element: ReactElement, container: HTMLElement | null): string {
   const mountElement = document.createElement('div');
 
   mountElement.className = 'rs-toaster-mount-element';

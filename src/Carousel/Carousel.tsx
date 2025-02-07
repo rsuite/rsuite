@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import { useClassNames, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
 import { forwardRef, guid, ReactChildren, mergeRefs } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
+import { WithAsProps, ReactElement } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface CarouselProps extends WithAsProps {
@@ -123,7 +123,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   const uniqueId = useMemo(() => guid(), []);
   const items = ReactChildren.map(
     children as React.ReactElement[],
-    (child: React.ReactElement, index) => {
+    (child: ReactElement, index) => {
       if (!child) {
         return;
       }
@@ -146,7 +146,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
         key: `slider-item${index}`,
         'aria-hidden': activeIndex !== index,
         style: { ...child.props.style, [lengthKey]: `${100 / count}%` },
-        className: classNames(prefix('slider-item'), child.props.className)
+        className: classNames(prefix('slider-item'), child.props?.className)
       });
     }
   );

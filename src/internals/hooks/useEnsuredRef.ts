@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 /**
  * Used in forwardRef components to ensure ref exists
@@ -21,8 +21,8 @@ import React, { useRef } from 'react';
  * });
  *
  */
-export function useEnsuredRef<T = undefined>(ref): React.MutableRefObject<T | undefined> {
-  const dumpRef = useRef<T>();
+export function useEnsuredRef<T = undefined>(ref) {
+  const dumpRef = useRef<T>(null);
 
   if (ref) {
     return ref;

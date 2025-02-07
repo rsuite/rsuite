@@ -8,7 +8,7 @@ import { getAriaLabel } from '../../Calendar/utils';
 import { onMenuKeyDown } from '@/internals/Picker/utils';
 
 interface UseFocusProps {
-  target: RefObject<HTMLElement>;
+  target: RefObject<HTMLElement | null>;
   showMonth: boolean;
   id: string;
   locale: any;

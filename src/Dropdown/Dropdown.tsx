@@ -103,7 +103,7 @@ export interface DropdownComponent extends InternalRefForwardingComponent<'div',
       toggleAs?: ToggleAs;
     } & React.ComponentProps<ToggleAs>,
     context: any
-  ): JSX.Element | null;
+  ): React.ReactElement | null;
 
   Item: typeof DropdownItem;
   Menu: typeof DropdownMenu;

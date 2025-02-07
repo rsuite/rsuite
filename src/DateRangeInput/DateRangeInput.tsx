@@ -69,7 +69,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { selectedState, setSelectedState } = useSelectedState();
 

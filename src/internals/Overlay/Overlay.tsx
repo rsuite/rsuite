@@ -5,7 +5,7 @@ import OverlayContext from './OverlayContext';
 import Position, { PositionChildProps, PositionProps } from './Position';
 import { useRootClose } from '../hooks';
 import { mergeRefs } from '@/internals/utils';
-import type { Placement, AnimationEventProps } from '@/internals/types';
+import type { Placement, AnimationEventProps, ReactElement } from '@/internals/types';
 import type { CursorPosition } from './types';
 
 export interface OverlayProps extends AnimationEventProps {
@@ -107,11 +107,12 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 
           // Position will return coordinates and className
           const { left, top, className } = childProps;
-          return React.cloneElement(children, {
+          const childElement = children as ReactElement;
+          return React.cloneElement(childElement, {
             ...childrenProps,
-            ...children.props,
-            className: classNames(className, children.props.className),
-            style: { left, top, ...children.props.style },
+            ...childElement.props,
+            className: classNames(className, childElement.props.className),
+            style: { left, top, ...childElement.props.style },
             ref: mergeRefs(childRef, overlayTarget)
           });
         }}

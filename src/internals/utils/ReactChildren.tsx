@@ -1,4 +1,5 @@
 import React from 'react';
+import type { ReactElement } from '@/internals/types';
 
 /**
  * Returns the type of the given object.
@@ -27,7 +28,7 @@ export function isFragment(children: React.ReactNode) {
  */
 function flatChildren(children: React.ReactNode) {
   return React.Children.toArray(
-    React.Children.map(children as React.ReactElement[], child => {
+    React.Children.map(children as ReactElement[], child => {
       if (isFragment(child)) {
         return React.Children.toArray(child.props?.children || []);
       }

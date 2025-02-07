@@ -57,7 +57,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix('items'));
-  const rootRef = useRef<HTMLDivElement>();
+  const rootRef = useRef<HTMLDivElement>(null);
   const { rtl } = useCustom();
   const { id, labelId, popupType } = useCombobox();
 

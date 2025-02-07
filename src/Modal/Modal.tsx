@@ -105,7 +105,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
   const [shake, setShake] = useState(false);
   const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
   const dialogRef = useRef<HTMLElement>(null);
-  const transitionEndListener = useRef<{ off: () => void } | null>();
+  const transitionEndListener = useRef<{ off: () => void } | null>(null);
 
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
@@ -152,7 +152,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
     [onChangeBodyStyles, onEntering]
   );
 
-  const backdropClick = React.useRef<boolean>();
+  const backdropClick = useRef<boolean>(null);
   const handleMouseDown = useCallback(event => {
     backdropClick.current = event.target === event.currentTarget;
   }, []);

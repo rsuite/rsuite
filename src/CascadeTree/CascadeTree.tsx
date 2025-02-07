@@ -12,7 +12,7 @@ import type { CascadeTreeProps } from './types';
 import type { SelectNode } from './types';
 
 export interface CascadeTreeComponent {
-  <T>(props: CascadeTreeProps<T>): JSX.Element | null;
+  <T>(props: CascadeTreeProps<T>): React.ReactElement | null;
   displayName?: string;
 }
 

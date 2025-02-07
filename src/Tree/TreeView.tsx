@@ -48,12 +48,12 @@ export interface TreeViewProps<V = number | string | null>
   /**
    * Virtualized list ref object.
    */
-  listRef?: React.RefObject<ListHandle>;
+  listRef?: React.RefObject<ListHandle | null>;
 
   /**
    * Searchbox input ref object.
    */
-  searchInputRef?: React.RefObject<HTMLInputElement>;
+  searchInputRef?: React.RefObject<HTMLInputElement | null>;
 
   /**
    * Called when scrolling.

@@ -112,7 +112,7 @@ export interface SelectPickerProps<T = any>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(props: SelectPickerProps<T>): JSX.Element | null;
+  <T>(props: SelectPickerProps<T>): React.ReactElement | null;
   displayName?: string;
 }
 

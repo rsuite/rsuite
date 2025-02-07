@@ -24,7 +24,7 @@ export interface AffixProps extends WithAsProps {
  * Get the layout size and offset of the mount element
  */
 function useOffset(
-  mountRef: React.RefObject<HTMLDivElement>,
+  mountRef: React.RefObject<HTMLDivElement | null>,
   onOffsetChange?: (offset?: Offset) => void
 ) {
   const [offset, setOffset] = useState<Offset | null>(null);

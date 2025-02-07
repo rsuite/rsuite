@@ -18,7 +18,12 @@ import Overlay, { OverlayProps } from './Overlay';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
 import { isFragment } from '@/internals/utils/ReactChildren';
-import type { AnimationEventProps, StandardProps, Placement } from '@/internals/types';
+import type {
+  AnimationEventProps,
+  StandardProps,
+  Placement,
+  ReactElement
+} from '@/internals/types';
 import type { PositionChildProps, PositionInstance } from './Position';
 import type { CursorPosition } from './types';
 
@@ -209,7 +214,7 @@ const OverlayTrigger = React.forwardRef(
 
     const { Portal, target: containerElement } = usePortal({ container });
     const triggerRef = useRef(null);
-    const overlayRef = useRef<PositionInstance>();
+    const overlayRef = useRef<PositionInstance>(null);
     const [open, setOpen] = useControlled(openProp, defaultOpen);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
 
@@ -555,10 +560,12 @@ const OverlayTrigger = React.forwardRef(
         );
       }
 
-      return cloneElement(children as React.ReactElement, {
+      const childElement = children as ReactElement;
+
+      return cloneElement(childElement, {
         ref: triggerRef,
         'aria-describedby': controlId,
-        ...mergeEvents(triggerEvents, children.props)
+        ...mergeEvents(triggerEvents, childElement.props)
       });
     }, [children, controlId, triggerEvents]);
 

@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.77.0",
+  "version": "5.77.1",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -42,7 +42,7 @@
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",
     "install:react-18": "npm i --no-save --legacy-peer-deps react@18.2.0 react-dom@18.2.0",
-    "install:react-19": "npm i --no-save --legacy-peer-deps react@19.0.0 react-dom@19.0.0 @testing-library/react@16"
+    "install:react-19": "npm i --save-dev --legacy-peer-deps react@19.0.0 react-dom@19.0.0 @testing-library/react@16"
   },
   "keywords": [
     "react",
@@ -60,16 +60,16 @@
     "@babel/runtime": "^7.26.0",
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.3.0",
-    "@types/lodash": "^4.14.184",
+    "@types/lodash": "^4.17.15",
     "@types/react-window": "^1.8.8",
     "classnames": "^2.3.1",
     "date-fns": "^4.1.0",
     "dom-lib": "^3.3.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.11",
     "rsuite-table": "^5.19.1",
-    "schema-typed": "^2.2.2"
+    "schema-typed": "^2.3.0"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -101,7 +101,7 @@
     "@storybook/blocks": "^7.6.10",
     "@storybook/react": "^7.6.10",
     "@testing-library/dom": "^8.20.1",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/chai": "^4.3.3",
     "@types/chai-dom": "^1.11.0",
@@ -111,8 +111,8 @@
     "@types/karma-sinon-chai": "^2.0.0",
     "@types/karma-webpack": "^2.0.9",
     "@types/mocha": "^9.1.1",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "@types/semver": "^7.5.0",
     "@types/sinon": "^10.0.2",
     "@types/sinon-chai": "^2.7.38",
@@ -169,8 +169,8 @@
     "postcss-less": "^6.0.0",
     "postcss-prune-var": "^1.1.1",
     "prettier": "^3.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "resolve-tspaths": "^0.8.19",
     "semver": "^7.5.1",
     "sinon": "^14.0.1",

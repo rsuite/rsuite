@@ -643,6 +643,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const hasValue = isValid(value);
   const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
+    className,
     classPrefix,
     name: 'date',
     appearance,
@@ -688,7 +689,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
       speaker={renderCalendarOverlay}
     >
       <Component
-        className={merge(className, classes, { [prefix('error')]: invalidValue })}
+        className={merge(classes, { [prefix('error')]: invalidValue })}
         style={style}
         ref={root}
       >

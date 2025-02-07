@@ -38,6 +38,6 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 <CheckPicker caretAs={() => <div />} data={[]} />;
 
 // Check ref type
-const ref = React.useRef<PickerHandle>();
+const ref = React.useRef<PickerHandle>(null);
 <CheckPicker data={[]} ref={ref} />;
 ref.current?.open?.();

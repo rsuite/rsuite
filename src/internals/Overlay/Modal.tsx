@@ -179,8 +179,8 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     handleFocusDialog();
   });
 
-  const documentKeyDownListener = useRef<{ off: () => void } | null>();
-  const documentFocusListener = useRef<{ off: () => void } | null>();
+  const documentKeyDownListener = useRef<{ off: () => void } | null>(null);
+  const documentFocusListener = useRef<{ off: () => void } | null>(null);
 
   const handleOpen = useEventCallback(() => {
     if (containerElement) {

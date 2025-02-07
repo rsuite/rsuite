@@ -50,7 +50,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const { selectedState, setSelectedState } = useSelectedState();
 
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);

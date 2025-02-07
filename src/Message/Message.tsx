@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import { mergeRefs, forwardRef } from '@/internals/utils';
@@ -88,7 +88,7 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
   const [display, setDisplay] = useState<DisplayStateType>('show');
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const isMounted = useIsMounted();
-  const targetRef = React.useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
 
   // Timed close message
   const { clear } = useDelayedClosure({ targetRef, onClose, duration });

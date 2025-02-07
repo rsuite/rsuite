@@ -85,7 +85,7 @@ interface ToastContainerComponent
   extends InternalRefForwardingComponent<'div', ToastContainerProps> {
   getInstance: (
     props: GetInstancePropsType
-  ) => Promise<[React.RefObject<ToastContainerInstance>, string]>;
+  ) => Promise<[React.RefObject<ToastContainerInstance | null>, string]>;
 }
 
 const useMessages = () => {

@@ -71,7 +71,7 @@ export interface DateRangePickerProps
   /**
    * Predefined date ranges
    */
-  ranges?: DateOptionPreset<DateRange>[];
+  ranges?: DateOptionPreset<DateRange | null>[];
 
   /**
    * Format of the date displayed in the input box
@@ -821,7 +821,11 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     /**
      * Check if a shortcut is disabled based on the selected date range
      */
-    const shouldDisableShortcut = (selectedDates: SelectedDatesState = []): boolean => {
+    const shouldDisableShortcut = (selectedDates: SelectedDatesState | null = []): boolean => {
+      if (selectedDates === null) {
+        return false;
+      }
+
       const [startDate, endDate] = selectedDates;
 
       // Disable if either start or end date is missing
@@ -990,6 +994,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
       classPrefix,
+      className,
       name: 'daterange',
       appearance,
       hasValue,
@@ -1065,7 +1070,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       >
         <Component
           ref={root}
-          className={merge(className, classes, { [prefix('error')]: invalidValue })}
+          className={merge(classes, { [prefix('error')]: invalidValue })}
           style={style}
         >
           {plaintext ? (

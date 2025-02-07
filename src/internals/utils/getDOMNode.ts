@@ -1,9 +1,9 @@
-/* eslint-disable react/no-find-dom-node */
-import ReactDOM from 'react-dom';
+import type { Component } from 'react';
 
-function safeFindDOMNode(componentOrElement: React.Component | Element | null | undefined) {
+function safeFindDOMNode(componentOrElement: Component | Element | null | undefined) {
   if (componentOrElement && 'setState' in componentOrElement) {
-    return ReactDOM.findDOMNode?.(componentOrElement);
+    // Access the underlying DOM node through ref if available
+    return (componentOrElement as any)?.ref?.current ?? null;
   }
   return (componentOrElement ?? null) as Element | Text | null;
 }
@@ -12,7 +12,7 @@ const getRefTarget = (ref: React.RefObject<Element> | Element | null | undefined
   return ref && ('current' in ref ? ref.current : ref);
 };
 
-export function getDOMNode(elementOrRef) {
+export function getDOMNode(elementOrRef: any) {
   // If elementOrRef is an instance of Position, child is returned. [PositionInstance]
   const element = elementOrRef?.root || elementOrRef?.child || getRefTarget(elementOrRef);
 
@@ -21,8 +21,7 @@ export function getDOMNode(elementOrRef) {
     return element;
   }
 
-  // If you can't get the native HTML element, you can only get it through findDOMNode.
-  return safeFindDOMNode(element) as Element;
+  return safeFindDOMNode(element);
 }
 
 export default getDOMNode;

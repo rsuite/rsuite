@@ -59,6 +59,6 @@ type SortDirection = 'asc' | 'desc';
 <SelectPicker data={[]} virtualized listProps={{ rowHeight: 70 }} />;
 
 // Check ref type
-const ref = React.useRef<PickerHandle>();
+const ref = React.useRef<PickerHandle>(null);
 <SelectPicker data={[]} ref={ref} />;
 ref.current?.open?.();

@@ -34,7 +34,7 @@ export interface Toaster {
   clear(): void;
 }
 
-const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
+const containers = new Map<string, React.RefObject<ToastContainerInstance | null>>();
 
 /**
  * Create a container instance.
@@ -43,6 +43,7 @@ const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
  */
 async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
   const [container, containerId] = await ToastContainer.getInstance(props);
+
   containers.set(`${containerId}_${placement}`, container);
 
   return container;

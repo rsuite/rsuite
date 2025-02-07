@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId';
  * Used for generating unique ID for DOM elements
  */
 export function useInternalId(namespace?: string) {
-  const idRef = useRef<string>();
+  const idRef = useRef<string>(null);
 
   if (!idRef.current) {
     idRef.current = uniqueId(`internal://${namespace}`);

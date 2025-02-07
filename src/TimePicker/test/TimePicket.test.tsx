@@ -3,6 +3,6 @@ import TimePicker from '../TimePicker';
 import type { PickerHandle } from '@/internals/Picker';
 
 // Check ref type
-const ref = React.useRef<PickerHandle>();
+const ref = React.useRef<PickerHandle>(null);
 <TimePicker ref={ref} />;
 ref.current?.open?.();

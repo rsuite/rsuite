@@ -38,7 +38,7 @@ export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRan
 
 const generateRangesIterator =
   <T extends Date | DateRange>({ calendarDate }: Pick<ToolbarProps<T>, 'calendarDate'>) =>
-  ({ value, ...rest }: DateOptionPreset<T>): InnerRange<T> => ({
+  ({ value, ...rest }: DateOptionPreset<T | null>): InnerRange<T | null> => ({
     value: typeof value === 'function' ? value(calendarDate) : value,
     ...rest
   });
@@ -51,7 +51,7 @@ const generateRangesIterator =
 export const getRanges = <T extends Date | DateRange>({
   ranges,
   calendarDate
-}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T>[] => {
+}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T | null>[] => {
   return typeof ranges === 'undefined'
     ? getDefaultRanges(calendarDate)
     : ranges.map(generateRangesIterator({ calendarDate }));

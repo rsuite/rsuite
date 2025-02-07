@@ -1,7 +1,6 @@
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 
-export type ValueType = [Date?, Date?];
-
+export type ValueType = [Date?, Date?] | null;
 export type DateRange = [Date, Date];
 
 export type DisabledDateFunction = (

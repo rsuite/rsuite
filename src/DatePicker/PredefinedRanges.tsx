@@ -8,7 +8,7 @@ import type { CalendarLocale } from '../locales';
 import type { DateOptionPreset } from '@/internals/types';
 
 export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps {
-  ranges?: DateOptionPreset<Shortcut>[];
+  ranges?: DateOptionPreset<Shortcut | null>[];
   calendarDate: T;
   locale?: CalendarLocale;
   disableShortcut?: (value: T) => boolean;

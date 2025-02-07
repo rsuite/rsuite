@@ -19,7 +19,7 @@ interface SearchViewProps<T> extends WithAsProps {
   locale?: Record<string, string>;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
   onCheck: (item: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 function SearchView<T>(props: SearchViewProps<T>) {

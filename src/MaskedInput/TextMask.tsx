@@ -68,7 +68,7 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>();
+  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>(null);
 
   const initTextMask = useCallback(() => {
     textMaskInputElement.current = createTextMaskInputElement({

@@ -30,7 +30,10 @@ export interface PositionChildProps {
 }
 
 export interface PositionProps {
-  children: (props: PositionChildProps, ref: React.RefObject<HTMLElement>) => React.ReactElement;
+  children: (
+    props: PositionChildProps,
+    ref: React.RefObject<HTMLElement | null>
+  ) => React.ReactElement;
   className?: string;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
@@ -43,7 +46,7 @@ export interface PositionProps {
 
 const usePosition = (
   props: PositionProps,
-  ref: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement | null>
 ): [PositionType, (placementChanged?: any) => void] => {
   const {
     placement = 'right',
@@ -57,7 +60,7 @@ const usePosition = (
 
   const containerRef = useRef<Element | null>(null);
   const lastTargetRef = useRef<Element | null>(null);
-  const overlayResizeObserver = useRef<ResizeObserver>();
+  const overlayResizeObserver = useRef<ResizeObserver>(null);
 
   const defaultPosition = {
     positionLeft: 0,

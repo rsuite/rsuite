@@ -34,7 +34,7 @@ export interface PickerPopupProps extends WithAsProps {
   placement?: string;
   autoWidth?: boolean;
   children?: React.ReactNode;
-  target?: React.RefObject<OverlayTriggerHandle>;
+  target?: React.RefObject<OverlayTriggerHandle | null>;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 

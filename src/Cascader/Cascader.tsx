@@ -115,7 +115,7 @@ export interface CascaderProps<T = DataItemValue>
 const emptyArray = [];
 
 export interface CascaderComponent {
-  <T>(props: CascaderProps<T>): JSX.Element | null;
+  <T>(props: CascaderProps<T>): React.ReactElement | null;
   displayName?: string;
 }
 

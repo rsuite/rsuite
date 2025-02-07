@@ -7,7 +7,7 @@ import type { SizeType } from '@/internals/types';
 export type ModalSize = SizeType | 'full' | number | string;
 
 export const useBodyStyles = (
-  ref: React.RefObject<HTMLElement>,
+  ref: React.RefObject<HTMLElement | null>,
   options: {
     overflow: boolean;
     size?: ModalSize;
@@ -16,9 +16,9 @@ export const useBodyStyles = (
 ): [React.CSSProperties | null, (entering?: boolean) => void, () => void] => {
   const [bodyStyles, setBodyStyles] = useState<React.CSSProperties | null>({});
   const { overflow, prefix, size } = options;
-  const windowResizeListener = useRef<any>();
+  const windowResizeListener = useRef<{ off: () => void }>(null);
   const contentElement = useRef<HTMLElement | null>(null);
-  const contentElementResizeObserver = useRef<ResizeObserver | null>();
+  const contentElementResizeObserver = useRef<ResizeObserver>(null);
 
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {

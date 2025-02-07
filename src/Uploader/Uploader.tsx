@@ -234,7 +234,7 @@ const useFileList = (
   defaultFileList: FileType[] = []
 ): [React.MutableRefObject<FileType[]>, (action: ActionType, callback?) => void] => {
   const fileListRef = useRef<FileType[]>(defaultFileList.map(createFile));
-  const fileListUpdateCallback = useRef<((v: FileType[]) => void) | null>();
+  const fileListUpdateCallback = useRef<((v: FileType[]) => void) | null>(null);
 
   const [fileList, dispatch] = useReducer(fileListReducer, fileListRef.current);
   fileListRef.current = fileList;
@@ -312,9 +312,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(listType, { draggable }));
 
-  const rootRef = useRef<HTMLDivElement>();
+  const rootRef = useRef<HTMLDivElement>(null);
   const xhrs = useRef({});
-  const trigger = useRef<UploadTriggerInstance>();
+  const trigger = useRef<UploadTriggerInstance>(null);
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
 

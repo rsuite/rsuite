@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
+import Calendar from '../Calendar';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
-import Calendar from '../Calendar';
 
 describe('Calendar', () => {
   testStandardProps(<Calendar />);
@@ -62,7 +62,7 @@ describe('Calendar', () => {
     const ref = React.createRef<AppInstance>();
     const App = React.forwardRef((_props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
-      const calendarRef = React.useRef();
+      const calendarRef = React.useRef(null);
 
       React.useImperativeHandle(ref, () => ({
         calendar: calendarRef.current,

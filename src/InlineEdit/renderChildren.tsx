@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../Input';
 import { createChainedFunction } from '@/internals/utils';
+import type { ReactElement } from '@/internals/types';
 
 export interface ChildrenProps {
   size?: 'lg' | 'md' | 'sm' | 'xs';
@@ -10,6 +11,8 @@ export interface ChildrenProps {
   value: any;
   onChange: (value: any, event: React.SyntheticEvent) => void;
   onBlur?: (event?: React.FocusEvent) => void;
+  onExit?: () => void;
+  onClean?: () => void;
 }
 
 export function defaultRenderInput(props: ChildrenProps, ref: React.Ref<any>) {
@@ -45,16 +48,15 @@ export function renderChildren(
     | React.ReactElement,
   props: ChildrenProps,
   ref: React.Ref<any>
-) {
+): ReactElement {
   if (typeof children === 'function') {
     return children(props, ref);
   }
 
   if (pickers.includes(getDisplayName(children))) {
-    const { onBlur, ...rest } = props;
-    const { onExit, onClean } = children.props;
+    const { onBlur, onExit, onClean, ...rest } = props;
 
-    return React.cloneElement(children, {
+    return React.cloneElement(children as ReactElement, {
       ...rest,
       // Pass onBlur to the child component to automatically save or cancel after the focus event is processed.
       // Special handling in the Picker component, call onBlur when onExit and onClean
@@ -64,5 +66,5 @@ export function renderChildren(
     });
   }
 
-  return React.cloneElement(children, { ...props, ref });
+  return React.cloneElement(children as ReactElement, { ...props, ref });
 }

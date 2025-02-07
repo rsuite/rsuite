@@ -53,7 +53,7 @@ export interface CheckPickerProps<T = any>
 const emptyArray = [];
 
 export interface CheckPickerComponent {
-  <T>(props: CheckPickerProps<T>): JSX.Element | null;
+  <T>(props: CheckPickerProps<T>): React.ReactElement | null;
   displayName?: string;
 }
 

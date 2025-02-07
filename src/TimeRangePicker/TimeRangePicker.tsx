@@ -15,7 +15,7 @@ export interface TimeRangePickerProps
   caretAs?: React.ElementType | null;
 
   /** Predefined date ranges */
-  ranges?: DateOptionPreset<DateRange>[];
+  ranges?: DateOptionPreset<DateRange | null>[];
 
   /**
    * Format of the date displayed in the input box
