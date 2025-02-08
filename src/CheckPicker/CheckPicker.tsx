@@ -36,18 +36,25 @@ import {
 } from '@/internals/Picker';
 import type { PickerLocale } from '../locales';
 import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
-import type { MultipleSelectProps } from '../SelectPicker';
+import type { SelectProps } from '../SelectPicker';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
-    MultipleSelectProps<T>,
+    Omit<SelectProps<T>, 'renderValue'>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Top the selected option in the options */
   sticky?: boolean;
 
   /** A picker that can be counted */
   countable?: boolean;
+
+  /** Custom render selected items */
+  renderValue?: (
+    value: T[],
+    item: ItemDataType<T>[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 }
 
 const emptyArray = [];
@@ -210,13 +217,18 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     });
 
     const handleSelect = useEventCallback(
-      (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent) => {
+      (nextItemValue: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
         onSelect?.(nextItemValue, item, event);
       }
     );
 
     const handleItemSelect = useEventCallback(
-      (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
+      (
+        nextItemValue: any,
+        item: ItemDataType<T>,
+        event: React.SyntheticEvent,
+        checked: boolean
+      ) => {
         const nextValue = clone(value);
 
         if (checked) {

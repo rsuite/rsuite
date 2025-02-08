@@ -41,3 +41,16 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 const ref = React.useRef<PickerHandle>(null);
 <CheckPicker data={[]} ref={ref} />;
 ref.current?.open?.();
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+// Check renderValue
+<CheckPicker
+  data={[]}
+  renderValue={(value: string[], items: Item<string>[]) => {
+    console.log(value, items);
+    return value.map(v => items.find(item => item.value === v)?.label).join(', ');
+  }}
+/>;

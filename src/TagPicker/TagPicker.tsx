@@ -3,14 +3,24 @@ import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
+import type { ItemDataType } from '@/internals/types';
 import type { CheckboxProps } from '../Checkbox';
 
-export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> {
+export interface TagPickerProps<V = any>
+  extends Omit<InputPickerProps<V>, 'renderValue'>,
+    Partial<TagOnlyProps> {
   /**
    * Custom render checkbox on menu item
    * @version 5.47.0
    **/
   renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
+
+  /** Custom render selected items */
+  renderValue?: (
+    values: V[],
+    items: ItemDataType<V>[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 }
 
 /**
@@ -25,6 +35,7 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
     trigger = 'Enter',
     onTagRemove,
     renderMenuItemCheckbox,
+    renderValue,
     ...rest
   } = propsWithDefaults;
 
@@ -41,7 +52,11 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
 
   return (
     <TagProvider value={contextValue}>
-      <InputPicker {...rest} ref={ref} />
+      <InputPicker
+        renderValue={renderValue as InputPickerProps['renderValue']}
+        {...rest}
+        ref={ref}
+      />
     </TagProvider>
   );
 });

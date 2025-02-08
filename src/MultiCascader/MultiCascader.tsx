@@ -30,10 +30,10 @@ import type { FormControlPickerProps, ItemDataType, DataItemValue } from '@/inte
 import type { PickerLocale } from '../locales';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
-export interface MultiCascaderProps<T extends DataItemValue = any>
+export interface MultiCascaderProps<T = any>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
     MultiCascadeTreeProps<T, T[], PickerLocale>,
-    Pick<PickerToggleProps, 'loading'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
    */
@@ -119,7 +119,7 @@ const emptyArray = [];
  * The `MultiCascader` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascader/
  */
-const MultiCascader = forwardRef<'div', MultiCascaderProps<DataItemValue>>(
+const MultiCascader = forwardRef<'div', MultiCascaderProps>(
   <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {

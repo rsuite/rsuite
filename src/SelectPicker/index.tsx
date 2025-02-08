@@ -1,7 +1,7 @@
 import SelectPicker from './SelectPicker';
 
 // export types
-export type { SelectProps, MultipleSelectProps, SelectPickerProps } from './SelectPicker';
+export type { SelectProps, SelectPickerProps } from './SelectPicker';
 
 // export components
 export { SelectPicker };
