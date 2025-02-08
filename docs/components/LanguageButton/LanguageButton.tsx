@@ -1,9 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
+import Icon from '@rsuite/icons/Icon';
 import { useRouter } from 'next/router';
 import { Button } from 'rsuite';
 import * as SvgIcons from '@/components/SvgIcons';
-import Icon from '@rsuite/icons/Icon';
 
 interface ButtonProps {
   className?: string;

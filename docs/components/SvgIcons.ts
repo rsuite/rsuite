@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import IconLogo from '@/resources/images/logo.svg';
 import Guide from '@/resources/images/guide.svg';
 import Component from '@/resources/images/component.svg';
