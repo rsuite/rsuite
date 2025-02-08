@@ -47,10 +47,11 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 ### `<ButtonGroup>`
 
-| Property    | Type `(Default)`                      | Description                           |
-| ----------- | ------------------------------------- | ------------------------------------- |
-| block       | boolean                               | Display block buttongroups            |
-| classPrefix | string `('btn-group')`                | The prefix of the component CSS class |
-| justified   | boolean                               | Horizontal constant width layout      |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Set button size                       |
-| vertical    | boolean                               | Vertical layouts of button            |
+| Property    | Type `(Default)`                      | Description                                                                                |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------ |
+| block       | boolean                               | Display the button group as a full-width block element spanning the entire container width |
+| classPrefix | string `('btn-group')`                | Custom CSS class prefix for styling flexibility and theme customization                    |
+| disabled    | boolean                               | Disable all buttons within the group                                                       |
+| justified   | boolean                               | Distribute buttons evenly with equal width in horizontal layout                            |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Uniform size for all buttons in the group (large/medium/small/extra-small)                 |
+| vertical    | boolean                               | Display buttons in a vertical stacked layout                                               |
