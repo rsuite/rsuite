@@ -3,6 +3,7 @@ import { SizeType } from '@/internals/types';
 
 export interface ButtonGroupContextProps {
   size?: SizeType;
+  disabled?: boolean;
 }
 
 const ButtonGroupContext = React.createContext<ButtonGroupContextProps | null>(null);

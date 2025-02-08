@@ -62,6 +62,7 @@ export interface ButtonProps
  */
 const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   const { propsWithDefaults } = useCustom('Button', props);
+  const buttonGroup = useContext(ButtonGroupContext);
   const {
     as,
     active: activeProp,
@@ -71,10 +72,10 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     children,
     classPrefix = 'btn',
     color,
-    disabled,
+    disabled = buttonGroup?.disabled,
     loading,
     ripple = true,
-    size: sizeProp,
+    size = buttonGroup?.size,
     startIcon,
     endIcon,
     type: typeProp,
@@ -85,9 +86,6 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   } = propsWithDefaults;
 
   const [active, setActive] = useControlled(activeProp, false);
-  const buttonGroup = useContext(ButtonGroupContext);
-
-  const size = sizeProp ?? buttonGroup?.size;
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(

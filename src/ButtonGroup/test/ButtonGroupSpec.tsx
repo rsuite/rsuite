@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('ButtonGroup', () => {
   testStandardProps(<ButtonGroup />);
@@ -65,5 +65,19 @@ describe('ButtonGroup', () => {
     );
 
     expect(screen.getAllByRole('button')).to.have.lengthOf(2);
+  });
+
+  it('Should disable all buttons in the group', () => {
+    render(
+      <ButtonGroup disabled>
+        <Button>Button 1</Button>
+        <Button>Button 2</Button>
+      </ButtonGroup>
+    );
+
+    screen.getAllByRole('button').forEach(button => {
+      expect(button).to.have.class('rs-btn-disabled');
+      expect(button).to.have.attribute('disabled');
+    });
   });
 });

@@ -41,6 +41,7 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
     role = 'group',
     className,
     children,
+    disabled,
     block,
     vertical,
     justified,
@@ -50,7 +51,7 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
-  const contextValue = useMemo(() => ({ size }), [size]);
+  const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
 
   return (
     <ButtonGroupContext.Provider value={contextValue}>
