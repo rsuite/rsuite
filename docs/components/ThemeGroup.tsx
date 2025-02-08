@@ -1,6 +1,7 @@
+import React from 'react';
+import ThemeIcon from '@/components/ThemeIcon';
 import { Nav, NavProps } from 'rsuite';
 import { useApp, Theme } from '@/components/AppContext';
-import Icon from '@rsuite/icons/Icon';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 
 function ThemeGroup(props: NavProps) {
@@ -32,7 +33,9 @@ function ThemeGroup(props: NavProps) {
           key={item.value}
           active={themeName === item.value}
           onClick={() => onChangeTheme(item.value as Theme)}
-          icon={<Icon as={item.icon} />}
+          icon={
+            <ThemeIcon theme={item.value as Theme} className="rs-icon" width={22} height={21} />
+          }
         >
           {item.name}
         </Nav.Item>

@@ -1,25 +1,46 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-export const { default: IconLogo } = require('@/resources/images/logo.svg');
-export const { default: Guide } = require('@/resources/images/guide.svg');
-export const { default: Component } = require('@/resources/images/component.svg');
-export const { default: Tools } = require('@/resources/images/tools.svg');
-export const { default: Search } = require('@/resources/images/search.svg');
-export const { default: Discord } = require('@/resources/images/discord.svg');
-export const { default: Design } = require('@/resources/images/design.svg');
-export const { default: Extension } = require('@/resources/images/extension.svg');
-export const { default: Gitee } = require('@/resources/images/gitee.svg');
-export const { default: Rtl } = require('@/resources/images/rtl.svg');
-export const { default: Ltr } = require('@/resources/images/ltr.svg');
-export const { default: Avatar } = require('@/resources/images/avatar-user.svg');
-export const { default: Light } = require('@/resources/images/light.svg');
-export const { default: Dark } = require('@/resources/images/dark.svg');
-export const { default: HighContrast } = require('@/resources/images/high-contrast.svg');
-export const { default: More } = require('@/resources/images/more.svg');
-export const { default: Language } = require('@/resources/images/language.svg');
-export const { default: Ecology } = require('@/resources/images/ecology.svg');
-export const { default: ResourcesDesign } = require('@/resources/images/resources-design.svg');
-export const { default: ResourcesFigma } = require('@/resources/images/resources-figma.svg');
-export const { default: ResourcesSketch } = require('@/resources/images/resources-sketch.svg');
-export const { default: TransparentIcon } = require('@/resources/images/transparent.svg');
-export const { default: CodesandboxIcon } = require('@/resources/images/codesandbox.svg');
-export const { default: StackBlitzIcon } = require('@/resources/images/stackblitz.svg');
+import IconLogo from '@/resources/images/logo.svg';
+import Guide from '@/resources/images/guide.svg';
+import Component from '@/resources/images/component.svg';
+import Tools from '@/resources/images/tools.svg';
+import Search from '@/resources/images/search.svg';
+import Discord from '@/resources/images/discord.svg';
+import Design from '@/resources/images/design.svg';
+import Extension from '@/resources/images/extension.svg';
+import Gitee from '@/resources/images/gitee.svg';
+import Rtl from '@/resources/images/rtl.svg';
+import Ltr from '@/resources/images/ltr.svg';
+import Avatar from '@/resources/images/avatar-user.svg';
+import More from '@/resources/images/more.svg';
+import Language from '@/resources/images/language.svg';
+import Ecology from '@/resources/images/ecology.svg';
+import ResourcesDesign from '@/resources/images/resources-design.svg';
+import ResourcesFigma from '@/resources/images/resources-figma.svg';
+import ResourcesSketch from '@/resources/images/resources-sketch.svg';
+import TransparentIcon from '@/resources/images/transparent.svg';
+import CodesandboxIcon from '@/resources/images/codesandbox.svg';
+import StackBlitzIcon from '@/resources/images/stackblitz.svg';
+
+export {
+  IconLogo,
+  Guide,
+  Component,
+  Tools,
+  Search,
+  Discord,
+  Design,
+  Extension,
+  Gitee,
+  Rtl,
+  Ltr,
+  Avatar,
+  More,
+  Language,
+  Ecology,
+  ResourcesDesign,
+  ResourcesFigma,
+  ResourcesSketch,
+  TransparentIcon,
+  CodesandboxIcon,
+  StackBlitzIcon
+};
