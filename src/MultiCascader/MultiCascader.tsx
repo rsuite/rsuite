@@ -12,6 +12,7 @@ import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
   PickerPopup,
+  PickerHandle,
   SelectedElement,
   PickerToggleTrigger,
   usePickerClassName,
@@ -22,7 +23,6 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   listPickerPropTypes,
-  PickerComponent,
   PickerToggleProps
 } from '@/internals/Picker';
 import { deprecatePropTypeNew } from '@/internals/propTypes';
@@ -35,10 +35,10 @@ import { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals
 import { useCustom } from '../CustomProvider';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
-export interface MultiCascaderProps<T extends DataItemValue = any>
+export interface MultiCascaderProps<T = any>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
     MultiCascadeTreeProps<T, T[], PickerLocale>,
-    Pick<PickerToggleProps, 'loading'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
    */
@@ -118,13 +118,23 @@ export interface MultiCascaderProps<T extends DataItemValue = any>
   onClean?: (event: React.SyntheticEvent) => void;
 }
 
+export interface MultiCascaderComponent {
+  <T>(
+    props: MultiCascaderProps<T> & {
+      ref?: React.Ref<PickerHandle>;
+    }
+  ): JSX.Element | null;
+  displayName?: string;
+  propTypes?: React.WeakValidationMap<MultiCascaderProps<any>>;
+}
+
 const emptyArray = [];
 
 /**
  * The `MultiCascader` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascader/
  */
-const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.forwardRef(
+const MultiCascader = React.forwardRef(
   <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {
@@ -476,7 +486,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
       </PickerToggleTrigger>
     );
   }
-);
+) as MultiCascaderComponent;
 
 MultiCascader.displayName = 'MultiCascader';
 MultiCascader.propTypes = {

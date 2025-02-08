@@ -261,7 +261,7 @@ export interface SVGIcon {
 }
 
 export interface ItemDataType<T = number | string> extends Record<string, any> {
-  label?: string | React.ReactNode;
+  label?: React.ReactNode;
   value?: T;
   groupBy?: string;
   parent?: ItemDataType<T>;
