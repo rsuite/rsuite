@@ -62,3 +62,16 @@ type SortDirection = 'asc' | 'desc';
 const ref = React.useRef<PickerHandle>(null);
 <SelectPicker data={[]} ref={ref} />;
 ref.current?.open?.();
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+// Check renderValue
+<SelectPicker
+  data={[]}
+  renderValue={(value: string, item: Item<string>) => {
+    console.log(value, item);
+    return item.label;
+  }}
+/>;

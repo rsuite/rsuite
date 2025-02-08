@@ -32,3 +32,20 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 const ref = React.useRef<PickerHandle>(null);
 <Cascader data={[]} ref={ref} />;
 ref.current?.open?.();
+const pickerRef = React.createRef<PickerHandle>();
+
+<Cascader ref={pickerRef} data={[]} />;
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+// Check renderValue
+<Cascader
+  data={[]}
+  renderValue={(value: string, selectedPaths: Item<string>[]) => {
+    console.log(value, selectedPaths);
+    return selectedPaths.map(item => item.label).join(' / ');
+  }}
+/>;
