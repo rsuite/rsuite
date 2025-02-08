@@ -12,6 +12,9 @@ export interface ButtonGroupProps extends WithAsProps {
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
 
+  /** Add dividing lines between buttons */
+  divided?: boolean;
+
   /** Vertical layouts of button */
   vertical?: boolean;
 
@@ -42,6 +45,7 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
     className,
     children,
     disabled,
+    divided,
     block,
     vertical,
     justified,
@@ -50,7 +54,7 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
   } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
+  const classes = merge(className, withClassPrefix(size, { block, divided, vertical, justified }));
   const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
 
   return (

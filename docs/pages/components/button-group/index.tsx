@@ -1,5 +1,15 @@
 import React from 'react';
-import { Button, ButtonGroup, ButtonToolbar, IconButton, Whisper, Popover, Dropdown } from 'rsuite';
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  IconButton,
+  Whisper,
+  Popover,
+  Dropdown,
+  VStack,
+  HStack
+} from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
@@ -29,14 +39,14 @@ export default function Page() {
         ButtonGroup,
         ButtonToolbar,
         IconButton,
-
         Whisper,
         Popover,
         Dropdown,
+        VStack,
+        HStack,
         ArrowDownIcon,
         PagePreviousIcon,
         PageNextIcon,
-
         FaAlignLeft,
         FaAlignRight,
         FaAlignCenter,

@@ -8,17 +8,17 @@ describe('ButtonGroup', () => {
   testStandardProps(<ButtonGroup />);
 
   it('Should output a button group', () => {
-    const { container } = render(<ButtonGroup />);
+    render(<ButtonGroup />);
 
-    expect(container.firstChild).to.have.tagName('DIV');
-    expect(container.firstChild).to.have.class('rs-btn-group');
+    expect(screen.getByRole('group')).to.have.tagName('DIV');
+    expect(screen.getByRole('group')).to.have.class('rs-btn-group');
   });
 
   context('Sizes', () => {
     it('Should add size', () => {
-      const { container } = render(<ButtonGroup size="lg" />);
+      render(<ButtonGroup size="lg" />);
 
-      expect(container.firstChild).to.have.class('rs-btn-group-lg');
+      expect(screen.getByRole('group')).to.have.class('rs-btn-group-lg');
     });
 
     (['lg', 'md', 'sm', 'xs'] as const).forEach(size => {
@@ -35,15 +35,15 @@ describe('ButtonGroup', () => {
   });
 
   it('Should add vertical variation', () => {
-    const { container } = render(<ButtonGroup vertical />);
+    render(<ButtonGroup vertical />);
 
-    expect(container.firstChild).to.have.class('rs-btn-group-vertical');
+    expect(screen.getByRole('group')).to.have.class('rs-btn-group-vertical');
   });
 
   it('Should add block variation', () => {
-    const { container } = render(<ButtonGroup vertical block />);
+    render(<ButtonGroup vertical block />);
 
-    expect(container.firstChild).to.have.class('rs-btn-group-block');
+    expect(screen.getByRole('group')).to.have.class('rs-btn-group-block');
   });
 
   it('Should warn about block without vertical', () => {
@@ -51,9 +51,9 @@ describe('ButtonGroup', () => {
   });
 
   it('Should add justified variation', () => {
-    const { container } = render(<ButtonGroup justified />);
+    render(<ButtonGroup justified />);
 
-    expect(container.firstChild).to.have.class('rs-btn-group-justified');
+    expect(screen.getByRole('group')).to.have.class('rs-btn-group-justified');
   });
 
   it('Should render 2 <button>', () => {
@@ -79,5 +79,11 @@ describe('ButtonGroup', () => {
       expect(button).to.have.class('rs-btn-disabled');
       expect(button).to.have.attribute('disabled');
     });
+  });
+
+  it('Should add divided variation', () => {
+    render(<ButtonGroup divided />);
+
+    expect(screen.getByRole('group')).to.have.class('rs-btn-group-divided');
   });
 });
