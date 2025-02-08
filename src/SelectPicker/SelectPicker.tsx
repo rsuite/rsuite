@@ -64,12 +64,12 @@ export interface SelectProps<T> {
   /** Custom render selected items */
   renderValue?: (
     value: T,
-    item: ItemDataType | ItemDataType[],
+    item: ItemDataType<T>,
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
+  onSelect?: (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => void;
 
   /** Called after clicking the group title */
   onGroupTitleClick?: (event: React.SyntheticEvent) => void;
@@ -210,7 +210,7 @@ const SelectPicker = React.forwardRef(
     });
 
     const handleSelect = useEventCallback(
-      (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
+      (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
         target.current?.focus();
       }
@@ -299,7 +299,7 @@ const SelectPicker = React.forwardRef(
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem as ItemDataType, selectedElement);
+      selectedElement = renderValue(value, activeItem as ItemDataType<T>, selectedElement);
       // If renderValue returns null or undefined, hasValue is false.
       if (isNil(selectedElement)) {
         hasValue = false;

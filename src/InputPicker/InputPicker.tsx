@@ -48,7 +48,7 @@ import type { SelectProps } from '../SelectPicker';
 export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
   extends FormControlPickerProps<V, InputPickerLocale, InputItemDataType>,
-    SelectProps<V>,
+    Omit<SelectProps<V>, 'renderValue'>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   tabIndex?: number;
 
@@ -79,6 +79,12 @@ export interface InputPickerProps<V = ValueType>
     searchKeyword: string,
     filteredData: InputItemDataType<V>[]
   ) => boolean;
+
+  renderValue?: (
+    value: V,
+    item: ItemDataType<V>,
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 }
 
 /**

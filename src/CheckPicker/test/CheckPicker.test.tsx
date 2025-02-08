@@ -40,3 +40,16 @@ const pickerRef = React.createRef<PickerHandle>();
 <CheckPicker label="User" data={[]} />;
 
 <CheckPicker caretAs={() => <div />} data={[]} />;
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+<CheckPicker
+  data={[]}
+  renderValue={(value: string[], items: Item<string>[]) => {
+    console.log(value, items);
+    return value.map(v => items.find(item => item.value === v)?.label).join(', ');
+  }}
+/>;

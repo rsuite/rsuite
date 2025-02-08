@@ -57,3 +57,16 @@ type SortDirection = 'asc' | 'desc';
 
 // Override the default value of listProps.
 <SelectPicker data={[]} virtualized listProps={{ rowHeight: 70 }} />;
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+<SelectPicker
+  data={[]}
+  renderValue={(value: string, item: Item<string>) => {
+    console.log(value, item);
+    return item.label;
+  }}
+/>;
