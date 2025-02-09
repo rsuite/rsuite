@@ -149,6 +149,13 @@
         "minVersion": "5.61.0"
       },
       {
+        "id": "kbd",
+        "name": "Kbd",
+        "title": "键盘快捷键",
+        "components": ["Kbd"],
+        "minVersion": "6.0.0"
+      },
+      {
         "id": "text",
         "name": "Text",
         "title": "文本",

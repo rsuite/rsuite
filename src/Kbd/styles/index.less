@@ -1,0 +1,41 @@
+@import '../../styles/common';
+
+// Kbd
+// -------------------------
+
+.rs-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  white-space: nowrap;
+  word-spacing: -0.4em;
+  user-select: none;
+  border-radius: 0.3em;
+  line-height: 1.7em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.05em;
+  height: fit-content;
+  color: var(--rs-kbd-text);
+  background-color: var(--rs-kbd-bg);
+  border: solid 1px var(--rs-kbd-border);
+  box-shadow: inset 0 -1px 0 var(--rs-kbd-border);
+  box-sizing: border-box;
+
+  // Size variants
+  @sizes: lg, md, sm, xs;
+
+  each(@sizes, .(@size) {
+    @font-size-var-name: ~'kbd-@{size}-font-size';
+    @font-size: @@font-size-var-name;
+    @letter-spacing-var-name: ~'kbd-@{size}-letter-spacing';
+    @letter-spacing: @@letter-spacing-var-name;
+
+    &-@{size} {
+      font-size: @font-size;
+      letter-spacing: @letter-spacing;
+    }
+  });
+}
