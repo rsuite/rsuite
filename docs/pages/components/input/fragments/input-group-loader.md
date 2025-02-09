@@ -1,23 +1,23 @@
 <!--start-code-->
 
 ```js
-import { Input, InputGroup, VStack } from 'rsuite';
+import { Input, InputGroup, Loader, VStack } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 
 const App = () => (
   <VStack style={{ width: 300 }}>
     <InputGroup>
       <Input />
-      <InputGroup.Button>
-        <SearchIcon />
-      </InputGroup.Button>
+      <InputGroup.Addon>
+        <Loader />
+      </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup inside>
       <Input />
-      <InputGroup.Button>
-        <SearchIcon />
-      </InputGroup.Button>
+      <InputGroup.Addon>
+        <Loader />
+      </InputGroup.Addon>
     </InputGroup>
   </VStack>
 );

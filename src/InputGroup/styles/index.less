@@ -17,6 +17,7 @@
   cursor: text;
   color: var(--rs-text-primary);
   border: 1px solid var(--rs-border-primary);
+  overflow: hidden;
 
   .high-contrast-mode({
     transition: none;
@@ -72,21 +73,6 @@
     .rs-input-number:not(:first-child) .rs-input {
       border-radius: 0 !important;
     }
-
-    // @FIXED: first-child haven't border radius in ie10.
-    & > :first-child,
-    .rs-auto-complete:first-child .rs-input,
-    .rs-picker-date:first-child .rs-picker-toggle,
-    .rs-form-control-wrapper:first-child > .rs-input {
-      .border-left-radius(@input-border-radius);
-    }
-
-    & > :last-child,
-    .rs-auto-complete:last-child .rs-input,
-    .rs-picker-date:last-child .rs-picker-toggle,
-    .rs-form-control-wrapper:last-child > .rs-input {
-      .border-right-radius(@input-border-radius);
-    }
   }
 
   > .rs-input,
@@ -102,19 +88,6 @@
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.
     position: relative;
-  }
-
-  input.rs-input ~ .rs-input-group-addon,
-  .rs-form-control-wrapper ~ .rs-input-group-addon {
-    border-left: none;
-    left: auto;
-    right: 0;
-  }
-
-  //FIXED: The icon between two input has 1px border.
-  input.rs-input ~ .rs-input-group-addon:not(:last-child),
-  .rs-form-control-wrapper ~ .rs-input-group-addon:not(:last-child) {
-    border-right: 0;
   }
 
   &.rs-input-group-inside {
@@ -136,6 +109,7 @@
 
     .rs-input-group-btn {
       .rs-btn-subtle();
+      padding: unset;
 
       color: inherit;
       .reset-inside-input-group-btn-size(base);
@@ -143,50 +117,22 @@
       &:focus {
         outline: none;
       }
-
-      // reset border radius
-      &:first-child {
-        .border-left-radius(@input-border-radius);
-      }
-
-      &:last-child {
-        .border-right-radius(@input-border-radius);
-      }
     }
 
     .rs-input-group-addon {
       top: 0;
       background: none;
       border: none;
-      padding: 10px 12px;
-
-      &.rs-input-group-btn {
-        padding: 8px 13px;
-      }
     }
 
-    .rs-input-group-btn ~ input.rs-input,
-    .rs-input-group-addon ~ input.rs-input,
-    .rs-input-group-btn ~ .rs-auto-complete > input.rs-input,
-    .rs-input-group-addon ~ .rs-auto-complete > input.rs-input,
-    .rs-input-group-addon ~ .rs-form-control-wrapper > input.rs-input,
-    .rs-input-group-btn ~ .rs-form-control-wrapper > input.rs-input {
+    // If the input has an element on the left, remove the left padding
+    .rs-input:not(:first-child) {
       padding-left: 0;
-      padding-right: 12px;
     }
 
-    input.rs-input ~ .rs-input-group-btn,
-    .rs-auto-complete ~ .rs-input-group-addon,
-    .rs-form-control-wrapper ~ .rs-input-group-addon,
-    .rs-form-control-wrapper ~ .rs-input-group-btn {
-      left: inherit;
-      right: 0;
-    }
-
-    .rs-auto-complete ~ .rs-input-group-btn,
-    .rs-form-control-wrapper ~ .rs-input-group-btn {
-      left: inherit;
-      right: @input-border-width;
+    // If the input has an element on the right, remove the right padding
+    .rs-input:not(:last-child) {
+      padding-right: 0;
     }
   }
 }
@@ -215,11 +161,6 @@
   }
 
   .reset-input-group-children-size(large);
-
-  &.rs-input-group:not(.rs-input-group-inside) > .rs-input-group-addon {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
 }
 
 .rs-input-group-md {
@@ -228,11 +169,6 @@
   }
 
   .reset-input-group-children-size(base);
-
-  &.rs-input-group:not(.rs-input-group-inside) > .rs-input-group-addon {
-    padding-top: 6px;
-    padding-bottom: 6px;
-  }
 }
 
 .rs-input-group-sm {
@@ -241,11 +177,6 @@
   }
 
   .reset-input-group-children-size(small);
-
-  &.rs-input-group:not(.rs-input-group-inside) > .rs-input-group-addon {
-    padding-top: 3px;
-    padding-bottom: 3px;
-  }
 }
 
 .rs-input-group-xs {
@@ -258,43 +189,43 @@
 
 // Reset input group addon size.
 .rs-input-group.rs-input-group-lg > .rs-input-group-addon {
-  .input-lg();
+  font-size: @font-size-large;
+
   .reset-input-group-addon-size(large);
 }
 
 .rs-input-group.rs-input-group-md > .rs-input-group-addon {
-  .input-md();
+  font-size: @font-size-base;
+
   .reset-input-group-addon-size(base);
 }
 
 .rs-input-group.rs-input-group-sm > .rs-input-group-addon {
-  .input-sm();
+  font-size: @font-size-base;
+
   .reset-input-group-addon-size(small);
 }
 
 .rs-input-group.rs-input-group-xs > .rs-input-group-addon {
-  .input-xs();
+  font-size: @font-size-small;
+
   .reset-input-group-addon-size(extra-small);
 }
 
 // Reset inside input group button size.
 .rs-input-group-inside.rs-input-group-lg > .rs-input-group-btn {
-  .input-lg();
   .reset-inside-input-group-btn-size(large);
 }
 
 .rs-input-group-inside.rs-input-group-md > .rs-input-group-btn {
-  .input-md();
   .reset-inside-input-group-btn-size(base);
 }
 
 .rs-input-group-inside.rs-input-group-sm > .rs-input-group-btn {
-  .input-sm();
   .reset-inside-input-group-btn-size(small);
 }
 
 .rs-input-group-inside.rs-input-group-xs > .rs-input-group-btn {
-  .input-xs();
   .reset-inside-input-group-btn-size(extra-small);
 }
 
@@ -318,7 +249,6 @@
   white-space: nowrap;
   vertical-align: middle; // Match the inputs
   color: var(--rs-text-primary);
-  padding: @padding-y @padding-x;
   font-size: @font-size-base;
   font-weight: normal;
   line-height: 1;
