@@ -19,7 +19,9 @@
   white-space: nowrap;
   transition: @btn-transition;
   // Reset border style in all browser
-  border: var(--rs-btn-default-border, none);
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--rs-btn-default-border-color, none);
   user-select: none;
   text-decoration: none;
   color: var(--rs-btn-default-text);
@@ -28,6 +30,8 @@
 
   .high-contrast-mode({
     transition: none;
+    border-width: 1px;
+    border-color: var(--rs-btn-default-border-color);
   });
 
   .rs-btn-md();
@@ -71,7 +75,7 @@
 .rs-btn-primary {
   color: var(--rs-btn-primary-text);
   background-color: var(--rs-btn-primary-bg);
-  border: none;
+  border-color: var(--rs-btn-primary-border-color);
 
   .button-activated({
     color: var(--rs-btn-primary-text);
@@ -94,7 +98,6 @@
 .rs-btn-subtle {
   color: var(--rs-btn-subtle-text);
   background-color: transparent;
-  border: none;
 
   .button-activated({
     color: var(--rs-btn-subtle-hover-text);
@@ -116,7 +119,6 @@
 .rs-btn-link {
   color: var(--rs-btn-link-text);
   background-color: transparent;
-  border: none;
 
   .button-activated({
     color: var(--rs-btn-link-hover-text);
@@ -180,6 +182,7 @@ each(@spectrum, .(@color) {
     --rs-btn-primary-bg: @C500;
     --rs-btn-primary-hover-bg: @C700;
     --rs-btn-primary-active-bg: @C800;
+    --rs-btn-primary-border-color: @C700;
     --rs-btn-subtle-hover-bg: @C500;
     --rs-btn-subtle-hover-text: @B200;
     --rs-btn-subtle-active-bg: @C600;
@@ -201,6 +204,7 @@ each(@spectrum, .(@color) {
       --rs-btn-primary-bg: @C700;
       --rs-btn-primary-hover-bg: @C500;
       --rs-btn-primary-active-bg: @C400;
+      --rs-btn-primary-border-color: @C800;
       --rs-btn-subtle-hover-bg: @C600;
       --rs-btn-subtle-hover-text: #fff;
       --rs-btn-subtle-active-bg: @C400;
