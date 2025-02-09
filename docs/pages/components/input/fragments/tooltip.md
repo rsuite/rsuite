@@ -1,12 +1,23 @@
 <!--start-code-->
 
 ```js
-import { Input, Whisper, Tooltip } from 'rsuite';
+import { Input, Whisper, InputGroup, Tooltip, VStack } from 'rsuite';
 
 const App = () => (
-  <Whisper trigger="focus" speaker={<Tooltip>Required</Tooltip>}>
-    <Input style={{ width: 300 }} placeholder="Default Input" />
-  </Whisper>
+  <VStack style={{ width: 300 }}>
+    <InputGroup inside>
+      <Input />
+      <InputGroup.Addon>
+        <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
+          <InfoRoundIcon />
+        </Whisper>
+      </InputGroup.Addon>
+    </InputGroup>
+
+    <Whisper trigger="focus" speaker={<Tooltip>Required</Tooltip>}>
+      <Input autoComplete="off" />
+    </Whisper>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

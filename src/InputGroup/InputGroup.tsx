@@ -42,7 +42,7 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
     className,
     disabled,
     inside,
-    size,
+    size = 'md',
     children,
     ...rest
   } = propsWithDefaults;
