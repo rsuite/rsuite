@@ -40,7 +40,6 @@ function generateExampleFiles(componentsDir) {
     }
 
     const componentExamplesDir = path.join(componentDir, 'examples');
-    console.log(`Checking examples directory: ${componentExamplesDir}`);
     
     // Skip if examples directory doesn't exist
     if (!fs.existsSync(componentExamplesDir)) {

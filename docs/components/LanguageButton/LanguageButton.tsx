@@ -1,16 +1,16 @@
 import React from 'react';
 import classnames from 'classnames';
-import { useRouter } from 'next/router';
-import { IconButton } from 'rsuite';
-import * as SvgIcons from '@/components/SvgIcons';
 import Icon from '@rsuite/icons/Icon';
+import { useRouter } from 'next/router';
+import { Button } from 'rsuite';
+import * as SvgIcons from '@/components/SvgIcons';
 
 interface ButtonProps {
   className?: string;
   [key: string]: any;
 }
 
-const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLElement>) => {
+const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
   const router = useRouter();
   const { className, ...rest } = props;
   const isZH = router.locale === 'zh';
@@ -34,17 +34,16 @@ const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTML
   );
 
   return (
-    <IconButton
+    <Button
       {...rest}
       ref={ref}
       size="sm"
       className={classnames('btn-switch-language', className)}
-      appearance="subtle"
-      icon={<Icon as={SvgIcons.Language} />}
+      startIcon={<Icon as={SvgIcons.Language} />}
       onClick={handleChangeLanguage}
     >
       {isZH ? 'English' : '中文'}
-    </IconButton>
+    </Button>
   );
 });
 
