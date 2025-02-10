@@ -18,7 +18,10 @@ import {
   Loader,
   Dropdown,
   Popover,
-  Divider
+  Divider,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Kbd
 } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -62,6 +65,7 @@ export default function Page() {
         Popover,
         Dropdown,
         Divider,
+        Kbd,
         SearchIcon,
         InfoRoundIcon,
         EyeCloseIcon,

@@ -5,6 +5,7 @@ export * from './Heading';
 export * from './HeadingGroup';
 export * from './Highlight';
 export * from './SafeAnchor';
+export * from './Kbd';
 
 // Buttons
 // --------------------------------------------------------
