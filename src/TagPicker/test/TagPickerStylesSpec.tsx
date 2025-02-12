@@ -9,6 +9,7 @@ const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' })
 
 describe('TagPicker styles', () => {
   testPickerSize(TagPicker, { maxHeight: 40, subtle: false });
+
   it('Should render the correct styles', () => {
     render(<TagPicker data={data} open />);
     const itemLabel = screen

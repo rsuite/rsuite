@@ -75,7 +75,7 @@
   &-header-row-wrapper {
     z-index: @zindex-table-header-row-wrapper;
     position: relative;
-    font-size: 12px;
+    font-size: var(--rs-font-size-xs);
     color: var(--rs-text-secondary);
   }
 
@@ -198,7 +198,7 @@
 
       &-icon-sort {
         color: var(--rs-table-sort);
-        font-size: 16px;
+        font-size: var(--rs-font-size-md);
         line-height: @table-header-line-height;
       }
     }
@@ -355,14 +355,15 @@
 .rs-table-cell-expand-icon {
   cursor: pointer;
   outline: none;
-  font-size: 16px;
+  font-size: var(--rs-font-size-md);
 }
 
 // Scrollbar
 .rs-table-scrollbar {
   background-color: var(--rs-table-scrollbar-track);
   position: absolute;
-  transition: background @table-scrollbar-timing-duration linear,
+  transition:
+    background @table-scrollbar-timing-duration linear,
     transform @table-scrollbar-timing-duration linear;
   opacity: 0.6;
   // Make sure Scrollbar on the loader.

@@ -4,6 +4,8 @@
 @import 'mixin';
 
 .rs-input-number {
+  --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
+
   background-color: var(--rs-input-bg);
 
   &-btn-group-vertical {
@@ -49,7 +51,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      font-size: @number-input-touchspin-font-size;
+      font-size: var(--rs-number-input-touchspin-font-size);
       display: flex;
       align-items: center;
       justify-content: center;

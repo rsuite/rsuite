@@ -9,6 +9,8 @@
 // Base class
 // --------------------------------------------------
 .rs-nav {
+  --rs-nav-caret-font-size: var(--rs-font-size-md);
+
   position: relative;
   outline: 0;
 
@@ -32,6 +34,7 @@
   padding: 8px 12px;
   cursor: pointer;
   color: var(--rs-navs-text);
+  font-size: var(--rs-font-size-sm);
   background: transparent;
   transition: @nav-item-transition;
   .ellipsis-basic();
@@ -89,7 +92,7 @@
   }
 
   &-caret {
-    font-size: 16px;
+    font-size: var(--rs-nav-caret-font-size);
     vertical-align: text-bottom;
     margin-left: 6px;
   }

@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import type { WithAsProps, Color } from '@/internals/types';
+import { WithAsProps, Color, TextSize } from '@/internals/types';
 
-const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
+const fontSizes = Object.values(TextSize);
 
 export interface TextProps extends WithAsProps {
   /**
@@ -16,7 +16,7 @@ export interface TextProps extends WithAsProps {
   /**
    * The font size of the text.
    */
-  size?: keyof typeof fontSizeMap | number | string;
+  size?: TextSize | number | string;
 
   /**
    * To set the text to be muted.
@@ -69,26 +69,30 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const hasSize = size && fontSizes.includes(size as TextSize);
   const classes = merge(
     className,
-    withClassPrefix(isPresetColor(color) && color, align, weight, transform, {
+    withClassPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {
       muted,
       ellipsis: maxLines
     })
   );
 
-  const styles = useMemo(
-    () =>
-      mergeStyles(
-        {
-          fontSize: fontSizeMap[size as keyof typeof fontSizeMap] || size,
-          ...(maxLines ? { WebkitLineClamp: maxLines } : null)
-        },
-        createColorVariables(color, '--rs-text-color'),
-        style
-      ),
-    [style, color, size, maxLines]
-  );
+  const styles = useMemo(() => {
+    const textStyles = mergeStyles(
+      {
+        ...(maxLines ? { WebkitLineClamp: maxLines } : null)
+      },
+      createColorVariables(color, '--rs-text-color'),
+      style
+    );
+
+    if (size && !hasSize) {
+      textStyles.fontSize = size;
+    }
+
+    return textStyles;
+  }, [style, color, size, maxLines]);
 
   return <Component {...rest} ref={ref} className={classes} style={styles} />;
 });

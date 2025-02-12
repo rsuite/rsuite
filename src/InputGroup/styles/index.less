@@ -1,6 +1,7 @@
-@import '../../styles/common';
-@import '../../Form/styles/mixin';
-@import '../../Button/styles/index';
+@import '../../styles/common.less';
+@import '../../Input/styles/mixin.less';
+@import '../../Button/styles/index.less';
+@import './mixin.less';
 
 //
 // Input groups
@@ -188,25 +189,25 @@
 
 // Reset input group addon size.
 .rs-input-group.rs-input-group-lg > .rs-input-group-addon {
-  font-size: @font-size-large;
+  font-size: var(--rs-font-size-md);
 
   .reset-input-group-addon-size(large);
 }
 
 .rs-input-group.rs-input-group-md > .rs-input-group-addon {
-  font-size: @font-size-base;
+  font-size: var(--rs-font-size-sm);
 
   .reset-input-group-addon-size(base);
 }
 
 .rs-input-group.rs-input-group-sm > .rs-input-group-addon {
-  font-size: @font-size-base;
+  font-size: var(--rs-font-size-sm);
 
   .reset-input-group-addon-size(small);
 }
 
 .rs-input-group.rs-input-group-xs > .rs-input-group-addon {
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
 
   .reset-input-group-addon-size(extra-small);
 }
@@ -248,31 +249,28 @@
   white-space: nowrap;
   vertical-align: middle; // Match the inputs
   color: var(--rs-text-primary);
-  font-size: @font-size-base;
+  font-size: var(--rs-font-size-sm);
   font-weight: normal;
   line-height: 1;
   text-align: center;
   background-color: var(--rs-btn-default-bg);
   border: 1px solid var(--rs-border-primary);
-  border-radius: @input-border-radius;
+  border-radius: var(--rs-input-border-radius);
 
   // Sizing
   &.rs-input-sm {
     padding: @padding-y-sm @padding-x-sm;
-    font-size: @font-size-small;
-    border-radius: @input-border-radius;
+    font-size: var(--rs-font-size-sm);
   }
 
   &.rs-input-xs {
     padding: @padding-x-xs @padding-x-xs;
-    font-size: @font-size-small;
-    border-radius: @input-border-radius;
+    font-size: var(--rs-font-size-xs);
   }
 
   &.rs-input-lg {
     padding: @padding-y-lg @padding-x-lg;
-    font-size: @font-size-large;
-    border-radius: @input-border-radius;
+    font-size: var(--rs-font-size-md);
   }
 
   // Nuke default margins from checkboxes and radios to vertically center within.

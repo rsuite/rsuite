@@ -1,0 +1,39 @@
+.reset-input-group-addon-size(@size-name) {
+  .map-size(@size-name);
+
+  @padding-horizontal-name: ~'padding-x@{suffix}';
+  @width: (@@padding-horizontal-name * 2 - @input-border-width*2 + @font-size-base);
+  @padding-horizontal: ((@width - @font-size-base)/2);
+
+  padding-inline: @padding-horizontal;
+}
+
+.reset-inside-input-group-btn-size(@size-name) {
+  .map-size(@size-name);
+
+  @height: ~'input-height-@{size-name}';
+  @vertical: ~'padding-y@{suffix}';
+  @horizontal: ~'padding-x@{suffix}';
+
+  border-radius: @border-radius;
+  padding: 0 calc(@@horizontal / 2);
+  margin: calc(@@vertical / 2);
+}
+
+.reset-input-group-children-size(@size-name) {
+  @height: ~'input-height-@{size-name}';
+  @useable-height: (@@height - 2px);
+  @vertical: ~'padding-@{size-name}-vertical';
+
+  &.rs-input-group {
+    > .rs-input {
+      height: @useable-height;
+    }
+
+    > .rs-input-group-addon {
+      > .rs-icon {
+        font-size: inherit;
+      }
+    }
+  }
+}

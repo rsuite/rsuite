@@ -123,10 +123,7 @@
   // Color variants
   each(@spectrum, .(@color) {
     &-@{color} {
-
       --rs-rate-symbol-checked: var(~'--rs-@{color}-500');
-
-      color: var(--rs-rate-symbol-checked);
     }
   });
 }

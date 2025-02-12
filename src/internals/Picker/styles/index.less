@@ -3,7 +3,6 @@
 @import '../../../styles/mixins/listbox.less';
 @import '../../../styles/mixins/combobox.less';
 @import '../../../Stack/styles/index.less';
-@import '../../../Form/styles/mixin.less';
 @import '../../../Loader/styles/index.less';
 @import '../../../Input/styles/index.less';
 @import '../../../InputGroup/styles/index.less';
@@ -292,7 +291,7 @@
     // Extend  Dropdown toggle caret style
     .combobox-indicator-icon();
 
-    font-size: 16px;
+    font-size: var(--rs-font-size-md);
     color: var(--rs-text-secondary);
   }
 

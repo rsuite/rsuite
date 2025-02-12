@@ -123,12 +123,12 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
   return (
     <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
       <div className={prefix`container`}>
-        {closable && <CloseButton onClick={handleClose} />}
         {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
         <div className={prefix`content`}>
           {header && <div className={prefix`header`}>{header}</div>}
           {children && <div className={prefix`body`}>{children}</div>}
         </div>
+        {closable && <CloseButton onClick={handleClose} />}
       </div>
     </Component>
   );

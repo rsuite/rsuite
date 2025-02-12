@@ -5,8 +5,10 @@
 // --------------------------------------------------
 
 .rs-breadcrumb {
+  --rs-breadcrumb-font-size: var(--rs-font-size-xs);
+
   margin-bottom: @line-height-computed;
-  font-size: @breadcrumb-font-size;
+  font-size: var(--rs-breadcrumb-font-size);
   color: var(--rs-text-secondary);
 
   ol {

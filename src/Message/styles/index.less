@@ -11,20 +11,26 @@
 // -------------------------
 
 .rs-message {
-  border-radius: @message-border-radius;
-  font-size: @font-size-base;
-  line-height: @line-height-base;
+  --rs-message-font-size: var(--rs-font-size-sm);
+  --rs-message-line-height: var(--rs-text-line-height-sm);
+  --rs-message-border-radius: @border-radius;
+  --rs-message-icon-size: var(--rs-font-size-md);
+  --rs-message-padding: 1.25rem;
+
+  border-radius: var(--rs-message-border-radius);
+  font-size: var(--rs-message-font-size);
+  line-height: var(--rs-message-line-height);
   position: relative;
   animation-fill-mode: forwards;
   overflow: hidden;
 
   &-container {
-    padding: @message-padding;
-    padding-right: @message-padding + 8px;
+    padding: var(--rs-message-padding);
     display: flex;
+    align-items: baseline;
   }
 
-  &-centered {
+  &&-centered {
     .rs-message-container {
       flex-direction: column;
       align-items: center;
@@ -35,9 +41,7 @@
     .rs-message-icon {
       align-self: center !important;
 
-      .rs-icon {
-        font-size: 40px !important;
-      }
+      --rs-message-icon-size: var(--rs-font-size-5xl) !important;
     }
 
     &.rs-message-bordered {
@@ -54,7 +58,7 @@
 
     // Icon
     .rs-icon {
-      font-size: @message-icon-size;
+      font-size: var(--rs-message-icon-size);
       align-items: center;
     }
   }
@@ -87,13 +91,13 @@
   }
 
   // Message with a title
-  &.rs-message-has-title {
+  &&-has-title {
     // Bigger icon
     .rs-message-icon {
       align-self: flex-start;
+      --rs-message-icon-size: var(--rs-font-size-2xl);
 
       .rs-icon {
-        font-size: @message-icon-large-size;
         line-height: 1;
       }
     }

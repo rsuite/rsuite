@@ -1,5 +1,4 @@
 @import '../../styles/common.less';
-@import '../../Form/styles/mixin.less';
 @import '../../Input/styles/index.less';
 @import '../../SelectPicker/styles/index.less';
 @import '../../internals/Picker/styles/index.less';
@@ -50,21 +49,7 @@
 
   &-input {
     .input-md();
-
-    .rs-picker-tag & {
-      font-size: @font-size-base;
-      line-height: @line-height-base;
-      padding: @padding-y-xs @input-padding-x @padding-y-xs @padding-x -
-        @picker-default-toggle-border-width;
-
-      > input {
-        background: none;
-        outline: none;
-        border: none;
-        width: 100%;
-      }
-    }
-
+    
     background: none;
     outline: none;
     border: none;

@@ -28,23 +28,18 @@
 // Sizes
 
 // TODO: rename
-.button-size(@height; @space-x; @font-size; @line-height; @icon-size) {
-  @space-y: ((@height - @line-height) / 2);
-
-  font-size: @font-size;
-  line-height: @line-height;
-  padding: @space-y @space-x;
+.button-size(@height; @space-x; @icon-size) {
+  padding-inline: @space-x;
 
   .rs-btn-ghost& {
     // Ghost button has 1px border
-    padding: (@space-y - @btn-ghost-border-width) (@space-x - @btn-ghost-border-width);
+    padding-inline: (@space-x - @btn-ghost-border-width);
   }
 
   .rs-btn-icon& {
-    @space-y: ((@height - @icon-size) / 2);
-    @space-x: @space-y;
+    @space: ((@height - @icon-size) / 2);
 
-    padding: @space-y @space-x;
+    padding: @space;
     line-height: @icon-size;
 
     > .rs-icon {
@@ -53,19 +48,16 @@
   }
 
   .rs-btn-icon-with-text& {
-    line-height: @line-height;
-
     > .rs-icon {
-      @space-y: ((@height - @icon-size) / 2);
-      @space-x: @space-y;
+      @space: ((@height - @icon-size) / 2);
 
-      padding: @space-y @space-x;
+      padding: @space;
       width: @height;
       height: @height;
     }
 
     &.rs-btn-icon-placement-left {
-      padding: @space-y @space-x @space-y (@height + @space-x);
+      padding-inline: (@height + @space-x) @space-x;
 
       > .rs-icon {
         left: 0;
@@ -74,7 +66,7 @@
     }
 
     &.rs-btn-icon-placement-right {
-      padding: @space-y (@height + @space-x) @space-y @space-x;
+      padding-inline: @space-x (@height + @space-x);
 
       > .rs-icon {
         right: 0;
@@ -85,41 +77,33 @@
 }
 
 .button-size-lg() {
-  .button-size(
-    @height: 42px;
-    @space-x: 16px;
-    @font-size: 16px;
-    @line-height: 22px;
-    @icon-size: 20px;
-  );
+  .button-size(42px; 16px; 20px;);
+
+  font-size: var(--rs-btn-font-size-lg);
+  line-height: var(--rs-btn-line-height-lg);
+  padding-block: 0.625rem;
 }
 
 .button-size-md() {
-  .button-size(
-    @height: 36px;
-    @space-x: 12px;
-    @font-size: 14px;
-    @line-height: 20px;
-    @icon-size: 16px;
-  );
+  .button-size(36px; 12px; 16px;);
+
+  font-size: var(--rs-btn-font-size-md);
+  line-height: var(--rs-btn-line-height-md);
+  padding-block: 0.5rem;
 }
 
 .button-size-sm() {
-  .button-size(
-    @height: 30px;
-    @space-x: 10px;
-    @font-size: 14px;
-    @line-height: 20px;
-    @icon-size: 16px;
-  );
+  .button-size(30px; 10px; 16px;);
+
+  font-size: var(--rs-btn-font-size-sm);
+  line-height: var(--rs-btn-line-height-sm);
+  padding-block: 0.3125rem;
 }
 
 .button-size-xs() {
-  .button-size(
-    @height: 24px;
-    @space-x: 8px;
-    @font-size: 12px;
-    @line-height: 20px;
-    @icon-size: 12px;
-  );
+  .button-size(24px; 8px; 12px;);
+
+  font-size: var(--rs-btn-font-size-xs);
+  line-height: var(--rs-btn-line-height-xs);
+  padding-block: 0.125rem;
 }

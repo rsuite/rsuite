@@ -1,7 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
+import TagPicker from '../index';
+import Button from '../../Button';
 import {
   testStandardProps,
   testControlledUnControlled,
@@ -9,8 +10,7 @@ import {
   testPickers
 } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
-import TagPicker from '../index';
-import Button from '../../Button';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {

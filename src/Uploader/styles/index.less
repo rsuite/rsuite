@@ -7,6 +7,10 @@
 // ----------------------
 
 .rs-uploader {
+  --rs-uploader-file-item-icon-font-size: 1.375rem;
+  --rs-uploader-file-item-icon-margin: 0.75rem;
+  --rs-uploader-file-item-icon-margin-plus: 1.375rem;
+
   &-trigger {
     input[type='file'] {
       position: absolute !important;
@@ -35,7 +39,7 @@
     cursor: pointer;
     margin-left: 10px;
     color: var(--rs-text-primary);
-    font-size: 12px;
+    font-size: var(--rs-font-size-xs);
   }
 }
 
@@ -113,7 +117,7 @@
 
     &-btn-remove {
       position: absolute;
-      font-size: 14px;
+      font-size: var(--rs-font-size-sm);
       top: 12px;
       right: @padding-x;
       color: var(--rs-text-secondary);
@@ -209,8 +213,8 @@
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin-plus;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin-plus);
       }
     }
 
@@ -345,8 +349,8 @@
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin);
       }
     }
 

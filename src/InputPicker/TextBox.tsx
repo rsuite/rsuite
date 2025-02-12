@@ -41,20 +41,28 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     return null;
   }
 
+  const input = (
+    <InputSearch
+      {...inputProps}
+      tabIndex={-1}
+      readOnly={readOnly}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      inputRef={inputRef}
+      onChange={onChange}
+      value={inputValue}
+    />
+  );
+
   return (
     <div className={prefix`textbox`} ref={ref} {...rest}>
-      {showTagList ? <TagList>{tags}</TagList> : null}
-      {editable && (
-        <InputSearch
-          {...inputProps}
-          tabIndex={-1}
-          readOnly={readOnly}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          inputRef={inputRef}
-          onChange={onChange}
-          value={inputValue}
-        />
+      {showTagList ? (
+        <TagList>
+          {tags}
+          {editable && input}
+        </TagList>
+      ) : (
+        input
       )}
     </div>
   );
