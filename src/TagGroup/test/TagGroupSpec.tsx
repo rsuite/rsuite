@@ -1,17 +1,15 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import TagGroup from '../TagGroup';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('TagGroup', () => {
   testStandardProps(<TagGroup />);
 
   it('Should output a TagGroup', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
+    render(<TagGroup>Group</TagGroup>);
 
-    render(<TagGroup ref={instanceRef} />);
-
-    expect(instanceRef.current).to.have.property('tagName', 'DIV');
-    expect(instanceRef.current).to.have.class('rs-tag-group');
+    expect(screen.getByText('Group')).to.have.property('tagName', 'DIV');
+    expect(screen.getByText('Group')).to.have.class('rs-tag-group');
   });
 });
