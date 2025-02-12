@@ -13,7 +13,7 @@ describe('TagPicker styles', () => {
   it('Should render the correct styles', () => {
     render(<TagPicker data={data} open />);
     const itemLabel = screen
-      .getByRole('listbox')
+      .getByTestId('picker-popup')
       .querySelector('.rs-picker-check-menu-items .rs-checkbox-checker label');
 
     expect(itemLabel).to.have.style('padding', '8px 12px 8px 38px');
