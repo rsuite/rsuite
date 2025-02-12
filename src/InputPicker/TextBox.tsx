@@ -41,7 +41,7 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     return null;
   }
 
-  const input = (
+  const input = editable ? (
     <InputSearch
       {...inputProps}
       tabIndex={-1}
@@ -52,14 +52,14 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
       onChange={onChange}
       value={inputValue}
     />
-  );
+  ) : null;
 
   return (
     <div className={prefix`textbox`} ref={ref} {...rest}>
       {showTagList ? (
         <TagList>
           {tags}
-          {editable && input}
+          {input}
         </TagList>
       ) : (
         input
