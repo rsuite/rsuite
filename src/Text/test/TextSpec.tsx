@@ -8,12 +8,12 @@ describe('Text', () => {
     colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
   });
 
-  const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
+  const sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl'];
 
-  Object.keys(fontSizeMap).forEach(size => {
-    it(`Should render font size ${size}`, () => {
+  sizes.forEach(size => {
+    it(`Should render size ${size}`, () => {
       render(<Text size={size}>Text</Text>);
-      expect(screen.getByText('Text')).to.have.style('font-size', `${fontSizeMap[size]}px`);
+      expect(screen.getByText('Text')).to.have.class(`rs-text-${size}`);
     });
   });
 

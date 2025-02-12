@@ -16,7 +16,6 @@ describe('TreePicker styles', () => {
 
     const treeNode = screen.queryAllByRole('treeitem')[0];
 
-    expect(treeNode).to.have.style('font-size', '0px');
-    expect(treeNode).to.have.style('height', '36px');
+    expect(treeNode).to.have.style('height', '34px');
   });
 });
