@@ -24,6 +24,7 @@ return (
 | 阿拉伯语（埃及）      | ar-EG                | `arEG`   |
 | 加泰罗尼亚语          | ca-ES                | `caES`   |
 | 捷克语                | cs-CZ                | `csCZ`   |
+| 波兰语（波兰）         | pl-PL                | `plPL` |
 | 丹麦语                | da-DK                | `daDK`   |
 | 德语                  | de-DE                | `deDE`   |
 | 英语                  | en-GB                | `enGB`   |
