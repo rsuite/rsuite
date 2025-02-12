@@ -24,6 +24,7 @@ return (
 | Arabic (Egypt)                                   | ar-EG               | `arEG`      |
 | Catalan                                          | ca-ES               | `caES`      |
 | Czech                                            | cs-CZ               | `csCZ`      |
+| Polish (Poland)                                  | pl-PL               | `plPL`      |
 | Danish                                           | da-DK               | `daDK`      |
 | German                                           | de-DE               | `deDE`      |
 | British English                                  | en-GB               | `enGB`      |
