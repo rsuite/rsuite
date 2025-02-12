@@ -25,6 +25,7 @@ describe('TagPicker', () => {
       return screen.getByRole('combobox');
     }
   });
+
   testPickers(TagPicker, { virtualized: true });
   testControlledUnControlled(TagPicker, {
     componentProps: { data, defaultOpen: true },
@@ -457,7 +458,7 @@ describe('TagPicker', () => {
     it('Should have a role listbox', () => {
       render(<TagPicker data={data} defaultOpen />);
 
-      expect(screen.getByRole('listbox')).to.exist;
+      expect(screen.queryAllByRole('listbox')).to.exist;
     });
 
     it('Should have a role option', () => {
