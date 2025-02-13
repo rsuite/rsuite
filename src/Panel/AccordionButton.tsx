@@ -37,13 +37,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
       {...rest}
     >
       {children}
-      <Icon
-        as={caretAs}
-        aria-hidden="true"
-        className={prefix`icon`}
-        rotate={expanded ? 180 : 0}
-        data-testid="caret icon"
-      />
+      <Icon as={caretAs} aria-hidden="true" className={prefix`icon`} data-testid="caret icon" />
     </button>
   );
 };

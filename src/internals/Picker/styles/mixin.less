@@ -18,7 +18,7 @@
   // Set border & padding to menu group if  it isn't the first.
   .rs-@{prefix}-menu-group:not(:first-child) {
     margin-top: @picker-group-select-menu-gap;
-    border-top: 1px solid @picker-group-select-menu-lin-color;
+    border-top: 1px solid var(--rs-divider-border);
     padding-top: @picker-group-select-menu-gap;
   }
 }
@@ -63,11 +63,11 @@
 
 .picker-calendar-cell-content() {
   display: inline-block;
-  font-size: @calendar-table-cell-content-font-size;
-  line-height: @calendar-table-cell-content-line-height;
-  padding: @calendar-table-cell-content-padding;
   cursor: pointer;
-  border-radius: @border-radius;
+  font-size: var(--rs-calendar-cell-font-size);
+  line-height: var(--rs-calendar-cell-line-height);
+  padding: var(--rs-calendar-cell-padding);
+  border-radius: var(--rs-calendar-border-radius);
 
   &:hover {
     background-color: var(--rs-state-hover-bg);
@@ -111,7 +111,7 @@
       }
     }
 
-    .rs-picker-loader{
+    .rs-picker-loader {
       top: @padding-vertical;
       right: @padding-horizontal;
     }

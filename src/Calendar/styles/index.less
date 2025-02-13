@@ -7,6 +7,11 @@
 // ----------------------
 
 .rs-calendar {
+  --rs-calendar-cell-font-size: var(--rs-font-size-sm);
+  --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
+  --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
+  --rs-calendar-border-radius: @border-radius;
+
   padding-top: @calendar-picker-padding;
   position: relative;
   min-height: 266px;
@@ -597,7 +602,7 @@
   }
 
   &-cell {
-    font-size:var(--rs-font-size-sm);
+    font-size: var(--rs-font-size-sm);
     line-height: @line-height-computed;
     color: inherit;
     padding: 5px;

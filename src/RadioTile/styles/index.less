@@ -1,10 +1,15 @@
 @import '../../styles/common';
 
 .rs-radio-tile {
-  border-radius: 6px;
+
+  --rs-radio-tile-border-radius: 6px;
+  --rs-radio-tile-padding: calc(var(--rs-spacing) * 2.5); 
+  --rs-radio-tile-mark-size: 48px;
+
+  border-radius: var(--rs-radio-tile-border-radius);
   overflow: hidden;
   border: 2px solid var(--rs-radio-tile-border);
-  padding: 10px;
+  padding: var(--rs-radio-tile-padding);
   position: relative;
   cursor: pointer;
 
@@ -19,19 +24,19 @@
   &-mark {
     background: var(--rs-radio-tile-checked-color);
     border-bottom-left-radius: 50%;
-    height: 48px;
+    height: var(--rs-radio-tile-mark-size);
+    width: var(--rs-radio-tile-mark-size);
     position: absolute;
-    right: -24px;
-    top: -24px;
-    width: 48px;
+    inset-inline-end: calc(var(--rs-radio-tile-mark-size) / -2);
+    top: calc(var(--rs-radio-tile-mark-size) / -2);
     z-index: 3;
     opacity: 0;
 
     &-icon {
       position: absolute;
-      font-size: 16px;
+      font-size: var(--rs-font-size-md);
       top: 25px;
-      left: 7px;
+      inset-inline-start: 7px;
       color: var(--rs-radio-tile-checked-mark-color);
     }
   }

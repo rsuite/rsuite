@@ -282,7 +282,6 @@
 @dropdown-caret-padding:      10px;
 
 // Divider color for between dropdown items.
-@dropdown-divider-bg:         @divider-border-color;
 @dropdown-shadow:             0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
 @dropdown-menu-radius:        @border-radius;
@@ -356,7 +355,6 @@
 @sidenav-menu-animation-time:           1.5s;
 @sidenav-footer-height:                 @sidenav-item-height; // Footer is same height as a sidenav item
 @sidenav-level1-item-font-size:         @font-size-base;
-@sidenav-level1-item-line-height:       unit((@line-height-computed / @font-size-base));
 @sidenav-icon-width:                    @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width:   20px;
 @sidenav-collapse-transition-config:     0.15s ease-in;
@@ -367,30 +365,19 @@
 // Steps
 
 @steps-icon-diameter:                   30px;
-@steps-icon-size-default-font-size:     12px;
 @steps-icon-spacing:                    10px;
-@steps-item-spacing:                    10px;
 
 // This space place the steps-icon
-@steps-icon-space-width:                (@steps-icon-diameter + @steps-icon-spacing);
-@steps-icon-size:                       @font-size-large;
 @steps-icon-line-height:                unit(((@steps-icon-diameter - 2px) / @font-size-large));
-@steps-title-font-size:                 @font-size-large;
 @steps-title-line-height:               unit((@steps-icon-diameter / @font-size-large));
-@steps-description-margin-top:          12px;
 
 // Small
 @small-steps-icon-diameter:             24px;
-@small-steps-icon-space-width:          (@small-steps-icon-diameter + @steps-icon-spacing);
 @small-steps-icon-line-height:          unit(((@small-steps-icon-diameter - 2px) / @font-size-base));
 @small-steps-title-line-height:         unit((@small-steps-icon-diameter / @font-size-base));
-@small-steps-icon-size:                 @font-size-base;
-@small-steps-description-font-size:     @font-size-small;
 @small-steps-description-line-height:   @line-height-small;
-@small-steps-description-margin-top:    12px;
 
 // Checkbox
-
 @checkbox-width-height:           16px;
 @checkbox-sense-width:            10px;
 @checkbox-border-radius:          3px;
@@ -419,7 +406,6 @@
 
 // Popovers
 
-@popover-max-width:           250px;
 @popover-border-radius:       4px;
 @popover-translate-distance:  2px;
 
@@ -551,7 +537,6 @@
 
 @panel-padding:                 20px;
 @panel-header-font-size:        16px;
-@panel-split-line-color:        @dropdown-divider-bg;
 @panel-accodion-transition:     0.15s linear;
 @panel-box-shadow:              @box-shadow;
 
@@ -568,18 +553,10 @@
 @time-line-tail-min-height:               (@line-height-computed + @time-line-item-content-padding-bottom); // 20 + 18 = 38
 
 
-
 // List
 
 @list-border-width: 1px;
 
-// Divider
-
-@divider-horizontal-margin:           24px;
-@divider-with-text-horizontal-margin: 30px;
-@divider-text-space:                  12px;
-@divider-vertical-margin:             12px;
-@divider-border-color:                var(--rs-border-primary); // TODO: Deprecate, use --rs-divider-border
 
 // Pickers
 
@@ -622,7 +599,6 @@
 // group title
 @picker-group-children-padding-left:    26px;
 @picker-group-select-menu-gap:          6px;
-@picker-group-select-menu-lin-color:    @dropdown-divider-bg;
 
 // Picker
 @picker-select-menu-item-selected-font-weight: bold;
@@ -646,15 +622,12 @@
 @calendar-table-cell-content-line-height:         @line-height-base;
 @calendar-table-cell-content-padding:             5px;
 @calendar-table-cell-content-today-border-width:  1px;
-@calendar-month-dropdown-row-border-color:        @divider-border-color;
 @calendar-dropdown-top:                           44px; // @calendar-picker-padding + content-height + gap
-@calendar-month-dropdown-border:                  @divider-border-color;
 @calendar-in-menu-content-side-length:            30px;
 @calendar-panel-cell-height:                      100px;
 @calendar-panel-compact-cell-height:              38px;
 @calendar-panel-border-radius:                    6px;
 @calendar-panel-today-active-side-length:         @line-height-computed;
-@calendar-toolbar-border-color:                   @divider-border-color;
 
 // DatePicker
 @datepicker-calendar-padding-y:     12px;
@@ -708,12 +681,6 @@
 @carousel-bar-height:               4px;
 @carousel-bar-active-width:         28px;
 
-// Rate
-
-@rate-xs-font-size: 18px;
-@rate-sm-font-size: 24px;
-@rate-md-font-size: 30px;
-@rate-lg-font-size: 36px;
 
 //-- Z-index master list
 // Keep this section at the bottom of this file for easier lookup

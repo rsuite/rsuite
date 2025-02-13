@@ -12,7 +12,7 @@
   --rs-panel-padding: 1.25rem;
   --rs-panel-border-radius: 6px;
   --rs-panel-btn-font-size: var(--rs-font-size-md);
-  --rs-panel-btn-padding: 10px;
+  --rs-panel-btn-padding: 0.625rem;
 
   @import '../../Animation/styles/collapse.less';
 
@@ -74,6 +74,11 @@
     &-icon {
       transition: transform 0.2s ease 0s;
     }
+    &[aria-expanded='true'] {
+      .rs-panel-btn-icon {
+        transform: rotate(180deg);
+      }
+    }
 
     &[disabled] {
       cursor: not-allowed;
@@ -110,14 +115,6 @@
       background-color 0.3s linear,
       border-radius 0.3s linear;
     position: relative;
-    padding: 10px;
-
-    > .rs-icon {
-      color: var(--rs-text-secondary);
-      position: absolute;
-      top: 24px;
-      right: 20px;
-      transition: transform 0.3s linear;
-    }
+    padding: calc(var(--rs-spacing) * 2.5);
   }
 }

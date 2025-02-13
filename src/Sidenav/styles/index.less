@@ -10,24 +10,26 @@
 // Base class
 // --------------------------------------------------
 .rs-sidenav {
+  --rs-sidenav-width: @sidenav-default-width;
+  --rs-sidenav-item-font-size: var(--rs-font-size-sm);
   --rs-sidenav-nav-rounded: 6px;
   --rs-sidenav-nav-item-p-x: @sidenav-padding-horizontal;
   --rs-sidenav-nav-item-p-y: @sidenav-padding-vertical;
   --rs-sidenav-subnav-p-x: 10px;
   --rs-sidenav-subnav-m-x: 16px;
-  --rs-sidenav-p: 8px;
-  --rs-sidenav-header-p: 8px;
-  --rs-sidenav-footer-p: 8px;
-  --rs-sidenav-group-p: 8px;
+  --rs-sidenav-p: calc(var(--rs-spacing) * 2);
+  --rs-sidenav-header-p: var(--rs-sidenav-p);
+  --rs-sidenav-footer-p: var(--rs-sidenav-p);
+  --rs-sidenav-group-p: var(--rs-sidenav-p);
 
   transition: width @sidenav-collapse-transition-config;
-  width: @sidenav-default-width;
+  width: var(--rs-sidenav-width);
   display: flex;
   flex-direction: column;
 
   &.rs-sidenav-collapse-out .rs-dropdown-menu {
     border: none;
-    left: 28px;
+    inset-inline-start: 28px;
     top: 0;
   }
 }
@@ -37,7 +39,7 @@
   padding: var(--rs-sidenav-p);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: calc(var(--rs-spacing) / 2);
 
   .rs-sidenav-item,
   .rs-sidenav-dropdown-toggle,
@@ -100,7 +102,7 @@
 
       // Submenu toggle icon
       &-icon {
-        font-size: @sidenav-item-caret-size;
+        font-size: var(--rs-font-size-sm);
       }
     }
 
@@ -118,7 +120,7 @@
   .rs-dropdown-item {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: calc(var(--rs-spacing) * 3);
   }
 
   .high-contrast-mode({
@@ -152,7 +154,7 @@
     height: auto;
 
     .rs-sidenav-dropdown-toggle-caret {
-      font-size: @sidenav-item-caret-size;
+      font-size: var(--rs-font-size-sm);
       margin-left: auto;
 
       // Make Caret AngleRight direction at down.
@@ -166,8 +168,7 @@
   // -----------------
   > .rs-sidenav-item,
   > .rs-dropdown .rs-sidenav-dropdown-toggle {
-    font-size: @sidenav-level1-item-font-size;
-    line-height: @sidenav-level1-item-line-height;
+    font-size: var(--rs-sidenav-item-font-size);
     width: 100%;
     white-space: normal;
 
@@ -175,12 +176,6 @@
     // thus use an inset focus ring to prevent overflow clipping
     &:focus-visible {
       .focus-ring(inset);
-    }
-
-    > .rs-icon:not(.rs-sidenav-dropdown-toggle-caret) {
-      font-size: @sidenav-level1-item-font-size;
-      line-height: @sidenav-level1-item-line-height;
-      height: @sidenav-level1-item-font-size;
     }
   }
 
@@ -202,7 +197,7 @@
   outline: 0;
   overflow: hidden;
   text-decoration: none;
-  gap: 12px;
+  gap: calc(var(--rs-spacing) * 3);
 
   &:hover,
   &:focus {
@@ -253,7 +248,7 @@
 .rs-sidenav-group-label {
   padding: var(--rs-sidenav-group-p);
   margin-top: var(--rs-sidenav-group-p);
-  font-size: 12px;
+  font-size: var(--rs-font-size-xs);
   color: var(--rs-text-secondary);
 }
 

@@ -6,26 +6,36 @@
 // Popovers
 // --------------------------------------------------
 .rs-popover {
+  --rs-popover-font-size: var(--rs-font-size-xs);
+  --rs-popover-line-height: var(--rs-text-line-height-xs);
+  --rs-popover-title-font-size: var(--rs-font-size-sm);
+  --rs-popover-title-line-height: var(--rs-text-line-height-sm);
+  --rs-popover-border-radius: @popover-border-radius;
+
   position: absolute;
   top: 0;
   left: 0 /* rtl:ignore */;
   z-index: @zindex-popover;
   display: none;
   padding: 12px;
-  font-size: @font-size-base;
+  font-size: var(--rs-popover-font-size);
   background-color: var(--rs-bg-overlay);
   background-clip: padding-box;
-  border-radius: @popover-border-radius;
+  border-radius: var(--rs-popover-border-radius);
   opacity: 0;
   .drop-shadow(var(--rs-popover-shadow));
 
   &.rs-anim-fade {
-    transition: opacity 0.1s linear, transform 0.1s ease-out;
+    transition:
+      opacity 0.1s linear,
+      transform 0.1s ease-out;
   }
 
   &.rs-anim-in {
     opacity: 1;
-    transition: opacity 0.15s linear, transform 0.15s ease-in;
+    transition:
+      opacity 0.15s linear,
+      transform 0.15s ease-in;
   }
 
   .high-contrast-mode({
@@ -67,14 +77,14 @@
   // Popover Title
   &-title {
     margin: 0; // reset heading margin
-    font-size: @font-size-base;
-    line-height: @line-height-base;
+    font-size: var(--rs-popover-title-font-size);
+    line-height: var(--rs-popover-title-line-height);
   }
 
   // Popover Content
   &-content {
-    font-size: @font-size-small;
-    line-height: @line-height-small;
+    font-size: var(--rs-popover-font-size);
+    line-height: var(--rs-popover-line-height);
   }
 
   &-title ~ &-content {
@@ -88,7 +98,7 @@
   .set-translate-transition(0, -@popover-translate-distance);
 
   > .rs-popover-arrow {
-    margin-left: -@popover-arrow-outer-width;
+    margin-inline-start: -@popover-arrow-outer-width;
     bottom: -@popover-arrow-outer-width;
 
     .with-popover-arrow(bottom);

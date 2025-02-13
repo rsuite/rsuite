@@ -8,12 +8,10 @@
 // Dropdown menus
 // --------------------------------------------------
 
-.rs-dropdown-toggle-caret {
-  .combobox-indicator-icon();
-}
-
 // The dropdown wrapper (div)
 .rs-dropdown {
+  --rs-dropdown-divider-color: var(--rs-divider-border);
+
   position: relative;
   display: inline-block;
   vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
@@ -61,6 +59,10 @@
       display: none !important;
     }
   }
+}
+
+.rs-dropdown-toggle-caret {
+  .combobox-indicator-icon();
 }
 
 .rs-dropdown-toggle {
@@ -336,7 +338,7 @@
   padding: @dropdown-item-padding-y @dropdown-item-padding-x;
   line-height: @line-height-base;
   color: var(--rs-dropdown-header-text);
-  border-bottom: 1px solid @dropdown-divider-bg;
+  border-bottom: 1px solid var(--rs-dropdown-divider-color);
   white-space: nowrap; // as with > li > a
   margin-bottom: 2px;
 }
