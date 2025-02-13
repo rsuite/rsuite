@@ -32,8 +32,8 @@ const CardGroup = forwardRef<'div', CardGroupProps>((props: CardGroupProps, ref)
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
   const styles = {
-    '--rs-columns': columns,
-    '--rs-spacing': getCssValue(spacing),
+    '--rs-card-group-columns': columns,
+    '--rs-card-group-spacing': getCssValue(spacing),
     ...style
   } as React.CSSProperties;
 

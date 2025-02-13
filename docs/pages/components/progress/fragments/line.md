@@ -4,7 +4,7 @@
 import { Progress, VStack } from 'rsuite';
 
 const App = () => (
-  <VStack>
+  <VStack spacing={20}>
     <Progress.Line />
     <Progress.Line percent={30} strokeColor="#ffc107" />
     <Progress.Line percent={30} status="active" />

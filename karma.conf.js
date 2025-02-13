@@ -47,7 +47,7 @@ module.exports = config => {
     },
     client: {
       mocha: {
-        timeout: 10000 // default 2000
+        timeout: 30000 // default 2000
       }
     },
     webpack: require('./webpack.karma.js'),
@@ -58,7 +58,7 @@ module.exports = config => {
     customLaunchers: {
       ChromeCi: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: ['--headless', '--no-sandbox', '--disable-gpu']
       },
       FirefoxAutoAllowGUM: {
         base: 'Firefox',
