@@ -7,7 +7,8 @@ import {
   Slider,
   SelectPicker,
   TagPicker,
-  InputNumber
+  InputNumber,
+  HStack
 } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
@@ -30,7 +31,8 @@ export default function Page() {
         Slider,
         SelectPicker,
         TagPicker,
-        InputNumber
+        InputNumber,
+        HStack
       }}
     />
   );

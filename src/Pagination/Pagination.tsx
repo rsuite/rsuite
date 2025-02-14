@@ -108,6 +108,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
         key={`${key}-${eventKey}`}
         eventKey={eventKey}
         as={linkAs}
+        size={size}
         disabled={disabledButton}
         onSelect={disabledButton ? undefined : onSelect}
       />

@@ -1,5 +1,5 @@
 import React from 'react';
-import Ripple from '@/internals/Ripple';
+import Button from '../Button';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -28,7 +28,7 @@ export interface PaginationButtonProps<T = number | string>
 
 const PaginationButton = forwardRef<'button', PaginationButtonProps>((props, ref) => {
   const {
-    as: Component = 'button',
+    as: Component = Button,
     active,
     disabled,
     className,
@@ -69,7 +69,6 @@ const PaginationButton = forwardRef<'button', PaginationButtonProps>((props, ref
       style={style}
     >
       {children}
-      {!disabled ? <Ripple /> : null}
     </Component>
   );
 });

@@ -54,6 +54,7 @@ The `layout` prop can customize the layout of a paging component. It receives an
 | onChangeLimit | (limit:number) => void;                                 | Callback fired when the number of rows per page is changed                                |
 | onChangePage  | (page:number) => void;                                  | Callback fired when the page is changed                                                   |
 | prev          | boolean                                                 | Displays the previous page                                                                |
+| size          | 'lg' \| 'md' \| 'sm' \| 'xs' `('xs')`                   | The size of the pagination component                                                      |
 | total \*      | number                                                  | The total number of rows. Generally obtained through the server                           |
 
 ### `ts:LayoutType`

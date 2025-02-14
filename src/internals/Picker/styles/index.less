@@ -17,6 +17,12 @@
 // Common styles
 // ----------------------
 .rs-picker {
+  --rs-picker-value-count-border-radius: @picker-value-count-border-radius;
+  --rs-picker-value-count-line-height: @line-height-computed;
+  --rs-picker-value-count-padding: calc(var(--rs-spacing) * 2);
+  --rs-picker-value-count-margin: var(--rs-spacing);
+  --rs-picker-size: 0.875rem;
+
   &-toggle-wrapper {
     display: inline-block;
     // Clear whitespace.
@@ -74,16 +80,16 @@
   }
 
   &-value-count {
-    margin: 0 @picker-value-count-margin;
+    margin-inline: var(--rs-picker-value-count-margin);
+    padding-inline: var(--rs-picker-value-count-padding);
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);
-    border-radius: @picker-value-count-border-radius;
-    padding: 0 @picker-value-count-padding;
-    line-height: @line-height-computed;
+    border-radius: var(--rs-picker-value-count-border-radius);
+    line-height: var(--rs-picker-value-count-line-height);
   }
 
   &-value-separator {
-    margin: 0 4px 0 0;
+    margin: 0 var(--rs-spacing) 0 0;
   }
 
   &:not(.rs-picker-disabled):hover,
@@ -102,8 +108,8 @@
   }
 
   &-loader {
-    width: 14px;
-    height: 14px;
+    width: var(--rs-picker-size);
+    height: var(--rs-picker-size);
     display: flex;
     align-items: center;
   }
@@ -123,16 +129,6 @@
 }
 
 .rs-picker-toggle {
-  // TODO: Should inherit from <Input> styles?
-  .rs-btn();
-
-  .rs-picker-default & {
-    @padding-vertical: (@padding-y - @picker-default-toggle-border-width);
-    @padding-horizontal: (@padding-x - @picker-default-toggle-border-width);
-
-    padding: @padding-vertical @padding-horizontal;
-  }
-
   &-textbox {
     position: absolute;
     width: 100%;
@@ -200,7 +196,6 @@
   .date-picker-button-caret-md();
 
   &-lg {
-    .button-size-lg();
     .picker-button-caret-lg();
     .picker-button-size(large);
     .picker-default-button-reset-padding-left(large);
@@ -219,7 +214,6 @@
   }
 
   &-sm {
-    .button-size-sm();
     .picker-button-caret-sm();
     .picker-button-size(small);
     .picker-default-button-reset-padding-left(small);
@@ -227,7 +221,6 @@
   }
 
   &-xs {
-    .button-size-xs();
     .picker-button-caret-xs();
     .picker-button-size(extra-small);
     .picker-default-button-reset-padding-left(extra-small);
