@@ -11,14 +11,6 @@ import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
-const PAGINATION_ICONS = {
-  more: <MoreIcon />,
-  prev: <PagePreviousIcon />,
-  next: <PageNextIcon />,
-  first: <PageTopIcon />,
-  last: <PageEndIcon />
-};
-
 export interface PaginationProps extends WithAsProps {
   /** Current page number */
   activePage?: number;
@@ -72,7 +64,7 @@ export interface PaginationProps extends WithAsProps {
  * @see https://rsuitejs.com/components/pagination
  */
 const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
-  const { propsWithDefaults } = useCustom('Pagination', props);
+  const { propsWithDefaults, rtl } = useCustom('Pagination', props);
   const {
     as: Component = 'div',
     className,
@@ -88,7 +80,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     prev,
     next,
     last,
-    size = 'xs',
+    size = 'sm',
     linkAs,
     linkProps,
     onSelect,
@@ -116,10 +108,19 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
         key={`${key}-${eventKey}`}
         eventKey={eventKey}
         as={linkAs}
+        size={size}
         disabled={disabledButton}
         onSelect={disabledButton ? undefined : onSelect}
       />
     );
+  };
+
+  const icons = {
+    more: <MoreIcon />,
+    first: rtl ? <PageEndIcon /> : <PageTopIcon />,
+    last: rtl ? <PageTopIcon /> : <PageEndIcon />,
+    prev: rtl ? <PageNextIcon /> : <PagePreviousIcon />,
+    next: rtl ? <PagePreviousIcon /> : <PageNextIcon />
   };
 
   const renderFirst = () => {
@@ -130,9 +131,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     return renderItem('first', {
       eventKey: 1,
       disabled: activePage === 1,
-      children: (
-        <span className={prefix`symbol`}>{first === true ? PAGINATION_ICONS.first : first}</span>
-      )
+      children: <span className={prefix`symbol`}>{first === true ? icons.first : first}</span>
     });
   };
 
@@ -144,9 +143,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     return renderItem('prev', {
       eventKey: activePage - 1,
       disabled: activePage === 1,
-      children: (
-        <span className={prefix`symbol`}>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
-      )
+      children: <span className={prefix`symbol`}>{prev === true ? icons.prev : prev}</span>
     });
   };
 
@@ -154,14 +151,14 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     const pageButtons: React.ReactElement[] = [];
     let startPage;
     let endPage;
-    let hasHiddenPagesAfter;
+    let shouldShowEllipsisAfter;
 
     if (maxButtons) {
       const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
       startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
-      hasHiddenPagesAfter = startPage + maxButtons <= pages;
+      shouldShowEllipsisAfter = startPage + maxButtons <= pages;
 
-      if (!hasHiddenPagesAfter) {
+      if (!shouldShowEllipsisAfter) {
         endPage = pages;
         startPage = pages - maxButtons + 1;
         if (startPage < 1) {
@@ -191,9 +188,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
           eventKey: 'ellipsisFirst',
           disabled: true,
           children: (
-            <span className={prefix`symbol`}>
-              {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
-            </span>
+            <span className={prefix`symbol`}>{ellipsis === true ? icons.more : ellipsis}</span>
           )
         })
       );
@@ -201,15 +196,13 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
       pageButtons.unshift(renderItem(1, { eventKey: 1, children: 1 }));
     }
 
-    if (maxButtons && hasHiddenPagesAfter && ellipsis) {
+    if (maxButtons && shouldShowEllipsisAfter && ellipsis) {
       pageButtons.push(
         renderItem('more', {
           eventKey: 'ellipsis',
           disabled: true,
           children: (
-            <span className={prefix`symbol`}>
-              {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
-            </span>
+            <span className={prefix`symbol`}>{ellipsis === true ? icons.more : ellipsis}</span>
           )
         })
       );
@@ -229,9 +222,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     return renderItem('next', {
       eventKey: activePage + 1,
       disabled: activePage >= pages,
-      children: (
-        <span className={prefix`symbol`}>{next === true ? PAGINATION_ICONS.next : next}</span>
-      )
+      children: <span className={prefix`symbol`}>{next === true ? icons.next : next}</span>
     });
   };
 
@@ -243,9 +234,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     return renderItem('last', {
       eventKey: pages,
       disabled: activePage >= pages,
-      children: (
-        <span className={prefix`symbol`}>{last === true ? PAGINATION_ICONS.last : last}</span>
-      )
+      children: <span className={prefix`symbol`}>{last === true ? icons.last : last}</span>
     });
   };
 

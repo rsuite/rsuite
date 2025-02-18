@@ -12,7 +12,7 @@ Divider are used to group content horizontally or vertically.
 
 <!--{include:`basic.md`}-->
 
-### Divider With Text
+### Divider with Text
 
 <!--{include:`with-text.md`}-->
 

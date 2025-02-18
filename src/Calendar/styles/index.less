@@ -7,6 +7,11 @@
 // ----------------------
 
 .rs-calendar {
+  --rs-calendar-cell-font-size: var(--rs-font-size-sm);
+  --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
+  --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
+  --rs-calendar-border-radius: @border-radius;
+
   padding-top: @calendar-picker-padding;
   position: relative;
   min-height: 266px;
@@ -270,7 +275,7 @@
 
   &-meridiem {
     // Designer think it's nice!
-    font-size: @font-size-small;
+    font-size: var(--rs-font-size-xs);
     margin-left: 4px;
   }
 
@@ -426,7 +431,7 @@
 .rs-calendar-table-header-cell-content {
   display: inline-block;
   color: var(--rs-text-secondary);
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
   line-height: @line-height-small;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -448,7 +453,7 @@
   vertical-align: middle;
   color: var(--rs-text-secondary);
   background-color: var(--rs-bg-well);
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
 }
 
 // Calendar month dropdown
@@ -585,7 +590,7 @@
     background-color: var(--rs-calendar-time-unit-bg);
     color: var(--rs-text-secondary);
     text-align: center;
-    font-size: @font-size-small;
+    font-size: var(--rs-font-size-xs);
     line-height: @line-height-small;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -597,7 +602,7 @@
   }
 
   &-cell {
-    font-size: @font-size-base;
+    font-size: var(--rs-font-size-sm);
     line-height: @line-height-computed;
     color: inherit;
     padding: 5px;

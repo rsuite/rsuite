@@ -34,7 +34,9 @@
   .rs-checkbox-inner::after {
     opacity: 0;
     transform: rotate(45deg) scale(0);
-    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+    transition:
+      opacity 0.2s ease-in,
+      transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
     .high-contrast-mode({
       transition: none;
@@ -104,7 +106,9 @@
     transform: scale(1);
     opacity: 0.7;
     visibility: hidden;
-    transition: transform 0.2s linear, opacity 0.2s linear;
+    transition:
+      transform 0.2s linear,
+      opacity 0.2s linear;
 
     .high-contrast-mode({
       transition: none;
@@ -121,7 +125,10 @@
   .rs-checkbox-inner::before {
     .checkbox-inner-wrap(var(--rs-checkbox-border));
 
-    transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
+    transition:
+      background 0.2s linear,
+      border 0.2s linear,
+      box-shadow 0.2s linear;
 
     .high-contrast-mode({
       transition: none;
@@ -151,22 +158,7 @@
 
 each(@spectrum, .(@color) {
   .rs-checkbox-@{color} {
-    .rs-checkbox-control::before{
-      border-color: var(~'--rs-@{color}-500');
-    }
-
-    label:hover{
-      .rs-checkbox-inner::before {
-        border-color: var(~'--rs-@{color}-500');
-      }
-    }
-
-    &.rs-checkbox-checked,
-    &.rs-checkbox-indeterminate  {
-      .rs-checkbox-inner::before{
-        border-color: var(~'--rs-@{color}-500');
-        background-color:var(~'--rs-@{color}-500');
-      }
-    }
+    --rs-checkbox-checked-bg: var(~'--rs-@{color}-500');
+    --rs-checkbox-border: var(~'--rs-@{color}-500');
   }
 });

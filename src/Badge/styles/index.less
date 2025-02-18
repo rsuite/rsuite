@@ -9,11 +9,11 @@
   --rs-badge-offset-y: 5%;
   --rs-badge-translate: 40%;
 
+  display: inline-flex;
+
   &-circle {
     --rs-badge-translate: 30%;
   }
-
-  display: inline-flex;
 
   &-independent,
   &-content {
@@ -23,9 +23,9 @@
     background-color: var(--rs-badge-bg);
     color: var(--rs-badge-text);
     border-radius: 999px;
-    font-size: 12px;
-    line-height: 16px;
-    padding: 0 5px;
+    font-size: var(--rs-font-size-xs);
+    line-height: 1rem;
+    padding-inline: 0.3125rem;
     transition: opacity 0.3s ease-in-out;
   }
 
@@ -92,12 +92,6 @@
 
 each(@spectrum, .(@color) {
   .rs-badge-@{color} {
-
     --rs-badge-bg: var(~'--rs-@{color}-500');
-
-    &.rs-badge-independent,
-    .rs-badge-content {
-      background-color: var(--rs-badge-bg);
-    }
   }
 });

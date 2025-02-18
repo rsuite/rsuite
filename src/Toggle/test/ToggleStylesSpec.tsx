@@ -1,7 +1,8 @@
 import React from 'react';
+import Toggle from '../';
 import { render } from '@testing-library/react';
 import { toRGB } from '@test/utils';
-import Toggle from '../index';
+
 import '../styles/index.less';
 
 describe('Toggle styles', () => {
@@ -14,9 +15,9 @@ describe('Toggle styles', () => {
     );
   });
 
-  it('Should be inline-block', () => {
+  it('Should render the correct display style', () => {
     const { container } = render(<Toggle />);
 
-    expect(container.firstChild).to.have.style('display', 'inline-block');
+    expect(container.firstChild).to.have.style('display', 'inline-flex');
   });
 });

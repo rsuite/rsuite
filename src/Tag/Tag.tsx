@@ -50,10 +50,7 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
 
   const { remove } = getLocale('common', overrideLocale);
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(size, isPresetColor(color) && color, { closable })
-  );
+  const classes = merge(className, withClassPrefix(size, isPresetColor(color) && color));
 
   const styles = useMemo(
     () => mergeStyles(style, createColorVariables(color, '--rs-tag-bg', '--rs-tag-text')),

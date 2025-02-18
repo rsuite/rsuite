@@ -32,13 +32,14 @@ const App = () => {
   return (
     <>
       <div>
-        <Switch label="first" checked={first} onChange={setFirst} />
-        <Switch label="last" checked={last} onChange={setLast} />
-        <Switch label="prev" checked={prev} onChange={setPrev} />
-        <Switch label="next" checked={next} onChange={setNext} />
-
-        <Switch label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
-        <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        <HStack spacing={16} wrap>
+          <Switch label="first" checked={first} onChange={setFirst} />
+          <Switch label="last" checked={last} onChange={setLast} />
+          <Switch label="prev" checked={prev} onChange={setPrev} />
+          <Switch label="next" checked={next} onChange={setNext} />
+          <Switch label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
+          <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        </HStack>
         <hr />
         <span>
           size：

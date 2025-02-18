@@ -383,6 +383,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
           onClick={handleStepUp}
           disabled={stepUpDisabled}
           aria-label="Increment"
+          size={size}
         >
           <ArrowUpLineIcon />
         </Button>
@@ -393,6 +394,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
           onClick={handleStepDown}
           disabled={stepDownDisabled}
           aria-label="Decrement"
+          size={size}
         >
           <ArrowDownLineIcon />
         </Button>

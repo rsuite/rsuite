@@ -75,7 +75,7 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     disabled = buttonGroup?.disabled,
     loading,
     ripple = true,
-    size = buttonGroup?.size,
+    size = buttonGroup?.size || 'md',
     startIcon,
     endIcon,
     type: typeProp,

@@ -7,28 +7,43 @@ import { testStandardProps } from '@test/utils';
 describe('PaginationButton', () => {
   testStandardProps(<PaginationButton eventKey="" />);
 
-  it('Should render a <button>', () => {
+  it('Should render a button with correct text', () => {
     render(<PaginationButton eventKey="">Test</PaginationButton>);
+    const button = screen.getByRole('button');
+    expect(button).to.exist;
+    expect(button).to.have.text('Test');
+  });
 
-    expect(screen.getByText('Test')).to.exist;
+  it('Should have correct ARIA attributes', () => {
+    render(
+      <PaginationButton eventKey="" active disabled>
+        Test
+      </PaginationButton>
+    );
+    const button = screen.getByRole('button');
+    expect(button).to.have.attribute('aria-disabled', 'true');
+    expect(button).to.have.attribute('aria-current', 'page');
   });
 
   it('Should be disabled', () => {
     render(<PaginationButton eventKey="" disabled />);
-    expect(screen.getByRole('button')).to.have.attribute('disabled');
+    const button = screen.getByRole('button');
+    expect(button).to.have.attribute('disabled');
+    expect(button).to.have.attribute('aria-disabled', 'true');
+    expect(button).to.have.class('rs-pagination-btn-disabled');
   });
 
   it('Should be active', () => {
     render(<PaginationButton eventKey="" active />);
-
-    expect(screen.getByRole('button')).to.have.class('rs-pagination-btn-active');
+    const button = screen.getByRole('button');
+    expect(button).to.have.class('rs-pagination-btn-active');
+    expect(button).to.have.attribute('aria-current', 'page');
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
     const onSelect = sinon.spy();
     render(<PaginationButton onSelect={onSelect} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
-
     expect(onSelect).to.have.been.calledWith(10);
   });
 
@@ -36,8 +51,24 @@ describe('PaginationButton', () => {
     const onClick = sinon.spy();
     render(<PaginationButton onClick={onClick} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
-
     expect(onClick).to.have.been.calledOnce;
+  });
+
+  it('Should not call onSelect when disabled', () => {
+    const onSelect = sinon.spy();
+    render(<PaginationButton onSelect={onSelect} eventKey={10} disabled />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(onSelect).to.not.have.been.called;
+  });
+
+  it('Should not call onSelect when event is prevented', () => {
+    const onSelect = sinon.spy();
+    const onClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+    };
+    render(<PaginationButton onSelect={onSelect} onClick={onClick} eventKey={10} />);
+    fireEvent.click(screen.getByRole('button'));
+    expect(onSelect).to.not.have.been.called;
   });
 
   it('Custom elements can get the active prop', () => {
@@ -48,11 +79,9 @@ describe('PaginationButton', () => {
     Button.displayName = 'Button';
 
     const { rerender } = render(<PaginationButton eventKey="" active as={Button} />);
-
     expect(screen.getByText('active')).to.exist;
 
     rerender(<PaginationButton eventKey="" active={false} as={Button} />);
-
     expect(screen.getByText('inactive')).to.exist;
   });
 
@@ -68,7 +97,6 @@ describe('PaginationButton', () => {
       );
     });
     render(<PaginationButton eventKey={1} as={Button} />);
-
     expect(screen.getByText('1')).to.exist;
   });
 });

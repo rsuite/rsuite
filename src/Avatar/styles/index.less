@@ -1,7 +1,20 @@
 @import '../../styles/common';
-@import 'mixin';
 
 .rs-avatar {
+  --rs-avatar-size-xs: 1.25rem; // 20px
+  --rs-avatar-size-sm: 1.875rem; // 30px
+  --rs-avatar-size-md: 2.5rem; // 40px
+  --rs-avatar-size-lg: 3.75rem; // 60px
+  --rs-avatar-size-xl: 5.625rem; // 90px
+  --rs-avatar-size-2xl: 7.5rem; // 120px
+
+  --rs-avatar-font-size-xs: var(--rs-font-size-xs);
+  --rs-avatar-font-size-sm: var(--rs-font-size-sm);
+  --rs-avatar-font-size-md: var(--rs-font-size-md);
+  --rs-avatar-font-size-lg: var(--rs-font-size-lg);
+  --rs-avatar-font-size-xl: var(--rs-font-size-xl);
+  --rs-avatar-font-size-2xl: var(--rs-font-size-2xl);
+
   background-color: var(--rs-avatar-bg);
   color: var(--rs-avatar-text);
   display: inline-flex;
@@ -10,8 +23,6 @@
   border-radius: 4px;
   overflow: hidden;
   position: relative;
-
-  .avatar-md();
 
   & > .rs-icon {
     vertical-align: middle;
@@ -38,37 +49,45 @@
   &-bordered {
     --rs-ring-offset-shadow: var(--rs-avatar-offset-color) 0 0 0 2px;
     --rs-ring-shadow: var(--rs-avatar-ring-color) 0 0 0 4px;
-    box-shadow: var(--rs-ring-offset-shadow), var(--rs-ring-shadow), 0 0 #0000;
+    box-shadow:
+      var(--rs-ring-offset-shadow),
+      var(--rs-ring-shadow),
+      0 0 #0000;
   }
 
   &-circle {
     border-radius: 50%;
   }
-
-  &-xxl {
-    .avatar-xxl();
-  }
-
-  &-xl {
-    .avatar-xl();
-  }
-
-  &-lg {
-    .avatar-lg();
-  }
-
-  &-sm {
-    .avatar-sm();
-  }
-
-  &-xs {
-    .avatar-xs();
-  }
 }
 
+// Colorful avatars
 each(@spectrum, .(@color) {
   .rs-avatar-@{color} {
     --rs-avatar-bg: var(~'--rs-@{color}-500');
     --rs-avatar-ring-color: var(~'--rs-@{color}-500');
+  }
+});
+
+// Size variants
+@sizes: xs, sm, md, lg, xl, 2xl;
+
+each(@sizes, .(@size) {
+  .rs-avatar-@{size} {
+    width: var(~'--rs-avatar-size-@{size}');
+    height: var(~'--rs-avatar-size-@{size}');
+    font-size: var(~'--rs-avatar-font-size-@{size}');
+
+    & > .rs-icon {
+      --rs-avatar-icon-size: calc((var(~'--rs-avatar-size-@{size}') - var(~'--rs-avatar-font-size-@{size}'))/2 + var(~'--rs-avatar-font-size-@{size}'));
+
+      font-size: var(--rs-avatar-icon-size);
+      height: var(--rs-avatar-icon-size);
+    }
+  
+    & > .rs-avatar-image {
+      width: var(~'--rs-avatar-size-@{size}');
+      height: var(~'--rs-avatar-size-@{size}');
+      line-height: var(~'--rs-avatar-size-@{size}');
+    }
   }
 });

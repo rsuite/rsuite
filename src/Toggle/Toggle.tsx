@@ -92,7 +92,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
     classPrefix = 'toggle',
     checked: checkedProp,
     defaultChecked,
-    size,
+    size = 'md',
     locale,
     onChange,
     ...rest

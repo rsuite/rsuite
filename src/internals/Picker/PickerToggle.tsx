@@ -118,7 +118,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       tabIndex={disabled ? undefined : tabIndex}
       className={classes}
     >
-      <Stack>
+      <Stack className={prefix('stack')}>
         {label && (
           <Stack.Item>
             <PickerLabel as="span" className={prefix('label')} id={labelId}>

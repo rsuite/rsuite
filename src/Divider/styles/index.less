@@ -1,6 +1,11 @@
 @import '../../styles/common';
 
 .rs-divider {
+  --rs-divider-margin-inline: calc(var(--rs-spacing) * 3);
+  --rs-divider-margin-block: calc(var(--rs-spacing) * 6);
+  --rs-divider-margin-block-with-text: calc(var(--rs-spacing) * 3);
+  --rs-divider-text-spacing: calc(var(--rs-spacing) * 3);
+
   background-color: var(--rs-divider-border);
 
   &-vertical {
@@ -9,21 +14,22 @@
     height: 100%;
     width: 1px;
     vertical-align: middle;
-    margin: 0 @divider-vertical-margin;
+    margin-inline: var(--rs-divider-margin-inline);
   }
 
   &-horizontal {
     height: 1px;
     width: 100%;
-    margin: @divider-horizontal-margin 0;
+    margin-block: var(--rs-divider-margin-block);
   }
 
   &-horizontal&-with-text {
+    --rs-divider-margin-block: calc(var(--rs-spacing) * 7.5);
+
     display: flex;
     flex-direction: row;
     align-items: center;
     background: transparent;
-    margin: @divider-with-text-horizontal-margin 0;
 
     &::before,
     &::after {
@@ -34,7 +40,7 @@
   }
 
   &-inner-text {
-    padding: 0 @divider-text-space;
+    padding-inline: var(--rs-divider-text-spacing);
     flex: 0 0 auto;
   }
 }

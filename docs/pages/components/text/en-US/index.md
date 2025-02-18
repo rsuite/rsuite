@@ -20,9 +20,13 @@ Text is a basic component that allows you to display text content on the page.
 
 <!--{include:`weight.md`}-->
 
+<br/>
+
 ### Size
 
 <!--{include:`size.md`}-->
+
+<br/>
 
 ### Override the element
 
@@ -52,8 +56,9 @@ Text is a basic component that allows you to display text content on the page.
 | color       | [Color](#code-ts-color-code) \| CSSProperties['color']                            | The color of the text.                                                                      |
 | maxLines    | number                                                                            | The number of lines to limit the provided text to. Text will be truncated with an ellipsis. |
 | muted       | boolean                                                                           | Whether the text is muted.                                                                  |
-| size        | 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| number \| string                         | The size of the text.                                                                       |
+| size        | [TextSize](#code-ts-text-size-code) \| number \| string                           | The size of the text.                                                                       |
 | transform   | 'uppercase' \| 'lowercase' \| 'capitalize'                                        | The transformation of the text.                                                             |
 | weight      | 'thin' \| 'light' \| 'regular' \| 'medium' \| 'semibold' \| 'bold' \| 'extrabold' | The weight of the text.                                                                     |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/text-size.md)}-->

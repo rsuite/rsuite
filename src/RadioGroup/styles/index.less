@@ -50,17 +50,21 @@
   }
 
   .rs-radio-checker > label {
+    --rs-radio-checker-label-color: var(--rs-text-secondary);
+    --rs-radio-checker-border-color: transparent;
+
     display: inline-block;
     white-space: nowrap;
-    font-size: @font-size-base;
+    font-size: var(--rs-font-size-sm);
     line-height: @line-height-base;
     border-radius: 0;
-    color: var(--rs-text-secondary);
+    color: var(--rs-radio-checker-label-color);
     background: none;
     transition: color 0.3s linear;
-    padding: (@padding-y - @radio-group-border-width) 0
-      (@padding-y - @radio-group-border-width - @radio-active-underline-width);
-    border-bottom: @radio-active-underline-width solid transparent;
+    padding-inline: 0;
+    padding-block-start: (@padding-y - @radio-group-border-width);
+    padding-block-end: (@padding-y - @radio-group-border-width - @radio-active-underline-width);
+    border-bottom: @radio-active-underline-width solid var(--rs-radio-checker-border-color);
 
     .high-contrast-mode({
       transition: none;
@@ -73,11 +77,9 @@
     }
   }
 
-  .rs-radio-checked .rs-radio-checker {
-    > label {
-      color: var(--rs-text-active);
-      border-color: var(--rs-text-active);
-    }
+  .rs-radio-checked .rs-radio-checker > label {
+    --rs-radio-checker-label-color: var(--rs-text-active);
+    --rs-radio-checker-border-color: var(--rs-text-active);
   }
 
   .rs-radio-disabled .rs-radio-checker {

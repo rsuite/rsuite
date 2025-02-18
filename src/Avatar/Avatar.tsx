@@ -12,7 +12,6 @@ export interface AvatarProps extends WithAsProps {
    * A avatar can have different sizes.
    *
    * @default 'md'
-   * @version xxl and xs added in v5.59.0
    */
   size?: Size;
 
@@ -83,7 +82,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
     circle,
     color,
     classPrefix = 'avatar',
-    size = groupSize,
+    size = groupSize || 'md',
     src,
     srcSet,
     sizes,

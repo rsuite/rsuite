@@ -32,8 +32,8 @@ const StatGroup = forwardRef<'div', StatGroupProps>((props, ref) => {
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
   const styles = {
-    '--rs-columns': columns,
-    '--rs-spacing': getCssValue(spacing),
+    '--rs-stat-group-columns': columns,
+    '--rs-stat-group-spacing': getCssValue(spacing),
     ...style
   } as React.CSSProperties;
 

@@ -81,35 +81,17 @@ const Notification = forwardRef<'div', NotificationProps, any, 'children'>((prop
     }, 1000);
   });
 
-  const renderHeader = () => {
-    if (!header) {
-      return null;
-    }
-
-    return (
-      <div className={prefix('title')}>
-        {type ? (
-          <div className={prefix`title-with-icon`}>
-            {MESSAGE_STATUS_ICONS[type]}
-            {header}
-          </div>
-        ) : (
-          <div className={prefix('title')}>{header}</div>
-        )}
-      </div>
-    );
-  };
-
   if (display === 'hide') {
     return null;
   }
 
-  const classes = merge(className, withClassPrefix(type, display, { closable }));
+  const classes = merge(className, withClassPrefix(type, { closable }));
 
   return (
     <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
+      {type && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
       <div className={prefix`content`}>
-        {renderHeader()}
+        {header && <div className={prefix('header')}>{header}</div>}
         <div className={prefix('description')}>
           {typeof children === 'function' ? children() : children}
         </div>

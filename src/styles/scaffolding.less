@@ -7,11 +7,13 @@
 // Body reset
 html {
   -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+
 }
 
 body {
   font-family: var(--rs-font-family-base);
-  font-size: @font-size-base;
+  font-size: var(--rs-font-size-sm);
   line-height: @line-height-base;
   color: var(--rs-text-primary);
   background-color: var(--rs-body);
@@ -44,7 +46,7 @@ hr {
   margin-top: @line-height-computed;
   margin-bottom: @line-height-computed;
   border: 0;
-  border-top: 1px solid @divider-border-color;
+  border-top: 1px solid var(--rs-divider-border);
 }
 
 [role='button'] {

@@ -2,16 +2,11 @@
 @import 'variables.less';
 @import '../../Kbd/styles/mixin.less';
 
-
 // Heading
 // -------------------------
 
 .rs-text {
-  
-
   font-family: var(--rs-font-family-base);
-  line-height: @line-height-base;
-  color: var(--rs-text-color);
   margin: 0;
 
   blockquote& {
@@ -105,13 +100,25 @@
       }
     }
   }
+
+  // Colorful tags
+  each(@spectrum, .(@color) {
+    &-@{color} {
+      --rs-text-color: var(~'--rs-@{color}-500');
+    }
+  });
+
+  color: var(--rs-text-color, var(--rs-text-primary));
+
+  // Size variants
+  @sizes: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl;
+  each(@sizes, .(@size) {
+    &-@{size} {
+      --rs-text-font-size: var(~'--rs-font-size-@{size}');
+      --rs-text-line-height: var(~'--rs-text-line-height-@{size}');
+    }
+  });
+
+  font-size: var(--rs-text-font-size);
+  line-height: var(--rs-text-line-height, @line-height-base);
 }
-
-// Colorful tags
-each(@spectrum, .(@color) {
-  .rs-text-@{color} {
-    --rs-text-color:  var(~'--rs-@{color}-500');
-
-    color: var(--rs-text-color);
-  }
-});
