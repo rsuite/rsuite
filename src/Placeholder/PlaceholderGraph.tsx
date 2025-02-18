@@ -1,7 +1,7 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export interface PlaceholderGraphProps extends WithAsProps {
@@ -34,19 +34,23 @@ const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) =
   const {
     as: Component = 'div',
     className,
+    classPrefix = 'placeholder',
     width,
-    height = 200,
+    height,
     style,
     active,
-    classPrefix = 'placeholder',
     ...rest
   } = propsWithDefaults;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
   const classes = merge(className, withClassPrefix('graph', { active }));
-  const styles = { width: width || '100%', height, ...style };
-  return <Component {...rest} ref={ref} className={classes} style={styles} />;
+  const styles = {
+    '--rs-placeholder-graph-width': getCssValue(width),
+    '--rs-placeholder-graph-height': getCssValue(height)
+  } as React.CSSProperties;
+
+  return <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)} />;
 });
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export interface PlaceholderParagraphProps extends WithAsProps {
@@ -51,37 +51,38 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
     const {
       as: Component = 'div',
       className,
-      rows = 2,
-      rowHeight = 10,
-      rowMargin = 20,
-      rowSpacing = rowMargin,
+      classPrefix = 'placeholder',
+      rows = 3,
+      rowHeight,
+      rowSpacing,
       graph,
       active,
-      classPrefix = 'placeholder',
+      style,
       ...rest
     } = propsWithDefaults;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const graphShape = graph === true ? 'square' : graph;
 
+    const styles = {
+      '--rs-placeholder-row-height': getCssValue(rowHeight),
+      '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
+    } as React.CSSProperties;
+
     const rowElements = useMemo(() => {
       const rowArr: React.ReactElement[] = [];
 
       for (let i = 0; i < rows; i++) {
-        const styles = {
-          height: rowHeight,
-          marginTop: i > 0 ? rowSpacing : Number(rowSpacing) / 2
-        };
-        rowArr.push(<div key={i} style={styles} className={prefix`row`} />);
+        rowArr.push(<div key={i} className={prefix`row`} />);
       }
       return rowArr;
-    }, [prefix, rowHeight, rowSpacing, rows]);
+    }, [prefix, rows]);
 
     const classes = merge(className, withClassPrefix('paragraph', { active }));
     const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
         {graphShape && (
           <div className={graphClasses}>
             <span className={prefix('paragraph-graph-inner')} />
