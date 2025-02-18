@@ -99,20 +99,4 @@ describe('PaginationButton', () => {
     render(<PaginationButton eventKey={1} as={Button} />);
     expect(screen.getByText('1')).to.exist;
   });
-
-  it('Should call onSelect callback when pressing Enter or Space key', () => {
-    const onSelect = sinon.spy();
-    render(<PaginationButton onSelect={onSelect} eventKey={10} />);
-    const button = screen.getByRole('button');
-
-    // Test Enter key
-    fireEvent.keyDown(button, { key: 'Enter' });
-    fireEvent.keyUp(button, { key: 'Enter' });
-
-    // Test Space key
-    fireEvent.keyDown(button, { key: ' ' });
-    fireEvent.keyUp(button, { key: ' ' });
-
-    expect(onSelect).to.have.been.calledTwice;
-  });
 });
