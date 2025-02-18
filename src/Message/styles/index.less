@@ -1,8 +1,6 @@
 @import '../../styles/common.less';
 @import '../../toaster/styles/animation.less';
 @import '../../internals/CloseButton/styles/index.less';
-@import './mixin.less';
-
 //
 // Messages
 // --------------------------------------------------
@@ -16,6 +14,9 @@
   --rs-message-border-radius: @border-radius;
   --rs-message-icon-size: var(--rs-font-size-md);
   --rs-message-padding: 1.25rem;
+  --rs-message-header-color: var(--rs-text-heading);
+  --rs-message-body-color: var(--rs-text-primary);
+  --rs-message-icon-color: var(--rs-text-secondary);
 
   border-radius: var(--rs-message-border-radius);
   font-size: var(--rs-message-font-size);
@@ -23,14 +24,51 @@
   position: relative;
   animation-fill-mode: forwards;
   overflow: hidden;
+  background: #fff;
+
+  // Alternate styles
+  // -------------------------
+  // Generate contextual modifier classes for colorizing the message.
+  @types: success, info, warning, error;
+  each(@types, .(@type) {
+    &.rs-message-@{type} {
+      --rs-message-bg-color: var(~'--rs-message-@{type}-bg');
+      --rs-message-header-color: var(~'--rs-message-@{type}-header');
+      --rs-message-body-color: var(~'--rs-message-@{type}-text');
+      --rs-message-icon-color: var(~'--rs-message-@{type}-icon');
+      --rs-message-border-color: var(~'--rs-message-@{type}-border');
+      --rs-message-icon-border-color: var(~'--rs-message-@{type}-icon-border');
+    }
+  })
+
+  .high-contrast-mode({
+    border: 1px solid var(--rs-message-border-color);
+  });
 
   &-container {
+    background-color: var(--rs-message-bg-color);
     padding: var(--rs-message-padding);
     display: flex;
     align-items: baseline;
   }
 
+  // Message with a title
+  &&-has-title {
+    --rs-message-icon-size: var(--rs-font-size-2xl);
+
+    // Bigger icon
+    .rs-message-icon {
+      align-self: flex-start;
+
+      .rs-icon {
+        line-height: 1;
+      }
+    }
+  }
+
   &&-centered {
+    --rs-message-icon-size: var(--rs-font-size-5xl);
+
     .rs-message-container {
       flex-direction: column;
       align-items: center;
@@ -39,14 +77,19 @@
     }
 
     .rs-message-icon {
-      align-self: center !important;
-
-      --rs-message-icon-size: var(--rs-font-size-5xl) !important;
+      align-self: center;
     }
 
     &.rs-message-bordered {
-      border-left-width: 1px !important;
-      border-top-width: 4px !important;
+      border-style: solid;
+      border-width: 4px 1px 1px 1px;
+      border-color: var(--rs-message-border-color);
+
+      .rs-message-icon {
+        box-sizing: content-box;
+        border: 4px solid var(--rs-message-icon-border-color);
+        border-radius: 50%;
+      }
     }
   }
 
@@ -69,8 +112,8 @@
 
   // Header
   &-header {
-    color: var(--rs-text-heading);
-    line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
+    color: var(--rs-message-header-color);
+    line-height: var(--rs-text-line-height-md);
     font-weight: bold;
     .ellipsis();
 
@@ -81,7 +124,7 @@
 
   // Description
   &-body {
-    color: var(--rs-text-primary);
+    color: var(--rs-message-body-color);
     ul,
     ol {
       margin: 0;
@@ -90,17 +133,9 @@
     }
   }
 
-  // Message with a title
-  &&-has-title {
-    // Bigger icon
-    .rs-message-icon {
-      align-self: flex-start;
-      --rs-message-icon-size: var(--rs-font-size-2xl);
-
-      .rs-icon {
-        line-height: 1;
-      }
-    }
+  .rs-message-icon > .rs-icon,
+  .rs-btn-close {
+    color: var(--rs-message-icon-color);
   }
 
   // Multiple messages should have spacing
@@ -138,70 +173,4 @@
   width: 100%;
   border-radius: 0;
   z-index: @zindex-message-full;
-}
-
-// Alternate styles
-// -------------------------
-// Generate contextual modifier classes for colorizing the message.
-
-.rs-message-success {
-  // Don't write arguments in single line when using var()
-  // it breaks stylelint
-  .message-variant(
-    var(--rs-message-success-bg);
-    var(--rs-message-success-header);
-    var(--rs-message-success-text);
-    var(--rs-message-success-icon);
-    var(--rs-message-success-border);
-    var(--rs-message-success-icon-border);
-  );
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-message-success-border);
-  });
-}
-
-.rs-message-info {
-  .message-variant(
-    var(--rs-message-info-bg);
-    var(--rs-message-info-header);
-    var(--rs-message-info-text);
-    var(--rs-message-info-icon);
-    var(--rs-message-info-border);
-    var(--rs-message-info-icon-border);
-  );
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-message-info-border);
-  });
-}
-
-.rs-message-warning {
-  .message-variant(
-    var(--rs-message-warning-bg);
-    var(--rs-message-warning-header);
-    var(--rs-message-warning-text);
-    var(--rs-message-warning-icon);
-    var(--rs-message-warning-border);
-    var(--rs-message-warning-icon-border);
-  );
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-message-warning-border);
-  });
-}
-
-.rs-message-error {
-  .message-variant(
-    var(--rs-message-error-bg);
-    var(--rs-message-error-header);
-    var(--rs-message-error-text);
-    var(--rs-message-error-icon);
-    var(--rs-message-error-border);
-    var(--rs-message-error-icon-border);
-  );
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-message-error-border);
-  });
 }
