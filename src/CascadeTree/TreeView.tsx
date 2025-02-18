@@ -139,7 +139,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
         className={children ? prefix('has-children') : undefined}
         onSelect={(_value, event) => handleSelect(layer, itemData, event)}
       >
-        {renderTreeNode ? renderTreeNode(label, itemData) : label}
+        <span>{renderTreeNode ? renderTreeNode(label, itemData) : label}</span>
         {children ? (
           <Icon className={prefix('caret')} spin={loading} data-testid="spinner" />
         ) : null}

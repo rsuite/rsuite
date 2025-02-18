@@ -15,10 +15,10 @@ describe('SelectPicker styles', () => {
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#fff'));
     expect(screen.getByRole('combobox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
-    expect(screen.getByRole('combobox')).to.have.style('padding', '7px 32px 7px 11px');
+    expect(screen.getByRole('combobox')).to.have.style('padding', '7px 11px');
     expect(screen.getByTestId('picker-popup').querySelector('.rs-picker-none')).to.have.style(
       'padding',
-      '6px 12px 12px'
+      '12px'
     );
   });
 
@@ -27,7 +27,7 @@ describe('SelectPicker styles', () => {
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#0000'));
     expect(screen.getByRole('combobox')).to.have.style('border-width', '0px');
-    expect(screen.getByRole('combobox')).to.have.style('padding', '8px 32px 8px 12px');
+    expect(screen.getByRole('combobox')).to.have.style('padding', '8px 12px');
   });
 
   it('Block select picker should render correct toggle styles', () => {

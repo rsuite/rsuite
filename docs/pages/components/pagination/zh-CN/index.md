@@ -54,7 +54,7 @@
 | onChangeLimit | (limit:number) => void;                                 | 每页显示的条数改变的回调                             |
 | onChangePage  | (page:number) => void;                                  | 页码改变的回调                                       |
 | prev          | boolean                                                 | 显示上一页                                           |
-| size          | 'lg' \| 'md' \| 'sm' \| 'xs' `('xs')`                   | 分页组件的尺寸                                       |
+| size          | 'lg' \| 'md' \| 'sm' \| 'xs' `('sm')`                   | 分页组件的尺寸                                       |
 | total \*      | number                                                  | 数据总数。一般通过服务端得到                         |
 
 ### `ts:LayoutType`

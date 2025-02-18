@@ -9,6 +9,7 @@ import { useCustom } from '../CustomProvider';
 export const InputGroupContext = React.createContext<{
   onFocus: () => void;
   onBlur: () => void;
+  size?: SizeType;
 } | null>(null);
 
 export interface InputGroupProps extends WithAsProps {
@@ -72,8 +73,8 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
   }, [children, disabled]);
 
   const contextValue = useMemo(
-    () => ({ onFocus: handleFocus, onBlur: handleBlur }),
-    [handleFocus, handleBlur]
+    () => ({ size, onFocus: handleFocus, onBlur: handleBlur }),
+    [size, handleFocus, handleBlur]
   );
 
   return (

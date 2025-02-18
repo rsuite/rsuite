@@ -15,8 +15,8 @@
   --rs-input-padding-block-sm: calc(@padding-y-sm - @input-border-width);
   --rs-input-padding-block-md: calc(@padding-y - @input-border-width);
   --rs-input-padding-block-lg: calc(@padding-y-lg - @input-border-width);
-  --rs-input-padding-inline-xs: calc(@input-padding-x - @input-border-width);
-  --rs-input-padding-inline-sm: calc(@input-padding-x - @input-border-width);
-  --rs-input-padding-inline-md: calc(@input-padding-x - @input-border-width);
-  --rs-input-padding-inline-lg: calc(@input-padding-x - @input-border-width);
+  --rs-input-padding-inline-xs: calc(var(--rs-spacing) - @input-border-width);
+  --rs-input-padding-inline-sm: calc(calc(var(--rs-spacing) * 2) - @input-border-width);
+  --rs-input-padding-inline-md: calc(calc(var(--rs-spacing) * 2.5) - @input-border-width);
+  --rs-input-padding-inline-lg: calc(calc(var(--rs-spacing) * 3) - @input-border-width);
 }

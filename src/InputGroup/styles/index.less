@@ -1,18 +1,36 @@
 @import '../../styles/common.less';
 @import '../../Input/styles/mixin.less';
 @import '../../Button/styles/index.less';
-@import './mixin.less';
 
 //
-// Input groups
+// Input Group Component Styles
 // --------------------------------------------------
+// The Input Group component allows you to create grouped form controls by combining
+// inputs with addons, buttons, or other elements.
 
-// Base styles
-// -------------------------
 .rs-input-group {
-  position: relative; // For dropdowns
+  --rs-input-group-input-height-xs: calc(@input-height-extra-small - 2px);
+  --rs-input-group-input-height-sm: calc(@input-height-small - 2px);
+  --rs-input-group-input-height-md: calc(@input-height-base - 2px);
+  --rs-input-group-input-height-lg: calc(@input-height-large - 2px);
+  --rs-input-group-inside-btn-m-x-xs: calc(@padding-y-xs / 2);
+  --rs-input-group-inside-btn-m-x-sm: calc(@padding-y-sm / 2);
+  --rs-input-group-inside-btn-m-x-md: calc(@padding-y / 2);
+  --rs-input-group-inside-btn-m-x-lg: calc(@padding-y-lg / 2);
+  --rs-input-group-inside-btn-p-x-xs: calc(@padding-x-xs / 2);
+  --rs-input-group-inside-btn-p-x-sm: calc(@padding-x-sm / 2);
+  --rs-input-group-inside-btn-p-x-md: calc(@padding-x / 2);
+  --rs-input-group-inside-btn-p-x-lg: calc(@padding-x-lg / 2);
+  --rs-input-group-border-radius: @input-border-radius;
+  --rs-input-group-font-size-xs: var(--rs-font-size-xs);
+  --rs-input-group-font-size-sm: var(--rs-font-size-sm);
+  --rs-input-group-font-size-md: var(--rs-font-size-sm);
+  --rs-input-group-font-size-lg: var(--rs-font-size-md);
+
+  // Base styles for the input group container
+  position: relative;
   display: flex;
-  border-radius: @input-border-radius;
+  border-radius: var(--rs-input-group-border-radius);
   transition: @input-transition;
   width: 100%;
   cursor: text;
@@ -20,10 +38,27 @@
   border: 1px solid var(--rs-border-primary);
   overflow: hidden;
 
+  // Size Variants Configuration
+  // Apply different sizes (xs, sm, md, lg) to input group
+  // Each size variant sets its own height, spacing, and font size variables
+  @sizes: xs, sm, md, lg;
+
+  each(@sizes, .(@size) {
+    &.rs-input-group-@{size} {
+      --rs-input-group-input-height: var(~'--rs-input-group-input-height-@{size}');
+      --rs-input-group-inside-btn-spacing: var(~'--rs-input-group-inside-btn-m-x-@{size}');
+      --rs-input-group-inside-btn-padding: var(~'--rs-input-group-inside-btn-p-x-@{size}');
+      --rs-input-group-font-size: var(~'--rs-input-group-font-size-@{size}');
+    }
+  });
+
+  // High Contrast Mode Adjustments
   .high-contrast-mode({
     transition: none;
   });
 
+  // Hover and Focus States
+  // Apply special styles when the input group is hovered or focused
   &:not(.rs-input-group-disabled):hover,
   &:not(.rs-input-group-disabled).rs-input-group-focus,
   &:focus-within {
@@ -35,11 +70,15 @@
     .focus-ring();
   }
 
+  // Nested Input Groups
+  // Remove outline and border when input groups are nested
   & & {
     outline: none !important;
     border-color: transparent !important;
   }
 
+  // Child Component Styles
+  // Remove borders and border radius from child components
   .rs-input-number,
   .rs-input-group-addon,
   .rs-input-group-btn,
@@ -47,33 +86,6 @@
     border: none;
     border-radius: 0;
     outline: none;
-  }
-
-  // Reset border
-  &:not(.rs-input-group-inside) {
-    .rs-input {
-      border: none;
-      border-radius: 0;
-      outline: none;
-    }
-
-    .rs-input-number:not(:last-child) .rs-input-number {
-      &-btn-group-vertical {
-        border-radius: 0;
-      }
-
-      &-touchspin-up {
-        border-top-right-radius: 0;
-      }
-
-      &-touchspin-down {
-        border-bottom-right-radius: 0;
-      }
-    }
-
-    .rs-input-number:not(:first-child) .rs-input {
-      border-radius: 0 !important;
-    }
   }
 
   > .rs-input,
@@ -89,10 +101,21 @@
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.
     position: relative;
+    height: var(--rs-input-group-input-height);
+    border: none;
+    border-radius: 0;
+    outline: none;
   }
 
+  > .rs-input-group-addon > .rs-icon {
+    font-size: inherit;
+  }
+
+  // Inside Input Group Variant
+  // Special styling for input groups with internal buttons/addons
   &.rs-input-group-inside {
     width: 100%;
+    align-items: center;
     background-color: var(--rs-input-bg);
 
     .rs-input {
@@ -109,10 +132,15 @@
     }
 
     .rs-input-group-btn {
+      border-radius: var(--rs-input-group-border-radius);
+      height: calc(
+        var(--rs-input-group-input-height) - var(--rs-input-group-inside-btn-spacing) * 2
+      );
+      margin-inline: var(--rs-input-group-inside-btn-spacing);
+      padding-inline: var(--rs-input-group-inside-btn-padding);
       .rs-btn-subtle();
 
       color: inherit;
-      .reset-inside-input-group-btn-size(base);
 
       &:focus {
         outline: none;
@@ -120,7 +148,6 @@
     }
 
     .rs-input-group-addon {
-      top: 0;
       background: none;
       border: none;
     }
@@ -137,6 +164,8 @@
   }
 }
 
+// Disabled State
+// Styles applied when the input group is disabled
 .rs-input-group.rs-input-group-disabled {
   background-color: var(--rs-input-disabled-bg);
   color: var(--rs-text-disabled);
@@ -149,113 +178,23 @@
   }
 }
 
-// Sizing options
-//
-// Remix the default form control sizing classes into new ones for easier
-// manipulation.
-
-//Reset Input size
-.rs-input-group-lg {
-  > .rs-input {
-    .input-lg();
-  }
-
-  .reset-input-group-children-size(large);
-}
-
-.rs-input-group-md {
-  > .rs-input {
-    .input-md();
-  }
-
-  .reset-input-group-children-size(base);
-}
-
-.rs-input-group-sm {
-  > .rs-input {
-    .input-sm();
-  }
-
-  .reset-input-group-children-size(small);
-}
-
-.rs-input-group-xs {
-  > .rs-input {
-    .input-xs();
-  }
-
-  .reset-input-group-children-size(extra-small);
-}
-
-// Reset input group addon size.
-.rs-input-group.rs-input-group-lg > .rs-input-group-addon {
-  font-size: var(--rs-font-size-md);
-
-  .reset-input-group-addon-size(large);
-}
-
-.rs-input-group.rs-input-group-md > .rs-input-group-addon {
-  font-size: var(--rs-font-size-sm);
-
-  .reset-input-group-addon-size(base);
-}
-
-.rs-input-group.rs-input-group-sm > .rs-input-group-addon {
-  font-size: var(--rs-font-size-sm);
-
-  .reset-input-group-addon-size(small);
-}
-
-.rs-input-group.rs-input-group-xs > .rs-input-group-addon {
-  font-size: var(--rs-font-size-xs);
-
-  .reset-input-group-addon-size(extra-small);
-}
-
-// Reset inside input group button size.
-.rs-input-group-inside.rs-input-group-lg > .rs-input-group-btn {
-  .reset-inside-input-group-btn-size(large);
-}
-
-.rs-input-group-inside.rs-input-group-md > .rs-input-group-btn {
-  .reset-inside-input-group-btn-size(base);
-}
-
-.rs-input-group-inside.rs-input-group-sm > .rs-input-group-btn {
-  .reset-inside-input-group-btn-size(small);
-}
-
-.rs-input-group-inside.rs-input-group-xs > .rs-input-group-btn {
-  .reset-inside-input-group-btn-size(extra-small);
-}
-
-// Display as table-cell
-// -------------------------
-.rs-input-group-addon,
-.rs-input-group-btn,
-.rs-input-group:not(.rs-input-group-inside) .rs-input {
-  &:not(:first-child):not(:last-child) {
-    border-radius: 0;
-  }
-}
-
-// Addon and addon wrapper for buttons
-// Text input groups
-// -------------------------
+// Addon Component Styles
+// Base styles for the addon component
 .rs-input-group-addon {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  justify-content: center;
   white-space: nowrap;
   vertical-align: middle; // Match the inputs
   color: var(--rs-text-primary);
-  font-size: var(--rs-font-size-sm);
+  font-size: var(--rs-input-group-font-size);
   font-weight: normal;
   line-height: 1;
   text-align: center;
   background-color: var(--rs-btn-default-bg);
-  border: 1px solid var(--rs-border-primary);
-  border-radius: var(--rs-input-border-radius);
+  padding-inline: var(--rs-spacing);
+  min-width: var(--rs-input-group-input-height);
 
   // Sizing
   &.rs-input-sm {
@@ -280,40 +219,14 @@
   }
 }
 
-// Button input groups
-// -------------------------
+// Button Component Styles
+// Base styles for the button component
 .rs-input-group-btn {
+  display: flex;
+  align-items: center;
   position: relative;
-  // Jankily prevent input button groups from wrapping with `white-space` and
-  // `font-size` in combination with `inline-block` on buttons.
-  //font-size: 0;
   line-height: 1;
   white-space: nowrap;
   border-radius: 0;
-
-  // Negative margin for spacing, position for bringing hovered/focused/actived
-  // element above the siblings.
-  > .rs-btn {
-    position: relative;
-
-    + .rs-btn {
-      margin-left: -1px;
-    }
-  }
-
-  // Negative margin to only have a 1px border between the two
-  &:first-child {
-    > .rs-btn,
-    > .rs-btn-group {
-      margin-right: -1px;
-      border-right: medium none;
-    }
-  }
-
-  &:last-child {
-    > .rs-btn,
-    > .rs-btn-group {
-      margin-left: -1px;
-    }
-  }
+  font-size: var(--rs-input-group-font-size);
 }

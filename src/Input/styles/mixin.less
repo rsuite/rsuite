@@ -9,7 +9,10 @@
   border: 1px solid var(--rs-border-primary);
   transition: @input-transition;
   border-radius: var(--rs-input-border-radius);
-  .input-md();
+  font-size: var(--rs-input-font-size);
+  line-height: var(--rs-input-line-height);
+  padding-block: var(--rs-input-padding-block);
+  padding-inline: var(--rs-input-padding-inline);
 
   .high-contrast-mode({
     transition: none;
@@ -37,32 +40,4 @@
   textarea& {
     height: auto;
   }
-}
-
-.input-lg() {
-  font-size: var(--rs-input-font-size-lg);
-  line-height: var(--rs-input-line-height-lg);
-  padding-block: var(--rs-input-padding-block-lg);
-  padding-inline: var(--rs-input-padding-inline-lg);
-}
-
-.input-md() {
-  font-size: var(--rs-input-font-size-md);
-  line-height: var(--rs-input-line-height-md);
-  padding-block: var(--rs-input-padding-block-md);
-  padding-inline: var(--rs-input-padding-inline-md);
-}
-
-.input-sm() {
-  font-size: var(--rs-input-font-size-sm);
-  line-height: var(--rs-input-line-height-sm);
-  padding-block: var(--rs-input-padding-block-sm);
-  padding-inline: var(--rs-input-padding-inline-sm);
-}
-
-.input-xs() {
-  font-size: var(--rs-input-font-size-xs);
-  line-height: var(--rs-input-line-height-xs);
-  padding-block: var(--rs-input-padding-block-xs);
-  padding-inline: var(--rs-input-padding-inline-xs);
 }

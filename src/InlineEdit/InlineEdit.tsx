@@ -81,7 +81,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
     classPrefix = 'inline-edit',
     className,
     disabled,
-    size,
+    size = 'md',
     showControls = true,
     stateOnBlur = 'save',
     placeholder,

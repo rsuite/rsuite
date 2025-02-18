@@ -113,7 +113,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     locale,
     toggleAs,
     style,
-    size,
+    size = 'md',
     searchable = true,
     open: controlledOpen,
     placeholder,

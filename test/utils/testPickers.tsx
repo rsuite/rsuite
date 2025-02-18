@@ -286,12 +286,7 @@ export function testPickerSize(
         </>
       );
 
-      const paddings = [
-        '9px 36px 9px 15px',
-        '7px 32px 7px 11px',
-        '4px 30px 4px 9px',
-        '1px 28px 1px 7px'
-      ];
+      const paddings = ['9px 15px', '7px 11px', '4px 9px', '1px 7px'];
 
       screen.getAllByRole(role).forEach((picker, index) => {
         if (role === 'combobox') {
@@ -313,12 +308,7 @@ export function testPickerSize(
           </>
         );
 
-        const paddings = [
-          '10px 36px 10px 16px',
-          '8px 32px 8px 12px',
-          '5px 30px 5px 10px',
-          '2px 28px 2px 8px'
-        ];
+        const paddings = ['10px 16px', '8px 12px', '5px 10px', '2px 8px'];
 
         screen.getAllByRole(role).forEach((picker, index) => {
           if (role === 'combobox') {

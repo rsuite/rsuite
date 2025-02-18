@@ -18,10 +18,10 @@
 // ----------------------
 .rs-picker {
   --rs-picker-value-count-border-radius: @picker-value-count-border-radius;
-  --rs-picker-value-count-line-height: @line-height-computed;
-  --rs-picker-value-count-padding: calc(var(--rs-spacing) * 2);
+  --rs-picker-value-count-padding: calc(var(--rs-spacing) * 1.5);
   --rs-picker-value-count-margin: var(--rs-spacing);
   --rs-picker-size: 0.875rem;
+  --rs-picker-toggle-border-width: 1px;
 
   &-toggle-wrapper {
     display: inline-block;
@@ -30,14 +30,9 @@
     max-width: 100%;
   }
 
-  &-toggle.rs-btn {
-    .rs-ripple-pond {
-      display: none !important;
-    }
-  }
-
   &-block {
     display: block;
+    width: 100%;
   }
 
   &-disabled {
@@ -63,13 +58,6 @@
     color: var(--rs-picker-value);
   }
 
-  // empty listbox
-  &-none {
-    padding: @picker-none-padding;
-    color: var(--rs-text-secondary);
-    cursor: default;
-  }
-
   &-countable &-toggle-value {
     display: flex;
   }
@@ -85,7 +73,6 @@
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);
     border-radius: var(--rs-picker-value-count-border-radius);
-    line-height: var(--rs-picker-value-count-line-height);
   }
 
   &-value-separator {
@@ -128,7 +115,77 @@
   }
 }
 
+// Picker Menu
+.rs-picker-popup {
+  --rs-picker-popup-none-padding: calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-border-radius: calc(var(--rs-spacing) * 1.5);
+  --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-z-index: @zindex-picker-popup;
+
+  position: absolute;
+  text-align: left;
+  overflow: hidden;
+  transition: none;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--rs-picker-popup-z-index);
+  border-radius: var(--rs-picker-popup-border-radius);
+  background-color: var(--rs-bg-overlay);
+  box-shadow: var(--rs-shadow-overlay);
+  padding-block: var(--rs-picker-popup-border-radius);
+
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+  });
+
+  // Increase z-index when modal opened.
+  .rs-modal-open & {
+    --rs-picker-popup-z-index: (@zindex-modal + @zindex-picker-toggle);
+  }
+
+  // Increase z-index when drawer opened.
+  .rs-drawer-open & {
+    --rs-picker-popup-z-index: (@zindex-drawer + @zindex-picker-toggle);
+  }
+
+  &.rs-picker-inline {
+    position: relative;
+    box-shadow: none;
+  }
+
+  .rs-search-box {
+    padding: var(--rs-picker-search-box-padding);
+  }
+
+  .rs-highlight .rs-highlight-mark {
+    padding: 0;
+  }
+
+  // Empty listbox
+  .rs-picker-none {
+    padding: var(--rs-picker-popup-none-padding);
+    color: var(--rs-text-secondary);
+    cursor: default;
+  }
+}
+
 .rs-picker-toggle {
+  .picker-default-toggle();
+  .picker-subtle-toggle();
+
+  &-label {
+    color: var(--rs-text-primary);
+  }
+
+  .rs-picker-toggle-stack {
+    gap: calc(var(--rs-spacing) * 2);
+  }
+
+  &-value {
+    display: block;
+    .ellipsis();
+  }
+
   &-textbox {
     position: absolute;
     width: 100%;
@@ -158,9 +215,7 @@
   &-read-only {
     opacity: 0;
   }
-}
 
-.rs-picker-toggle {
   .rs-picker-default & {
     transition: @picker-transition;
 
@@ -189,80 +244,18 @@
   }
 }
 
-/* stylelint-disable-next-line */ // Custom button sizes
 .rs-picker-toggle.rs-btn {
-  .picker-button-caret-md();
-  .picker-button-size(base);
-  .date-picker-button-caret-md();
-
-  &-lg {
-    .picker-button-caret-lg();
-    .picker-button-size(large);
-    .picker-default-button-reset-padding-left(large);
-    .date-picker-button-caret-lg();
-
-    .rs-picker-value-count {
-      line-height: @line-height-large-computed;
-    }
-  }
-
-  &-md {
-    .picker-button-caret-md();
-    .picker-button-size(base);
-    .picker-default-button-reset-padding-left(base);
-    .date-picker-button-caret-md();
-  }
-
-  &-sm {
-    .picker-button-caret-sm();
-    .picker-button-size(small);
-    .picker-default-button-reset-padding-left(small);
-    .date-picker-button-caret-sm();
-  }
-
-  &-xs {
-    .picker-button-caret-xs();
-    .picker-button-size(extra-small);
-    .picker-default-button-reset-padding-left(extra-small);
-    .date-picker-button-caret-xs();
-  }
-}
-
-/* stylelint-disable-next-line */ // Custom button
-.rs-picker-toggle {
-  .picker-default-toggle();
-  .picker-subtle-toggle();
-
-  &.rs-btn {
-    width: 100%;
-    text-align: left;
-  }
-
-  .ellipsis();
-
-  &-label {
-    color: var(--rs-text-primary);
-
-    &::after {
-      content: ':';
-      margin: 0 4px 0 2px;
-    }
-  }
-
-  &-value {
-    display: block;
-    .ellipsis();
-  }
-
-  .rs-picker-cleanable.rs-picker-has-value & {
-    padding-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
-  }
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+  padding-block: calc(var(--rs-btn-padding-block) - var(--rs-picker-toggle-border-width));
+  padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-picker-toggle-border-width));
 }
 
 .rs-picker-toggle-indicator {
   // Picker clear button
   .rs-picker-clean {
-    .combobox-indicator-icon(@picker-toggle-clean-right);
+    .combobox-indicator-icon();
 
     background: inherit;
     color: var(--rs-text-secondary);
@@ -270,12 +263,7 @@
     cursor: pointer;
 
     &.rs-btn-close {
-      padding: 4px 0;
-    }
-
-    .rs-@{date-picker-prefix} &,
-    .rs-@{date-range-picker-prefix} & {
-      right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
+      padding: 0;
     }
   }
 
@@ -290,50 +278,6 @@
 
   .rs-picker-loader {
     .combobox-indicator-icon();
-  }
-}
-
-// Picker Menu
-.rs-picker-popup {
-  position: absolute;
-  text-align: left;
-  z-index: @zindex-picker-popup;
-  border-radius: @border-radius;
-  background-color: var(--rs-bg-overlay);
-  box-shadow: var(--rs-shadow-overlay);
-  overflow: hidden;
-  // Remove transition
-  transition: none;
-  display: flex;
-  flex-direction: column;
-  padding: @border-radius 0;
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-border-primary);
-  });
-
-  // Increase z-index when modal opened.
-  .rs-modal-open & {
-    z-index: (@zindex-modal + @zindex-picker-toggle);
-  }
-
-  // Increase z-index when drawer opened.
-  .rs-drawer-open & {
-    z-index: (@zindex-drawer + @zindex-picker-toggle);
-  }
-
-  &.rs-picker-inline {
-    position: relative;
-    box-shadow: none;
-  }
-
-  .rs-search-box {
-    padding: (@picker-menu-padding - @border-radius) @picker-menu-padding
-      (@picker-menu-padding - @border-radius);
-  }
-
-  .rs-highlight .rs-highlight-mark {
-    padding: 0;
   }
 }
 

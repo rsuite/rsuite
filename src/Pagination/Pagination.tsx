@@ -80,7 +80,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     prev,
     next,
     last,
-    size = 'xs',
+    size = 'sm',
     linkAs,
     linkProps,
     onSelect,

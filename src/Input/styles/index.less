@@ -10,22 +10,20 @@
 .rs-input {
   .default-input();
 
+  @sizes: xs, sm, md, lg;
+
+  each(@sizes, .(@size) {
+    &.rs-input-@{size} {
+      --rs-input-font-size: var(~'--rs-input-font-size-@{size}');
+      --rs-input-line-height: var(~'--rs-input-line-height-@{size}');
+      --rs-input-padding-block: var(~'--rs-input-padding-block-@{size}');
+      --rs-input-padding-inline: var(~'--rs-input-padding-inline-@{size}');
+    }
+  });
+
   // Reset height for `textarea`
   textarea& {
     overflow: auto;
     resize: vertical;
   }
-}
-
-// Form control sizing
-.rs-input-xs {
-  .input-xs();
-}
-
-.rs-input-lg {
-  .input-lg();
-}
-
-.rs-input-sm {
-  .input-sm();
 }

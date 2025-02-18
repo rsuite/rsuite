@@ -34,7 +34,7 @@
 
     .rs-@{prefix}-menu-group-caret {
       display: inline-block;
-      margin-left: 2px;
+      margin-inline-start: 2px;
       position: absolute;
       top: @padding-y;
       right: @padding-x;
@@ -89,171 +89,11 @@
   background: transparent;
 }
 
-.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
-  @clean-btn-width: @dropdown-caret-width;
-
-  .rs-picker-toggle-wrapper & {
-    padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
-  }
-
-  .rs-picker-has-value.rs-picker-cleanable & {
-    padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
-  }
-
-  .rs-picker-toggle-indicator {
-    .rs-picker-caret-icon,
-    .rs-picker-clean {
-      top: @padding-vertical;
-      right: @padding-horizontal;
-
-      .rs-picker-default & {
-        top: @padding-vertical - @picker-default-toggle-border-width;
-      }
-    }
-
-    .rs-picker-loader {
-      top: @padding-vertical;
-      right: @padding-horizontal;
-    }
-  }
-}
-
-.picker-button-caret-lg() {
-  .picker-custom-button-caret-size(
-    @padding-x-lg,
-    @padding-y-lg,
-    @clean-btn-margin:4px
-  );
-}
-
-.picker-button-caret-md() {
-  .picker-custom-button-caret-size(@padding-x, @padding-y);
-}
-
-.picker-button-caret-sm() {
-  .picker-custom-button-caret-size(@padding-x-sm, @padding-y-sm);
-}
-
-.picker-button-caret-xs() {
-  .picker-custom-button-caret-size(
-    @padding-x-xs,
-    @padding-y-xs,
-    @clean-btn-margin:2px
-  );
-}
-
-.daterange-picker-custom-toggle(@calendar-caret-width: 14px,@padding-horizontal, @top, @clean-btn-margin:2px) {
-  @toggle-clean-padding: 4px;
-  @clean-btn-width: @dropdown-caret-width;
-
-  padding-right: (@padding-horizontal + @calendar-caret-width + @dropdown-caret-padding);
-
-  .rs-picker-toggle-indicator {
-    .rs-picker-clean,
-    .rs-picker-caret-icon {
-      top: @top;
-      right: @padding-horizontal;
-
-      .rs-picker-subtle & {
-        top: @top - @picker-default-toggle-border-width;
-      }
-    }
-  }
-}
-
-.date-picker-button-caret-lg() {
-  .rs-picker-date &,
-  .rs-picker-daterange & {
-    .daterange-picker-custom-toggle(
-      @calendar-caret-width: @font-size-large,
-      @padding-x-lg,
-      @top: 10px,
-      @clean-btn-margin: 4px
-    );
-  }
-}
-
-.date-picker-button-caret-md() {
-  .rs-picker-date &,
-  .rs-picker-daterange & {
-    .daterange-picker-custom-toggle(
-      @calendar-caret-width: @font-size-base,
-      @padding-x,
-      @top: 8px
-    );
-  }
-}
-
-.date-picker-button-caret-sm() {
-  .rs-picker-date &,
-  .rs-picker-daterange & {
-    .daterange-picker-custom-toggle(
-      @calendar-caret-width: @font-size-base,
-      @padding-x-sm,
-      @top: 4px
-    );
-  }
-}
-
-.date-picker-button-caret-xs() {
-  .rs-picker-date &,
-  .rs-picker-daterange & {
-    .daterange-picker-custom-toggle(
-      @calendar-caret-width: @font-size-extra-small,
-      @padding-x-xs,
-      @top: 2px
-    );
-  }
-}
-
-.picker-button-size(@size) {
-  .map-size(@size);
-
-  @padding-name: 'padding-y@{suffix}';
-  @padding-vertical: @@padding-name;
-
-  .rs-picker-default & {
-    .padding-vertical(@padding-vertical - @picker-default-toggle-border-width);
-  }
-}
-
-.picker-default-button-reset-padding-left(@size) {
-  .map-size(@size);
-  @padding-name: 'padding-x@{suffix}';
-  @padding-horizontal: @@padding-name;
-
-  .rs-picker-default & {
-    padding-left: @padding-horizontal - @picker-default-toggle-border-width;
-  }
-}
-
-.input-picker-input-sizes() {
-  @border-width: 2 * @picker-default-toggle-border-width;
-
-  .rs-picker-toggle.rs-btn-lg {
-    height: (@line-height-large-computed + @padding-y-lg*2 - @border-width);
-  }
-
-  .rs-picker-toggle.rs-btn-md {
-    height: (@line-height-computed + @padding-y*2 - @border-width);
-  }
-
-  .rs-picker-toggle.rs-btn-sm {
-    height: (@line-height-computed + @padding-y-sm*2 - @border-width);
-  }
-
-  .rs-picker-toggle.rs-btn-xs {
-    height: (@line-height-computed + @padding-y-xs*2 - @border-width);
-  }
-}
-
 // Default picker toggle
 .picker-default-toggle() {
   .rs-picker-default & {
-    .dropdown-toggle();
-
     color: var(--rs-text-primary);
-    border: @picker-default-toggle-border-width solid var(--rs-border-primary);
+    border: var(--rs-picker-toggle-border-width) solid var(--rs-border-primary);
   }
 
   .rs-picker-disabled & {
@@ -271,6 +111,7 @@
 // Subtle picker toggle
 .picker-subtle-toggle {
   .rs-picker-subtle & {
+    --rs-picker-toggle-border-width: 0px;
     .dropdown-toggle();
   }
 
