@@ -61,20 +61,14 @@
   }
 }
 
-.rs-dropdown-toggle-caret {
-  .combobox-indicator-icon();
-}
-
 .rs-dropdown-toggle {
-  .dropdown-toggle-size();
-
   &,
   &.rs-btn {
     // Force set style even if has `.btn`.
     .dropdown-toggle();
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: calc(var(--rs-spacing) * 1.5);
   }
 
   &.rs-dropdown-toggle-no-caret {
@@ -135,7 +129,6 @@
   }
 
   .rs-dropdown-item-shortcut {
-    margin-inline-start: 20px;
     border: none;
   }
 
