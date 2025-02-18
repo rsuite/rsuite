@@ -77,6 +77,10 @@
     border-color: transparent !important;
   }
 
+  .rs-input-group-btn {
+    height: var(--rs-input-group-input-height);
+  }
+
   // Child Component Styles
   // Remove borders and border radius from child components
   .rs-input-number,
@@ -153,12 +157,14 @@
     }
 
     // If the input has an element on the left, remove the left padding
-    .rs-input:not(:first-child) {
+    .rs-input:not(:first-child),
+    .rs-auto-complete:not(:first-child) .rs-input {
       padding-left: 0;
     }
 
     // If the input has an element on the right, remove the right padding
-    .rs-input:not(:last-child) {
+    .rs-input:not(:last-child),
+    .rs-auto-complete:not(:last-child) .rs-input {
       padding-right: 0;
     }
   }
