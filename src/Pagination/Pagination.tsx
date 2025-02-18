@@ -151,14 +151,14 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     const pageButtons: React.ReactElement[] = [];
     let startPage;
     let endPage;
-    let hasHiddenPagesAfter;
+    let shouldShowEllipsisAfter;
 
     if (maxButtons) {
       const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
       startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
-      hasHiddenPagesAfter = startPage + maxButtons <= pages;
+      shouldShowEllipsisAfter = startPage + maxButtons <= pages;
 
-      if (!hasHiddenPagesAfter) {
+      if (!shouldShowEllipsisAfter) {
         endPage = pages;
         startPage = pages - maxButtons + 1;
         if (startPage < 1) {
@@ -196,7 +196,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
       pageButtons.unshift(renderItem(1, { eventKey: 1, children: 1 }));
     }
 
-    if (maxButtons && hasHiddenPagesAfter && ellipsis) {
+    if (maxButtons && shouldShowEllipsisAfter && ellipsis) {
       pageButtons.push(
         renderItem('more', {
           eventKey: 'ellipsis',
