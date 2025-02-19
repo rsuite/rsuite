@@ -1,0 +1,19 @@
+:root {
+  --rs-badge-offset-x: 5%;
+  --rs-badge-offset-y: 5%;
+  --rs-badge-move: 40%;
+  --rs-badge-one-char-size: 20px;
+  --rs-badge-dot-size: 10px;
+
+  --rs-badge-transform-top-start: translate(calc(-1 * var(--rs-badge-move)), calc(-1 * var(--rs-badge-move)));
+  --rs-badge-transform-top-end: translate(var(--rs-badge-move), calc(-1 * var(--rs-badge-move)));
+  --rs-badge-transform-bottom-start: translate(calc(-1 * var(--rs-badge-move)), var(--rs-badge-move));
+  --rs-badge-transform-bottom-end: translate(var(--rs-badge-move), var(--rs-badge-move));
+}
+
+html[dir='rtl'] .rs-badge {
+  --rs-badge-transform-top-start: translate(calc(18px - var(--rs-badge-move)), calc(-1 * var(--rs-badge-move)));
+  --rs-badge-transform-top-end: translate(calc(-1 * var(--rs-badge-move)), calc(-1 * var(--rs-badge-move)));
+  --rs-badge-transform-bottom-start: translate(calc(18px - var(--rs-badge-move)), var(--rs-badge-move));
+  --rs-badge-transform-bottom-end: translate(calc(-1 * var(--rs-badge-move)), var(--rs-badge-move));
+}

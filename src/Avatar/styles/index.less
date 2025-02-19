@@ -15,20 +15,51 @@
   --rs-avatar-font-size-xl: var(--rs-font-size-xl);
   --rs-avatar-font-size-2xl: var(--rs-font-size-2xl);
 
+  --rs-avatar-border-radius: var(--rs-spacing);
+  --rs-avatar-ring-offset-shadow: var(--rs-avatar-offset-color) 0 0 0 2px;
+  --rs-avatar-ring-shadow: var(--rs-avatar-ring-color) 0 0 0 4px;
+
+  // Size variants
+  @sizes: xs, sm, md, lg, xl, 2xl;
+  each(@sizes, .(@size) {
+    &.rs-avatar-@{size} {
+      --rs-avatar-size: var(~'--rs-avatar-size-@{size}');
+      --rs-avatar-font-size: var(~'--rs-avatar-font-size-@{size}');
+      --rs-avatar-icon-size: calc((var(--rs-avatar-size) - var(--rs-avatar-font-size)) / 2 + var(--rs-avatar-font-size));
+    }
+  });
+
+  // Colorful avatars
+  each(@spectrum, .(@color) {
+    &.rs-avatar-@{color} {
+      --rs-avatar-bg: var(~'--rs-@{color}-500');
+      --rs-avatar-ring-color: var(~'--rs-@{color}-500');
+    }
+  });
+
   background-color: var(--rs-avatar-bg);
   color: var(--rs-avatar-text);
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: var(--rs-avatar-border-radius);
   overflow: hidden;
   position: relative;
+  width: var(--rs-avatar-size);
+  height: var(--rs-avatar-size);
+  font-size: var(--rs-avatar-font-size);
 
   & > .rs-icon {
     vertical-align: middle;
+    font-size: var(--rs-avatar-icon-size);
+    height: var(--rs-avatar-icon-size);
   }
 
   &-image {
+    width: var(--rs-avatar-size);
+    height: var(--rs-avatar-size);
+    line-height: var(--rs-avatar-size);
+
     &::before {
       content: attr(alt);
       position: absolute;
@@ -47,47 +78,13 @@
   }
 
   &-bordered {
-    --rs-ring-offset-shadow: var(--rs-avatar-offset-color) 0 0 0 2px;
-    --rs-ring-shadow: var(--rs-avatar-ring-color) 0 0 0 4px;
     box-shadow:
-      var(--rs-ring-offset-shadow),
-      var(--rs-ring-shadow),
+      var(--rs-avatar-ring-offset-shadow),
+      var(--rs-avatar-ring-shadow),
       0 0 #0000;
   }
 
   &-circle {
-    border-radius: 50%;
+    --rs-avatar-border-radius: 50%;
   }
 }
-
-// Colorful avatars
-each(@spectrum, .(@color) {
-  .rs-avatar-@{color} {
-    --rs-avatar-bg: var(~'--rs-@{color}-500');
-    --rs-avatar-ring-color: var(~'--rs-@{color}-500');
-  }
-});
-
-// Size variants
-@sizes: xs, sm, md, lg, xl, 2xl;
-
-each(@sizes, .(@size) {
-  .rs-avatar-@{size} {
-    width: var(~'--rs-avatar-size-@{size}');
-    height: var(~'--rs-avatar-size-@{size}');
-    font-size: var(~'--rs-avatar-font-size-@{size}');
-
-    & > .rs-icon {
-      --rs-avatar-icon-size: calc((var(~'--rs-avatar-size-@{size}') - var(~'--rs-avatar-font-size-@{size}'))/2 + var(~'--rs-avatar-font-size-@{size}'));
-
-      font-size: var(--rs-avatar-icon-size);
-      height: var(--rs-avatar-icon-size);
-    }
-  
-    & > .rs-avatar-image {
-      width: var(~'--rs-avatar-size-@{size}');
-      height: var(~'--rs-avatar-size-@{size}');
-      line-height: var(~'--rs-avatar-size-@{size}');
-    }
-  }
-});
