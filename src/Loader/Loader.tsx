@@ -43,7 +43,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
     center,
     vertical,
     content,
-    size,
+    size = 'sm',
     ...rest
   } = propsWithDefaults;
 
@@ -52,11 +52,10 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
 
   const classes = merge(
     className,
-    prefix('wrapper', `speed-${speed}`, size, {
-      'backdrop-wrapper': backdrop,
+    prefix(`speed-${speed}`, size, {
+      center: backdrop || center,
       vertical,
-      inverse,
-      center
+      inverse
     })
   );
 
