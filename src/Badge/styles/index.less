@@ -8,6 +8,8 @@
   --rs-badge-offset-x: 5%;
   --rs-badge-offset-y: 5%;
   --rs-badge-translate: 40%;
+  --rs-badge-one-char-size: 20px;
+  --rs-badge-dot-size: @badge-dot-size;
 
   display: inline-flex;
 
@@ -19,6 +21,7 @@
   &-content {
     opacity: 1;
     display: inline-flex;
+    justify-content: center;
     align-items: center;
     background-color: var(--rs-badge-bg);
     color: var(--rs-badge-text);
@@ -27,6 +30,15 @@
     line-height: 1rem;
     padding-inline: 0.3125rem;
     transition: opacity 0.3s ease-in-out;
+  }
+
+  &-one-char .rs-badge-content {
+    width: var(--rs-badge-one-char-size);
+    height: var(--rs-badge-one-char-size);
+  }
+
+  &-content {
+    box-sizing: border-box;
   }
 
   &-hidden &-content,
@@ -41,20 +53,19 @@
 
   &:empty,
   &-content:empty {
-    width: @badge-dot-size;
-    height: @badge-dot-size;
+    box-sizing: content-box;
+    width: var(--rs-badge-dot-size);
+    height: var(--rs-badge-dot-size);
     border-radius: 50%;
     padding: 0;
   }
 
   &-wrapper &-content {
     position: absolute;
-
     z-index: @zindex-badge-content;
   }
 
   &-outline &-content {
-    box-sizing: content-box;
     border: 2px solid var(--rs-badge-border);
   }
 

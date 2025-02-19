@@ -1,6 +1,6 @@
 import React from 'react';
 import Badge from '../index';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getStyle, toRGB } from '@test/utils';
 
 import '../styles/index.less';
@@ -68,5 +68,17 @@ describe('Badge styles', () => {
     const badgeElement = container.firstChild as HTMLElement;
 
     expect(badgeElement).to.have.style('display', 'inline-flex');
+  });
+
+  it('Should render one char', () => {
+    const { container } = render(
+      <Badge content="9">
+        <button>Test</button>
+      </Badge>
+    );
+
+    expect(container.firstChild).to.have.class('rs-badge-one-char');
+    expect(screen.getByText('9')).to.have.style('width', '20px');
+    expect(screen.getByText('9')).to.have.style('height', '20px');
   });
 });

@@ -3,6 +3,7 @@
 ```js
 import { Badge, Avatar, HStack } from 'rsuite';
 import { MdCheck, MdNotifications, MdError } from 'react-icons/md';
+import { BsExclamation } from "react-icons/bs";
 
 const App = () => (
   <HStack spacing={10}>
@@ -22,11 +23,11 @@ const App = () => (
       <Avatar src="https://i.pravatar.cc/150?u=4" />
     </Badge>
 
-    <Badge compact content={<MdNotifications size={12} />}>
+    <Badge compact content={<MdNotifications size={14} />}>
       <Avatar src="https://i.pravatar.cc/150?u=6" />
     </Badge>
 
-    <Badge compact content={<MdError size={12} />}>
+    <Badge compact content={<BsExclamation size={14} />}>
       <Avatar />
     </Badge>
   </HStack>
