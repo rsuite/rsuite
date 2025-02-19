@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Checkbox, CheckboxGroup } from 'rsuite';
+import { Checkbox, CheckboxGroup, VStack } from 'rsuite';
 
 const data = ['A', 'B'];
 
@@ -12,7 +12,7 @@ const App = () => {
   const handleChange = value => setValue(value);
 
   return (
-    <>
+    <VStack spacing={12}>
       <Checkbox
         indeterminate={value.length > 0 && value.length < data.length}
         checked={value.length === data.length}
@@ -25,7 +25,7 @@ const App = () => {
         name="checkboxList"
         value={value}
         onChange={handleChange}
-        style={{ marginLeft: 36 }}
+        style={{ marginInlineStart: 24 }}
       >
         {data.map(item => (
           <Checkbox key={item} value={item}>
@@ -33,7 +33,7 @@ const App = () => {
           </Checkbox>
         ))}
       </CheckboxGroup>
-    </>
+    </VStack>
   );
 };
 

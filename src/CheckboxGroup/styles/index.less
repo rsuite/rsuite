@@ -1,14 +1,14 @@
 @import '../../styles/common';
 
 .rs-checkbox-group {
+  --rs-checkbox-group-gap: calc(var(--rs-spacing) * 3);
+  --rs-checkbox-group-direction: column;
+
   display: flex;
-  flex-direction: column;
+  flex-direction: var(--rs-checkbox-group-direction);
+  gap: var(--rs-checkbox-group-gap);
 
-  > .rs-checkbox {
-    margin-left: -1 * @radio-sense-width;
+  &.rs-checkbox-group-inline {
+    --rs-checkbox-group-direction: row;
   }
-}
-
-.rs-checkbox-group-inline {
-  flex-direction: row;
 }

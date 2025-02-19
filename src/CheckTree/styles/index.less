@@ -8,20 +8,17 @@
 // ----------------------
 
 .rs-check-tree {
+  --rs-check-item-padding-inline: 0;
+  --rs-check-item-padding-block: 1px;
+  --rs-check-tree-view-max-height: 360px;
+
   height: 100%;
   flex: 1 1 auto;
 
   .rs-check-tree-node-content {
     .rs-check-item .rs-checkbox-checker {
-      > label {
-        text-align: left;
-        position: relative;
-        margin: 0;
-        padding: 2px 2px 2px 38px;
-      }
-
       .rs-checkbox-label {
-        padding: 6px;
+        padding: var(--rs-spacing);
         width: auto;
       }
     }
@@ -33,22 +30,14 @@
     }
   }
 
-  // Uncheckable state
-  .rs-check-tree-node-all-uncheckable .rs-check-item .rs-checkbox-checker > label {
-    padding-left: 2px;
-  }
-
-  .rs-search-box {
-    padding: 6px;
-  }
-
   .rs-check-tree-empty {
-    padding: 6px 12px;
+    padding-inline: calc(var(--rs-spacing) * 2);
+    padding-block: var(--rs-spacing);
     color: var(--rs-text-secondary);
   }
 
   &-view {
-    max-height: 360px;
+    max-height: var(--rs-check-tree-view-max-height);
     overflow-y: auto;
   }
 
@@ -62,23 +51,14 @@
 }
 
 // Only has the first level
-.rs-check-tree-without-children .rs-check-item .rs-checkbox-checker {
-  > label {
-    padding-left: 32px; //text gap + checkbox space
-
-    &::before {
-      width: 28px;
-      margin-left: -34px;
-    }
-  }
-
-  .rs-checkbox-control {
-    left: 0;
+.rs-check-tree-without-children {
+  .rs-tree-node-toggle-placeholder {
+    display: none;
   }
 }
 
 .rs-check-tree-group {
-  padding-left: 26px;
+  padding-inline-start: 24px;
 }
 
 .rs-check-tree-node {

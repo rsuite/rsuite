@@ -4,15 +4,13 @@
 import { HStack } from 'rsuite';
 import PieChartIcon from '@rsuite/icons/PieChart';
 
-const ChartIcon = ({ size }) => <PieChartIcon style={{ fontSize: size, marginRight: 10 }} />;
-
 const App = () => (
-  <HStack spacing={10}>
-    <ChartIcon size="1em" />
-    <ChartIcon size="2em" />
-    <ChartIcon size="3em" />
-    <ChartIcon size="4em" />
-    <ChartIcon size="5em" />
+  <HStack spacing={20}>
+    <PieChartIcon style={{ fontSize: '1rem' }} />
+    <PieChartIcon style={{ fontSize: '2rem' }} />
+    <PieChartIcon style={{ fontSize: '3rem' }} />
+    <PieChartIcon style={{ fontSize: '4rem' }} />
+    <PieChartIcon style={{ fontSize: '5rem' }} />
   </HStack>
 );
 

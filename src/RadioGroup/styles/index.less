@@ -1,22 +1,23 @@
 @import '../../styles/common';
 
 .rs-radio-group {
+  --rs-radio-group-spacing: calc(var(--rs-spacing) * 3);
+  --rs-radio-group-direction: column;
+
   display: flex;
-  flex-direction: column;
+  flex-direction: var(--rs-radio-group-direction);
+  gap: var(--rs-radio-group-spacing);
 
-  > .rs-radio {
-    margin-left: -1 * @radio-sense-width;
+  &.rs-radio-group-inline {
+    --rs-radio-group-direction: row;
   }
-}
-
-.rs-radio-group-inline {
-  flex-direction: row;
 }
 
 // Radio Group - picker appearance
 .rs-radio-group-picker {
-  @radio-group-padding-start: 12px;
-  @radio-group-padding-end: 12px;
+  --rs-radio-checker-label-color: var(--rs-text-secondary);
+  --rs-radio-checker-border-color: transparent;
+
   @radio-group-border-width: 1px;
   @radio-padding-x: 10px;
   @radio-active-underline-width: 2px;
@@ -27,15 +28,15 @@
   border-radius: @border-radius;
 
   .rs-radio-inline {
-    padding: 0 @radio-padding-x;
+    padding-inline: calc(var(--rs-spacing) * 1.5);
     margin: 0;
 
     &:first-child {
-      padding-left: @radio-group-padding-start;
+      padding-inline-start: var(--rs-radio-group-spacing)
     }
 
     &:last-child {
-      padding-right: @radio-group-padding-end;
+      padding-inline-end: var(--rs-radio-group-spacing);
     }
   }
 
@@ -50,9 +51,6 @@
   }
 
   .rs-radio-checker > label {
-    --rs-radio-checker-label-color: var(--rs-text-secondary);
-    --rs-radio-checker-border-color: transparent;
-
     display: inline-block;
     white-space: nowrap;
     font-size: var(--rs-font-size-sm);

@@ -1,7 +1,9 @@
-@import '../../styles/common';
-@import 'mixin';
+@import '../../styles/common.less';
+@import './mixin.less';
 
 .rs-checkbox {
+  --rs-checkbox-size: @checkbox-width-height;
+
   .radio-checkbox-common();
 
   [type='checkbox']:focus-visible ~ .rs-checkbox-inner::before {
@@ -10,22 +12,23 @@
 }
 
 .rs-checkbox-checker {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: (@checkbox-sense-width*2 + @checkbox-width-height);
-  min-height: (@checkbox-sense-width*2 + @checkbox-width-height);
-  line-height: 1;
   position: relative;
+  display: inline-flex;
+
+  > label {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--rs-spacing) * 2);
+  }
 }
 
-/* rtl:begin:ignore */
 .rs-checkbox-control {
   &::before,
   .rs-checkbox-inner::before,
   .rs-checkbox-inner::after {
     content: '';
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     top: 0;
     display: block;
   }
@@ -48,7 +51,7 @@
       width: 6px;
       height: 9px;
       margin-top: 2px;
-      margin-left: 5px;
+      margin-inline-start: 5px;
       opacity: 1;
     }
 
@@ -62,41 +65,26 @@
       transform: rotate(0deg) scale(1);
       width: 10px;
       margin-top: 0;
-      margin-left: 3px;
+      margin-inline-start: 3px;
     }
   }
 }
 
-/* rtl:end:ignore */
-
-/* stylelint-disable-next-line */ // For RTL Scope
 .rs-checkbox-control {
-  position: absolute;
-  width: @checkbox-width-height;
-  height: @checkbox-width-height;
-  display: inline-block;
-  left: @checkbox-sense-width;
-  top: @checkbox-sense-width;
+  position: relative;
+  display: inline-flex;
 
   [type='checkbox'] {
-    position: absolute;
     opacity: 0;
-    z-index: 1;
-
-    // Sense area(Can be clicked)
-    top: -@checkbox-sense-width;
-    right: -@checkbox-sense-width;
-    bottom: -@checkbox-sense-width;
-    left: -@checkbox-sense-width;
-    min-width: 36px;
-    min-height: 36px;
+    width: var(--rs-checkbox-size);
+    height: var(--rs-checkbox-size);
   }
 
   &::before,
   .rs-checkbox-inner::before,
   .rs-checkbox-inner::after {
-    width: @checkbox-width-height;
-    height: @checkbox-width-height;
+    width: var(--rs-checkbox-size);
+    height: var(--rs-checkbox-size);
   }
 
   // Ripple effect area
