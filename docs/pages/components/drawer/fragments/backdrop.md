@@ -3,8 +3,6 @@
 ```js
 import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
-
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
@@ -17,7 +15,7 @@ const App = () => {
         value={backdrop}
         onChange={setBackdrop}
       >
-        <RadioLabel>Backdrop: </RadioLabel>
+        <label>Backdrop: </label>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>

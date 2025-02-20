@@ -3,8 +3,6 @@
 ```js
 import { Carousel, RadioGroup, Radio, Divider } from 'rsuite';
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
-
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
   const [shape, setShape] = React.useState('dot');
@@ -18,7 +16,7 @@ function App() {
         defaultValue={placement}
         onChange={setPlacement}
       >
-        <RadioLabel>Placement: </RadioLabel>
+        <label>Placement: </label>
         <Radio value="top">Top</Radio>
         <Radio value="bottom">Bottom</Radio>
         <Radio value="left">Left</Radio>
@@ -32,7 +30,7 @@ function App() {
         defaultValue={shape}
         onChange={setShape}
       >
-        <RadioLabel>Shape: </RadioLabel>
+        <label>Shape: </label>
         <Radio value="dot">Dot</Radio>
         <Radio value="bar">Bar</Radio>
       </RadioGroup>

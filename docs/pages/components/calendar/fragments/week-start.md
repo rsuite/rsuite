@@ -27,7 +27,7 @@ const App = () => {
             setIsoWeek(false);
           }}
         >
-          <RadioLabel>Week start</RadioLabel>
+          <label>Week start</label>
           <Radio value={0}>Sun</Radio>
           <Radio value={1}>Mon</Radio>
           <Radio value={2}>Tue</Radio>
@@ -48,8 +48,6 @@ const App = () => {
     </HStack>
   );
 };
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
