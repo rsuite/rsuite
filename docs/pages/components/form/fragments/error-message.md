@@ -5,14 +5,14 @@ import { Form, InputGroup, Input, Toggle, SelectPicker, HStack } from 'rsuite';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 
 const errorPlacementData = [
-  { label: 'bottomStart', value: 'bottomStart' },
-  { label: 'bottomEnd', value: 'bottomEnd' },
-  { label: 'topStart', value: 'topStart' },
-  { label: 'topEnd', value: 'topEnd' },
-  { label: 'leftStart', value: 'leftStart' },
-  { label: 'rightStart', value: 'rightStart' },
-  { label: 'leftEnd', value: 'leftEnd' },
-  { label: 'rightEnd', value: 'rightEnd' }
+  { label: 'Bottom Start', value: 'bottomStart' },
+  { label: 'Bottom End', value: 'bottomEnd' },
+  { label: 'Top Start', value: 'topStart' },
+  { label: 'Top End', value: 'topEnd' },
+  { label: 'Left Start', value: 'leftStart' },
+  { label: 'Right Start', value: 'rightStart' },
+  { label: 'Left End', value: 'leftEnd' },
+  { label: 'Right End', value: 'rightEnd' }
 ];
 
 const App = () => {
