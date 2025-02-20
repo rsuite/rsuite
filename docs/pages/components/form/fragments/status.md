@@ -19,9 +19,9 @@ import {
   Cascader,
   MultiCascader,
   Rate,
-  Uploader,
   Panel,
-  Toggle
+  Toggle,
+  HStack
 } from 'rsuite';
 
 import { mockTreeData } from './mock';
@@ -31,8 +31,6 @@ const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(
   label: item,
   value: item
 }));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const defaultFormValue = {
   input: '',
@@ -77,34 +75,39 @@ const App = () => {
 
   return (
     <Panel>
+      <HStack spacing={20}>
+        <RadioGroup appearance="picker" inline value={status} onChange={setStatus}>
+          <label>Change status</label>
+          <Radio value="normal">normal</Radio>
+          <Radio value="readonly">readonly</Radio>
+          <Radio value="disabled">disabled</Radio>
+          <Radio value="plaintext">plaintext</Radio>
+        </RadioGroup>
+
+        <ButtonToolbar>
+          <Button onClick={() => setFormValue(defaultFormValue)}>Clear form data</Button>
+          <Button onClick={() => setFormValue(initFormValue)}>Reset</Button>
+        </ButtonToolbar>
+      </HStack>
+      <hr />
       <Form
         disabled={disabled}
         readOnly={readOnly}
         plaintext={plaintext}
         formValue={formValue}
         onChange={formValue => setFormValue(formValue)}
+        fluid
       >
-        <RadioGroup appearance="picker" inline value={status} onChange={setStatus}>
-          <RadioLabel>Change status: </RadioLabel>
-          <Radio value="normal">normal</Radio>
-          <Radio value="readonly">readonly</Radio>
-          <Radio value="disabled">disabled</Radio>
-          <Radio value="plaintext">plaintext</Radio>
-        </RadioGroup>
-        <hr />
-        <ButtonToolbar>
-          <Button onClick={() => setFormValue(defaultFormValue)}>Clear form data</Button>
-          <Button onClick={() => setFormValue(initFormValue)}>Reset</Button>
-        </ButtonToolbar>
-        <hr />
         <Form.Group controlId="input">
-          <Form.ControlLabel>Input:</Form.ControlLabel>
-          <Form.Control name="input" />
-          <Form.HelpText tooltip>This is a tooltip description.</Form.HelpText>
+          <Form.ControlLabel>Input</Form.ControlLabel>
+          <HStack>
+            <Form.Control name="input" />
+            <Form.HelpText tooltip>This is a tooltip description.</Form.HelpText>
+          </HStack>
         </Form.Group>
 
         <Form.Group controlId="checkbox">
-          <Form.ControlLabel>Checkbox:</Form.ControlLabel>
+          <Form.ControlLabel>Checkbox</Form.ControlLabel>
           <Form.Control name="checkbox" accepter={CheckboxGroup} inline>
             <Checkbox value="Node.js">Node.js</Checkbox>
             <Checkbox value="Webpack">Webpack</Checkbox>
@@ -112,12 +115,11 @@ const App = () => {
             <Checkbox value="Javascript">Javascript</Checkbox>
             <Checkbox value="HTML5">HTML5</Checkbox>
           </Form.Control>
-          <Form.HelpText>This default description.</Form.HelpText>
         </Form.Group>
 
         <Form.Group controlId="radio">
-          <Form.ControlLabel>Radio:</Form.ControlLabel>
-          <Form.Control name="radio" accepter={RadioGroup}>
+          <Form.ControlLabel>Radio</Form.ControlLabel>
+          <Form.Control name="radio" accepter={RadioGroup} inline>
             <Radio value="Node.js">Node.js</Radio>
             <Radio value="Webpack">Webpack</Radio>
             <Radio value="CSS3">CSS3</Radio>
@@ -127,73 +129,53 @@ const App = () => {
         </Form.Group>
 
         <Form.Group controlId="slider">
-          <Form.ControlLabel>Slider:</Form.ControlLabel>
-          <Form.Control
-            accepter={Slider}
-            name="slider"
-            label="Level"
-            style={{ width: 200, margin: '10px 0' }}
-          />
+          <Form.ControlLabel>Slider</Form.ControlLabel>
+          <Form.Control accepter={Slider} name="slider" label="Level" />
         </Form.Group>
 
         <Form.Group controlId="checkPicker">
-          <Form.ControlLabel>CheckPicker:</Form.ControlLabel>
-          <Form.Control name="checkPicker" accepter={CheckPicker} data={selectData} />
+          <Form.ControlLabel>CheckPicker</Form.ControlLabel>
+          <Form.Control name="checkPicker" accepter={CheckPicker} data={selectData} block />
         </Form.Group>
 
         <Form.Group controlId="selectPicker">
-          <Form.ControlLabel>SelectPicker:</Form.ControlLabel>
-          <Form.Control name="selectPicker" accepter={SelectPicker} data={selectData} />
+          <Form.ControlLabel>SelectPicker</Form.ControlLabel>
+          <Form.Control name="selectPicker" accepter={SelectPicker} data={selectData} block />
         </Form.Group>
 
         <Form.Group controlId="tagPicker">
-          <Form.ControlLabel>TagPicker:</Form.ControlLabel>
-          <Form.Control name="tagPicker" accepter={TagPicker} data={selectData} />
+          <Form.ControlLabel>TagPicker</Form.ControlLabel>
+          <Form.Control name="tagPicker" accepter={TagPicker} data={selectData} block />
+        </Form.Group>
+
+        <Form.Group controlId="inputPicker">
+          <Form.ControlLabel>InputPicker</Form.ControlLabel>
+          <Form.Control name="inputPicker" accepter={InputPicker} data={selectData} block />
+        </Form.Group>
+
+        <Form.Group controlId="cascader">
+          <Form.ControlLabel>Cascader</Form.ControlLabel>
+          <Form.Control name="cascader" accepter={Cascader} data={treeData} block />
+        </Form.Group>
+
+        <Form.Group controlId="multiCascader">
+          <Form.ControlLabel>MultiCascader</Form.ControlLabel>
+          <Form.Control name="multiCascader" accepter={MultiCascader} data={treeData} block />
         </Form.Group>
 
         <Form.Group controlId="datePicker">
-          <Form.ControlLabel>DatePicker:</Form.ControlLabel>
+          <Form.ControlLabel>DatePicker</Form.ControlLabel>
           <Form.Control name="datePicker" accepter={DatePicker} />
         </Form.Group>
 
         <Form.Group controlId="dateRangePicker">
-          <Form.ControlLabel>DateRangePicker:</Form.ControlLabel>
+          <Form.ControlLabel>DateRangePicker</Form.ControlLabel>
           <Form.Control name="dateRangePicker" accepter={DateRangePicker} />
         </Form.Group>
 
-        <Form.Group controlId="inputPicker">
-          <Form.ControlLabel>InputPicker:</Form.ControlLabel>
-          <Form.Control name="inputPicker" accepter={InputPicker} data={selectData} />
-        </Form.Group>
-
-        <Form.Group controlId="cascader">
-          <Form.ControlLabel>Cascader:</Form.ControlLabel>
-          <Form.Control name="cascader" accepter={Cascader} data={treeData} />
-        </Form.Group>
-
-        <Form.Group controlId="multiCascader">
-          <Form.ControlLabel>MultiCascader:</Form.ControlLabel>
-          <Form.Control name="multiCascader" accepter={MultiCascader} data={treeData} />
-        </Form.Group>
-
         <Form.Group controlId="rate">
-          <Form.ControlLabel>Rate:</Form.ControlLabel>
+          <Form.ControlLabel>Rate</Form.ControlLabel>
           <Form.Control name="rate" accepter={Rate} />
-        </Form.Group>
-
-        <Form.Group controlId="uploader">
-          <Form.ControlLabel>Uploader:</Form.ControlLabel>
-          <Form.Control name="uploader" accepter={Uploader} action="#" />
-        </Form.Group>
-
-        <Form.Group controlId="toggle">
-          <Form.ControlLabel>Toggle:</Form.ControlLabel>
-          <Form.Control
-            name="enable"
-            accepter={Toggle}
-            unCheckedChildren="Disabled"
-            checkedChildren="Enabled"
-          />
         </Form.Group>
       </Form>
     </Panel>

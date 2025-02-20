@@ -17,27 +17,22 @@
 .rs-radio-group-picker {
   --rs-radio-checker-label-color: var(--rs-text-secondary);
   --rs-radio-checker-border-color: transparent;
+  --rs-radio-group-picker-border-radius: @border-radius;
 
   @radio-group-border-width: 1px;
   @radio-padding-x: 10px;
   @radio-active-underline-width: 2px;
 
   display: inline-flex;
+  align-items: center;
   color: var(--rs-text-primary);
   border: @radio-group-border-width solid var(--rs-border-primary);
-  border-radius: @border-radius;
+  border-radius: var(--rs-radio-group-picker-border-radius);
+  padding-inline: calc(var(--rs-spacing) * 3);
 
   .rs-radio-inline {
-    padding-inline: calc(var(--rs-spacing) * 1.5);
+    padding-inline: var(--rs-spacing);
     margin: 0;
-
-    &:first-child {
-      padding-inline-start: var(--rs-radio-group-spacing)
-    }
-
-    &:last-child {
-      padding-inline-end: var(--rs-radio-group-spacing);
-    }
   }
 
   .rs-radio-checker {

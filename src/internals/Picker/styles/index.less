@@ -141,12 +141,12 @@
 
   // Increase z-index when modal opened.
   .rs-modal-open & {
-    --rs-picker-popup-z-index: (@zindex-modal + @zindex-picker-toggle);
+    --rs-picker-popup-z-index: calc(@zindex-modal + @zindex-picker-toggle);
   }
 
   // Increase z-index when drawer opened.
   .rs-drawer-open & {
-    --rs-picker-popup-z-index: (@zindex-drawer + @zindex-picker-toggle);
+    --rs-picker-popup-z-index: calc(@zindex-drawer + @zindex-picker-toggle);
   }
 
   &.rs-picker-inline {

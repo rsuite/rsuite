@@ -1,4 +1,9 @@
 import React from 'react';
+import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import VisibleIcon from '@rsuite/icons/Visible';
 import {
   Form,
   Button,
@@ -26,12 +31,10 @@ import {
   Message,
   Rate,
   Uploader,
-  HStack
+  HStack,
+  VStack
 } from 'rsuite';
 
-import DefaultPage from '@/components/Page';
-import ImportGuide from '@/components/ImportGuide';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
 
 const mockfile = {
@@ -87,7 +90,10 @@ export default function Page() {
         Rate,
         Uploader,
         HStack,
+        VStack,
         mockTreeData,
+        EyeCloseIcon,
+        VisibleIcon,
         AvatarIcon
       }}
       sandboxFiles={[mockfile]}
