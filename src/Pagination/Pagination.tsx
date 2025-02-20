@@ -11,6 +11,14 @@ import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
+const icons = {
+  more: <MoreIcon />,
+  first: <PageTopIcon />,
+  last: <PageEndIcon />,
+  prev: <PagePreviousIcon />,
+  next: <PageNextIcon />
+};
+
 export interface PaginationProps extends WithAsProps {
   /** Current page number */
   activePage?: number;
@@ -64,7 +72,7 @@ export interface PaginationProps extends WithAsProps {
  * @see https://rsuitejs.com/components/pagination
  */
 const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
-  const { propsWithDefaults, rtl } = useCustom('Pagination', props);
+  const { propsWithDefaults } = useCustom('Pagination', props);
   const {
     as: Component = 'div',
     className,
@@ -113,14 +121,6 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
         onSelect={disabledButton ? undefined : onSelect}
       />
     );
-  };
-
-  const icons = {
-    more: <MoreIcon />,
-    first: rtl ? <PageEndIcon /> : <PageTopIcon />,
-    last: rtl ? <PageTopIcon /> : <PageEndIcon />,
-    prev: rtl ? <PageNextIcon /> : <PagePreviousIcon />,
-    next: rtl ? <PagePreviousIcon /> : <PageNextIcon />
   };
 
   const renderFirst = () => {

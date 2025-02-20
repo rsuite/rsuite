@@ -78,6 +78,10 @@
     display: flex;
     align-items: center;
     height: @line-height-computed;
+
+    [dir='rtl'] & {
+      transform: rotate(180deg);
+    }
   }
 
   .high-contrast-mode({

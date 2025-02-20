@@ -64,9 +64,19 @@ describe('Pagination', () => {
     expect(screen.getByLabelText('First')).to.exist;
   });
 
+  it('Should render `first` button with custom element', () => {
+    render(<Pagination pages={20} maxButtons={2} first={<span>First Button</span>} />);
+    expect(screen.getByRole('button', { name: 'First' })).to.have.text('First Button');
+  });
+
   it('Should render `last` button', () => {
     render(<Pagination pages={20} maxButtons={2} last />);
     expect(screen.getByLabelText('Last')).to.exist;
+  });
+
+  it('Should render `last` button with custom element', () => {
+    render(<Pagination pages={20} maxButtons={2} last={<span>Last Button</span>} />);
+    expect(screen.getByRole('button', { name: 'Last' })).to.have.text('Last Button');
   });
 
   it('Should render `prev` button', () => {
@@ -74,9 +84,19 @@ describe('Pagination', () => {
     expect(screen.getByLabelText('Previous')).to.exist;
   });
 
+  it('Should render `prev` button with custom element', () => {
+    render(<Pagination pages={20} maxButtons={2} prev={<span>Previous Button</span>} />);
+    expect(screen.getByRole('button', { name: 'Previous' })).to.have.text('Previous Button');
+  });
+
   it('Should render `next` button', () => {
     render(<Pagination pages={20} maxButtons={2} next />);
     expect(screen.getByLabelText('Next')).to.exist;
+  });
+
+  it('Should render `next` button with custom element', () => {
+    render(<Pagination pages={20} maxButtons={2} next={<span>Next Button</span>} />);
+    expect(screen.getByRole('button', { name: 'Next' })).to.have.text('Next Button');
   });
 
   it('Should render boundary links', () => {
