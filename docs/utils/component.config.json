@@ -375,20 +375,19 @@
         "keywords": ["tree"]
       },
       {
-        "id": "check-tree",
-        "name": "CheckTree",
-        "title": "树形多选控件",
-        "components": ["CheckTree"],
-        "keywords": ["tree"]
-      },
-      {
         "id": "checkbox",
         "name": "Checkbox",
         "title": "复选框",
         "components": ["Checkbox", "CheckboxGroup"],
         "keywords": ["boolean"]
       },
-
+      {
+        "id": "check-tree",
+        "name": "CheckTree",
+        "title": "树形多选控件",
+        "components": ["CheckTree"],
+        "keywords": ["tree"]
+      },
       {
         "id": "input",
         "name": "Input",
