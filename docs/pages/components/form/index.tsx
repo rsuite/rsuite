@@ -25,7 +25,8 @@ import {
   MultiCascader,
   Message,
   Rate,
-  Uploader
+  Uploader,
+  HStack
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
@@ -85,6 +86,7 @@ export default function Page() {
         Message,
         Rate,
         Uploader,
+        HStack,
         mockTreeData,
         AvatarIcon
       }}

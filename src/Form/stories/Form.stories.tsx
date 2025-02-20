@@ -3,6 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import Form from '../Form';
 import Input, { InputProps } from '../../Input';
 import Button from '../../Button';
+import HStack from '../../Stack/HStack';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
@@ -43,8 +44,10 @@ const defaultArgs = {
       </Form.Group>
       <Form.Group controlId="email">
         <Form.ControlLabel>Email</Form.ControlLabel>
-        <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Email is required</Form.HelpText>
+        <HStack>
+          <Form.Control name="email" type="email" />
+          <Form.HelpText tooltip>Email is required</Form.HelpText>
+        </HStack>
       </Form.Group>
       <Form.Group controlId="password">
         <Form.ControlLabel>Password</Form.ControlLabel>

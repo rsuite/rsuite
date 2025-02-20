@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, ButtonToolbar, Button, Input } from 'rsuite';
+import { Form, ButtonToolbar, Button, Input, HStack } from 'rsuite';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
@@ -14,8 +14,10 @@ const App = () => (
     </Form.Group>
     <Form.Group controlId="email">
       <Form.ControlLabel>Email</Form.ControlLabel>
-      <Form.Control name="email" type="email" />
-      <Form.HelpText tooltip>Email is required</Form.HelpText>
+      <HStack>
+        <Form.Control name="email" type="email" />
+        <Form.HelpText tooltip>Email is required</Form.HelpText>
+      </HStack>
     </Form.Group>
     <Form.Group controlId="password">
       <Form.ControlLabel>Password</Form.ControlLabel>

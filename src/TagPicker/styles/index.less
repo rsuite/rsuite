@@ -1,7 +1,7 @@
 @import '../../styles/common.less';
-@import '../../Checkbox/styles/index.less';
-@import '../../internals/Picker/styles/mixin.less';
 @import '../../InputPicker/styles/index.less';
+@import '../../CheckPicker/styles/index.less';
+@import '../../internals/Picker/styles/mixin.less';
 
 .rs-picker-tag {
   --rs-tag-picker-input-font-size-xs: var(--rs-font-size-xs);
@@ -92,7 +92,7 @@
   --rs-picker-textbox-min-height: 40px;
   --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-lg);
   --rs-tag-picker-input-padding: 3px 5px;
-  --rs-tag-picker-padding-block: calc(@padding-y-lg - 1px);
+  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-lg);
 }
 
 // Default size
@@ -102,7 +102,7 @@
   --rs-picker-textbox-min-height: 34px;
   --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-md);
   --rs-tag-picker-input-padding: 2px 4px;
-  --rs-tag-picker-padding-block: calc(@padding-y - 1px);
+  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-md);
 }
 
 .rs-picker-tag-sm {
@@ -111,7 +111,7 @@
   --rs-picker-textbox-min-height: 28px;
   --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-sm);
   --rs-tag-picker-input-padding: 0 2px;
-  --rs-tag-picker-padding-block: calc(@padding-y-sm - 1px);
+  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-sm);
 }
 
 .rs-picker-tag-xs {
@@ -120,5 +120,5 @@
   --rs-picker-textbox-min-height: 22px;
   --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-xs);
   --rs-tag-picker-input-padding: 0 1px;
-  --rs-tag-picker-padding-block: calc(@padding-y-xs - 1px);
+  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-xs);
 }
