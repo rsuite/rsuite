@@ -5,6 +5,7 @@ import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
 import { useClassNames } from '../hooks';
 import { useCustom } from '../../CustomProvider';
+import type { SizeType } from '@/internals/types';
 
 interface PickerIndicatorProps {
   loading?: boolean;
@@ -12,6 +13,7 @@ interface PickerIndicatorProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
   showCleanButton?: boolean;
   disabled?: boolean;
+  size?: SizeType;
   as?: React.ElementType;
 }
 
@@ -21,7 +23,8 @@ const PickerIndicator = ({
   onClose,
   showCleanButton,
   as: Component = InputGroup.Addon,
-  disabled
+  disabled,
+  size
 }: PickerIndicatorProps) => {
   const { getLocale } = useCustom();
   const { clear } = getLocale('common');
@@ -29,7 +32,13 @@ const PickerIndicator = ({
 
   const addon = () => {
     if (loading) {
-      return <Loader className={prefix('loader')} data-testid="spinner" />;
+      return (
+        <Loader
+          className={prefix('loader')}
+          data-testid="spinner"
+          size={size === 'xs' ? 'xs' : 'sm'}
+        />
+      );
     }
     if (showCleanButton && !disabled) {
       return (

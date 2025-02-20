@@ -5,6 +5,9 @@
 @import './mixin.less';
 
 .rs-picker-input {
+
+  --rs-picker-textbox-margin-inline: var(--rs-picker-input-height);
+
   position: relative;
   border: 1px solid var(--rs-border-primary);
   border-radius: @border-radius;
@@ -14,7 +17,6 @@
 
   .rs-picker-toggle {
     border: none !important;
-    background: transparent !important;
     height: var(--rs-picker-input-height);
     cursor: text;
   }
@@ -35,7 +37,7 @@
   });
 
   .rs-picker-textbox {
-    margin-inline-end: var(--rs-picker-input-height);
+    margin-inline-end: var(--rs-picker-textbox-margin-inline);
   }
 }
 

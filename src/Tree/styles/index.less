@@ -12,6 +12,8 @@
   --rs-tree-node-line-height: var(--rs-text-line-height-sm);
   --rs-tree-node-padding-block: @padding-y;
   --rs-tree-node-padding-inline: @padding-x;
+  --rs-tree-node-label-padding: var(--rs-spacing);
+  --rs-tree-node-label-border-radius: 6px;
 
   height: 100%;
   flex: 1 1 auto;
@@ -76,8 +78,8 @@
     cursor: pointer;
     font-size: var(--rs-tree-node-font-size);
     line-height: var(--rs-tree-node-line-height);
-    padding: 6px;
-    border-radius: 6px;
+    padding: var(--rs-tree-node-label-padding);
+    border-radius: var(--rs-tree-node-label-border-radius);
 
     &:hover,
     &:focus,

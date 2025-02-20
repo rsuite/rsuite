@@ -15,7 +15,7 @@ describe('SelectPicker styles', () => {
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#fff'));
     expect(screen.getByRole('combobox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
-    expect(screen.getByRole('combobox')).to.have.style('padding', '7px 11px');
+    expect(screen.getByRole('combobox')).to.have.style('padding', '8px 11px');
     expect(screen.getByTestId('picker-popup').querySelector('.rs-picker-none')).to.have.style(
       'padding',
       '12px'

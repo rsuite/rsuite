@@ -1108,6 +1108,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
                 onKeyDown={handleInputKeyDown}
               />
               <PickerIndicator
+                size={size}
                 loading={loading}
                 caretAs={caretAs}
                 onClose={handleClean}

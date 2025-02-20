@@ -21,7 +21,9 @@
   --rs-picker-value-count-padding: calc(var(--rs-spacing) * 1.5);
   --rs-picker-value-count-margin: var(--rs-spacing);
   --rs-picker-size: 0.875rem;
+  --rs-picker-loader-size: 20px;
   --rs-picker-toggle-border-width: 1px;
+  --rs-picker-toggle-bg: var(--rs-input-bg);
 
   &-toggle-wrapper {
     display: inline-block;
@@ -60,6 +62,7 @@
 
   &-countable &-toggle-value {
     display: flex;
+    align-items: center;
   }
 
   &-value-list {
@@ -69,10 +72,8 @@
 
   &-value-count {
     margin-inline: var(--rs-picker-value-count-margin);
-    padding-inline: var(--rs-picker-value-count-padding);
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);
-    border-radius: var(--rs-picker-value-count-border-radius);
   }
 
   &-value-separator {
@@ -95,8 +96,8 @@
   }
 
   &-loader {
-    width: var(--rs-picker-size);
-    height: var(--rs-picker-size);
+    width: var(--rs-picker-loader-size);
+    height: var(--rs-picker-loader-size);
     display: flex;
     align-items: center;
   }
@@ -178,7 +179,9 @@
   }
 
   .rs-picker-toggle-stack {
+    flex: 1 1 auto;
     gap: calc(var(--rs-spacing) * 2);
+    overflow: hidden;
   }
 
   &-value {
@@ -193,23 +196,23 @@
     left: 0;
     top: 0;
     border: 1px solid #0000;
-    padding-left: 10px;
-    padding-right: 32px;
+    padding-inline-start: 10px;
+    padding-inline-end: 32px;
     color: var(--rs-text-primary);
     background-color: var(--rs-input-bg);
     outline: none;
   }
 
   &.rs-btn-lg &-textbox {
-    padding-left: 14px;
+    padding-inline-start: 14px;
   }
 
   &.rs-btn-sm &-textbox {
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 
   &.rs-btn-xs &-textbox {
-    padding-left: 6px;
+    padding-inline-start: 6px;
   }
 
   &-read-only {
@@ -245,14 +248,18 @@
 }
 
 .rs-picker-toggle.rs-btn {
-  display: inline-block;
   text-align: left;
+  display: inline-flex;
   width: 100%;
-  padding-block: calc(var(--rs-btn-padding-block) - var(--rs-picker-toggle-border-width));
+  align-items: center;
+  justify-content: flex-start;
   padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-picker-toggle-border-width));
 }
 
 .rs-picker-toggle-indicator {
+  display: inline-flex;
+  align-items: center;
+
   // Picker clear button
   .rs-picker-clean {
     .combobox-indicator-icon();
@@ -275,10 +282,6 @@
     font-size: var(--rs-font-size-md);
     color: var(--rs-text-secondary);
   }
-
-  .rs-picker-loader {
-    .combobox-indicator-icon();
-  }
 }
 
 // Make sure styles the same with <Input>
@@ -286,12 +289,11 @@
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {
-    background-color: var(--rs-input-bg) !important;
+    background-color: var(--rs-picker-toggle-bg);
   }
 
-  &.rs-picker-disabled .rs-picker-toggle,
-  &.rs-picker-disabled .rs-btn {
-    background-color: var(--rs-input-disabled-bg) !important;
+  &.rs-picker-disabled {
+    --rs-picker-toggle-bg: var(--rs-input-disabled-bg);
   }
 
   &.rs-picker-disabled .rs-input-group {

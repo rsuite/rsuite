@@ -28,6 +28,6 @@ describe('Button Group styles', () => {
       </ButtonGroup>
     );
 
-    expect(screen.getByRole('button')).to.have.style('padding', '10px 16px');
+    expect(screen.getByRole('button')).to.have.style('padding', '10px 14px');
   });
 });
