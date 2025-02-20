@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from '../Image';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
 describe('Image', () => {
@@ -79,5 +79,21 @@ describe('Image', () => {
   it('Should apply loading', () => {
     render(<Image src="https://placehold.co/300x200" loading="lazy" />);
     expect(screen.getByRole('img')).to.have.attr('loading', 'lazy');
+  });
+
+  it('Should load fallback image when main image fails to load', async () => {
+    const invalidSrc = 'invalid-image-url';
+    const fallbackSrc = 'fallback-image-url';
+
+    render(<Image src={invalidSrc} fallbackSrc={fallbackSrc} />);
+
+    const img = screen.getByRole('img');
+
+    // Trigger the error event
+    img.dispatchEvent(new Event('error'));
+
+    await waitFor(() => {
+      expect(img).to.have.attr('src', fallbackSrc);
+    });
   });
 });
