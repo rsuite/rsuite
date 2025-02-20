@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from '../Image';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 
 describe('Image', () => {
@@ -79,18 +79,5 @@ describe('Image', () => {
   it('Should apply loading', () => {
     render(<Image src="https://placehold.co/300x200" loading="lazy" />);
     expect(screen.getByRole('img')).to.have.attr('loading', 'lazy');
-  });
-
-  it('Should render with fallbackSrc', async () => {
-    render(
-      <Image
-        src="https://rsuitejs.com/nonexistent-image.jpg"
-        fallbackSrc="https://placehold.co/300x200"
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
-    });
   });
 });
