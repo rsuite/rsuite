@@ -169,7 +169,7 @@
     margin: 0;
     padding: 0;
     border: 2px dotted var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     margin-top: @uploader-picture-item-gap;
   }
 
@@ -196,7 +196,7 @@
     height: @uploader-picture-side-length;
     overflow: hidden;
     background-color: var(--rs-uploader-item-bg);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     position: relative;
     margin-top: @uploader-picture-item-gap;
     margin-right: @uploader-picture-item-gap;
@@ -258,7 +258,7 @@
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
       background-color: var(--rs-uploader-overlay-bg);
-      border-radius: 50%;
+      border-radius: var(--rs-radius-full);
       visibility: hidden;
       opacity: 0;
       transition: 0.2s opacity;
@@ -320,7 +320,7 @@
     margin-top: @uploader-picture-item-gap;
     padding-right: 30px;
     border: 1px solid var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     overflow: hidden;
     transition: 0.3s linear background-color;
 
@@ -342,7 +342,8 @@
       text-align: center;
       background-color: var(--rs-border-primary);
       overflow: hidden;
-      border-radius: @border-radius 0 0 @border-radius;
+      border-top-left-radius: var(--rs-radius-md);
+      border-bottom-left-radius: var(--rs-radius-md);
 
       > img {
         .img-cover();

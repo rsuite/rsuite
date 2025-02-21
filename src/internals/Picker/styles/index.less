@@ -17,7 +17,7 @@
 // Common styles
 // ----------------------
 .rs-picker {
-  --rs-picker-value-count-border-radius: @picker-value-count-border-radius;
+  --rs-picker-value-count-border-radius: var(--rs-radius-full);
   --rs-picker-value-count-padding: calc(var(--rs-spacing) * 1.5);
   --rs-picker-value-count-margin: var(--rs-spacing);
   --rs-picker-size: 0.875rem;
@@ -119,7 +119,7 @@
 // Picker Menu
 .rs-picker-popup {
   --rs-picker-popup-none-padding: calc(var(--rs-spacing) * 3);
-  --rs-picker-popup-border-radius: calc(var(--rs-spacing) * 1.5);
+  --rs-picker-popup-border-radius: var(--rs-radius-md);
   --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
   --rs-picker-popup-z-index: @zindex-picker-popup;
 

@@ -11,7 +11,7 @@
 .rs-message {
   --rs-message-font-size: var(--rs-font-size-sm);
   --rs-message-line-height: var(--rs-text-line-height-sm);
-  --rs-message-border-radius: @border-radius;
+  --rs-message-border-radius: var(--rs-radius-md);
   --rs-message-icon-size: var(--rs-font-size-md);
   --rs-message-padding: 1.25rem;
   --rs-message-header-color: var(--rs-text-heading);
@@ -88,7 +88,7 @@
       .rs-message-icon {
         box-sizing: content-box;
         border: 4px solid var(--rs-message-icon-border-color);
-        border-radius: 50%;
+        border-radius: var(--rs-radius-full);
       }
     }
   }
@@ -171,6 +171,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  border-radius: 0;
+   border-radius: var(--rs-radius-none);
   z-index: @zindex-message-full;
 }

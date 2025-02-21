@@ -72,14 +72,14 @@
     height: var(--rs-toggle-size);
     line-height: 1;
     min-width: var(--rs-toggle-min-width);
-    border-radius: calc(var(--rs-toggle-size) / 2);
+    border-radius: var(--rs-radius-full);
 
     &::after {
       width: var(--rs-toggle-handle-size);
       height: var(--rs-toggle-handle-size);
       left: var(--rs-toggle-handle-gap);
       top: var(--rs-toggle-handle-gap);
-      border-radius: calc(var(--rs-toggle-handle-size) / 2);
+      border-radius: var(--rs-radius-full);
     }
 
     &:active::after {

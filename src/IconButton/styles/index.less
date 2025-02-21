@@ -13,8 +13,13 @@
     vertical-align: bottom;
   }
 
-  &:not(.rs-btn-icon-with-text){
+  &:not(.rs-btn-icon-with-text) {
     width: var(--rs-btn-size);
+  }
+
+  // Circle Button
+  &.rs-btn-icon-circle {
+    border-radius: var(--rs-radius-full);
   }
 }
 
@@ -82,9 +87,4 @@
   .button-disabled({
     .btn-icon-with-text(var(--rs-iconbtn-primary-addon));
   });
-}
-
-// Circle Button
-.rs-btn-icon-circle {
-  border-radius: 50% !important;
 }

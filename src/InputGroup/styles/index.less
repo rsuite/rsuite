@@ -21,7 +21,7 @@
   --rs-input-group-inside-btn-p-x-sm: calc(@padding-x-sm / 2);
   --rs-input-group-inside-btn-p-x-md: calc(@padding-x / 2);
   --rs-input-group-inside-btn-p-x-lg: calc(@padding-x-lg / 2);
-  --rs-input-group-border-radius: @input-border-radius;
+  --rs-input-group-border-radius: var(--rs-radius-md);
   --rs-input-group-font-size-xs: var(--rs-font-size-xs);
   --rs-input-group-font-size-sm: var(--rs-font-size-sm);
   --rs-input-group-font-size-md: var(--rs-font-size-sm);
@@ -88,7 +88,7 @@
   .rs-input-group-btn,
   .rs-picker-date .rs-picker-toggle {
     border: none;
-    border-radius: 0;
+    border-radius: var(--rs-radius-none);
     outline: none;
   }
 
@@ -107,7 +107,7 @@
     position: relative;
     height: var(--rs-input-group-input-height);
     border: none;
-    border-radius: 0;
+    border-radius: var(--rs-radius-none);
     outline: none;
   }
 
@@ -233,6 +233,6 @@
   position: relative;
   line-height: 1;
   white-space: nowrap;
-  border-radius: 0;
+  border-radius: var(--rs-radius-none);
   font-size: var(--rs-input-group-font-size);
 }

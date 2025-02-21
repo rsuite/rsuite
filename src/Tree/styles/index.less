@@ -13,7 +13,7 @@
   --rs-tree-node-padding-block: @padding-y;
   --rs-tree-node-padding-inline: @padding-x;
   --rs-tree-node-label-padding: var(--rs-spacing);
-  --rs-tree-node-label-border-radius: 6px;
+  --rs-tree-node-label-border-radius: var(--rs-radius-md);
 
   height: 100%;
   flex: 1 1 auto;
@@ -27,7 +27,7 @@
     margin: 0;
     padding-inline: var(--rs-tree-node-padding-inline);
     padding-block: var(--rs-tree-node-padding-block);
-    border-radius: 6px;
+   border-radius: var(--rs-radius-md);
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
     z-index: -1;
   }
@@ -118,7 +118,7 @@
   &-drag-over-top {
     &.rs-tree-node-label {
       border-top: 2px solid var(--rs-text-link) !important;
-      border-radius: 0;
+       border-radius: var(--rs-radius-none);
 
       &::after {
         display: block;
@@ -130,7 +130,7 @@
   &-drag-over-bottom {
     &.rs-tree-node-label {
       border-bottom: 2px solid var(--rs-text-link) !important;
-      border-radius: 0;
+       border-radius: var(--rs-radius-none);
 
       &::after {
         display: block;

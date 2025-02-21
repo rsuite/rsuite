@@ -46,7 +46,7 @@
       position: absolute;
       height: 100%;
       width: 100%;
-      border-radius: 0;
+       border-radius: var(--rs-radius-none);
       display: flex;
       flex-direction: column;
 
@@ -70,7 +70,7 @@
     position: relative;
     background-color: var(--rs-bg-overlay);
     border: var(--rs-modal-border, none);
-    border-radius: @modal-border-radius;
+    border-radius: var(--rs-radius-md);
     // Remove focus outline from opened modal
     outline: 0;
     box-shadow: var(--rs-modal-shadow);

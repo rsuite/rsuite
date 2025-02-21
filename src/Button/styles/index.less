@@ -30,7 +30,7 @@
   text-decoration: none;
   color: var(--rs-btn-default-text);
   background-color: var(--rs-btn-default-bg);
-  border-radius: @btn-border-radius;
+  border-radius: var(--rs-radius-md);
   padding-inline: var(--rs-btn-padding-inline);
   padding-block: var(--rs-btn-padding-block);
 
@@ -300,7 +300,7 @@ each(@spectrum, .(@color) {
       right: 0;
       bottom: 0;
       left: 0;
-      border-radius: 50%;
+      border-radius: var(--rs-radius-full);
       z-index: 1;
 
       .rs-btn-xs& {

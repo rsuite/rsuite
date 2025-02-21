@@ -10,7 +10,7 @@
   --rs-calendar-cell-font-size: var(--rs-font-size-sm);
   --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
   --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
-  --rs-calendar-border-radius: @border-radius;
+  --rs-calendar-border-radius: var(--rs-radius-md);
 
   padding-top: @calendar-picker-padding;
   position: relative;
@@ -19,7 +19,7 @@
 
   &-bordered &-table {
     border: 1px solid var(--rs-border-primary);
-    border-radius: @calendar-panel-border-radius;
+    border-radius: var(--rs-calendar-border-radius);
   }
 
   &-bordered &-table-row:not(:last-child) &-table-cell,
@@ -29,7 +29,7 @@
 
   &-bordered &-month-dropdown {
     border: 1px solid var(--rs-border-primary);
-    border-radius: @calendar-panel-border-radius;
+    border-radius: var(--rs-calendar-border-radius);
   }
 
   &-panel &-header {
@@ -78,7 +78,7 @@
     width: @calendar-panel-today-active-side-length;
     height: @calendar-panel-today-active-side-length;
     background-color: var(--rs-calendar-today-bg);
-    border-radius: 50%;
+    border-radius: var(--rs-radius-full);
     margin-left: auto;
     margin-right: auto;
   }
@@ -101,7 +101,7 @@
   &-panel &-month-dropdown {
     margin-left: 10px;
     margin-right: 10px;
-    border-radius: 6px;
+    border-radius: var(--rs-radius-md);
     width: ~'calc(100% - 20px)';
   }
 
@@ -122,15 +122,15 @@
 
   &-panel &-table-cell-content {
     width: 100%;
-    border-radius: 0;
+    border-radius: var(--rs-radius-none);
   }
 
   &-panel &-table-row:last-child :first-child &-table-cell-content {
-    border-bottom-left-radius: @calendar-panel-border-radius;
+    border-bottom-left-radius: var(--rs-radius-md);
   }
 
   &-panel &-table-row:last-child :last-child &-table-cell-content {
-    border-bottom-right-radius: @calendar-panel-border-radius;
+    border-bottom-right-radius: var(--rs-radius-md);
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
@@ -162,7 +162,8 @@
   &-panel &-btn-close {
     bottom: 4px;
     margin: 0 11px;
-    border-radius: 0 0 6px 6px;
+    border-bottom-left-radius: var(--rs-radius-md);
+    border-bottom-right-radius: var(--rs-radius-md);
   }
 
   &-panel&-bordered &-btn-close {
@@ -284,6 +285,7 @@
   }
 
   &-btn-disabled {
+
     &,
     &:hover,
     &:hover:focus {
@@ -339,6 +341,7 @@
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */
 [dir='rtl'] .rs-calendar-header {
+
   &-backward,
   &-forward {
     .rs-icon {
@@ -366,15 +369,15 @@
 
   &:nth-child(2) {
     .rs-calendar-table-cell-week-number {
-      border-top-left-radius: @calendar-panel-border-radius;
-      border-top-right-radius: @calendar-panel-border-radius;
+      border-top-left-radius: var(--rs-radius-md);
+      border-top-right-radius: var(--rs-radius-md);
     }
   }
 
   &:last-child {
     .rs-calendar-table-cell-week-number {
-      border-bottom-left-radius: @calendar-panel-border-radius;
-      border-bottom-right-radius: @calendar-panel-border-radius;
+      border-bottom-left-radius: var(--rs-radius-md);
+      border-bottom-right-radius: var(--rs-radius-md);
     }
   }
 }
@@ -389,6 +392,7 @@
 
   &-un-same-month &-content,
   &-disabled &-content {
+
     &,
     &:hover {
       color: var(--rs-text-disabled);
@@ -396,6 +400,7 @@
   }
 
   &-disabled &-content {
+
     &,
     &:hover {
       background: none;
@@ -571,14 +576,14 @@
       height: calc(100% - 30px);
     }
 
-    > ul,
-    > ul > li {
+    >ul,
+    >ul>li {
       list-style: none;
       margin: 0;
       padding: 0;
     }
 
-    > ul {
+    >ul {
       height: 230px;
       overflow-y: auto;
       scroll-behavior: smooth;
@@ -630,20 +635,20 @@
           .listbox-option-active();
         }
       });
-    }
-
-    &&-disabled {
-      color: var(--rs-text-disabled);
-      background: none;
-      cursor: not-allowed;
-      text-decoration: line-through;
-    }
-
-    &-active&-disabled& {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
   }
+
+  &&-disabled {
+    color: var(--rs-text-disabled);
+    background: none;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  &-active&-disabled& {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
 }
 
 .rs-calendar-only-time {
@@ -654,9 +659,11 @@
     position: relative;
     top: 2px;
   }
+
   .rs-calendar-time-dropdown-row {
     display: flex;
   }
+
   .rs-calendar-time-dropdown-column {
     min-width: 60px;
   }

@@ -72,7 +72,7 @@
       right: 0;
       bottom: 0;
       background-color: #fff;
-      border-radius: 10px;
+      border-radius: var(--rs-radius-lg);
       animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
     }
   }
@@ -85,7 +85,7 @@
 
   &-outer {
     flex: 1 1 auto;
-    border-radius: (@progress-bar-height / 2);
+    border-radius: var(--rs-radius-sm);
     overflow: hidden;
     // Make sure outer vertical-align:center;
     vertical-align: middle;
@@ -93,12 +93,12 @@
 
   &-inner {
     background: var(--rs-progress-bg);
-    border-radius: (@progress-bar-height / 2);
+    border-radius: var(--rs-radius-sm);
   }
 
   &-bg {
     background-color: var(--rs-progress-bar);
-    border-radius: (@progress-bar-height / 2);
+    border-radius: var(--rs-radius-sm);
     transition: @progress-bg-transition;
     transition-property: width, background-color;
   }

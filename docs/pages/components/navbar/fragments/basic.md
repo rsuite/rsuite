@@ -19,7 +19,7 @@ const App = () => (
 
     <Navbar.Content>
       <Badge content={6} shape="circle">
-        <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="xs" />
+        <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="sm" />
       </Badge>
       <HStack>
         <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />

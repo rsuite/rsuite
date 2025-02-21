@@ -17,7 +17,7 @@
 .rs-radio-group-picker {
   --rs-radio-checker-label-color: var(--rs-text-secondary);
   --rs-radio-checker-border-color: transparent;
-  --rs-radio-group-picker-border-radius: @border-radius;
+  --rs-radio-group-picker-border-radius: var(--rs-radius-md);
 
   @radio-group-border-width: 1px;
   @radio-padding-x: 10px;
@@ -50,7 +50,7 @@
     white-space: nowrap;
     font-size: var(--rs-font-size-sm);
     line-height: @line-height-base;
-    border-radius: 0;
+     border-radius: var(--rs-radius-none);
     color: var(--rs-radio-checker-label-color);
     background: none;
     transition: color 0.3s linear;

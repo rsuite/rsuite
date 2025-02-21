@@ -159,7 +159,7 @@
 // Default Nav
 .rs-nav-default {
   .rs-nav-item {
-    border-radius: 6px;
+    border-radius: var(--rs-radius-md);
 
     &:hover {
       background: var(--rs-navs-bg-hover);
@@ -187,10 +187,14 @@
     //Nav content
     > .rs-nav-item,
     > .rs-dropdown .rs-dropdown-toggle {
-      border-radius: 6px 6px 0 0;
+      border-top-left-radius: var(--rs-radius-md);
+      border-top-right-radius: var(--rs-radius-md);
 
       .rs-nav-reversed& {
-        border-radius: 0 0 6px 6px;
+        border-top-left-radius: var(--rs-radius-none);
+        border-top-right-radius: var(--rs-radius-none);
+        border-bottom-left-radius: var(--rs-radius-md);
+        border-bottom-right-radius: var(--rs-radius-md);
       }
     }
 
@@ -216,10 +220,14 @@
     //Nav content
     > .rs-nav-item,
     > .rs-dropdown .rs-dropdown-toggle {
-      border-radius: 6px 0 0 6px;
+      border-top-left-radius: var(--rs-radius-md);
+      border-bottom-left-radius: var(--rs-radius-md);
 
       .rs-nav-reversed& {
-        border-radius: 0 6px 6px 0;
+        border-top-left-radius: var(--rs-radius-none);
+        border-bottom-left-radius: var(--rs-radius-none);
+        border-top-right-radius: var(--rs-radius-md);
+        border-bottom-right-radius: var(--rs-radius-md);
       }
     }
 
@@ -309,12 +317,12 @@
 .rs-nav-pills {
   display: inline-flex;
   background-color: var(--rs-navs-pills-bg);
-  border-radius: 6px;
+  border-radius: var(--rs-radius-md);
   padding: 4px;
   width: max-content;
 
   .rs-nav-item {
-    border-radius: 6px;
+    border-radius: var(--rs-radius-md);
     position: relative;
     padding: 4px 12px;
     color: var(--rs-navs-pills-item-color);
