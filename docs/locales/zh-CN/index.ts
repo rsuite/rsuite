@@ -3,7 +3,7 @@ export default {
   common: {
     home: '首页',
     search: '搜索',
-    resume: '一套 React 的 UI 组件库，贴心的 UI 设计，友好的开发体验。',
+    resume: '免费的企业级 React UI 套件。统一的设计系统和丰富的组件库提升开发者的生产力。',
     advanced: '高级功能',
     guide: '新手指南',
     gettingStarted: '开始使用',

@@ -11,14 +11,20 @@
   }
 
   .polyline-limb {
-    animation: limbLineMove 3s ease-out 1;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: limbLineMove 2s ease-out forwards;
   }
+  
   .polyline-axis {
-    animation: axisLineMove 2s ease-out 1;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: axisLineMove 2s ease-out forwards;
   }
 
   .circle {
-    animation: circleMove 2s ease-out 1;
+    transform-origin: center;
+    animation: circleMove 2s ease-out forwards;
   }
 }
 
@@ -69,31 +75,42 @@
 
 @keyframes axisLineMove {
   0% {
-    stroke-dasharray: 0, 500;
+    stroke-dashoffset: 500;
   }
   100% {
-    stroke-dasharray: 500, 500;
+    stroke-dashoffset: 0;
   }
 }
 
 @keyframes limbLineMove {
   0% {
-    stroke-dasharray: 0, 200;
-    stroke: transparent;
+    stroke-dashoffset: 200;
+    stroke-opacity: 0;
   }
-  50% {
-    stroke-dasharray: 0, 200;
+  30% {
+    stroke-opacity: 1;
   }
   100% {
-    stroke-dasharray: 200, 200;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
   }
 }
 
 @keyframes circleMove {
   0% {
-    fill: transparent;
+    opacity: 0;
+    transform: scale(0);
   }
   50% {
-    fill: transparent;
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }

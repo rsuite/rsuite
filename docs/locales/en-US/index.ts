@@ -4,7 +4,7 @@ export default {
     home: 'Home',
     search: 'Search',
     resume:
-      'A suite of React components, sensible UI design, and a friendly development experience.',
+      'Free enterprise React UI suite. A unified design system and a rich component library enhance developer productivity.',
     advanced: 'Advanced',
     guide: 'Guide',
     gettingStarted: 'Getting started',

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
 import Head from '@/components/Head';
 import PageToolbar from '@/components/PageToolbar';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import { useApp } from '@/components/AppContext';
 
 function HomePage() {
@@ -86,13 +86,6 @@ function HomePage() {
               </div>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-        </Row>
-        <Row>
-          <div className="footerbar">
-            <a href="http://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">
-              沪 ICP 备 12011101 号 - 10
-            </a>
-          </div>
         </Row>
       </Grid>
     </>
