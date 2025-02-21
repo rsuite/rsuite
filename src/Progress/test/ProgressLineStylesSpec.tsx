@@ -13,7 +13,7 @@ describe('ProgressLine styles', () => {
     const lineInner = progressBar.querySelector('.rs-progress-line-inner') as HTMLElement;
 
     expect(progressBar).to.have.style('font-size', '16px');
-    expect(lineOuter).to.have.style('border-radius', '5px');
+    expect(lineOuter).to.have.style('border-radius', '4px');
     expect(lineInner).to.have.style('background-color', toRGB('#e5e5ea'));
   });
 });
