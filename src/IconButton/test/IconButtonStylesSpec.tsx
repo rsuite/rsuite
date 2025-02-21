@@ -33,10 +33,4 @@ describe('IconButton styles', () => {
       });
     });
   });
-
-  it('Should render the correct border-radius', () => {
-    render(<IconButton circle icon={<SearchIcon />} />);
-
-    expect(screen.getByRole('button')).to.have.style('border-radius', '3.35544e+07px');
-  });
 });

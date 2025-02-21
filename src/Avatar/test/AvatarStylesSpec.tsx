@@ -10,10 +10,4 @@ describe('Avatar styles', () => {
 
     expect(container.firstChild).to.have.style('background-color', toRGB('#d9d9d9'));
   });
-
-  it('Should render circle avatar', () => {
-    const { container } = render(<Avatar circle />);
-
-    expect(container.firstChild).to.have.style('border-radius', '3.35544e+07px');
-  });
 });

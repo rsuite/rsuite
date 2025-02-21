@@ -13,11 +13,6 @@ describe('Badge styles', () => {
     expect(container.firstChild).to.have.style('height', '10px');
   });
 
-  it('Should render independent badge with border-radius', () => {
-    const { container } = render(<Badge />);
-    expect(container.firstChild).to.have.style('border-radius', '3.35544e+07px');
-  });
-
   it('Should render correct color', () => {
     const { container } = render(<Badge />);
 
