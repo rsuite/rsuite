@@ -11,7 +11,7 @@ const AnimatedPanel = React.forwardRef((props, ref) => (
     bordered={false}
     style={{
       color: '#fff',
-      background: 'linear-gradient(135deg, #f6d365, #fda085)',
+      background: 'linear-gradient(45deg, #4CAF50, #2196F3)',
       width: 240,
       height: 120
     }}
