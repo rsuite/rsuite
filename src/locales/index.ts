@@ -26,6 +26,7 @@ export { default as frFR } from './fr_FR';
 export { default as jaJP } from './ja_JP';
 export { default as neNP } from './ne_NP';
 export { default as csCZ } from './cs_CZ';
+export { default as plPL } from './pl_PL';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
