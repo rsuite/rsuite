@@ -724,6 +724,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
             />
 
             <PickerIndicator
+              size={size}
               loading={loading}
               caretAs={caretAs}
               onClose={handleClean}

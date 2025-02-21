@@ -89,12 +89,14 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const text = typeof content === 'number' && content > maxCount ? `${maxCount}+` : content;
+  const isOneChar = useMemo(() => String(content)?.length === 1, [content]);
 
   const classes = merge(
     className,
     withClassPrefix(isPresetColor(color) && color, shape, {
       compact,
       outline,
+      'one-char': isOneChar,
       hidden: invisible,
       wrapper: children,
       independent: !children,

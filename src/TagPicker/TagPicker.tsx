@@ -33,6 +33,7 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
   const {
     tagProps = {},
     trigger = 'Enter',
+    size = 'md',
     onTagRemove,
     renderMenuItemCheckbox,
     renderValue,
@@ -53,6 +54,7 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
   return (
     <TagProvider value={contextValue}>
       <InputPicker
+        size={size}
         renderValue={renderValue as InputPickerProps['renderValue']}
         {...rest}
         ref={ref}

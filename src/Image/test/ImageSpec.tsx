@@ -81,16 +81,19 @@ describe('Image', () => {
     expect(screen.getByRole('img')).to.have.attr('loading', 'lazy');
   });
 
-  it('Should render with fallbackSrc', async () => {
-    render(
-      <Image
-        src="https://rsuitejs.com/nonexistent-image.jpg"
-        fallbackSrc="https://placehold.co/300x200"
-      />
-    );
+  it('Should load fallback image when main image fails to load', async () => {
+    const invalidSrc = 'invalid-image-url';
+    const fallbackSrc = 'fallback-image-url';
+
+    render(<Image src={invalidSrc} fallbackSrc={fallbackSrc} />);
+
+    const img = screen.getByRole('img');
+
+    // Trigger the error event
+    img.dispatchEvent(new Event('error'));
 
     await waitFor(() => {
-      expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
+      expect(img).to.have.attr('src', fallbackSrc);
     });
   });
 });

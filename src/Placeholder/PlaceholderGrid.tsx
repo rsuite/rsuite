@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export interface PlaceholderGridProps extends WithAsProps {
@@ -56,16 +56,21 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
     classPrefix = 'placeholder',
     rows = 5,
     columns = 5,
-    rowHeight = 10,
-    rowMargin = 20,
-    rowSpacing = rowMargin,
+    rowHeight,
+    rowSpacing,
     active,
+    style,
     ...rest
   } = propsWithDefaults;
 
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
   const classes = merge(className, withClassPrefix('grid', { active }));
+
+  const styles = {
+    '--rs-placeholder-row-height': getCssValue(rowHeight),
+    '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
+  } as React.CSSProperties;
 
   const items = useMemo(() => {
     const colItems: React.ReactElement[] = [];
@@ -75,13 +80,7 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
     for (let i = 0; i < columns; i++) {
       const rowItems: React.ReactElement[] = [];
       for (let j = 0; j < rows; j++) {
-        rowItems.push(
-          <div
-            key={j}
-            style={{ height: rowHeight, marginTop: j > 0 ? rowSpacing : undefined }}
-            className={rowClassName}
-          />
-        );
+        rowItems.push(<div key={j} className={rowClassName} />);
       }
       colItems.push(
         <div key={i} className={columnClassName}>
@@ -94,7 +93,7 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
   }, [columns, prefix, rowHeight, rowSpacing, rows]);
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
       {items}
     </Component>
   );

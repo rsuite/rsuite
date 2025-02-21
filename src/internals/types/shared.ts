@@ -11,6 +11,19 @@ export type CheckTriggerType = 'change' | 'blur' | 'none' | null;
 export type DisplayStateType = 'show' | 'hide' | 'hiding';
 export type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
+export enum TextSize {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  XL2 = '2xl',
+  XL3 = '3xl',
+  XL4 = '4xl',
+  XL5 = '5xl',
+  XL6 = '6xl'
+}
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;

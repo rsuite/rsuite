@@ -6,7 +6,7 @@ import TreePicker from '../index';
 
 import '../styles/index.less';
 
-const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
+const data = mockTreeData(['Node1', 'Node2']);
 
 describe('TreePicker styles', () => {
   testPickerSize(TreePicker, { data: [] });
@@ -16,7 +16,6 @@ describe('TreePicker styles', () => {
 
     const treeNode = screen.queryAllByRole('treeitem')[0];
 
-    expect(treeNode).to.have.style('font-size', '0px');
-    expect(treeNode).to.have.style('height', '36px');
+    expect(treeNode).to.have.style('height', '30px');
   });
 });

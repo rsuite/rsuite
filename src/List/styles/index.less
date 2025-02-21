@@ -10,7 +10,7 @@
   overflow-y: auto;
 
   &-bordered {
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     border: @list-border-width solid var(--rs-list-border);
   }
 
@@ -67,9 +67,9 @@
   &-helper {
     position: absolute;
     background-color: var(--rs-list-bg);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--rs-shadow-sm);
     width: calc(100% - 2px);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     top: 0;
     left: 0;
     z-index: @zindex-list-helper;

@@ -17,7 +17,9 @@ ReactDOM.render(
 
     <ButtonToolbar>
       <IconButton icon={<AddOutlineIcon />}>Create</IconButton>
-      <IconButton icon={<PlusIcon />}>Add</IconButton>
+      <IconButton icon={<PlusIcon />} placement="right">
+        Add
+      </IconButton>
     </ButtonToolbar>
   </>,
   document.getElementById('root')

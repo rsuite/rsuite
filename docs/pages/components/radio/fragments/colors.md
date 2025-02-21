@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Radio } from 'rsuite';
+import { Radio, HStack } from 'rsuite';
 
 const App = () => (
-  <>
+  <HStack spacing={20}>
     <Radio checked color="red">
       Red
     </Radio>
@@ -26,7 +26,7 @@ const App = () => (
     <Radio checked color="violet">
       Violet
     </Radio>
-  </>
+  </HStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

@@ -4,21 +4,28 @@
 // ----------------------
 
 .rs-rate {
+  --rate-font-size-xs: var(--rs-font-size-lg);
+  --rate-font-size-sm: var(--rs-font-size-2xl);
+  --rate-font-size-md: var(--rs-font-size-3xl);
+  --rate-font-size-lg: var(--rs-font-size-4xl);
+
   position: relative;
   display: inline-flex;
   color: var(--rs-rate-symbol-checked);
+  font-size: var(--rate-font-size, var(--rate-font-size-md));
   list-style: none;
   vertical-align: middle;
   margin: 0;
   padding: 0;
+  gap: calc(var(--rs-spacing) * 2);
 
   &-character {
     position: relative;
-    margin-right: 10px;
-    padding: 3px 0;
     cursor: pointer;
     outline: none;
     user-select: none;
+    width: var(--rate-font-size);
+    height: var(--rate-font-size);
 
     &-before {
       position: absolute;
@@ -68,7 +75,7 @@
       width: 100%;
       height: 50%;
       flex-direction: column-reverse;
-      bottom: 3px;
+      bottom: 0;
     }
 
     .rs-icon,
@@ -107,26 +114,15 @@
   @sizes: lg, md, sm, xs;
 
   each(@sizes, .(@size) {
-    @font-size-var-name: ~'rate-@{size}-font-size';
-    @font-size: @@font-size-var-name;
-
-    &-@{size} {
-      font-size: @font-size;
-
-      .rs-rate-character {
-        width: @font-size;
-        height: (@font-size + 6);
-      }
+    &&-@{size} {
+      --rate-font-size: var(~'--rate-font-size-@{size}');
     }
   });
 
   // Color variants
   each(@spectrum, .(@color) {
-    &-@{color} {
-
+    &&-@{color} {
       --rs-rate-symbol-checked: var(~'--rs-@{color}-500');
-
-      color: var(--rs-rate-symbol-checked);
     }
   });
 }

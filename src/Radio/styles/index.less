@@ -1,9 +1,11 @@
-@import '../../styles/common';
-@import '../../Checkbox/styles/mixin';
-@import '../../Button/styles/mixin';
-@import 'mixin';
+@import '../../styles/common.less';
+@import '../../Checkbox/styles/mixin.less';
+@import '../../Button/styles/mixin.less';
+@import './mixin.less';
 
 .rs-radio {
+  --rs-radio-size: @radio-width-height;
+
   .radio-checkbox-common();
 
   [type='radio']:focus ~ .rs-radio-inner::before {
@@ -12,34 +14,24 @@
 }
 
 .rs-radio-checker {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: (@radio-sense-width * 2 + @radio-width-height);
-  min-height: (@radio-sense-width * 2 + @radio-width-height);
-  line-height: 1;
   position: relative;
+  display: inline-flex;
+
+  > label {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--rs-spacing) * 2);
+  }
 }
 
 .rs-radio-control {
-  position: absolute;
-  width: @radio-width-height;
-  height: @radio-width-height;
-  display: inline-block;
-  left: @radio-sense-width;
-  top: @checkbox-sense-width;
+  position: relative;
+  display: inline-flex;
 
   [type='radio'] {
     opacity: 0;
-    // bring to foreground
-    position: absolute;
-    z-index: 1;
-    cursor: pointer;
-
-    // Sense area(Can be clicked).
-    top: -@radio-sense-width;
-    right: -@radio-sense-width;
-    bottom: -@radio-sense-width;
-    left: -@radio-sense-width;
+    width: var(--rs-radio-size);
+    height: var(--rs-radio-size);
 
     &:disabled {
       cursor: @cursor-disabled;
@@ -58,8 +50,8 @@
 
   &::before,
   .rs-radio-inner::before {
-    width: @radio-width-height;
-    height: @radio-width-height;
+    width: var(--rs-radio-size);
+    height: var(--rs-radio-size);
   }
 
   // Ripple effect area.
@@ -69,7 +61,9 @@
     transform: scale(1);
     opacity: 0.7;
     visibility: hidden;
-    transition: transform 0.2s linear, opacity 0.2s linear;
+    transition:
+      transform 0.2s linear,
+      opacity 0.2s linear;
 
     .high-contrast-mode({
       transition: none;
@@ -88,7 +82,10 @@
   &::before {
     .radio-inner-wrapper(var(--rs-radio-border));
 
-    transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
+    transition:
+      background 0.2s linear,
+      border 0.2s linear,
+      box-shadow 0.2s linear;
 
     .high-contrast-mode({
       transition: none;
@@ -119,11 +116,13 @@
     height: @radio-inner-width-height;
     background-color: var(--rs-radio-marker);
     margin-top: ((@radio-width-height - @radio-inner-width-height) / 2);
-    margin-left: ((@radio-width-height - @radio-inner-width-height) / 2);
-    border-radius: @radio-border-radius;
+    margin-inline-start: ((@radio-width-height - @radio-inner-width-height) / 2);
+    border-radius: var(--rs-radius-full);
     opacity: 0;
     transform: scale(0);
-    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+    transition:
+      opacity 0.2s ease-in,
+      transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
     .high-contrast-mode({
       transition: none;
@@ -136,23 +135,10 @@
   }
 }
 
+// Colorful radios
 each(@spectrum, .(@color) {
   .rs-radio-@{color} {
-    .rs-radio-control::before{
-      border-color: var(~'--rs-@{color}-500');
-    }
-
-    label:hover{
-      .rs-radio-inner::before {
-        border-color: var(~'--rs-@{color}-500');
-      }
-    }
-
-    &.rs-radio-checked  {
-      .rs-radio-inner::before{
-        border-color: var(~'--rs-@{color}-500');
-        background-color:var(~'--rs-@{color}-500');
-      }
-    }
+    --rs-radio-checked-bg: var(~'--rs-@{color}-500');
+    --rs-radio-border: var(~'--rs-@{color}-500');
   }
 });

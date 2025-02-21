@@ -1,5 +1,4 @@
-@import '../../styles/common';
-@import '../../Form/styles/mixin';
+@import '../../styles/common.less';
 
 // Full container.
 .rs-form-fluid {
@@ -12,8 +11,13 @@
     }
   }
 
-  &.rs-form-vertical .rs-form-group .rs-input-group {
-    width: 100%;
+  &.rs-form-vertical .rs-form-group {
+    .rs-input-group {
+      width: 100%;
+    }
+    .rs-form-control-wrapper {
+      max-width: 100%;
+    }
   }
 }
 
@@ -40,8 +44,7 @@
 
 .rs-form-vertical .rs-form-group .rs-form-control-wrapper {
   display: inline-block;
-  // Make sure max width won't overflow.
-  max-width: 100%;
+  max-width: max-content;
 }
 
 // Horizontal forms
@@ -57,11 +60,6 @@
   .rs-form-control-wrapper + .rs-form-help-text {
     clear: both;
   }
-
-  // Help block
-  .rs-form-control-wrapper + .rs-form-help-text:not(.rs-form-help-text-tooltip) {
-    margin-left: @form-control-label-width + @form-control-label-margin-right;
-  }
 }
 
 // Inline
@@ -74,4 +72,10 @@
   .rs-sr-only + .rs-form-control-wrapper {
     margin-left: 0;
   }
+}
+
+.rs-input-group > .rs-form-control > .rs-input {
+  border-radius: var(--rs-radius-none);
+  border: none;
+  outline: none;
 }

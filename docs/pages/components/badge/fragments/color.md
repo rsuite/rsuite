@@ -27,7 +27,7 @@ const App = () => (
       <Badge color="violet" content={6}>
         <Avatar />
       </Badge>
-      <Badge color="#000000" content={6} content="Custom">
+      <Badge color="#000000" content="Custom">
         <Avatar />
       </Badge>
     </HStack>
@@ -40,7 +40,7 @@ const App = () => (
       <Badge color="cyan" content="cyan" />
       <Badge color="blue" content="blue" />
       <Badge color="violet" content="violet" />
-      <Badge color="#000000" content={6} content="custom" />
+      <Badge color="#000000" content="custom" />
     </HStack>
   </>
 );

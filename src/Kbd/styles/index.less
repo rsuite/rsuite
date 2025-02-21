@@ -12,12 +12,9 @@
   @sizes: lg, md, sm, xs;
 
   each(@sizes, .(@size) {
-    @font-size: ~'kbd-@{size}-font-size';
-    @letter-spacing: ~'kbd-@{size}-letter-spacing';
-
     &-@{size} {
-      --rs-kbd-font-size: @@font-size;
-      --rs-kbd-letter-spacing: @@letter-spacing;
+      --rs-kbd-font-size: var(~'--rs-kbd-font-size-@{size}');
+      --rs-kbd-letter-spacing: var(~'--rs-kbd-letter-spacing-@{size}');
     }
   });
 }

@@ -6,73 +6,50 @@
 // --------------------------------------------------
 
 .rs-tag {
-  display: inline-block;
-  background-color: var(--rs-tag-bg);
-  color: var(--rs-tag-text);
-  border-radius: 6px;
-  line-height: 20px;
+  --rs-tag-border-radius: var(--rs-radius-md);
+  --rs-tag-spacing: 0.25rem;
+  --rs-tag-font-size-sm: var(--rs-font-size-xs);
+  --rs-tag-font-size-md: var(--rs-font-size-xs);
+  --rs-tag-font-size-lg: var(--rs-font-size-sm);
+  --rs-tag-padding-sm: 0 8px;
+  --rs-tag-padding-md: 2px 8px;
+  --rs-tag-padding-lg: 5px 10px;
+  --rs-tag-line-height-sm: @line-height-small;
+  --rs-tag-line-height-md: @line-height-small;
+  --rs-tag-line-height-lg: @line-height-base;
 
-  &-closable {
-    position: relative;
-  }
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rs-tag-spacing);
+  border-radius: var(--rs-tag-border-radius);
+  line-height: var(--rs-tag-line-height-md);
 
   &-icon-close {
-    position: absolute;
-    top: 0;
-    right: 0;
+    padding: 0;
   }
 
-  &-lg {
-    padding: 5px 10px;
-    font-size: 14px;
-
-    .rs-tag-icon-close {
-      padding: 9px 8px;
+  // Size variants
+  @sizes: lg, md, sm;
+  each(@sizes, .(@size) {
+    &-@{size} {
+      --rs-tag-padding: var(~'--rs-tag-padding-@{size}');
+      --rs-tag-font-size: var(~'--rs-tag-font-size-@{size}');
+      --rs-tag-line-height: var(~'--rs-tag-line-height-@{size}');
     }
-  }
+  });
 
-  &-closable&-lg {
-    padding-right: 27px;
-  }
+  padding: var(--rs-tag-padding, var(--rs-tag-padding-md));
+  font-size: var(--rs-tag-font-size, var(--rs-tag-font-size-md));
+  line-height: var(--rs-tag-line-height, var(--rs-tag-line-height-md));
 
-  &-md {
-    padding: 2px 8px;
-    font-size: 12px;
-
-    .rs-tag-icon-close {
-      padding: 6px 8px;
+  // Colorful tags
+  each(@spectrum, .(@color) {
+    &-@{color} {
+      --rs-tag-bg: var(~'--rs-@{color}-500');
+      --rs-tag-text: #fff;
     }
-  }
+  });
 
-  &-closable&-md {
-    padding-right: 25px;
-  }
-
-  &-sm {
-    padding: 0 8px;
-    font-size: 12px;
-
-    .rs-tag-icon-close {
-      padding: 4px 5px;
-    }
-  }
-
-  &-closable&-sm {
-    padding-right: 25px;
-  }
+  background-color: var(--rs-tag-bg);
+  color: var(--rs-tag-text, var(--rs-text-primary));
 }
-
-.rs-tag + .rs-tag {
-  margin-left: @tag-gap;
-}
-
-// Colorful tags
-each(@spectrum, .(@color) {
-  .rs-tag-@{color} {
-    --rs-tag-bg: var(~'--rs-@{color}-500');
-    --rs-tag-text: #fff;
-
-    background-color: var(--rs-tag-bg);
-    color: var(--rs-tag-text);
-  }
-});

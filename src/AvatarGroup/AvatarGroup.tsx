@@ -4,7 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
-export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+export type Size = '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
 export interface AvatarGroupProps extends WithAsProps {
   /**
@@ -19,7 +19,6 @@ export interface AvatarGroupProps extends WithAsProps {
 
   /**
    * Set the size of all avatars.
-   * @version xxl and xs added in v5.59.0
    */
   size?: Size;
 }

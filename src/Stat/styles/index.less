@@ -3,23 +3,30 @@
 @import '../../Tooltip/styles/index.less';
 
 .rs-stat {
+  --rs-stat-icon-size: 50px;
+  --rs-stat-border-radius: var(--rs-radius-md);
+  --rs-stat-spacing: calc(var(--rs-spacing) * 2.5);
+  --rs-stat-value-font-size: var(--rs-font-size-2xl);
+  --rs-stat-value-unit-font-size: var(--rs-font-size-xs);
+  --rs-stat-trend-font-size: var(--rs-font-size-xs);
+
   display: flex;
-  gap: 10px;
+  gap: var(--rs-stat-spacing);
   align-items: center;
 
   &-icon {
-    width: 50px;
-    height: 50px;
+    width: var(--rs-stat-icon-size);
+    height: var(--rs-stat-icon-size);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: var(--rs-stat-border-radius);
   }
 
   &-body {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: calc(var(--rs-spacing) * 2);
     width: 100%;
     margin: 0;
   }
@@ -27,16 +34,16 @@
   &-bordered {
     border: 1px solid var(--rs-border-primary);
     background-color: var(--rs-stat-body-bg);
-    border-radius: 6px;
+    border-radius: var(--rs-stat-border-radius);
     padding: 16px;
   }
 
   &-label {
-    font-weight: 100;
+    font-weight: 400;
     display: inline-flex;
     align-items: center;
     color: var(--rs-text-secondary);
-    gap: 6px;
+    gap: calc(var(--rs-spacing) * 1.5);
 
     &-uppercase {
       text-transform: uppercase;
@@ -45,26 +52,26 @@
 
   &-value {
     display: flex;
-    gap: 4px;
+    gap: var(--rs-spacing);
     align-items: baseline;
-    font-size: 24px;
+    font-size: var(--rs-stat-value-font-size);
     font-weight: 600;
     line-height: 1;
     margin: 0;
   }
 
   &-value-unit {
-    font-size: 12px;
+    font-size: var(--rs-stat-value-unit-font-size);
     font-weight: 400;
   }
 
   &-trend {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
-    border-radius: 4px;
+    gap: calc(var(--rs-spacing) / 2);
+    border-radius: var(--rs-radius-sm);
     font-weight: 600;
-    font-size: 12px;
+    font-size: var(--rs-stat-trend-font-size);
     line-height: 1;
 
     &-up {

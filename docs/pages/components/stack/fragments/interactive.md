@@ -41,7 +41,7 @@ const App = () => {
         />
 
         <RadioGroup inline value={direction} onChange={setDirection} appearance="picker">
-          <RadioLabel>direction:</RadioLabel>
+          <label>direction:</label>
           <Radio value="row">row</Radio>
           <Radio value="row-reverse">row-reverse</Radio>
           <Radio value="column">column</Radio>
@@ -49,7 +49,7 @@ const App = () => {
         </RadioGroup>
 
         <RadioGroup inline value={alignItems} onChange={setAlignItems} appearance="picker">
-          <RadioLabel>alignItems:</RadioLabel>
+          <label>alignItems:</label>
           <Radio value="flex-start">flex-start</Radio>
           <Radio value="center">center</Radio>
           <Radio value="flex-end">flex-end</Radio>
@@ -58,7 +58,7 @@ const App = () => {
         </RadioGroup>
 
         <RadioGroup inline value={justifyContent} onChange={setJustifyContent} appearance="picker">
-          <RadioLabel>justifyContent:</RadioLabel>
+          <label>justifyContent:</label>
           <Radio value="flex-start">flex-start</Radio>
           <Radio value="center">center</Radio>
           <Radio value="flex-end">flex-end</Radio>
@@ -72,7 +72,6 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const Box = React.forwardRef((props, ref) => {
   const { style, ...rest } = props;

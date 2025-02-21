@@ -54,8 +54,7 @@ const App = () => {
   const [loading, setLoading] = React.useState(false);
   return (
     <div>
-      <label>Dynamic content: </label>
-      <Toggle onChange={setLoading} />
+      <Toggle onChange={setLoading}>Dynamic content</Toggle>
       <hr />
       <table className="placement-table" cellSpacing={5}>
         <tbody>

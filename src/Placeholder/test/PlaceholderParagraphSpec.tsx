@@ -22,19 +22,13 @@ describe('Placeholder.Paragraph', () => {
   it('Height of rows should be 50px', () => {
     render(<PlaceholderParagraph rowHeight={50} data-testid="p" />);
 
-    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
-      'height',
-      '50px'
-    );
+    expect(screen.getByTestId('p')).to.have.style('--rs-placeholder-row-height', '50px');
   });
 
   it('Should has a 50px gap between rows', () => {
     render(<PlaceholderParagraph rowSpacing={50} data-testid="p" />);
 
-    expect(screen.getByTestId('p').lastElementChild?.lastElementChild).to.have.style(
-      'margin-top',
-      '50px'
-    );
+    expect(screen.getByTestId('p')).to.have.style('--rs-placeholder-row-spacing', '50px');
   });
 
   it('Should render graph', () => {

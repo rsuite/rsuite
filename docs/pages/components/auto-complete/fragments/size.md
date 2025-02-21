@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { AutoComplete, Stack } from 'rsuite';
+import { AutoComplete, VStack } from 'rsuite';
 
 const data = [
   'Eugenia',
@@ -25,12 +25,12 @@ const data = [
 ];
 
 const App = () => (
-  <Stack direction="column" alignItems="flex-start" spacing={4}>
-    <AutoComplete size="lg" placeholder="Large" data={data} style={{ width: 224 }} />
-    <AutoComplete size="md" placeholder="Medium" data={data} style={{ width: 224 }} />
-    <AutoComplete size="sm" placeholder="Small" data={data} style={{ width: 224 }} />
-    <AutoComplete size="xs" placeholder="Xsmall" data={data} style={{ width: 224 }} />
-  </Stack>
+  <VStack spacing={10} style={{ width: 224 }}>
+    <AutoComplete size="lg" placeholder="Large" data={data} />
+    <AutoComplete size="md" placeholder="Medium" data={data} />
+    <AutoComplete size="sm" placeholder="Small" data={data} />
+    <AutoComplete size="xs" placeholder="Xsmall" data={data} />
+  </VStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

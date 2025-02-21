@@ -10,16 +10,12 @@ const data = mockTreeData([['node-1', ['node-1', 'node-3']]]);
 describe('MultiCascader styles', () => {
   testPickerSize(MultiCascader);
 
-  it('Should render the correct caret', () => {
+  it('Should render the correct padding', () => {
     render(<MultiCascader data={data} open />);
 
     const tree = screen.getByRole('tree');
 
-    expect(tree.querySelector('.rs-checkbox-checker label')).to.have.style(
-      'padding',
-      '8px 26px 8px 38px'
-    );
-
+    expect(tree.querySelector('.rs-checkbox-checker label')).to.have.style('padding', '8px 12px');
     expect(tree.querySelector('[aria-label="arrow right line"]')).to.exist;
   });
 });

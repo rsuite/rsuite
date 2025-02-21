@@ -54,6 +54,7 @@ export interface InputProps
  */
 const Input = forwardRef<'input', InputProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Input', props);
+  const inputGroup = useContext(InputGroupContext);
   const {
     className,
     classPrefix = 'input',
@@ -64,7 +65,7 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
     defaultValue,
     inputRef,
     id,
-    size,
+    size = inputGroup?.size || 'md',
     htmlSize,
     plaintext,
     placeholder,
@@ -90,7 +91,7 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, { plaintext }));
-  const inputGroupContext = useContext(InputGroupContext);
+
   const { controlId } = useFormGroup();
 
   // Make the Input component display in plain text,
@@ -109,8 +110,8 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
   if (inputable) {
     eventProps.onChange = handleChange;
     eventProps.onKeyDown = handleKeyDown;
-    eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
-    eventProps.onBlur = createChainedFunction(onBlur, inputGroupContext?.onBlur);
+    eventProps.onFocus = createChainedFunction(onFocus, inputGroup?.onFocus);
+    eventProps.onBlur = createChainedFunction(onBlur, inputGroup?.onBlur);
   }
 
   return (

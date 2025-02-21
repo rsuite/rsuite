@@ -1,4 +1,4 @@
-.set-side-length(@side) {
+.loader-size(@side) {
   width: @side;
   height: @side;
 
@@ -6,27 +6,6 @@
   &::after {
     width: @side;
     height: @side;
-  }
-}
-
-.loader-size(@diameter,@font-size) {
-  .rs-loader {
-    &-spin {
-      .set-side-length(@diameter);
-    }
-
-    &-content {
-      font-size: @font-size;
-      line-height: unit((@diameter / @font-size));
-    }
-
-    &-vertical & {
-      height: (@diameter + @loader-content-spin-spacing-vertical + @line-height-computed);
-    }
-
-    &-vertical &-content {
-      line-height: unit((@line-height-computed / @font-size));
-    }
   }
 }
 
@@ -38,7 +17,7 @@
     left: 0;
     right: 0;
     display: block;
-    border-radius: 50%;
+    border-radius: var(--rs-radius-full);
   }
 
   &::before {

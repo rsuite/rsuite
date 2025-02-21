@@ -113,7 +113,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     locale,
     toggleAs,
     style,
-    size,
+    size = 'md',
     searchable = true,
     open: controlledOpen,
     placeholder,
@@ -733,7 +733,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
           {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
         </PickerToggle>
         <TextBox
-          showTagList={hasValue && multi}
+          showTagList={multi}
           inputRef={inputRef}
           inputValue={open ? searchKeyword : ''}
           inputProps={inputProps}

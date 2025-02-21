@@ -1,46 +1,43 @@
 @import '../../styles/common.less';
-@import '../../Form/styles/mixin.less';
 @import '../../Input/styles/index.less';
 @import '../../SelectPicker/styles/index.less';
 @import '../../internals/Picker/styles/index.less';
 @import './mixin.less';
 
 .rs-picker-input {
+
+  --rs-picker-textbox-margin-inline: var(--rs-picker-input-height);
+
   position: relative;
   border: 1px solid var(--rs-border-primary);
-  border-radius: @border-radius;
+  border-radius: var(--rs-radius-md);
   transition: @picker-transition;
   background-color: var(--rs-input-bg);
+  overflow: hidden;
 
   .rs-picker-toggle {
     border: none !important;
-    background: transparent !important;
-    height: @input-picker-toggle-content-height;
+    height: var(--rs-picker-input-height);
     cursor: text;
-
-    &-clean,
-    &-caret {
-      top: @padding-y - @picker-default-toggle-border-width;
-    }
-
-    .rs-ripple-pond {
-      display: none;
-    }
   }
 
   &:not(.rs-picker-disabled) .rs-picker-toggle {
     position: absolute !important;
   }
 
-  .input-picker-input-sizes();
-}
+  @sizes: xs, sm, md, lg;
+  each(@sizes, .(@size) {
+    &.rs-picker-input-@{size} {
+      --rs-picker-input-height: calc(var(~'--rs-btn-size-@{size}') - 2px);
+      --rs-picker-search-input-font-size: var(~'--rs-input-font-size-@{size}');
+      --rs-picker-search-input-line-height: var(~'--rs-input-line-height-@{size}');
+      --rs-picker-search-input-padding-block: var(~'--rs-input-padding-block-@{size}');
+      --rs-picker-search-input-padding-inline: var(~'--rs-input-padding-inline-@{size}');
+    }
+  });
 
-.rs-picker-textbox {
-  margin-right: @dropdown-toggle-padding-right;
-  min-height: 34px;
-
-  .rs-picker-cleanable & {
-    margin-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
+  .rs-picker-textbox {
+    margin-inline-end: var(--rs-picker-textbox-margin-inline);
   }
 }
 
@@ -49,58 +46,19 @@
   width: 100%;
 
   &-input {
-    .input-md();
-
-    .rs-picker-tag & {
-      font-size: @font-size-base;
-      line-height: @line-height-base;
-      padding: @padding-y-xs @input-padding-x @padding-y-xs @padding-x -
-        @picker-default-toggle-border-width;
-
-      > input {
-        background: none;
-        outline: none;
-        border: none;
-        width: 100%;
-      }
-    }
-
+    font-size: var(--rs-picker-search-input-font-size);
+    line-height: var(--rs-picker-search-input-line-height);
+    padding-block: var(--rs-picker-search-input-padding-block);
+    padding-inline: var(--rs-picker-search-input-padding-inline);
     background: none;
     outline: none;
     border: none;
     width: 100%;
     position: relative;
-    padding-right: 0;
+    padding-inline-end: 0;
 
     .rs-picker-focused & {
       z-index: @zindex-picker-input;
     }
-  }
-}
-
-// Input Picker Size
-// --------------------------------------------------
-.rs-picker-input-lg {
-  .rs-input-picker-size(@padding-y-lg - 1; @padding-x-lg; @font-size-large; @line-height-large);
-  .rs-picker-textbox {
-    min-height: 40px;
-  }
-}
-
-.rs-picker-input-md {
-  .rs-input-picker-size(@padding-y; @padding-x; @font-size-base; @line-height-base);
-}
-
-.rs-picker-input-sm {
-  .rs-input-picker-size(@padding-y-sm; @padding-x-sm; @font-size-base; @line-height-base);
-  .rs-picker-textbox {
-    min-height: 28px;
-  }
-}
-
-.rs-picker-input-xs {
-  .rs-input-picker-size(@padding-y-xs; @padding-x-xs; @font-size-extra-small; @line-height-extra-small);
-  .rs-picker-textbox {
-    min-height: 22px;
   }
 }

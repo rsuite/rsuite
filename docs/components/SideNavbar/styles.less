@@ -77,7 +77,7 @@
   position: fixed;
   top: (@top-level-nav-height + 10px);
   z-index: 1;
-  box-shadow: @box-shadow;
+  box-shadow: var(--rs-shadow-md);
 
   @media (min-width: @media-xs) {
     display: none;
@@ -154,6 +154,8 @@
     border-radius: 6px;
     &:hover {
       background: var(--rs-navs-bg-hover);
+      color: var(--rs-text-primary);
+      font-weight: var(--rs-text-weight-medium);
     }
   }
 

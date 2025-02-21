@@ -9,16 +9,16 @@ describe('StatGroup', () => {
   it('Should render a columns CSS variable', () => {
     const { container } = render(<StatGroup columns={2} />);
 
-    expect(container.firstChild).to.have.style('--rs-columns', '2');
+    expect(container.firstChild).to.have.style('--rs-stat-group-columns', '2');
   });
 
   it('Should render a spacing CSS variable', () => {
     const { container, rerender } = render(<StatGroup spacing={20} />);
 
-    expect(container.firstChild).to.have.style('--rs-spacing', '20px');
+    expect(container.firstChild).to.have.style('--rs-stat-group-spacing', '20px');
 
     rerender(<StatGroup spacing="1rem" />);
 
-    expect(container.firstChild).to.have.style('--rs-spacing', '1rem');
+    expect(container.firstChild).to.have.style('--rs-stat-group-spacing', '1rem');
   });
 });

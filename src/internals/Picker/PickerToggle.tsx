@@ -57,12 +57,13 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     tabIndex = 0,
     inputValue: inputValueProp,
     focusItemValue,
-    onClean,
     placement = 'bottomStart',
     caretComponent,
     caretAs = caretComponent,
     label,
     name,
+    size,
+    onClean,
     ...rest
   } = props;
 
@@ -105,6 +106,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     <Component
       role="combobox"
       id={id}
+      size={size}
       aria-haspopup={popupType}
       aria-expanded={active}
       aria-disabled={disabled}
@@ -118,7 +120,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       tabIndex={disabled ? undefined : tabIndex}
       className={classes}
     >
-      <Stack>
+      <Stack className={prefix('stack')}>
         {label && (
           <Stack.Item>
             <PickerLabel as="span" className={prefix('label')} id={labelId}>
@@ -149,6 +151,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
         </Stack.Item>
         <Stack.Item className={prefix`indicator`}>
           <PickerIndicator
+            size={size}
             as={React.Fragment}
             loading={loading}
             caretAs={caret ? Caret : null}

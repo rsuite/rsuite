@@ -7,6 +7,10 @@
 // ----------------------
 
 .rs-uploader {
+  --rs-uploader-file-item-icon-font-size: 1.375rem;
+  --rs-uploader-file-item-icon-margin: 0.75rem;
+  --rs-uploader-file-item-icon-margin-plus: 1.375rem;
+
   &-trigger {
     input[type='file'] {
       position: absolute !important;
@@ -35,7 +39,7 @@
     cursor: pointer;
     margin-left: 10px;
     color: var(--rs-text-primary);
-    font-size: 12px;
+    font-size: var(--rs-font-size-xs);
   }
 }
 
@@ -75,7 +79,7 @@
 
     &-icon-loading {
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         > svg {
@@ -113,7 +117,7 @@
 
     &-btn-remove {
       position: absolute;
-      font-size: 14px;
+      font-size: var(--rs-font-size-sm);
       top: 12px;
       right: @padding-x;
       color: var(--rs-text-secondary);
@@ -165,7 +169,7 @@
     margin: 0;
     padding: 0;
     border: 2px dotted var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     margin-top: @uploader-picture-item-gap;
   }
 
@@ -192,7 +196,7 @@
     height: @uploader-picture-side-length;
     overflow: hidden;
     background-color: var(--rs-uploader-item-bg);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     position: relative;
     margin-top: @uploader-picture-item-gap;
     margin-right: @uploader-picture-item-gap;
@@ -209,8 +213,8 @@
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin-plus;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin-plus);
       }
     }
 
@@ -254,7 +258,7 @@
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
       background-color: var(--rs-uploader-overlay-bg);
-      border-radius: 50%;
+      border-radius: var(--rs-radius-full);
       visibility: hidden;
       opacity: 0;
       transition: 0.2s opacity;
@@ -288,7 +292,7 @@
       text-align: center;
 
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         display: inline-block;
@@ -316,7 +320,7 @@
     margin-top: @uploader-picture-item-gap;
     padding-right: 30px;
     border: 1px solid var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     overflow: hidden;
     transition: 0.3s linear background-color;
 
@@ -338,15 +342,16 @@
       text-align: center;
       background-color: var(--rs-border-primary);
       overflow: hidden;
-      border-radius: @border-radius 0 0 @border-radius;
+      border-top-left-radius: var(--rs-radius-md);
+      border-bottom-left-radius: var(--rs-radius-md);
 
       > img {
         .img-cover();
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin);
       }
     }
 
@@ -414,7 +419,7 @@
       line-height: 50px;
 
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         display: inline-block;

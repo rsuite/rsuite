@@ -4,12 +4,17 @@
 @import './toggle.less';
 @import './indent-line.less';
 
-@custom-picker-tree-node-padding-vertical: @picker-tree-node-padding-vertical - 2px;
-
 // Tree
 // ----------------------
 
 .rs-tree {
+  --rs-tree-node-font-size: var(--rs-font-size-sm);
+  --rs-tree-node-line-height: var(--rs-text-line-height-sm);
+  --rs-tree-node-padding-block: @padding-y;
+  --rs-tree-node-padding-inline: @padding-x;
+  --rs-tree-node-label-padding: var(--rs-spacing);
+  --rs-tree-node-label-border-radius: var(--rs-radius-md);
+
   height: 100%;
   flex: 1 1 auto;
 
@@ -20,9 +25,10 @@
     background-color: var(--rs-bg-overlay);
     display: inline-block;
     margin: 0;
-    padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
-    border-radius: 6px;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+    padding-inline: var(--rs-tree-node-padding-inline);
+    padding-block: var(--rs-tree-node-padding-block);
+    border-radius: var(--rs-radius-md);
+    box-shadow: var(--rs-shadow-sm);
     z-index: -1;
   }
 
@@ -55,8 +61,6 @@
 
 .rs-tree-node {
   position: relative;
-  // Clear host whitespace
-  font-size: 0;
   text-align: left;
   margin: 0 0 4px 0;
   display: flex;
@@ -72,10 +76,10 @@
     position: relative;
     margin: 1px;
     cursor: pointer;
-    font-size: @picker-tree-node-font-size;
-    line-height: @picker-tree-node-line-height;
-    padding: 6px;
-    border-radius: 6px;
+    font-size: var(--rs-tree-node-font-size);
+    line-height: var(--rs-tree-node-line-height);
+    padding: var(--rs-tree-node-label-padding);
+    border-radius: var(--rs-tree-node-label-border-radius);
 
     &:hover,
     &:focus,
@@ -114,7 +118,7 @@
   &-drag-over-top {
     &.rs-tree-node-label {
       border-top: 2px solid var(--rs-text-link) !important;
-      border-radius: 0;
+      border-radius: var(--rs-radius-none);
 
       &::after {
         display: block;
@@ -126,7 +130,7 @@
   &-drag-over-bottom {
     &.rs-tree-node-label {
       border-bottom: 2px solid var(--rs-text-link) !important;
-      border-radius: 0;
+      border-radius: var(--rs-radius-none);
 
       &::after {
         display: block;

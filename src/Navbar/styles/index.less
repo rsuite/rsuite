@@ -6,14 +6,17 @@
 // --------------------------------------------------
 
 .rs-navbar {
-  --rs-navbar-padding-y: 10px;
-  --rs-navbar-padding-x: 16px;
-  --rs-navbar-gap: 16px;
+  --rs-navbar-padding-y: calc(var(--rs-spacing) * 2.5);
+  --rs-navbar-padding-x: calc(var(--rs-spacing) * 4);
+  --rs-navbar-gap: calc(var(--rs-spacing) * 4);
+  --rs-navbar-icon-font-size: var(--rs-font-size-md);
+  --rs-navbar-caret-font-size: var(--rs-font-size-md);
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--rs-navbar-padding-y) var(--rs-navbar-padding-x);
+  padding-inline: var(--rs-navbar-padding-x);
+  padding-block: var(--rs-navbar-padding-y);
   gap: var(--rs-navbar-gap);
 
   .rs-input,
@@ -31,7 +34,7 @@
 .rs-navbar-brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: calc(var(--rs-spacing) * 1.5);
 }
 
 // Common
@@ -62,7 +65,7 @@
 .rs-navbar-item {
   // Reset padding
   padding: @navbar-item-padding-y @navbar-item-padding-x;
-  border-radius: 6px;
+ border-radius: var(--rs-radius-md);
   color: inherit;
   background-color: transparent;
   position: relative;
@@ -71,12 +74,12 @@
   align-items: center;
 
   &-icon {
-    font-size: 16px;
+    font-size: var(--rs-navbar-icon-font-size);
     margin-right: 5px;
   }
 
   &-caret {
-    font-size: 16px;
+    font-size: var(--rs-navbar-caret-font-size);
     margin-left: 6px;
   }
 }

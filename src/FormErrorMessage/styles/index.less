@@ -2,16 +2,19 @@
 @import 'animation';
 
 .rs-form-error-message {
+  --rs-form-errormessage-font-size: var(--rs-font-size-xs);
+  --rs-form-errormessage-line-height: 1.25rem;
+
   position: absolute;
   padding: 3px 7px;
   background-color: var(--rs-form-errormessage-bg);
   border: 1px solid var(--rs-form-errormessage-border);
-  border-radius: @border-radius;
+  border-radius: var(--rs-font-size-md);
   filter: ~'drop-shadow(0 0 6px rgba(0,0,0,.1))';
   z-index: @zindex-form-error-message;
   color: var(--rs-form-errormessage-text);
-  font-size: @form-error-message-font-size;
-  line-height: 20px;
+  font-size: var(--rs-form-errormessage-font-size);
+  line-height: var(--rs-form-errormessage-line-height);
   display: none;
   white-space: nowrap;
 

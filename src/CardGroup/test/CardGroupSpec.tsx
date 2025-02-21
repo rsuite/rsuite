@@ -9,16 +9,16 @@ describe('CardGroup', () => {
   it('Should render a columns CSS variable', () => {
     const { container } = render(<CardGroup columns={2} />);
 
-    expect(container.firstChild).to.have.style('--rs-columns', '2');
+    expect(container.firstChild).to.have.style('--rs-card-group-columns', '2');
   });
 
   it('Should render a spacing CSS variable', () => {
     const { container, rerender } = render(<CardGroup spacing={20} />);
 
-    expect(container.firstChild).to.have.style('--rs-spacing', '20px');
+    expect(container.firstChild).to.have.style('--rs-card-group-spacing', '20px');
 
     rerender(<CardGroup spacing="1rem" />);
 
-    expect(container.firstChild).to.have.style('--rs-spacing', '1rem');
+    expect(container.firstChild).to.have.style('--rs-card-group-spacing', '1rem');
   });
 });

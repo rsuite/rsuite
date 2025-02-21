@@ -11,6 +11,6 @@ describe('Tooltip styles', () => {
 
     expect(screen.getByRole('tooltip')).to.have.style('font-size', '12px');
     expect(screen.getByRole('tooltip')).to.have.style('background-color', toRGB('#121212'));
-    expect(screen.getByRole('tooltip')).to.have.style('padding', '2px 10px');
+    expect(screen.getByRole('tooltip')).to.have.style('padding', '4px 10px');
   });
 });

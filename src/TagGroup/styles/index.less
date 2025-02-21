@@ -5,10 +5,10 @@
 // --------------------------------------------------
 
 .rs-tag-group {
-  margin: (-1 * @tag-gap) 0 0 (-1 * @tag-gap);
-}
+  --rs-tag-group-gap: 0.625rem; // 10px
 
-.rs-tag-group > .rs-tag {
-  margin-top: @tag-gap;
-  margin-left: @tag-gap;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--rs-tag-group-gap);
 }

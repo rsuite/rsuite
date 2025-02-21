@@ -20,6 +20,14 @@ Text 是一个基本组件，允许您在页面上显示文本内容。
 
 <!--{include:`weight.md`}-->
 
+<br/>
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+<br/>
+
 ### 覆盖元素
 
 <!--{include:`as.md`}-->
@@ -50,8 +58,9 @@ Text 是一个基本组件，允许您在页面上显示文本内容。
 | color       | [Color](#code-ts-color-code) \| CSSProperties['color']                            | 文本的颜色。                                   |
 | maxLines    | number                                                                            | 限制提供文本的行数, 文本将被截断并显示省略号。 |
 | muted       | boolean                                                                           | 文本是否为静音。                               |
-| size        | 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| number \| string                         | 文本的大小。                                   |
+| size        | [TextSize](#code-ts-text-size-code) \| number \| string                           | 文本的大小。                                   |
 | transform   | 'uppercase' \| 'lowercase' \| 'capitalize'                                        | 文本的转换方式。                               |
 | weight      | 'thin' \| 'light' \| 'regular' \| 'medium' \| 'semibold' \| 'bold' \| 'extrabold' | 文本的粗细。                                   |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/text-size.md)}-->

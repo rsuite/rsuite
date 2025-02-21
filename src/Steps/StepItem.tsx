@@ -1,7 +1,7 @@
 import React from 'react';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
@@ -58,20 +58,21 @@ const StepItem = forwardRef<'div', StepItemProps>((props, ref) => {
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ custom: icon, [`status-${status}`]: status }));
 
-  const styles = { width: itemWidth, ...style };
-
-  let iconNode = (
-    <span className={prefix('icon', `icon-${status}`)}>
+  const iconNode = icon ? (
+    <span className={prefix('icon')}>{icon}</span>
+  ) : (
+    <span className={prefix('icon', { [`icon-${status}`]: status })}>
       {status ? (STEP_STATUS_ICON[status] ?? stepNumber) : stepNumber}
     </span>
   );
 
-  if (icon) {
-    iconNode = <span className={prefix('icon')}>{icon}</span>;
-  }
-
   return (
-    <Component {...rest} ref={ref} className={classes} style={styles}>
+    <Component
+      {...rest}
+      ref={ref}
+      className={classes}
+      style={mergeStyles({ width: itemWidth }, style)}
+    >
       <div className={prefix('tail')} />
       <div className={prefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
       <div className={prefix('content')}>

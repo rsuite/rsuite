@@ -600,7 +600,7 @@ describe('Cascader', () => {
 
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
-      render(<Cascader defaultOpen data={items} menuHeight={72} />);
+      render(<Cascader defaultOpen data={items} columnHeight={72} />);
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });

@@ -11,12 +11,11 @@
   //Sometimes help info is more than one line，so height can't set a fixed value
   min-height: @line-height-computed;
   line-height: @line-height-small;
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
 
   &-tooltip {
     display: inline-flex;
     align-items: center;
-    margin-left: @form-help-text-inline-gap;
-    margin-top: @padding-y;
+    font-size: var(--rs-font-size-md);
   }
 }

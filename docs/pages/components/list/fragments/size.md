@@ -10,7 +10,7 @@ const App = () => {
   return (
     <>
       <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
-        <RadioLabel>Size: </RadioLabel>
+        <label>Size: </label>
         <Radio value="xs">Extra Small</Radio>
         <Radio value="sm">Small</Radio>
         <Radio value="md">Medium</Radio>
@@ -31,8 +31,6 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 ```
 
 <!--end-code-->

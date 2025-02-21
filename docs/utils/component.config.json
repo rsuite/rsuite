@@ -367,39 +367,11 @@
         "components": ["AutoComplete"]
       },
       {
-        "id": "cascader",
-        "name": "Cascader",
-        "title": "级联选择器",
-        "components": ["Cascader"],
-        "keywords": ["tree", "combobox"]
-      },
-      {
         "id": "cascade-tree",
         "name": "CascadeTree",
         "title": "级联树",
         "components": ["CascadeTree"],
         "minVersion": "5.56.0",
-        "keywords": ["tree"]
-      },
-      {
-        "id": "check-picker",
-        "name": "CheckPicker",
-        "title": "多项选择器",
-        "components": ["CheckPicker"],
-        "keywords": ["multi", "select", "array", "combobox"]
-      },
-      {
-        "id": "check-tree-picker",
-        "name": "CheckTreePicker",
-        "title": "树形多项选择器",
-        "components": ["CheckTreePicker"],
-        "keywords": ["multi", "tree", "array"]
-      },
-      {
-        "id": "check-tree",
-        "name": "CheckTree",
-        "title": "树形多选控件",
-        "components": ["CheckTree"],
         "keywords": ["tree"]
       },
       {
@@ -409,7 +381,13 @@
         "components": ["Checkbox", "CheckboxGroup"],
         "keywords": ["boolean"]
       },
-
+      {
+        "id": "check-tree",
+        "name": "CheckTree",
+        "title": "树形多选控件",
+        "components": ["CheckTree"],
+        "keywords": ["tree"]
+      },
       {
         "id": "input",
         "name": "Input",
@@ -431,25 +409,11 @@
         "keywords": ["number"]
       },
       {
-        "id": "input-picker",
-        "name": "InputPicker",
-        "title": "输入选择器",
-        "components": ["InputPicker"],
-        "keywords": ["select", "text", "combobox"]
-      },
-      {
         "id": "inline-edit",
         "name": "InlineEdit",
         "title": "行内编辑",
         "components": ["InlineEdit"],
         "minVersion": "5.54.0"
-      },
-      {
-        "id": "multi-cascader",
-        "name": "MultiCascader",
-        "title": "级联多项选择器",
-        "components": ["MultiCascader"],
-        "keywords": ["multi", "tree", "combobox"]
       },
       {
         "id": "multi-cascade-tree",
@@ -480,25 +444,11 @@
         "keywords": ["star", "number", "rating"]
       },
       {
-        "id": "select-picker",
-        "name": "SelectPicker",
-        "title": "单项选择器",
-        "components": ["SelectPicker"],
-        "keywords": ["select", "text", "combobox"]
-      },
-      {
         "id": "slider",
         "name": "Slider",
         "title": "滑动输入控件",
         "components": ["Slider", "RangeSlider"],
         "keywords": ["range", "number"]
-      },
-      {
-        "id": "tag-picker",
-        "name": "TagPicker",
-        "title": "标签选择器",
-        "components": ["TagPicker"],
-        "keywords": ["select", "text", "combobox"]
       },
       {
         "id": "tag-input",
@@ -514,13 +464,7 @@
         "components": ["Toggle"],
         "keywords": ["boolean", "switch"]
       },
-      {
-        "id": "tree-picker",
-        "name": "TreePicker",
-        "title": "树形单项选择器",
-        "components": ["TreePicker"],
-        "keywords": ["tree", "select", "combobox"]
-      },
+
       {
         "id": "tree",
         "name": "Tree",
@@ -533,6 +477,70 @@
         "title": "上传控件",
         "components": ["Uploader"],
         "keywords": ["file"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "data-pickers",
+    "name": "Data Pickers",
+    "title": "数据选择器",
+    "children": [
+      {
+        "id": "cascader",
+        "name": "Cascader",
+        "title": "级联选择器",
+        "components": ["Cascader"],
+        "keywords": ["tree", "combobox"]
+      },
+      {
+        "id": "check-picker",
+        "name": "CheckPicker",
+        "title": "多项选择器",
+        "components": ["CheckPicker"],
+        "keywords": ["multi", "select", "array", "combobox"]
+      },
+      {
+        "id": "check-tree-picker",
+        "name": "CheckTreePicker",
+        "title": "树形多项选择器",
+        "components": ["CheckTreePicker"],
+        "keywords": ["multi", "tree", "array"]
+      },
+      {
+        "id": "input-picker",
+        "name": "InputPicker",
+        "title": "输入选择器",
+        "components": ["InputPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "multi-cascader",
+        "name": "MultiCascader",
+        "title": "级联多项选择器",
+        "components": ["MultiCascader"],
+        "keywords": ["multi", "tree", "combobox"]
+      },
+      {
+        "id": "select-picker",
+        "name": "SelectPicker",
+        "title": "单项选择器",
+        "components": ["SelectPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tag-picker",
+        "name": "TagPicker",
+        "title": "标签选择器",
+        "components": ["TagPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tree-picker",
+        "name": "TreePicker",
+        "title": "树形单项选择器",
+        "components": ["TreePicker"],
+        "keywords": ["tree", "select", "combobox"]
       }
     ]
   },
