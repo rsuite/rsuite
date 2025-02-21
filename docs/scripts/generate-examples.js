@@ -3,7 +3,7 @@ const path = require('path');
 
 // Get the project root directory (where package.json is located)
 const projectRoot = path.resolve(__dirname, '../..');
-console.log('Project root:', projectRoot);
+console.log('Generating examples in:', projectRoot);
 
 function ensureDirectoryExists(dir) {
   if (!fs.existsSync(dir)) {
@@ -22,10 +22,10 @@ function generateExampleFiles(componentsDir) {
   const publicDir = path.join(projectRoot, 'docs', 'public');
   const examplesDir = path.join(publicDir, 'examples');
   ensureDirectoryExists(examplesDir);
-  
+
   // Read all component directories
   const components = fs.readdirSync(componentsDir);
-  
+
   components.forEach(component => {
     // Skip .DS_Store and other hidden files
     if (component.startsWith('.')) {
@@ -33,17 +33,16 @@ function generateExampleFiles(componentsDir) {
     }
 
     const componentDir = path.join(componentsDir, component);
-    
+
     // Skip if not a directory
     if (!fs.statSync(componentDir).isDirectory()) {
       return;
     }
 
     const componentExamplesDir = path.join(componentDir, 'examples');
-    
+
     // Skip if examples directory doesn't exist
     if (!fs.existsSync(componentExamplesDir)) {
-      console.log(`No examples directory for ${component}`);
       return;
     }
 
@@ -62,10 +61,8 @@ function generateExampleFiles(componentsDir) {
           try {
             const exampleName = path.basename(file, '.tsx');
             const filePath = path.join(componentExamplesDir, file);
-            console.log(`Processing example: ${component}/${exampleName}`);
-
             const content = fs.readFileSync(filePath, 'utf-8');
-            
+
             // Write example file
             const exampleData = {
               component,
@@ -75,7 +72,6 @@ function generateExampleFiles(componentsDir) {
 
             const outputPath = path.join(examplesDir, `${component}-${exampleName}.json`);
             fs.writeFileSync(outputPath, JSON.stringify(exampleData, null, 2));
-            console.log(`Generated: ${outputPath}`);
           } catch (err) {
             console.error(`Error processing example file ${file}:`, err.message);
           }
