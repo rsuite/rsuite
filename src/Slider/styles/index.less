@@ -12,8 +12,8 @@
 
     &.rs-tooltip-placement-top .rs-tooltip::after {
       margin: auto;
-      left: 0;
-      right: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
     }
   }
 
@@ -65,7 +65,7 @@
     border-radius: var(--rs-radius-full);
     border: @slider-handle-border-width solid var(--rs-slider-thumb-border);
     background-color: var(--rs-slider-thumb-bg);
-    margin-left: -(@slider-handle-diameter / 2);
+    margin-inline-start: -(@slider-handle-diameter / 2);
     cursor: pointer;
     /* stylelint-disable */ //Formatted by prettier
     transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition,
@@ -89,7 +89,7 @@
     top: unset;
 
     &::before {
-      left: ((@slider-handle-diameter - @slider-bar-side-length)/2);
+      inset-inline-start: ((@slider-handle-diameter - @slider-bar-side-length)/2);
       margin-top: (-@slider-handle-diameter / 2);
     }
   }
@@ -104,7 +104,7 @@
   .rs-slider-vertical & {
     top: -33px;
     // Make sure tooltip align center.
-    margin-left: 3px;
+    margin-inline-start: 3px;
   }
 }
 
@@ -112,20 +112,20 @@
 .rs-slider-mark {
   position: absolute;
   top: (@slider-bar-side-length + @slider-mark-margin-top);
-  left: -2px;
+  inset-inline-start: -2px;
   white-space: nowrap;
 
   &-content {
-    margin-left: -50%;
+    margin-inline-start: -50%;
   }
 }
 
 .rs-slider-mark-last {
-  left: auto;
-  right: -2px;
+  inset-inline-start: auto;
+  inset-inline-end: -2px;
 
   .rs-slider-mark-content {
-    margin-left: 50%;
+    margin-inline-start: 50%;
   }
 }
 
@@ -140,7 +140,7 @@
 
   > ol {
     display: flex;
-    padding-left: 0;
+    padding-inline-start: 0;
     width: 100%;
 
     > li {
@@ -158,23 +158,23 @@
         background-color: var(--rs-slider-thumb-bg);
         box-sizing: border-box;
         border: @slider-calibration-border-width solid var(--rs-slider-bar);
-        margin-left: -4px;
+        margin-inline-start: -4px;
         top: -1px;
 
         // Vertical styles
         .rs-slider-vertical & {
           top: unset;
           bottom: -4px;
-          margin-left: -1px;
+          margin-inline-start: -1px;
         }
       }
 
       &:last-child::after {
-        right: -4px;
+        inset-inline-end: -4px;
 
         // Vertical styles
         .rs-slider-vertical & {
-          left: 0;
+          inset-inline-start: 0;
           bottom: unset;
           top: -4px;
         }
@@ -233,10 +233,10 @@
   .rs-slider-mark {
     top: unset;
     bottom: -8px;
-    left: (@slider-bar-side-length + @slider-mark-margin-top);
+    inset-inline-start: (@slider-bar-side-length + @slider-mark-margin-top);
 
     &-content {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 

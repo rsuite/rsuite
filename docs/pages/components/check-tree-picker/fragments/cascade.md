@@ -16,13 +16,14 @@ const App = () => {
   const [cascade, setCascade] = React.useState(false);
   return (
     <div>
-      Cascade:{' '}
       <Toggle
         checked={cascade}
         onChange={checked => {
           setCascade(checked);
         }}
-      />
+      >
+        Cascade
+      </Toggle>
       <hr />
       <CheckTreePicker
         defaultExpandAll

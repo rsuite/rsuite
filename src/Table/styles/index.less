@@ -139,7 +139,7 @@
 
       display: inline-block;
       position: relative;
-      margin-right: @loader-content-spin-spacing-horizontal;
+      margin-inline-end: @loader-content-spin-spacing-horizontal;
       // Make sure loader vertical-align center
       padding-top: 3px;
     }
@@ -192,7 +192,7 @@
     &-header {
       &-sort-wrapper {
         cursor: pointer;
-        margin-left: @table-header-sort-wrapper-margin-left;
+        margin-inline-start: @table-header-sort-wrapper-margin-left;
         display: inline-block;
       }
 
@@ -245,14 +245,14 @@
       border-style: dashed solid dashed dashed;
       border-color: transparent var(--rs-table-resize) transparent transparent;
       border-width: @table-column-resize-spanner-triangle-side-length;
-      right: 4px;
+      inset-inline-end: 4px;
     }
 
     &::after {
       border-style: dashed dashed dashed solid;
       border-color: transparent transparent transparent var(--rs-table-resize);
       border-width: @table-column-resize-spanner-triangle-side-length;
-      left: 4px;
+      inset-inline-start: 4px;
     }
   }
 
@@ -288,7 +288,7 @@
   &-mouse-area {
     display: none;
     background-color: var(--rs-table-resize);
-    left: -1px;
+    inset-inline-start: -1px;
     top: 0;
     position: absolute;
     width: 1px;
@@ -299,7 +299,7 @@
 
       background-color: var(--rs-table-resize);
       position: absolute;
-      left: (-1 * (@table-column-resize-spanner-width / 2));
+      inset-inline-start: (-1 * (@table-column-resize-spanner-width / 2));
     }
   }
 
@@ -317,8 +317,8 @@
 
   &-column-group {
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     top: 0;
     width: 100%;
 
@@ -347,7 +347,7 @@
 // Tree Table
 
 .rs-table-cell-expand-wrapper {
-  margin-right: 10px;
+  margin-inline-end: 10px;
   display: inline-block;
   cursor: pointer;
 }
@@ -411,7 +411,7 @@
 
   &-vertical {
     top: 0;
-    right: 0;
+    inset-inline-end: 0;
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;
@@ -422,7 +422,7 @@
     min-height: 20px;
     width: @table-scrollbar-handle-width;
     top: 0;
-    left: @table-scrollbar-handle-gap;
+    inset-inline-start: @table-scrollbar-handle-gap;
   }
 
   &-pressed&-vertical:hover,

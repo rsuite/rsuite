@@ -24,7 +24,7 @@
 // Horizontal Button remove border radius
 .rs-btn-group:not(.rs-btn-group-vertical) {
   > .rs-btn {
-    float: left;
+    float: inline-start;
 
     &:not(:last-child) {
       .border-right-radius(0);
@@ -37,7 +37,7 @@
 
   // collapse border
   > .rs-btn-ghost + .rs-btn-ghost {
-    margin-left: -1px;
+    margin-inline-start: -1px;
   }
 
   &.rs-btn-group-divided > .rs-btn {

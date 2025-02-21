@@ -6,7 +6,7 @@
 
 .rs-panel-group {
   // The first panel and the last panel in a panel group need set border-radius.
- border-radius: var(--rs-radius-md);
+  border-radius: var(--rs-radius-md);
   overflow: hidden;
 
   &-bordered {
@@ -26,8 +26,8 @@
         position: absolute;
         top: 0;
         border-top: 1px solid var(--rs-border-primary);
-        left: 20px;
-        right: 20px;
+        inset-inline-start: 20px;
+        inset-inline-end: 20px;
       }
     }
   }

@@ -229,9 +229,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
   const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
-    const styles = { left, top };
-
+    const { className } = positionProps;
     const menu = (
       <Listbox
         classPrefix="auto-complete-menu"
@@ -249,7 +247,6 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     return (
       <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
-        style={styles}
         className={className}
         onKeyDown={handleKeyDownEvent}
         target={trigger}

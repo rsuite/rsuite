@@ -864,7 +864,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       : undefined;
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
+      const { className } = positionProps;
       const classes = merge(className, menuClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
         'daterange-panel-show-one-calendar': showOneCalendar,
@@ -878,7 +878,6 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       const panelStyles: React.CSSProperties = {
         minWidth: showOneCalendar || onlyShowTime ? 'auto' : 528
       };
-      const styles = { ...menuStyle, left, top };
 
       const calendarProps = {
         locale,
@@ -934,7 +933,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
           className={classes}
           ref={mergeRefs(overlay, speakerRef)}
           target={trigger}
-          style={styles}
+          style={menuStyle}
         >
           <div className={panelClasses} style={panelStyles}>
             <Stack alignItems="flex-start">

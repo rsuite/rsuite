@@ -37,7 +37,7 @@
 
   &-file-item-icon-reupload {
     cursor: pointer;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     color: var(--rs-text-primary);
     font-size: var(--rs-font-size-xs);
   }
@@ -71,7 +71,7 @@
       display: inline-flex;
       align-items: center;
       top: @padding-y;
-      left: @padding-x;
+      inset-inline-start: @padding-x;
       width: @line-height-computed;
       height: @line-height-computed;
       justify-content: center;
@@ -119,7 +119,7 @@
       position: absolute;
       font-size: var(--rs-font-size-sm);
       top: 12px;
-      right: @padding-x;
+      inset-inline-end: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       padding: 0;
@@ -138,7 +138,7 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      left: 0;
+      inset-inline-start: 0;
 
       &-bar {
         height: 2px;
@@ -184,7 +184,7 @@
 
   .rs-uploader-trigger,
   .rs-uploader-file-item {
-    float: left;
+    float: inline-start;
   }
 
   .rs-uploader-file-items {
@@ -199,7 +199,7 @@
     border-radius: var(--rs-radius-md);
     position: relative;
     margin-top: @uploader-picture-item-gap;
-    margin-right: @uploader-picture-item-gap;
+    margin-inline-end: @uploader-picture-item-gap;
 
     &-preview {
       position: relative;
@@ -221,7 +221,7 @@
     &-status {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       width: @uploader-picture-side-length;
       height: @uploader-picture-side-length;
       text-align: center;
@@ -252,7 +252,7 @@
       cursor: pointer;
       position: absolute;
       top: 3px;
-      right: 3px;
+      inset-inline-end: 3px;
       width: @uploader-picture-remove-button-radius;
       height: @uploader-picture-remove-button-radius;
       line-height: @uploader-picture-remove-button-radius;
@@ -287,7 +287,7 @@
       background-color: var(--rs-uploader-overlay-bg);
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       z-index: @zindex-uploader-picture-loading-wrapper;
       text-align: center;
 
@@ -307,7 +307,7 @@
 
   // Reset margin-left.
   .rs-uploader-file-item-icon-reupload {
-    margin-left: 0;
+    margin-inline-start: 0;
     display: block;
   }
 }
@@ -316,9 +316,9 @@
   .rs-uploader-file-item {
     position: relative;
     height: @uploader-picture-text-preview-side-length;
-    padding-left: @uploader-picture-text-preview-side-length;
+    padding-inline-start: @uploader-picture-text-preview-side-length;
     margin-top: @uploader-picture-item-gap;
-    padding-right: 30px;
+    padding-inline-end: 30px;
     border: 1px solid var(--rs-border-primary);
     border-radius: var(--rs-radius-md);
     overflow: hidden;
@@ -334,7 +334,7 @@
 
     &-preview {
       position: absolute;
-      left: 0;
+      inset-inline-start: 0;
       top: 0;
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
@@ -377,7 +377,7 @@
     &-btn-remove {
       position: absolute;
       top: 0;
-      right: @padding-x;
+      inset-inline-end: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       height: @uploader-picture-text-preview-side-length;
@@ -396,8 +396,8 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      left: 0;
-      padding-left: @uploader-picture-text-preview-side-length;
+      inset-inline-start: 0;
+      padding-inline-start: @uploader-picture-text-preview-side-length;
 
       &-bar {
         height: 2px;
@@ -409,7 +409,7 @@
     &-icon-loading {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       display: block;
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
