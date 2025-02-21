@@ -45,8 +45,6 @@ enteringClassName="custom-entering"
 
 ## Props
 
-<!--{include:(_common/types/placement4.md)}-->
-
 ### `<Animation.Fade>`
 
 | Property          | Type `(Default)`                     | Description                                                       |
@@ -145,3 +143,5 @@ enteringClassName="custom-entering"
 | timeout           | number`(1000)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
+
+<!--{include:(_common/types/placement4.md)}-->

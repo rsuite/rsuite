@@ -45,8 +45,6 @@ enteringClassName="custom-entering"
 
 ## Props
 
-<!--{include:(_common/types/placement4.md)}-->
-
 ### `<Animation.Fade>`
 
 | 属性名称          | 类型 `(默认值)`                      | 描述                       |
@@ -145,3 +143,5 @@ enteringClassName="custom-entering"
 | timeout           | number `(1000)`                      | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |
+
+<!--{include:(_common/types/placement4.md)}-->

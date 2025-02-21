@@ -18,7 +18,13 @@ const AnimatedPanel = React.forwardRef((props, ref) => (
   >
     <div>
       <Card.Header>Collapse Animation</Card.Header>
-      <Card.Body>Demonstrates vertical and horizontal collapse transitions.</Card.Body>
+      <Card.Body
+        style={{
+          width: 240
+        }}
+      >
+        Demonstrates vertical and horizontal collapse transitions.
+      </Card.Body>
     </div>
   </Card>
 ));
