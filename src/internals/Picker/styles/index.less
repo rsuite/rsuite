@@ -122,6 +122,7 @@
   --rs-picker-popup-border-radius: var(--rs-radius-md);
   --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
   --rs-picker-popup-z-index: @zindex-picker-popup;
+  --rs-picker-popup-shadow: var(--rs-shadow-md);
 
   position: absolute;
   text-align: left;
@@ -132,7 +133,7 @@
   z-index: var(--rs-picker-popup-z-index);
   border-radius: var(--rs-picker-popup-border-radius);
   background-color: var(--rs-bg-overlay);
-  box-shadow: var(--rs-shadow-overlay);
+  box-shadow: var(--rs-picker-popup-shadow);
   padding-block: var(--rs-picker-popup-border-radius);
 
   .high-contrast-mode({
