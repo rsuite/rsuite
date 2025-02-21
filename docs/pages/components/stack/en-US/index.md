@@ -32,10 +32,6 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 <!--{include:`wrap.md`}-->
 
-### Responsive Stack
-
-<!--{include:`responsive.md`}-->
-
 ### Interactive
 
 <!--{include:`interactive.md`}-->
@@ -43,6 +39,10 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 ### Adjust Single Item
 
 <!--{include:`adjust-single-item.md`}-->
+
+## Responsive
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

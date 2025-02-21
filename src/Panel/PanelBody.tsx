@@ -4,7 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { WithAsProps, AnimationEventProps } from '@/internals/types';
 import ScrollView from '@/internals/ScrollView';
 
-interface PanelBodyProps
+export interface PanelBodyProps
   extends WithAsProps,
     AnimationEventProps,
     React.HTMLAttributes<HTMLDivElement> {

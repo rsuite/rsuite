@@ -151,7 +151,6 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | defaultOpen          | boolean                                                         | 默认打开                                                                                      |
 | defaultValue         | [Date, Date]                                                    | 默认值（非受控）                                                                              |
 | disabled             | boolean                                                         | 禁用组件                                                                                      |
-| ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
 | format               | string `('dd/MM/yyyy')`                                         | 日期显示格式化                                                                                |
 | hideHours            | (hour:number, date:Date) => boolean                             | 隐藏指定的小时选项<br/>![][5.71.0]                                                            |

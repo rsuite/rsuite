@@ -44,7 +44,7 @@ const App = () => (
 
     <hr />
     <Text as="pre">
-    {`
+      {`
       Preserve line breaks in text.
       Preserve line breaks in text.
       Preserve line breaks in text.

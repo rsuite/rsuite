@@ -9,6 +9,6 @@ describe('internals/utils/reactToString', () => {
         <span>456</span>
       </div>
     );
-    assert.equal(str.join(''), '123456');
+    expect(str.join('')).to.equal('123456');
   });
 });

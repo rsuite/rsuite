@@ -40,7 +40,7 @@
 
 | 属性名称     | 类型`(默认值)`                                               | 描述                   |
 | ------------ | ------------------------------------------------------------ | ---------------------- |
-| defaultValue | string[]                                                     | 默认值（非受控）             |
+| defaultValue | string[]                                                     | 默认值（非受控）       |
 | disabled     | boolean                                                      | 禁用组件               |
 | onChange     | (value:string, event) => void                                | 值发生改变时的回调函数 |
 | onClean      | (event) => void                                              | 值清理后触发回调       |

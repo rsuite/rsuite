@@ -240,7 +240,6 @@ describe('AutoComplete', () => {
 
     const listbox = screen.getByRole('listbox');
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
 
@@ -262,7 +261,7 @@ describe('AutoComplete', () => {
     render(<AutoComplete data={data} data-id={1} name="username" data-testid="test" />);
 
     expect(screen.getByTestId('test')).to.have.attribute('data-id', '1');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
 });

@@ -39,6 +39,12 @@
   > .rs-btn-ghost + .rs-btn-ghost {
     margin-left: -1px;
   }
+
+  &.rs-btn-group-divided > .rs-btn {
+    &:not(:last-child) {
+      border-right-width: 1px;
+    }
+  }
 }
 
 // Vertical button groups
@@ -62,6 +68,12 @@
   // collapse border
   > .rs-btn-ghost + .rs-btn-ghost {
     margin-top: -1px;
+  }
+
+  &.rs-btn-group-divided > .rs-btn {
+    &:not(:last-child) {
+      border-bottom-width: 1px;
+    }
   }
 }
 

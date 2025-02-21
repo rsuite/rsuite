@@ -1,12 +1,10 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps, ColorType, SizeType } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
 export interface ToggleProps
@@ -15,7 +13,7 @@ export interface ToggleProps
   /**
    * The color of the toggle.
    */
-  color?: TypeAttributes.Color;
+  color?: ColorType;
 
   /**
    * Whether to disabled toggle
@@ -60,7 +58,7 @@ export interface ToggleProps
   /**
    * The size of the toggle
    */
-  size?: Omit<TypeAttributes.Size, 'xs'>;
+  size?: Omit<SizeType, 'xs'>;
 
   /**
    * Custom locale
@@ -78,10 +76,7 @@ export interface ToggleProps
  *
  * @see https://rsuitejs.com/components/toggle
  */
-const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
-  HTMLLabelElement,
-  ToggleProps
->((props, ref) => {
+const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
     as: Component = 'span',
@@ -97,7 +92,7 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
     classPrefix = 'toggle',
     checked: checkedProp,
     defaultChecked,
-    size,
+    size = 'md',
     locale,
     onChange,
     ...rest
@@ -166,25 +161,5 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
 });
 
 Toggle.displayName = 'Toggle';
-Toggle.propTypes = {
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  checkedChildren: PropTypes.node,
-  unCheckedChildren: PropTypes.node,
-  loading: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  as: PropTypes.elementType,
-  size: oneOf(['sm', 'md', 'lg']),
-  locale: PropTypes.shape({
-    on: PropTypes.string,
-    off: PropTypes.string
-  })
-};
 
 export default Toggle;

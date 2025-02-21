@@ -82,7 +82,11 @@
   --rs-state-focus-shadow-slim: 0 0 0 2px var(--rs-gray-0);
   --rs-state-focus-outline: 3px solid rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-error-outline: 3px solid rgb(from var(--rs-color-red) r g b / 25%);
-  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Kbd
+  --rs-kbd-bg: var(--rs-gray-600);
+  --rs-kbd-text: var(--rs-gray-50);
+  --rs-kbd-border: var(--rs-gray-700);
 
   // Scrollbar
   --rs-scrollbar-bg: transparent;
@@ -92,7 +96,7 @@
   // Button
   --rs-btn-default-bg: transparent;
   --rs-btn-default-text: var(--rs-primary-500);
-  --rs-btn-default-border: 1px solid var(--rs-primary-500);
+  --rs-btn-default-border-color: var(--rs-primary-500);
   --rs-btn-default-hover-bg: transparent;
   --rs-btn-default-hover-text: var(--rs-primary-400);
   --rs-btn-default-active-bg: transparent;
@@ -184,7 +188,6 @@
   --rs-dropdown-item-bg-active: rgb(from var(--rs-primary-900) r g b / 20%);
   --rs-dropdown-item-text-active: var(--rs-primary-500);
   --rs-dropdown-header-text: var(--rs-gray-500);
-  --rs-dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
 
   // ARIA menu
   --rs-menuitem-active-bg: transparent;
@@ -240,21 +243,26 @@
   --rs-sidenav-default-bg: var(--rs-gray-800);
   --rs-sidenav-default-text: var(--rs-gray-50);
   --rs-sidenav-default-selected-text: var(--rs-primary-500);
+  --rs-sidenav-default-selected-bg: transparent;
   --rs-sidenav-default-hover-bg: transparent;
   --rs-sidenav-default-hover-text: var(--rs-primary-500);
-  --rs-sidenav-default-footer-border: var(--rs-gray-50);
+  --rs-sidenav-default-footer-border: var(--rs-gray-500);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-500);
   --rs-sidenav-inverse-bg: var(--rs-gray-800);
   --rs-sidenav-inverse-text: var(--rs-gray-50);
   --rs-sidenav-inverse-selected-bg: transparent;
   --rs-sidenav-inverse-selected-text: var(--rs-primary-500);
   --rs-sidenav-inverse-hover-bg: transparent;
-  --rs-sidenav-inverse-footer-border: var(--rs-gray-50);
+  --rs-sidenav-inverse-footer-border: var(--rs-gray-500);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-gray-500);
   --rs-sidenav-subtle-bg: var(--rs-gray-800);
   --rs-sidenav-subtle-text: var(--rs-gray-50);
   --rs-sidenav-subtle-selected-text: var(--rs-primary-500);
+  --rs-sidenav-subtle-selected-bg: transparent;
   --rs-sidenav-subtle-hover-bg: transparent;
   --rs-sidenav-subtle-hover-text: var(--rs-primary-500);
-  --rs-sidenav-subtle-footer-border: var(--rs-gray-50);
+  --rs-sidenav-subtle-footer-border: var(--rs-gray-500);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-500);
 
   // Input
   --rs-input-bg: var(--rs-gray-800);
@@ -334,6 +342,7 @@
   // Badge
   --rs-badge-bg: var(--rs-red-500);
   --rs-badge-text: var(--rs-gray-0);
+  --rs-badge-border: var(--rs-gray-900);
 
   // Close Button
   --rs-close-button-hover-color: var(--rs-color-red);
@@ -349,9 +358,6 @@
   --rs-carousel-indicator: rgb(from var(--rs-gray-0) r g b / 40%);
   --rs-carousel-indicator-hover: var(--rs-gray-0);
   --rs-carousel-indicator-active: var(--rs-primary-500);
-
-  // Panel
-  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Pagination
   --rs-pagination-item-text: var(--rs-gray-50);
@@ -380,10 +386,8 @@
 
   // Drawer
   --rs-drawer-bg: var(--rs-gray-700);
-  --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Modal
-  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
   --rs-modal-border: 1px solid var(--rs-gray-100);
 
   // Form

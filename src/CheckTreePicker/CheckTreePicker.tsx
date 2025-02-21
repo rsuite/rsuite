@@ -1,16 +1,24 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { isNil, pick, isFunction, omit } from 'lodash';
+import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
+import useTreeValue from '../CheckTree/hooks/useTreeValue';
+import useFlattenTree from '../Tree/hooks/useFlattenTree';
+import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useExpandTree from '../Tree/hooks/useExpandTree';
+import useFocusState from './hooks/useFocusState';
+import isNil from 'lodash/isNil';
+import pick from 'lodash/pick';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
   onMenuKeyDown,
   PickerPopup,
   SelectedElement,
   PickerToggleTrigger,
-  PickerComponent,
   PickerToggleProps,
   usePickerClassName,
   useToggleKeyDownEvent,
@@ -19,12 +27,6 @@ import {
   omitTriggerPropKeys,
   PositionChildProps
 } from '@/internals/Picker';
-import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
-import useTreeValue from '../CheckTree/hooks/useTreeValue';
-import useFlattenTree from '../Tree/hooks/useFlattenTree';
-import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
-import useExpandTree from '../Tree/hooks/useExpandTree';
-import useFocusState from './hooks/useFocusState';
 import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';
@@ -85,7 +87,7 @@ export interface CheckTreePickerProps<V = ValueType>
  *
  * @see https://rsuitejs.com/components/check-tree-picker
  */
-const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
+const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('CheckTreePicker', props);
   const {
     as: Component = 'div',

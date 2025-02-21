@@ -1,4 +1,4 @@
-import enUS from 'date-fns/locale/en-US';
+import { enUS } from 'date-fns/locale/en-US';
 
 const DateTimeFormats = {
   sunday: 'Su',

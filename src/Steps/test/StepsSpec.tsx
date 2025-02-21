@@ -27,7 +27,6 @@ describe('Steps', () => {
       </Steps>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByText('C').closest('.rs-steps-item')).to.have.class('rs-steps-item-active');
   });
 
@@ -41,7 +40,6 @@ describe('Steps', () => {
       </Steps>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByText('B').closest('.rs-steps-item')).to.have.class(
       'rs-steps-item-status-error'
     );

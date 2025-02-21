@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
+import SearchBox from '@/internals/SearchBox';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, shallowEqual, mergeRefs, getDataGroupBy } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
+import {
+  forwardRef,
+  createChainedFunction,
+  shallowEqual,
+  mergeRefs,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListCheckItem,
@@ -25,15 +31,12 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import SearchBox from '@/internals/SearchBox';
-import { ItemDataType, FormControlPickerProps } from '@/internals/types';
+import type { PickerLocale } from '../locales';
+import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
 import type { SelectProps } from '../SelectPicker';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
@@ -57,20 +60,15 @@ export interface CheckPickerProps<T = any>
 const emptyArray = [];
 
 export interface CheckPickerComponent {
-  <T>(
-    props: CheckPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: CheckPickerProps<T>): React.ReactElement | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
 }
 
 /**
  * A component for selecting checkable items in a dropdown list.
  * @see https://rsuitejs.com/components/check-picker
  */
-const CheckPicker = React.forwardRef(
+const CheckPicker = forwardRef<'div', CheckPickerProps>(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {
@@ -409,25 +407,5 @@ const CheckPicker = React.forwardRef(
 ) as CheckPickerComponent;
 
 CheckPicker.displayName = 'CheckPicker';
-CheckPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  searchable: PropTypes.bool,
-  countable: PropTypes.bool,
-  sticky: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default CheckPicker;

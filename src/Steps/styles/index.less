@@ -1,35 +1,98 @@
-@import '../../styles/common';
+@import '../../styles/common.less';
 
 //
 // Steps
 // --------------------------------------------------
 .rs-steps {
-  min-height: @steps-icon-diameter;
+  --rs-steps-icon-size: 1.875rem;
+  --rs-steps-icon-font-size: var(--rs-font-size-md);
+  --rs-steps-icon-line-height: @steps-icon-line-height;
+  --rs-steps-title-font-size: var(--rs-font-size-md);
+  --rs-steps-title-line-height: @steps-title-line-height;
+  --rs-steps-title-min-height: 1rem;
+  --rs-steps-item-spacing: calc(var(--rs-spacing) * 10);
+  --rs-steps-description-margin-top: calc(var(--rs-spacing) * 3);
+  --rs-steps-description-font-size: var(--rs-font-size-sm);
+  --rs-steps-description-line-height: @line-height-base;
+
+  // Small
+  &.rs-steps-small {
+    --rs-steps-icon-size: 1.5rem;
+    --rs-steps-icon-font-size: var(--rs-font-size-sm);
+    --rs-steps-icon-line-height: @small-steps-icon-line-height;
+    --rs-steps-item-spacing: calc(var(--rs-spacing) * 8.5);
+    --rs-steps-title-font-size: var(--rs-font-size-sm);
+    --rs-steps-title-line-height: @small-steps-title-line-height;
+    --rs-steps-description-font-size: var(--rs-font-size-xs);
+    --rs-steps-description-line-height: @small-steps-description-line-height;
+  }
+
+  min-height: var(--rs-steps-icon-size);
+
+  // Item content
+  // --------------------------
+  .rs-steps-item-content {
+    color: var(--rs-text-secondary);
+    display: inline-block;
+    // Change static to relative, Make `z-index` more than Tail line
+    position: relative;
+    width: 100%;
+
+    .rs-steps-item-status-process & {
+      color: var(--rs-text-primary);
+    }
+
+    .rs-steps-item-status-error & {
+      color: var(--rs-text-error);
+    }
+  }
+
+  // Item title
+  .rs-steps-item-title {
+    position: relative;
+    font-size: var(--rs-steps-title-font-size);
+    line-height: var(--rs-steps-title-line-height);
+    min-height: var(--rs-steps-title-min-height);
+    padding-inline-end: calc(var(--rs-spacing) * 2.5);
+
+    display: inline-block;
+
+    &:empty {
+      padding-inline-end: 0;
+    }
+  }
+
+  // Item description
+  .rs-steps-item-description {
+    margin-top: var(--rs-steps-description-margin-top);
+    font-size: var(--rs-steps-description-font-size);
+    line-height: var(--rs-steps-description-line-height);
+  }
 }
 
 // Item
 // --------------------------
 .rs-steps-item {
-  padding-left: @steps-icon-space-width;
+  padding-inline-start: var(--rs-steps-item-spacing);
   position: relative;
   overflow: hidden;
 }
 
 // Item icon
 .rs-steps-item-icon-wrapper {
-  width: @steps-icon-diameter;
-  height: @steps-icon-diameter;
-  text-align: center;
-  font-size: @steps-icon-size;
-  line-height: @steps-icon-line-height;
+  width: var(--rs-steps-icon-size);
+  height: var(--rs-steps-icon-size);
+  font-size: var(--rs-steps-icon-font-size);
+  line-height: var(--rs-steps-icon-line-height);
   color: var(--rs-text-secondary);
+  text-align: center;
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   border: 1px solid var(--rs-steps-border);
-  border-radius: 50%;
+  border-radius: var(--rs-radius-full);
 
   // Finish status show check mark.
   .rs-steps-item-status-finish & {
@@ -67,47 +130,10 @@
     position: relative;
 
     .rs-icon {
-      font-size: 14px;
+      font-size: var(--rs-font-size-md);
       vertical-align: middle;
     }
   }
-}
-
-// Item content
-// --------------------------
-.rs-steps-item-content {
-  color: var(--rs-text-secondary);
-  display: inline-block;
-  // Change static to relative, Make `z-index` more than Tail line
-  position: relative;
-  width: 100%;
-
-  .rs-steps-item-status-process & {
-    color: var(--rs-text-primary);
-  }
-
-  .rs-steps-item-status-error & {
-    color: var(--rs-text-error);
-  }
-}
-
-// Item title
-.rs-steps-item-title {
-  position: relative;
-  font-size: @steps-title-font-size;
-  line-height: @steps-title-line-height;
-  min-height: @steps-title-font-size;
-  padding-right: @steps-icon-spacing;
-  display: inline-block;
-
-  &:empty {
-    padding-right: 0;
-  }
-}
-
-// Item description
-.rs-steps-item-description {
-  margin-top: @steps-description-margin-top;
 }
 
 .rs-steps-item-tail,
@@ -136,7 +162,7 @@
   .rs-steps-item {
     flex-grow: 1;
     flex-shrink: 1;
-    min-height: @steps-icon-diameter;
+    min-height: var(--rs-steps-icon-size);
 
     // The last node is self-adaptive width.
     &:last-child {
@@ -151,22 +177,18 @@
 
     // There is a 10px spacing between each item.
     &:not(:first-child) {
-      padding-left: (@steps-icon-space-width + @steps-item-spacing);
+      padding-left: calc(var(--rs-steps-icon-size) + var(--rs-spacing) * 5);
 
       .rs-steps-item-icon-wrapper {
-        left: @steps-item-spacing;
+        left: calc(var(--rs-spacing) * 2.5);
       }
     }
-  }
-
-  .rs-steps-item-content {
-    height: (@steps-title-font-size * @steps-title-line-height);
   }
 
   .rs-steps-item-title {
     &::after {
       content: '';
-      top: (@steps-icon-diameter / 2);
+      top: calc(var(--rs-steps-icon-size) / 2);
       left: 100%;
       width: 9999px;
       border-top-width: 1px;
@@ -178,11 +200,11 @@
 // Verticla
 .rs-steps-vertical {
   .rs-steps-item {
-    padding-bottom: 20px;
+    padding-bottom: calc(var(--rs-spacing) * 5);
 
     // There is a 10px spacing between each item.
     &:not(:first-child) {
-      margin-top: @steps-item-spacing;
+      margin-top: calc(var(--rs-spacing) * 2.5);
     }
 
     &:last-child .rs-steps-item-tail {
@@ -191,54 +213,10 @@
   }
 
   .rs-steps-item-tail {
-    top: @steps-icon-space-width;
+    top: var(--rs-steps-item-spacing);
     bottom: 0;
-    left: (@steps-icon-diameter / 2);
+    left: calc(var(--rs-steps-icon-size) / 2);
     border-left-width: 1px;
     border-left-style: solid;
-  }
-}
-
-// Small
-// Resize: Diameter、font-size and so on.
-.rs-steps-small {
-  min-height: @small-steps-icon-diameter;
-
-  &.rs-steps-horizontal .rs-steps-item {
-    min-height: @small-steps-icon-diameter;
-  }
-
-  &.rs-steps-horizontal .rs-steps-item:not(:first-child) {
-    padding-left: (@small-steps-icon-space-width + @steps-icon-spacing);
-  }
-
-  &.rs-steps-vertical .rs-steps-item-tail {
-    left: (@small-steps-icon-diameter / 2);
-  }
-
-  &.rs-steps-horizontal .rs-steps-item-title::after {
-    top: 12px;
-  }
-
-  .rs-steps-item {
-    padding-left: @small-steps-icon-space-width;
-  }
-
-  .rs-steps-item-icon-wrapper {
-    width: @small-steps-icon-diameter;
-    height: @small-steps-icon-diameter;
-    font-size: @small-steps-icon-size;
-    line-height: @small-steps-icon-line-height;
-  }
-
-  .rs-steps-item-title {
-    font-size: @small-steps-icon-size;
-    line-height: @small-steps-title-line-height;
-  }
-
-  .rs-steps-item-description {
-    margin-top: @small-steps-description-margin-top;
-    font-size: @small-steps-description-font-size;
-    line-height: @small-steps-description-line-height;
   }
 }

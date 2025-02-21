@@ -65,7 +65,7 @@ describe('DateRangePicker - Calendar', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     fireEvent.click(container.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
     expect(onChangeCalendarMonthSpy).to.have.been.called;

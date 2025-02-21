@@ -15,7 +15,6 @@ describe('StepItem', () => {
   it('Should render a content dom', () => {
     render(<StepItem data-testid="step_item" />);
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       screen.getByTestId('step_item').querySelectorAll('.rs-steps-item-content')
     ).to.have.length(1);
   });

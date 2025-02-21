@@ -61,7 +61,7 @@
 | -------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | classPrefix    | string `('auto-complete')`                                                         | 组件 CSS 类的前缀                                                         |
 | data \*        | [ItemDataType](#code-ts-item-data-type-code)[] &#124; string[]                     | 组件数据                                                                  |
-| defaultValue   | string                                                                             | 默认值（非受控）                                                                |
+| defaultValue   | string                                                                             | 默认值（非受控）                                                          |
 | disabled       | boolean                                                                            | 禁用组件                                                                  |
 | filterBy       | (value: string, item: [ItemDataType](#code-ts-item-data-type-code)) => boolean     | 自定义每个 item 是否显示（默认只会显示 data 中 value 是它的子字符串的项） |
 | menuClassName  | string                                                                             | 选项菜单的 className                                                      |
@@ -79,6 +79,6 @@
 | renderMenuItem | (label:ReactNode, item: [ItemDataType](#code-ts-item-data-type-code)) => ReactNode | 自定义选项                                                                |
 | selectOnEnter  | boolean `(true)`                                                                   | 当设为 `false` 时，回车键不能作选值操作                                   |
 | size           | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs'                                           | 设置组件尺寸                                                              |
-| value          | string                                                                             | 当前值（受控）                                                             |
+| value          | string                                                                             | 当前值（受控）                                                            |
 
 <!--{include:(_common/types/item-data-type.md)}-->

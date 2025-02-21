@@ -6,7 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
 const markdownRenderer = require('./scripts/markdownRenderer');
-const format = require('date-fns/format');
+const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
@@ -14,7 +14,7 @@ const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const {
   // 'production' on main branch
   // 'preview' on pr branches
-  // emtpy on local machine
+  // empty on local machine
   // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
   VERCEL_ENV = 'local'
 } = process.env;
@@ -43,11 +43,25 @@ module.exports = {
   experimental: {
     externalDir: true
   },
+  // Exclude example pages from static generation
+  exportPathMap: async function (defaultPathMap) {
+    const pathMap = { ...defaultPathMap };
+    
+    // Remove example pages from static generation
+    Object.keys(pathMap).forEach(path => {
+      if (path.includes('/examples/')) {
+        delete pathMap[path];
+      }
+    });
+    
+    return pathMap;
+  },
   /**
    *
    * @param {import('webpack').Configuration} config
+   * @param {{ isServer: boolean }}
    */
-  webpack(config) {
+  webpack(config, { isServer }) {
     const originEntry = config.entry;
 
     config.module.rules.unshift({
@@ -77,11 +91,10 @@ module.exports = {
             sourceMap: true,
             postcssOptions: {
               plugins: [
-                require('autoprefixer'),
+                require('autoprefixer')
                 // Do not use postcss-rtl which generates a LTR+RTL css
                 // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({}),
-                require('postcss-custom-properties')()
+                // require('postcss-rtl')({})
               ]
             }
           }
@@ -175,26 +188,35 @@ module.exports = {
     // we should stick `react` and `react-dom` imports to docs/node_modules
     // preventing "more than one copy of React" error
     if (__USE_SRC__) {
-      Object.assign(config.resolve.alias, {
+      config.resolve.alias = {
+        ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
         rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom')
-      });
+      };
+    }
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false
+      };
     }
 
     return config;
   },
-  typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
-  },
-  trailingSlash: true,
   onDemandEntries: {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
   },
+  typescript: {
+    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
+  },
+  trailingSlash: true,
   pageExtensions: ['tsx'],
   redirects() {
     return [

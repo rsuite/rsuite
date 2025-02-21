@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
@@ -34,7 +33,8 @@ describe('Stack', () => {
 
   it('Should have a align-items style', () => {
     render(<Stack data-testid="test" alignItems="stretch"></Stack>);
-    assert.equal(screen.getByTestId('test').style.alignItems, 'stretch');
+
+    expect(screen.getByTestId('test')).to.have.style('align-items', 'stretch');
   });
 
   it('Should have a justify-content style', () => {

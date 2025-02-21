@@ -16,7 +16,7 @@ export function useTimeout(
   ms = 0,
   enabled = true
 ): UseTimeoutFnReturn {
-  const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
   const callback = useRef(fn);
 
   const clear = useCallback(() => {

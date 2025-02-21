@@ -7,9 +7,17 @@
 // --------------------------------------------------
 
 .rs-panel {
+  --rs-panel-header-font-size: var(--rs-font-size-md);
+  --rs-panel-header-line-height: var(--rs-text-line-height-md);
+  --rs-panel-padding: 1.25rem;
+  --rs-panel-border-radius: var(--rs-radius-md);
+  --rs-panel-btn-font-size: var(--rs-font-size-md);
+  --rs-panel-btn-padding: 0.625rem;
+  --rs-panel-shadow: var(--rs-shadow-md);
+
   @import '../../Animation/styles/collapse.less';
 
-  border-radius: 6px;
+  border-radius: var(--rs-panel-border-radius);
   overflow: hidden;
 
   .rs-anim-collapse {
@@ -30,7 +38,7 @@
 
   &-header,
   &-body {
-    padding: 20px;
+    padding: var(--rs-panel-padding);
   }
 
   // When the width is set to full, reset the value of padding.
@@ -40,8 +48,8 @@
 
   &-header {
     color: var(--rs-text-heading);
-    font-size: 16px;
-    line-height: unit((@line-height-computed / 16px));
+    font-size: var(--rs-panel-header-font-size);
+    line-height: var(--rs-panel-header-line-height);
     font-weight: inherit;
   }
 
@@ -52,9 +60,9 @@
     outline: transparent solid 2px;
     display: flex;
     align-items: center;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 6px;
+    font-size: var(--rs-panel-btn-font-size);
+    padding: var(--rs-panel-btn-padding);
+    border-radius: var(--rs-panel-border-radius);
 
     &:hover,
     &:focus,
@@ -66,6 +74,11 @@
 
     &-icon {
       transition: transform 0.2s ease 0s;
+    }
+    &[aria-expanded='true'] {
+      .rs-panel-btn-icon {
+        transform: rotate(180deg);
+      }
     }
 
     &[disabled] {
@@ -99,16 +112,10 @@
   // Collapsible panel header hover background
   &-collapsible > &-header {
     cursor: pointer;
-    transition: background-color 0.3s linear, border-radius 0.3s linear;
+    transition:
+      background-color 0.3s linear,
+      border-radius 0.3s linear;
     position: relative;
-    padding: 10px;
-
-    > .rs-icon {
-      color: var(--rs-text-secondary);
-      position: absolute;
-      top: 24px;
-      right: 20px;
-      transition: transform 0.3s linear;
-    }
+    padding: calc(var(--rs-spacing) * 2.5);
   }
 }

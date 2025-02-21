@@ -6,29 +6,37 @@
 // --------------------------------------------------
 
 .rs-placeholder {
-  @placeholder-image-color: var(--rs-bg-card);
+  --rs-placeholder-row-height: 0.625rem;
+  --rs-placeholder-row-spacing: calc(var(--rs-spacing) * 4);
+  --rs-placeholder-paragraph-graph-width: 3.875rem;
+  --rs-placeholder-graph-width: 100%;
+  --rs-placeholder-graph-height: 12.5rem;
+  --rs-placeholder-bg-color: var(--rs-placeholder);
+  --rs-placeholder-bg-size: auto;
+  --rs-placeholder-img-color: var(--rs-bg-card);
 
   display: flex;
 
   &-paragraph {
     justify-content: flex-start;
     align-items: flex-start;
+    gap: var(--rs-placeholder-row-spacing);
 
     &-graph {
       flex: 0 0 auto;
-      width: 60px;
-      height: 60px;
-      border-radius: 2px;
-      margin-right: 20px;
-      background-color: var(--rs-placeholder);
+      width: var(--rs-placeholder-paragraph-graph-width);
+      height: var(--rs-placeholder-paragraph-graph-width);
+      border-radius: var(--rs-radius-xs);
+      background: var(--rs-placeholder-bg-color);
+      background-size: var(--rs-placeholder-bg-size);
 
       &-circle {
-        border-radius: 50%;
+        border-radius: var(--rs-radius-full);
       }
 
       &-image {
         width: 80px;
-        height: 60px;
+        height: var(--rs-placeholder-paragraph-graph-width);
         position: relative;
         overflow: hidden;
 
@@ -39,7 +47,7 @@
           left: 10px;
           bottom: 10px;
           position: absolute;
-          border-bottom: 36px solid @placeholder-image-color;
+          border-bottom: 36px solid var(--rs-placeholder-img-color);
           border-left: 20px solid transparent;
           border-right: 30px solid transparent;
         }
@@ -51,7 +59,7 @@
           left: 40px;
           bottom: 10px;
           position: absolute;
-          border-bottom: 22px solid @placeholder-image-color;
+          border-bottom: 22px solid var(--rs-placeholder-img-color);
           border-left: 16px solid transparent;
           border-right: 16px solid transparent;
         }
@@ -62,14 +70,17 @@
         height: 12px;
         right: 18px;
         top: 10px;
-        border-radius: 50%;
-        background: @placeholder-image-color;
+        border-radius: var(--rs-radius-full);
+        background: var(--rs-placeholder-img-color);
         position: absolute;
       }
     }
 
     &-group {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--rs-placeholder-row-spacing);
     }
 
     .rs-placeholder-row {
@@ -79,8 +90,10 @@
   }
 
   &-row {
-    background-color: var(--rs-placeholder);
+    background: var(--rs-placeholder-bg-color);
+    background-size: var(--rs-placeholder-bg-size);
     width: 100%;
+    height: var(--rs-placeholder-row-height);
   }
 
   &-grid {
@@ -89,6 +102,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      gap: var(--rs-placeholder-row-spacing);
 
       &:first-child {
         align-items: flex-start; //first col align left
@@ -104,23 +118,22 @@
 
   &-graph {
     display: inline-block;
-    width: 100%;
-    background-color: var(--rs-placeholder);
+    width: var(--rs-placeholder-graph-width);
+    height: var(--rs-placeholder-graph-height);
+    background: var(--rs-placeholder-bg-color);
+    background-size: var(--rs-placeholder-bg-size);
   }
 
-  &-active {
-    &.rs-placeholder-graph,
-    .rs-placeholder-paragraph-graph,
-    .rs-placeholder-row {
-      background: linear-gradient(
-        -45deg,
-        var(--rs-placeholder) 25%,
-        var(--rs-placeholder-active) 37%,
-        var(--rs-placeholder) 63%
-      );
-      background-size: 400% 100% !important;
-      animation: placeholder-active 1.5s ease infinite;
-    }
+  &&-active {
+    animation: placeholder-active 1.5s ease infinite;
+
+    --rs-placeholder-bg-color: linear-gradient(
+      -45deg,
+      var(--rs-placeholder) 25%,
+      var(--rs-placeholder-active) 37%,
+      var(--rs-placeholder) 63%
+    );
+    --rs-placeholder-bg-size: 400% 100%;
   }
 
   @keyframes placeholder-active {

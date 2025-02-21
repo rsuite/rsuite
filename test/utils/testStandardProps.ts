@@ -115,6 +115,10 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
   const { renderOptions, customClassName, sizes, colors, getRootElement, getUIElement } = options;
 
   describe(`${displayName} - Standard props`, () => {
+    it('Should have a display name', () => {
+      expect(displayName).to.exist;
+    });
+
     testTestIdProp(element, renderOptions);
     if (customClassName !== false) {
       testClassNameProp(

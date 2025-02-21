@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
+import type { WithAsProps } from '@/internals/types';
 
 export interface DropdownSeparatorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** You can use a custom element for this component */
@@ -15,7 +14,7 @@ export interface DropdownSeparatorProps extends WithAsProps, React.HTMLAttribute
  * Renders a non-focusable and non-interactive `separator`
  * Per ARIA APG https://www.w3.org/WAI/ARIA/apg/patterns/menu/
  */
-const DropdownSeparator: RsRefForwardingComponent<'li', DropdownSeparatorProps> = React.forwardRef(
+const DropdownSeparator = forwardRef<'li', DropdownSeparatorProps>(
   (props: DropdownSeparatorProps, ref: React.Ref<any>) => {
     const {
       classPrefix = 'dropdown-item-divider',
@@ -38,8 +37,5 @@ const DropdownSeparator: RsRefForwardingComponent<'li', DropdownSeparatorProps> 
 );
 
 DropdownSeparator.displayName = 'Dropdown.Separator';
-DropdownSeparator.propTypes = {
-  as: PropTypes.elementType
-};
 
 export default DropdownSeparator;

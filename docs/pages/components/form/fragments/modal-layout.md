@@ -53,7 +53,13 @@ const App = () => {
             </Form.Group>
             <Form.Group controlId="select-10">
               <Form.ControlLabel>SelectPicker</Form.ControlLabel>
-              <Form.Control name="select" data={selectData} accepter={SelectPicker} />
+              <Form.Control
+                name="select"
+                data={selectData}
+                accepter={SelectPicker}
+                block
+                placement="top"
+              />
             </Form.Group>
           </Form>
         </Modal.Body>

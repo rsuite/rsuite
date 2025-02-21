@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface PlaceholderGraphProps extends WithAsProps {
   /**
@@ -29,36 +29,30 @@ export interface PlaceholderGraphProps extends WithAsProps {
  * The `Placeholder.Graph` component is used to display the loading state of the block.
  * @see https://rsuitejs.com/components/placeholder
  */
-const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> = React.forwardRef(
-  (props: PlaceholderGraphProps, ref) => {
-    const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
-    const {
-      as: Component = 'div',
-      className,
-      width,
-      height = 200,
-      style,
-      active,
-      classPrefix = 'placeholder',
-      ...rest
-    } = propsWithDefaults;
+const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'placeholder',
+    width,
+    height,
+    style,
+    active,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
 
-    const classes = merge(className, withClassPrefix('graph', { active }));
-    const styles = { width: width || '100%', height, ...style };
-    return <Component {...rest} ref={ref} className={classes} style={styles} />;
-  }
-);
+  const classes = merge(className, withClassPrefix('graph', { active }));
+  const styles = {
+    '--rs-placeholder-graph-width': getCssValue(width),
+    '--rs-placeholder-graph-height': getCssValue(height)
+  } as React.CSSProperties;
+
+  return <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)} />;
+});
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';
-PlaceholderGraph.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  classPrefix: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderGraph;

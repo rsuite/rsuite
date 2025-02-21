@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
@@ -9,6 +8,7 @@ import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
 import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
 
@@ -82,38 +82,12 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
 }
 
-export const sliderPropTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.number,
-  defaultValue: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  handleClassName: PropTypes.string,
-  handleTitle: PropTypes.node,
-  barClassName: PropTypes.string,
-  handleStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  graduated: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  progress: PropTypes.bool,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  onChangeCommitted: PropTypes.func,
-  renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func,
-  getAriaValueText: PropTypes.func
-};
-
 /**
  * A Slider is an interface for users to adjust a value in a specific range.
  *
  * @see https://rsuitejs.com/components/slider
  */
-const Slider = React.forwardRef((props: SliderProps, ref) => {
+const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,
@@ -348,6 +322,5 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 });
 
 Slider.displayName = 'Slider';
-Slider.propTypes = sliderPropTypes;
 
 export default Slider;

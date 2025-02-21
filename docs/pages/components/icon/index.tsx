@@ -24,7 +24,8 @@ const sandboxDependencies = {
 const installCommands = {
   npm: 'npm i @rsuite/icons',
   yarn: 'yarn add @rsuite/icons',
-  pnpm: 'pnpm add @rsuite/icons'
+  pnpm: 'pnpm add @rsuite/icons',
+  bun: 'bun add @rsuite/icons'
 };
 
 const inDocsComponents = {

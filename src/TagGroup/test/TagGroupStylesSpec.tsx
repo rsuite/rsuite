@@ -1,14 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { itChrome } from '@test/utils';
 import TagGroup from '../TagGroup';
+import { render, screen } from '@testing-library/react';
 import '../../TagGroup/styles/index.less';
 import '../../Tag/styles/index.less';
 
 describe('TagGroup styles', () => {
-  itChrome('Should render the correct styles', () => {
-    const { container } = render(<TagGroup />);
+  it('Should render the correct styles', () => {
+    render(<TagGroup>Group</TagGroup>);
 
-    expect(container.firstChild).to.have.style('margin', '-10px 0px 0px -10px');
+    expect(screen.getByText('Group')).to.have.style('gap', '10px');
   });
 });

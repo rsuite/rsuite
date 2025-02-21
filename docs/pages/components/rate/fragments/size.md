@@ -1,23 +1,15 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
+import { Rate, VStack } from 'rsuite';
 
 const App = () => (
-  <>
-    <div>
-      <Rate defaultValue={1} size="xs" />
-    </div>
-    <div>
-      <Rate defaultValue={2} size="sm" />
-    </div>
-    <div>
-      <Rate defaultValue={3} size="md" />
-    </div>
-    <div>
-      <Rate defaultValue={4} size="lg" />
-    </div>
-  </>
+  <VStack>
+    <Rate defaultValue={3} size="xs" />
+    <Rate defaultValue={3} size="sm" />
+    <Rate defaultValue={3} size="md" />
+    <Rate defaultValue={3} size="lg" />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

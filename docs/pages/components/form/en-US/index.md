@@ -105,8 +105,6 @@ HTML:
 
 ### `<Form>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property         | Type `(default)`                                      | Description                                                                                                |
 | ---------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Trigger the type of form validation                                                                        |

@@ -3,7 +3,7 @@ import Icon from '@rsuite/icons/Icon';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import { useClassNames } from '@/internals/hooks';
 
-interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   expanded?: boolean;
   controlId?: string;
   classPrefix?: string;
@@ -37,13 +37,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
       {...rest}
     >
       {children}
-      <Icon
-        as={caretAs}
-        aria-hidden="true"
-        className={prefix`icon`}
-        rotate={expanded ? 180 : 0}
-        data-testid="caret icon"
-      />
+      <Icon as={caretAs} aria-hidden="true" className={prefix`icon`} data-testid="caret icon" />
     </button>
   );
 };

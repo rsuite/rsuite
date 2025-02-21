@@ -1,15 +1,15 @@
 import React from 'react';
-import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
-import { useApp } from '../AppContext';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Twitter from '@rsuite/icons/legacy/Twitter';
 import MenuIcon from '@rsuite/icons/Menu';
 import Diamond from '@rsuite/icons/legacy/Diamond';
-import { SwitchTheme } from './SwitchTheme';
 import Icon from '@rsuite/icons/Icon';
 import * as SvgIcons from '@/components/SvgIcons';
+import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
+import { useApp } from '../AppContext';
+import { SwitchTheme } from './SwitchTheme';
 
 interface MoreActionsProps {
   designHash?: any;
@@ -103,7 +103,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
         </Popover>
       )}
     >
-      <IconButton size="sm" appearance="subtle" icon={<MenuIcon />} />
+      <IconButton size="sm" icon={<MenuIcon />} />
     </Whisper>
   );
 }

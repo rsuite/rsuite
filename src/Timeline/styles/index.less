@@ -30,7 +30,7 @@
       width: @time-line-dot-side-length;
       height: @time-line-dot-side-length;
       background-color: var(--rs-timeline-indicator-bg);
-      border-radius: 50%;
+      border-radius: var(--rs-radius-full);
     }
   }
 
@@ -139,9 +139,6 @@
   &-with-time &-item-time,
   &-with-time &-item-content {
     flex: 1 0 50%;
-    // In IE flex item box-sizing is invalid .
-    // Reference https://github.com/philipwalton/flexbugs/issues/3
-    .ie11-max-width(50%);
   }
 
   &-align-alternate &-item:nth-child(2n),
