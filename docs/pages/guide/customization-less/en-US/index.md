@@ -27,18 +27,11 @@ After you configure the theme base color, a set of swatches (`@H050` - `@H900`, 
 
 If you want to also customize the built-in dark mode, you can use `@primary-color-dark` variable.
 
-### Adjusts the fillet radius of the assembly.
-
-```less
-@border-radius: 2px;
-```
-
 ### Modify the font style.
 
 ```less
 @font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial,
   'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
-@font-size-base: 14px;
 ```
 
 ### Secondary palette
@@ -71,14 +64,6 @@ React Suite includes a Material-like ripple effect in some clickable components 
 
 ```less
 @enable-ripple-effect: false;
-```
-
-### Disable IE polyfill
-
-By default, React Suite includes some compatible styles for IE 11. If you don't need these styles, you can remove theme by turning off this flag.
-
-```less
-@enable-ie-polyfill: false;
 ```
 
 ### Disable HTML styles reset
