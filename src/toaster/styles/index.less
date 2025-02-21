@@ -38,7 +38,7 @@
   &-bottom-start,
   &-top-start {
     align-items: flex-start;
-    left: @toast-spacing;
+    inset-inline-start: @toast-spacing;
 
     .rs-toast-fade-entered {
       animation-name: notificationMoveInLeft;
@@ -48,10 +48,10 @@
   &-bottom-end,
   &-top-end {
     align-items: flex-end;
-    right: @toast-spacing;
+    inset-inline-end: @toast-spacing;
 
     .rs-toast-fade-entered {
-      margin-left: auto;
+      margin-inline-start: auto;
       animation-name: notificationMoveInRight;
     }
   }

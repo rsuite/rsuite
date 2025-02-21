@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Heading from '../Heading';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -41,11 +41,10 @@ const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ full }));
 
-  const styles = {
-    display: 'block',
-    opacity: visible ? 1 : undefined,
-    ...style
-  };
+  const styles = useMemo(
+    () => mergeStyles(style, { ['--rs-opacity']: visible ? 1 : undefined }),
+    [visible, style]
+  );
 
   return (
     <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>

@@ -2,7 +2,12 @@ import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import Fade from '../../Animation/Fade';
 import OverlayContext from './OverlayContext';
-import Position, { PositionChildProps, PositionProps } from './Position';
+import Position, {
+  PositionChildProps,
+  PositionProps,
+  CSS_POSITION_X,
+  CSS_POSITION_Y
+} from './Position';
 import { useRootClose } from '../hooks';
 import { mergeRefs } from '@/internals/utils';
 import type { Placement, AnimationEventProps, ReactElement } from '@/internals/types';
@@ -108,11 +113,17 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
           // Position will return coordinates and className
           const { left, top, className } = childProps;
           const childElement = children as ReactElement;
+          const childStyles = {
+            [CSS_POSITION_X]: `${left}px`,
+            [CSS_POSITION_Y]: `${top}px`,
+            ...childElement.props.style
+          };
+
           return React.cloneElement(childElement, {
             ...childrenProps,
             ...childElement.props,
             className: classNames(className, childElement.props.className),
-            style: { left, top, ...childElement.props.style },
+            style: childStyles,
             ref: mergeRefs(childRef, overlayTarget)
           });
         }}

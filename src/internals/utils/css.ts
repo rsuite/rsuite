@@ -20,15 +20,15 @@ export function getCssValue(value?: number | string | null, unit = 'px') {
   return value.toString();
 }
 
-type CSSVariables = Partial<Record<`--${string}`, string>>;
-type StyleProperties = React.CSSProperties & CSSVariables;
+type CSSVariables = Partial<Record<`--${string}`, string | number | undefined>>;
+type StyleProperties = React.CSSProperties | CSSVariables;
 
 /**
  * Merge multiple style objects, filtering out undefined values
  */
 export function mergeStyles(
-  ...styles: (React.CSSProperties | undefined | null)[]
-): StyleProperties {
+  ...styles: (StyleProperties | undefined | null)[]
+): React.CSSProperties {
   return styles.filter(Boolean).reduce<StyleProperties>((acc, style) => {
     if (!style) return acc;
     return { ...acc, ...style };

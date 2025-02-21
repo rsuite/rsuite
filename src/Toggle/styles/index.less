@@ -32,7 +32,7 @@
   &-label {
     cursor: pointer;
     font-size: inherit;
-    margin-left: 10px;
+    margin-inline-start: 10px;
   }
 
   &-inner {
@@ -41,8 +41,8 @@
     transition: margin var(--rs-toggle-transition);
     font-size: var(--rs-toggle-inner-font-size);
     line-height: var(--rs-toggle-line-height);
-    margin-left: var(--rs-toggle-size);
-    margin-right: var(--rs-toggle-inner-margin);
+    margin-inline-start: var(--rs-toggle-size);
+    margin-inline-end: var(--rs-toggle-inner-margin);
     height: var(--rs-toggle-size);
 
     .rs-icon {
@@ -77,7 +77,7 @@
     &::after {
       width: var(--rs-toggle-handle-size);
       height: var(--rs-toggle-handle-size);
-      left: var(--rs-toggle-handle-gap);
+      inset-inline-start: var(--rs-toggle-handle-gap);
       top: var(--rs-toggle-handle-gap);
       border-radius: var(--rs-radius-full);
     }
@@ -132,17 +132,17 @@
       box-shadow: none;
 
       &::after {
-        left: 100%;
-        margin-left: var(--rs-toggle-checked-margin-left);
+        inset-inline-start: 100%;
+        margin-inline-start: var(--rs-toggle-checked-margin-left);
       }
 
       &:active::after {
-        margin-left: var(--rs-toggle-active-checked-margin-left);
+        margin-inline-start: var(--rs-toggle-active-checked-margin-left);
       }
 
       .rs-toggle-inner {
-        margin-right: var(--rs-toggle-size);
-        margin-left: var(--rs-toggle-inner-margin);
+        margin-inline-end: var(--rs-toggle-size);
+        margin-inline-start: var(--rs-toggle-inner-margin);
       }
 
       &:hover {
@@ -170,7 +170,7 @@
       width var(--rs-toggle-transition);
     width: var(--rs-toggle-handle-size);
     height: var(--rs-toggle-handle-size);
-    left: var(--rs-toggle-handle-gap);
+    inset-inline-start: var(--rs-toggle-handle-gap);
     top: var(--rs-toggle-handle-gap);
 
     .rs-loader-spin,
@@ -188,8 +188,8 @@
     }
 
     .rs-toggle-checked & {
-      left: 100%;
-      margin-left: var(--rs-toggle-checked-margin-left);
+      inset-inline-start: 100%;
+      margin-inline-start: var(--rs-toggle-checked-margin-left);
     }
 
     .rs-loader-spin {

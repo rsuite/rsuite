@@ -251,7 +251,7 @@ describe('OverlayTrigger', () => {
     });
 
     expect(count).to.equal(2);
-    expect(screen.getByRole('tooltip').style).to.have.property('left', '10px');
+    expect(screen.getByRole('tooltip')).to.have.style('--rs-position-x', '10px');
   });
 
   it('Should open the Overlay', () => {

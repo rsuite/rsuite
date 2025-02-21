@@ -65,7 +65,7 @@
 .rs-navbar-item {
   // Reset padding
   padding: @navbar-item-padding-y @navbar-item-padding-x;
- border-radius: var(--rs-radius-md);
+  border-radius: var(--rs-radius-md);
   color: inherit;
   background-color: transparent;
   position: relative;
@@ -75,12 +75,12 @@
 
   &-icon {
     font-size: var(--rs-navbar-icon-font-size);
-    margin-right: 5px;
+    margin-inline-end: 5px;
   }
 
   &-caret {
     font-size: var(--rs-navbar-caret-font-size);
-    margin-left: 6px;
+    margin-inline-start: 6px;
   }
 }
 
@@ -128,7 +128,7 @@
     &:extend(.rs-navbar-item:focus-visible);
   }
 
-  padding-right: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
+  padding-inline-end: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
 
   .high-contrast-mode({
     border: none;
@@ -140,7 +140,7 @@
 
   .rs-dropdown-toggle-caret {
     top: @navbar-item-padding-y;
-    right: @navbar-item-padding-x;
+    inset-inline-end: @navbar-item-padding-x;
   }
 }
 

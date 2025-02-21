@@ -83,12 +83,12 @@
 
 .rs-btn-start-icon {
   line-height: 0; // Eliminate whitespace
-  margin-right: @btn-icon-gap;
+  margin-inline-end: @btn-icon-gap;
 }
 
 .rs-btn-end-icon {
   line-height: 0; // Eliminate whitespace
-  margin-left: @btn-icon-gap;
+  margin-inline-start: @btn-icon-gap;
 }
 
 // Appearance variants
@@ -297,9 +297,9 @@ each(@spectrum, .(@color) {
       height: @btn-loading-spin-default-diameter;
       margin: auto;
       top: 0;
-      right: 0;
       bottom: 0;
-      left: 0;
+      inset-inline-end: 0;
+      inset-inline-start: 0;
       border-radius: var(--rs-radius-full);
       z-index: 1;
 

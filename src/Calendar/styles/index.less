@@ -39,7 +39,7 @@
   }
 
   &-panel &-header &-btn-today {
-    float: right;
+    float: inline-end;
   }
 
   &-panel &-header-forward,
@@ -59,13 +59,13 @@
   }
 
   &-panel&-month-view &-header-month-toolbar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 
   &-panel &-month-view {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 
   &-panel &-table-header-row &-table-header-cell-content {
@@ -79,8 +79,8 @@
     height: @calendar-panel-today-active-side-length;
     background-color: var(--rs-calendar-today-bg);
     border-radius: var(--rs-radius-full);
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
   }
 
   &-panel &-table-cell-is-today &-table-cell-content {
@@ -99,8 +99,8 @@
   }
 
   &-panel &-month-dropdown {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-inline-start: 10px;
+    margin-inline-end: 10px;
     border-radius: var(--rs-radius-md);
     width: ~'calc(100% - 20px)';
   }
@@ -144,8 +144,8 @@
   &-btn-close {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     height: 14px;
     padding: 0;
     border: 0;
@@ -177,8 +177,8 @@
 // Show month dropdown
 .rs-calendar-month-view {
   .rs-calendar-header-month-toolbar {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-inline-start: 24px;
+    padding-inline-end: 24px;
   }
 
   .rs-calendar-header-backward,
@@ -252,8 +252,8 @@
 
 .rs-calendar-header {
   width: @calendar-header-width;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding-inline-start: @calendar-picker-padding;
+  padding-inline-end: @calendar-picker-padding;
   .clearfix();
 
   // Month toolbar && Time toolbar
@@ -263,11 +263,11 @@
   }
 
   &-month-toolbar {
-    float: left;
+    float: inline-start;
   }
 
   &-time-toolbar {
-    float: right;
+    float: inline-end;
   }
 
   &-title {
@@ -277,7 +277,7 @@
   &-meridiem {
     // Designer think it's nice!
     font-size: var(--rs-font-size-xs);
-    margin-left: 4px;
+    margin-inline-start: 4px;
   }
 
   &-error {
@@ -285,7 +285,6 @@
   }
 
   &-btn-disabled {
-
     &,
     &:hover,
     &:hover:focus {
@@ -302,8 +301,8 @@
   // Only Has month
   &-has-month:not(&-has-time) {
     margin: 0 auto;
-    padding-left: @calendar-picker-padding;
-    padding-right: @calendar-picker-padding;
+    padding-inline-start: @calendar-picker-padding;
+    padding-inline-end: @calendar-picker-padding;
   }
 
   &-has-month:not(&-has-time) &-month-toolbar {
@@ -314,11 +313,11 @@
   }
 
   &-has-month:not(&-has-time) &-backward {
-    float: left;
+    float: inline-start;
   }
 
   &-has-month:not(&-has-time) &-forward {
-    float: right;
+    float: inline-end;
   }
 
   // Only Has time
@@ -341,7 +340,6 @@
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */
 [dir='rtl'] .rs-calendar-header {
-
   &-backward,
   &-forward {
     .rs-icon {
@@ -392,7 +390,6 @@
 
   &-un-same-month &-content,
   &-disabled &-content {
-
     &,
     &:hover {
       color: var(--rs-text-disabled);
@@ -400,7 +397,6 @@
   }
 
   &-disabled &-content {
-
     &,
     &:hover {
       background: none;
@@ -488,8 +484,8 @@
 
   &-row {
     position: relative;
-    padding-left: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
-    padding-right: @calendar-picker-padding;
+    padding-inline-start: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
+    padding-inline-end: @calendar-picker-padding;
     padding-top: 5px;
     padding-bottom: 5px;
 
@@ -501,7 +497,7 @@
   &-year {
     position: absolute;
     top: ~'calc(50% - 0.5em)';
-    left: @calendar-picker-padding;
+    inset-inline-start: @calendar-picker-padding;
 
     &-active {
       color: var(--rs-text-active);
@@ -545,8 +541,8 @@
   display: none;
   position: absolute;
   top: @calendar-dropdown-top;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding-inline-start: @calendar-picker-padding;
+  padding-inline-end: @calendar-picker-padding;
   width: 100%;
   background-color: var(--rs-bg-overlay);
   color: var(--rs-text-primary);
@@ -576,14 +572,14 @@
       height: calc(100% - 30px);
     }
 
-    >ul,
-    >ul>li {
+    > ul,
+    > ul > li {
       list-style: none;
       margin: 0;
       padding: 0;
     }
 
-    >ul {
+    > ul {
       height: 230px;
       overflow-y: auto;
       scroll-behavior: smooth;
@@ -635,20 +631,20 @@
           .listbox-option-active();
         }
       });
-  }
+    }
 
-  &&-disabled {
-    color: var(--rs-text-disabled);
-    background: none;
-    cursor: not-allowed;
-    text-decoration: line-through;
-  }
+    &&-disabled {
+      color: var(--rs-text-disabled);
+      background: none;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
 
-  &-active&-disabled& {
-    opacity: 0.3;
-    cursor: not-allowed;
+    &-active&-disabled& {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
   }
-}
 }
 
 .rs-calendar-only-time {

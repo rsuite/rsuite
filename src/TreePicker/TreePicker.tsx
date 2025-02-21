@@ -255,9 +255,9 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
+    const { className } = positionProps;
     const classes = merge(className, DEPRECATED_menuClassName, popupClassName, prefix('tree-menu'));
-    const mergedMenuStyle = { ...DEPRECATED_menuStyle, ...popupStyle, left, top };
+    const mergedMenuStyle = { ...DEPRECATED_menuStyle, ...popupStyle };
 
     return (
       <PickerPopup

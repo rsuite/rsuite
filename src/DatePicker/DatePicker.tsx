@@ -568,9 +568,8 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const { sideRanges, bottomRanges } = splitRanges(ranges);
 
   const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
+    const { className } = positionProps;
     const classes = merge(menuClassName, className, prefix('popup-date'));
-    const styles = { ...menuStyle, left, top };
 
     return (
       <PickerPopup
@@ -579,7 +578,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
         tabIndex={-1}
         className={classes}
         ref={mergeRefs(overlay, speakerRef)}
-        style={styles}
+        style={menuStyle}
         target={trigger}
         onKeyDown={handlePickerPopupKeyDown}
       >

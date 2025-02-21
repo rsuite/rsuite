@@ -257,14 +257,14 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
+    const { className } = positionProps;
     const classes = classNames(
       className,
       popupClassName,
       DEPRECATED_menuClassName,
       prefix('check-tree-menu')
     );
-    const mergedMenuStyle = { ...popupStyle, ...DEPRECATED_menuStyle, left, top };
+    const mergedMenuStyle = { ...popupStyle, ...DEPRECATED_menuStyle };
 
     return (
       <PickerPopup

@@ -13,7 +13,7 @@
 
   &-item {
     position: relative;
-    text-align: left;
+    text-align: start;
   }
 
   &-item:not(:last-child) &-item-content {
@@ -78,27 +78,27 @@
   .time-line-align(left);
 
   &-align-left &-item {
-    padding-left: @time-line-item-padding-left;
+    padding-inline-start: @time-line-item-padding-left;
   }
 
   // Align right
   .time-line-align(right);
 
   &-align-right &-item-content {
-    text-align: right;
+    text-align: end;
   }
 
   // Align alternate
   &-align-alternate &-item-dot {
     @dot-offset: (@time-line-dot-side-length / 2);
 
-    left: ~'calc(50% - @{dot-offset})';
+    inset-inline-start: ~'calc(50% - @{dot-offset})';
   }
 
   &-align-alternate &-item-tail {
     @tail-offset: (@time-line-tail-width / 2);
 
-    left: ~'calc(50% - @{tail-offset})';
+    inset-inline-start: ~'calc(50% - @{tail-offset})';
   }
 
   &-align-alternate &-item-content {
@@ -106,34 +106,34 @@
   }
 
   &-align-alternate &-item:nth-child(even) &-item-content {
-    text-align: right;
+    text-align: end;
   }
 
   &-align-alternate &-item:nth-child(odd) {
-    text-align: right;
+    text-align: end;
   }
 
   &-align-alternate &-item:nth-child(odd) &-item-content {
     display: inline-block;
-    text-align: left;
+    text-align: start;
   }
 
   // With time
   &-with-time &-item {
     display: flex;
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   &-with-time &-item-dot {
     @dot-offset: (@time-line-dot-side-length / 2);
 
-    left: ~'calc(50% - @{dot-offset})';
+    inset-inline-start: ~'calc(50% - @{dot-offset})';
   }
 
   &-with-time &-item-tail {
     @tail-offset: (@time-line-tail-width / 2);
 
-    left: ~'calc(50% - @{tail-offset})';
+    inset-inline-start: ~'calc(50% - @{tail-offset})';
   }
 
   &-with-time &-item-time,
@@ -147,28 +147,28 @@
   }
 
   &-with-time&-align-right &-item {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 
   &-with-time&-align-left &-item-time {
-    text-align: right;
+    text-align: end;
   }
 
   &-with-time&-align-right &-item-time {
-    text-align: left;
+    text-align: start;
   }
 
   &-with-time&-align-left &-item-time,
   &-with-time&-align-right &-item-content,
   &-align-alternate &-item:nth-child(2n + 1) &-item-time,
   &-align-alternate &-item:nth-child(2n) &-item-content {
-    padding-right: @time-line-alternate-time-offset;
+    padding-inline-end: @time-line-alternate-time-offset;
   }
 
   &-with-time&-align-left &-item-content,
   &-with-time&-align-right &-item-time,
   &-align-alternate &-item:nth-child(2n + 1) &-item-content,
   &-align-alternate &-item:nth-child(2n) &-item-time {
-    padding-left: @time-line-alternate-time-offset;
+    padding-inline-start: @time-line-alternate-time-offset;
   }
 }

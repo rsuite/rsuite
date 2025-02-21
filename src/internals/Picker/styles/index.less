@@ -92,7 +92,7 @@
 
   &-label.rs-input-group-addon {
     color: var(--rs-text-primary);
-    padding-right: 4px !important;
+    padding-inline-end: 4px !important;
   }
 
   &-loader {
@@ -123,9 +123,13 @@
   --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
   --rs-picker-popup-z-index: @zindex-picker-popup;
   --rs-picker-popup-shadow: var(--rs-shadow-md);
+  --rs-picker-popup-position-x: var(--rs-position-x);
+  --rs-picker-popup-position-y: var(--rs-position-y);
 
   position: absolute;
-  text-align: left;
+  top: var(--rs-picker-popup-position-y);
+  left: var(--rs-picker-popup-position-x) /* rtl:ignore */;
+  text-align: start;
   overflow: hidden;
   transition: none;
   display: flex;
@@ -194,7 +198,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    left: 0;
+    inset-inline-start: 0;
     top: 0;
     border: 1px solid #0000;
     padding-inline-start: 10px;
@@ -249,7 +253,7 @@
 }
 
 .rs-picker-toggle.rs-btn {
-  text-align: left;
+  text-align: start;
   display: inline-flex;
   width: 100%;
   align-items: center;
@@ -345,7 +349,7 @@
 
       .grouped &,
       .@{ckpns}-menu-group-children & {
-        padding-left: @picker-check-item-content-padding-left +
+        padding-inline-start: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;
       }
     }
@@ -353,7 +357,9 @@
     .rs-checkbox-control {
       .grouped &,
       .@{ckpns}-menu-group-children & {
-        left: (@picker-item-content-padding-horizontal + @picker-children-check-item-padding-left);
+        inset-inline-start: (
+          @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
+        );
       }
     }
   }

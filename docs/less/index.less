@@ -39,6 +39,7 @@
 :root {
   --font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
     monospace;
+  --page-context-margin-inline-start: 324px;
 }
 
 body {
@@ -66,7 +67,7 @@ body {
     }
 
     @media (min-width: @media-xs) {
-      margin-left: 324px;
+      margin-inline-start: var(--page-context-margin-inline-start);
     }
   }
 }

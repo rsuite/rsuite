@@ -88,7 +88,7 @@
   text-align: center;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   display: flex;
   align-items: center;
   border: 1px solid var(--rs-steps-border);
@@ -177,10 +177,10 @@
 
     // There is a 10px spacing between each item.
     &:not(:first-child) {
-      padding-left: calc(var(--rs-steps-icon-size) + var(--rs-spacing) * 5);
+      padding-inline-start: calc(var(--rs-steps-icon-size) + var(--rs-spacing) * 5);
 
       .rs-steps-item-icon-wrapper {
-        left: calc(var(--rs-spacing) * 2.5);
+        inset-inline-start: calc(var(--rs-spacing) * 2.5);
       }
     }
   }
@@ -189,7 +189,7 @@
     &::after {
       content: '';
       top: calc(var(--rs-steps-icon-size) / 2);
-      left: 100%;
+      inset-inline-start: 100%;
       width: 9999px;
       border-top-width: 1px;
       border-top-style: solid;
@@ -215,7 +215,7 @@
   .rs-steps-item-tail {
     top: var(--rs-steps-item-spacing);
     bottom: 0;
-    left: calc(var(--rs-steps-icon-size) / 2);
+    inset-inline-start: calc(var(--rs-steps-icon-size) / 2);
     border-left-width: 1px;
     border-left-style: solid;
   }

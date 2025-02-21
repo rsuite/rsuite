@@ -11,18 +11,22 @@
   --rs-popover-title-font-size: var(--rs-font-size-sm);
   --rs-popover-title-line-height: var(--rs-text-line-height-sm);
   --rs-popover-border-radius: var(--rs-radius-sm);
+  --rs-popover-position-x: var(--rs-position-x);
+  --rs-popover-position-y: var(--rs-position-y);
+  --rs-popover-opacity: var(--rs-opacity, 0);
 
   position: absolute;
-  top: 0;
-  left: 0 /* rtl:ignore */;
+  top: var(--rs-popover-position-y);
+  left: var(--rs-popover-position-x) /* rtl:ignore */;
   z-index: @zindex-popover;
-  display: none;
+  display: block;
   padding: 12px;
   font-size: var(--rs-popover-font-size);
   background-color: var(--rs-bg-overlay);
   background-clip: padding-box;
   border-radius: var(--rs-popover-border-radius);
-  opacity: 0;
+  opacity: var(--rs-popover-opacity);
+
   .drop-shadow(var(--rs-popover-shadow));
 
   &.rs-anim-fade {

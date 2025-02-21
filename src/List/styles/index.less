@@ -34,8 +34,8 @@
   position: relative;
 
   &-bordered {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
   }
 
   &-lg {
@@ -71,7 +71,7 @@
     width: calc(100% - 2px);
     border-radius: var(--rs-radius-md);
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     z-index: @zindex-list-helper;
     border: none;
     cursor: move;
@@ -96,7 +96,7 @@
       position: absolute;
       visibility: visible;
       top: @list-border-width;
-      left: @list-border-width;
+      inset-inline-start: @list-border-width;
       width: calc(100% - 2 * @list-border-width);
       height: calc(100% - 2 * @list-border-width);
       border: @list-border-width var(--rs-list-placeholder-border) dashed;

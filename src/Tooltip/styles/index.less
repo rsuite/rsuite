@@ -13,12 +13,17 @@
   --rs-tooltip-z-index: @zindex-tooltip;
   --rs-tooltip-max-width: @tooltip-max-width;
   --rs-tooltip-line-height: var(--rs-text-line-height-xs);
+  --rs-tooltip-position-x: var(--rs-position-x);
+  --rs-tooltip-position-y: var(--rs-position-y);
+  --rs-tooltip-opacity: var(--rs-opacity, 0);
 
   position: absolute;
+  top: var(--rs-tooltip-position-y);
+  left: var(--rs-tooltip-position-x) /* rtl:ignore */;
   z-index: var(--rs-tooltip-z-index);
   display: block;
   font-size: var(--rs-font-size-xs);
-  opacity: 0;
+  opacity: var(--rs-tooltip-opacity);
   line-height: var(--rs-tooltip-line-height);
   max-width: var(--rs-tooltip-max-width);
   padding: var(--rs-tooltip-padding-block) var(--rs-tooltip-padding-inline);

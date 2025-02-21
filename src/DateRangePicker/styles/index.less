@@ -24,7 +24,7 @@
   }
 
   > .rs-input-group.rs-input-group-inside .rs-input {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 }
 
@@ -106,14 +106,14 @@
       width: 50%;
       bottom: -1px;
       border-bottom: 2px solid #3498ff;
-      left: 0;
+      inset-inline-start:  0;
       transition: left 0.3s;
     }
   }
 
   &.rs-picker-tab-active-end {
     &::after {
-      left: 50%;
+      inset-inline-start:  50%;
     }
   }
 }

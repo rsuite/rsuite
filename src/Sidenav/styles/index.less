@@ -78,12 +78,12 @@
       width: 100%;
       text-align: start;
       background: none;
-      padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
+      padding-inline-end: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
       position: relative;
       border-width: 0;
 
       .rs-sidenav-collapse-in & {
-        padding-left: @sidenav-level2-retract;
+        padding-inline-start: @sidenav-level2-retract;
       }
 
       &:focus {
@@ -155,7 +155,7 @@
 
     .rs-sidenav-dropdown-toggle-caret {
       font-size: var(--rs-font-size-sm);
-      margin-left: auto;
+      margin-inline-start: auto;
 
       // Make Caret AngleRight direction at down.
       &[aria-label='angle-right'] {
@@ -441,7 +441,7 @@
   // Make sure icon text-align center
   &.rs-sidenav-collapse-out {
     .rs-dropdown .rs-dropdown-menu {
-      padding-left: @sidenav-default-width - @sidenav-level2-retract;
+      padding-inline-start: @sidenav-default-width - @sidenav-level2-retract;
     }
 
     .rs-dropdown-item {

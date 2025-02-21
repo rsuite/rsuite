@@ -289,9 +289,8 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     }
 
     const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
+      const { className } = positionProps;
       const classes = merge(className, menuClassName, prefix('check-menu'));
-      const styles = { ...menuStyle, left, top };
       let items = filteredData;
       let filteredStickyItems: ItemDataType[] = [];
 
@@ -342,7 +341,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
-          style={styles}
+          style={menuStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >

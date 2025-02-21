@@ -27,7 +27,7 @@
 .picker-menu-group-title(@prefix) {
   .rs-@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
-    padding-right: (@padding-x + @dropdown-caret-width + @dropdown-caret-padding);
+    padding-inline-end: (@padding-x + @dropdown-caret-width + @dropdown-caret-padding);
     position: relative;
     cursor: pointer;
     color: var(--rs-text-heading);
@@ -37,7 +37,7 @@
       margin-inline-start: 2px;
       position: absolute;
       top: @padding-y;
-      right: @padding-x;
+      inset-inline-end: @padding-x;
       color: var(--rs-text-secondary);
     }
   }

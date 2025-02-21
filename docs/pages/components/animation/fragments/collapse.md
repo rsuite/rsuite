@@ -43,14 +43,14 @@ const App = () => {
 
       <HStack spacing={16} alignItems="flex-start">
         <VStack style={{ minWidth: 240 }}>
-          <Text>Vertical Collapse:</Text>
+          <Text>Vertical Collapse</Text>
           <Animation.Collapse in={show}>
             {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
           </Animation.Collapse>
         </VStack>
 
         <VStack style={{ minWidth: 240 }}>
-          <Text>Horizontal Collapse:</Text>
+          <Text>Horizontal Collapse</Text>
           <Animation.Collapse in={show} dimension="width">
             {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
           </Animation.Collapse>

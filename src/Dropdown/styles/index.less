@@ -73,7 +73,7 @@
   }
 
   &.rs-dropdown-toggle-no-caret {
-    padding-right: @padding-x;
+    padding-inline-end: @padding-x;
   }
 }
 
@@ -82,7 +82,7 @@
   margin: 0; // override default ul
   list-style: none;
   font-size: var(--rs-font-size-sm);
-  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  text-align: start; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: var(--rs-bg-overlay);
   border-radius: var(--rs-radius-md);
   padding: @dropdown-menu-padding-y 0;
@@ -96,7 +96,7 @@
     position: absolute;
     // dropdown-menu zindex value is greater than dropdown-toggle
     z-index: @zindex-dropdown + 1;
-    float: left;
+    float: inline-start;
     box-shadow: var(--rs-dropdown-shadow);
     outline: none;
 
@@ -219,21 +219,21 @@
 
     .rs-dropdown-item-toggle {
       padding: @dropdown-item-padding-y @dropdown-item-padding-x;
-      padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
+      padding-inline-end: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
         @dropdown-item-submenu-icon-angle-width;
     }
 
     .rs-dropdown-menu-toggle-icon {
-      right: @dropdown-caret-icon-padding-horizontal;
+      inset-inline-end: @dropdown-caret-icon-padding-horizontal;
     }
   }
 
   .rs-dropdown-menu {
-    left: 100%;
+    inset-inline-start: 100%;
 
     &[data-direction='start'] {
-      left: unset;
-      right: 100%;
+      inset-inline-start: unset;
+      inset-inline-end: 100%;
     }
   }
 
@@ -274,14 +274,14 @@
   &.rs-dropdown-placement-left-start,
   &.rs-dropdown-placement-left-end {
     > .rs-dropdown-menu {
-      right: 100%;
+      inset-inline-end: 100%;
     }
   }
 
   &.rs-dropdown-placement-right-start,
   &.rs-dropdown-placement-right-end {
     > .rs-dropdown-menu {
-      left: 100%;
+      inset-inline-start: 100%;
     }
   }
 
@@ -295,14 +295,14 @@
   &.rs-dropdown-placement-top-start,
   &.rs-dropdown-placement-bottom-start {
     > .rs-dropdown-menu {
-      left: 0;
+      inset-inline-start: 0;
     }
   }
 
   &.rs-dropdown-placement-top-end,
   &.rs-dropdown-placement-bottom-end {
     > .rs-dropdown-menu {
-      right: 0;
+      inset-inline-end: 0;
     }
   }
 
