@@ -1,3 +1,17 @@
+# [5.78.0](https://github.com/rsuite/rsuite/compare/v5.77.1...v5.78.0) (2025-02-21)
+
+
+### Bug Fixes
+
+* **pickers:** improve pickers `renderValue` property type definition ([#4144](https://github.com/rsuite/rsuite/issues/4144)) ([a6abf28](https://github.com/rsuite/rsuite/commit/a6abf28ac6084a112772503544de7528286f1ca8))
+
+
+### Features
+
+* **locales:** add support for Polish ([#4153](https://github.com/rsuite/rsuite/issues/4153)) ([7959a71](https://github.com/rsuite/rsuite/commit/7959a71fba591233384947fe93be5845bc2886ee))
+
+
+
 ## [5.77.1](https://github.com/rsuite/rsuite/compare/v5.77.0...v5.77.1) (2025-02-07)
 
 
