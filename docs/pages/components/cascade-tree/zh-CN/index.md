@@ -43,25 +43,25 @@ CascadeTree 是一个按列显示树形结构数据的组件。
 
 ### `<CascadeTree>`
 
-| 属性名称           | 类型`(默认值)`                                                                     | 描述                                 |
-| ------------------ | ---------------------------------------------------------------------------------- | ------------------------------------ |
-| childrenKey        | string `('children')`                                                              | 设置选项子节点在 `data` 中的 `key`   |
-| classPrefix        | string `('cascade-tree')`                                                          | 组件 CSS 类的前缀                    |
-| columnHeight       | number                                                                             | 设置菜单的高度                       |
-| columnWidth        | number                                                                             | 设置菜单的宽度                       |
-| data \*            | [ItemDataType][item][]                                                             | 组件数据                             |
-| defaultValue       | string                                                                             | 默认值（非受控）                     |
-| disabledItemValues | string[]                                                                           | 禁用选项                             |
-| getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子级                 |
-| labelKey           | string `('label')`                                                                 | 设置选项显示内容在 `data` 中的 `key` |
-| onChange           | (value: string, event: SyntheticEvent) => void                                     | 值变化后的回调函数                   |
-| onSearch           | (value: string, event) => void                                                     | 搜索值变化后的回调函数               |
-| onSelect           | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | 选项被点击选择后的回调函数           |
-| renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | 自定义渲染菜单列表                   |
-| renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义选项                           |
-| searchable         | boolean                                                                            | 是否启用搜索                         |
-| value              | string                                                                             | 当前值（受控）                       |
+| 属性名称           | 类型`(默认值)`                                                            | 描述                                 |
+| ------------------ | ------------------------------------------------------------------------- | ------------------------------------ |
+| childrenKey        | string `('children')`                                                     | 设置选项子节点在 `data` 中的 `key`   |
+| classPrefix        | string `('cascade-tree')`                                                 | 组件 CSS 类的前缀                    |
+| columnHeight       | number                                                                    | 设置选项列的高度                     |
+| columnWidth        | number                                                                    | 设置选项列的宽度                     |
+| data \*            | [Option][item][]                                                          | 组件数据                             |
+| defaultValue       | string                                                                    | 默认值（非受控）                     |
+| disabledItemValues | string[]                                                                  | 禁用选项                             |
+| getChildren        | (item: [Option][item]) => Promise&lt;[Option][item][]&gt;                 | 异步加载树节点的子级                 |
+| labelKey           | string `('label')`                                                        | 设置选项显示内容在 `data` 中的 `key` |
+| onChange           | (value: string, event) => void                                            | 值变化后的回调函数                   |
+| onSearch           | (value: string, event) => void                                            | 搜索值变化后的回调函数               |
+| onSelect           | (item: [Option][item], selectedPaths: [Option][item][], event) => void    | 选项被点击选择后的回调函数           |
+| renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode | 自定义渲染选项列表                   |
+| renderTreeNode     | (node: ReactNode, item: [Option][item]) => ReactNode                      | 自定义选项                           |
+| searchable         | boolean                                                                   | 是否启用搜索                         |
+| value              | string                                                                    | 当前值（受控）                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 
-[item]: #code-ts-item-data-type-code
+[item]: #code-ts-option-code

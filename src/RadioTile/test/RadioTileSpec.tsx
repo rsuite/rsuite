@@ -65,41 +65,41 @@ describe('RadioTile', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
 
-    render(<RadioTile onClick={onClickSpy}>Title</RadioTile>);
+    render(<RadioTile onClick={onClick}>Title</RadioTile>);
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onClickSpy).to.have.been.calledOnce;
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChangeSpy = sinon.spy();
+    const onChange = sinon.spy();
     render(
-      <RadioTile onChange={onChangeSpy} value="100">
+      <RadioTile onChange={onChange} value="100">
         Title
       </RadioTile>
     );
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onChangeSpy).to.have.been.calledWith('100');
+    expect(onChange).to.have.been.calledWith('100');
   });
 
   it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
+    const onBlur = sinon.spy();
 
-    render(<RadioTile onBlur={onBlurSpy}>Title</RadioTile>);
+    render(<RadioTile onBlur={onBlur}>Title</RadioTile>);
     fireEvent.blur(screen.getByRole('radio'));
 
-    expect(onBlurSpy).to.have.been.calledOnce;
+    expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = sinon.spy();
+    const onFocus = sinon.spy();
 
-    render(<RadioTile onFocus={onFocusSpy}>Title</RadioTile>);
+    render(<RadioTile onFocus={onFocus}>Title</RadioTile>);
     fireEvent.focus(screen.getByRole('radio'));
 
-    expect(onFocusSpy).to.have.been.calledOnce;
+    expect(onFocus).to.have.been.calledOnce;
   });
 });

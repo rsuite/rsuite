@@ -6,7 +6,7 @@ import PageIcon from '@rsuite/icons/Page';
 import CascadeTree from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
-import type { ItemDataType } from '@/internals/types';
+import type { Option } from '@/internals/types';
 import '../styles/index.less';
 
 const data = mockTreeData({
@@ -83,8 +83,8 @@ export const AsyncLoadData: Story = {
     ...defaultArgs,
     columnWidth: 180,
     data: getNodes(5) as any,
-    getChildren: (node: ItemDataType<any>) => {
-      return fetchNodes(node.id) as Promise<ItemDataType<string>>[];
+    getChildren: (node: Option<any>) => {
+      return fetchNodes(node.id) as Promise<Option<string>>[];
     },
     renderTreeNode: (label, item) => {
       return (

@@ -31,9 +31,15 @@ import {
 } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
 import type { ListProps } from '@/internals/Windowing';
-import type { FormControlPickerProps, ItemDataType } from '@/internals/types';
+import type {
+  FormControlPickerProps,
+  Option,
+  ListboxProps,
+  PopupProps,
+  DeprecatedMenuProps
+} from '@/internals/types';
 
-export interface SelectProps<T> {
+export interface SelectProps<T> extends ListboxProps, PopupProps, DeprecatedMenuProps {
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -49,29 +55,16 @@ export interface SelectProps<T> {
   listProps?: Partial<ListProps>;
 
   /** Custom search rules. */
-  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
+  searchBy?: (keyword: string, label: React.ReactNode, item: Option) => boolean;
 
   /** Sort options */
   sort?: (isGroup: boolean) => (a: any, b: any) => number;
 
-  /** Customizing the Rendering Menu list */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /** Custom render menuItems */
-  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
-  /** Custom render menu group */
-  renderMenuGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
   /** Custom render selected items */
-  renderValue?: (
-    value: T,
-    item: ItemDataType<T>,
-    selectedElement: React.ReactNode
-  ) => React.ReactNode;
+  renderValue?: (value: T, item: Option<T>, selectedElement: React.ReactNode) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => void;
+  onSelect?: (value: any, item: Option<T>, event: React.SyntheticEvent) => void;
 
   /** Called after clicking the group title */
   onGroupTitleClick?: (event: React.SyntheticEvent) => void;
@@ -85,7 +78,7 @@ export interface SelectProps<T> {
 
 export interface SelectPickerProps<T = any>
   extends Omit<
-      FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+      FormControlPickerProps<T, PickerLocale, Option<T>>,
       'value' | 'defaultValue' | 'onChange'
     >,
     SelectProps<T>,
@@ -127,10 +120,10 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       disabled,
       cleanable = true,
       placement = 'bottomStart',
-      menuClassName,
-      menuAutoWidth = true,
-      menuMaxHeight = 320,
-      menuStyle,
+      popupClassName,
+      popupAutoWidth = true,
+      popupStyle,
+      listboxMaxHeight = 320,
       groupBy,
       locale,
       toggleAs,
@@ -150,9 +143,9 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       onSearch,
       sort,
       renderValue,
-      renderMenu,
-      renderMenuGroup,
-      renderMenuItem,
+      renderListbox,
+      renderOptionGroup,
+      renderOption,
       renderExtraFooter,
       ...rest
     } = propsWithDefaults;
@@ -179,11 +172,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
       labelKey,
       searchBy,
-      callback: (
-        searchKeyword: string,
-        filteredData: ItemDataType[],
-        event: React.SyntheticEvent
-      ) => {
+      callback: (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
@@ -198,7 +187,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const handleSelect = useEventCallback(
-      (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
+      (value: any, item: Option<T>, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
         target.current?.focus();
       }
@@ -214,9 +203,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       }
 
       // Find active `MenuItem` by `value`
-      const focusItem = data.find(item =>
-        shallowEqual(item[valueKey], focusItemValue)
-      ) as ItemDataType;
+      const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue)) as Option;
 
       setValue(focusItemValue);
       handleSelect(focusItemValue, focusItem, event);
@@ -225,7 +212,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const handleItemSelect = useEventCallback(
-      (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
+      (value: any, item: Option, event: React.SyntheticEvent) => {
         setValue(value);
         setFocusItemValue(value);
 
@@ -287,7 +274,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem as ItemDataType<T>, selectedElement);
+      selectedElement = renderValue(value, activeItem as Option<T>, selectedElement);
       // If renderValue returns null or undefined, hasValue is false.
       if (isNil(selectedElement)) {
         hasValue = false;
@@ -296,7 +283,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('select-menu'));
+      const classes = merge(className, popupClassName, prefix('select-menu'));
       let items = filteredData;
 
       // Create a tree structure data when set `groupBy`
@@ -306,16 +293,16 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         items = items.sort(sort(false));
       }
 
-      const menu = items.length ? (
+      const listbox = items.length ? (
         <Listbox
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
-          renderMenuGroup={renderMenuGroup}
-          renderMenuItem={renderMenuItem}
-          maxHeight={menuMaxHeight}
+          renderOptionGroup={renderOptionGroup}
+          renderOption={renderOption}
+          maxHeight={listboxMaxHeight}
           classPrefix={'picker-select-menu'}
           listItemClassPrefix={'picker-select-menu-item'}
           listItemAs={ListItem}
@@ -335,9 +322,9 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
-          autoWidth={menuAutoWidth}
+          autoWidth={popupAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={popupStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >
@@ -350,7 +337,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
             />
           )}
 
-          {renderMenu ? renderMenu(menu) : menu}
+          {renderListbox ? renderListbox(listbox) : listbox}
           {renderExtraFooter?.()}
         </PickerPopup>
       );

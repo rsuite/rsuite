@@ -94,11 +94,11 @@ describe('<Dropdown.Item>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <Dropdown>
-        <DropdownItem onSelect={onSelectSpy} eventKey="ABC" data-testid="item">
+        <DropdownItem onSelect={onSelect} eventKey="ABC" data-testid="item">
           Title
         </DropdownItem>
       </Dropdown>
@@ -106,15 +106,15 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onSelectSpy).to.have.been.calledWith('ABC');
+    expect(onSelect).to.have.been.calledWith('ABC');
   });
 
   it('Should call onClick callback', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
 
     render(
       <Dropdown>
-        <DropdownItem onClick={onClickSpy} data-testid="item">
+        <DropdownItem onClick={onClick} data-testid="item">
           Title
         </DropdownItem>
       </Dropdown>
@@ -122,7 +122,7 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onClickSpy).to.have.been.called;
+    expect(onClick).to.have.been.called;
   });
 
   it('Should have a custom className', () => {

@@ -114,7 +114,7 @@
 | onExiting               | () => void                                                                                    | 退出中动画过渡的回调                   |
 | onExpand                | (expandItemValues: string[], node:[TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                     |
 | onOpen                  | () => void                                                                                    | 打开弹出层的回调                       |
-| onSearch                | (searchKeyword:string, event) => void                                                         | 搜索回调函数                           |
+| onSearch                | (search:string, event) => void                                                                | 搜索回调函数                           |
 | onSelect                | (node:[TreeNode][node], value: string, event) => void                                         | 选择树节点后的回调函数                 |
 | open                    | boolean                                                                                       | 打开弹出层（受控）                     |
 | placeholder             | ReactNode `('Select')`                                                                        | 没有值时的占位内容                     |
@@ -125,7 +125,7 @@
 | renderTree              | (tree: ReactNode) => ReactNode                                                                | 自定义渲染树                           |
 | renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | 自定义渲染图标                         |
 | renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | 自定义渲染树节点                       |
-| renderValue             | (value:string, node:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | 自定义渲染选中的值                     |
+| renderValue             | (value:string, node:[TreeNode][node], selected:ReactNode) => ReactNode                        | 自定义渲染选中的值                     |
 | searchable              | boolean `(true)`                                                                              | 是否可以搜索                           |
 | searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | 自定义搜索方法                         |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | 设置组件尺寸                           |

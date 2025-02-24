@@ -213,12 +213,12 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
-    render(<SelectPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />);
+    const onClean = sinon.spy();
+    render(<SelectPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onCleanSpy).to.calledOnce;
+    expect(onClean).to.calledOnce;
   });
 
   it('Should not output a search bar', () => {
@@ -234,14 +234,14 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
-    const onSearchSpy = sinon.spy();
-    render(<SelectPicker defaultOpen onSearch={onSearchSpy} data={data} />);
+    const onSearch = sinon.spy();
+    render(<SelectPicker defaultOpen onSearch={onSearch} data={data} />);
 
     const input = screen.getByRole('searchbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearchSpy).to.have.been.calledWith('a');
+    expect(onSearch).to.have.been.calledWith('a');
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
@@ -388,12 +388,12 @@ describe('SelectPicker', () => {
   });
 
   it('Should call onSearch when closed', async () => {
-    const onSearchSpy = sinon.spy();
+    const onSearch = sinon.spy();
     const handleClose = sinon.spy();
     render(
       <>
         <button data-testid="exit">exit</button>
-        <SelectPicker onClose={handleClose} defaultOpen onSearch={onSearchSpy} data={data} />
+        <SelectPicker onClose={handleClose} defaultOpen onSearch={onSearch} data={data} />
       </>
     );
     const exit = screen.getByTestId('exit') as HTMLElement;
@@ -402,8 +402,8 @@ describe('SelectPicker', () => {
     fireEvent.mouseDown(exit, { bubbles: true });
 
     await waitFor(() => {
-      expect(onSearchSpy).to.calledOnce;
-      expect(onSearchSpy.firstCall.firstArg).to.equal('');
+      expect(onSearch).to.calledOnce;
+      expect(onSearch.firstCall.firstArg).to.equal('');
     });
   });
 

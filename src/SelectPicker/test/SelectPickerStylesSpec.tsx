@@ -55,7 +55,7 @@ describe('SelectPicker styles', () => {
       }
     ];
 
-    render(<SelectPicker groupBy="role" data={data} menuClassName="group-test-menu" open />);
+    render(<SelectPicker groupBy="role" data={data} open />);
 
     const groups = screen.getAllByRole('group');
 

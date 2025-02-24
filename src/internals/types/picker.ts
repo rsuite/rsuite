@@ -13,20 +13,20 @@ import type { AnimationEventProps } from './animation';
 import type { SizeType, WithAsProps } from './shared';
 import type { PickerHandle } from '@/internals/Picker/types';
 
-export interface ItemDataType<T = number | string> extends Record<string, any> {
+export interface Option<T = number | string> extends Record<string, any> {
   label?: string | ReactNode;
   value?: T;
   groupBy?: string;
-  parent?: ItemDataType<T>;
-  children?: ItemDataType<T>[];
+  parent?: Option<T>;
+  children?: Option<T>[];
   loading?: boolean;
 }
 
-export type DataItemValue = number | string | null;
+export type OptionValue = number | string | null;
 
 export type OnChangeCallback<T, E = SyntheticEvent> = (value: T, event: E) => void;
 
-export interface DeprecatedPickerProps {
+export interface DeprecatedMenuProps {
   /**
    * Custom menu class name
    * @deprecated Use `popupClassName` instead
@@ -47,10 +47,41 @@ export interface DeprecatedPickerProps {
   menuAutoWidth?: boolean;
 
   /**
-   * Custom render tree
-   * @deprecated Use `renderTree` instead
+   * Set the width of the menu
+   *
+   * @deprecated Use columnWidth instead
    */
-  renderMenu?: (menu: ReactNode) => ReactNode;
+  menuWidth?: number;
+
+  /**
+   * Set the height of the menu
+   * @deprecated Use columnHeight instead
+   */
+  menuHeight?: number;
+
+  /**
+   * Set the max height of the menu
+   * @deprecated Use `listboxMaxHeight` instead
+   */
+  menuMaxHeight?: number;
+
+  /**
+   * Custom render menu
+   * @deprecated For TreePicker and CheckTreePicker, use `renderTree` instead. For Cascader and MultiCascader, use `renderColumn` instead.
+   */
+  renderMenu?: any;
+
+  /**
+   * Custom render menu item
+   * @deprecated Use renderTreeNode or renderOption instead
+   */
+  renderMenuItem?: any;
+
+  /**
+   * Custom render menu group
+   * @deprecated Use renderOptionGroup instead
+   */
+  renderMenuGroup?: any;
 }
 
 export type PickerAppearance = 'default' | 'subtle';
@@ -83,7 +114,7 @@ export interface DataProps<TData> {
   childrenKey?: string;
 }
 
-export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventProps {
+export interface PickerBaseProps<L = any> extends PopupProps, WithAsProps, AnimationEventProps {
   id?: string;
 
   /**
@@ -111,18 +142,6 @@ export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventPro
 
   /** You can use a custom element for this component */
   toggleAs?: ElementType;
-
-  /** A CSS class to apply to the Menu DOM node. */
-  menuClassName?: string;
-
-  /** A style to apply to the Menu DOM node. */
-  menuStyle?: CSSProperties;
-
-  /** Picker menu auto width */
-  menuAutoWidth?: boolean;
-
-  /** Picker menu max Height */
-  menuMaxHeight?: number;
 
   /** Placeholder text */
   placeholder?: ReactNode;
@@ -173,4 +192,32 @@ export interface FormControlPickerProps<T = any, L = any, D = Record<string, any
    * Disabled items
    */
   disabledItemValues?: ToArray<NonNullable<I>>;
+}
+
+export interface PopupProps {
+  /** Custom CSS class for the popup */
+  popupClassName?: string;
+
+  /** Custom inline styles for the popup */
+  popupStyle?: React.CSSProperties;
+
+  /** Whether the popup should automatically adjust its width */
+  popupAutoWidth?: boolean;
+}
+
+/**
+ * Properties for the Listbox component.
+ */
+export interface ListboxProps {
+  /** Maximum height of the listbox */
+  listboxMaxHeight?: number;
+
+  /** Custom render function for the entire listbox */
+  renderListbox?: (menu: React.ReactNode) => React.ReactNode;
+
+  /** Custom render function for individual options */
+  renderOption?: (label: React.ReactNode, item: Option) => React.ReactNode;
+
+  /** Custom render function for option groups */
+  renderOptionGroup?: (title: React.ReactNode, item: Option) => React.ReactNode;
 }

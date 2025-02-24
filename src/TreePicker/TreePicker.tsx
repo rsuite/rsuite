@@ -28,13 +28,13 @@ import {
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { TreeNode } from '@/internals/Tree/types';
 import { useCustom } from '../CustomProvider';
-import type { FormControlPickerProps, DeprecatedPickerProps } from '@/internals/types';
+import type { FormControlPickerProps, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export interface TreePickerProps<V = number | string | null>
   extends TreeViewProps<V>,
     TreeExtraProps,
-    DeprecatedPickerProps,
+    DeprecatedMenuProps,
     FormControlPickerProps<V, PickerLocale, TreeNode>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
@@ -45,16 +45,6 @@ export interface TreePickerProps<V = number | string | null>
     selectedNode: TreeNode,
     selectedElement: React.ReactNode
   ) => React.ReactNode;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
 
   /**
    * The height of the tree
@@ -98,13 +88,10 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     searchKeyword,
     searchable = true,
     showIndentLine,
-    menuClassName: DEPRECATED_menuClassName,
-    menuStyle: DEPRECATED_menuStyle,
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
     treeHeight = 320,
-    menuAutoWidth = popupAutoWidth,
     valueKey = 'value',
     virtualized = false,
     value: controlledValue,
@@ -122,8 +109,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     onExit,
     onEntered,
     renderValue,
-    renderMenu: DEPRECATED_renderMenu,
-    renderTree = DEPRECATED_renderMenu,
+    renderTree,
     renderTreeIcon,
     renderTreeNode,
     renderExtraFooter,
@@ -256,14 +242,13 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
-    const classes = merge(className, DEPRECATED_menuClassName, popupClassName, prefix('tree-menu'));
-    const mergedMenuStyle = { ...DEPRECATED_menuStyle, ...popupStyle };
+    const classes = merge(className, popupClassName, prefix('tree-menu'));
 
     return (
       <PickerPopup
-        autoWidth={menuAutoWidth}
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={mergedMenuStyle}
+        style={popupStyle}
         ref={mergeRefs(overlay, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={trigger}

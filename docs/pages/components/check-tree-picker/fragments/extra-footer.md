@@ -43,7 +43,16 @@ const App = () => {
 };
 
 const ExtraFooter = ({ children }) => {
-  return <div style={{ borderTop: '1px solid #e5e5e5', padding: '10px 2px' }}>{children}</div>;
+  return (
+    <div
+      style={{
+        borderTop: '1px solid #e5e5e5',
+        padding: 12
+      }}
+    >
+      {children}
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

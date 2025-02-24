@@ -29,7 +29,7 @@ const App = () => (
   <AutoComplete
     data={data}
     style={{ width: 224 }}
-    renderMenuItem={item => {
+    renderOption={item => {
       return (
         <div>
           <MemberIcon /> {item}

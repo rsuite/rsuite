@@ -25,7 +25,13 @@ describe('CheckTreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(CheckTreePicker, { virtualized: true, ariaHaspopup: 'tree', popupAutoWidth: true });
+
+  testPickers(CheckTreePicker, {
+    virtualized: true,
+    ariaHaspopup: 'tree',
+    popupAutoWidth: true
+  });
+
   testControlledUnControlled(CheckTreePicker, {
     componentProps: {
       data: controlledData,
@@ -242,34 +248,34 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
+    const onClean = sinon.spy();
     render(
-      <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onCleanSpy} />
+      <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onClean} />
     );
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }) as HTMLElement);
 
-    expect(onCleanSpy).to.calledOnce;
+    expect(onClean).to.calledOnce;
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpenSpy = sinon.spy();
-    render(<CheckTreePicker onOpen={onOpenSpy} data={data} />);
+    const onOpen = sinon.spy();
+    render(<CheckTreePicker onOpen={onOpen} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
-    expect(onOpenSpy).to.calledOnce;
+    expect(onOpen).to.calledOnce;
   });
 
   it('Should call `onClose` callback', async () => {
-    const onCloseSpy = sinon.spy();
-    render(<CheckTreePicker onClose={onCloseSpy} data={data} />);
+    const onClose = sinon.spy();
+    render(<CheckTreePicker onClose={onClose} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
     await waitFor(() => {
-      expect(onCloseSpy).to.calledOnce;
+      expect(onClose).to.calledOnce;
     });
   });
 

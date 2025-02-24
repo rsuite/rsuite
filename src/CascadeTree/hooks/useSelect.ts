@@ -2,20 +2,18 @@ import { useState } from 'react';
 import { useSet } from 'react-use-set';
 import { useEventCallback, useIsMounted } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
-import { type ItemDataType } from '@/internals/types';
-import { type SelectNode } from '../types';
+import type { Option } from '@/internals/types';
+import type { SelectNode } from '../types';
 
 export interface UseSelectProps<T> {
   value?: T | null;
   valueKey: string;
   childrenKey: string;
-  selectedItem?: ItemDataType<T>;
+  selectedItem?: Option<T>;
   childrenMap: any;
   onSelect?: (node: SelectNode<T>, event: React.SyntheticEvent) => void;
   onChange?: (value: T, event: React.SyntheticEvent) => void;
-  getChildren?: (
-    node: ItemDataType<T>
-  ) => readonly ItemDataType<T>[] | Promise<readonly ItemDataType<T>[]>;
+  getChildren?: (node: Option<T>) => readonly Option<T>[] | Promise<readonly Option<T>[]>;
 }
 
 /**
@@ -34,7 +32,7 @@ const useSelect = <T>(props: UseSelectProps<T>) => {
   } = props;
 
   // The item that focus is on
-  const [activeItem, setActiveItem] = useState<ItemDataType<T> | undefined>(selectedItem);
+  const [activeItem, setActiveItem] = useState<Option<T> | undefined>(selectedItem);
   const isMounted = useIsMounted();
 
   const loadingItemsSet = useSet();
@@ -55,7 +53,7 @@ const useSelect = <T>(props: UseSelectProps<T>) => {
       const children = getChildren(itemData);
 
       if (children instanceof Promise) {
-        children.then((data: readonly ItemDataType<T>[]) => {
+        children.then((data: readonly Option<T>[]) => {
           if (isMounted()) {
             loadingItemsSet.delete(itemData);
             childrenMap.set(itemData, data);

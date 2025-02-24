@@ -7,7 +7,7 @@ import { flattenTree } from '../Tree/utils';
 import { useMap, useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
 import { useSearch, useSelect, usePaths } from './hooks';
 import { useCustom } from '../CustomProvider';
-import type { ItemDataType, DataItemValue } from '@/internals/types';
+import type { Option, OptionValue } from '@/internals/types';
 import type { CascadeTreeProps } from './types';
 import type { SelectNode } from './types';
 
@@ -22,7 +22,7 @@ export interface CascadeTreeComponent {
  * @see https://rsuitejs.com/components/cascade-tree
  */
 const CascadeTree = forwardRef<'div', CascadeTreeProps>(
-  <T extends DataItemValue>(props: CascadeTreeProps<T>, ref) => {
+  <T extends OptionValue>(props: CascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('CascadeTree', props);
     const {
       as: Component = 'div',
@@ -55,7 +55,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
     ];
 
     // Store the children of each node
-    const childrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+    const childrenMap = useMap<Option<T>, readonly Option<T>[]>();
 
     // Store the parent of each node
     const parentMap = useMemo(
@@ -107,8 +107,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
     const classes = merge(className, withClassPrefix());
 
     const onSearchCallback = useCallback(
-      (value: string, _items: ItemDataType<T>[], event: React.SyntheticEvent) =>
-        onSearch?.(value, event),
+      (value: string, _items: Option<T>[], event: React.SyntheticEvent) => onSearch?.(value, event),
       [onSearch]
     );
 
@@ -121,7 +120,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
     });
 
     const handleSearchRowSelect = useEventCallback(
-      (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => {
+      (item: Option<T>, items: Option<T>[], event: React.MouseEvent) => {
         const node = {
           itemData: item,
           cascadePaths: items,

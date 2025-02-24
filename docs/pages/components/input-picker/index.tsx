@@ -1,9 +1,8 @@
 import React from 'react';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
-import { InputPicker, Button, VStack, HStack } from 'rsuite';
+import { InputPicker, Button, VStack, HStack, Loader } from 'rsuite';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 
 const mockfile = {
@@ -30,7 +29,7 @@ export default function Page() {
         Button,
         VStack,
         HStack,
-        SpinnerIcon,
+        Loader,
         mockUsers,
         FaUserGroup,
         FaUser

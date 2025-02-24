@@ -51,28 +51,28 @@ MultiCascadeTree 是一个按列显示树形结构数据的组件，支持多选
 
 ### `<MultiCascadeTree>`
 
-| 属性                  | 类型`(默认值)`                                                                     | 描述                                       |
-| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------ |
-| cascade               | boolean `(true)`                                                                   | 确定选择是否在父节点与子节点之间双向级联。 |
-| childrenKey           | string `('children')`                                                              | 定义用于访问子节点的键。                   |
-| classPrefix           | string `('multi-cascade-tree')`                                                    | 设置组件的 CSS 类前缀。                    |
-| columnHeight          | number                                                                             | 指定每列的高度。                           |
-| columnWidth           | number                                                                             | 指定每列的宽度。                           |
-| data \*               | [ItemDataType][item][]                                                             | 定义组件使用的数据结构。                   |
-| defaultValue          | string[]                                                                           | 指定默认选中的值。                         |
-| disabledItemValues    | string[]                                                                           | 定义应禁用的项目。                         |
-| getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子节点。                   |
-| labelKey              | string `('label')`                                                                 | 定义用于访问标签的键。                     |
-| onChange              | (value: string[], event) => void                                                   | 当选中的值更改时触发的回调函数。           |
-| onSearch              | (value: string, event) => void                                                     | 当搜索值更改时触发的回调函数。             |
-| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | 当项目被选中时触发的回调函数。             |
-| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | 自定义每列的渲染。                         |
-| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义每个树节点的渲染。                   |
-| searchable            | boolean                                                                            | 确定是否启用搜索功能。                     |
-| uncheckableItemValues | string[]                                                                           | 指定无法选中的项目。                       |
-| value                 | string[]                                                                           | 定义当前选中的值（受控组件）。             |
-| valueKey              | string `('value')`                                                                 | 定义用于访问值的键。                       |
+| 属性                  | 类型`(默认值)`                                                            | 描述                                       |
+| --------------------- | ------------------------------------------------------------------------- | ------------------------------------------ |
+| cascade               | boolean `(true)`                                                          | 确定选择是否在父节点与子节点之间双向级联。 |
+| childrenKey           | string `('children')`                                                     | 定义用于访问子节点的键。                   |
+| classPrefix           | string `('multi-cascade-tree')`                                           | 设置组件的 CSS 类前缀。                    |
+| columnHeight          | number                                                                    | 指定每列的高度。                           |
+| columnWidth           | number                                                                    | 指定每列的宽度。                           |
+| data \*               | [Option][item][]                                                          | 定义组件使用的数据结构。                   |
+| defaultValue          | string[]                                                                  | 指定默认选中的值。                         |
+| disabledItemValues    | string[]                                                                  | 定义应禁用的项目。                         |
+| getChildren           | (item: [Option][item]) => Promise&lt;[Option][item][]&gt;                 | 异步加载树节点的子节点。                   |
+| labelKey              | string `('label')`                                                        | 定义用于访问标签的键。                     |
+| onChange              | (value: string[], event) => void                                          | 当选中的值更改时触发的回调函数。           |
+| onSearch              | (value: string, event) => void                                            | 当搜索值更改时触发的回调函数。             |
+| onSelect              | (item: [Option][item], selectedPaths: [Option][item][], event) => void    | 当项目被选中时触发的回调函数。             |
+| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode | 自定义每列的渲染。                         |
+| renderTreeNode        | (node: ReactNode, item: [Option][item]) => ReactNode                      | 自定义每个树节点的渲染。                   |
+| searchable            | boolean                                                                   | 确定是否启用搜索功能。                     |
+| uncheckableItemValues | string[]                                                                  | 指定无法选中的项目。                       |
+| value                 | string[]                                                                  | 定义当前选中的值（受控组件）。             |
+| valueKey              | string `('value')`                                                        | 定义用于访问值的键。                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 
-[item]: #code-ts-item-data-type-code
+[item]: #code-ts-option-code

@@ -142,23 +142,23 @@ describe('Whisper', () => {
   });
 
   it('Should pass transition callbacks to Transition', async () => {
-    const onExitSpy = sinon.spy();
-    const onExitingSpy = sinon.spy();
-    const onExitedSpy = sinon.spy();
-    const onEnterSpy = sinon.spy();
-    const onEnteringSpy = sinon.spy();
-    const onEnteredSpy = sinon.spy();
+    const onExit = sinon.spy();
+    const onExiting = sinon.spy();
+    const onExited = sinon.spy();
+    const onEnter = sinon.spy();
+    const onEntering = sinon.spy();
+    const onEntered = sinon.spy();
 
     render(
       <Whisper
         trigger="click"
         speaker={<Tooltip>test</Tooltip>}
-        onExit={onExitSpy}
-        onExiting={onExitingSpy}
-        onExited={onExitedSpy}
-        onEnter={onEnterSpy}
-        onEntering={onEnteringSpy}
-        onEntered={onEnteredSpy}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={onExited}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={onEntered}
       >
         <button data-testid="btn">button</button>
       </Whisper>
@@ -167,17 +167,17 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
-      expect(onEnterSpy).to.called;
-      expect(onEnteringSpy).to.called;
-      expect(onEnteredSpy).to.called;
+      expect(onEnter).to.called;
+      expect(onEntering).to.called;
+      expect(onEntered).to.called;
     });
 
     fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
-      expect(onExitSpy).to.called;
-      expect(onExitingSpy).to.called;
-      expect(onExitedSpy).to.called;
+      expect(onExit).to.called;
+      expect(onExiting).to.called;
+      expect(onExited).to.called;
     });
   });
 
@@ -203,12 +203,12 @@ describe('Whisper', () => {
       }
     );
 
-    const onExitedSpy = sinon.spy();
+    const onExited = sinon.spy();
 
     render(
       <Whisper
         ref={ref}
-        onExited={onExitedSpy}
+        onExited={onExited}
         trigger="click"
         speaker={(props, ref) => {
           const { className, left, top, onClose } = props;
@@ -225,7 +225,7 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     await waitFor(() => {
-      expect(onExitedSpy).to.called;
+      expect(onExited).to.called;
     });
   });
 });

@@ -1066,45 +1066,6 @@ describe('DatePicker', () => {
   });
 
   describe('Disable Date, Hour, Minute, Second', () => {
-    it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
-      render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
-
-      expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-    });
-
-    it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
-      render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
-
-      expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-    });
-    it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
-      render(
-        <DatePicker
-          calendarDefaultDate={new Date(2023, 2, 7)}
-          disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
-          open
-        />
-      );
-      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-        'rs-calendar-table-cell-disabled'
-      );
-    });
-
-    it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
-      render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
-
-      expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-    });
-
     it('Should disable date cells according to `shouldDisableDate`', () => {
       const onSelect = sinon.spy();
       render(

@@ -1,10 +1,9 @@
 import React from 'react';
-import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack } from 'rsuite';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -36,11 +35,11 @@ export default function Page() {
         CheckTreePicker,
         Button,
         Toggle,
-        SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
         VStack,
         HStack,
+        Loader,
         mockTreeData,
         mockAsyncData
       }}

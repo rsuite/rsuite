@@ -148,7 +148,7 @@ describe('picker -  Listbox', () => {
         groupBy="groupKey"
         classPrefix={classPrefix}
         data={items}
-        renderMenuItem={item => <i>{item}</i>}
+        renderOption={item => <i>{item}</i>}
         listItemAs={ListItem}
       />
     );
@@ -162,7 +162,7 @@ describe('picker -  Listbox', () => {
         groupBy="groupKey"
         classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
-        renderMenuGroup={item => <i>{item}</i>}
+        renderOptionGroup={item => <i>{item}</i>}
         listItemAs={ListItem}
       />
     );

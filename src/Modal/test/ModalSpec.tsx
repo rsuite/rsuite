@@ -73,11 +73,11 @@ describe('Modal', () => {
   });
 
   it('Should call onExited callback', async () => {
-    const onExitedSpy = sinon.spy();
+    const onExited = sinon.spy();
     const App = () => {
       const [open, setOpen] = React.useState(true);
       return (
-        <Modal open={open} onClose={() => setOpen(false)} onExited={onExitedSpy}>
+        <Modal open={open} onClose={() => setOpen(false)} onExited={onExited}>
           <Modal.Header />
         </Modal>
       );
@@ -88,12 +88,12 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     await waitFor(() => {
-      expect(onExitedSpy).to.have.been.calledOnce;
+      expect(onExited).to.have.been.calledOnce;
     });
   });
 
   it('Should call onOpen callback', () => {
-    const onOpenSpy = sinon.spy();
+    const onOpen = sinon.spy();
     type AppInstance = {
       openModal: () => void;
     };
@@ -107,7 +107,7 @@ describe('Modal', () => {
       }));
 
       return (
-        <Modal {...props} onOpen={onOpenSpy} open={open}>
+        <Modal {...props} onOpen={onOpen} open={open}>
           <Modal.Header />
         </Modal>
       );
@@ -119,7 +119,7 @@ describe('Modal', () => {
       (ref.current as AppInstance).openModal();
     });
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should call onClose callback by Esc', () => {

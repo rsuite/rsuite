@@ -1,5 +1,5 @@
 import type { CascadeTreeProps } from '../CascadeTree/types';
-import type { ItemDataType, ToArray, WithAsProps } from '@/internals/types';
+import type { Option, ToArray, WithAsProps } from '@/internals/types';
 
 export interface ItemKeys {
   valueKey: string;
@@ -33,10 +33,5 @@ export interface MultiCascadeTreeProps<T = any, V = T[], L = any>
   /**
    * Called after the checkbox state changes.
    */
-  onCheck?: (
-    value: T[],
-    node: ItemDataType<T>,
-    checked: boolean,
-    event: React.SyntheticEvent
-  ) => void;
+  onCheck?: (value: T[], node: Option<T>, checked: boolean, event: React.SyntheticEvent) => void;
 }

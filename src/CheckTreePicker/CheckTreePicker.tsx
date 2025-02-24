@@ -31,34 +31,20 @@ import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode } from '@/internals/Tree/types';
-import type {
-  FormControlPickerProps,
-  ItemDataType,
-  DeprecatedPickerProps
-} from '@/internals/types';
+import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<V = ValueType>
   extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
     TreeExtraProps,
-    DeprecatedPickerProps,
-    FormControlPickerProps<V, PickerLocale, ItemDataType>,
+    DeprecatedMenuProps,
+    FormControlPickerProps<V, PickerLocale, Option>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
    */
   countable?: boolean;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
 
   /**
    * The height of the tree
@@ -112,9 +98,6 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     placement = 'bottomStart',
     treeHeight = 320,
     toggleAs,
-    menuAutoWidth = popupAutoWidth,
-    menuClassName: DEPRECATED_menuClassName,
-    menuStyle: DEPRECATED_menuStyle,
     style,
     searchBy,
     searchKeyword,
@@ -139,8 +122,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     onScroll,
     onExpand,
     renderValue,
-    renderMenu: DEPRECATED_renderMenu,
-    renderTree = DEPRECATED_renderMenu,
+    renderTree,
     renderTreeIcon,
     renderTreeNode,
     ...rest
@@ -258,20 +240,13 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
-    const classes = classNames(
-      className,
-      popupClassName,
-      DEPRECATED_menuClassName,
-      prefix('check-tree-menu')
-    );
-    const mergedMenuStyle = { ...popupStyle, ...DEPRECATED_menuStyle };
-
+    const classes = classNames(className, popupClassName, prefix('check-tree-menu'));
     return (
       <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
-        autoWidth={menuAutoWidth}
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={mergedMenuStyle}
+        style={popupStyle}
         onKeyDown={onPickerKeydown}
         target={trigger}
       >

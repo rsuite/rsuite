@@ -68,15 +68,15 @@ describe('Toggle', () => {
 
   describe('onChange', () => {
     it('Should call onChange callback with checked state', () => {
-      const onChangeSpy = sinon.spy();
+      const onChange = sinon.spy();
 
-      const { rerender } = render(<Toggle onChange={onChangeSpy} data-testid="toggle" />);
+      const { rerender } = render(<Toggle onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
-      expect(onChangeSpy).to.have.been.calledWith(true);
+      expect(onChange).to.have.been.calledWith(true);
 
-      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
-      expect(onChangeSpy).to.have.been.calledWith(false);
+      expect(onChange).to.have.been.calledWith(false);
     });
 
     it('Should emit ChangeEvent with correct target name, type and checked state', () => {
@@ -102,51 +102,51 @@ describe('Toggle', () => {
     });
 
     it('Should toggle with the Space key', async () => {
-      const onChangeSpy = sinon.spy();
+      const onChange = sinon.spy();
 
-      const { rerender } = render(<Toggle onChange={onChangeSpy} data-testid="toggle" />);
+      const { rerender } = render(<Toggle onChange={onChange} data-testid="toggle" />);
       screen.getByRole('switch').focus();
       userEvent.keyboard(' ');
 
       await waitFor(() => {
-        expect(onChangeSpy).to.have.been.calledWith(true);
+        expect(onChange).to.have.been.calledWith(true);
       });
 
-      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChange} data-testid="toggle" />);
 
       screen.getByRole('switch').focus();
       userEvent.keyboard(' ');
 
       await waitFor(() => {
-        expect(onChangeSpy).to.have.been.calledWith(false);
+        expect(onChange).to.have.been.calledWith(false);
       });
     });
 
     it('Should not call `onChange` callback when disabled', () => {
-      const onChangeSpy = sinon.spy();
+      const onChange = sinon.spy();
 
-      render(<Toggle disabled onChange={onChangeSpy} data-testid="toggle" />);
+      render(<Toggle disabled onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChangeSpy).not.to.have.been.called;
+      expect(onChange).not.to.have.been.called;
     });
 
     it('Should not call `onChange` callback when readOnly', () => {
-      const onChangeSpy = sinon.spy();
+      const onChange = sinon.spy();
 
-      render(<Toggle readOnly onChange={onChangeSpy} data-testid="toggle" />);
+      render(<Toggle readOnly onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChangeSpy).not.to.have.been.called;
+      expect(onChange).not.to.have.been.called;
     });
 
     it('Should not call `onChange` callback when loading', () => {
-      const onChangeSpy = sinon.spy();
+      const onChange = sinon.spy();
 
-      render(<Toggle loading onChange={onChangeSpy} data-testid="toggle" />);
+      render(<Toggle loading onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChangeSpy).not.to.have.been.called;
+      expect(onChange).not.to.have.been.called;
     });
   });
 

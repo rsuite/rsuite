@@ -281,7 +281,6 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       defaultValue,
       plaintext,
       disabled,
-      disabledDate: DEPRECATED_disabledDate,
       shouldDisableDate,
       shouldDisableHour,
       shouldDisableMinute,
@@ -296,8 +295,8 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       locale,
       loading,
       label,
-      menuClassName,
-      menuStyle,
+      popupClassName,
+      popupStyle,
       oneTap,
       placeholder = '',
       placement = 'bottomStart',
@@ -305,8 +304,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       readOnly,
       showOneCalendar = false,
       showWeekNumbers,
-      showMeridian: DEPRECATED_showMeridian,
-      showMeridiem = DEPRECATED_showMeridian,
+      showMeridiem,
       showHeader = true,
       style,
       size,
@@ -769,7 +767,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     /**
      * Check if the date is disabled
      */
-    const isDateDisabled = useDateDisabled({ shouldDisableDate, DEPRECATED_disabledDate });
+    const isDateDisabled = useDateDisabled({ shouldDisableDate });
 
     /**
      * Check if a date range is disabled
@@ -865,7 +863,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
       const { className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('popup-daterange'));
+      const classes = merge(className, popupClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
         'daterange-panel-show-one-calendar': showOneCalendar,
         'daterange-panel-only-time': onlyShowTime
@@ -933,7 +931,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
           className={classes}
           ref={mergeRefs(overlay, speakerRef)}
           target={trigger}
-          style={menuStyle}
+          style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
             <Stack alignItems="flex-start">

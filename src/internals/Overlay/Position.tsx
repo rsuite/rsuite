@@ -21,8 +21,15 @@ import { useUpdateEffect } from '../hooks';
 import type { Placement } from '@/internals/types';
 import type { CursorPosition } from './types';
 
-export const CSS_POSITION_X = '--rs-position-x';
-export const CSS_POSITION_Y = '--rs-position-y';
+const CSS_POSITION_X = '--rs-position-x';
+const CSS_POSITION_Y = '--rs-position-y';
+
+export const getPositionStyle = (x?: number, y?: number) => {
+  return {
+    [CSS_POSITION_X]: x !== undefined ? `${x}px` : undefined,
+    [CSS_POSITION_Y]: y !== undefined ? `${y}px` : undefined
+  };
+};
 
 export interface PositionChildProps {
   className: string;
@@ -122,10 +129,7 @@ const usePosition = (
         if (posi.positionClassName) {
           addClass(overlay, posi.positionClassName);
         }
-        addStyle(overlay, {
-          [CSS_POSITION_X]: `${posi.positionLeft}px`,
-          [CSS_POSITION_Y]: `${posi.positionTop}px`
-        });
+        addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
       } else {
         setPosition(posi);
       }

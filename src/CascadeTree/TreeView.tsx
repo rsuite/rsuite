@@ -10,24 +10,22 @@ import { forwardRef, shallowEqual, mergeRefs } from '@/internals/utils';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
-import type { ItemDataType, WithAsProps, DataProps, ToArray } from '@/internals/types';
+import type { Option, WithAsProps, DataProps, ToArray } from '@/internals/types';
 import type { SelectNode, CascadeColumn } from './types';
 
 type SetLike<T = unknown> = {
   has(value: T): boolean;
 };
 
-export interface TreeViewProps<T = any>
-  extends WithAsProps,
-    Omit<DataProps<ItemDataType<T>>, 'data'> {
-  data?: (readonly ItemDataType<T>[])[];
+export interface TreeViewProps<T = any> extends WithAsProps, Omit<DataProps<Option<T>>, 'data'> {
+  data?: (readonly Option<T>[])[];
   disabledItemValues?: ToArray<NonNullable<T>>;
   activeItemValue?: T | null;
-  loadingItemsSet?: SetLike<ItemDataType<T>>;
-  cascadePaths?: ItemDataType<T>[];
+  loadingItemsSet?: SetLike<Option<T>>;
+  cascadePaths?: Option<T>[];
   columnWidth?: number;
   columnHeight?: number | string;
-  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
+  renderTreeNode?: (node: React.ReactNode, itemData: Option<T>) => React.ReactNode;
   renderColumn?: (childNodes: React.ReactNode, column: CascadeColumn<T>) => React.ReactNode;
   onSelect?: (node: SelectNode<T>, event: React.MouseEvent) => void;
 }
@@ -83,8 +81,8 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     });
   }, [prefix]);
 
-  const getCascadePaths = (layer: number, node: ItemDataType) => {
-    const paths: ItemDataType[] = [];
+  const getCascadePaths = (layer: number, node: Option) => {
+    const paths: Option[] = [];
 
     for (let i = 0; i < data.length && i < layer; i += 1) {
       if (i < layer - 1 && cascadePaths) {

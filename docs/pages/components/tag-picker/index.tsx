@@ -1,8 +1,7 @@
 import React from 'react';
-import { TagPicker, Button, Tag, Checkbox, VStack, HStack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { TagPicker, Button, Tag, Checkbox, VStack, HStack, Loader } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
@@ -34,7 +33,7 @@ export default function Page() {
         Button,
         VStack,
         HStack,
-        SpinnerIcon,
+        Loader,
         FaUserGroup,
         FaUser
       }}

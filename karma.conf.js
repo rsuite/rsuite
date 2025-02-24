@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 /**
  * Run all tests: `npm run tdd`
  * Run all styles tests: `M=styles npm run tdd`

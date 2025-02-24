@@ -46,7 +46,7 @@ const LimitPicker = forwardRef<'div', LimitPickerProps>((props, ref) => {
         data={formatlimitOptions}
         value={limit}
         onChange={onChangeLimit}
-        menuStyle={{ minWidth: 'auto' }}
+        popupStyle={{ minWidth: 'auto' }}
         disabled={disabledPicker}
         container={() => containerRef.current as HTMLDivElement}
       />

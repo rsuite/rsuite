@@ -99,11 +99,11 @@ describe('Calendar-MonthDropdown', () => {
   });
 
   it('Should call `onChangeMonth` callback ', () => {
-    const onChangeMonthSpy = sinon.spy();
+    const onChangeMonth = sinon.spy();
     render(
       <CalendarProvider
         value={{
-          onChangeMonth: onChangeMonthSpy,
+          onChangeMonth: onChangeMonth,
           date: new Date(),
           locale: {},
           isoWeek: false,
@@ -120,7 +120,7 @@ describe('Calendar-MonthDropdown', () => {
       })[0]
     );
 
-    expect(onChangeMonthSpy).to.be.calledOnce;
+    expect(onChangeMonth).to.be.calledOnce;
   });
 
   it('Should disable month', () => {

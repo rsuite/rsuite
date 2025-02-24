@@ -57,15 +57,15 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav>`
 
-| Property    | Type `(Default)`                                                     | Description                                                |
-| ----------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
-| activeKey   | string                                                               | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
-| appearance  | 'default' &#124; 'tabs' &#124; 'subtle' &#124; 'pills' `('default')` | A navigation can have different appearances                |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                             | The contents of the component.                             |
-| classPrefix | string `('nav')`                                                     | The prefix of the component CSS class                      |
-| justified   | boolean                                                              | Justified navigation                                       |
-| onSelect    | (eventKey: string, event) => void                                    | Callback function triggered after selection                |
-| vertical    | boolean                                                              | Stacked navigation                                         |
+| Property    | Type `(Default)`                                         | Description                                                |
+| ----------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| activeKey   | string                                                   | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
+| appearance  | 'default' \| 'tabs' \| 'subtle' \| 'pills' `('default')` | A navigation can have different appearances                |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                 | The contents of the component.                             |
+| classPrefix | string `('nav')`                                         | The prefix of the component CSS class                      |
+| justified   | boolean                                                  | Justified navigation                                       |
+| onSelect    | (eventKey: string, event) => void                        | Callback function triggered after selection                |
+| vertical    | boolean                                                  | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 
@@ -82,12 +82,12 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav.Menu>`
 
-| Property      | Type `(Default)`                               | Description                                                    |
-| ------------- | ---------------------------------------------- | -------------------------------------------------------------- |
-| icon          | ReactElement                                   | Icon of the item that opens the menu                           |
-| noCaret       | boolean `(false)`                              | Whether to hide the caret icon                                 |
-| onClose       | (event: SyntheticEvent) => void                | Callback when menu closes                                      |
-| onOpen        | (event: SyntheticEvent) => void                | Callback when menu opens                                       |
-| onToggle      | (open: boolean, event: SyntheticEvent) => void | Callback when menu opens/closes                                |
-| openDirection | "start"&#124;"end" `("end")`                   | Direction that menu opens towards (only available on submenus) |
-| title         | ReactNode                                      | Content of the item that opens the menu                        |
+| Property      | Type `(Default)`               | Description                                                    |
+| ------------- | ------------------------------ | -------------------------------------------------------------- |
+| icon          | ReactElement                   | Icon of the item that opens the menu                           |
+| noCaret       | boolean `(false)`              | Whether to hide the caret icon                                 |
+| onClose       | (event) => void                | Callback when menu closes                                      |
+| onOpen        | (event) => void                | Callback when menu opens                                       |
+| onToggle      | (open: boolean, event) => void | Callback when menu opens/closes                                |
+| openDirection | "start"\|"end" `("end")`       | Direction that menu opens towards (only available on submenus) |
+| title         | ReactNode                      | Content of the item that opens the menu                        |

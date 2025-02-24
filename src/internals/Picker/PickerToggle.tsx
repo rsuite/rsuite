@@ -8,9 +8,9 @@ import useCombobox from './hooks/useCombobox';
 import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { Placement, DataItemValue } from '@/internals/types';
+import type { Placement, OptionValue } from '@/internals/types';
 
-export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps {
+export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
   hasValue?: boolean;
   cleanable?: boolean;

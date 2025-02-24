@@ -28,13 +28,13 @@
 
 ### `<Notification>`
 
-| Property    | Type `(Default)`                                                   | Description            |
-| ----------- | ------------------------------------------------------------------ | ---------------------- |
-| children \* | ReactNode                                                          | 通知的内容             |
-| closable    | boolean                                                            | 是否显示关闭按钮       |
-| header \*   | string                                                             | 通知的标题             |
-| onClose     | () => void                                                         | 通知被移除后的回调函数 |
-| placement   | [Placement](#code-ts-placement-code)`('topCenter')`                | 通知出现的位置         |
-| type        | 'info' &#124; 'success' &#124; 'warning' &#124; 'error' `('info')` | 通知类型               |
+| Property    | Type `(Default)`                                       | Description            |
+| ----------- | ------------------------------------------------------ | ---------------------- |
+| children \* | ReactNode                                              | 通知的内容             |
+| closable    | boolean                                                | 是否显示关闭按钮       |
+| header \*   | string                                                 | 通知的标题             |
+| onClose     | () => void                                             | 通知被移除后的回调函数 |
+| placement   | [Placement](#code-ts-placement-code)`('topCenter')`    | 通知出现的位置         |
+| type        | 'info' \| 'success' \| 'warning' \| 'error' `('info')` | 通知类型               |
 
 <!--{include:(_common/types/placement-toaster.md)}-->

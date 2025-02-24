@@ -158,7 +158,6 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | limitStartYear        | number                                                 | 相对当前选择日期，设置可选年份下限                                                  |
 | loading               | boolean `(false)`                                      | 是否显示一个加载中状态指示器                                                        |
 | locale                | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)   | 定义本地化设置，使组件文本根据用户地区显示相应语言                                  |
-| menuClassName         | string                                                 | 选项菜单的 className                                                                |
 | monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]             | 月份下拉框属性                                                                      |
 | onChange              | (date: Date) => void                                   | 值改变后的回调函数                                                                  |
 | onChangeCalendarDate  | (date: Date, event) => void                            | 日历日期改变后的回调函数                                                            |
@@ -182,6 +181,8 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | open                  | boolean                                                | 打开 (受控)                                                                         |
 | placeholder           | string                                                 | 没有值时候默认显示内容                                                              |
 | placement             | [Placement](#code-ts-placement-code) `('bottomStart')` | 显示位置                                                                            |
+| popupClassName        | string                                                 | 自定义弹出框的 CSS 类名                                                             |
+| popupStyle            | CSSProperties                                          | 自定义弹出框的样式                                                                  |
 | preventOverflow       | boolean                                                | 防止浮动元素溢出                                                                    |
 | ranges                | [Range[]](#code-ts-range-code)                         | 快捷项配置                                                                          |
 | renderCell            | (date: Date) => ReactNode                              | 自定义渲染日历单元格 <br/>![][5.54.0]                                               |

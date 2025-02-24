@@ -75,7 +75,7 @@ Radios are used when only one choice may be selected in a series of options.
 
 | Property     | Type `(Default)`              | Description                                  |
 | ------------ | ----------------------------- | -------------------------------------------- |
-| appearance   | 'default' &#124; 'picker'     | A radio group can have different appearances |
+| appearance   | 'default' \| 'picker'         | A radio group can have different appearances |
 | defaultValue | string                        | The default value (uncontrolled)             |
 | inline       | boolean                       | Inline layout                                |
 | name         | string                        | Name to use for form                         |

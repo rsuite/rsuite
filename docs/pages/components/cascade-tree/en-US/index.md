@@ -43,26 +43,26 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ### `<CascadeTree>`
 
-| Property           | Type`(Default)`                                                                    | Description                                            |
-| ------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| childrenKey        | string `('children')`                                                              | Set children key in data                               |
-| classPrefix        | string `('cascader-tree')`                                                         | The prefix of the component CSS class                  |
-| columnHeight       | number                                                                             | Sets the height of the menu                            |
-| columnWidth        | number                                                                             | Sets the width of the menu                             |
-| data \*            | [ItemDataType][item][]                                                             | The data of component                                  |
-| defaultValue       | string                                                                             | Specifies the default value of the selected items      |
-| disabledItemValues | string[]                                                                           | Disabled items                                         |
-| getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously load the children of the tree node.     |
-| labelKey           | string `('label')`                                                                 | Set label key in data                                  |
-| onChange           | (value: string, event: SyntheticEvent) => void                                     | Callback fired when value changes                      |
-| onSearch           | (value: string, event) => void                                                     | Callback fired when search value changes               |
-| onSelect           | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | Callback fired when item is selected                   |
-| renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | Customizing the Rendering Menu list                    |
-| renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | Custom render menu items                               |
-| searchable         | boolean                                                                            | Whether to enable search                               |
-| value              | string                                                                             | Specifies the values of the selected items(Controlled) |
-| valueKey           | string `('value')`                                                                 | Set value key in data                                  |
+| Property           | Type`(Default)`                                                           | Description                                                |
+| ------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| childrenKey        | string `('children')`                                                     | Set the key for children in the data structure             |
+| classPrefix        | string `('cascader-tree')`                                                | The prefix for the component's CSS class                   |
+| columnHeight       | number                                                                    | Specifies the height of each column                        |
+| columnWidth        | number                                                                    | Specifies the width of each column                         |
+| data \*            | [Option][item][]                                                          | The data to be displayed in the component                  |
+| defaultValue       | string                                                                    | The default value for the selected items                   |
+| disabledItemValues | string[]                                                                  | An array of values for items to be disabled                |
+| getChildren        | (item: [Option][item]) => Promise&lt;[Option][item][]&gt;                 | Asynchronously loads the children of a tree node           |
+| labelKey           | string `('label')`                                                        | Specifies the key for labels in the data structure         |
+| onChange           | (value: string, event) => void                                            | Callback triggered when the selected value changes         |
+| onSearch           | (value: string, event) => void                                            | Callback triggered when the search value changes           |
+| onSelect           | (item: [Option][item], selectedPaths: [Option][item][], event) => void    | Callback triggered when an item is selected                |
+| renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode | Custom renderer for the column list                        |
+| renderTreeNode     | (node: ReactNode, item: [Option][item]) => ReactNode                      | Custom renderer for individual tree nodes                  |
+| searchable         | boolean                                                                   | Determines if the search functionality is enabled          |
+| value              | string                                                                    | The current value of selected items (for controlled usage) |
+| valueKey           | string `('value')`                                                        | Specifies the key for values in the data structure         |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 
-[item]: #code-ts-item-data-type-code
+[item]: #code-ts-option-code

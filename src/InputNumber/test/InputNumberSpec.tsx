@@ -122,18 +122,18 @@ describe('InputNumber', () => {
   });
 
   it('Should call onChange callback when onblur', () => {
-    const onChangeSpy = sinon.spy();
-    render(<InputNumber onChange={onChangeSpy} />);
+    const onChange = sinon.spy();
+    render(<InputNumber onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.blur(input, { target: { value: 2 } });
 
-    expect(onChangeSpy).to.be.calledOnce;
+    expect(onChange).to.be.calledOnce;
   });
 
   it('Should call onChange callback when onwheel', () => {
-    const onChangeSpy = sinon.spy();
-    render(<InputNumber onChange={onChangeSpy} />);
+    const onChange = sinon.spy();
+    render(<InputNumber onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
     act(() => {
@@ -141,19 +141,19 @@ describe('InputNumber', () => {
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    expect(onChangeSpy).to.be.calledOnce;
+    expect(onChange).to.be.calledOnce;
 
     act(() => {
       input.focus();
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: -10 }));
     });
 
-    expect(onChangeSpy).to.be.calledTwice;
+    expect(onChange).to.be.calledTwice;
   });
 
   it('Should call onWheel callback', () => {
-    const onWheelSpy = sinon.spy();
-    render(<InputNumber onWheel={onWheelSpy} />);
+    const onWheel = sinon.spy();
+    render(<InputNumber onWheel={onWheel} />);
     const input = screen.getByRole('textbox');
 
     act(() => {
@@ -161,53 +161,53 @@ describe('InputNumber', () => {
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    expect(onWheelSpy).to.be.calledOnce;
+    expect(onWheel).to.be.calledOnce;
   });
 
   it('Should not call onWheel callback when `scrollable` is false', () => {
-    const onWheelSpy = sinon.spy();
-    render(<InputNumber onWheel={onWheelSpy} scrollable={false} />);
+    const onWheel = sinon.spy();
+    render(<InputNumber onWheel={onWheel} scrollable={false} />);
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     input.focus();
     input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
 
-    expect(onWheelSpy).not.to.have.been.called;
+    expect(onWheel).not.to.have.been.called;
   });
 
   it('Should call onChange callback when is control component', () => {
-    const onChnageSpy = sinon.spy();
-    render(<InputNumber onChange={onChnageSpy} value={2} />);
+    const onChnage = sinon.spy();
+    render(<InputNumber onChange={onChnage} value={2} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
 
-    expect(onChnageSpy).to.have.been.calledWith('3');
+    expect(onChnage).to.have.been.calledWith('3');
   });
 
   it('Should not call onChange callback when is not control component', () => {
-    const onChnageSpy = sinon.spy();
-    render(<InputNumber onChange={onChnageSpy} />);
+    const onChnage = sinon.spy();
+    render(<InputNumber onChange={onChnage} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
 
-    expect(onChnageSpy).to.called;
+    expect(onChnage).to.called;
   });
 
   it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
-    render(<InputNumber onBlur={onBlurSpy} />);
+    const onBlur = sinon.spy();
+    render(<InputNumber onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlurSpy).to.called;
+    expect(onBlur).to.called;
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = sinon.spy();
-    render(<InputNumber onFocus={onFocusSpy} />);
+    const onFocus = sinon.spy();
+    render(<InputNumber onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('textbox'));
-    expect(onFocusSpy).to.called;
+    expect(onFocus).to.called;
   });
 
   it('Should format value', () => {

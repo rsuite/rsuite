@@ -146,47 +146,47 @@ describe('<Dropdown.Menu>', () => {
 
     describe('Enter', () => {
       it('Activates the item with focus.', () => {
-        const onSelectSpy = sinon.spy();
-        const onSelectItemSpy = sinon.spy();
+        const onSelect = sinon.spy();
+        const onSelectItem = sinon.spy();
 
         const menubar = renderMenubar(
-          <DropdownMenu onSelect={onSelectSpy}>
-            <DropdownItem eventKey="active-item" onSelect={onSelectItemSpy}>
+          <DropdownMenu onSelect={onSelect}>
+            <DropdownItem eventKey="active-item" onSelect={onSelectItem}>
               First item
             </DropdownItem>
           </DropdownMenu>
         );
 
         fireEvent.keyDown(menubar, { key: 'Enter' });
-        expect(onSelectItemSpy).to.have.been.called;
-        expect(onSelectSpy).to.have.been.calledWith('active-item');
+        expect(onSelectItem).to.have.been.called;
+        expect(onSelect).to.have.been.calledWith('active-item');
       });
     });
 
     describe('Space', () => {
       it('Activates the item with focus.', () => {
-        const onSelectSpy = sinon.spy();
-        const onSelectItemSpy = sinon.spy();
+        const onSelect = sinon.spy();
+        const onSelectItem = sinon.spy();
 
         const menubar = renderMenubar(
-          <DropdownMenu onSelect={onSelectSpy}>
-            <DropdownItem eventKey="active-item" onSelect={onSelectItemSpy}>
+          <DropdownMenu onSelect={onSelect}>
+            <DropdownItem eventKey="active-item" onSelect={onSelectItem}>
               First item
             </DropdownItem>
           </DropdownMenu>
         );
         fireEvent.keyDown(menubar, { key: ' ' });
-        expect(onSelectItemSpy).to.have.been.called;
-        expect(onSelectSpy).to.have.been.calledWith('active-item');
+        expect(onSelectItem).to.have.been.called;
+        expect(onSelect).to.have.been.calledWith('active-item');
       });
     });
   });
 
   it('Should call Dropdown.Menu onSelect callback only once', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
-      <DropdownMenu onSelect={onSelectSpy}>
+      <DropdownMenu onSelect={onSelect}>
         <DropdownItem data-testid="item-1" eventKey={1}>
           1
         </DropdownItem>
@@ -197,7 +197,7 @@ describe('<Dropdown.Menu>', () => {
 
     fireEvent.click(screen.getByTestId('item-1'));
 
-    expect(onSelectSpy.callCount).to.be.eq(1);
+    expect(onSelect.callCount).to.be.eq(1);
   });
 
   it('Should highlight menu item when hover', () => {
@@ -222,10 +222,10 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
-      <DropdownMenu onSelect={onSelectSpy} activeKey={1}>
+      <DropdownMenu onSelect={onSelect} activeKey={1}>
         <DropdownItem eventKey={1}>1</DropdownItem>
         <DropdownItem eventKey={2}>2</DropdownItem>
         <DropdownItem eventKey={3}>3</DropdownItem>
@@ -236,8 +236,8 @@ describe('<Dropdown.Menu>', () => {
       bubbles: true
     });
 
-    expect(onSelectSpy).to.have.been.called;
-    expect(onSelectSpy).to.have.been.calledWith(3);
+    expect(onSelect).to.have.been.called;
+    expect(onSelect).to.have.been.calledWith(3);
   });
 
   it('Should not move visual focus to first item when focus on an focusable element within', () => {

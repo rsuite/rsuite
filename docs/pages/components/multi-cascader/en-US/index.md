@@ -87,58 +87,58 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 ### `<MultiCascader>`
 
-| Property              | Type`(Default)`                                                                                 | Description                                                                                      |
-| --------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| appearance            | 'default' &#124; 'subtle' `('default')`                                                         | Sets the appearance of the picker.                                                               |
-| block                 | boolean                                                                                         | Blocks the entire row.                                                                           |
-| caretAs               | ElementType                                                                                     | Custom component for the caret icon.                                                             |
-| cascade               | boolean `(true)`                                                                                | Determines whether selection should cascade both from parent to child and child to parent nodes. |
-| childrenKey           | string `('children')`                                                                           | Defines the key used to access child nodes in the data.                                          |
-| classPrefix           | string `('picker')`                                                                             | Sets the CSS class prefix for the component.                                                     |
-| cleanable             | boolean `(true)`                                                                                | Determines whether the selected value can be cleared.                                            |
-| container             | HTMLElement &#124; (() => HTMLElement)                                                          | Sets the rendering container.                                                                    |
-| countable             | boolean `(true)`                                                                                | Enables counting of selected options.                                                            |
-| data \*               | [ItemDataType][item][]                                                                          | Defines the data structure used by the component.                                                |
-| defaultOpen           | boolean                                                                                         | Specifies whether the component is open by default.                                              |
-| defaultValue          | string[]                                                                                        | Specifies the default selected values.                                                           |
-| disabled              | boolean                                                                                         | Disables the component.                                                                          |
-| disabledItemValues    | string                                                                                          | Defines the values of items that should be disabled.                                             |
-| height                | number `(320)`                                                                                  | Specifies the height of the dropdown.                                                            |
-| inline                | boolean                                                                                         | Displays the menu directly when the component is initialized.                                    |
-| labelKey              | string `('label')`                                                                              | Defines the key used to access labels in the data.                                               |
-| loading               | boolean `(false)`                                                                               | Determines whether to display a loading state indicator.                                         |
-| locale                | [PickerLocaleType](/guide/i18n/#pickers)                                                        | Sets the locale text.                                                                            |
-| onChange              | (value: string[], event) => void                                                                | Callback fired when the selected value changes.                                                  |
-| onCheck               | (value: string, item: [ItemDataType][item], checked: boolean, event) => void                    | Callback fired after the checkbox state changes.                                                 |
-| onClean               | (event) => void                                                                                 | Callback fired when the value is cleared.                                                        |
-| onClose               | () => void                                                                                      | Callback fired when the component is closed.                                                     |
-| onEnter               | () => void                                                                                      | Callback fired before the overlay transitions in.                                                |
-| onEntered             | () => void                                                                                      | Callback fired after the overlay finishes transitioning in.                                      |
-| onEntering            | () => void                                                                                      | Callback fired as the overlay begins to transition in.                                           |
-| onExit                | () => void                                                                                      | Callback fired right before the overlay transitions out.                                         |
-| onExited              | () => void                                                                                      | Callback fired after the overlay finishes transitioning out.                                     |
-| onExiting             | () => void                                                                                      | Callback fired as the overlay begins to transition out.                                          |
-| onOpen                | () => void                                                                                      | Callback fired when the component is opened.                                                     |
-| onSearch              | (searchKeyword: string, event) => void                                                          | Callback function for search.                                                                    |
-| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void              | Callback fired when an item is selected.                                                         |
-| open                  | boolean                                                                                         | Determines whether the component is open.                                                        |
-| placeholder           | ReactNode `('Select')`                                                                          | Sets the placeholder text.                                                                       |
-| placement             | [Placement](#code-ts-placement-code)`('bottomStart')`                                           | Sets the placement of the component.                                                             |
-| popupClassName        | string                                                                                          | Custom class name for the popup.                                                                 |
-| popupStyle            | CSSProperties                                                                                   | Custom style for the popup.                                                                      |
-| preventOverflow       | boolean                                                                                         | Prevents the floating element from overflowing.                                                  |
-| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                       | Customizes the rendering of each column.                                                         |
-| renderExtraFooter     | () => ReactNode                                                                                 | Customizes the rendering of the extra footer.                                                    |
-| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                      | Customizes the rendering of each tree node.                                                      |
-| renderValue           | (value: string, selectedItems: [ItemDataType][item][], selectedElement: ReactNode) => ReactNode | Customizes the rendering of the selected items.                                                  |
-| searchable            | boolean `(true)`                                                                                | Determines whether the search functionality is enabled.                                          |
-| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                               | Sets the size of the picker.                                                                     |
-| toggleAs              | ElementType `('a')`                                                                             | Specifies a custom element for the component.                                                    |
-| uncheckableItemValues | string                                                                                          | Sets the values of items that cannot be checked.                                                 |
-| value                 | string[]                                                                                        | Specifies the values of the selected items (controlled).                                         |
-| valueKey              | string `('value')`                                                                              | Defines the key used to access values in the data.                                               |
+| Property              | Type`(Default)`                                                                           | Description                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| appearance            | 'default' \| 'subtle' `('default')`                                                       | Sets the appearance of the picker                                               |
+| block                 | boolean                                                                                   | Whether to display the component as a block                                     |
+| caretAs               | ElementType                                                                               | Custom component for the caret icon                                             |
+| cascade               | boolean `(true)`                                                                          | Whether selection should cascade from parent to child and child to parent nodes |
+| childrenKey           | string `('children')`                                                                     | Set children key in data                                                        |
+| classPrefix           | string `('picker')`                                                                       | The prefix for the component CSS class                                          |
+| cleanable             | boolean `(true)`                                                                          | Whether the selected value can be cleared                                       |
+| container             | HTMLElement \| (() => HTMLElement)                                                        | Sets the rendering container                                                    |
+| countable             | boolean `(true)`                                                                          | Whether to display the count of selected items                                  |
+| data \*               | [Option][item][]                                                                          | The data of component                                                           |
+| defaultOpen           | boolean                                                                                   | Whether the component is open by default                                        |
+| defaultValue          | string[]                                                                                  | Default values of the selected items                                            |
+| disabled              | boolean                                                                                   | Whether to disable the component                                                |
+| disabledItemValues    | string[]                                                                                  | Values of disabled items                                                        |
+| height                | number `(320)`                                                                            | The height of Dropdown                                                          |
+| inline                | boolean                                                                                   | Display the menu directly when the component is initialized                     |
+| labelKey              | string `('label')`                                                                        | Set label key in data                                                           |
+| loading               | boolean `(false)`                                                                         | Whether to show a loading state                                                 |
+| locale                | [PickerLocaleType](/guide/i18n/#pickers)                                                  | Locale text settings                                                            |
+| onChange              | (value: string[], event) => void                                                          | Callback fired when value changes                                               |
+| onCheck               | (value: string, item: [Option][item], checked: boolean, event) => void                    | Callback fired after the checkbox state changes                                 |
+| onClean               | (event) => void                                                                           | Callback fired when value is cleared                                            |
+| onClose               | () => void                                                                                | Callback fired when the component is closed                                     |
+| onEnter               | () => void                                                                                | Callback fired before the overlay transitions in                                |
+| onEntered             | () => void                                                                                | Callback fired after the overlay finishes transitioning in                      |
+| onEntering            | () => void                                                                                | Callback fired as the overlay begins to transition in                           |
+| onExit                | () => void                                                                                | Callback fired right before the overlay transitions out                         |
+| onExited              | () => void                                                                                | Callback fired after the overlay finishes transitioning out                     |
+| onExiting             | () => void                                                                                | Callback fired as the overlay begins to transition out                          |
+| onOpen                | () => void                                                                                | Callback fired when the component is opened                                     |
+| onSearch              | (searchKeyword: string, event) => void                                                    | Callback fired when search                                                      |
+| onSelect              | (item: [Option][item], selectedPaths: [Option][item][], event) => void                    | Callback fired when an item is selected                                         |
+| open                  | boolean                                                                                   | Whether the component is open                                                   |
+| placeholder           | ReactNode `('Select')`                                                                    | Setting placeholders                                                            |
+| placement             | [Placement](#code-ts-placement-code)`('bottomStart')`                                     | The placement of component                                                      |
+| popupClassName        | string                                                                                    | Custom class name for the popup                                                 |
+| popupStyle            | CSSProperties                                                                             | Custom style for the popup                                                      |
+| preventOverflow       | boolean                                                                                   | Prevent floating element overflow                                               |
+| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                 | Custom render column                                                            |
+| renderExtraFooter     | () => ReactNode                                                                           | Custom render extra footer                                                      |
+| renderTreeNode        | (node: ReactNode, item: [Option][item]) => ReactNode                                      | Custom render tree node                                                         |
+| renderValue           | (value: string, selectedItems: [Option][item][], selectedElement: ReactNode) => ReactNode | Custom render selected items                                                    |
+| searchable            | boolean `(true)`                                                                          | Whether can be searched                                                         |
+| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                     | A picker can have different sizes                                               |
+| toggleAs              | ElementType `('a')`                                                                       | You can use a custom element for this component                                 |
+| uncheckableItemValues | string[]                                                                                  | Set the value of the checkbox that cannot be checked                            |
+| value                 | string[]                                                                                  | Specifies the values of the selected items (controlled)                         |
+| valueKey              | string `('value')`                                                                        | Set value key in data                                                           |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement-start.md)}-->
 
-[item]: #code-ts-item-data-type-code
+[item]: #code-ts-option-code

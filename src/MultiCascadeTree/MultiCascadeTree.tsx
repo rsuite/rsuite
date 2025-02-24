@@ -5,7 +5,7 @@ import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { DataItemValue } from '@/internals/types';
+import type { OptionValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 
 const emptyArray = [];
@@ -15,7 +15,7 @@ const emptyArray = [];
  * @see https://rsuitejs.com/components/multi-cascade-tree/
  */
 const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
-  <T extends DataItemValue>(props: MultiCascadeTreeProps<T>, ref) => {
+  <T extends OptionValue>(props: MultiCascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('MultiCascadeTree', props);
     const {
       as: Component = 'div',

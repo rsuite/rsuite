@@ -46,12 +46,12 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onSelect callback with correct args', () => {
-    const onSelectSpy = sinon.spy();
-    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelectSpy} />);
+    const onSelect = sinon.spy();
+    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('option', { name: 'a' }));
 
-    expect(onSelectSpy).to.be.calledOnce;
-    expect(onSelectSpy).to.be.calledWith('a', { value: 'a', label: 'a' });
+    expect(onSelect).to.be.calledOnce;
+    expect(onSelect).to.be.calledWith('a', { value: 'a', label: 'a' });
   });
 
   it('Should call onChange callback', () => {
@@ -66,20 +66,20 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onFocus callback', () => {
-    const onFocusSpy = sinon.spy();
-    render(<AutoComplete data={data} onFocus={onFocusSpy} />);
+    const onFocus = sinon.spy();
+    render(<AutoComplete data={data} onFocus={onFocus} />);
     const input = screen.getByRole('combobox');
     fireEvent.focus(input);
-    expect(onFocusSpy).to.have.been.calledOnce;
+    expect(onFocus).to.have.been.calledOnce;
   });
 
   it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
+    const onBlur = sinon.spy();
 
-    render(<AutoComplete data={data} onBlur={onBlurSpy} />);
+    render(<AutoComplete data={data} onBlur={onBlur} />);
     const input = screen.getByRole('combobox');
     fireEvent.blur(input);
-    expect(onBlurSpy).to.have.been.calledOnce;
+    expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on input', () => {
@@ -136,25 +136,25 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onSelect callback with selected item when key=Enter', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
-    render(<AutoComplete defaultValue="a" onSelect={onSelectSpy} data={['a', 'ab', 'ac']} open />);
+    render(<AutoComplete defaultValue="a" onSelect={onSelect} data={['a', 'ab', 'ac']} open />);
 
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Enter' });
 
-    expect(onSelectSpy).to.be.calledOnce;
-    expect(onSelectSpy).to.be.calledWith('ab', { value: 'ab', label: 'ab' });
+    expect(onSelect).to.be.calledOnce;
+    expect(onSelect).to.be.calledWith('ab', { value: 'ab', label: 'ab' });
   });
 
   it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <AutoComplete
         defaultValue="a"
-        onSelect={onSelectSpy}
-        onChange={onSelectSpy}
+        onSelect={onSelect}
+        onChange={onSelect}
         selectOnEnter={false}
         data={['a', 'ab', 'ac']}
         open
@@ -163,14 +163,14 @@ describe('AutoComplete', () => {
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowUp' });
 
-    expect(onSelectSpy).to.be.not.called;
+    expect(onSelect).to.be.not.called;
   });
 
   it('Should call onClose callback when key=Escape', () => {
-    const onCloseSpy = sinon.spy();
-    render(<AutoComplete defaultValue="a" onClose={onCloseSpy} data={['a', 'ab', 'ac']} open />);
+    const onClose = sinon.spy();
+    render(<AutoComplete defaultValue="a" onClose={onClose} data={['a', 'ab', 'ac']} open />);
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Escape' });
-    expect(onCloseSpy).to.be.calledOnce;
+    expect(onClose).to.be.calledOnce;
   });
 
   it('Should render a icon in li', () => {
@@ -179,17 +179,17 @@ describe('AutoComplete', () => {
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
-        renderMenuItem={() => <i className="icon" data-testid="icon" />}
+        renderOption={() => <i className="icon" data-testid="icon" />}
       />
     );
 
     expect(screen.getAllByTestId('icon')).to.have.lengthOf(2);
   });
 
-  it('Should have a menuClassName', () => {
-    render(<AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />);
+  it('Should have a popupClassName', () => {
+    render(<AutoComplete popupClassName="custom" data={['a', 'b', 'ab']} open />);
 
-    expect(screen.getByRole('listbox')).to.have.class('custom');
+    expect(screen.getByTestId('picker-popup')).to.have.class('custom');
   });
 
   it('Should have a custom filter function', () => {
@@ -233,7 +233,7 @@ describe('AutoComplete', () => {
         data={['item1', 'item2', 'item3']}
         defaultValue="item"
         open
-        menuAutoWidth
+        popupAutoWidth
         style={{ width: 100 }}
       />
     );
