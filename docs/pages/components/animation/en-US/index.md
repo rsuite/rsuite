@@ -6,11 +6,11 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Animation.Fade>`
-- `<Animation.Collapse>`
-- `<Animation.Bounce>`
-- `<Animation.Slide>`
-- `<Animation.Transition>`
+- `Animation.Fade` Fade animation.
+- `Animation.Collapse` Collapse animation.
+- `Animation.Bounce` Bounce animation.
+- `Animation.Slide` Slide animation.
+- `Animation.Transition` Custom animation.
 
 ## Examples
 

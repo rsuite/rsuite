@@ -6,11 +6,11 @@ A modal dialog box component for message prompts, acknowledgement messages, and 
 
 <!--{include:<import-guide>}-->
 
-- `<Modal>` The container of Modal.
-- `<Modal.Header>` The header of the modal dialog box.
-- `<Modal.Title>` The title of the modal dialog box.
-- `<Modal.Body>` The content of the modal dialog box.
-- `<Modal.Footer>` The footer of the modal dialog box.
+- `Modal` The container of Modal.
+- `Modal.Header` The header of the modal dialog box.
+- `Modal.Title` The title of the modal dialog box.
+- `Modal.Body` The content of the modal dialog box.
+- `Modal.Footer` The footer of the modal dialog box.
 
 ## Examples
 

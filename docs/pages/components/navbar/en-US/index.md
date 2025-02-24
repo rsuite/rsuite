@@ -6,11 +6,11 @@ A wrapper for Nav that is generally used for the top navigation of a page.
 
 <!--{include:<import-guide>}-->
 
-- `<Navbar>` The navigation bar component.
-- `<Navbar.Brand>` Set up your brand, which can be the name of your company, product, or project.
-- `<Navbar.Content>` Navigation bar content container, group a set of elements together.
-- `<Navbar.Toggle>` Button to show drawer menu on small screens.
-- `<Navbar.Drawer>` Drawer menu container.
+- `Navbar` The navigation bar component.
+- `Navbar.Brand` Set up your brand, which can be the name of your company, product, or project.
+- `Navbar.Content` Navigation bar content container, group a set of elements together.
+- `Navbar.Toggle` Button to show drawer menu on small screens.
+- `Navbar.Drawer` Drawer menu container.
 
 ## Examples
 

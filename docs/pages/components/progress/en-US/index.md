@@ -6,8 +6,8 @@ Display the current progress of an operation flow.
 
 <!--{include:<import-guide>}-->
 
-- `<Progress.Line>` Line progress bar.
-- `<Progress.Circle>` Circle progress bar.
+- `Progress.Line` Line progress bar.
+- `Progress.Circle` Circle progress bar.
 
 ## Examples
 

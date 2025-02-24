@@ -6,8 +6,8 @@ A Slider component for displaying current value
 
 <!--{include:<import-guide>}-->
 
-- `<Slider>` Slide input controls.
-- `<RangeSlider>` Slide range input controls.
+- `Slider` Slide input controls.
+- `RangeSlider` Slide range input controls.
 
 ## Examples
 

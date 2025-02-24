@@ -6,12 +6,12 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 <!--{include:<import-guide>}-->
 
-- `<Drawer>` - The container of Drawer.
-- `<Drawer.Body>` - The content of Drawer.
-- `<Drawer.Actions>` - The action buttons of Drawer, usually placed in the header of Drawer. (optional)
-- `<Drawer.Header>` - The header of Drawer, including the close button. (optional)
-- `<Drawer.Title>` - The title of Drawer, usually placed in the header of Drawer. (optional)
-- `<Drawer.Footer>` - The footer of Drawer. (optional)
+- `Drawer` The container of Drawer.
+- `Drawer.Body` The content of Drawer.
+- `Drawer.Actions` The action buttons of Drawer, usually placed in the header of Drawer. (optional)
+- `Drawer.Header` The header of Drawer, including the close button. (optional)
+- `Drawer.Title` The title of Drawer, usually placed in the header of Drawer. (optional)
+- `Drawer.Footer` The footer of Drawer. (optional)
 
 ## Examples
 

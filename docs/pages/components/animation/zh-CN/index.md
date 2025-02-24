@@ -6,11 +6,11 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Animation.Fade>` 淡入淡出过渡效果。
-- `<Animation.Collapse>` 折叠过渡效果。
-- `<Animation.Bounce>`弹入弹出过渡效果。
-- `<Animation.Slide>` 滑入滑出过渡效果。
-- `<Animation.Transition>` 自定义一个过渡效果。
+- `Animation.Fade` 淡入淡出过渡效果。
+- `Animation.Collapse` 折叠过渡效果。
+- `Animation.Bounce`弹入弹出过渡效果。
+- `Animation.Slide` 滑入滑出过渡效果。
+- `Animation.Transition` 自定义一个过渡效果。
 
 ## 演示
 

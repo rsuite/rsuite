@@ -6,9 +6,9 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Placeholder.Paragraph>` 段落
-- `<Placeholder.Graph>` 图形
-- `<Placeholder.Grid>` 网格
+- `Placeholder.Paragraph` 段落
+- `Placeholder.Graph` 图形
+- `Placeholder.Grid` 网格
 
 ## 演示
 
