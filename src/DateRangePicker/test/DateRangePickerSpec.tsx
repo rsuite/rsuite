@@ -1392,35 +1392,6 @@ describe('DateRangePicker', () => {
   });
 
   describe('Disabled', () => {
-    it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
-      const ranges: DateOptionPreset<DateRange | null>[] = [
-        {
-          label: 'Yesterday',
-          value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-        },
-        {
-          label: 'Today',
-          value: [new Date(), new Date()]
-        },
-        {
-          label: 'Tomorrow',
-          value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-        },
-        {
-          label: 'Last 7 days',
-          value: [subDays(new Date(), 6), new Date()]
-        }
-      ];
-      render(<DateRangePicker ranges={ranges} disabledDate={() => true} open />);
-
-      ranges.forEach(range => {
-        expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
-          'aria-disabled',
-          'true'
-        );
-      });
-    });
-
     it('Should disable shortcuts according to `shouldDisableDate`', () => {
       const ranges: DateOptionPreset<DateRange | null>[] = [
         {
