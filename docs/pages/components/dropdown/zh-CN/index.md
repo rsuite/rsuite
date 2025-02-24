@@ -6,10 +6,10 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Dropdown>` 下拉菜单。
-- `<Dropdown.Item>` 下拉菜单选项。
-- `<Dropdown.Menu>` 下拉菜单中创建子菜单。
-- `<Dropdown.Separator>` 下拉菜单中的分割线。
+- `Dropdown` 下拉菜单。
+- `Dropdown.Item` 下拉菜单选项。
+- `Dropdown.Menu` 下拉菜单中创建子菜单。
+- `Dropdown.Separator` 下拉菜单中的分割线。
 
 ## 演示
 

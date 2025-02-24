@@ -6,8 +6,8 @@ When the mouse clicks/moves in, the pop-up pop-up box is used to display more co
 
 <!--{include:<import-guide>}-->
 
-- `<Popover>` Pop-up box.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
+- `Popover` Pop-up box.
+- `Whisper` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Basic
 

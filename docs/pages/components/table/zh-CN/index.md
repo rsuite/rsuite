@@ -6,11 +6,11 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Table>` 表格组件
-- `<Table.Column>` 表格定义列组件
-- `<Table.ColumnGroup>` 用于列头分组
-- `<Table.HeaderCell>` 列头单元格组件
-- `<Table.Cell>` 单元格组件
+- `Table` 表格组件
+- `Table.Column` 表格定义列组件
+- `Table.ColumnGroup` 用于列头分组
+- `Table.HeaderCell` 列头单元格组件
+- `Table.Cell` 单元格组件
 
 ## 演示
 

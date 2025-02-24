@@ -6,9 +6,6 @@ A series of selectable tile components that behave like Radio.
 
 <!--{include:<import-guide>}-->
 
-- `<RadioTile>`
-- `<RadioTileGroup>`
-
 ## Examples
 
 ### Basic

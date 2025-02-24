@@ -6,9 +6,9 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 
 <!--{include:<import-guide>}-->
 
-- `<Grid>` Define a grid layout.
-- `<Row>` Define a row in the grid layout.
-- `<Col>` Define a column in the grid layout.
+- `Grid` Define a grid layout.
+- `Row` Define a row in the grid layout.
+- `Col` Define a column in the grid layout.
 
 ## Examples
 

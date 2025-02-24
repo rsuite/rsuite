@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Popover>` 弹出框。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
+- `Popover` 弹出框。
+- `Whisper` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
 
 ## 演示
 

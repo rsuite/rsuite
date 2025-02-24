@@ -6,8 +6,8 @@ Radios are used when only one choice may be selected in a series of options.
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
-- `<RadioGroup>` Radio Group allow users to select a single option from a list of mutually exclusive options.
+- `Radio` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
+- `RadioGroup` Radio Group allow users to select a single option from a list of mutually exclusive options.
 
 ## Examples
 

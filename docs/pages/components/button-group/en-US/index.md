@@ -6,8 +6,8 @@ A button group gives users access to frequently performed, related actions.
 
 <!--{include:<import-guide>}-->
 
-- `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
-- `<ButtonToolbar>` Button Toolbar Controls.
+- `ButtonGroup` Button group control can put a group of buttons together and control the layout.
+- `ButtonToolbar` Button Toolbar Controls.
 
 ## Examples
 

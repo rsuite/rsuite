@@ -6,11 +6,11 @@ A table displays rows of data.
 
 <!--{include:<import-guide>}-->
 
-- `<Table>` Table component
-- `<Table.Column>` Table definition column component
-- `<Table.ColumnGroup>` Used for column header grouping
-- `<Table.HeaderCell>` Column Header cell component
-- `<Table.Cell>` Cell component
+- `Table` Table component
+- `Table.Column` Table definition column component
+- `Table.ColumnGroup` Used for column header grouping
+- `Table.HeaderCell` Column Header cell component
+- `Table.Cellåå` Cell component
 
 ## Examples
 

@@ -6,9 +6,6 @@ Tag for categorizing or markup.
 
 <!--{include:<import-guide>}-->
 
-- `<Tag>`
-- `<TagGroup>`
-
 ## Examples
 
 ### Basic

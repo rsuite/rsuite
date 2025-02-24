@@ -6,9 +6,9 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 <!--{include:<import-guide>}-->
 
-- `<Stack>` Use to stack elements horizontally or vertically.
-- `<HStack>` Use to stack elements horizontally. ![][5.65.0]
-- `<VStack>` Use to stack elements vertically. ![][5.65.0]
+- `Stack` Use to stack elements horizontally or vertically.
+- `HStack` Use to stack elements horizontally. ![][5.65.0]
+- `VStack` Use to stack elements vertically. ![][5.65.0]
 
 ## Examples
 

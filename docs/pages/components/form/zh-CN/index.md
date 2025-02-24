@@ -6,12 +6,12 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Form>` 定义一个表单。
-- `<Form.Group>` 表单控件组，用于表单控件布局。
-- `<Form.Control>` 表单控件，定义一个表单字段。
-- `<Form.ControlLabel>` 表单控件对应的标题。
-- `<Form.HelpText>` 表单控件对应帮助信息。
-- `<Form.ErrorMessage>` 表单控件对应的错误提示信息。
+- `Form>` 定义一个表单。
+- `Form.Group` 表单控件组，用于表单控件布局。
+- `Form.Control` 表单控件，定义一个表单字段。
+- `Form.ControlLabel` 表单控件对应的标题。
+- `Form.HelpText` 表单控件对应帮助信息。
+- `Form.ErrorMessage` 表单控件对应的错误提示信息。
 
 ## 布局
 

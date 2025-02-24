@@ -6,9 +6,6 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Tag>` 标签
-- `<TagGroup>` 标签组
-
 ## 演示
 
 ### 默认

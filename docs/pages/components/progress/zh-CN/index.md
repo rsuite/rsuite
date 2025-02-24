@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- <Progress.Line> 线形进度条。
-- <Progress.Circle> 圆形进度条。
+- `Progress.Line` 线形进度条。
+- `Progress.Circle` 圆形进度条。
 
 ## 演示
 

@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Tooltip>` 文字提示。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
+- `Tooltip` 文字提示。
+- `Whisper` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
 
 ## 演示
 

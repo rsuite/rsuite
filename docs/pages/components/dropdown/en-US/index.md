@@ -6,10 +6,10 @@ A drop-down menu is a navigation that uses selectpicker if you want to select a 
 
 <!--{include:<import-guide>}-->
 
-- `<Dropdown>` Drop-down menu.
-- `<Dropdown.Item>` Drop-down menu options.
-- `<Dropdown.Menu>` A submenu is created in the Drop-down menu.
-- `<Dropdown.Separator>` A Separator in the Drop-down menu.
+- `Dropdown` Drop-down menu.
+- `Dropdown.Item` Drop-down menu options.
+- `Dropdown.Menu` A submenu is created in the Drop-down menu.
+- `Dropdown.Separator` A Separator in the Drop-down menu.
 
 ## Examples
 
