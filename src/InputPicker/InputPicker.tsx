@@ -571,10 +571,9 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   };
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
+    const { className } = positionProps;
     const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
     const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
-    const styles = { ...menuStyle, left, top };
 
     let items: ItemDataType[] = filterNodesOfTree(data, checkShouldDisplay);
 
@@ -629,7 +628,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         ref={mergeRefs(overlay, speakerRef)}
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={menuStyle}
         target={triggerRef}
         onKeyDown={onPickerKeyDown}
       >

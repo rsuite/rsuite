@@ -331,8 +331,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     };
 
     const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
-      const { left, top, className } = positionProps || {};
-      const styles = { ...DEPRECATED_menuStyle, ...popupStyle, left, top };
+      const { className } = positionProps || {};
+      const styles = { ...DEPRECATED_menuStyle, ...popupStyle };
 
       const classes = merge(
         className,

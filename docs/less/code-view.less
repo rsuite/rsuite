@@ -1,6 +1,9 @@
-@import '~react-code-view/styles/react-code-view.css';
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/theme/base16-light.css';
+@import '~codemirror/theme/base16-dark.css';
 
 .rcv-highlight {
+  direction: ltr /*rtl:ignore*/;
   position: relative;
   background-color: @doc-highlight-bg;
   padding: 10px;
@@ -18,6 +21,11 @@
   .rs-theme-dark &,
   .rs-theme-high-contrast & {
     background-color: @doc-highlight-bg;
+  }
+
+  .copy-code-button {
+    right: 8px /*rtl:ignore*/;
+    top: 8px;
   }
 }
 
@@ -61,13 +69,18 @@ a code {
   transition: 0.3s linear border-color;
   margin: 18px 0;
   padding: 0;
+  border-width: 1px;
+  border-style: solid;
   border-color: @code-view-wrapper-border-color;
   background-color: @code-view-wrapper-bg;
   border-radius: 6px;
 
   .CodeMirror {
+    direction: ltr /*rtl:ignore*/;
+    padding: 10px;
     margin: 0;
     background-color: @doc-highlight-bg;
+    height: auto !important;
   }
   .CodeMirror-gutters {
     background-color: @doc-highlight-bg;
@@ -78,6 +91,9 @@ a code {
   }
 
   .rcv-toolbar {
+    right: 0;
+    bottom: 0;
+    text-align: right;
     padding: 8px;
     border-color: @code-view-wrapper-border-color;
 
@@ -97,6 +113,13 @@ a code {
 
   .rcv-render {
     padding: 18px;
+    position: relative;
+
+    .notification-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   .rs-theme-dark &,
@@ -109,28 +132,32 @@ a code {
   }
 }
 
-.rcv-render .notification-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .rcv-editor {
+  direction: ltr /*rtl:ignore*/;
   border-radius: 0 0 6px 6px;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+
+  &-loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-code-button {
+    right: 8px /*rtl:ignore*/;
+    top: 8px;
+    z-index: 1;
+  }
 }
 
 .copy-code-button {
   position: absolute;
   color: #858b94;
-}
-
-.rcv-editor .copy-code-button {
-  right: 8px;
-  top: 8px;
-  z-index: 1;
-}
-
-.rcv-highlight .copy-code-button {
-  right: 8px;
-  top: 8px;
 }

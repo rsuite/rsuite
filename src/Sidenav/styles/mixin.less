@@ -13,11 +13,11 @@
 .dropdown-menu-icon-left-position(@left) {
   &.rs-dropdown-item-with-icon > .rs-dropdown-item-content {
     > .rs-dropdown-item-menu-icon {
-      left: @left;
+      inset-inline-start: @left;
     }
 
     > .rs-dropdown-menu-toggle {
-      padding-left: (@left + 20px);
+      padding-inline-start: (@left + 20px);
     }
   }
 }

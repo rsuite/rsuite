@@ -97,32 +97,32 @@
 
   &-placement-bottom-start,
   &-placement-top-start {
-    left: 0;
+    inset-inline-start: 0;
 
     .rs-form-error-message {
-      left: 0;
+      inset-inline-start: 0;
     }
 
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        left: @form-error-message-triangle-gap;
+        inset-inline-start: @form-error-message-triangle-gap;
       }
     }
   }
 
   &-placement-bottom-end,
   &-placement-top-end {
-    right: 0;
+    inset-inline-end: 0;
 
     .rs-form-error-message {
-      right: 0;
+      inset-inline-end: 0;
     }
 
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        right: @form-error-message-triangle-gap;
+        inset-inline-end: @form-error-message-triangle-gap;
       }
     }
   }
@@ -135,10 +135,10 @@
 .rs-form-error-message {
   &-placement-left-start,
   &-placement-left-end {
-    left: 0;
+    inset-inline-start: 0;
 
     .rs-form-error-message {
-      right: 0;
+      inset-inline-end: 0;
 
       &-show {
         animation-name: errorMessageSlideRightIn;
@@ -151,11 +151,11 @@
         border-width: @form-error-message-triangle-width 0 @form-error-message-triangle-width
           @form-error-message-triangle-width;
         border-left-color: var(--rs-form-errormessage-border);
-        right: -1 * @form-error-message-triangle-width;
+        inset-inline-end: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
-        right: -1 * (@form-error-message-triangle-width - 1);
+        inset-inline-end: -1 * (@form-error-message-triangle-width - 1);
         border-left-color: var(--rs-form-errormessage-bg);
       }
     }
@@ -163,10 +163,10 @@
 
   &-placement-right-start,
   &-placement-right-end {
-    right: 0;
+    inset-inline-end: 0;
 
     .rs-form-error-message {
-      left: 0;
+      inset-inline-start: 0;
 
       &-show {
         animation-name: errorMessageSlideLeftIn;
@@ -179,11 +179,11 @@
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width
           @form-error-message-triangle-width 0;
         border-right-color: var(--rs-form-errormessage-border);
-        left: -1 * @form-error-message-triangle-width;
+        inset-inline-start: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
-        left: -1 * (@form-error-message-triangle-width - 1);
+        inset-inline-start: -1 * (@form-error-message-triangle-width - 1);
         border-right-color: var(--rs-form-errormessage-bg);
       }
     }

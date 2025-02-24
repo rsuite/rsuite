@@ -5,21 +5,21 @@
       width: percentage((@value / 24));
     }
     .rs-col-@{size}-pull-@{value} {
-      right: percentage((@value / 24));
+      inset-inline-end: percentage((@value / 24));
     }
     .rs-col-@{size}-push-@{value} {
-      left: percentage((@value / 24));
+      inset-inline-start: percentage((@value / 24));
     }
 
     .rs-col-@{size}-offset-@{value} {
-      margin-left: percentage((@value / 24));
+      margin-inline-start: percentage((@value / 24));
     }
   });
   .rs-col-@{size}-pull-0 {
-    right: auto;
+    inset-inline-end: auto;
   }
   .rs-col-@{size}-push-0 {
-    left: auto;
+    inset-inline-start: auto;
   }
 }
 

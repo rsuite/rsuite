@@ -18,14 +18,14 @@
 
   &-slider {
     position: relative;
-    left: 0;
+    inset-inline-start:  0;
     height: 100%;
     transition: transform @carousel-animation-duration ease;
     will-change: transform;
 
     &-item {
       background-color: var(--rs-carousel-bg);
-      float: left;
+      float: inline-start;
       height: 100%;
       width: 100%;
     }
@@ -33,7 +33,7 @@
 
   &-slider-after {
     position: absolute;
-    left: 0;
+    inset-inline-start:  0;
     height: 100%;
     width: 100%;
     background-color: var(--rs-carousel-bg);
@@ -87,9 +87,9 @@
       content: '';
       position: absolute;
       top: -1 * @carousel-handler-sense-width;
-      right: -1 * @carousel-handler-sense-width;
       bottom: -1 * @carousel-handler-sense-width;
-      left: -1 * @carousel-handler-sense-width;
+      inset-inline-end: -1 * @carousel-handler-sense-width;
+      inset-inline-start:  -1 * @carousel-handler-sense-width;
     }
 
     &:hover {
@@ -132,7 +132,7 @@
 
   &-placement-top &-toolbar,
   &-placement-bottom &-toolbar {
-    left: 0;
+    inset-inline-start:  0;
     width: 100%;
 
     > ul {
@@ -163,11 +163,11 @@
   }
 
   &-placement-left &-toolbar {
-    left: @carousel-toolbar-wrapper-margin;
+    inset-inline-start:  @carousel-toolbar-wrapper-margin;
   }
 
   &-placement-right &-toolbar {
-    right: @carousel-toolbar-wrapper-margin;
+    inset-inline-end: @carousel-toolbar-wrapper-margin;
   }
 
   @keyframes moveLeftHalf {

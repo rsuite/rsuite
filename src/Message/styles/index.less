@@ -97,7 +97,7 @@
   &-icon {
     align-self: center;
     font-size: 0; // remove whitespace before svg
-    margin-right: 10px;
+    margin-inline-end: 10px;
 
     // Icon
     .rs-icon {
@@ -169,8 +169,8 @@
 .rs-message-full {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
-   border-radius: var(--rs-radius-none);
+  border-radius: var(--rs-radius-none);
   z-index: @zindex-message-full;
 }

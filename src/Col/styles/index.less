@@ -4,11 +4,11 @@
 //
 // Common styles for small and large grid columns
 .rs-col {
-  float: left;
+  float: inline-start;
   position: relative;
   // Prevent columns from collapsing when empty
   min-height: 1px;
   // Inner gutter via padding
-  padding-left: ceil((@grid-gutter-width / 2));
-  padding-right: floor((@grid-gutter-width / 2));
+  padding-inline-start: ceil((@grid-gutter-width / 2));
+  padding-inline-end: floor((@grid-gutter-width / 2));
 }
