@@ -3,12 +3,26 @@ import TagPicker from '../index';
 import { render, screen } from '@testing-library/react';
 import { testPickerSize } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
+import type { SizeType } from '@/internals/types';
 import '../styles/index.less';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('TagPicker styles', () => {
   testPickerSize(TagPicker, { subtle: false });
+
+  describe('Textbox', () => {
+    const margins = [40, 34, 28, 22];
+
+    ['lg', 'md', 'sm', 'xs'].forEach((size, index) => {
+      it(`Should have correct margin-inline-end when size is ${size}`, () => {
+        const { container } = render(<TagPicker data={data} size={size as SizeType} open />);
+        const textbox = container.querySelector('.rs-picker-textbox');
+
+        expect(textbox).to.have.style('margin-inline-end', `${margins[index]}px`);
+      });
+    });
+  });
 
   it('Should render the correct styles', () => {
     render(<TagPicker data={data} open />);
