@@ -25,7 +25,8 @@ import {
   createChainedFunction,
   tplTransform,
   mergeRefs,
-  isOneOf
+  isOneOf,
+  mergeStyles
 } from '@/internals/utils';
 import {
   Listbox,
@@ -44,6 +45,7 @@ import {
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
+import { getPositionStyle } from '@/internals/Overlay/Position';
 import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
@@ -564,9 +566,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   };
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-    const { className } = positionProps;
+    const { className, left, top } = positionProps;
     const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
     const classes = merge(className, popupClassName, prefix(multi ? 'check-menu' : 'select-menu'));
+    const mergedPopupStyle = mergeStyles(getPositionStyle(left, top), popupStyle);
 
     let items: Option[] = filterNodesOfTree(data, checkShouldDisplay);
 
@@ -621,7 +624,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         ref={mergeRefs(overlay, speakerRef)}
         autoWidth={popupAutoWidth}
         className={classes}
-        style={popupStyle}
+        style={mergedPopupStyle}
         target={triggerRef}
         onKeyDown={onPickerKeyDown}
       >
