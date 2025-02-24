@@ -35,12 +35,12 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import type { PickerLocale } from '../locales';
-import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
+import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { SelectProps } from '../SelectPicker';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
-  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
+  extends FormControlPickerProps<T[], PickerLocale, Option<T>>,
     Omit<SelectProps<T>, 'renderValue'>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Top the selected option in the options */
@@ -52,7 +52,7 @@ export interface CheckPickerProps<T = any>
   /** Custom render selected items */
   renderValue?: (
     value: T[],
-    item: ItemDataType<T>[],
+    item: Option<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 }
@@ -132,7 +132,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     });
 
     const handleSearchCallback = useEventCallback(
-      (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent) => {
+      (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
@@ -152,14 +152,14 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
 
     // A list of shortcut options.
     // when opened again, the selected options are displayed at the top.
-    const [stickyItems, setStickyItems] = useState<ItemDataType[]>([]);
+    const [stickyItems, setStickyItems] = useState<Option[]>([]);
 
     const initStickyItems = () => {
       if (!sticky) {
         return;
       }
 
-      let nextStickyItems: ItemDataType[] = [];
+      let nextStickyItems: Option[] = [];
       if (data && value.length) {
         nextStickyItems = data.filter(item => {
           return value.some(v => v === item[valueKey]);
@@ -217,18 +217,13 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     });
 
     const handleSelect = useEventCallback(
-      (nextItemValue: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
+      (nextItemValue: any, item: Option<T>, event: React.SyntheticEvent) => {
         onSelect?.(nextItemValue, item, event);
       }
     );
 
     const handleItemSelect = useEventCallback(
-      (
-        nextItemValue: any,
-        item: ItemDataType<T>,
-        event: React.SyntheticEvent,
-        checked: boolean
-      ) => {
+      (nextItemValue: any, item: Option<T>, event: React.SyntheticEvent, checked: boolean) => {
         const nextValue = clone(value);
 
         if (checked) {
@@ -292,7 +287,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       const { className } = positionProps;
       const classes = merge(className, popupClassName, prefix('check-menu'));
       let items = filteredData;
-      let filteredStickyItems: ItemDataType[] = [];
+      let filteredStickyItems: Option[] = [];
 
       if (stickyItems) {
         filteredStickyItems = filterNodesOfTree(stickyItems as typeof data, item =>

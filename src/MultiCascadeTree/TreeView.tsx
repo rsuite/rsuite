@@ -7,7 +7,7 @@ import { forwardRef, shallowEqual } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { useCustom } from '../CustomProvider';
-import type { ItemDataType, WithAsProps } from '@/internals/types';
+import type { Option, WithAsProps } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
 
 export interface TreeViewProps<T = any> extends WithAsProps {
@@ -19,17 +19,13 @@ export interface TreeViewProps<T = any> extends WithAsProps {
   columnWidth?: number;
   columnHeight?: number | string;
   cascade?: boolean;
-  cascadeData: (readonly ItemDataType<T>[])[];
-  cascadePaths?: ItemDataType<T>[];
+  cascadeData: (readonly Option<T>[])[];
+  cascadePaths?: Option<T>[];
   uncheckableItemValues: T[];
-  renderTreeNode?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
+  renderTreeNode?: (node: React.ReactNode, item: Option<T>) => React.ReactNode;
   renderColumn?: (childNodes: React.ReactNode, column: CascadeColumn<T>) => React.ReactNode;
-  onCheck?: (node: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
-  onSelect?: (
-    node: ItemDataType<T>,
-    cascadePaths: ItemDataType<T>[],
-    event: React.SyntheticEvent
-  ) => void;
+  onCheck?: (node: Option<T>, event: React.SyntheticEvent, checked: boolean) => void;
+  onSelect?: (node: Option<T>, cascadePaths: Option<T>[], event: React.SyntheticEvent) => void;
 }
 
 const emptyArray = [];
@@ -63,8 +59,8 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   const { rtl } = useCustom();
   const { id, labelId, popupType, multiple } = useCombobox();
 
-  const getCascadePaths = (layer: number, node: ItemDataType) => {
-    const paths: ItemDataType[] = [];
+  const getCascadePaths = (layer: number, node: Option) => {
+    const paths: Option[] = [];
 
     for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
       if (i < layer - 1 && cascadePaths) {

@@ -6,29 +6,14 @@ import { TagInput } from 'rsuite';
 const App = () => (
   <>
     <label>Disabled: </label>
-    <TagInput
-      disabled
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
+    <TagInput disabled defaultValue={['Julius']} style={{ width: 300 }} />
 
     <hr />
     <label>Read only: </label>
-    <TagInput
-      readOnly
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
+    <TagInput readOnly defaultValue={['Julius']} style={{ width: 300 }} />
     <hr />
     <label>Plaintext: </label>
-    <TagInput
-      plaintext
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
+    <TagInput plaintext defaultValue={['Julius']} style={{ width: 300 }} />
   </>
 );
 

@@ -10,7 +10,7 @@ import Tag from '../Tag';
 import TextBox from './TextBox';
 import Stack, { type StackProps } from '../Stack';
 import useInput from './hooks/useInput';
-import useData, { type InputItemDataType } from './hooks/useData';
+import useData, { type InputOption } from './hooks/useData';
 import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
@@ -44,13 +44,13 @@ import {
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
-import type { ItemDataType, FormControlPickerProps } from '@/internals/types';
+import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
 
 export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
-  extends FormControlPickerProps<V, InputPickerLocale, InputItemDataType>,
+  extends FormControlPickerProps<V, InputPickerLocale, InputOption>,
     Omit<SelectProps<V>, 'renderValue'>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   tabIndex?: number;
@@ -59,7 +59,7 @@ export interface InputPickerProps<V = ValueType>
   creatable?: boolean;
 
   /** Option to cache value when searching asynchronously */
-  cacheData?: InputItemDataType<V>[];
+  cacheData?: InputOption<V>[];
 
   /** The `onBlur` attribute for the `input` element. */
   onBlur?: React.FocusEventHandler;
@@ -68,7 +68,7 @@ export interface InputPickerProps<V = ValueType>
   onFocus?: React.FocusEventHandler;
 
   /** Called when the option is created */
-  onCreate?: (value: V, item: ItemDataType, event: React.SyntheticEvent) => void;
+  onCreate?: (value: V, item: Option, event: React.SyntheticEvent) => void;
 
   /**
    * Customize whether to display "Create option" action with given textbox value
@@ -78,16 +78,9 @@ export interface InputPickerProps<V = ValueType>
    * @param searchKeyword Value of the textbox
    * @param filteredData The items filtered by the searchKeyword
    */
-  shouldDisplayCreateOption?: (
-    searchKeyword: string,
-    filteredData: InputItemDataType<V>[]
-  ) => boolean;
+  shouldDisplayCreateOption?: (searchKeyword: string, filteredData: InputOption<V>[]) => boolean;
 
-  renderValue?: (
-    value: V,
-    item: ItemDataType<V>,
-    selectedElement: React.ReactNode
-  ) => React.ReactNode;
+  renderValue?: (value: V, item: Option<V>, selectedElement: React.ReactNode) => React.ReactNode;
 }
 
 /**
@@ -165,7 +158,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
   const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
 
-  const handleDataChange = (data: ItemDataType[]) => {
+  const handleDataChange = (data: Option[]) => {
     setFocusItemValue(data?.[0]?.[valueKey]);
   };
 
@@ -198,7 +191,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   );
 
   const onSearchCallback = useEventCallback(
-    (searchKeyword: string, filteredData: InputItemDataType[], event: React.SyntheticEvent) => {
+    (searchKeyword: string, filteredData: InputOption[], event: React.SyntheticEvent) => {
       if (!disabledOptions) {
         // The first option after filtering is the focus.
         let firstItemValue = filteredData?.[0]?.[valueKey];
@@ -279,7 +272,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   });
 
   const handleSelect = useEventCallback(
-    (value: string | string[], item: InputItemDataType, event: React.SyntheticEvent) => {
+    (value: string | string[], item: InputOption, event: React.SyntheticEvent) => {
       onSelect?.(value, item, event);
 
       if (creatable && item.create) {
@@ -297,7 +290,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
    * @param event
    */
   const handleSelectItem = useEventCallback(
-    (value: string, item: InputItemDataType, event: React.MouseEvent) => {
+    (value: string, item: InputOption, event: React.MouseEvent) => {
       setValue(value);
       setFocusItemValue(value);
       resetSearch();
@@ -315,7 +308,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
    * @param checked
    */
   const handleCheckTag = useEventCallback(
-    (nextItemValue: string, item: InputItemDataType, event: React.MouseEvent, checked: boolean) => {
+    (nextItemValue: string, item: InputOption, event: React.MouseEvent, checked: boolean) => {
       const val = cloneValue();
       if (checked) {
         val.push(nextItemValue);
@@ -504,7 +497,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     setOpen(false);
   });
 
-  const renderListItem = (label: React.ReactNode, item: InputItemDataType) => {
+  const renderListItem = (label: React.ReactNode, item: InputOption) => {
     // 'Create option "{0}"' =>  Create option "xxxxx"
     const newLabel = item.create ? (
       <span>{tplTransform(locale?.createOption || '', label)}</span>
@@ -523,7 +516,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     let itemNode = dataItem.itemNode;
 
     if (!isNil(value) && isFunction(renderValue)) {
-      itemNode = renderValue(value, dataItem.activeItem as ItemDataType<string | number>, itemNode);
+      itemNode = renderValue(value, dataItem.activeItem as Option<string | number>, itemNode);
     }
 
     return { isValid: dataItem.isValid, itemNode };
@@ -536,7 +529,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
     const { closable = true, onClose, ...tagRest } = tagProps;
     const tags = value || [];
-    const items: (ItemDataType | undefined)[] = [];
+    const items: (Option | undefined)[] = [];
 
     const tagElements = tags
       .map(tag => {
@@ -575,7 +568,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
     const classes = merge(className, popupClassName, prefix(multi ? 'check-menu' : 'select-menu'));
 
-    let items: ItemDataType[] = filterNodesOfTree(data, checkShouldDisplay);
+    let items: Option[] = filterNodesOfTree(data, checkShouldDisplay);
 
     if (
       creatable &&

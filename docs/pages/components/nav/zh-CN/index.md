@@ -64,7 +64,7 @@
 | children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                 | 组件内容                                      |
 | classPrefix | string `('nav')`                                         | 组件 CSS 类的前缀                             |
 | justified   | boolean                                                  | 宽度自适应                                    |
-| onSelect    | (eventKey: string, event: SyntheticEvent) => void        | 选择事件触发的回调函数                        |
+| onSelect    | (eventKey: string, event) => void                        | 选择事件触发的回调函数                        |
 | vertical    | boolean                                                  | 垂直导航                                      |
 
 ### `<Nav.Item>`
@@ -82,12 +82,12 @@
 
 ### `<Nav.Menu>`
 
-| 属性名称      | 类型                                           | 描述                            |
-| ------------- | ---------------------------------------------- | ------------------------------- |
-| icon          | ReactElement                                   | 展开菜单的导航项图标            |
-| noCaret       | boolean `(false)`                              | 是否隐藏小箭头图标              |
-| onClose       | (event: SyntheticEvent) => void                | 菜单关闭时的回调                |
-| onOpen        | (event: SyntheticEvent) => void                | 菜单开启时的回调                |
-| onToggle      | (open: boolean, event: SyntheticEvent) => void | 菜单开启/关闭时的回调           |
-| openDirection | "start"\|"end" `("end")`                       | 菜单开启的方向 (仅适用于子菜单) |
-| title         | ReactNode                                      | 展开菜单的导航项内容            |
+| 属性名称      | 类型                           | 描述                            |
+| ------------- | ------------------------------ | ------------------------------- |
+| icon          | ReactElement                   | 展开菜单的导航项图标            |
+| noCaret       | boolean `(false)`              | 是否隐藏小箭头图标              |
+| onClose       | (event) => void                | 菜单关闭时的回调                |
+| onOpen        | (event) => void                | 菜单开启时的回调                |
+| onToggle      | (open: boolean, event) => void | 菜单开启/关闭时的回调           |
+| openDirection | "start"\|"end" `("end")`       | 菜单开启的方向 (仅适用于子菜单) |
+| title         | ReactNode                      | 展开菜单的导航项内容            |

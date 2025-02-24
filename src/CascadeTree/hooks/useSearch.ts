@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import { ItemDataType } from '@/internals/types';
+import { Option } from '@/internals/types';
 import { useEventCallback } from '@/internals/hooks';
 import { getSafeRegExpString } from '@/internals/utils';
 
 interface SearchPanelProps<T> {
   labelKey: string;
   childrenKey: string;
-  parentMap: WeakMap<ItemDataType<T>, ItemDataType<T>>;
-  flattenedData: ItemDataType<T>[];
+  parentMap: WeakMap<Option<T>, Option<T>>;
+  flattenedData: Option<T>[];
   parentSelectable?: boolean;
-  onSearch: (value: string, items: ItemDataType<T>[], event: React.SyntheticEvent) => void;
+  onSearch: (value: string, items: Option<T>[], event: React.SyntheticEvent) => void;
 }
 
 function useSearch<T>(props: SearchPanelProps<T>) {
   const [searchKeyword, setSearchKeyword] = useState('');
   const { labelKey, childrenKey, parentMap, flattenedData, parentSelectable, onSearch } = props;
 
-  const someKeyword = (item: ItemDataType<T>, keyword?: string) => {
+  const someKeyword = (item: Option<T>, keyword?: string) => {
     if (item[labelKey].match(new RegExp(getSafeRegExpString(keyword || searchKeyword), 'i'))) {
       return true;
     }
@@ -30,8 +30,8 @@ function useSearch<T>(props: SearchPanelProps<T>) {
     return false;
   };
 
-  const getSearchResult = (keyword?: string): ItemDataType<T>[] => {
-    const items: ItemDataType<T>[] = [];
+  const getSearchResult = (keyword?: string): Option<T>[] => {
+    const items: Option<T>[] = [];
     const result = flattenedData.filter(item => {
       if (!parentSelectable && item[childrenKey]) {
         return false;

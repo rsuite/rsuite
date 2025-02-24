@@ -22,11 +22,11 @@ import { useClassNames, useMount, useEventCallback } from '../hooks';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import ListItemGroup from './ListItemGroup';
-import { StandardProps, ItemDataType, Offset, DataProps } from '@/internals/types';
+import { StandardProps, Option, Offset, DataProps } from '@/internals/types';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
 
-interface InnerItemDataType extends ItemDataType {
+interface InnerOption extends Option {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
 
@@ -39,7 +39,7 @@ interface InnerItemDataType extends ItemDataType {
  */
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
-    Partial<DataProps<InnerItemDataType>>,
+    Partial<DataProps<InnerOption>>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   groupBy?: string;
   disabledItemValues?: any[];

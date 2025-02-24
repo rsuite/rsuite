@@ -28,8 +28,8 @@ import {
 } from '@/internals/Picker';
 import type {
   FormControlPickerProps,
-  ItemDataType,
-  DataItemValue,
+  Option,
+  OptionValue,
   DeprecatedMenuProps
 } from '@/internals/types';
 import type { PickerLocale } from '../locales';
@@ -44,7 +44,7 @@ interface DeprecatedProps extends DeprecatedMenuProps {
   inline?: boolean;
 }
 export interface MultiCascaderProps<T = any>
-  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
+  extends FormControlPickerProps<T[], PickerLocale, Option<T>, T>,
     MultiCascadeTreeProps<T, T[], PickerLocale>,
     DeprecatedProps,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
@@ -58,7 +58,7 @@ export interface MultiCascaderProps<T = any>
    */
   renderValue?: (
     value: T[],
-    selectedItems: ItemDataType<T>[],
+    selectedItems: Option<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
@@ -75,7 +75,7 @@ const emptyArray = [];
  * @see https://rsuitejs.com/components/multi-cascader/
  */
 const MultiCascader = forwardRef<'div', MultiCascaderProps>(
-  <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
+  <T extends OptionValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {
       as: Component = 'div',
@@ -123,7 +123,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     const { prefix, merge } = useClassNames(classPrefix);
 
     const onSelectCallback = useCallback(
-      (node: ItemDataType<T>, cascadePaths: ItemDataType<T>[], event: React.SyntheticEvent) => {
+      (node: Option<T>, cascadePaths: Option<T>[], event: React.SyntheticEvent) => {
         onSelect?.(node, cascadePaths, event);
         trigger.current?.updatePosition?.();
       },
@@ -254,8 +254,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     const renderCascadeColumn = (
       childNodes: React.ReactNode,
       column: {
-        items: readonly ItemDataType<T>[];
-        parentItem?: ItemDataType<T>;
+        items: readonly Option<T>[];
+        parentItem?: Option<T>;
         layer?: number;
       }
     ) => {
@@ -265,7 +265,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       return childNodes;
     };
 
-    const renderCascadeTreeNode = (node: React.ReactNode, itemData: ItemDataType<T>) => {
+    const renderCascadeTreeNode = (node: React.ReactNode, itemData: Option<T>) => {
       if (typeof renderTreeNode === 'function') {
         return renderTreeNode(node, itemData);
       }

@@ -3,7 +3,7 @@ import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
-import type { ItemDataType } from '@/internals/types';
+import type { Option } from '@/internals/types';
 import type { CheckboxProps } from '../Checkbox';
 
 interface DeprecatedProps {
@@ -22,7 +22,7 @@ export interface TagPickerProps<V = any>
   /** Custom render selected items */
   renderValue?: (
     values: V[],
-    items: ItemDataType<V>[],
+    items: Option<V>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Highlight from '../Highlight';
-import { ItemDataType, WithAsProps } from '@/internals/types';
+import { Option, WithAsProps } from '@/internals/types';
 import { useClassNames } from '@/internals/hooks';
 import { getPathTowardsItem } from '@/internals/Tree/utils';
 import { useCustom } from '../CustomProvider';
@@ -10,13 +10,13 @@ interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;
   labelKey: string;
   valueKey: string;
-  parentMap: WeakMap<ItemDataType<T>, ItemDataType<T>>;
-  data: ItemDataType<T>[];
+  parentMap: WeakMap<Option<T>, Option<T>>;
+  data: Option<T>[];
   focusItemValue?: T | null;
   disabledItemValues: any[];
   locale?: Record<string, string>;
-  renderSearchItem?: (label: React.ReactNode, items: ItemDataType<T>[]) => React.ReactNode;
-  onSelect: (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => void;
+  renderSearchItem?: (label: React.ReactNode, items: Option<T>[]) => React.ReactNode;
+  onSelect: (item: Option<T>, items: Option<T>[], event: React.MouseEvent) => void;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
   inputRef?: React.RefObject<HTMLInputElement | null>;
 }
@@ -46,7 +46,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 
-  const renderSearchRow = (item: ItemDataType<T>, key: number) => {
+  const renderSearchRow = (item: Option<T>, key: number) => {
     const items = getPathTowardsItem(item, item => parentMap.get(item));
 
     const formattedNodes = items.map(itemData => {

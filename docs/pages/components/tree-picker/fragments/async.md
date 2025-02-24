@@ -1,10 +1,9 @@
 <!--start-code-->
 
 ```js
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-import { TreePicker, HStack } from 'rsuite';
+import { TreePicker, HStack, Loader } from 'rsuite';
 import { mockAsyncData } from './mock';
 
 const [getNodes, fetchNodes] = mockAsyncData();
@@ -32,15 +31,15 @@ const App = () => {
           </HStack>
         );
       }}
-      renderMenu={menu => {
+      renderTree={tree => {
         if (data.length === 0) {
           return (
-            <p style={{ padding: 10, color: '#999', textAlign: 'center' }}>
-              <SpinnerIcon spin /> Loading...
-            </p>
+            <HStack justifyContent="center">
+              <Loader content="Loading..." />
+            </HStack>
           );
         }
-        return menu;
+        return tree;
       }}
     />
   );

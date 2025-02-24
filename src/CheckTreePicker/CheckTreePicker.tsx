@@ -31,7 +31,7 @@ import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode } from '@/internals/Tree/types';
-import type { FormControlPickerProps, ItemDataType, DeprecatedMenuProps } from '@/internals/types';
+import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];
@@ -39,7 +39,7 @@ export interface CheckTreePickerProps<V = ValueType>
   extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
     TreeExtraProps,
     DeprecatedMenuProps,
-    FormControlPickerProps<V, PickerLocale, ItemDataType>,
+    FormControlPickerProps<V, PickerLocale, Option>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted

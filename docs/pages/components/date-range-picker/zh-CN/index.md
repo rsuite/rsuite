@@ -213,7 +213,7 @@ type DisabledDateFunction = (
   /**
    * Date selected.
    */
-  selectDate?: ValueType,
+  selectDate?: Value,
 
   /**
    * Whether to choose to finish now.

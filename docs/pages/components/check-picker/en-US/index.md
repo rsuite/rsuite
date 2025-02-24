@@ -108,70 +108,70 @@ Customize a select all function.
 
 ### `<CheckPicker>`
 
-| Property           | Type`(Default)`                                                                                    | Description                                                 |
-| ------------------ | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| appearance         | 'default' \| 'subtle' `('default')`                                                                | Set picker appearence                                       |
-| block              | boolean                                                                                            | Whether to display the component as a block                 |
-| caretAs            | ElementType                                                                                        | Custom component for the caret icon                         |
-| classPrefix        | string `('picker')`                                                                                | The prefix for the component CSS class                      |
-| cleanable          | boolean `(true)`                                                                                   | Whether the selected value can be cleared                   |
-| container          | HTMLElement \| (() => HTMLElement)                                                                 | Sets the rendering container                                |
-| countable          | boolean `(true)`                                                                                   | Whether to display the count of selected items              |
-| data \*            | [ItemDataType][item][]                                                                             | The data for the component                                  |
-| defaultValue       | [ValueType][value]                                                                                 | Default values of the selected items                        |
-| disabled           | boolean                                                                                            | Whether the component is disabled                           |
-| disabledItemValues | [ValueType][value]                                                                                 | Values of items to be disabled                              |
-| groupBy            | string                                                                                             | Key for grouping data items                                 |
-| label              | ReactNode                                                                                          | Label displayed at the beginning of the toggle button       |
-| labelKey           | string `('label')`                                                                                 | Key for the label in the data items                         |
-| listboxMaxHeight   | number `(320)`                                                                                     | Maximum height of the listbox                               |
-| listProps          | [ListProps][listprops]                                                                             | Properties for virtualized lists                            |
-| loading            | boolean `(false)`                                                                                  | Whether to display a loading state indicator                |
-| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Localization settings for component text                    |
-| onChange           | (value: [ValueType][value], event) => void                                                         | Callback fired when value changes                           |
-| onClean            | (event:SyntheticEvent) => void                                                                     | Callback fired when value is cleared                        |
-| onClose            | () => void                                                                                         | Callback fired when component closes                        |
-| onEnter            | () => void                                                                                         | Callback fired before the overlay transitions in            |
-| onEntered          | () => void                                                                                         | Callback fired after the overlay finishes transitioning in  |
-| onEntering         | () => void                                                                                         | Callback fired as the overlay begins to transition in       |
-| onExit             | () => void                                                                                         | Callback fired right before the overlay transitions out     |
-| onExited           | () => void                                                                                         | Callback fired after the overlay finishes transitioning out |
-| onExiting          | () => void                                                                                         | Callback fired as the overlay begins to transition out      |
-| onGroupTitleClick  | (event) => void                                                                                    | Callback fired when a group title is clicked                |
-| onOpen             | () => void                                                                                         | Callback fired when component opens                         |
-| onSearch           | (searchKeyword:string, event) => void                                                              | Callback fired when search is performed                     |
-| onSelect           | (value: [ValueType][value], item: [ItemDataType][item] , event) => void                            | Callback fired when an item is selected                     |
-| open               | boolean                                                                                            | Whether the component is open                               |
-| placeholder        | ReactNode `('Select')`                                                                             | Placeholder text                                            |
-| placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                                              | The placement of the component                              |
-| popupClassName     | string                                                                                             | Custom class name for the popup                             |
-| popupStyle         | CSSProperties                                                                                      | Custom style for the popup                                  |
-| preventOverflow    | boolean                                                                                            | Prevent floating element overflow                           |
-| renderExtraFooter  | () => ReactNode                                                                                    | Custom render function for extra footer                     |
-| renderListbox      | (listbox:ReactNode) => ReactNode                                                                   | Custom render function for listbox                          |
-| renderOption       | (label: ReactNode, item: [ItemDataType][item]) => ReactNode                                        | Custom render function for options                          |
-| renderOptionGroup  | (title: ReactNode, item:[ItemDataType][item]) => ReactNode                                         | Custom render function for option groups                    |
-| renderValue        | (value: [ValueType][value], items: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | Custom render function for selected items                   |
-| searchable         | boolean `(true)`                                                                                   | Whether to display search input box                         |
-| searchBy           | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                                 | Custom search function                                      |
-| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                              | Size of the picker                                          |
-| sort               | (isGroup: boolean) => (a: any, b: any) => number                                                   | Custom sort function for options                            |
-| sticky             | boolean                                                                                            | Whether to stick selected options at the top                |
-| toggleAs           | ElementType `('a')`                                                                                | Custom element type for the component                       |
-| value              | [ValueType][value]                                                                                 | Values of the selected items (Controlled)                   |
-| valueKey           | string `('value')`                                                                                 | Key for the value in the data items                         |
-| virtualized        | boolean                                                                                            | Whether to use virtualized list                             |
+| Property           | Type`(Default)`                                                                   | Description                                                 |
+| ------------------ | --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| appearance         | 'default' \| 'subtle' `('default')`                                               | Set picker appearence                                       |
+| block              | boolean                                                                           | Whether to display the component as a block                 |
+| caretAs            | ElementType                                                                       | Custom component for the caret icon                         |
+| classPrefix        | string `('picker')`                                                               | The prefix for the component CSS class                      |
+| cleanable          | boolean `(true)`                                                                  | Whether the selected value can be cleared                   |
+| container          | HTMLElement \| (() => HTMLElement)                                                | Sets the rendering container                                |
+| countable          | boolean `(true)`                                                                  | Whether to display the count of selected items              |
+| data \*            | [Option][item][]                                                                  | The data for the component                                  |
+| defaultValue       | [Value][value]                                                                    | Default values of the selected items                        |
+| disabled           | boolean                                                                           | Whether the component is disabled                           |
+| disabledItemValues | [Value][value]                                                                    | Values of items to be disabled                              |
+| groupBy            | string                                                                            | Key for grouping data items                                 |
+| label              | ReactNode                                                                         | Label displayed at the beginning of the toggle button       |
+| labelKey           | string `('label')`                                                                | Key for the label in the data items                         |
+| listboxMaxHeight   | number `(320)`                                                                    | Maximum height of the listbox                               |
+| listProps          | [ListProps][listprops]                                                            | Properties for virtualized lists                            |
+| loading            | boolean `(false)`                                                                 | Whether to display a loading state indicator                |
+| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                          | Localization settings for component text                    |
+| onChange           | (value: [Value][value], event) => void                                            | Callback fired when value changes                           |
+| onClean            | (event) => void                                                                   | Callback fired when value is cleared                        |
+| onClose            | () => void                                                                        | Callback fired when component closes                        |
+| onEnter            | () => void                                                                        | Callback fired before the overlay transitions in            |
+| onEntered          | () => void                                                                        | Callback fired after the overlay finishes transitioning in  |
+| onEntering         | () => void                                                                        | Callback fired as the overlay begins to transition in       |
+| onExit             | () => void                                                                        | Callback fired right before the overlay transitions out     |
+| onExited           | () => void                                                                        | Callback fired after the overlay finishes transitioning out |
+| onExiting          | () => void                                                                        | Callback fired as the overlay begins to transition out      |
+| onGroupTitleClick  | (event) => void                                                                   | Callback fired when a group title is clicked                |
+| onOpen             | () => void                                                                        | Callback fired when component opens                         |
+| onSearch           | (search:string, event) => void                                                    | Callback fired when search is performed                     |
+| onSelect           | (value: [Value][value], item: [Option][item] , event) => void                     | Callback fired when an item is selected                     |
+| open               | boolean                                                                           | Whether the component is open                               |
+| placeholder        | ReactNode `('Select')`                                                            | Placeholder text                                            |
+| placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                             | The placement of the component                              |
+| popupClassName     | string                                                                            | Custom class name for the popup                             |
+| popupStyle         | CSSProperties                                                                     | Custom style for the popup                                  |
+| preventOverflow    | boolean                                                                           | Prevent floating element overflow                           |
+| renderExtraFooter  | () => ReactNode                                                                   | Custom render function for extra footer                     |
+| renderListbox      | (listbox:ReactNode) => ReactNode                                                  | Custom render function for listbox                          |
+| renderOption       | (label: ReactNode, item:[Option][item]) => ReactNode                              | Custom render function for options                          |
+| renderOptionGroup  | (title: ReactNode, item:[Option][item]) => ReactNode                              | Custom render function for option groups                    |
+| renderValue        | (value: [Value][value], items: [Option][item][], selected:ReactNode) => ReactNode | Custom render function for selected items                   |
+| searchable         | boolean `(true)`                                                                  | Whether to display search input box                         |
+| searchBy           | (keyword: string, label: ReactNode, item: Option) => boolean                      | Custom search function                                      |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                             | Size of the picker                                          |
+| sort               | (isGroup: boolean) => (a: any, b: any) => number                                  | Custom sort function for options                            |
+| sticky             | boolean                                                                           | Whether to stick selected options at the top                |
+| toggleAs           | ElementType `('a')`                                                               | Custom element type for the component                       |
+| value              | [Value][value]                                                                    | Values of the selected items (Controlled)                   |
+| valueKey           | string `('value')`                                                                | Key for the value in the data items                         |
+| virtualized        | boolean                                                                           | Whether to use virtualized list                             |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
 
-### `ts:ValueType`
+### `ts:Value`
 
 ```ts
-type ValueType = (string | number)[];
+type Value = (string | number)[];
 ```
 
-[item]: #code-ts-item-data-type-code
-[value]: #code-ts-value-type-code
+[item]: #code-ts-option-code
+[value]: #code-ts-value-code
 [listprops]: #code-ts-list-props-code

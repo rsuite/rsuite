@@ -13,16 +13,16 @@ import type { AnimationEventProps } from './animation';
 import type { SizeType, WithAsProps } from './shared';
 import type { PickerHandle } from '@/internals/Picker/types';
 
-export interface ItemDataType<T = number | string> extends Record<string, any> {
+export interface Option<T = number | string> extends Record<string, any> {
   label?: string | ReactNode;
   value?: T;
   groupBy?: string;
-  parent?: ItemDataType<T>;
-  children?: ItemDataType<T>[];
+  parent?: Option<T>;
+  children?: Option<T>[];
   loading?: boolean;
 }
 
-export type DataItemValue = number | string | null;
+export type OptionValue = number | string | null;
 
 export type OnChangeCallback<T, E = SyntheticEvent> = (value: T, event: E) => void;
 
@@ -216,8 +216,8 @@ export interface ListboxProps {
   renderListbox?: (menu: React.ReactNode) => React.ReactNode;
 
   /** Custom render function for individual options */
-  renderOption?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
+  renderOption?: (label: React.ReactNode, item: Option) => React.ReactNode;
 
   /** Custom render function for option groups */
-  renderOptionGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
+  renderOptionGroup?: (title: React.ReactNode, item: Option) => React.ReactNode;
 }

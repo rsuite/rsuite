@@ -20,7 +20,7 @@ import {
   WithAsProps,
   FormControlPickerProps,
   Placement,
-  ItemDataType,
+  Option,
   SizeType,
   ListboxProps,
   PopupProps
@@ -30,7 +30,7 @@ import { useCustom } from '../CustomProvider';
 
 export interface AutoCompleteProps<T = string>
   extends WithAsProps,
-    FormControlPickerProps<T, any, ItemDataType | string>,
+    FormControlPickerProps<T, any, Option | string>,
     ListboxProps,
     PopupProps {
   /** The placement of component */
@@ -52,10 +52,10 @@ export interface AutoCompleteProps<T = string>
   autoComplete?: string;
 
   /** Custom filter function to determine whether the item will be displayed */
-  filterBy?: (value: string, item: ItemDataType) => boolean;
+  filterBy?: (value: string, item: Option) => boolean;
 
   /** Called when a option is selected */
-  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
+  onSelect?: (value: any, item: Option, event: React.SyntheticEvent) => void;
 
   /** Called on focus */
   onFocus?: React.FocusEventHandler;
@@ -167,7 +167,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     handleClose();
   };
 
-  const handleSelect = useEventCallback((item: ItemDataType, event: React.SyntheticEvent) => {
+  const handleSelect = useEventCallback((item: Option, event: React.SyntheticEvent) => {
     onSelect?.(item.value, item, event);
   });
 
@@ -195,7 +195,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
   });
 
   const handleItemSelect = useEventCallback(
-    (nextItemValue: string, item: ItemDataType, event: React.SyntheticEvent) => {
+    (nextItemValue: string, item: Option, event: React.SyntheticEvent) => {
       setValue(nextItemValue);
       setFocusItemValue(nextItemValue);
       handleSelect(item, event);

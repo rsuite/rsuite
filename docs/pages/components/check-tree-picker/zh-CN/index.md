@@ -117,7 +117,7 @@
 | onExiting               | () => void                                                                                     | 退出中动画过渡的回调                   |
 | onExpand                | (expandItemValues: string[], item: [TreeNode][node], concat:(data, children) => Array) => void | 树节点展开时的回调                     |
 | onOpen                  | () => void                                                                                     | 打开弹出层的回调                       |
-| onSearch                | (searchKeyword:string, event)=void                                                             | 搜索框值改变的回调                     |
+| onSearch                | (search:string, event)=void                                                                    | 搜索框值改变的回调                     |
 | onSelect                | (item:[TreeNode][node],value:string, event) => void                                            | 选择树节点后的回调                     |
 | open                    | boolean                                                                                        | 是否打开弹出层                         |
 | placeholder             | ReactNode `('Select')`                                                                         | 没有值时的占位内容                     |

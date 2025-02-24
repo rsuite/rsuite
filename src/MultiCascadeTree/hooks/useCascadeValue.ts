@@ -3,7 +3,7 @@ import uniq from 'lodash/uniq';
 import remove from 'lodash/remove';
 import { MultiCascadeTreeProps, ItemKeys } from '../types';
 import { useEventCallback } from '@/internals/hooks';
-import { ItemDataType } from '@/internals/types';
+import { Option } from '@/internals/types';
 import {
   MayHasParent,
   removeAllChildrenValue,
@@ -185,7 +185,7 @@ function useCascadeValue<T>(
   }, [transformValue, valueProp]);
 
   const handleCheck = useEventCallback(
-    (node: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => {
+    (node: Option<T>, event: React.SyntheticEvent, checked: boolean) => {
       const nodeValue = node[valueKey];
       let nextValue: T[] = [];
 

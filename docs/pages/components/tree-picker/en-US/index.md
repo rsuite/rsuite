@@ -125,7 +125,7 @@
 | renderTree              | (tree:ReactNode) => ReactNode                                                                 | Custom render tree                                         |
 | renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render tree node icon                               |
 | renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | Custom render tree node                                    |
-| renderValue             | (value: string, node:[TreeNode][node], selectedElement:ReactNode) => ReactNode                | Custom render selected value                               |
+| renderValue             | (value: string, node:[TreeNode][node], selected:ReactNode) => ReactNode                       | Custom render selected value                               |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                             |
 | searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | Custom search method                                       |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | A picker can have different sizes                          |

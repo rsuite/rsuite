@@ -28,7 +28,7 @@ import ImportGuide from '@/components/ImportGuide';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
 import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import SpinnerIcon from '@rsuite/icons/Spinner';
 import {
   importFakerString,
   mockTreeData,

@@ -1,8 +1,7 @@
 <!--start-code-->
 
 ```js
-import { InputPicker } from 'rsuite';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { InputPicker, HStack, Loader } from 'rsuite';
 
 const useUsers = (defaultUsers = []) => {
   const [users, setUsers] = React.useState(defaultUsers);
@@ -31,15 +30,15 @@ const App = () => {
       labelKey="login"
       valueKey="id"
       onSearch={featUsers}
-      renderMenu={menu => {
+      renderListbox={listbox => {
         if (loading) {
           return (
-            <p style={{ padding: 10, color: '#999', textAlign: 'center' }}>
-              <SpinnerIcon spin /> Loading...
-            </p>
+            <HStack justifyContent="center">
+              <Loader content="Loading..." />
+            </HStack>
           );
         }
-        return menu;
+        return listbox;
       }}
     />
   );

@@ -1,28 +1,28 @@
 import { useState, useEffect, useMemo } from 'react';
 import { shallowEqual } from '@/internals/utils';
-import type { ItemDataType } from '@/internals/types';
+import type { Option } from '@/internals/types';
 
-export interface InputItemDataType<T = number | string> extends ItemDataType<T> {
+export interface InputOption<T = number | string> extends Option<T> {
   create?: boolean;
 }
 
 interface UseDataProps {
-  controlledData?: InputItemDataType[];
-  cacheData?: InputItemDataType[];
-  onChange?: (data: ItemDataType[]) => void;
+  controlledData?: InputOption[];
+  cacheData?: InputOption[];
+  onChange?: (data: Option[]) => void;
 }
 
 function useData(props: UseDataProps) {
   const { controlledData = [], cacheData = [], onChange } = props;
   const [uncontrolledData, setData] = useState(controlledData);
-  const [newData, setNewData] = useState<InputItemDataType[]>([]);
+  const [newData, setNewData] = useState<InputOption[]>([]);
 
   const data = useMemo(() => {
-    return ([] as ItemDataType[]).concat(uncontrolledData, newData);
+    return ([] as Option[]).concat(uncontrolledData, newData);
   }, [newData, uncontrolledData]);
 
   const dataWithCache = useMemo(() => {
-    return ([] as ItemDataType[]).concat(data, cacheData);
+    return ([] as Option[]).concat(data, cacheData);
   }, [data, cacheData]);
 
   // Update the state when the data in props changes

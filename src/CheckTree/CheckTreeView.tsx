@@ -24,7 +24,7 @@ import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
-import type { WithAsProps, ItemDataType, ToArray, DataProps } from '@/internals/types';
+import type { WithAsProps, Option, ToArray, DataProps } from '@/internals/types';
 import type { TreeViewBaseProps } from '../Tree/types';
 
 /**
@@ -232,7 +232,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     setFocusItemValue(node[valueKey]);
 
     onChange?.(checkedValues, event);
-    onSelect?.(node as ItemDataType, checkedValues, event);
+    onSelect?.(node as Option, checkedValues, event);
     onSelectItem?.(node, path);
   });
 

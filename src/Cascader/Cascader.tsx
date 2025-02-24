@@ -26,8 +26,8 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import {
-  ItemDataType,
-  DataItemValue,
+  Option,
+  OptionValue,
   FormControlPickerProps,
   DeprecatedMenuProps
 } from '@/internals/types';
@@ -43,8 +43,8 @@ interface DeprecatedProps extends DeprecatedMenuProps {
   inline?: boolean;
 }
 
-export interface CascaderProps<T = DataItemValue>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+export interface CascaderProps<T = OptionValue>
+  extends FormControlPickerProps<T, PickerLocale, Option<T>>,
     CascadeTreeProps<T, T, PickerLocale>,
     DeprecatedProps,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
@@ -58,7 +58,7 @@ export interface CascaderProps<T = DataItemValue>
    */
   renderValue?: (
     value: T,
-    selectedPaths: ItemDataType<T>[],
+    selectedPaths: Option<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
@@ -80,7 +80,7 @@ export interface CascaderComponent {
  * @see https://rsuitejs.com/components/cascader
  */
 const Cascader = forwardRef<'div', CascaderProps>(
-  <T extends DataItemValue>(props: CascaderProps<T>, ref) => {
+  <T extends OptionValue>(props: CascaderProps<T>, ref) => {
     const { rtl, propsWithDefaults } = useCustom('Cascader', props);
     const {
       as: Component = 'div',
@@ -130,7 +130,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
     ];
 
     // Store the children of each node
-    const childrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+    const childrenMap = useMap<Option<T>, readonly Option<T>[]>();
 
     // Store the parent of each node
     const parentMap = useMemo(
@@ -189,7 +189,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       selectedItem,
       getParent: item => parentMap.get(item),
       getChildren: item =>
-        childrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
+        childrenMap.get(item) ?? (item[childrenKey] as readonly Option<T>[] | undefined)
     });
 
     /**
@@ -224,11 +224,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       callback: onFocusItemCallback
     });
 
-    const onSearchCallback = (
-      value: string,
-      items: ItemDataType<T>[],
-      event: React.SyntheticEvent
-    ) => {
+    const onSearchCallback = (value: string, items: Option<T>[], event: React.SyntheticEvent) => {
       onSearch?.(value, event);
 
       if (!value || items.length === 0) {
@@ -286,7 +282,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
         }
 
         if (!shallowEqual(value, focusItemValue)) {
-          onSelect?.(focusItem as ItemDataType<T>, pathTowardsActiveItem, event);
+          onSelect?.(focusItem as Option<T>, pathTowardsActiveItem, event);
           onChange?.(focusItemValue ?? (null as T), event);
         }
         handleClose();
@@ -310,7 +306,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
      * The search structure option is processed after being selected.
      */
     const handleSearchRowSelect = useEventCallback(
-      (itemData: ItemDataType<T>, nodes: ItemDataType<T>[], event: React.SyntheticEvent) => {
+      (itemData: Option<T>, nodes: Option<T>[], event: React.SyntheticEvent) => {
         const nextValue = itemData[valueKey];
 
         handleClose();
@@ -325,8 +321,8 @@ const Cascader = forwardRef<'div', CascaderProps>(
     const renderCascadeColumn = (
       childNodes: React.ReactNode,
       column: {
-        items: readonly ItemDataType<T>[];
-        parentItem?: ItemDataType<T>;
+        items: readonly Option<T>[];
+        parentItem?: Option<T>;
         layer?: number;
       }
     ) => {
@@ -336,7 +332,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       return childNodes;
     };
 
-    const renderCascadeTreeNode = (node: React.ReactNode, itemData: ItemDataType<T>) => {
+    const renderCascadeTreeNode = (node: React.ReactNode, itemData: Option<T>) => {
       if (typeof renderTreeNode === 'function') {
         return renderTreeNode(node, itemData);
       }

@@ -45,10 +45,10 @@ const App = () => {
     }
   };
 
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     return (
       <>
-        {menu}
+        {listbox}
         {loading && <FixedLoader />}
       </>
     );
@@ -59,7 +59,7 @@ const App = () => {
       data={data}
       style={{ width: 224 }}
       virtualized
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
       listProps={{
         onItemsRendered
       }}

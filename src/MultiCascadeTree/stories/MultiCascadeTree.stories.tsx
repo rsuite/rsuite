@@ -4,7 +4,7 @@ import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import MultiCascadeTree from '../';
-import type { ItemDataType } from '@/internals/types';
+import type { Option } from '@/internals/types';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
 import '../styles/index.less';
@@ -89,8 +89,8 @@ export const AsyncLoadData: Story = {
     ...defaultArgs,
     columnWidth: 180,
     data: getNodes(5) as any,
-    getChildren: (node: ItemDataType<any>) => {
-      return fetchNodes(node.id) as Promise<ItemDataType<any>>[];
+    getChildren: (node: Option<any>) => {
+      return fetchNodes(node.id) as Promise<Option<any>>[];
     },
     renderTreeNode: (label, item) => {
       return (
