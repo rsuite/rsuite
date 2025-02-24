@@ -31,9 +31,15 @@ import {
 } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
 import type { ListProps } from '@/internals/Windowing';
-import type { FormControlPickerProps, ItemDataType } from '@/internals/types';
+import type {
+  FormControlPickerProps,
+  ItemDataType,
+  ListboxProps,
+  PopupProps,
+  DeprecatedMenuProps
+} from '@/internals/types';
 
-export interface SelectProps<T> {
+export interface SelectProps<T> extends ListboxProps, PopupProps, DeprecatedMenuProps {
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -53,15 +59,6 @@ export interface SelectProps<T> {
 
   /** Sort options */
   sort?: (isGroup: boolean) => (a: any, b: any) => number;
-
-  /** Customizing the Rendering Menu list */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /** Custom render menuItems */
-  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
-  /** Custom render menu group */
-  renderMenuGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
@@ -127,10 +124,10 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       disabled,
       cleanable = true,
       placement = 'bottomStart',
-      menuClassName,
-      menuAutoWidth = true,
-      menuMaxHeight = 320,
-      menuStyle,
+      popupClassName,
+      popupAutoWidth = true,
+      popupStyle,
+      listboxMaxHeight = 320,
       groupBy,
       locale,
       toggleAs,
@@ -150,9 +147,9 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       onSearch,
       sort,
       renderValue,
-      renderMenu,
-      renderMenuGroup,
-      renderMenuItem,
+      renderListbox,
+      renderOptionGroup,
+      renderOption,
       renderExtraFooter,
       ...rest
     } = propsWithDefaults;
@@ -296,7 +293,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('select-menu'));
+      const classes = merge(className, popupClassName, prefix('select-menu'));
       let items = filteredData;
 
       // Create a tree structure data when set `groupBy`
@@ -306,16 +303,16 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         items = items.sort(sort(false));
       }
 
-      const menu = items.length ? (
+      const listbox = items.length ? (
         <Listbox
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
-          renderMenuGroup={renderMenuGroup}
-          renderMenuItem={renderMenuItem}
-          maxHeight={menuMaxHeight}
+          renderOptionGroup={renderOptionGroup}
+          renderOption={renderOption}
+          maxHeight={listboxMaxHeight}
           classPrefix={'picker-select-menu'}
           listItemClassPrefix={'picker-select-menu-item'}
           listItemAs={ListItem}
@@ -335,9 +332,9 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
-          autoWidth={menuAutoWidth}
+          autoWidth={popupAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={popupStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >
@@ -350,7 +347,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
             />
           )}
 
-          {renderMenu ? renderMenu(menu) : menu}
+          {renderListbox ? renderListbox(listbox) : listbox}
           {renderExtraFooter?.()}
         </PickerPopup>
       );

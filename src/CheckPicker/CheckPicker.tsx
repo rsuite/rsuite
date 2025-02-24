@@ -84,10 +84,10 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       virtualized,
       cleanable = true,
       placement = 'bottomStart',
-      menuAutoWidth = true,
-      menuMaxHeight = 320,
-      menuClassName,
-      menuStyle,
+      popupAutoWidth = true,
+      listboxMaxHeight = 320,
+      popupClassName,
+      popupStyle,
       locale,
       placeholder,
       disabled,
@@ -101,11 +101,11 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       id,
       sort,
       searchBy,
-      renderMenuItem,
-      renderMenuGroup,
+      renderOption,
+      renderOptionGroup,
+      renderListbox,
       renderValue,
       renderExtraFooter,
-      renderMenu,
       onGroupTitleClick,
       onSearch,
       onEnter,
@@ -290,7 +290,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
 
     const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('check-menu'));
+      const classes = merge(className, popupClassName, prefix('check-menu'));
       let items = filteredData;
       let filteredStickyItems: ItemDataType[] = [];
 
@@ -310,7 +310,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         items = items.sort(sort(false));
       }
 
-      const menu =
+      const listbox =
         items.length || filteredStickyItems.length ? (
           <Listbox<true>
             listProps={listProps}
@@ -318,9 +318,9 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
             disabledItemValues={disabledItemValues}
             valueKey={valueKey}
             labelKey={labelKey}
-            renderMenuGroup={renderMenuGroup}
-            renderMenuItem={renderMenuItem}
-            maxHeight={menuMaxHeight}
+            renderOptionGroup={renderOptionGroup}
+            renderOption={renderOption}
+            maxHeight={listboxMaxHeight}
             classPrefix={'picker-check-menu'}
             listItemAs={ListCheckItem}
             activeItemValues={value}
@@ -339,9 +339,9 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
-          autoWidth={menuAutoWidth}
+          autoWidth={popupAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={popupStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >
@@ -353,7 +353,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
               inputRef={searchInput}
             />
           )}
-          {renderMenu ? renderMenu(menu) : menu}
+          {renderListbox ? renderListbox(listbox) : listbox}
           {renderExtraFooter?.()}
         </PickerPopup>
       );

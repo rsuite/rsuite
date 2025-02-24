@@ -21,17 +21,18 @@ import {
   FormControlPickerProps,
   Placement,
   ItemDataType,
-  SizeType
+  SizeType,
+  ListboxProps,
+  PopupProps
 } from '@/internals/types';
 import { transformData, shouldDisplay } from './utils';
 import { useCustom } from '../CustomProvider';
 
 export interface AutoCompleteProps<T = string>
   extends WithAsProps,
-    FormControlPickerProps<T, any, ItemDataType | string> {
-  /** Additional classes for menu */
-  menuClassName?: string;
-
+    FormControlPickerProps<T, any, ItemDataType | string>,
+    ListboxProps,
+    PopupProps {
   /** The placement of component */
   placement?: Placement;
 
@@ -46,9 +47,6 @@ export interface AutoCompleteProps<T = string>
 
   /** Placeholder text */
   placeholder?: string;
-
-  /** The width of the menu will automatically follow the width of the input box */
-  menuAutoWidth?: boolean;
 
   /** AutoComplete Content */
   autoComplete?: string;
@@ -76,12 +74,6 @@ export interface AutoCompleteProps<T = string>
 
   /** Called on close */
   onClose?: () => void;
-
-  /** Customizing the Rendering Menu list */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /** Custom selected option */
-  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
 }
 
 /**
@@ -101,18 +93,19 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     selectOnEnter = true,
     classPrefix = 'auto-complete',
     defaultValue = '',
-    menuAutoWidth = true,
+    popupAutoWidth = true,
+    popupClassName,
+    popupStyle,
     data,
     value: valueProp,
     open,
     style,
     size,
-    menuClassName,
     id,
     readOnly,
     plaintext,
-    renderMenu,
-    renderMenuItem,
+    renderListbox,
+    renderOption,
     onSelect,
     filterBy,
     onKeyDown,
@@ -230,16 +223,16 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
-    const menu = (
+    const classes = merge(className, popupClassName);
+    const listbox = (
       <Listbox
         classPrefix="auto-complete-menu"
         listItemClassPrefix="auto-complete-item"
         listItemAs={ListItem}
         focusItemValue={focusItemValue}
         onSelect={handleItemSelect}
-        renderMenuItem={renderMenuItem}
+        renderOption={renderOption}
         data={items}
-        className={menuClassName}
         query={value}
       />
     );
@@ -247,12 +240,13 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     return (
       <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
-        className={className}
+        className={classes}
         onKeyDown={handleKeyDownEvent}
         target={trigger}
-        autoWidth={menuAutoWidth}
+        style={popupStyle}
+        autoWidth={popupAutoWidth}
       >
-        {renderMenu ? renderMenu(menu) : menu}
+        {renderListbox ? renderListbox(listbox) : listbox}
       </PickerPopup>
     );
   };

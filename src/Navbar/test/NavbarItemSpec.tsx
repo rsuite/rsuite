@@ -44,14 +44,14 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
 
   it('Should call onSelect callback with correct eventKey on click', () => {
     const eventKey = 'Test';
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
-    render(<NavbarItem eventKey={eventKey} onSelect={onSelectSpy} data-testid="navbar-item" />, {
+    render(<NavbarItem eventKey={eventKey} onSelect={onSelect} data-testid="navbar-item" />, {
       wrapper
     });
 
     fireEvent.click(screen.getByTestId('navbar-item'));
-    expect(onSelectSpy).to.have.been.calledWith(eventKey);
+    expect(onSelect).to.have.been.calledWith(eventKey);
   });
 
   it('Should not call onSelect callback when disabled', () => {
@@ -66,14 +66,14 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
 
-    render(<NavbarItem disabled onClick={onClickSpy} data-testid="navbar-item" />, {
+    render(<NavbarItem disabled onClick={onClick} data-testid="navbar-item" />, {
       wrapper
     });
 
     userEvent.click(screen.getByTestId('navbar-item'));
-    expect(onClickSpy).not.to.have.been.called;
+    expect(onClick).not.to.have.been.called;
   });
 
   it('Should have a custom className', () => {

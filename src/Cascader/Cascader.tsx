@@ -25,77 +25,33 @@ import {
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
-import { ItemDataType, DataItemValue, FormControlPickerProps } from '@/internals/types';
+import {
+  ItemDataType,
+  DataItemValue,
+  FormControlPickerProps,
+  DeprecatedMenuProps
+} from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 import useActive from './useActive';
 
-export interface CascaderProps<T = DataItemValue>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
-    CascadeTreeProps<T, T, PickerLocale>,
-    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
+interface DeprecatedProps extends DeprecatedMenuProps {
   /**
    * The panel is displayed directly when the component is initialized
    * @deprecated Use CascadeTree instead
    * @see CascadeTree https://rsuitejs.com/components/cascade-tree
    */
   inline?: boolean;
+}
 
+export interface CascaderProps<T = DataItemValue>
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+    CascadeTreeProps<T, T, PickerLocale>,
+    DeprecatedProps,
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /**
    * When true, make the parent node selectable
    */
   parentSelectable?: boolean;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
-
-  /**
-   * Custom menu class name
-   * @deprecated Use popupClassName instead
-   */
-  menuClassName?: string;
-
-  /**
-   * Custom menu style
-   * @deprecated Use popupStyle instead
-   */
-  menuStyle?: React.CSSProperties;
-
-  /**
-   * Sets the width of the menu.
-   *
-   * @deprecated Use columnWidth instead
-   */
-  menuWidth?: number;
-
-  /**
-   * Sets the height of the menu
-   * @deprecated Use columnHeight instead
-   */
-  menuHeight?: number | string;
-
-  /**
-   * Custom render menu
-   * @deprecated Use renderColumn instead
-   */
-  renderMenu?: (
-    items: readonly ItemDataType<T>[],
-    menu: React.ReactNode,
-    parentNode?: any,
-    layer?: number
-  ) => React.ReactNode;
-
-  /**
-   * Custom render menu item
-   * @deprecated Use renderTreeNode instead
-   */
-  renderMenuItem?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
 
   /**
    * Custom render selected items
@@ -163,12 +119,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       onSelect,
       onSearch,
       getChildren,
-      menuClassName: DEPRECATED_menuClassName,
-      menuStyle: DEPRECATED_menuStyle,
-      menuWidth: DEPRECATED_menuWidth,
-      menuHeight: DEPRECATED_menuHeight,
-      renderMenuItem: DEPRECATED_renderMenuItem,
-      renderMenu: DEPRECATED_renderMenu,
       ...rest
     } = propsWithDefaults;
 
@@ -380,41 +330,28 @@ const Cascader = forwardRef<'div', CascaderProps>(
         layer?: number;
       }
     ) => {
-      const { items, parentItem, layer } = column;
-
       if (typeof renderColumn === 'function') {
         return renderColumn(childNodes, column);
-      } else if (typeof DEPRECATED_renderMenu === 'function') {
-        return DEPRECATED_renderMenu(items, childNodes, parentItem, layer);
       }
       return childNodes;
     };
 
     const renderCascadeTreeNode = (node: React.ReactNode, itemData: ItemDataType<T>) => {
-      const render =
-        typeof renderTreeNode === 'function' ? renderTreeNode : DEPRECATED_renderMenuItem;
-
-      if (typeof render === 'function') {
-        return render(node, itemData);
+      if (typeof renderTreeNode === 'function') {
+        return renderTreeNode(node, itemData);
       }
       return node;
     };
 
     const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
       const { className } = positionProps || {};
-      const styles = { ...DEPRECATED_menuStyle, ...popupStyle };
-      const classes = merge(
-        className,
-        DEPRECATED_menuClassName,
-        popupClassName,
-        prefix('popup-cascader')
-      );
+      const classes = merge(className, popupClassName, prefix('popup-cascader'));
 
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           className={classes}
-          style={styles}
+          style={popupStyle}
           target={trigger}
           onKeyDown={onPickerKeyDown}
         >
@@ -437,8 +374,8 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
           {searchKeyword === '' && (
             <TreeView
-              columnWidth={columnWidth ?? DEPRECATED_menuWidth}
-              columnHeight={columnHeight ?? DEPRECATED_menuHeight}
+              columnWidth={columnWidth}
+              columnHeight={columnHeight}
               disabledItemValues={disabledItemValues}
               loadingItemsSet={loadingItemsSet}
               valueKey={valueKey}

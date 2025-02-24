@@ -26,10 +26,10 @@ When the container is in the visible range, the element is fixed. When the scrol
 
 ### `<Affix>`
 
-| Property    | Type`(Default)`                        | Description                                                                                     |
-| ----------- | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| children    | ReactNode                              | Fixed element.                                                                                  |
-| classPrefix | string `('affix')`                     | The prefix of the component CSS class.                                                          |
-| container   | HTMLElement &#124; (() => HTMLElement) | Specify the container. An element can only be fixed when the container is in the visible range. |
-| onChange    | (fixed: boolean) => voide              | Callback function when non-fixed and fixed state changes.                                       |
-| top         | number `(0)`                           | Set the fixed top height.                                                                       |
+| Property    | Type`(Default)`                    | Description                                                                                     |
+| ----------- | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| children    | ReactNode                          | Fixed element.                                                                                  |
+| classPrefix | string `('affix')`                 | The prefix of the component CSS class.                                                          |
+| container   | HTMLElement \| (() => HTMLElement) | Specify the container. An element can only be fixed when the container is in the visible range. |
+| onChange    | (fixed: boolean) => voide          | Callback function when non-fixed and fixed state changes.                                       |
+| top         | number `(0)`                       | Set the fixed top height.                                                                       |

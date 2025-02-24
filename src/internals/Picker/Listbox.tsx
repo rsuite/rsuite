@@ -71,7 +71,7 @@ export interface ListboxProps<Multiple = false>
    * @param item - The selected item.
    * @returns The rendered React node.
    */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+  renderOption?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
 
   /**
    * Custom function to render a menu group.
@@ -79,7 +79,7 @@ export interface ListboxProps<Multiple = false>
    * @param item - The group item.
    * @returns The rendered React node.
    */
-  renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
+  renderOptionGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
 
   /**
    * Event handler for selecting an option.
@@ -128,8 +128,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       rowHeight = 36,
       rowGroupHeight = 48,
       query,
-      renderMenuGroup,
-      renderMenuItem,
+      renderOptionGroup,
+      renderOption,
       onGroupTitleClick,
       onSelect,
       ...rest
@@ -252,7 +252,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
             key={`group-${groupValue}`}
             onClick={handleGroupTitleClick.bind(null, groupValue)}
           >
-            {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
+            {renderOptionGroup ? renderOptionGroup(groupValue, item) : groupValue}
           </ListItemGroup>
         );
       } else if (isUndefined(value) && !isUndefined(item[RSUITE_PICKER_GROUP_KEY])) {
@@ -279,7 +279,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           onSelect={handleSelect.bind(null, item)}
           {...pickBy(listItemProps, v => v !== undefined)}
         >
-          {renderMenuItem ? renderMenuItem(label, item) : label}
+          {renderOption ? renderOption(label, item) : label}
         </ListItem>
       );
     };

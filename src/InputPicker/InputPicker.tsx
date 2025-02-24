@@ -119,10 +119,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     placeholder,
     placement = 'bottomStart',
     groupBy,
-    menuClassName,
-    menuStyle,
-    menuAutoWidth = true,
-    menuMaxHeight = 320,
+    popupClassName,
+    popupStyle,
+    popupAutoWidth = true,
+    listboxMaxHeight = 320,
     creatable,
     shouldDisplayCreateOption,
     value: valueProp,
@@ -133,11 +133,11 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     id,
     tabIndex,
     sort,
-    renderMenu,
+    renderListbox,
     renderExtraFooter,
     renderValue,
-    renderMenuItem,
-    renderMenuGroup,
+    renderOption,
+    renderOptionGroup,
     onEnter,
     onEntered,
     onExit,
@@ -511,7 +511,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     ) : (
       label
     );
-    return renderMenuItem ? renderMenuItem(newLabel, item) : newLabel;
+    return renderOption ? renderOption(newLabel, item) : newLabel;
   };
 
   const checkValue = () => {
@@ -573,7 +573,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
     const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
-    const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
+    const classes = merge(className, popupClassName, prefix(multi ? 'check-menu' : 'select-menu'));
 
     let items: ItemDataType[] = filterNodesOfTree(data, checkShouldDisplay);
 
@@ -597,7 +597,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
     }
 
-    const menu = items.length ? (
+    const listbox = items.length ? (
       <Listbox
         listProps={listProps}
         listRef={list}
@@ -610,13 +610,13 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         listItemProps={{ renderCheckbox }}
         activeItemValues={multi ? value : [value]}
         focusItemValue={focusItemValue}
-        maxHeight={menuMaxHeight}
+        maxHeight={listboxMaxHeight}
         data={items}
         query={searchKeyword}
         groupBy={groupBy}
         onSelect={multi ? handleCheckTag : handleSelectItem}
-        renderMenuGroup={renderMenuGroup}
-        renderMenuItem={renderListItem}
+        renderOptionGroup={renderOptionGroup}
+        renderOption={renderListItem}
         virtualized={virtualized}
       />
     ) : (
@@ -626,13 +626,13 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     return (
       <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
-        autoWidth={menuAutoWidth}
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={menuStyle}
+        style={popupStyle}
         target={triggerRef}
         onKeyDown={onPickerKeyDown}
       >
-        {renderMenu ? renderMenu(menu) : menu}
+        {renderListbox ? renderListbox(listbox) : listbox}
         {renderExtraFooter?.()}
       </PickerPopup>
     );

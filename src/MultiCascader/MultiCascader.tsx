@@ -26,77 +26,32 @@ import {
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
-import type { FormControlPickerProps, ItemDataType, DataItemValue } from '@/internals/types';
+import type {
+  FormControlPickerProps,
+  ItemDataType,
+  DataItemValue,
+  DeprecatedMenuProps
+} from '@/internals/types';
 import type { PickerLocale } from '../locales';
 import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
-export interface MultiCascaderProps<T = any>
-  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
-    MultiCascadeTreeProps<T, T[], PickerLocale>,
-    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
-  /**
-   * A picker that can be counted
-   */
-  countable?: boolean;
-
-  /**
-   * Sets the width of the menu.
-   *
-   * @deprecated Use columnWidth instead
-   */
-  menuWidth?: number;
-
-  /**
-   * Sets the height of the menu
-   * @deprecated Use columnHeight instead
-   */
-  menuHeight?: number;
-
-  /**
-   * Custom menu class name
-   * @deprecated Use popupClassName instead
-   */
-  menuClassName?: string;
-
-  /**
-   * Custom menu style
-   * @deprecated Use popupStyle instead
-   */
-  menuStyle?: React.CSSProperties;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
+interface DeprecatedProps extends DeprecatedMenuProps {
   /**
    * The panel is displayed directly when the component is initialized
    * @deprecated Use MultiCascadeTree instead
    * @see MultiCascadeTree https://rsuitejs.com/components/multi-cascade-tree
    */
   inline?: boolean;
-
+}
+export interface MultiCascaderProps<T = any>
+  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
+    MultiCascadeTreeProps<T, T[], PickerLocale>,
+    DeprecatedProps,
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /**
-   * Custom render menu
-   * @deprecated Use renderColumn instead
+   * A picker that can be counted
    */
-  renderMenu?: (
-    items: readonly ItemDataType<T>[],
-    menu: React.ReactNode,
-    parentNode?: any,
-    layer?: number
-  ) => React.ReactNode;
-
-  /**
-   * Custom render menu item
-   * @deprecated Use renderTreeNode instead
-   */
-  renderMenuItem?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
+  countable?: boolean;
 
   /**
    * Custom render selected items
@@ -161,12 +116,6 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       onSelect,
       onChange,
       onCheck,
-      menuClassName: DEPRECATED_menuClassName,
-      menuStyle: DEPRECATED_menuStyle,
-      menuWidth: DEPRECATED_menuWidth,
-      menuHeight: DEPRECATED_menuHeight,
-      renderMenu: DEPRECATED_renderMenu,
-      renderMenuItem: DEPRECATED_renderMenuItem,
       ...rest
     } = propsWithDefaults;
 
@@ -310,42 +259,28 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
         layer?: number;
       }
     ) => {
-      const { items, parentItem, layer } = column;
-
       if (typeof renderColumn === 'function') {
         return renderColumn(childNodes, column);
-      } else if (typeof DEPRECATED_renderMenu === 'function') {
-        return DEPRECATED_renderMenu(items, childNodes, parentItem, layer);
       }
       return childNodes;
     };
 
     const renderCascadeTreeNode = (node: React.ReactNode, itemData: ItemDataType<T>) => {
-      const render =
-        typeof renderTreeNode === 'function' ? renderTreeNode : DEPRECATED_renderMenuItem;
-
-      if (typeof render === 'function') {
-        return render(node, itemData);
+      if (typeof renderTreeNode === 'function') {
+        return renderTreeNode(node, itemData);
       }
       return node;
     };
 
     const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
       const { className } = positionProps || {};
-      const styles = { ...DEPRECATED_menuStyle, ...popupStyle };
-
-      const classes = merge(
-        className,
-        DEPRECATED_menuClassName,
-        popupClassName,
-        prefix('popup-multi-cascader')
-      );
+      const classes = merge(className, popupClassName, prefix('popup-multi-cascader'));
 
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           className={classes}
-          style={styles}
+          style={popupStyle}
           target={trigger}
           onKeyDown={onPickerKeyDown}
         >
@@ -369,8 +304,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           {!searchKeyword && (
             <TreeView
               cascade={cascade}
-              columnWidth={columnWidth ?? DEPRECATED_menuWidth}
-              columnHeight={columnHeight ?? DEPRECATED_menuHeight}
+              columnWidth={columnWidth}
+              columnHeight={columnHeight}
               classPrefix="cascade-tree"
               uncheckableItemValues={uncheckableItemValues}
               disabledItemValues={disabledItemValues}

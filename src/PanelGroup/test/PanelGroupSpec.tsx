@@ -46,15 +46,15 @@ describe('PanelGroup', () => {
   });
 
   it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
     render(
-      <PanelGroup accordion onSelect={onSelectSpy}>
+      <PanelGroup accordion onSelect={onSelect}>
         <Panel header="Click me">111</Panel>
       </PanelGroup>
     );
 
     fireEvent.click(screen.getByText('Click me'));
-    expect(onSelectSpy).to.have.been.calledWith(undefined);
+    expect(onSelect).to.have.been.calledWith(undefined);
   });
 
   it('Should be a collapsible panel with accordion', () => {

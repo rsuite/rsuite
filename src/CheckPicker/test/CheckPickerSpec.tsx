@@ -268,7 +268,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
-    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
+    render(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
+    );
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
@@ -281,7 +283,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
-    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
+    render(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
+    );
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
@@ -393,21 +397,19 @@ describe('CheckPicker', () => {
   });
 
   it('Should trigger onOpen & onClose with open props set', () => {
-    const onOpenSpy = sinon.spy();
-    const onCloseSpy = sinon.spy();
-    const { rerender } = render(
-      <CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open />
-    );
+    const onOpen = sinon.spy();
+    const onClose = sinon.spy();
+    const { rerender } = render(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
 
-    rerender(<CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open={false} />);
+    rerender(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open={false} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should render a button by toggleAs={Button}', () => {

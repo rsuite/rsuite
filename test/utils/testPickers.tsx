@@ -46,26 +46,8 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       expect(container.firstChild).to.have.class('rs-picker-block');
     });
 
-    it('Should have a custom menuStyle', () => {
-      render(<TestComponent open menuStyle={{ fontSize: 12 }} data={data} />);
-
-      expect(screen.getByTestId('picker-popup')).to.have.style('font-size', '12px');
-    });
-
-    it('Should have a custom menuClassName', () => {
-      render(<TestComponent open menuClassName="custom-class" data={data} />);
-
-      expect(screen.getByTestId('picker-popup')).to.have.class('custom-class');
-    });
-
     if (popupAutoWidth) {
-      it('[DEPRECATED]:Should set minimum width for popup', () => {
-        render(<TestComponent data={data} open menuAutoWidth style={{ width: 100 }} />);
-
-        expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
-      });
-
-      it('[DEPRECATED]:Should set minimum width for popup', () => {
+      it('Should set minimum width for popup', () => {
         render(<TestComponent data={data} open popupAutoWidth style={{ width: 100 }} />);
 
         expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
@@ -133,16 +115,16 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       });
 
       it('Should call `onClose` callback', async () => {
-        const onCloseSpy = sinon.spy();
+        const onOpen = sinon.spy();
         const ref = React.createRef<any>();
 
-        render(<TestComponent onClose={onCloseSpy} data={data} ref={ref} />);
+        render(<TestComponent onClose={onOpen} data={data} ref={ref} />);
 
         act(() => ref.current.open());
         act(() => ref.current.close());
 
         await waitFor(() => {
-          expect(onCloseSpy).to.have.been.calledOnce;
+          expect(onOpen).to.have.been.calledOnce;
         });
       });
 

@@ -87,14 +87,14 @@
 
 | 属性                  | 类型`(默认值)`                                                                                  | 描述                                           |
 | --------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| appearance            | 'default' &#124; 'subtle' `('default')`                                                         | 设置选择器的外观样式。                         |
+| appearance            | 'default' \| 'subtle' `('default')`                                                             | 设置选择器的外观样式。                         |
 | block                 | boolean                                                                                         | 块级显示，占满整个行。                         |
 | caretAs               | ElementType                                                                                     | 自定义下拉箭头的组件。                         |
 | cascade               | boolean `(true)`                                                                                | 确定选择是否应该在父节点与子节点之间双向级联。 |
 | childrenKey           | string `('children')`                                                                           | 定义数据中用于访问子节点的键名。               |
 | classPrefix           | string `('picker')`                                                                             | 设置组件的 CSS 类前缀。                        |
 | cleanable             | boolean `(true)`                                                                                | 是否允许清除已选择的值。                       |
-| container             | HTMLElement &#124; (() => HTMLElement)                                                          | 设置渲染容器。                                 |
+| container             | HTMLElement \| (() => HTMLElement)                                                              | 设置渲染容器。                                 |
 | countable             | boolean `(true)`                                                                                | 启用已选项的计数显示。                         |
 | data \*               | [ItemDataType][item][]                                                                          | 定义组件使用的数据结构。                       |
 | defaultOpen           | boolean                                                                                         | 是否默认打开组件。                             |
@@ -129,7 +129,7 @@
 | renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                      | 自定义树节点的渲染方式。                       |
 | renderValue           | (value: string, selectedItems: [ItemDataType][item][], selectedElement: ReactNode) => ReactNode | 自定义已选项的渲染方式。                       |
 | searchable            | boolean `(true)`                                                                                | 是否启用搜索功能。                             |
-| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                               | 设置选择器的大小。                             |
+| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                           | 设置选择器的大小。                             |
 | toggleAs              | ElementType `('a')`                                                                             | 使用自定义元素作为组件。                       |
 | uncheckableItemValues | string                                                                                          | 设置无法勾选的选项值。                         |
 | value                 | string[]                                                                                        | 指定已选项的值（受控）。                       |

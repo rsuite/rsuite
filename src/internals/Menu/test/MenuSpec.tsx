@@ -179,7 +179,7 @@ describe('<Menu>', () => {
   });
 
   it('Should call onToggleMenu when focus or blur', () => {
-    const onToggleMenuSpy = sinon.spy();
+    const onToggleMenu = sinon.spy();
     render(
       <div>
         <Menu
@@ -191,7 +191,7 @@ describe('<Menu>', () => {
           renderMenuPopup={({ open, ...popupProps }, popupRef) => (
             <ul ref={popupRef} {...popupProps} hidden={!open} />
           )}
-          onToggleMenu={onToggleMenuSpy}
+          onToggleMenu={onToggleMenu}
         >
           {(containerProps, containerRef) => <div ref={containerRef} {...containerProps} />}
         </Menu>
@@ -205,11 +205,11 @@ describe('<Menu>', () => {
     userEvent.click(button);
 
     expect(button).to.have.focus;
-    expect(onToggleMenuSpy.firstCall).to.have.been.calledWith(true);
+    expect(onToggleMenu.firstCall).to.have.been.calledWith(true);
 
     userEvent.click(input);
 
     expect(input).to.have.focus;
-    expect(onToggleMenuSpy.secondCall).to.have.been.calledWith(false);
+    expect(onToggleMenu.secondCall).to.have.been.calledWith(false);
   });
 });

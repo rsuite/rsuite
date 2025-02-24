@@ -52,15 +52,15 @@ describe('Notification', () => {
   });
 
   it('Should call onClose callback by usedToaster', async () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     render(
       <ToastContext.Provider value={{ usedToaster: true }}>
-        <Notification duration={1} onClose={onCloseSpy} />
+        <Notification duration={1} onClose={onClose} />
       </ToastContext.Provider>
     );
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(onClose).to.have.been.calledOnce;
     });
   });
 });

@@ -23,14 +23,14 @@ describe('Animation.Collapse', () => {
   });
 
   it('Should set a dimension value at onExit of the transition', async () => {
-    const onExitSpy = sinon.spy();
+    const onExit = sinon.spy();
 
     const { container, rerender } = render(
       <Collapse
         in
         onExit={() => {
           expect(container.firstChild).to.have.style('height', '50px');
-          onExitSpy();
+          onExit();
         }}
         getDimensionValue={() => {
           return 50;
@@ -47,7 +47,7 @@ describe('Animation.Collapse', () => {
         in={false}
         onExit={() => {
           expect(container.firstChild).to.have.style('height', '50px');
-          onExitSpy();
+          onExit();
         }}
         getDimensionValue={() => {
           return 50;
@@ -59,6 +59,6 @@ describe('Animation.Collapse', () => {
 
     expect(container.firstChild).to.have.class('rs-anim-collapsing');
     expect(container.firstChild).to.have.style('height', '0px');
-    expect(onExitSpy).to.have.been.called;
+    expect(onExit).to.have.been.called;
   });
 });

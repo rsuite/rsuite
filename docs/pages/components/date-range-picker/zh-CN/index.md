@@ -163,7 +163,8 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                            |
 | loading              | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                                  |
 | locale               | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)            | 定义本地化设置，使组件文本根据用户地区显示相应语言                                            |
-| menuClassName        | string                                                          | 选项菜单的 className                                                                          |
+| popupClassName       | string                                                          | 自定义弹出框的 CSS 类名                                                                       |
+| popupStyle           | CSSProperties                                                   | 自定义弹出框的样式                                                                            |
 | monthDropdownProps   | [MonthDropdownProps][month-dropdown-props]                      | 月份下拉框属性                                                                                |
 | onChange             | (value: [Date, Date]) => void                                   | 值改变后的回调函数                                                                            |
 | onClean              | (event) => void                                                 | 清除值后的回调函数                                                                            |

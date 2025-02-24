@@ -27,6 +27,7 @@ describe('TagPicker', () => {
   });
 
   testPickers(TagPicker, { virtualized: true });
+
   testControlledUnControlled(TagPicker, {
     componentProps: { data, defaultOpen: true },
     value: ['Eugenia'],
@@ -166,7 +167,7 @@ describe('TagPicker', () => {
         data={data}
         defaultOpen
         value={['Eugenia']}
-        renderMenuItemCheckbox={checkboxProps => {
+        renderCheckbox={checkboxProps => {
           const { value, checked, onChange } = checkboxProps;
           return (
             <input
@@ -188,12 +189,12 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChangeSpy = sinon.spy();
-    render(<TagPicker defaultOpen onChange={onChangeSpy} data={[{ label: '1', value: '1' }]} />);
+    const onChange = sinon.spy();
+    render(<TagPicker defaultOpen onChange={onChange} data={[{ label: '1', value: '1' }]} />);
 
     fireEvent.click(screen.getByLabelText('1'));
 
-    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should call `onClean` callback', () => {

@@ -134,18 +134,18 @@ describe('useToaster', () => {
   });
 
   it('Should call onClose callback with duration', async () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
     toaster.push(
-      <Message data-testid="msg-1" onClose={onCloseSpy}>
+      <Message data-testid="msg-1" onClose={onClose}>
         message
       </Message>,
       { duration: 10 }
     );
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(onClose).to.have.been.calledOnce;
     });
   });
 

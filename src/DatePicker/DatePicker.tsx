@@ -276,16 +276,15 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     locale,
     loading,
     label,
-    menuClassName,
-    menuStyle,
+    popupClassName,
+    popupStyle,
     appearance = 'default',
     placement = 'bottomStart',
     oneTap,
     placeholder = '',
     ranges,
     value: valueProp,
-    showMeridian: DEPRECATED_showMeridian,
-    showMeridiem = DEPRECATED_showMeridian,
+    showMeridiem,
     showWeekNumbers,
     style,
     size,
@@ -308,10 +307,6 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     onShortcutClick,
     renderCell,
     renderValue,
-    disabledDate: DEPRECATED_disabledDate,
-    disabledHours: DEPRECATED_disabledHours,
-    disabledMinutes: DEPRECATED_disabledMinutes,
-    disabledSeconds: DEPRECATED_disabledSeconds,
     ...restProps
   } = propsWithDefaults;
 
@@ -344,10 +339,6 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const isDateDisabled = (date: Date): boolean => {
     if (typeof shouldDisableDate === 'function') {
       return shouldDisableDate(date);
-    }
-
-    if (typeof DEPRECATED_disabledDate === 'function') {
-      return DEPRECATED_disabledDate(date);
     }
 
     return false;
@@ -569,7 +560,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
 
   const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
-    const classes = merge(menuClassName, className, prefix('popup-date'));
+    const classes = merge(popupClassName, className, prefix('popup-date'));
 
     return (
       <PickerPopup
@@ -578,7 +569,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
         tabIndex={-1}
         className={classes}
         ref={mergeRefs(overlay, speakerRef)}
-        style={menuStyle}
+        style={popupStyle}
         target={trigger}
         onKeyDown={handlePickerPopupKeyDown}
       >
@@ -604,9 +595,9 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
               showWeekNumbers={showWeekNumbers}
               showMeridiem={showMeridiem}
               disabledDate={isDateDisabled}
-              disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
-              disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
-              disabledSeconds={shouldDisableSecond ?? DEPRECATED_disabledSeconds}
+              disabledHours={shouldDisableHour}
+              disabledMinutes={shouldDisableMinute}
+              disabledSeconds={shouldDisableSecond}
               limitEndYear={limitEndYear}
               limitStartYear={limitStartYear}
               format={formatStr}

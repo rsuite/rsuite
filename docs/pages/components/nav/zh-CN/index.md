@@ -57,15 +57,15 @@
 
 ### `<Nav>`
 
-| 属性名称    | 类型`(默认值)`                                                       | 描述                                          |
-| ----------- | -------------------------------------------------------------------- | --------------------------------------------- |
-| activeKey   | string                                                               | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
-| appearance  | 'default' &#124; 'tabs' &#124; 'subtle' &#124; 'pills' `('default')` | 设置外观                                      |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                             | 组件内容                                      |
-| classPrefix | string `('nav')`                                                     | 组件 CSS 类的前缀                             |
-| justified   | boolean                                                              | 宽度自适应                                    |
-| onSelect    | (eventKey: string, event: SyntheticEvent) => void                    | 选择事件触发的回调函数                        |
-| vertical    | boolean                                                              | 垂直导航                                      |
+| 属性名称    | 类型`(默认值)`                                           | 描述                                          |
+| ----------- | -------------------------------------------------------- | --------------------------------------------- |
+| activeKey   | string                                                   | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
+| appearance  | 'default' \| 'tabs' \| 'subtle' \| 'pills' `('default')` | 设置外观                                      |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                 | 组件内容                                      |
+| classPrefix | string `('nav')`                                         | 组件 CSS 类的前缀                             |
+| justified   | boolean                                                  | 宽度自适应                                    |
+| onSelect    | (eventKey: string, event: SyntheticEvent) => void        | 选择事件触发的回调函数                        |
+| vertical    | boolean                                                  | 垂直导航                                      |
 
 ### `<Nav.Item>`
 
@@ -89,5 +89,5 @@
 | onClose       | (event: SyntheticEvent) => void                | 菜单关闭时的回调                |
 | onOpen        | (event: SyntheticEvent) => void                | 菜单开启时的回调                |
 | onToggle      | (open: boolean, event: SyntheticEvent) => void | 菜单开启/关闭时的回调           |
-| openDirection | "start"&#124;"end" `("end")`                   | 菜单开启的方向 (仅适用于子菜单) |
+| openDirection | "start"\|"end" `("end")`                       | 菜单开启的方向 (仅适用于子菜单) |
 | title         | ReactNode                                      | 展开菜单的导航项内容            |

@@ -39,7 +39,7 @@ The `layout` prop can customize the layout of a paging component. It receives an
 | activePage \* | number `(1)`                                            | Current page number                                                                       |
 | boundaryLinks | boolean                                                 | Show border paging buttons 1 and pages                                                    |
 | classPrefix   | string `('pagination-group')`                           | The prefix of the component CSS class                                                     |
-| disabled      | boolean &#124; (eventKey: number) => boolean            | Disabled component                                                                        |
+| disabled      | boolean \| (eventKey: number) => boolean                | Disabled component                                                                        |
 | ellipsis      | boolean                                                 | Displays the ellipsis                                                                     |
 | first         | boolean                                                 | Displays the first page                                                                   |
 | last          | boolean                                                 | Displays the last page                                                                    |

@@ -18,12 +18,12 @@ describe('Affix', () => {
 
   it('Should call onChange callback', () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const onChangeSpy = sinon.spy();
+    const onChange = sinon.spy();
 
     render(
       <div style={{ height: 3000 }}>
         <div style={{ height: 100 }}>--</div>
-        <Affix top={10} data-testid="affix" onChange={onChangeSpy}>
+        <Affix top={10} data-testid="affix" onChange={onChange}>
           <button ref={buttonRef}>button</button>
         </Affix>
       </div>
@@ -36,7 +36,7 @@ describe('Affix', () => {
       window.dispatchEvent(new UIEvent('scroll'));
     });
 
-    expect(onChangeSpy).to.have.been.called;
+    expect(onChange).to.have.been.called;
 
     const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
@@ -53,7 +53,7 @@ describe('Affix', () => {
 
   it('Should call onOffsetChange callback', async () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const onOffsetChangeSpy = sinon.spy();
+    const onOffsetChange = sinon.spy();
 
     const App = () => {
       const [height, setHeight] = React.useState(100);
@@ -61,7 +61,7 @@ describe('Affix', () => {
       return (
         <div style={{ height: 3000 }}>
           <div style={{ height }}>--</div>
-          <Affix top={10} onOffsetChange={onOffsetChangeSpy}>
+          <Affix top={10} onOffsetChange={onOffsetChange}>
             <button ref={buttonRef} onClick={() => setHeight(200)}>
               button
             </button>
@@ -82,7 +82,7 @@ describe('Affix', () => {
     });
 
     await waitFor(() => {
-      expect(onOffsetChangeSpy).to.have.been.called;
+      expect(onOffsetChange).to.have.been.called;
     });
   });
 });

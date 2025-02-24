@@ -165,10 +165,10 @@ describe('Navbar', () => {
     });
 
     it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
         <Navbar>
-          <Nav activeKey="2-1" onSelect={onSelectSpy}>
+          <Nav activeKey="2-1" onSelect={onSelect}>
             <Dropdown title="Dropdown" data-testid="dropdown">
               <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
                 Dropdown item
@@ -182,7 +182,7 @@ describe('Navbar', () => {
       fireEvent.click(screen.getByTestId('dropdown'));
 
       fireEvent.click(screen.getByTestId('dropdown-item'));
-      expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
+      expect(onSelect).to.have.been.calledWith('2-1', sinon.match.any);
     });
   });
 

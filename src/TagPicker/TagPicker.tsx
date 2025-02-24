@@ -6,14 +6,18 @@ import { forwardRef } from '@/internals/utils';
 import type { ItemDataType } from '@/internals/types';
 import type { CheckboxProps } from '../Checkbox';
 
+interface DeprecatedProps {
+  /**
+   * @deprecated Use `renderCheckbox` instead
+   */
+  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
+}
+
 export interface TagPickerProps<V = any>
   extends Omit<InputPickerProps<V>, 'renderValue'>,
+    DeprecatedProps,
     Partial<TagOnlyProps> {
-  /**
-   * Custom render checkbox on menu item
-   * @version 5.47.0
-   **/
-  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
+  renderCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
@@ -35,7 +39,7 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
     trigger = 'Enter',
     size = 'md',
     onTagRemove,
-    renderMenuItemCheckbox,
+    renderCheckbox,
     renderValue,
     ...rest
   } = propsWithDefaults;
@@ -46,9 +50,9 @@ const TagPicker = forwardRef<'div', TagPickerProps>((props, ref) => {
       trigger,
       tagProps,
       onTagRemove,
-      renderCheckbox: renderMenuItemCheckbox
+      renderCheckbox
     }),
-    [onTagRemove, renderMenuItemCheckbox, tagProps, trigger]
+    [onTagRemove, renderCheckbox, tagProps, trigger]
   );
 
   return (
