@@ -400,9 +400,7 @@ describe('<Dropdown>', () => {
           it('Should skip separator items', () => {
             const { button, menu } = renderDropdown(
               <Dropdown>
-                <Dropdown.Item divider id="separator">
-                  Item 1
-                </Dropdown.Item>
+                <Dropdown.Separator />
                 <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
                 <Dropdown.Item>Item 3</Dropdown.Item>
               </Dropdown>
@@ -515,9 +513,7 @@ describe('<Dropdown>', () => {
           const { menu } = renderDropdown(
             <Dropdown>
               <Dropdown.Item>Item 1</Dropdown.Item>
-              <Dropdown.Item divider id="separator">
-                Item 2
-              </Dropdown.Item>
+              <Dropdown.Separator />
               <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
             </Dropdown>,
             true
@@ -566,9 +562,7 @@ describe('<Dropdown>', () => {
           const { menu } = renderDropdown(
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
-              <Dropdown.Item divider id="separator">
-                Item 2
-              </Dropdown.Item>
+              <Dropdown.Separator />
               <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
             </Dropdown>,
             true

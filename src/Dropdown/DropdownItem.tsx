@@ -8,46 +8,20 @@ import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
 import Text from '../Text';
 import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import { useClassNames, useInternalId } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import { DropdownActionType } from './DropdownState';
-import { useRenderDropdownItem } from './useRenderDropdownItem';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
 
-export interface DropdownMenuItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
-  /** Active the current option */
-  active?: boolean;
-
-  /** Primary content */
-  children?: React.ReactNode;
-
-  /** You can use a custom element for this component */
-  as?: React.ElementType;
-
+interface DeprecatedDropdownMenuItemProps {
   /**
    * Whether to display the divider
    *
    * @deprecated Use dedicated <Dropdown.Separator> component instead
    */
   divider?: boolean;
-
-  /** Disable the current option */
-  disabled?: boolean;
-
-  /** The value of the current option */
-  eventKey?: T;
-
-  /** Displays a custom panel */
-  panel?: boolean;
-
-  /** Set the icon */
-  icon?: React.ReactElement<IconProps>;
-
-  /** The submenu that this menuitem controls (if exists) */
-  submenu?: React.ReactElement;
 
   /**
    * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
@@ -61,6 +35,32 @@ export interface DropdownMenuItemProps<T = any>
    * @internal
    */
   open?: boolean;
+}
+
+export interface DropdownMenuItemProps<T = any>
+  extends WithAsProps,
+    DeprecatedDropdownMenuItemProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+  /** Active the current option */
+  active?: boolean;
+
+  /** Disable the current option */
+  disabled?: boolean;
+
+  /** The description of the current option */
+  description?: React.ReactNode;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Displays a custom panel */
+  panel?: boolean;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** The submenu that this menuitem controls (if exists) */
+  submenu?: React.ReactElement;
 
   /**
    * The dropdown item keyboard shortcut.
@@ -82,18 +82,19 @@ export interface DropdownMenuItemProps<T = any>
 const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
+      as: Component = 'li',
+      active: activeProp,
       classPrefix = 'dropdown-item',
       className,
-      shortcut,
-      active: activeProp,
-      eventKey,
-      onSelect,
-      icon,
-      as: Component = 'li',
-      divider,
-      panel,
       children,
+      shortcut,
       disabled,
+      description,
+      divider,
+      eventKey,
+      icon,
+      panel,
+      onSelect,
       ...restProps
     } = props;
 
@@ -139,7 +140,7 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
       }
     }, [internalId, selected, dispatch]);
 
-    const renderDropdownItem = useRenderDropdownItem(Component);
+    const renderDropdownItem = useRenderMenuItem(Component);
 
     // If using <Dropdown.Item> within <Nav>
     // Suggest <Nav.Item>
@@ -201,9 +202,13 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
                   React.cloneElement(icon, {
                     className: classNames(prefix('menu-icon'), icon.props.className)
                   })}
-                <Text as="span" className={prefix('content')}>
-                  {children}
-                </Text>
+                <div className={prefix('content')}>
+                  <Text as="span">{children}</Text>
+                  <Text as="span" muted>
+                    {description}
+                  </Text>
+                </div>
+
                 {shortcut && (
                   <Text as="kbd" className={prefix('shortcut')} muted>
                     {shortcut}

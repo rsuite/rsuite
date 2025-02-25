@@ -79,13 +79,18 @@
 
 // The dropdown menu (ul)
 .rs-dropdown-menu {
+  --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
+  --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
+
   margin: 0; // override default ul
   list-style: none;
   font-size: var(--rs-font-size-sm);
   text-align: start; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: var(--rs-bg-overlay);
   border-radius: var(--rs-radius-md);
-  padding: @dropdown-menu-padding-y 0;
+  padding: var(--rs-menu-padding);
+
   outline: 0;
 
   &:focus-visible {
@@ -116,21 +121,26 @@
   align-items: center;
   width: 100%;
   gap: 6px;
-  padding: @dropdown-item-padding-y @dropdown-item-padding-x;
+  padding-inline: var(--rs-menuitem-padding-inline);
+  padding-block: var(--rs-menuitem-padding-block);
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
   color: var(--rs-text-primary);
+  border-radius: var(--rs-radius-sm);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   cursor: pointer; //fixed link has not [href] style
   .reset-link-text-decoration(none);
 
   &-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .rs-dropdown-item-shortcut {
     border: none;
+    line-height: var(--rs-text-line-height-xs);
   }
 
   > .rs-icon {
@@ -145,11 +155,11 @@
     &,
     &:hover,
     &:focus {
-      color: var(--rs-dropdown-item-text-active);
-      background-color: var(--rs-dropdown-item-bg-active);
+      color: var(--rs-menuitem-text-active);
+      background-color: var(--rs-menuitem-bg-active);
 
       .rs-text {
-        color: var(--rs-dropdown-item-text-active);
+        color: var(--rs-menuitem-text-active);
       }
     }
   }
@@ -185,7 +195,7 @@
 }
 
 .rs-dropdown-item-divider {
-  .nav-divider(var(--rs-dropdown-divider));
+  .nav-divider(var(--rs-dropdown-divider-color));
 }
 
 // The dropdown submenu
@@ -209,7 +219,7 @@
 
     > .rs-dropdown-menu {
       position: absolute;
-      top: -@dropdown-menu-padding-y;
+      top: 0;
     }
   }
 
@@ -249,7 +259,7 @@
 // Active state
 .rs-dropdown-menu > .rs-dropdown-menu-item-focus {
   outline: 0;
-  background-color: var(--rs-dropdown-item-bg-active);
+  background-color: var(--rs-menuitem-bg-active);
 
   &:hover,
   &:focus {

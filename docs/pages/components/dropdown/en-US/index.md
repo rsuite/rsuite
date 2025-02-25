@@ -1,6 +1,6 @@
 # Dropdown
 
-A drop-down menu is a navigation that uses selectpicker if you want to select a value.
+Used to create an easily accessible dropdown menu, providing multiple options for users to choose from
 
 ## Import
 
@@ -24,8 +24,6 @@ Set the trigger event with the `trigger` attribute, support the event:
 - `click` (default)
 - `hover`
 - `contextMenu`
-
-> Support multiple events: `Array<click, hover, contextMenu>`
 
 <!--{include:`trigger.md`}-->
 
@@ -51,6 +49,10 @@ You can disable the entire component or disable individual options by configurin
 
 <!--{include:`icons.md`}-->
 
+### With Description
+
+<!--{include:`description.md`}-->
+
 ### Separator and Panel
 
 - Use `<Dropdown.Separator>` to set the separator.
@@ -65,10 +67,6 @@ You can disable the entire component or disable individual options by configurin
 ### Submenu
 
 <!--{include:`submenu.md`}-->
-
-### Menu
-
-<!--{include:`menu-items.md`}-->
 
 ### Custom Toggle
 
@@ -92,26 +90,25 @@ The `<Dropdown.Item>` component works with frameworks and client side routers li
 
 ### `<Dropdown>`
 
-| Property        | Type`(default)`                                        | Description                                                                             |
-| --------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| activeKey       | string                                                 | The option to activate the state, corresponding to the `eventkey` in the Dropdown.item. |
-| classPrefix     | string `('dropdown')`                                  | The prefix of the component CSS class                                                   |
-| defaultOpen     | boolean `(false)`                                      | Whether Dropdown is initially open                                                      |
-| disabled        | boolean                                                | Whether or not component is disabled                                                    |
-| icon            | Element&lt;typeof Icon&gt;                             | Set the icon                                                                            |
-| menuStyle       | CSSProperties                                          | The style of the menu.                                                                  |
-| noCaret         | boolean                                                | Do not display the arrow icon                                                           |
-| onClose         | () => void                                             | The callback function that the menu closes                                              |
-| onOpen          | () => void                                             | Menu Pop-up callback function                                                           |
-| onSelect        | (eventKey: string, event) => void                      | Selected callback function                                                              |
-| onToggle        | (open?: boolean) => void                               | Callback function for menu state switching.                                             |
-| open            | boolean                                                | Whether Dropdown is open (controlled)                                                   |
-| placement       | [Placement](#code-ts-placement-code) `('bottomStart')` | The placement of Menu                                                                   |
-| renderToggle    | (props, ref) => any;                                   | Custom Toggle                                                                           |
-| title           | ReactNode                                              | Menu defaults to display content.                                                       |
-| toggleAs        | ElementType `(Button)`                                 | You can use a custom element for this component                                         |
-| toggleClassName | string                                                 | A css class to apply to the Toggle DOM node                                             |
-| trigger         | [Trigger](#code-ts-trigger-code) `('click')`           | Triggering events                                                                       |
+| Property         | Type`(default)`                                        | Description                                                                             |
+| ---------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| activeKey        | string                                                 | The option to activate the state, corresponding to the `eventkey` in the Dropdown.item. |
+| classPrefix      | string `('dropdown')`                                  | The prefix of the component CSS class                                                   |
+| defaultOpen      | boolean `(false)`                                      | Whether Dropdown is initially open                                                      |
+| disabled         | boolean                                                | Whether or not component is disabled                                                    |
+| icon             | Element&lt;typeof Icon&gt;                             | Set the icon                                                                            |
+| menuStyle        | CSSProperties                                          | The style of the menu.                                                                  |
+| noCaret          | boolean                                                | Do not display the arrow icon                                                           |
+| onClose          | () => void                                             | The callback function that the menu closes                                              |
+| onOpen           | () => void                                             | Menu Pop-up callback function                                                           |
+| onSelect         | (eventKey: string, event) => void                      | Selected callback function                                                              |
+| onToggle         | (open?: boolean, event?: React.SyntheticEvent) => void | Callback function for menu state switching                                              |
+| open             | boolean                                                | Controlled open state                                                                   |
+| placement        | [Placement](#code-ts-placement-code)                   | The placement of Menu                                                                   |
+| renderMenuButton | (props: ButtonProps, ref: Ref) => ReactElement         | Custom render menu button                                                               |
+| renderMenuPopup  | (props: MenuProps, ref: Ref) => ReactElement           | Custom render menu popup                                                                |
+| title            | ReactNode                                              | Menu title                                                                              |
+| trigger          | [Trigger](#code-ts-trigger-code) `('click')`           | Triggering events                                                                       |
 
 ### `<Dropdown.Item>`
 

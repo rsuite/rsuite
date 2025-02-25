@@ -1,0 +1,106 @@
+@import '../../styles/common.less';
+@import '../../styles/mixins/menu.less';
+
+//
+// Menu
+// --------------------------------------------------
+
+.rs-menu {
+  --rs-menu-divider-color: var(--rs-divider-border);
+  --rs-menu-shadow: var(--rs-shadow-md);
+  --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
+  --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
+  --rs-menu-font-size: var(--rs-font-size-sm);
+
+  margin: 0; // override default ul
+  list-style: none;
+  font-size: var(--rs-menu-font-size);
+  text-align: start;
+  background-color: var(--rs-bg-overlay);
+  border-radius: var(--rs-radius-md);
+  padding: var(--rs-menu-padding);
+  outline: 0;
+}
+
+// Links within the menu menu
+.rs-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+  padding-inline: var(--rs-menuitem-padding-inline);
+  padding-block: var(--rs-menuitem-padding-block);
+  color: var(--rs-text-primary);
+  border-radius: var(--rs-radius-sm);
+  cursor: pointer;
+  .reset-link-text-decoration(none);
+
+  &-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rs-menu-item-shortcut {
+    border: none;
+    line-height: var(--rs-text-line-height-xs);
+  }
+
+  > .rs-icon {
+    width: @font-size-base;
+    text-align: center;
+  }
+
+  &&-active {
+    outline: 0;
+    font-weight: bold;
+
+    &,
+    &:hover,
+    &:focus {
+      color: var(--rs-menuitem-text-active);
+      background-color: var(--rs-menuitem-bg-active);
+
+      .rs-text {
+        color: var(--rs-menuitem-text-active);
+      }
+    }
+  }
+
+  // Hover/Focus state
+  &:focus-visible,
+  &&-focus {
+    .menuitem-active();
+  }
+  &:focus {
+    outline: 0;
+  }
+
+  // Disabled state
+  //
+  // Gray out text and ensure the hover/focus state remains gray
+  &-disabled {
+    color: var(--rs-text-disabled);
+    cursor: @cursor-disabled;
+
+    .rs-text {
+      color: var(--rs-text-disabled);
+    }
+
+    // Nuke hover/focus effects
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: transparent;
+      background-image: none; // Remove CSS gradient
+    }
+  }
+}
+
+.rs-menu-item-divider {
+  height: 1px;
+  margin: @nav-divider-margin-vertical 0;
+  overflow: hidden;
+  background-color: var(--rs-menu-divider-color);
+}

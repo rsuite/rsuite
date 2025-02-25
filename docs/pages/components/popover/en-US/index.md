@@ -40,9 +40,9 @@ Positioned popover components in scrolling container
 
 <!--{include:`container.md`}-->
 
-### Used with Dropdown
+### Used with `Menu`
 
-<!--{include:`with-dropdown.md`}-->
+<!--{include:`with-menu.md`}-->
 
 ### Hide arrow indicator
 

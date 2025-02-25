@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import isNil from 'lodash/isNil';
-import { useUniqueId } from '../hooks';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
+import { useUniqueId } from '../hooks';
 
 export interface MenuItemProps {
   /** Active the current option */

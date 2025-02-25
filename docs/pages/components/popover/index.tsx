@@ -1,7 +1,17 @@
 import React from 'react';
-import { ButtonToolbar, Button, Whisper, Popover, Dropdown, Loader, Toggle } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Menu,
+  ButtonToolbar,
+  Button,
+  Whisper,
+  Popover,
+  Loader,
+  Toggle
+} from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => (
@@ -18,7 +28,7 @@ export default function Page() {
         Button,
         Whisper,
         Popover,
-        Dropdown,
+        Menu,
         Loader,
         Toggle
       }}

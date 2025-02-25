@@ -7,7 +7,7 @@ import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { useClassNames } from '@/internals/hooks';
-import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { WithAsProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 export interface SidenavDropdownItemProps<T = any>
@@ -106,7 +106,7 @@ const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, r
 
   const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav?.activeKey, eventKey));
 
-  const renderDropdownItem = useRenderDropdownItem(Component);
+  const renderDropdownItem = useRenderMenuItem(Component);
 
   if (sidenav.expanded) {
     return <ExpandedSidenavDropdownItem ref={ref} {...props} />;

@@ -5,7 +5,7 @@ import MenuItem from '@/internals/Menu/MenuItem';
 import NavContext from './NavContext';
 import { useClassNames } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
-import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
 
@@ -92,7 +92,7 @@ const NavDropdownItem = forwardRef<'li', NavDropdownItemProps>((props, ref) => {
     [onSelect, eventKey, onSelectFromNav]
   );
 
-  const renderDropdownItem = useRenderDropdownItem(Component);
+  const renderDropdownItem = useRenderMenuItem(Component);
 
   if (divider) {
     return renderDropdownItem({

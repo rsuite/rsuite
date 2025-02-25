@@ -6,7 +6,7 @@ import NavContext from '../Nav/NavContext';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
 
@@ -105,7 +105,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
     onClick: createChainedFunction(handleClick, onClick)
   };
 
-  const renderDropdownItem = useRenderDropdownItem(Component);
+  const renderDropdownItem = useRenderMenuItem(Component);
 
   if (divider) {
     return renderDropdownItem({

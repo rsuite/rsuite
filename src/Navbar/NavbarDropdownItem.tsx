@@ -7,7 +7,7 @@ import { IconProps } from '@rsuite/icons/Icon';
 import { useClassNames } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
-import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { WithAsProps } from '@/internals/types';
 
 export interface NavbarDropdownItemProps<T = any>
@@ -108,7 +108,7 @@ const NavbarDropdownItem = forwardRef<'li', NavbarDropdownItemProps>((props, ref
 
   const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav.activeKey, eventKey));
 
-  const renderDropdownItem = useRenderDropdownItem(Component);
+  const renderDropdownItem = useRenderMenuItem(Component);
 
   if (divider) {
     return renderDropdownItem({
