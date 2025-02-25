@@ -6,9 +6,9 @@ A menu component that provides a list of options with support for icons, descrip
 
 <!--{include:<import-guide>}-->
 
-- `Menu`: The container component that manages menu state.
-- `Menu.Item`: Menu option component supporting icons and descriptions.
-- `Menu.Separator`: A divider line to group menu items.
+- `Menu` The container component that manages menu state.
+- `Menu.Item` Menu option component supporting icons and descriptions.
+- `Menu.Separator` A divider line to group menu items.
 
 ## Examples
 

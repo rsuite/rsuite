@@ -233,7 +233,7 @@
         "id": "menu",
         "name": "Menu",
         "title": "菜单",
-        "components": ["Menu", "Menu.Item"],
+        "components": ["Menu", "Menu.Item", "Menu.Separator"],
         "keywords": ["menu"]
       },
       {
