@@ -47,6 +47,10 @@
 
 <!--{include:`icons.md`}-->
 
+### 带描述
+
+<!--{include:`description.md`}-->
+
 ### 分割线与面板
 
 - 使用 `<Dropdown.Separator>` 设置分割线。

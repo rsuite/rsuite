@@ -5,12 +5,21 @@ import { Menu } from 'rsuite';
 import { PageIcon, IdInfoIcon, FileDownloadIcon, DetailIcon } from '@rsuite/icons';
 
 const MenuIcon = ({ as: Component }) => (
-  <Component
+  <div
     style={{
-      width: 24,
-      height: 24
+      border: '1px solid #eee',
+      padding: 6,
+      borderRadius: 6
     }}
-  />
+  >
+    <Component
+      color="#228be6"
+      style={{
+        width: 20,
+        height: 20
+      }}
+    />
+  </div>
 );
 
 const App = () => (

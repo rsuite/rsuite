@@ -83,6 +83,7 @@
   --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
   --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
   --rs-menuitem-divider-margin-block: calc(var(--rs-spacing) * 1.5);
+  --rs-menuitem-spacing: calc(var(--rs-spacing) * 2);
 
   margin: 0; // override default ul
   list-style: none;
@@ -121,7 +122,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 6px;
+  gap: var(--rs-menuitem-spacing);
   padding-inline: var(--rs-menuitem-padding-inline);
   padding-block: var(--rs-menuitem-padding-block);
   clear: both;
