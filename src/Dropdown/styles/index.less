@@ -82,6 +82,7 @@
   --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
   --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
   --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
+  --rs-menuitem-divider-margin-block: calc(var(--rs-spacing) * 1.5);
 
   margin: 0; // override default ul
   list-style: none;
@@ -195,7 +196,10 @@
 }
 
 .rs-dropdown-item-divider {
-  .nav-divider(var(--rs-dropdown-divider-color));
+  height: 1px;
+  margin-block: var(--rs-menuitem-divider-margin-block);
+  overflow: hidden;
+  background-color: var(--rs-dropdown-divider-color);
 }
 
 // The dropdown submenu

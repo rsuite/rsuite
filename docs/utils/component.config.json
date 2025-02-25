@@ -226,7 +226,7 @@
         "id": "dropdown",
         "name": "Dropdown",
         "title": "下拉菜单",
-        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu"],
+        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu", "Dropdown.Separator"],
         "keywords": ["menu"]
       },
       {

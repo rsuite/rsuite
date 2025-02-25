@@ -9,9 +9,10 @@
   --rs-menu-divider-color: var(--rs-divider-border);
   --rs-menu-shadow: var(--rs-shadow-md);
   --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-menu-font-size: var(--rs-font-size-sm);
   --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
   --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
-  --rs-menu-font-size: var(--rs-font-size-sm);
+  --rs-menuitem-divider-margin-block: calc(var(--rs-spacing) * 1.5);
 
   margin: 0; // override default ul
   list-style: none;
@@ -100,7 +101,7 @@
 
 .rs-menu-item-divider {
   height: 1px;
-  margin: @nav-divider-margin-vertical 0;
+  margin-block: var(--rs-menuitem-divider-margin-block);
   overflow: hidden;
   background-color: var(--rs-menu-divider-color);
 }
