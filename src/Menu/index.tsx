@@ -1,4 +1,5 @@
 import Menu from './Menu';
+import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
 
 // export types
@@ -7,5 +8,5 @@ export type { MenuItemProps } from './MenuItem';
 export type { MenuSeparatorProps } from './MenuSeparator';
 
 // export components
-export { Menu, MenuSeparator };
+export { Menu, MenuItem, MenuSeparator };
 export default Menu;

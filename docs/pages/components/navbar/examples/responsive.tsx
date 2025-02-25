@@ -2,14 +2,8 @@
 'use client';
 
 import React from 'react';
-import {
-  // @ts-ignore
-  Menu,
-  Navbar,
-  Nav,
-  Avatar,
-  Drawer
-} from 'rsuite';
+// @ts-ignore
+import { Menu, MenuItem, Navbar, Nav, Avatar, Drawer } from 'rsuite';
 import { IoLogoReact } from 'react-icons/io5';
 
 const NavbarBrand = () => (
@@ -42,9 +36,9 @@ const App = () => {
           </Drawer.Header>
           <Drawer.Body>
             <Menu>
-              <Menu.Item>Docs</Menu.Item>
-              <Menu.Item>Components</Menu.Item>
-              <Menu.Item>Tools</Menu.Item>
+              <MenuItem>Docs</MenuItem>
+              <MenuItem>Components</MenuItem>
+              <MenuItem>Tools</MenuItem>
             </Menu>
           </Drawer.Body>
         </Navbar.Drawer>
