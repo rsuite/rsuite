@@ -91,3 +91,13 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | onToggle      | (open: boolean, event) => void | Callback when menu opens/closes                                |
 | openDirection | "start"\|"end" `("end")`       | Direction that menu opens towards (only available on submenus) |
 | title         | ReactNode                      | Content of the item that opens the menu                        |
+
+### `<Nav.MegaMenu>`
+
+| Property | Type `(Default)`                                             | Description                                                                                  |
+| -------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| title    | ReactNode                                                    | Title or content of the mega menu trigger                                                    |
+| children | ReactNode \| ((props: { onClose: () => void }) => ReactNode) | Content of the mega menu, can be a React node or a function that returns a node with onClose |
+| ...      | [NavItemProps][NavItemProps]                                 | Extends all props from `<Nav.Item>` component                                                |
+
+[NavItemProps]: /components/nav/#code-lt-nav-item-gt-code

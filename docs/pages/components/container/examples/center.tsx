@@ -56,7 +56,7 @@ const App = () => {
             <Form fluid>
               <Form.Group>
                 <Form.ControlLabel>Email address</Form.ControlLabel>
-                <Form.Control name="name" />
+                <Form.Control name="email" autoFocus={false} />
               </Form.Group>
               <Form.Group>
                 <Form.ControlLabel>Password</Form.ControlLabel>

@@ -3,6 +3,7 @@ import NavContext, { NavContextProps } from './NavContext';
 import Menubar from '@/internals/Menu/Menubar';
 import NavDropdown from './NavDropdown';
 import NavMenu from './NavMenu';
+import NavMegaMenu from './NavMegaMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
@@ -79,7 +80,8 @@ const Subcomponents = {
    */
   Dropdown: DeprecatedNavDropdown,
   Item: AdaptiveNavItem,
-  Menu: NavMenu
+  Menu: NavMenu,
+  MegaMenu: NavMegaMenu
 };
 
 /**

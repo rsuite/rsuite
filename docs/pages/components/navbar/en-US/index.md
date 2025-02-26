@@ -36,6 +36,10 @@ The `appearance` property sets the navigation bar appearance:
 
 <!--{include:`subnav.md`}-->
 
+### Mega Menu
+
+<!--{include:`mege-menu.md`}-->
+
 ### With Drawer
 
 <!--{include:`with-drawer.md`}-->

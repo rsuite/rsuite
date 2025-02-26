@@ -34,3 +34,5 @@ export type SanitizedHTMListProps<
   T extends HTMLElement = HTMLElement,
   P extends Record<string, any> = React.HTMLAttributes<T>
 > = PropsWithout<P, 'title' | 'onToggle' | 'onSelect'>;
+
+export type WithoutChildren<T> = Omit<T, 'children'>;
