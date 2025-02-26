@@ -5,6 +5,9 @@ import Simulation from '@/components/Simulation';
 import SearchIcon from '@rsuite/icons/Search';
 import MenuIcon from '@rsuite/icons/Menu';
 import {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Menu,
   Navbar,
   Nav,
   Button,
@@ -42,6 +45,7 @@ export default function Page() {
         Avatar,
         Drawer,
         SearchIcon,
+        Menu,
         MenuIcon,
         useMediaQuery,
         IoLogoReact,

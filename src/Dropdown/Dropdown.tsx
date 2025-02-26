@@ -23,70 +23,72 @@ import type {
 } from '@/internals/types';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
+
+interface DeprecatedDropdownProps {
+  /**
+   * Deprecated. Use `renderToggle` instead.
+   * @deprecated
+   */
+  renderTitle?: (children: React.ReactNode) => React.ReactNode;
+}
+
 export interface DropdownProps<T = any>
   extends WithAsProps,
+    DeprecatedDropdownProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
-  /** Define the title as a submenu */
-  title?: React.ReactNode;
-
-  /** Set the icon */
-  icon?: React.ReactElement<IconProps>;
-
-  /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
+  /** The active option, corresponding to the eventKey in Dropdown.Item */
   activeKey?: T;
 
-  /** Triggering events */
-  trigger?: DropdownTrigger | DropdownTrigger[];
+  /** Default open state */
+  defaultOpen?: boolean;
 
-  /** The placement of Menu */
-  placement?: PlacementCorners;
-
-  /** Whether or not component is disabled */
+  /** Whether to disable the component */
   disabled?: boolean;
-
-  /** The style of the menu */
-  menuStyle?: React.CSSProperties;
-
-  /** A css class to apply to the Toggle DOM node */
-  toggleClassName?: string;
 
   /** The value of the current option */
   eventKey?: T;
 
-  /** You can use a custom element type for this toggle component */
-  toggleAs?: React.ElementType;
+  /** Set icon */
+  icon?: React.ReactElement<IconProps>;
 
-  /** No caret variation */
+  /** Menu style */
+  menuStyle?: React.CSSProperties;
+
+  /** Do not display caret */
   noCaret?: boolean;
 
-  /**
-   * Controlled open state
-   */
+  /** Controlled open state */
   open?: boolean;
-  /**
-   * Whether dropdown is initially open
-   */
-  defaultOpen?: boolean;
 
-  /**
-   * @deprecated
-   */
-  renderTitle?: (children: React.ReactNode) => React.ReactNode;
+  /** Menu position */
+  placement?: PlacementCorners;
 
-  /** Custom Toggle */
+  /** Define the title of the submenu */
+  title?: React.ReactNode;
+
+  /** Toggle component class name */
+  toggleClassName?: string;
+
+  /** Custom element type can be used for this toggle component */
+  toggleAs?: React.ElementType;
+
+  /** Trigger event */
+  trigger?: DropdownTrigger | DropdownTrigger[];
+
+  /** Custom toggle component */
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
 
-  /** The callback function that the menu closes */
+  /** Callback function for closing the menu */
   onClose?: () => void;
 
-  /** Menu Pop-up callback function */
+  /** Callback function for opening the menu */
   onOpen?: () => void;
 
-  /** Callback function for menu state switching */
-  onToggle?: (open?: boolean) => void;
-
-  /** Selected callback function */
+  /** Selection callback function */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
+
+  /** Callback function for menu state toggle */
+  onToggle?: (open?: boolean) => void;
 }
 
 const Subcomponents = {

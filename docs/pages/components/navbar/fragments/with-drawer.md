@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav, Avatar, Drawer } from 'rsuite';
+import { Navbar, Menu, Avatar, Drawer } from 'rsuite';
 import { IoLogoReact } from 'react-icons/io5';
 
 const App = () => {
@@ -14,11 +14,11 @@ const App = () => {
             <Drawer.Title>Menu</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
-            <Nav vertical>
-              <Nav.Item>Docs</Nav.Item>
-              <Nav.Item>Components</Nav.Item>
-              <Nav.Item>Tools</Nav.Item>
-            </Nav>
+            <Menu>
+              <Menu.Item>Docs</Menu.Item>
+              <Menu.Item>Components</Menu.Item>
+              <Menu.Item>Tools</Menu.Item>
+            </Menu>
           </Drawer.Body>
         </Navbar.Drawer>
         <Navbar.Brand href="#">

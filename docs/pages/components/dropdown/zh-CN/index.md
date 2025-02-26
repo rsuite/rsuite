@@ -1,6 +1,6 @@
 # Dropdown 下拉菜单
 
-下拉菜单是一种导航，如果需要选择值请使用 SelectPicker。
+用于创建一个易于访问的下拉菜单，为用户提供多个选项以供选择
 
 ## 获取组件
 
@@ -25,8 +25,6 @@
 - `hover`
 - `contextMenu`
 
-> 同时支持多个事件 `Array<click, hover, contextMenu>`
-
 <!--{include:`trigger.md`}-->
 
 ### 禁用
@@ -49,6 +47,10 @@
 
 <!--{include:`icons.md`}-->
 
+### 带描述
+
+<!--{include:`description.md`}-->
+
 ### 分割线与面板
 
 - 使用 `<Dropdown.Separator>` 设置分割线。
@@ -63,10 +65,6 @@
 ### 多级菜单
 
 <!--{include:`submenu.md`}-->
-
-### 菜单项
-
-<!--{include:`menu-items.md`}-->
 
 ### 自定义 Toggle
 

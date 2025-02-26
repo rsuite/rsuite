@@ -164,25 +164,17 @@
       }
     ]
   },
-
   {
     "group": true,
     "id": "overlays",
     "name": "Overlays",
-    "title": "叠加层",
+    "title": "覆盖层",
     "children": [
       {
         "id": "drawer",
         "name": "Drawer",
         "title": "抽屉",
         "components": ["Drawer", "Drawer.Header", "Drawer.Body", "Drawer.Footer"]
-      },
-      {
-        "id": "dropdown",
-        "name": "Dropdown",
-        "title": "下拉菜单",
-        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu"],
-        "keywords": ["menu"]
       },
       {
         "id": "modal",
@@ -211,12 +203,11 @@
       }
     ]
   },
-
   {
     "group": true,
     "id": "navigation",
-    "name": "Navigation",
-    "title": "导航",
+    "name": "Navigation and Menu",
+    "title": "导航和菜单",
     "children": [
       {
         "id": "affix",
@@ -230,6 +221,20 @@
         "name": "Breadcrumb",
         "title": "面包屑",
         "components": ["Breadcrumb", "Breadcrumb.Item"]
+      },
+      {
+        "id": "dropdown",
+        "name": "Dropdown",
+        "title": "下拉菜单",
+        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu", "Dropdown.Separator"],
+        "keywords": ["menu"]
+      },
+      {
+        "id": "menu",
+        "name": "Menu",
+        "title": "菜单",
+        "components": ["Menu", "Menu.Item", "Menu.Separator"],
+        "keywords": ["menu"]
       },
       {
         "id": "nav",

@@ -6,7 +6,7 @@ Commonly used operating buttons。
 
 <!--{include:<import-guide>}-->
 
-- `<Button>` is the most basic element in the component, you can quickly create a styled button.
+- `Button` is the most basic element in the component, you can quickly create a styled button.
 
 ## Examples
 

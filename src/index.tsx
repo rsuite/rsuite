@@ -21,7 +21,6 @@ export * from './Tooltip';
 export * from './Popover';
 export * from './Modal';
 export * from './Drawer';
-export * from './Dropdown';
 
 // Status
 // --------------------------------------------------------
@@ -42,6 +41,8 @@ export * from './Image';
 
 // Nav
 // --------------------------------------------------------
+export * from './Dropdown';
+export * from './Menu';
 export * from './Nav';
 export * from './Navbar';
 export * from './Sidenav';

@@ -40,7 +40,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
             <Dropdown.Item panel className="more-actions-panel theme-panel">
               <SwitchTheme onClose={onClose} />
             </Dropdown.Item>
-            <Dropdown.Item divider />
+            <Dropdown.Separator />
             <Dropdown.Item panel className="more-actions-panel">
               <div className="rtl-item">
                 <div className="item-name">
@@ -57,7 +57,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
                 />
               </div>
             </Dropdown.Item>
-            <Dropdown.Item divider />
+            <Dropdown.Separator />
             {designHash && (
               <Dropdown.Item
                 as="a"

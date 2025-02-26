@@ -1,0 +1,6 @@
+{
+  "components": {
+    "MenuItem": "Menu/MenuItem",
+    "MenuSeparator": "Menu/MenuSeparator"
+  }
+}

@@ -2,16 +2,9 @@
 'use client';
 
 import React from 'react';
-import { Navbar, Nav, Avatar, Drawer } from 'rsuite';
+// @ts-ignore
+import { Menu, MenuItem, Navbar, Nav, Avatar, Drawer } from 'rsuite';
 import { IoLogoReact } from 'react-icons/io5';
-
-const NavContent = ({ vertical }: { vertical?: boolean }) => (
-  <Nav vertical={vertical}>
-    <Nav.Item>Docs</Nav.Item>
-    <Nav.Item>Components</Nav.Item>
-    <Nav.Item>Tools</Nav.Item>
-  </Nav>
-);
 
 const NavbarBrand = () => (
   <Navbar.Brand href="#">
@@ -26,19 +19,27 @@ const App = () => {
       {/** @ts-ignore */}
       <Navbar.Content hidden="sm">
         <NavbarBrand />
-        <NavContent />
+        <Nav>
+          <Nav.Item>Docs</Nav.Item>
+          <Nav.Item>Components</Nav.Item>
+          <Nav.Item>Tools</Nav.Item>
+        </Nav>
       </Navbar.Content>
 
       {/* Drawer menu for small screens */}
       {/** @ts-ignore */}
       <Navbar.Content visible="sm">
         <Navbar.Toggle />
-        <Navbar.Drawer placement="left" size="xs">
+        <Navbar.Drawer placement="left" size="full">
           <Drawer.Header>
             <Drawer.Title>Menu</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
-            <NavContent vertical />
+            <Menu>
+              <MenuItem>Docs</MenuItem>
+              <MenuItem>Components</MenuItem>
+              <MenuItem>Tools</MenuItem>
+            </Menu>
           </Drawer.Body>
         </Navbar.Drawer>
         <NavbarBrand />

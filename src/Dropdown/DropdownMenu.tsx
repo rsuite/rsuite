@@ -18,25 +18,28 @@ export interface DropdownMenuProps<T = string | number> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
-  /** The submenu expands from the left and defaults to the right */
-  pullLeft?: boolean;
-
-  /**
-   *  Only used for setting the default expand state when it's a submenu.
-   */
+  /** Only used for setting the default expand state when it's a submenu */
   eventKey?: T;
 
-  /** Set the icon */
+  /** Set the icon for the dropdown menu */
   icon?: React.ReactElement<IconProps>;
 
-  open?: boolean;
-  collapsible?: boolean;
-  expanded?: boolean;
+  /** Set the active state of the dropdown menu */
   active?: boolean;
+
+  /** Disable the dropdown menu */
   disabled?: boolean;
+
+  /** Set the active key for the dropdown menu */
   activeKey?: T;
+
+  /** Define the trigger action for the dropdown menu */
   trigger?: 'hover' | 'click';
+
+  /** Callback function when an item is selected */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
+
+  /** Callback function when the dropdown menu is toggled */
   onToggle?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
@@ -63,14 +66,14 @@ const DropdownMenu = React.forwardRef<
   DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
   const {
-    onToggle,
-    eventKey,
-    title,
     activeKey,
-    onSelect,
     classPrefix = 'dropdown-menu',
     className,
     children,
+    eventKey,
+    title,
+    onSelect,
+    onToggle,
     ...rest
   } = props;
 

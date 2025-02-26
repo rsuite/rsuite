@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-export function useRenderDropdownItem(Component: React.ElementType) {
+export function useRenderMenuItem(Component: React.ElementType) {
   return useCallback(
     (props: any, OverrideComponent?: React.ElementType) => {
       if (Component === 'li') {
