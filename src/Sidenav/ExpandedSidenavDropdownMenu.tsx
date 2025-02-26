@@ -10,12 +10,12 @@ import { forwardRef, createChainedFunction } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface SidenavDropdownMenuProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLLIElement>, 'title' | 'onSelect'> {
+    SanitizedHTMListProps<HTMLLIElement, React.LiHTMLAttributes<HTMLLIElement>> {
   /** Primary content */
   children?: React.ReactNode;
 

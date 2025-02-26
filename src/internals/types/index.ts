@@ -7,4 +7,4 @@ export * from './date';
 export * from './form';
 export * from './picker';
 export * from './utils';
-export * from './react';
+export * from './html';

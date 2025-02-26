@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import Button from '../Button';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface PaginationButtonProps<T = number | string>
   extends WithAsProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onSelect'> {
+    HTMLPropsWithoutSelect<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>> {
   /** The value of the current option */
   eventKey: T;
 

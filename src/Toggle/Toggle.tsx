@@ -4,12 +4,10 @@ import Loader from '../Loader';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ColorType, SizeType } from '@/internals/types';
+import type { SanitizedInputProps, WithAsProps, ColorType, SizeType } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
-export interface ToggleProps
-  extends WithAsProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
+export interface ToggleProps extends WithAsProps, SanitizedInputProps {
   /**
    * The color of the toggle.
    */

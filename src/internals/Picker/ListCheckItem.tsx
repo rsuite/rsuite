@@ -3,9 +3,9 @@ import useCombobox from './hooks/useCombobox';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
 import { useClassNames, useEventCallback } from '../hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, PropsWithoutSelect } from '@/internals/types';
 
-export interface ListCheckItemProps extends WithAsProps, Omit<CheckboxProps, 'onSelect'> {
+export interface ListCheckItemProps extends WithAsProps, PropsWithoutSelect<CheckboxProps> {
   active?: boolean;
   checkboxAs?: React.ElementType | string;
   focus?: boolean;

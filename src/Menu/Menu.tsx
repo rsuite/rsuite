@@ -5,11 +5,11 @@ import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
 import { useClassNames } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
-import type { StandardProps } from '@/internals/types';
+import type { StandardProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface MenuProps<T = string | number>
   extends StandardProps,
-    Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'> {
+    HTMLPropsWithoutSelect<HTMLUListElement> {
   /** Set the active key for the menu */
   activeKey?: T;
 

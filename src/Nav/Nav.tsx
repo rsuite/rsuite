@@ -11,11 +11,9 @@ import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface NavProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface NavProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
   /**
    * The appearance style of the Nav component.
    *

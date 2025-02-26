@@ -1,11 +1,9 @@
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 import { forwardRef } from '@/internals/utils';
 import { useClassNames, useEventCallback } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface InputSearchProps
-  extends WithAsProps,
-    Omit<HTMLAttributes<HTMLInputElement>, 'onChange'> {
+export interface InputSearchProps extends WithAsProps, HTMLPropsWithoutChange<HTMLInputElement> {
   readOnly?: boolean;
   value?: string;
   inputStyle?: React.CSSProperties;

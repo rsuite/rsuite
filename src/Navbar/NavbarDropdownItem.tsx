@@ -8,19 +8,15 @@ import { useClassNames } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { DeprecatedDropdownItemProps } from '../Dropdown/types';
 
 export interface NavbarDropdownItemProps<T = any>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+    DeprecatedDropdownItemProps,
+    HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
-
-  /** Primary content */
-  children?: React.ReactNode;
-
-  /** You can use a custom element for this component */
-  as?: React.ElementType;
 
   /** Whether to display the divider */
   divider?: boolean;
@@ -39,19 +35,6 @@ export interface NavbarDropdownItemProps<T = any>
 
   /** The submenu that this menuitem controls (if exists) */
   submenu?: React.ReactElement;
-
-  /**
-   * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
-   * @deprecated Submenus are now pointing the same direction.
-   */
-  pullLeft?: boolean;
-
-  /**
-   * Whether the submenu is opened.
-   * @deprecated
-   * @internal
-   */
-  open?: boolean;
 
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;

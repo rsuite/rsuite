@@ -8,7 +8,13 @@ import { useClassNames } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import { PrependParameters } from '@/internals/types/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, FormControlBaseProps, SizeType } from '@/internals/types';
+import type {
+  PropsWithoutChange,
+  SanitizedInputProps,
+  FormControlBaseProps,
+  WithAsProps,
+  SizeType
+} from '@/internals/types';
 
 export interface LocaleType {
   unfilled: string;
@@ -16,8 +22,8 @@ export interface LocaleType {
 
 export interface InputProps
   extends WithAsProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>,
-    Omit<FormControlBaseProps, 'onChange'> {
+    SanitizedInputProps,
+    PropsWithoutChange<FormControlBaseProps> {
   /** The HTML input type */
   type?: string;
 

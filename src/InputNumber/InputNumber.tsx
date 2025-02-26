@@ -12,19 +12,18 @@ import { KEY_VALUES } from '@/internals/constants';
 import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type {
-  WithAsProps,
-  SizeType,
+  SanitizedInputProps,
+  FormControlBaseProps,
   AppearanceType,
-  FormControlBaseProps
+  WithAsProps,
+  SizeType
 } from '@/internals/types';
 
 export interface InputNumberProps<T = number | string | null>
   extends Omit<
-      React.InputHTMLAttributes<HTMLInputElement>,
+      SanitizedInputProps,
       | 'value'
       | 'defaultValue'
-      | 'onChange'
-      | 'size'
       // RDFa attributes
       | 'prefix'
     >,
@@ -350,7 +349,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
 
   const input = (
     <Input
-      {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
+      {...(htmlInputProps as SanitizedInputProps)}
       ref={plaintext ? (ref as any) : undefined}
       inputRef={inputRef}
       autoComplete="off"

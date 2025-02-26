@@ -5,11 +5,9 @@ import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface RadioTileProps<T = string | number>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RadioTileProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
   /** Additional description, if needed*/
   children?: React.ReactNode;
 

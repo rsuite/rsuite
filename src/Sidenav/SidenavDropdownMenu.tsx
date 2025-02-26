@@ -11,29 +11,37 @@ import { mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { useCustom } from '../CustomProvider';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { StandardProps } from '@/internals/types';
+import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
 
 export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
-  /** The submenu expands from the left and defaults to the right */
-  pullLeft?: boolean;
-
-  /**
-   *  Only used for setting the default expand state when it's a submenu.
-   */
+  /** Only used for setting the default expand state when it's a submenu */
   eventKey?: T;
 
-  /** Set the icon */
+  /** Set the icon for the submenu */
   icon?: React.ReactElement<IconProps>;
 
+  /** Determine whether the submenu is open */
   open?: boolean;
+
+  /** Allow the submenu to be collapsed */
   collapsible?: boolean;
+
+  /** Determine whether the submenu is expanded */
   expanded?: boolean;
+
+  /** Indicate if the submenu is in an active state */
   active?: boolean;
+
+  /** Disable the submenu */
   disabled?: boolean;
+
+  /** The currently active key in the submenu */
   activeKey?: T;
+
+  /** Callback function that is called when the submenu is toggled */
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
@@ -51,8 +59,7 @@ export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
  */
 const SidenavDropdownMenu = React.forwardRef<
   HTMLElement,
-  SidenavDropdownMenuProps &
-    Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onToggle' | 'onSelect'>
+  SidenavDropdownMenuProps & SanitizedHTMListProps
 >((props, ref) => {
   const sidenav = useContext(SidenavContext);
   const nav = useContext(NavContext);

@@ -10,13 +10,11 @@ import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
 import { useClassNames } from '@/internals/hooks';
 import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
 import { initialState, reducer } from '../Dropdown/DropdownState';
-import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
-export interface NavDropdownProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
+export interface NavDropdownProps<T = any> extends WithAsProps, SanitizedHTMListProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

@@ -13,13 +13,11 @@ import { NavMenuContext } from '../Nav/NavMenu';
 import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
-export interface SidenavDropdownProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
+export interface SidenavDropdownProps<T = any> extends WithAsProps, SanitizedHTMListProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

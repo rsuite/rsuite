@@ -6,12 +6,10 @@ import SafeAnchor from '../SafeAnchor';
 import NavContext from './NavContext';
 import { useClassNames } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface NavItemProps<T = string | number>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface NavItemProps<T = string | number> extends WithAsProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 

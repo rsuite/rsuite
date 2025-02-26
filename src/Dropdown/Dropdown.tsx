@@ -19,7 +19,8 @@ import { useCustom } from '../CustomProvider';
 import type {
   PlacementCorners,
   WithAsProps,
-  InternalRefForwardingComponent
+  InternalRefForwardingComponent,
+  SanitizedHTMListProps
 } from '@/internals/types';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
@@ -35,7 +36,7 @@ interface DeprecatedDropdownProps {
 export interface DropdownProps<T = any>
   extends WithAsProps,
     DeprecatedDropdownProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
+    SanitizedHTMListProps {
   /** The active option, corresponding to the eventKey in Dropdown.Item */
   activeKey?: T;
 

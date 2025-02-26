@@ -13,34 +13,22 @@ import { useClassNames, useInternalId } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import { DropdownActionType } from './DropdownState';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { DeprecatedDropdownItemProps } from './types';
 
-interface DeprecatedDropdownMenuItemProps {
+interface DeprecatedDropdownMenuItemProps extends DeprecatedDropdownItemProps {
   /**
    * Whether to display the divider
    *
    * @deprecated Use dedicated <Dropdown.Separator> component instead
    */
   divider?: boolean;
-
-  /**
-   * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
-   * @deprecated Submenus are now pointing the same direction.
-   */
-  pullLeft?: boolean;
-
-  /**
-   * Whether the submenu is opened.
-   * @deprecated
-   * @internal
-   */
-  open?: boolean;
 }
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
     DeprecatedDropdownMenuItemProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+    HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
 

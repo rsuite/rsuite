@@ -5,22 +5,19 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import Disclosure from '@/internals/Disclosure';
 import NavContext from '../Nav/NavContext';
-import { StandardProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
 import { mergeRefs } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { NavbarContext } from '.';
+import { NavbarContext } from './NavbarContext';
 import { useCustom } from '../CustomProvider';
+import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { DeprecatedDropdownMenuProps } from '../Dropdown/types';
 
-export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
+export interface NavbarDropdownMenuProps<T = any>
+  extends StandardProps,
+    DeprecatedDropdownMenuProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
-
-  /**
-   * The submenu expands from the left and defaults to the right
-   * @deprecated Use openDirection="start" instead.
-   */
-  pullLeft?: boolean;
 
   /**
    * Direction that the sub-menu open towards
@@ -32,19 +29,37 @@ export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   openDirection?: 'start' | 'end';
 
   /**
-   *  Only used for setting the default expand state when it's a submenu.
+   * Only used for setting the default expand state when it's a submenu.
    */
   eventKey?: T;
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 
+  /** Whether the dropdown menu is open */
   open?: boolean;
+
+  /** Whether the dropdown menu is collapsible */
   collapsible?: boolean;
+
+  /** Whether the dropdown menu is expanded */
   expanded?: boolean;
+
+  /** Whether the dropdown menu is active */
   active?: boolean;
+
+  /** Whether the dropdown menu is disabled */
   disabled?: boolean;
+
+  /** The currently active key in the dropdown menu */
   activeKey?: T;
+
+  /**
+   * Callback function when toggling the dropdown menu
+   * @param open - Whether the menu is open
+   * @param eventKey - The eventKey of the menu item
+   * @param event - The event object
+   */
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
@@ -63,8 +78,7 @@ export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
  */
 const NavbarDropdownMenu = React.forwardRef<
   HTMLElement,
-  NavbarDropdownMenuProps &
-    Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onToggle' | 'onSelect'>
+  NavbarDropdownMenuProps & SanitizedHTMListProps
 >((props, ref) => {
   const navbar = useContext(NavbarContext);
   const nav = useContext(NavContext);

@@ -8,11 +8,9 @@ import { useClassNames } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface SidenavDropdownItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface SidenavDropdownItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
 

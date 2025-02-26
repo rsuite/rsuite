@@ -16,9 +16,10 @@ import {
   pickTriggerPropKeys,
   PositionChildProps
 } from '@/internals/Picker';
-import {
-  WithAsProps,
+import type {
   FormControlPickerProps,
+  SanitizedInputProps,
+  WithAsProps,
   Placement,
   Option,
   SizeType,
@@ -273,7 +274,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     >
       <Component className={classes} style={style} ref={root} {...restProps}>
         <Combobox
-          {...(htmlInputProps as Omit<React.InputHTMLAttributes<any>, 'size'>)}
+          {...(htmlInputProps as SanitizedInputProps)}
           disabled={disabled}
           value={value}
           size={size}

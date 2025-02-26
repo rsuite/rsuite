@@ -2,12 +2,12 @@ import React, { useContext, useMemo, useRef } from 'react';
 import { useControlled, useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, ColorType } from '@/internals/types';
+import { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface CheckboxProps<V = string | number>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+    HTMLPropsWithoutChange<HTMLDivElement> {
   /**
    * The color of the checkbox when checked or indeterminate
    *

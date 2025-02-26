@@ -2,11 +2,9 @@ import React from 'react';
 import useCombobox from './hooks/useCombobox';
 import { forwardRef } from '@/internals/utils';
 import { useClassNames, useEventCallback } from '../hooks';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface ListItemProps
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface ListItemProps extends WithAsProps, HTMLPropsWithoutSelect {
   active?: boolean;
   disabled?: boolean;
   value?: string | number;

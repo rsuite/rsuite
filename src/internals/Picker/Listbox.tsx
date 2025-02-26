@@ -9,6 +9,9 @@ import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
+import ListItemGroup from './ListItemGroup';
+import useCombobox from './hooks/useCombobox';
+import Highlight from '../../Highlight';
 import {
   List,
   AutoSizer,
@@ -21,11 +24,13 @@ import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
 import { useClassNames, useMount, useEventCallback } from '../hooks';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
-import ListItemGroup from './ListItemGroup';
-import { StandardProps, Option, Offset, DataProps } from '@/internals/types';
-import useCombobox from './hooks/useCombobox';
-import Highlight from '../../Highlight';
-
+import type {
+  StandardProps,
+  Option,
+  Offset,
+  DataProps,
+  HTMLPropsWithoutSelect
+} from '@/internals/types';
 interface InnerOption extends Option {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
@@ -40,7 +45,7 @@ interface InnerOption extends Option {
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
     Partial<DataProps<InnerOption>>,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+    HTMLPropsWithoutSelect {
   groupBy?: string;
   disabledItemValues?: any[];
   activeItemValues?: any[];

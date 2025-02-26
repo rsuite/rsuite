@@ -7,11 +7,9 @@ import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface NavbarItemProps<T = string | number>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface NavbarItemProps<T = string | number> extends WithAsProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 

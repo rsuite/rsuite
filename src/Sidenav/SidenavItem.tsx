@@ -10,15 +10,13 @@ import Tooltip from '../Tooltip';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 /**
  * Props of SidenavItem component
  */
-export interface SidenavItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface SidenavItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
   /**
    * Whether the item is activated
    */
@@ -40,11 +38,6 @@ export interface SidenavItemProps<T = any>
   eventKey?: T;
 
   /**
-   * The callback function when the item is selected
-   */
-  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
-
-  /**
    * Render a divider
    */
   divider?: boolean;
@@ -58,6 +51,11 @@ export interface SidenavItemProps<T = any>
    * The content of the tooltip
    */
   tooltip?: React.ReactNode;
+
+  /**
+   * The callback function when the item is selected
+   */
+  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 }
 
 /**

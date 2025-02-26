@@ -3,11 +3,9 @@ import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ColorType } from '@/internals/types';
+import type { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface RadioProps<T = string | number>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RadioProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
   /**
    * The color of the radio when checked
    *
