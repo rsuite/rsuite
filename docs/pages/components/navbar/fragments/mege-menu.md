@@ -31,7 +31,7 @@ import {
   IoBarChartOutline
 } from 'react-icons/io5';
 
-const border = '1px solid #eee';
+const border = '1px solid var(--rs-divider-border)';
 
 const BorderedIcon = ({ as: Component }) => (
   <div
@@ -206,6 +206,7 @@ const MegaMenuResources = ({ onClose }) => {
       <Content>
         <HStack alignItems="stretch">
           <Sidenav
+            defaultOpenKeys={['1', '2']}
             style={{
               width: 200
             }}

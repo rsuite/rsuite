@@ -7,7 +7,7 @@ import { PageIcon, IdInfoIcon, FileDownloadIcon, DetailIcon } from '@rsuite/icon
 const MenuIcon = ({ as: Component }) => (
   <div
     style={{
-      border: '1px solid #eee',
+      border: '1px solid var(--rs-divider-border)',
       padding: 6,
       borderRadius: 6
     }}
