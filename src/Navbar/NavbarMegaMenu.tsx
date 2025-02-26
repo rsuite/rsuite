@@ -1,11 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
-import NavContext from '../Nav/NavContext';
 import Whisper from '../Whisper';
 import Popover from '../Popover';
 import NavbarItem, { NavbarItemProps } from './NavbarItem';
 import { useClassNames } from '@/internals/hooks';
-import { NavbarContext } from './NavbarContext';
 import type { WithoutChildren } from '@/internals/types';
 
 export interface NavbarMegaMenuProps extends Omit<WithoutChildren<NavbarItemProps>, 'title'> {
@@ -26,15 +24,6 @@ export interface NavbarMegaMenuProps extends Omit<WithoutChildren<NavbarItemProp
 }
 
 const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props, ref) => {
-  const navbar = useContext(NavbarContext);
-  const nav = useContext(NavContext);
-
-  if (!navbar || !nav) {
-    throw new Error(
-      '<Navbar.Dropdown.Menu> must be rendered within a <Nav> within a <Navbar> component.'
-    );
-  }
-
   const {
     as: Component = NavbarItem,
     className,
@@ -60,7 +49,13 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
   );
 
   return (
-    <Whisper placement="autoVertical" trigger="click" speaker={renderMenu} open={open}>
+    <Whisper
+      preventOverflow
+      placement="autoVertical"
+      trigger="click"
+      speaker={renderMenu}
+      open={open}
+    >
       <Component ref={ref} className={classes} {...rest}>
         {title}
         <ArrowDownLineIcon className={prefix`toggle-icon`} />

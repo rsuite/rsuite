@@ -21,21 +21,37 @@ describe('NavMegaMenu', () => {
     expect(screen.getByText('Mega Menu')).to.exist;
   });
 
-  it('Should throw error if rendered outside of Navbar context', () => {
-    sinon.stub(console, 'error').callsFake(() => null);
+  describe('Error handling', () => {
+    let consoleErrorStub;
 
-    expect(() => {
+    beforeEach(() => {
+      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+        // do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
+    it('Should throw error if rendered outside of Navbar context', () => {
       render(<NavMegaMenu title="Mega Menu" />);
-    }).to.throw();
 
-    expect(() => {
+      expect(consoleErrorStub).to.have.been.calledWith(
+        sinon.match(/<Nav.MegaMenu> should be used within a <Navbar> component./)
+      );
+    });
+
+    it('Should throw error if rendered outside of Navbar context', () => {
       render(
         <Nav>
           <NavMegaMenu title="Mega Menu" />
         </Nav>
       );
-    }).to.throw();
 
-    (console.error as sinon.SinonStub).restore();
+      expect(consoleErrorStub).to.have.been.calledWith(
+        sinon.match(/<Nav.MegaMenu> should be used within a <Navbar> component./)
+      );
+    });
   });
 });

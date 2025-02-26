@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 import NavbarMegaMenu from '../NavbarMegaMenu';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
@@ -108,15 +107,5 @@ describe('NavbarMegaMenu', () => {
     );
 
     expect(screen.getByTestId('mega-menu')).to.have.class('rs-custom-prefix');
-  });
-
-  it('Should throw error if rendered outside of Navbar and Nav context', () => {
-    sinon.stub(console, 'error').callsFake(() => null);
-
-    expect(() => {
-      render(<NavbarMegaMenu title="Mega Menu" />);
-    }).to.throw();
-
-    (console.error as sinon.SinonStub).restore();
   });
 });

@@ -8,9 +8,11 @@ const NavMegaMenu = React.forwardRef((props: NavMegaMenuProps, ref: React.Ref<an
   const navbar = useContext(NavbarContext);
 
   if (!navbar) {
-    throw new Error(
+    console.error(
       '<Nav.MegaMenu> should be used within a <Navbar> component. Use https://rsuitejs.com/components/navbar/#mega-menu for more information.'
     );
+
+    return null;
   }
 
   return <NavbarMegaMenu ref={ref} {...props} />;
