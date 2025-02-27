@@ -54,7 +54,7 @@
 | 属性名称 | 类型`(默认值)`        | 描述                 |
 | -------- | --------------------- | -------------------- |
 | as       | ElementType `('div')` | 为组件自定义元素类型 |
-| gutter   | number                | 栅格的间距           |
+| gutter   | number \| string      | 栅格的间距           |
 
 ### `<Col>`
 
@@ -92,11 +92,13 @@
 | xsPull    | number                | 栅格向左移动格数                       |
 | xsPush    | number                | 栅格向右移动格数                       |
 
-#### 对应屏幕宽度
+### 对应屏幕宽度
 
-- xxl, extra-large: ≥ `1400px`
-- xl, extra-large: ≥ `1200px`
-- lg, large: ≥ `992px`
-- md, medium: ≥ `768px`
-- sm, small: ≥ `576px`
-- xs, extra-small: < `576px`
+| 尺寸 | 名称        | 宽度       |
+| ---- | ----------- | ---------- |
+| xxl  | extra-large | ≥ `1400px` |
+| xl   | extra-large | ≥ `1200px` |
+| lg   | large       | ≥ `992px`  |
+| md   | medium      | ≥ `768px`  |
+| sm   | small       | ≥ `576px`  |
+| xs   | extra-small | < `576px`  |

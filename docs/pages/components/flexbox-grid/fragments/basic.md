@@ -4,12 +4,20 @@
 import { FlexboxGrid } from 'rsuite';
 
 const App = () => (
-  <div className="show-grid">
+  <div>
     <FlexboxGrid>
-      <FlexboxGrid.Item colspan={6}>colspan={6}</FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={6}>colspan={6}</FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={6}>colspan={6}</FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={6}>colspan={6}</FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={6}>
+        <Box>colspan={6}</Box>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={6}>
+        <Box>colspan={6}</Box>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={6}>
+        <Box>colspan={6}</Box>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={6}>
+        <Box>colspan={6}</Box>
+      </FlexboxGrid.Item>
     </FlexboxGrid>
   </div>
 );

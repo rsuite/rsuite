@@ -1,13 +1,12 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
 import Grid from '../Grid';
 import Col from '../../Col';
 import Row from '../../Row';
 import { createMeta } from '@/storybook/utils';
+import type { StoryObj } from '@storybook/react';
 import '../styles/index.less';
 import '../../Col/styles/index.less';
 import '../../Row/styles/index.less';
-import './styles.less';
 
 const meta = createMeta(Grid);
 
@@ -20,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
   children: (
-    <Row className="show-grid">
+    <Row>
       <Col xs={2}>xs={2}</Col>
       <Col xs={2}>xs={2}</Col>
       <Col xs={2}>xs={2}</Col>
@@ -53,7 +52,7 @@ export const Fluid: Story = {
 export const Responsive: Story = {
   args: {
     children: (
-      <Row className="show-grid">
+      <Row>
         <Col xs={24} sm={24} md={8}>
           xs={24} sm={24} md={8}
         </Col>
@@ -71,7 +70,7 @@ export const Responsive: Story = {
 export const Gutter: Story = {
   args: {
     children: (
-      <Row className="show-grid" gutter={16}>
+      <Row gutter={16}>
         <Col xs={24} sm={24} md={8}>
           xs={24} sm={24} md={8}
         </Col>
@@ -89,7 +88,7 @@ export const Gutter: Story = {
 export const Offset: Story = {
   args: {
     children: (
-      <Row className="show-grid">
+      <Row>
         <Col md={4} mdOffset={20}>
           xs={4} xsOffset={20}
         </Col>
@@ -101,7 +100,7 @@ export const Offset: Story = {
 export const PushAndPull: Story = {
   args: {
     children: (
-      <Row className="show-grid">
+      <Row>
         <Col xs={6} xsPush={18}>
           xs={6} xsPush={18} `left`
         </Col>
@@ -116,7 +115,7 @@ export const PushAndPull: Story = {
 export const Hidden: Story = {
   args: {
     children: (
-      <Row className="show-grid">
+      <Row>
         <Col xsHidden xs={12}>
           xsHidden xs={12}
         </Col>
@@ -131,10 +130,10 @@ export const Hidden: Story = {
 export const Nesting: Story = {
   args: {
     children: (
-      <Row className="show-grid">
+      <Row>
         <Col xs={9}>xs={9}</Col>
         <Col xs={15}>
-          <Row className="show-grid">
+          <Row>
             <Col xs={6}>xs={6}</Col>
             <Col xs={6}>xs={6}</Col>
             <Col xs={6}>xs={6}</Col>

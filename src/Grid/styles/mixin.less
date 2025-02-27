@@ -3,17 +3,17 @@
 // Generate semantic grid columns with these mixins.
 
 // Centered container element
-.container-fixed(@gutter: @grid-gutter-width) {
+.container-fixed() {
   margin-inline-end: auto;
   margin-inline-start: auto;
-  padding-inline-start: floor((@gutter / 2));
-  padding-inline-end: ceil((@gutter / 2));
+  margin-inline-start: calc(var(--rs-grid-gutter) / 2);
+  margin-inline-end: calc(var(--rs-grid-gutter) / 2);
   .clearfix();
 }
 
 // Creates a wrapper for a series of columns
-.make-row(@gutter: @grid-gutter-width) {
-  margin-inline-start: ceil((@gutter / -2));
-  margin-inline-end: floor((@gutter / -2));
+.make-row() {
+  margin-inline-start: calc(var(--rs-grid-gutter) / -2);
+  margin-inline-end: calc(var(--rs-grid-gutter) / -2);
   .clearfix();
 }

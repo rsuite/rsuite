@@ -9,6 +9,6 @@
   // Prevent columns from collapsing when empty
   min-height: 1px;
   // Inner gutter via padding
-  padding-inline-start: ceil((@grid-gutter-width / 2));
-  padding-inline-end: floor((@grid-gutter-width / 2));
+  padding-inline-start: calc(var(--rs-grid-gutter) / 2);
+  padding-inline-end: calc(var(--rs-grid-gutter) / 2);
 }

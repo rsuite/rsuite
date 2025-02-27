@@ -1,20 +1,30 @@
 import React from 'react';
 import { FlexboxGrid, Col } from 'rsuite';
+import { Box } from '@/mock-components/Box';
 
 const App = () => (
-  <div className="show-grid">
-    <FlexboxGrid justify="space-around">
-      <FlexboxGrid.Item as={Col} colspan={24} md={8}>
-        colspan={24} md={8}
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item as={Col} colspan={24} md={8}>
-        colspan={24} md={8}
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item as={Col} colspan={24} md={8} xsHidden>
-        colspan={24} md={8} xsHidden
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
-  </div>
+  <FlexboxGrid justify="space-around">
+    <FlexboxGrid.Item as={Col} md={6} sm={12}>
+      <Box>
+        md={8} sm={12}
+      </Box>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item as={Col} md={6} sm={12}>
+      <Box>
+        md={8} sm={12}
+      </Box>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item as={Col} md={6} sm={12}>
+      <Box>
+        md={8} sm={12}
+      </Box>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item as={Col} md={6} sm={12} xsHidden>
+      <Box>
+        md={8} sm={12} xsHidden
+      </Box>
+    </FlexboxGrid.Item>
+  </FlexboxGrid>
 );
 
 export default App;

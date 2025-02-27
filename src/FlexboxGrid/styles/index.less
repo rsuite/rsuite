@@ -7,7 +7,8 @@
 
   // Flex-box grid item
   &-item {
-    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   //##==== Alignment (Y-Axis).
@@ -62,6 +63,7 @@
 each(range(24), {
   // Generate columns styles.
   .rs-flex-box-grid-item-@{value} {
+    flex: 0 0 auto;
     // Provide positioning for child elements.
     position: relative;
     display: block;

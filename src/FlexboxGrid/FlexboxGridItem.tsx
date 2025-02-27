@@ -30,7 +30,7 @@ const FlexboxGridItem = forwardRef<'div', FlexboxGridItemProps>(
     const classes = merge(
       className,
       withClassPrefix({
-        [colspan]: colspan >= 0,
+        [colspan]: colspan > 0,
         [`order-${order}`]: order
       })
     );

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef, ReactChildren } from '@/internals/utils';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export interface RowProps extends WithAsProps {
-  gutter?: number;
+  gutter?: number | string;
 }
 
 /**
@@ -27,30 +27,13 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
-  let cols = children;
-  let rowStyles = style;
-
-  if (typeof gutter !== 'undefined') {
-    const padding = gutter / 2;
-    cols = ReactChildren.mapCloneElement(children, child => ({
-      ...child.props,
-      style: {
-        ...child.props.style,
-        paddingLeft: padding,
-        paddingRight: padding
-      }
-    }));
-
-    rowStyles = {
-      ...style,
-      marginLeft: -padding,
-      marginRight: -padding
-    };
-  }
+  const rowStyles = mergeStyles(style, {
+    ['--rs-grid-gutter']: getCssValue(gutter)
+  });
 
   return (
     <Component role="row" {...rest} ref={ref} className={classes} style={rowStyles}>
-      {cols}
+      {children}
     </Component>
   );
 });

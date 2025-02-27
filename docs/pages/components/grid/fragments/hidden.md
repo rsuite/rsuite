@@ -5,12 +5,12 @@ import { Grid, Row, Col } from 'rsuite';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
+    <Row>
       <Col xsHidden md={12}>
-        xsHidden md={12}
+        <Box>xsHidden md={12}</Box>
       </Col>
       <Col xs={24} md={12}>
-        xs={24} md={12}
+        <Box>xs={24} md={12}</Box>
       </Col>
     </Row>
   </Grid>

@@ -5,35 +5,35 @@ import { Grid, Row, Col } from 'rsuite';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
+    <Row >
       <Col xs={12}>
-        <Row className="show-grid">
+        <Row >
           <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+            <Row >
+              <Col xs={12}><Box>xs={12}</Box></Col>
+              <Col xs={12}><Box>xs={12}</Box></Col>
             </Row>
           </Col>
           <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+            <Row >
+              <Col xs={12}><Box>xs={12}</Box></Col>
+              <Col xs={12}><Box>xs={12}</Box></Col>
             </Row>
           </Col>
         </Row>
       </Col>
       <Col xs={12}>
-        <Row className="show-grid">
+        <Row >
           <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+            <Row >
+              <Col xs={12}><Box>xs={12}</Box></Col>
+              <Col xs={12}><Box>xs={12}</Box></Col>
             </Row>
           </Col>
           <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+            <Row >
+              <Col xs={12}><Box>xs={12}</Box></Col>
+              <Col xs={12}><Box>xs={12}</Box></Col>
             </Row>
           </Col>
         </Row>

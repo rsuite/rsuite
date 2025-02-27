@@ -54,7 +54,7 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 | Property | Type `(Default)`      | Description                                          |
 | -------- | --------------------- | ---------------------------------------------------- |
 | as       | ElementType `('div')` | You can use a custom element type for this component |
-| gutter   | number                | The spacing of the grids                             |
+| gutter   | number \| string      | The spacing of the grids                             |
 
 ### `<Col>`
 
@@ -92,11 +92,13 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 | xsPull    | number                | Change the order of grid columns to the left for Extra small devices Phones          |
 | xsPush    | number                | Change the order of grid columns to the right for Extra small devices Phones         |
 
-#### Corresponds to the screen width
+### Corresponds to the screen width
 
-- xxl, extra-large: ≥ `1400px`
-- xl, extra-large: ≥ `1200px`
-- lg, large: ≥ `992px`
-- md, medium: ≥ `768px`
-- sm, small: ≥ `576px`
-- xs, extra-small: < `576px`
+| Size | Name        | Width      |
+| ---- | ----------- | ---------- |
+| xxl  | extra-large | ≥ `1400px` |
+| xl   | extra-large | ≥ `1200px` |
+| lg   | large       | ≥ `992px`  |
+| md   | medium      | ≥ `768px`  |
+| sm   | small       | ≥ `576px`  |
+| xs   | extra-small | < `576px`  |
