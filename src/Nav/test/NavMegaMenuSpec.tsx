@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
+import Sidenav from '../../Sidenav';
 import NavMegaMenu from '../NavMegaMenu';
 import { render, screen } from '@testing-library/react';
 
@@ -13,12 +14,34 @@ describe('NavMegaMenu', () => {
   );
 
   it('Should render a mega menu with title', () => {
-    render(<NavMegaMenu title="Mega Menu" data-testid="mega-menu" />, {
+    render(<NavMegaMenu title="Mega Menu" />, {
       wrapper: navbarWrapper
     });
 
-    expect(screen.getByTestId('mega-menu')).to.exist;
-    expect(screen.getByText('Mega Menu')).to.exist;
+    expect(screen.getByRole('button', { name: 'Mega Menu' })).to.have.class('rs-navbar-item');
+  });
+
+  it('Should render a mega menu with title and description', () => {
+    render(
+      <NavMegaMenu title="Mega Menu" open>
+        {() => {
+          return (
+            <Sidenav>
+              <Nav>
+                <Nav.Item>Nav Item</Nav.Item>
+                <Nav.Menu title="Submenu"></Nav.Menu>
+              </Nav>
+            </Sidenav>
+          );
+        }}
+      </NavMegaMenu>,
+      {
+        wrapper: navbarWrapper
+      }
+    );
+
+    expect(screen.getByRole('button', { name: 'Nav Item' })).to.have.class('rs-sidenav-item');
+    expect(screen.getByRole('button', { name: 'Submenu' })).to.have.class('rs-sidenav-item');
   });
 
   describe('Error handling', () => {

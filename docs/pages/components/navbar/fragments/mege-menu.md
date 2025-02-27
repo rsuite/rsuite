@@ -46,10 +46,34 @@ const BorderedIcon = ({ as: Component }) => (
   </div>
 );
 
+const MenuSection = ({ items, onSelect }) => (
+  <Panel bodyFill>
+    <Menu onSelect={onSelect}>
+      {items.map(({ icon, description, children }) => (
+        <Menu.Item key={children} icon={<BorderedIcon as={icon} />} description={description}>
+          {children}
+        </Menu.Item>
+      ))}
+    </Menu>
+  </Panel>
+);
+
 const MegaMenuFeatures = ({ onClose }) => {
-  const handleSelect = () => {
-    onClose();
-  };
+  const handleSelect = () => onClose();
+
+  const leftMenuItems = [
+    { icon: IoBarChartOutline, description: 'Data visualization', children: 'Charts' },
+    { icon: IoDocumentTextOutline, description: 'Input and data collection', children: 'Forms' },
+    { icon: IoGridOutline, description: 'Data presentation', children: 'Tables' },
+    { icon: IoLayersOutline, description: 'Popup dialogs', children: 'Modals' }
+  ];
+
+  const rightMenuItems = [
+    { icon: IoTerminalOutline, description: 'Command-line interface', children: 'CLI' },
+    { icon: IoBrushOutline, description: 'UI/UX resources', children: 'Design Kit' },
+    { icon: IoColorPaletteOutline, description: 'Customizable styles', children: 'Themes' },
+    { icon: IoShapesOutline, description: 'Visual symbols', children: 'Icons' }
+  ];
 
   return (
     <Container>
@@ -66,50 +90,8 @@ const MegaMenuFeatures = ({ onClose }) => {
       </Header>
       <Content>
         <HStack spacing={16}>
-          <Panel bodyFill>
-            <Menu onSelect={handleSelect}>
-              <Menu.Item
-                icon={<BorderedIcon as={IoBarChartOutline} />}
-                description="Data visualization"
-              >
-                Charts
-              </Menu.Item>
-              <Menu.Item
-                icon={<BorderedIcon as={IoDocumentTextOutline} />}
-                description="Input and data collection"
-              >
-                Forms
-              </Menu.Item>
-              <Menu.Item icon={<BorderedIcon as={IoGridOutline} />} description="Data presentation">
-                Tables
-              </Menu.Item>
-              <Menu.Item icon={<BorderedIcon as={IoLayersOutline} />} description="Popup dialogs">
-                Modals
-              </Menu.Item>
-            </Menu>
-          </Panel>
-          <Panel bodyFill>
-            <Menu onSelect={handleSelect}>
-              <Menu.Item
-                icon={<BorderedIcon as={IoTerminalOutline} />}
-                description="Command-line interface"
-              >
-                CLI
-              </Menu.Item>
-              <Menu.Item icon={<BorderedIcon as={IoBrushOutline} />} description="UI/UX resources">
-                Design Kit
-              </Menu.Item>
-              <Menu.Item
-                icon={<BorderedIcon as={IoColorPaletteOutline} />}
-                description="Customizable styles"
-              >
-                Themes
-              </Menu.Item>
-              <Menu.Item icon={<BorderedIcon as={IoShapesOutline} />} description="Visual symbols">
-                Icons
-              </Menu.Item>
-            </Menu>
-          </Panel>
+          <MenuSection items={leftMenuItems} onSelect={handleSelect} />
+          <MenuSection items={rightMenuItems} onSelect={handleSelect} />
         </HStack>
       </Content>
       <Footer
