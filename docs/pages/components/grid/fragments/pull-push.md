@@ -8,12 +8,12 @@ const App = () => (
     <Row>
       <Col xs={12} xsPush={12}>
         <Box>
-          xs={12} xsPush={12} `left`
+          xs={12} xsPush={12}
         </Box>
       </Col>
       <Col xs={12} xsPull={12}>
         <Box>
-          xs={12} xsPull={12} `right`
+          xs={12} xsPull={12}
         </Box>
       </Col>
     </Row>
@@ -24,7 +24,7 @@ const App = () => (
       </Col>
       <Col xs={6} xsPush={12}>
         <Box>
-          xs={6} xsPush={12} `right`
+          xs={6} xsPush={12}
         </Box>
       </Col>
     </Row>
@@ -32,12 +32,12 @@ const App = () => (
     <Row>
       <Col xs={6} xsPush={18}>
         <Box>
-          xs={6} xsPush={18} `left`
+          xs={6} xsPush={18}
         </Box>
       </Col>
       <Col xs={6} xsPull={6}>
         <Box>
-          xs={6} xsPull={6} `right`
+          xs={6} xsPull={6}
         </Box>
       </Col>
     </Row>

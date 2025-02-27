@@ -8,6 +8,7 @@ import '../../Col/styles/index.less';
 describe('Col styles', () => {
   itChrome('Should render the correct styles', () => {
     render(<Col md={1}>Title</Col>);
-    expect(screen.getByRole('gridcell')).to.have.style('padding', '0px 5px');
+
+    expect(screen.getByRole('gridcell')).to.have.style('padding', '0px 6px');
   });
 });

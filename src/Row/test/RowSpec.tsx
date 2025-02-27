@@ -16,18 +16,13 @@ describe('Row', () => {
     expect(screen.getByRole('row')).to.have.class('rs-row');
   });
 
-  it('Should render a gutter', () => {
-    render(
-      <Row gutter={10}>
-        <div />
-      </Row>
-    );
+  it('Should render a row with gutter', () => {
+    const { rerender } = render(<Row gutter={10}></Row>);
 
-    const row = screen.getByRole('row');
+    expect(screen.getByRole('row')).to.have.style('--rs-grid-gutter', '10px');
 
-    expect(row).to.have.style('margin-left', '-5px');
-    expect(row).to.have.style('margin-right', '-5px');
-    expect(row.firstChild).to.have.style('padding-left', '5px');
-    expect(row.firstChild).to.have.style('padding-right', '5px');
+    rerender(<Row gutter={'2rem'}></Row>);
+
+    expect(screen.getByRole('row')).to.have.style('--rs-grid-gutter', '2rem');
   });
 });

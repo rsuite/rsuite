@@ -102,10 +102,10 @@ export const PushAndPull: Story = {
     children: (
       <Row>
         <Col xs={6} xsPush={18}>
-          xs={6} xsPush={18} `left`
+          xs={6} xsPush={18}
         </Col>
         <Col xs={6} xsPull={6}>
-          xs={6} xsPull={6} `right`
+          xs={6} xsPull={6}
         </Col>
       </Row>
     )

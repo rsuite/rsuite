@@ -7,6 +7,6 @@ import '../styles/index.less';
 describe('Grid styles', () => {
   it('Should render the correct styles', () => {
     render(<Grid />);
-    expect(screen.getByRole('grid')).to.have.style('padding', '0px 5px');
+    expect(screen.getByRole('grid')).to.have.style('padding', '0px 6px');
   });
 });
