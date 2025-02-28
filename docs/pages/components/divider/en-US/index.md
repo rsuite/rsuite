@@ -12,9 +12,21 @@ Divider are used to group content horizontally or vertically.
 
 <!--{include:`basic.md`}-->
 
-### Divider with Text
+### Appearance
 
-<!--{include:`with-text.md`}-->
+<!--{include:`appearance.md`}-->
+
+### Sizes
+
+<!--{include:`size.md`}-->
+
+### Colors
+
+<!--{include:`color.md`}-->
+
+### Divider with Label
+
+<!--{include:`with-label.md`}-->
 
 ### Vertical Divider
 
@@ -24,8 +36,16 @@ Divider are used to group content horizontally or vertically.
 
 ### `<Divider>`
 
-| Property    | Type`(default)`      | Description                           |
-| ----------- | -------------------- | ------------------------------------- |
-| children    | ReactNode            | Set the text on the dividing line     |
-| classPrefix | string `('divider')` | The prefix of the component CSS class |
-| vertical    | boolean              | Vertical dividing line                |
+| Property      | Type`(default)`                                          | Description                                       |
+| ------------- | -------------------------------------------------------- | ------------------------------------------------- |
+| appearance    | 'solid' \| 'dashed' \| 'dotted'                          | The appearance of the divider                     |
+| as            | ElementType `(div)`                                      | You can use a custom element for this component   |
+| classPrefix   | string `('divider')`                                     | The prefix of the component CSS class             |
+| color         | Color \| CSSProperties['color']                          | The color of the divider                          |
+| label         | ReactNode                                                | The content of the label                          |
+| labelPosition | 'left' \| 'right' \| 'center'                            | The position of the label                         |
+| size          | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | The size of the divider                           |
+| spacing       | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | The spacing between the divider and its content   |
+| vertical      | boolean                                                  | Vertical dividing line. Cannot be used with label |
+
+<!--{include:(_common/types/color.md)}-->

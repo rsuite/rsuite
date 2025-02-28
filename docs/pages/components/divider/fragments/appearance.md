@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-import { Divider, Placeholder } from 'rsuite';
+import { Divider } from 'rsuite';
 
 const App = () => (
   <>
-    <Placeholder.Paragraph type="media" />
     <Divider spacing="md" />
-    <Placeholder.Paragraph type="media" />
+    <Divider spacing="md" appearance="dashed" />
+    <Divider spacing="md" appearance="dotted" />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
