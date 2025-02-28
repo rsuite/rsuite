@@ -1,5 +1,5 @@
 import React from 'react';
-import Box from '@/internals/Box';
+import StyledBox from '@/internals/StyledBox';
 import { forwardRef, getSizeStyle, mergeStyles } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -69,7 +69,7 @@ const Divider = forwardRef<'div', DividerProps>((props: DividerProps, ref) => {
   const styles = mergeStyles(style, getSizeStyle(spacing, 'divider', 'spacing'));
 
   return (
-    <Box
+    <StyledBox
       as={as}
       name="divider"
       role="separator"
@@ -85,7 +85,7 @@ const Divider = forwardRef<'div', DividerProps>((props: DividerProps, ref) => {
       {...rest}
     >
       {label}
-    </Box>
+    </StyledBox>
   );
 });
 

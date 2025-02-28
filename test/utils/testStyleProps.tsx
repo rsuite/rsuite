@@ -23,7 +23,7 @@ export function testSizeStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    sizes = Object.keys(Sizes) as SizeType[],
+    sizes = Object.values(Sizes) as SizeType[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;
@@ -61,7 +61,7 @@ export function testColorStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    colors = Object.keys(Colours) as ColorType[],
+    colors = Object.values(Colours) as ColorType[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;
@@ -99,7 +99,7 @@ export function testSpacingStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    spacing = Object.keys(Sizes) as SizeType[],
+    spacing = Object.values(Sizes) as SizeType[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;
