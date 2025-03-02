@@ -1,10 +1,10 @@
 import React from 'react';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, Breakpoints } from '@/internals/types';
+import type { WithAsProps, Breakpoints } from '@/internals/types';
 
 export interface BoxProps extends WithAsProps {
-  /** Show element */
+  /** Display element */
   visible?: Breakpoints;
 
   /** Hide element */
@@ -13,19 +13,20 @@ export interface BoxProps extends WithAsProps {
   /** Display property */
   display?: React.CSSProperties['display'];
 
-  /** Override the as prop when Box is used as a base component */
+  /** Override the 'as' prop when Box is used as a base component */
   componentAs?: WithAsProps['as'];
 }
 
 const Box = forwardRef<'div', BoxProps>((props, ref) => {
   const {
     as: Component = 'div',
+    classPrefix = 'box',
     className,
+    children,
     componentAs,
+    display,
     visible,
     hidden,
-    display,
-    classPrefix = 'box',
     style,
     ...rest
   } = props;
@@ -39,16 +40,13 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
     })
   );
 
-  const boxStyle = {
-    ...style,
-    '--rs-box-display': display
-  };
+  const boxStyle = mergeStyles(style, { '--rs-box-display': display });
 
   const FinalComponent = componentAs || Component;
 
   return (
-    <FinalComponent {...rest} ref={ref} className={classes} style={boxStyle}>
-      {props.children}
+    <FinalComponent ref={ref} className={classes} style={boxStyle} {...rest}>
+      {children}
     </FinalComponent>
   );
 });

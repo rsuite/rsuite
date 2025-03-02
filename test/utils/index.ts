@@ -4,3 +4,4 @@ export { testFormControl } from './testFormControl';
 export { testPickers, testPickerSize } from './testPickers';
 export { render } from './render';
 export * from './styles-test';
+export { testStyleProps, testSizeStyle, testColorStyle, testSpacingStyle } from './testStyleProps';

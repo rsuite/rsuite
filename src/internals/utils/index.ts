@@ -2,8 +2,7 @@ export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 export * from './css';
 export * from './colours';
-
-export type { ComponentProps } from './createComponent';
+export * from './sizes';
 
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
@@ -28,3 +27,6 @@ export { attachParent } from './attachParent';
 export { isFocusEntering, isFocusLeaving } from './events';
 export { isFocusableElement } from './dom';
 export { forwardRef } from './forwardRef';
+export { isPresetSize } from './sizes';
+
+export type { ComponentProps } from './createComponent';

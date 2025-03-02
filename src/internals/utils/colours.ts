@@ -1,4 +1,5 @@
 import { Colours, Color } from '../types/colours';
+import { createStyleGetter } from './styleProps';
 
 export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
   if (!color) {
@@ -11,6 +12,14 @@ export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
 
   return Object.values(Colours).includes(color as Colours);
 };
+
+const colorConfig = {
+  prop: 'color',
+  useGlobalVar: true,
+  presetChecker: isPresetColor
+};
+
+export const getColorStyle = createStyleGetter<Color | React.CSSProperties['color']>(colorConfig);
 
 /**
  * Convert short hex color to full hex color
