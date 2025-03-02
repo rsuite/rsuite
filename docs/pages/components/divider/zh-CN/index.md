@@ -16,6 +16,10 @@
 
 <!--{include:`appearance.md`}-->
 
+### 带标签
+
+<!--{include:`with-label.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
@@ -23,10 +27,6 @@
 ### 颜色
 
 <!--{include:`color.md`}-->
-
-### 带标签
-
-<!--{include:`with-label.md`}-->
 
 ### 垂直分割线
 
@@ -44,8 +44,8 @@
 | color         | Color \| CSSProperties['color']                          | 分割线的颜色                     |
 | label         | ReactNode                                                | 标签内容                         |
 | labelPosition | 'left' \| 'right' \| 'center'                            | 标签位置                         |
-| size          | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | 分割线的尺寸                     |
-| spacing       | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | 分割线与内容之间的间距           |
+| size          | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string | 分割线的尺寸                     |
+| spacing       | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string | 分割线与内容之间的间距           |
 | vertical      | boolean                                                  | 垂直分割线（不能与标签同时使用） |
 
 <!--{include:(_common/types/color.md)}-->

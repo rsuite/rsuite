@@ -16,6 +16,10 @@ Divider are used to group content horizontally or vertically.
 
 <!--{include:`appearance.md`}-->
 
+### Divider with Label
+
+<!--{include:`with-label.md`}-->
+
 ### Sizes
 
 <!--{include:`size.md`}-->
@@ -23,10 +27,6 @@ Divider are used to group content horizontally or vertically.
 ### Colors
 
 <!--{include:`color.md`}-->
-
-### Divider with Label
-
-<!--{include:`with-label.md`}-->
 
 ### Vertical Divider
 
@@ -44,8 +44,8 @@ Divider are used to group content horizontally or vertically.
 | color         | Color \| CSSProperties['color']                          | The color of the divider                          |
 | label         | ReactNode                                                | The content of the label                          |
 | labelPosition | 'left' \| 'right' \| 'center'                            | The position of the label                         |
-| size          | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | The size of the divider                           |
-| spacing       | 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' \| number \| string | The spacing between the divider and its content   |
+| size          | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string | The size of the divider                           |
+| spacing       | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string | The spacing between the divider and its content   |
 | vertical      | boolean                                                  | Vertical dividing line. Cannot be used with label |
 
 <!--{include:(_common/types/color.md)}-->

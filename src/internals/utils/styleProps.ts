@@ -14,7 +14,7 @@ interface StylePropConfig<T = StyleValue> {
 
 export const createStyleValueSetter = <T = StyleValue>(config: StylePropConfig<T>) => {
   return (value?: T, component?: string, prop: string = config.prop) => {
-    if (!value || !component) {
+    if (typeof value === 'undefined' || !component) {
       return;
     }
 
@@ -32,7 +32,7 @@ export const createStyleGetter = <T = StyleValue>(config: StylePropConfig<T>) =>
   const setValue = createStyleValueSetter(config);
 
   return (value?: T, component?: string, prop: string = config.prop) => {
-    if (!value || !component) {
+    if (typeof value === 'undefined' || !component) {
       return;
     }
 

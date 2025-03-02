@@ -1,21 +1,24 @@
 <!--start-code-->
 
 ```js
-import { Divider, Button } from 'rsuite';
+import { Divider, Button, HStack } from 'rsuite';
 
 const App = () => (
   <HStack spacing={0}>
-    <label>Edit</label>
     <Divider vertical size="xs" />
-    <label>Update</label>
+    <label>Xsmall</label>
+
     <Divider vertical size="sm" />
-    <label>Save</label>
+    <label>Small</label>
+
     <Divider vertical size="md" />
-    <label>Close</label>
+    <label>Medium</label>
+
     <Divider vertical size="lg" />
-    <label>Cancel</label>
+    <label>Large</label>
+
     <Divider vertical size="xl" />
-    <label>Apply</label>
+    <label>Extra Large</label>
   </HStack>
 );
 

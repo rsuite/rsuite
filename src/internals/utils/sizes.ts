@@ -2,7 +2,7 @@ import { Sizes } from '@/internals/types';
 import { getCssValue } from './css';
 import { createStyleGetter } from './styleProps';
 
-export const isPresetSize = (size?: Sizes | number | string) => {
+export const isPresetSize = (size?: Sizes | number | string | null) => {
   if (!size) {
     return false;
   }
