@@ -91,3 +91,16 @@
 | onToggle      | (open: boolean, event) => void | 菜单开启/关闭时的回调           |
 | openDirection | "start"\|"end" `("end")`       | 菜单开启的方向 (仅适用于子菜单) |
 | title         | ReactNode                      | 展开菜单的导航项内容            |
+
+### `<Nav.MegaMenu>`
+
+| 属性名称  | 类型                                                         | 描述                                                             |
+| --------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| title     | ReactNode                                                    | 大型菜单触发器的标题或内容                                       |
+| children  | ReactNode \| ((props: { onClose: () => void }) => ReactNode) | 大型菜单的内容，可以是 React 节点或返回带有 onClose 的节点的函数 |
+| placement | [Placement](#code-ts-placement-code) `('autoVertical')`      | 大型菜单的位置                                                   |
+| ...       | [NavItemProps][NavItemProps]                                 | 继承 `<Nav.Item>` 组件的所有属性                                 |
+
+[NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
+
+<!--{include:(_common/types/placement-all.md)}-->

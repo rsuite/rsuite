@@ -54,23 +54,23 @@ const AdaptiveNavItem = forwardRef<'a', NavItemProps>((props, ref) => {
   }, [dispatch, _id, props.eventKey, props.active]);
 
   if (parentNavMenu) {
-    if (navbar) {
-      return <NavbarDropdownItem ref={ref} {...props} />;
-    }
-
     if (sidenav) {
       return <SidenavDropdownItem ref={ref} {...props} />;
+    }
+
+    if (navbar) {
+      return <NavbarDropdownItem ref={ref} {...props} />;
     }
 
     return <NavDropdownItem ref={ref} {...props} />;
   }
 
-  if (navbar) {
-    return <NavbarItem ref={ref} {...props} />;
-  }
-
   if (sidenav) {
     return <SidenavItem ref={ref} {...props} />;
+  }
+
+  if (navbar) {
+    return <NavbarItem ref={ref} {...props} />;
   }
 
   return <NavItem ref={ref} {...props} />;

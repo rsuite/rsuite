@@ -3,13 +3,13 @@
 ```js
 import { Button, Menu, Popover } from 'rsuite';
 
-const renderSpeaker = ({ onClose, left, top, className, ...rest }, ref) => {
+const renderSpeaker = ({ onClose, className, ...rest }, ref) => {
   const handleSelect = eventKey => {
     onClose();
     console.log(eventKey);
   };
   return (
-    <Popover ref={ref} className={className} style={{ left, top }} full>
+    <Popover ref={ref} className={className} full>
       <Menu onSelect={handleSelect}>
         <Menu.Item eventKey={1} shortcut="⌘ N">
           New File
