@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
-import Whisper from '../Whisper';
+import Whisper, { WhisperProps } from '../Whisper';
 import Popover from '../Popover';
 import NavbarItem, { NavbarItemProps } from './NavbarItem';
 import { useClassNames } from '@/internals/hooks';
@@ -21,6 +21,11 @@ export interface NavbarMegaMenuProps extends Omit<WithoutChildren<NavbarItemProp
    * @param props.onClose Function to close the mega menu
    */
   children?: React.ReactNode | ((props: { onClose: () => void }) => React.ReactNode);
+
+  /**
+   * Define the placement of the mega menu
+   */
+  placement?: WhisperProps['placement'];
 }
 
 const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props, ref) => {
@@ -28,9 +33,10 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
     as: Component = NavbarItem,
     className,
     classPrefix = 'mega-menu',
-    title,
     children,
+    title,
     open,
+    placement = 'autoVertical',
     ...rest
   } = props;
 
@@ -49,13 +55,7 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
   );
 
   return (
-    <Whisper
-      preventOverflow
-      placement="autoVertical"
-      trigger="click"
-      speaker={renderMenu}
-      open={open}
-    >
+    <Whisper preventOverflow placement={placement} trigger="click" speaker={renderMenu} open={open}>
       <Component ref={ref} className={classes} {...rest}>
         {title}
         <ArrowDownLineIcon className={prefix`toggle-icon`} />

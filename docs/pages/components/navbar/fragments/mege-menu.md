@@ -237,7 +237,9 @@ const App = () => (
         <IoLogoReact size={26} /> Brand
       </Navbar.Brand>
       <Nav>
-        <Nav.MegaMenu title="Features">{MegaMenuFeatures}</Nav.MegaMenu>
+        <Nav.MegaMenu title="Features" placement="bottomStart">
+          {MegaMenuFeatures}
+        </Nav.MegaMenu>
         <Nav.MegaMenu title="Resources">{MegaMenuResources}</Nav.MegaMenu>
         <Nav.MegaMenu title="Contact">{MegaMenuContact}</Nav.MegaMenu>
       </Nav>

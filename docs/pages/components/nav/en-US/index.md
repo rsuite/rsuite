@@ -94,10 +94,13 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav.MegaMenu>`
 
-| Property | Type `(Default)`                                             | Description                                                                                  |
-| -------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| title    | ReactNode                                                    | Title or content of the mega menu trigger                                                    |
-| children | ReactNode \| ((props: { onClose: () => void }) => ReactNode) | Content of the mega menu, can be a React node or a function that returns a node with onClose |
-| ...      | [NavItemProps][NavItemProps]                                 | Extends all props from `<Nav.Item>` component                                                |
+| Property  | Type `(Default)`                                             | Description                                                                                  |
+| --------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| title     | ReactNode                                                    | Title or content of the mega menu trigger                                                    |
+| children  | ReactNode \| ((props: { onClose: () => void }) => ReactNode) | Content of the mega menu, can be a React node or a function that returns a node with onClose |
+| placement | [Placement](#code-ts-placement-code) `('autoVertical')`      | Placement of the mega menu                                                                   |
+| ...       | [NavItemProps][NavItemProps]                                 | Extends all props from `<Nav.Item>` component                                                |
 
 [NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
+
+<!--{include:(_common/types/placement-all.md)}-->
