@@ -12,13 +12,13 @@
 
 <!--{include:`basic.md`}-->
 
-### 外观
-
-<!--{include:`appearance.md`}-->
-
 ### 带标签
 
 <!--{include:`with-label.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
 
 ### 尺寸
 

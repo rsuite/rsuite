@@ -12,13 +12,13 @@ Divider are used to group content horizontally or vertically.
 
 <!--{include:`basic.md`}-->
 
-### Appearance
-
-<!--{include:`appearance.md`}-->
-
 ### Divider with Label
 
 <!--{include:`with-label.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
 
 ### Sizes
 
