@@ -9,48 +9,48 @@ const App = () => (
     <Divider>align="top"</Divider>
     <Row align="top">
       <Col span={6}>
-        <DecorativeBox height={60}>6</DecorativeBox>
+        <DecorativeBox h={60}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={80}>6</DecorativeBox>
+        <DecorativeBox h={80}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={100}>6</DecorativeBox>
+        <DecorativeBox h={100}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={120}>6</DecorativeBox>
+        <DecorativeBox h={120}>6</DecorativeBox>
       </Col>
     </Row>
 
     <Divider>align="center"</Divider>
     <Row align="center">
       <Col span={6}>
-        <DecorativeBox height={60}>6</DecorativeBox>
+        <DecorativeBox h={60}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={80}>6</DecorativeBox>
+        <DecorativeBox h={80}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={100}>6</DecorativeBox>
+        <DecorativeBox h={100}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={120}>6</DecorativeBox>
+        <DecorativeBox h={120}>6</DecorativeBox>
       </Col>
     </Row>
 
     <Divider>align="bottom"</Divider>
     <Row align="bottom">
       <Col span={6}>
-        <DecorativeBox height={60}>6</DecorativeBox>
+        <DecorativeBox h={60}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={80}>6</DecorativeBox>
+        <DecorativeBox h={80}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={100}>6</DecorativeBox>
+        <DecorativeBox h={100}>6</DecorativeBox>
       </Col>
       <Col span={6}>
-        <DecorativeBox height={120}>6</DecorativeBox>
+        <DecorativeBox h={120}>6</DecorativeBox>
       </Col>
     </Row>
   </>

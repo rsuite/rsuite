@@ -7,7 +7,6 @@ import { Grid, Row, Col, Divider } from 'rsuite';
 
 const App = () => (
   <Grid fluid>
-    {/* Basic responsive column layout */}
     <Divider>Responsive Columns</Divider>
     <Row>
       <Col xs={24} md={12}>
@@ -18,7 +17,6 @@ const App = () => (
       </Col>
     </Row>
 
-    {/* Responsive gutter and alignment */}
     <Divider>Responsive Gutter & Alignment</Divider>
     <Row
       gutter={{
@@ -41,7 +39,6 @@ const App = () => (
       </Col>
     </Row>
 
-    {/* Responsive horizontal distribution */}
     <Divider>Responsive Justify</Divider>
     <Row
       justify={{
@@ -57,7 +54,6 @@ const App = () => (
       </Col>
     </Row>
 
-    {/* Complex responsive layout combination */}
     <Divider>Complex Responsive Layout</Divider>
     <Row
       gutter={{
@@ -65,7 +61,6 @@ const App = () => (
         md: 16
       }}
     >
-      {/* Main content area */}
       <Col xs={24} md={16}>
         <DecorativeBox height={134}>
           Main Content
@@ -73,7 +68,6 @@ const App = () => (
           xs=24, md=16
         </DecorativeBox>
       </Col>
-      {/* Sidebar */}
       <Col xs={24} md={8}>
         <Row>
           <Col xs={12} md={24}>

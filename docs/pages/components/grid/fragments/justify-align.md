@@ -29,13 +29,13 @@ const App = () => {
       <hr />
       <Row align={align} justify={justify}>
         <Col xs={6}>
-          <DecorativeBox height={60}>1</DecorativeBox>
+          <DecorativeBox h={60}>1</DecorativeBox>
         </Col>
         <Col xs={6}>
-          <DecorativeBox height={80}>2</DecorativeBox>
+          <DecorativeBox h={80}>2</DecorativeBox>
         </Col>
         <Col xs={6}>
-          <DecorativeBox height={100}>3</DecorativeBox>
+          <DecorativeBox h={100}>3</DecorativeBox>
         </Col>
       </Row>
     </>

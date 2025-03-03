@@ -12,7 +12,7 @@ Grid provides a flexible system for creating responsive layouts using a 24-colum
 
 ## Examples
 
-### Basic Layout
+### Grid System
 
 Create a set of `Col` components horizontally through `Row`, with a maximum width of 24.
 
@@ -64,18 +64,18 @@ The grid system supports unlimited nesting.
 
 ### `<Grid>`
 
-| Property    | Type `(Default)`  | Description                           |
-| ----------- | ----------------- | ------------------------------------- |
-| as          | ElementType       | Custom element type                   |
-| classPrefix | string `('grid')` | The prefix of the component CSS class |
-| fluid       | boolean           | Fluid layout                          |
+| Property    | Type `(Default)`      | Description                           |
+| ----------- | --------------------- | ------------------------------------- |
+| as          | ElementType `('div')` | Custom element type                   |
+| classPrefix | string`('grid')`     | The prefix of the component CSS class |
+| fluid       | boolean               | Fluid layout                          |
 
 ### `<Row>`
 
 | Property    | Type `(Default)`                                                                                   | Description                                                   |
 | ----------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment of columns. Support responsive values      |
-| as          | ElementType                                                                                        | Custom element type                                           |
+| as          | ElementType `('div')`                                                                              | Custom element type                                           |
 | classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class                         |
 | gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | Grid spacing between columns. Support responsive values       |
 | justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution of columns. Support responsive values |
@@ -84,7 +84,7 @@ The grid system supports unlimited nesting.
 
 | Property    | Type `(Default)`                         | Description                                    |
 | ----------- | ---------------------------------------- | ---------------------------------------------- |
-| as          | ElementType                              | Custom element type                            |
+| as          | ElementType `('div')`                    | Custom element type                            |
 | classPrefix | string `('col')`                         | The prefix of the component CSS class          |
 | hidden      | boolean \| [ResponsiveValue][responsive] | Whether to hide the grid                       |
 | offset      | number \| [ResponsiveValue][responsive]  | Number of grid columns to offset from the left |

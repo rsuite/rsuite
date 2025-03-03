@@ -4,10 +4,7 @@ import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import type { WithAsProps } from '@/internals/types';
-import type { ResponsiveValue } from './types';
-
-type RowAlignment = 'top' | 'middle' | 'bottom';
-type RowJustify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
+import type { ResponsiveValue, RowAlignment, RowJustify } from './types';
 
 const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<number | string>) => {
   if (!gutter) {

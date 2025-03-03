@@ -1,11 +1,10 @@
-export interface ResponsiveValue<T> {
-  xs?: T;
-  sm?: T;
-  md?: T;
-  lg?: T;
-  xl?: T;
-  xxl?: T;
-}
+import type { Breakpoints } from '@/internals/types';
+
+export type ResponsiveValue<T> = { [key in Breakpoints]?: T };
+
+export type RowAlignment = 'top' | 'middle' | 'bottom';
+
+export type RowJustify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 
 /** @deprecated Use new responsive props format instead */
 export interface DeprecatedColProps {
