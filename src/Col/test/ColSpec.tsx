@@ -88,7 +88,7 @@ describe('Col', () => {
     });
 
     it('Should support mixed usage of legacy and object-based props', () => {
-      render(
+      const { container } = render(
         <Col
           xs={{ span: 12 }}
           md={{ span: 6, offset: 3 }}
@@ -97,11 +97,11 @@ describe('Col', () => {
         />
       );
 
-      expect(screen.getByRole('gridcell')).to.have.class('rs-col-xs-12');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-col-md-6');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-col-md-offset-3');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-lg');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-xl');
+      expect(container.firstChild).to.have.class('rs-col-xs-12');
+      expect(container.firstChild).to.have.class('rs-col-md-6');
+      expect(container.firstChild).to.have.class('rs-col-md-offset-3');
+      expect(container.firstChild).to.have.class('rs-hidden-lg');
+      expect(container.firstChild).to.have.class('rs-hidden-xl');
     });
   });
 
