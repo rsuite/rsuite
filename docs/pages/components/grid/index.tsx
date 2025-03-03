@@ -3,7 +3,7 @@ import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
 import { DecorativeBox } from '@/components/DecorativeBox';
-import { Grid, Row, Col, HStack, Slider } from 'rsuite';
+import { Grid, Row, Col, HStack, VStack, Slider, RadioGroup, Radio } from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Grid', 'Row', 'Col']} />,
@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Grid, Row, Col, HStack, Slider, DecorativeBox }}
+      dependencies={{ Grid, Row, Col, HStack, VStack, Slider, RadioGroup, Radio, DecorativeBox }}
     />
   );
 }

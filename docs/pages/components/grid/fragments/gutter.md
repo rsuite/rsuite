@@ -15,23 +15,23 @@ const App = () => {
       <hr />
       <Grid fluid>
         <Row gutter={gutter}>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
-          <Col xs={4}>
-            <DecorativeBox>xs={4}</DecorativeBox>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
           </Col>
         </Row>
       </Grid>

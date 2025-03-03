@@ -5,7 +5,14 @@ import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export interface RowProps extends WithAsProps {
+  /** Spacing between columns */
   gutter?: number | string;
+
+  /** Vertical alignment of columns */
+  align?: 'top' | 'middle' | 'bottom';
+
+  /** Horizontal distribution of columns */
+  justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 }
 
 /**
@@ -16,16 +23,18 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Row', props);
   const {
     as: Component = 'div',
+    align,
     classPrefix = 'row',
     className,
-    gutter,
     children,
+    gutter,
+    justify,
     style,
     ...rest
   } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withClassPrefix(align, justify));
 
   const rowStyles = mergeStyles(style, {
     ['--rs-grid-gutter']: getCssValue(gutter)

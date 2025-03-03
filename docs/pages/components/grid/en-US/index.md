@@ -48,6 +48,14 @@ The grid system supports unlimited nesting.
 
 <!--{include:`nested.md`}-->
 
+### Justify and align
+
+<!--{include:`justify-align.md`}-->
+
+### Order
+
+<!--{include:`order.md`}-->
+
 ### Responsive
 
 <!--{include:<example-responsive>}-->
@@ -59,40 +67,43 @@ The grid system supports unlimited nesting.
 | Property    | Type `(Default)`  | Description                           |
 | ----------- | ----------------- | ------------------------------------- |
 | as          | ElementType       | Custom element type                   |
-| fluid       | boolean           | Fluid layout                          |
 | classPrefix | string `('grid')` | The prefix of the component CSS class |
+| fluid       | boolean           | Fluid layout                          |
 
 ### `<Row>`
 
-| Property    | Type `(Default)` | Description                           |
-| ----------- | ---------------- | ------------------------------------- |
-| as          | ElementType      | Custom element type                   |
-| classPrefix | string `('row')` | The prefix of the component CSS class |
-| gutter      | number           | Grid spacing                          |
+| Property    | Type `(Default)`                                                  | Description                           |
+| ----------- | ----------------------------------------------------------------- | ------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom'                                     | Vertical alignment                    |
+| as          | ElementType                                                       | Custom element type                   |
+| classPrefix | string `('row')`                                                  | The prefix of the component CSS class |
+| gutter      | number \| string                                                  | Grid spacing                          |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' | Horizontal alignment                  |
 
 ### `<Col>`
 
-| Property    | Type                          | Description                                                                       |
-| ----------- | ----------------------------- | --------------------------------------------------------------------------------- |
-| as          | ElementType                   | Custom element type                                                               |
-| classPrefix | string                        | The prefix of the component CSS class                                             |
-| xs          | number \| [ColConfig][config] | Number of columns or configuration object for extra small screens (<576px)        |
-| sm          | number \| [ColConfig][config] | Number of columns or configuration object for small screens (≥576px)              |
-| md          | number \| [ColConfig][config] | Number of columns or configuration object for medium screens (≥768px)             |
-| lg          | number \| [ColConfig][config] | Number of columns or configuration object for large screens (≥992px)              |
-| xl          | number \| [ColConfig][config] | Number of columns or configuration object for extra large screens (≥1200px)       |
-| xxl         | number \| [ColConfig][config] | Number of columns or configuration object for extra extra large screens (≥1400px) |
+| Property    | Type `(Default)`                         | Description                                    |
+| ----------- | ---------------------------------------- | ---------------------------------------------- |
+| as          | ElementType                              | Custom element type                            |
+| classPrefix | string `('col')`                         | The prefix of the component CSS class          |
+| hidden      | boolean \| [ResponsiveValue][responsive] | Whether to hide the grid                       |
+| offset      | number \| [ResponsiveValue][responsive]  | Number of grid columns to offset from the left |
+| order       | number \| [ResponsiveValue][responsive]  | Order of grid columns                          |
+| pull        | number \| [ResponsiveValue][responsive]  | Number of grid columns to pull to the left     |
+| push        | number \| [ResponsiveValue][responsive]  | Number of grid columns to push to the right    |
+| span        | number \| [ResponsiveValue][responsive]  | Number of grid columns to span                 |
 
-[config]: #code-ts-col-config-code
-
-### `ts:ColConfig`
+### `ts:ResponsiveValue`
 
 ```ts
-interface ColConfig {
-  span?: number; // Number of grid columns to span
-  offset?: number; // Number of grid columns to offset from the left
-  push?: number; // Number of grid columns to push to the right
-  pull?: number; // Number of grid columns to pull to the left
-  hidden?: boolean; // Whether to hide the grid
-}
+type ResponsiveValue<T> = {
+  xs?: T; // Extra small screens (<576px)
+  sm?: T; // Small screens (≥576px)
+  md?: T; // Medium screens (≥768px)
+  lg?: T; // Large screens (≥992px)
+  xl?: T; // Extra large screens (≥1200px)
+  xxl?: T; // Extra extra large screens (≥1400px)
+};
 ```
+
+[responsive]: #code-ts-responsive-value-code

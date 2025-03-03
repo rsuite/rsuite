@@ -3,97 +3,149 @@ import omit from 'lodash/omit';
 import { forwardRef } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
-import type { DeprecatedColProps, ColConfig } from './types';
+import type { WithAsProps } from '@/internals/types';
+import type { DeprecatedColProps, ResponsiveValue } from './types';
 
-export interface ColProps extends WithAsProps, DeprecatedColProps {
-  /** The number of columns or configuration for Extra small devices Phones (< 576px) */
-  xs?: number | ColConfig;
+type ResponsiveKey = 'span' | 'offset' | 'push' | 'pull' | 'order' | 'hidden';
 
-  /** The number of columns or configuration for Small devices Tablets (≥ 576px) */
-  sm?: number | ColConfig;
+export interface ColProps extends WithAsProps {
+  /** Grid column span for different breakpoints */
+  span?: number | ResponsiveValue<number>;
 
-  /** The number of columns or configuration for Medium devices Desktops (≥ 768px) */
-  md?: number | ColConfig;
+  /** Grid column offset for different breakpoints */
+  offset?: number | ResponsiveValue<number>;
 
-  /** The number of columns or configuration for Large devices Desktops (≥ 992px) */
-  lg?: number | ColConfig;
+  /** Grid column push for different breakpoints */
+  push?: number | ResponsiveValue<number>;
 
-  /** The number of columns or configuration for Extra Large devices Desktops (≥ 1200px) */
-  xl?: number | ColConfig;
+  /** Grid column pull for different breakpoints */
+  pull?: number | ResponsiveValue<number>;
 
-  /** The number of columns or configuration for Extra Extra Large devices Desktops (≥ 1400px) */
-  xxl?: number | ColConfig;
+  /** Grid column order for different breakpoints */
+  order?: number | ResponsiveValue<number>;
+
+  /** Grid column hidden for different breakpoints */
+  hidden?: boolean | ResponsiveValue<boolean>;
 }
-
-type ResponsiveKey = 'span' | 'offset' | 'push' | 'pull' | 'hidden';
-type LegacyKey = 'Offset' | 'Push' | 'Pull' | 'Hidden';
 
 /**
  * The `Col` component is used for layout and grids.
  * @see https://rsuitejs.com/en/components/grid
  */
-const Col = forwardRef<'div', ColProps>((props: ColProps, ref) => {
-  const { propsWithDefaults } = useCustom('Col', props);
-  const { as: Component = 'div', classPrefix = 'col', className, ...rest } = propsWithDefaults;
-  const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);
+const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
+  (props: ColProps & DeprecatedColProps, ref) => {
+    const { propsWithDefaults } = useCustom('Col', props);
+    const {
+      as: Component = 'div',
+      classPrefix = 'col',
+      className,
+      span,
+      offset,
+      push,
+      pull,
+      order,
+      hidden,
+      ...rest
+    } = propsWithDefaults;
+    const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);
 
-  const { colClasses, omitKeys } = useMemo(() => {
-    const colClasses = {};
-    const omitKeys = {};
+    const { colClasses, omitKeys } = useMemo(() => {
+      const colClasses = {};
+      const omitKeys = {};
 
-    const addResponsiveClasses = (
-      size: string,
-      value: number | ColConfig | boolean | undefined,
-      type: ResponsiveKey
-    ) => {
-      if (value === undefined) return;
+      const addResponsiveClasses = (
+        size: string,
+        value: number | boolean | undefined,
+        type: ResponsiveKey
+      ) => {
+        if (value === undefined) return;
 
-      const classKey =
-        type === 'hidden'
-          ? rootPrefix(`hidden-${size}`)
-          : prefix(`${size}-${type === 'span' ? '' : type + '-'}${value}`);
-      colClasses[classKey] = type === 'hidden' ? Boolean(value) : Number(value) >= 0;
-    };
+        const classKey =
+          type === 'hidden'
+            ? rootPrefix(`hidden-${size}`)
+            : prefix(`${size}-${type === 'span' ? '' : type + '-'}${value}`);
 
-    BREAKPOINTS.forEach(size => {
-      const value = rest[size];
-      omitKeys[size] = null;
+        colClasses[classKey] = type === 'hidden' ? Boolean(value) : Number(value) >= 0;
+      };
 
-      // Handle object-based props
-      if (typeof value === 'object' && value !== null) {
-        const config = value as ColConfig;
-        addResponsiveClasses(size, config.span, 'span');
-        addResponsiveClasses(size, config.offset, 'offset');
-        addResponsiveClasses(size, config.push, 'push');
-        addResponsiveClasses(size, config.pull, 'pull');
-        addResponsiveClasses(size, config.hidden, 'hidden');
-      } else if (typeof value === 'number') {
-        // Handle number-based props (backward compatibility)
-        addResponsiveClasses(size, value, 'span');
-      }
+      // Handle new responsive props format
+      const handleResponsiveValue = (
+        propValue: number | boolean | ResponsiveValue<number | boolean> | undefined,
+        type: ResponsiveKey
+      ) => {
+        if (propValue === undefined) return;
 
-      // Handle legacy props
-      (['Offset', 'Push', 'Pull', 'Hidden'] as LegacyKey[]).forEach(type => {
-        const legacyKey = `${size}${type}` as keyof DeprecatedColProps;
-        const legacyValue = rest[legacyKey];
-        omitKeys[legacyKey] = null;
-
-        if (legacyValue !== undefined) {
-          addResponsiveClasses(size, legacyValue, type.toLowerCase() as ResponsiveKey);
+        if (typeof propValue === 'object') {
+          // Handle responsive object format
+          BREAKPOINTS.forEach(size => {
+            const value = (propValue as ResponsiveValue<number | boolean>)[size];
+            if (value !== undefined) {
+              addResponsiveClasses(size, value, type);
+            }
+          });
+        } else {
+          // Handle single value format (applies to xs)
+          addResponsiveClasses('xs', propValue, type);
         }
+      };
+
+      // Process new format props
+      handleResponsiveValue(span, 'span');
+      handleResponsiveValue(offset, 'offset');
+      handleResponsiveValue(push, 'push');
+      handleResponsiveValue(pull, 'pull');
+      handleResponsiveValue(order, 'order');
+      handleResponsiveValue(hidden, 'hidden');
+
+      // Handle legacy format props
+      BREAKPOINTS.forEach(size => {
+        const value = rest[size];
+        omitKeys[size] = null;
+
+        if (typeof value === 'number') {
+          addResponsiveClasses(size, value, 'span');
+        }
+
+        // Handle legacy props
+        (['Offset', 'Push', 'Pull', 'Hidden'] as const).forEach(type => {
+          const legacyKey = `${size}${type}` as keyof DeprecatedColProps;
+          const legacyValue = rest[legacyKey];
+          omitKeys[legacyKey] = null;
+
+          if (legacyValue !== undefined) {
+            addResponsiveClasses(size, legacyValue, type.toLowerCase() as ResponsiveKey);
+          }
+        });
       });
-    });
 
-    return { colClasses, omitKeys };
-  }, [prefix, rootPrefix, ...BREAKPOINTS.map(size => rest[size])]);
+      return { colClasses, omitKeys };
+    }, [
+      prefix,
+      rootPrefix,
+      span,
+      offset,
+      push,
+      pull,
+      order,
+      hidden,
+      ...BREAKPOINTS.map(size => rest[size])
+    ]);
 
-  const classes = merge(className, withClassPrefix(), colClasses);
-  const unhandledProps = omit(rest, Object.keys(omitKeys));
+    const classes = merge(className, withClassPrefix(), colClasses);
+    const unhandledProps = omit(rest, [
+      ...Object.keys(omitKeys),
+      'span',
+      'offset',
+      'push',
+      'pull',
+      'order',
+      'hidden'
+    ]);
 
-  return <Component {...unhandledProps} ref={ref} className={classes} />;
-});
+    return <Component {...unhandledProps} ref={ref} className={classes} />;
+  }
+);
 
 Col.displayName = 'Col';
 

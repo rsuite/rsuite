@@ -14,6 +14,10 @@
     .rs-col-@{size}-offset-@{value} {
       margin-inline-start: percentage((@value / 24));
     }
+
+    .rs-col-@{size}-order-@{value} {
+      order: @value;
+    }
   });
   .rs-col-@{size}-pull-0 {
     inset-inline-end: auto;

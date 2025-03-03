@@ -7,49 +7,49 @@ import { DecorativeBox } from '@/components/DecorativeBox';
 const App = () => (
   <Grid fluid>
     <Row>
-      <Col xs={12}>
+      <Col span={12}>
         <Row>
-          <Col xs={12}>
+          <Col span={12}>
             <Row>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
             </Row>
           </Col>
-          <Col xs={12}>
+          <Col span={12}>
             <Row>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
             </Row>
           </Col>
         </Row>
       </Col>
-      <Col xs={12}>
+      <Col span={12}>
         <Row>
-          <Col xs={12}>
+          <Col span={12}>
             <Row>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
             </Row>
           </Col>
-          <Col xs={12}>
+          <Col span={12}>
             <Row>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
-              <Col xs={12}>
-                <DecorativeBox>xs={12}</DecorativeBox>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
               </Col>
             </Row>
           </Col>

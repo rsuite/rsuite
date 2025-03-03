@@ -7,98 +7,98 @@ import { DecorativeBox } from '@/components/DecorativeBox';
 const App = () => (
   <Grid fluid>
     <Row>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
-      <Col xs={2}>
-        <DecorativeBox>xs={2}</DecorativeBox>
-      </Col>
-    </Row>
-
-    <Row>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
-      </Col>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
-      </Col>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
-      </Col>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
-      </Col>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
-      </Col>
-      <Col xs={4}>
-        <DecorativeBox>xs={4}</DecorativeBox>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={6}>
-        <DecorativeBox>xs={6}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
-      <Col xs={6}>
-        <DecorativeBox>xs={6}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
-      <Col xs={6}>
-        <DecorativeBox>xs={6}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
-      <Col xs={6}>
-        <DecorativeBox>xs={6}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
-    </Row>
-
-    <Row>
-      <Col xs={8}>
-        <DecorativeBox>xs={8}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
-      <Col xs={8}>
-        <DecorativeBox>xs={8}</DecorativeBox>
-      </Col>
-      <Col xs={8}>
-        <DecorativeBox>xs={8}</DecorativeBox>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={12}>
-        <DecorativeBox>xs={12}</DecorativeBox>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
       </Col>
-      <Col xs={12}>
-        <DecorativeBox>xs={12}</DecorativeBox>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col span={12}>
+        <DecorativeBox>12</DecorativeBox>
+      </Col>
+      <Col span={12}>
+        <DecorativeBox>12</DecorativeBox>
       </Col>
     </Row>
   </Grid>

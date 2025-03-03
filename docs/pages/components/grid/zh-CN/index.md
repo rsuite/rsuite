@@ -36,6 +36,14 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 <!--{include:`nested.md`}-->
 
+### 对齐
+
+<!--{include:`justify-align.md`}-->
+
+### 排序
+
+<!--{include:`order.md`}-->
+
 ## 响应式
 
 <!--{include:<example-responsive>}-->
@@ -51,34 +59,38 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 ### `<Row>`
 
-| 属性名称 | 类型`(默认值)`        | 描述                 |
-| -------- | --------------------- | -------------------- |
-| as       | ElementType `('div')` | 为组件自定义元素类型 |
-| gutter   | number \| string      | 栅格的间距           |
+| 属性名称    | 类型`(默认值)`                                                    | 描述              |
+| ----------- | ----------------------------------------------------------------- | ----------------- |
+| align       | 'top' \| 'middle' \| 'bottom'                                     | 垂直对齐方式      |
+| as          | ElementType                                                       | 自定义元素类型    |
+| classPrefix | string `('row')`                                                  | 组件 CSS 类的前缀 |
+| gutter      | number \| string                                                  | 栅格的间距        |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' | 水平对齐方式      |
 
 ### `<Col>`
 
-| 属性名称    | 类型                          | 描述                                         |
-| ----------- | ----------------------------- | -------------------------------------------- |
-| as          | ElementType                   | 自定义元素类型                               |
-| classPrefix | string                        | 组件 CSS 类的前缀                            |
-| xs          | number \| [ColConfig][config] | 超小屏幕设备的栅格数或配置对象 (<576px)      |
-| sm          | number \| [ColConfig][config] | 小屏幕设备的栅格数或配置对象 (≥576px)        |
-| md          | number \| [ColConfig][config] | 中等屏幕设备的栅格数或配置对象 (≥768px)      |
-| lg          | number \| [ColConfig][config] | 大屏幕设备的栅格数或配置对象 (≥992px)        |
-| xl          | number \| [ColConfig][config] | 特大屏幕设备的栅格数或配置对象 (≥1200px)     |
-| xxl         | number \| [ColConfig][config] | 额外超大屏幕设备的栅格数或配置对象 (≥1400px) |
+| 属性名称    | 类型`(默认值)`                           | 描述               |
+| ----------- | ---------------------------------------- | ------------------ |
+| as          | ElementType                              | 自定义元素类型     |
+| classPrefix | string `('col')`                         | 组件 CSS 类的前缀  |
+| hidden      | boolean \| [ResponsiveValue][responsive] | 是否隐藏栅格       |
+| offset      | number \| [ResponsiveValue][responsive]  | 栅格左侧的间隔格数 |
+| order       | number \| [ResponsiveValue][responsive]  | 栅格顺序           |
+| pull        | number \| [ResponsiveValue][responsive]  | 栅格向左移动格数   |
+| push        | number \| [ResponsiveValue][responsive]  | 栅格向右移动格数   |
+| span        | number \| [ResponsiveValue][responsive]  | 栅格占位格数       |
 
-[config]: #code-ts-col-config-code
-
-### `ts:ColConfig`
+### `ts:ResponsiveValue<T>`
 
 ```ts
-interface ColConfig {
-  span?: number; // 栅格占位格数
-  offset?: number; // 栅格左侧的间隔格数
-  push?: number; // 栅格向右移动格数
-  pull?: number; // 栅格向左移动格数
-  hidden?: boolean; // 是否隐藏栅格
-}
+type ResponsiveValue<T> = {
+  xs?: T; // 超小屏幕设备 (<576px)
+  sm?: T; // 小屏幕设备 (≥576px)
+  md?: T; // 中等屏幕设备 (≥768px)
+  lg?: T; // 大屏幕设备 (≥992px)
+  xl?: T; // 特大屏幕设备 (≥1200px)
+  xxl?: T; // 额外超大屏幕设备 (≥1400px)
+};
 ```
+
+[responsive]: #code-ts-responsive-value-code

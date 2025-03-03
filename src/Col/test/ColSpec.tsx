@@ -7,18 +7,14 @@ describe('Col', () => {
   testStandardProps(<Col />);
 
   it('Should render a Col', () => {
-    render(<Col md={1}>Col</Col>);
+    render(<Col span={{ md: 1 }}>Col</Col>);
 
     expect(screen.getByText('Col')).to.have.class('rs-col');
     expect(screen.getByText('Col')).to.have.class('rs-col-md-1');
   });
 
   it('Should set col of zero', () => {
-    render(
-      <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={0}>
-        Col
-      </Col>
-    );
+    render(<Col span={{ xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0 }}>Col</Col>);
 
     expect(screen.getByText('Col')).to.have.class('rs-col-xs-0');
     expect(screen.getByText('Col')).to.have.class('rs-col-sm-0');
@@ -28,22 +24,17 @@ describe('Col', () => {
     expect(screen.getByText('Col')).to.have.class('rs-col-xxl-0');
   });
 
-  // New test cases for object-based props
-  describe('Object-based responsive props', () => {
-    it('Should support span with object syntax', () => {
-      render(
-        <Col xs={{ span: 12 }} md={{ span: 6 }}>
-          Col
-        </Col>
-      );
+  describe('Responsive props', () => {
+    it('Should support span with new format', () => {
+      render(<Col span={{ xs: 12, md: 6 }}>Col</Col>);
 
       expect(screen.getByText('Col')).to.have.class('rs-col-xs-12');
       expect(screen.getByText('Col')).to.have.class('rs-col-md-6');
     });
 
-    it('Should support offset with object syntax', () => {
+    it('Should support offset with new format', () => {
       render(
-        <Col xs={{ offset: 2 }} md={{ span: 6, offset: 3 }}>
+        <Col span={{ md: 6 }} offset={{ xs: 2, md: 3 }}>
           Col
         </Col>
       );
@@ -53,9 +44,9 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-col-md-offset-3');
     });
 
-    it('Should support push with object syntax', () => {
+    it('Should support push with new format', () => {
       render(
-        <Col xs={{ push: 2 }} md={{ span: 6, push: 3 }}>
+        <Col span={{ md: 6 }} push={{ xs: 2, md: 3 }}>
           Col
         </Col>
       );
@@ -65,9 +56,9 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-col-md-push-3');
     });
 
-    it('Should support pull with object syntax', () => {
+    it('Should support pull with new format', () => {
       render(
-        <Col xs={{ pull: 2 }} md={{ span: 6, pull: 3 }}>
+        <Col span={{ md: 6 }} pull={{ xs: 2, md: 3 }}>
           Col
         </Col>
       );
@@ -77,9 +68,9 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-col-md-pull-3');
     });
 
-    it('Should support hidden with object syntax', () => {
+    it('Should support hidden with new format', () => {
       render(
-        <Col xs={{ hidden: true }} md={{ span: 6, hidden: true }}>
+        <Col span={{ md: 6 }} hidden={{ xs: true, md: true }}>
           Col
         </Col>
       );
@@ -89,11 +80,27 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-hidden-md');
     });
 
-    it('Should support multiple properties in object syntax', () => {
+    it('Should support order with new format', () => {
+      render(
+        <Col span={{ md: 6 }} order={{ xs: 2, md: 3 }}>
+          Col
+        </Col>
+      );
+
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-order-2');
+      expect(screen.getByText('Col')).to.have.class('rs-col-md-6');
+      expect(screen.getByText('Col')).to.have.class('rs-col-md-order-3');
+    });
+
+    it('Should support multiple properties in new format', () => {
       render(
         <Col
-          xs={{ span: 12, offset: 2, push: 3, pull: 1, hidden: true }}
-          md={{ span: 6, offset: 3 }}
+          span={{ xs: 12, md: 6 }}
+          offset={{ xs: 2, md: 3 }}
+          push={{ xs: 3 }}
+          pull={{ xs: 1 }}
+          order={{ xs: 4 }}
+          hidden={{ xs: true }}
         >
           Col
         </Col>
@@ -104,6 +111,7 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-col-xs-offset-2');
       expect(screen.getByText('Col')).to.have.class('rs-col-xs-push-3');
       expect(screen.getByText('Col')).to.have.class('rs-col-xs-pull-1');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-order-4');
       expect(screen.getByText('Col')).to.have.class('rs-hidden-xs');
 
       // md breakpoint
@@ -111,23 +119,46 @@ describe('Col', () => {
       expect(screen.getByText('Col')).to.have.class('rs-col-md-offset-3');
     });
 
-    it('Should support mixed usage of legacy and object-based props', () => {
-      const { container } = render(
-        <Col
-          xs={{ span: 12 }}
-          md={{ span: 6, offset: 3 }}
-          lg={{ hidden: true }}
-          xl={{ hidden: true }}
-        >
+    it('Should support single value format (applies to xs)', () => {
+      render(
+        <Col span={12} offset={2} push={3} pull={1} order={4} hidden={true}>
           Col
         </Col>
       );
 
-      expect(container.firstChild).to.have.class('rs-col-xs-12');
-      expect(container.firstChild).to.have.class('rs-col-md-6');
-      expect(container.firstChild).to.have.class('rs-col-md-offset-3');
-      expect(container.firstChild).to.have.class('rs-hidden-lg');
-      expect(container.firstChild).to.have.class('rs-hidden-xl');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-12');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-offset-2');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-push-3');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-pull-1');
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-order-4');
+      expect(screen.getByText('Col')).to.have.class('rs-hidden-xs');
+    });
+  });
+
+  // Legacy format tests
+  describe('Legacy format props', () => {
+    it('Should support legacy number syntax', () => {
+      render(
+        <Col xs={12} md={6}>
+          Col
+        </Col>
+      );
+
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-12');
+      expect(screen.getByText('Col')).to.have.class('rs-col-md-6');
+    });
+
+    it('Should support legacy individual props', () => {
+      render(
+        <Col xsOffset={2} mdPush={3} lgPull={1} xlHidden>
+          Col
+        </Col>
+      );
+
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-offset-2');
+      expect(screen.getByText('Col')).to.have.class('rs-col-md-push-3');
+      expect(screen.getByText('Col')).to.have.class('rs-col-lg-pull-1');
+      expect(screen.getByText('Col')).to.have.class('rs-hidden-xl');
     });
   });
 

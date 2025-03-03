@@ -7,12 +7,12 @@ import { DecorativeBox } from '@/components/DecorativeBox';
 const App = () => (
   <Grid fluid>
     <Row>
-      <Col md={12} xs={{ hidden: true }}>
-        <DecorativeBox>xs={`{ hidden: true }`}</DecorativeBox>
+      <Col span={{ md: 12 }} hidden={{ xs: true }}>
+        <DecorativeBox>hidden={`{ xs: true }`}</DecorativeBox>
       </Col>
-      <Col xs={24} md={12}>
+      <Col span={{ xs: 24, md: 12 }}>
         <DecorativeBox>
-          xs={24} md={12}
+          span={`{ xs: 24, md: 12 }`}
         </DecorativeBox>
       </Col>
     </Row>
