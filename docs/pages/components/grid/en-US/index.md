@@ -1,42 +1,50 @@
 # Grid
 
-A Grid layout component that provides 24 grids, referring to the responsive design of [Bootstrap](https://getbootstrap.com/docs/5.2/layout/grid/#grid-options).
+Grid provides a flexible system for creating responsive layouts using a 24-column grid. It's inspired by Bootstrap's grid system and offers similar responsive capabilities.
 
 ## Import
 
 <!--{include:<import-guide>}-->
 
-- `Grid` Define a grid layout.
-- `Row` Define a row in the grid layout.
-- `Col` Define a column in the grid layout.
-
 ## Examples
 
-### Default
+### Basic Layout
+
+Create a set of `Col` components horizontally through `Row`, with a maximum width of 24.
 
 <!--{include:`basic.md`}-->
 
-### Gutter
+### Grid Gutter
+
+Adjust the grid spacing by setting the `gutter` property on `Row`.
 
 <!--{include:`gutter.md`}-->
 
 ### Offset
 
+Move columns to the right using the `offset` property. For example, `offset={4}` moves an element by 4 columns to the right.
+
 <!--{include:`offset.md`}-->
 
-### Push and Pull
+### Grid Order
+
+Change the order of columns using `push` and `pull`.
 
 <!--{include:`pull-push.md`}-->
 
-### Hidden
+### Responsive Hidden
+
+The object syntax provides a `hidden` property to control display and hiding at different screen sizes.
 
 <!--{include:`hidden.md`}-->
 
-### Nesting
+### Nested
+
+The grid system supports unlimited nesting.
 
 <!--{include:`nested.md`}-->
 
-## Responsive
+### Responsive
 
 <!--{include:<example-responsive>}-->
 
@@ -44,61 +52,43 @@ A Grid layout component that provides 24 grids, referring to the responsive desi
 
 ### `<Grid>`
 
-| Property | Type `(Default)`      | Description                                          |
-| -------- | --------------------- | ---------------------------------------------------- |
-| as       | ElementType `('div')` | You can use a custom element type for this component |
-| fluid    | boolean               | Fluid layout, (100% width)                           |
+| Property    | Type `(Default)`  | Description                           |
+| ----------- | ----------------- | ------------------------------------- |
+| as          | ElementType       | Custom element type                   |
+| fluid       | boolean           | Fluid layout                          |
+| classPrefix | string `('grid')` | The prefix of the component CSS class |
 
 ### `<Row>`
 
-| Property | Type `(Default)`      | Description                                          |
-| -------- | --------------------- | ---------------------------------------------------- |
-| as       | ElementType `('div')` | You can use a custom element type for this component |
-| gutter   | number \| string      | The spacing of the grids                             |
+| Property    | Type `(Default)` | Description                           |
+| ----------- | ---------------- | ------------------------------------- |
+| as          | ElementType      | Custom element type                   |
+| classPrefix | string `('row')` | The prefix of the component CSS class |
+| gutter      | number           | Grid spacing                          |
 
 ### `<Col>`
 
-| Property  | Type `(Default)`      | Description                                                                          |
-| --------- | --------------------- | ------------------------------------------------------------------------------------ |
-| as        | ElementType `('div')` | You can use a custom element type for this component                                 |
-| xxl       | number                | The number of columns you wish to span for Extra large devices Desktops (≥ `1400px`) |
-| xxlHidden | boolean               | Hide column on Large devices Desktops                                                |
-| xxlOffset | number                | Move columns to the right for Medium devices Desktops                                |
-| xxlPull   | number                | Change the order of grid columns to the left for Large devices Desktops              |
-| xxlPush   | number                | Change the order of grid columns to the right for Large devices Desktops             |
-| xl        | number                | The number of columns you wish to span for Extra large devices Desktops (≥ `1200px`) |
-| xlHidden  | boolean               | Hide column on Large devices Desktops                                                |
-| xlOffset  | number                | Move columns to the right for Medium devices Desktops                                |
-| xlPull    | number                | Change the order of grid columns to the left for Large devices Desktops              |
-| xlPush    | number                | Change the order of grid columns to the right for Large devices Desktops             |
-| lg        | number                | The number of columns you wish to span for Large devices Desktops (≥ `992px`)        |
-| lgHidden  | boolean               | Hide column on Large devices Desktops                                                |
-| lgOffset  | number                | Move columns to the right for Medium devices Desktops                                |
-| lgPull    | number                | Change the order of grid columns to the left for Large devices Desktops              |
-| lgPush    | number                | Change the order of grid columns to the right for Large devices Desktops             |
-| md        | number                | The number of columns you wish to span for Medium devices Desktops (≥ `768px`)       |
-| mdHidden  | boolean               | Hide column on Medium devices Desktops                                               |
-| mdOffset  | number                | Move columns to the right for Medium devices Desktops                                |
-| mdPull    | number                | Change the order of grid columns to the left for Medium devices Desktops             |
-| mdPush    | number                | Change the order of grid columns to the right for Medium devices Desktops            |
-| sm        | number                | The number of columns you wish to span for Small devices Tablets (≥ `576px`)         |
-| smHidden  | boolean               | Hide column on Small devices Tablets                                                 |
-| smOffset  | number                | Move columns to the right for Small devices Tablets                                  |
-| smPull    | number                | Change the order of grid columns to the left for Small devices Tablets               |
-| smPush    | number                | Change the order of grid columns to the right for Small devices Tablets              |
-| xs        | number                | The number of columns you wish to span for Extra small devices Phones (< `576px`)    |
-| xsHidden  | boolean               | Hide column on Extra small devices Phones                                            |
-| xsOffset  | number                | Move columns to the right for Extra small devices Phones                             |
-| xsPull    | number                | Change the order of grid columns to the left for Extra small devices Phones          |
-| xsPush    | number                | Change the order of grid columns to the right for Extra small devices Phones         |
+| Property    | Type                          | Description                                                                       |
+| ----------- | ----------------------------- | --------------------------------------------------------------------------------- |
+| as          | ElementType                   | Custom element type                                                               |
+| classPrefix | string                        | The prefix of the component CSS class                                             |
+| xs          | number \| [ColConfig][config] | Number of columns or configuration object for extra small screens (<576px)        |
+| sm          | number \| [ColConfig][config] | Number of columns or configuration object for small screens (≥576px)              |
+| md          | number \| [ColConfig][config] | Number of columns or configuration object for medium screens (≥768px)             |
+| lg          | number \| [ColConfig][config] | Number of columns or configuration object for large screens (≥992px)              |
+| xl          | number \| [ColConfig][config] | Number of columns or configuration object for extra large screens (≥1200px)       |
+| xxl         | number \| [ColConfig][config] | Number of columns or configuration object for extra extra large screens (≥1400px) |
 
-### Corresponds to the screen width
+[config]: #code-ts-col-config-code
 
-| Size | Name        | Width      |
-| ---- | ----------- | ---------- |
-| xxl  | extra-large | ≥ `1400px` |
-| xl   | extra-large | ≥ `1200px` |
-| lg   | large       | ≥ `992px`  |
-| md   | medium      | ≥ `768px`  |
-| sm   | small       | ≥ `576px`  |
-| xs   | extra-small | < `576px`  |
+### `ts:ColConfig`
+
+```ts
+interface ColConfig {
+  span?: number; // Number of grid columns to span
+  offset?: number; // Number of grid columns to offset from the left
+  push?: number; // Number of grid columns to push to the right
+  pull?: number; // Number of grid columns to pull to the left
+  hidden?: boolean; // Whether to hide the grid
+}
+```

@@ -2,46 +2,37 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
     <Row>
-      <Col md={4} mdOffset={20}>
-        <Box>
-          xs={4} xsOffset={20}
-        </Box>
+      <Col xs={{ span: 4, offset: 20 }}>
+        <DecorativeBox>xs={`{ span: 4, offset: 20 }`}</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={8} xsOffset={16}>
-        <Box>
-          xs={8} xsOffset={16}
-        </Box>
+      <Col xs={{ span: 8, offset: 16 }}>
+        <DecorativeBox>xs={`{ span: 8, offset: 16 }`}</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={12} xsOffset={12}>
-        <Box>
-          xs={12} xsOffset={12}
-        </Box>
+      <Col xs={{ span: 12, offset: 12 }}>
+        <DecorativeBox>xs={`{ span: 12, offset: 12 }`}</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={16} xsOffset={8}>
-        <Box>
-          xs={16} xsOffset={8}
-        </Box>
+      <Col xs={{ span: 16, offset: 8 }}>
+        <DecorativeBox>xs={`{ span: 16, offset: 8 }`}</DecorativeBox>
       </Col>
     </Row>
 
     <Row>
-      <Col xs={20} xsOffset={4}>
-        <Box>
-          xs={20} xsOffset={4}
-        </Box>
+      <Col xs={{ span: 20, offset: 4 }}>
+        <DecorativeBox>xs={`{ span: 20, offset: 4 }`}</DecorativeBox>
       </Col>
     </Row>
   </Grid>

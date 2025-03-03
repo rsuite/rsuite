@@ -1,14 +1,14 @@
 # Grid 栅格
 
-栅格布局的组件，提供 24 栅格， 参照 [Bootstrap](https://getbootstrap.com/docs/5.2/layout/grid/#grid-options) 的响应式设计。
+Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响应式布局。它的灵感来自 Bootstrap 的栅格系统，并提供了类似的响应式功能。
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
-- `Grid` 定义一个栅格布局。
-- `Row` 定义栅格布局中的一行。
-- `Col` 定义栅格布局中的一列。
+- `Grid`: 用于定义整个栅格系统的容器组件。
+- `Row`: 用于创建水平的行，包含列组件。
+- `Col`: 用于创建垂直的列，是实际内容的容器。
 
 ## 演示
 
@@ -58,47 +58,27 @@
 
 ### `<Col>`
 
-| 属性名称  | 类型`(默认值)`        | 描述                                   |
-| --------- | --------------------- | -------------------------------------- |
-| as        | ElementType `('div')` | 为组件自定义元素类型                   |
-| xxl       | number                | ≥ `1400px` 响应式栅格                  |
-| xxlHidden | boolean               | 隐藏栅格                               |
-| xxlOffset | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| xxlPull   | number                | 栅格向左移动格数                       |
-| xxlPush   | number                | 栅格向右移动格数                       |
-| xl        | number                | ≥ `1200px` 响应式栅格                  |
-| xlHidden  | boolean               | 隐藏栅格                               |
-| xlOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| xlPull    | number                | 栅格向左移动格数                       |
-| xlPush    | number                | 栅格向右移动格数                       |
-| lg        | number                | ≥ `992px` 响应式栅格                   |
-| lgHidden  | boolean               | 隐藏栅格                               |
-| lgOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| lgPull    | number                | 栅格向左移动格数                       |
-| lgPush    | number                | 栅格向右移动格数                       |
-| md        | number                | ≥ `768px` 响应式栅格                   |
-| mdHidden  | boolean               | 隐藏栅格                               |
-| mdOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| mdPull    | number                | 栅格向左移动格数                       |
-| mdPush    | number                | 栅格向右移动格数                       |
-| sm        | number                | ≥ `576px` 响应式栅格                   |
-| smHidden  | boolean               | 隐藏栅格                               |
-| smOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| smPull    | number                | 栅格向左移动格数                       |
-| smPush    | number                | 栅格向右移动格数                       |
-| xs        | number                | < `576px` 响应式栅格                   |
-| xsHidden  | boolean               | 隐藏栅格                               |
-| xsOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
-| xsPull    | number                | 栅格向左移动格数                       |
-| xsPush    | number                | 栅格向右移动格数                       |
+| 属性名称    | 类型                          | 描述                                         |
+| ----------- | ----------------------------- | -------------------------------------------- |
+| as          | ElementType                   | 自定义元素类型                               |
+| classPrefix | string                        | 组件 CSS 类的前缀                            |
+| xs          | number \| [ColConfig][config] | 超小屏幕设备的栅格数或配置对象 (<576px)      |
+| sm          | number \| [ColConfig][config] | 小屏幕设备的栅格数或配置对象 (≥576px)        |
+| md          | number \| [ColConfig][config] | 中等屏幕设备的栅格数或配置对象 (≥768px)      |
+| lg          | number \| [ColConfig][config] | 大屏幕设备的栅格数或配置对象 (≥992px)        |
+| xl          | number \| [ColConfig][config] | 特大屏幕设备的栅格数或配置对象 (≥1200px)     |
+| xxl         | number \| [ColConfig][config] | 额外超大屏幕设备的栅格数或配置对象 (≥1400px) |
 
-### 对应屏幕宽度
+[config]: #code-ts-col-config-code
 
-| 尺寸 | 名称        | 宽度       |
-| ---- | ----------- | ---------- |
-| xxl  | extra-large | ≥ `1400px` |
-| xl   | extra-large | ≥ `1200px` |
-| lg   | large       | ≥ `992px`  |
-| md   | medium      | ≥ `768px`  |
-| sm   | small       | ≥ `576px`  |
-| xs   | extra-small | < `576px`  |
+### `ts:ColConfig`
+
+```ts
+interface ColConfig {
+  span?: number; // 栅格占位格数
+  offset?: number; // 栅格左侧的间隔格数
+  push?: number; // 栅格向右移动格数
+  pull?: number; // 栅格向左移动格数
+  hidden?: boolean; // 是否隐藏栅格
+}
+```

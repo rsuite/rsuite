@@ -2,8 +2,8 @@ import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
+import { DecorativeBox } from '@/components/DecorativeBox';
 import { FlexboxGrid, Button, Divider, Col } from 'rsuite';
-import { Box } from '@/mock-components/Box';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['FlexboxGrid']} />,
@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ FlexboxGrid, Button, Divider, Col, Box }}
+      dependencies={{ FlexboxGrid, Button, Divider, Col, DecorativeBox }}
     />
   );
 }

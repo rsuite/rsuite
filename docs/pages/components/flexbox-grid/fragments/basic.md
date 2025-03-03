@@ -2,21 +2,22 @@
 
 ```js
 import { FlexboxGrid } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <div>
     <FlexboxGrid>
       <FlexboxGrid.Item colspan={6}>
-        <Box>colspan={6}</Box>
+        <DecorativeBox>colspan={6}</DecorativeBox>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={6}>
-        <Box>colspan={6}</Box>
+        <DecorativeBox>colspan={6}</DecorativeBox>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={6}>
-        <Box>colspan={6}</Box>
+        <DecorativeBox>colspan={6}</DecorativeBox>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={6}>
-        <Box>colspan={6}</Box>
+        <DecorativeBox>colspan={6}</DecorativeBox>
       </FlexboxGrid.Item>
     </FlexboxGrid>
   </div>

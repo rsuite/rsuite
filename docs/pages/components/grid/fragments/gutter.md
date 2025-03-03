@@ -2,6 +2,7 @@
 
 ```js
 import { Grid, Row, Col, HStack, Slider } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => {
   const [gutter, setGutter] = React.useState(16);
@@ -15,22 +16,22 @@ const App = () => {
       <Grid fluid>
         <Row gutter={gutter}>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
           <Col xs={4}>
-            <Box>xs={4}</Box>
+            <DecorativeBox>xs={4}</DecorativeBox>
           </Col>
         </Row>
       </Grid>

@@ -1,28 +1,28 @@
 import React from 'react';
 import { FlexboxGrid, Col } from 'rsuite';
-import { Box } from '@/mock-components/Box';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <FlexboxGrid justify="space-around">
     <FlexboxGrid.Item as={Col} md={6} sm={12}>
-      <Box>
+      <DecorativeBox>
         md={8} sm={12}
-      </Box>
+      </DecorativeBox>
     </FlexboxGrid.Item>
     <FlexboxGrid.Item as={Col} md={6} sm={12}>
-      <Box>
+      <DecorativeBox>
         md={8} sm={12}
-      </Box>
+      </DecorativeBox>
     </FlexboxGrid.Item>
     <FlexboxGrid.Item as={Col} md={6} sm={12}>
-      <Box>
+      <DecorativeBox>
         md={8} sm={12}
-      </Box>
+      </DecorativeBox>
     </FlexboxGrid.Item>
     <FlexboxGrid.Item as={Col} md={6} sm={12} xsHidden>
-      <Box>
+      <DecorativeBox>
         md={8} sm={12} xsHidden
-      </Box>
+      </DecorativeBox>
     </FlexboxGrid.Item>
   </FlexboxGrid>
 );

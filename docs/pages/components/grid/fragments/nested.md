@@ -2,38 +2,55 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
-    <Row >
+    <Row>
       <Col xs={12}>
-        <Row >
+        <Row>
           <Col xs={12}>
-            <Row >
-              <Col xs={12}><Box>xs={12}</Box></Col>
-              <Col xs={12}><Box>xs={12}</Box></Col>
+            <Row>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
             </Row>
           </Col>
           <Col xs={12}>
-            <Row >
-              <Col xs={12}><Box>xs={12}</Box></Col>
-              <Col xs={12}><Box>xs={12}</Box></Col>
+            <Row>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>
       </Col>
       <Col xs={12}>
-        <Row >
+        <Row>
           <Col xs={12}>
-            <Row >
-              <Col xs={12}><Box>xs={12}</Box></Col>
-              <Col xs={12}><Box>xs={12}</Box></Col>
+            <Row>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
             </Row>
           </Col>
           <Col xs={12}>
-            <Row >
-              <Col xs={12}><Box>xs={12}</Box></Col>
-              <Col xs={12}><Box>xs={12}</Box></Col>
+            <Row>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
+              <Col xs={12}>
+                <DecorativeBox>xs={12}</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>

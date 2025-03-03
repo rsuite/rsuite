@@ -1,116 +1,120 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
+import { DecorativeBox } from '@/components/DecorativeBox';
 import { Grid, Row, Col, Divider } from 'rsuite';
-import { Box } from '@/mock-components/Box';
 
 const App = () => (
   <Grid fluid>
     <Row>
       <Col xs={24} sm={12} md={6}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6}
-        </Box>
+        </DecorativeBox>
       </Col>
     </Row>
     <Divider />
     <Row>
       <Col xs={24} sm={12} md={8}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={8}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={8}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={8}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={24} md={8}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={24} md={8}
-        </Box>
+        </DecorativeBox>
       </Col>
     </Row>
     <Divider />
     <Row>
       <Col xs={24} md={16}>
-        <Box>
+        <DecorativeBox>
           xs={24} md={16}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={12} md={8}>
-        <Box>
+        <DecorativeBox>
           xs={12} md={8}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={12} md={8}>
-        <Box>
+        <DecorativeBox>
           xs={12} md={8}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} md={16}>
-        <Box>
+        <DecorativeBox>
           xs={24} md={16}
-        </Box>
+        </DecorativeBox>
       </Col>
     </Row>
     <Divider />
     <Row>
-      <Col xs={24} sm={12} mdHidden lg={6}>
-        <Box>
-          xs={24} sm={12} mdHidden lg={6}
-        </Box>
+      {/* @ts-ignore */}
+      <Col xs={24} sm={12} md={{ hidden: true }} lg={6}>
+        <DecorativeBox>
+          xs={24} sm={12} md={`{hidden: true}`} lg={6}
+        </DecorativeBox>
       </Col>
-      <Col xsHidden sm={12} md={8} lg={6}>
-        <Box>
-          xsHidden sm={12} md={8} lg={6}
-        </Box>
+      {/* @ts-ignore */}
+      <Col xs={{ hidden: true }} sm={12} md={8} lg={6}>
+        <DecorativeBox>
+          xs={`{ hidden: true }`} sm={12} md={8} lg={6}
+        </DecorativeBox>
       </Col>
-      <Col xs={24} smHidden md={8} lg={6}>
-        <Box>
-          xs={24} smHidden md={8} lg={6}
-        </Box>
+      {/* @ts-ignore */}
+      <Col xs={24} sm={{ hidden: true }} md={8} lg={6}>
+        <DecorativeBox>
+          xs={24} sm={`{ hidden: true }`} md={8} lg={6}
+        </DecorativeBox>
       </Col>
-      <Col xs={24} sm={12} md={8} lgHidden>
-        <Box>
-          xs={24} sm={12} md={8} lgHidden
-        </Box>
+      <Col xs={24} sm={12} md={8}>
+        <DecorativeBox>
+          xs={24} sm={12} md={8}
+        </DecorativeBox>
       </Col>
     </Row>
     <Divider />
     <Row>
       <Col xs={24} sm={12} md={6} lg={3}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6} lg={3}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6} lg={3}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6} lg={3}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6} lg={3}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6} lg={3}
-        </Box>
+        </DecorativeBox>
       </Col>
       <Col xs={24} sm={12} md={6} lg={3}>
-        <Box>
+        <DecorativeBox>
           xs={24} sm={12} md={6} lg={3}
-        </Box>
+        </DecorativeBox>
       </Col>
     </Row>
   </Grid>
