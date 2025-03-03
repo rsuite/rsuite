@@ -59,13 +59,13 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 ### `<Row>`
 
-| 属性名称    | 类型`(默认值)`                                                    | 描述              |
-| ----------- | ----------------------------------------------------------------- | ----------------- |
-| align       | 'top' \| 'middle' \| 'bottom'                                     | 垂直对齐方式      |
-| as          | ElementType                                                       | 自定义元素类型    |
-| classPrefix | string `('row')`                                                  | 组件 CSS 类的前缀 |
-| gutter      | number \| string                                                  | 栅格的间距        |
-| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' | 水平对齐方式      |
+| 属性名称    | 类型`(默认值)`                                                                                     | 描述                                   |
+| ----------- | -------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | 垂直对齐方式。支持响应式值             |
+| as          | ElementType                                                                                        | 自定义元素类型                         |
+| classPrefix | string `('row')`                                                                                   | 组件 CSS 类的前缀                      |
+| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | 栅格间距。支持响应式值                 |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | 水平分布方式。支持响应式值             |
 
 ### `<Col>`
 
@@ -80,7 +80,7 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 | push        | number \| [ResponsiveValue][responsive]  | 栅格向右移动格数   |
 | span        | number \| [ResponsiveValue][responsive]  | 栅格占位格数       |
 
-### `ts:ResponsiveValue<T>`
+### `ts:ResponsiveValue`
 
 ```ts
 type ResponsiveValue<T> = {

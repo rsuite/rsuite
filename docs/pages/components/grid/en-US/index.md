@@ -72,13 +72,13 @@ The grid system supports unlimited nesting.
 
 ### `<Row>`
 
-| Property    | Type `(Default)`                                                  | Description                           |
-| ----------- | ----------------------------------------------------------------- | ------------------------------------- |
-| align       | 'top' \| 'middle' \| 'bottom'                                     | Vertical alignment                    |
-| as          | ElementType                                                       | Custom element type                   |
-| classPrefix | string `('row')`                                                  | The prefix of the component CSS class |
-| gutter      | number \| string                                                  | Grid spacing                          |
-| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' | Horizontal alignment                  |
+| Property    | Type `(Default)`                                                                                   | Description                                                   |
+| ----------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment of columns. Support responsive values      |
+| as          | ElementType                                                                                        | Custom element type                                           |
+| classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class                         |
+| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | Grid spacing between columns. Support responsive values       |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution of columns. Support responsive values |
 
 ### `<Col>`
 

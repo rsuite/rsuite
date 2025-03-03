@@ -2,11 +2,36 @@
 //
 // Common styles for small and large grid columns
 .rs-col {
-  float: inline-start;
   position: relative;
-  // Prevent columns from collapsing when empty
+  display: block;
+  max-width: 100%;
   min-height: 1px;
-  // Inner gutter via padding
   padding-inline-start: calc(var(--rs-grid-gutter) / 2);
   padding-inline-end: calc(var(--rs-grid-gutter) / 2);
+
+  // Responsive gutters
+  @media (min-width: @screen-sm) {
+    padding-inline-start: calc(var(--rs-grid-gutter-sm, var(--rs-grid-gutter)) / 2);
+    padding-inline-end: calc(var(--rs-grid-gutter-sm, var(--rs-grid-gutter)) / 2);
+  }
+
+  @media (min-width: @screen-md) {
+    padding-inline-start: calc(var(--rs-grid-gutter-md, var(--rs-grid-gutter)) / 2);
+    padding-inline-end: calc(var(--rs-grid-gutter-md, var(--rs-grid-gutter)) / 2);
+  }
+
+  @media (min-width: @screen-lg) {
+    padding-inline-start: calc(var(--rs-grid-gutter-lg, var(--rs-grid-gutter)) / 2);
+    padding-inline-end: calc(var(--rs-grid-gutter-lg, var(--rs-grid-gutter)) / 2);
+  }
+
+  @media (min-width: @screen-xl) {
+    padding-inline-start: calc(var(--rs-grid-gutter-xl, var(--rs-grid-gutter)) / 2);
+    padding-inline-end: calc(var(--rs-grid-gutter-xl, var(--rs-grid-gutter)) / 2);
+  }
+
+  @media (min-width: @screen-xxl) {
+    padding-inline-start: calc(var(--rs-grid-gutter-xxl, var(--rs-grid-gutter)) / 2);
+    padding-inline-end: calc(var(--rs-grid-gutter-xxl, var(--rs-grid-gutter)) / 2);
+  }
 }
