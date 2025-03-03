@@ -143,14 +143,14 @@ describe('Col', () => {
     });
 
     it('Should set Hidden to true', () => {
-      render(<Col xsHidden smHidden mdHidden lgHidden xlHidden xxlHidden />);
+      const { container } = render(<Col xsHidden smHidden mdHidden lgHidden xlHidden xxlHidden />);
 
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-xs');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-sm');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-md');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-lg');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-xl');
-      expect(screen.getByRole('gridcell')).to.have.class('rs-hidden-xxl');
+      expect(container.firstChild).to.have.class('rs-hidden-xs');
+      expect(container.firstChild).to.have.class('rs-hidden-sm');
+      expect(container.firstChild).to.have.class('rs-hidden-md');
+      expect(container.firstChild).to.have.class('rs-hidden-lg');
+      expect(container.firstChild).to.have.class('rs-hidden-xl');
+      expect(container.firstChild).to.have.class('rs-hidden-xxl');
     });
   });
 });
