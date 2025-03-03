@@ -1,14 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import Col from '../index';
-import { itChrome } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 import '../../Grid/styles/index.less';
 import '../../Col/styles/index.less';
 
 describe('Col styles', () => {
-  itChrome('Should render the correct styles', () => {
-    render(<Col md={1}>Title</Col>);
+  it('Should render the correct styles', () => {
+    render(<Col span={1}>Col</Col>);
 
-    expect(screen.getByRole('gridcell')).to.have.style('padding', '0px 6px');
+    expect(screen.getByText('Col')).to.have.style('padding', '0px 6px');
   });
 });
