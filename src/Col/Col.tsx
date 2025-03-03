@@ -92,7 +92,7 @@ const Col = forwardRef<'div', ColProps>((props: ColProps, ref) => {
   const classes = merge(className, withClassPrefix(), colClasses);
   const unhandledProps = omit(rest, Object.keys(omitKeys));
 
-  return <Component role="gridcell" {...unhandledProps} ref={ref} className={classes} />;
+  return <Component {...unhandledProps} ref={ref} className={classes} />;
 });
 
 Col.displayName = 'Col';

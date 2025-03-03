@@ -6,6 +6,10 @@ Grid provides a flexible system for creating responsive layouts using a 24-colum
 
 <!--{include:<import-guide>}-->
 
+- `Grid` is the container component for defining a grid system.
+- `Row` is the component responsible for creating a horizontal row that contains `Col` components.
+- `Col` is the component responsible for creating a vertical column that is the actual content container.
+
 ## Examples
 
 ### Basic Layout

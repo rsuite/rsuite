@@ -6,8 +6,7 @@ import '../styles/index.less';
 
 describe('Row styles', () => {
   it('Should render the correct styles', () => {
-    render(<Row />);
-
-    expect(screen.getByRole('row')).to.have.style('margin', '0px -6px');
+    render(<Row>Row</Row>);
+    expect(screen.getByText('Row')).to.have.style('margin', '0px -6px');
   });
 });

@@ -32,7 +32,7 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
   });
 
   return (
-    <Component role="row" {...rest} ref={ref} className={classes} style={rowStyles}>
+    <Component {...rest} ref={ref} className={classes} style={rowStyles}>
       {children}
     </Component>
   );
