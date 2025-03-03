@@ -17,7 +17,7 @@ const App = () => (
 
     <Row>
       <Col span={6}>
-        <DecorativeBox>6</DecorativeBox>
+        <DecorativeBox>span: 6</DecorativeBox>
       </Col>
       <Col span={6} push={12}>
         <DecorativeBox>span: 6, push: 12</DecorativeBox>

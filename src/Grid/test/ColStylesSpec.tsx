@@ -1,5 +1,5 @@
 import React from 'react';
-import Col from '../index';
+import Col from '../Col';
 import { render, screen } from '@testing-library/react';
 import '../../Grid/styles/index.less';
 import '../../Col/styles/index.less';

@@ -1,7 +1,7 @@
 import React from 'react';
+import Col from '../Col';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import Col from '../Col';
 
 describe('Col', () => {
   testStandardProps(<Col />);

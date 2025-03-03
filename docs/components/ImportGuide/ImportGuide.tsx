@@ -11,17 +11,16 @@ const unstyledComponents = [
   'internals',
   'CustomProvider',
   'locales',
-  'MaskedInput'
+  'MaskedInput',
+  'Col',
+  'Row'
 ];
 
-const defaultCommands = {
-  main: '',
-  individual: ''
-};
+type CommandType = 'main' | 'individual';
 
 interface ImportGuideProps {
   name?: string;
-  activeCommand?: keyof typeof defaultCommands;
+  activeCommand?: CommandType;
   components?: string[];
   hasCssComponents?: string[];
 }

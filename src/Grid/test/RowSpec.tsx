@@ -1,7 +1,7 @@
 import React from 'react';
+import Row from '../Row';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import Row from '../Row';
 
 describe('Row', () => {
   testStandardProps(<Row />);
