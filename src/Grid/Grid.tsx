@@ -4,7 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 export interface GridProps extends WithAsProps {
-  /** Fluid layout */
+  /** Whether the grid container should have a fluid width */
   fluid?: boolean;
 }
 

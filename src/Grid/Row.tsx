@@ -18,8 +18,11 @@ const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<nu
   return BREAKPOINTS.reduce((styles, breakpoint) => {
     const breakpointValue = gutter[breakpoint];
     if (!breakpointValue) return styles;
-    const value = typeof breakpointValue === 'number' ? `${breakpointValue}px` : breakpointValue;
-    return { ...styles, [`--rs-grid-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]: value };
+
+    return mergeStyles(styles, {
+      [`--rs-grid-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]:
+        getCssValue(breakpointValue)
+    });
   }, {});
 };
 
@@ -40,25 +43,6 @@ const getResponsiveClassNames = (
     if (!breakpointValue) return classes;
     return [...classes, prefix(`${breakpoint}-${breakpointValue}`)];
   }, [] as string[]);
-};
-
-const getResponsiveAlignStyles = (align?: RowAlignment | ResponsiveValue<RowAlignment>) => {
-  if (!align) {
-    return {};
-  }
-
-  if (typeof align !== 'object') {
-    return { '--rs-grid-align': align };
-  }
-
-  return BREAKPOINTS.reduce((styles, breakpoint) => {
-    const breakpointValue = align[breakpoint];
-    if (!breakpointValue) return styles;
-    return {
-      ...styles,
-      [`--rs-grid-align${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]: breakpointValue
-    };
-  }, {});
 };
 
 export interface RowProps extends WithAsProps {
@@ -93,11 +77,7 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
   const alignClasses = getResponsiveClassNames(prefix, align);
   const justifyClasses = getResponsiveClassNames(prefix, justify);
   const classes = merge(className, withClassPrefix(), ...alignClasses, ...justifyClasses);
-  const rowStyles = mergeStyles(
-    style,
-    getResponsiveGutterStyles(gutter),
-    getResponsiveAlignStyles(align)
-  );
+  const rowStyles = mergeStyles(style, getResponsiveGutterStyles(gutter));
 
   return <Component {...rest} ref={ref} className={classes} style={rowStyles} />;
 });

@@ -75,7 +75,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
       };
 
       // Handle new responsive props format
-      const handleResponsiveValue = (
+      const resolve = (
         propValue:
           | number
           | 'auto'
@@ -101,12 +101,12 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
       };
 
       // Process new format props
-      handleResponsiveValue(span, 'span');
-      handleResponsiveValue(offset, 'offset');
-      handleResponsiveValue(push, 'push');
-      handleResponsiveValue(pull, 'pull');
-      handleResponsiveValue(order, 'order');
-      handleResponsiveValue(hidden, 'hidden');
+      resolve(span, 'span');
+      resolve(offset, 'offset');
+      resolve(push, 'push');
+      resolve(pull, 'pull');
+      resolve(order, 'order');
+      resolve(hidden, 'hidden');
 
       // Handle legacy format props
       BREAKPOINTS.forEach(size => {
@@ -143,15 +143,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
     ]);
 
     const classes = merge(className, withClassPrefix(), colClasses);
-    const unhandledProps = omit(rest, [
-      ...Object.keys(omitKeys),
-      'span',
-      'offset',
-      'push',
-      'pull',
-      'order',
-      'hidden'
-    ]);
+    const unhandledProps = omit(rest, Object.keys(omitKeys));
 
     return <Component {...unhandledProps} ref={ref} className={classes} />;
   }

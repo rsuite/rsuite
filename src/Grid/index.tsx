@@ -6,6 +6,7 @@ import Col from './Col';
 export type { GridProps } from './Grid';
 export type { RowProps } from './Row';
 export type { ColProps } from './Col';
+export type { ResponsiveValue, RowAlignment, RowJustify } from './types';
 
 // export components
 export { Grid, Row, Col };

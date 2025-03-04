@@ -12,43 +12,61 @@ The Grid component provides a flexible system for creating responsive layouts us
 
 ## Examples
 
-### Basic
+### Grid System
 
 <!--{include:`basic.md`}-->
 
 ### Gutter
 
+Adjust the grid spacing by setting the `gutter` property on `Row`. The gutter creates horizontal spacing between columns while maintaining the grid's alignment.
+
 <!--{include:`gutter.md`}-->
 
 ### Offset
+
+Move columns to the right using the `offset` property. For example, `offset={4}` moves an element by 4 columns to the right. This is useful for creating gaps or centering content within the grid.
 
 <!--{include:`offset.md`}-->
 
 ### Multiple Rows
 
+If the total of column `span` and `offset` exceeds the columns prop (default is 12), the columns will wrap to the next row.
+
 <!--{include:`multiple-rows.md`}-->
 
 ### Push and Pull
 
+Change the order of columns using `push` and `pull`. This allows you to visually reorder columns without changing their order in the DOM, which is particularly useful for responsive layouts.
+
 <!--{include:`pull-push.md`}-->
 
-### Auto Width
+### Auto sized columns
+
+When `span="auto"` is set, the column width will automatically adjust based on its content. This is useful when you want columns to size themselves according to their content rather than the grid system.
 
 <!--{include:`auto.md`}-->
 
 ### Hidden
 
+The object syntax provides a `hidden` property to control display and hiding at different screen sizes. Use this feature to create responsive layouts where columns appear or disappear based on the viewport size.
+
 <!--{include:`hidden.md`}-->
 
 ### Nesting
 
+The grid system supports unlimited nesting. You can place rows inside columns to create more complex and flexible layouts while maintaining the same 24-column system at each level.
+
 <!--{include:`nested.md`}-->
 
-### Alignment
+### Justify and align
+
+Control both horizontal (`justify`) and vertical (`align`) alignment of columns within a row. This provides precise control over how content is positioned in your layout.
 
 <!--{include:`justify-align.md`}-->
 
 ### Order
+
+Use the `order` property to control the visual order of columns regardless of their DOM position. This is particularly useful for creating responsive layouts where content order needs to change across different screen sizes.
 
 <!--{include:`order.md`}-->
 
@@ -83,7 +101,7 @@ The Grid component provides a flexible system for creating responsive layouts us
 | classPrefix | string `('col')`                                  | The prefix of the component CSS class                                                     |
 | hidden      | boolean \| [ResponsiveValue][responsive]          | Whether to hide the grid                                                                  |
 | offset      | number \| [ResponsiveValue][responsive]           | Number of grids on the left side                                                          |
-| order       | number \| [ResponsiveValue][responsive]           | The order of grid columns                                                                |
+| order       | number \| [ResponsiveValue][responsive]           | The order of grid columns                                                                 |
 | pull        | number \| [ResponsiveValue][responsive]           | Number of grids to move left                                                              |
 | push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right                                                             |
 | span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content |
