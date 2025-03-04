@@ -1,54 +1,50 @@
 # Grid
 
-Grid provides a flexible system for creating responsive layouts using a 24-column grid. It's inspired by Bootstrap's grid system and offers similar responsive capabilities.
+The Grid component provides a flexible system for creating responsive layouts using a 24-column grid. It is inspired by Bootstrap's grid system and offers similar responsive capabilities.
 
 ## Import
 
 <!--{include:<import-guide>}-->
 
-- `Grid` is the container component for defining a grid system.
-- `Row` is the component responsible for creating a horizontal row that contains `Col` components.
-- `Col` is the component responsible for creating a vertical column that is the actual content container.
+- `Grid` is the container component that defines the grid system.
+- `Row` creates horizontal rows that contain columns.
+- `Col` creates vertical columns that contain actual content.
 
 ## Examples
 
-### Grid System
-
-Create a set of `Col` components horizontally through `Row`, with a maximum width of 24.
+### Basic
 
 <!--{include:`basic.md`}-->
 
-### Grid Gutter
-
-Adjust the grid spacing by setting the `gutter` property on `Row`.
+### Gutter
 
 <!--{include:`gutter.md`}-->
 
 ### Offset
 
-Move columns to the right using the `offset` property. For example, `offset={4}` moves an element by 4 columns to the right.
-
 <!--{include:`offset.md`}-->
 
-### Grid Order
+### Multiple Rows
 
-Change the order of columns using `push` and `pull`.
+<!--{include:`multiple-rows.md`}-->
+
+### Push and Pull
 
 <!--{include:`pull-push.md`}-->
 
-### Responsive Hidden
+### Auto Width
 
-The object syntax provides a `hidden` property to control display and hiding at different screen sizes.
+<!--{include:`auto.md`}-->
+
+### Hidden
 
 <!--{include:`hidden.md`}-->
 
-### Nested
-
-The grid system supports unlimited nesting.
+### Nesting
 
 <!--{include:`nested.md`}-->
 
-### Justify and align
+### Alignment
 
 <!--{include:`justify-align.md`}-->
 
@@ -56,7 +52,7 @@ The grid system supports unlimited nesting.
 
 <!--{include:`order.md`}-->
 
-### Responsive
+## Responsive
 
 <!--{include:<example-responsive>}-->
 
@@ -64,45 +60,44 @@ The grid system supports unlimited nesting.
 
 ### `<Grid>`
 
-| Property    | Type `(Default)`      | Description                           |
-| ----------- | --------------------- | ------------------------------------- |
-| as          | ElementType `('div')` | Custom element type                   |
-| classPrefix | string`('grid')`     | The prefix of the component CSS class |
-| fluid       | boolean               | Fluid layout                          |
+| Property | Type`(Default)`       | Description                                     |
+| -------- | --------------------- | ----------------------------------------------- |
+| as       | ElementType `('div')` | You can use a custom element for this component |
+| fluid    | boolean               | Fluid layout, (100% width)                      |
 
 ### `<Row>`
 
-| Property    | Type `(Default)`                                                                                   | Description                                                   |
-| ----------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment of columns. Support responsive values      |
-| as          | ElementType `('div')`                                                                              | Custom element type                                           |
-| classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class                         |
-| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | Grid spacing between columns. Support responsive values       |
-| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution of columns. Support responsive values |
+| Property    | Type`(Default)`                                                                                    | Description                                         |
+| ----------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment. Supports responsive values      |
+| as          | ElementType`('div')`                                                                               | You can use a custom element for this component     |
+| classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class               |
+| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | Grid spacing. Supports responsive values            |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution. Supports responsive values |
 
 ### `<Col>`
 
-| Property    | Type `(Default)`                         | Description                                    |
-| ----------- | ---------------------------------------- | ---------------------------------------------- |
-| as          | ElementType `('div')`                    | Custom element type                            |
-| classPrefix | string `('col')`                         | The prefix of the component CSS class          |
-| hidden      | boolean \| [ResponsiveValue][responsive] | Whether to hide the grid                       |
-| offset      | number \| [ResponsiveValue][responsive]  | Number of grid columns to offset from the left |
-| order       | number \| [ResponsiveValue][responsive]  | Order of grid columns                          |
-| pull        | number \| [ResponsiveValue][responsive]  | Number of grid columns to pull to the left     |
-| push        | number \| [ResponsiveValue][responsive]  | Number of grid columns to push to the right    |
-| span        | number \| [ResponsiveValue][responsive]  | Number of grid columns to span                 |
+| Property    | Type`(Default)`                                   | Description                                                                               |
+| ----------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| as          | ElementType`('div')`                              | You can use a custom element for this component                                           |
+| classPrefix | string `('col')`                                  | The prefix of the component CSS class                                                     |
+| hidden      | boolean \| [ResponsiveValue][responsive]          | Whether to hide the grid                                                                  |
+| offset      | number \| [ResponsiveValue][responsive]           | Number of grids on the left side                                                          |
+| order       | number \| [ResponsiveValue][responsive]           | The order of grid columns                                                                |
+| pull        | number \| [ResponsiveValue][responsive]           | Number of grids to move left                                                              |
+| push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right                                                             |
+| span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content |
 
 ### `ts:ResponsiveValue`
 
 ```ts
 type ResponsiveValue<T> = {
-  xs?: T; // Extra small screens (<576px)
-  sm?: T; // Small screens (≥576px)
-  md?: T; // Medium screens (≥768px)
-  lg?: T; // Large screens (≥992px)
-  xl?: T; // Extra large screens (≥1200px)
-  xxl?: T; // Extra extra large screens (≥1400px)
+  xs?: T; // Extra small devices (portrait phones, <576px)
+  sm?: T; // Small devices (landscape phones, ≥576px)
+  md?: T; // Medium devices (tablets, ≥768px)
+  lg?: T; // Large devices (desktops, ≥992px)
+  xl?: T; // Extra large devices (large desktops, ≥1200px)
+  xxl?: T; // Extra extra large devices (larger desktops, ≥1400px)
 };
 ```
 

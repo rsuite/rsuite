@@ -6,8 +6,8 @@
   flex-flow: row wrap;
 
   // Base styles (xs breakpoint)
-  margin-inline-start: calc(var(--rs-grid-gutter) / -2);
-  margin-inline-end: calc(var(--rs-grid-gutter) / -2);
+  margin-inline-start: var(--rs-row-gutter);
+  margin-inline-end: var(--rs-row-gutter);
 
   // Default alignment without breakpoint prefix
   &-top {
@@ -37,94 +37,6 @@
     justify-content: space-around;
   }
 
-  // Apply responsive styles for each breakpoint
-  @media (min-width: @screen-sm) {
-    .responsive-gutter(-sm);
-  }
-  @media (min-width: @screen-md) {
-    .responsive-gutter(-md);
-  }
-  @media (min-width: @screen-lg) {
-    .responsive-gutter(-lg);
-  }
-  @media (min-width: @screen-xl) {
-    .responsive-gutter(-xl);
-  }
-  @media (min-width: @screen-xxl) {
-    .responsive-gutter(-xxl);
-  }
-
-  // Responsive alignment
-  .responsive-align(-xs);
-  @media (min-width: @screen-sm) {
-    .responsive-align(-sm);
-  }
-  @media (min-width: @screen-md) {
-    .responsive-align(-md);
-  }
-  @media (min-width: @screen-lg) {
-    .responsive-align(-lg);
-  }
-  @media (min-width: @screen-xl) {
-    .responsive-align(-xl);
-  }
-  @media (min-width: @screen-xxl) {
-    .responsive-align(-xxl);
-  }
-
-  // Responsive justify
-  .responsive-justify(-xs);
-  @media (min-width: @screen-sm) {
-    .responsive-justify(-sm);
-  }
-  @media (min-width: @screen-md) {
-    .responsive-justify(-md);
-  }
-  @media (min-width: @screen-lg) {
-    .responsive-justify(-lg);
-  }
-  @media (min-width: @screen-xl) {
-    .responsive-justify(-xl);
-  }
-  @media (min-width: @screen-xxl) {
-    .responsive-justify(-xxl);
-  }
-}
-
-// Mixin for responsive gutter
-.responsive-gutter(@breakpoint) {
-  margin-inline-start: calc(var(~'--rs-grid-gutter@{breakpoint}', var(--rs-grid-gutter)) / -2);
-  margin-inline-end: calc(var(~'--rs-grid-gutter@{breakpoint}', var(--rs-grid-gutter)) / -2);
-}
-
-// Mixin for responsive alignment
-.responsive-align(@breakpoint) {
-  &@{breakpoint}-top {
-    align-items: flex-start;
-  }
-  &@{breakpoint}-middle {
-    align-items: center;
-  }
-  &@{breakpoint}-bottom {
-    align-items: flex-end;
-  }
-}
-
-// Mixin for responsive justify
-.responsive-justify(@breakpoint) {
-  &@{breakpoint}-start {
-    justify-content: flex-start;
-  }
-  &@{breakpoint}-end {
-    justify-content: flex-end;
-  }
-  &@{breakpoint}-center {
-    justify-content: center;
-  }
-  &@{breakpoint}-space-between {
-    justify-content: space-between;
-  }
-  &@{breakpoint}-space-around {
-    justify-content: space-around;
-  }
+  .responsive-align(xs);
+  .responsive-justify(xs);
 }

@@ -32,7 +32,7 @@ const App = () => (
         <DecorativeBox>Col 1</DecorativeBox>
       </Col>
       <Col xs={24} md={8}>
-        <DecorativeBox height={80}>Col 2</DecorativeBox>
+        <DecorativeBox h={80}>Col 2</DecorativeBox>
       </Col>
       <Col xs={24} md={8}>
         <DecorativeBox>Col 3</DecorativeBox>
@@ -62,7 +62,7 @@ const App = () => (
       }}
     >
       <Col xs={24} md={16}>
-        <DecorativeBox height={134}>
+        <DecorativeBox h={134}>
           Main Content
           <br />
           xs=24, md=16
@@ -85,6 +85,19 @@ const App = () => (
             </DecorativeBox>
           </Col>
         </Row>
+      </Col>
+    </Row>
+
+    <Divider>Responsive Auto Span</Divider>
+    <Row>
+      <Col span={{ xs: 'auto', md: 8 }}>
+        <DecorativeBox>xs=auto, md=8</DecorativeBox>
+      </Col>
+      <Col span={{ xs: 12, md: 'auto' }}>
+        <DecorativeBox>xs=12, md=auto</DecorativeBox>
+      </Col>
+      <Col span={{ xs: 'auto', md: 'auto' }}>
+        <DecorativeBox>xs=auto, md=auto</DecorativeBox>
       </Col>
     </Row>
   </Grid>

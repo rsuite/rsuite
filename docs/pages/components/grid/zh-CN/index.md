@@ -24,9 +24,17 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 <!--{include:`offset.md`}-->
 
+### 多行
+
+<!--{include:`multiple-rows.md`}-->
+
 ### 栅格推拉
 
 <!--{include:`pull-push.md`}-->
+
+### 自动宽度
+
+<!--{include:`auto.md`}-->
 
 ### 隐藏栅格
 
@@ -69,16 +77,16 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 ### `<Col>`
 
-| 属性名称    | 类型`(默认值)`                           | 描述               |
-| ----------- | ---------------------------------------- | ------------------ |
-| as          | ElementType`('div')`                     | 自定义元素类型     |
-| classPrefix | string `('col')`                         | 组件 CSS 类的前缀  |
-| hidden      | boolean \| [ResponsiveValue][responsive] | 是否隐藏栅格       |
-| offset      | number \| [ResponsiveValue][responsive]  | 栅格左侧的间隔格数 |
-| order       | number \| [ResponsiveValue][responsive]  | 栅格顺序           |
-| pull        | number \| [ResponsiveValue][responsive]  | 栅格向左移动格数   |
-| push        | number \| [ResponsiveValue][responsive]  | 栅格向右移动格数   |
-| span        | number \| [ResponsiveValue][responsive]  | 栅格占位格数       |
+| 属性名称    | 类型`(默认值)`                                    | 描述                                                 |
+| ----------- | ------------------------------------------------- | ---------------------------------------------------- |
+| as          | ElementType`('div')`                              | 自定义元素类型                                       |
+| classPrefix | string `('col')`                                  | 组件 CSS 类的前缀                                    |
+| hidden      | boolean \| [ResponsiveValue][responsive]          | 是否隐藏栅格                                         |
+| offset      | number \| [ResponsiveValue][responsive]           | 栅格左侧的间隔格数                                   |
+| order       | number \| [ResponsiveValue][responsive]           | 栅格列的顺序                                         |
+| pull        | number \| [ResponsiveValue][responsive]           | 栅格向左移动格数                                     |
+| push        | number \| [ResponsiveValue][responsive]           | 栅格向右移动格数                                     |
+| span        | number \| 'auto' \| [ResponsiveValue][responsive] | 栅格占位格数，设置为 'auto' 时宽度会根据内容自动调整 |
 
 ### `ts:ResponsiveValue`
 

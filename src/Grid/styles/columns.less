@@ -6,32 +6,17 @@
   display: block;
   max-width: 100%;
   min-height: 1px;
-  padding-inline-start: calc(var(--rs-grid-gutter) / 2);
-  padding-inline-end: calc(var(--rs-grid-gutter) / 2);
+  padding-inline-start: var(--rs-col-gutter);
+  padding-inline-end: var(--rs-col-gutter);
 
-  // Responsive gutters
-  @media (min-width: @screen-sm) {
-    padding-inline-start: calc(var(--rs-grid-gutter-sm, var(--rs-grid-gutter)) / 2);
-    padding-inline-end: calc(var(--rs-grid-gutter-sm, var(--rs-grid-gutter)) / 2);
+  &[class*='rs-col-auto-'] {
+    flex-grow: var(--rs-col-auto-flex-grow);
+    flex-basis: var(--rs-col-auto-flex-basis);
+    max-width: var(--rs-col-auto-max-width);
   }
+}
 
-  @media (min-width: @screen-md) {
-    padding-inline-start: calc(var(--rs-grid-gutter-md, var(--rs-grid-gutter)) / 2);
-    padding-inline-end: calc(var(--rs-grid-gutter-md, var(--rs-grid-gutter)) / 2);
-  }
-
-  @media (min-width: @screen-lg) {
-    padding-inline-start: calc(var(--rs-grid-gutter-lg, var(--rs-grid-gutter)) / 2);
-    padding-inline-end: calc(var(--rs-grid-gutter-lg, var(--rs-grid-gutter)) / 2);
-  }
-
-  @media (min-width: @screen-xl) {
-    padding-inline-start: calc(var(--rs-grid-gutter-xl, var(--rs-grid-gutter)) / 2);
-    padding-inline-end: calc(var(--rs-grid-gutter-xl, var(--rs-grid-gutter)) / 2);
-  }
-
-  @media (min-width: @screen-xxl) {
-    padding-inline-start: calc(var(--rs-grid-gutter-xxl, var(--rs-grid-gutter)) / 2);
-    padding-inline-end: calc(var(--rs-grid-gutter-xxl, var(--rs-grid-gutter)) / 2);
-  }
+// Auto column styles for xs (default)
+.rs-col-auto-xs {
+  .rs-col-auto-styles();
 }

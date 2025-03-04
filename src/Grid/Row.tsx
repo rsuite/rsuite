@@ -24,7 +24,7 @@ const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<nu
 };
 
 const getResponsiveClassNames = (
-  withClassPrefix: (...classes: any[]) => string,
+  prefix: (...classes: any[]) => string,
   value?: string | ResponsiveValue<string>
 ) => {
   if (!value) {
@@ -32,13 +32,13 @@ const getResponsiveClassNames = (
   }
 
   if (typeof value !== 'object') {
-    return [withClassPrefix(value)];
+    return [prefix(value)];
   }
 
   return BREAKPOINTS.reduce((classes, breakpoint) => {
     const breakpointValue = value[breakpoint];
     if (!breakpointValue) return classes;
-    return [...classes, withClassPrefix(`${breakpoint}-${breakpointValue}`)];
+    return [...classes, prefix(`${breakpoint}-${breakpointValue}`)];
   }, [] as string[]);
 };
 
@@ -89,10 +89,10 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const alignClasses = getResponsiveClassNames(withClassPrefix, align);
-  const justifyClasses = getResponsiveClassNames(withClassPrefix, justify);
-  const classes = merge(className, withClassPrefix(justify), ...alignClasses, ...justifyClasses);
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const alignClasses = getResponsiveClassNames(prefix, align);
+  const justifyClasses = getResponsiveClassNames(prefix, justify);
+  const classes = merge(className, withClassPrefix(), ...alignClasses, ...justifyClasses);
   const rowStyles = mergeStyles(
     style,
     getResponsiveGutterStyles(gutter),

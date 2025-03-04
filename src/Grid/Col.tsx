@@ -11,7 +11,7 @@ type ResponsiveKey = 'span' | 'offset' | 'push' | 'pull' | 'order' | 'hidden';
 
 export interface ColProps extends WithAsProps {
   /** Grid column span for different breakpoints */
-  span?: number | ResponsiveValue<number>;
+  span?: number | 'auto' | ResponsiveValue<number | 'auto'>;
 
   /** Grid column offset for different breakpoints */
   offset?: number | ResponsiveValue<number>;
@@ -56,10 +56,15 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
 
       const addResponsiveClasses = (
         size: string,
-        value: number | boolean | undefined,
+        value: number | 'auto' | boolean | undefined,
         type: ResponsiveKey
       ) => {
         if (value === undefined) return;
+
+        if (type === 'span' && value === 'auto') {
+          colClasses[prefix(`auto-${size}`)] = true;
+          return;
+        }
 
         const classKey =
           type === 'hidden'
@@ -71,7 +76,12 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
 
       // Handle new responsive props format
       const handleResponsiveValue = (
-        propValue: number | boolean | ResponsiveValue<number | boolean> | undefined,
+        propValue:
+          | number
+          | 'auto'
+          | boolean
+          | ResponsiveValue<number | 'auto' | boolean>
+          | undefined,
         type: ResponsiveKey
       ) => {
         if (propValue === undefined) return;
@@ -79,7 +89,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
         if (typeof propValue === 'object') {
           // Handle responsive object format
           BREAKPOINTS.forEach(size => {
-            const value = (propValue as ResponsiveValue<number | boolean>)[size];
+            const value = (propValue as ResponsiveValue<number | 'auto' | boolean>)[size];
             if (value !== undefined) {
               addResponsiveClasses(size, value, type);
             }

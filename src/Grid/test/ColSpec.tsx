@@ -25,6 +25,20 @@ describe('Col', () => {
   });
 
   describe('Responsive props', () => {
+    it('Should support auto span', () => {
+      render(<Col span="auto">Col</Col>);
+      expect(screen.getByText('Col')).to.have.class('rs-col-auto-xs');
+    });
+
+    it('Should support responsive auto span', () => {
+      render(<Col span={{ xs: 12, sm: 'auto', md: 6, lg: 'auto' }}>Col</Col>);
+
+      expect(screen.getByText('Col')).to.have.class('rs-col-xs-12');
+      expect(screen.getByText('Col')).to.have.class('rs-col-auto-sm');
+      expect(screen.getByText('Col')).to.have.class('rs-col-md-6');
+      expect(screen.getByText('Col')).to.have.class('rs-col-auto-lg');
+    });
+
     it('Should support span with new format', () => {
       render(<Col span={{ xs: 12, md: 6 }}>Col</Col>);
 
