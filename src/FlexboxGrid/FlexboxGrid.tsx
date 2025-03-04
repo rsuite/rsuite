@@ -6,10 +6,16 @@ import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
 export interface FlexboxGridProps extends WithAsProps {
-  /** align */
+  /**
+   * Vertical alignment
+   * @deprecated Please use `<Row align={...}>` instead.
+   */
   align?: 'top' | 'middle' | 'bottom';
 
-  /** horizontal arrangement */
+  /**
+   * Horizontal alignment
+   * @deprecated Please use `<Row justify={...}>` instead.
+   */
   justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 }
 
@@ -20,6 +26,14 @@ const Subcomponents = {
 /**
  * The FlexboxGrid component is a box that can be used to layout other components.
  * @see https://rsuitejs.com/components/flexbox-grid
+ * @deprecated Please use `Row` instead.
+ * ```
+ * <Row>
+ *   <Col>1</Col>
+ *   <Col>2</Col>
+ *   <Col>3</Col>
+ * </Row>
+ * ```
  */
 const FlexboxGrid = forwardRef<'div', FlexboxGridProps, typeof Subcomponents>(
   (props: FlexboxGridProps, ref) => {

@@ -2,6 +2,8 @@
 
 Grid layout component implemented via CSS Flexbox, providing 24 grids.
 
+> ⚠️ FlexboxGrid has been deprecated. Please use [Row and Col](/components/grid/) instead.
+
 ## Import
 
 <!--{include:<import-guide>}-->

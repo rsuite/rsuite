@@ -2,6 +2,8 @@
 
 通过 CSS Flexbox 实现的栅格布局组件，提供 24 栅格。
 
+> ⚠️ FlexboxGrid 已弃用，请使用 [Row 和 Col](/zh/components/grid/) 代替。
+
 ## 获取组件
 
 <!--{include:<import-guide>}-->
