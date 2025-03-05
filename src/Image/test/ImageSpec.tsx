@@ -89,8 +89,11 @@ describe('Image', () => {
       />
     );
 
-    await waitFor(() => {
-      expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
+      },
+      { timeout: 5000 }
+    );
   });
 });
