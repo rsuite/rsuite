@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import Stack from '../Stack';
 import StackItem from '../StackItem';
 import Button from '../../Button';
+import { render, screen } from '@testing-library/react';
+import { getCssVarValue } from '@test/utils';
 
 describe('StackItem', () => {
   it('renders a StackItem', () => {
@@ -24,13 +25,13 @@ describe('StackItem', () => {
         </StackItem>
       </Stack>
     );
-    expect(screen.getByText('stack item').style.flex).to.equal('1 1 auto');
-    /**
-     * inline css shorthand property will override longhand properties
-     */
-    expect(screen.getByText('stack item').style.flexGrow).to.equal('1');
-    expect(screen.getByText('stack item').style.alignSelf).to.equal('flex-end');
-    expect(screen.getByText('stack item').style.order).to.equal('1');
+
+    const item = screen.getByText('stack item');
+
+    expect(getCssVarValue(item, '--rs-stack-item-flex')).to.equal('auto');
+    expect(getCssVarValue(item, '--rs-stack-item-align-self')).to.equal('flex-end');
+    expect(getCssVarValue(item, '--rs-stack-item-grow')).to.equal('2');
+    expect(getCssVarValue(item, '--rs-stack-item-order')).to.equal('1');
   });
 
   it('Should render a stackitem with custom class name', () => {
