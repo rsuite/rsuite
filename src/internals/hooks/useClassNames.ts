@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useCallback, useContext } from 'react';
-import { getCssValue, createStyleGetter, prefix as addPrefix } from '@/internals/utils';
+import { createStyleGetter, prefix as addPrefix } from '@/internals/utils';
 import { CustomContext } from '../../CustomProvider/CustomProvider';
 
 export type ClassValue =
@@ -28,7 +28,8 @@ interface ClassNameUtils {
   rootPrefix: (...classes: ClassValue[]) => string;
   cssVar: (
     prop: string,
-    value?: string | number | (string | number)[]
+    value?: string | number | (string | number)[],
+    valueTransformer?: (value: any) => any
   ) =>
     | {
         [x: string]: string | number | undefined;
@@ -100,18 +101,16 @@ export function useClassNames(str: string): ClassNameUtils {
   };
 
   const cssVar = useCallback(
-    (prop: string, value?: string | number | (string | number)[]) => {
+    (
+      prop: string,
+      value?: string | number | (string | number)[],
+      valueTransformer?: (value: any) => any
+    ) => {
       if (typeof value === 'undefined') {
         return;
       }
 
-      // If value is an array, join it with spaces,
-      // .eg, gap=[10, 20] -> '10px 20px'
-      if (Array.isArray(value)) {
-        value = value.map(item => getCssValue(item)).join(' ');
-      }
-
-      return createStyleGetter({ prop })(value, str, prop);
+      return createStyleGetter({ prop, valueTransformer })(value, str, prop);
     },
     [str]
   );

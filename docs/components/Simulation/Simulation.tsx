@@ -46,7 +46,7 @@ const Simulation: React.FC<SimulationProps> = ({
       case 'tablet':
         return { width: 767, height: 1024 };
       default:
-        return { width: '100%', maxWidth: 960, height: 600 };
+        return { width: '100%', minWidth: 960, height: 600 };
     }
   };
 

@@ -1,17 +1,25 @@
 'use client';
 
 import React from 'react';
-import { useMediaQuery, Stack, Button } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
+import { useMediaQuery, Stack } from 'rsuite';
 
 const App = () => {
   const [isMobile] = useMediaQuery('(max-width: 700px)');
   return (
-    <Stack direction={isMobile ? 'column' : 'row'} spacing={10} justifyContent="space-between">
-      <Button>Item 1</Button>
-      <Button>Item 2</Button>
-      <Button>Item 3</Button>
-      <Button>Item 4</Button>
-      <Button>Item 5</Button>
+    <Stack
+      direction={isMobile ? 'column' : 'row'}
+      spacing={10}
+      justifyContent="space-between"
+      style={{
+        padding: 10
+      }}
+    >
+      <DecorativeBox> 1</DecorativeBox>
+      <DecorativeBox> 2</DecorativeBox>
+      <DecorativeBox> 3</DecorativeBox>
+      <DecorativeBox> 4</DecorativeBox>
+      <DecorativeBox> 5</DecorativeBox>
     </Stack>
   );
 };

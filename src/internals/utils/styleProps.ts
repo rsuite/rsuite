@@ -13,18 +13,23 @@ interface StylePropConfig<T = StyleValue> {
 }
 
 export const createStyleValueSetter = <T = StyleValue>(config: StylePropConfig<T>) => {
+  const { valueTransformer: t, presetChecker, useGlobalVar } = config;
   return (value?: T, component?: string, prop: string = config.prop) => {
     if (typeof value === 'undefined' || !component) {
       return;
     }
 
-    if (config.presetChecker?.(value)) {
-      return config.useGlobalVar
+    if (presetChecker?.(value)) {
+      return useGlobalVar
         ? `var(--rs-${prop}-${value})`
         : `var(--rs-${component}-${prop}-${value})`;
+    } else if (Array.isArray(value)) {
+      // If value is an array, join it with spaces,
+      // .eg, gap=[10, 20] -> '10px 20px'
+      return value.map(item => (t ? t(item) : item)).join(' ');
     }
 
-    return config.valueTransformer ? config.valueTransformer(value) : value;
+    return t ? t(value) : value;
   };
 };
 

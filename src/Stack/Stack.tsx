@@ -1,7 +1,7 @@
 import React from 'react';
 import StackItem from './StackItem';
 import Box from '@/internals/Box';
-import { forwardRef, mergeStyles } from '@/internals/utils';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -73,7 +73,7 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
 
   const styles = mergeStyles(
     style,
-    cssVar('spacing', spacing),
+    cssVar('spacing', spacing, getCssValue),
     cssVar('direction', direction),
     cssVar('align', align),
     cssVar('justify', justify),
