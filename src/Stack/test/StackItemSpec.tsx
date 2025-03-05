@@ -8,7 +8,7 @@ describe('StackItem', () => {
   it('renders a StackItem', () => {
     render(
       <Stack>
-        <StackItem>stack item</StackItem>
+        <StackItem className="rs-stack-item">stack item</StackItem>
       </Stack>
     );
     expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
@@ -33,7 +33,7 @@ describe('StackItem', () => {
     expect(screen.getByText('stack item').style.order).to.equal('1');
   });
 
-  it('should render a stackitem with custom class name', () => {
+  it('Should render a stackitem with custom class name', () => {
     render(
       <Stack>
         <StackItem className="custom">custom element</StackItem>
@@ -41,10 +41,9 @@ describe('StackItem', () => {
     );
 
     expect(screen.getByText('custom element').className).to.include('custom');
-    expect(screen.getByText('custom element').className).to.include('rs-stack-item');
   });
 
-  it('should render a stackitem as Button', () => {
+  it('Should render a stackitem as Button', () => {
     render(
       <Stack>
         <StackItem as={Button}>custom element</StackItem>
@@ -52,6 +51,5 @@ describe('StackItem', () => {
     );
 
     expect(screen.getByText('custom element').className).to.include('rs-btn');
-    expect(screen.getByText('custom element').className).to.include('rs-stack-item');
   });
 });

@@ -63,13 +63,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
   const classes = merge(className, withClassPrefix());
 
   return (
-    <Stack
-      ref={ref}
-      className={classes}
-      justifyContent="space-between"
-      alignItems="flex-start"
-      {...rest}
-    >
+    <Stack ref={ref} className={classes} justify="space-between" align="flex-start" {...rest}>
       <PredefinedRanges
         wrap
         className={prefix('ranges')}

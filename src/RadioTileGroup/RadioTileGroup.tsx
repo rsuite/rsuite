@@ -83,7 +83,6 @@ const RadioTileGroup = forwardRef<'div', RadioTileGroupProps>((props, ref) => {
         spacing={10}
         {...rest}
         role="radiogroup"
-        childrenRenderMode="clone"
         direction={inline ? 'row' : 'column'}
         ref={ref}
         className={classes}

@@ -1,49 +1,42 @@
 import React from 'react';
 import StackItem from './StackItem';
-import { forwardRef, ReactChildren } from '@/internals/utils';
+import Box from '@/internals/Box';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
-export interface StackProps extends WithAsProps {
+interface DeprecatedStackProps {
   /**
-   * The direction of the children in the stack.
+   * Define the alignment of the children in the stack on the inline axis
+   * @deprecated  Use `justify` instead
    */
-  direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-
+  justifyContent?: React.CSSProperties['justifyContent'];
   /**
    * Define the alignment of the children in the stack on the cross axis
+   * @deprecated  Use `align` instead
    */
-  alignItems?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
-
-  /**
-   *  Define the alignment of the children in the stack on the inline axis
-   */
-  justifyContent?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
-
-  /**
-   * Define the spacing between immediate children
-   */
-  spacing?: number | string | (number | string)[];
-
-  /**
-   * Add an element between each child
-   */
-  divider?: React.ReactNode;
-
-  /**
-   * Define whether the children in the stack are forced onto one line or can wrap onto multiple lines
-   */
-  wrap?: boolean;
-
-  /**
-   * The render mode of the children.
-   */
-  childrenRenderMode?: 'clone' | 'wrap';
+  alignItems?: React.CSSProperties['alignItems'];
 }
 
-function isStackItem(child: React.ReactElement<StackProps, React.FunctionComponent>) {
-  return child.type === StackItem || child.type?.displayName === 'StackItem';
+export interface StackProps extends WithAsProps, DeprecatedStackProps {
+  /** Define the alignment of the children in the stack on the cross axis */
+  align?: React.CSSProperties['alignItems'];
+
+  /** The direction of the children in the stack */
+  direction?: React.CSSProperties['flexDirection'];
+
+  /** Define the alignment of the children in the stack on the inline axis */
+  justify?: React.CSSProperties['justifyContent'];
+
+  /** Define the spacing between immediate children */
+  spacing?: number | string | (number | string)[];
+
+  /** Add an element between each child */
+  divider?: React.ReactNode;
+
+  /** Define whether the children in the stack are forced onto one line or can wrap onto multiple lines */
+  wrap?: boolean;
 }
 
 const Subcomponents = {
@@ -59,14 +52,15 @@ const Subcomponents = {
 const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Stack', props);
   const {
-    as: Component = 'div',
-    alignItems = 'center',
+    as,
+    alignItems,
+    align = alignItems,
     classPrefix = 'stack',
-    childrenRenderMode = 'wrap',
     className,
     children,
     direction,
     justifyContent,
+    justify = justifyContent,
     spacing,
     divider,
     style,
@@ -74,42 +68,30 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withClassPrefix, merge, cssVar } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
-  const styles = {
-    alignItems,
-    justifyContent,
-    flexDirection: direction,
-    flexWrap: wrap ? 'wrap' : undefined,
-    gap: spacing,
-    ...style
-  };
+  const styles = mergeStyles(
+    style,
+    cssVar('spacing', Array.isArray(spacing) ? spacing.join(' ') : getCssValue(spacing)),
+    cssVar('direction', direction),
+    cssVar('align', align),
+    cssVar('justify', justify),
+    cssVar('wrap', wrap ? 'wrap' : undefined)
+  );
 
-  /*
-   * toArray remove undefined, null and boolean
-   */
-  const filterChildren = React.Children.toArray(children);
-
-  const count = ReactChildren.count(filterChildren as React.ReactElement[]);
+  const filteredChildren = React.Children.toArray(children);
+  const childCount = filteredChildren.length;
 
   return (
-    <Component {...rest} ref={ref} className={classes} style={styles}>
-      {ReactChildren.map(filterChildren as React.ReactElement[], (child, index) => {
-        const childNode =
-          childrenRenderMode === 'wrap' && !isStackItem(child) ? (
-            <StackItem key={index} className={prefix('item')}>
-              {child}
-            </StackItem>
-          ) : (
-            React.cloneElement(child, {
-              className: merge(prefix('item'), child.props.className)
-            })
-          );
-
-        return [childNode, index < count - 1 ? divider : null];
-      })}
-    </Component>
+    <Box display="flex" as={as} ref={ref} className={classes} style={styles} {...rest}>
+      {filteredChildren.map((child, index) => (
+        <React.Fragment key={index}>
+          {child}
+          {index < childCount - 1 && divider}
+        </React.Fragment>
+      ))}
+    </Box>
   );
 }, Subcomponents);
 

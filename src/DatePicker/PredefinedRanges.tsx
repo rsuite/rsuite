@@ -46,7 +46,7 @@ const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>
     }
 
     return (
-      <Stack className={className} ref={ref} alignItems="flex-start" spacing={4} {...rest}>
+      <Stack className={className} ref={ref} align="flex-start" spacing={4} {...rest}>
         {ranges.map((range, index: number) => {
           const { value, closeOverlay, label, ...rest } = range;
           const disabled = disableShortcut?.(value);

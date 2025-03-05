@@ -673,7 +673,6 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       plaintextProps.as = Stack;
       plaintextProps.spacing = 6;
       plaintextProps.wrap = true;
-      plaintextProps.childrenRenderMode = 'clone';
     }
 
     return (

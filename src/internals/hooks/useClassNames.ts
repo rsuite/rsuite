@@ -1,6 +1,7 @@
-import { useCallback, useContext } from 'react';
 import classNames from 'classnames';
+import { useCallback, useContext } from 'react';
 import { prefix as addPrefix } from '../utils/prefix';
+import { createStyleGetter } from '../utils/styleProps';
 import { CustomContext } from '../../CustomProvider/CustomProvider';
 
 export type ClassValue =
@@ -26,6 +27,14 @@ interface ClassNameUtils {
   merge: (...classes: ClassValue[]) => string;
   prefix: (...classes: ClassValue[]) => string;
   rootPrefix: (...classes: ClassValue[]) => string;
+  cssVar: (
+    prop: string,
+    value?: string | number
+  ) =>
+    | {
+        [x: string]: string | number | undefined;
+      }
+    | undefined;
 }
 
 /**
@@ -91,11 +100,23 @@ export function useClassNames(str: string): ClassNameUtils {
     return mergeClasses.filter(cls => cls).join(' ');
   };
 
+  const cssVar = useCallback(
+    (prop: string, value?: string | number) => {
+      if (typeof value === 'undefined') {
+        return;
+      }
+
+      return createStyleGetter({ prop })(value, str, prop);
+    },
+    [str]
+  );
+
   return {
+    cssVar,
     withClassPrefix,
-    merge: classNames,
     prefix,
-    rootPrefix
+    rootPrefix,
+    merge: classNames
   };
 }
 

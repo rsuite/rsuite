@@ -1,8 +1,10 @@
 import React from 'react';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 
 export interface StackItemProps extends WithAsProps {
-  alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+  alignSelf?: React.CSSProperties['alignSelf'];
   flex?: React.CSSProperties['flex'];
   grow?: React.CSSProperties['flexGrow'];
   shrink?: React.CSSProperties['flexShrink'];
@@ -15,9 +17,10 @@ export interface StackItemProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/stack
  */
-export default function StackItem(props: StackItemProps) {
+const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
   const {
     as: Component = 'div',
+    classPrefix = 'stack-item',
     style,
     className,
     alignSelf,
@@ -29,18 +32,21 @@ export default function StackItem(props: StackItemProps) {
     ...rest
   } = props;
 
-  return (
-    <Component
-      className={className}
-      style={{
-        alignSelf,
-        order,
-        ...(flex ? { flex } : { flexGrow: grow, flexShrink: shrink, flexBasis: basis }),
-        ...style
-      }}
-      {...rest}
-    />
+  const { withClassPrefix, merge, cssVar } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  const styles = mergeStyles(
+    style,
+    cssVar('align-self', alignSelf),
+    cssVar('order', order),
+    cssVar('flex', flex),
+    cssVar('grow', grow),
+    cssVar('shrink', shrink),
+    cssVar('basis', basis)
   );
-}
+
+  return <Component ref={ref} className={classes} style={styles} {...rest} />;
+});
 
 StackItem.displayName = 'StackItem';
+
+export default StackItem;

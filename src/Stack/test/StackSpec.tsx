@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import Stack from '../Stack';
 import StackItem from '../StackItem';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
+import '../styles/index.less';
 
 describe('Stack', () => {
   testStandardProps(<Stack />);
@@ -72,28 +73,6 @@ describe('Stack', () => {
     );
 
     expect(screen.getByTestId('test')).to.have.text('012');
-  });
-
-  it('Should wrap children', () => {
-    render(
-      <Stack data-testid="test">
-        <button />
-      </Stack>
-    );
-
-    expect(screen.getByTestId('test').firstChild).to.tagName('DIV');
-    expect(screen.getByTestId('test').firstChild).to.have.class('rs-stack-item');
-  });
-
-  it('Should clone children', () => {
-    render(
-      <Stack data-testid="test" childrenRenderMode="clone">
-        <button />
-      </Stack>
-    );
-
-    expect(screen.getByTestId('test').firstChild).to.tagName('BUTTON');
-    expect(screen.getByTestId('test').firstChild).to.have.class('rs-stack-item');
   });
 
   it('Should render deep children, when direct child is a Fragment', () => {

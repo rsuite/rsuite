@@ -44,53 +44,50 @@
 
 ### `<Stack>`
 
-| 属性名称           | 类型`(默认值)`                                                              | 描述                                   |
-| ------------------ | --------------------------------------------------------------------------- | -------------------------------------- |
-| alignItems         | 'flex-start' \| 'center' \| 'flex-end' \| 'stretch' \| 'baseline'           | 定义一组子项在交叉轴上的对齐方式       |
-| as                 | React.ElementType                                                           | 自定义根元素                           |
-| childrenRenderMode | 'clone' \| 'wrap'                                                           | 子项的渲染模式                         |
-| classPrefix        | string `('stack')`                                                          | 组件 CSS 类的前缀                      |
-| direction          | 'row' \| 'row-reverse' \| 'column' \| 'column-reverse'                      | 定义一组子项的方向                     |
-| divider            | ReactNode                                                                   | 为每一个子项直接添加分隔符             |
-| justifyContent     | 'flex-start' \| 'center' \| 'flex-end' \| 'space-between' \| 'space-around' | 定义一组子项在主轴上的对齐方式         |
-| spacing            | number \| string                                                            | 为每一个子项直接设置间距               |
-| wrap               | boolean                                                                     | 定义一组子项是强制在一行上还是在多行上 |
+| 属性名称    | 类型`(默认值)`                  | 描述                                   |
+| ----------- | ------------------------------- | -------------------------------------- |
+| align       | CSSProperties['alignItems']     | 定义一组子项在交叉轴上的对齐方式       |
+| as          | React.ElementType               | 自定义根元素                           |
+| classPrefix | string `('stack')`              | 组件 CSS 类的前缀                      |
+| direction   | CSSProperties['flexDirection']  | 定义一组子项的方向                     |
+| divider     | ReactNode                       | 为每一个子项直接添加分隔符             |
+| justify     | CSSProperties['justifyContent'] | 定义一组子项在主轴上的对齐方式         |
+| spacing     | number \| string                | 为每一个子项直接设置间距               |
+| wrap        | boolean                         | 定义一组子项是强制在一行上还是在多行上 |
 
 ### `<Stack.Item>`
 
-| 属性名称  | 类型`(默认值)`                                                    | 描述                           |
-| --------- | ----------------------------------------------------------------- | ------------------------------ |
-| alignSelf | 'flex-start' \| 'center' \| 'flex-end' \| 'stretch' \| 'baseline' | 定义一组子项在堆叠中的对齐方式 |
-| basis     | string                                                            | 定义一组子项的 basis 属性      |
-| flex      | string                                                            | 定义一组子项的 flex 属性       |
-| grow      | number                                                            | 定义一组子项的 grow 属性       |
-| order     | number                                                            | 定义一组子项在堆叠中的顺序     |
-| shrink    | number                                                            | 定义一组子项的 shrink 属性     |
+| 属性名称  | 类型`(默认值)`             | 描述                           |
+| --------- | -------------------------- | ------------------------------ |
+| alignSelf | CSSProperties['alignSelf'] | 定义一组子项在堆叠中的对齐方式 |
+| basis     | string                     | 定义一组子项的 basis 属性      |
+| flex      | string                     | 定义一组子项的 flex 属性       |
+| grow      | number                     | 定义一组子项的 grow 属性       |
+| order     | number                     | 定义一组子项在堆叠中的顺序     |
+| shrink    | number                     | 定义一组子项的 shrink 属性     |
 
 ### `<HStack>`
 
-| 属性名称           | 类型`(默认值)`                                                              | 描述                                   |
-| ------------------ | --------------------------------------------------------------------------- | -------------------------------------- |
-| alignItems         | 'flex-start' \| 'center' \| 'flex-end' \| 'stretch' \| 'baseline'           | 定义一组子项在交叉轴上的对齐方式       |
-| childrenRenderMode | 'clone' \| 'wrap' `('clone')`                                               | 子项的渲染模式                         |
-| classPrefix        | string `('stack')`                                                          | 组件 CSS 类的前缀                      |
-| divider            | ReactNode                                                                   | 为每一个子项直接添加分隔符             |
-| justifyContent     | 'flex-start' \| 'center' \| 'flex-end' \| 'space-between' \| 'space-around' | 定义一组子项在主轴上的对齐方式         |
-| reverse            | boolean                                                                     | 反转一组子项在堆叠中的顺序             |
-| spacing            | number, string `(6)`                                                        | 为每一个子项直接设置间距               |
-| wrap               | boolean                                                                     | 定义一组子项是强制在一行上还是在多行上 |
+| 属性名称    | 类型`(默认值)`                               | 描述                                   |
+| ----------- | -------------------------------------------- | -------------------------------------- |
+| align       | CSSProperties['alignItems'] `('flex-start')` | 定义一组子项在交叉轴上的对齐方式       |
+| classPrefix | string `('stack')`                           | 组件 CSS 类的前缀                      |
+| divider     | ReactNode                                    | 为每一个子项直接添加分隔符             |
+| justify     | CSSProperties['justifyContent']              | 定义一组子项在主轴上的对齐方式         |
+| reverse     | boolean                                      | 反转一组子项在堆叠中的顺序             |
+| spacing     | number, string `(6)`                         | 为每一个子项直接设置间距               |
+| wrap        | boolean                                      | 定义一组子项是强制在一行上还是在多行上 |
 
 ### `<VStack>`
 
-| 属性名称           | 类型`(默认值)`                                                                     | 描述                                   |
-| ------------------ | ---------------------------------------------------------------------------------- | -------------------------------------- |
-| alignItems         | 'flex-start' \| 'center' \| 'flex-end' \| 'stretch' \| 'baseline' `('flex-start')` | 定义一组子项在交叉轴上的对齐方式       |
-| childrenRenderMode | 'clone' \| 'wrap' `('clone')`                                                      | 子项的渲染模式                         |
-| classPrefix        | string `('stack')`                                                                 | 组件 CSS 类的前缀                      |
-| divider            | ReactNode                                                                          | 为每一个子项直接添加分隔符             |
-| justifyContent     | 'flex-start' \| 'center' \| 'flex-end' \| 'space-between' \| 'space-around'        | 定义一组子项在主轴上的对齐方式         |
-| reverse            | boolean                                                                            | 反转一组子项在堆叠中的顺序             |
-| spacing            | number \| string `(6)`                                                             | 为每一个子项直接设置间距               |
-| wrap               | boolean                                                                            | 定义一组子项是强制在一行上还是在多行上 |
+| 属性名称    | 类型`(默认值)`                               | 描述                                   |
+| ----------- | -------------------------------------------- | -------------------------------------- |
+| align       | CSSProperties['alignItems'] `('flex-start')` | 定义一组子项在交叉轴上的对齐方式       |
+| classPrefix | string `('stack')`                           | 组件 CSS 类的前缀                      |
+| divider     | ReactNode                                    | 为每一个子项直接添加分隔符             |
+| justify     | CSSProperties['justifyContent']              | 定义一组子项在主轴上的对齐方式         |
+| reverse     | boolean                                      | 反转一组子项在堆叠中的顺序             |
+| spacing     | number \| string `(6)`                       | 为每一个子项直接设置间距               |
+| wrap        | boolean                                      | 定义一组子项是强制在一行上还是在多行上 |
 
 [5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

@@ -88,14 +88,7 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   const radioId = useUniqueId('radio-');
 
   return (
-    <Component
-      spacing={6}
-      {...restProps}
-      childrenRenderMode="clone"
-      ref={ref}
-      className={classes}
-      as="label"
-    >
+    <Component spacing={6} {...restProps} ref={ref} className={classes} as="label">
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
         <input

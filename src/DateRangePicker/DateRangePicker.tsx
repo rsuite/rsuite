@@ -934,7 +934,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
           style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
-            <Stack alignItems="flex-start">
+            <Stack align="flex-start">
               {sideRanges.length > 0 && (
                 <PredefinedRanges
                   direction="column"

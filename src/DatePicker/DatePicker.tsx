@@ -573,7 +573,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
         target={trigger}
         onKeyDown={handlePickerPopupKeyDown}
       >
-        <Stack alignItems="flex-start">
+        <Stack align="flex-start">
           {sideRanges.length > 0 && (
             <PredefinedRanges
               direction="column"
