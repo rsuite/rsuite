@@ -3,6 +3,7 @@ export * from './htmlPropsUtils';
 export * from './css';
 export * from './colours';
 export * from './sizes';
+export * from './styleProps';
 
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';

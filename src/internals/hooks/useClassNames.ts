@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { useCallback, useContext } from 'react';
-import { prefix as addPrefix } from '../utils/prefix';
-import { createStyleGetter } from '../utils/styleProps';
+import { getCssValue, createStyleGetter, prefix as addPrefix } from '@/internals/utils';
 import { CustomContext } from '../../CustomProvider/CustomProvider';
 
 export type ClassValue =
@@ -29,7 +28,7 @@ interface ClassNameUtils {
   rootPrefix: (...classes: ClassValue[]) => string;
   cssVar: (
     prop: string,
-    value?: string | number
+    value?: string | number | (string | number)[]
   ) =>
     | {
         [x: string]: string | number | undefined;
@@ -50,7 +49,7 @@ interface ClassNameUtils {
  */
 export function useClassNames(str: string): ClassNameUtils {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
-  const componentName = addPrefix(classPrefix, str);
+  const baseClass = addPrefix(classPrefix, str);
 
   /**
    * @example
@@ -63,12 +62,12 @@ export function useClassNames(str: string): ClassNameUtils {
       const mergeClasses = classes.length
         ? classNames(...classes)
             .split(' ')
-            .map(item => addPrefix(componentName, item))
+            .map(item => addPrefix(baseClass, item))
         : [];
 
       return mergeClasses.filter(cls => cls).join(' ');
     },
-    [componentName]
+    [baseClass]
   );
 
   /**
@@ -80,9 +79,9 @@ export function useClassNames(str: string): ClassNameUtils {
   const withClassPrefix = useCallback(
     (...classes: ClassValue[]) => {
       const mergeClasses = prefix(classes);
-      return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
+      return mergeClasses ? `${baseClass} ${mergeClasses}` : baseClass;
     },
-    [componentName, prefix]
+    [baseClass, prefix]
   );
 
   /**
@@ -101,9 +100,15 @@ export function useClassNames(str: string): ClassNameUtils {
   };
 
   const cssVar = useCallback(
-    (prop: string, value?: string | number) => {
+    (prop: string, value?: string | number | (string | number)[]) => {
       if (typeof value === 'undefined') {
         return;
+      }
+
+      // If value is an array, join it with spaces,
+      // .eg, gap=[10, 20] -> '10px 20px'
+      if (Array.isArray(value)) {
+        value = value.map(item => getCssValue(item)).join(' ');
       }
 
       return createStyleGetter({ prop })(value, str, prop);
