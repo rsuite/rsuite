@@ -1,9 +1,9 @@
 import { BREAKPOINTS } from '@/internals/constants';
 import type { ResponsiveValue } from '@/internals/types';
 
-export const getResponsiveClasses = (
+export const getResponsiveClasses = <T = string>(
   prefix: (...classes: any[]) => string,
-  value?: string | ResponsiveValue<string>
+  value?: T | ResponsiveValue<T>
 ) => {
   if (!value) {
     return [];

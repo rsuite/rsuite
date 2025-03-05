@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, ResponsiveValue } from '@/internals/types';
 
 interface DeprecatedStackProps {
   /**
    * Define the alignment of the children in the stack on the inline axis
    * @deprecated  Use `justify` instead
    */
-  justifyContent?: React.CSSProperties['justifyContent'];
+  justifyContent?: CSSProperties['justifyContent'];
   /**
    * Define the alignment of the children in the stack on the cross axis
    * @deprecated  Use `align` instead
    */
-  alignItems?: React.CSSProperties['alignItems'];
+  alignItems?: CSSProperties['alignItems'];
 }
 
 export interface StackProps extends WithAsProps, DeprecatedStackProps {
   /** Define the alignment of the children in the stack on the cross axis */
-  align?: React.CSSProperties['alignItems'];
+  align?: CSSProperties['alignItems'];
 
   /** The direction of the children in the stack */
-  direction?: React.CSSProperties['flexDirection'];
+  direction?: CSSProperties['flexDirection'] | ResponsiveValue<CSSProperties['flexDirection']>;
 
   /** Define the alignment of the children in the stack on the inline axis */
-  justify?: React.CSSProperties['justifyContent'];
+  justify?: CSSProperties['justifyContent'];
 
   /** Define the spacing between immediate children */
   spacing?: number | string | (number | string)[];

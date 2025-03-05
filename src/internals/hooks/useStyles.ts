@@ -26,7 +26,7 @@ interface ClassNameUtils {
   withPrefix: (...classes: ClassValue[]) => string;
   merge: (...classes: ClassValue[]) => string;
   prefix: (...classes: ClassValue[]) => string;
-  responsive: (value?: string | ResponsiveValue<string>) => string[];
+  responsive: <T = string>(value?: T | ResponsiveValue<T>) => string[];
   rootPrefix: (...classes: ClassValue[]) => string;
   cssVar: (
     prop: string,
@@ -118,7 +118,7 @@ export function useStyles(str: string): ClassNameUtils {
   );
 
   const responsive = useCallback(
-    (value?: string | ResponsiveValue<string>) => {
+    <T = string>(value?: T | ResponsiveValue<T>) => {
       if (!value) return [];
       return getResponsiveClasses(prefix, value);
     },

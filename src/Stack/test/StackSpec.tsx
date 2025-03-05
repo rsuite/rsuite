@@ -107,4 +107,30 @@ describe('Stack', () => {
     expect(screen.getByText('stack item').parentNode).to.equal(container.firstChild);
     expect(screen.getByText('stack item')).to.have.style('align-self', 'flex-end');
   });
+
+  it('Should render a stack with responsive direction', () => {
+    render(
+      <Stack
+        direction={{
+          xs: 'column',
+          sm: 'row',
+          md: 'column-reverse',
+          lg: 'row-reverse',
+          xl: 'row',
+          xxl: 'column'
+        }}
+      >
+        Stack
+      </Stack>
+    );
+
+    const stack = screen.getByText('Stack');
+
+    expect(stack).to.have.class('rs-stack-xs-column');
+    expect(stack).to.have.class('rs-stack-sm-row');
+    expect(stack).to.have.class('rs-stack-md-column-reverse');
+    expect(stack).to.have.class('rs-stack-lg-row-reverse');
+    expect(stack).to.have.class('rs-stack-xl-row');
+    expect(stack).to.have.class('rs-stack-xxl-column');
+  });
 });
