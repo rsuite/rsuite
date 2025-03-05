@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 interface ProgressBarProps extends WithAsProps {
@@ -28,7 +28,7 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
   const dirKey = rtl ? 'right' : 'left';
   const startKey = vertical ? 'bottom' : dirKey;
 
-  const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
+  const styles = mergeStyles(style, { [startKey]: `${start}%`, [sizeKey]: `${end - start}%` });
   const classes = merge(className, withPrefix());
 
   return (

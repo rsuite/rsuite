@@ -10,4 +10,10 @@ describe('AvatarGroup styles', () => {
 
     expect(screen.getByRole('group')).to.have.style('flex-wrap', 'wrap');
   });
+
+  it('Should set the spacing between the avatars', () => {
+    render(<AvatarGroup spacing={10} />);
+
+    expect(screen.getByRole('group')).to.have.style('gap', '10px');
+  });
 });

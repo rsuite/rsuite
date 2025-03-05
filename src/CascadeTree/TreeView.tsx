@@ -6,7 +6,7 @@ import scrollTop from 'dom-lib/scrollTop';
 import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
-import { forwardRef, shallowEqual, mergeRefs } from '@/internals/utils';
+import { forwardRef, shallowEqual, mergeRefs, mergeStyles } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
@@ -177,7 +177,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     );
   });
 
-  const styles = { ...style, width: data.length * columnWidth };
+  const styles = mergeStyles(style, { width: data.length * columnWidth });
 
   return (
     <Component

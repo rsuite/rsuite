@@ -2,7 +2,7 @@ import React from 'react';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
@@ -56,7 +56,7 @@ const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProp
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withPrefix } = useStyles(classPrefix);
+  const { merge, withPrefix, cssVar } = useStyles(classPrefix);
   const classes = merge(
     className,
     withPrefix(direction, size, {
@@ -65,10 +65,7 @@ const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProp
       ['shaded-hover']: shaded === 'hover'
     })
   );
-  const styles = {
-    ...style,
-    '--rs-card-width': typeof width === 'number' ? `${width}px` : width
-  };
+  const styles = mergeStyles(style, cssVar('width', width, getCssValue));
 
   return (
     <Component ref={ref} className={classes} style={styles} {...rest}>

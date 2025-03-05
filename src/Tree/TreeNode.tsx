@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import TreeNodeToggle from './TreeNodeToggle';
-import { forwardRef, mergeRefs, stringifyReactNode } from '@/internals/utils';
+import { forwardRef, mergeRefs, stringifyReactNode, mergeStyles } from '@/internals/utils';
 import { useFocusVirtualListItem, useStyles, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
@@ -195,7 +195,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
   const classes = merge(className, withPrefix({ disabled, active, 'text-muted': disabled, focus }));
 
   const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
-  const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
+  const styles = virtualized ? mergeStyles(style, indentTreeNode(rtl, layer - 1)) : style;
 
   return visible ? (
     <Component

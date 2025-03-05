@@ -1,5 +1,5 @@
 import React from 'react';
-import { forwardRef, getCssValue } from '@/internals/utils';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -29,13 +29,13 @@ const StatGroup = forwardRef<'div', StatGroupProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withPrefix } = useStyles(classPrefix);
+  const { merge, withPrefix, cssVar } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
-  const styles = {
-    '--rs-stat-group-columns': columns,
-    '--rs-stat-group-spacing': getCssValue(spacing),
-    ...style
-  } as React.CSSProperties;
+  const styles = mergeStyles(
+    style,
+    cssVar('columns', columns),
+    cssVar('spacing', spacing, getCssValue)
+  );
 
   return (
     <Component ref={ref} className={classes} style={styles} {...rest}>

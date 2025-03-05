@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { useCallback } from 'react';
 import getStyle from 'dom-lib/getStyle';
+import { useCallback } from 'react';
 import { useElementResize, useMount } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import { mergeRefs, mergeStyles } from '@/internals/utils';
 
 export interface Size {
   height: number;
@@ -113,7 +113,7 @@ const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) 
     <div
       className={className}
       ref={mergeRefs(rootRef, ref)}
-      style={{ ...outerStyle, ...style }}
+      style={mergeStyles(outerStyle, style)}
       {...rest}
     >
       {children(childParams)}

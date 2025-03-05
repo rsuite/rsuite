@@ -3,7 +3,7 @@ import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { useStyles, useEventCallback } from '@/internals/hooks';
-import { forwardRef, shallowEqual } from '@/internals/utils';
+import { forwardRef, shallowEqual, mergeStyles } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { useCustom } from '../CustomProvider';
@@ -182,7 +182,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
     );
   });
 
-  const styles = { ...style, width: cascadeData.length * columnWidth };
+  const styles = mergeStyles(style, { width: cascadeData.length * columnWidth });
 
   return (
     <Component

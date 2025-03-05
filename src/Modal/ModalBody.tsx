@@ -3,7 +3,7 @@ import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
 import { useStyles } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 export type ModalBodyProps = WithAsProps;
@@ -41,7 +41,7 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
   }
 
   return (
-    <Component {...rest} ref={ref} style={{ ...bodyStyles, ...style }} className={classes}>
+    <Component {...rest} ref={ref} style={mergeStyles(bodyStyles, style)} className={classes}>
       {buttonElement}
       {children}
     </Component>
