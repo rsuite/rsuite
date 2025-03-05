@@ -17,7 +17,7 @@ export default function Page() {
         TimePicker,
         Stack
       }}
-      sandboxDependencies={{ 'date-fns': '^2.13.0' }}
+      sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />
   );
 }

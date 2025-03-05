@@ -2,6 +2,7 @@ import React from 'react';
 import useCombobox from '../Picker/hooks/useCombobox';
 import ScrollView, { ScrollViewProps } from '../ScrollView';
 import { useTreeContextProps } from './TreeProvider';
+import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
@@ -10,13 +11,11 @@ interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement
   height?: number;
 }
 
-const ScrollShadowView = React.forwardRef(
-  (props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
-    return <ScrollView scrollShadow ref={ref} {...props} />;
-  }
-);
+const ScrollShadowView = forwardRef<'div', ScrollViewProps>((props, ref) => {
+  return <ScrollView scrollShadow ref={ref} {...props} />;
+});
 
-const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivElement>) => {
+const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   const {
     as = 'div',
     children,
@@ -49,5 +48,7 @@ const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivE
     </Component>
   );
 });
+
+TreeView.displayName = 'TreeView';
 
 export default TreeView;

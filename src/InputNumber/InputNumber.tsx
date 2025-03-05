@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import on from 'dom-lib/on';
 import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
@@ -10,18 +9,21 @@ import Input from '../Input';
 import Button from '../Button';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
-import { partitionHTMLProps, createChainedFunction } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, TypeAttributes, FormControlBaseProps } from '@/internals/types';
+import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type {
+  SanitizedInputProps,
+  FormControlBaseProps,
+  AppearanceType,
+  WithAsProps,
+  SizeType
+} from '@/internals/types';
 
 export interface InputNumberProps<T = number | string | null>
   extends Omit<
-      React.InputHTMLAttributes<HTMLInputElement>,
+      SanitizedInputProps,
       | 'value'
       | 'defaultValue'
-      | 'onChange'
-      | 'size'
       // RDFa attributes
       | 'prefix'
     >,
@@ -30,7 +32,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * Button can have different appearances
    */
-  buttonAppearance?: TypeAttributes.Appearance;
+  buttonAppearance?: AppearanceType;
 
   /**
    * An input can show that it is disabled
@@ -80,7 +82,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * An Input can have different sizes
    */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
 
   /**
    * Whether the value can be changed through the wheel event
@@ -147,7 +149,7 @@ function valueReachesMin(value: number | string | null | undefined, min: number)
  * The `InputNumber` component is used to enter a numerical value.
  * @see https://rsuitejs.com/components/input-number
  */
-const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
+const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputNumber', props);
   const {
     as: Component = InputGroup,
@@ -184,7 +186,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const classes = merge(className, withClassPrefix());
 
   const [htmlInputProps, rest] = partitionHTMLProps(restProps);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
   const getSafeValue = (value: number | string) => {
     if (!Number.isNaN(value)) {
@@ -279,7 +281,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const handleChange = useEventCallback(
     (value: any, event: React.ChangeEvent<HTMLInputElement>) => {
       const separator = decimalSeparator || '.';
-      const escapedSeparator = separator.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const escapedSeparator = separator.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 
       const regex = new RegExp(`^-?(?:\\d+)?(${escapedSeparator})?\\d*$`);
 
@@ -347,7 +349,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   const input = (
     <Input
-      {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
+      {...(htmlInputProps as SanitizedInputProps)}
       ref={plaintext ? (ref as any) : undefined}
       inputRef={inputRef}
       autoComplete="off"
@@ -380,6 +382,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handleStepUp}
           disabled={stepUpDisabled}
           aria-label="Increment"
+          size={size}
         >
           <ArrowUpLineIcon />
         </Button>
@@ -390,6 +393,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handleStepDown}
           disabled={stepDownDisabled}
           aria-label="Decrement"
+          size={size}
         >
           <ArrowDownLineIcon />
         </Button>
@@ -400,24 +404,5 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 });
 
 InputNumber.displayName = 'InputNumber';
-InputNumber.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  prefix: PropTypes.node,
-  postfix: PropTypes.node,
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  scrollable: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  buttonAppearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-  onWheel: PropTypes.func,
-  onChange: PropTypes.func
-};
 
 export default InputNumber;

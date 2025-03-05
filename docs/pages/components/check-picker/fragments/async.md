@@ -1,8 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker } from 'rsuite';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { CheckPicker, HStack, Loader } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
@@ -17,15 +16,15 @@ const App = () => {
       }
     }, 2000);
   };
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     if (items.length === 0) {
       return (
-        <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <SpinnerIcon spin /> loading...
-        </p>
+        <HStack justifyContent="center">
+          <Loader content="Loading..." />
+        </HStack>
       );
     }
-    return menu;
+    return listbox;
   };
 
   return (
@@ -34,7 +33,7 @@ const App = () => {
       onOpen={updateData}
       onSearch={updateData}
       style={{ width: 224 }}
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
     />
   );
 };

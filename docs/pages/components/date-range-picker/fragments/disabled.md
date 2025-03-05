@@ -2,7 +2,7 @@
 
 ```js
 import { DateRangePicker } from 'rsuite';
-import isAfter from 'date-fns/isAfter';
+import { isAfter } from 'date-fns/isAfter';
 
 const { allowedMaxDays, allowedDays, allowedRange, beforeToday, afterToday, combine } =
   DateRangePicker;

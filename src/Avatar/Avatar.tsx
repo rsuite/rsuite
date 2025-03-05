@@ -1,20 +1,17 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { isIE } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
+import { useClassNames } from '@/internals/hooks';
+import { WithAsProps, ColorType } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
+import { useCustom } from '../CustomProvider';
 
 export interface AvatarProps extends WithAsProps {
   /**
    * A avatar can have different sizes.
    *
    * @default 'md'
-   * @version xxl and xs added in v5.59.0
    */
   size?: Size;
 
@@ -60,7 +57,7 @@ export interface AvatarProps extends WithAsProps {
    * Sets the avatar background color.
    * @version 5.59.0
    */
-  color?: TypeAttributes.Color;
+  color?: ColorType;
 
   /**
    * Callback fired when the image failed to load.
@@ -73,73 +70,54 @@ export interface AvatarProps extends WithAsProps {
  * The Avatar component is used to represent user or brand.
  * @see https://rsuitejs.com/components/avatar
  */
-const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
-  (props: AvatarProps, ref) => {
-    const { size: groupSize, spacing } = useContext(AvatarGroupContext);
-    const { rtl, propsWithDefaults } = useCustom('Avatar', props);
-    const {
-      as: Component = 'div',
-      bordered,
-      alt,
-      className,
-      children,
-      circle,
-      color,
-      classPrefix = 'avatar',
-      size = groupSize,
-      src,
-      srcSet,
-      sizes,
-      style,
-      imgProps,
-      onError,
-      ...rest
-    } = propsWithDefaults;
+const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
+  const { size: groupSize } = useContext(AvatarGroupContext);
+  const { propsWithDefaults } = useCustom('Avatar', props);
+  const {
+    as: Component = 'div',
+    bordered,
+    alt,
+    className,
+    children,
+    circle,
+    color,
+    classPrefix = 'avatar',
+    size = groupSize || 'md',
+    src,
+    srcSet,
+    sizes,
+    imgProps,
+    onError,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size, color, { circle, bordered }));
-    const imageProps = { ...imgProps, alt, src, srcSet, sizes };
-    const { loaded } = useImage({ ...imageProps, onError });
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, color, { circle, bordered }));
+  const imageProps = { ...imgProps, alt, src, srcSet, sizes };
+  const { loaded } = useImage({ ...imageProps, onError });
 
-    const altComponent = useMemo(() => {
-      if (alt) {
-        return (
-          <span role="img" aria-label={alt}>
-            {alt}
-          </span>
-        );
-      }
+  const altComponent = useMemo(() => {
+    if (alt) {
+      return (
+        <span role="img" aria-label={alt}>
+          {alt}
+        </span>
+      );
+    }
 
-      return null;
-    }, [alt]);
+    return null;
+  }, [alt]);
 
-    const placeholder = children || altComponent || <AvatarIcon className={prefix`icon`} />;
-    const image = loaded ? <img {...imageProps} className={prefix`image`} /> : placeholder;
+  const placeholder = children || altComponent || <AvatarIcon className={prefix`icon`} />;
+  const image = loaded ? <img {...imageProps} className={prefix`image`} /> : placeholder;
 
-    const margin = rtl ? 'marginLeft' : 'marginRight';
-    const insertStyles = isIE() && spacing ? { [margin]: spacing, ...style } : style;
-
-    return (
-      <Component {...rest} ref={ref} className={classes} style={insertStyles}>
-        {src ? image : placeholder}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {src ? image : placeholder}
+    </Component>
+  );
+});
 
 Avatar.displayName = 'Avatar';
-Avatar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  size: oneOf(['xxl', 'xl', 'lg', 'md', 'sm', 'xs']),
-  src: PropTypes.string,
-  sizes: PropTypes.string,
-  srcSet: PropTypes.string,
-  imgProps: PropTypes.object,
-  circle: PropTypes.bool,
-  alt: PropTypes.string
-};
 
 export default Avatar;

@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Menu,
   Dropdown,
   Button,
   ButtonToolbar,
@@ -14,7 +17,7 @@ import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PageIcon from '@rsuite/icons/Page';
-import FolderFillIcon from '@rsuite/icons/FolderFill';
+import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
@@ -32,10 +35,11 @@ export default function Page() {
         ArrowDownIcon,
         PlusIcon,
         PageIcon,
-        FolderFillIcon,
+        IdInfoIcon,
         DetailIcon,
         FileDownloadIcon,
         Dropdown,
+        Menu,
         Button,
         ButtonToolbar,
         IconButton,

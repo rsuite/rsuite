@@ -2,12 +2,10 @@
 
 ```js
 import { Nav } from 'rsuite';
-
 import FacebookSquareIcon from '@rsuite/icons/legacy/FacebookSquare';
 import GithubAltIcon from '@rsuite/icons/legacy/GithubAlt';
 import CircleIcon from '@rsuite/icons/legacy/Circle';
 import ChromeIcon from '@rsuite/icons/legacy/Chrome';
-import EllipsisHIcon from '@rsuite/icons/legacy/EllipsisH';
 import DropboxIcon from '@rsuite/icons/legacy/Dropbox';
 import FirefoxIcon from '@rsuite/icons/legacy/Firefox';
 import GitlabIcon from '@rsuite/icons/legacy/Gitlab';
@@ -19,7 +17,7 @@ const App = () => (
     <Nav.Item icon={<GithubAltIcon />}>github</Nav.Item>
     <Nav.Item icon={<CircleIcon />}>amazon</Nav.Item>
     <Nav.Item icon={<ChromeIcon />}>chrome</Nav.Item>
-    <Nav.Menu icon={<EllipsisHIcon />} title="more...">
+    <Nav.Menu title="more">
       <Nav.Item icon={<DropboxIcon />}>dropbox</Nav.Item>
       <Nav.Item icon={<FirefoxIcon />}>firefox</Nav.Item>
       <Nav.Item icon={<GitlabIcon />}>gitlab</Nav.Item>

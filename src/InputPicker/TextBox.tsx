@@ -1,7 +1,7 @@
 import React from 'react';
 import TagList from './TagList';
-import { useClassNames } from '@/internals/hooks';
 import InputSearch, { InputSearchProps } from './InputSearch';
+import { useClassNames } from '@/internals/hooks';
 
 interface TextBoxProps {
   tags?: React.ReactNode;
@@ -41,23 +41,33 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     return null;
   }
 
+  const input = editable ? (
+    <InputSearch
+      {...inputProps}
+      tabIndex={-1}
+      readOnly={readOnly}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      inputRef={inputRef}
+      onChange={onChange}
+      value={inputValue}
+    />
+  ) : null;
+
   return (
     <div className={prefix`textbox`} ref={ref} {...rest}>
-      {showTagList ? <TagList>{tags}</TagList> : null}
-      {editable && (
-        <InputSearch
-          {...inputProps}
-          tabIndex={-1}
-          readOnly={readOnly}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          inputRef={inputRef}
-          onChange={onChange}
-          value={inputValue}
-        />
+      {showTagList ? (
+        <TagList>
+          {tags}
+          {input}
+        </TagList>
+      ) : (
+        input
       )}
     </div>
   );
 });
+
+TextBox.displayName = 'TextBox';
 
 export default TextBox;

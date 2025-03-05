@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form } from 'rsuite';
+import { Form, HStack } from 'rsuite';
 
 const App = () => (
   <Form>
@@ -11,8 +11,10 @@ const App = () => (
     </Form.Group>
 
     <Form.Group controlId="name-5">
-      <Form.Control name="name" placeholder="Name" />
-      <Form.HelpText tooltip>This field is required</Form.HelpText>
+      <HStack>
+        <Form.Control name="name" placeholder="Name" />
+        <Form.HelpText tooltip>This field is required</Form.HelpText>
+      </HStack>
     </Form.Group>
   </Form>
 );

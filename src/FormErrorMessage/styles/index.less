@@ -2,16 +2,19 @@
 @import 'animation';
 
 .rs-form-error-message {
+  --rs-form-errormessage-font-size: var(--rs-font-size-xs);
+  --rs-form-errormessage-line-height: 1.25rem;
+
   position: absolute;
   padding: 3px 7px;
   background-color: var(--rs-form-errormessage-bg);
   border: 1px solid var(--rs-form-errormessage-border);
-  border-radius: @border-radius;
+  border-radius: var(--rs-font-size-md);
   filter: ~'drop-shadow(0 0 6px rgba(0,0,0,.1))';
   z-index: @zindex-form-error-message;
   color: var(--rs-form-errormessage-text);
-  font-size: @form-error-message-font-size;
-  line-height: 20px;
+  font-size: var(--rs-form-errormessage-font-size);
+  line-height: var(--rs-form-errormessage-line-height);
   display: none;
   white-space: nowrap;
 
@@ -94,32 +97,32 @@
 
   &-placement-bottom-start,
   &-placement-top-start {
-    left: 0;
+    inset-inline-start: 0;
 
     .rs-form-error-message {
-      left: 0;
+      inset-inline-start: 0;
     }
 
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        left: @form-error-message-triangle-gap;
+        inset-inline-start: @form-error-message-triangle-gap;
       }
     }
   }
 
   &-placement-bottom-end,
   &-placement-top-end {
-    right: 0;
+    inset-inline-end: 0;
 
     .rs-form-error-message {
-      right: 0;
+      inset-inline-end: 0;
     }
 
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        right: @form-error-message-triangle-gap;
+        inset-inline-end: @form-error-message-triangle-gap;
       }
     }
   }
@@ -132,10 +135,10 @@
 .rs-form-error-message {
   &-placement-left-start,
   &-placement-left-end {
-    left: 0;
+    inset-inline-start: 0;
 
     .rs-form-error-message {
-      right: 0;
+      inset-inline-end: 0;
 
       &-show {
         animation-name: errorMessageSlideRightIn;
@@ -148,11 +151,11 @@
         border-width: @form-error-message-triangle-width 0 @form-error-message-triangle-width
           @form-error-message-triangle-width;
         border-left-color: var(--rs-form-errormessage-border);
-        right: -1 * @form-error-message-triangle-width;
+        inset-inline-end: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
-        right: -1 * (@form-error-message-triangle-width - 1);
+        inset-inline-end: -1 * (@form-error-message-triangle-width - 1);
         border-left-color: var(--rs-form-errormessage-bg);
       }
     }
@@ -160,10 +163,10 @@
 
   &-placement-right-start,
   &-placement-right-end {
-    right: 0;
+    inset-inline-end: 0;
 
     .rs-form-error-message {
-      left: 0;
+      inset-inline-start: 0;
 
       &-show {
         animation-name: errorMessageSlideLeftIn;
@@ -176,11 +179,11 @@
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width
           @form-error-message-triangle-width 0;
         border-right-color: var(--rs-form-errormessage-border);
-        left: -1 * @form-error-message-triangle-width;
+        inset-inline-start: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
-        left: -1 * (@form-error-message-triangle-width - 1);
+        inset-inline-start: -1 * (@form-error-message-triangle-width - 1);
         border-right-color: var(--rs-form-errormessage-bg);
       }
     }

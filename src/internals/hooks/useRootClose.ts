@@ -13,7 +13,7 @@ function isModifiedEvent(event: React.MouseEvent) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event?.shiftKey);
 }
 
-type TargetType = React.RefObject<Element> | Element | null | undefined;
+type TargetType = React.RefObject<Element | null> | Element | null | undefined;
 
 interface Options {
   disabled: boolean;

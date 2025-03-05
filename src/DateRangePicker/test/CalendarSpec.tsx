@@ -28,46 +28,46 @@ describe('DateRangePicker - Calendar', () => {
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonthSpy = sinon.spy();
+    const onChangeCalendarMonth = sinon.spy();
     render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
-        onChangeCalendarMonth={onChangeCalendarMonthSpy}
+        onChangeCalendarMonth={onChangeCalendarMonth}
       />
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
-    expect(onChangeCalendarMonthSpy).to.have.been.called;
+    expect(onChangeCalendarMonth).to.have.been.called;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonthSpy = sinon.spy();
+    const onChangeCalendarMonth = sinon.spy();
     render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
-        onChangeCalendarMonth={onChangeCalendarMonthSpy}
+        onChangeCalendarMonth={onChangeCalendarMonth}
       />
     );
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
-    expect(onChangeCalendarMonthSpy).to.have.been.called;
+    expect(onChangeCalendarMonth).to.have.been.called;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonthSpy = sinon.spy();
+    const onChangeCalendarMonth = sinon.spy();
     const { container } = render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
-        onChangeCalendarMonth={onChangeCalendarMonthSpy}
+        onChangeCalendarMonth={onChangeCalendarMonth}
       />
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     fireEvent.click(container.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
-    expect(onChangeCalendarMonthSpy).to.have.been.called;
+    expect(onChangeCalendarMonth).to.have.been.called;
   });
 });

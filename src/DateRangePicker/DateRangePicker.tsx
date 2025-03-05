@@ -2,28 +2,26 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import PropTypes from 'prop-types';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
-import { DateRangePickerProvider } from './DateRangePickerProvider';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 import Calendar from './Calendar';
+import * as StaticMethods from './disabledDateUtils';
+import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
 import {
   omitTriggerPropKeys,
-  PickerComponent,
   PickerPopup,
-  pickerPropTypes,
   PickerToggleTrigger,
   PickerIndicator,
   PickerLabel,
@@ -34,6 +32,7 @@ import {
   onMenuKeyDown
 } from '@/internals/Picker';
 import {
+  forwardRef,
   createChainedFunction,
   mergeRefs,
   partitionHTMLProps,
@@ -55,8 +54,8 @@ import {
   DateMode,
   useDateMode
 } from '@/internals/utils/date';
-import { useCustom } from '../CustomProvider';
-import type { DisabledDateFunction, RangeType, DateRange, SelectedDatesState } from './types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { DisabledDateFunction, DateRange, SelectedDatesState } from './types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DateRangePickerLocale } from '../locales';
 import type { MonthDropdownProps } from '../Calendar/types';
@@ -72,7 +71,7 @@ export interface DateRangePickerProps
   /**
    * Predefined date ranges
    */
-  ranges?: RangeType[];
+  ranges?: DateOptionPreset<DateRange | null>[];
 
   /**
    * Format of the date displayed in the input box
@@ -236,7 +235,7 @@ export interface DateRangePickerProps
   /**
    * Called after clicking the shortcut button
    */
-  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+  onShortcutClick?: (range: DateOptionPreset<DateRange>, event: React.MouseEvent) => void;
 
   /**
    * Called when the value is cleared
@@ -261,39 +260,13 @@ export interface DateRangePickerProps
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-export interface DateRangePickerComponent extends PickerComponent<DateRangePickerProps> {
-  /** Allow the maximum number of days specified, other dates are disabled */
-  allowedMaxDays: (days: number) => DisabledDateFunction;
-
-  /** Only allowed days are specified, other dates are disabled */
-  allowedDays: (days: number) => DisabledDateFunction;
-
-  /** Allow specified date range, other dates are disabled */
-  allowedRange: (startDate: string | Date, endDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates after the specified date */
-  before: (beforeDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates before the specified date */
-  after: (afterDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates after today. */
-  beforeToday: () => DisabledDateFunction;
-
-  /** Disable dates before today */
-  afterToday: () => DisabledDateFunction;
-
-  /** Used to combine multiple conditions */
-  combine: (...args: any) => DisabledDateFunction;
-}
-
 /**
  * A date range picker allows you to select a date range from a calendar.
  *
  * @see https://rsuitejs.com/components/date-range-picker
  */
-const DateRangePicker: DateRangePickerComponent = React.forwardRef(
-  (props: DateRangePickerProps, ref) => {
+const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMethods>(
+  (props, ref) => {
     const { formatDate, propsWithDefaults } = useCustom('DateRangePicker', props);
     const {
       as: Component = 'div',
@@ -308,7 +281,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       defaultValue,
       plaintext,
       disabled,
-      disabledDate: DEPRECATED_disabledDate,
       shouldDisableDate,
       shouldDisableHour,
       shouldDisableMinute,
@@ -323,8 +295,8 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       locale,
       loading,
       label,
-      menuClassName,
-      menuStyle,
+      popupClassName,
+      popupStyle,
       oneTap,
       placeholder = '',
       placement = 'bottomStart',
@@ -332,8 +304,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       readOnly,
       showOneCalendar = false,
       showWeekNumbers,
-      showMeridian: DEPRECATED_showMeridian,
-      showMeridiem = DEPRECATED_showMeridian,
+      showMeridiem,
       showHeader = true,
       style,
       size,
@@ -489,10 +460,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       if (value) {
         const [startDate, endDate] = value;
 
-        strings = `${formatDate(startDate, formatStr)}${character}${formatDate(
-          endDate,
-          formatStr
-        )}`;
+        strings = `${formatDate(startDate, formatStr)}${character}${formatDate(endDate, formatStr)}`;
       }
 
       return getStringLength(strings) + padding;
@@ -737,7 +705,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
      * Toolbar operation callback function
      */
     const handleShortcutPageDate = useEventCallback(
-      (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
+      (range: DateOptionPreset<DateRange>, closeOverlay = false, event: React.MouseEvent) => {
         const value = range.value as DateRange;
 
         setCalendarDateRange({ dateRange: value, eventName: 'shortcutSelection' });
@@ -799,7 +767,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     /**
      * Check if the date is disabled
      */
-    const isDateDisabled = useDateDisabled({ shouldDisableDate, DEPRECATED_disabledDate });
+    const isDateDisabled = useDateDisabled({ shouldDisableDate });
 
     /**
      * Check if a date range is disabled
@@ -894,8 +862,8 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       : undefined;
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('popup-daterange'));
+      const { className } = positionProps;
+      const classes = merge(className, popupClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
         'daterange-panel-show-one-calendar': showOneCalendar,
         'daterange-panel-only-time': onlyShowTime
@@ -908,7 +876,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       const panelStyles: React.CSSProperties = {
         minWidth: showOneCalendar || onlyShowTime ? 'auto' : 528
       };
-      const styles = { ...menuStyle, left, top };
 
       const calendarProps = {
         locale,
@@ -964,7 +931,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
           className={classes}
           ref={mergeRefs(overlay, speakerRef)}
           target={trigger}
-          style={styles}
+          style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
             <Stack alignItems="flex-start">
@@ -1138,6 +1105,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
                 onKeyDown={handleInputKeyDown}
               />
               <PickerIndicator
+                size={size}
                 loading={loading}
                 caretAs={caretAs}
                 onClose={handleClean}
@@ -1148,34 +1116,10 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         </Component>
       </PickerToggleTrigger>
     );
-  }
-) as unknown as DateRangePickerComponent;
+  },
+  StaticMethods
+);
 
 DateRangePicker.displayName = 'DateRangePicker';
-DateRangePicker.propTypes = {
-  ...pickerPropTypes,
-  ranges: PropTypes.array,
-  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  oneTap: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  onChange: PropTypes.func,
-  onOk: PropTypes.func,
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
-  shouldDisableDate: PropTypes.func,
-  onSelect: PropTypes.func,
-  showWeekNumbers: PropTypes.bool,
-  showMeridiem: PropTypes.bool,
-  showOneCalendar: PropTypes.bool
-};
 
 export default DateRangePicker;

@@ -439,20 +439,20 @@ describe('Cascader', () => {
 
   it('Should item able to stringfy', () => {
     const onSelect = sinon.spy();
-    const renderMenuItem = sinon.spy();
+    const renderTreeNode = sinon.spy();
 
     render(
-      <Cascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
+      <Cascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
     const checkbox = screen.getAllByRole('treeitem')[2];
 
     fireEvent.click(checkbox);
 
     expect(onSelect).to.called;
-    expect(renderMenuItem).to.called;
+    expect(renderTreeNode).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
     expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
   });
 
   it("Should custom render the tree's node", () => {
@@ -473,24 +473,6 @@ describe('Cascader', () => {
         defaultOpen
         data={items}
         renderColumn={(_childNodes, { items }) => (
-          <div data-testid="custom-column">
-            {items.map((item, index) => (
-              <i key={index}>{item.label}</i>
-            ))}
-          </div>
-        )}
-      />
-    );
-
-    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
-  });
-
-  it('[Deprecated renderMenu] Should custom render the column', () => {
-    render(
-      <Cascader
-        defaultOpen
-        data={items}
-        renderMenu={items => (
           <div data-testid="custom-column">
             {items.map((item, index) => (
               <i key={index}>{item.label}</i>
@@ -542,18 +524,6 @@ describe('Cascader', () => {
     expect(screen.getByRole('group')).to.have.style('height', '100px');
   });
 
-  it('[Deprecated menuWidth] Should custom column width', () => {
-    render(<Cascader data={items} menuWidth={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('width', '100px');
-  });
-
-  it('[Deprecated menuHeight] Should custom column height', () => {
-    render(<Cascader data={items} menuHeight={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('height', '100px');
-  });
-
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
       const onOpen = sinon.spy();
@@ -600,7 +570,7 @@ describe('Cascader', () => {
 
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
-      render(<Cascader defaultOpen data={items} menuHeight={72} />);
+      render(<Cascader defaultOpen data={items} columnHeight={72} />);
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
@@ -622,7 +592,7 @@ describe('Cascader', () => {
 
       let focusItems = screen
         .getByRole('tree')
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
@@ -630,7 +600,6 @@ describe('Cascader', () => {
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowRight' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(2);
@@ -639,7 +608,6 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowLeft' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);

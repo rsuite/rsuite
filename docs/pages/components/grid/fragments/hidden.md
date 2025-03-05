@@ -2,15 +2,18 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xsHidden xs={12}>
-        xsHidden xs={12}
+    <Row>
+      <Col span={{ md: 12 }} hidden={{ xs: true }}>
+        <DecorativeBox>hidden={`{ xs: true }`}</DecorativeBox>
       </Col>
-      <Col xs={12} xs={12}>
-        xs={12} xs={12}
+      <Col span={{ xs: 24, md: 12 }}>
+        <DecorativeBox>
+          span={`{ xs: 24, md: 12 }`}
+        </DecorativeBox>
       </Col>
     </Row>
   </Grid>

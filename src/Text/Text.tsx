@@ -1,22 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import { WithAsProps, Color, TextSize } from '@/internals/types';
 
-const fontSizeMap = { sm: 12, md: 14, lg: 16, xl: 18, xxl: 20 };
+const fontSizes = Object.values(TextSize);
 
 export interface TextProps extends WithAsProps {
   /**
    * The font color of the text.
+   * Accepts preset colors or CSS color values
    */
-  color?: TypeAttributes.Color;
+  color?: Color | React.CSSProperties['color'];
 
   /**
    * The font size of the text.
    */
-  size?: keyof typeof fontSizeMap | number | string;
+  size?: TextSize | number | string;
 
   /**
    * To set the text to be muted.
@@ -51,7 +51,7 @@ export interface TextProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/text
  */
-const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: TextProps, ref) => {
+const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   const { propsWithDefaults } = useCustom('Text', props);
   const {
     as: Component = 'p',
@@ -69,31 +69,34 @@ const Text: RsRefForwardingComponent<'p', TextProps> = React.forwardRef((props: 
   } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const hasSize = size && fontSizes.includes(size as TextSize);
   const classes = merge(
     className,
-    withClassPrefix(color, align, weight, transform, { muted, ellipsis: maxLines })
+    withClassPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {
+      muted,
+      ellipsis: maxLines
+    })
   );
 
-  const styles = {
-    fontSize: fontSizeMap[size as keyof typeof fontSizeMap] || size,
-    ...(maxLines ? { WebkitLineClamp: maxLines } : null),
-    ...style
-  };
+  const styles = useMemo(() => {
+    const textStyles = mergeStyles(
+      {
+        ...(maxLines ? { WebkitLineClamp: maxLines } : null)
+      },
+      createColorVariables(color, '--rs-text-color'),
+      style
+    );
+
+    if (size && !hasSize) {
+      textStyles.fontSize = size;
+    }
+
+    return textStyles;
+  }, [style, color, size, maxLines]);
 
   return <Component {...rest} ref={ref} className={classes} style={styles} />;
 });
 
 Text.displayName = 'Text';
-Text.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType,
-  size: PropTypes.oneOfType([PropTypes.number, oneOf(['sm', 'md', 'lg', 'xl', 'xxl'])]),
-  muted: PropTypes.bool,
-  transform: oneOf(['uppercase', 'lowercase', 'capitalize']),
-  align: oneOf(['left', 'center', 'right', 'justify']),
-  weight: oneOf(['thin', 'light', 'regular', 'medium', 'semibold', 'bold', 'extrabold']),
-  maxLines: PropTypes.number
-};
 
 export default Text;

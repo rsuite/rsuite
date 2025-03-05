@@ -2,7 +2,7 @@
 
 | 属性名称        | 类型 `(默认值)`                                        | 描述                                                                      |
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| container       | HTMLElement &#124; (() => HTMLElement)                 | 设置渲染的容器                                                            |
+| container       | HTMLElement \| (() => HTMLElement)                     | 设置渲染的容器                                                            |
 | controlId       | string                                                 | 设置 `id` 到 `<Overlay>`上，并且设置 `aria-describedby` 到 `<Whisper>` 上 |
 | defaultOpen     | boolean                                                | 默认是否显示                                                              |
 | delay           | number                                                 | 延迟时间 (ms)                                                             |
@@ -24,7 +24,7 @@
 | open            | boolean                                                | 手动控制是否显示                                                          |
 | placement       | [Placement](#code-ts-placement-code) `('right')`       | 显示位置                                                                  |
 | preventOverflow | boolean                                                | 防止浮动元素溢出                                                          |
-| speaker \*      | Tooltip &#124; Popover &#124; ReactElement             | 展示的元素                                                                |
+| speaker \*      | Tooltip \| Popover \| ReactElement                     | 展示的元素                                                                |
 | trigger         | [Trigger](#code-ts-trigger-code) `(['hover','focus'])` | 触发事件,可以通过数组配置多事件                                           |
 
 ### Whisper methods

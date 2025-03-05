@@ -76,13 +76,6 @@
   --rs-text-disabled: var(--rs-gray-600);
   --rs-text-error: var(--rs-color-red);
   --rs-text-highlight-bg: #fff6c9;
-  --rs-text-weight-thin: 100;
-  --rs-text-weight-light: 300;
-  --rs-text-weight-regular: 400;
-  --rs-text-weight-medium: 500;
-  --rs-text-weight-semibold: 600;
-  --rs-text-weight-bold: 700;
-  --rs-text-weight-extrabold: 800;
   --rs-border-primary: var(--rs-gray-200);
   --rs-border-secondary: var(--rs-gray-100);
   --rs-bg-card: var(--rs-gray-0);
@@ -95,7 +88,11 @@
   --rs-state-focus-shadow: 0 0 0 3px rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-focus-outline: 3px solid rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-error-outline: 3px solid rgb(from var(--rs-color-red) r g b / 25%);
-  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Kbd
+  --rs-kbd-bg: var(--rs-gray-50);
+  --rs-kbd-text: var(--rs-gray-800);
+  --rs-kbd-border: var(--rs-gray-200);
 
   // Scrollbar
   --rs-scrollbar-bg: transparent;
@@ -105,6 +102,7 @@
   // Button
   --rs-btn-default-bg: var(--rs-gray-50);
   --rs-btn-default-text: var(--rs-gray-800);
+  --rs-btn-default-border-color: var(--rs-gray-200);
   --rs-btn-default-hover-bg: var(--rs-gray-200);
   --rs-btn-default-active-bg: var(--rs-gray-300);
   --rs-btn-default-active-text: var(--rs-gray-900);
@@ -112,6 +110,7 @@
   --rs-btn-default-disabled-text: var(--rs-gray-600);
   --rs-btn-primary-bg: var(--rs-primary-500);
   --rs-btn-primary-text: var(--rs-gray-0);
+  --rs-btn-primary-border-color: var(--rs-primary-600);
   --rs-btn-primary-hover-bg: var(--rs-primary-600);
   --rs-btn-primary-active-bg: var(--rs-primary-700);
   --rs-btn-subtle-text: var(--rs-gray-800);
@@ -193,15 +192,12 @@
   --rs-breadcrumb-item-active-text: var(--rs-gray-900);
 
   // Dropdown
-  --rs-dropdown-divider: var(--rs-gray-200);
-  --rs-dropdown-item-bg-hover: rgb(from var(--rs-primary-100) r g b / 50%);
-  --rs-dropdown-item-bg-active: var(--rs-primary-50);
-  --rs-dropdown-item-text-active: var(--rs-primary-700);
+  --rs-menuitem-bg-active: var(--rs-primary-50);
   --rs-dropdown-header-text: var(--rs-gray-500);
-  --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
   // ARIA menu
-  --rs-menuitem-active-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-menuitem-text-active: var(--rs-primary-700);
+  --rs-menuitem-active-bg: var(--rs-gray-100);
   --rs-menuitem-active-text: var(--rs-primary-700);
 
   // Steps
@@ -231,7 +227,6 @@
   --rs-navs-pills-item-active-bg: var(--rs-gray-0);
   --rs-navs-pills-item-active-color: var(--rs-gray-900);
   --rs-navs-pills-item-disabled-color: var(--rs-gray-400);
-  --rs-navs-pills-item-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 
   // Navbar
   --rs-navbar-default-bg: var(--rs-gray-50);
@@ -254,20 +249,25 @@
   --rs-sidenav-default-bg: var(--rs-gray-50);
   --rs-sidenav-default-text: var(--rs-gray-800);
   --rs-sidenav-default-selected-text: var(--rs-primary-700);
+  --rs-sidenav-default-selected-bg: var(--rs-gray-200);
   --rs-sidenav-default-hover-bg: var(--rs-gray-200);
-  --rs-sidenav-default-hover-text: var(--rs-gray-800);
+  --rs-sidenav-default-hover-text: var(--rs-gray-900);
   --rs-sidenav-default-footer-border: var(--rs-gray-200);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-200);
   --rs-sidenav-inverse-bg: var(--rs-primary-500);
   --rs-sidenav-inverse-text: #fff;
   --rs-sidenav-inverse-selected-bg: var(--rs-primary-700);
   --rs-sidenav-inverse-hover-bg: var(--rs-primary-600);
   --rs-sidenav-inverse-footer-border: var(--rs-primary-600);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-primary-600);
   --rs-sidenav-subtle-bg: #fff;
   --rs-sidenav-subtle-text: var(--rs-gray-800);
   --rs-sidenav-subtle-selected-text: var(--rs-primary-700);
+  --rs-sidenav-subtle-selected-bg: var(--rs-gray-50);
   --rs-sidenav-subtle-hover-bg: var(--rs-gray-50);
   --rs-sidenav-subtle-hover-text: var(--rs-gray-800);
   --rs-sidenav-subtle-footer-border: var(--rs-gray-200);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-200);
 
   // Input
   --rs-input-bg: var(--rs-gray-0);
@@ -349,6 +349,7 @@
   // Badge
   --rs-badge-bg: var(--rs-color-red);
   --rs-badge-text: var(--rs-gray-0);
+  --rs-badge-border: var(--rs-gray-0);
 
   // Close Button
   --rs-close-button-hover-color: var(--rs-color-red);
@@ -364,9 +365,6 @@
   --rs-carousel-indicator: rgb(from var(--rs-gray-0) r g b / 40%);
   --rs-carousel-indicator-hover: var(--rs-gray-0);
   --rs-carousel-indicator-active: var(--rs-primary-500);
-
-  // Panel
-  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // List
   --rs-list-bg: var(--rs-gray-0);
@@ -388,12 +386,6 @@
   --rs-table-scrollbar-thumb: var(--rs-gray-800);
   --rs-table-scrollbar-thumb-active: var(--rs-gray-900);
   --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-200) r g b / 40%);
-
-  // Drawer
-  --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
-
-  // Modal
-  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Form
   --rs-form-errormessage-text: var(--rs-color-red);
@@ -447,12 +439,6 @@
     --rs-message-info-bg: fade(@blue-100, 60%);
     --rs-message-warning-bg: fade(@yellow-100, 60%);
     --rs-message-error-bg: fade(@red-100, 60%);
-
-    // Dropdown
-    --rs-dropdown-item-bg-hover: fade(@H100, 50%);
-
-    // ARIA menu
-    --rs-menuitem-active-bg: fade(@H100, 50);
 
     // ARIA Listboxes
     --rs-listbox-option-hover-bg: fade(@H100, 50%);

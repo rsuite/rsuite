@@ -1,8 +1,8 @@
 import React from 'react';
 import { useClassNames } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useScrollState } from './hooks/useScrollState';
+import type { WithAsProps } from '@/internals/types';
 
 export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -32,7 +32,7 @@ export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLD
   'data-testid'?: string;
 }
 
-const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
+const ScrollView = forwardRef<'div', ScrollViewProps>((props, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'scroll-view',

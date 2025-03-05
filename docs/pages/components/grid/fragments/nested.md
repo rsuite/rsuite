@@ -2,38 +2,55 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xs={12}>
-        <Row className="show-grid">
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+    <Row>
+      <Col span={12}>
+        <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>
       </Col>
-      <Col xs={12}>
-        <Row className="show-grid">
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+      <Col span={12}>
+        <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>

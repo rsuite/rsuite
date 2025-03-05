@@ -45,9 +45,9 @@ describe('<Disclosure>', () => {
   });
 
   it('Should be possible to control Disclosure with `open` and `onToggle`', () => {
-    const onToggleSpy = sinon.spy();
+    const onToggle = sinon.spy();
     const { rerender } = render(
-      <Disclosure open onToggle={onToggleSpy}>
+      <Disclosure open onToggle={onToggle}>
         {() => (
           <>
             <Disclosure.Button>
@@ -76,10 +76,10 @@ describe('<Disclosure>', () => {
 
     fireEvent.click(button);
 
-    expect(onToggleSpy).to.have.been.calledWith(false);
+    expect(onToggle).to.have.been.calledWith(false);
 
     rerender(
-      <Disclosure open={false} onToggle={onToggleSpy}>
+      <Disclosure open={false} onToggle={onToggle}>
         {() => (
           <>
             <Disclosure.Button>
@@ -105,7 +105,7 @@ describe('<Disclosure>', () => {
 
     fireEvent.click(button);
 
-    expect(onToggleSpy).to.have.been.calledWith(true);
+    expect(onToggle).to.have.been.calledWith(true);
   });
 
   it('Should be toggled by mouseEnter/mouseLeave given `trigger=[hover]`', () => {

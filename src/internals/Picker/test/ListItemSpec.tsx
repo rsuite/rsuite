@@ -1,7 +1,7 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import ListItem from '../ListItem';
-import Sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('picker - ListItem', () => {
   it('Should output a item', () => {
@@ -29,7 +29,7 @@ describe('picker - ListItem', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(<ListItem title="title" onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('option'));
@@ -38,7 +38,7 @@ describe('picker - ListItem', () => {
   });
 
   it('Should call onKeyDown callback', () => {
-    const onKeyDown = Sinon.spy();
+    const onKeyDown = sinon.spy();
     render(<ListItem title="title" onKeyDown={onKeyDown} />);
 
     fireEvent.keyDown(screen.getByRole('option'));

@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Calendar from '../Calendar';
@@ -16,7 +15,7 @@ describe('Calendar styles', () => {
       .getByTestId('calendar')
       ?.querySelector('.rs-calendar-header-month-toolbar');
 
-    expect(toolbar).to.have.style('float', 'left');
+    expect(toolbar).to.have.style('float', 'inline-start');
     expect(toolbar).to.have.style('display', 'block');
     expect(toolbar).to.have.style('text-align', 'center');
   });

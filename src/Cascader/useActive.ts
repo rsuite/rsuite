@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 
 interface UseActiveProps {
-  target: React.RefObject<HTMLElement>;
+  target: React.RefObject<HTMLElement | null>;
   onOpen?: () => void;
   onClose?: () => void;
   onEntered?: (node: HTMLElement) => void;

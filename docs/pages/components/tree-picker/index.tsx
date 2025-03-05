@@ -1,13 +1,11 @@
 import React from 'react';
-import { TreePicker, Button, VStack, HStack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-
+import { TreePicker, Button, VStack, HStack, Loader } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -39,11 +37,11 @@ export default function Page() {
         Button,
         VStack,
         HStack,
-        SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
         FolderFillIcon,
         PageIcon,
+        Loader,
         mockTreeData,
         mockAsyncData
       }}

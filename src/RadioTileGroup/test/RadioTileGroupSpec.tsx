@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import RadioTileGroup from '../RadioTileGroup';
 import RadioTile from '../../RadioTile';
-import Sinon from 'sinon';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('RadioTileGroup', () => {
   testStandardProps(<RadioTileGroup />);
@@ -78,8 +78,8 @@ describe('RadioTileGroup', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = Sinon.spy();
-    const onGroupChange = Sinon.spy();
+    const onChange = sinon.spy();
+    const onGroupChange = sinon.spy();
 
     render(
       <RadioTileGroup onChange={onGroupChange}>
@@ -99,8 +99,8 @@ describe('RadioTileGroup', () => {
   });
 
   it('Should return undefined when no value is set', () => {
-    const onChange = Sinon.spy();
-    const onGroupChange = Sinon.spy();
+    const onChange = sinon.spy();
+    const onGroupChange = sinon.spy();
 
     render(
       <RadioTileGroup onChange={onGroupChange}>

@@ -1,20 +1,20 @@
-import { ItemDataType, DataProps, WithAsProps, ToArray } from '@/internals/types';
+import { Option, DataProps, WithAsProps, ToArray } from '@/internals/types';
 
 export interface SelectNode<T> {
-  itemData: ItemDataType<T>;
-  cascadePaths: ItemDataType<T>[];
+  itemData: Option<T>;
+  cascadePaths: Option<T>[];
   isLeafNode: boolean;
 }
 
 export interface CascadeColumn<T> {
-  items: readonly ItemDataType<T>[];
-  parentItem?: ItemDataType<T>;
+  items: readonly Option<T>[];
+  parentItem?: Option<T>;
   layer?: number;
 }
 
 export interface CascadeTreeProps<T = any, V = T, L = any>
   extends WithAsProps,
-    DataProps<ItemDataType<T>> {
+    DataProps<Option<T>> {
   /**
    * Initial value
    */
@@ -58,21 +58,17 @@ export interface CascadeTreeProps<T = any, V = T, L = any>
   /**
    * Custom render tree node
    */
-  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
+  renderTreeNode?: (node: React.ReactNode, itemData: Option<T>) => React.ReactNode;
 
   /**
    * Custom render search items
    */
-  renderSearchItem?: (node: React.ReactNode, items: ItemDataType<T>[]) => React.ReactNode;
+  renderSearchItem?: (node: React.ReactNode, items: Option<T>[]) => React.ReactNode;
 
   /**
    * Called when the option is selected
    */
-  onSelect?: (
-    value: ItemDataType<T>,
-    selectedPaths: ItemDataType<T>[],
-    event: React.SyntheticEvent
-  ) => void;
+  onSelect?: (value: Option<T>, selectedPaths: Option<T>[], event: React.SyntheticEvent) => void;
 
   /**
    * Called after the value has been changed
@@ -87,5 +83,5 @@ export interface CascadeTreeProps<T = any, V = T, L = any>
   /**
    * Asynchronously load the children of the tree node.
    */
-  getChildren?: (childNodes: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
+  getChildren?: (childNodes: Option<T>) => Option<T>[] | Promise<Option<T>[]>;
 }

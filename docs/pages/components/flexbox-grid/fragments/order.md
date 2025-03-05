@@ -2,24 +2,23 @@
 
 ```js
 import { FlexboxGrid } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
-  <div className="show-grid">
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={4} order={4}>
-        order={4}
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={4} order={3}>
-        order={3}
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={4} order={2}>
-        order={2}
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={4} order={1}>
-        order={1}
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
-  </div>
+  <FlexboxGrid>
+    <FlexboxGrid.Item colspan={4} order={4}>
+      <DecorativeBox>order={4}</DecorativeBox>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item colspan={4} order={3}>
+      <DecorativeBox>order={3}</DecorativeBox>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item colspan={4} order={2}>
+      <DecorativeBox>order={2}</DecorativeBox>
+    </FlexboxGrid.Item>
+    <FlexboxGrid.Item colspan={4} order={1}>
+      <DecorativeBox>order={1}</DecorativeBox>
+    </FlexboxGrid.Item>
+  </FlexboxGrid>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

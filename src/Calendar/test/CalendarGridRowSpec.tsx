@@ -1,9 +1,9 @@
 import React from 'react';
+import sinon from 'sinon';
+import GridRow from '../Grid/GridRow';
 import { getDate, format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
-import GridRow from '../Grid/GridRow';
 import { CalendarProvider } from '../CalendarProvider';
-import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import { isToday } from 'date-fns';
 
@@ -24,7 +24,7 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarProvider
@@ -34,7 +34,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell .rs-calendar-table-cell-content'
       ) as HTMLElement
@@ -59,7 +58,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
@@ -82,7 +80,6 @@ describe('Calendar-GridRow', () => {
       </CalendarProvider>
     );
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
@@ -111,7 +108,6 @@ describe('Calendar-GridRow', () => {
     );
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-is-today'
       ) as HTMLElement

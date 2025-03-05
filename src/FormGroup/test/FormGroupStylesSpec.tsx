@@ -16,6 +16,6 @@ describe('FormGroup styles', () => {
       </Form>
     );
 
-    expect(screen.getByTestId('form-control-wrapper')).to.have.style('float', 'left');
+    expect(screen.getByTestId('form-control-wrapper')).to.have.style('float', 'inline-start');
   });
 });

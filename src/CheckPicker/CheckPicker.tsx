@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
+import SearchBox from '@/internals/SearchBox';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { PickerLocale } from '../locales';
 import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, shallowEqual, mergeRefs, getDataGroupBy } from '@/internals/utils';
+import { useCustom } from '../CustomProvider';
+import {
+  forwardRef,
+  createChainedFunction,
+  shallowEqual,
+  mergeRefs,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListCheckItem,
@@ -25,19 +31,16 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import SearchBox from '@/internals/SearchBox';
-import { ItemDataType, FormControlPickerProps } from '@/internals/types';
+import type { PickerLocale } from '../locales';
+import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { SelectProps } from '../SelectPicker';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
-  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
+  extends FormControlPickerProps<T[], PickerLocale, Option<T>>,
     Omit<SelectProps<T>, 'renderValue'>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Top the selected option in the options */
@@ -49,7 +52,7 @@ export interface CheckPickerProps<T = any>
   /** Custom render selected items */
   renderValue?: (
     value: T[],
-    item: ItemDataType<T>[],
+    item: Option<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 }
@@ -57,20 +60,15 @@ export interface CheckPickerProps<T = any>
 const emptyArray = [];
 
 export interface CheckPickerComponent {
-  <T>(
-    props: CheckPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: CheckPickerProps<T>): React.ReactElement | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
 }
 
 /**
  * A component for selecting checkable items in a dropdown list.
  * @see https://rsuitejs.com/components/check-picker
  */
-const CheckPicker = React.forwardRef(
+const CheckPicker = forwardRef<'div', CheckPickerProps>(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {
@@ -86,10 +84,10 @@ const CheckPicker = React.forwardRef(
       virtualized,
       cleanable = true,
       placement = 'bottomStart',
-      menuAutoWidth = true,
-      menuMaxHeight = 320,
-      menuClassName,
-      menuStyle,
+      popupAutoWidth = true,
+      listboxMaxHeight = 320,
+      popupClassName,
+      popupStyle,
       locale,
       placeholder,
       disabled,
@@ -103,11 +101,11 @@ const CheckPicker = React.forwardRef(
       id,
       sort,
       searchBy,
-      renderMenuItem,
-      renderMenuGroup,
+      renderOption,
+      renderOptionGroup,
+      renderListbox,
       renderValue,
       renderExtraFooter,
-      renderMenu,
       onGroupTitleClick,
       onSearch,
       onEnter,
@@ -134,7 +132,7 @@ const CheckPicker = React.forwardRef(
     });
 
     const handleSearchCallback = useEventCallback(
-      (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent) => {
+      (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
@@ -154,14 +152,14 @@ const CheckPicker = React.forwardRef(
 
     // A list of shortcut options.
     // when opened again, the selected options are displayed at the top.
-    const [stickyItems, setStickyItems] = useState<ItemDataType[]>([]);
+    const [stickyItems, setStickyItems] = useState<Option[]>([]);
 
     const initStickyItems = () => {
       if (!sticky) {
         return;
       }
 
-      let nextStickyItems: ItemDataType[] = [];
+      let nextStickyItems: Option[] = [];
       if (data && value.length) {
         nextStickyItems = data.filter(item => {
           return value.some(v => v === item[valueKey]);
@@ -219,18 +217,13 @@ const CheckPicker = React.forwardRef(
     });
 
     const handleSelect = useEventCallback(
-      (nextItemValue: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
+      (nextItemValue: any, item: Option<T>, event: React.SyntheticEvent) => {
         onSelect?.(nextItemValue, item, event);
       }
     );
 
     const handleItemSelect = useEventCallback(
-      (
-        nextItemValue: any,
-        item: ItemDataType<T>,
-        event: React.SyntheticEvent,
-        checked: boolean
-      ) => {
+      (nextItemValue: any, item: Option<T>, event: React.SyntheticEvent, checked: boolean) => {
         const nextValue = clone(value);
 
         if (checked) {
@@ -291,11 +284,10 @@ const CheckPicker = React.forwardRef(
     }
 
     const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('check-menu'));
-      const styles = { ...menuStyle, left, top };
+      const { className } = positionProps;
+      const classes = merge(className, popupClassName, prefix('check-menu'));
       let items = filteredData;
-      let filteredStickyItems: ItemDataType[] = [];
+      let filteredStickyItems: Option[] = [];
 
       if (stickyItems) {
         filteredStickyItems = filterNodesOfTree(stickyItems as typeof data, item =>
@@ -313,7 +305,7 @@ const CheckPicker = React.forwardRef(
         items = items.sort(sort(false));
       }
 
-      const menu =
+      const listbox =
         items.length || filteredStickyItems.length ? (
           <Listbox<true>
             listProps={listProps}
@@ -321,9 +313,9 @@ const CheckPicker = React.forwardRef(
             disabledItemValues={disabledItemValues}
             valueKey={valueKey}
             labelKey={labelKey}
-            renderMenuGroup={renderMenuGroup}
-            renderMenuItem={renderMenuItem}
-            maxHeight={menuMaxHeight}
+            renderOptionGroup={renderOptionGroup}
+            renderOption={renderOption}
+            maxHeight={listboxMaxHeight}
             classPrefix={'picker-check-menu'}
             listItemAs={ListCheckItem}
             activeItemValues={value}
@@ -342,9 +334,9 @@ const CheckPicker = React.forwardRef(
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
-          autoWidth={menuAutoWidth}
+          autoWidth={popupAutoWidth}
           className={classes}
-          style={styles}
+          style={popupStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >
@@ -356,7 +348,7 @@ const CheckPicker = React.forwardRef(
               inputRef={searchInput}
             />
           )}
-          {renderMenu ? renderMenu(menu) : menu}
+          {renderListbox ? renderListbox(listbox) : listbox}
           {renderExtraFooter?.()}
         </PickerPopup>
       );
@@ -409,25 +401,5 @@ const CheckPicker = React.forwardRef(
 ) as CheckPickerComponent;
 
 CheckPicker.displayName = 'CheckPicker';
-CheckPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  searchable: PropTypes.bool,
-  countable: PropTypes.bool,
-  sticky: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default CheckPicker;

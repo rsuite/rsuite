@@ -1,13 +1,13 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Whisper from '../../Whisper';
 import Tooltip from '../../Tooltip';
 import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 afterEach(() => {
   sinon.restore();
@@ -165,10 +165,10 @@ describe('Navbar', () => {
     });
 
     it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
-      const onSelectSpy = sinon.spy();
+      const onSelect = sinon.spy();
       render(
         <Navbar>
-          <Nav activeKey="2-1" onSelect={onSelectSpy}>
+          <Nav activeKey="2-1" onSelect={onSelect}>
             <Dropdown title="Dropdown" data-testid="dropdown">
               <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
                 Dropdown item
@@ -182,7 +182,7 @@ describe('Navbar', () => {
       fireEvent.click(screen.getByTestId('dropdown'));
 
       fireEvent.click(screen.getByTestId('dropdown-item'));
-      expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
+      expect(onSelect).to.have.been.calledWith('2-1', sinon.match.any);
     });
   });
 
@@ -191,8 +191,7 @@ describe('Navbar', () => {
       // @see https://codesandbox.io/s/tooltip-in-navbar-94gxk
       render(
         <Navbar>
-          {/* pullRight makes the bug more obvious */}
-          <Nav pullRight>
+          <Nav>
             <Whisper
               open
               trigger="hover"

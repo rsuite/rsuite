@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, { useMemo } from 'react';
 import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
 
 export interface PlaceholderGridProps extends WithAsProps {
   /**
@@ -49,60 +48,57 @@ export interface PlaceholderGridProps extends WithAsProps {
  * The `Placeholder.Grid` component is used to display the loading state of the block.
  * @see https://rsuitejs.com/components/placeholder
  */
-const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
-  (props: PlaceholderGridProps, ref) => {
-    const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'placeholder',
-      rows = 5,
-      columns = 5,
-      rowHeight = 10,
-      rowMargin = 20,
-      rowSpacing = rowMargin,
-      active,
-      ...rest
-    } = propsWithDefaults;
+const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'placeholder',
+    rows = 5,
+    columns = 5,
+    rowHeight,
+    rowSpacing,
+    active,
+    style,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('grid', { active }));
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+
+  const classes = merge(className, withClassPrefix('grid', { active }));
+
+  const styles = {
+    '--rs-placeholder-row-height': getCssValue(rowHeight),
+    '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
+  } as React.CSSProperties;
+
+  const items = useMemo(() => {
     const colItems: React.ReactElement[] = [];
+    const rowClassName = prefix`row`;
+    const columnClassName = prefix`grid-col`;
 
     for (let i = 0; i < columns; i++) {
       const rowItems: React.ReactElement[] = [];
       for (let j = 0; j < rows; j++) {
-        rowItems.push(
-          <div
-            key={j}
-            style={{ height: rowHeight, marginTop: j > 0 ? rowSpacing : undefined }}
-            className={prefix`row`}
-          />
-        );
+        rowItems.push(<div key={j} className={rowClassName} />);
       }
       colItems.push(
-        <div key={i} className={classNames(prefix('grid-col'))}>
+        <div key={i} className={columnClassName}>
           {rowItems}
         </div>
       );
     }
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        {colItems}
-      </Component>
-    );
-  }
-);
+
+    return colItems;
+  }, [columns, prefix, rowHeight, rowSpacing, rows]);
+
+  return (
+    <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
+      {items}
+    </Component>
+  );
+});
 
 PlaceholderGrid.displayName = 'PlaceholderGrid';
-PlaceholderGrid.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  columns: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  active: PropTypes.bool
-};
 
 export default PlaceholderGrid;

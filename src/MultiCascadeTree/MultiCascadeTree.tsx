@@ -1,10 +1,11 @@
 import React from 'react';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
+import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
 import { useClassNames, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { DataItemValue } from '@/internals/types';
+import type { OptionValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 
 const emptyArray = [];
@@ -13,8 +14,8 @@ const emptyArray = [];
  * The `MultiCascadeTree` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascade-tree/
  */
-const MultiCascadeTree = React.forwardRef(
-  <T extends DataItemValue>(props: MultiCascadeTreeProps<T>, ref) => {
+const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
+  <T extends OptionValue>(props: MultiCascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('MultiCascadeTree', props);
     const {
       as: Component = 'div',

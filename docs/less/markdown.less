@@ -84,12 +84,13 @@
   .page-heading {
     margin-bottom: 10px;
     line-height: 1.2;
-  }
-
-  .page-heading {
     display: flex;
     align-items: center;
     gap: 6px;
+
+    &[id*='code'] {
+      margin-top: calc(var(--rs-spacing) * 6);
+    }
   }
   .page-heading-text {
     display: inline-flex;

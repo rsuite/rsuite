@@ -1,11 +1,10 @@
 import React from 'react';
-import { MultiCascadeTree, Button, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
-
+import { MultiCascadeTree, Button, RadioGroup, Radio, HStack } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -37,6 +36,7 @@ export default function Page() {
         Button,
         RadioGroup,
         Radio,
+        HStack,
         AdminIcon,
         FolderFillIcon,
         PageIcon,
