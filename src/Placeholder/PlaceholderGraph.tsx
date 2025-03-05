@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -42,9 +42,9 @@ const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
-  const classes = merge(className, withClassPrefix('graph', { active }));
+  const classes = merge(className, withPrefix('graph', { active }));
   const styles = {
     '--rs-placeholder-graph-width': getCssValue(width),
     '--rs-placeholder-graph-height': getCssValue(height)

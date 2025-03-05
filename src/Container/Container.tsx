@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -25,8 +25,8 @@ const Container = forwardRef<'section', ContainerProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
   const [hasSidebar, setHasSidebar] = useState(false);
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ 'has-sidebar': hasSidebar }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ 'has-sidebar': hasSidebar }));
   const contextValue = useMemo(() => ({ setHasSidebar }), [setHasSidebar]);
 
   return (

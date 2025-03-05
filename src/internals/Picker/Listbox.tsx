@@ -21,7 +21,7 @@ import {
   ListChildComponentProps
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
-import { useClassNames, useMount, useEventCallback } from '../hooks';
+import { useStyles, useMount, useEventCallback } from '../hooks';
 import { shallowEqual, mergeRefs } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import type {
@@ -140,9 +140,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       ...rest
     } = props;
 
-    const { withClassPrefix, prefix, merge, rootPrefix } = useClassNames(classPrefix);
+    const { withPrefix, prefix, merge, rootPrefix } = useStyles(classPrefix);
     const groupable = typeof groupBy !== 'undefined';
-    const classes = merge(className, withClassPrefix('items', { grouped: groupable }));
+    const classes = merge(className, withPrefix('items', { grouped: groupable }));
     const { id, labelId, popupType, multiple } = useCombobox();
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);

@@ -7,7 +7,7 @@ import Disclosure from '@/internals/Disclosure/Disclosure';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SanitizedHTMListProps } from '@/internals/types';
@@ -69,7 +69,7 @@ const ExpandedSidenavDropdownMenu = forwardRef<'li', SidenavDropdownMenuProps>((
   } = props;
 
   const { rtl } = useCustom();
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = sidenavContext;
 
   const handleClick = useCallback(
@@ -98,7 +98,7 @@ const ExpandedSidenavDropdownMenu = forwardRef<'li', SidenavDropdownMenuProps>((
           prefix('submenu'),
           prefix(`pull-${rtl ? 'left' : 'right'}`),
           prefix(open ? 'expand' : 'collapse'),
-          withClassPrefix({
+          withPrefix({
             'with-icon': icon,
             // open,
             disabled

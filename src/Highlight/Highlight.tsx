@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { highlightText } from './utils/highlightText';
 import { forwardRef, stringifyReactNode } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -36,8 +36,8 @@ const Highlight = forwardRef<'div', HighlightProps>((props: HighlightProps, ref)
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const text = stringifyReactNode(children);
 
   return (

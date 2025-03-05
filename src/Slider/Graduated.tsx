@@ -1,7 +1,7 @@
 import React from 'react';
 import Mark from './Mark';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { precisionMath } from './utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -26,7 +26,7 @@ const Graduated = forwardRef<'div', GraduatedProps>((props, ref) => {
     className,
     renderMark
   } = props;
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const activeIndexs: number[] = [];
 
   let startIndex = 0;

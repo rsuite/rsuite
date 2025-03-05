@@ -9,7 +9,7 @@ import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
@@ -133,7 +133,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     appendChild
   });
 
-  const { prefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useStyles(classPrefix);
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();

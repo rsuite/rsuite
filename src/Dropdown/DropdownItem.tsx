@@ -9,7 +9,7 @@ import NavContext from '../Nav/NavContext';
 import Text from '../Text';
 import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
-import { useClassNames, useInternalId } from '@/internals/hooks';
+import { useStyles, useInternalId } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import { DropdownActionType } from './DropdownState';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -90,7 +90,7 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
 
     const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent) => {
@@ -160,7 +160,7 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
         {({ selected, active, ...menuitem }, menuitemRef) => {
           const classes = merge(
             className,
-            withClassPrefix({
+            withPrefix({
               'with-icon': icon,
               active: selected,
               disabled,

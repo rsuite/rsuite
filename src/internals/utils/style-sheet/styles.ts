@@ -1,5 +1,5 @@
 import { Sizes } from '@/internals/types';
-import { Color } from '../types/colours';
+import { Color } from '@/internals/types/colours';
 
 type StyleValue<T = Color | Sizes | number | string> = T;
 type PresetChecker<T = StyleValue> = (value: T) => boolean;

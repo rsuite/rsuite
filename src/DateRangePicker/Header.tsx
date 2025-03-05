@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { compareAsc } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import Button from '../Button';
@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 function Header(props: HeaderProps) {
-  const { prefix } = useClassNames('picker');
+  const { prefix } = useStyles('picker');
   const { formatStr, character, value, activeKey = 'start', clickable, onSelect } = props;
 
   const [startDate, endDate] = value ?? [null, null];

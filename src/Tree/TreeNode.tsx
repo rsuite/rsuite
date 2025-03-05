@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import TreeNodeToggle from './TreeNodeToggle';
 import { forwardRef, mergeRefs, stringifyReactNode } from '@/internals/utils';
-import { useFocusVirtualListItem, useClassNames, useEventCallback } from '@/internals/hooks';
+import { useFocusVirtualListItem, useStyles, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
 import { useCustom } from '../CustomProvider';
@@ -142,7 +142,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
 
   const { rtl } = useCustom();
   const { renderTreeNode, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -192,10 +192,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
     onDrop?.(nodeData, event);
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
-  );
+  const classes = merge(className, withPrefix({ disabled, active, 'text-muted': disabled, focus }));
 
   const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;

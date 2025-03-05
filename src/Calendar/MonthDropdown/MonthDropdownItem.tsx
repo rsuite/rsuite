@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { forwardRef, composeFunctions } from '@/internals/utils';
 import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
@@ -49,8 +49,8 @@ const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
       onSelect?.(currentMonth, event);
     });
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }), { disabled });
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ active }), { disabled });
     const ariaLabel = currentMonth ? getAriaLabel(currentMonth, formatStr, formatDate) : '';
 
     return (

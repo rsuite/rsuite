@@ -1,7 +1,7 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useEventCallback } from '../hooks';
+import { useStyles, useEventCallback } from '../hooks';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface ListItemProps extends WithAsProps, HTMLPropsWithoutSelect {
@@ -41,8 +41,8 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
     }
   });
 
-  const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
-  const classes = withClassPrefix({ active, focus, disabled });
+  const { withPrefix, merge, rootPrefix } = useStyles(classPrefix);
+  const classes = withPrefix({ active, focus, disabled });
 
   return (
     <Component

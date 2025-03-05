@@ -4,7 +4,7 @@ import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface CardProps extends WithAsProps {
@@ -56,10 +56,10 @@ const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProp
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(direction, size, {
+    withPrefix(direction, size, {
       bordered,
       shaded: shaded === true,
       ['shaded-hover']: shaded === 'hover'

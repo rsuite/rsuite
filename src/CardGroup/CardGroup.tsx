@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef, getCssValue } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -29,8 +29,8 @@ const CardGroup = forwardRef<'div', CardGroupProps>((props: CardGroupProps, ref)
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const styles = {
     '--rs-card-group-columns': columns,
     '--rs-card-group-spacing': getCssValue(spacing),

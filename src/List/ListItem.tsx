@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import ListContext from './ListContext';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { WithAsProps } from '@/internals/types';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
 export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
@@ -38,7 +38,7 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
 
   const { bordered, register, size: parentSize } = useContext(ListContext);
   const size = sizeProp || parentSize;
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const listItemRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
     }
   }, [collection, disabled, index, register]);
 
-  const classes = merge(className, withClassPrefix(size, { disabled, bordered }));
+  const classes = merge(className, withPrefix(size, { disabled, bordered }));
 
   return (
     <Component

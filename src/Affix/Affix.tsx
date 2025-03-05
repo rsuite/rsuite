@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
 import { Offset, WithAsProps } from '@/internals/types';
-import { useClassNames, useElementResize, useEventListener, useMount } from '@/internals/hooks';
+import { useStyles, useElementResize, useEventListener, useMount } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -144,9 +144,9 @@ const Affix = forwardRef<'div', AffixProps>((props: AffixProps, ref) => {
 
   const fixed = useFixed(offset, containerOffset, { top, onChange });
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, {
-    [withClassPrefix()]: fixed
+    [withPrefix()]: fixed
   });
 
   const { width, height } = offset || {};

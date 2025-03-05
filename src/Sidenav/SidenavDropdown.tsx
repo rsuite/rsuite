@@ -11,7 +11,7 @@ import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import { NavMenuContext } from '../Nav/NavMenu';
 import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -120,13 +120,13 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
       ...toggleProps
     } = props;
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
 
-    const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } =
-      useClassNames('nav-item');
+    const { withPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } =
+      useStyles('nav-item');
 
     const [{ items }] = navMenu;
 
@@ -219,7 +219,7 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
         {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
           const classes = merge(
             className,
-            withClassPrefix({
+            withPrefix({
               [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open,

@@ -6,7 +6,7 @@ import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import { useClassNames, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
+import { useStyles, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
@@ -109,7 +109,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
 
   const { rtl } = useCustom();
   const { renderTreeNode, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -135,7 +135,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       disabled,
       'all-uncheckable': !!allUncheckable,
       'text-muted': disabled,

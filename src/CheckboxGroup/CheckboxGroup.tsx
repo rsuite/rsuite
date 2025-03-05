@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
 import { forwardRef, shallowEqual } from '@/internals/utils';
-import { useClassNames, useControlled } from '@/internals/hooks';
+import { useStyles, useControlled } from '@/internals/hooks';
 import { WithAsProps, FormControlBaseProps } from '@/internals/types';
 import { CheckboxGroupContext } from './CheckboxGroupContext';
 import { useCustom } from '../CustomProvider';
@@ -43,8 +43,8 @@ const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGrou
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ inline }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ inline }));
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
   const handleChange = useCallback(

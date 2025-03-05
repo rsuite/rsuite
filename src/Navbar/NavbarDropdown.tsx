@@ -6,7 +6,7 @@ import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
@@ -102,10 +102,10 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
       ...toggleProps
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
 
     return (
       <Disclosure
@@ -123,7 +123,7 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
           const classes = merge(
             className,
-            withClassPrefix({
+            withPrefix({
               [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open

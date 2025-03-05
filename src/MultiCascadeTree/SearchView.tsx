@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { isSomeChildChecked, getNodeParents } from './utils';
 import type { Option, WithAsProps } from '@/internals/types';
@@ -42,8 +42,8 @@ function SearchView<T>(props: SearchViewProps<T>) {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, prefix, withPrefix, rootPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 

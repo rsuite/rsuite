@@ -2,7 +2,7 @@ import React from 'react';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps } from '@/internals/types';
 
@@ -55,8 +55,8 @@ const StepItem = forwardRef<'div', StepItemProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ custom: icon, [`status-${status}`]: status }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ custom: icon, [`status-${status}`]: status }));
 
   const iconNode = icon ? (
     <span className={prefix('icon')}>{icon}</span>

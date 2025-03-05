@@ -8,7 +8,7 @@ import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -89,7 +89,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   } = props;
 
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
   const whisperRef = React.useRef<WhisperInstance>(null);
 
@@ -130,7 +130,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
             {({ selected, active, ...menuitem }, menuitemRef) => {
               const classes = merge(
                 className,
-                withClassPrefix({ focus: active, active: selected, disabled })
+                withPrefix({ focus: active, active: selected, disabled })
               );
 
               // Show tooltip when inside a collapse <Sidenav>
@@ -189,7 +189,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   return (
     <Component
       ref={ref as any}
-      className={merge(className, withClassPrefix({ active: selected, disabled }))}
+      className={merge(className, withPrefix({ active: selected, disabled }))}
       onClick={handleClick}
       style={style}
       aria-selected={selected || undefined}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 
 export interface StackItemProps extends WithAsProps {
@@ -32,8 +32,8 @@ const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge, cssVar } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, cssVar } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const styles = mergeStyles(
     style,
     cssVar('align-self', alignSelf),

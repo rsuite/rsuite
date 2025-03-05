@@ -7,7 +7,7 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import SearchBox from '@/internals/SearchBox';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import {
   forwardRef,
@@ -259,7 +259,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
      */
     let hasValue = selectedItems.length > 0 || (value?.length > 0 && isFunction(renderValue));
 
-    const { prefix, merge } = useClassNames(classPrefix);
+    const { prefix, merge } = useStyles(classPrefix);
 
     let selectedElement = placeholder;
 

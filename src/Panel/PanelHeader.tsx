@@ -2,7 +2,7 @@ import React, { isValidElement, cloneElement } from 'react';
 import get from 'lodash/get';
 import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 
 export interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
@@ -33,7 +33,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
     ...rest
   } = props;
 
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
 
   let headerElement: React.ReactNode;
 

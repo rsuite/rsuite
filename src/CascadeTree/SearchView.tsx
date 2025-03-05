@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Highlight from '../Highlight';
 import { Option, WithAsProps } from '@/internals/types';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { getPathTowardsItem } from '@/internals/Tree/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -41,8 +41,8 @@ function SearchView<T>(props: SearchViewProps<T>) {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, prefix, withPrefix, rootPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 

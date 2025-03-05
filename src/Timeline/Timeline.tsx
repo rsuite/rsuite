@@ -1,7 +1,7 @@
 import React from 'react';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, ReactChildren } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -53,13 +53,13 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
       ...rest
     } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
     const count = ReactChildren.count(children);
     const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
 
     const classes = merge(
       className,
-      withClassPrefix(`align-${align}`, { endless, 'with-time': withTime })
+      withPrefix(`align-${align}`, { endless, 'with-time': withTime })
     );
 
     return (

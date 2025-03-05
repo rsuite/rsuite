@@ -3,7 +3,7 @@ import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
 import ToastContext from './ToastContext';
 import canUseDOM from 'dom-lib/canUseDOM';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { guid, createChainedFunction } from '@/internals/utils';
 import { render } from './render';
 import type { WithAsProps, InternalRefForwardingComponent } from '@/internals/types';
@@ -159,8 +159,8 @@ const ToastContainer: ToastContainerComponent = forwardRef<
     ...rest
   } = props;
 
-  const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(kebabCase(placement)));
+  const { withPrefix, merge, rootPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(kebabCase(placement)));
   const { push, clear, remove, messages } = useMessages();
 
   useImperativeHandle(ref, () => ({ push, clear, remove }));

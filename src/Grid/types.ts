@@ -1,7 +1,3 @@
-import type { Breakpoints } from '@/internals/types';
-
-export type ResponsiveValue<T> = { [key in Breakpoints]?: T };
-
 export type RowAlignment = 'top' | 'middle' | 'bottom';
 
 export type RowJustify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';

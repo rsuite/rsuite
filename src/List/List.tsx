@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -67,7 +67,7 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({
     autoScroll,
     onSort,
@@ -78,10 +78,7 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
     transitionDuration
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({ bordered, sortable, sorting, hover, divider })
-  );
+  const classes = merge(className, withPrefix({ bordered, sortable, sorting, hover, divider }));
   const contextValue = useMemo<ListContextType>(
     () => ({ bordered, size, register }),
     [bordered, register, size]

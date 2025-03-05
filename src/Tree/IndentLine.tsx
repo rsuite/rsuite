@@ -1,8 +1,8 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 
 const IndentLine = () => {
-  const { prefix } = useClassNames('tree');
+  const { prefix } = useStyles('tree');
   return <span className={prefix('indent-line')} data-testid="indent-line" />;
 };
 

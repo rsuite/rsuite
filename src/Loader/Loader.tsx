@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useUniqueId } from '@/internals/hooks';
+import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType } from '@/internals/types';
 
@@ -47,7 +47,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const labelId = useUniqueId('loader-label-');
 
   const classes = merge(
@@ -68,7 +68,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
       className={classes}
     >
       {backdrop && <div className={prefix('backdrop')} />}
-      <div className={withClassPrefix()}>
+      <div className={withPrefix()}>
         <span className={prefix('spin')} />
         {content && (
           <span id={labelId} className={prefix('content')}>

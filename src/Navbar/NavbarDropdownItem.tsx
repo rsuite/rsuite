@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import DisclosureContext, { DisclosureActionTypes } from '@/internals/Disclosure/DisclosureContext';
 import NavContext from '../Nav/NavContext';
 import { IconProps } from '@rsuite/icons/Icon';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
@@ -68,7 +68,7 @@ const NavbarDropdownItem = forwardRef<'li', NavbarDropdownItemProps>((props, ref
     ...restProps
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const handleSelectItem = useCallback(
     (event: React.SyntheticEvent) => {
@@ -113,7 +113,7 @@ const NavbarDropdownItem = forwardRef<'li', NavbarDropdownItemProps>((props, ref
 
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       'with-icon': icon,
       disabled,
       divider,

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import type { StandardProps } from '@/internals/types';
 
@@ -13,9 +13,9 @@ const SidenavDropdownCollapse = React.forwardRef(
   (props: SidenavDropdownCollapseProps & React.HTMLAttributes<HTMLUListElement>, ref) => {
     const { className, classPrefix = 'dropdown-menu', open, ...restProps } = props;
 
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const { withPrefix, merge, prefix } = useStyles(classPrefix);
 
-    const classes = merge(className, withClassPrefix());
+    const classes = merge(className, withPrefix());
 
     return (
       <Collapse

@@ -11,7 +11,7 @@ import pick from 'lodash/pick';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
@@ -129,7 +129,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
   } = propsWithDefaults;
 
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
-  const { prefix } = useClassNames(classPrefix);
+  const { prefix } = useStyles(classPrefix);
 
   const [value, setValue] = useTreeValue(controlledValue, {
     defaultValue,

@@ -6,7 +6,7 @@ import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -78,7 +78,7 @@ const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, r
     ...restProps
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const handleSelectItem = useCallback(
     (event: React.SyntheticEvent) => {
@@ -118,7 +118,7 @@ const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, r
       {({ selected, active, ...menuitem }, menuitemRef) => {
         const classes = merge(
           className,
-          withClassPrefix({
+          withPrefix({
             'with-icon': icon,
             active: selected,
             disabled,

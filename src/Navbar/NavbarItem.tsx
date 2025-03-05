@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
@@ -60,8 +60,8 @@ const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
     [eventKey, onSelectProp, onSelectFromNav]
   );
 
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ active, disabled }));
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import Stack from '../Stack';
-import { useClassNames, useControlled } from '@/internals/hooks';
+import { useStyles, useControlled } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, FormControlBaseProps } from '@/internals/types';
@@ -54,8 +54,8 @@ const RadioTileGroup = forwardRef<'div', RadioTileGroupProps>((props, ref) => {
     onChange,
     ...rest
   } = propsWithDefaults;
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const [value, setValue] = useControlled(valueProp, defaultValue);
 
   const handleChange = useCallback(

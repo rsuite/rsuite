@@ -8,7 +8,7 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import DropdownContext from './DropdownContext';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { mergeRefs, warnOnce } from '@/internals/utils';
 import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
@@ -86,16 +86,16 @@ const DropdownMenu = React.forwardRef<HTMLElement, DropdownMenuProps & Sanitized
       },
       [eventKey, onToggle]
     );
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
 
     const {
       merge: mergeItemClassNames,
-      withClassPrefix: withItemClassPrefix,
+      withPrefix: withItemClassPrefix,
       prefix: prefixItemClassName
-    } = useClassNames('dropdown-item');
+    } = useStyles('dropdown-item');
 
     const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
 
@@ -110,7 +110,7 @@ const DropdownMenu = React.forwardRef<HTMLElement, DropdownMenuProps & Sanitized
     // <Dropdown.Menu> is used outside of <Dropdown>
     // renders a vertical `menubar`
     if (!dropdown) {
-      const classes = merge(className, withClassPrefix());
+      const classes = merge(className, withPrefix());
 
       return (
         <DropdownContext.Provider value={contextValue}>

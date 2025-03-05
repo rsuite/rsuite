@@ -4,7 +4,7 @@ import Whisper from '../Whisper';
 import Tooltip from '../Tooltip';
 import IconButton from '../IconButton';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface StatLabelProps extends WithAsProps {
@@ -29,8 +29,8 @@ const StatLabel = forwardRef<'dt', StatLabelProps>((props, ref) => {
     uppercase,
     ...rest
   } = props;
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ uppercase }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ uppercase }));
 
   return (
     <Component ref={ref} className={classes} {...rest}>

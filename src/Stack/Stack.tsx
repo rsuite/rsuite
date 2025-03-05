@@ -2,7 +2,7 @@ import React from 'react';
 import StackItem from './StackItem';
 import Box from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -68,13 +68,12 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge, cssVar } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, cssVar, responsive } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(), ...responsive(direction));
 
   const styles = mergeStyles(
     style,
     cssVar('spacing', spacing, getCssValue),
-    cssVar('direction', direction),
     cssVar('align', align),
     cssVar('justify', justify),
     cssVar('wrap', wrap ? 'wrap' : undefined)

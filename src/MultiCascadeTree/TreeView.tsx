@@ -2,7 +2,7 @@ import React from 'react';
 import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
@@ -54,7 +54,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('items'));
   const { rtl } = useCustom();
   const { id, labelId, popupType, multiple } = useCombobox();

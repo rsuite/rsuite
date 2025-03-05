@@ -9,7 +9,7 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import { useClassNames, useWillUnmount, useUniqueId } from '@/internals/hooks';
+import { useStyles, useWillUnmount, useUniqueId } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
@@ -101,7 +101,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
   } = propsWithDefaults;
 
   const inClass = { in: open && !animation };
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const [shake, setShake] = useState(false);
   const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
   const dialogRef = useRef<HTMLElement>(null);

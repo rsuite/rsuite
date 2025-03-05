@@ -6,7 +6,7 @@ import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { useCustom } from '../CustomProvider';
@@ -79,16 +79,15 @@ const SidenavDropdownMenu = React.forwardRef<
     },
     [eventKey, onToggle]
   );
-  const { prefix } = useClassNames(classPrefix);
+  const { prefix } = useStyles(classPrefix);
 
-  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-    useClassNames('dropdown-menu');
+  const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useStyles('dropdown-menu');
 
   const {
     merge: mergeItemClassNames,
-    withClassPrefix: withItemClassPrefix,
+    withPrefix: withItemClassPrefix,
     prefix: prefixItemClassName
-  } = useClassNames('dropdown-item');
+  } = useStyles('dropdown-item');
 
   if (sidenav.expanded) {
     return <ExpandedSidenavDropdownMenu ref={ref} {...(omit(props, 'classPrefix') as any)} />;

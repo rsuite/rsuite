@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, PrependParameters, FormControlBaseProps } from '@/internals/types';
 
@@ -58,8 +58,8 @@ const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(appearance, { inline }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance, { inline }));
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
   const handleChange = useEventCallback(

@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from './NavContext';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -79,8 +79,8 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
     [eventKey, onSelectProp, onSelectFromNav]
   );
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ active, disabled }));
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {

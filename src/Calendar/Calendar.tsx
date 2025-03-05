@@ -4,7 +4,7 @@ import Button from '../Button';
 import { forwardRef } from '@/internals/utils';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
@@ -132,7 +132,7 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       handleChange(nextValue);
     });
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
 
     const renderToolbar = () => (
       <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
@@ -144,7 +144,7 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
-    const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
+    const classes = merge(className, withPrefix('panel', { bordered, compact }));
 
     return (
       <Component

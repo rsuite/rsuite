@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -61,7 +61,7 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
       ...rest
     } = propsWithDefaults;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, prefix, withPrefix } = useStyles(classPrefix);
     const graphShape = graph === true ? 'square' : graph;
 
     const styles = {
@@ -78,7 +78,7 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
       return rowArr;
     }, [prefix, rows]);
 
-    const classes = merge(className, withClassPrefix('paragraph', { active }));
+    const classes = merge(className, withPrefix('paragraph', { active }));
     const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
     return (

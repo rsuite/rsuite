@@ -1,6 +1,5 @@
 import { Sizes } from '@/internals/types';
-import { getCssValue } from './css';
-import { createStyleGetter } from './styleProps';
+import { createStyleGetter, getCssValue } from './style-sheet';
 
 export const isPresetSize = (size?: Sizes | number | string | null) => {
   if (!size) {

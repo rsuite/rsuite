@@ -2,7 +2,7 @@ import React from 'react';
 import Close from '@rsuite/icons/Close';
 import IconButton from '../../IconButton';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '../hooks';
+import { useStyles } from '../hooks';
 import { useCustom } from '../../CustomProvider';
 import { CloseButtonLocale } from '../../locales';
 import type { WithAsProps } from '@/internals/types';
@@ -24,9 +24,9 @@ const CloseButton = forwardRef<'button', CloseButtonProps>((props, ref) => {
     ...rest
   } = props;
   const { getLocale } = useCustom();
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const { closeLabel } = getLocale('CloseButton', overrideLocale);
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withPrefix());
 
   if (Component === IconButton) {
     return (

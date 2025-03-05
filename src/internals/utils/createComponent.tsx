@@ -1,6 +1,6 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -31,8 +31,8 @@ export function createComponent<T extends React.ElementType = 'div', P = Compone
       role,
       ...rest
     } = propsWithDefaults;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     return <Component {...defaultProps} {...rest} role={role} ref={ref} className={classes} />;
   });

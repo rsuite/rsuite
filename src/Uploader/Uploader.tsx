@@ -5,7 +5,7 @@ import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import { forwardRef, guid } from '@/internals/utils';
-import { useClassNames, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { useStyles, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
@@ -309,8 +309,8 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(listType, { draggable }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(listType, { draggable }));
 
   const rootRef = useRef<HTMLDivElement>(null);
   const xhrs = useRef({});
@@ -576,7 +576,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
   if (plaintext) {
     return (
-      <Plaintext localeKey="notUploaded" className={withClassPrefix(listType)}>
+      <Plaintext localeKey="notUploaded" className={withPrefix(listType)}>
         {fileList.current.length ? renderList[1] : null}
       </Plaintext>
     );

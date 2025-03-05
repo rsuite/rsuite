@@ -3,7 +3,7 @@ import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import IconButton from '../IconButton';
 import { forwardRef } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface SidenavToggleProps extends WithAsProps {
@@ -23,8 +23,8 @@ const SidenavToggle = forwardRef<'div', SidenavToggleProps>((props, ref) => {
 
   const expanded = sidenav.expanded;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ collapsed: !expanded }));
 
   const handleToggle = (event: React.MouseEvent) => {
     onToggle?.(!expanded, event);

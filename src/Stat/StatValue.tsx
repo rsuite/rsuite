@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { FormattedNumber } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -19,8 +19,8 @@ const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
     formatOptions,
     ...rest
   } = props;
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
     <Component ref={ref} className={classes} {...rest}>

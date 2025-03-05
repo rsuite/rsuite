@@ -6,7 +6,7 @@ import useRegisterModel from './hooks/useRegisterModel';
 import useField from './hooks/useField';
 import Toggle from '../Toggle';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -156,8 +156,8 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     errorFromContext
   });
 
-  const { withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = withClassPrefix('wrapper');
+  const { withPrefix, prefix } = useStyles(classPrefix);
+  const classes = withPrefix('wrapper');
 
   const handleFieldChange = useEventCallback((value: any, event: React.SyntheticEvent) => {
     if (trigger === 'change') {

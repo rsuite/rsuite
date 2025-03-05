@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import IconButton from '../IconButton';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
 import type { WithAsProps } from '@/internals/types';
 
@@ -27,8 +27,8 @@ const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
     onClose,
     ...rest
   } = props;
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const context = useContext(ModalContext);
   const { isDrawer, onModalClose } = context || {};

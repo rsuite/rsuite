@@ -6,7 +6,7 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import Disclosure from '@/internals/Disclosure';
 import NavContext from '../Nav/NavContext';
 import { mergeRefs } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { NavbarContext } from './NavbarContext';
 import { useCustom } from '../CustomProvider';
 import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
@@ -100,16 +100,15 @@ const NavbarDropdownMenu = React.forwardRef<
   } = props;
 
   const { rtl } = useCustom();
-  const { prefix } = useClassNames(classPrefix);
+  const { prefix } = useStyles(classPrefix);
 
-  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-    useClassNames('dropdown-menu');
+  const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useStyles('dropdown-menu');
 
   const {
     merge: mergeItemClassNames,
-    withClassPrefix: withItemClassPrefix,
+    withPrefix: withItemClassPrefix,
     prefix: prefixItemClassName
-  } = useClassNames('dropdown-item');
+  } = useStyles('dropdown-item');
 
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.

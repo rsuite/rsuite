@@ -5,7 +5,7 @@ import NavContext from '../Nav/NavContext';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '@/internals/Disclosure/Disclosure';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
-import { useClassNames, useInternalId } from '@/internals/hooks';
+import { useStyles, useInternalId } from '@/internals/hooks';
 import { forwardRef, placementPolyfill, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { NavMenuContext } from '../Nav/NavMenu';
@@ -103,7 +103,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
     ...rest
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
   const internalId = useInternalId('SidenavDropdown');
   const uniqueKey = eventKey ?? internalId;
@@ -140,7 +140,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
       {({ open }, containerRef) => {
         const classes = merge(
           className,
-          withClassPrefix({
+          withPrefix({
             [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
             [open ? 'expand' : 'collapse']: true,
             disabled,

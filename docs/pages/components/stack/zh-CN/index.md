@@ -44,16 +44,16 @@
 
 ### `<Stack>`
 
-| 属性名称    | 类型`(默认值)`                  | 描述                                   |
-| ----------- | ------------------------------- | -------------------------------------- |
-| align       | CSSProperties['alignItems']     | 定义一组子项在交叉轴上的对齐方式       |
-| as          | React.ElementType               | 自定义根元素                           |
-| classPrefix | string `('stack')`              | 组件 CSS 类的前缀                      |
-| direction   | CSSProperties['flexDirection']  | 定义一组子项的方向                     |
-| divider     | ReactNode                       | 为每一个子项直接添加分隔符             |
-| justify     | CSSProperties['justifyContent'] | 定义一组子项在主轴上的对齐方式         |
-| spacing     | number \| string                | 为每一个子项直接设置间距               |
-| wrap        | boolean                         | 定义一组子项是强制在一行上还是在多行上 |
+| 属性名称    | 类型`(默认值)`                                                  | 描述                                   |
+| ----------- | --------------------------------------------------------------- | -------------------------------------- |
+| align       | CSSProperties['alignItems']                                     | 定义一组子项在交叉轴上的对齐方式       |
+| as          | React.ElementType                                               | 自定义根元素                           |
+| classPrefix | string `('stack')`                                              | 组件 CSS 类的前缀                      |
+| direction   | CSSProperties['flexDirection'] \| [ResponsiveValue][responsive] | 定义一组子项的方向, 支持响应式值       |
+| divider     | ReactNode                                                       | 为每一个子项直接添加分隔符             |
+| justify     | CSSProperties['justifyContent']                                 | 定义一组子项在主轴上的对齐方式         |
+| spacing     | number \| string                                                | 为每一个子项直接设置间距               |
+| wrap        | boolean                                                         | 定义一组子项是强制在一行上还是在多行上 |
 
 ### `<Stack.Item>`
 
@@ -90,4 +90,7 @@
 | spacing     | number \| string `(6)`                       | 为每一个子项直接设置间距               |
 | wrap        | boolean                                      | 定义一组子项是强制在一行上还是在多行上 |
 
+<!--{include:(_common/types/responsive-value.md)}-->
+
+[responsive]: #code-ts-responsive-value-code
 [5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

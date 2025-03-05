@@ -4,7 +4,7 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import IconButton from '../IconButton';
 import Button, { ButtonProps } from '../Button';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { extractTimeFormat } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
 import { WithAsProps } from '@/internals/types';
@@ -51,7 +51,7 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
 
   const { locale, date = new Date(), format, inline, disabledDate, targetId } = useCalendar();
   const { isSelectedIdle } = useDateRangePicker();
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
   const btnProps: ButtonProps = {
     appearance: 'subtle',
     size: inline ? 'sm' : 'xs'
@@ -114,10 +114,7 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
   );
 
   const hasMonth = showDate || showMonth;
-  const classes = merge(
-    className,
-    withClassPrefix({ 'has-month': hasMonth, 'has-time': showTime })
-  );
+  const classes = merge(className, withPrefix({ 'has-month': hasMonth, 'has-time': showTime }));
 
   // If the date is not selected, the time cannot be selected (it only works in DateRangePicker).
   const disableSelectTime = typeof isSelectedIdle === 'undefined' ? false : !isSelectedIdle;

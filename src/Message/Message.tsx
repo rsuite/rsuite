@@ -3,7 +3,7 @@ import CloseButton from '@/internals/CloseButton';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, StatusType, DisplayStateType } from '@/internals/types';
 
@@ -86,7 +86,7 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
   } = propsWithDefaults;
 
   const [display, setDisplay] = useState<DisplayStateType>('show');
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
   const isMounted = useIsMounted();
   const targetRef = useRef<HTMLDivElement>(null);
 
@@ -111,7 +111,7 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix(type, display, {
+    withPrefix(type, display, {
       full,
       bordered,
       centered,

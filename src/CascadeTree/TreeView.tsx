@@ -7,7 +7,7 @@ import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { forwardRef, shallowEqual, mergeRefs } from '@/internals/utils';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
 import { useCustom } from '../CustomProvider';
 import type { Option, WithAsProps, DataProps, ToArray } from '@/internals/types';
@@ -53,7 +53,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     onSelect,
     ...rest
   } = props;
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('items'));
   const rootRef = useRef<HTMLDivElement>(null);
   const { rtl } = useCustom();

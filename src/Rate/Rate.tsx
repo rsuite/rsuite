@@ -4,7 +4,7 @@ import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
 import { KEY_VALUES } from '@/internals/constants';
-import { useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
+import { useControlled, useStyles, useEventCallback } from '@/internals/hooks';
 import {
   forwardRef,
   shallowEqualArray,
@@ -89,10 +89,10 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
   const [characterMap, setCharacterMap] = useState<CharacterType[]>(getCharacterMap());
 
   const hoverValue = transformCharacterMapToValue(characterMap);
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(size, isPresetColor(color) && color, { disabled, readonly: readOnly })
+    withPrefix(size, isPresetColor(color) && color, { disabled, readonly: readOnly })
   );
 
   const styles = useMemo(

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { Color, WithAsProps, PlacementCorners } from '@/internals/types';
 import {
@@ -87,13 +87,13 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const text = typeof content === 'number' && content > maxCount ? `${maxCount}+` : content;
   const isOneChar = useMemo(() => String(content)?.length === 1, [content]);
 
   const classes = merge(
     className,
-    withClassPrefix(isPresetColor(color) && color, shape, {
+    withPrefix(isPresetColor(color) && color, shape, {
       compact,
       outline,
       'one-char': isOneChar,

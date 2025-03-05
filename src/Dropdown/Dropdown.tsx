@@ -11,7 +11,7 @@ import DropdownToggle from './DropdownToggle';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
 import Nav from '../Nav';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, placementPolyfill, warnOnce } from '@/internals/utils';
 import { IconProps } from '@rsuite/icons/Icon';
 import { initialState, reducer } from './DropdownState';
@@ -148,10 +148,10 @@ const Dropdown: DropdownComponent = forwardRef<'div', DropdownProps, typeof Subc
     } = propsWithDefaults;
 
     const nav = useContext(NavContext);
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
 
     const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
       if (!trigger) {
@@ -239,7 +239,7 @@ const Dropdown: DropdownComponent = forwardRef<'div', DropdownProps, typeof Subc
           {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
             const classes = merge(
               className,
-              withClassPrefix({
+              withPrefix({
                 [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
                 disabled,
                 open,

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import Heading from '../Heading';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -38,8 +38,8 @@ const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ full }));
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ full }));
 
   const styles = useMemo(
     () => mergeStyles(style, { ['--rs-opacity']: visible ? 1 : undefined }),

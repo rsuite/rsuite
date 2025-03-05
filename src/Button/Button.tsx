@@ -3,7 +3,7 @@ import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf } from '@/internals/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { ColorType, SizeType, AppearanceType, WithAsProps } from '@/internals/types';
 
@@ -87,10 +87,10 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
 
   const [active, setActive] = useControlled(activeProp, false);
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(appearance, color, size, { active, disabled, loading, block })
+    withPrefix(appearance, color, size, { active, disabled, loading, block })
   );
 
   const buttonContent = useMemo(() => {

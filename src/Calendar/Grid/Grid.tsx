@@ -2,7 +2,7 @@ import React from 'react';
 import GridRow from './GridRow';
 import GridHeaderRow from './GridHeaderRow';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 
@@ -18,8 +18,8 @@ const Grid = forwardRef<'div', GridProps>((props: GridProps, ref) => {
     rows = [],
     ...rest
   } = props;
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const { targetId } = useCalendar();
 
   return (

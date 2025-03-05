@@ -4,7 +4,7 @@ import Pagination, { PaginationProps } from './Pagination';
 import Divider from '../Divider';
 import Input from '../Input';
 import LimitPicker from './LimitPicker';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, tplTransform } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -85,12 +85,12 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const [limit, setLimit] = useControlled(limitProp, 30);
   const [activePage, setActivePage] = useControlled(activePageProp, 1);
 
   const pages = Math.floor(total / limit) + (total % limit ? 1 : 0);
-  const classes = merge(className, withClassPrefix(size));
+  const classes = merge(className, withPrefix(size));
 
   const { getLocale } = useCustom();
   const locale = getLocale('Pagination', localeProp);

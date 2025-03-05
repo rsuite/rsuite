@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -52,9 +52,9 @@ const PanelGroup = forwardRef<'div', PanelGroupProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const [activeKey, setActiveKey] = useControlled(activeProp, defaultActiveKey);
-  const classes = merge(className, withClassPrefix({ accordion, bordered }));
+  const classes = merge(className, withPrefix({ accordion, bordered }));
 
   const handleSelect = useEventCallback(
     (activeKey: KeyType | undefined, event: React.MouseEvent) => {

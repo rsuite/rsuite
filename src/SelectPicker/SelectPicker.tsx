@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import {
   forwardRef,
   createChainedFunction,
@@ -265,7 +265,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
      */
     let hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
 
-    const { prefix, merge } = useClassNames(classPrefix);
+    const { prefix, merge } = useStyles(classPrefix);
 
     let selectedElement: React.ReactNode = placeholder;
 

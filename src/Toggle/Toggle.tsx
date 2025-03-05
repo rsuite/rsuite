@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
-import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { SanitizedInputProps, WithAsProps, ColorType, SizeType } from '@/internals/types';
@@ -99,8 +99,8 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, color, { checked, disabled, loading }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, color, { checked, disabled, loading }));
   const inner = checked ? checkedChildren : unCheckedChildren;
   const label = checked ? locale?.on : locale?.off;
 

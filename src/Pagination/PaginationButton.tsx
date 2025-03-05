@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import Button from '../Button';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
@@ -44,8 +44,8 @@ const PaginationButton = forwardRef<'button', PaginationButtonProps>((props, ref
     ...rest
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ active, disabled }));
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
     if (disabled) {

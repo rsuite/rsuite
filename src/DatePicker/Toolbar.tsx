@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../Button';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
 import Stack from '../Stack';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
@@ -54,13 +54,13 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
   if (hideOkBtn && ranges?.length === 0) {
     return null;
   }
 
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withPrefix());
 
   return (
     <Stack ref={ref} className={classes} justify="space-between" align="flex-start" {...rest}>

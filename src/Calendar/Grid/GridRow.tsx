@@ -3,7 +3,7 @@ import GridCell from './GridCell';
 import { forwardRef } from '@/internals/utils';
 import { isSameDay, addDays, isBefore, isAfter, format } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 export interface GridRowProps extends WithAsProps {
@@ -34,7 +34,7 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
     onSelect
   } = useCalendar();
 
-  const { prefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useStyles(classPrefix);
 
   const handleSelect = useCallback(
     (date: Date, disabled: boolean | void, event: React.MouseEvent) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import type { WithAsProps, SizeType } from '@/internals/types';
 
@@ -23,8 +23,8 @@ const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size));
   const dialogClasses = merge(dialogClassName, prefix('dialog'));
   const modalStyle = mergeStyles({ display: 'block' }, style);
 

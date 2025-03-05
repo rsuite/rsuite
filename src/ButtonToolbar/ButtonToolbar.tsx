@@ -1,6 +1,6 @@
 import React from 'react';
 import Stack, { StackProps } from '../Stack';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -31,8 +31,8 @@ const ButtonToolbar = forwardRef<typeof Stack, ButtonToolbarProps>(
 
     const stackProps: StackProps | null = Component === Stack ? { wrap: true, spacing: 10 } : null;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
     return <Component {...stackProps} {...rest} role={role} ref={ref} className={classes} />;
   }
 );

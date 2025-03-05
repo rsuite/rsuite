@@ -2,7 +2,7 @@ import React from 'react';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { renderChildren, defaultRenderInput, ChildrenProps } from './renderChildren';
 import { useCustom } from '../CustomProvider';
@@ -88,7 +88,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
   const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, htmlProps } =
     useEditState({ ...rest, disabled });
 
@@ -113,7 +113,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
     <Component
       ref={mergeRefs(root, ref)}
       tabIndex={0}
-      className={merge(className, withClassPrefix(size, { disabled }))}
+      className={merge(className, withPrefix(size, { disabled }))}
       onClick={onClick}
       onKeyDown={onKeyDown}
       {...htmlProps}

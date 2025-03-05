@@ -2,7 +2,7 @@ import React from 'react';
 import SearchIcon from '@rsuite/icons/Search';
 import Input from '../../Input';
 import InputGroup from '../../InputGroup';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -25,8 +25,8 @@ const SearchBox = forwardRef<'div', SearchBoxProps>((props: SearchBoxProps, ref)
     onChange,
     ...rest
   } = props;
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
     <Component {...rest} ref={ref} className={classes}>

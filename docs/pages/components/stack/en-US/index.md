@@ -48,16 +48,16 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 ### `<Stack>`
 
-| Property    | Type`(default)`                 | Description                                                                                       |
-| ----------- | ------------------------------- | ------------------------------------------------------------------------------------------------- |
-| align       | CSSProperties['alignItems']     | Define the alignment of the children in the stack on the cross axis                               |
-| as          | React.ElementType               | Custom component for the root element                                                             |
-| classPrefix | string `('stack')`              | The prefix of the component CSS class                                                             |
-| direction   | CSSProperties['flexDirection']  | The direction of the children in the stack                                                        |
-| divider     | ReactNode                       | Add an element between each child                                                                 |
-| justify     | CSSProperties['justifyContent'] | Define the alignment of the children in the stack on the inline axis                              |
-| spacing     | number \| string                | Define the spacing between immediate children                                                     |
-| wrap        | boolean                         | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
+| Property    | Type`(default)`                                                 | Description                                                                                       |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| align       | CSSProperties['alignItems']                                     | Define the alignment of the children in the stack on the cross axis                               |
+| as          | React.ElementType                                               | Custom component for the root element                                                             |
+| classPrefix | string `('stack')`                                              | The prefix of the component CSS class                                                             |
+| direction   | CSSProperties['flexDirection'] \| [ResponsiveValue][responsive] | The direction of the children in the stack, support responsive value                              |
+| divider     | ReactNode                                                       | Add an element between each child                                                                 |
+| justify     | CSSProperties['justifyContent']                                 | Define the alignment of the children in the stack on the inline axis                              |
+| spacing     | number \| string                                                | Define the spacing between immediate children                                                     |
+| wrap        | boolean                                                         | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
 
 ### `<Stack.Item>`
 
@@ -94,4 +94,7 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 | spacing     | number \| string `(6)`                       | Define the spacing between immediate children                                                     |
 | wrap        | boolean                                      | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
 
+<!--{include:(_common/types/responsive-value.md)}-->
+
+[responsive]: #code-ts-responsive-value-code
 [5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

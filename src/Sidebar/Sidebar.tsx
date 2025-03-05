@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { ContainerContext } from '../Container/Container';
@@ -29,8 +29,8 @@ const Sidebar = forwardRef<'aside', SidebarProps>((props: SidebarProps, ref) => 
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ collapse: collapsible }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ collapse: collapsible }));
   const { setHasSidebar } = useContext(ContainerContext);
 
   useEffect(() => {

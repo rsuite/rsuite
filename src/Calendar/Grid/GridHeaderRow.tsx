@@ -2,7 +2,7 @@ import React from 'react';
 import upperFirst from 'lodash/upperFirst';
 import { forwardRef } from '@/internals/utils';
 import { getWeekKeys } from '@/internals/utils/date';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 
@@ -11,7 +11,7 @@ export type GridHeaderRowProps = WithAsProps;
 const GridHeaderRow = forwardRef<'div', GridHeaderRowProps>((props: GridHeaderRowProps, ref) => {
   const { as: Component = 'div', className, classPrefix = 'calendar-table', ...rest } = props;
   const { locale, showWeekNumbers, isoWeek, weekStart } = useCalendar();
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('row', 'header-row'));
   const weeks = getWeekKeys(isoWeek ? 1 : weekStart);
 

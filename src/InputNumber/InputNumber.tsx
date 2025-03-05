@@ -7,7 +7,7 @@ import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -182,8 +182,8 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
 
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const [isFocused, setIsFocused] = useState(false);
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const [htmlInputProps, rest] = partitionHTMLProps(restProps);
   const inputRef = useRef(null);

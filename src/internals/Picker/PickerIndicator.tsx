@@ -3,7 +3,7 @@ import Icon from '@rsuite/icons/Icon';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
-import { useClassNames } from '../hooks';
+import { useStyles } from '../hooks';
 import { useCustom } from '../../CustomProvider';
 import type { SizeType } from '@/internals/types';
 
@@ -28,7 +28,7 @@ const PickerIndicator = ({
 }: PickerIndicatorProps) => {
   const { getLocale } = useCustom();
   const { clear } = getLocale('common');
-  const { prefix } = useClassNames('picker');
+  const { prefix } = useStyles('picker');
 
   const addon = () => {
     if (loading) {

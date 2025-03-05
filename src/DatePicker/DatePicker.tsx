@@ -20,7 +20,7 @@ import {
   partitionHTMLProps,
   createChainedFunction
 } from '@/internals/utils';
-import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
   isValid,
   copyTime,
@@ -313,7 +313,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const id = useUniqueId('rs-', idProp);
   const { trigger, root, target, overlay } = usePickerRef(ref);
   const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
     value,

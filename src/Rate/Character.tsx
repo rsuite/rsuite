@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import contains from 'dom-lib/contains';
 import isNil from 'lodash/isNil';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 const characterStatus = {
@@ -37,9 +37,9 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const beforeRef = useRef<HTMLDivElement>(null);
-  const classes = merge(className, withClassPrefix(!isNil(status) && characterStatus[status]));
+  const classes = merge(className, withPrefix(!isNil(status) && characterStatus[status]));
 
   const handleMouseMove = useEventCallback((event: React.MouseEvent) => {
     onMouseMove?.(getKey(beforeRef.current, event.target), event);

@@ -1,6 +1,6 @@
 import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { Placement } from '@/internals/types';
 import { placementPolyfill } from '@/internals/utils';
 
@@ -40,10 +40,10 @@ function usePickerClassName(props: PickerClassNameProps): [string, string[]] {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(name, appearance, 'toggle-wrapper', {
+    withPrefix(name, appearance, 'toggle-wrapper', {
       [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
       'read-only': readOnly,
       'has-value': hasValue,

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -17,8 +17,8 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
     children,
     ...rest
   } = props;
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const context = useContext(ModalContext);
   const { getBodyStyles, closeButton, onModalClose } = context || {};

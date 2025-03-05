@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { forwardRef, getCssValue } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -43,8 +43,8 @@ const AvatarGroup = forwardRef<'div', AvatarGroupProps>((props: AvatarGroupProps
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ stack }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ stack }));
   const contextValue = useMemo(() => ({ size }), [size]);
   const styles = { '--rs-avatar-group-gap': getCssValue(spacing), ...style };
 

@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useRef } from 'react';
-import { useControlled, useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { useControlled, useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
@@ -167,11 +167,8 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
     return checkboxGroupContext.value?.some(checkedValue => checkedValue === value) ?? false;
   }, [checkboxGroupContext, selfChecked, value]);
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(color, { inline, indeterminate, disabled, checked })
-  );
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(color, { inline, indeterminate, disabled, checked }));
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   // If <Checkbox> is within a <CheckboxGroup>, it's bound to be controlled

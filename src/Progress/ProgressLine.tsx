@@ -1,7 +1,7 @@
 import React from 'react';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -52,7 +52,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
   const lineInnerStyle = {
     backgroundColor: trailColor,
@@ -66,7 +66,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix('line', {
+    withPrefix('line', {
       'line-vertical': vertical,
       [`line-${status}`]: !!status
     })

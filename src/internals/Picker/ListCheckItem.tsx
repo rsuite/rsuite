@@ -1,7 +1,7 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
-import { useClassNames, useEventCallback } from '../hooks';
+import { useStyles, useEventCallback } from '../hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps, PropsWithoutSelect } from '@/internals/types';
 
@@ -56,8 +56,8 @@ const ListCheckItem = forwardRef<'div', ListCheckItemProps>((props, ref) => {
   });
 
   const { id } = useCombobox();
-  const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
-  const checkboxItemClasses = withClassPrefix({ focus });
+  const { withPrefix, merge, rootPrefix } = useStyles(classPrefix);
+  const checkboxItemClasses = withPrefix({ focus });
 
   const checkboxProps: CheckboxProps = {
     checkable,

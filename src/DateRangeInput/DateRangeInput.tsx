@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import Input, { InputProps } from '../Input';
 import { isValid } from '@/internals/utils/date';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import {
   validateDateTime,
@@ -66,8 +66,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const inputRef = useRef<HTMLInputElement>(null);
 

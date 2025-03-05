@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../Button';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useToggleCaret } from '@/internals/hooks';
+import { useStyles, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
 import { WithAsProps, PlacementCorners } from '@/internals/types';
 
@@ -26,8 +26,8 @@ const DropdownToggle = forwardRef<typeof Button, DropdownToggleProps>(
       ...rest
     } = props;
 
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+    const { prefix, withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
     // Caret icon is down by default, when Dropdown is used in Sidenav.
     const Caret = useToggleCaret(placement);

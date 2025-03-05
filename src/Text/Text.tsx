@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
 import { WithAsProps, Color, TextSize } from '@/internals/types';
@@ -68,11 +68,11 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const hasSize = size && fontSizes.includes(size as TextSize);
   const classes = merge(
     className,
-    withClassPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {
+    withPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {
       muted,
       ellipsis: maxLines
     })

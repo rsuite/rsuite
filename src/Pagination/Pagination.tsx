@@ -6,7 +6,7 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
@@ -95,7 +95,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const renderItem = (key: string | number, itemProps: PaginationButtonProps) => {
     const { eventKey, disabled, ...itemRest } = itemProps;
 
@@ -238,7 +238,7 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     });
   };
 
-  const classes = merge(className, withClassPrefix(size));
+  const classes = merge(className, withPrefix(size));
   return (
     <Component {...rest} ref={ref} className={classes}>
       {renderFirst()}

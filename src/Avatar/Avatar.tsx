@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps, ColorType } from '@/internals/types';
 import { forwardRef } from '@/internals/utils';
 import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
@@ -91,8 +91,8 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, color, { circle, bordered }));
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, color, { circle, bordered }));
   const imageProps = { ...imgProps, alt, src, srcSet, sizes };
   const { loaded } = useImage({ ...imageProps, onError });
 

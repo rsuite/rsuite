@@ -3,7 +3,7 @@ import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useStyles, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { PanelGroupContext } from '../PanelGroup';
 import type { AnimationEventProps, WithAsProps } from '@/internals/types';
@@ -130,7 +130,7 @@ const Panel = forwardRef<'div', PanelProps>((props, ref) => {
   const bodyId = `${id}-panel`;
   const buttonId = `${id}-btn`;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const { onGroupSelect } = useContext(PanelGroupContext) || {};
   const [expanded, setExpanded, collapsible] = useExpanded({
     expanded: expandedProp,
@@ -145,10 +145,7 @@ const Panel = forwardRef<'div', PanelProps>((props, ref) => {
     setExpanded(!expanded);
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({ in: expanded, collapsible, bordered, shaded })
-  );
+  const classes = merge(className, withPrefix({ in: expanded, collapsible, bordered, shaded }));
 
   return (
     <Component {...rest} ref={ref} className={classes} id={idProp}>

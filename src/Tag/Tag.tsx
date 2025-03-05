@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
 import type { WithAsProps, Color } from '@/internals/types';
@@ -49,8 +49,8 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
   } = propsWithDefaults;
 
   const { remove } = getLocale('common', overrideLocale);
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, isPresetColor(color) && color));
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, isPresetColor(color) && color));
 
   const styles = useMemo(
     () => mergeStyles(style, createColorVariables(color, '--rs-tag-bg', '--rs-tag-text')),

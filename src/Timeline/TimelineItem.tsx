@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -55,11 +55,8 @@ const TimelineItem = forwardRef<'div', TimelineItemProps>((props, ref) => {
     INTERNAL_active,
     ...rest
   } = props;
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix({ last: DEPRECATED_last, active: INTERNAL_active })
-  );
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ last: DEPRECATED_last, active: INTERNAL_active }));
   return (
     <Component {...rest} ref={ref} className={classes}>
       <span className={prefix('tail')} />
