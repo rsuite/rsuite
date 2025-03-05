@@ -117,8 +117,6 @@ export * from './Carousel';
 // Layout
 // --------------------------------------------------------
 export * from './Grid';
-export * from './Row';
-export * from './Col';
 export * from './FlexboxGrid';
 export * from './Container';
 export * from './Content';

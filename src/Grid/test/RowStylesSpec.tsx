@@ -1,11 +1,12 @@
 import React from 'react';
-import Grid from '../index';
+import Row from '../Row';
 import { render, screen } from '@testing-library/react';
 import '../styles/index.less';
 
-describe('Grid styles', () => {
+describe('Row styles', () => {
   it('Should render the correct styles', () => {
-    render(<Grid>Grid</Grid>);
-    expect(screen.getByText('Grid')).to.have.style('padding', '0px 6px');
+    render(<Row>Row</Row>);
+
+    expect(screen.getByText('Row')).to.have.style('margin', '0px -6px');
   });
 });

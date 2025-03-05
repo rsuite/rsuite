@@ -2,36 +2,33 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col md={4} mdOffset={20}>
-        xs={4} xsOffset={20}
+    <Row>
+      <Col span={20} offset={4}>
+        <DecorativeBox>span: 20, offset: 4</DecorativeBox>
       </Col>
     </Row>
-
-    <Row className="show-grid">
-      <Col xs={8} xsOffset={16}>
-        xs={8} xsOffset={16}
+    <Row>
+      <Col span={16} offset={8}>
+        <DecorativeBox>span: 16, offset: 8</DecorativeBox>
       </Col>
     </Row>
-
-    <Row className="show-grid">
-      <Col xs={12} xsOffset={12}>
-        xs={12} xsOffset={12}
+    <Row>
+      <Col span={12} offset={12}>
+        <DecorativeBox>span: 12, offset: 12</DecorativeBox>
       </Col>
     </Row>
-
-    <Row className="show-grid">
-      <Col xs={16} xsOffset={8}>
-        xs={16} xsOffset={8}
+    <Row>
+      <Col span={8} offset={16}>
+        <DecorativeBox>span: 8, offset: 16</DecorativeBox>
       </Col>
     </Row>
-
-    <Row className="show-grid">
-      <Col xs={20} xsOffset={4}>
-        xs={20} xsOffset={4}
+    <Row>
+      <Col span={8} offset={8}>
+        <DecorativeBox>span: 8, offset: 8</DecorativeBox>
       </Col>
     </Row>
   </Grid>

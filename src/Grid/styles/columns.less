@@ -1,0 +1,22 @@
+// Columns
+//
+// Common styles for small and large grid columns
+.rs-col {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  min-height: 1px;
+  padding-inline-start: var(--rs-col-gutter);
+  padding-inline-end: var(--rs-col-gutter);
+
+  &[class*='rs-col-auto-'] {
+    flex-grow: var(--rs-col-auto-flex-grow);
+    flex-basis: var(--rs-col-auto-flex-basis);
+    max-width: var(--rs-col-auto-max-width);
+  }
+}
+
+// Auto column styles for xs (default)
+.rs-col-auto-xs {
+  .rs-col-auto-styles();
+}

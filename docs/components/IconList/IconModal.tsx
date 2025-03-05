@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Modal,
   Heading,
@@ -30,15 +31,17 @@ function IcomModal(props: IcomModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <Modal.Header>
-        <Modal.Title as={HStack}>
-          {iconName}
-          {version && (
-            <img
-              src={`https://img.shields.io/badge/@rsuite\/icons->=${version}-blue`}
-              alt={`Supported from version ${version}`}
-              title={`Supported from version ${version}`}
-            />
-          )}
+        <Modal.Title>
+          <HStack>
+            {iconName}
+            {version && (
+              <img
+                src={`https://img.shields.io/badge/@rsuite/icons->=${version}-blue`}
+                alt={`Supported from version ${version}`}
+                title={`Supported from version ${version}`}
+              />
+            )}
+          </HStack>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

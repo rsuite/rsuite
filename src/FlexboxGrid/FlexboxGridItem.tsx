@@ -4,16 +4,23 @@ import { useClassNames } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface FlexboxGridItemProps extends WithAsProps {
-  /** spacing between grids */
+  /**
+   * The number of columns the item should span
+   * @deprecated Please use `<Col span={...}>` instead.
+   */
   colspan?: number;
 
-  /** grid orders for sorting */
+  /**
+   * The order of the item in the grid
+   * @deprecated Please use `<Col order={...}>` instead.
+   */
   order?: number;
 }
 
 /**
  * The `FlexboxGrid.Item` component is used to specify the layout of the child element in the `FlexboxGrid` component.
  * @see https://rsuitejs.com/components/flexbox-grid
+ * @deprecated Please use `Col` instead.
  */
 const FlexboxGridItem = forwardRef<'div', FlexboxGridItemProps>(
   (props: FlexboxGridItemProps, ref) => {
@@ -30,7 +37,7 @@ const FlexboxGridItem = forwardRef<'div', FlexboxGridItemProps>(
     const classes = merge(
       className,
       withClassPrefix({
-        [colspan]: colspan >= 0,
+        [colspan]: colspan > 0,
         [`order-${order}`]: order
       })
     );

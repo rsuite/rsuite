@@ -1,24 +1,24 @@
 <!--start-code-->
 
 ```js
-import { FlexboxGrid } from 'rsuite';
+import { Row, Col } from 'rsuite';
 import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
-  <FlexboxGrid>
-    <FlexboxGrid.Item colspan={4} order={4}>
+  <Row>
+    <Col span={4} order={4}>
       <DecorativeBox>order={4}</DecorativeBox>
-    </FlexboxGrid.Item>
-    <FlexboxGrid.Item colspan={4} order={3}>
+    </Col>
+    <Col span={4} order={3}>
       <DecorativeBox>order={3}</DecorativeBox>
-    </FlexboxGrid.Item>
-    <FlexboxGrid.Item colspan={4} order={2}>
+    </Col>
+    <Col span={4} order={2}>
       <DecorativeBox>order={2}</DecorativeBox>
-    </FlexboxGrid.Item>
-    <FlexboxGrid.Item colspan={4} order={1}>
+    </Col>
+    <Col span={4} order={1}>
       <DecorativeBox>order={1}</DecorativeBox>
-    </FlexboxGrid.Item>
-  </FlexboxGrid>
+    </Col>
+  </Row>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

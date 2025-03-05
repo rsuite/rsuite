@@ -2,42 +2,104 @@
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+import { DecorativeBox } from '@/components/DecorativeBox';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
+    <Row>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
+      <Col span={2}>
+        <DecorativeBox>2</DecorativeBox>
+      </Col>
     </Row>
 
-    <Row className="show-grid">
-      <Col xs={4}>xs={4}</Col>
-      <Col xs={4}>xs={4}</Col>
-      <Col xs={4}>xs={4}</Col>
-      <Col xs={4}>xs={4}</Col>
-      <Col xs={4}>xs={4}</Col>
-      <Col xs={4}>xs={4}</Col>
+    <Row>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col span={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
     </Row>
 
-    <Row className="show-grid">
-      <Col xs={8}>xs={8}</Col>
-      <Col xs={8}>xs={8}</Col>
-      <Col xs={8}>xs={8}</Col>
+    <Row>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
+      <Col span={6}>
+        <DecorativeBox>6</DecorativeBox>
+      </Col>
     </Row>
 
-    <Row className="show-grid">
-      <Col xs={12}>xs={12}</Col>
-      <Col xs={12}>xs={12}</Col>
+    <Row>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+      <Col span={8}>
+        <DecorativeBox>8</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col span={12}>
+        <DecorativeBox>12</DecorativeBox>
+      </Col>
+      <Col span={12}>
+        <DecorativeBox>12</DecorativeBox>
+      </Col>
     </Row>
   </Grid>
 );

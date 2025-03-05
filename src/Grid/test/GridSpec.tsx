@@ -7,15 +7,12 @@ describe('Grid', () => {
   testStandardProps(<Grid />);
 
   it('Should render a container', () => {
-    const title = 'Test';
-    render(<Grid>{title}</Grid>);
-    expect(screen.getByRole('grid')).to.have.class('rs-grid-container');
-    expect(screen.getByRole('grid')).to.have.text(title);
+    render(<Grid>Grid</Grid>);
+    expect(screen.getByText('Grid')).to.have.class('rs-grid-container');
   });
 
   it('Should render a fluid container', () => {
-    const title = 'Test';
-    render(<Grid fluid>{title}</Grid>);
-    expect(screen.getByRole('grid')).to.have.class('rs-grid-container-fluid');
+    render(<Grid fluid>Grid</Grid>);
+    expect(screen.getByText('Grid')).to.have.class('rs-grid-container-fluid');
   });
 });

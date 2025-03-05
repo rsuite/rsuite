@@ -1,7 +1,7 @@
-import Col from './Col';
+import Col from '../Grid/Col';
 
 // export types
-export type { ColProps } from './Col';
+export type { ColProps } from '../Grid/Col';
 
 // export components
 export { Col };

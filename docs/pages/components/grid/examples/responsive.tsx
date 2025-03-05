@@ -1,53 +1,103 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import React from 'react';
+import { DecorativeBox } from '@/components/DecorativeBox';
 import { Grid, Row, Col, Divider } from 'rsuite';
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xs={24} sm={24} md={8}>
-        xs={24} sm={24} md={8}
-      </Col>
-      <Col xs={24} sm={24} md={8}>
-        xs={24} sm={24} md={8}
-      </Col>
-      <Col xs={24} sm={24} md={8}>
-        xs={24} sm={24} md={8}
-      </Col>
-    </Row>
-    <Divider />
-    <Row className="show-grid">
-      <Col xs={24} md={24} lg={12}>
-        xs={24} md={24} lg={12}
-      </Col>
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-    </Row>
-    <Divider />
-    <Row className="show-grid">
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-      <Col xs={24} md={12} lg={6}>
-        xs={24} md={12} lg={6}
-      </Col>
-    </Row>
-    <Divider />
-    <Row className="show-grid">
-      <Col xsHidden md={12}>
-        xsHidden md={12}
+    <Divider>Responsive Columns</Divider>
+    <Row>
+      <Col xs={24} md={12}>
+        <DecorativeBox>xs=24, md=12</DecorativeBox>
       </Col>
       <Col xs={24} md={12}>
-        xs={24} md={12}
+        <DecorativeBox>xs=24, md=12</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Divider>Responsive Gutter & Alignment</Divider>
+    <Row
+      gutter={{
+        xs: 8, // Compact layout for mobile
+        md: 24 // Loose layout for desktop
+      }}
+      align={{
+        xs: 'top', // Top alignment for mobile
+        md: 'middle' // Middle alignment for desktop
+      }}
+    >
+      <Col xs={24} md={8}>
+        <DecorativeBox>Col 1</DecorativeBox>
+      </Col>
+      <Col xs={24} md={8}>
+        <DecorativeBox h={80}>Col 2</DecorativeBox>
+      </Col>
+      <Col xs={24} md={8}>
+        <DecorativeBox>Col 3</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Divider>Responsive Justify</Divider>
+    <Row
+      justify={{
+        xs: 'center', // Center for mobile
+        md: 'space-between' // Space between for desktop
+      }}
+    >
+      <Col xs={8}>
+        <DecorativeBox>Col 1</DecorativeBox>
+      </Col>
+      <Col xs={8}>
+        <DecorativeBox>Col 2</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Divider>Complex Responsive Layout</Divider>
+    <Row
+      gutter={{
+        xs: 8,
+        md: 16
+      }}
+    >
+      <Col xs={24} md={16}>
+        <DecorativeBox h={134}>
+          Main Content
+          <br />
+          xs=24, md=16
+        </DecorativeBox>
+      </Col>
+      <Col xs={24} md={8}>
+        <Row>
+          <Col xs={12} md={24}>
+            <DecorativeBox>
+              Sidebar Top
+              <br />
+              xs=12, md=24
+            </DecorativeBox>
+          </Col>
+          <Col xs={12} md={24}>
+            <DecorativeBox>
+              Sidebar Bottom
+              <br />
+              xs=12, md=24
+            </DecorativeBox>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+
+    <Divider>Responsive Auto Span</Divider>
+    <Row>
+      <Col span={{ xs: 'auto', md: 8 }}>
+        <DecorativeBox>xs=auto, md=8</DecorativeBox>
+      </Col>
+      <Col span={{ xs: 12, md: 'auto' }}>
+        <DecorativeBox>xs=12, md=auto</DecorativeBox>
+      </Col>
+      <Col span={{ xs: 'auto', md: 'auto' }}>
+        <DecorativeBox>xs=auto, md=auto</DecorativeBox>
       </Col>
     </Row>
   </Grid>

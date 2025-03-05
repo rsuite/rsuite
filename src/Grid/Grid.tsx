@@ -4,7 +4,7 @@ import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 export interface GridProps extends WithAsProps {
-  /** Fluid layout */
+  /** Whether the grid container should have a fluid width */
   fluid?: boolean;
 }
 
@@ -25,7 +25,7 @@ const Grid = forwardRef<'div', GridProps>((props: GridProps, ref) => {
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, fluid ? prefix({ fluid }) : withClassPrefix());
 
-  return <Component role="grid" {...rest} ref={ref} className={classes} />;
+  return <Component {...rest} ref={ref} className={classes} />;
 });
 
 Grid.displayName = 'Grid';

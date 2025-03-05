@@ -3,7 +3,6 @@ import type { StoryObj } from '@storybook/react';
 import FlexboxGrid from '../FlexboxGrid';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
-import './styles.less';
 
 const meta = createMeta(FlexboxGrid);
 
@@ -15,7 +14,6 @@ export default {
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
-  className: 'show-grid',
   children: (
     <>
       <FlexboxGrid.Item colspan={4}>colspan={4}</FlexboxGrid.Item>

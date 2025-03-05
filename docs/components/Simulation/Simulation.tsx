@@ -44,7 +44,7 @@ const Simulation: React.FC<SimulationProps> = ({
       case 'mobile':
         return { width: 375, height: 667 };
       case 'tablet':
-        return { width: 768, height: 1024 };
+        return { width: 767, height: 1024 };
       default:
         return { width: '100%', maxWidth: 960, height: 600 };
     }
