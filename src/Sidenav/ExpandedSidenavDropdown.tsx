@@ -1,12 +1,11 @@
 import React, { useContext, useCallback } from 'react';
-import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
 import NavContext from '../Nav/NavContext';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '@/internals/Disclosure/Disclosure';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
 import { useStyles, useInternalId } from '@/internals/hooks';
-import { forwardRef, placementPolyfill, mergeRefs } from '@/internals/utils';
+import { forwardRef, kebabPlace, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { NavMenuContext } from '../Nav/NavMenu';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
@@ -141,10 +140,8 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
         const classes = merge(
           className,
           withPrefix({
-            [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
             [open ? 'expand' : 'collapse']: true,
-            disabled,
-            'selected-within': hasSelectedItems
+            disabled
           })
         );
 
@@ -153,8 +150,10 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
             ref={mergeRefs(ref, containerRef as any)}
             style={style}
             className={classes}
-            {...rest}
             data-event-key={eventKey}
+            data-placement={kebabPlace(placement)}
+            data-active-descendant={hasSelectedItems}
+            {...rest}
           >
             <Disclosure.Button>
               {(buttonProps, buttonRef) => (

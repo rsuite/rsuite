@@ -8,11 +8,10 @@ import DropdownSeparator from './DropdownSeparator';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import DropdownToggle from './DropdownToggle';
-import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
 import Nav from '../Nav';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef, mergeRefs, placementPolyfill, warnOnce } from '@/internals/utils';
+import { forwardRef, mergeRefs, kebabPlace, warnOnce } from '@/internals/utils';
 import { IconProps } from '@rsuite/icons/Icon';
 import { initialState, reducer } from './DropdownState';
 import { useCustom } from '../CustomProvider';
@@ -237,22 +236,16 @@ const Dropdown: DropdownComponent = forwardRef<'div', DropdownProps, typeof Subc
           }}
         >
           {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
-            const classes = merge(
-              className,
-              withPrefix({
-                [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-                disabled,
-                open,
-                'selected-within': hasSelectedItem
-              })
-            );
+            const classes = merge(className, withPrefix({ disabled, open }));
             return (
               <Component
                 ref={mergeRefs(ref, menuContainerRef)}
                 className={classes}
+                style={style}
+                data-placement={kebabPlace(placement)}
+                data-active-descendant={hasSelectedItem}
                 {...menuContainer}
                 {...pick(toggleProps, ['data-testid'])}
-                style={style}
               />
             );
           }}

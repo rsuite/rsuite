@@ -4,13 +4,12 @@ import pick from 'lodash/pick';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import MenuItem from '@/internals/Menu/MenuItem';
-import kebabCase from 'lodash/kebabCase';
 import ExpandedSidenavDropdown from './ExpandedSidenavDropdown';
 import NavContext from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import { NavMenuContext } from '../Nav/NavMenu';
-import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
+import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
@@ -220,20 +219,20 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
           const classes = merge(
             className,
             withPrefix({
-              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open,
-              submenu: true,
-              'selected-within': hasSelectedItems
+              submenu: true
             })
           );
           return (
             <Component
               ref={mergeRefs(ref, menuContainerRef)}
               className={classes}
+              style={style}
+              data-placement={kebabPlace(placement)}
+              data-active-descendant={hasSelectedItems}
               {...menuContainer}
               {...pick(toggleProps, ['data-testid'])}
-              style={style}
             />
           );
         }}

@@ -139,14 +139,14 @@ describe('<Dropdown>', () => {
     expect(screen.getByRole('button')).to.have.class('custom-toggle');
   });
 
-  it('Should have a className for placement', () => {
+  it('Should apply the correct data-placement attribute', () => {
     const { container } = render(
       <Dropdown placement="topStart">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    expect(container.firstChild).to.have.class('rs-dropdown-placement-top-start');
+    expect(container.firstChild).to.have.attribute('data-placement', 'top-start');
   });
 
   it('Should have a title', () => {

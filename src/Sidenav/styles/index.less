@@ -565,19 +565,6 @@
     }
   }
 
-  // Active
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-dropdown-toggle,
-  .rs-sidenav-item,
-  .rs-dropdown .rs-sidenav-dropdown-toggle {
-    color: var(--rs-sidenav-inverse-text);
-
-    &:hover,
-    &:focus,
-    &.rs-dropdown-item-focus {
-      color: var(--rs-sidenav-inverse-text);
-    }
-  }
-
   .rs-sidenav-item.rs-sidenav-item-active,
   .rs-dropdown-item.rs-dropdown-item-active {
     color: var(--rs-sidenav-inverse-selected-text);
@@ -652,21 +639,6 @@
   // Reset active dropdown-item style
   .rs-dropdown-menu > .rs-dropdown-item.rs-dropdown-item-active {
     color: var(--rs-sidenav-subtle-selected-text);
-  }
-}
-
-.rs-sidenav-subtle.rs-sidenav-collapse-in,
-.rs-sidenav-subtle.rs-sidenav-collapsing,
-.rs-sidenav-subtle.rs-sidenav-collapse-out {
-  // Set active Level1 style
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-dropdown-toggle {
-    &:hover {
-      background-color: var(--rs-sidenav-subtle-hover-bg);
-    }
-
-    &-icon {
-      color: var(--rs-sidenav-subtle-selected-text);
-    }
   }
 }
 
