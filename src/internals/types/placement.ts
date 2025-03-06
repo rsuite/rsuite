@@ -1,11 +1,13 @@
 export type PlacementCardinal = 'top' | 'bottom' | 'right' | 'left';
-export type PlacementCornersPolyfill = 'leftStart' | 'rightStart' | 'leftEnd' | 'rightEnd';
 export type PlacementCorners =
   | 'topStart'
   | 'topEnd'
   | 'bottomStart'
   | 'bottomEnd'
-  | PlacementCornersPolyfill;
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
 export type PlacementAuto =
   | 'auto'
   | 'autoVertical'

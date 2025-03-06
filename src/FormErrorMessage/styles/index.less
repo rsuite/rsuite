@@ -1,5 +1,40 @@
-@import '../../styles/common';
-@import 'animation';
+@import '../../styles/common.less';
+@import './animation.less';
+
+@arrow-width: @form-err-msg-triangle-width;
+@arrow-gap: @form-err-msg-triangle-gap;
+
+// Mixins for common arrow styles
+.arrow-base() {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+
+.arrow-position(@position, @offset) {
+  &::before,
+  &::after {
+    @{position}: @offset;
+  }
+}
+
+.arrow-border(@direction, @w1, @w2, @w3, @position, @offset) {
+  &::before,
+  &::after {
+    border-width: @w1 @w2 @w3;
+    border-@{direction}-color: var(--rs-form-errormessage-border);
+    @{position}: -1 * @offset;
+  }
+
+  &::after {
+    @{position}: -1 * (@offset - 1);
+    border-@{direction}-color: var(--rs-form-errormessage-bg);
+  }
+}
 
 .rs-form-error-message {
   --rs-form-errormessage-font-size: var(--rs-font-size-xs);
@@ -18,11 +53,6 @@
   display: none;
   white-space: nowrap;
 
-  // Used to provide relation for error message
-  &-wrapper {
-    position: absolute;
-  }
-
   &-show {
     display: block;
     animation-duration: 0.3s;
@@ -30,196 +60,120 @@
   }
 
   &-arrow {
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      border-color: transparent;
-      border-style: solid;
-    }
+    .arrow-base();
   }
+}
 
-  // Placement
-  // == Bottom Left && Bottom Right && Top Left && Top Right
-  &-placement-bottom-start,
-  &-placement-bottom-end {
+.rs-form-error-message-wrapper {
+  position: absolute;
+
+  // Vertical placements (top/bottom)
+  &:where([data-placement='bottom-start'], [data-placement='bottom-end']) {
     bottom: 0;
 
     .rs-form-error-message {
       top: 0;
-
       &-show {
         animation-name: errorMessageSlideDownIn;
       }
     }
 
     .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        border-width: 0 @form-error-message-triangle-width @form-error-message-triangle-width;
-        border-bottom-color: var(--rs-form-errormessage-border);
-        top: -1 * @form-error-message-triangle-width;
-      }
-
-      &::after {
-        top: -1 * (@form-error-message-triangle-width - 1);
-        border-bottom-color: var(--rs-form-errormessage-bg);
-      }
+      .arrow-border(bottom, 0, @arrow-width, @arrow-width, top, @arrow-width);
     }
   }
 
-  &-placement-top-start,
-  &-placement-top-end {
+  &:where([data-placement='top-start'], [data-placement='top-end']) {
     top: 0;
 
     .rs-form-error-message {
       bottom: 0;
-
       &-show {
         animation-name: errorMessageSlideUpIn;
       }
     }
 
     .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        border-width: @form-error-message-triangle-width @form-error-message-triangle-width 0;
-        border-top-color: var(--rs-form-errormessage-border);
-        bottom: -1 * @form-error-message-triangle-width;
-      }
-
-      &::after {
-        bottom: -1 * (@form-error-message-triangle-width - 1);
-        border-top-color: var(--rs-form-errormessage-bg);
-      }
+      .arrow-border(top, @arrow-width, @arrow-width, 0, bottom, @arrow-width);
     }
   }
 
-  &-placement-bottom-start,
-  &-placement-top-start {
+  // Inline start/end positions
+  &:where([data-placement='bottom-start'], [data-placement='top-start']) {
     inset-inline-start: 0;
-
     .rs-form-error-message {
       inset-inline-start: 0;
     }
-
     .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        inset-inline-start: @form-error-message-triangle-gap;
-      }
+      .arrow-position(inset-inline-start, @arrow-gap);
     }
   }
 
-  &-placement-bottom-end,
-  &-placement-top-end {
+  &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     inset-inline-end: 0;
-
     .rs-form-error-message {
       inset-inline-end: 0;
     }
-
     .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        inset-inline-end: @form-error-message-triangle-gap;
-      }
+      .arrow-position(inset-inline-end, @arrow-gap);
     }
   }
-}
 
-/* rtl:begin:ignore */
-
-// == Left Top && Left Bottom Right && Top && Right Bottom
-/* stylelint-disable-next-line */ // For RTL Scope
-.rs-form-error-message {
-  &-placement-left-start,
-  &-placement-left-end {
-    inset-inline-start: 0;
+  .horizontal-arrow-styles(@direction, @opposite) {
+    @{direction}: 0;
 
     .rs-form-error-message {
-      inset-inline-end: 0;
-
+      @{opposite}: 0;
       &-show {
-        animation-name: errorMessageSlideRightIn;
+        animation-name: if(@direction = left, errorMessageSlideRightIn, errorMessageSlideLeftIn);
       }
     }
 
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        border-width: @form-error-message-triangle-width 0 @form-error-message-triangle-width
-          @form-error-message-triangle-width;
-        border-left-color: var(--rs-form-errormessage-border);
-        inset-inline-end: -1 * @form-error-message-triangle-width;
+        border-width: @arrow-width
+          if(@direction = left, 0 @arrow-width @arrow-width, @arrow-width @arrow-width 0);
+        border-@{direction}-color: var(--rs-form-errormessage-border);
+        @{opposite}: -1 * @arrow-width;
       }
-
       &::after {
-        inset-inline-end: -1 * (@form-error-message-triangle-width - 1);
-        border-left-color: var(--rs-form-errormessage-bg);
+        @{opposite}: -1 * (@arrow-width - 1);
+        border-@{direction}-color: var(--rs-form-errormessage-bg);
       }
     }
   }
 
-  &-placement-right-start,
-  &-placement-right-end {
-    inset-inline-end: 0;
-
+  .vertical-alignment-styles(@position) {
+    @{position}: 0;
     .rs-form-error-message {
-      inset-inline-start: 0;
-
-      &-show {
-        animation-name: errorMessageSlideLeftIn;
-      }
+      @{position}: 0;
     }
-
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        border-width: @form-error-message-triangle-width @form-error-message-triangle-width
-          @form-error-message-triangle-width 0;
-        border-right-color: var(--rs-form-errormessage-border);
-        inset-inline-start: -1 * @form-error-message-triangle-width;
-      }
-
-      &::after {
-        inset-inline-start: -1 * (@form-error-message-triangle-width - 1);
-        border-right-color: var(--rs-form-errormessage-bg);
+        @{position}: @form-err-msg-triangle-vertical;
       }
     }
   }
 
-  &-placement-left-start,
-  &-placement-right-start {
-    top: 0;
-
-    .rs-form-error-message {
-      top: 0;
-    }
-
-    .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        top: @form-error-message-triangle-vertical;
-      }
-    }
+  /* rtl:begin:ignore */
+  // Horizontal placements (left/right)
+  &:where([data-placement='left-start'], [data-placement='left-end']) {
+    .horizontal-arrow-styles(left, right);
   }
 
-  &-placement-left-end,
-  &-placement-right-end {
-    bottom: 0;
-
-    .rs-form-error-message {
-      bottom: 0;
-    }
-
-    .rs-form-error-message-arrow {
-      &::before,
-      &::after {
-        bottom: @form-error-message-triangle-vertical;
-      }
-    }
+  &:where([data-placement='right-start'], [data-placement='right-end']) {
+    .horizontal-arrow-styles(right, left);
   }
+
+  // Vertical alignment for horizontal placements
+  &:where([data-placement='left-start'], [data-placement='right-start']) {
+    .vertical-alignment-styles(top);
+  }
+
+  &:where([data-placement='left-end'], [data-placement='right-end']) {
+    .vertical-alignment-styles(bottom);
+  }
+  /* rtl:end:ignore */
 }
-
-/* rtl:end:ignore */

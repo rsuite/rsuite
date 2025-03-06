@@ -1,7 +1,6 @@
 import React from 'react';
-import kebabCase from 'lodash/kebabCase';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef, placementPolyfill } from '@/internals/utils';
+import { forwardRef, kebabPlace } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
 
@@ -31,15 +30,15 @@ const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) =
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const classes = withPrefix('show');
-  const wrapperClasses = merge(
-    className,
-    prefix('wrapper', {
-      [`placement-${kebabCase(placementPolyfill(placement))}`]: placement
-    })
-  );
+  const wrapperClasses = merge(className, prefix('wrapper'));
 
   return show ? (
-    <Component {...rest} ref={ref} className={wrapperClasses}>
+    <Component
+      ref={ref}
+      data-placement={kebabPlace(placement)}
+      className={wrapperClasses}
+      {...rest}
+    >
       <span className={classes}>
         <span className={prefix`arrow`} />
         <span className={prefix`inner`}>{children}</span>

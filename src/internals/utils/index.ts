@@ -3,6 +3,7 @@ export * from './htmlPropsUtils';
 export * from './colours';
 export * from './sizes';
 export * from './style-sheet';
+export * from './placement';
 
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
@@ -12,7 +13,6 @@ export { createChainedFunction } from './createChainedFunction';
 export { isOneOf } from './isOneOf';
 export { ReactChildren } from './ReactChildren';
 export { tplTransform } from './tplTransform';
-export { placementPolyfill } from './placementPolyfill';
 export { mergeRefs } from './mergeRefs';
 export { shallowEqual, shallowEqualArray } from './shallowEqual';
 export { composeFunctions } from './composeFunctions';
