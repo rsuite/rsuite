@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import {
   PickerToggleTrigger,
@@ -218,8 +218,8 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
     onBlur?.(event);
   });
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ disabled }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ disabled }));
   const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {

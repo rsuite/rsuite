@@ -2,7 +2,7 @@ import React from 'react';
 import partial from 'lodash/partial';
 import { forwardRef } from '@/internals/utils';
 import { isSameDay, getDate } from '@/internals/utils/date';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
@@ -41,7 +41,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
     renderCellOnPicker,
     locale: overrideLocale
   } = useCalendar();
-  const { prefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useStyles(classPrefix);
   const { getLocale, formatDate } = useCustom();
   const { formattedDayPattern, today } = getLocale('Calendar', overrideLocale);
 

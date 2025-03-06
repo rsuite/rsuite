@@ -8,7 +8,7 @@ import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
-import { useClassNames, useEnsuredRef, useControlled } from '@/internals/hooks';
+import { useStyles, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { useCustom } from '../CustomProvider';
@@ -112,7 +112,7 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
 
   const menubarRef = useEnsuredRef(ref);
 
-  const { withClassPrefix, merge, rootPrefix, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, rootPrefix, prefix } = useStyles(classPrefix);
 
   const classes = merge(
     className,
@@ -120,7 +120,7 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
       'navbar-nav': navbar,
       'sidenav-nav': sidenav
     }),
-    withClassPrefix(appearance, {
+    withPrefix(appearance, {
       horizontal: (navbar || !sidenav) && !vertical,
       vertical: vertical || sidenav,
       justified,

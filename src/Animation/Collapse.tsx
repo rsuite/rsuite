@@ -4,7 +4,7 @@ import addStyle from 'dom-lib/addStyle';
 import get from 'lodash/get';
 import capitalize from 'lodash/capitalize';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 
@@ -67,7 +67,7 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
     ...rest
   } = propsWithDefaults;
 
-  const { prefix, merge } = useClassNames('anim');
+  const { prefix, merge } = useStyles('anim');
   const dimension = typeof dimensionProp === 'function' ? dimensionProp() : dimensionProp;
 
   const handleEnter = useCallback(

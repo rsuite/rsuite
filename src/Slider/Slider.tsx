@@ -6,7 +6,7 @@ import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
@@ -122,12 +122,12 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   } = propsWithDefaults;
 
   const barRef = useRef<HTMLDivElement>(null);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('Slider');
 
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
+    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
   );
 
   const max = useMemo(

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps, SizeType } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -53,8 +53,8 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { block, divided, vertical, justified }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, { block, divided, vertical, justified }));
   const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
 
   return (

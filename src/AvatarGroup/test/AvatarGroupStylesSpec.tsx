@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import AvatarGroup from '../index';
-
+import { render, screen } from '@testing-library/react';
 import '../styles/index.less';
 
 describe('AvatarGroup styles', () => {
@@ -9,5 +8,10 @@ describe('AvatarGroup styles', () => {
     render(<AvatarGroup />);
 
     expect(screen.getByRole('group')).to.have.style('flex-wrap', 'wrap');
+  });
+
+  it('Should set the spacing between the avatars', () => {
+    render(<AvatarGroup spacing={10} />);
+    expect(screen.getByRole('group')).to.have.style('gap', '10px');
   });
 });

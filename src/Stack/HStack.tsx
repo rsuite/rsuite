@@ -14,18 +14,10 @@ const Subcomponents = {
 };
 
 const HStack = forwardRef<'div', HStackProps, typeof Subcomponents>((props, ref) => {
-  const { reverse, spacing = 6, childrenRenderMode = 'clone', ...rest } = props;
+  const { reverse, ...rest } = props;
   const direction = reverse ? 'row-reverse' : 'row';
 
-  return (
-    <Stack
-      spacing={spacing}
-      childrenRenderMode={childrenRenderMode}
-      {...rest}
-      direction={direction}
-      ref={ref}
-    />
-  );
+  return <Stack {...rest} direction={direction} ref={ref} />;
 }, Subcomponents);
 
 HStack.displayName = 'HStack';

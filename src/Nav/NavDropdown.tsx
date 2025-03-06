@@ -7,7 +7,7 @@ import NavContext from './NavContext';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
@@ -111,10 +111,9 @@ const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((p
     ...toggleProps
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
-  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-    useClassNames('dropdown-menu');
+  const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useStyles('dropdown-menu');
 
   const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
     if (!trigger) {
@@ -185,7 +184,7 @@ const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((p
       {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
         const classes = merge(
           className,
-          withClassPrefix({
+          withPrefix({
             [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
             disabled,
             open,

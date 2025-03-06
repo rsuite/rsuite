@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType } from '@/internals/types';
 
@@ -27,8 +27,8 @@ const Kbd = forwardRef<'kbd', KbdProps>((props: KbdProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size));
 
   return <Component {...rest} ref={ref} className={classes} />;
 });

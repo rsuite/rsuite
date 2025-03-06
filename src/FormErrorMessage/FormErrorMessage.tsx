@@ -1,6 +1,6 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, placementPolyfill } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
@@ -29,8 +29,8 @@ const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = withClassPrefix('show');
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = withPrefix('show');
   const wrapperClasses = merge(
     className,
     prefix('wrapper', {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps, Breakpoints } from '@/internals/types';
 
 export interface BoxProps extends WithAsProps {
@@ -31,10 +31,10 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       [`visible-${visible}`]: visible,
       [`hidden-${hidden}`]: hidden
     })

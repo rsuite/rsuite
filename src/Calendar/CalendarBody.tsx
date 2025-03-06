@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from './Grid';
 import { forwardRef } from '@/internals/utils';
 import { getWeekStartDates, setDate } from '@/internals/utils/date';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCalendar } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -17,8 +17,8 @@ const CalendarBody = forwardRef<'div', CalendarBodyProps>((props, ref) => {
   const locale = getLocale('Calendar', overrideLocale);
   const thisMonthDate = setDate(date, 1);
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
     <Component {...rest} ref={ref} className={classes}>

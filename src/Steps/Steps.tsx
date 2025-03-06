@@ -1,7 +1,7 @@
 import React from 'react';
 import StepItem from './StepItem';
 import { forwardRef, ReactChildren } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -45,9 +45,9 @@ const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const horizontal = !vertical;
-  const classes = merge(className, withClassPrefix({ small, vertical, horizontal: !vertical }));
+  const classes = merge(className, withPrefix({ small, vertical, horizontal: !vertical }));
 
   const count = ReactChildren.count(children);
   const items = ReactChildren.mapCloneElement(children, (item, index) => {

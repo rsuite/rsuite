@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { Placement, WithAsProps } from '@/internals/types';
 
@@ -36,10 +36,10 @@ const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       arrow
     })
   );

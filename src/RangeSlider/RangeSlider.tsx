@@ -6,7 +6,7 @@ import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
 import { useCustom } from '../CustomProvider';
 import type { SliderProps } from '../Slider';
@@ -70,11 +70,11 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
   // Define the parameter position of the handle
   const handleIndexs = useRef([0, 1]);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
+    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
   );
 
   const max = useMemo(

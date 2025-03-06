@@ -6,7 +6,7 @@ import DrawerHeader from './DrawerHeader';
 import DrawerActions from './DrawerActions';
 import DrawerFooter from './DrawerFooter';
 import DrawerTitle from './DrawerTitle';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { PlacementCardinal } from '@/internals/types';
@@ -48,7 +48,7 @@ const Drawer = forwardRef<'div', DrawerProps, typeof Subcomponents>((props, ref)
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix(placement));
 
   const animationProps = { placement };

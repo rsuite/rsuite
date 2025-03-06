@@ -1,6 +1,6 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
 interface ProgressBarProps extends WithAsProps {
@@ -22,14 +22,14 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
     className
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
   const sizeKey = vertical ? 'height' : 'width';
   const dirKey = rtl ? 'right' : 'left';
   const startKey = vertical ? 'bottom' : dirKey;
 
-  const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
-  const classes = merge(className, withClassPrefix());
+  const styles = mergeStyles(style, { [startKey]: `${start}%`, [sizeKey]: `${end - start}%` });
+  const classes = merge(className, withPrefix());
 
   return (
     <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -49,8 +49,8 @@ const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(appearance, indicator));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance, indicator));
   const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface TabPanelProps extends WithAsProps {
@@ -21,7 +21,7 @@ const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
 
   return (
     <Component
@@ -29,7 +29,7 @@ const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
       ref={ref}
       tabIndex={0}
       hidden={!active}
-      className={merge(className, withClassPrefix())}
+      className={merge(className, withPrefix())}
       {...rest}
     >
       {children}

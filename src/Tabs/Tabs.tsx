@@ -3,7 +3,7 @@ import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
 import { forwardRef, ReactChildren } from '@/internals/utils';
-import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, ReactElement } from '@/internals/types';
 
@@ -185,7 +185,7 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
 
   const id = useUniqueId('tab-', idProp);
   const [activeKey, setActiveKey] = useControlled(activeKeyProp, defaultActiveKey);
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const tablistRef = React.useRef<HTMLDivElement>(null);
 
   const handleSelect = useEventCallback(
@@ -245,11 +245,7 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
   );
 
   return (
-    <Component
-      className={merge(className, withClassPrefix({ reversed, vertical }))}
-      {...rest}
-      ref={ref}
-    >
+    <Component className={merge(className, withPrefix({ reversed, vertical }))} {...rest} ref={ref}>
       <Nav
         role="tablist"
         aria-orientation={vertical ? 'vertical' : 'horizontal'}

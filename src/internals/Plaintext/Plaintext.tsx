@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -27,8 +27,8 @@ const Plaintext = forwardRef<'div', PlaintextProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ empty: !children }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ empty: !children }));
 
   return (
     <Component role="text" {...rest} ref={ref} className={classes}>

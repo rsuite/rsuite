@@ -1,14 +1,13 @@
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
-export * from './css';
 export * from './colours';
 export * from './sizes';
+export * from './style-sheet';
 
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
 export { getDOMNode } from './getDOMNode';
 export { guid } from './guid';
-export { prefix, defaultClassPrefix, getClassNamePrefix } from './prefix';
 export { createChainedFunction } from './createChainedFunction';
 export { isOneOf } from './isOneOf';
 export { ReactChildren } from './ReactChildren';

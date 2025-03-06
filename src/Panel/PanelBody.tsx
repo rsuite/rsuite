@@ -1,6 +1,6 @@
 import React from 'react';
 import Collapse from '../Animation/Collapse';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps, AnimationEventProps } from '@/internals/types';
 import ScrollView from '@/internals/ScrollView';
 
@@ -39,8 +39,8 @@ const PanelBody = (props: PanelBodyProps) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const bodyClasses = merge(className, withClassPrefix({ fill: bodyFill }));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const bodyClasses = merge(className, withPrefix({ fill: bodyFill }));
 
   const renderBody = (bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
     return (

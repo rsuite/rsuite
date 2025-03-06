@@ -3,7 +3,7 @@ import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
@@ -30,8 +30,8 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ tooltip }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ tooltip }));
 
   if (tooltip) {
     return (

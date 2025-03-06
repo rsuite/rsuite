@@ -106,17 +106,6 @@ Use the `order` property to control the visual order of columns regardless of th
 | push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right                                                             |
 | span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content |
 
-### `ts:ResponsiveValue`
-
-```ts
-type ResponsiveValue<T> = {
-  xs?: T; // Extra small devices (portrait phones, <576px)
-  sm?: T; // Small devices (landscape phones, ≥576px)
-  md?: T; // Medium devices (tablets, ≥768px)
-  lg?: T; // Large devices (desktops, ≥992px)
-  xl?: T; // Extra large devices (large desktops, ≥1200px)
-  xxl?: T; // Extra extra large devices (larger desktops, ≥1400px)
-};
-```
+<!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code

@@ -2,8 +2,8 @@ import React from 'react';
 import Tooltip from '../Tooltip';
 import Input from './Input';
 import useDrag from './useDrag';
-import { forwardRef, mergeRefs } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef, mergeRefs, mergeStyles } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
@@ -48,8 +48,8 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
 
   const horizontalKey = rtl ? 'right' : 'left';
   const direction = vertical ? 'bottom' : horizontalKey;
-  const styles = { ...style, [direction]: `${position}%` };
-  const { merge, prefix } = useClassNames(classPrefix);
+  const styles = mergeStyles(style, { [direction]: `${position}%` });
+  const { merge, prefix } = useStyles(classPrefix);
 
   const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
     tooltip,

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../../Animation/Transition';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
 import type { Offset, WithAsProps } from '@/internals/types';
@@ -35,7 +35,7 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
 const Ripple = forwardRef<'span', RippleProps>((props, ref) => {
   const { disableRipple } = useCustom();
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('pond'));
   const triggerRef = useRef<HTMLElement>(null);
   const [rippling, setRippling] = useState(false);
@@ -80,7 +80,7 @@ const Ripple = forwardRef<'span', RippleProps>((props, ref) => {
             <span
               {...transitionRest}
               ref={ref}
-              className={merge(withClassPrefix(), className)}
+              className={merge(withPrefix(), className)}
               style={position}
             />
           );

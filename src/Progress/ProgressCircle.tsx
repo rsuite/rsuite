@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -113,11 +113,8 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
 
   const { pathString, trailPathStyle, strokePathStyle } = getPathStyles();
 
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix('circle', { [`circle-${status || ''}`]: !!status })
-  );
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix('circle', { [`circle-${status || ''}`]: !!status }));
 
   const showIcon = status && status !== 'active';
   const info = showIcon ? (

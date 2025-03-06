@@ -17,7 +17,7 @@ import {
 } from '@/internals/Windowing';
 import { forwardRef } from '@/internals/utils';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView as BaseTreeView } from '@/internals/Tree';
@@ -148,7 +148,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
   const { valueKey, childrenKey, scrollShadow, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
 
   const handleSearchCallback = useEventCallback(
     (value: string, _data, event: React.SyntheticEvent) => {
@@ -328,7 +328,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     );
   };
 
-  const classes = merge(withClassPrefix({ virtualized }), className);
+  const classes = merge(withPrefix({ virtualized }), className);
   const formattedNodes = getFormattedNodes(renderNode);
 
   return (

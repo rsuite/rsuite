@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { WithAsPropsWithoutChildren, StatusType, DisplayStateType } from '@/internals/types';
@@ -61,7 +61,7 @@ const Notification = forwardRef<'div', NotificationProps, any, 'children'>((prop
   } = propsWithDefaults;
 
   const [display, setDisplay] = useState<DisplayStateType>('show');
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
   const isMounted = useIsMounted();
   const targetRef = React.useRef<HTMLDivElement>(null);
 
@@ -85,7 +85,7 @@ const Notification = forwardRef<'div', NotificationProps, any, 'children'>((prop
     return null;
   }
 
-  const classes = merge(className, withClassPrefix(type, { closable }));
+  const classes = merge(className, withPrefix(type, { closable }));
 
   return (
     <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>

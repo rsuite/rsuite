@@ -3,7 +3,7 @@ import MonthDropdownItem from './MonthDropdownItem';
 import { forwardRef } from '@/internals/utils';
 import { getMonth, getYear } from '@/internals/utils/date';
 import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { isEveryDateInMonth } from '../utils';
@@ -38,7 +38,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
   } = props;
 
   const { date = new Date(), targetId, monthDropdownProps } = useCalendar();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const thisYear = getYear(new Date());
   const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
 
@@ -107,7 +107,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
     [Item, date, isMonthDisabled, merge, prefix, itemClassName, rowCount, startYear]
   );
 
-  const classes = merge(className, withClassPrefix(), { show });
+  const classes = merge(className, withPrefix(), { show });
   const initialItemIndex = getYear(date) - startYear;
   const initialScrollOffset = ITEM_SIZE * initialItemIndex;
 

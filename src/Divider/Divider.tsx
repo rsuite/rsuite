@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledBox from '@/internals/StyledBox';
 import { forwardRef, getSizeStyle, mergeStyles } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, SizeType, ColorType } from '@/internals/types';
 
@@ -64,8 +64,8 @@ const Divider = forwardRef<'div', DividerProps>((props: DividerProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const styles = mergeStyles(style, getSizeStyle(spacing, 'divider', 'spacing'));
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -18,8 +18,8 @@ const Mark = forwardRef<'span', MarkProps>((props, ref) => {
     className,
     renderMark
   } = props;
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ last }));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ last }));
 
   if (renderMark) {
     return (

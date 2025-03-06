@@ -17,7 +17,7 @@ import * as StaticMethods from './disabledDateUtils';
 import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
-import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import {
   omitTriggerPropKeys,
@@ -329,7 +329,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
-    const { merge, prefix } = useClassNames(classPrefix);
+    const { merge, prefix } = useStyles(classPrefix);
 
     const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
 
@@ -934,7 +934,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
           style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
-            <Stack alignItems="flex-start">
+            <Stack align="flex-start">
               {sideRanges.length > 0 && (
                 <PredefinedRanges
                   direction="column"

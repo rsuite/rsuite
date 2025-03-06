@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
-import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
+import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, {

@@ -1,7 +1,7 @@
 import React from 'react';
 import SafeAnchor from '../SafeAnchor';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 
 export interface BreadcrumbItemProps extends WithAsProps {
@@ -57,8 +57,8 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
       ...rest
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }));
+    const { merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ active }));
 
     return (
       <WrapperComponent style={style} className={classes} ref={ref} {...rest}>

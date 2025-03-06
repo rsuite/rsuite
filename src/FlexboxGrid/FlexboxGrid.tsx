@@ -1,7 +1,7 @@
 import React from 'react';
 import FlexboxGridItem from './FlexboxGridItem';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -46,8 +46,8 @@ const FlexboxGrid = forwardRef<'div', FlexboxGridProps, typeof Subcomponents>(
       justify = 'start',
       ...rest
     } = propsWithDefaults;
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(align, justify));
+    const { merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix(align, justify));
     return <Component {...rest} ref={ref} className={classes} />;
   },
   Subcomponents

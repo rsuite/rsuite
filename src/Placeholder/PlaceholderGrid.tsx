@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
@@ -63,9 +63,9 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
-  const classes = merge(className, withClassPrefix('grid', { active }));
+  const classes = merge(className, withPrefix('grid', { active }));
 
   const styles = {
     '--rs-placeholder-row-height': getCssValue(rowHeight),

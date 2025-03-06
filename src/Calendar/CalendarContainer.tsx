@@ -5,7 +5,7 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import {
   startOfToday,
@@ -244,7 +244,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     ...rest
   } = props;
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
 
   const calendarDate = useMemo(() => {
     return isValid(calendarDateProp) ? calendarDateProp : startOfToday();
@@ -271,7 +271,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
 
   const calendarClasses = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       'time-view': timeMode,
       'month-view': monthMode,
       'only-time': mode === DateMode.Time,

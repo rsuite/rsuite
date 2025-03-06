@@ -1,11 +1,11 @@
 import React from 'react';
 import useCombobox from '@/internals/Picker/hooks/useCombobox';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 
 const TagList = React.forwardRef(
   (props: React.HTMLAttributes<HTMLDivElement>, ref: React.Ref<HTMLDivElement>) => {
     const { children, ...rest } = props;
-    const { prefix } = useClassNames('picker');
+    const { prefix } = useStyles('picker');
     const { id } = useCombobox();
 
     return (

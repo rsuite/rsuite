@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
@@ -120,8 +120,8 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
     defaultChecked || false
   );
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(color, { inline, disabled, checked }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(color, { inline, disabled, checked }));
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import NavItem, { NavItemProps } from './NavItem';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps, PlacementCorners } from '@/internals/types';
 
@@ -33,9 +33,9 @@ const NavDropdownToggle = forwardRef<typeof Button, NavDropdownToggleProps>((pro
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const { prefix: prefixNavItem } = useClassNames('nav-item');
-  const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const { prefix: prefixNavItem } = useStyles('nav-item');
+  const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
   const toggle = (
     <Component {...rest} ref={ref} className={classes}>

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import isNil from 'lodash/isNil';
 import MenuItem from '@/internals/Menu/MenuItem';
 import NavContext from './NavContext';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -63,7 +63,7 @@ const NavDropdownItem = forwardRef<'li', NavDropdownItemProps>((props, ref) => {
 
   const { activeKey, onSelect: onSelectFromNav } = nav;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const selected = activeProp || (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
 
@@ -99,7 +99,7 @@ const NavDropdownItem = forwardRef<'li', NavDropdownItemProps>((props, ref) => {
       {({ selected, active, ...menuitem }, menuitemRef) => {
         const classes = merge(
           className,
-          withClassPrefix({
+          withPrefix({
             'with-icon': icon,
             active: selected,
             disabled,

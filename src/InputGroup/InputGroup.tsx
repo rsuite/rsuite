@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps, SizeType } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
@@ -57,8 +57,8 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
     setFocus(false);
   }, []);
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, { inside, focus, disabled }));
 
   const renderChildren = useCallback(() => {
     return React.Children.map(children, item => {

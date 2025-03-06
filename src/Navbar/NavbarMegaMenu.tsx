@@ -3,7 +3,7 @@ import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Whisper, { WhisperProps } from '../Whisper';
 import Popover from '../Popover';
 import NavbarItem, { NavbarItemProps } from './NavbarItem';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithoutChildren } from '@/internals/types';
 
 export interface NavbarMegaMenuProps extends Omit<WithoutChildren<NavbarItemProps>, 'title'> {
@@ -40,8 +40,8 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const renderMenu = useCallback(
     ({ onClose, className }, ref) => {

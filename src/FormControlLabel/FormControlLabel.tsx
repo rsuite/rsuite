@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { useFormGroup } from '../FormGroup';
@@ -29,8 +29,8 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
       ...rest
     } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     return <Component id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
   }

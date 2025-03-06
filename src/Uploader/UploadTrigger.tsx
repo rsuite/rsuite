@@ -1,6 +1,6 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
 import Button, { ButtonProps } from '../Button';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { UploaderLocale } from '../locales';
 
@@ -47,10 +47,10 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   const rootRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix({ disabled, customize: children, 'drag-over': dragOver })
+    withPrefix({ disabled, customize: children, 'drag-over': dragOver })
   );
 
   const handleClick = useEventCallback(() => {

@@ -10,7 +10,7 @@ import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import { forwardRef } from '@/internals/utils';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView } from '@/internals/Tree';
@@ -145,7 +145,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
   const { childrenKey, valueKey, virtualized, scrollShadow } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
 
   const { getCheckedValues } = useTreeCheckState({
     cascade,
@@ -328,7 +328,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
 
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       'without-children': !hasGrandchild(data, childrenKey),
       virtualized
     })

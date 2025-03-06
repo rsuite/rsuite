@@ -4,7 +4,7 @@ import NavbarContent from './NavbarContent';
 import NavbarToggle from './NavbarToggle';
 import NavbarDrawer from './NavbarDrawer';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { NavbarContext } from './NavbarContext';
 import type { WithAsProps } from '@/internals/types';
@@ -43,8 +43,8 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(appearance));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance));
   const [open, setOpen] = React.useState(false);
 
   const handleToggle = useEventCallback((nextOpen: boolean) => {

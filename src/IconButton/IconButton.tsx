@@ -1,7 +1,7 @@
 import React from 'react';
 import Button, { ButtonProps } from '../Button';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { IconProps } from '@rsuite/icons/Icon';
 
@@ -32,10 +32,10 @@ const IconButton = forwardRef<typeof Button, IconButtonProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(`placement-${placement}`, {
+    withPrefix(`placement-${placement}`, {
       circle,
       'with-text': typeof children !== 'undefined'
     })

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { ContainerContext } from '../Container/Container';
 import type { WithAsProps } from '@/internals/types';
@@ -29,8 +29,8 @@ const Sidebar = forwardRef<'aside', SidebarProps>((props: SidebarProps, ref) => 
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ collapse: collapsible }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ collapse: collapsible }));
   const { setHasSidebar } = useContext(ContainerContext);
 
   useEffect(() => {
@@ -38,11 +38,10 @@ const Sidebar = forwardRef<'aside', SidebarProps>((props: SidebarProps, ref) => 
     setHasSidebar?.(true);
   }, [setHasSidebar]);
 
-  const styles = {
+  const styles = mergeStyles(style, {
     flex: `0 0 ${width}px`,
-    width,
-    ...style
-  };
+    width
+  });
   return <Component {...rest} ref={ref} className={classes} style={styles} />;
 });
 

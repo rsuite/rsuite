@@ -3,7 +3,7 @@ import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
-import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
+import { useStyles, useControlled, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
 
@@ -73,7 +73,7 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   );
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,18 +84,11 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
     [onChange, onGroupChange, setChecked, value]
   );
 
-  const classes = merge(className, withClassPrefix({ checked, disabled }));
+  const classes = merge(className, withPrefix({ checked, disabled }));
   const radioId = useUniqueId('radio-');
 
   return (
-    <Component
-      spacing={6}
-      {...restProps}
-      childrenRenderMode="clone"
-      ref={ref}
-      className={classes}
-      as="label"
-    >
+    <Component spacing={6} {...restProps} ref={ref} className={classes} as="label">
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
         <input

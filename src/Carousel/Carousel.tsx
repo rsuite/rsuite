@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
-import { useClassNames, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
+import { useStyles, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
 import { forwardRef, guid, ReactChildren, mergeRefs } from '@/internals/utils';
 import { WithAsProps, ReactElement } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
@@ -57,7 +57,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     ...rest
   } = propsWithDefaults;
 
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const count = ReactChildren.count(children);
   const labels: React.ReactElement[] = [];
   const vertical = placement === 'left' || placement === 'right';
@@ -151,7 +151,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     }
   );
 
-  const classes = merge(className, withClassPrefix(`placement-${placement}`, `shape-${shape}`));
+  const classes = merge(className, withPrefix(`placement-${placement}`, `shape-${shape}`));
 
   const positiveOrder = vertical || !rtl;
   const sign = positiveOrder ? '-' : '';

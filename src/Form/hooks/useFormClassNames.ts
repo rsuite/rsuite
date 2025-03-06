@@ -1,4 +1,4 @@
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { FormProps } from '../Form';
 
 /**
@@ -16,10 +16,10 @@ export default function useFormClassNames({
   FormProps,
   'classPrefix' | 'className' | 'fluid' | 'layout' | 'readOnly' | 'plaintext' | 'disabled'
 >): string {
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   return merge(
     className,
-    withClassPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width', {
+    withPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width', {
       readonly: readOnly,
       disabled,
       plaintext

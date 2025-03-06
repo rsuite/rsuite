@@ -3,7 +3,7 @@ import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
 import type { WithAsProps } from '@/internals/types';
@@ -69,10 +69,10 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(listType, { disabled, 'has-error': file.status === 'error' })
+    withPrefix(listType, { disabled, 'has-error': file.status === 'error' })
   );
 
   const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);

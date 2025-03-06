@@ -1,7 +1,8 @@
-import { useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import { prefix as addPrefix } from '../utils/prefix';
+import { useCallback, useContext } from 'react';
+import { createStyleGetter, prefix as addPrefix, getResponsiveClasses } from '@/internals/utils';
 import { CustomContext } from '../../CustomProvider/CustomProvider';
+import type { ResponsiveValue } from '@/internals/types';
 
 export type ClassValue =
   | string
@@ -22,26 +23,36 @@ export interface ClassDictionary {
 }
 
 interface ClassNameUtils {
-  withClassPrefix: (...classes: ClassValue[]) => string;
+  withPrefix: (...classes: ClassValue[]) => string;
   merge: (...classes: ClassValue[]) => string;
   prefix: (...classes: ClassValue[]) => string;
+  responsive: <T = string>(value?: T | ResponsiveValue<T>) => string[];
   rootPrefix: (...classes: ClassValue[]) => string;
+  cssVar: (
+    prop: string,
+    value?: string | number | (string | number)[],
+    valueTransformer?: (value: any) => any
+  ) =>
+    | {
+        [x: string]: string | number | undefined;
+      }
+    | undefined;
 }
 
 /**
  * Add a prefix to all classNames.
  *
  * @param str prefix of className
- * @returns { withClassPrefix, merge, prefix }
- *  - withClassPrefix: A function of combining className and adding a prefix to each className.
+ * @returns { withPrefix, merge, prefix }
+ *  - withPrefix: A function of combining className and adding a prefix to each className.
  *    At the same time, the default `classPrefix` is the first className.
  *  - merge: A merge className function.
  *  - prefix: Add a prefix to className
  *  - rootPrefix
  */
-export function useClassNames(str: string): ClassNameUtils {
+export function useStyles(str: string): ClassNameUtils {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
-  const componentName = addPrefix(classPrefix, str);
+  const baseClass = addPrefix(classPrefix, str);
 
   /**
    * @example
@@ -54,26 +65,26 @@ export function useClassNames(str: string): ClassNameUtils {
       const mergeClasses = classes.length
         ? classNames(...classes)
             .split(' ')
-            .map(item => addPrefix(componentName, item))
+            .map(item => addPrefix(baseClass, item))
         : [];
 
       return mergeClasses.filter(cls => cls).join(' ');
     },
-    [componentName]
+    [baseClass]
   );
 
   /**
    * @example
    *
    * if str = 'button':
-   * withClassPrefix('red', { active: true }) => 'rs-button rs-button-red rs-button-active'
+   * withPrefix('red', { active: true }) => 'rs-button rs-button-red rs-button-active'
    */
-  const withClassPrefix = useCallback(
+  const withPrefix = useCallback(
     (...classes: ClassValue[]) => {
       const mergeClasses = prefix(classes);
-      return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
+      return mergeClasses ? `${baseClass} ${mergeClasses}` : baseClass;
     },
-    [componentName, prefix]
+    [baseClass, prefix]
   );
 
   /**
@@ -91,12 +102,37 @@ export function useClassNames(str: string): ClassNameUtils {
     return mergeClasses.filter(cls => cls).join(' ');
   };
 
+  const cssVar = useCallback(
+    (
+      prop: string,
+      value?: string | number | (string | number)[],
+      valueTransformer?: (value: any) => any
+    ) => {
+      if (typeof value === 'undefined') {
+        return;
+      }
+
+      return createStyleGetter({ prop, valueTransformer })(value, str, prop);
+    },
+    [str]
+  );
+
+  const responsive = useCallback(
+    <T = string>(value?: T | ResponsiveValue<T>) => {
+      if (!value) return [];
+      return getResponsiveClasses(prefix, value);
+    },
+    [prefix]
+  );
+
   return {
-    withClassPrefix,
-    merge: classNames,
+    cssVar,
+    withPrefix,
     prefix,
-    rootPrefix
+    responsive,
+    rootPrefix,
+    merge: classNames
   };
 }
 
-export default useClassNames;
+export default useStyles;

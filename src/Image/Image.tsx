@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 import { useCustom } from '../CustomProvider';
@@ -81,8 +81,8 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ circle, bordered, rounded, shaded, zoomed }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ circle, bordered, rounded, shaded, zoomed }));
   const imgProps = { crossOrigin, srcSet, sizes, loading };
   const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
 

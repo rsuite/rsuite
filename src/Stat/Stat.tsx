@@ -5,7 +5,7 @@ import StatValueUnit from './StatValueUnit';
 import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -40,8 +40,8 @@ const Stat = forwardRef<'div', StatProps, typeof Subcomponents>((props, ref) => 
     icon,
     ...rest
   } = propsWithDefaults;
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ bordered }));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ bordered }));
 
   return (
     <Component className={classes} ref={ref} {...rest}>

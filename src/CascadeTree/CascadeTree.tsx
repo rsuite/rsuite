@@ -4,7 +4,7 @@ import SearchView from './SearchView';
 import { forwardRef } from '@/internals/utils';
 import { getParentMap } from '@/internals/Tree/utils';
 import { flattenTree } from '../Tree/utils';
-import { useMap, useControlled, useClassNames, useEventCallback } from '@/internals/hooks';
+import { useMap, useControlled, useStyles, useEventCallback } from '@/internals/hooks';
 import { useSearch, useSelect, usePaths } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { Option, OptionValue } from '@/internals/types';
@@ -103,8 +103,8 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
       getChildren: item => childrenMap.get(item) ?? item[childrenKey]
     });
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     const onSearchCallback = useCallback(
       (value: string, _items: Option<T>[], event: React.SyntheticEvent) => onSearch?.(value, event),

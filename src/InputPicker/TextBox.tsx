@@ -1,7 +1,7 @@
 import React from 'react';
 import TagList from './TagList';
 import InputSearch, { InputSearchProps } from './InputSearch';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 
 interface TextBoxProps {
   tags?: React.ReactNode;
@@ -35,7 +35,7 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     ...rest
   } = props;
 
-  const { prefix } = useClassNames('picker');
+  const { prefix } = useStyles('picker');
 
   if (!multiple && disabled) {
     return null;

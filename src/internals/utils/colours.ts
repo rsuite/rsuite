@@ -1,5 +1,5 @@
 import { Colours, Color } from '../types/colours';
-import { createStyleGetter } from './styleProps';
+import { createStyleGetter } from './style-sheet';
 
 export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
   if (!color) {

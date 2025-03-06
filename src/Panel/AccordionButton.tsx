@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '@rsuite/icons/Icon';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 
 export interface AccordionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   expanded?: boolean;
@@ -23,7 +23,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
     caretAs = ArrowDownLineIcon,
     ...rest
   } = props;
-  const { prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, withPrefix } = useStyles(classPrefix);
 
   return (
     <button
@@ -32,7 +32,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
       aria-controls={controlId}
       aria-expanded={expanded}
       aria-disabled={disabled}
-      className={withClassPrefix(className)}
+      className={withPrefix(className)}
       disabled={disabled}
       {...rest}
     >

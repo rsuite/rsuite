@@ -3,7 +3,7 @@ import Menubar from '@/internals/Menu/Menubar';
 import MenuContext from './MenuContext';
 import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import type { StandardProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
@@ -30,11 +30,11 @@ const Subcomponents = {
 const Menu = forwardRef<'ul', MenuProps, typeof Subcomponents>((props, ref) => {
   const { activeKey, classPrefix = 'menu', className, children, onSelect, ...rest } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
   const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
 
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withPrefix());
 
   return (
     <MenuContext.Provider value={contextValue}>

@@ -5,7 +5,7 @@ import PickerLabel from './PickerLabel';
 import Plaintext from '../Plaintext';
 import Stack from '../../Stack';
 import useCombobox from './hooks/useCombobox';
-import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
+import { useStyles, useEventCallback, useToggleCaret } from '../hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { Placement, OptionValue } from '@/internals/types';
@@ -68,7 +68,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
   } = props;
 
   const combobox = useRef<HTMLDivElement>(null);
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
   const { id, labelId, popupType } = useCombobox();
 
   const inputValue = useMemo(() => {
@@ -81,7 +81,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     return '';
   }, [inputValueProp]);
 
-  const classes = merge(className, withClassPrefix({ active }));
+  const classes = merge(className, withPrefix({ active }));
 
   const handleClean = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();

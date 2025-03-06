@@ -1,6 +1,6 @@
 import React from 'react';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 
 export interface SlideProps extends TransitionProps {
@@ -14,7 +14,7 @@ export interface SlideProps extends TransitionProps {
 const Slide = React.forwardRef(
   ({ timeout = 300, placement = 'right', ...props }: SlideProps, ref: React.Ref<any>) => {
     const { propsWithDefaults } = useCustom('Slide', props);
-    const { prefix } = useClassNames('anim');
+    const { prefix } = useStyles('anim');
     const enterClassName = prefix('slide-in', placement);
     const exitClassName = prefix('slide-out', placement);
 

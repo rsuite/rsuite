@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useScrollState } from './hooks/useScrollState';
 import type { WithAsProps } from '@/internals/types';
@@ -48,13 +48,13 @@ const ScrollView = forwardRef<'div', ScrollViewProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const { scrollState, handleScroll, bodyRef } = useScrollState(scrollShadow);
 
   const bodyStyles = { height, width, ...style };
   const bodyClasses = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       shadow: scrollShadow,
       'thumb-top': scrollState === 'top',
       'thumb-middle': scrollState === 'middle',

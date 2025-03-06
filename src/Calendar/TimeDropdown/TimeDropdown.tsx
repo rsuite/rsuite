@@ -4,7 +4,7 @@ import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
 import TimeColumn from './TimeColumn';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import {
   startOfToday,
   getHours,
@@ -88,7 +88,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     onSelect?.(nextDate, event);
   });
 
-  const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
+  const { prefix, rootPrefix, merge } = useStyles(classPrefix);
 
   const renderColumn = (type: TimeType, value?: number | null) => {
     if (!isNumber(value)) {

@@ -13,7 +13,7 @@ import useInput from './hooks/useInput';
 import useData, { type InputOption } from './hooks/useData';
 import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { useTagContext } from './InputPickerContext';
 import { convertSize } from './utils';
@@ -156,7 +156,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   }
 
   const { trigger: triggerRef, root, target, overlay, list } = usePickerRef(ref);
-  const { prefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useStyles(classPrefix);
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
   const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
 
@@ -673,7 +673,6 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       plaintextProps.as = Stack;
       plaintextProps.spacing = 6;
       plaintextProps.wrap = true;
-      plaintextProps.childrenRenderMode = 'clone';
     }
 
     return (

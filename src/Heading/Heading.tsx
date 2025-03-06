@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -22,8 +22,8 @@ const Heading = forwardRef<'h3', HeadingProps>((props: HeadingProps, ref) => {
   const { propsWithDefaults } = useCustom('Heading', props);
   const { as, classPrefix = 'heading', className, level = 3, ...rest } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const Component = as || `h${level}`;
 

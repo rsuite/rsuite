@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface DropdownSeparatorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
@@ -23,13 +23,13 @@ const DropdownSeparator = forwardRef<'li', DropdownSeparatorProps>(
       ...restProps
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
 
     return (
       <Component
         ref={ref}
         role="separator"
-        className={merge(withClassPrefix(), className)}
+        className={merge(withPrefix(), className)}
         {...restProps}
       />
     );

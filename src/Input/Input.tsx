@@ -4,7 +4,7 @@ import { forwardRef } from '@/internals/utils';
 import { useFormGroup } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import { KEY_VALUES } from '@/internals/constants';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import { PrependParameters } from '@/internals/types/utils';
 import { useCustom } from '../CustomProvider';
@@ -95,8 +95,8 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
     onChange?.(event.target?.value, event);
   };
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { plaintext }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size, { plaintext }));
 
   const { controlId } = useFormGroup();
 

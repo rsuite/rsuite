@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { BreadcrumbLocale } from '../locales';
@@ -65,7 +65,7 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
       ...rest
     } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
     const [showEllipsis, setShowEllipsis] = useState(true);
 
     const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
@@ -112,7 +112,7 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
       showEllipsis
     ]);
 
-    const classes = merge(className, withClassPrefix());
+    const classes = merge(className, withPrefix());
 
     return (
       <Component {...rest} ref={ref} className={classes}>

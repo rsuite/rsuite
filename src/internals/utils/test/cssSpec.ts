@@ -1,4 +1,4 @@
-import { getCssValue, mergeStyles, createOffsetStyles } from '../css';
+import { getCssValue, mergeStyles, createOffsetStyles } from '../style-sheet/css';
 
 describe('css utils', () => {
   describe('getCssValue', () => {

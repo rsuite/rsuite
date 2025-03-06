@@ -1,10 +1,10 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
-import type { WithAsProps } from '@/internals/types';
-import type { ResponsiveValue, RowAlignment, RowJustify } from './types';
+import type { WithAsProps, ResponsiveValue } from '@/internals/types';
+import type { RowAlignment, RowJustify } from './types';
 
 const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<number | string>) => {
   if (!gutter) {
@@ -24,25 +24,6 @@ const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<nu
         getCssValue(breakpointValue)
     });
   }, {});
-};
-
-const getResponsiveClassNames = (
-  prefix: (...classes: any[]) => string,
-  value?: string | ResponsiveValue<string>
-) => {
-  if (!value) {
-    return [];
-  }
-
-  if (typeof value !== 'object') {
-    return [prefix(value)];
-  }
-
-  return BREAKPOINTS.reduce((classes, breakpoint) => {
-    const breakpointValue = value[breakpoint];
-    if (!breakpointValue) return classes;
-    return [...classes, prefix(`${breakpoint}-${breakpointValue}`)];
-  }, [] as string[]);
 };
 
 export interface RowProps extends WithAsProps {
@@ -73,10 +54,8 @@ const Row = forwardRef<'div', RowProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const alignClasses = getResponsiveClassNames(prefix, align);
-  const justifyClasses = getResponsiveClassNames(prefix, justify);
-  const classes = merge(className, withClassPrefix(), ...alignClasses, ...justifyClasses);
+  const { withPrefix, merge, responsive } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(), ...responsive(align), ...responsive(justify));
   const rowStyles = mergeStyles(style, getResponsiveGutterStyles(gutter));
 
   return <Component {...rest} ref={ref} className={classes} style={rowStyles} />;

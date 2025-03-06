@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import { useElementResize, useClassNames, useEventCallback } from '@/internals/hooks';
+import { useElementResize, useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { getDOMNode } from '../utils';
 import type { WithAsProps } from '@/internals/types';
@@ -76,8 +76,8 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
     }
   }, [autoWidth, target, overlayRef]);
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
     <Component

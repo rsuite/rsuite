@@ -4,7 +4,7 @@ import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -72,7 +72,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const selected =
     activeProp ??
@@ -81,7 +81,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
 
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       'with-icon': icon,
       active: selected,
       disabled

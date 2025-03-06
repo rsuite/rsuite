@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps } from '@/internals/types';
 
@@ -21,8 +21,8 @@ const InputGroupAddon = forwardRef<'span', InputGroupAddonProps>((props, ref) =>
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ disabled }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ disabled }));
 
   return <Component {...rest} ref={ref} className={classes} />;
 });

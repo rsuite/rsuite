@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface FlexboxGridItemProps extends WithAsProps {
@@ -33,10 +33,10 @@ const FlexboxGridItem = forwardRef<'div', FlexboxGridItemProps>(
       ...rest
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
     const classes = merge(
       className,
-      withClassPrefix({
+      withPrefix({
         [colspan]: colspan > 0,
         [`order-${order}`]: order
       })

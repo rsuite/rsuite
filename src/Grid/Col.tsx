@@ -2,10 +2,10 @@ import React, { useMemo } from 'react';
 import omit from 'lodash/omit';
 import { forwardRef } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
-import type { DeprecatedColProps, ResponsiveValue } from './types';
+import type { WithAsProps, ResponsiveValue } from '@/internals/types';
+import type { DeprecatedColProps } from './types';
 
 type ResponsiveKey = 'span' | 'offset' | 'push' | 'pull' | 'order' | 'hidden';
 
@@ -48,7 +48,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
       hidden,
       ...rest
     } = propsWithDefaults;
-    const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);
+    const { prefix, merge, rootPrefix, withPrefix } = useStyles(classPrefix);
 
     const { colClasses, omitKeys } = useMemo(() => {
       const colClasses = {};
@@ -142,7 +142,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
       ...BREAKPOINTS.map(size => rest[size])
     ]);
 
-    const classes = merge(className, withClassPrefix(), colClasses);
+    const classes = merge(className, withPrefix(), colClasses);
     const unhandledProps = omit(rest, Object.keys(omitKeys));
 
     return <Component {...unhandledProps} ref={ref} className={classes} />;

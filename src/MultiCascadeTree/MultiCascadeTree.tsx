@@ -3,7 +3,7 @@ import TreeView from './TreeView';
 import SearchView from './SearchView';
 import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
-import { useClassNames, useControlled } from '@/internals/hooks';
+import { useStyles, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { OptionValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
@@ -75,8 +75,8 @@ const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
       onSearch
     });
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('multi'));
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix('multi'));
 
     return (
       <Component ref={ref} className={classes} {...rest}>

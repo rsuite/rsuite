@@ -3,7 +3,7 @@ import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import NavbarItem from './NavbarItem';
 import Button from '../Button';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface NavbarDropdownToggleProps extends WithAsProps {
@@ -32,8 +32,8 @@ const NavbarDropdownToggle = forwardRef<typeof Button, NavbarDropdownToggleProps
     ...rest
   } = props;
 
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
   const toggle = (
     <Component {...rest} ref={ref} className={classes}>

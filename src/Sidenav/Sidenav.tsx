@@ -7,7 +7,7 @@ import SidenavFooter from './SidenavFooter';
 import SidenavToggle from './SidenavToggle';
 import SidenavGroupLabel from './SidenavGroupLabel';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
-import { useClassNames, useControlled } from '@/internals/hooks';
+import { useStyles, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -87,8 +87,8 @@ const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, re
   } = propsWithDefaults;
 
   const [openKeys, setOpenKeys] = useControlled(openKeysProp, defaultOpenKeys);
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(appearance));
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance));
 
   const handleOpenChange = useCallback(
     (eventKey: any, event: React.SyntheticEvent) => {

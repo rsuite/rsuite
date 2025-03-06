@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames, useUniqueId } from '@/internals/hooks';
+import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -59,8 +59,8 @@ const FormGroup = forwardRef<'div', FormGroupProps>((props, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const controlId = useUniqueId('rs-', controlIdProp);
 
   const contextValue = useMemo(() => ({ controlId }), [controlId]);

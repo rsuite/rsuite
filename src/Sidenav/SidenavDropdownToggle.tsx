@@ -3,7 +3,7 @@ import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import Button from '../Button';
 import SidenavItem from './SidenavItem';
 import { forwardRef } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import type { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
@@ -33,8 +33,8 @@ const SidenavDropdownToggle = forwardRef<typeof Button, SidenavDropdownTogglePro
       ...rest
     } = props;
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     const toggle = (
       <Component className={classes} ref={ref} tooltip={children} {...rest}>
