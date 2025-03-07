@@ -96,88 +96,86 @@
   }
 }
 
-// Common style for .placement-top*
-.rs-popover[class*='placement-top'] {
-  margin-top: -(@popover-arrow-width + 2px);
-  .set-translate-transition(0, -@popover-translate-distance);
+.rs-popover {
+  // Vertical placement styles (top/bottom)
+  &:where([data-placement*='top']) {
+    margin-top: -(@popover-arrow-width + 2px);
+    .set-translate-transition(0, -@popover-translate-distance);
 
-  > .rs-popover-arrow {
-    margin-inline-start: -@popover-arrow-outer-width;
-    bottom: -@popover-arrow-outer-width;
+    > .rs-popover-arrow {
+      margin-inline-start: -@popover-arrow-outer-width;
+      bottom: -@popover-arrow-outer-width;
 
-    .with-popover-arrow(bottom);
+      .with-popover-arrow(bottom);
+    }
+  }
+
+  &:where([data-placement*='bottom']) {
+    margin-top: (@popover-arrow-width + 2px);
+    .set-translate-transition(0, @popover-translate-distance);
+
+    > .rs-popover-arrow {
+      margin-left: -@popover-arrow-outer-width;
+      top: -@popover-arrow-outer-width;
+
+      .with-popover-arrow(top);
+    }
+  }
+
+  // Arrow positioning for different placements
+  // Vertical centered arrow
+  &:where([data-placement='bottom'], [data-placement='top']) {
+    > .rs-popover-arrow {
+      left: 50%;
+    }
+  }
+
+  &:where([data-placement='bottom-end'], [data-placement='top-end']) {
+    > .rs-popover-arrow {
+      right: @popover-arrow-gap;
+    }
+  }
+
+  &:where([data-placement='left'], [data-placement='right']) {
+    > .rs-popover-arrow {
+      top: 50%;
+    }
+  }
+
+  &:where([data-placement='left-end'], [data-placement='right-end']) {
+    > .rs-popover-arrow {
+      bottom: @popover-arrow-gap;
+    }
   }
 }
 
 /* rtl:begin:ignore */
-// Common style for .placement-right*
-.rs-popover[class*='placement-right'] {
-  margin-left: (@popover-arrow-width + 2px);
-  .set-translate-transition(@popover-translate-distance, 0);
+.rs-popover {
+  &:where([data-placement*='right']) {
+    margin-left: (@popover-arrow-width + 2px);
+    .set-translate-transition(@popover-translate-distance, 0);
 
-  > .rs-popover-arrow {
-    left: -@popover-arrow-outer-width;
-    margin-top: -@popover-arrow-outer-width;
+    > .rs-popover-arrow {
+      left: -@popover-arrow-outer-width;
+      margin-top: -@popover-arrow-outer-width;
 
-    .with-popover-arrow(left);
+      .with-popover-arrow(left);
+    }
+  }
+
+  &:where([data-placement*='left']) {
+    margin-left: -(@popover-arrow-width + 2px);
+    .set-translate-transition(-@popover-translate-distance, 0);
+
+    > .rs-popover-arrow {
+      right: -@popover-arrow-outer-width;
+      margin-top: -@popover-arrow-outer-width;
+
+      .with-popover-arrow(right);
+    }
   }
 }
-
-// Common style for .placement-left*
-.rs-popover[class*='placement-left'] {
-  margin-left: -(@popover-arrow-width + 2px);
-  .set-translate-transition(-@popover-translate-distance, 0);
-
-  > .rs-popover-arrow {
-    right: -@popover-arrow-outer-width;
-    margin-top: -@popover-arrow-outer-width;
-
-    .with-popover-arrow(right);
-  }
-}
-
 /* rtl:end:ignore */
-
-// Common style for .placement-bottom*
-.rs-popover[class*='placement-bottom'] {
-  margin-top: (@popover-arrow-width + 2px);
-  .set-translate-transition(0, @popover-translate-distance);
-
-  > .rs-popover-arrow {
-    margin-left: -@popover-arrow-outer-width;
-    top: -@popover-arrow-outer-width;
-
-    .with-popover-arrow(top);
-  }
-}
-
-.rs-popover.placement-bottom,
-.rs-popover.placement-top {
-  > .rs-popover-arrow {
-    left: 50%;
-  }
-}
-
-.rs-popover.placement-bottom-end,
-.rs-popover.placement-top-end {
-  > .rs-popover-arrow {
-    right: @popover-arrow-gap;
-  }
-}
-
-.rs-popover.placement-left,
-.rs-popover.placement-right {
-  > .rs-popover-arrow {
-    top: 50%;
-  }
-}
-
-.rs-popover.placement-left-end,
-.rs-popover.placement-right-end {
-  > .rs-popover-arrow {
-    bottom: @popover-arrow-gap;
-  }
-}
 
 // Adjust full popover arrow postion
 .rs-popover-full {
@@ -189,13 +187,15 @@
     margin-top: 0;
   }
 
-  .rs-popover.placement-top-start& > .rs-popover-arrow,
-  .rs-popover.placement-bottom-start& > .rs-popover-arrow {
-    margin-left: @popover-arrow-outer-width;
+  &:where([data-placement='top-start'], [data-placement='bottom-start']) {
+    > .rs-popover-arrow {
+      margin-inline-start: @popover-arrow-outer-width;
+    }
   }
 
-  .rs-popover.placement-right-start& > .rs-popover-arrow,
-  .rs-popover.placement-left-start& > .rs-popover-arrow {
-    margin-top: @popover-arrow-outer-width;
+  &:where([data-placement='right-start'], [data-placement='left-start']) {
+    > .rs-popover-arrow {
+      margin-top: @popover-arrow-outer-width;
+    }
   }
 }

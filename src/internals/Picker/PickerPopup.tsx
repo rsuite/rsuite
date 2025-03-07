@@ -1,34 +1,11 @@
-import React, { useRef, useCallback, useEffect } from 'react';
-import omit from 'lodash/omit';
+import React, { useRef, useEffect } from 'react';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import { useElementResize, useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { getDOMNode } from '../utils';
 import type { WithAsProps } from '@/internals/types';
-import type { OverlayTriggerHandle } from './PickerToggleTrigger';
-
-const omitProps = [
-  'placement',
-  'arrowOffsetLeft',
-  'arrowOffsetTop',
-  'positionLeft',
-  'positionTop',
-  'getPositionInstance',
-  'getToggleInstance',
-  'autoWidth'
-];
-
-const resizePlacement = [
-  'topStart',
-  'topEnd',
-  'leftEnd',
-  'rightEnd',
-  'auto',
-  'autoVerticalStart',
-  'autoVerticalEnd',
-  'autoHorizontalEnd'
-];
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 export interface PickerPopupProps extends WithAsProps {
   placement?: string;
@@ -44,24 +21,12 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
     classPrefix = 'picker-popup',
     autoWidth,
     className,
-    placement = 'bottomStart',
     target,
     ...rest
   } = props;
 
   const overlayRef = useRef(null);
-  const handleResize = useEventCallback(() => {
-    const instance = target?.current;
 
-    if (instance && resizePlacement.includes(placement)) {
-      instance.updatePosition();
-    }
-  });
-
-  useElementResize(
-    useCallback(() => overlayRef.current, []),
-    handleResize
-  );
   useEffect(() => {
     const toggle = target?.current;
 
@@ -81,8 +46,8 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
 
   return (
     <Component
+      {...rest}
       data-testid="picker-popup"
-      {...omit(rest, omitProps)}
       ref={mergeRefs(overlayRef, ref)}
       className={classes}
     />

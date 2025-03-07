@@ -1,8 +1,9 @@
 import React, { Ref } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import OverlayTrigger, { OverlayTriggerHandle } from '../OverlayTrigger';
 import Tooltip from '@/Tooltip';
+import OverlayTrigger from '../OverlayTrigger';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {

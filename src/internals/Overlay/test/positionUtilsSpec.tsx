@@ -84,7 +84,6 @@ describe('Overlay - positionUtils', () => {
     const position = utils.calcOverlayPosition(overlay, target, container);
 
     expect(position.positionLeft).to.equal(0);
-    expect(position.positionClassName).to.equal('placement-left');
   });
 
   it('Should get relative position to `left` of `target`', () => {
@@ -96,7 +95,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
     expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
-    expect(position.positionClassName).to.equal('placement-left');
   });
 
   it('Should get relative position to `leftStart` of `target`', () => {
@@ -108,7 +106,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
     expect(position.positionTop).to.equal(targetPositionTop);
-    expect(position.positionClassName).to.equal('placement-left-start');
   });
 
   it('Should get relative position to `leftEnd` of `target`', () => {
@@ -120,7 +117,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - overlayWidth);
     expect(position.positionTop).to.equal(targetPositionTop - targetHeight);
-    expect(position.positionClassName).to.equal('placement-left-end');
   });
 
   it('Should get relative position to `right` of `target`', () => {
@@ -132,7 +128,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
-    expect(position.positionClassName).to.equal('placement-right');
   });
 
   it('Should get relative position to `rightStart` of `target`', () => {
@@ -144,7 +139,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop);
-    expect(position.positionClassName).to.equal('placement-right-start');
   });
 
   it('Should get relative position to `rightEnd` of `target`', () => {
@@ -156,7 +150,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop - targetHeight);
-    expect(position.positionClassName).to.equal('placement-right-end');
   });
 
   it('Should get relative position to `top` of `target`', () => {
@@ -168,7 +161,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
     expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
-    expect(position.positionClassName).to.equal('placement-top');
   });
 
   it('Should get relative position to `topStart` of `target`', () => {
@@ -180,7 +172,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft);
     expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
-    expect(position.positionClassName).to.equal('placement-top-start');
   });
 
   it('Should get relative position to `topEnd` of `target`', () => {
@@ -192,7 +183,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop - overlayHeight);
-    expect(position.positionClassName).to.equal('placement-top-end');
   });
 
   it('Should get relative position to `bottom` of `target`', () => {
@@ -204,7 +194,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
     expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
-    expect(position.positionClassName).to.equal('placement-bottom');
   });
 
   it('Should get relative position to `bottomStart` of `target`', () => {
@@ -216,7 +205,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft);
     expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
-    expect(position.positionClassName).to.equal('placement-bottom-start');
   });
 
   it('Should get relative position to `bottomEnd` of `target`', () => {
@@ -228,7 +216,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
-    expect(position.positionClassName).to.equal('placement-bottom-end');
   });
 
   it('Should get relative position to `auto` of `target`', () => {
@@ -240,7 +227,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft);
     expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
-    expect(position.positionClassName).to.equal('placement-bottom-start');
   });
 
   it('Should get relative position to `auto` of `target` in body', () => {
@@ -252,7 +238,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop);
-    expect(position.positionClassName).to.equal('placement-right-start');
   });
 
   it('Should get relative position to `autoVertical` of `target`', () => {
@@ -264,7 +249,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft - targetWidth / 2);
     expect(position.positionTop).to.equal(targetPositionTop + targetHeight);
-    expect(position.positionClassName).to.equal('placement-bottom');
   });
 
   it('Should get relative position to `autoHorizontal` of `target`', () => {
@@ -280,7 +264,6 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(targetPositionLeft + targetWidth);
     expect(position.positionTop).to.equal(targetPositionTop - targetHeight / 2);
-    expect(position.positionClassName).to.equal('placement-right');
   });
 
   it('Should get relative position to `left` of `cursorPosition`', () => {
@@ -298,6 +281,5 @@ describe('Overlay - positionUtils', () => {
 
     expect(position.positionLeft).to.equal(cursorPositionLeft - overlayWidth);
     expect(position.positionTop).to.equal(cursorPositionTop - targetHeight / 2);
-    expect(position.positionClassName).to.equal('placement-left');
   });
 });

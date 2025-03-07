@@ -1,17 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import pick from 'lodash/pick';
 import OverlayTrigger, {
-  OverlayTriggerHandle,
   OverlayTriggerProps,
   OverlayTriggerType
 } from '@/internals/Overlay/OverlayTrigger';
-import { PositionChildProps } from '@/internals/Overlay/Position';
 import { useUniqueId } from '@/internals/hooks';
-import { placementPolyfill } from '@/internals/utils';
-import { useCustom } from '../../CustomProvider';
 import type { Placement, AnimationEventProps } from '@/internals/types';
-
-export type { OverlayTriggerHandle, PositionChildProps };
 
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
@@ -63,7 +57,7 @@ export interface ComboboxContextProps {
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
 }
 
-export const ComboboxContextContext = React.createContext<ComboboxContextProps>({
+export const ComboboxContext = React.createContext<ComboboxContextProps>({
   popupType: 'listbox'
 });
 
@@ -81,27 +75,29 @@ const PickerToggleTrigger = React.forwardRef(
     } = props;
     const pickerTriggerProps = pick(pickerProps, pickTriggerPropKeys);
     const pickerId = useUniqueId('rs-', id);
-    const { rtl } = useCustom();
+
+    const comboboxContext = useMemo(
+      () => ({
+        id: pickerId,
+        hasLabel: typeof pickerTriggerProps.label !== 'undefined',
+        multiple,
+        popupType
+      }),
+      [pickerId, multiple, popupType]
+    );
 
     return (
-      <ComboboxContextContext.Provider
-        value={{
-          id: pickerId,
-          hasLabel: typeof pickerTriggerProps.label !== 'undefined',
-          multiple,
-          popupType
-        }}
-      >
+      <ComboboxContext.Provider value={comboboxContext}>
         <OverlayTrigger
           {...pickerTriggerProps}
           {...rest}
           disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
           ref={ref}
           trigger={trigger}
-          placement={placementPolyfill(placement, rtl)}
+          placement={placement}
           speaker={speaker}
         />
-      </ComboboxContextContext.Provider>
+      </ComboboxContext.Provider>
     );
   }
 );

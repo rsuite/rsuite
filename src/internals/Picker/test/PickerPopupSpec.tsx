@@ -1,12 +1,12 @@
 import React from 'react';
+import sinon from 'sinon';
 import PickerPopup from '../PickerPopup';
 import getWidth from 'dom-lib/getWidth';
-import { render, screen } from '@testing-library/react';
-import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
-import * as hooks from '@/internals/hooks';
 import useElementResize from '@test/stubs/useElementResize';
-import { OverlayTriggerHandle } from '../PickerToggleTrigger';
+import * as hooks from '@/internals/hooks';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 describe('PickerPopup', () => {
   afterEach(() => {
