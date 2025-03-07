@@ -1,7 +1,7 @@
 @import '../../styles/common.less';
 @import '../../styles/mixins/menu.less';
 @import '../../styles/mixins/combobox.less';
-@import 'mixin.less';
+@import './mixin.less';
 @import '../../Button/styles/index.less';
 
 //
@@ -278,67 +278,42 @@
     animation-play-state: running;
   }
 
-  // Show the menu
-  &.rs-dropdown-placement-top-start,
-  &.rs-dropdown-placement-top-end {
-    > .rs-dropdown-menu {
-      bottom: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-left-start,
-  &.rs-dropdown-placement-left-end {
-    > .rs-dropdown-menu {
-      inset-inline-end: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-right-start,
-  &.rs-dropdown-placement-right-end {
-    > .rs-dropdown-menu {
-      inset-inline-start: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-bottom-start,
-  &.rs-dropdown-placement-bottom-end {
-    > .rs-dropdown-menu {
-      top: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-top-start,
-  &.rs-dropdown-placement-bottom-start {
-    > .rs-dropdown-menu {
-      inset-inline-start: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-top-end,
-  &.rs-dropdown-placement-bottom-end {
-    > .rs-dropdown-menu {
-      inset-inline-end: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-left-start,
-  &.rs-dropdown-placement-right-start {
-    > .rs-dropdown-menu {
-      top: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-right-end,
-  &.rs-dropdown-placement-left-end {
-    > .rs-dropdown-menu {
-      bottom: 0;
-    }
-  }
-
   // Remove the outline when :focus is triggered
   > a {
     outline: 0;
   }
+
+  // Vertical placements
+  .placement-vertical(@position, @value) {
+    &[data-placement="@{position}-start"],
+    &[data-placement="@{position}-end"] {
+      > .rs-dropdown-menu {
+        @{value}: 100%;
+      }
+    }
+  }
+
+  // Horizontal alignments
+  .placement-align(@start, @end, @value) {
+    &[data-placement="@{start}"],
+    &[data-placement="@{end}"] {
+      > .rs-dropdown-menu {
+        @{value}: 0;
+      }
+    }
+  }
+
+  // Apply placements
+  .placement-vertical(top, bottom);
+  .placement-vertical(bottom, top);
+  .placement-vertical(left, inset-inline-end);
+  .placement-vertical(right, inset-inline-start);
+
+  // Apply alignments
+  .placement-align(top-start, bottom-start, inset-inline-start);
+  .placement-align(top-end, bottom-end, inset-inline-end);
+  .placement-align(left-start, right-start, top);
+  .placement-align(left-end, right-end, bottom);
 }
 
 // Dropdown section headers

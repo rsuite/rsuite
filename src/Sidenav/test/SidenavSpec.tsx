@@ -268,7 +268,7 @@ describe('<Sidenav>', () => {
     expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith('2-1', sinon.match.any);
   });
 
-  it('Should add "selected-within" className on <Nav.Menu> when some item inside is selected', () => {
+  it('Should add data-active-descendant attribute on <Nav.Menu> when some item inside is selected', () => {
     render(
       <Sidenav>
         <Nav activeKey="2-1">
@@ -283,12 +283,12 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    expect(screen.getByTestId('dropdown-1')).to.have.class(/selected-within/);
-    expect(screen.getByTestId('dropdown-2')).to.have.class(/selected-within/);
+    expect(screen.getByTestId('dropdown-1')).to.have.attribute('data-active-descendant', 'true');
+    expect(screen.getByTestId('dropdown-2')).to.have.attribute('data-active-descendant', 'true');
   });
 
   describe('Collapsed', () => {
-    it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
+    it('Should add data-active-descendant attribute on <Nav.Menu> when expanded is false', () => {
       render(
         <Sidenav expanded={false}>
           <Nav activeKey="2-1">
@@ -303,8 +303,8 @@ describe('<Sidenav>', () => {
         </Sidenav>
       );
 
-      expect(screen.getByTestId('dropdown-1').className).to.include('selected-within');
-      expect(screen.getByTestId('dropdown-2').className).to.include('selected-within');
+      expect(screen.getByTestId('dropdown-1')).to.have.attribute('data-active-descendant', 'true');
+      expect(screen.getByTestId('dropdown-2')).to.have.attribute('data-active-descendant', 'true');
     });
 
     it('Should close the tooltip on click', async () => {

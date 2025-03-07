@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import castArray from 'lodash/castArray';
 import omit from 'lodash/omit';
-import kebabCase from 'lodash/kebabCase';
 import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
+import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import type { PlacementCorners, WithAsProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
@@ -121,19 +120,13 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
         }}
       >
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
-          const classes = merge(
-            className,
-            withPrefix({
-              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-              disabled,
-              open
-            })
-          );
+          const classes = merge(className, withPrefix({ disabled, open }));
           return (
             <Component
               ref={mergeRefs(ref, containerRef)}
               className={classes}
               style={style}
+              data-placement={kebabPlace(placement)}
               {...props}
             >
               <Disclosure.Button>

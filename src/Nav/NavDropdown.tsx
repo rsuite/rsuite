@@ -2,13 +2,12 @@ import React, { useContext, useMemo, useReducer } from 'react';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
-import kebabCase from 'lodash/kebabCase';
 import NavContext from './NavContext';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef, mergeRefs, placementPolyfill } from '@/internals/utils';
+import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
 
@@ -182,22 +181,16 @@ const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((p
       }}
     >
       {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
-        const classes = merge(
-          className,
-          withPrefix({
-            [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-            disabled,
-            open,
-            'selected-within': hasSelectedItem
-          })
-        );
+        const classes = merge(className, withPrefix({ disabled, open }));
         return (
           <Component
             ref={mergeRefs(ref, menuContainerRef)}
             className={classes}
+            style={style}
+            data-placement={kebabPlace(placement)}
+            data-active-descendant={hasSelectedItem}
             {...menuContainer}
             {...pick(toggleProps, ['data-testid'])}
-            style={style}
           />
         );
       }}
