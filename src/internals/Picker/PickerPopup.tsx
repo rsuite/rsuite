@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import { useStyles } from '@/internals/hooks';
+import { useElementResize, useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { getDOMNode } from '../utils';
 import type { WithAsProps } from '@/internals/types';
@@ -27,6 +27,15 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
 
   const overlayRef = useRef(null);
 
+  const handleResize = useEventCallback(() => {
+    target?.current?.updatePosition?.();
+  });
+
+  useElementResize(
+    useCallback(() => overlayRef.current, []),
+    handleResize
+  );
+
   useEffect(() => {
     const toggle = target?.current;
 
@@ -46,10 +55,10 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
 
   return (
     <Component
-      {...rest}
       data-testid="picker-popup"
       ref={mergeRefs(overlayRef, ref)}
       className={classes}
+      {...rest}
     />
   );
 });

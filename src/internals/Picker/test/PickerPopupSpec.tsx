@@ -20,15 +20,21 @@ describe('PickerPopup', () => {
     expect(screen.getByTestId('overlay').className).to.contain('picker-popup');
   });
 
-  it('Should update the position after the size is changed', () => {
+  it('Should update the position after the size is changed', async () => {
+    // Stub the useElementResize hook to control resize behavior
     sinon.stub(hooks, 'useElementResize').callsFake(useElementResize);
+
+    // Create a spy to track updatePosition calls
     const updatePosition = sinon.spy();
+
     type AppInstance = {
-      changeOverlaySize: () => void;
+      changeOverlaySize: (height: number) => void;
+      getContentHeight: () => number;
     };
 
     const instanceRef = React.createRef<AppInstance>();
 
+    // Mock Button component that exposes updatePosition method
     const Button = React.forwardRef(
       (
         props: React.DetailedHTMLProps<
@@ -46,33 +52,64 @@ describe('PickerPopup', () => {
               updatePosition
             }) as any
         );
-        return <button ref={targetRef} {...props} />;
+        return <button ref={targetRef} data-testid="target-button" {...props} />;
       }
     );
 
+    // Test component that allows changing content size
     const App = React.forwardRef((_props, ref) => {
       const targetRef = React.useRef<OverlayTriggerHandle>(null);
       const contentRef = React.useRef<HTMLDivElement>(null);
+
       React.useImperativeHandle(ref, () => ({
-        changeOverlaySize: () => {
-          (contentRef.current as HTMLDivElement).style.height = '200px';
+        changeOverlaySize: (height: number) => {
+          if (contentRef.current) {
+            contentRef.current.style.height = `${height}px`;
+          }
+        },
+        getContentHeight: () => {
+          return contentRef.current ? parseInt(contentRef.current.style.height, 10) : 0;
         }
       }));
+
       return (
         <div>
           <Button ref={targetRef}>target</Button>
-          <PickerPopup target={targetRef} placement="topStart">
-            <div ref={contentRef} style={{ width: 100, height: 100 }}>
+          <PickerPopup target={targetRef} placement="topStart" data-testid="picker-popup-container">
+            <div ref={contentRef} style={{ width: 100, height: 100 }} data-testid="content-div">
               test
             </div>
           </PickerPopup>
         </div>
       );
     });
-    render(<App ref={instanceRef} />);
 
-    (instanceRef.current as AppInstance).changeOverlaySize();
+    // Render the test component
+    const { findByTestId } = render(<App ref={instanceRef} />);
 
+    // Verify initial height
+    const contentDiv = await findByTestId('content-div');
+    expect(contentDiv.style.height).to.equal('100px');
+
+    // Reset the spy to ensure clean state before size change
+    updatePosition.resetHistory();
+
+    // Change the size
+    (instanceRef.current as AppInstance).changeOverlaySize(200);
+
+    // Verify the height was changed
+    expect(contentDiv.style.height).to.equal('200px');
+    expect((instanceRef.current as AppInstance).getContentHeight()).to.equal(200);
+
+    // Verify updatePosition was called after size change
+    expect(updatePosition).to.have.been.calledOnce;
+
+    // Change size again to verify multiple updates work correctly
+    updatePosition.resetHistory();
+    (instanceRef.current as AppInstance).changeOverlaySize(300);
+
+    // Verify the second update
+    expect(contentDiv.style.height).to.equal('300px');
     expect(updatePosition).to.have.been.calledOnce;
   });
 
