@@ -30,8 +30,8 @@ const App = () => (
     <Whisper
       trigger="click"
       speaker={(props, ref) => {
-        const { className, left, top, onClose } = props;
-        return <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />;
+        const { left, top, onClose } = props;
+        return <Overlay style={{ left, top }} onClose={onClose} ref={ref} />;
       }}
     >
       <Button>Open</Button>
@@ -41,8 +41,8 @@ const App = () => (
       trigger="click"
       delay={1000}
       speaker={(props, ref) => {
-        const { className, left, top, onClose } = props;
-        return <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />;
+        const { left, top, onClose } = props;
+        return <Overlay style={{ left, top }} onClose={onClose} ref={ref} />;
       }}
     >
       <Button>Delay (1000ms) to open</Button>

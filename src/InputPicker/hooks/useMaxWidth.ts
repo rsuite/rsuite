@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import getWidth from 'dom-lib/getWidth';
-import type { OverlayTriggerHandle } from '@/internals/Picker/PickerToggleTrigger';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 function useMaxWidth(triggerRef: React.RefObject<OverlayTriggerHandle | null>) {
   const [maxWidth, setMaxWidth] = useState(100);

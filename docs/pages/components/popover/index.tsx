@@ -1,6 +1,7 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementGrid from '@/components/PlacementGrid';
 import {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -10,7 +11,10 @@ import {
   Whisper,
   Popover,
   Loader,
-  Toggle
+  Toggle,
+  IconButton,
+  HStack,
+  Text
 } from 'rsuite';
 
 const inDocsComponents = {
@@ -26,11 +30,15 @@ export default function Page() {
       dependencies={{
         ButtonToolbar,
         Button,
+        IconButton,
         Whisper,
         Popover,
         Menu,
         Loader,
-        Toggle
+        Toggle,
+        Text,
+        PlacementGrid,
+        HStack
       }}
     />
   );

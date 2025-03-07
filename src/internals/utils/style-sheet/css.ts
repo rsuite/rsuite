@@ -1,3 +1,5 @@
+import type { StyleProperties } from '@/internals/types';
+
 /**
  * Processes and returns a value suitable for CSS (with a unit).
  */
@@ -19,9 +21,6 @@ export function getCssValue(value?: number | string | null, unit = 'px') {
   // Return string values as is
   return value.toString();
 }
-
-type CSSVariables = Partial<Record<`--${string}`, string | number | undefined>>;
-type StyleProperties = React.CSSProperties | CSSVariables;
 
 /**
  * Merge multiple style objects, filtering out undefined values

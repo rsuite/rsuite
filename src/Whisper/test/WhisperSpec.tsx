@@ -211,10 +211,8 @@ describe('Whisper', () => {
         onExited={onExited}
         trigger="click"
         speaker={(props, ref) => {
-          const { className, left, top, onClose } = props;
-          return (
-            <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />
-          );
+          const { left, top, onClose } = props;
+          return <Overlay style={{ left, top }} onClose={onClose} ref={ref} />;
         }}
       >
         <button>button</button>

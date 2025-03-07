@@ -1,18 +1,19 @@
 <!--start-code-->
 
 ```js
-import { Popover, Whisper, Button, Toggle } from 'rsuite';
+import { Popover, Whisper, Button, Toggle, Text, Loader, HStack } from 'rsuite';
+import PlacementGrid from '@/components/PlacementGrid';
 
-const DefaultPopover = React.forwardRef(({ content, ...props }, ref) => {
+const DefaultPopover = React.forwardRef(({ placement, ...props }, ref) => {
   return (
-    <Popover ref={ref} title="Title" {...props}>
-      <p>This is a Popover </p>
-      <p>{content}</p>
+    <Popover ref={ref} title={placement} {...props}>
+      <Text>Welcome to Popover!</Text>
+      <Text>You've chosen the {placement} position, a wise choice indeed.</Text>
     </Popover>
   );
 });
 
-const PopoverWithLoader = React.forwardRef((props, ref) => {
+const PopoverWithLoader = React.forwardRef(({ placement, ...props }, ref) => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -20,33 +21,33 @@ const PopoverWithLoader = React.forwardRef((props, ref) => {
   }, []);
 
   return (
-    <Popover ref={ref} {...props}>
+    <Popover ref={ref} {...props} title={placement}>
       {loading ? (
         <Loader content="Loading..." />
       ) : (
         <div>
-          <p>This is a Popover.</p>
-          <p>The loading content is loaded.</p>
+          <Text>Welcome to the magical world of popover!</Text>
+          <Text>Your choice of {placement} position is brilliant.</Text>
         </div>
       )}
     </Popover>
   );
 });
 
-const CustomComponent = ({ placement, loading, children }) => (
+const EventTrigger = ({ placement, loading, children }) => (
   <Whisper
     trigger="click"
     placement={placement}
     controlId={`control-id-${placement}`}
     speaker={
       loading ? (
-        <PopoverWithLoader />
+        <PopoverWithLoader placement={placement} />
       ) : (
-        <DefaultPopover content={`I am positioned to the ${placement}`} />
+        <DefaultPopover placement={placement} />
       )
     }
   >
-    <Button appearance="subtle">{children || placement}</Button>
+    {children ? children : <Button>{placement}</Button>}
   </Whisper>
 );
 
@@ -55,83 +56,27 @@ const App = () => {
   return (
     <div>
       <Toggle onChange={setLoading}>Dynamic content</Toggle>
+
       <hr />
-      <table className="placement-table" cellSpacing={5}>
-        <tbody>
-          <tr>
-            <td />
-            <td>
-              <CustomComponent placement="topStart" loading={loading} />
-            </td>
-            <td>
-              <CustomComponent placement="top" loading={loading} />
-            </td>
-            <td>
-              <CustomComponent placement="topEnd" loading={loading} />
-            </td>
-            <td />
-          </tr>
-          <tr>
-            <td>
-              <CustomComponent placement="leftStart" loading={loading} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <CustomComponent placement="rightStart" loading={loading} />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <CustomComponent placement="left" loading={loading} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <CustomComponent placement="right" loading={loading} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <CustomComponent placement="leftEnd" loading={loading} />
-            </td>
-            <td />
-            <td />
-            <td />
-            <td>
-              <CustomComponent placement="rightEnd" loading={loading} />
-            </td>
-          </tr>
-          <tr>
-            <td />
-            <td>
-              <CustomComponent placement="bottomStart" loading={loading} />
-            </td>
-            <td>
-              <CustomComponent placement="bottom" loading={loading} />
-            </td>
-            <td>
-              <CustomComponent placement="bottomEnd" loading={loading} />
-            </td>
-            <td />
-          </tr>
-        </tbody>
-      </table>
+      <PlacementGrid
+        renderCell={({ placement, button }) => (
+          <EventTrigger placement={placement} loading={loading}>
+            {button}
+          </EventTrigger>
+        )}
+      />
       <hr />
+      <HStack wrap>
+        <EventTrigger placement="auto" loading={loading} />
 
-      <CustomComponent placement="auto" loading={loading} />
-      <br />
-      <CustomComponent placement="autoVertical" loading={loading} />
-      <CustomComponent placement="autoVerticalStart" loading={loading} />
-      <CustomComponent placement="autoVerticalEnd" loading={loading} />
+        <EventTrigger placement="autoVertical" loading={loading} />
+        <EventTrigger placement="autoVerticalStart" loading={loading} />
+        <EventTrigger placement="autoVerticalEnd" loading={loading} />
 
-      <br />
-      <CustomComponent placement="autoHorizontal" loading={loading} />
-      <CustomComponent placement="autoHorizontalStart" loading={loading} />
-      <CustomComponent placement="autoHorizontalEnd" loading={loading} />
+        <EventTrigger placement="autoHorizontal" loading={loading} />
+        <EventTrigger placement="autoHorizontalStart" loading={loading} />
+        <EventTrigger placement="autoHorizontalEnd" loading={loading} />
+      </HStack>
     </div>
   );
 };

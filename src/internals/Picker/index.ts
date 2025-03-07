@@ -16,6 +16,6 @@ export * from './hooks';
 export * from './utils';
 
 // export types
-export type { OverlayTriggerHandle, PositionChildProps } from './PickerToggleTrigger';
+export type { OverlayTriggerHandle, PositionChildProps } from '../Overlay/types';
 export type { PickerToggleProps } from './PickerToggle';
 export type { PickerHandle } from './types';

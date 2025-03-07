@@ -1,6 +1,5 @@
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
-import kebabCase from 'lodash/kebabCase';
 import ownerDocument from 'dom-lib/ownerDocument';
 import getOffset from 'dom-lib/getOffset';
 import scrollTop from 'dom-lib/scrollTop';
@@ -8,22 +7,8 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
-import type { Offset, Placement } from '@/internals/types';
-import type { CursorPosition } from './types';
-
-export interface PositionType {
-  positionLeft?: number;
-  positionTop?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
-  positionClassName?: string;
-}
-
-export interface UtilProps {
-  placement: Placement;
-  preventOverflow: boolean;
-  padding: number;
-}
+import type { Offset } from '@/internals/types';
+import type { CursorPosition, Dimensions, UtilProps, PositionType } from './types';
 
 export const AutoPlacement = {
   left: 'Start',
@@ -31,13 +16,6 @@ export const AutoPlacement = {
   top: 'Start',
   bottom: 'End'
 };
-
-export interface Dimensions {
-  width: number;
-  height: number;
-  scrollX: number;
-  scrollY: number;
-}
 
 /**
  * Get the external dimensions of the container
@@ -361,11 +339,11 @@ export default (props: UtilProps) => {
       }
 
       return {
+        placement: nextPlacement,
         positionLeft,
         positionTop,
         arrowOffsetLeft,
-        arrowOffsetTop,
-        positionClassName: `placement-${kebabCase(nextPlacement)}`
+        arrowOffsetTop
       };
     }
   };

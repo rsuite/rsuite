@@ -36,3 +36,6 @@ export type SanitizedHTMListProps<
 > = PropsWithout<P, 'title' | 'onToggle' | 'onSelect'>;
 
 export type WithoutChildren<T> = Omit<T, 'children'>;
+
+export type CSSVariables = Partial<Record<`--${string}`, string | number | undefined>>;
+export type StyleProperties = React.CSSProperties | CSSVariables;

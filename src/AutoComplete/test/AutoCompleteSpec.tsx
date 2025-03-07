@@ -39,12 +39,6 @@ describe('AutoComplete', () => {
     expect(screen.getAllByRole('option')).to.have.lengthOf(2);
   });
 
-  it('Should be a `top-end` for placement', () => {
-    render(<AutoComplete data={data} open placement="topEnd" />);
-
-    expect(screen.getByTestId('picker-popup')).to.have.class('placement-top-end');
-  });
-
   it('Should call onSelect callback with correct args', () => {
     const onSelect = sinon.spy();
     render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelect} />);
