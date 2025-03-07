@@ -54,6 +54,7 @@ export interface ComboboxContextProps {
   id?: string;
   multiple?: boolean;
   hasLabel?: boolean;
+  placement?: Placement;
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
 }
 
@@ -81,9 +82,10 @@ const PickerToggleTrigger = React.forwardRef(
         id: pickerId,
         hasLabel: typeof pickerTriggerProps.label !== 'undefined',
         multiple,
+        placement,
         popupType
       }),
-      [pickerId, multiple, popupType]
+      [pickerId, multiple, placement, popupType]
     );
 
     return (

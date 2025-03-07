@@ -1,6 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import PickerPopup from '../PickerPopup';
+import { ComboboxContext } from '../PickerToggleTrigger';
 import getWidth from 'dom-lib/getWidth';
 import useElementResize from '@test/stubs/useElementResize';
 import * as hooks from '@/internals/hooks';
@@ -75,11 +76,13 @@ describe('PickerPopup', () => {
       return (
         <div>
           <Button ref={targetRef}>target</Button>
-          <PickerPopup target={targetRef} placement="topStart" data-testid="picker-popup-container">
-            <div ref={contentRef} style={{ width: 100, height: 100 }} data-testid="content-div">
-              test
-            </div>
-          </PickerPopup>
+          <ComboboxContext.Provider value={{ placement: 'topStart' }}>
+            <PickerPopup target={targetRef} data-testid="picker-popup-container">
+              <div ref={contentRef} style={{ width: 100, height: 100 }} data-testid="content-div">
+                test
+              </div>
+            </PickerPopup>
+          </ComboboxContext.Provider>
         </div>
       );
     });

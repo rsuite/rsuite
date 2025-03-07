@@ -4,6 +4,7 @@ import getWidth from 'dom-lib/getWidth';
 import { useElementResize, useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { getDOMNode } from '../utils';
+import { useCombobox } from '@/internals/Picker';
 import type { WithAsProps } from '@/internals/types';
 import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
@@ -15,12 +16,25 @@ export interface PickerPopupProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
+// Define an array of placements that require resizing
+const resizePlacement = [
+  'topStart',
+  'topEnd',
+  'leftEnd',
+  'rightEnd',
+  'auto',
+  'autoVerticalStart',
+  'autoVerticalEnd',
+  'autoHorizontalEnd'
+];
+
 const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
+  const { placement } = useCombobox();
   const {
     as: Component = 'div',
-    classPrefix = 'picker-popup',
     autoWidth,
     className,
+    classPrefix = 'picker-popup',
     target,
     ...rest
   } = props;
@@ -28,9 +42,14 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
   const overlayRef = useRef(null);
 
   const handleResize = useEventCallback(() => {
-    target?.current?.updatePosition?.();
+    const instance = target?.current;
+
+    if (instance && placement && resizePlacement.includes(placement)) {
+      instance.updatePosition?.();
+    }
   });
 
+  // Use useElementResize hook to listen for element size changes
   useElementResize(
     useCallback(() => overlayRef.current, []),
     handleResize
@@ -40,8 +59,7 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
     const toggle = target?.current;
 
     if (autoWidth && toggle?.root) {
-      // Get the width value of the button,
-      // and then set it to the menu to make their width consistent.
+      // Get the width of the button and set it to the menu to make them consistent
       const width = getWidth(getDOMNode(toggle.root));
 
       if (overlayRef.current) {
