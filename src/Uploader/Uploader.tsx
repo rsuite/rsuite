@@ -50,7 +50,7 @@ export interface UploaderProps
   autoUpload?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactElement;
 
   /** List of uploaded files */
   defaultFileList?: FileType[];
@@ -607,7 +607,7 @@ Uploader.propTypes = {
   action: PropTypes.string.isRequired,
   accept: PropTypes.string,
   autoUpload: PropTypes.bool,
-  children: PropTypes.node,
+  children: PropTypes.element,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   defaultFileList: PropTypes.array,

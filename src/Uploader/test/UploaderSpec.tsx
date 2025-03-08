@@ -2,7 +2,6 @@ import React from 'react';
 import sinon from 'sinon';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
@@ -144,5 +143,15 @@ describe('Uploader', () => {
 
     expect(screen.getByRole('button')).to.have.class('rs-btn-primary');
     expect(screen.getByRole('button')).to.have.class('rs-btn-red');
+  });
+
+  it('Should apply custom button className', () => {
+    render(
+      <Uploader action="">
+        <Button className="custom-buttom">Select files</Button>
+      </Uploader>
+    );
+
+    expect(screen.getByRole('button')).to.have.class('custom-buttom');
   });
 });

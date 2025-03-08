@@ -4,6 +4,7 @@ import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '@/internals/hooks';
 import { isIE11 } from '@/internals/utils';
 import type { UploaderLocale } from '../locales';
+
 export interface UploadTriggerProps extends ButtonProps {
   as?: React.ElementType;
   name?: string;
@@ -14,7 +15,7 @@ export interface UploadTriggerProps extends ButtonProps {
   accept?: string;
   classPrefix?: string;
   className?: string;
-  children?: React.ReactNode;
+  children?: React.ReactElement;
   locale?: UploaderLocale;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onDragEnter?: React.DragEventHandler<HTMLInputElement>;
@@ -132,22 +133,27 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     clearInput: handleClearInput
   }));
 
-  const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {
+  // Prepare button props with event handlers conditionally applied
+  const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> & Partial<ButtonProps> = {
     ...rest,
     disabled,
-    className: prefix('btn')
+    className: prefix('btn'),
+    // Only add event handlers if component is interactive
+    ...(!disabled &&
+      !readOnly && {
+        onClick: handleClick,
+        onDragEnter: handleDragEnter,
+        onDragLeave: handleDragLeave,
+        onDragOver: handleDragOver,
+        onDrop: handleDrop
+      })
   };
 
-  if (!disabled && !readOnly) {
-    buttonProps.onClick = handleClick;
-    buttonProps.onDragEnter = handleDragEnter;
-    buttonProps.onDragLeave = handleDragLeave;
-    buttonProps.onDragOver = handleDragOver;
-    buttonProps.onDrop = handleDrop;
-  }
-
   const trigger = children ? (
-    React.cloneElement(React.Children.only(children as any), buttonProps)
+    React.cloneElement(React.Children.only(children), {
+      ...buttonProps,
+      className: merge(children.props?.className, prefix('btn'))
+    })
   ) : (
     <Component {...buttonProps}>{locale?.upload}</Component>
   );
@@ -180,7 +186,7 @@ UploadTrigger.propTypes = {
   onChange: PropTypes.func,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.element,
   draggable: PropTypes.bool,
   onDragEnter: PropTypes.func,
   onDragLeave: PropTypes.func,
