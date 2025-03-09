@@ -31,6 +31,10 @@
 
 <!--{include:`size.md`}-->
 
+## 响应式
+
+<!--{include:<example-responsive>}-->
+
 ## Props
 
 ### `<Drawer>`
