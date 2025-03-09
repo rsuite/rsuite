@@ -1,5 +1,6 @@
 import React from 'react';
 import { ButtonToolbar, Button, IconButton, Drawer, RadioGroup, Radio, Placeholder } from 'rsuite';
+import Simulation from '@/components/Simulation';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
@@ -8,7 +9,8 @@ import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Drawer']} />
+  'import-guide': () => <ImportGuide components={['Drawer']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="drawer" />
 };
 
 export default function Page() {

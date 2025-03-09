@@ -7,6 +7,7 @@
   --rs-drawer-shadow: var(--rs-shadow-lg);
   --rs-drawer-title-font-size: var(--rs-font-size-lg);
   --rs-drawer-title-line-height: 2.25rem;
+  --rs-drawer-body-padding: calc(var(--rs-spacing) * 7.5) calc(var(--rs-spacing) * 15);
 
   --rs-drawer-size-full: 100%;
   --rs-drawer-inline-size-xs: @drawer-horizontal-xs;
@@ -42,6 +43,7 @@
     top: 0;
     height: 100%;
     width: var(--rs-drawer-inline-size);
+    max-width: 100%;
 
     each(@sizes, .(@size) {
       &.rs-drawer-@{size} {
@@ -200,7 +202,7 @@
 // Drawer body
 .rs-drawer-body {
   position: relative;
-  padding: 30px 60px;
+  padding: var(--rs-drawer-body-padding);
   height: 100%;
   overflow: auto;
 

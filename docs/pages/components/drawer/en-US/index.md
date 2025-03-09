@@ -31,6 +31,10 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 <!--{include:`size.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Props
 
 ### `<Drawer>`
