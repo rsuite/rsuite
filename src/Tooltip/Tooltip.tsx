@@ -37,12 +37,7 @@ const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
   } = propsWithDefaults;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix({
-      arrow
-    })
-  );
+  const classes = merge(className, withPrefix({ arrow }));
 
   const styles = useMemo(
     () => mergeStyles(style, { ['--rs-opacity']: visible ? 1 : undefined }),

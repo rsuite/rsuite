@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
-import OverlayContext from './OverlayContext';
+import { OverlayProvider } from './OverlayProvider';
 import { KEY_VALUES } from '@/internals/constants';
 import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
@@ -236,14 +236,9 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     setExited(true);
   }, []);
 
-  const contextValue = useMemo(
-    () => ({
-      overlayContainer: () => {
-        return modal.dialog;
-      }
-    }),
-    [modal.dialog]
-  );
+  const overlayContainer = useCallback(() => {
+    return modal.dialog;
+  }, [modal.dialog]);
 
   if (!mountModal) {
     return null;
@@ -294,7 +289,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   );
 
   return (
-    <OverlayContext.Provider value={contextValue}>
+    <OverlayProvider overlayContainer={overlayContainer}>
       <Portal>
         {backdrop && renderBackdrop()}
         <Component
@@ -307,7 +302,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
           {dialogElement}
         </Component>
       </Portal>
-    </OverlayContext.Provider>
+    </OverlayProvider>
   );
 });
 

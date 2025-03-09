@@ -44,9 +44,9 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
   const classes = merge(className, withPrefix());
 
   const renderMenu = useCallback(
-    ({ onClose, className }, ref) => {
+    ({ onClose }, ref) => {
       return (
-        <Popover ref={ref} full className={className} arrow={false}>
+        <Popover ref={ref} full arrow={false}>
           {typeof children === 'function' ? children({ onClose }) : children}
         </Popover>
       );

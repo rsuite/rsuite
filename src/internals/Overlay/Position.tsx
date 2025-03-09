@@ -6,20 +6,17 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
-import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
-import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
 import isElement from '../../DOMHelper/isElement';
-import positionUtils, { PositionType } from './positionUtils';
+import positionUtils from './positionUtils';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { getDOMNode } from '../utils';
+import { getDOMNode, kebabPlace } from '../utils';
 import { useUpdateEffect } from '../hooks';
 import type { Placement } from '@/internals/types';
-import type { CursorPosition } from './types';
+import type { CursorPosition, PositionType, PositionChildProps } from './types';
 
 const CSS_POSITION_X = '--rs-position-x';
 const CSS_POSITION_Y = '--rs-position-y';
@@ -31,20 +28,11 @@ export const getPositionStyle = (x?: number, y?: number) => {
   };
 };
 
-export interface PositionChildProps {
-  className: string;
-  left?: number;
-  top?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
-}
-
 export interface PositionProps {
   children: (
     props: PositionChildProps,
     ref: React.RefObject<HTMLElement | null>
   ) => React.ReactElement;
-  className?: string;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
   placement?: Placement;
@@ -73,6 +61,7 @@ const usePosition = (
   const overlayResizeObserver = useRef<ResizeObserver>(null);
 
   const defaultPosition = {
+    placement,
     positionLeft: 0,
     positionTop: 0,
     arrowOffsetLeft: undefined,
@@ -124,12 +113,11 @@ const usePosition = (
       );
 
       if (forceUpdateDOM && overlay) {
-        const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
-        removeClass(overlay, preClassName);
-        if (posi.positionClassName) {
-          addClass(overlay, posi.positionClassName);
-        }
         addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
+
+        if (posi.placement) {
+          overlay.dataset.placement = kebabPlace(posi.placement);
+        }
       } else {
         setPosition(posi);
       }
@@ -185,12 +173,11 @@ export interface PositionInstance {
  * @private
  */
 const Position = React.forwardRef((props: PositionProps, ref) => {
-  const { children, className, followCursor, cursorPosition } = props;
+  const { children, followCursor, cursorPosition } = props;
   const childRef = React.useRef<HTMLElement>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
-  const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
-    position;
+  const { arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop, placement } = position;
 
   useImperativeHandle(ref, () => ({
     get child() {
@@ -206,7 +193,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 
   if (typeof children === 'function') {
     const childProps = {
-      className: classNames(className, positionClassName),
+      placement,
       arrowOffsetLeft,
       arrowOffsetTop,
       left: positionLeft,
