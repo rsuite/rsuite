@@ -32,6 +32,9 @@ export interface ModalProps
   /** Set an animation effect for Modal, the default is Bounce.  */
   animation?: React.ElementType;
 
+  /** Set the centered position of the modal */
+  centered?: boolean;
+
   /** CSS class applied to Dialog DOM nodes */
   dialogClassName?: string;
 
@@ -81,6 +84,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
     backdrop = true,
     className,
     classPrefix = 'modal',
+    centered,
     dialogClassName,
     dialogStyle,
     dialogAs: Dialog = ModalDialog,
@@ -216,6 +220,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
   }, [backdrop, enforceFocusProp, isDrawer]);
 
   const wrapperClassName = merge(prefix`wrapper`, {
+    [prefix`centered`]: centered,
     [prefix`no-backdrop`]: backdrop === false
   });
 

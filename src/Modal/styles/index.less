@@ -19,6 +19,8 @@
   --rs-modal-size-sm: @modal-sm;
   --rs-modal-size-md: @modal-md;
   --rs-modal-size-lg: @modal-lg;
+  --rs-modal-max-width: 100%;
+  --rs-modal-padding-inline: calc(var(--rs-spacing) * 5);
 
   display: none;
   overflow: visible;
@@ -28,6 +30,8 @@
   margin: var(--rs-modal-margin-top) auto 0 auto;
   position: relative;
   width: var(--rs-modal-size, auto);
+  max-width: var(--rs-modal-max-width);
+  padding-inline: var(--rs-modal-padding-inline);
   z-index: @zindex-modal;
 
   // Size variants
@@ -40,6 +44,8 @@
   });
 
   &&-full {
+    --rs-modal-padding-inline: 0;
+
     margin: 0;
     height: 100%;
 
@@ -157,6 +163,16 @@
   inset-inline-start: 0;
   width: 100%;
   height: 100%;
+
+  &.rs-modal-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .rs-modal {
+      margin: auto;
+    }
+  }
 }
 
 .rs-modal-shake .rs-modal-dialog {

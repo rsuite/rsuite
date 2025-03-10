@@ -1,4 +1,8 @@
 import React from 'react';
+import Simulation from '@/components/Simulation';
+import DefaultPage from '@/components/Page';
+import RemindFillIcon from '@rsuite/icons/RemindFill';
+import ImportGuide from '@/components/ImportGuide';
 import {
   ButtonToolbar,
   Button,
@@ -7,14 +11,16 @@ import {
   RadioGroup,
   Radio,
   Loader,
-  Placeholder
+  Placeholder,
+  Form,
+  Input,
+  SelectPicker,
+  HStack,
+  Text
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import RemindIcon from '@rsuite/icons/legacy/Remind';
-import ImportGuide from '@/components/ImportGuide';
-
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Modal']} />
+  'import-guide': () => <ImportGuide components={['Modal']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="modal" />
 };
 
 export default function Page() {
@@ -29,7 +35,12 @@ export default function Page() {
         Toggle,
         RadioGroup,
         Radio,
-        RemindIcon,
+        Form,
+        Input,
+        HStack,
+        Text,
+        SelectPicker,
+        RemindFillIcon,
         Placeholder
       }}
     />

@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Modal, ButtonToolbar, Button } from 'rsuite';
-import RemindIcon from '@rsuite/icons/legacy/Remind';
+import RemindFillIcon from '@rsuite/icons/RemindFill';
+import { Modal, ButtonToolbar, Button, Text, HStack } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -17,9 +17,24 @@ const App = () => {
 
       <Modal backdrop="static" role="alertdialog" open={open} onClose={handleClose} size="xs">
         <Modal.Body>
-          <RemindIcon style={{ color: '#ffb300', fontSize: 24 }} />
-          Once a project is disabled, there will be no update on project report, and project members
-          can access history data only. Are you sure you want to proceed ?
+          <HStack spacing={16}>
+            <RemindFillIcon
+              style={{
+                color: '#ffb300',
+                fontSize: 24,
+                width: 24
+              }}
+            />
+            <Text
+              style={{
+                flex: 1
+              }}
+            >
+              After disabling the project, project reports will no longer be updated, and project
+              members will only be able to access historical data. This action is irreversible. Are
+              you sure you want to continue?
+            </Text>
+          </HStack>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} appearance="primary">

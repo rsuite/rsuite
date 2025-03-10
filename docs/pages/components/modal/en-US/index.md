@@ -24,15 +24,19 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 
 <!--{include:`backdrop.md`}-->
 
+### Vertical center
+
+<!--{include:`centered.md`}-->
+
 ### Size
 
 <!--{include:`size.md`}-->
 
-### Overflow
+### Content overflow
 
 <!--{include:`overflow.md`}-->
 
-### Dynamic
+### Dynamic content
 
 <!--{include:`dynamic.md`}-->
 
@@ -40,17 +44,23 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 
 <!--{include:`alert-dialog.md`}-->
 
+### With form
+
+<!--{include:`form.md`}-->
+
+## Responsive
+
+On mobile devices, the Modal's maximum width will stretch to fill the screen while maintaining margins.
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
-
-### Keyboard Interaction
-
-- <kbd>ESC</kbd> closes `Modal` unless `keyboard` is set to `false`.
 
 ### WAI-ARIA Roles, States, and Properties
 
 - Modal has role `dialog`.
 - Modal has `aria-modal` set to `true`. Tells assistive technologies that the windows underneath the current dialog are not available for interaction (inert).
-- Be sure to add `aria-labelledby`, referencing the modal title, to the Modal. Additionally, you may give a description of your modal with the `aria-describedby` prop on the Modal.
+- Modal will automatically add `aria-labelledby` attribute to point to the Modal.Title component. Use `aria-describedby` attribute to add a description to the Modal.Body component. You can also manually add `aria-labelledby` and `aria-describedby` attributes to override the default setting.
 
 ```js
 <Modal aria-labelledby="modal-title" aria-describedby="modal-description">
@@ -69,6 +79,13 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 </Modal>
 ```
 
+### Keyboard Interaction
+
+- <kbd>ESC</kbd> can close the Modal. This functionality can be disabled by setting `keyboard=false`.
+- <kbd>Tab</kbd> When the Modal is open, focus automatically moves inside the Modal. Pressing Tab cycles through focusable elements within the Modal.
+- <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Modal.
+- When the Modal closes, focus returns to the element that triggered the Modal to open.
+
 ## Props
 
 ### `<Modal>`
@@ -78,6 +95,8 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | autoFocus         | boolean `(true)`                                                   | When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers                                                                            |
 | backdrop          | unions: boolean \| 'static'                                        | When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'. |
 | backdropClassName | string                                                             | Add an optional extra class name to .modal-backdrop It could end up looking like class="modal-backdrop foo-modal-backdrop in".                                                         |
+| centered          | boolean                                                            | Align the modal vertically in the center of the page.                                                                                                                                  |
+| children          | ReactNode                                                          | Modal content                                                                                                                                                                          |
 | classPrefix       | string `('modal')`                                                 | The prefix of the component CSS class                                                                                                                                                  |
 | container         | HTMLElement \| (() => HTMLElement)                                 | Sets the rendering container                                                                                                                                                           |
 | dialogAs          | ElementType `(ModalDialog)`                                        | You can use a custom element type for Dialog                                                                                                                                           |
@@ -102,6 +121,7 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | Property    | Type `(Default)`          | Description                                     |
 | ----------- | ------------------------- | ----------------------------------------------- |
 | as          | ElementType `('div')`     | You can use a custom element for this component |
+| children    | ReactNode                 | Header content                                  |
 | classPrefix | string `('modal-header')` | The prefix of the component CSS class           |
 | closeButton | boolean `(true)`          | Display close button                            |
 | onClose     | (event) => void           | Called when Modal is hidden                     |
@@ -111,6 +131,7 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | Property    | Type `(Default)`         | Description                                     |
 | ----------- | ------------------------ | ----------------------------------------------- |
 | as          | ElementType `('h4')`     | You can use a custom element for this component |
+| children    | ReactNode                | Title content                                   |
 | classPrefix | string `('modal-title')` | The prefix of the component CSS class           |
 
 ### `<Modal.Footer>`
@@ -118,6 +139,7 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | Property    | Type `(Default)`          | Description                                     |
 | ----------- | ------------------------- | ----------------------------------------------- |
 | as          | ElementType `('div')`     | You can use a custom element for this component |
+| children    | ReactNode                 | Footer content                                  |
 | classPrefix | string `('modal-footer')` | The prefix of the component CSS class           |
 
 ### `<Modal.Body>`
@@ -125,4 +147,5 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | Property    | Type `(Default)`        | Description                                     |
 | ----------- | ----------------------- | ----------------------------------------------- |
 | as          | ElementType `('div')`   | You can use a custom element for this component |
+| children    | ReactNode               | Body content                                    |
 | classPrefix | string `('modal-body')` | The prefix of the component CSS class           |
