@@ -17,7 +17,7 @@ const useDrag = (props: DragProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const { tooltip, disabled, onDragMove, onDragEnd, onDragStart } = props;
   const [active, setActive] = useState(false);
-  const moveTracker = useRef<PointerMoveTracker | null>();
+  const moveTracker = useRef<PointerMoveTracker>(null);
 
   // Release the move event
   const releaseMoves = useCallback(() => {

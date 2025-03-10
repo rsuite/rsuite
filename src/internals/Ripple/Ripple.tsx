@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../../Animation/Transition';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { mergeRefs, forwardRef } from '@/internals/utils';
 import { useCustom } from '../../CustomProvider';
 import type { Offset, WithAsProps } from '@/internals/types';
 
@@ -33,10 +32,10 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
  * The `Ripple` component is used to implement the ripple effect.
  * @private
  */
-const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElement>) => {
+const Ripple = forwardRef<'span', RippleProps>((props, ref) => {
   const { disableRipple } = useCustom();
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('pond'));
   const triggerRef = useRef<HTMLElement>(null);
   const [rippling, setRippling] = useState(false);
@@ -81,7 +80,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
             <span
               {...transitionRest}
               ref={ref}
-              className={merge(withClassPrefix(), className)}
+              className={merge(withPrefix(), className)}
               style={position}
             />
           );
@@ -92,10 +91,5 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 });
 
 Ripple.displayName = 'Ripple';
-Ripple.propTypes = {
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  onMouseDown: PropTypes.func
-};
 
 export default Ripple;

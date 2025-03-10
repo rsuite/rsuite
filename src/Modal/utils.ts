@@ -1,13 +1,13 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
 import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { TypeAttributes } from '@/internals/types';
+import type { SizeType } from '@/internals/types';
 
-export type ModalSize = TypeAttributes.Size | 'full' | number | string;
+export type ModalSize = SizeType | 'full' | number | string;
 
 export const useBodyStyles = (
-  ref: React.RefObject<HTMLElement>,
+  ref: React.RefObject<HTMLElement | null>,
   options: {
     overflow: boolean;
     size?: ModalSize;
@@ -16,9 +16,9 @@ export const useBodyStyles = (
 ): [React.CSSProperties | null, (entering?: boolean) => void, () => void] => {
   const [bodyStyles, setBodyStyles] = useState<React.CSSProperties | null>({});
   const { overflow, prefix, size } = options;
-  const windowResizeListener = useRef<any>();
+  const windowResizeListener = useRef<{ off: () => void }>(null);
   const contentElement = useRef<HTMLElement | null>(null);
-  const contentElementResizeObserver = useRef<ResizeObserver | null>();
+  const contentElementResizeObserver = useRef<ResizeObserver>(null);
 
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {
@@ -88,7 +88,6 @@ export const useBodyStyles = (
 
   useEffect(() => {
     return onDestroyEvents;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [overflow ? bodyStyles : null, onChangeBodyStyles, onDestroyEvents];

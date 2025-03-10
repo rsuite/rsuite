@@ -65,3 +65,10 @@ export const getDefaultPalette = (key?: string) => {
   return getDefaultPalette()[key];
 };
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
+
+/**
+ * Retrieves the value of a CSS custom property (CSS variable) from an HTML element.
+ */
+export const getCssVarValue = (element: HTMLElement, varName: string): string => {
+  return window.getComputedStyle(element).getPropertyValue(varName).trim();
+};

@@ -1,68 +1,42 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { SIZE } from '@/internals/constants';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import type { WithAsProps, SizeType } from '@/internals/types';
 
 export interface ModalDialogProps extends WithAsProps {
   /** A modal can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: SizeType;
   dialogClassName?: string;
   dialogStyle?: React.CSSProperties;
 }
 
-export const modalDialogPropTypes = {
-  size: oneOf(SIZE),
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  style: PropTypes.object,
-  dialogStyle: PropTypes.object,
-  children: PropTypes.node
-};
+const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps, ref) => {
+  const {
+    as: Component = 'div',
+    style,
+    children,
+    dialogClassName,
+    dialogStyle,
+    classPrefix = 'modal',
+    className,
+    size,
+    ...rest
+  } = props;
 
-const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.forwardRef(
-  (props: ModalDialogProps, ref) => {
-    const {
-      as: Component = 'div',
-      style,
-      children,
-      dialogClassName,
-      dialogStyle,
-      classPrefix = 'modal',
-      className,
-      size,
-      ...rest
-    } = props;
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(size));
+  const dialogClasses = merge(dialogClassName, prefix('dialog'));
+  const modalStyle = mergeStyles({ display: 'block' }, style);
 
-    const modalStyle = {
-      display: 'block',
-      ...style
-    };
-
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size));
-    const dialogClasses = merge(dialogClassName, prefix('dialog'));
-
-    return (
-      <Component
-        role="dialog"
-        aria-modal
-        {...rest}
-        ref={ref}
-        className={classes}
-        style={modalStyle}
-      >
-        <div role="document" className={dialogClasses} style={dialogStyle}>
-          <div className={prefix`content`}>{children}</div>
-        </div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Component role="dialog" aria-modal ref={ref} className={classes} style={modalStyle} {...rest}>
+      <div role="document" className={dialogClasses} style={dialogStyle}>
+        {children}
+      </div>
+    </Component>
+  );
+});
 
 ModalDialog.displayName = 'ModalDialog';
-ModalDialog.propTypes = modalDialogPropTypes;
 
 export default ModalDialog;

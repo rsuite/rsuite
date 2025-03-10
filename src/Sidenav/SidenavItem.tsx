@@ -1,55 +1,67 @@
 import React, { useContext, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import isNil from 'lodash/isNil';
-import { useClassNames } from '@/internals/hooks';
-import { shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
-import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
-import { SidenavContext } from './Sidenav';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
-import classNames from 'classnames';
+import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { SidenavContext } from './Sidenav';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface SidenavItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
-  /** Activation status */
+/**
+ * Props of SidenavItem component
+ */
+export interface SidenavItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
+  /**
+   * Whether the item is activated
+   */
   active?: boolean;
 
-  /** Set the icon */
+  /**
+   * The icon displayed next to the item
+   */
   icon?: React.ReactElement<IconProps>;
 
-  /** Whether or not component is disabled */
+  /**
+   * Disable the item
+   */
   disabled?: boolean;
 
-  /** The value of the current option */
+  /**
+   * The value of the item that is used to identify the item
+   */
   eventKey?: T;
 
-  /** Selected callback function */
-  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
-
+  /**
+   * Render a divider
+   */
   divider?: boolean;
 
+  /**
+   * Render a panel
+   */
   panel?: boolean;
 
   /**
-   * Content of the tooltip
+   * The content of the tooltip
    */
   tooltip?: React.ReactNode;
+
+  /**
+   * The callback function when the item is selected
+   */
+  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 }
 
 /**
  * @private
  */
-const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forwardRef<
-  HTMLLIElement,
-  SidenavItemProps
->((props: SidenavItemProps, ref) => {
+const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   const sidenav = useContext(SidenavContext);
 
   if (!sidenav) {
@@ -61,23 +73,23 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   const {
     as: Component = SafeAnchor,
     active: activeProp,
+    classPrefix = 'sidenav-item',
     children,
     className,
     disabled,
-    classPrefix = 'sidenav-item',
-    icon,
+    divider,
     eventKey,
+    icon,
+    panel,
     style,
+    tooltip = children,
     onClick,
     onSelect,
-    divider,
-    panel,
-    tooltip = children,
     ...rest
   } = props;
 
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
   const whisperRef = React.useRef<WhisperInstance>(null);
 
@@ -98,7 +110,14 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       })
     : null;
 
+  const title =
+    typeof children === 'string' ? <span className={prefix('title')}>{children}</span> : children;
+
   if (!sidenav.expanded) {
+    if (panel || divider) {
+      return null;
+    }
+
     return (
       <Whisper
         trigger="hover"
@@ -111,7 +130,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
             {({ selected, active, ...menuitem }, menuitemRef) => {
               const classes = merge(
                 className,
-                withClassPrefix({ focus: active, active: selected, disabled })
+                withPrefix({ focus: active, active: selected, disabled })
               );
 
               // Show tooltip when inside a collapse <Sidenav>
@@ -131,8 +150,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
                   onMouseOut={createChainedFunction(menuitem.onMouseOut, triggerProps.onMouseOut)}
                 >
                   {clonedIcon}
-                  {children}
-                  <Ripple />
+                  {title}
                 </Component>
               );
             }}
@@ -171,7 +189,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   return (
     <Component
       ref={ref as any}
-      className={merge(className, withClassPrefix({ active: selected, disabled }))}
+      className={merge(className, withPrefix({ active: selected, disabled }))}
       onClick={handleClick}
       style={style}
       aria-selected={selected || undefined}
@@ -179,27 +197,11 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       {...rest}
     >
       {clonedIcon}
-      {children}
-      <Ripple />
+      {title}
     </Component>
   );
 });
 
 SidenavItem.displayName = 'Sidenav.Item';
-SidenavItem.propTypes = {
-  classPrefix: PropTypes.string,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  style: PropTypes.object,
-  onSelect: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func
-};
 
 export default SidenavItem;

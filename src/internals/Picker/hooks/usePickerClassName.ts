@@ -1,14 +1,10 @@
-import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
-import { useClassNames } from '@/internals/hooks';
-import { TypeAttributes } from '@/internals/types';
-import { placementPolyfill } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 
 export interface PickerClassNameProps {
   name?: string;
   classPrefix: string;
   className?: string;
-  placement?: TypeAttributes.Placement;
   appearance?: 'default' | 'subtle';
   cleanable?: boolean;
   block?: boolean;
@@ -28,7 +24,6 @@ function usePickerClassName(props: PickerClassNameProps): [string, string[]] {
     name,
     classPrefix,
     className,
-    placement,
     appearance,
     cleanable,
     block,
@@ -40,11 +35,10 @@ function usePickerClassName(props: PickerClassNameProps): [string, string[]] {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(name, appearance, 'toggle-wrapper', {
-      [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
+    withPrefix(name, appearance, 'toggle-wrapper', {
       'read-only': readOnly,
       'has-value': hasValue,
       cleanable,

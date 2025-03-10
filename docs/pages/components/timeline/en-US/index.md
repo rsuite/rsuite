@@ -44,11 +44,9 @@ Two preset values are provided for convenience.
 
 ### `<Timeline>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property     | Type `(Default)`                                    | Description                                          |
 | ------------ | --------------------------------------------------- | ---------------------------------------------------- |
-| align        | 'left' &#124; 'right' &#124; 'alternate' `('left')` | Timeline content alignment                           |
+| align        | 'left' \| 'right' \| 'alternate' `('left')`         | Timeline content alignment                           |
 | as           | ElementType `('ul')`                                | You can use a custom element type for this component |
 | children \*  | Timeline.Item[]                                     | The content of the component                         |
 | classPrefix  | string `('timeline')`                               | The prefix of the component CSS class                |

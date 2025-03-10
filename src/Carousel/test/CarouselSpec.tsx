@@ -23,10 +23,9 @@ describe('Carousel', () => {
     );
 
     expect(
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       (container.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
     ).to.equal(2);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 

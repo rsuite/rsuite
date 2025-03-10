@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
 
 export interface StackItemProps extends WithAsProps {
-  alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+  alignSelf?: React.CSSProperties['alignSelf'];
   flex?: React.CSSProperties['flex'];
   grow?: React.CSSProperties['flexGrow'];
   shrink?: React.CSSProperties['flexShrink'];
@@ -17,9 +17,10 @@ export interface StackItemProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/stack
  */
-export default function StackItem(props: StackItemProps) {
+const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
   const {
     as: Component = 'div',
+    classPrefix = 'stack-item',
     style,
     className,
     alignSelf,
@@ -31,28 +32,21 @@ export default function StackItem(props: StackItemProps) {
     ...rest
   } = props;
 
-  return (
-    <Component
-      className={className}
-      style={{
-        alignSelf,
-        order,
-        ...(flex ? { flex } : { flexGrow: grow, flexShrink: shrink, flexBasis: basis }),
-        ...style
-      }}
-      {...rest}
-    />
+  const { withPrefix, merge, cssVar } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const styles = mergeStyles(
+    style,
+    cssVar('align-self', alignSelf),
+    cssVar('order', order),
+    cssVar('flex', flex),
+    cssVar('grow', grow),
+    cssVar('shrink', shrink),
+    cssVar('basis', basis)
   );
-}
+
+  return <Component ref={ref} className={classes} style={styles} {...rest} />;
+});
 
 StackItem.displayName = 'StackItem';
-StackItem.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  alignSelf: oneOf(['flex-start', 'flex-end', 'center', 'baseline', 'stretch']),
-  flex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  grow: PropTypes.number,
-  shrink: PropTypes.number,
-  order: PropTypes.number,
-  basis: PropTypes.string
-};
+
+export default StackItem;

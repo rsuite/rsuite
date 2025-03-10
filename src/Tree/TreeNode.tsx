@@ -1,11 +1,11 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TreeNodeToggle from './TreeNodeToggle';
-import { mergeRefs, stringifyReactNode } from '@/internals/utils';
-import { useFocusVirtualListItem, useClassNames, useEventCallback } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, mergeRefs, stringifyReactNode, mergeStyles } from '@/internals/utils';
+import { useFocusVirtualListItem, useStyles, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
@@ -110,10 +110,7 @@ export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
   onSelect?: (nodeData: TreeNodeData, event: React.SyntheticEvent) => void;
 }
 
-const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
-  HTMLDivElement,
-  TreeNodeProps
->((props, ref) => {
+const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
   const {
     as: Component = 'div',
     label,
@@ -145,7 +142,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 
   const { rtl } = useCustom();
   const { renderTreeNode, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -195,13 +192,10 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     onDrop?.(nodeData, event);
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
-  );
+  const classes = merge(className, withPrefix({ disabled, active, 'text-muted': disabled, focus }));
 
   const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
-  const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
+  const styles = virtualized ? mergeStyles(style, indentTreeNode(rtl, layer - 1)) : style;
 
   return visible ? (
     <Component

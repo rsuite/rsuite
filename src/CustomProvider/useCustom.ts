@@ -63,8 +63,8 @@ export function useCustom<P = any>(componentName?: keyof ReactSuiteComponents, c
         typeof key === 'string'
           ? globalLocale?.[key]
           : Array.isArray(key)
-          ? assign({}, ...key.map(k => globalLocale?.[k]))
-          : {};
+            ? assign({}, ...key.map(k => globalLocale?.[k]))
+            : {};
 
       // Merge all parts: public locale, specific locale, custom component locale
       return assign({}, publicLocale, specificLocale, componentLocale, overrideLocale);

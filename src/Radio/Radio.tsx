@@ -1,22 +1,17 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
-import { refType } from '@/internals/propTypes';
+import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes } from '@/internals/types';
+import type { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
 
-export type ValueType = string | number;
-export interface RadioProps<T = ValueType>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RadioProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
   /**
    * The color of the radio when checked
    *
    * @version 5.56.0
    */
-  color?: TypeAttributes.Color;
+  color?: ColorType;
 
   /**
    * The disable of component
@@ -84,7 +79,7 @@ export interface RadioProps<T = ValueType>
  * The `Radio` component is a simple radio button.
  * @see https://rsuitejs.com/components/radio
  */
-const Radio = React.forwardRef((props: RadioProps, ref) => {
+const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   const radioContext = useContext(RadioContext);
   const { propsWithDefaults } = useCustom('Radio', props);
   const {
@@ -125,8 +120,8 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     defaultChecked || false
   );
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(color, { inline, disabled, checked }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(color, { inline, disabled, checked }));
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,19 +191,5 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 });
 
 Radio.displayName = 'Radio';
-Radio.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  inputProps: PropTypes.any,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  value: PropTypes.any,
-  inputRef: refType,
-  onChange: PropTypes.func
-};
+
 export default Radio;

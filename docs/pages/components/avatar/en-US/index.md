@@ -67,7 +67,7 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 | color       | string                                                 | Set the background color of the avatar. <br/>![][5.59.0]                                       |
 | imgProps    | object                                                 | Attributes applied to the `img` element if the component is used to display an image.          |
 | onError     | (event) => void                                        | Callback when the image fails to load.<br/>![][5.59.0]                                         |
-| size        | 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Size of avatar.                                                                                |
+| size        | '2xl' \| 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Size of avatar.                                                                                |
 | sizes       | string                                                 | The `sizes` attribute for the `img` element.                                                   |
 | src         | string                                                 | The `src` attribute for the `img` element.                                                     |
 | srcSet      | string                                                 | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |
@@ -76,7 +76,7 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 
 | Property | Type`(Default)`                               | Description                     |
 | -------- | --------------------------------------------- | ------------------------------- |
-| size     | 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' | Set the size of all avatars.    |
+| size     | '2xl' \| 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs' | Set the size of all avatars.    |
 | spacing  | number                                        | Set the spacing of the avatars. |
 | stack    | boolean                                       | Render all avatars as stacks.   |
 

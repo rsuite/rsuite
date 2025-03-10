@@ -2,7 +2,7 @@
 
 | Property        | Type `(Default)`                                       | Description                                                                                                  |
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| container       | HTMLElement &#124; (() => HTMLElement)                 | Sets the rendering container                                                                                 |
+| container       | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                                                 |
 | controlId       | string                                                 | Set the `id` on `<Overlay>` and `aria-describedby` on `<Whisper>`                                            |
 | defaultOpen     | boolean                                                | Whether to open the overlay by default                                                                       |
 | delay           | number                                                 | Delay time (ms) Time                                                                                         |
@@ -24,7 +24,7 @@
 | open            | boolean                                                | Whether to open the overlay                                                                                  |
 | placement       | [Placement](#code-ts-placement-code) `('right')`       | Dispaly placement                                                                                            |
 | preventOverflow | boolean                                                | Prevent floating element overflow                                                                            |
-| speaker \*      | Tooltip &#124; Popover &#124; ReactElement             | Displayed component                                                                                          |
+| speaker \*      | Tooltip \| Popover \| ReactElement                     | Displayed component                                                                                          |
 | trigger         | [Trigger](#code-ts-trigger-code) `(['hover','focus'])` | Triggering events                                                                                            |
 
 ### Whisper methods

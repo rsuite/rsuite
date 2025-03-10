@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Progress, ButtonGroup, Button, Row, Col } from 'rsuite';
+import { Progress, ButtonGroup, Button, VStack, HStack } from 'rsuite';
 
 const App = () => {
   const [percent, setPercent] = React.useState(30);
@@ -21,22 +21,20 @@ const App = () => {
 
   return (
     <>
-      <ButtonGroup>
-        <Button onClick={decline}>-</Button>
-        <Button onClick={increase}>+</Button>
-      </ButtonGroup>
-      <hr />
-      <Progress.Line percent={percent} strokeColor={color} status={status} />
-      <Row>
-        <Col md={6}>
-          <Progress.Line vertical percent={percent} strokeColor={color} status={status} />
-        </Col>
-        <Col md={6}>
+      <VStack spacing={20}>
+        <Progress.Line percent={percent} strokeColor={color} status={status} />
+        <HStack spacing={40}>
           <div style={{ width: 120, marginTop: 10 }}>
             <Progress.Circle percent={percent} strokeColor={color} status={status} />
           </div>
-        </Col>
-      </Row>
+          <Progress.Line vertical percent={percent} strokeColor={color} status={status} />
+        </HStack>
+      </VStack>
+      <hr />
+      <ButtonGroup divided>
+        <Button onClick={decline}>Minus</Button>
+        <Button onClick={increase}>Add</Button>
+      </ButtonGroup>
     </>
   );
 };

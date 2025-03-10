@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Slider>` 滑动输入控件。
-- `<RangeSlider>` 滑动范围输入控件。
+- `Slider` 滑动输入控件。
+- `RangeSlider` 滑动范围输入控件。
 
 ## 演示
 

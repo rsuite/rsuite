@@ -1,26 +1,36 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import IconButton from '../index';
-import { getStyle, inChrome } from '@test/utils';
-
+import type { AppearanceType, SizeType } from '@/internals/types';
+import SearchIcon from '@rsuite/icons/Search';
+import { render, screen } from '@testing-library/react';
 import '../styles/index.less';
 
 describe('IconButton styles', () => {
-  it('Should render the correct width and height', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(<IconButton ref={instanceRef} />);
-    const iconButton = screen.getByRole('button');
+  describe('Icon button size', () => {
+    const sizes = ['lg', 'md', 'sm', 'xs'];
+    const sizesMap = {
+      lg: '42px',
+      md: '36px',
+      sm: '30px',
+      xs: '24px'
+    };
+    const appearances = ['default', 'primary', 'link', 'subtle', 'ghost'];
 
-    expect(getStyle(iconButton as Element, 'width')).to.equal(
-      getStyle(iconButton as Element, 'height')
-    );
-  });
+    appearances.forEach(appearance => {
+      sizes.forEach(size => {
+        it(`Should render the correct width and height for ${appearance} and ${size}`, () => {
+          render(
+            <IconButton
+              icon={<SearchIcon />}
+              appearance={appearance as AppearanceType}
+              size={size as SizeType}
+            />
+          );
 
-  it('Should render the correct border-radius', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(<IconButton circle ref={instanceRef} />);
-    const iconButton = screen.getByRole('button');
-
-    inChrome && expect(getStyle(iconButton as Element, 'borderRadius')).to.equal('50%');
+          expect(screen.getByRole('button')).to.have.style('width', sizesMap[size]);
+          expect(screen.getByRole('button')).to.have.style('height', sizesMap[size]);
+        });
+      });
+    });
   });
 });

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
+
 export interface PlaceholderParagraphProps extends WithAsProps {
   /**
    * The number of rows.
@@ -45,43 +45,44 @@ export interface PlaceholderParagraphProps extends WithAsProps {
  * The `Placeholder.Paragraph` component is used to display the loading state of the block.
  * @see https://rsuitejs.com/components/placeholder
  */
-const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
-  React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
+  (props: PlaceholderParagraphProps, ref) => {
     const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
     const {
       as: Component = 'div',
       className,
-      rows = 2,
-      rowHeight = 10,
-      rowMargin = 20,
-      rowSpacing = rowMargin,
+      classPrefix = 'placeholder',
+      rows = 3,
+      rowHeight,
+      rowSpacing,
       graph,
       active,
-      classPrefix = 'placeholder',
+      style,
       ...rest
     } = propsWithDefaults;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, prefix, withPrefix } = useStyles(classPrefix);
     const graphShape = graph === true ? 'square' : graph;
+
+    const styles = {
+      '--rs-placeholder-row-height': getCssValue(rowHeight),
+      '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
+    } as React.CSSProperties;
 
     const rowElements = useMemo(() => {
       const rowArr: React.ReactElement[] = [];
 
       for (let i = 0; i < rows; i++) {
-        const styles = {
-          height: rowHeight,
-          marginTop: i > 0 ? rowSpacing : Number(rowSpacing) / 2
-        };
-        rowArr.push(<div key={i} style={styles} className={prefix`row`} />);
+        rowArr.push(<div key={i} className={prefix`row`} />);
       }
       return rowArr;
-    }, [prefix, rowHeight, rowSpacing, rows]);
+    }, [prefix, rows]);
 
-    const classes = merge(className, withClassPrefix('paragraph', { active }));
+    const classes = merge(className, withPrefix('paragraph', { active }));
     const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
         {graphShape && (
           <div className={graphClasses}>
             <span className={prefix('paragraph-graph-inner')} />
@@ -90,17 +91,9 @@ const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraph
         <div className={prefix('paragraph-group')}>{rowElements}</div>
       </Component>
     );
-  });
+  }
+);
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
-PlaceholderParagraph.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderParagraph;

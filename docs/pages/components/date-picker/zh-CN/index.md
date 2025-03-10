@@ -147,10 +147,6 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | defaultOpen           | boolean                                                | 默认打开                                                                            |
 | defaultValue          | Date                                                   | 默认值（非受控）                                                                    |
 | disabled              | boolean                                                | 禁用组件                                                                            |
-| ~disabledDate~        | (date:Date) => boolean                                 | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                          |
-| ~disabledHours~       | (hour:number, date:Date) => boolean                    | ⚠️`[已弃用]` 使用 `shouldDisableHour` 代替                                          |
-| ~disabledMinutes~     | (minute:number, date:Date) => boolean                  | ⚠️`[已弃用]` 使用 `shouldDisableMinute` 代替                                        |
-| ~disabledSeconds~     | (second:number, date:Date) => boolean                  | ⚠️`[已弃用]` 使用 `shouldDisableSecond` 代替                                        |
 | editable              | boolean `(true)`                                       | 渲染为 Input 输入框，可以通过键盘输入日期                                           |
 | format                | string `('dd/MM/yyyy')`                                | 日期显示格式化                                                                      |
 | hideHours             | (hour:number, date:Date) => boolean                    | 隐藏指定的小时选项                                                                  |
@@ -162,7 +158,6 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | limitStartYear        | number                                                 | 相对当前选择日期，设置可选年份下限                                                  |
 | loading               | boolean `(false)`                                      | 是否显示一个加载中状态指示器                                                        |
 | locale                | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)   | 定义本地化设置，使组件文本根据用户地区显示相应语言                                  |
-| menuClassName         | string                                                 | 选项菜单的 className                                                                |
 | monthDropdownProps    | [MonthDropdownProps][month-dropdown-props]             | 月份下拉框属性                                                                      |
 | onChange              | (date: Date) => void                                   | 值改变后的回调函数                                                                  |
 | onChangeCalendarDate  | (date: Date, event) => void                            | 日历日期改变后的回调函数                                                            |
@@ -186,6 +181,8 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | open                  | boolean                                                | 打开 (受控)                                                                         |
 | placeholder           | string                                                 | 没有值时候默认显示内容                                                              |
 | placement             | [Placement](#code-ts-placement-code) `('bottomStart')` | 显示位置                                                                            |
+| popupClassName        | string                                                 | 自定义弹出框的 CSS 类名                                                             |
+| popupStyle            | CSSProperties                                          | 自定义弹出框的样式                                                                  |
 | preventOverflow       | boolean                                                | 防止浮动元素溢出                                                                    |
 | ranges                | [Range[]](#code-ts-range-code)                         | 快捷项配置                                                                          |
 | renderCell            | (date: Date) => ReactNode                              | 自定义渲染日历单元格 <br/>![][5.54.0]                                               |

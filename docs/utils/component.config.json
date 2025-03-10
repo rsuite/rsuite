@@ -24,13 +24,6 @@
         "components": ["Divider"]
       },
       {
-        "id": "flexbox-grid",
-        "name": "FlexboxGrid",
-        "title": "弹性栅格",
-        "components": ["FlexboxGrid", "FlexboxGrid.Item"],
-        "keywords": ["layout"]
-      },
-      {
         "id": "grid",
         "name": "Grid",
         "title": "栅格",
@@ -149,6 +142,13 @@
         "minVersion": "5.61.0"
       },
       {
+        "id": "kbd",
+        "name": "Kbd",
+        "title": "键盘快捷键",
+        "components": ["Kbd"],
+        "minVersion": "6.0.0"
+      },
+      {
         "id": "text",
         "name": "Text",
         "title": "文本",
@@ -157,25 +157,17 @@
       }
     ]
   },
-
   {
     "group": true,
     "id": "overlays",
     "name": "Overlays",
-    "title": "叠加层",
+    "title": "覆盖层",
     "children": [
       {
         "id": "drawer",
         "name": "Drawer",
         "title": "抽屉",
         "components": ["Drawer", "Drawer.Header", "Drawer.Body", "Drawer.Footer"]
-      },
-      {
-        "id": "dropdown",
-        "name": "Dropdown",
-        "title": "下拉菜单",
-        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu"],
-        "keywords": ["menu"]
       },
       {
         "id": "modal",
@@ -197,19 +189,24 @@
         "components": ["Tooltip"]
       },
       {
+        "id": "whisper",
+        "name": "Whisper",
+        "title": "弹窗触发器",
+        "components": ["Whisper"]
+      },
+      {
         "id": "modal-integrations",
         "name": "Modal Integrations",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       }
     ]
   },
-
   {
     "group": true,
     "id": "navigation",
-    "name": "Navigation",
-    "title": "导航",
+    "name": "Navigation and Menu",
+    "title": "导航和菜单",
     "children": [
       {
         "id": "affix",
@@ -225,6 +222,20 @@
         "components": ["Breadcrumb", "Breadcrumb.Item"]
       },
       {
+        "id": "dropdown",
+        "name": "Dropdown",
+        "title": "下拉菜单",
+        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu", "Dropdown.Separator"],
+        "keywords": ["menu"]
+      },
+      {
+        "id": "menu",
+        "name": "Menu",
+        "title": "菜单",
+        "components": ["Menu", "Menu.Item", "Menu.Separator"],
+        "keywords": ["menu"]
+      },
+      {
         "id": "nav",
         "name": "Nav",
         "title": "导航",
@@ -234,13 +245,27 @@
         "id": "navbar",
         "name": "Navbar",
         "title": "导航栏",
-        "components": ["Navbar", "Navbar.Brand"]
+        "components": [
+          "Navbar",
+          "Navbar.Brand",
+          "Navbar.Content",
+          "Navbar.Drawer",
+          "Navbar.Toggle"
+        ],
+        "keywords": ["menu", "header"]
       },
       {
         "id": "sidenav",
         "name": "Sidenav",
         "title": "侧导航",
-        "components": ["Sidenav", "Sidenav.Header", "Sidenav.Body"]
+        "components": [
+          "Sidenav",
+          "Sidenav.Header",
+          "Sidenav.Body",
+          "Sidenav.Footer",
+          "Sidenav.Toggle",
+          "Sidenav.GroupLabel"
+        ]
       },
       {
         "id": "steps",
@@ -315,13 +340,13 @@
         "id": "form-formik",
         "name": "Formik",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "form-react-hook-form",
         "name": "React Hook Form",
         "title": "",
-        "icon": "IoExtensionPuzzleOutline"
+        "icon": "MdOutlineIntegrationInstructions"
       },
       {
         "id": "schema",
@@ -346,39 +371,11 @@
         "components": ["AutoComplete"]
       },
       {
-        "id": "cascader",
-        "name": "Cascader",
-        "title": "级联选择器",
-        "components": ["Cascader"],
-        "keywords": ["tree", "combobox"]
-      },
-      {
         "id": "cascade-tree",
         "name": "CascadeTree",
         "title": "级联树",
         "components": ["CascadeTree"],
         "minVersion": "5.56.0",
-        "keywords": ["tree"]
-      },
-      {
-        "id": "check-picker",
-        "name": "CheckPicker",
-        "title": "多项选择器",
-        "components": ["CheckPicker"],
-        "keywords": ["multi", "select", "array", "combobox"]
-      },
-      {
-        "id": "check-tree-picker",
-        "name": "CheckTreePicker",
-        "title": "树形多项选择器",
-        "components": ["CheckTreePicker"],
-        "keywords": ["multi", "tree", "array"]
-      },
-      {
-        "id": "check-tree",
-        "name": "CheckTree",
-        "title": "树形多选控件",
-        "components": ["CheckTree"],
         "keywords": ["tree"]
       },
       {
@@ -388,7 +385,13 @@
         "components": ["Checkbox", "CheckboxGroup"],
         "keywords": ["boolean"]
       },
-
+      {
+        "id": "check-tree",
+        "name": "CheckTree",
+        "title": "树形多选控件",
+        "components": ["CheckTree"],
+        "keywords": ["tree"]
+      },
       {
         "id": "input",
         "name": "Input",
@@ -410,25 +413,11 @@
         "keywords": ["number"]
       },
       {
-        "id": "input-picker",
-        "name": "InputPicker",
-        "title": "输入选择器",
-        "components": ["InputPicker"],
-        "keywords": ["select", "text", "combobox"]
-      },
-      {
         "id": "inline-edit",
         "name": "InlineEdit",
         "title": "行内编辑",
         "components": ["InlineEdit"],
         "minVersion": "5.54.0"
-      },
-      {
-        "id": "multi-cascader",
-        "name": "MultiCascader",
-        "title": "级联多项选择器",
-        "components": ["MultiCascader"],
-        "keywords": ["multi", "tree", "combobox"]
       },
       {
         "id": "multi-cascade-tree",
@@ -459,25 +448,11 @@
         "keywords": ["star", "number", "rating"]
       },
       {
-        "id": "select-picker",
-        "name": "SelectPicker",
-        "title": "单项选择器",
-        "components": ["SelectPicker"],
-        "keywords": ["select", "text", "combobox"]
-      },
-      {
         "id": "slider",
         "name": "Slider",
         "title": "滑动输入控件",
         "components": ["Slider", "RangeSlider"],
         "keywords": ["range", "number"]
-      },
-      {
-        "id": "tag-picker",
-        "name": "TagPicker",
-        "title": "标签选择器",
-        "components": ["TagPicker"],
-        "keywords": ["select", "text", "combobox"]
       },
       {
         "id": "tag-input",
@@ -493,13 +468,7 @@
         "components": ["Toggle"],
         "keywords": ["boolean", "switch"]
       },
-      {
-        "id": "tree-picker",
-        "name": "TreePicker",
-        "title": "树形单项选择器",
-        "components": ["TreePicker"],
-        "keywords": ["tree", "select", "combobox"]
-      },
+
       {
         "id": "tree",
         "name": "Tree",
@@ -512,6 +481,70 @@
         "title": "上传控件",
         "components": ["Uploader"],
         "keywords": ["file"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "data-pickers",
+    "name": "Data Pickers",
+    "title": "数据选择器",
+    "children": [
+      {
+        "id": "cascader",
+        "name": "Cascader",
+        "title": "级联选择器",
+        "components": ["Cascader"],
+        "keywords": ["tree", "combobox"]
+      },
+      {
+        "id": "check-picker",
+        "name": "CheckPicker",
+        "title": "多项选择器",
+        "components": ["CheckPicker"],
+        "keywords": ["multi", "select", "array", "combobox"]
+      },
+      {
+        "id": "check-tree-picker",
+        "name": "CheckTreePicker",
+        "title": "树形多项选择器",
+        "components": ["CheckTreePicker"],
+        "keywords": ["multi", "tree", "array"]
+      },
+      {
+        "id": "input-picker",
+        "name": "InputPicker",
+        "title": "输入选择器",
+        "components": ["InputPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "multi-cascader",
+        "name": "MultiCascader",
+        "title": "级联多项选择器",
+        "components": ["MultiCascader"],
+        "keywords": ["multi", "tree", "combobox"]
+      },
+      {
+        "id": "select-picker",
+        "name": "SelectPicker",
+        "title": "单项选择器",
+        "components": ["SelectPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tag-picker",
+        "name": "TagPicker",
+        "title": "标签选择器",
+        "components": ["TagPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tree-picker",
+        "name": "TreePicker",
+        "title": "树形单项选择器",
+        "components": ["TreePicker"],
+        "keywords": ["tree", "select", "combobox"]
       }
     ]
   },
@@ -745,12 +778,6 @@
         "name": "DOMHelper",
         "title": "DOM 助手",
         "apis": ["DOMHelper"]
-      },
-      {
-        "id": "whisper",
-        "name": "Whisper",
-        "title": "弹窗触发器",
-        "components": ["Whisper"]
       },
       {
         "id": "use-media-query",

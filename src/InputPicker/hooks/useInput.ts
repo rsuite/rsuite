@@ -1,16 +1,17 @@
-import { useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 import useMaxWidth from './useMaxWidth';
-import type { OverlayTriggerHandle } from '@/internals/Picker/PickerToggleTrigger';
 import InputAutosize from '../InputAutosize';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
+import type { InputSearchProps } from '../InputSearch';
 
 interface InputProps {
   multi?: boolean;
-  triggerRef: React.RefObject<OverlayTriggerHandle>;
+  triggerRef: React.RefObject<OverlayTriggerHandle | null>;
 }
 const INPUT_MARGIN_RIGHT = 60;
 function useInput(props: InputProps) {
   const { multi, triggerRef } = props;
-  const inputRef = useRef<any>();
+  const inputRef = useRef<any>(null);
   const maxWidth = useMaxWidth(triggerRef);
 
   const getInput = useCallback(() => {
@@ -25,7 +26,7 @@ function useInput(props: InputProps) {
     getInput()?.blur();
   }, [getInput]);
 
-  const inputProps = useMemo(() => {
+  const inputProps: InputSearchProps = useMemo(() => {
     return multi
       ? { inputStyle: { maxWidth: maxWidth - INPUT_MARGIN_RIGHT }, as: InputAutosize }
       : { as: 'input' };

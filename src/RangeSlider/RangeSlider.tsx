@@ -1,17 +1,15 @@
 import React, { useMemo, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { sliderPropTypes } from '../Slider/Slider';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
-import { SliderProps } from '../Slider';
-import { tupleType } from '@/internals/propTypes';
 import { useCustom } from '../CustomProvider';
+import type { SliderProps } from '../Slider';
 import type { Offset } from '@/internals/types';
 
 export type Range = [number, number];
@@ -35,7 +33,7 @@ const defaultDefaultValue: Range = [0, 0];
  * The `RangeSlider` component is used to select a range from a given numerical range.
  * @see https://rsuitejs.com/components/slider/
  */
-const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
+const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RangeSlider', props);
   const {
     'aria-label': ariaLabel,
@@ -72,11 +70,11 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   // Define the parameter position of the handle
   const handleIndexs = useRef([0, 1]);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
+    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
   );
 
   const max = useMemo(
@@ -102,7 +100,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
 
-  // The count of values ​​that can be entered.
+  // The count of values that can be entered.
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -235,7 +233,8 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    const { key } = event.target?.['dataset'];
+    const target = event.target as HTMLElement;
+    const { key } = target?.dataset || {};
     const nextValue: Range = [...value];
     const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
     const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
@@ -285,7 +284,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     let [start, end] = value;
     const v = getValueByPosition(event);
 
-    //  Judging that the current click value is closer to the values ​​of `start` and` end`.
+    // Judging that the current click value is closer to the values of `start` and `end`.
     if (Math.abs(start - v) < Math.abs(end - v)) {
       start = v;
     } else {
@@ -375,10 +374,5 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 });
 
 RangeSlider.displayName = 'RangeSlider';
-RangeSlider.propTypes = {
-  ...sliderPropTypes,
-  value: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired),
-  defaultValue: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired)
-};
 
 export default RangeSlider;

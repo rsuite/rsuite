@@ -79,8 +79,6 @@ Only one panel can be expanded.
 
 ### `<Panel>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property        | Type `(Default)`   | Description                                              |
 | --------------- | ------------------ | -------------------------------------------------------- |
 | bodyFill        | boolean            | Content area filled with containers                      |

@@ -83,6 +83,8 @@ export interface TreeDragProps<T = Record<string, any>> {
   onDrop?: (dropData: DropData<T>, e: React.DragEvent) => void;
 }
 
+export type WithTreeDragProps<P> = P & TreeDragProps;
+
 /**
  * Represents the base props for the Tree component.
  *

@@ -1,15 +1,18 @@
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
+export * from './colours';
+export * from './sizes';
+export * from './style-sheet';
+export * from './placement';
+
 export { stringifyReactNode, reactToString } from './stringifyReactNode';
 export { getSafeRegExpString } from './getSafeRegExpString';
 export { getDOMNode } from './getDOMNode';
 export { guid } from './guid';
-export { prefix, defaultClassPrefix, getClassNamePrefix } from './prefix';
 export { createChainedFunction } from './createChainedFunction';
 export { isOneOf } from './isOneOf';
 export { ReactChildren } from './ReactChildren';
 export { tplTransform } from './tplTransform';
-export { placementPolyfill } from './placementPolyfill';
 export { mergeRefs } from './mergeRefs';
 export { shallowEqual, shallowEqualArray } from './shallowEqual';
 export { composeFunctions } from './composeFunctions';
@@ -19,7 +22,10 @@ export { getDataGroupBy } from './getDataGroupBy';
 export { deprecateComponent } from './deprecateComponent';
 export { warnOnce } from './warnOnce';
 export { createComponent } from './createComponent';
-export type { ComponentProps } from './createComponent';
 export { attachParent } from './attachParent';
 export { isFocusEntering, isFocusLeaving } from './events';
 export { isFocusableElement } from './dom';
+export { forwardRef } from './forwardRef';
+export { isPresetSize } from './sizes';
+
+export type { ComponentProps } from './createComponent';

@@ -1,8 +1,7 @@
 <!--start-code-->
 
 ```js
-import { SelectPicker } from 'rsuite';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { SelectPicker, HStack, Loader } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
@@ -11,20 +10,22 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 const App = () => {
   const [items, setItems] = React.useState([]);
   const updateData = () => {
-    if (items.length === 0) {
-      setItems(data);
-    }
+    setTimeout(() => {
+      if (items.length === 0) {
+        setItems(data);
+      }
+    }, 2000);
   };
 
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     if (items.length === 0) {
       return (
-        <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <SpinnerIcon spin /> Loading...
-        </p>
+        <HStack justifyContent="center">
+          <Loader content="Loading..." />
+        </HStack>
       );
     }
-    return menu;
+    return listbox;
   };
 
   return (
@@ -33,7 +34,7 @@ const App = () => {
       style={{ width: 224 }}
       onOpen={updateData}
       onSearch={updateData}
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
     />
   );
 };

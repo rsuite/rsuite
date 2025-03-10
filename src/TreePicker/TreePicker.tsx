@@ -9,8 +9,8 @@ import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { type TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
@@ -22,20 +22,19 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerComponent,
   useToggleKeyDownEvent,
   PickerToggleProps
 } from '@/internals/Picker';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { TreeNode } from '@/internals/Tree/types';
 import { useCustom } from '../CustomProvider';
-import type { FormControlPickerProps, DeprecatedPickerProps } from '@/internals/types';
+import type { FormControlPickerProps, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export interface TreePickerProps<V = number | string | null>
   extends TreeViewProps<V>,
     TreeExtraProps,
-    DeprecatedPickerProps,
+    DeprecatedMenuProps,
     FormControlPickerProps<V, PickerLocale, TreeNode>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
@@ -46,16 +45,6 @@ export interface TreePickerProps<V = number | string | null>
     selectedNode: TreeNode,
     selectedElement: React.ReactNode
   ) => React.ReactNode;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
 
   /**
    * The height of the tree
@@ -75,7 +64,7 @@ export interface TreePickerProps<V = number | string | null>
  *
  * @see https://rsuitejs.com/components/tree-picker/
  */
-const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
+const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('TreePicker', props);
   const {
     as: Component = 'div',
@@ -99,13 +88,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     searchKeyword,
     searchable = true,
     showIndentLine,
-    menuClassName: DEPRECATED_menuClassName,
-    menuStyle: DEPRECATED_menuStyle,
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
     treeHeight = 320,
-    menuAutoWidth = popupAutoWidth,
     valueKey = 'value',
     virtualized = false,
     value: controlledValue,
@@ -123,8 +109,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     onExit,
     onEntered,
     renderValue,
-    renderMenu: DEPRECATED_renderMenu,
-    renderTree = DEPRECATED_renderMenu,
+    renderTree,
     renderTreeIcon,
     renderTreeNode,
     renderExtraFooter,
@@ -148,7 +133,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     appendChild
   });
 
-  const { prefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useStyles(classPrefix);
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
@@ -256,15 +241,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
-    const classes = merge(className, DEPRECATED_menuClassName, popupClassName, prefix('tree-menu'));
-    const mergedMenuStyle = { ...DEPRECATED_menuStyle, ...popupStyle, left, top };
+    const { className } = positionProps;
+    const classes = merge(className, popupClassName, prefix('tree-menu'));
 
     return (
       <PickerPopup
-        autoWidth={menuAutoWidth}
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={mergedMenuStyle}
+        style={popupStyle}
         ref={mergeRefs(overlay, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={trigger}

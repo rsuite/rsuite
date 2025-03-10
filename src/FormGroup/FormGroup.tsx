@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames, useUniqueId } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export interface FormGroupProps extends WithAsProps {
   /**
@@ -49,36 +49,29 @@ export const useFormGroup = (controlId?: string) => {
  * The `<Form.Group>` component is the easiest way to add some structure to forms.
  * @see https://rsuitejs.com/components/form/
  */
-const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forwardRef(
-  (props: FormGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('FormGroup', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'form-group',
-      controlId: controlIdProp,
-      className,
-      ...rest
-    } = propsWithDefaults;
+const FormGroup = forwardRef<'div', FormGroupProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('FormGroup', props);
+  const {
+    as: Component = 'div',
+    classPrefix = 'form-group',
+    controlId: controlIdProp,
+    className,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
-    const controlId = useUniqueId('rs-', controlIdProp);
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const controlId = useUniqueId('rs-', controlIdProp);
 
-    const contextValue = useMemo(() => ({ controlId }), [controlId]);
+  const contextValue = useMemo(() => ({ controlId }), [controlId]);
 
-    return (
-      <FormGroupContext.Provider value={contextValue}>
-        <Component {...rest} ref={ref} className={classes} role="group" />
-      </FormGroupContext.Provider>
-    );
-  }
-);
+  return (
+    <FormGroupContext.Provider value={contextValue}>
+      <Component {...rest} ref={ref} className={classes} role="group" />
+    </FormGroupContext.Provider>
+  );
+});
 
 FormGroup.displayName = 'FormGroup';
-FormGroup.propTypes = {
-  controlId: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string
-};
 
 export default FormGroup;

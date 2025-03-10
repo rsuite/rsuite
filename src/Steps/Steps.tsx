@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StepItem from './StepItem';
-import { ReactChildren } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef, ReactChildren } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface StepsProps extends WithAsProps {
   /** Vertical display */
@@ -24,16 +22,16 @@ export interface StepsProps extends WithAsProps {
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
-  Item: typeof StepItem;
-}
+const Subcomponents = {
+  Item: StepItem
+};
 
 /**
  * The `Steps` component is used to guide users to complete tasks in accordance with the process.
  *
  * @see https://rsuitejs.com/components/steps
  */
-const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
+const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
     as: Component = 'div',
@@ -47,9 +45,9 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const horizontal = !vertical;
-  const classes = merge(className, withClassPrefix({ small, vertical, horizontal: !vertical }));
+  const classes = merge(className, withPrefix({ small, vertical, horizontal: !vertical }));
 
   const count = ReactChildren.count(children);
   const items = ReactChildren.mapCloneElement(children, (item, index) => {
@@ -86,19 +84,8 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
       {items}
     </Component>
   );
-}) as unknown as StepsComponent;
-
-Steps.Item = StepItem;
+}, Subcomponents);
 
 Steps.displayName = 'Steps';
-Steps.propTypes = {
-  classPrefix: PropTypes.string,
-  vertical: PropTypes.bool,
-  small: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  current: PropTypes.number,
-  currentStatus: oneOf(['finish', 'wait', 'process', 'error'])
-};
 
 export default Steps;

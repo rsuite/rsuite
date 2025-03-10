@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import { deprecatePropTypeNew } from '@/internals/propTypes';
 import { omitTriggerPropKeys } from '@/internals/Picker';
 import { ToolbarProps } from './Toolbar';
 import {
@@ -10,8 +8,9 @@ import {
   calendarOnlyProps,
   startOfToday
 } from '@/internals/utils/date';
-import { InnerRange, RangeType } from './types';
-import { DateRange } from '../DateRangePicker/types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { InnerRange } from './types';
+import type { DateRange } from '../DateRangePicker/types';
 
 export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRange<T>[] {
   const today = startOfToday();
@@ -39,7 +38,7 @@ export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRan
 
 const generateRangesIterator =
   <T extends Date | DateRange>({ calendarDate }: Pick<ToolbarProps<T>, 'calendarDate'>) =>
-  ({ value, ...rest }: RangeType<T>): InnerRange<T> => ({
+  ({ value, ...rest }: DateOptionPreset<T | null>): InnerRange<T | null> => ({
     value: typeof value === 'function' ? value(calendarDate) : value,
     ...rest
   });
@@ -52,13 +51,13 @@ const generateRangesIterator =
 export const getRanges = <T extends Date | DateRange>({
   ranges,
   calendarDate
-}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T>[] => {
+}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T | null>[] => {
   return typeof ranges === 'undefined'
     ? getDefaultRanges(calendarDate)
     : ranges.map(generateRangesIterator({ calendarDate }));
 };
 
-export function splitRanges(ranges?: RangeType<Date>[]) {
+export function splitRanges(ranges?: DateOptionPreset<Date>[]) {
   // The shortcut option on the left side of the calendar panel
   const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
 
@@ -71,19 +70,6 @@ export function splitRanges(ranges?: RangeType<Date>[]) {
     bottomRanges
   };
 }
-
-export const deprecatedPropTypes = {
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
-  disabledHours: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableHour" property instead.'),
-  disabledMinutes: deprecatePropTypeNew(
-    PropTypes.func,
-    'Use "shouldDisableMinute" property instead.'
-  ),
-  disabledSeconds: deprecatePropTypeNew(
-    PropTypes.func,
-    'Use "shouldDisableSecond" property instead.'
-  )
-};
 
 export const getRestProps = (props: any, omitProps: string[] = []) => {
   return omit(props, [...omitTriggerPropKeys, ...calendarOnlyProps, ...omitProps]);

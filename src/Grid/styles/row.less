@@ -1,0 +1,42 @@
+// Row
+//
+// Rows contain and clear the floats of your columns.
+.rs-row {
+  display: flex;
+  flex-flow: row wrap;
+
+  // Base styles (xs breakpoint)
+  margin-inline-start: var(--rs-row-gutter);
+  margin-inline-end: var(--rs-row-gutter);
+
+  // Default alignment without breakpoint prefix
+  &-top {
+    align-items: flex-start;
+  }
+  &-middle {
+    align-items: center;
+  }
+  &-bottom {
+    align-items: flex-end;
+  }
+
+  // Default justify without breakpoint prefix
+  &-start {
+    justify-content: flex-start;
+  }
+  &-end {
+    justify-content: flex-end;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-space-between {
+    justify-content: space-between;
+  }
+  &-space-around {
+    justify-content: space-around;
+  }
+
+  .responsive-align(xs);
+  .responsive-justify(xs);
+}

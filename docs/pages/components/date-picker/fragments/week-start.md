@@ -15,7 +15,7 @@ const App = () => {
           setWeekStart(value);
         }}
       >
-        <RadioLabel>Week start</RadioLabel>
+        <label>Week start</label>
         <Radio value={0}>Sun</Radio>
         <Radio value={1}>Mon</Radio>
         <Radio value={2}>Tue</Radio>
@@ -29,8 +29,6 @@ const App = () => {
     </>
   );
 };
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

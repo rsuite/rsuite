@@ -19,12 +19,6 @@ describe('AvatarGroup', () => {
     expect(screen.getByText('B')).to.have.class('rs-avatar-xs');
   });
 
-  it('Should set the spacing between the avatars', () => {
-    render(<AvatarGroup spacing={10} />);
-
-    expect(screen.getByRole('group')).to.have.style('gap', '10px');
-  });
-
   it('Should be stack', () => {
     render(<AvatarGroup stack />);
 

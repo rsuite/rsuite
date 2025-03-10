@@ -139,14 +139,14 @@ describe('<Dropdown>', () => {
     expect(screen.getByRole('button')).to.have.class('custom-toggle');
   });
 
-  it('Should have a className for placement', () => {
+  it('Should apply the correct data-placement attribute', () => {
     const { container } = render(
       <Dropdown placement="topStart">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    expect(container.firstChild).to.have.class('rs-dropdown-placement-top-start');
+    expect(container.firstChild).to.have.attribute('data-placement', 'top-start');
   });
 
   it('Should have a title', () => {
@@ -178,7 +178,6 @@ describe('<Dropdown>', () => {
 
   it('Should not show caret', () => {
     const { container } = render(<Dropdown noCaret />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     expect(container.querySelector('.rs-dropdown-toggle-caret')).not.to.exist;
   });
 
@@ -292,9 +291,9 @@ describe('<Dropdown>', () => {
   });
 
   it('Should not call onToggle callback when set disabled', () => {
-    const onToggleSpy = sinon.spy();
+    const onToggle = sinon.spy();
     render(
-      <Dropdown onToggle={onToggleSpy} disabled>
+      <Dropdown onToggle={onToggle} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
@@ -302,13 +301,13 @@ describe('<Dropdown>', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onToggleSpy).to.have.not.been.called;
+    expect(onToggle).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and hover', () => {
-    const onToggleSpy = sinon.spy();
+    const onToggle = sinon.spy();
     render(
-      <Dropdown onToggle={onToggleSpy} disabled trigger="hover">
+      <Dropdown onToggle={onToggle} disabled trigger="hover">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
@@ -316,13 +315,13 @@ describe('<Dropdown>', () => {
 
     fireEvent.mouseEnter(screen.getByRole('button'));
 
-    expect(onToggleSpy).to.have.not.been.called;
+    expect(onToggle).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and contextMenu', () => {
-    const onToggleSpy = sinon.spy();
+    const onToggle = sinon.spy();
     render(
-      <Dropdown onToggle={onToggleSpy} disabled trigger="contextMenu">
+      <Dropdown onToggle={onToggle} disabled trigger="contextMenu">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
@@ -330,7 +329,7 @@ describe('<Dropdown>', () => {
 
     fireEvent.contextMenu(screen.getByRole('button'));
 
-    expect(onToggleSpy).to.have.not.been.called;
+    expect(onToggle).to.have.not.been.called;
   });
 
   it('Should have a custom style in Menu', () => {
@@ -378,13 +377,8 @@ describe('<Dropdown>', () => {
 
             fireEvent.keyDown(button, { key });
 
-            assert.isFalse(menu.hidden, 'The menu is open');
-
-            assert.equal(
-              menu.getAttribute('aria-activedescendant'),
-              'first-menuitem',
-              'aria-activedescendant'
-            );
+            expect(menu.hidden).to.be.false;
+            expect(menu).to.have.attribute('aria-activedescendant', 'first-menuitem');
           });
           it('Should skip disabled items', () => {
             const { button, menu } = renderDropdown(
@@ -406,9 +400,7 @@ describe('<Dropdown>', () => {
           it('Should skip separator items', () => {
             const { button, menu } = renderDropdown(
               <Dropdown>
-                <Dropdown.Item divider id="separator">
-                  Item 1
-                </Dropdown.Item>
+                <Dropdown.Separator />
                 <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
                 <Dropdown.Item>Item 3</Dropdown.Item>
               </Dropdown>
@@ -465,11 +457,11 @@ describe('<Dropdown>', () => {
             );
           });
           it('Otherwise, activates the item and closes the menu.', () => {
-            const onSelectSpy = sinon.spy();
+            const onSelect = sinon.spy();
 
             render(
               <Dropdown title="Menu">
-                <Dropdown.Item onSelect={onSelectSpy}>Item 1</Dropdown.Item>
+                <Dropdown.Item onSelect={onSelect}>Item 1</Dropdown.Item>
               </Dropdown>
             );
 
@@ -479,7 +471,7 @@ describe('<Dropdown>', () => {
             const menu = screen.getByRole('menu');
 
             fireEvent.keyDown(menu, { key });
-            expect(onSelectSpy, 'The item is activated').to.have.been.calledOnce;
+            expect(onSelect, 'The item is activated').to.have.been.calledOnce;
             expect(menu).to.not.be.visible;
           });
         });
@@ -521,9 +513,7 @@ describe('<Dropdown>', () => {
           const { menu } = renderDropdown(
             <Dropdown>
               <Dropdown.Item>Item 1</Dropdown.Item>
-              <Dropdown.Item divider id="separator">
-                Item 2
-              </Dropdown.Item>
+              <Dropdown.Separator />
               <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
             </Dropdown>,
             true
@@ -572,9 +562,7 @@ describe('<Dropdown>', () => {
           const { menu } = renderDropdown(
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
-              <Dropdown.Item divider id="separator">
-                Item 2
-              </Dropdown.Item>
+              <Dropdown.Separator />
               <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
             </Dropdown>,
             true
