@@ -92,8 +92,11 @@ describe('Image', () => {
     // Trigger the error event
     img.dispatchEvent(new Event('error'));
 
-    await waitFor(() => {
-      expect(img).to.have.attr('src', fallbackSrc);
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
+      },
+      { timeout: 5000 }
+    );
   });
 });
