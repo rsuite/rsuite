@@ -189,6 +189,12 @@
         "components": ["Tooltip"]
       },
       {
+        "id": "whisper",
+        "name": "Whisper",
+        "title": "弹窗触发器",
+        "components": ["Whisper"]
+      },
+      {
         "id": "modal-integrations",
         "name": "Modal Integrations",
         "title": "",
@@ -772,12 +778,6 @@
         "name": "DOMHelper",
         "title": "DOM 助手",
         "apis": ["DOMHelper"]
-      },
-      {
-        "id": "whisper",
-        "name": "Whisper",
-        "title": "弹窗触发器",
-        "components": ["Whisper"]
       },
       {
         "id": "use-media-query",

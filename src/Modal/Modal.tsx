@@ -249,7 +249,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
               role={role}
               id={dialogId}
               aria-labelledby={ariaLabelledby ?? `${dialogId}-title`}
-              aria-describedby={ariaDescribedby}
+              aria-describedby={ariaDescribedby ?? `${dialogId}-description`}
               style={{ [sizeKey]: modalSizes.includes(size) ? undefined : size }}
               {...transitionRest}
               {...pick(rest, [

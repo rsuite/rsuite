@@ -29,7 +29,7 @@ const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps
   const modalStyle = mergeStyles({ display: 'block' }, style);
 
   return (
-    <Component role="dialog" aria-modal {...rest} ref={ref} className={classes} style={modalStyle}>
+    <Component role="dialog" aria-modal ref={ref} className={classes} style={modalStyle} {...rest}>
       <div role="document" className={dialogClasses} style={dialogStyle}>
         {children}
       </div>
