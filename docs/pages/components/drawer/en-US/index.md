@@ -36,7 +36,7 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 ## Responsive
 
-On mobile devices, the maximum width of the Drawer is set to 100%.
+On mobile devices, the maximum width of the Drawer will fill the entire screen.
 
 <!--{include:<example-responsive>}-->
 
@@ -50,8 +50,10 @@ On mobile devices, the maximum width of the Drawer is set to 100%.
 
 ### Keyboard Interaction
 
-- <kbd>Esc</kbd> - Close the Drawer.
-- <kbd>Tab</kbd> - When the Drawer is open, focus should automatically move to the Drawer and cycle through focusable elements within it.
+- <kbd>ESC</kbd> can close the Drawer. This functionality can be disabled by setting `keyboard=false`.
+- <kbd>Tab</kbd> When the Drawer is open, focus automatically moves inside the Drawer. Pressing Tab cycles through focusable elements within the Drawer.
+- <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Drawer.
+- When the Drawer closes, focus returns to the element that triggered the Drawer to open.
 
 ## Props
 

@@ -36,7 +36,7 @@
 
 ## 响应式
 
-在移动设备上，Drawer 的最大宽度会设置为 100%。
+在移动设备上，Drawer 的最大宽度会撑满屏幕。
 
 <!--{include:<example-responsive>}-->
 
@@ -50,8 +50,10 @@
 
 ### 键盘交互
 
-- <kbd>Esc</kbd> - 关闭 Drawer。
-- <kbd>Tab</kbd> - 当打开 Drawer 时，焦点应该自动移动到 Drawer 中, 在 Drawer 内的可聚焦元素之间移动焦点。
+- <kbd>ESC</kbd> 可以关闭 Drawer，同时也可以通过设置 `keyboard=false` 禁用此功能。
+- <kbd>Tab</kbd> 在 Drawer 打开时，焦点会自动移至 Drawer 内部。按 Tab 键可在 Drawer 内的可聚焦元素之间移动焦点。
+- <kbd>Shift + Tab</kbd> 反向循环聚焦 Drawer 内的可聚焦元素。
+- 当 Drawer 关闭时，焦点会返回到触发打开 Drawer 的元素上。
 
 ## Props
 
