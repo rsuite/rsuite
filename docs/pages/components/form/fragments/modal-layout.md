@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Modal } from 'rsuite';
+import { Form, Button, Input, Modal, SelectPicker } from 'rsuite';
 
 const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
   label: item,

@@ -11,7 +11,6 @@ A panel that slides out from the edge of the page can replace Modal to present m
 - `Drawer.Actions` The action buttons of Drawer, usually placed in the header of Drawer. (optional)
 - `Drawer.Header` The header of Drawer, including the close button. (optional)
 - `Drawer.Title` The title of Drawer, usually placed in the header of Drawer. (optional)
-- `Drawer.Footer` The footer of Drawer. (optional)
 
 ## Examples
 
@@ -31,9 +30,28 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 <!--{include:`size.md`}-->
 
+### With Form
+
+<!--{include:`form.md`}-->
+
 ## Responsive
 
+On mobile devices, the maximum width of the Drawer is set to 100%.
+
 <!--{include:<example-responsive>}-->
+
+## Accessibility
+
+### ARIA Attributes
+
+- The `role` attribute of the Drawer component is set to `dialog`.
+- Use the `aria-labelledby` attribute to associate with Drawer.Title.
+- Use the `aria-describedby` attribute to provide a description for Drawer.Body.
+
+### Keyboard Interaction
+
+- <kbd>Esc</kbd> - Close the Drawer.
+- <kbd>Tab</kbd> - When the Drawer is open, focus should automatically move to the Drawer and cycle through focusable elements within it.
 
 ## Props
 
@@ -41,6 +59,7 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 | Property          | Type `(Default)`                                          | Description                                                                                                                                                                               |
 | ----------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| as                | ElementType `('div')`                                     | You can use a custom element type for this component                                                                                                                                      |
 | autoFocus         | boolean `(true)`                                          | When set to true, the Drawer is opened and is automatically focused on its own, accessible to screen readers                                                                              |
 | backdrop          | boolean \| 'static'                                       | When set to true, the Drawer will display the background when it is opened. Clicking on the background will close the Drawer. If you do not want to close the Drawer, set it to 'static'. |
 | backdropClassName | string                                                    | Add an optional extra class name to .modal-backdrop It could end up looking like class="modal-backdrop foo-modal-backdrop in".                                                            |
@@ -60,5 +79,39 @@ A panel that slides out from the edge of the page can replace Modal to present m
 | open \*           | boolean                                                   | Open Drawer                                                                                                                                                                               |
 | placement         | [Placement](#code-ts-placement-code)`(right)`             | The placement of Drawer                                                                                                                                                                   |
 | size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string | Set Drawer size                                                                                                                                                                           |
+
+### `<Drawer.Header>`
+
+| Property    | Type `(Default)`          | Description                                          |
+| ----------- | ------------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`     | You can use a custom element type for this component |
+| classPrefix | string `('modal-header')` | The prefix of the component CSS class                |
+| closeButton | boolean `(true)`          | When set to true, a close button will be displayed   |
+| onClose     | (event) => void           | Callback function when clicking the close button     |
+| children    | ReactNode                 | The content of the Header                            |
+
+### `<Drawer.Title>`
+
+| Property    | Type `(Default)`         | Description                                          |
+| ----------- | ------------------------ | ---------------------------------------------------- |
+| as          | ElementType `('div')`    | You can use a custom element type for this component |
+| classPrefix | string `('modal-title')` | The prefix of the component CSS class                |
+| children    | ReactNode                | The content of the Title                             |
+
+### `<Drawer.Actions>`
+
+| Property    | Type `(Default)`           | Description                                          |
+| ----------- | -------------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`      | You can use a custom element type for this component |
+| classPrefix | string `('modal-actions')` | The prefix of the component CSS class                |
+| children    | ReactNode                  | The content of the Actions                           |
+
+### `<Drawer.Body>`
+
+| Property    | Type `(Default)`        | Description                                          |
+| ----------- | ----------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`   | You can use a custom element type for this component |
+| classPrefix | string `('modal-body')` | The prefix of the component CSS class                |
+| children    | ReactNode               | The content of the Body                              |
 
 <!--{include:(_common/types/placement4.md)}-->

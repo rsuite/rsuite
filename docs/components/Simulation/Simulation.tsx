@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import FakeBrowser from '../FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
 import hljs from 'highlight.js';
-import { Tabs, HStack, IconButton, Loader } from 'rsuite';
+import { Tabs, HStack, IconButton, Loader, Divider } from 'rsuite';
 import { useApp } from '../AppContext';
 import {
   IoDesktopOutline,
@@ -29,7 +29,7 @@ const DeviceFrame = ({ style, children }) => (
 const Simulation: React.FC<SimulationProps> = ({
   componentName,
   example,
-  defaultDevice = 'desktop'
+  defaultDevice = 'mobile'
 }) => {
   const [device, setDevice] = useState(defaultDevice);
   const [type, setType] = useState<'preview' | 'code'>('preview');
@@ -125,6 +125,8 @@ const Simulation: React.FC<SimulationProps> = ({
           />
         </HStack>
       </HStack>
+
+      <Divider />
 
       <DeviceFrame style={dimensions}>
         {loading ? (

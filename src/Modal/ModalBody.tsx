@@ -21,7 +21,7 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   const context = useContext(ModalContext);
-  const { getBodyStyles, closeButton, onModalClose } = context || {};
+  const { getBodyStyles, closeButton, dialogId, onModalClose } = context || {};
   const bodyStyles = getBodyStyles?.();
   let buttonElement: React.ReactNode = null;
 
@@ -41,7 +41,13 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
   }
 
   return (
-    <Component {...rest} ref={ref} style={mergeStyles(bodyStyles, style)} className={classes}>
+    <Component
+      {...rest}
+      id={dialogId ? `${dialogId}-description` : undefined}
+      ref={ref}
+      style={mergeStyles(bodyStyles, style)}
+      className={classes}
+    >
       {buttonElement}
       {children}
     </Component>

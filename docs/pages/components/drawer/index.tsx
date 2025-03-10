@@ -1,12 +1,20 @@
 import React from 'react';
-import { ButtonToolbar, Button, IconButton, Drawer, RadioGroup, Radio, Placeholder } from 'rsuite';
 import Simulation from '@/components/Simulation';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+import { RxArrowUp, RxArrowDown, RxArrowLeft, RxArrowRight } from 'react-icons/rx';
+import {
+  ButtonToolbar,
+  Button,
+  IconButton,
+  Drawer,
+  RadioGroup,
+  Radio,
+  Placeholder,
+  SelectPicker,
+  Input,
+  Form
+} from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Drawer']} />,
@@ -25,10 +33,13 @@ export default function Page() {
         IconButton,
         RadioGroup,
         Radio,
-        AngleRightIcon,
-        AngleLeftIcon,
-        AngleDownIcon,
-        AngleUpIcon
+        SelectPicker,
+        Input,
+        Form,
+        RxArrowUp,
+        RxArrowDown,
+        RxArrowLeft,
+        RxArrowRight
       }}
     />
   );
