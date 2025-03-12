@@ -94,7 +94,7 @@ describe('Image', () => {
 
     await waitFor(
       () => {
-        expect(screen.getByRole('img')).to.have.attr('src', 'https://placehold.co/300x200');
+        expect(screen.getByRole('img')).to.have.attr('src', 'fallback-image-url');
       },
       { timeout: 5000 }
     );
