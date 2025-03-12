@@ -24,15 +24,19 @@
 
 <!--{include:`backdrop.md`}-->
 
+### 垂直居中
+
+<!--{include:`centered.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
 
-### 溢出
+### 内容溢出
 
 <!--{include:`overflow.md`}-->
 
-### 动态
+### 动态加载的内容
 
 <!--{include:`dynamic.md`}-->
 
@@ -40,17 +44,23 @@
 
 <!--{include:`alert-dialog.md`}-->
 
+### 表单
+
+<!--{include:`form.md`}-->
+
+## 响应式
+
+在移动设备上，Modal 的最大宽度会撑满屏幕并保留边距。
+
+<!--{include:<example-responsive>}-->
+
 ## 无障碍设计
-
-### 键盘交互
-
-- <kbd>ESC</kbd> 可以关闭 `Modal`，同时也可以通过设置 `keyboard=false` 禁用它。
 
 ### WAI-ARIA Roles, States, and Properties
 
 - Modal 拥有一个值为 `dialog` 的 `role` 属性。
 - Modal 将 `aria-modal` 设置为 `true`。 告诉辅助技术当前对话框下方的窗口不可用于交互（惰性）。
-- 不要忘记用 `aria-labelledby` 属性来指向 Modal 的标题。 使用 `aria-describedby` 属性来为 Modal 组件添加一段描述。
+- Modal 会自动添加 `aria-labelledby` 属性来指向 Modal.Title 组件。 使用 `aria-describedby` 属性来为 Modal.Body 组件添加一段描述。 你也可以手动添加 `aria-labelledby` 和 `aria-describedby` 属性去覆盖默认设置。
 
 ```js
 <Modal aria-labelledby="modal-title" aria-describedby="modal-description">
@@ -69,6 +79,13 @@
 </Modal>
 ```
 
+### 键盘交互
+
+- <kbd>ESC</kbd> 可以关闭 Modal，同时也可以通过设置 `keyboard=false` 禁用它。
+- <kbd>Tab</kbd> 当 Modal 打开时，焦点会自动移动到 Modal 内部。按 Tab 键可以在 Modal 内的可聚焦元素之间循环切换。
+- <kbd>Shift + Tab</kbd> 反向循环切换 Modal 内的可聚焦元素。
+- 当 Modal 关闭时，焦点会返回到触发 Modal 打开的元素。
+
 ## Props
 
 ### `<Modal>`
@@ -78,6 +95,8 @@
 | autoFocus         | boolean `(true)`                                                   | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
 | backdrop          | unions: boolean \| 'static'                                        | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
 | backdropClassName | string                                                             | 应用于 backdrop DOM 节点的 css class                                                                 |
+| centered          | boolean                                                            | 将模态框在页面垂直方向上居中对齐。                                                                   |
+| children          | ReactNode                                                          | Modal 的内容                                                                                         |
 | classPrefix       | string `('modal')`                                                 | 组件 CSS 类的前缀                                                                                    |
 | container         | HTMLElement \| (() => HTMLElement)                                 | 设置渲染的容器                                                                                       |
 | dialogAs          | ElementType `(ModalDialog)`                                        | 以对 Dialog 使用自定义元素类型                                                                       |
@@ -99,26 +118,34 @@
 
 ### `<Modal.Header>`
 
-| 属性名称    | 类型 `(默认值 )`          | 描述                        |
-| ----------- | ------------------------- | --------------------------- |
-| classPrefix | string `('modal-header')` | 组件 CSS 类的前缀           |
-| closeButton | boolean `(true)`          | 当设置为 true, 显示关闭按钮 |
-| onClose     | (event) => void           | 点击关闭按钮的回调函数      |
+| 属性名称    | 类型 `(默认值 )`          | 描述                           |
+| ----------- | ------------------------- | ------------------------------ |
+| as          | ElementType `('div')`     | 以对 Header 使用自定义元素类型 |
+| children    | ReactNode                 | Header 的内容                  |
+| classPrefix | string `('modal-header')` | 组件 CSS 类的前缀              |
+| closeButton | boolean `(true)`          | 当设置为 true, 显示关闭按钮    |
+| onClose     | (event) => void           | 点击关闭按钮的回调函数         |
 
 ### `<Modal.Title>`
 
-| 属性名称    | 类型 `(默认值)`          | 描述              |
-| ----------- | ------------------------ | ----------------- |
-| classPrefix | string `('modal-title')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`          | 描述                          |
+| ----------- | ------------------------ | ----------------------------- |
+| as          | ElementType `('h4')`     | 以对 Title 使用自定义元素类型 |
+| children    | ReactNode                | Title 的内容                  |
+| classPrefix | string `('modal-title')` | 组件 CSS 类的前缀             |
 
 ### `<Modal.Footer>`
 
-| 属性名称    | 类型 `(默认值)`           | 描述              |
-| ----------- | ------------------------- | ----------------- |
-| classPrefix | string `('modal-footer')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`           | 描述                           |
+| ----------- | ------------------------- | ------------------------------ |
+| as          | ElementType `('div')`     | 以对 Footer 使用自定义元素类型 |
+| children    | ReactNode                 | Footer 的内容                  |
+| classPrefix | string `('modal-footer')` | 组件 CSS 类的前缀              |
 
 ### `<Modal.Body>`
 
-| 属性名称    | 类型 `(默认值)`         | 描述              |
-| ----------- | ----------------------- | ----------------- |
-| classPrefix | string `('modal-body')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`         | 描述                         |
+| ----------- | ----------------------- | ---------------------------- |
+| as          | ElementType `('div')`   | 以对 Body 使用自定义元素类型 |
+| children    | ReactNode               | Body 的内容                  |
+| classPrefix | string `('modal-body')` | 组件 CSS 类的前缀            |

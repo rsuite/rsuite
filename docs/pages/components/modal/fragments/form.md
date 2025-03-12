@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Drawer, SelectPicker } from 'rsuite';
+import { Modal, Button, ButtonToolbar, Placeholder, Form, Input, SelectPicker } from 'rsuite';
 
 const selectData = ['Developer', 'Designer', 'Manager', 'Analyst', 'Tester'].map(item => ({
   label: item,
@@ -29,23 +29,15 @@ const App = () => {
 
   return (
     <>
-      <Drawer open={open} onClose={handleClose} size="sm">
-        <Drawer.Header>
-          <Drawer.Title>Create New Employee Account</Drawer.Title>
-          <Drawer.Actions>
-            <Button onClick={handleClose} appearance="primary">
-              Submit
-            </Button>
-            <Button onClick={handleClose} appearance="subtle">
-              Cancel
-            </Button>
-          </Drawer.Actions>
-        </Drawer.Header>
-        <Drawer.Body
-          style={{
-            padding: 30
-          }}
-        >
+      <ButtonToolbar>
+        <Button onClick={handleOpen}> Open</Button>
+      </ButtonToolbar>
+
+      <Modal open={open} onClose={handleClose}>
+        <Modal.Header>
+          <Modal.Title>Modal Title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form fluid onChange={setFormValue} formValue={formValue}>
             <Form.Group controlId="fullName">
               <Form.ControlLabel>Full Name</Form.ControlLabel>
@@ -81,9 +73,16 @@ const App = () => {
               <Form.HelpText>Select the role that best describes your position</Form.HelpText>
             </Form.Group>
           </Form>
-        </Drawer.Body>
-      </Drawer>
-      <Button onClick={handleOpen}>Add New Employee</Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
+          </Button>
+          <Button onClick={handleClose} appearance="subtle">
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
