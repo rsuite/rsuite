@@ -34,6 +34,11 @@ export interface BreadcrumbItemProps extends WithAsProps {
    * The separator between each breadcrumb item.
    */
   separator?: React.ReactNode;
+
+  /**
+   * The icon of the BreadcrumbItem.
+   */
+  icon?: React.ReactNode;
 }
 
 /**
@@ -54,6 +59,7 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
       active,
       children,
       separator,
+      icon,
       ...rest
     } = props;
 
@@ -62,6 +68,7 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
 
     return (
       <WrapperComponent style={style} className={classes} ref={ref} {...rest}>
+        {icon}
         {active ? (
           <span>{children}</span>
         ) : (

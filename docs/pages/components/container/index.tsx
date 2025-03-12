@@ -43,10 +43,18 @@ const inDocsComponents = {
   'import-guide': () => (
     <ImportGuide components={['Container', 'Header', 'Content', 'Footer', 'Sidebar']} />
   ),
-  'example-horizontal': () => <Simulation example="horizontal" componentName="container" />,
-  'example-vertical': () => <Simulation example="vertical" componentName="container" />,
-  'example-center': () => <Simulation example="center" componentName="container" />,
-  'example-right-sidebar': () => <Simulation example="right-sidebar" componentName="container" />
+  'example-horizontal': () => (
+    <Simulation example="horizontal" componentName="container" defaultDevice="desktop" />
+  ),
+  'example-vertical': () => (
+    <Simulation example="vertical" componentName="container" defaultDevice="desktop" />
+  ),
+  'example-center': () => (
+    <Simulation example="center" componentName="container" defaultDevice="desktop" />
+  ),
+  'example-right-sidebar': () => (
+    <Simulation example="right-sidebar" componentName="container" defaultDevice="desktop" />
+  )
 };
 
 export default function Page() {
