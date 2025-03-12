@@ -13,7 +13,7 @@ describe('BreadcrumbItem styles', () => {
       </Breadcrumb>
     );
 
-    expect(screen.getByText('1')).to.have.style('font-size', '12px');
+    expect(screen.getByText('1')).to.have.style('font-size', '14px');
     expect(screen.getByText('/')).to.have.style('margin', '0px 4px');
   });
 
