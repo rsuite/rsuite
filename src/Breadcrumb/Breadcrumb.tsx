@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
+import StyledBox from '@/internals/StyledBox';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -30,6 +31,11 @@ export interface BreadcrumbProps extends WithAsProps {
   ellipsis?: React.ReactNode;
 
   /**
+   * The size of the Breadcrumb.
+   */
+  size?: 'sm' | 'md' | 'lg' | number | string;
+
+  /**
    * Callback function for clicking the ellipsis.
    */
   onExpand?: (event: React.MouseEvent) => void;
@@ -53,13 +59,14 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
   (props: BreadcrumbProps, ref) => {
     const { propsWithDefaults } = useCustom('Breadcrumb', props);
     const {
-      as: Component = 'nav',
+      as = 'nav',
       className,
       classPrefix = 'breadcrumb',
       children,
       ellipsis = '...',
       maxItems = 5,
       separator = '/',
+      size = 'md',
       locale,
       onExpand,
       ...rest
@@ -115,9 +122,9 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
     const classes = merge(className, withPrefix());
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <StyledBox name="breadcrumb" as={as} size={size} {...rest} ref={ref} className={classes}>
         <ol>{content}</ol>
-      </Component>
+      </StyledBox>
     );
   },
   Subcomponents

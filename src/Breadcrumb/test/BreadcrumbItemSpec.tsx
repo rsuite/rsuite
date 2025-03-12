@@ -1,9 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Breadcrumb.Item', () => {
   testStandardProps(<BreadcrumbItem />);
@@ -112,5 +112,12 @@ describe('Breadcrumb.Item', () => {
     render(<Breadcrumb.Item separator={<span>separator</span>}>Crumb</Breadcrumb.Item>);
 
     expect(screen.getByText('separator')).to.exist;
+  });
+
+  it('Should render with a custom icon', () => {
+    const CustomIcon = () => <span>icon</span>;
+    render(<Breadcrumb.Item icon={<CustomIcon />}>Crumb</Breadcrumb.Item>);
+
+    expect(screen.getByText('icon')).to.exist;
   });
 });

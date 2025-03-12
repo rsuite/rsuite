@@ -5,10 +5,13 @@
 // --------------------------------------------------
 
 .rs-breadcrumb {
-  --rs-breadcrumb-font-size: var(--rs-font-size-xs);
+  --rs-breadcrumb-spacing: var(--rs-spacing);
+  --rs-breadcrumb-size-sm: var(--rs-font-size-xs);
+  --rs-breadcrumb-size-md: var(--rs-font-size-sm);
+  --rs-breadcrumb-size-lg: var(--rs-font-size-md);
+  --rs-breadcrumb-size: var(--rs-breadcrumb-size-sm);
 
-  margin-bottom: @line-height-computed;
-  font-size: var(--rs-breadcrumb-font-size);
+  font-size: var(--rs-breadcrumb-size);
   color: var(--rs-text-secondary);
 
   ol {
@@ -17,6 +20,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    gap: var(--rs-breadcrumb-spacing);
   }
 
   // If breadcrumbs has a ci
@@ -24,6 +28,7 @@
     transition: color 0.3s linear;
     display: flex;
     align-items: center;
+    gap: var(--rs-breadcrumb-spacing);
 
     &:focus {
       .tab-focus();
@@ -36,6 +41,9 @@
 
   // Separator has gap with text
   &-separator {
-    margin: 0 @breadcrumb-separator-margin;
+    margin: 0 var(--rs-breadcrumb-spacing);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

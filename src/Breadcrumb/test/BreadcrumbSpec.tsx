@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps, testSizeStyle } from '@test/utils';
 
 afterEach(() => {
   sinon.restore();
@@ -10,6 +10,7 @@ afterEach(() => {
 
 describe('Breadcrumb', () => {
   testStandardProps(<Breadcrumb />);
+  testSizeStyle(Breadcrumb, { sizes: ['sm', 'md', 'lg'] });
 
   it('Should apply id to the wrapper nav element', () => {
     render(<Breadcrumb id="custom-id" />);
