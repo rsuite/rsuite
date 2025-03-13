@@ -16,7 +16,7 @@ import type {
   FormControlBaseProps,
   AppearanceType,
   WithAsProps,
-  SizeType
+  Size
 } from '@/internals/types';
 
 export interface InputNumberProps<T = number | string | null>
@@ -82,7 +82,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * An Input can have different sizes
    */
-  size?: SizeType;
+  size?: Size;
 
   /**
    * Whether the value can be changed through the wheel event

@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import { WithAsProps, Color, TextSize } from '@/internals/types';
+import { WithAsProps, Color, TypographySizeEnum, TextSize } from '@/internals/types';
 
-const fontSizes = Object.values(TextSize);
+const fontSizes = Object.values(TypographySizeEnum);
 
 export interface TextProps extends WithAsProps {
   /**
@@ -69,7 +69,7 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const hasSize = size && fontSizes.includes(size as TextSize);
+  const hasSize = size && fontSizes.includes(size as TypographySizeEnum);
   const classes = merge(
     className,
     withPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {

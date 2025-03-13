@@ -1,8 +1,103 @@
 @import '../../../styles/common.less';
 
+:where(.rs-box) {
+  // Rounded
+  --rs-box-rounded-xs: var(--rs-radius-xs);
+  --rs-box-rounded-sm: var(--rs-radius-sm);
+  --rs-box-rounded-md: var(--rs-radius-md);
+  --rs-box-rounded-lg: var(--rs-radius-lg);
+  --rs-box-rounded-xl: var(--rs-radius-xl);
+  --rs-box-rounded-full: var(--rs-radius-full);
+
+  // Shadow
+  --rs-box-shadow-xs: var(--rs-shadow-xs);
+  --rs-box-shadow-sm: var(--rs-shadow-sm);
+  --rs-box-shadow-md: var(--rs-shadow-md);
+  --rs-box-shadow-lg: var(--rs-shadow-lg);
+  --rs-box-shadow-xl: var(--rs-shadow-xl);
+
+  // Background and color
+  &[style*='--rs-box-bg'] {
+    background: var(--rs-box-bg);
+  }
+  &[style*='--rs-box-color'] {
+    color: var(--rs-box-color);
+  }
+  &[style*='--rs-box-display'] {
+    display: var(--rs-box-display);
+  }
+
+  // Padding properties
+  &[style*='--rs-box-p'] {
+    padding: var(--rs-box-p);
+  }
+  &[style*='--rs-box-pt'] {
+    padding-top: var(--rs-box-pt);
+  }
+  &[style*='--rs-box-pb'] {
+    padding-bottom: var(--rs-box-pb);
+  }
+  &[style*='--rs-box-pl'] {
+    padding-left: var(--rs-box-pl);
+  }
+  &[style*='--rs-box-pr'] {
+    padding-right: var(--rs-box-pr);
+  }
+  &[style*='--rs-box-px'] {
+    padding-inline: var(--rs-box-px);
+  }
+  &[style*='--rs-box-py'] {
+    padding-block: var(--rs-box-py);
+  }
+
+  // Margin properties
+  &[style*='--rs-box-m'] {
+    margin: var(--rs-box-m);
+  }
+  &[style*='--rs-box-mt'] {
+    margin-top: var(--rs-box-mt);
+  }
+  &[style*='--rs-box-mb'] {
+    margin-bottom: var(--rs-box-mb);
+  }
+  &[style*='--rs-box-ml'] {
+    margin-left: var(--rs-box-ml);
+  }
+  &[style*='--rs-box-mr'] {
+    margin-right: var(--rs-box-mr);
+  }
+  &[style*='--rs-box-mx'] {
+    margin-inline: var(--rs-box-mx);
+  }
+  &[style*='--rs-box-my'] {
+    margin-block: var(--rs-box-my);
+  }
+
+  // Size properties
+  &[style*='--rs-box-w'] {
+    width: var(--rs-box-w);
+  }
+  &[style*='--rs-box-h'] {
+    height: var(--rs-box-h);
+  }
+
+  // Border properties
+  &[style*='--rs-box-rounded'] {
+    border-radius: var(--rs-box-rounded);
+  }
+  &[style*='--rs-box-border'] {
+    border: var(--rs-box-border);
+  }
+
+  // Shadow properties
+  &[style*='--rs-box-shadow'] {
+    box-shadow: var(--rs-box-shadow);
+  }
+}
+
 // Mobile first breakpoint mixins
 .make-visible(@breakpoint) {
-  .rs-box-visible-@{breakpoint} {
+  :where(.rs-box-visible-@{breakpoint}) {
     display: none !important;
 
     & when (@breakpoint = xs) {
@@ -42,7 +137,7 @@
 }
 
 .make-hidden(@breakpoint) {
-  .rs-box-hidden-@{breakpoint} {
+  :where(.rs-box-hidden-@{breakpoint}) {
     display: var(--rs-box-display, inherit) !important;
 
     & when (@breakpoint = xs) {

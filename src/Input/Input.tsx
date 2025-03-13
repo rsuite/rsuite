@@ -13,7 +13,7 @@ import type {
   SanitizedInputProps,
   FormControlBaseProps,
   WithAsProps,
-  SizeType
+  Size
 } from '@/internals/types';
 
 export interface LocaleType {
@@ -31,7 +31,7 @@ export interface InputProps
   id?: string;
 
   /** A component can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** Ref of input element */
   inputRef?: React.Ref<any>;

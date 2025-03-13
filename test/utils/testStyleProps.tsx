@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Sizes, Colours, SizeType, ColorType } from '@/internals/types';
+import { SizeEnum, Colours, Size, Color } from '@/internals/types';
 
 interface TestStylePropsOptions {
   renderOptions?: any;
-  sizes?: SizeType[];
-  colors?: ColorType[];
-  spacing?: SizeType[];
+  sizes?: Size[];
+  colors?: Color[];
+  spacing?: Size[];
   getRootElement?: (view: any) => HTMLElement;
   props?: Partial<any>;
 }
@@ -23,7 +23,7 @@ export function testSizeStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    sizes = Object.values(Sizes) as SizeType[],
+    sizes = Object.values(SizeEnum) as Size[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;
@@ -61,7 +61,7 @@ export function testColorStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    colors = Object.values(Colours) as ColorType[],
+    colors = Object.values(Colours) as Color[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;
@@ -99,7 +99,7 @@ export function testSpacingStyle(
   options: TestStylePropsOptions = {}
 ) {
   const {
-    spacing = Object.values(Sizes) as SizeType[],
+    spacing = Object.values(SizeEnum) as Size[],
     getRootElement = view => view.container.firstChild,
     props = {}
   } = options;

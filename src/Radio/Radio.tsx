@@ -3,7 +3,7 @@ import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
+import type { WithAsProps, Color, HTMLPropsWithoutChange } from '@/internals/types';
 
 export interface RadioProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
   /**
@@ -11,7 +11,7 @@ export interface RadioProps<T = string | number> extends WithAsProps, HTMLPropsW
    *
    * @version 5.56.0
    */
-  color?: ColorType;
+  color?: Color;
 
   /**
    * The disable of component

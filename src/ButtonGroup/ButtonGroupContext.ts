@@ -1,8 +1,8 @@
 import React from 'react';
-import { SizeType } from '@/internals/types';
+import { Size } from '@/internals/types';
 
 export interface ButtonGroupContextProps {
-  size?: SizeType;
+  size?: Size;
   disabled?: boolean;
 }
 

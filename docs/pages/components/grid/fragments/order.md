@@ -1,8 +1,13 @@
 <!--start-code-->
 
 ```js
-import { Row, Col } from 'rsuite';
-import { DecorativeBox } from '@/components/DecorativeBox';
+import { Row, Col, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="gray.100" p={20} my={6} rounded="lg" color="gray.500" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => (
   <Row>

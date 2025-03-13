@@ -5,7 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 
 describe('Avatar', () => {
   testStandardProps(<Avatar />, {
-    sizes: ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'],
+    sizes: ['lg', 'md', 'sm', 'xs'],
     colors: ['red', 'green', 'blue', 'cyan', 'magenta', 'orange', 'purple', 'yellow']
   });
 

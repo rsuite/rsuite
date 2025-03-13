@@ -1,7 +1,7 @@
-import { Sizes } from '@/internals/types';
+import { Size } from '@/internals/types';
 import { Color } from '@/internals/types/colours';
 
-type StyleValue<T = Color | Sizes | number | string> = T;
+type StyleValue<T = Color | Size | number | string> = T;
 type PresetChecker<T = StyleValue> = (value: T) => boolean;
 type ValueTransformer<T = StyleValue> = (value: T) => string | undefined;
 

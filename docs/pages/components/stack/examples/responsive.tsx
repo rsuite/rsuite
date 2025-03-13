@@ -3,8 +3,13 @@
 'use client';
 
 import React from 'react';
-import { DecorativeBox } from '@/components/DecorativeBox';
-import { Stack } from 'rsuite';
+import { Stack, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="gray.100" p={20} my={6} rounded="lg" color="gray.500" w={'100%'} {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => {
   return (

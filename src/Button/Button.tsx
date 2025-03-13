@@ -5,7 +5,7 @@ import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { ColorType, SizeType, AppearanceType, WithAsProps } from '@/internals/types';
+import { Color, Size, AppearanceType, WithAsProps } from '@/internals/types';
 
 export interface ButtonProps
   extends WithAsProps,
@@ -17,10 +17,10 @@ export interface ButtonProps
   active?: boolean;
 
   /** A button can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** A button can have different colors */
-  color?: ColorType;
+  color?: Color;
 
   /** Format button to appear inside a content block */
   block?: boolean;

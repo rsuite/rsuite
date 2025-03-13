@@ -11,17 +11,29 @@
     "title": "布局",
     "children": [
       {
-        "id": "container",
-        "name": "Container",
-        "title": "容器布局",
-        "components": ["Container", "Header", "Footer", "Content", "Sidebar"],
-        "keywords": ["layout"]
+        "id": "box",
+        "name": "Box",
+        "title": "盒子",
+        "components": ["Box"]
+      },
+      {
+        "id": "center",
+        "name": "Center",
+        "title": "居中",
+        "components": ["Center"]
       },
       {
         "id": "divider",
         "name": "Divider",
         "title": "分割线",
         "components": ["Divider"]
+      },
+      {
+        "id": "frame",
+        "name": "Frame",
+        "title": "框架",
+        "components": ["Container", "Header", "Footer", "Content", "Sidebar"],
+        "keywords": ["layout"]
       },
       {
         "id": "grid",

@@ -1,12 +1,14 @@
-import { Sizes } from '@/internals/types';
+import { SizeEnum } from '@/internals/types';
 import { createStyleGetter, getCssValue } from './style-sheet';
 
-export const isPresetSize = (size?: Sizes | number | string | null) => {
+export const isPresetSize = (size?: SizeEnum | number | string | null) => {
   if (!size) {
     return false;
   }
 
-  return Object.values(Sizes).includes(size as Sizes);
+  const presetSizes = [...Object.values(SizeEnum), 'full'];
+
+  return presetSizes.includes(size as SizeEnum);
 };
 
 const sizeConfig = {
@@ -15,4 +17,4 @@ const sizeConfig = {
   valueTransformer: getCssValue
 };
 
-export const getSizeStyle = createStyleGetter<Sizes | number | string>(sizeConfig);
+export const getSizeStyle = createStyleGetter<SizeEnum | number | string>(sizeConfig);

@@ -10,7 +10,8 @@ import type { Placement } from './placement';
 import type { ToArray } from './utils';
 import type { FormControlBaseProps } from './form';
 import type { AnimationEventProps } from './animation';
-import type { SizeType, WithAsProps } from './shared';
+import type { WithAsProps } from './shared';
+import type { Size } from './sizes';
 import type { PickerHandle } from '@/internals/Picker/types';
 
 export interface Option<T = number | string> extends Record<string, any> {
@@ -162,7 +163,7 @@ export interface PickerBaseProps<L = any> extends PopupProps, WithAsProps, Anima
   cleanable?: boolean;
 
   /** A picker can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;

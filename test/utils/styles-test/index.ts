@@ -66,9 +66,16 @@ export const getDefaultPalette = (key?: string) => {
 };
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
 
-/**
- * Retrieves the value of a CSS custom property (CSS variable) from an HTML element.
- */
-export const getCssVarValue = (element: HTMLElement, varName: string): string => {
-  return window.getComputedStyle(element).getPropertyValue(varName).trim();
-};
+export function getCssVarValue(element: HTMLElement, variableName: string) {
+  if (!element || !variableName.startsWith('--')) return '';
+
+  // 1. Try to get directly from `element.style`
+  const rawValue = element.style.getPropertyValue(variableName).trim();
+  if (rawValue) return rawValue;
+
+  // 2. Parse from `style=""` attribute
+  const inlineStyle = element.getAttribute('style') || '';
+  const match = inlineStyle.match(new RegExp(`${variableName}:\\s*([^;]+)`));
+
+  return match ? match[1].trim() : '';
+}

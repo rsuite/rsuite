@@ -2,9 +2,9 @@ import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
-import type { SizeType } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
-export type ModalSize = SizeType | 'full' | number | string;
+export type ModalSize = Size | 'full' | number | string;
 
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement | null>,

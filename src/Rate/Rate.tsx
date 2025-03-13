@@ -14,7 +14,7 @@ import {
 } from '@/internals/utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ColorType, FormControlBaseProps, SizeType } from '@/internals/types';
+import type { WithAsProps, Color, FormControlBaseProps, Size } from '@/internals/types';
 
 export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
   // Whether to allow semi selection
@@ -30,10 +30,10 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
   cleanable?: boolean;
 
   /** A rate can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** A rate can have different colors */
-  color?: ColorType | React.CSSProperties['color'];
+  color?: Color | React.CSSProperties['color'];
 
   // Maximum rate
   max?: number;

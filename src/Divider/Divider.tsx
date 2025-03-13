@@ -3,7 +3,7 @@ import StyledBox from '@/internals/StyledBox';
 import { forwardRef, getSizeStyle, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, SizeType, ColorType } from '@/internals/types';
+import type { WithAsProps, Size, Color } from '@/internals/types';
 
 export interface DividerProps extends WithAsProps {
   /**
@@ -29,17 +29,17 @@ export interface DividerProps extends WithAsProps {
   /**
    * The size of the divider.
    */
-  size?: SizeType | number | string;
+  size?: Size | number | string;
 
   /**
    * The color of the divider.
    */
-  color?: ColorType | React.CSSProperties['color'];
+  color?: Color | React.CSSProperties['color'];
 
   /**
    * The spacing between the divider and its content.
    */
-  spacing?: SizeType | number | string;
+  spacing?: Size | number | string;
 }
 
 /**
