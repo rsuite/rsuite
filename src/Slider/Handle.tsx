@@ -66,7 +66,9 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
     useEffect(() => {
-      onMouseEnter();
+      if (keepTooltipOpen) {
+        onMouseEnter();
+      }
     }, [keepTooltipOpen]);
     return (
       <Component
