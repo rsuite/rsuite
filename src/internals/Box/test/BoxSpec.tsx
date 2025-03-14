@@ -22,29 +22,18 @@ describe('Box', () => {
     expect(box.tagName).to.equal('SECTION');
   });
 
-  it('Should render with componentAs prop', () => {
-    render(
-      <Box as="div" componentAs="section">
-        Content
-      </Box>
-    );
-    const box = screen.getByText('Content');
-
-    expect(box.tagName).to.equal('SECTION');
-  });
-
-  it('Should render with visible prop', () => {
+  it('Should render with visible prop (hidden below breakpoint)', () => {
     render(<Box visible="sm">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-sm');
+    expect(box).to.have.class('rs-box-visible-from-sm');
   });
 
-  it('Should render with hidden prop', () => {
+  it('Should render with hidden prop (hidden above breakpoint)', () => {
     render(<Box hidden="md">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-hidden-md');
+    expect(box).to.have.class('rs-box-hidden-from-md');
   });
 
   it('Should render with display prop', () => {
@@ -62,8 +51,8 @@ describe('Box', () => {
     );
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-sm');
-    expect(box).to.have.class('rs-box-hidden-md');
+    expect(box).to.have.class('rs-box-visible-from-sm');
+    expect(box).to.have.class('rs-box-hidden-from-md');
     expect(box).to.have.class('custom-class');
     expect(getStyle(box, '--rs-box-display')).to.equal('flex');
   });
@@ -211,8 +200,10 @@ describe('Box', () => {
         color="blue.100"
         bg="red.100"
         rounded="md"
-        border="1px solid #ddd"
-        shadow="md"
+        shadow="lg"
+        border="1px solid black"
+        visible="sm"
+        hidden="md"
       >
         Content
       </Box>
@@ -222,11 +213,13 @@ describe('Box', () => {
     expect(getStyle(box, '--rs-box-p')).to.equal('10px');
     expect(getStyle(box, '--rs-box-m')).to.equal('15px');
     expect(getStyle(box, '--rs-box-w')).to.equal('300px');
-    expect(getCssVarValue(box, '--rs-box-h')).to.equal('200px');
+    expect(getStyle(box, '--rs-box-h')).to.equal('200px');
     expect(getCssVarValue(box, '--rs-box-color')).to.equal('var(--rs-blue-100)');
     expect(getCssVarValue(box, '--rs-box-bg')).to.equal('var(--rs-red-100)');
     expect(getCssVarValue(box, '--rs-box-rounded')).to.equal('var(--rs-box-rounded-md)');
-    expect(getCssVarValue(box, '--rs-box-border')).to.equal('1px solid #ddd');
-    expect(getCssVarValue(box, '--rs-box-shadow')).to.equal('var(--rs-box-shadow-md)');
+    expect(getCssVarValue(box, '--rs-box-shadow')).to.equal('var(--rs-box-shadow-lg)');
+    expect(getStyle(box, '--rs-box-border')).to.equal('1px solid black');
+    expect(box).to.have.class('rs-box-visible-from-sm');
+    expect(box).to.have.class('rs-box-hidden-from-md');
   });
 });

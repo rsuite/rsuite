@@ -760,12 +760,11 @@
       }
     ]
   },
-
   {
     "group": true,
-    "id": "utils",
-    "name": "Utilities",
-    "title": "工具",
+    "id": "misc",
+    "name": "Misc",
+    "title": "杂项",
     "children": [
       {
         "id": "animation",
@@ -790,7 +789,14 @@
         "name": "DOMHelper",
         "title": "DOM 助手",
         "apis": ["DOMHelper"]
-      },
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "hooks",
+    "name": "Hooks",
+    "children": [
       {
         "id": "use-media-query",
         "name": "useMediaQuery",

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-// @ts-ignore
 import { Image, Placeholder, Button } from 'rsuite';
 import NextImage from 'next/image';
 import DefaultPage from '@/components/Page';

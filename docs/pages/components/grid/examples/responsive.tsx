@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 import React from 'react';
 import { Grid, Row, Col, Divider, Center } from 'rsuite';
 

@@ -44,16 +44,16 @@ const inDocsComponents = {
     <ImportGuide components={['Container', 'Header', 'Content', 'Footer', 'Sidebar']} />
   ),
   'example-horizontal': () => (
-    <Simulation example="horizontal" componentName="container" defaultDevice="desktop" />
+    <Simulation example="horizontal" componentName="frame" defaultDevice="desktop" />
   ),
   'example-vertical': () => (
-    <Simulation example="vertical" componentName="container" defaultDevice="desktop" />
+    <Simulation example="vertical" componentName="frame" defaultDevice="desktop" />
   ),
   'example-center': () => (
-    <Simulation example="center" componentName="container" defaultDevice="desktop" />
+    <Simulation example="center" componentName="frame" defaultDevice="desktop" />
   ),
   'example-right-sidebar': () => (
-    <Simulation example="right-sidebar" componentName="container" defaultDevice="desktop" />
+    <Simulation example="right-sidebar" componentName="frame" defaultDevice="desktop" />
   )
 };
 

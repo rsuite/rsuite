@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   Menu,
   Dropdown,
   Button,
@@ -11,7 +9,8 @@ import {
   Popover,
   Whisper,
   Stack,
-  Avatar
+  Avatar,
+  Box
 } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
@@ -48,7 +47,8 @@ export default function Page() {
         Whisper,
         Link,
         Stack,
-        Avatar
+        Avatar,
+        Box
       }}
     />
   );

@@ -15,7 +15,8 @@ import {
   Footer,
   Panel,
   VStack,
-  Button
+  Button,
+  Box
 } from 'rsuite';
 
 import {
@@ -34,16 +35,9 @@ import {
 const border = '1px solid var(--rs-divider-border)';
 
 const BorderedIcon = ({ as: Component }) => (
-  <div
-    style={{
-      display: 'flex',
-      border,
-      padding: 6,
-      borderRadius: 6
-    }}
-  >
+  <Box p={6} rounded={6} border={border} display="flex">
     <Component color="#228be6" size={20} />
-  </div>
+  </Box>
 );
 
 const MenuSection = ({ items, onSelect }) => (
@@ -131,19 +125,14 @@ const MegaMenuContact = ({ onClose }) => {
         }}
       >
         <HStack spacing={16} alignItems="flex-start">
-          <div
-            style={{
-              width: 400,
-              padding: 8
-            }}
-          >
+          <Box w={400} p={8}>
             <img
               src="https://placehold.co/400x250/8f8e94/FFFFFF?text=Map location"
               alt="Map location"
               height="250"
             />
-          </div>
-          <VStack spacing={24} alignItems="flex-start" style={{ padding: 8 }}>
+          </Box>
+          <VStack spacing={24} alignItems="flex-start" p={8}>
             <VStack>
               <Text size="md" style={{ fontWeight: 'bold' }}>
                 Acme Corporation
@@ -216,14 +205,9 @@ const MegaMenuResources = ({ onClose }) => {
               </Nav>
             </Sidenav.Body>
           </Sidenav>
-          <div
-            style={{
-              width: 400,
-              padding: 20
-            }}
-          >
+          <Box w={400} p={20}>
             <Placeholder.Grid rows={12} columns={3} />
-          </div>
+          </Box>
         </HStack>
       </Content>
     </Container>

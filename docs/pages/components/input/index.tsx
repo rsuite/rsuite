@@ -19,8 +19,6 @@ import {
   Dropdown,
   Popover,
   Divider,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   Kbd
 } from 'rsuite';
 import DefaultPage from '@/components/Page';

@@ -1,20 +1,14 @@
 <!--start-code-->
 
 ```js
-import { Dropdown } from 'rsuite';
+import { Dropdown, Box } from 'rsuite';
 import PageIcon from '@rsuite/icons/Page';
 import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 
 const DropdownIcon = ({ as: Component }) => (
-  <div
-    style={{
-      border: '1px solid #eee',
-      padding: 6,
-      borderRadius: 6
-    }}
-  >
+  <Box p={6} border="1px solid #eee" rounded={6}>
     <Component
       color="#228be6"
       style={{
@@ -22,7 +16,7 @@ const DropdownIcon = ({ as: Component }) => (
         height: 20
       }}
     />
-  </div>
+  </Box>
 );
 
 const App = () => (

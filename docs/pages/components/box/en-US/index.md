@@ -38,7 +38,7 @@ Box is a container component for all components.
 | color     | [ColorScheme][color-scheme] \| CSSProperties['color']      | Text color of the box. Supports theme colors (e.g., 'blue.600')       |
 | display   | CSSProperties['display']                                   | CSS display property                                                  |
 | h         | CSSProperties['height']                                    | Height of the box                                                     |
-| hidden    | [Breakpoints][breakpoints]                                 | Hide the component at the specified breakpoint                        |
+| hidden    | [Breakpoints][breakpoints]                                 | Breakpoint above which the component is hidden with `display: none`   |
 | m         | CSSProperties['margin']                                    | Margin on all sides                                                   |
 | mb        | CSSProperties['marginBottom']                              | Margin bottom                                                         |
 | ml        | CSSProperties['marginLeft']                                | Margin left                                                           |
@@ -56,7 +56,7 @@ Box is a container component for all components.
 | rounded   | [Size][size] \| CSSProperties['borderRadius']              | Border radius of the box                                              |
 | shadow    | [Size][size] \| CSSProperties['boxShadow']                 | Box shadow                                                            |
 | style     | CSSProperties                                              | Inline style                                                          |
-| visible   | [Breakpoints][breakpoints]                                 | Show the component only at the specified breakpoint                   |
+| visible   | [Breakpoints][breakpoints]                                 | Breakpoint below which the component is hidden with `display: none`   |
 | w         | CSSProperties['width']                                     | Width of the box                                                      |
 
 <!--{include:(_common/types/breakpoints.md)}-->

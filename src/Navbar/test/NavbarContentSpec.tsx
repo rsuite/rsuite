@@ -15,7 +15,7 @@ describe('NavbarContent', () => {
 
     const content = screen.getByTestId('content');
 
-    expect(content).to.have.class('rs-box-visible-xs');
-    expect(content).to.have.class('rs-box-hidden-md');
+    expect(content).to.have.class('rs-box-visible-from-xs');
+    expect(content).to.have.class('rs-box-hidden-from-md');
   });
 });

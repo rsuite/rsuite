@@ -8,10 +8,10 @@ export interface BoxProps extends WithAsProps {
   /** Override the 'as' prop when Box is used as a base component */
   componentAs?: WithAsProps['as'];
 
-  /** Display element */
+  /** Breakpoint below which the component is hidden with `display: none` */
   visible?: Breakpoints;
 
-  /** Hide element */
+  /** Breakpoint above which the component is hidden with `display: none` */
   hidden?: Breakpoints;
 
   /** Display property */
@@ -61,7 +61,6 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
     classPrefix = 'box',
     className,
     children,
-    componentAs,
     visible,
     hidden,
     style,
@@ -74,18 +73,16 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
   const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withPrefix({ [`visible-${visible}`]: visible, [`hidden-${hidden}`]: hidden })
+    withPrefix({ [`visible-from-${visible}`]: visible, [`hidden-from-${hidden}`]: hidden })
   );
 
   const boxCSSVars = getBoxCSSVariables(boxProps);
   const boxStyle = mergeStyles(style, boxCSSVars);
 
-  const FinalComponent = componentAs || Component;
-
   return (
-    <FinalComponent ref={ref} className={classes} style={boxStyle} {...domProps}>
+    <Component ref={ref} className={classes} style={boxStyle} {...domProps}>
       {children}
-    </FinalComponent>
+    </Component>
   );
 });
 
