@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps, SizeType } from '@/internals/types';
+import { WithAsProps, Size } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface ButtonGroupProps extends WithAsProps {
@@ -29,7 +29,7 @@ export interface ButtonGroupProps extends WithAsProps {
   role?: string;
 
   /** A button group can have different sizes */
-  size?: SizeType;
+  size?: Size;
 }
 
 /**

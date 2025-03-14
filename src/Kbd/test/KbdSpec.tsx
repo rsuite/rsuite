@@ -2,7 +2,7 @@ import React from 'react';
 import Kbd from '../Kbd';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import type { SizeType } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
 describe('Kbd', () => {
   testStandardProps(<Kbd />);
@@ -19,7 +19,7 @@ describe('Kbd', () => {
 
   ['sm', 'md', 'lg', 'xl'].forEach(size => {
     it(`Should render a kbd element with ${size} size`, () => {
-      render(<Kbd size={size as SizeType}>Test</Kbd>);
+      render(<Kbd size={size as Size}>Test</Kbd>);
       expect(screen.getByText('Test')).to.have.class(`rs-kbd-${size}`);
     });
   });

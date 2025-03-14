@@ -1,4 +1,4 @@
-import { Sizes } from '@/internals/types';
+import { SizeEnum } from '@/internals/types';
 import { isPresetSize, getSizeStyle } from '../sizes';
 
 describe('sizes utils', () => {
@@ -9,11 +9,11 @@ describe('sizes utils', () => {
     });
 
     it('Should return true for valid preset sizes', () => {
-      expect(isPresetSize(Sizes.XS)).to.be.true;
-      expect(isPresetSize(Sizes.SM)).to.be.true;
-      expect(isPresetSize(Sizes.MD)).to.be.true;
-      expect(isPresetSize(Sizes.LG)).to.be.true;
-      expect(isPresetSize(Sizes.XL)).to.be.true;
+      expect(isPresetSize(SizeEnum.XS)).to.be.true;
+      expect(isPresetSize(SizeEnum.SM)).to.be.true;
+      expect(isPresetSize(SizeEnum.MD)).to.be.true;
+      expect(isPresetSize(SizeEnum.LG)).to.be.true;
+      expect(isPresetSize(SizeEnum.XL)).to.be.true;
     });
 
     it('Should return false for non-preset sizes', () => {
@@ -26,15 +26,15 @@ describe('sizes utils', () => {
   describe('getSizeStyle', () => {
     it('Should return undefined when value or component is not provided', () => {
       expect(getSizeStyle(undefined, 'button')).to.be.undefined;
-      expect(getSizeStyle(Sizes.MD, undefined)).to.be.undefined;
+      expect(getSizeStyle(SizeEnum.MD, undefined)).to.be.undefined;
     });
 
     it('Should return style with CSS variable for preset sizes', () => {
-      expect(getSizeStyle(Sizes.MD, 'button')).to.deep.equal({
+      expect(getSizeStyle(SizeEnum.MD, 'button')).to.deep.equal({
         '--rs-button-size': 'var(--rs-button-size-md)'
       });
 
-      expect(getSizeStyle(Sizes.LG, 'button')).to.deep.equal({
+      expect(getSizeStyle(SizeEnum.LG, 'button')).to.deep.equal({
         '--rs-button-size': 'var(--rs-button-size-lg)'
       });
     });
@@ -60,7 +60,7 @@ describe('sizes utils', () => {
     });
 
     it('Should handle custom prop name', () => {
-      expect(getSizeStyle(Sizes.MD, 'button', 'width')).to.deep.equal({
+      expect(getSizeStyle(SizeEnum.MD, 'button', 'width')).to.deep.equal({
         '--rs-button-width': 'var(--rs-button-width-md)'
       });
     });

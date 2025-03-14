@@ -116,6 +116,7 @@ export * from './Carousel';
 
 // Layout
 // --------------------------------------------------------
+export * from './Box';
 export * from './Grid';
 export * from './FlexboxGrid';
 export * from './Container';
@@ -123,6 +124,7 @@ export * from './Content';
 export * from './Header';
 export * from './Sidebar';
 export * from './Footer';
+export * from './Center';
 export * from './Divider';
 export * from './Stack';
 

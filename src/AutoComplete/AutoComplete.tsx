@@ -22,7 +22,7 @@ import type {
   WithAsProps,
   Placement,
   Option,
-  SizeType,
+  Size,
   ListboxProps,
   PopupProps
 } from '@/internals/types';
@@ -41,7 +41,7 @@ export interface AutoCompleteProps<T = string>
   selectOnEnter?: boolean;
 
   /** A component can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** Open the menu and control it */
   open?: boolean;

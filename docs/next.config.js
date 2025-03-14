@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RtlCssPlugin = require('rtlcss-webpack-plugin');
@@ -46,14 +45,14 @@ module.exports = {
   // Exclude example pages from static generation
   exportPathMap: async function (defaultPathMap) {
     const pathMap = { ...defaultPathMap };
-    
+
     // Remove example pages from static generation
     Object.keys(pathMap).forEach(path => {
       if (path.includes('/examples/')) {
         delete pathMap[path];
       }
     });
-    
+
     return pathMap;
   },
   /**

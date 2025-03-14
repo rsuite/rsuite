@@ -2,8 +2,13 @@
 // @ts-nocheck
 
 import React from 'react';
-import { DecorativeBox } from '@/components/DecorativeBox';
-import { Grid, Row, Col, Divider } from 'rsuite';
+import { Grid, Row, Col, Divider, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="gray.100" p={20} my={6} rounded="lg" color="gray.500" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => (
   <Grid fluid>

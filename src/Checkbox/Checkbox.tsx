@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useRef } from 'react';
 import { useControlled, useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, ColorType, HTMLPropsWithoutChange } from '@/internals/types';
+import { WithAsProps, Color, HTMLPropsWithoutChange } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export interface CheckboxProps<V = string | number>
@@ -13,7 +13,7 @@ export interface CheckboxProps<V = string | number>
    *
    * @version 5.56.0
    */
-  color?: ColorType;
+  color?: Color;
 
   /**
    * Whether to show checkbox

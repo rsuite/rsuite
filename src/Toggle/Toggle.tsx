@@ -4,14 +4,14 @@ import Loader from '../Loader';
 import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { SanitizedInputProps, WithAsProps, ColorType, SizeType } from '@/internals/types';
+import type { SanitizedInputProps, WithAsProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
 export interface ToggleProps extends WithAsProps, SanitizedInputProps {
   /**
    * The color of the toggle.
    */
-  color?: ColorType;
+  color?: Color;
 
   /**
    * Whether to disabled toggle
@@ -56,7 +56,7 @@ export interface ToggleProps extends WithAsProps, SanitizedInputProps {
   /**
    * The size of the toggle
    */
-  size?: Omit<SizeType, 'xs'>;
+  size?: Omit<Size, 'xs'>;
 
   /**
    * Custom locale

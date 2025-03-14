@@ -1,17 +1,17 @@
 import React from 'react';
 import Box, { BoxProps } from '../Box';
 import { forwardRef, mergeStyles, getSizeStyle, getColorStyle } from '@/internals/utils';
-import type { SizeType, ColorType } from '@/internals/types';
+import type { Size, Color } from '@/internals/types';
 
 export interface StyledBoxProps extends BoxProps {
   /** Name of the Box */
   name: string;
 
   /** Size of the Box */
-  size?: SizeType | number | string;
+  size?: Size | number | string;
 
   /** Color of the Box */
-  color?: ColorType | React.CSSProperties['color'];
+  color?: Color | React.CSSProperties['color'];
 }
 
 const StyledBox = forwardRef<'div', StyledBoxProps>((props, ref) => {

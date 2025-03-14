@@ -1,10 +1,16 @@
-# Container
+# Frame
 
-Used to layout and wrap content in a container.
+A layout component for wrapping page content.
 
 ## Import
 
 <!--{include:<import-guide>}-->
+
+- `Container` provides a structural wrapper for layout elements.
+- `Header` represents the top section, typically containing navigation or branding.
+- `Content` holds the main content of the layout.
+- `Footer` appears at the bottom, often containing copyright or links.
+- `Sidebar` is a vertical section for navigation or additional content.
 
 ## Examples
 

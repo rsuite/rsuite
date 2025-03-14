@@ -8,7 +8,7 @@ import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, SizeType } from '@/internals/types';
+import type { WithAsProps, Size } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
 const icons = {
@@ -60,7 +60,7 @@ export interface PaginationProps extends WithAsProps {
   locale?: PaginationLocale;
 
   /** A pagination can have different sizes */
-  size?: SizeType;
+  size?: Size;
 
   /** callback function for pagination clicked */
   onSelect?: (eventKey: string | number, event: React.MouseEvent) => void;

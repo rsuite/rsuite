@@ -1,11 +1,11 @@
 import React from 'react';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import type { WithAsProps, SizeType } from '@/internals/types';
+import type { WithAsProps, Size } from '@/internals/types';
 
 export interface ModalDialogProps extends WithAsProps {
   /** A modal can have different sizes */
-  size?: SizeType;
+  size?: Size;
   dialogClassName?: string;
   dialogStyle?: React.CSSProperties;
 }

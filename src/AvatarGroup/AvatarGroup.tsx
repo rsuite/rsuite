@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
-
-export type Size = '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+import type { WithAsProps, Size } from '@/internals/types';
 
 export interface AvatarGroupProps extends WithAsProps {
   /**

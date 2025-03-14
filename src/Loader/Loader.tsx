@@ -2,7 +2,7 @@ import React from 'react';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, SizeType } from '@/internals/types';
+import type { WithAsProps, Size } from '@/internals/types';
 
 export interface LoaderProps extends WithAsProps {
   /** Centered in the container */
@@ -24,7 +24,7 @@ export interface LoaderProps extends WithAsProps {
   speed?: 'normal' | 'fast' | 'slow' | 'paused';
 
   /** A loader can have different sizes */
-  size?: SizeType;
+  size?: Size;
 }
 
 /**

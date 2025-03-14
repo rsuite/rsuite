@@ -3,13 +3,13 @@ import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps, SizeType } from '@/internals/types';
+import { WithAsProps, Size } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 
 export const InputGroupContext = React.createContext<{
   onFocus: () => void;
   onBlur: () => void;
-  size?: SizeType;
+  size?: Size;
 } | null>(null);
 
 export interface InputGroupProps extends WithAsProps {
@@ -23,7 +23,7 @@ export interface InputGroupProps extends WithAsProps {
   children?: React.ReactNode;
 
   /** A component can have different sizes */
-  size?: SizeType;
+  size?: Size;
 }
 
 const Subcomponents = {

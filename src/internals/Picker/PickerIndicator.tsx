@@ -5,7 +5,7 @@ import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
 import { useStyles } from '../hooks';
 import { useCustom } from '../../CustomProvider';
-import type { SizeType } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
 interface PickerIndicatorProps {
   loading?: boolean;
@@ -13,7 +13,7 @@ interface PickerIndicatorProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
   showCleanButton?: boolean;
   disabled?: boolean;
-  size?: SizeType;
+  size?: Size;
   as?: React.ElementType;
 }
 

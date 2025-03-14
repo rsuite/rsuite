@@ -1,12 +1,12 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, CSSProperties } from 'react';
+import StyledBox from '@/internals/StyledBox';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps, ColorType } from '@/internals/types';
 import { forwardRef } from '@/internals/utils';
-import { AvatarGroupContext, type Size } from '../AvatarGroup/AvatarGroup';
+import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
 import { useCustom } from '../CustomProvider';
-
+import type { WithAsProps, ColorScheme, Size } from '@/internals/types';
 export interface AvatarProps extends WithAsProps {
   /**
    * A avatar can have different sizes.
@@ -57,7 +57,7 @@ export interface AvatarProps extends WithAsProps {
    * Sets the avatar background color.
    * @version 5.59.0
    */
-  color?: ColorType;
+  color?: ColorScheme | CSSProperties['color'];
 
   /**
    * Callback fired when the image failed to load.
@@ -74,7 +74,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
   const { size: groupSize } = useContext(AvatarGroupContext);
   const { propsWithDefaults } = useCustom('Avatar', props);
   const {
-    as: Component = 'div',
+    as = 'div',
     bordered,
     alt,
     className,
@@ -82,7 +82,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
     circle,
     color,
     classPrefix = 'avatar',
-    size = groupSize || 'md',
+    size = groupSize,
     src,
     srcSet,
     sizes,
@@ -92,7 +92,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
   } = propsWithDefaults;
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, color, { circle, bordered }));
+  const classes = merge(className, withPrefix({ circle, bordered }));
   const imageProps = { ...imgProps, alt, src, srcSet, sizes };
   const { loaded } = useImage({ ...imageProps, onError });
 
@@ -112,9 +112,17 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
   const image = loaded ? <img {...imageProps} className={prefix`image`} /> : placeholder;
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <StyledBox
+      as={as}
+      name="avatar"
+      size={size}
+      color={color}
+      ref={ref}
+      className={classes}
+      {...rest}
+    >
       {src ? image : placeholder}
-    </Component>
+    </StyledBox>
   );
 });
 

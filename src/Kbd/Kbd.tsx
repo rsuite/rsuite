@@ -2,13 +2,13 @@ import React from 'react';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, SizeType } from '@/internals/types';
+import type { WithAsProps, Size } from '@/internals/types';
 
 export interface KbdProps extends WithAsProps {
   /**
    * Sets Kbd size.
    */
-  size?: SizeType;
+  size?: Size;
 }
 
 /**

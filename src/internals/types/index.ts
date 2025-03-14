@@ -8,3 +8,4 @@ export * from './form';
 export * from './picker';
 export * from './utils';
 export * from './html';
+export * from './sizes';
