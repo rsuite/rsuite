@@ -1,3 +1,12 @@
+## [5.78.1](https://github.com/rsuite/rsuite/compare/v5.78.0...v5.78.1) (2025-03-14)
+
+
+### Bug Fixes
+
+* **Uploader:** refine children prop type and improve class handling ([#4175](https://github.com/rsuite/rsuite/issues/4175)) ([58d3eea](https://github.com/rsuite/rsuite/commit/58d3eea86e186590586a14068773a8418fb5f3f9))
+
+
+
 # [5.78.0](https://github.com/rsuite/rsuite/compare/v5.77.1...v5.78.0) (2025-02-21)
 
 
