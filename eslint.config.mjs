@@ -14,7 +14,8 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
+        ...globals.mocha
       }
     }
   },
@@ -39,7 +40,15 @@ export default [
     // Test files
     files: ['**/test/*.{js,mjs,cjs,ts,jsx,tsx}'],
     rules: {
+      '@typescript-eslint/no-require-imports': 'off',
       'react/display-name': 'off'
+    }
+  },
+  {
+    // Config files
+    files: ['webpack.*.js', 'gulpfile.js', 'docs/next.config.js'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off'
     }
   }
 ];
