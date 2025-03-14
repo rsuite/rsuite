@@ -51,7 +51,9 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }), { disabled });
-    const ariaLabel = currentMonth ? getAriaLabel(currentMonth, formatStr, formatDate) : '';
+    const ariaLabel = currentMonth
+      ? getAriaLabel(currentMonth, formatStr, formatDate, { locale: overrideLocale?.dateLocale })
+      : '';
 
     return (
       <Component
@@ -66,7 +68,9 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
         onClick={handleClick}
         {...rest}
       >
-        <span className={prefix('content')}>{formatDate(currentMonth, 'MMM')}</span>
+        <span className={prefix('content')}>
+          {formatDate(currentMonth, 'MMM', { locale: overrideLocale?.dateLocale })}
+        </span>
       </Component>
     );
   }
