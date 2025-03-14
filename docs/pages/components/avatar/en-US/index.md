@@ -57,27 +57,33 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 
 ### `<Avatar>`
 
-| Property    | Type`(Default)`                          | Description                                                                                    |
-| ----------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| alt         | string                                   | This attribute defines the alternative text for the image avatar.                              |
-| bordered    | boolean                                  | Whether to show the border. <br/>![][5.59.0]                                                   |
-| children    | string, Element<typeof Icon>             | Content(It maybe text or icon).                                                                |
-| circle      | boolean                                  | Render a circle avatar.                                                                        |
-| classPrefix | string `('avatar')`                      | The prefix of the component CSS class.                                                         |
-| color       | string                                   | Set the background color of the avatar. <br/>![][5.59.0]                                       |
-| imgProps    | object                                   | Attributes applied to the `img` element if the component is used to display an image.          |
-| onError     | (event) => void                          | Callback when the image fails to load.<br/>![][5.59.0]                                         |
-| size        | 'xs' \| 'sm' \| 'md' \| 'lg' \| `('md')` | Size of avatar.                                                                                |
-| sizes       | string                                   | The `sizes` attribute for the `img` element.                                                   |
-| src         | string                                   | The `src` attribute for the `img` element.                                                     |
-| srcSet      | string                                   | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |
+| Property    | Type`(Default)`                                       | Description                                                                                    |
+| ----------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| alt         | string                                                | This attribute defines the alternative text for the image avatar.                              |
+| bordered    | boolean                                               | Whether to show the border. <br/>![][5.59.0]                                                   |
+| children    | string, Element<typeof Icon>                          | Content(It maybe text or icon).                                                                |
+| circle      | boolean                                               | Render a circle avatar.                                                                        |
+| classPrefix | string `('avatar')`                                   | The prefix of the component CSS class.                                                         |
+| color       | [ColorScheme][color-scheme] \| CSSProperties['color'] | Set the background color of the avatar. <br/>![][5.59.0]                                       |
+| imgProps    | object                                                | Attributes applied to the `img` element if the component is used to display an image.          |
+| onError     | (event) => void                                       | Callback when the image fails to load.<br/>![][5.59.0]                                         |
+| size        | [Size][size] \| `('md')`                              | Size of avatar.                                                                                |
+| sizes       | string                                                | The `sizes` attribute for the `img` element.                                                   |
+| src         | string                                                | The `src` attribute for the `img` element.                                                     |
+| srcSet      | string                                                | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |
 
 ### `<AvatarGroup>`
 
-| Property | Type`(Default)`              | Description                     |
-| -------- | ---------------------------- | ------------------------------- |
-| size     | 'xs' \| 'sm' \| 'md' \| 'lg' | Set the size of all avatars.    |
-| spacing  | number                       | Set the spacing of the avatars. |
-| stack    | boolean                      | Render all avatars as stacks.   |
+| Property | Type`(Default)` | Description                     |
+| -------- | --------------- | ------------------------------- |
+| size     | [Size][size]    | Set the size of all avatars.    |
+| spacing  | number          | Set the spacing of the avatars. |
+| stack    | boolean         | Render all avatars as stacks.   |
 
 [5.59.0]: https://img.shields.io/badge/>=-v5.59.0-blue
+
+<!--{include:(_common/types/color-scheme.md)}-->
+<!--{include:(_common/types/size.md)}-->
+
+[color-scheme]: #code-ts-color-scheme-code
+[size]: #code-ts-size-code

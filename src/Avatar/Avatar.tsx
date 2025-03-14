@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, CSSProperties } from 'react';
 import StyledBox from '@/internals/StyledBox';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
@@ -6,7 +6,7 @@ import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Color, Size } from '@/internals/types';
+import type { WithAsProps, ColorScheme, Size } from '@/internals/types';
 export interface AvatarProps extends WithAsProps {
   /**
    * A avatar can have different sizes.
@@ -57,7 +57,7 @@ export interface AvatarProps extends WithAsProps {
    * Sets the avatar background color.
    * @version 5.59.0
    */
-  color?: Color;
+  color?: ColorScheme | CSSProperties['color'];
 
   /**
    * Callback fired when the image failed to load.
@@ -82,7 +82,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
     circle,
     color,
     classPrefix = 'avatar',
-    size = groupSize || 'md',
+    size = groupSize,
     src,
     srcSet,
     sizes,
@@ -92,7 +92,7 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
   } = propsWithDefaults;
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(color, { circle, bordered }));
+  const classes = merge(className, withPrefix({ circle, bordered }));
   const imageProps = { ...imgProps, alt, src, srcSet, sizes };
   const { loaded } = useImage({ ...imageProps, onError });
 
@@ -112,7 +112,15 @@ const Avatar = forwardRef<'div', AvatarProps>((props: AvatarProps, ref) => {
   const image = loaded ? <img {...imageProps} className={prefix`image`} /> : placeholder;
 
   return (
-    <StyledBox as={as} name="avatar" size={size} ref={ref} className={classes} {...rest}>
+    <StyledBox
+      as={as}
+      name="avatar"
+      size={size}
+      color={color}
+      ref={ref}
+      className={classes}
+      {...rest}
+    >
       {src ? image : placeholder}
     </StyledBox>
   );

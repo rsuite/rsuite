@@ -137,8 +137,16 @@ export function testStyleProps(
   options: TestStylePropsOptions = {}
 ) {
   describe('Style props', () => {
-    testSizeStyle(Component, options);
-    testColorStyle(Component, options);
-    testSpacingStyle(Component, options);
+    if (options.sizes) {
+      testSizeStyle(Component, options);
+    }
+
+    if (options.colors) {
+      testColorStyle(Component, options);
+    }
+
+    if (options.spacing) {
+      testSpacingStyle(Component, options);
+    }
   });
 }

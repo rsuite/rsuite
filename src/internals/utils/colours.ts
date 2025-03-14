@@ -1,6 +1,33 @@
 import { Colours, Color } from '../types/colours';
 import { createStyleGetter } from './style-sheet';
 
+/**
+ * Checks if a color value matches the pattern like 'red', 'gray.50', etc.,
+ * and returns the appropriate CSS variable format.
+ * @param color The color value to check
+ * @returns The CSS variable if it's a valid color type, or the original value
+ */
+export const getColorVar = (color: Color | string | undefined): string | undefined => {
+  if (!color) return undefined;
+
+  // Check if color is a base color (e.g., 'red', 'blue')
+  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)$/;
+  if (baseColorRegex.test(color as string)) {
+    return `var(--rs-color-${color})`;
+  }
+
+  // Check if color is a color with shade (e.g., 'red.50', 'gray.900')
+  const colorWithShadeRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)\.([1-9]00|50)$/;
+  const match = (color as string).match(colorWithShadeRegex);
+  if (match) {
+    const [, colorName, shade] = match;
+    return `var(--rs-${colorName}-${shade})`;
+  }
+
+  // Return the original value if it's not a recognized color pattern
+  return color as string;
+};
+
 export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
   if (!color) {
     return false;
@@ -16,7 +43,8 @@ export const isPresetColor = (color?: Color | React.CSSProperties['color']) => {
 const colorConfig = {
   prop: 'color',
   useGlobalVar: true,
-  presetChecker: isPresetColor
+  presetChecker: isPresetColor,
+  valueTransformer: getColorVar
 };
 
 export const getColorStyle = createStyleGetter<Color | React.CSSProperties['color']>(colorConfig);
@@ -91,31 +119,4 @@ export const createColorVariables = (
   }
 
   return undefined;
-};
-
-/**
- * Checks if a color value matches the pattern like 'red', 'gray.50', etc.,
- * and returns the appropriate CSS variable format.
- * @param color The color value to check
- * @returns The CSS variable if it's a valid color type, or the original value
- */
-export const getColorVar = (color: Color | string | undefined): string | undefined => {
-  if (!color) return undefined;
-
-  // Check if color is a base color (e.g., 'red', 'blue')
-  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)$/;
-  if (baseColorRegex.test(color as string)) {
-    return `var(--rs-color-${color})`;
-  }
-
-  // Check if color is a color with shade (e.g., 'red.50', 'gray.900')
-  const colorWithShadeRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)\.([1-9]00|50)$/;
-  const match = (color as string).match(colorWithShadeRegex);
-  if (match) {
-    const [, colorName, shade] = match;
-    return `var(--rs-${colorName}-${shade})`;
-  }
-
-  // Return the original value if it's not a recognized color pattern
-  return color as string;
 };
