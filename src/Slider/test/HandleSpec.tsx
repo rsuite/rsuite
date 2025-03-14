@@ -43,4 +43,10 @@ describe('Slider - Handle', () => {
 
     expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
   });
+
+  it('Should show tooltip by default when keepTooltipOpen is true', () => {
+    render(<Handle tooltip value={10} keepTooltipOpen />);
+
+    expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
+  });
 });

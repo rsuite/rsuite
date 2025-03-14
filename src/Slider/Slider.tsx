@@ -327,6 +327,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
         tooltip={tooltip}
         rtl={rtl}
         value={value}
+        keepTooltipOpen
         renderTooltip={renderTooltip}
         onDragMove={handleChangeValue}
         onKeyDown={handleKeyDown}
