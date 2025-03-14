@@ -38,7 +38,7 @@ Box 是所有组件的基础组件.
 | color     | [ColorScheme][color-scheme] \| CSSProperties['color']      | 文本颜色。支持主题颜色（例如：'blue.600'）       |
 | display   | CSSProperties['display']                                   | CSS display 属性                                 |
 | h         | CSSProperties['height']                                    | 盒子的高度                                       |
-| hidden    | [Breakpoints][breakpoints]                                 | 在指定断点隐藏组件                               |
+| hidden    | [Breakpoints][breakpoints]                                 | 在指定断点以上隐藏组件（使用 `display: none`）   |
 | m         | CSSProperties['margin']                                    | 四周外边距                                       |
 | mb        | CSSProperties['marginBottom']                              | 底部外边距                                       |
 | ml        | CSSProperties['marginLeft']                                | 左侧外边距                                       |
@@ -56,7 +56,7 @@ Box 是所有组件的基础组件.
 | rounded   | [Size][size] \| CSSProperties['borderRadius']              | 盒子的边框圆角                                   |
 | shadow    | [Size][size] \| CSSProperties['boxShadow']                 | 盒子阴影                                         |
 | style     | CSSProperties                                              | 内联样式                                         |
-| visible   | [Breakpoints][breakpoints]                                 | 仅在指定断点显示组件                             |
+| visible   | [Breakpoints][breakpoints]                                 | 在指定断点以下隐藏组件（使用 `display: none`）   |
 | w         | CSSProperties['width']                                     | 盒子的宽度                                       |
 
 <!--{include:(_common/types/breakpoints.md)}-->

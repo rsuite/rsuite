@@ -51,13 +51,13 @@
 你可以使用 `visible` 和 `hidden` 属性来控制在不同断点下的显示和隐藏：
 
 ```jsx
-// 在小屏幕上显示
-<Navbar.Content visible="sm">
+// 在 sm 断点以上隐藏
+<Navbar.Content hidden="sm">
   {/* 小屏幕内容 */}
 </Navbar.Content>
 
-// 在小屏幕上隐藏
-<Navbar.Content hidden="sm">
+// 在 sm 断点以下隐藏
+<Navbar.Content visible="sm">
   {/* 大屏幕内容 */}
 </Navbar.Content>
 ```

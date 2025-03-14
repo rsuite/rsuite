@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import React from 'react';
-// @ts-ignore
 import { Menu, MenuItem, Navbar, Nav, Avatar, Drawer } from 'rsuite';
 import { IoLogoReact } from 'react-icons/io5';
 
@@ -16,8 +14,7 @@ const App = () => {
   return (
     <Navbar>
       {/* Navigation content for large screens */}
-      {/** @ts-ignore */}
-      <Navbar.Content hidden="sm">
+      <Navbar.Content visible="sm">
         <NavbarBrand />
         <Nav>
           <Nav.Item>Docs</Nav.Item>
@@ -27,8 +24,7 @@ const App = () => {
       </Navbar.Content>
 
       {/* Drawer menu for small screens */}
-      {/** @ts-ignore */}
-      <Navbar.Content visible="sm">
+      <Navbar.Content hidden="sm">
         <Navbar.Toggle />
         <Navbar.Drawer placement="left" size="full">
           <Drawer.Header>

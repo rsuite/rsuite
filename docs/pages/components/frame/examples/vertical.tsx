@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import React from 'react';
@@ -25,14 +24,12 @@ const App = () => {
       <Header>
         <Navbar>
           {/* Navigation content for large screens */}
-          {/** @ts-ignore */}
           <Navbar.Content hidden="sm">
             <NavbarBrand />
             <NavContent />
           </Navbar.Content>
 
           {/* Drawer menu for small screens */}
-          {/** @ts-ignore */}
           <Navbar.Content visible="sm">
             <Navbar.Toggle />
             <Navbar.Drawer placement="left" size="xs">

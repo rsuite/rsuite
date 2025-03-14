@@ -10,8 +10,6 @@ import FolderIcon from '@rsuite/icons/Folder';
 import StarIcon from '@rsuite/icons/Star';
 import TrashIcon from '@rsuite/icons/Trash';
 import {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   Menu,
   Navbar,
   Nav,
@@ -36,6 +34,7 @@ import {
   Sidebar,
   Content,
   Footer,
+  Box,
   Placeholder,
   useMediaQuery
 } from 'rsuite';
@@ -69,6 +68,7 @@ export default function Page() {
       dependencies={{
         Navbar,
         Nav,
+        Box,
         Button,
         Badge,
         HStack,

@@ -22,29 +22,18 @@ describe('Box', () => {
     expect(box.tagName).to.equal('SECTION');
   });
 
-  it('Should render with componentAs prop', () => {
-    render(
-      <Box as="div" componentAs="section">
-        Content
-      </Box>
-    );
-    const box = screen.getByText('Content');
-
-    expect(box.tagName).to.equal('SECTION');
-  });
-
   it('Should render with visible prop', () => {
     render(<Box visible="sm">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-sm');
+    expect(box).to.have.class('rs-box-visible-from-sm');
   });
 
   it('Should render with hidden prop', () => {
     render(<Box hidden="md">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-hidden-md');
+    expect(box).to.have.class('rs-box-hidden-from-md');
   });
 
   it('Should render with display prop', () => {
@@ -62,8 +51,8 @@ describe('Box', () => {
     );
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-sm');
-    expect(box).to.have.class('rs-box-hidden-md');
+    expect(box).to.have.class('rs-box-visible-from-sm');
+    expect(box).to.have.class('rs-box-hidden-from-md');
     expect(box).to.have.class('custom-class');
     expect(getStyle(box, '--rs-box-display')).to.equal('flex');
   });

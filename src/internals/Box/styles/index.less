@@ -95,98 +95,63 @@
   }
 }
 
-// Mobile first breakpoint mixins
-.make-visible(@breakpoint) {
-  :where(.rs-box-visible-@{breakpoint}) {
+// Responsive visibility classes
+@media (max-width: (@screen-sm - 1)) {
+  :where(.rs-box-visible-from-xs) {
     display: none !important;
-
-    & when (@breakpoint = xs) {
-      @media (max-width: (@screen-sm - 1)) {
-        display: var(--rs-box-display, inherit) !important;
-      }
-    }
-
-    & when (@breakpoint = sm) {
-      @media (max-width: (@screen-md - 1)) {
-        display: var(--rs-box-display, inherit) !important;
-      }
-    }
-
-    & when (@breakpoint = md) {
-      @media (max-width: (@screen-lg - 1)) {
-        display: var(--rs-box-display, inherit) !important;
-      }
-    }
-
-    & when (@breakpoint = lg) {
-      @media (max-width: (@screen-xl - 1)) {
-        display: var(--rs-box-display, inherit) !important;
-      }
-    }
-
-    & when (@breakpoint = xl) {
-      @media (max-width: (@screen-xxl - 1)) {
-        display: var(--rs-box-display, inherit) !important;
-      }
-    }
-
-    & when (@breakpoint = xxl) {
-      display: var(--rs-box-display, inherit) !important;
-    }
   }
 }
 
-.make-hidden(@breakpoint) {
-  :where(.rs-box-hidden-@{breakpoint}) {
-    display: var(--rs-box-display, inherit) !important;
-
-    & when (@breakpoint = xs) {
-      @media (max-width: (@screen-sm - 1)) {
-        display: none !important;
-      }
-    }
-
-    & when (@breakpoint = sm) {
-      @media (max-width: (@screen-md - 1)) {
-        display: none !important;
-      }
-    }
-
-    & when (@breakpoint = md) {
-      @media (max-width: (@screen-lg - 1)) {
-        display: none !important;
-      }
-    }
-
-    & when (@breakpoint = lg) {
-      @media (max-width: (@screen-xl - 1)) {
-        display: none !important;
-      }
-    }
-
-    & when (@breakpoint = xl) {
-      @media (max-width: (@screen-xxl - 1)) {
-        display: none !important;
-      }
-    }
-
-    & when (@breakpoint = xxl) {
-      display: none !important;
-    }
+@media (min-width: @screen-sm) {
+  :where(.rs-box-hidden-from-xs) {
+    display: none !important;
   }
 }
 
-// Generate breakpoint classes
-.make-visible(xs);
-.make-visible(sm);
-.make-visible(md);
-.make-visible(lg);
-.make-visible(xl);
-.make-visible(xxl);
+@media (max-width: (@screen-md - 1)) {
+  :where(.rs-box-visible-from-sm) {
+    display: none !important;
+  }
+}
 
-.make-hidden(xs);
-.make-hidden(sm);
-.make-hidden(md);
-.make-hidden(lg);
-.make-hidden(xl);
-.make-hidden(xxl);
+@media (min-width: @screen-md) {
+  :where(.rs-box-hidden-from-sm) {
+    display: none !important;
+  }
+}
+
+@media (max-width: (@screen-lg - 1)) {
+  :where(.rs-box-visible-from-md) {
+    display: none !important;
+  }
+}
+
+@media (min-width: @screen-lg) {
+  :where(.rs-box-hidden-from-md) {
+    display: none !important;
+  }
+}
+
+@media (max-width: (@screen-xl - 1)) {
+  :where(.rs-box-visible-from-lg) {
+    display: none !important;
+  }
+}
+
+@media (min-width: @screen-xl) {
+  :where(.rs-box-hidden-from-lg) {
+    display: none !important;
+  }
+}
+
+@media (max-width: (@screen-xxl - 1)) {
+  :where(.rs-box-visible-from-xl) {
+    display: none !important;
+  }
+}
+
+@media (min-width: @screen-xxl) {
+  :where(.rs-box-hidden-from-xl) {
+    display: none !important;
+  }
+}

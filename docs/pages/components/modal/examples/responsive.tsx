@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 // This example demonstrates responsive modal sizes and centered positioning
 
@@ -38,13 +37,7 @@ const App = () => {
         <Button onClick={() => handleOpen('xs', true)}>Centered</Button>
       </Divider>
 
-      <Modal
-        size={size}
-        open={open}
-        // @ts-ignore - centered property is added in the updated Modal component
-        centered={centered}
-        onClose={handleClose}
-      >
+      <Modal size={size} open={open} centered={centered} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Modal Title</Modal.Title>
         </Modal.Header>

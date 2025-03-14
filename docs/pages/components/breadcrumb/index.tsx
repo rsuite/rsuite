@@ -3,7 +3,7 @@ import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import ImportGuide from '@/components/ImportGuide';
-import { Breadcrumb, VStack } from 'rsuite';
+import { Breadcrumb, VStack, Box } from 'rsuite';
 import { MdHome, MdArrowRightAlt } from 'react-icons/md';
 import { GoHomeFill } from 'react-icons/go';
 
@@ -20,6 +20,7 @@ export default function Page() {
         VStack,
         Link,
         ArrowRightLineIcon,
+        Box,
         GoHomeFill,
         MdHome,
         MdArrowRightAlt

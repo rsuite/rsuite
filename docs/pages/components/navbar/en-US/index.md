@@ -50,17 +50,15 @@ The `appearance` property sets the navigation bar appearance:
 
 You can use the `visible` and `hidden` props to control visibility at different breakpoints:
 
-```jsx
-// Show on small screens
-<Navbar.Content visible="sm">
-  {/* Content for small screens */}
+// Hide above sm breakpoint
+<Navbar.Content hidden="sm">
+  {/* Small screen content */}
 </Navbar.Content>
 
-// Hide on small screens
-<Navbar.Content hidden="sm">
-  {/* Content for large screens */}
+// Hide below sm breakpoint
+<Navbar.Content visible="sm">
+  {/* Large screen content */}
 </Navbar.Content>
-```
 
 ## Props
 

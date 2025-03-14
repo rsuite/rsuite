@@ -113,9 +113,6 @@ describe('FormControl', () => {
 
   it('Should render correctly when form value was null', () => {
     render(
-      // FIXME `formValue` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formValue={null}>
         <FormControl name="name" />
       </Form>
