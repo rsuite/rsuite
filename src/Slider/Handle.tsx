@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import { useClassNames } from '@/internals/hooks';
@@ -20,6 +20,7 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
   'data-range'?: number[];
   'data-key'?: string;
+  keepTooltipOpen?: boolean;
 }
 
 const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
@@ -45,6 +46,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       onKeyDown,
       'data-range': dataRange,
       'data-key': dateKey,
+      keepTooltipOpen,
       ...rest
     } = props;
 
@@ -61,8 +63,11 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       onDragEnd
     });
 
-    const handleClasses = merge(className, prefix('handle'), { active });
+    const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
+    useEffect(() => {
+      onMouseEnter();
+    }, [keepTooltipOpen]);
     return (
       <Component
         role={role}
