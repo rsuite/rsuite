@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import DatePicker, { RangeType } from '../DatePicker';
+import DatePicker from '../DatePicker';
+import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { DateOptionPreset } from '@/internals/types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
-import type { PickerComponent } from '@/internals/Picker/types';
 import type { DatePickerLocale } from '../locales';
 
 export interface TimePickerProps
@@ -86,7 +87,7 @@ export interface TimePickerProps
   /**
    * Called after clicking the shortcut button
    */
-  onShortcutClick?: (range: RangeType<Date>, event: React.MouseEvent) => void;
+  onShortcutClick?: (range: DateOptionPreset<Date>, event: React.MouseEvent) => void;
 
   /**
    * Called when clean
@@ -99,26 +100,24 @@ export interface TimePickerProps
   renderValue?: (value: Date, format: string) => string;
 }
 
-const TimePicker: PickerComponent<TimePickerProps> = React.forwardRef(
-  (props: TimePickerProps, ref) => {
-    const { propsWithDefaults, getLocale } = useCustom('TimePicker', props);
-    const locale = getLocale('DateTimeFormats');
+const TimePicker = forwardRef<'div', TimePickerProps>((props, ref) => {
+  const { propsWithDefaults, getLocale } = useCustom('TimePicker', props);
+  const locale = getLocale('DateTimeFormats');
 
-    const defaultRanges: RangeType<Date>[] = useMemo(
-      () => [{ label: locale?.now, value: () => new Date() }],
-      [locale]
-    );
+  const defaultRanges: DateOptionPreset<Date>[] = useMemo(
+    () => [{ label: locale?.now, value: () => new Date() }],
+    [locale]
+  );
 
-    return (
-      <DatePicker
-        ref={ref}
-        format={locale?.shortTimeFormat}
-        ranges={defaultRanges}
-        {...propsWithDefaults}
-      />
-    );
-  }
-);
+  return (
+    <DatePicker
+      ref={ref}
+      format={locale?.shortTimeFormat}
+      ranges={defaultRanges}
+      {...propsWithDefaults}
+    />
+  );
+});
 
 TimePicker.displayName = 'TimePicker';
 

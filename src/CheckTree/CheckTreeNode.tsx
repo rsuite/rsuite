@@ -1,12 +1,12 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ListCheckItem from '@/internals/Picker/ListCheckItem';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
+import { forwardRef, stringifyReactNode, mergeRefs } from '@/internals/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { stringifyReactNode, mergeRefs } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import { useClassNames, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
+import { useStyles, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
@@ -82,10 +82,7 @@ export interface CheckTreeNodeProps extends WithAsProps {
   onSelect?: (nodeData: TreeNodeData, event: React.SyntheticEvent) => void;
 }
 
-const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwardRef<
-  HTMLDivElement,
-  CheckTreeNodeProps
->((props, ref) => {
+const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
   const {
     as: Component = 'div',
     style,
@@ -112,7 +109,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
 
   const { rtl } = useCustom();
   const { renderTreeNode, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -138,7 +135,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
 
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       disabled,
       'all-uncheckable': !!allUncheckable,
       'text-muted': disabled,

@@ -1,7 +1,8 @@
 import React from 'react';
-import { WithAsProps } from '@/internals/types';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 type LocaleKey = 'unfilled' | 'notSelected' | 'notUploaded';
 
@@ -14,7 +15,7 @@ export interface PlaintextProps extends WithAsProps {
  * Make the component display in plain text, and display default characters when there is no children.
  * @private
  */
-const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
+const Plaintext = forwardRef<'div', PlaintextProps>((props, ref) => {
   const { getLocale } = useCustom();
   const {
     as: Component = 'div',
@@ -26,8 +27,8 @@ const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ empty: !children }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ empty: !children }));
 
   return (
     <Component role="text" {...rest} ref={ref} className={classes}>

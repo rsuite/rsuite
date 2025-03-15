@@ -1,7 +1,5 @@
 ## 使用图标
 
-
-
 - [如何使用图标组件？](/components/icon)
 - [SVG 源文件](https://github.com/rsuite/rsuite-icon-font/tree/master/src/svg)
 

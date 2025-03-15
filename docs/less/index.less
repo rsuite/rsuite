@@ -18,6 +18,7 @@
 @import '../components/ColorPalette/styles.less';
 @import '../components/ColorPicker/styles.less';
 @import '../components/AdminFrame/styles.less';
+@import '../components/Simulation/styles.less';
 
 /** Pages **/
 @import './pages/index.less';
@@ -38,6 +39,7 @@
 :root {
   --font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
     monospace;
+  --page-context-margin-inline-start: 324px;
 }
 
 body {
@@ -65,7 +67,7 @@ body {
     }
 
     @media (min-width: @media-xs) {
-      margin-left: 324px;
+      margin-inline-start: var(--page-context-margin-inline-start);
     }
   }
 }
@@ -73,13 +75,6 @@ body {
 pre {
   border: none;
   border-radius: 0;
-}
-
-.external-link {
-  font-size: 14px;
-  margin-left: 4px;
-  display: inline-block;
-  transition: color 0.3s linear;
 }
 
 .placement-table {
@@ -120,7 +115,9 @@ pre {
   left: auto;
   right: 0;
   padding: 1em 2em;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    0 0 10px rgba(0, 0, 0, 0.06);
 
   &.is-collapsed {
     transform: translateX(120%);
@@ -131,7 +128,7 @@ pre {
     height: 42px;
     padding: 0;
     text-indent: -999px;
-    box-shadow: @box-shadow;
+    box-shadow: var(--rs-shadow-md);
 
     //noinspection Stylelint
     &::before {

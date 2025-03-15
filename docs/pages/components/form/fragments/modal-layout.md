@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Modal } from 'rsuite';
+import { Form, Button, Input, Modal, SelectPicker } from 'rsuite';
 
 const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
   label: item,
@@ -53,7 +53,13 @@ const App = () => {
             </Form.Group>
             <Form.Group controlId="select-10">
               <Form.ControlLabel>SelectPicker</Form.ControlLabel>
-              <Form.Control name="select" data={selectData} accepter={SelectPicker} />
+              <Form.Control
+                name="select"
+                data={selectData}
+                accepter={SelectPicker}
+                block
+                placement="top"
+              />
             </Form.Group>
           </Form>
         </Modal.Body>

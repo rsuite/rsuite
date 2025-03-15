@@ -55,10 +55,6 @@
 
 ## Props
 
-```ts
-type ValueType = string | number;
-```
-
 ### `<Checkbox>`
 
 | 属性名称       | 类型 `(默认值)`                                            | 描述                                         |

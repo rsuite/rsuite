@@ -11,8 +11,8 @@ const spacingArray = Array.from({ length: 5 }, (_, i) => {
 
 const App = () => {
   const [direction, setDirection] = React.useState('row');
-  const [justifyContent, setJustifyContent] = React.useState('flex-start');
-  const [alignItems, setAlignItems] = React.useState('flex-start');
+  const [justify, setJustify] = React.useState('flex-start');
+  const [align, setAlign] = React.useState('flex-start');
   const [spacing, setSpacing] = React.useState(6);
 
   return (
@@ -20,8 +20,8 @@ const App = () => {
       <Stack
         spacing={spacing}
         direction={direction}
-        alignItems={alignItems}
-        justifyContent={justifyContent}
+        align={align}
+        justify={justify}
         as={Box}
       >
         <Button size="lg" appearance="ghost">Large</Button>
@@ -41,15 +41,15 @@ const App = () => {
         />
 
         <RadioGroup inline value={direction} onChange={setDirection} appearance="picker">
-          <RadioLabel>direction:</RadioLabel>
+          <label>direction:</label>
           <Radio value="row">row</Radio>
           <Radio value="row-reverse">row-reverse</Radio>
           <Radio value="column">column</Radio>
           <Radio value="column-reverse">column-reverse</Radio>
         </RadioGroup>
 
-        <RadioGroup inline value={alignItems} onChange={setAlignItems} appearance="picker">
-          <RadioLabel>alignItems:</RadioLabel>
+        <RadioGroup inline value={align} onChange={setAlign} appearance="picker">
+          <label>align:</label>
           <Radio value="flex-start">flex-start</Radio>
           <Radio value="center">center</Radio>
           <Radio value="flex-end">flex-end</Radio>
@@ -57,8 +57,8 @@ const App = () => {
           <Radio value="baseline">baseline</Radio>
         </RadioGroup>
 
-        <RadioGroup inline value={justifyContent} onChange={setJustifyContent} appearance="picker">
-          <RadioLabel>justifyContent:</RadioLabel>
+        <RadioGroup inline value={justify} onChange={setJustify} appearance="picker">
+          <label>justify:</label>
           <Radio value="flex-start">flex-start</Radio>
           <Radio value="center">center</Radio>
           <Radio value="flex-end">flex-end</Radio>
@@ -72,7 +72,6 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const Box = React.forwardRef((props, ref) => {
   const { style, ...rest } = props;

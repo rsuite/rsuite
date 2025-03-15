@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
 import type { WithAsProps } from '@/internals/types';
@@ -50,7 +49,7 @@ export const formatSize = (size = 0): string => {
   return `${size}B`;
 };
 
-const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((props, ref) => {
+const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   const {
     as: Component = 'div',
     disabled,
@@ -70,10 +69,10 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(listType, { disabled, 'has-error': file.status === 'error' })
+    withPrefix(listType, { disabled, 'has-error': file.status === 'error' })
   );
 
   const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
@@ -314,21 +313,5 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
 });
 
 UploadFileItem.displayName = 'UploadFileItem';
-UploadFileItem.propTypes = {
-  locale: PropTypes.any,
-  file: PropTypes.object.isRequired,
-  listType: oneOf(['text', 'picture-text', 'picture'] as const),
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  maxPreviewFileSize: PropTypes.number,
-  classPrefix: PropTypes.string,
-  removable: PropTypes.bool,
-  allowReupload: PropTypes.bool,
-  renderFileInfo: PropTypes.func,
-  renderThumbnail: PropTypes.func,
-  onCancel: PropTypes.func,
-  onPreview: PropTypes.func,
-  onReupload: PropTypes.func
-};
 
 export default UploadFileItem;

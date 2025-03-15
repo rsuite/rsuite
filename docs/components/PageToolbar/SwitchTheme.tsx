@@ -1,12 +1,13 @@
 import React from 'react';
+import ThemeIcon from '@/components/ThemeIcon';
 import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
-import Icon from '@rsuite/icons/Icon';
-import { Light, Dark, HighContrast } from '@/components/SvgIcons';
 import { useApp } from '@/components/AppContext';
 
 interface SwitchThemeProps {
   onClose: () => void;
 }
+
+type Theme = CustomProviderProps['theme'];
 
 export function SwitchTheme({ onClose }: SwitchThemeProps) {
   const {
@@ -18,22 +19,19 @@ export function SwitchTheme({ onClose }: SwitchThemeProps) {
   const themesConfig = [
     {
       value: 'light',
-      name: locales.common.light,
-      icon: Light
+      name: locales.common.light
     },
     {
       value: 'dark',
-      name: locales.common.dark,
-      icon: Dark
+      name: locales.common.dark
     },
     {
       value: 'high-contrast',
-      name: locales.common.highContrast,
-      icon: HighContrast
+      name: locales.common.highContrast
     }
   ];
 
-  const handleChangeTheme = (value: CustomProviderProps['theme']) => {
+  const handleChangeTheme = (value: Theme) => {
     onChangeTheme(value);
     onClose();
   };
@@ -42,20 +40,22 @@ export function SwitchTheme({ onClose }: SwitchThemeProps) {
     <RadioGroup className="theme-switch" value={themeName} onChange={handleChangeTheme}>
       <p>{locales.common.theme}</p>
 
-      {themesConfig.map(item => (
-        <div className="theme-item" key={item.value}>
-          <div
-            className="item-name"
-            tabIndex={-1}
-            role="button"
-            onClick={() => handleChangeTheme(item.value as CustomProviderProps['theme'])}
-          >
-            <Icon as={item.icon} />
-            {item.name}
+      {themesConfig.map(item => {
+        return (
+          <div className="theme-item" key={item.value}>
+            <div
+              className="item-name"
+              tabIndex={-1}
+              role="button"
+              onClick={() => handleChangeTheme(item.value as Theme)}
+            >
+              <ThemeIcon theme={item.value as Theme} />
+              {item.name}
+            </div>
+            <Radio value={item.value} />
           </div>
-          <Radio value={item.value} />
-        </div>
-      ))}
+        );
+      })}
     </RadioGroup>
   );
 }

@@ -4,7 +4,7 @@
 import { Toggle, Stack } from 'rsuite';
 
 const App = () => (
-  <Stack spacing={10} childrenRenderMode="clone">
+  <Stack spacing={10}>
     <Toggle size="lg">Large</Toggle>
     <Toggle size="md">Medium</Toggle>
     <Toggle size="sm">Small</Toggle>

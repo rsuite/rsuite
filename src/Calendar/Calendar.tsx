@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
+import { forwardRef } from '@/internals/utils';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 import type { MonthDropdownProps } from './types';
 
 export interface CalendarProps extends WithAsProps {
@@ -90,8 +90,8 @@ export interface CalendarProps extends WithAsProps {
  * The Calendar component is used to select dates.
  * @see https://rsuitejs.com/components/calendar
  */
-const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
-  React.forwardRef((props: CalendarProps, ref) => {
+const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
+  (props: CalendarProps, ref) => {
     const { propsWithDefaults } = useCustom('Calendar', props);
     const {
       as: Component = CalendarContainer,
@@ -132,7 +132,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       handleChange(nextValue);
     });
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
 
     const renderToolbar = () => (
       <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
@@ -144,7 +144,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
-    const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
+    const classes = merge(className, withPrefix('panel', { bordered, compact }));
 
     return (
       <Component
@@ -168,22 +168,9 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         onSelect={handleSelect}
       />
     );
-  });
+  }
+);
 
 Calendar.displayName = 'Calendar';
-Calendar.propTypes = {
-  value: PropTypes.instanceOf(Date),
-  defaultValue: PropTypes.instanceOf(Date),
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  compact: PropTypes.bool,
-  bordered: PropTypes.bool,
-  locale: PropTypes.object,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  onChange: PropTypes.func,
-  onSelect: PropTypes.func,
-  renderCell: PropTypes.func
-};
 
 export default Calendar;

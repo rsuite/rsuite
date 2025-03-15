@@ -21,21 +21,23 @@ describe('toaster', () => {
     });
   });
 
-  it('Should render 1 container', async () => {
-    await toaster.push(<div>topEnd1</div>, {
+  it('Should render 2 messages in the same container', async () => {
+    await toaster.push(<div>Message1</div>, {
       container: element,
       placement: 'topEnd'
     });
-    await toaster.push(<div>topEnd2</div>, {
+    await toaster.push(<div>Message2</div>, {
       container: element,
       placement: 'topEnd'
     });
 
     await waitFor(() => {
-      expect(
-        // eslint-disable-next-line testing-library/no-node-access
-        element.querySelectorAll('.rs-toast-container.rs-toast-container-top-end')
-      ).to.have.length(1);
+      expect(element.querySelector('.rs-toast-container')).to.have.class(
+        'rs-toast-container-top-end'
+      );
+      expect(screen.getByText('Message1')?.parentNode).to.equal(
+        screen.getByText('Message2')?.parentNode
+      );
     });
   });
 
@@ -46,7 +48,6 @@ describe('toaster', () => {
     });
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access
       expect(element.querySelector('.rs-toast-container.rs-toast-container-top-end')).to.exist;
     });
 
@@ -56,7 +57,6 @@ describe('toaster', () => {
     });
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access
       expect(element.querySelector('.rs-toast-container.rs-toast-container-bottom-end')).to.exist;
     });
   });

@@ -27,15 +27,15 @@ const App = () => (
     labelKey="firstName"
     valueKey="name"
     placeholder="Select User"
-    renderMenuItem={renderMenuItem}
-    renderMenuGroup={renderMenuGroup}
+    renderOption={renderOption}
+    renderOptionGroup={renderOptionGroup}
     renderValue={renderValue}
   />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const renderMenuItem = (label, item) => {
+const renderOption = (label, item) => {
   return (
     <Box>
       <FaUser /> <span>{label}</span>
@@ -43,7 +43,7 @@ const renderMenuItem = (label, item) => {
   );
 };
 
-const renderMenuGroup = (label, item) => {
+const renderOptionGroup = (label, item) => {
   return (
     <Box>
       <FaUserGroup />

@@ -77,7 +77,7 @@
   position: fixed;
   top: (@top-level-nav-height + 10px);
   z-index: 1;
-  box-shadow: @box-shadow;
+  box-shadow: var(--rs-shadow-md);
 
   @media (min-width: @media-xs) {
     display: none;
@@ -91,7 +91,7 @@
   left: 0;
   right: 0;
   top: 60px;
-  padding: 0 10px;
+  padding: 0 10px 100px 10px;
 
   .rs-nav-item {
     font-weight: 400;
@@ -154,6 +154,7 @@
     border-radius: 6px;
     &:hover {
       background: var(--rs-navs-bg-hover);
+      color: var(--rs-text-primary);
     }
   }
 

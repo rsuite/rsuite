@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import type { WithAsProps } from '@/internals/types';
 
 export type ContainerProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 export const ContainerContext = React.createContext<ContainerContextValue>({});
@@ -15,7 +15,7 @@ interface ContainerContextValue {
  * The Container component is used to wrap content in a themed container with a max-width.
  * @see https://rsuitejs.com/components/container
  */
-const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
+const Container = forwardRef<'section', ContainerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Container', props);
   const {
     as: Component = 'section',
@@ -25,8 +25,8 @@ const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDi
     ...rest
   } = propsWithDefaults;
   const [hasSidebar, setHasSidebar] = useState(false);
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ 'has-sidebar': hasSidebar }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ 'has-sidebar': hasSidebar }));
   const contextValue = useMemo(() => ({ setHasSidebar }), [setHasSidebar]);
 
   return (
@@ -39,10 +39,5 @@ const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDi
 });
 
 Container.displayName = 'Container';
-Container.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string
-};
 
 export default Container;

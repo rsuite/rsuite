@@ -44,19 +44,19 @@ describe('DatePicker - Toolbar', () => {
   });
 
   it('Should call `onOk` callback', () => {
-    const onOkSpy = sinon.spy();
-    render(<Toolbar calendarDate={new Date(2021, 11, 24)} onOk={onOkSpy} locale={{ ok: 'OK' }} />);
+    const onOk = sinon.spy();
+    render(<Toolbar calendarDate={new Date(2021, 11, 24)} onOk={onOk} locale={{ ok: 'OK' }} />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
-    expect(onOkSpy).to.have.been.calledOnce;
+    expect(onOk).to.have.been.calledOnce;
   });
 
   it('Should call `onShortcutClick` callback', () => {
-    const onShortcutClickSpy = sinon.spy();
+    const onShortcutClick = sinon.spy();
     render(
       <Toolbar
         calendarDate={new Date(2021, 11, 24)}
-        onShortcutClick={onShortcutClickSpy}
+        onShortcutClick={onShortcutClick}
         locale={{
           today: 'Today'
         }}
@@ -64,7 +64,7 @@ describe('DatePicker - Toolbar', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Today' }));
-    expect(onShortcutClickSpy).to.have.been.calledOnce;
+    expect(onShortcutClick).to.have.been.calledOnce;
   });
 
   it('Should not render the ok button', () => {
@@ -78,13 +78,12 @@ describe('DatePicker - Toolbar', () => {
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} locale={{}} />
     );
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('button')).to.not.exist;
   });
 
   it('Should be wrap in ranges', () => {
     const { container } = render(<Toolbar calendarDate={new Date()} locale={{}} />);
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+
     expect(container.querySelector('.rs-picker-toolbar-ranges')).to.have.style('flex-wrap', 'wrap');
   });
 });

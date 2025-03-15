@@ -16,8 +16,6 @@ const JSONView = ({ formValue, formError }) => (
   </div>
 );
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
-
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
@@ -61,7 +59,7 @@ const App = () => {
             setFormError({});
           }}
         >
-          <RadioLabel>checkTrigger: </RadioLabel>
+          <label>checkTrigger: </label>
           <Radio value="blur">blur</Radio>
           <Radio value="change">change</Radio>
           <Radio value="none">none</Radio>

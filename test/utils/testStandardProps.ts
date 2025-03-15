@@ -104,7 +104,7 @@ export function testColorProp(
 interface TestStandardPropsOptions {
   renderOptions?: any;
   customClassName?: string | boolean;
-  sizes?: string[];
+  sizes?: string[] | boolean;
   colors?: string[];
   getRootElement?: (view: any) => HTMLElement;
   getUIElement?: (view: any) => HTMLElement;
@@ -115,6 +115,10 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
   const { renderOptions, customClassName, sizes, colors, getRootElement, getUIElement } = options;
 
   describe(`${displayName} - Standard props`, () => {
+    it('Should have a display name', () => {
+      expect(displayName).to.exist;
+    });
+
     testTestIdProp(element, renderOptions);
     if (customClassName !== false) {
       testClassNameProp(
@@ -128,7 +132,12 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
     testStyleProp(element, renderOptions, getRootElement);
 
     if (sizes) {
-      testSizeProp(element, sizes, renderOptions, getUIElement);
+      testSizeProp(
+        element,
+        typeof sizes === 'boolean' ? ['lg', 'md', 'sm', 'xs'] : sizes,
+        renderOptions,
+        getUIElement
+      );
     }
 
     if (colors) {

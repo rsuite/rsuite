@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Menu,
   Dropdown,
   Button,
   ButtonToolbar,
@@ -8,13 +9,14 @@ import {
   Popover,
   Whisper,
   Stack,
-  Avatar
+  Avatar,
+  Box
 } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PageIcon from '@rsuite/icons/Page';
-import FolderFillIcon from '@rsuite/icons/FolderFill';
+import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
@@ -32,10 +34,11 @@ export default function Page() {
         ArrowDownIcon,
         PlusIcon,
         PageIcon,
-        FolderFillIcon,
+        IdInfoIcon,
         DetailIcon,
         FileDownloadIcon,
         Dropdown,
+        Menu,
         Button,
         ButtonToolbar,
         IconButton,
@@ -44,7 +47,8 @@ export default function Page() {
         Whisper,
         Link,
         Stack,
-        Avatar
+        Avatar,
+        Box
       }}
     />
   );

@@ -28,6 +28,10 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
   }}
 />;
 
+// Check ref type
+const ref = React.useRef<PickerHandle>(null);
+<Cascader data={[]} ref={ref} />;
+ref.current?.open?.();
 const pickerRef = React.createRef<PickerHandle>();
 
 <Cascader ref={pickerRef} data={[]} />;
@@ -37,6 +41,7 @@ interface Item<T> {
   value?: T;
 }
 
+// Check renderValue
 <Cascader
   data={[]}
   renderValue={(value: string, selectedPaths: Item<string>[]) => {

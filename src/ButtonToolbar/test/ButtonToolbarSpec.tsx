@@ -1,9 +1,8 @@
 import React from 'react';
-import { testStandardProps } from '@test/utils';
-import { render, screen } from '@testing-library/react';
-
 import Button from '../../Button';
 import ButtonToolbar from '../ButtonToolbar';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps, getCssVarValue } from '@test/utils';
 
 describe('ButtonToolbar', () => {
   testStandardProps(<ButtonToolbar />);
@@ -22,10 +21,9 @@ describe('ButtonToolbar', () => {
       </ButtonToolbar>
     );
 
-    expect(screen.getByRole('toolbar')).to.be.style('flex-wrap', 'wrap');
-    expect(screen.getByRole('toolbar')).to.be.style('gap', '10px');
     expect(screen.getByRole('toolbar')).to.have.class('rs-stack');
-    expect(screen.getByRole('button')).to.have.class('rs-stack-item');
+    expect(getCssVarValue(screen.getByRole('toolbar'), '--rs-stack-spacing')).to.equal('10px');
+    expect(getCssVarValue(screen.getByRole('toolbar'), '--rs-stack-wrap')).to.equal('wrap');
   });
 
   it('Should not have flex property when changing `as`', () => {
@@ -35,9 +33,8 @@ describe('ButtonToolbar', () => {
       </ButtonToolbar>
     );
 
-    expect(screen.getByRole('toolbar')).to.not.have.style('flex-wrap', 'wrap');
-    expect(screen.getByRole('toolbar')).to.not.have.style('gap', '10px');
-    expect(screen.getByRole('button')).to.not.have.class('rs-stack-item');
+    expect(getCssVarValue(screen.getByRole('toolbar'), '--rs-stack-spacing')).to.not.equal('10px');
+    expect(getCssVarValue(screen.getByRole('toolbar'), '--rs-stack-wrap')).to.not.equal('nowrap');
   });
 
   it('Should render 2 buttons', () => {

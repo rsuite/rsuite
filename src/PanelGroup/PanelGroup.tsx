@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
@@ -37,7 +37,7 @@ export const PanelGroupContext = React.createContext<PanelGroupContext>({});
  * The `PanelGroup` component is used to display content that can be collapsed.
  * @see https://rsuitejs.com/components/panel
  */
-const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
+const PanelGroup = forwardRef<'div', PanelGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PanelGroup', props);
   const {
     as: Component = 'div',
@@ -52,9 +52,9 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const [activeKey, setActiveKey] = useControlled(activeProp, defaultActiveKey);
-  const classes = merge(className, withClassPrefix({ accordion, bordered }));
+  const classes = merge(className, withPrefix({ accordion, bordered }));
 
   const handleSelect = useEventCallback(
     (activeKey: KeyType | undefined, event: React.MouseEvent) => {
@@ -76,15 +76,5 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
 });
 
 PanelGroup.displayName = 'PanelGroup';
-PanelGroup.propTypes = {
-  accordion: PropTypes.bool,
-  activeKey: PropTypes.any,
-  bordered: PropTypes.bool,
-  defaultActiveKey: PropTypes.any,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  onSelect: PropTypes.func
-};
 
 export default PanelGroup;

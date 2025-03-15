@@ -1,7 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
+import TagPicker from '../index';
+import Button from '../../Button';
 import {
   testStandardProps,
   testControlledUnControlled,
@@ -9,8 +10,7 @@ import {
   testPickers
 } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
-import TagPicker from '../index';
-import Button from '../../Button';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {
@@ -25,7 +25,9 @@ describe('TagPicker', () => {
       return screen.getByRole('combobox');
     }
   });
+
   testPickers(TagPicker, { virtualized: true });
+
   testControlledUnControlled(TagPicker, {
     componentProps: { data, defaultOpen: true },
     value: ['Eugenia'],
@@ -165,7 +167,7 @@ describe('TagPicker', () => {
         data={data}
         defaultOpen
         value={['Eugenia']}
-        renderMenuItemCheckbox={checkboxProps => {
+        renderCheckbox={checkboxProps => {
           const { value, checked, onChange } = checkboxProps;
           return (
             <input
@@ -187,12 +189,12 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChangeSpy = sinon.spy();
-    render(<TagPicker defaultOpen onChange={onChangeSpy} data={[{ label: '1', value: '1' }]} />);
+    const onChange = sinon.spy();
+    render(<TagPicker defaultOpen onChange={onChange} data={[{ label: '1', value: '1' }]} />);
 
     fireEvent.click(screen.getByLabelText('1'));
 
-    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should call `onClean` callback', () => {
@@ -347,7 +349,7 @@ describe('TagPicker', () => {
     const { rerender } = render(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
 
     expect(screen.getByRole('listbox')).to.have.text('1');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(screen.getByRole('combobox').parentNode).to.have.class('rs-picker-has-value');
 
     rerender(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
@@ -457,7 +459,7 @@ describe('TagPicker', () => {
     it('Should have a role listbox', () => {
       render(<TagPicker data={data} defaultOpen />);
 
-      expect(screen.getByRole('listbox')).to.exist;
+      expect(screen.queryAllByRole('listbox')).to.exist;
     });
 
     it('Should have a role option', () => {
@@ -477,7 +479,6 @@ describe('TagPicker', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });

@@ -1,18 +1,13 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
 import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
-import { useClassNames, useControlled, useUniqueId } from '@/internals/hooks';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
+import { useStyles, useControlled, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { partitionHTMLProps } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
+import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
 
-export type ValueType = string | number;
-
-export interface RadioTileProps<T = ValueType>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RadioTileProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
   /** Additional description, if needed*/
   children?: React.ReactNode;
 
@@ -46,7 +41,7 @@ export interface RadioTileProps<T = ValueType>
  * @version 5.35.0
  * @see https://rsuitejs.com/components/radio-tile/
  */
-const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
+const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RadioTile', props);
   const {
     value: groupValue,
@@ -78,7 +73,7 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
   );
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,18 +84,11 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
     [onChange, onGroupChange, setChecked, value]
   );
 
-  const classes = merge(className, withClassPrefix({ checked, disabled }));
+  const classes = merge(className, withPrefix({ checked, disabled }));
   const radioId = useUniqueId('radio-');
 
   return (
-    <Component
-      spacing={6}
-      {...restProps}
-      childrenRenderMode="clone"
-      ref={ref}
-      className={classes}
-      as="label"
-    >
+    <Component spacing={6} {...restProps} ref={ref} className={classes} as="label">
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
         <input
@@ -132,17 +120,5 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
 });
 
 RadioTile.displayName = 'RadioTile';
-RadioTile.propTypes = {
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  label: PropTypes.node,
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func
-};
 
 export default RadioTile;

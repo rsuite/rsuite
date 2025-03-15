@@ -1,16 +1,24 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { isNil, pick, isFunction, omit } from 'lodash';
+import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
+import useTreeValue from '../CheckTree/hooks/useTreeValue';
+import useFlattenTree from '../Tree/hooks/useFlattenTree';
+import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useExpandTree from '../Tree/hooks/useExpandTree';
+import useFocusState from './hooks/useFocusState';
+import isNil from 'lodash/isNil';
+import pick from 'lodash/pick';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
   onMenuKeyDown,
   PickerPopup,
   SelectedElement,
   PickerToggleTrigger,
-  PickerComponent,
   PickerToggleProps,
   usePickerClassName,
   useToggleKeyDownEvent,
@@ -19,44 +27,24 @@ import {
   omitTriggerPropKeys,
   PositionChildProps
 } from '@/internals/Picker';
-import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
-import useTreeValue from '../CheckTree/hooks/useTreeValue';
-import useFlattenTree from '../Tree/hooks/useFlattenTree';
-import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
-import useExpandTree from '../Tree/hooks/useExpandTree';
-import useFocusState from './hooks/useFocusState';
 import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { useCustom } from '../CustomProvider';
 import type { TreeNode } from '@/internals/Tree/types';
-import type {
-  FormControlPickerProps,
-  ItemDataType,
-  DeprecatedPickerProps
-} from '@/internals/types';
+import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<V = ValueType>
   extends Omit<CheckTreeViewProps<V>, 'value' | 'onChange' | 'data'>,
     TreeExtraProps,
-    DeprecatedPickerProps,
-    FormControlPickerProps<V, PickerLocale, ItemDataType>,
+    DeprecatedMenuProps,
+    FormControlPickerProps<V, PickerLocale, Option>,
     Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /**
    * A picker that can be counted
    */
   countable?: boolean;
-
-  /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
 
   /**
    * The height of the tree
@@ -85,7 +73,7 @@ export interface CheckTreePickerProps<V = ValueType>
  *
  * @see https://rsuitejs.com/components/check-tree-picker
  */
-const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
+const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('CheckTreePicker', props);
   const {
     as: Component = 'div',
@@ -110,9 +98,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     placement = 'bottomStart',
     treeHeight = 320,
     toggleAs,
-    menuAutoWidth = popupAutoWidth,
-    menuClassName: DEPRECATED_menuClassName,
-    menuStyle: DEPRECATED_menuStyle,
     style,
     searchBy,
     searchKeyword,
@@ -137,15 +122,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onScroll,
     onExpand,
     renderValue,
-    renderMenu: DEPRECATED_renderMenu,
-    renderTree = DEPRECATED_renderMenu,
+    renderTree,
     renderTreeIcon,
     renderTreeNode,
     ...rest
   } = propsWithDefaults;
 
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
-  const { prefix } = useClassNames(classPrefix);
+  const { prefix } = useStyles(classPrefix);
 
   const [value, setValue] = useTreeValue(controlledValue, {
     defaultValue,
@@ -255,21 +239,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
-    const classes = classNames(
-      className,
-      popupClassName,
-      DEPRECATED_menuClassName,
-      prefix('check-tree-menu')
-    );
-    const mergedMenuStyle = { ...popupStyle, ...DEPRECATED_menuStyle, left, top };
-
+    const { className } = positionProps;
+    const classes = classNames(className, popupClassName, prefix('check-tree-menu'));
     return (
       <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
-        autoWidth={menuAutoWidth}
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={mergedMenuStyle}
+        style={popupStyle}
         onKeyDown={onPickerKeydown}
         target={trigger}
       >

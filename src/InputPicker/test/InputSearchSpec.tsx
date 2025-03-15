@@ -24,9 +24,7 @@ describe('InputPicker - InputSearch', () => {
   it('Should have a InputAutosize', () => {
     const { container } = render(<InputSearch as={InputAutosize} />);
 
-    //eslint-disable-next-line
     expect(container.querySelector('.rs-picker-search-input')).to.exist;
-    //eslint-disable-next-line
     expect(container.querySelector('.rs-picker-search-input input')).to.exist;
   });
 

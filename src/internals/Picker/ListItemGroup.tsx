@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '../hooks';
+import { useStyles } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 
@@ -14,8 +14,8 @@ const ListItemGroup = React.forwardRef(
       className,
       ...rest
     } = props;
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, prefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     return (
       <Component role="group" {...rest} ref={ref} className={classes}>

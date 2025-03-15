@@ -18,7 +18,7 @@ const App = () => {
         value={size}
         onChange={size => setSize(size)}
       >
-        <RadioLabel>Size:</RadioLabel>
+        <label>Size:</label>
         {sizes.map(item => (
           <Radio value={item} key={item}>
             {item}
@@ -37,8 +37,6 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 ```
 
 <!--end-code-->

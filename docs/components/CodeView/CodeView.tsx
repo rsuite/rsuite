@@ -32,11 +32,13 @@ const CircleIconButton = React.forwardRef(({ icon, ...rest }: any, ref: React.Re
     ref={ref}
     appearance="subtle"
     circle
-    size="xs"
+    size="sm"
     type="submit"
     icon={<Icon as={icon} />}
   />
 ));
+
+CircleIconButton.displayName = 'CircleIconButton';
 
 const CodeView = (props: CustomCodeViewProps) => {
   const {
@@ -169,7 +171,7 @@ const CodeView = (props: CustomCodeViewProps) => {
               return withWhisper({ children: showCodeButton, i18nKey });
             }
             return withWhisper({
-              children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
+              children: <IconButton appearance="subtle" circle size="sm" {...rest} />,
               i18nKey
             });
           })}
@@ -201,5 +203,7 @@ const CodeView = (props: CustomCodeViewProps) => {
   }
   return renderPlaceholder();
 };
+
+CodeView.displayName = 'CodeView';
 
 export default CodeView;

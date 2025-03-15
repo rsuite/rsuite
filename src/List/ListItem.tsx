@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useContext, useEffect, useRef } from 'react';
-import { WithAsProps } from '@/internals/types';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
+import React, { useContext, useEffect, useRef } from 'react';
 import ListContext from './ListContext';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
+import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
 export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
@@ -25,7 +23,7 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
  * The `List.Item` component is used to specify the layout of the list item.
  * @see https://rsuitejs.com/components/list
  */
-const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
+const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
   const {
     as: Component = 'div',
     children,
@@ -40,7 +38,7 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
 
   const { bordered, register, size: parentSize } = useContext(ListContext);
   const size = sizeProp || parentSize;
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const listItemRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
     }
   }, [collection, disabled, index, register]);
 
-  const classes = merge(className, withClassPrefix(size, { disabled, bordered }));
+  const classes = merge(className, withPrefix(size, { disabled, bordered }));
 
   return (
     <Component
@@ -70,10 +68,5 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
 });
 
 ListItem.displayName = 'ListItem';
-ListItem.propTypes = {
-  index: PropTypes.number,
-  collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  children: PropTypes.node
-};
+
 export default ListItem;

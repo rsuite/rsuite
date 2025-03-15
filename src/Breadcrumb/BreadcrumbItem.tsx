@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SafeAnchor from '../SafeAnchor';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { WithAsProps } from '@/internals/types';
 
-export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
+export interface BreadcrumbItemProps extends WithAsProps {
   /**
    * The wrapper element of the BreadcrumbItem.
    */
@@ -34,13 +34,18 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
    * The separator between each breadcrumb item.
    */
   separator?: React.ReactNode;
+
+  /**
+   * The icon of the BreadcrumbItem.
+   */
+  icon?: React.ReactNode;
 }
 
 /**
  * The `<Breadcrumb.Item>` component is used to specify each section of the Breadcrumb.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
+const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
       wrapperAs: WrapperComponent = 'li',
@@ -54,14 +59,16 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
       active,
       children,
       separator,
+      icon,
       ...rest
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }));
+    const { merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ active }));
 
     return (
       <WrapperComponent style={style} className={classes} ref={ref} {...rest}>
+        {icon}
         {active ? (
           <span>{children}</span>
         ) : (
@@ -76,15 +83,5 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
 );
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
-BreadcrumbItem.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  href: PropTypes.string,
-  title: PropTypes.string,
-  target: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default BreadcrumbItem;

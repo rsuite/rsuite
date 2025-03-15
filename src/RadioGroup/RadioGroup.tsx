@@ -1,28 +1,25 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type {
-  WithAsProps,
-  FormControlBaseProps,
-  RsRefForwardingComponent
-} from '@/internals/types';
-import type { ValueType } from '../Radio';
+import type { WithAsProps, PrependParameters, FormControlBaseProps } from '@/internals/types';
 
 export interface RadioContextProps {
   inline?: boolean;
   name?: string;
-  value?: ValueType | null;
+  value?: string | number | null;
   controlled?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
-  onChange?: (value: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: PrependParameters<
+    React.ChangeEventHandler<HTMLInputElement>,
+    [value: string | number | undefined]
+  >;
 }
 
-export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControlBaseProps<T> {
+export interface RadioGroupProps<T = string | number> extends WithAsProps, FormControlBaseProps<T> {
   /** A radio group can have different appearances */
   appearance?: 'default' | 'picker';
 
@@ -42,79 +39,65 @@ export const RadioContext = React.createContext<RadioContextProps | undefined>(v
  * The `RadioGroup` component is used to group a collection of `Radio` components.
  * @see https://rsuitejs.com/components/radio/#radio-group
  */
-const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwardRef(
-  (props: RadioGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('RadioGroup', props);
-    const {
-      as: Component = 'div',
-      className,
+const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('RadioGroup', props);
+  const {
+    as: Component = 'div',
+    className,
+    inline,
+    children,
+    classPrefix = 'radio-group',
+    value: valueProp,
+    defaultValue,
+    appearance = 'default',
+    name,
+    plaintext,
+    disabled,
+    readOnly,
+    onChange,
+    ...rest
+  } = propsWithDefaults;
+
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance, { inline }));
+  const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
+
+  const handleChange = useEventCallback(
+    (nextValue: string | number | undefined, event: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(nextValue);
+      onChange?.(nextValue ?? '', event);
+    }
+  );
+
+  const contextValue = useMemo(
+    () => ({
       inline,
-      children,
-      classPrefix = 'radio-group',
-      value: valueProp,
-      defaultValue,
-      appearance = 'default',
       name,
+      value: typeof value === 'undefined' ? null : value,
+      controlled: isControlled,
       plaintext,
       disabled,
       readOnly,
-      onChange,
-      ...rest
-    } = propsWithDefaults;
+      onChange: handleChange
+    }),
+    [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
+  );
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(appearance, { inline }));
-    const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
-
-    const handleChange = useEventCallback(
-      (nextValue: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(nextValue);
-        onChange?.(nextValue ?? '', event);
-      }
-    );
-
-    const contextValue = useMemo(
-      () => ({
-        inline,
-        name,
-        value: typeof value === 'undefined' ? null : value,
-        controlled: isControlled,
-        plaintext,
-        disabled,
-        readOnly,
-        onChange: handleChange
-      }),
-      [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
-    );
-
-    return (
-      <RadioContext.Provider value={contextValue}>
-        {plaintext ? (
-          <Plaintext ref={ref} localeKey="notSelected" {...rest}>
-            {value ? children : null}
-          </Plaintext>
-        ) : (
-          <Component role="radiogroup" {...rest} ref={ref} className={classes}>
-            {children}
-          </Component>
-        )}
-      </RadioContext.Provider>
-    );
-  }
-);
+  return (
+    <RadioContext.Provider value={contextValue}>
+      {plaintext ? (
+        <Plaintext ref={ref} localeKey="notSelected" {...rest}>
+          {value ? children : null}
+        </Plaintext>
+      ) : (
+        <Component role="radiogroup" {...rest} ref={ref} className={classes}>
+          {children}
+        </Component>
+      )}
+    </RadioContext.Provider>
+  );
+});
 
 RadioGroup.displayName = 'RadioGroup';
-RadioGroup.propTypes = {
-  appearance: oneOf(['default', 'picker']),
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.any,
-  defaultValue: PropTypes.any,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  plaintext: PropTypes.bool
-};
 
 export default RadioGroup;

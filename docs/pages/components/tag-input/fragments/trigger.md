@@ -9,7 +9,6 @@ const App = () => (
       trigger={'Enter'}
       placeholder="Enter"
       style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -19,7 +18,6 @@ const App = () => (
       trigger={'Space'}
       placeholder="Space"
       style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -29,7 +27,6 @@ const App = () => (
       trigger={'Comma'}
       placeholder="Comma"
       style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -39,7 +36,6 @@ const App = () => (
       trigger={['Enter', 'Space', 'Comma']}
       placeholder="Enter, Space, Comma"
       style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
       onCreate={(value, item) => {
         console.log(value, item);
       }}

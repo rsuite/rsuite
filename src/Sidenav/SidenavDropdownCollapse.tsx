@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
-import { StandardProps } from '@/internals/types';
+import type { StandardProps } from '@/internals/types';
 
 export interface SidenavDropdownCollapseProps extends StandardProps {
   open?: boolean;
@@ -14,9 +13,9 @@ const SidenavDropdownCollapse = React.forwardRef(
   (props: SidenavDropdownCollapseProps & React.HTMLAttributes<HTMLUListElement>, ref) => {
     const { className, classPrefix = 'dropdown-menu', open, ...restProps } = props;
 
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const { withPrefix, merge, prefix } = useStyles(classPrefix);
 
-    const classes = merge(className, withClassPrefix());
+    const classes = merge(className, withPrefix());
 
     return (
       <Collapse
@@ -45,11 +44,5 @@ const SidenavDropdownCollapse = React.forwardRef(
 );
 
 SidenavDropdownCollapse.displayName = 'Sidenav.Dropdown.Collapse';
-SidenavDropdownCollapse.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  open: PropTypes.bool
-};
 
 export default SidenavDropdownCollapse;

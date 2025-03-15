@@ -52,7 +52,7 @@ describe('Button styles', () => {
       </ButtonToolbar>
     );
 
-    expect(screen.getByText('Large')).to.style('padding', '10px 16px');
+    expect(screen.getByText('Large')).to.style('padding', '10px 14px');
     expect(screen.getByText('Medium')).to.style('padding', '8px 12px');
     expect(screen.getByText('Small')).to.style('padding', '5px 10px');
     expect(screen.getByText('Xsmall')).to.style('padding', '2px 8px');

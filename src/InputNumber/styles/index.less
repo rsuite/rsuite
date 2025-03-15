@@ -4,7 +4,20 @@
 @import 'mixin';
 
 .rs-input-number {
+  --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
+  --rs-number-input-touchspin-height-xs: calc(calc(@input-height-extra-small - 2px) / 2);
+  --rs-number-input-touchspin-height-sm: calc(calc(@input-height-small - 2px) / 2);
+  --rs-number-input-touchspin-height-md: calc(calc(@input-height-base - 2px) / 2);
+  --rs-number-input-touchspin-height-lg: calc(calc(@input-height-large - 2px) / 2);
+
   background-color: var(--rs-input-bg);
+
+  @sizes: xs, sm, md, lg;
+  each(@sizes, .(@size) {
+    &.rs-input-group-@{size} {
+      --rs-number-input-touchspin-height: var(~'--rs-number-input-touchspin-height-@{size}');
+    }
+  });
 
   &-btn-group-vertical {
     position: relative;
@@ -22,56 +35,22 @@
     }
   }
 
-  &-touchspin-up,
-  &-touchspin-down {
+  .rs-input-number-touchspin-up,
+  .rs-input-number-touchspin-down {
     position: relative;
-    border-radius: 0;
+     border-radius: var(--rs-radius-none);
     padding: 0;
     box-shadow: none !important;
-    // Default size.
-    .input-touchspin(base);
-
-    //sizes
-    .rs-input-group-lg & {
-      .input-touchspin(large);
-    }
-
-    .rs-input-group-sm & {
-      .input-touchspin(small);
-    }
-
-    .rs-input-group-xs & {
-      .input-touchspin(extra-small);
-    }
+    height: var(--rs-number-input-touchspin-height);
 
     > .rs-icon {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      font-size: @number-input-touchspin-font-size;
+      font-size: var(--rs-number-input-touchspin-font-size);
+      color: var(--rs-text-secondary);
+      height: var(--rs-number-input-touchspin-height);
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-  }
-
-  &-btn-group-vertical:last-child &-touchspin-up {
-    border-top-right-radius: @border-radius;
-  }
-
-  &-btn-group-vertical:last-child &-touchspin-down {
-    border-bottom-right-radius: @border-radius;
-  }
-
-  > .rs-input {
-    .border-left-radius(@border-radius) !important;
-
-    &:disabled + .rs-input-number-btn-group-vertical {
-      .rs-input-number-touchspin-up,
-      .rs-input-number-touchspin-down {
-        background-color: var(--rs-input-disabled-bg);
-      }
     }
   }
 
