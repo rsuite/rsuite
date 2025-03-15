@@ -2,12 +2,15 @@ import React, { useRef, useState, useImperativeHandle } from 'react';
 import Button, { ButtonProps } from '../Button';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
+import classNames from 'classnames';
 import type { UploaderLocale } from '../locales';
 
 export interface UploadTriggerProps extends ButtonProps {
+  children?: React.ReactElement<any>;
+  className?: string;
+  disabled?: boolean;
   name?: string;
   multiple?: boolean;
-  disabled?: boolean;
   readOnly?: boolean;
   draggable?: boolean;
   accept?: string;
@@ -47,8 +50,8 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   const rootRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(
+  const { withPrefix, prefix } = useStyles(classPrefix);
+  const classes = classNames(
     className,
     withPrefix({ disabled, customize: children, 'drag-over': dragOver })
   );
@@ -98,22 +101,27 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
     clearInput: handleClearInput
   }));
 
-  const buttonProps: ButtonProps = {
+  // Prepare button props with event handlers conditionally applied
+  const buttonProps: Partial<ButtonProps> = {
     ...rest,
     disabled,
-    className: prefix('btn')
+    className: prefix('btn'),
+    // Only add event handlers if component is interactive
+    ...(!disabled &&
+      !readOnly && {
+        onClick: handleClick,
+        onDragEnter: handleDragEnter,
+        onDragLeave: handleDragLeave,
+        onDragOver: handleDragOver,
+        onDrop: handleDrop
+      })
   };
 
-  if (!disabled && !readOnly) {
-    buttonProps.onClick = handleClick;
-    buttonProps.onDragEnter = handleDragEnter;
-    buttonProps.onDragLeave = handleDragLeave;
-    buttonProps.onDragOver = handleDragOver;
-    buttonProps.onDrop = handleDrop;
-  }
-
   const trigger = children ? (
-    React.cloneElement(React.Children.only(children as any), buttonProps)
+    React.cloneElement(children, {
+      ...buttonProps,
+      className: classNames(children.props?.className, prefix('btn'))
+    })
   ) : (
     <Component {...buttonProps}>{locale?.upload}</Component>
   );

@@ -53,7 +53,7 @@ export interface UploaderProps
   autoUpload?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactElement;
 
   /** List of uploaded files */
   defaultFileList?: FileType[];
