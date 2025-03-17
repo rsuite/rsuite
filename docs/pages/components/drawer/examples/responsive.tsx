@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
+import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder, Box } from 'rsuite';
 
 const App = () => {
   const [size, setSize] = React.useState();
@@ -13,7 +13,7 @@ const App = () => {
     setOpen(true);
   };
   return (
-    <div style={{ padding: 20 }}>
+    <Box p={20}>
       <RadioGroup
         inline
         appearance="picker"
@@ -62,7 +62,7 @@ const App = () => {
           <Placeholder.Paragraph rows={8} />
         </Drawer.Body>
       </Drawer>
-    </div>
+    </Box>
   );
 };
 

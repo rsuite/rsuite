@@ -24,6 +24,10 @@ Box is a container component for all components.
 
 <!--{include:`shadow.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Props
 
 ### `<Box>`

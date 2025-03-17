@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
 import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import {
@@ -19,7 +20,6 @@ import {
 import type {
   FormControlPickerProps,
   SanitizedInputProps,
-  WithAsProps,
   Placement,
   Option,
   Size,
@@ -30,7 +30,7 @@ import { transformData, shouldDisplay } from './utils';
 import { useCustom } from '../CustomProvider';
 
 export interface AutoCompleteProps<T = string>
-  extends WithAsProps,
+  extends BoxProps,
     FormControlPickerProps<T, any, Option | string>,
     ListboxProps,
     PopupProps {
@@ -87,7 +87,7 @@ export interface AutoCompleteProps<T = string>
 const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompleteProps, ref) => {
   const { propsWithDefaults } = useCustom('AutoComplete', props);
   const {
-    as: Component = 'div',
+    as,
     disabled,
     className,
     placement = 'bottomStart',
@@ -272,7 +272,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
       open={expanded}
       speaker={renderPopup}
     >
-      <Component className={classes} style={style} ref={root} {...restProps}>
+      <Box as={as} className={classes} style={style} ref={root} {...restProps}>
         <Combobox
           {...(htmlInputProps as SanitizedInputProps)}
           disabled={disabled}
@@ -286,7 +286,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
           onChange={handleChange}
           onKeyDown={handleKeyDownEvent}
         />
-      </Component>
+      </Box>
     </PickerToggleTrigger>
   );
 });

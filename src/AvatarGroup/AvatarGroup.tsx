@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Size } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
-export interface AvatarGroupProps extends WithAsProps {
+export interface AvatarGroupProps extends BoxProps {
   /**
    * Render all avatars as stacks
    */
@@ -30,7 +31,7 @@ export const AvatarGroupContext = React.createContext<{ size?: Size; spacing?: n
 const AvatarGroup = forwardRef<'div', AvatarGroupProps>((props: AvatarGroupProps, ref) => {
   const { propsWithDefaults } = useCustom('AvatarGroup', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'avatar-group',
     spacing,
     className,
@@ -47,9 +48,9 @@ const AvatarGroup = forwardRef<'div', AvatarGroupProps>((props: AvatarGroupProps
   const styles = mergeStyles(style, cssVar('spacing', spacing, getCssValue));
 
   return (
-    <Component role="group" {...rest} ref={ref} className={classes} style={styles}>
+    <Box as={as} role="group" {...rest} ref={ref} className={classes} style={styles}>
       <AvatarGroupContext.Provider value={contextValue}>{children}</AvatarGroupContext.Provider>
-    </Component>
+    </Box>
   );
 });
 

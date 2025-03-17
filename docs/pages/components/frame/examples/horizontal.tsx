@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -28,7 +29,7 @@ import { SiProtondb } from 'react-icons/si';
 const NavHeader = ({ expanded }) => {
   if (!expanded) {
     return (
-      <HStack justifyContent="center">
+      <HStack justify="center">
         <SiProtondb size={32} />
       </HStack>
     );
@@ -102,7 +103,8 @@ const App = () => {
       </Sidebar>
       <Container>
         <Header>
-          <HStack spacing={16} alignItems="center" style={{ padding: '1rem' }}>
+          {/* @ts-ignore */}
+          <HStack spacing={16} align="center" p="1rem">
             <Breadcrumb>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>Components</Breadcrumb.Item>
@@ -110,7 +112,8 @@ const App = () => {
             </Breadcrumb>
           </HStack>
         </Header>
-        <Content style={{ padding: '0 1rem' }}>
+        {/* @ts-ignore */}
+        <Content px="1rem">
           <Placeholder.Paragraph rows={10} />
         </Content>
       </Container>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-export function testTestIdProp(element, renderOptions) {
+export function testTestIdProp(element, renderOptions?: any) {
   it('Should accept data-testid prop', () => {
     const { getByTestId } = render(
       React.cloneElement(element, { 'data-testid': 'element' }),
@@ -15,7 +15,7 @@ export function testTestIdProp(element, renderOptions) {
 export function testClassNameProp(
   element,
   customClassName,
-  renderOptions,
+  renderOptions?: any,
   getRootElement = view => view.container.firstChild
 ) {
   it('Should accept custom className', () => {
@@ -51,7 +51,7 @@ export function testClassPrefixProp(
 
 export function testStyleProp(
   element,
-  renderOptions,
+  renderOptions?: any,
   getRootElement = view => view.container.firstChild
 ) {
   it('Should accept custom style', () => {

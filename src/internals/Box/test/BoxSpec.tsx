@@ -1,17 +1,25 @@
 import React from 'react';
 import Box from '../Box';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps, getStyle, getCssVarValue } from '@test/utils';
+import {
+  testStyleProp,
+  testTestIdProp,
+  testClassNameProp,
+  getStyle,
+  getCssVarValue
+} from '@test/utils';
 
 describe('Box', () => {
-  testStandardProps(<Box />);
+  testStyleProp(<Box />);
+  testTestIdProp(<Box />);
+  testClassNameProp(<Box />, 'custom-class');
 
   it('Should render a div by default', () => {
     render(<Box>Content</Box>);
     const box = screen.getByText('Content');
 
     expect(box.tagName).to.equal('DIV');
-    expect(box).to.have.class('rs-box');
+    expect(box).to.not.have.attr('data-rs', 'box');
     expect(box).to.have.text('Content');
   });
 
@@ -26,14 +34,14 @@ describe('Box', () => {
     render(<Box visible="sm">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-from-sm');
+    expect(box).to.have.attr('data-visible-from', 'sm');
   });
 
-  it('Should render with hidden prop (hidden above breakpoint)', () => {
+  it('Should render with hidden prop (hidden above br˝eakpoint)', () => {
     render(<Box hidden="md">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-hidden-from-md');
+    expect(box).to.have.attr('data-hidden-from', 'md');
   });
 
   it('Should render with display prop', () => {
@@ -51,8 +59,8 @@ describe('Box', () => {
     );
     const box = screen.getByText('Content');
 
-    expect(box).to.have.class('rs-box-visible-from-sm');
-    expect(box).to.have.class('rs-box-hidden-from-md');
+    expect(box).to.have.attr('data-visible-from', 'sm');
+    expect(box).to.have.attr('data-hidden-from', 'md');
     expect(box).to.have.class('custom-class');
     expect(getStyle(box, '--rs-box-display')).to.equal('flex');
   });
@@ -219,7 +227,7 @@ describe('Box', () => {
     expect(getCssVarValue(box, '--rs-box-rounded')).to.equal('var(--rs-box-rounded-md)');
     expect(getCssVarValue(box, '--rs-box-shadow')).to.equal('var(--rs-box-shadow-lg)');
     expect(getStyle(box, '--rs-box-border')).to.equal('1px solid black');
-    expect(box).to.have.class('rs-box-visible-from-sm');
-    expect(box).to.have.class('rs-box-hidden-from-md');
+    expect(box).to.have.attr('data-visible-from', 'sm');
+    expect(box).to.have.attr('data-hidden-from', 'md');
   });
 });

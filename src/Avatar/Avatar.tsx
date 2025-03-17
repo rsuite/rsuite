@@ -6,8 +6,9 @@ import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ColorScheme, Size } from '@/internals/types';
-export interface AvatarProps extends WithAsProps {
+import type { BoxProps } from '@/internals/Box';
+import type { ColorScheme, Size } from '@/internals/types';
+export interface AvatarProps extends BoxProps {
   /**
    * A avatar can have different sizes.
    *

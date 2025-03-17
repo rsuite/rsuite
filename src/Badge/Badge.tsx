@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { Color, WithAsProps, PlacementCorners } from '@/internals/types';
 import {
   forwardRef,
   mergeStyles,
@@ -10,8 +10,9 @@ import {
   isPresetColor,
   createColorVariables
 } from '@/internals/utils';
+import type { Color, PlacementCorners } from '@/internals/types';
 
-export interface BadgeProps extends WithAsProps {
+export interface BadgeProps extends BoxProps {
   /**
    * The content of the badge
    */
@@ -70,7 +71,7 @@ export interface BadgeProps extends WithAsProps {
 const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
   const { propsWithDefaults } = useCustom('Badge', props);
   const {
-    as: Component = 'div',
+    as,
     content,
     color,
     className,
@@ -116,16 +117,16 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
 
   if (!children) {
     return (
-      <Component ref={ref} className={classes} style={styles} {...rest}>
+      <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
         {text}
-      </Component>
+      </Box>
     );
   }
   return (
-    <Component ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       {children}
       <div className={prefix('content')}>{text}</div>
-    </Component>
+    </Box>
   );
 });
 

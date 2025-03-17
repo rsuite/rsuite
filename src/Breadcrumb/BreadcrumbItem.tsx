@@ -1,10 +1,10 @@
 import React from 'react';
 import SafeAnchor from '../SafeAnchor';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
 
-export interface BreadcrumbItemProps extends WithAsProps {
+export interface BreadcrumbItemProps extends BoxProps {
   /**
    * The wrapper element of the BreadcrumbItem.
    */
@@ -48,7 +48,7 @@ export interface BreadcrumbItemProps extends WithAsProps {
 const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      wrapperAs: WrapperComponent = 'li',
+      wrapperAs = 'li',
       href,
       as: Component = href ? SafeAnchor : 'span',
       classPrefix = 'breadcrumb-item',
@@ -67,7 +67,7 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
     const classes = merge(className, withPrefix({ active }));
 
     return (
-      <WrapperComponent style={style} className={classes} ref={ref} {...rest}>
+      <Box as={wrapperAs} style={style} className={classes} ref={ref} {...rest}>
         {icon}
         {active ? (
           <span>{children}</span>
@@ -77,7 +77,7 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
           </Component>
         )}
         {separator}
-      </WrapperComponent>
+      </Box>
     );
   }
 );

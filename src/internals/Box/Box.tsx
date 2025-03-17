@@ -1,13 +1,11 @@
 import React, { CSSProperties as CSS } from 'react';
-import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
+import isEmpty from 'lodash/isEmpty';
+import { mergeStyles } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils/forwardRef';
 import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
 import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
 
 export interface BoxProps extends WithAsProps {
-  /** Override the 'as' prop when Box is used as a base component */
-  componentAs?: WithAsProps['as'];
-
   /** Breakpoint below which the component is hidden with `display: none` */
   visible?: Breakpoints;
 
@@ -56,31 +54,24 @@ export interface BoxProps extends WithAsProps {
 }
 
 const Box = forwardRef<'div', BoxProps>((props, ref) => {
-  const {
-    as: Component = 'div',
-    classPrefix = 'box',
-    className,
-    children,
-    visible,
-    hidden,
-    style,
-    ...rest
-  } = props;
+  const { as: Component = 'div', className, children, visible, hidden, style, ...rest } = props;
 
   const boxProps = extractBoxProps(rest);
   const domProps = omitBoxProps(rest);
-
-  const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix({ [`visible-from-${visible}`]: visible, [`hidden-from-${hidden}`]: hidden })
-  );
-
   const boxCSSVars = getBoxCSSVariables(boxProps);
   const boxStyle = mergeStyles(style, boxCSSVars);
+  const isBox = !isEmpty(boxCSSVars) || visible || hidden;
 
   return (
-    <Component ref={ref} className={classes} style={boxStyle} {...domProps}>
+    <Component
+      ref={ref}
+      data-rs={isBox ? 'box' : undefined}
+      data-visible-from={visible}
+      data-hidden-from={hidden}
+      className={className}
+      style={boxStyle}
+      {...domProps}
+    >
       {children}
     </Component>
   );
