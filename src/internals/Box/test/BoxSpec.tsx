@@ -1,18 +1,10 @@
 import React from 'react';
 import Box from '../Box';
 import { render, screen } from '@testing-library/react';
-import {
-  testStyleProp,
-  testTestIdProp,
-  testClassNameProp,
-  getStyle,
-  getCssVarValue
-} from '@test/utils';
+import { testStandardProps, getStyle, getCssVarValue } from '@test/utils';
 
 describe('Box', () => {
-  testStyleProp(<Box />);
-  testTestIdProp(<Box />);
-  testClassNameProp(<Box />, 'custom-class');
+  testStandardProps(<Box />, { hasClassPrefix: false });
 
   it('Should render a div by default', () => {
     render(<Box>Content</Box>);

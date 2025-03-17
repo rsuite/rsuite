@@ -106,13 +106,22 @@ interface TestStandardPropsOptions {
   customClassName?: string | boolean;
   sizes?: string[] | boolean;
   colors?: string[];
+  hasClassPrefix?: boolean;
   getRootElement?: (view: any) => HTMLElement;
   getUIElement?: (view: any) => HTMLElement;
 }
 
 export function testStandardProps(element, options: TestStandardPropsOptions = {}) {
   const { displayName } = element.type;
-  const { renderOptions, customClassName, sizes, colors, getRootElement, getUIElement } = options;
+  const {
+    renderOptions,
+    customClassName,
+    sizes,
+    colors,
+    hasClassPrefix = true,
+    getRootElement,
+    getUIElement
+  } = options;
 
   describe(`${displayName} - Standard props`, () => {
     it('Should have a display name', () => {
@@ -128,7 +137,10 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
         getRootElement
       );
     }
-    testClassPrefixProp(element, renderOptions, getRootElement);
+    if (hasClassPrefix) {
+      testClassPrefixProp(element, renderOptions, getRootElement);
+    }
+
     testStyleProp(element, renderOptions, getRootElement);
 
     if (sizes) {
