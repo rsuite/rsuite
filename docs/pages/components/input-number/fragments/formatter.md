@@ -12,7 +12,7 @@ function toPercent(value) {
 }
 
 const App = () => (
-  <Stack direction="column" alignItems="flex-start" spacing={10}>
+  <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
     <InputNumber defaultValue={100} formatter={value => `${value} kg`} />
     <InputNumber defaultValue={1.5} step={0.1} formatter={value => `€${value}`} />
     <InputNumber defaultValue={100050000} formatter={toThousands} />

@@ -25,11 +25,11 @@ const data = [
 ];
 
 const App = () => (
-  <VStack spacing={10} w={224}>
-    <AutoComplete size="lg" placeholder="Large" data={data} />
-    <AutoComplete size="md" placeholder="Medium" data={data} />
-    <AutoComplete size="sm" placeholder="Small" data={data} />
-    <AutoComplete size="xs" placeholder="Xsmall" data={data} />
+  <VStack spacing={10}>
+    <AutoComplete size="lg" placeholder="Large" data={data} w={224} />
+    <AutoComplete size="md" placeholder="Medium" data={data} w={224} />
+    <AutoComplete size="sm" placeholder="Small" data={data} w={224} />
+    <AutoComplete size="xs" placeholder="Xsmall" data={data} w={224} />
   </VStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

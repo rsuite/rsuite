@@ -22,11 +22,16 @@ const App = () => {
         direction={direction}
         align={align}
         justify={justify}
-        as={Box}
+        bg="var(--rs-placeholder)"
+        p={20}
+        rounded="lg"
+        w={400}
+        h={300}
       >
         <Button size="lg" appearance="ghost">Large</Button>
         <Button size="md" appearance="ghost">Medium</Button>
         <Button size="sm" appearance="ghost">Small</Button>
+        <Button size="xs" appearance="ghost">Xsmall</Button>
         <Button size="xs" appearance="ghost">Xsmall</Button>
       </Stack>
 
@@ -72,24 +77,6 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-
-const Box = React.forwardRef((props, ref) => {
-  const { style, ...rest } = props;
-  return (
-    <div
-      {...rest}
-      ref={ref}
-      style={{
-        padding: 10,
-        background: '#f5f5f5',
-        width: 400,
-        height: 300,
-        borderRadius: 6,
-        ...style
-      }}
-    />
-  );
-});
 ```
 
 <!--end-code-->

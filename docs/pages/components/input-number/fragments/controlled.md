@@ -7,7 +7,7 @@ const App = () => {
   const [value, setValue] = React.useState(0.01);
 
   return (
-    <Stack>
+    <Stack w={200}>
       <InputNumber value={value} onChange={setValue} step={0.01} />
     </Stack>
   );
