@@ -1,17 +1,16 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import { WithAsProps, Color, TypographySizeEnum, TextSize } from '@/internals/types';
+import { forwardRef, mergeStyles, getSizeStyle } from '@/internals/utils';
+import { TextSize } from '@/internals/types';
 
-const fontSizes = Object.values(TypographySizeEnum);
-
-export interface TextProps extends WithAsProps {
+export interface TextProps extends BoxProps {
   /**
    * The font color of the text.
    * Accepts preset colors or CSS color values
    */
-  color?: Color | React.CSSProperties['color'];
+  color?: BoxProps['c'];
 
   /**
    * The font size of the text.
@@ -54,7 +53,7 @@ export interface TextProps extends WithAsProps {
 const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   const { propsWithDefaults } = useCustom('Text', props);
   const {
-    as: Component = 'p',
+    as = 'p',
     align,
     classPrefix = 'text',
     color,
@@ -69,32 +68,23 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const hasSize = size && fontSizes.includes(size as TypographySizeEnum);
   const classes = merge(
     className,
-    withPrefix(isPresetColor(color) && color, align, weight, transform, hasSize && size, {
+    withPrefix(align, weight, transform, {
       muted,
       ellipsis: maxLines
     })
   );
 
   const styles = useMemo(() => {
-    const textStyles = mergeStyles(
-      {
-        ...(maxLines ? { WebkitLineClamp: maxLines } : null)
-      },
-      createColorVariables(color, '--rs-text-color'),
-      style
-    ) as React.CSSProperties;
-
-    if (size && !hasSize) {
-      textStyles.fontSize = size;
-    }
+    const textStyles = mergeStyles(style, getSizeStyle(size, 'font'), {
+      '--rs-text-max-lines': maxLines
+    });
 
     return textStyles;
-  }, [style, color, size, maxLines]);
+  }, [style, size, maxLines]);
 
-  return <Component {...rest} ref={ref} className={classes} style={styles} />;
+  return <Box as={as} c={color} ref={ref} className={classes} style={styles} {...rest} />;
 });
 
 Text.displayName = 'Text';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Stack, Divider } from 'rsuite';
+import { Text, Stack, Divider, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -9,6 +9,6 @@ const inDocsComponents = {
 
 export default function Page() {
   return (
-    <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ Text, Stack, Divider }} />
+    <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ Text, Stack, Divider, Box }} />
   );
 }

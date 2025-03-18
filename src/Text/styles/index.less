@@ -8,6 +8,10 @@
 .rs-text {
   font-family: var(--rs-font-family-base);
   margin: 0;
+  color: var(--rs-text-color, var(--rs-text-primary));
+  font-size: var(--rs-font-size);
+  line-height: var(--rs-text-line-height, @line-height-base);
+  line-clamp: var(--rs-text-max-lines);
 
   blockquote& {
     font-style: italic;
@@ -108,17 +112,11 @@
     }
   });
 
-  color: var(--rs-text-color, var(--rs-text-primary));
-
   // Size variants
   @sizes: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl;
   each(@sizes, .(@size) {
-    &-@{size} {
-      --rs-text-font-size: var(~'--rs-font-size-@{size}');
+    &:where([style*='size-@{size}']) {
       --rs-text-line-height: var(~'--rs-text-line-height-@{size}');
     }
   });
-
-  font-size: var(--rs-text-font-size);
-  line-height: var(--rs-text-line-height, @line-height-base);
 }
