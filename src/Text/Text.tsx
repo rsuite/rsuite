@@ -76,13 +76,13 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
     })
   );
 
-  const styles = useMemo(() => {
-    const textStyles = mergeStyles(style, getSizeStyle(size, 'font'), {
-      '--rs-text-max-lines': maxLines
-    });
-
-    return textStyles;
-  }, [style, size, maxLines]);
+  const styles = useMemo(
+    () =>
+      mergeStyles(style, getSizeStyle(size, 'font'), {
+        '--rs-text-max-lines': maxLines
+      }),
+    [style, size, maxLines]
+  );
 
   return <Box as={as} c={color} ref={ref} className={classes} style={styles} {...rest} />;
 });
