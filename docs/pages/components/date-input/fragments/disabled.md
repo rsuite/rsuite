@@ -5,7 +5,7 @@ import { DateInput, InputGroup, Stack } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
 
 const App = () => (
-  <Stack spacing={10} direction="column" alignItems="flex-start">
+  <Stack spacing={10} direction="column" align="flex-start" w={220}>
     <label>Disabled:</label>
     <DateInput disabled value={new Date()} />
     <InputGroup disabled>
