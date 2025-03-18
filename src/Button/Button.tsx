@@ -1,15 +1,14 @@
 import React, { useContext, useMemo } from 'react';
 import Ripple from '@/internals/Ripple';
+import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '../SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { Color, Size, AppearanceType, WithAsProps } from '@/internals/types';
+import { Color, Size, AppearanceType } from '@/internals/types';
 
-export interface ButtonProps
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
+export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
   /** A button can have different appearances. */
   appearance?: AppearanceType;
 
@@ -118,29 +117,15 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     onClick?.(event);
   });
 
-  if (rest.href) {
-    return (
-      <SafeAnchor
-        {...rest}
-        as={as}
-        ref={ref}
-        aria-disabled={disabled}
-        disabled={disabled}
-        className={classes}
-        onClick={handleClick}
-      >
-        {buttonContent}
-      </SafeAnchor>
-    );
-  }
-
-  const Component = as || 'button';
-  const type = typeProp || (Component === 'button' ? 'button' : undefined);
-  const role = rest.role || (Component !== 'button' ? 'button' : undefined);
+  const buttonAs = as || (rest.href ? SafeAnchor : 'button');
+  const isCustomElement = buttonAs !== 'button' && buttonAs !== SafeAnchor;
+  const type = typeProp ?? (buttonAs === 'button' ? 'button' : undefined);
+  const role = rest.role ?? (isCustomElement ? 'button' : undefined);
 
   return (
-    <Component
+    <Box
       {...rest}
+      as={buttonAs}
       role={role}
       type={type}
       ref={ref}
@@ -150,7 +135,7 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
       onClick={handleClick}
     >
       {buttonContent}
-    </Component>
+    </Box>
   );
 });
 

@@ -12,7 +12,7 @@ const data = Array.from({ length: 10000 }).map((_, index) => {
 
 const App = () => (
   <>
-    <CheckPicker data={data} style={{ width: 224 }} virtualized />
+    <CheckPicker data={data} w={224} virtualized />
   </>
 );
 

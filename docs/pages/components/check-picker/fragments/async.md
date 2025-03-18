@@ -32,7 +32,7 @@ const App = () => {
       data={items}
       onOpen={updateData}
       onSearch={updateData}
-      style={{ width: 224 }}
+      w={224}
       renderListbox={renderListbox}
     />
   );

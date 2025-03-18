@@ -1,10 +1,10 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface HeadingProps extends WithAsProps {
+export interface HeadingProps extends BoxProps {
   /**
    * Sets heading level, h1 through h6.
    * @default 3
@@ -25,9 +25,7 @@ const Heading = forwardRef<'h3', HeadingProps>((props: HeadingProps, ref) => {
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
 
-  const Component = as || `h${level}`;
-
-  return <Component {...rest} ref={ref} className={classes} />;
+  return <Box as={as || `h${level}`} {...rest} ref={ref} className={classes} />;
 });
 
 Heading.displayName = 'Heading';

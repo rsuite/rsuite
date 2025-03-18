@@ -1,13 +1,13 @@
 import React, { CSSProperties } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
 export interface ImageProps
-  extends WithAsProps,
+  extends Omit<BoxProps, 'rounded'>,
     Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder'> {
   /**
    * An image may appear with border.
@@ -58,7 +58,7 @@ export interface ImageProps
 const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Image', props);
   const {
-    as: Component = 'img',
+    as = 'img',
     bordered,
     classPrefix = 'image',
     className,
@@ -90,7 +90,8 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const wrapStyles = { width, height };
 
   const image = (
-    <Component
+    <Box
+      as={as}
       ref={ref}
       src={imgSrc}
       className={classes}

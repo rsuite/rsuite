@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
+import Box from '@/internals/Box';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
@@ -76,7 +77,7 @@ export interface CheckTreePickerProps<V = ValueType>
 const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('CheckTreePicker', props);
   const {
-    as: Component = 'div',
+    as,
     id,
     appearance = 'default',
     cleanable = true,
@@ -306,7 +307,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
       speaker={renderTreeView}
       {...triggerProps}
     >
-      <Component className={classes} style={style} ref={root}>
+      <Box as={as} className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           ref={target}
@@ -324,7 +325,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>
-      </Component>
+      </Box>
     </PickerToggleTrigger>
   );
 });

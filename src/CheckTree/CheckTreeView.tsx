@@ -3,6 +3,7 @@ import isNil from 'lodash/isNil';
 import CheckTreeNode from './CheckTreeNode';
 import IndentLine from '../Tree/IndentLine';
 import SearchBox from '@/internals/SearchBox';
+import Box from '@/internals/Box';
 import useTreeSearch from '../Tree/hooks/useTreeSearch';
 import useFocusTree from '../Tree/hooks/useFocusTree';
 import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
@@ -112,7 +113,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
 
 const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'check-tree',
     cascade = true,
@@ -345,7 +346,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   });
 
   return (
-    <Component ref={ref} className={classes} style={style}>
+    <Box as={as} ref={ref} className={classes} style={style}>
       {searchable ? (
         <SearchBox
           placeholder={searchPlaceholder}
@@ -393,7 +394,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
           formattedNodes
         )}
       </TreeView>
-    </Component>
+    </Box>
   );
 });
 

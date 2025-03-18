@@ -8,7 +8,7 @@ describe('NavbarContent', () => {
 
   it('Should render responsive classes', () => {
     render(
-      <NavbarContent visible="xs" hidden="md" data-testid="content">
+      <NavbarContent showFrom="xs" hideFrom="md" data-testid="content">
         Navbar Content
       </NavbarContent>
     );

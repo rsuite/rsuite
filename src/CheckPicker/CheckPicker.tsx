@@ -6,6 +6,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import SearchBox from '@/internals/SearchBox';
+import Box from '@/internals/Box';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -72,7 +73,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {
-      as: Component = 'div',
+      as,
       appearance = 'default',
       classPrefix = 'picker',
       countable = true,
@@ -376,7 +377,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderPopup}
       >
-        <Component className={classes} style={style} ref={root}>
+        <Box as={as} className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             ref={target}
@@ -394,7 +395,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>
-        </Component>
+        </Box>
       </PickerToggleTrigger>
     );
   }

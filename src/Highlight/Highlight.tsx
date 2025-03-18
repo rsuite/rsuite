@@ -1,11 +1,11 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { highlightText } from './utils/highlightText';
 import { forwardRef, stringifyReactNode } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface HighlightProps extends WithAsProps {
+export interface HighlightProps extends BoxProps {
   query?: string | string[];
   renderMark?: (match: string, index: number) => React.ReactNode;
 }
@@ -27,7 +27,7 @@ function defaultRenderMark(match: string, index: number) {
 const Highlight = forwardRef<'div', HighlightProps>((props: HighlightProps, ref) => {
   const { propsWithDefaults } = useCustom('Highlight', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'highlight',
     className,
     children,
@@ -41,9 +41,9 @@ const Highlight = forwardRef<'div', HighlightProps>((props: HighlightProps, ref)
   const text = stringifyReactNode(children);
 
   return (
-    <Component ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {highlightText(text, { query, renderMark })}
-    </Component>
+    </Box>
   );
 });
 

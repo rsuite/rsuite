@@ -48,17 +48,19 @@ The `appearance` property sets the navigation bar appearance:
 
 <!--{include:<example-responsive>}-->
 
-You can use the `visible` and `hidden` props to control visibility at different breakpoints:
+You can use the `showFrom` and `hideFrom` props to control the visibility at different breakpoints:
 
-// Hide above sm breakpoint
-<Navbar.Content hidden="sm">
-  {/* Small screen content */}
+```jsx
+// Hide on screens larger than 'xs'
+<Navbar.Content hideFrom="xs">
+  {/* Content for small screens */}
 </Navbar.Content>
 
-// Hide below sm breakpoint
-<Navbar.Content visible="sm">
-  {/* Large screen content */}
+// Hide on screens smaller than 'xs'
+<Navbar.Content showFrom="xs">
+  {/* Content for large screens */}
 </Navbar.Content>
+```
 
 ## Props
 
@@ -84,13 +86,13 @@ You can use the `visible` and `hidden` props to control visibility at different 
 
 ![][6.0.0]
 
-| Property name | Type `(Default)`                              | Description                          |
-| ------------- | --------------------------------------------- | ------------------------------------ |
-| as            | ElementType `('div')`                         | Custom element type                  |
-| classPrefix   | string `('navbar-content')`                   | The prefix of the CSS class          |
-| children      | ReactNode                                     | Content                              |
-| visible       | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | Show content at specified breakpoint |
-| hidden        | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | Hide content at specified breakpoint |
+| Property name | Type `(Default)`            | Description                          |
+| ------------- | --------------------------- | ------------------------------------ |
+| as            | ElementType `('div')`       | Custom element type                  |
+| classPrefix   | string `('navbar-content')` | The prefix of the CSS class          |
+| children      | ReactNode                   | Content                              |
+| showFrom      | [Breakpoints][breakpoints]  | Show content at specified breakpoint |
+| hideFrom      | [Breakpoints][breakpoints]  | Hide content at specified breakpoint |
 
 ### `<Navbar.Toggle>`
 
@@ -105,3 +107,7 @@ Extends [`IconButton`](/components/icon-button)
 Extends [`Drawer`](/components/drawer)
 
 [6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+
+<!--{include:(_common/types/breakpoints.md)}-->
+
+[breakpoints]: #code-ts-breakpoints-code

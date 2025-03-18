@@ -83,7 +83,7 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   const childCount = filteredChildren.length;
 
   return (
-    <Box display="flex" as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       {filteredChildren.map((child, index) => (
         <React.Fragment key={index}>
           {child}

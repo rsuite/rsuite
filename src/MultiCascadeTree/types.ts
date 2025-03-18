@@ -1,5 +1,5 @@
 import type { CascadeTreeProps } from '../CascadeTree/types';
-import type { Option, ToArray, WithAsProps } from '@/internals/types';
+import type { Option, ToArray } from '@/internals/types';
 
 export interface ItemKeys {
   valueKey: string;
@@ -7,9 +7,7 @@ export interface ItemKeys {
   childrenKey: string;
 }
 
-export interface MultiCascadeTreeProps<T = any, V = T[], L = any>
-  extends WithAsProps,
-    CascadeTreeProps<T, V> {
+export interface MultiCascadeTreeProps<T = any, V = T[], L = any> extends CascadeTreeProps<T, V> {
   /**
    * When set to true, selecting a child node will update the state of the parent node.
    */

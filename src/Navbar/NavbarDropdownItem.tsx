@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import isNil from 'lodash/isNil';
 import DisclosureContext, { DisclosureActionTypes } from '@/internals/Disclosure/DisclosureContext';
 import NavContext from '../Nav/NavContext';
-import { IconProps } from '@rsuite/icons/Icon';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
+import type { IconProps } from '@rsuite/icons/Icon';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 import type { DeprecatedDropdownItemProps } from '../Dropdown/types';
 

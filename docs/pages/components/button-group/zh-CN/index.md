@@ -60,3 +60,12 @@
 | justified   | boolean                               | 在水平布局中均匀分配按钮宽度                |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 为组内所有按钮设置统一尺寸（大/中/小/超小） |
 | vertical    | boolean                               | 采用垂直堆叠布局显示按钮                    |
+
+### `<ButtonToolbar>`
+
+| 属性名称 | 类型`(默认值)`          | 描述                                           |
+| -------- | ------------------------- | ----------------------------------------------------- |
+| ...      | [StackProps][stack-props] | 继承 [Stack][stack] 组件的所有属性。 |
+
+[stack-props]: https://rsuitejs.com/zh/components/stack/#code-lt-stack-gt-code
+[stack]: https://rsuitejs.com/zh/components/stack

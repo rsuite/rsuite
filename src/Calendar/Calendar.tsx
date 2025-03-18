@@ -1,6 +1,7 @@
 import React from 'react';
 import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
 import { FormattedDate } from '../CustomProvider';
@@ -8,10 +9,9 @@ import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
 import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
-import type { WithAsProps } from '@/internals/types';
 import type { MonthDropdownProps } from './types';
 
-export interface CalendarProps extends WithAsProps {
+export interface CalendarProps extends BoxProps {
   /**
    * Controlled value
    */
@@ -94,7 +94,7 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
   (props: CalendarProps, ref) => {
     const { propsWithDefaults } = useCustom('Calendar', props);
     const {
-      as: Component = CalendarContainer,
+      as = CalendarContainer,
       bordered,
       className,
       classPrefix = 'calendar',
@@ -103,12 +103,12 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       isoWeek,
       weekStart = 0,
       locale,
+      cellClassName,
       onChange,
       onMonthChange,
       onSelect,
       renderCell,
       value,
-      cellClassName,
       ...rest
     } = propsWithDefaults;
 
@@ -132,7 +132,7 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       handleChange(nextValue);
     });
 
-    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const { prefix, merge } = useStyles(classPrefix);
 
     const renderToolbar = () => (
       <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
@@ -144,11 +144,12 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
-    const classes = merge(className, withPrefix('panel', { bordered, compact }));
+    const classes = merge(className, prefix('panel', { bordered, compact }));
 
     return (
-      <Component
+      <Box
         {...rest}
+        as={as}
         inline
         className={classes}
         ref={ref}

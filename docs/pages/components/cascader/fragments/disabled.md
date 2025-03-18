@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader, VStack, HStack } from 'rsuite';
+import { Cascader, VStack, HStack, Box } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -30,8 +30,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const Select = ({ label, children, ...rest }) => (
   <HStack>
-    <label style={{ width: 120 }}>{label}:</label>
-    <Cascader {...rest} style={{ width: 180 }} />
+    <Box as="label" w={120}>
+      {label}:
+    </Box>
+    <Cascader {...rest} w={180} />
   </HStack>
 );
 ```

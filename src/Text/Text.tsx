@@ -85,7 +85,7 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
       },
       createColorVariables(color, '--rs-text-color'),
       style
-    );
+    ) as React.CSSProperties;
 
     if (size && !hasSize) {
       textStyles.fontSize = size;

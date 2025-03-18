@@ -9,6 +9,7 @@ import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
+import Box from '@/internals/Box';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
@@ -256,7 +257,7 @@ export interface DatePickerProps
 const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, ref) => {
   const { propsWithDefaults } = useCustom('DatePicker', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'picker',
     calendarDefaultDate,
@@ -678,7 +679,8 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
       onExit={createChainedFunction(events.onInactive, onExit)}
       speaker={renderCalendarOverlay}
     >
-      <Component
+      <Box
+        as={as}
         className={merge(classes, { [prefix('error')]: invalidValue })}
         style={style}
         ref={root}
@@ -722,7 +724,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
             />
           </InputGroup>
         )}
-      </Component>
+      </Box>
     </PickerToggleTrigger>
   );
 });

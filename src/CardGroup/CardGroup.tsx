@@ -1,10 +1,10 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface CardGroupProps extends WithAsProps {
+export interface CardGroupProps extends BoxProps {
   /**
    * The number of columns in the group
    */
@@ -19,7 +19,7 @@ export interface CardGroupProps extends WithAsProps {
 const CardGroup = forwardRef<'div', CardGroupProps>((props: CardGroupProps, ref) => {
   const { propsWithDefaults } = useCustom('CardGroup', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'card-group',
     className,
     children,
@@ -38,9 +38,9 @@ const CardGroup = forwardRef<'div', CardGroupProps>((props: CardGroupProps, ref)
   );
 
   return (
-    <Component ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       {children}
-    </Component>
+    </Box>
   );
 });
 

@@ -1,12 +1,13 @@
 import React, { useContext, useMemo, useRef } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useControlled, useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, Color, HTMLPropsWithoutChange } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
+import type { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
 export interface CheckboxProps<V = string | number>
-  extends WithAsProps,
+  extends BoxProps,
     HTMLPropsWithoutChange<HTMLDivElement> {
   /**
    * The color of the checkbox when checked or indeterminate
@@ -126,7 +127,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   } = checkboxGroupContext ?? {};
 
   const {
-    as: Component = 'div',
+    as,
     checked: controlledChecked,
     className,
     children,
@@ -205,9 +206,9 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
 
   if (plaintext) {
     return checked ? (
-      <Component {...restProps} ref={ref} className={classes}>
+      <Box as={as} {...restProps} ref={ref} className={classes}>
         {children}
-      </Component>
+      </Box>
     ) : null;
   }
 
@@ -234,7 +235,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   );
 
   return (
-    <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
+    <Box as={as} {...restProps} ref={ref} onClick={onClick} className={classes}>
       <div className={prefix`checker`}>
         <label title={title} onClick={handleLabelClick}>
           {checkable ? control : null}
@@ -243,7 +244,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
           </span>
         </label>
       </div>
-    </Component>
+    </Box>
   );
 });
 

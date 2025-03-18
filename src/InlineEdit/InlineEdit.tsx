@@ -2,13 +2,13 @@ import React from 'react';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { renderChildren, defaultRenderInput, ChildrenProps } from './renderChildren';
 import { useCustom } from '../CustomProvider';
-import type { WithAsPropsWithoutChildren } from '@/internals/types';
 
-export interface InlineEditProps extends WithAsPropsWithoutChildren {
+export interface InlineEditProps extends Omit<BoxProps, 'children'> {
   /**
    * If true, the InlineEdit will be disabled.
    */
@@ -76,7 +76,7 @@ export interface InlineEditProps extends WithAsPropsWithoutChildren {
 const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, ref) => {
   const { propsWithDefaults } = useCustom('InlineEdit', props);
   const {
-    as: Component = 'div',
+    as,
     children = defaultRenderInput,
     classPrefix = 'inline-edit',
     className,
@@ -110,7 +110,8 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
   };
 
   return (
-    <Component
+    <Box
+      as={as}
       ref={mergeRefs(root, ref)}
       tabIndex={0}
       className={merge(className, withPrefix(size, { disabled }))}
@@ -122,7 +123,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
       {showControls && isEditing && (
         <EditableControls className={prefix('controls')} onSave={onSave} onCancel={onCancel} />
       )}
-    </Component>
+    </Box>
   );
 });
 

@@ -6,14 +6,15 @@ import NavContext from './NavContext';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { initialState, reducer } from '../Dropdown/DropdownState';
-import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
+import type { PlacementCorners, SanitizedHTMListProps } from '@/internals/types';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
-export interface NavDropdownProps<T = any> extends WithAsProps, SanitizedHTMListProps {
+export interface NavDropdownProps<T = any> extends BoxProps, SanitizedHTMListProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -56,7 +57,7 @@ export interface NavDropdownProps<T = any> extends WithAsProps, SanitizedHTMList
   renderTitle?: (children: React.ReactNode) => React.ReactNode;
 
   /** Custom Toggle */
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
 
   /** The callback function that the menu closes */
   onClose?: () => void;
@@ -91,7 +92,7 @@ const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((p
   }
 
   const {
-    as: Component = 'div',
+    as,
     title,
     onClose,
     onOpen,
@@ -183,7 +184,8 @@ const NavDropdown = forwardRef<'div', NavDropdownProps, typeof Subcomponents>((p
       {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
         const classes = merge(className, withPrefix({ disabled, open }));
         return (
-          <Component
+          <Box
+            as={as}
             ref={mergeRefs(ref, menuContainerRef)}
             className={classes}
             style={style}

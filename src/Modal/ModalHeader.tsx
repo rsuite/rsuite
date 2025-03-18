@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import IconButton from '../IconButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
-import type { WithAsProps } from '@/internals/types';
 
-export interface ModalHeaderProps extends WithAsProps {
+export interface ModalHeaderProps extends BoxProps {
   /** Primary content */
   children?: React.ReactNode;
 
@@ -19,7 +19,7 @@ export interface ModalHeaderProps extends WithAsProps {
 
 const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'modal-header',
     className,
     closeButton = true,
@@ -34,7 +34,7 @@ const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
   const { isDrawer, onModalClose } = context || {};
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} {...rest} ref={ref} className={classes}>
       {closeButton && (
         <CloseButton
           as={isDrawer ? IconButton : 'button'}
@@ -43,7 +43,7 @@ const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
         />
       )}
       {children}
-    </Component>
+    </Box>
   );
 });
 

@@ -1,9 +1,10 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import type { WithAsProps, Size } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
-export interface ModalDialogProps extends WithAsProps {
+export interface ModalDialogProps extends BoxProps {
   /** A modal can have different sizes */
   size?: Size;
   dialogClassName?: string;
@@ -12,7 +13,7 @@ export interface ModalDialogProps extends WithAsProps {
 
 const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps, ref) => {
   const {
-    as: Component = 'div',
+    as,
     style,
     children,
     dialogClassName,
@@ -29,11 +30,19 @@ const ModalDialog = forwardRef<'div', ModalDialogProps>((props: ModalDialogProps
   const modalStyle = mergeStyles({ display: 'block' }, style);
 
   return (
-    <Component role="dialog" aria-modal ref={ref} className={classes} style={modalStyle} {...rest}>
+    <Box
+      as={as}
+      role="dialog"
+      aria-modal
+      ref={ref}
+      className={classes}
+      style={modalStyle}
+      {...rest}
+    >
       <div role="document" className={dialogClasses} style={dialogStyle}>
         {children}
       </div>
-    </Component>
+    </Box>
   );
 });
 

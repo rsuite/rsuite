@@ -1,7 +1,7 @@
 import { createComponent, ComponentProps } from '@/internals/utils';
 import Box, { BoxProps } from '@/internals/Box';
 
-export type NavbarContentProps = Omit<ComponentProps, 'hidden'> & BoxProps;
+export type NavbarContentProps = ComponentProps & BoxProps;
 
 const NavbarContent = createComponent<typeof Box, NavbarContentProps>({
   name: 'NavbarContent',

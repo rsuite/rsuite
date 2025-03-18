@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useFormGroup } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
@@ -12,7 +13,6 @@ import type {
   PropsWithoutChange,
   SanitizedInputProps,
   FormControlBaseProps,
-  WithAsProps,
   Size
 } from '@/internals/types';
 
@@ -21,7 +21,7 @@ export interface LocaleType {
 }
 
 export interface InputProps
-  extends WithAsProps,
+  extends BoxProps,
     SanitizedInputProps,
     PropsWithoutChange<FormControlBaseProps> {
   /** The HTML input type */
@@ -62,9 +62,9 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Input', props);
   const inputGroup = useContext(InputGroupContext);
   const {
+    as = 'input',
     className,
     classPrefix = 'input',
-    as: Component = 'input',
     type = 'text',
     disabled,
     value,
@@ -121,7 +121,8 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       {...rest}
       {...eventProps}
       ref={mergeRefs(ref, inputRef)}

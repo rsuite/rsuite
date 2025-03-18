@@ -48,16 +48,16 @@
 
 <!--{include:<example-responsive>}-->
 
-你可以使用 `visible` 和 `hidden` 属性来控制在不同断点下的显示和隐藏：
+你可以使用 `showFrom` 和 `hideFrom` 属性来控制在不同断点下的显示和隐藏：
 
 ```jsx
-// 在 sm 断点以上隐藏
-<Navbar.Content hidden="sm">
+// 在 xs 断点以上隐藏
+<Navbar.Content hideFrom="xs">
   {/* 小屏幕内容 */}
 </Navbar.Content>
 
-// 在 sm 断点以下隐藏
-<Navbar.Content visible="sm">
+// 在 xs 断点以下隐藏
+<Navbar.Content showFrom="xs">
   {/* 大屏幕内容 */}
 </Navbar.Content>
 ```
@@ -86,13 +86,13 @@
 
 ![][6.0.0]
 
-| 属性名称    | 类型 `(默认值)`                               | 描述                 |
-| ----------- | --------------------------------------------- | -------------------- |
-| as          | ElementType `('div')`                         | 为组件自定义元素类型 |
-| classPrefix | string `('navbar-content')`                   | 组件 CSS 类的前缀    |
-| children    | ReactNode                                     | 内容                 |
-| visible     | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | 在指定断点显示内容   |
-| hidden      | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' | 在指定断点隐藏内容   |
+| 属性名称    | 类型 `(默认值)`             | 描述                 |
+| ----------- | --------------------------- | -------------------- |
+| as          | ElementType `('div')`       | 为组件自定义元素类型 |
+| classPrefix | string `('navbar-content')` | 组件 CSS 类的前缀    |
+| children    | ReactNode                   | 内容                 |
+| showFrom    | [Breakpoints][breakpoints]  | 在指定断点显示内容   |
+| hideFrom    | [Breakpoints][breakpoints]  | 在指定断点隐藏内容   |
 
 ### `<Navbar.Toggle>`
 
@@ -107,3 +107,7 @@
 继承 [`Drawer`](/zh/components/drawer)
 
 [6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+
+<!--{include:(_common/types/breakpoints.md)}-->
+
+[breakpoints]: #code-ts-breakpoints-code

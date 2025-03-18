@@ -3,9 +3,10 @@ import StyledBox from '@/internals/StyledBox';
 import { forwardRef, getSizeStyle, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Size, Color } from '@/internals/types';
+import type { Size, Color } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
 
-export interface DividerProps extends WithAsProps {
+export interface DividerProps extends BoxProps {
   /**
    * The appearance of the divider.
    */

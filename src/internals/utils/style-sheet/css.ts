@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import type { StyleProperties } from '@/internals/types';
 
 /**
@@ -27,11 +28,13 @@ export function getCssValue(value?: number | string | null, unit = 'px') {
  */
 export function mergeStyles(
   ...styles: (StyleProperties | undefined | null)[]
-): React.CSSProperties {
-  return styles.filter(Boolean).reduce<StyleProperties>((acc, style) => {
+): React.CSSProperties | undefined {
+  const mergedStyles = styles?.filter(Boolean).reduce<StyleProperties>((acc, style) => {
     if (!style) return acc;
     return { ...acc, ...style };
   }, {});
+
+  return isEmpty(mergedStyles) ? undefined : mergedStyles;
 }
 
 /**

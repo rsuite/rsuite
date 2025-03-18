@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Navbar>
       {/* Navigation content for large screens */}
-      <Navbar.Content visible="sm">
+      <Navbar.Content showFrom="xs">
         <NavbarBrand />
         <Nav>
           <Nav.Item>Docs</Nav.Item>
@@ -24,7 +24,7 @@ const App = () => {
       </Navbar.Content>
 
       {/* Drawer menu for small screens */}
-      <Navbar.Content hidden="sm">
+      <Navbar.Content hideFrom="xs">
         <Navbar.Toggle />
         <Navbar.Drawer placement="left" size="full">
           <Drawer.Header>

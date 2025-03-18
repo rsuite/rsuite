@@ -10,7 +10,7 @@ import type { Placement } from './placement';
 import type { ToArray } from './utils';
 import type { FormControlBaseProps } from './form';
 import type { AnimationEventProps } from './animation';
-import type { WithAsProps } from './shared';
+import type { BoxProps } from '@/internals/Box';
 import type { Size } from './sizes';
 import type { PickerHandle } from '@/internals/Picker/types';
 
@@ -115,7 +115,7 @@ export interface DataProps<TData> {
   childrenKey?: string;
 }
 
-export interface PickerBaseProps<L = any> extends PopupProps, WithAsProps, AnimationEventProps {
+export interface PickerBaseProps<L = any> extends PopupProps, BoxProps, AnimationEventProps {
   id?: string;
 
   /**

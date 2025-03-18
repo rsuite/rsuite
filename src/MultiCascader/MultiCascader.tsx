@@ -5,6 +5,7 @@ import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
+import Box from '@/internals/Box';
 import useActive from '../Cascader/useActive';
 import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
@@ -78,7 +79,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
   <T extends OptionValue>(props: MultiCascaderProps<T>, ref) => {
     const { propsWithDefaults, rtl } = useCustom('MultiCascader', props);
     const {
-      as: Component = 'div',
+      as,
       appearance = 'default',
       classPrefix = 'picker',
       defaultValue,
@@ -385,7 +386,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
         onExited={handleExited}
         speaker={renderTreeView}
       >
-        <Component className={classes} style={style} ref={root}>
+        <Box as={as} className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             as={toggleAs}
@@ -402,7 +403,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>
-        </Component>
+        </Box>
       </PickerToggleTrigger>
     );
   }

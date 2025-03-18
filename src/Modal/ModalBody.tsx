@@ -1,22 +1,15 @@
 import React, { useContext } from 'react';
 import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { ModalContext } from './ModalContext';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export type ModalBodyProps = WithAsProps;
+export type ModalBodyProps = BoxProps;
 
 const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
-  const {
-    as: Component = 'div',
-    classPrefix = 'modal-body',
-    className,
-    style,
-    children,
-    ...rest
-  } = props;
+  const { as, classPrefix = 'modal-body', className, style, children, ...rest } = props;
   const { withPrefix, merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
 
@@ -41,7 +34,8 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       {...rest}
       id={dialogId ? `${dialogId}-description` : undefined}
       ref={ref}
@@ -50,7 +44,7 @@ const ModalBody = forwardRef<'div', ModalBodyProps>((props, ref) => {
     >
       {buttonElement}
       {children}
-    </Component>
+    </Box>
   );
 });
 

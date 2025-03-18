@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps, Size } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
+import type { Size } from '@/internals/types';
 
 export const InputGroupContext = React.createContext<{
   onFocus: () => void;
@@ -12,7 +13,7 @@ export const InputGroupContext = React.createContext<{
   size?: Size;
 } | null>(null);
 
-export interface InputGroupProps extends WithAsProps {
+export interface InputGroupProps extends BoxProps {
   /** Sets the composition content internally */
   inside?: boolean;
 
@@ -38,7 +39,7 @@ const Subcomponents = {
 const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputGroup', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'input-group',
     className,
     disabled,
@@ -79,9 +80,9 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
 
   return (
     <InputGroupContext.Provider value={contextValue}>
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} {...rest} ref={ref} className={classes}>
         {renderChildren()}
-      </Component>
+      </Box>
     </InputGroupContext.Provider>
   );
 }, Subcomponents);

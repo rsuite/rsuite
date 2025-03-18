@@ -28,9 +28,9 @@ const App = () => {
       <hr />
       <VStack>
         <CheckPicker data={data} loading size={size} />
-        <CheckPicker data={data} loading style={{ width: 200 }} size={size} />
+        <CheckPicker data={data} loading w={200} size={size} />
         <CheckPicker label="User" data={data} loading size={size} />
-        <CheckPicker label="User" data={data} loading style={{ width: 200 }} size={size} />
+        <CheckPicker label="User" data={data} loading w={200} size={size} />
       </VStack>
     </>
   );

@@ -6,11 +6,11 @@ import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
 import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
 
 export interface BoxProps extends WithAsProps {
-  /** Breakpoint below which the component is hidden with `display: none` */
-  visible?: Breakpoints;
+  /** Breakpoint below which the component is shown with `display: block` */
+  showFrom?: Breakpoints;
 
   /** Breakpoint above which the component is hidden with `display: none` */
-  hidden?: Breakpoints;
+  hideFrom?: Breakpoints;
 
   /** Display property */
   display?: CSS['display'];
@@ -38,7 +38,10 @@ export interface BoxProps extends WithAsProps {
   h?: CSS['height'];
 
   /** Box Color */
-  color?: ColorScheme | CSS['color'];
+  c?: ColorScheme | CSS['color'];
+
+  /** Box Border */
+  bd?: CSS['border'];
 
   /** Box Background */
   bg?: ColorScheme | CSS['backgroundColor'];
@@ -46,28 +49,31 @@ export interface BoxProps extends WithAsProps {
   /** Box Border Radius */
   rounded?: Size | CSS['borderRadius'] | 'full';
 
-  /** Box Border */
-  border?: CSS['border'];
-
   /** Box Shadow */
   shadow?: Size | CSS['boxShadow'];
 }
 
+/**
+ * Box component is the base component for all components,
+ * providing shorthand for style properties.
+ *
+ * @see https://rsuitejs.com/components/box
+ */
 const Box = forwardRef<'div', BoxProps>((props, ref) => {
-  const { as: Component = 'div', className, children, visible, hidden, style, ...rest } = props;
+  const { as: Component = 'div', className, children, showFrom, hideFrom, style, ...rest } = props;
 
   const boxProps = extractBoxProps(rest);
   const domProps = omitBoxProps(rest);
   const boxCSSVars = getBoxCSSVariables(boxProps);
   const boxStyle = mergeStyles(style, boxCSSVars);
-  const isBox = !isEmpty(boxCSSVars) || visible || hidden;
+  const isBox = !isEmpty(boxCSSVars) || showFrom || hideFrom;
 
   return (
     <Component
       ref={ref}
       data-rs={isBox ? 'box' : undefined}
-      data-visible-from={visible}
-      data-hidden-from={hidden}
+      data-visible-from={showFrom}
+      data-hidden-from={hideFrom}
       className={className}
       style={boxStyle}
       {...domProps}

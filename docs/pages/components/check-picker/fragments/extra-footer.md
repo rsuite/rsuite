@@ -27,7 +27,7 @@ const App = () => {
         data={data}
         placeholder="Select"
         ref={picker}
-        style={{ width: 224 }}
+        w={224}
         value={value}
         onChange={handleChange}
         renderExtraFooter={() => (

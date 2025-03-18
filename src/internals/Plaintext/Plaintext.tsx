@@ -1,12 +1,12 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
 type LocaleKey = 'unfilled' | 'notSelected' | 'notUploaded';
 
-export interface PlaintextProps extends WithAsProps {
+export interface PlaintextProps extends BoxProps {
   placeholder?: React.ReactNode;
   localeKey?: LocaleKey;
 }
@@ -18,7 +18,7 @@ export interface PlaintextProps extends WithAsProps {
 const Plaintext = forwardRef<'div', PlaintextProps>((props, ref) => {
   const { getLocale } = useCustom();
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'plaintext',
     className,
     children,
@@ -31,9 +31,9 @@ const Plaintext = forwardRef<'div', PlaintextProps>((props, ref) => {
   const classes = merge(className, withPrefix({ empty: !children }));
 
   return (
-    <Component role="text" {...rest} ref={ref} className={classes}>
+    <Box as={as} role="text" {...rest} ref={ref} className={classes}>
       {children ? children : placeholder}
-    </Component>
+    </Box>
   );
 });
 

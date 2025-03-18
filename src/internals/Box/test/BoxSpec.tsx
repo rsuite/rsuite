@@ -22,15 +22,15 @@ describe('Box', () => {
     expect(box.tagName).to.equal('SECTION');
   });
 
-  it('Should render with visible prop (hidden below breakpoint)', () => {
-    render(<Box visible="sm">Content</Box>);
+  it('Should render with showFrom prop (hidden below breakpoint)', () => {
+    render(<Box showFrom="sm">Content</Box>);
     const box = screen.getByText('Content');
 
     expect(box).to.have.attr('data-visible-from', 'sm');
   });
 
-  it('Should render with hidden prop (hidden above br˝eakpoint)', () => {
-    render(<Box hidden="md">Content</Box>);
+  it('Should render with hideFrom prop (hidden above breakpoint)', () => {
+    render(<Box hideFrom="md">Content</Box>);
     const box = screen.getByText('Content');
 
     expect(box).to.have.attr('data-hidden-from', 'md');
@@ -45,7 +45,7 @@ describe('Box', () => {
 
   it('Should render with multiple props', () => {
     render(
-      <Box visible="sm" hidden="md" display="flex" className="custom-class">
+      <Box showFrom="sm" hideFrom="md" display="flex" className="custom-class">
         Content
       </Box>
     );
@@ -116,17 +116,17 @@ describe('Box', () => {
 
   // Color tests
   it('Should render with color prop', () => {
-    render(<Box color="red">Content</Box>);
+    render(<Box c="red">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(getCssVarValue(box, '--rs-box-color')).to.equal('var(--rs-color-red)');
+    expect(getCssVarValue(box, '--rs-box-c')).to.equal('var(--rs-color-red)');
   });
 
   it('Should render with color scheme prop', () => {
-    render(<Box color="blue.500">Content</Box>);
+    render(<Box c="blue.500">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(getCssVarValue(box, '--rs-box-color')).to.equal('var(--rs-blue-500)');
+    expect(getCssVarValue(box, '--rs-box-c')).to.equal('var(--rs-blue-500)');
   });
 
   // Background tests
@@ -168,10 +168,10 @@ describe('Box', () => {
 
   // Border tests
   it('Should render with border prop', () => {
-    render(<Box border="1px solid black">Content</Box>);
+    render(<Box bd="1px solid black">Content</Box>);
     const box = screen.getByText('Content');
 
-    expect(getStyle(box, '--rs-box-border')).to.equal('1px solid black');
+    expect(getStyle(box, '--rs-box-bd')).to.equal('1px solid black');
   });
 
   // Shadow tests
@@ -197,13 +197,13 @@ describe('Box', () => {
         m="15px"
         w="300px"
         h="200px"
-        color="blue.100"
+        c="blue.100"
         bg="red.100"
         rounded="md"
         shadow="lg"
-        border="1px solid black"
-        visible="sm"
-        hidden="md"
+        bd="1px solid black"
+        showFrom="sm"
+        hideFrom="md"
       >
         Content
       </Box>
@@ -214,11 +214,11 @@ describe('Box', () => {
     expect(getStyle(box, '--rs-box-m')).to.equal('15px');
     expect(getStyle(box, '--rs-box-w')).to.equal('300px');
     expect(getStyle(box, '--rs-box-h')).to.equal('200px');
-    expect(getCssVarValue(box, '--rs-box-color')).to.equal('var(--rs-blue-100)');
+    expect(getCssVarValue(box, '--rs-box-c')).to.equal('var(--rs-blue-100)');
     expect(getCssVarValue(box, '--rs-box-bg')).to.equal('var(--rs-red-100)');
     expect(getCssVarValue(box, '--rs-box-rounded')).to.equal('var(--rs-box-rounded-md)');
     expect(getCssVarValue(box, '--rs-box-shadow')).to.equal('var(--rs-box-shadow-lg)');
-    expect(getStyle(box, '--rs-box-border')).to.equal('1px solid black');
+    expect(getStyle(box, '--rs-box-bd')).to.equal('1px solid black');
     expect(box).to.have.attr('data-visible-from', 'sm');
     expect(box).to.have.attr('data-hidden-from', 'md');
   });

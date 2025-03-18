@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps, Size } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
+import type { Size } from '@/internals/types';
 
-export interface ButtonGroupProps extends WithAsProps {
+export interface ButtonGroupProps extends BoxProps {
   /** Display block buttongroups */
   block?: boolean;
 
@@ -39,7 +40,7 @@ export interface ButtonGroupProps extends WithAsProps {
 const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps, ref) => {
   const { propsWithDefaults } = useCustom('ButtonGroup', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'btn-group',
     role = 'group',
     className,
@@ -59,9 +60,9 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
 
   return (
     <ButtonGroupContext.Provider value={contextValue}>
-      <Component {...rest} role={role} ref={ref} className={classes}>
+      <Box as={as} {...rest} role={role} ref={ref} className={classes}>
         {children}
-      </Component>
+      </Box>
     </ButtonGroupContext.Provider>
   );
 });

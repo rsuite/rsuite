@@ -1,7 +1,17 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import { CheckPicker, Button, Checkbox, RadioGroup, Radio, VStack, HStack, Loader } from 'rsuite';
+import {
+  CheckPicker,
+  Button,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  VStack,
+  HStack,
+  Loader,
+  Box
+} from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
@@ -27,6 +37,7 @@ export default function Page() {
       sandboxFiles={[mockfile]}
       dependencies={{
         mockUsers,
+        Box,
         VStack,
         HStack,
         CheckPicker,

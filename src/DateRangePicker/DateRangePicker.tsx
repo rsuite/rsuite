@@ -13,6 +13,7 @@ import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 import Calendar from './Calendar';
+import Box from '@/internals/Box';
 import * as StaticMethods from './disabledDateUtils';
 import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
@@ -269,7 +270,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
   (props, ref) => {
     const { formatDate, propsWithDefaults } = useCustom('DateRangePicker', props);
     const {
-      as: Component = 'div',
+      as,
       classPrefix = 'picker',
       className,
       appearance = 'default',
@@ -1065,7 +1066,8 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         onExit={createChainedFunction(events.onInactive, handleExit, onExit)}
         speaker={renderCalendarOverlay}
       >
-        <Component
+        <Box
+          as={as}
           ref={root}
           className={merge(classes, { [prefix('error')]: invalidValue })}
           style={style}
@@ -1113,7 +1115,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
               />
             </InputGroup>
           )}
-        </Component>
+        </Box>
       </PickerToggleTrigger>
     );
   },
