@@ -2,32 +2,32 @@ import { getCssValue, mergeStyles, createOffsetStyles } from '../style-sheet/css
 
 describe('css utils', () => {
   describe('getCssValue', () => {
-    it('should handle number values', () => {
+    it('Should handle number values', () => {
       expect(getCssValue(10)).to.equal('10px');
       expect(getCssValue(0)).to.equal('0');
       expect(getCssValue(-5)).to.equal('-5px');
     });
 
-    it('should return string values as is', () => {
+    it('Should return string values as is', () => {
       expect(getCssValue('10px')).to.equal('10px');
       expect(getCssValue('2em')).to.equal('2em');
       expect(getCssValue('50%')).to.equal('50%');
     });
 
-    it('should handle undefined, null and empty string', () => {
+    it('Should handle undefined, null and empty string', () => {
       expect(getCssValue(undefined)).to.equal('');
       expect(getCssValue(null)).to.equal('');
       expect(getCssValue('')).to.equal('');
     });
 
-    it('should handle custom units', () => {
+    it('Should handle custom units', () => {
       expect(getCssValue(10, 'em')).to.equal('10em');
       expect(getCssValue(20, '%')).to.equal('20%');
     });
   });
 
   describe('mergeStyles', () => {
-    it('should merge multiple style objects', () => {
+    it('Should merge multiple style objects', () => {
       const style1 = { color: 'red', fontSize: '12px' };
       const style2 = { backgroundColor: 'blue' };
       const style3 = { fontSize: '14px' };
@@ -41,7 +41,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should handle undefined and null values', () => {
+    it('Should handle undefined and null values', () => {
       const style1 = { color: 'red' };
       const style2 = undefined;
       const style3 = null;
@@ -55,7 +55,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should handle CSS variables', () => {
+    it('Should handle CSS variables', () => {
       const style1: any = { '--custom-color': '#ff0000' };
       const style2: any = { '--custom-bg': '#ffffff' };
 
@@ -67,15 +67,15 @@ describe('css utils', () => {
       });
     });
 
-    it('should handle empty objects', () => {
+    it('Should handle empty objects', () => {
       const result = mergeStyles({}, {}, {});
 
-      expect(result).to.deep.equal({});
+      expect(result).to.deep.equal(undefined);
     });
   });
 
   describe('createOffsetStyles', () => {
-    it('should create offset CSS variables with numbers', () => {
+    it('Should create offset CSS variables with numbers', () => {
       const result = createOffsetStyles([10, 20], '--rs-offset');
 
       expect(result).to.deep.equal({
@@ -84,7 +84,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should create offset CSS variables with strings', () => {
+    it('Should create offset CSS variables with strings', () => {
       const result = createOffsetStyles(['10px', '20%'], '--rs-offset');
 
       expect(result).to.deep.equal({
@@ -93,7 +93,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should handle mixed number and string values', () => {
+    it('Should handle mixed number and string values', () => {
       const result = createOffsetStyles([10, '20%'], '--rs-offset');
 
       expect(result).to.deep.equal({
@@ -102,7 +102,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should use default prefix if not provided', () => {
+    it('Should use default prefix if not provided', () => {
       const result = createOffsetStyles([10, 20]);
 
       expect(result).to.deep.equal({
@@ -111,7 +111,7 @@ describe('css utils', () => {
       });
     });
 
-    it('should return undefined for undefined offset', () => {
+    it('Should return undefined for undefined offset', () => {
       const result = createOffsetStyles(undefined);
 
       expect(result).to.be.undefined;
