@@ -7,16 +7,17 @@ import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 /**
  * Props of SidenavItem component
  */
-export interface SidenavItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface SidenavItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /**
    * Whether the item is activated
    */
@@ -71,7 +72,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   }
 
   const {
-    as: Component = SafeAnchor,
+    as = SafeAnchor,
     active: activeProp,
     classPrefix = 'sidenav-item',
     children,
@@ -135,9 +136,10 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
 
               // Show tooltip when inside a collapse <Sidenav>
               return (
-                <Component
+                <Box
+                  as={as}
                   ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
-                  disabled={Component === SafeAnchor ? disabled : undefined}
+                  disabled={as === SafeAnchor ? disabled : undefined}
                   className={classes}
                   data-event-key={eventKey}
                   {...omit(rest, ['divider', 'panel'])}
@@ -151,7 +153,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
                 >
                   {clonedIcon}
                   {title}
-                </Component>
+                </Box>
               );
             }}
           </MenuItem>
@@ -187,7 +189,8 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       ref={ref as any}
       className={merge(className, withPrefix({ active: selected, disabled }))}
       onClick={handleClick}
@@ -198,7 +201,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
     >
       {clonedIcon}
       {title}
-    </Component>
+    </Box>
   );
 });
 

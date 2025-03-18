@@ -5,7 +5,7 @@ import { TagInput } from 'rsuite';
 
 const App = () => (
   <>
-    <TagInput style={{ width: 300 }} />
+    <TagInput w={300} />
   </>
 );
 

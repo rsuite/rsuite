@@ -25,7 +25,7 @@ const data = [
 ];
 
 const App = () => (
-  <VStack spacing={10} style={{ width: 224 }}>
+  <VStack spacing={10} w={224}>
     <AutoComplete size="lg" placeholder="Large" data={data} />
     <AutoComplete size="md" placeholder="Medium" data={data} />
     <AutoComplete size="sm" placeholder="Small" data={data} />

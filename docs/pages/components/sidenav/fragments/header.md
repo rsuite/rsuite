@@ -11,7 +11,7 @@ import { Sidenav, Nav, HStack, VStack, Input, InputGroup } from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 
 const Header = () => (
-  <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
+  <VStack p="10px 10px 0 10px'" spacing={12}>
     <HStack>
       <SiProtondb size={32} /> Brand
     </HStack>
@@ -25,7 +25,7 @@ const Header = () => (
 );
 
 const App = () => (
-  <Sidenav style={{ width: 240 }}>
+  <Sidenav w={240}>
     <Sidenav.Header>
       <Header />
     </Sidenav.Header>

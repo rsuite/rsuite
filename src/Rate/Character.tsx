@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import contains from 'dom-lib/contains';
 import isNil from 'lodash/isNil';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
 const characterStatus = {
   [0]: 'empty',
@@ -11,7 +11,7 @@ const characterStatus = {
   [1]: 'full'
 };
 
-interface CharacterProps extends WithAsProps {
+interface CharacterProps extends BoxProps {
   vertical?: boolean;
   status?: 0 | 0.5 | 1;
   disabled?: boolean;
@@ -24,7 +24,7 @@ const getKey = (a, b) => (contains(a, b) ? 'before' : 'after');
 
 const Character = forwardRef<'li', CharacterProps>((props, ref) => {
   const {
-    as: Component = 'li',
+    as = 'li',
     classPrefix = 'rate-character',
     className,
     children,
@@ -50,20 +50,21 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
   });
 
   return (
-    <Component
-      {...rest}
+    <Box
+      as={as}
       ref={ref}
       className={classes}
       tabIndex={0}
       onClick={disabled ? null : handleClick}
       onKeyDown={disabled ? null : onKeyDown}
       onMouseMove={disabled ? null : handleMouseMove}
+      {...rest}
     >
       <div ref={beforeRef} className={prefix('before', { vertical })}>
         {children}
       </div>
       <div className={prefix('after')}>{children}</div>
-    </Component>
+    </Box>
   );
 });
 

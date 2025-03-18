@@ -30,7 +30,7 @@ const App = () => {
       return (
         <Input
           size="xs"
-          style={{ width: 70 }}
+          w={70}
           value={inputValue}
           onChange={setInputValue}
           onBlur={addTag}

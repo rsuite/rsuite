@@ -9,12 +9,10 @@ const AnimatedPanel = React.forwardRef((props, ref) => (
     ref={ref}
     shaded
     bordered={false}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #4CAF50, #2196F3)',
-      width: 200,
-      height: 160
-    }}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
     <div>
       <Card.Header>Bounce Animation</Card.Header>

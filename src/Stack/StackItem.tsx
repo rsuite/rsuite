@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
 
-export interface StackItemProps extends WithAsProps {
+export interface StackItemProps extends BoxProps {
   alignSelf?: React.CSSProperties['alignSelf'];
   flex?: React.CSSProperties['flex'];
   grow?: React.CSSProperties['flexGrow'];
@@ -19,7 +19,7 @@ export interface StackItemProps extends WithAsProps {
  */
 const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'stack-item',
     style,
     className,
@@ -44,7 +44,7 @@ const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
     cssVar('basis', basis)
   );
 
-  return <Component ref={ref} className={classes} style={styles} {...rest} />;
+  return <Box as={as} ref={ref} className={classes} style={styles} {...rest} />;
 });
 
 StackItem.displayName = 'StackItem';

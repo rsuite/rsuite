@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Color, HTMLPropsWithoutChange } from '@/internals/types';
+import { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface RadioProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
+export interface RadioProps<T = string | number> extends BoxProps, HTMLPropsWithoutChange {
   /**
    * The color of the radio when checked
    *
@@ -93,7 +94,7 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   } = radioContext ?? {};
 
   const {
-    as: Component = 'div',
+    as,
     title,
     className,
     children,
@@ -145,9 +146,9 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
 
   if (plaintext) {
     return checked ? (
-      <Component {...restProps} ref={ref} className={classes}>
+      <Box as={as} ref={ref} className={classes} {...restProps}>
         {children}
-      </Component>
+      </Box>
     ) : null;
   }
 
@@ -173,7 +174,7 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   );
 
   return (
-    <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
+    <Box as={as} ref={ref} onClick={onClick} className={classes} {...restProps}>
       <div className={prefix`checker`}>
         {children ? (
           <label title={title}>
@@ -186,7 +187,7 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
           control
         )}
       </div>
-    </Component>
+    </Box>
   );
 });
 

@@ -19,13 +19,7 @@ const data = mockUsers(100)
   .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
 const App = () => (
-  <TagPicker
-    data={data}
-    groupBy="firstLetter"
-    labelKey="firstName"
-    valueKey="name"
-    style={{ width: 300 }}
-  />
+  <TagPicker data={data} groupBy="firstLetter" labelKey="firstName" valueKey="name" w={300} />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

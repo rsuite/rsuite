@@ -4,7 +4,7 @@
 import { Input, Whisper, InputGroup, Tooltip, VStack } from 'rsuite';
 
 const App = () => (
-  <VStack style={{ width: 300 }}>
+  <VStack w={300}>
     <InputGroup inside>
       <Input />
       <InputGroup.Addon>

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, InputGroup, Input, Toggle, SelectPicker, HStack } from 'rsuite';
+import { Form, InputGroup, Input, Toggle, SelectPicker, HStack, Box } from 'rsuite';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 
 const errorPlacementData = [
@@ -49,12 +49,12 @@ const App = () => {
       </Form>
       <hr />
 
-      <div className="rs-form-control-wrapper" style={{ width: 300 }}>
+      <Box className="rs-form-control-wrapper" w={300}>
         <Input placeholder="Use Form.ErrorMessage" />
         <Form.ErrorMessage show={errorVisible} placement={errorPlacement}>
           {errorMessage}
         </Form.ErrorMessage>
-      </div>
+      </Box>
 
       <hr />
       <HStack spacing={20}>

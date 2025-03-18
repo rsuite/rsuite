@@ -8,13 +8,13 @@ const App = () => {
   const [isoWeek, setIsoWeek] = React.useState(false);
   const [showWeekNumbers, setShowWeekNumbers] = React.useState(true);
   return (
-    <HStack wrap divider={<Divider vertical />} spacing={10} style={{ height: 320 }}>
+    <HStack wrap divider={<Divider vertical />} spacing={10} h={320}>
       <Calendar
         compact
         weekStart={weekStart}
         showWeekNumbers={showWeekNumbers}
         isoWeek={isoWeek}
-        style={{ width: 320 }}
+        w={320}
       />
 
       <VStack spacing={20}>

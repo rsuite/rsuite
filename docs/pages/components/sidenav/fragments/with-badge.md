@@ -17,7 +17,7 @@ const NavItem = ({ icon, children, badge }) => (
 );
 
 const App = () => (
-  <Sidenav style={{ width: 240 }}>
+  <Sidenav w={240}>
     <Sidenav.Body>
       <Nav>
         <NavItem icon={<NoticeIcon />} badge={<Badge content={15} />}>

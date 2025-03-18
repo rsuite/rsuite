@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
-import type { WithAsProps, Color } from '@/internals/types';
+import type { Color } from '@/internals/types';
 import type { CommonLocale } from '../locales';
 
-export interface TagProps extends WithAsProps {
+export interface TagProps extends BoxProps {
   /** Different sizes */
   size?: 'lg' | 'md' | 'sm';
 
@@ -35,7 +36,7 @@ export interface TagProps extends WithAsProps {
 const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
   const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'tag',
     size = 'md',
     color,
@@ -58,7 +59,7 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
   );
 
   return (
-    <Component ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       <span className={prefix`text`}>{children}</span>
       {closable && (
         <CloseButton
@@ -68,7 +69,7 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
           locale={{ closeLabel: remove }}
         />
       )}
-    </Component>
+    </Box>
   );
 });
 

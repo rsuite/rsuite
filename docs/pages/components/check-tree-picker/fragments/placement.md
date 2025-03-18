@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker } from 'rsuite';
+import { CheckTreePicker, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -14,7 +14,7 @@ const data = mockTreeData({
 
 const CustomTreePicker = ({ placement, ...rest }) => (
   <CheckTreePicker
-    style={{ width: 150 }}
+    w={150}
     defaultExpandAll
     data={data}
     placement={placement}
@@ -73,11 +73,15 @@ const App = () => (
     <hr />
     <CustomTreePicker placement="auto" />
     <hr />
-    <CustomTreePicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
-    <CustomTreePicker placement="autoVerticalEnd" style={{ width: 200 }} />
+    <HStack>
+      <CustomTreePicker placement="autoVerticalStart" w={200} />
+      <CustomTreePicker placement="autoVerticalEnd" w={200} />
+    </HStack>
     <hr />
-    <CustomTreePicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
-    <CustomTreePicker placement="autoHorizontalEnd" style={{ width: 200 }} />
+    <HStack>
+      <CustomTreePicker placement="autoHorizontalStart" w={200} />
+      <CustomTreePicker placement="autoHorizontalEnd" w={200} />
+    </HStack>
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -4,6 +4,7 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
+import Box from '@/internals/Box';
 import { PickerLocale } from '../locales';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import {
@@ -108,7 +109,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
   <T extends number | string>(props: SelectPickerProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('SelectPicker', props);
     const {
-      as: Component = 'div',
+      as,
       appearance = 'default',
       data = emptyArray,
       valueKey = 'value',
@@ -362,7 +363,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderPopup}
       >
-        <Component className={classes} style={style} ref={root}>
+        <Box as={as} className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             ref={target}
@@ -380,7 +381,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>
-        </Component>
+        </Box>
       </PickerToggleTrigger>
     );
   }

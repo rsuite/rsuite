@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import ListContext from './ListContext';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
 import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
-export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface ListItemProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
   /* Index of list item, for sort */
   index?: number;
 
@@ -25,7 +25,7 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
  */
 const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     children,
     className,
     classPrefix = 'list-item',
@@ -55,15 +55,16 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
   const classes = merge(className, withPrefix(size, { disabled, bordered }));
 
   return (
-    <Component
+    <Box
+      as={as}
       role="listitem"
       aria-disabled={disabled}
-      {...rest}
       ref={mergeRefs(listItemRef as any, ref)}
       className={classes}
+      {...rest}
     >
       {children}
-    </Component>
+    </Box>
   );
 });
 

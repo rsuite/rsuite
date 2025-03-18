@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface ListProps extends WithAsProps, SortConfig {
+export interface ListProps extends BoxProps, SortConfig {
   /**
    * Size of list item.
    */
@@ -48,7 +48,7 @@ const Subcomponents = {
 const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('List', props);
   const {
-    as: Component = 'div',
+    as,
     autoScroll = true,
     bordered,
     classPrefix = 'list',
@@ -84,16 +84,17 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
     [bordered, register, size]
   );
   return (
-    <Component
+    <Box
+      as={as}
       role="list"
-      {...rest}
       ref={mergeRefs(containerRef, ref)}
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
+      {...rest}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
-    </Component>
+    </Box>
   );
 }, Subcomponents);
 

@@ -5,7 +5,7 @@ import { Slider } from 'rsuite';
 
 const App = () => (
   <>
-    <Slider style={{ width: 200 }} />
+    <Slider w={200} />
     <hr />
     <Slider style={{ height: 200 }} vertical />
   </>

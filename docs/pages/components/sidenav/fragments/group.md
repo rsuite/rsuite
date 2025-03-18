@@ -12,7 +12,7 @@ import GearIcon from '@rsuite/icons/Gear';
 import MoneyIcon from '@rsuite/icons/Money';
 
 const App = () => (
-  <Sidenav style={{ width: 240 }}>
+  <Sidenav w={240}>
     <Sidenav.Body>
       <Nav>
         <Nav.Item panel>

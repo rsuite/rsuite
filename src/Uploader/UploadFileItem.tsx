@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
-import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
 
-export interface UploadFileItemProps extends WithAsProps {
+export interface UploadFileItemProps extends BoxProps {
   file: FileType;
   listType?: 'text' | 'picture-text' | 'picture';
   disabled?: boolean;
@@ -51,7 +51,7 @@ export const formatSize = (size = 0): string => {
 
 const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     disabled,
     allowReupload = true,
     file,
@@ -281,34 +281,34 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
 
   if (listType === 'picture') {
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} {...rest} ref={ref} className={classes}>
         {renderIcon()}
         {renderPreview()}
         {renderErrorStatus()}
         {renderRemoveButton()}
-      </Component>
+      </Box>
     );
   }
 
   if (listType === 'picture-text') {
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} {...rest} ref={ref} className={classes}>
         {renderIcon()}
         {renderPreview()}
         {renderFilePanel()}
         {renderProgressBar()}
         {renderRemoveButton()}
-      </Component>
+      </Box>
     );
   }
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} {...rest} ref={ref} className={classes}>
       {renderIcon()}
       {renderFilePanel()}
       {renderProgressBar()}
       {renderRemoveButton()}
-    </Component>
+    </Box>
   );
 });
 

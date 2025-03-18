@@ -18,7 +18,7 @@ const App = () => (
       virtualized
       defaultExpandAll
       data={data}
-      style={{ width: 246 }}
+      w={246}
       renderExtraFooter={() => (
         <div
           style={{

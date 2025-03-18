@@ -2,10 +2,10 @@ import React, { isValidElement, cloneElement } from 'react';
 import get from 'lodash/get';
 import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
 
-export interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
+export interface PanelHeaderProps extends BoxProps, React.HTMLAttributes<HTMLHeadingElement> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;
@@ -18,7 +18,7 @@ export interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTML
 
 const PanelHeader = (props: PanelHeaderProps) => {
   const {
-    as: Component = Heading,
+    as = Heading,
     classPrefix = 'panel',
     className,
     children,
@@ -45,7 +45,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
   }
 
   return (
-    <Component level={2} className={merge(className, prefix('header'))} {...rest}>
+    <Box as={as} level={2} className={merge(className, prefix('header'))} {...rest}>
       {collapsible ? (
         <AccordionButton
           id={buttonId}
@@ -61,7 +61,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
       ) : (
         headerElement
       )}
-    </Component>
+    </Box>
   );
 };
 

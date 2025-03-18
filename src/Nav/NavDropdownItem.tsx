@@ -7,11 +7,12 @@ import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { DeprecatedDropdownItemProps } from '../Dropdown/types';
 
 export interface NavDropdownItemProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     DeprecatedDropdownItemProps,
     HTMLPropsWithoutSelect {
   /** Active the current option */
@@ -47,17 +48,17 @@ const NavDropdownItem = forwardRef<'li', NavDropdownItemProps>((props, ref) => {
   }
 
   const {
+    as = 'li',
+    active: activeProp,
     classPrefix = 'dropdown-item',
     className,
-    active: activeProp,
     eventKey,
-    onSelect,
     icon,
-    as: Component = 'li',
     divider,
     panel,
     children,
     disabled,
+    onSelect,
     ...restProps
   } = props;
 
@@ -75,7 +76,7 @@ const NavDropdownItem = forwardRef<'li', NavDropdownItemProps>((props, ref) => {
     [onSelect, eventKey, onSelectFromNav]
   );
 
-  const renderDropdownItem = useRenderMenuItem(Component);
+  const renderDropdownItem = useRenderMenuItem(as);
 
   if (divider) {
     return renderDropdownItem({

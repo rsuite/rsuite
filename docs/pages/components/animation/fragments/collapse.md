@@ -9,22 +9,14 @@ const AnimatedPanel = React.forwardRef((props, ref) => (
     ref={ref}
     shaded
     bordered={false}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #4CAF50, #2196F3)',
-      width: 240,
-      height: 120
-    }}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
     <div>
       <Card.Header>Collapse Animation</Card.Header>
-      <Card.Body
-        style={{
-          width: 240
-        }}
-      >
-        Demonstrates vertical and horizontal collapse transitions.
-      </Card.Body>
+      <Card.Body w={240}>Demonstrates vertical and horizontal collapse transitions.</Card.Body>
     </div>
   </Card>
 ));
@@ -42,14 +34,14 @@ const App = () => {
       <hr />
 
       <HStack spacing={16} alignItems="flex-start">
-        <VStack style={{ minWidth: 240 }}>
+        <VStack w={240}>
           <Text>Vertical Collapse</Text>
           <Animation.Collapse in={show}>
             {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
           </Animation.Collapse>
         </VStack>
 
-        <VStack style={{ minWidth: 240 }}>
+        <VStack w={240}>
           <Text>Horizontal Collapse</Text>
           <Animation.Collapse in={show} dimension="width">
             {(props, ref) => <AnimatedPanel {...props} ref={ref} />}

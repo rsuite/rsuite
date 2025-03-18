@@ -1,11 +1,11 @@
 import React from 'react';
 import Mark from './Mark';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { precisionMath } from './utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface GraduatedProps extends WithAsProps {
+export interface GraduatedProps extends BoxProps {
   step: number;
   min: number;
   max: number;
@@ -16,7 +16,7 @@ export interface GraduatedProps extends WithAsProps {
 
 const Graduated = forwardRef<'div', GraduatedProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     step,
     min,
     max,
@@ -24,7 +24,8 @@ const Graduated = forwardRef<'div', GraduatedProps>((props, ref) => {
     value,
     classPrefix = 'slider',
     className,
-    renderMark
+    renderMark,
+    ...rest
   } = props;
   const { merge, prefix } = useStyles(classPrefix);
   const activeIndexs: number[] = [];
@@ -67,9 +68,9 @@ const Graduated = forwardRef<'div', GraduatedProps>((props, ref) => {
   const classes = merge(className, prefix('graduator'));
 
   return (
-    <Component ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       <ol>{graduatedItems}</ol>
-    </Component>
+    </Box>
   );
 });
 

@@ -9,12 +9,10 @@ const AnimatedPanel = React.forwardRef((props, ref) => (
     ref={ref}
     shaded
     bordered={false}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #4CAF50, #2196F3)',
-      width: 240,
-      height: 120
-    }}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
     <div>
       <Card.Header>Slide Animation</Card.Header>
@@ -35,10 +33,18 @@ const App = () => {
   return (
     <div>
       <ButtonToolbar>
-        <Button appearance="primary" onClick={() => onChange('left')}>Slide Left</Button>
-        <Button appearance="primary" onClick={() => onChange('right')}>Slide Right</Button>
-        <Button appearance="primary" onClick={() => onChange('top')}>Slide Top</Button>
-        <Button appearance="primary" onClick={() => onChange('bottom')}>Slide Bottom</Button>
+        <Button appearance="primary" onClick={() => onChange('left')}>
+          Slide Left
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('right')}>
+          Slide Right
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('top')}>
+          Slide Top
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('bottom')}>
+          Slide Bottom
+        </Button>
       </ButtonToolbar>
       <hr />
       <div>

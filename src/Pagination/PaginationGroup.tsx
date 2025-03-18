@@ -4,6 +4,7 @@ import Pagination, { PaginationProps } from './Pagination';
 import Divider from '../Divider';
 import Input from '../Input';
 import LimitPicker from './LimitPicker';
+import Box from '@/internals/Box';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, tplTransform } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
@@ -63,7 +64,7 @@ const defaultLimitOptions = [30, 50, 100];
  */
 const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     activePage: activePageProp,
     classPrefix = 'pagination-group',
     className,
@@ -114,7 +115,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
   });
 
   return (
-    <Component ref={ref} className={classes} style={style}>
+    <Box as={as} ref={ref} className={classes} style={style}>
       {layout.map((key, index) => {
         const onlyKey = `${key}${index}`;
 
@@ -180,7 +181,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
             return key;
         }
       })}
-    </Component>
+    </Box>
   );
 });
 

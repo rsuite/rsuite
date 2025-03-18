@@ -1,10 +1,10 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface PlaceholderGraphProps extends WithAsProps {
+export interface PlaceholderGraphProps extends BoxProps {
   /**
    * The height of the graph.
    *
@@ -32,7 +32,7 @@ export interface PlaceholderGraphProps extends WithAsProps {
 const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'placeholder',
     width,
@@ -42,15 +42,16 @@ const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withPrefix } = useStyles(classPrefix);
+  const { merge, cssVar, withPrefix } = useStyles(classPrefix);
 
   const classes = merge(className, withPrefix('graph', { active }));
-  const styles = {
-    '--rs-placeholder-graph-width': getCssValue(width),
-    '--rs-placeholder-graph-height': getCssValue(height)
-  } as React.CSSProperties;
+  const styles = mergeStyles(
+    style,
+    cssVar('graph-width', width, getCssValue),
+    cssVar('graph-height', height, getCssValue)
+  );
 
-  return <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)} />;
+  return <Box as={as} ref={ref} className={classes} style={styles} {...rest} />;
 });
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';

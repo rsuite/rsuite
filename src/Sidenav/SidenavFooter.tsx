@@ -1,4 +1,5 @@
 import { createComponent, ComponentProps } from '@/internals/utils';
+
 export type SidenavFooterProps = ComponentProps;
 
 /**
@@ -6,6 +7,6 @@ export type SidenavFooterProps = ComponentProps;
  *
  * @see https://rsuitejs.com/components/sidenav
  */
-const SidenavFooter = createComponent({ name: 'SidenavFooter' });
+const SidenavFooter = createComponent<'div', SidenavFooterProps>({ name: 'SidenavFooter' });
 
 export default SidenavFooter;

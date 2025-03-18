@@ -8,9 +8,10 @@ import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
 
-export interface MenuItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface MenuItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
 
@@ -39,7 +40,7 @@ export interface MenuItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSel
 
 const MenuItem = forwardRef<'li', MenuItemProps>((props: MenuItemProps, ref: React.Ref<any>) => {
   const {
-    as: Component = 'li',
+    as = 'li',
     active: activeProp,
     classPrefix = 'menu-item',
     className,
@@ -66,7 +67,7 @@ const MenuItem = forwardRef<'li', MenuItemProps>((props: MenuItemProps, ref: Rea
 
   const selected = activeProp || (!isNil(eventKey) && shallowEqual(menu?.activeKey, eventKey));
 
-  const renderMenuItem = useRenderMenuItem(Component);
+  const renderMenuItem = useRenderMenuItem(as);
 
   return (
     <MenuItemBase selected={selected} disabled={disabled} onActivate={handleSelectItem}>

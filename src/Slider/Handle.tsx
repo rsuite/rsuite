@@ -2,11 +2,11 @@ import React from 'react';
 import Tooltip from '../Tooltip';
 import Input from './Input';
 import useDrag from './useDrag';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
-export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
+export interface HandleProps extends BoxProps, React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   vertical?: boolean;
   tooltip?: boolean;
@@ -23,7 +23,7 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
 
 const Handle = forwardRef<'div', HandleProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'slider',
     className,
     disabled,
@@ -62,7 +62,8 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
   const handleClasses = merge(className, prefix('handle'), { active });
 
   return (
-    <Component
+    <Box
+      as={as}
       role={role}
       tabIndex={tabIndex}
       ref={mergeRefs(ref, rootRef)}
@@ -87,7 +88,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
       )}
       <Input tabIndex={-1} value={value} {...rest} />
       {children}
-    </Component>
+    </Box>
   );
 });
 

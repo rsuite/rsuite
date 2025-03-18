@@ -26,7 +26,7 @@ const App = () => {
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <Stack style={{ width: 300 }} alignItems="center" justifyContent="center">
+        <Stack w={300} alignItems="center" justifyContent="center">
           <Toggle
             loading
             checked={checked}

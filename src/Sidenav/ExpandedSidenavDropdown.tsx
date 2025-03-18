@@ -4,15 +4,16 @@ import NavContext from '../Nav/NavContext';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '@/internals/Disclosure/Disclosure';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useInternalId } from '@/internals/hooks';
 import { forwardRef, kebabPlace, mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { NavMenuContext } from '../Nav/NavMenu';
-import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { PlacementCorners } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface SidenavDropdownProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
@@ -54,7 +55,7 @@ export interface SidenavDropdownProps<T = any>
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
 
   /** Custom Toggle */
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
 
   /** The callback function that the menu closes */
   onClose?: () => void;
@@ -78,15 +79,12 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
   }
 
   const {
-    as: Component = 'div',
+    as,
     title,
     children,
     className,
     menuStyle,
     disabled,
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    renderTitle,
-    renderToggle,
     classPrefix = 'dropdown',
     placement = 'bottomStart',
     toggleClassName,
@@ -95,9 +93,10 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
     toggleAs,
     noCaret,
     style,
+    open: openProp,
+    renderToggle,
     onOpen,
     onClose,
-    open: openProp,
     onToggle,
     ...rest
   } = props;
@@ -146,7 +145,8 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
         );
 
         return (
-          <Component
+          <Box
+            as={as}
             ref={mergeRefs(ref, containerRef as any)}
             style={style}
             className={classes}
@@ -178,7 +178,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
                 </SidenavDropdownCollapse>
               )}
             </Disclosure.Content>
-          </Component>
+          </Box>
         );
       }}
     </Disclosure>

@@ -57,7 +57,7 @@ const App = () => {
           <HStack spacing={16}>
             <HStack>
               <Label>data:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setSize} value={size} />
                 <InputGroup.Addon>rows</InputGroup.Addon>
               </InputGroup>
@@ -65,7 +65,7 @@ const App = () => {
 
             <HStack>
               <Label>minHeight:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setMinHeight} value={minHeight} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>
@@ -75,7 +75,7 @@ const App = () => {
           <HStack spacing={16}>
             <HStack>
               <Label>height:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setHeight} value={height} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>
@@ -83,7 +83,7 @@ const App = () => {
 
             <HStack>
               <Label>maxHeight:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setMaxHeight} value={maxHeight} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>

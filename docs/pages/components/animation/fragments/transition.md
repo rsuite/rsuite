@@ -9,12 +9,10 @@ const AnimatedPanel = React.forwardRef(({ ...props }, ref) => (
     ref={ref}
     shaded
     bordered={false}
-    style={{
-      color: '#fff',
-      background: 'linear-gradient(45deg, #4CAF50, #2196F3)',
-      width: 240,
-      height: 120
-    }}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
     <div>
       <Card.Header>Custom Transition</Card.Header>
@@ -27,7 +25,7 @@ const App = () => {
   const [show, setShow] = React.useState(true);
   const [effect, setEffect] = React.useState('zoom');
 
-  const onChange = (newEffect) => {
+  const onChange = newEffect => {
     setShow(!show);
     setEffect(newEffect);
   };
@@ -36,10 +34,18 @@ const App = () => {
     <div>
       <Styles />
       <ButtonToolbar>
-        <Button appearance="primary" onClick={() => onChange('zoom')}>Zoom</Button>
-        <Button appearance="primary" onClick={() => onChange('flip')}>Flip</Button>
-        <Button appearance="primary" onClick={() => onChange('rotate')}>Rotate</Button>
-        <Button appearance="primary" onClick={() => onChange('bounce')}>Bounce</Button>
+        <Button appearance="primary" onClick={() => onChange('zoom')}>
+          Zoom
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('flip')}>
+          Flip
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('rotate')}>
+          Rotate
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('bounce')}>
+          Bounce
+        </Button>
       </ButtonToolbar>
       <hr />
       <div>

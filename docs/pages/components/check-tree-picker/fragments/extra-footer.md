@@ -30,7 +30,7 @@ const App = () => {
       data={data}
       value={value}
       onChange={setValue}
-      style={{ width: 280 }}
+      w={280}
       renderExtraFooter={() => (
         <ExtraFooter>
           <Checkbox inline onChange={handleCheckAll}>

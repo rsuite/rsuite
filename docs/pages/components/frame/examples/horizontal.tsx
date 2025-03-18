@@ -36,17 +36,20 @@ const NavHeader = ({ expanded }) => {
   }
 
   return (
-    <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
-      <HStack>
-        <SiProtondb size={32} /> Brand
-      </HStack>
-      <InputGroup inside size="sm">
-        <InputGroup.Addon>
-          <SearchIcon />
-        </InputGroup.Addon>
-        <Input type="search" placeholder="Search here..." />
-      </InputGroup>
-    </VStack>
+    <>
+      {/* @ts-ignore */}
+      <VStack p="10px 10px 0 10px" spacing={12}>
+        <HStack>
+          <SiProtondb size={32} /> Brand
+        </HStack>
+        <InputGroup inside size="sm">
+          <InputGroup.Addon>
+            <SearchIcon />
+          </InputGroup.Addon>
+          <Input type="search" placeholder="Search here..." />
+        </InputGroup>
+      </VStack>
+    </>
   );
 };
 
@@ -58,12 +61,10 @@ const App = () => {
 
   return (
     <Container>
-      <Sidebar
-        style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
-        width={isExpanded ? 260 : 56}
-        collapsible
-      >
-        <Sidenav expanded={isExpanded} defaultOpenKeys={['3', '4']} style={{ height: '100%' }}>
+      {/* @ts-ignore */}
+      <Sidebar h="100vh" width={isExpanded ? 260 : 56} collapsible>
+        {/* @ts-ignore */}
+        <Sidenav expanded={isExpanded} defaultOpenKeys={['3', '4']} h="100%">
           <Sidenav.Header>
             <NavHeader expanded={isExpanded} />
           </Sidenav.Header>

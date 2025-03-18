@@ -176,12 +176,7 @@ const MegaMenuResources = ({ onClose }) => {
       </Header>
       <Content>
         <HStack alignItems="stretch">
-          <Sidenav
-            defaultOpenKeys={['1', '2']}
-            style={{
-              width: 200
-            }}
-          >
+          <Sidenav defaultOpenKeys={['1', '2']} w={200}>
             <Sidenav.Body>
               <Nav>
                 <Nav.Menu eventKey="1" title="Documents" icon={<PageIcon />}>

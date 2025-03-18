@@ -26,7 +26,7 @@ const data = [
 
 const App = () => {
   const [value, setValue] = React.useState('');
-  return <AutoComplete data={data} value={value} onChange={setValue} style={{ width: 224 }} />;
+  return <AutoComplete data={data} value={value} onChange={setValue} w={224} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

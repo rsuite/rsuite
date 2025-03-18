@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
+import Box, { BoxProps } from '@/internals/Box';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, StatusType, DisplayStateType } from '@/internals/types';
+import type { StatusType, DisplayStateType } from '@/internals/types';
 
-export interface MessageProps extends WithAsProps {
+export interface MessageProps extends BoxProps {
   /**
    * The type of the message box.
    */
@@ -69,7 +70,7 @@ export interface MessageProps extends WithAsProps {
 const Message = forwardRef<'div', MessageProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Message', props);
   const {
-    as: Component = 'div',
+    as = 'div',
     bordered,
     centered,
     className,
@@ -121,7 +122,7 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
   );
 
   return (
-    <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
+    <Box as={as} role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
       <div className={prefix`container`}>
         {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
         <div className={prefix`content`}>
@@ -130,7 +131,7 @@ const Message = forwardRef<'div', MessageProps>((props, ref) => {
         </div>
         {closable && <CloseButton onClick={handleClose} />}
       </div>
-    </Component>
+    </Box>
   );
 });
 

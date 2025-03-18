@@ -7,10 +7,11 @@ import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/uti
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
+import type { BoxProps } from '@/internals/Box';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface SidenavDropdownItemProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface SidenavDropdownItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
 
@@ -56,7 +57,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
     );
   }
   const {
-    as: Component = 'li',
+    as = 'li',
     active: activeProp,
     classPrefix = 'dropdown-item',
     children,
@@ -103,7 +104,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
     onClick: createChainedFunction(handleClick, onClick)
   };
 
-  const renderDropdownItem = useRenderMenuItem(Component);
+  const renderDropdownItem = useRenderMenuItem(as);
 
   if (divider) {
     return renderDropdownItem({

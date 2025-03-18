@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
-
-export interface PlaceholderParagraphProps extends WithAsProps {
+export interface PlaceholderParagraphProps extends BoxProps {
   /**
    * The number of rows.
    * @default 2
@@ -49,7 +48,7 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
   (props: PlaceholderParagraphProps, ref) => {
     const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
     const {
-      as: Component = 'div',
+      as,
       className,
       classPrefix = 'placeholder',
       rows = 3,
@@ -61,13 +60,14 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
       ...rest
     } = propsWithDefaults;
 
-    const { merge, prefix, withPrefix } = useStyles(classPrefix);
+    const { merge, prefix, cssVar, withPrefix } = useStyles(classPrefix);
     const graphShape = graph === true ? 'square' : graph;
 
-    const styles = {
-      '--rs-placeholder-row-height': getCssValue(rowHeight),
-      '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
-    } as React.CSSProperties;
+    const styles = mergeStyles(
+      style,
+      cssVar('row-height', rowHeight, getCssValue),
+      cssVar('row-spacing', rowSpacing, getCssValue)
+    );
 
     const rowElements = useMemo(() => {
       const rowArr: React.ReactElement[] = [];
@@ -82,14 +82,14 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
     const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
     return (
-      <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
+      <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
         {graphShape && (
           <div className={graphClasses}>
             <span className={prefix('paragraph-graph-inner')} />
           </div>
         )}
         <div className={prefix('paragraph-group')}>{rowElements}</div>
-      </Component>
+      </Box>
     );
   }
 );

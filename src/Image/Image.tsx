@@ -87,7 +87,6 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
 
   const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
-  const wrapStyles = { width, height };
 
   const image = (
     <Box
@@ -104,12 +103,16 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   );
 
   if (zoomed) {
-    return <ImageWrapper style={wrapStyles}>{image}</ImageWrapper>;
+    return (
+      <ImageWrapper w={width} h={height}>
+        {image}
+      </ImageWrapper>
+    );
   }
 
   if (placeholder) {
     return (
-      <ImageWrapper style={wrapStyles}>
+      <ImageWrapper w={width} h={height}>
         {isLoading && placeholder}
         {image}
       </ImageWrapper>

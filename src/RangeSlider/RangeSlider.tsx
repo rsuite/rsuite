@@ -5,6 +5,7 @@ import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
+import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
@@ -39,7 +40,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Component = 'div',
+    as,
     barClassName,
     className,
     classPrefix = 'slider',
@@ -341,7 +342,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   };
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar
@@ -369,7 +370,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
         {handleTitle}
       </Handle>
-    </Component>
+    </Box>
   );
 });
 

@@ -26,7 +26,7 @@ const App = () => {
   return (
     <InputPicker
       data={users}
-      style={{ width: 224 }}
+      w={224}
       labelKey="login"
       valueKey="id"
       onSearch={featUsers}

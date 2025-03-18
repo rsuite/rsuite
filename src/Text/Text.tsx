@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -67,7 +67,7 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withPrefix, merge } = useStyles(classPrefix);
+  const { withPrefix, cssVar, merge } = useStyles(classPrefix);
   const classes = merge(
     className,
     withPrefix(align, weight, transform, {
@@ -76,13 +76,7 @@ const Text = forwardRef<'p', TextProps>((props: TextProps, ref) => {
     })
   );
 
-  const styles = useMemo(
-    () =>
-      mergeStyles(style, getSizeStyle(size, 'font'), {
-        '--rs-text-max-lines': maxLines
-      }),
-    [style, size, maxLines]
-  );
+  const styles = mergeStyles(style, getSizeStyle(size, 'font'), cssVar('max-lines', maxLines));
 
   return <Box as={as} c={color} ref={ref} className={classes} style={styles} {...rest} />;
 });

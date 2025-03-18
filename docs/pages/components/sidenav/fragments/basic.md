@@ -9,7 +9,7 @@ import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
 import { Sidenav, Nav } from 'rsuite';
 
 const App = () => (
-  <Sidenav style={{ width: 240 }}>
+  <Sidenav w={240}>
     <Sidenav.Body>
       <Nav>
         <Nav.Item icon={<DashboardIcon />}>Overview</Nav.Item>

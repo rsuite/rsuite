@@ -8,15 +8,16 @@ import ExpandedSidenavDropdown from './ExpandedSidenavDropdown';
 import NavContext from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
+import Box, { BoxProps } from '@/internals/Box';
 import { NavMenuContext } from '../Nav/NavMenu';
 import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import type { PlacementCorners, WithAsProps, SanitizedHTMListProps } from '@/internals/types';
+import type { PlacementCorners, SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
-export interface SidenavDropdownProps<T = any> extends WithAsProps, SanitizedHTMListProps {
+export interface SidenavDropdownProps<T = any> extends BoxProps, SanitizedHTMListProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -53,13 +54,8 @@ export interface SidenavDropdownProps<T = any> extends WithAsProps, SanitizedHTM
    */
   open?: boolean;
 
-  /**
-   * @deprecated
-   */
-  renderTitle?: (children: React.ReactNode) => React.ReactNode;
-
   /** Custom Toggle */
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
 
   /** The callback function that the menu closes */
   onClose?: () => void;
@@ -100,11 +96,8 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
     }
 
     const {
-      as: Component = 'div',
+      as,
       title,
-      onClose,
-      onOpen,
-      onToggle,
       eventKey,
       trigger = 'click',
       placement = 'bottomStart',
@@ -116,6 +109,9 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
       children,
       menuStyle,
       style,
+      onClose,
+      onOpen,
+      onToggle,
       ...toggleProps
     } = props;
 
@@ -225,7 +221,8 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
             })
           );
           return (
-            <Component
+            <Box
+              as={as}
               ref={mergeRefs(ref, menuContainerRef)}
               className={classes}
               style={style}

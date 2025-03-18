@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack } from 'rsuite';
+import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
@@ -33,6 +33,7 @@ export default function Page() {
         Radio,
         VStack,
         HStack,
+        Box,
         FaUserGroup,
         FaUser
       }}

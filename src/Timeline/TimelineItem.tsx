@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface TimelineItemProps extends WithAsProps {
+export interface TimelineItemProps extends BoxProps {
   /**
    * Whether the last item
    *
@@ -45,7 +45,7 @@ export interface TimelineItemProps extends WithAsProps {
  */
 const TimelineItem = forwardRef<'div', TimelineItemProps>((props, ref) => {
   const {
-    as: Component = 'li',
+    as = 'li',
     children,
     classPrefix = 'timeline-item',
     last: DEPRECATED_last,
@@ -58,12 +58,12 @@ const TimelineItem = forwardRef<'div', TimelineItemProps>((props, ref) => {
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ last: DEPRECATED_last, active: INTERNAL_active }));
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       <span className={prefix('tail')} />
       <span className={prefix('dot', { 'custom-dot': dot })}>{dot}</span>
       {time && <div className={prefix('time')}>{time}</div>}
       <div className={prefix('content')}>{children}</div>
-    </Component>
+    </Box>
   );
 });
 

@@ -18,7 +18,7 @@ const App = () => (
   <TreePicker
     defaultExpandAll
     data={data}
-    style={{ width: 246 }}
+    w={246}
     renderTreeNode={nodeData => {
       return (
         <HStack>

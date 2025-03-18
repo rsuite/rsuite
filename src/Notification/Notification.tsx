@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
 import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsPropsWithoutChildren, StatusType, DisplayStateType } from '@/internals/types';
+import type { StatusType, DisplayStateType } from '@/internals/types';
 
-export interface NotificationProps extends WithAsPropsWithoutChildren {
+export interface NotificationProps extends Omit<BoxProps, 'children'> {
   children?: React.ReactNode | (() => React.ReactNode);
 
   /** Title of the message */
@@ -48,7 +49,7 @@ export interface NotificationProps extends WithAsPropsWithoutChildren {
 const Notification = forwardRef<'div', NotificationProps, any, 'children'>((props, ref) => {
   const { propsWithDefaults } = useCustom('Notification', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'notification',
     closable,
     duration = 4500,
@@ -88,7 +89,7 @@ const Notification = forwardRef<'div', NotificationProps, any, 'children'>((prop
   const classes = merge(className, withPrefix(type, { closable }));
 
   return (
-    <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
+    <Box as={as} role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
       {type && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
       <div className={prefix`content`}>
         {header && <div className={prefix('header')}>{header}</div>}
@@ -97,7 +98,7 @@ const Notification = forwardRef<'div', NotificationProps, any, 'children'>((prop
         </div>
       </div>
       {closable && <CloseButton onClick={handleClose} />}
-    </Component>
+    </Box>
   );
 });
 

@@ -15,7 +15,7 @@ const App = () => {
     <>
       <HStack spacing={20}>
         Gutter
-        <Slider value={gutter} style={{ width: 300 }} onChange={setGutter} />
+        <Slider value={gutter} w={300} onChange={setGutter} />
       </HStack>
       <hr />
       <Grid fluid>

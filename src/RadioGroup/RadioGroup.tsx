@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import Plaintext from '@/internals/Plaintext';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, PrependParameters, FormControlBaseProps } from '@/internals/types';
+import type { PrependParameters, FormControlBaseProps } from '@/internals/types';
 
 export interface RadioContextProps {
   inline?: boolean;
@@ -19,7 +20,7 @@ export interface RadioContextProps {
   >;
 }
 
-export interface RadioGroupProps<T = string | number> extends WithAsProps, FormControlBaseProps<T> {
+export interface RadioGroupProps<T = string | number> extends BoxProps, FormControlBaseProps<T> {
   /** A radio group can have different appearances */
   appearance?: 'default' | 'picker';
 
@@ -42,7 +43,7 @@ export const RadioContext = React.createContext<RadioContextProps | undefined>(v
 const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RadioGroup', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     inline,
     children,
@@ -90,9 +91,9 @@ const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
           {value ? children : null}
         </Plaintext>
       ) : (
-        <Component role="radiogroup" {...rest} ref={ref} className={classes}>
+        <Box as={as} role="radiogroup" {...rest} ref={ref} className={classes}>
           {children}
-        </Component>
+        </Box>
       )}
     </RadioContext.Provider>
   );

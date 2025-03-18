@@ -4,9 +4,8 @@ import Box, { BoxProps } from '@/internals/Box/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils/forwardRef';
 import { useCustom } from '../../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export type ComponentProps = BoxProps & WithAsProps & React.HTMLAttributes<HTMLDivElement>;
+export type ComponentProps = BoxProps & React.HTMLAttributes<HTMLDivElement>;
 
 interface Props<T extends React.ElementType> extends React.HTMLAttributes<HTMLDivElement> {
   name: string;

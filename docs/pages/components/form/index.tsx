@@ -32,7 +32,8 @@ import {
   Rate,
   Uploader,
   HStack,
-  VStack
+  VStack,
+  Box
 } from 'rsuite';
 
 import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
@@ -91,6 +92,7 @@ export default function Page() {
         Uploader,
         HStack,
         VStack,
+        Box,
         mockTreeData,
         EyeCloseIcon,
         VisibleIcon,

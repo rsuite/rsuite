@@ -34,7 +34,7 @@ const App = () => {
       data={users}
       cacheData={cacheData}
       value={value}
-      style={{ width: 300 }}
+      w={300}
       labelKey="login"
       valueKey="id"
       onChange={setValue}

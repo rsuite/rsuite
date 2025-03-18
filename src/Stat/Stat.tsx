@@ -4,12 +4,12 @@ import StatValue from './StatValue';
 import StatValueUnit from './StatValueUnit';
 import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface StatProps extends WithAsProps {
+export interface StatProps extends BoxProps {
   /**
    * Add a border to the component.
    */
@@ -32,7 +32,7 @@ const Subcomponents = {
 const Stat = forwardRef<'div', StatProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Stat', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'stat',
     className,
     children,
@@ -44,10 +44,10 @@ const Stat = forwardRef<'div', StatProps, typeof Subcomponents>((props, ref) => 
   const classes = merge(className, withPrefix({ bordered }));
 
   return (
-    <Component className={classes} ref={ref} {...rest}>
+    <Box as={as} className={classes} ref={ref} {...rest}>
       {icon && <div className={prefix('icon')}>{icon}</div>}
       <dl className={prefix('body')}>{children}</dl>
-    </Component>
+    </Box>
   );
 }, Subcomponents);
 

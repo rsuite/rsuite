@@ -1,13 +1,13 @@
 import React, { useCallback, useContext } from 'react';
 import CheckIcon from '@rsuite/icons/Check';
-import Stack from '../Stack';
+import Box, { BoxProps } from '@/internals/Box';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useStyles, useControlled, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
+import type { HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface RadioTileProps<T = string | number> extends WithAsProps, HTMLPropsWithoutChange {
+export interface RadioTileProps<T = string | number> extends BoxProps, HTMLPropsWithoutChange {
   /** Additional description, if needed*/
   children?: React.ReactNode;
 
@@ -41,7 +41,7 @@ export interface RadioTileProps<T = string | number> extends WithAsProps, HTMLPr
  * @version 5.35.0
  * @see https://rsuitejs.com/components/radio-tile/
  */
-const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
+const RadioTile = forwardRef<'label', RadioTileProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RadioTile', props);
   const {
     value: groupValue,
@@ -51,7 +51,7 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   } = useContext(RadioTileContext);
 
   const {
-    as: Component = Stack,
+    as = 'label',
     children,
     classPrefix = 'radio-tile',
     checked: checkedProp,
@@ -88,7 +88,7 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
   const radioId = useUniqueId('radio-');
 
   return (
-    <Component spacing={6} {...restProps} ref={ref} className={classes} as="label">
+    <Box as={as} ref={ref} className={classes} {...restProps}>
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
         <input
@@ -115,7 +115,7 @@ const RadioTile = forwardRef<typeof Stack, RadioTileProps>((props, ref) => {
           <CheckIcon className={prefix('mark-icon')} />
         </div>
       </div>
-    </Component>
+    </Box>
   );
 });
 

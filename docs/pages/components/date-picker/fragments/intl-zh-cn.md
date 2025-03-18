@@ -6,7 +6,7 @@ import { DatePicker } from 'rsuite';
 const App = () => (
   <DatePicker
     format="yyyy-MM-dd HH:mm:ss"
-    style={{ width: 260 }}
+    w={260}
     locale={{
       sunday: '日',
       monday: '一',

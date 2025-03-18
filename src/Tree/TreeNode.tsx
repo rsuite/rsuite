@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import TreeNodeToggle from './TreeNodeToggle';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, stringifyReactNode, mergeStyles } from '@/internals/utils';
 import { useFocusVirtualListItem, useStyles, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
@@ -40,7 +40,7 @@ interface TreeDragEventProps {
 /**
  * Props for the TreeNode component.
  */
-export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
+export interface TreeNodeProps extends BoxProps, TreeDragEventProps {
   /**
    * The layer of the node in the tree hierarchy.
    */
@@ -112,7 +112,7 @@ export interface TreeNodeProps extends WithAsProps, TreeDragEventProps {
 
 const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     label,
     layer,
     active,
@@ -198,10 +198,10 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
   const styles = virtualized ? mergeStyles(style, indentTreeNode(rtl, layer - 1)) : style;
 
   return visible ? (
-    <Component
-      {...rest}
-      ref={mergeRefs(treeItemRef, ref)}
+    <Box
+      as={as}
       role="treeitem"
+      ref={mergeRefs(treeItemRef, ref)}
       tabIndex={-1}
       aria-expanded={expanded}
       aria-label={labelStr}
@@ -221,6 +221,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
       onDragLeave={handleDragLeave}
       onDragEnd={handleDragEnd}
       onDrop={handleDrop}
+      {...rest}
     >
       <TreeNodeToggle
         aria-label={(expanded ? 'Collapse' : 'Expand') + ` ${labelStr}`}
@@ -233,7 +234,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
       <span className={prefix('label', dragStatus, { dragging })}>
         {renderTreeNode ? renderTreeNode(nodeData) : label}
       </span>
-    </Component>
+    </Box>
   ) : null;
 });
 

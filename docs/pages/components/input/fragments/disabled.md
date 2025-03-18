@@ -5,7 +5,7 @@ import { Input, InputGroup, VStack } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 
 const App = () => (
-  <VStack style={{ width: 300 }}>
+  <VStack w={300}>
     <label>Disabled:</label>
     <Input disabled value="Disabled input" />
     <InputGroup disabled>

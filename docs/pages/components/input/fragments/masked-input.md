@@ -107,7 +107,7 @@ const App = () => {
         keepCharPositions={keepCharPositions}
         placeholder={option.placeholder}
         placeholderChar={placeholderChar}
-        style={{ width: 300 }}
+        w={300}
         onChange={setValue}
       />
       <VStack spacing={10}>
@@ -126,7 +126,7 @@ const App = () => {
                 setOption(item);
                 setValue('');
               }}
-              style={{ width: 180 }}
+              w={180}
             />
           }
         />
@@ -140,7 +140,7 @@ const App = () => {
               size="sm"
               data={placeholderChars}
               onChange={setPlaceholderChar}
-              style={{ width: 180 }}
+              w={180}
             />
           }
         />

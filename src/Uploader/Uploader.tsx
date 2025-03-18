@@ -4,10 +4,10 @@ import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
 import { useStyles, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
 
 export interface FileType {
@@ -36,7 +36,7 @@ export interface UploaderInstance {
 }
 
 export interface UploaderProps
-  extends WithAsProps,
+  extends BoxProps,
     Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
   /**
    * Custom ref for Uploader
@@ -265,7 +265,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Uploader', props);
 
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'uploader',
     className,
     listType = 'text',
@@ -587,9 +587,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   }
 
   return (
-    <Component ref={rootRef} className={classes} style={style}>
+    <Box as={as} ref={rootRef} className={classes} style={style}>
       {renderList}
-    </Component>
+    </Box>
   );
 });
 
