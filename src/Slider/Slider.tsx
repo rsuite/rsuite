@@ -81,7 +81,7 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   /** Callback function that is fired when the mouseup is triggered. */
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
 
-  /** If true, tooltip will always be visible */
+  /** If true, tooltip will always be visible  even without hover */
   keepTooltipOpen?: boolean;
 }
 

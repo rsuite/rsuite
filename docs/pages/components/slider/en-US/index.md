@@ -107,6 +107,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |
 | step              | number`(1)`                     | Slide the value of one step                                      |
 | tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
+| keepTooltipOpen   | boolean`(false)`                | Whether `Tooltip` will always be visible   even without hover    |
 | value             | number                          | The current value (controlled)                                               |
 | vertical          | boolean                         | Vertical Slide                                                   |
 
@@ -131,6 +132,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |
 | renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
 | step              | number`(1)`                                            | Slide the value of one step                                                                                          |
-| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |
+| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding
+| keepTooltipOpen   | boolean`(false)`                                        | Whether `Tooltip` will always be visible   even without hover                                                                               |
 | value             | [number,number]                                        | The current value (controlled)                                                                                                   |
 | vertical          | boolean                                                | Vertical Slide                                                                                                       |
