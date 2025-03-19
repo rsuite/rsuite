@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TimePicker } from 'rsuite';
+import { TimePicker, Box } from 'rsuite';
 import { isBefore } from 'date-fns/isBefore';
 
 const App = () => (
@@ -47,10 +47,12 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const Row = ({ children, title }) => {
   return (
-    <div>
-      <label style={{ width: 120, display: 'inline-block', marginTop: 10 }}>{title}</label>
+    <Box>
+      <Box as="label" w={120} display="inline-block" mt={10}>
+        {title}
+      </Box>
       {children}
-    </div>
+    </Box>
   );
 };
 ```

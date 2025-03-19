@@ -41,60 +41,62 @@ const App = () => {
           <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
         </HStack>
         <hr />
-        <span>
-          size：
-          <SelectPicker
-            value={size}
-            onChange={setSize}
-            cleanable={false}
-            searchable={false}
-            data={[
-              { value: 'xs', label: 'xs' },
-              { value: 'sm', label: 'sm' },
-              { value: 'md', label: 'md' },
-              { value: 'lg', label: 'lg' }
-            ]}
-          />
-        </span>
+        <HStack spacing={16} wrap>
+          <HStack>
+            size：
+            <SelectPicker
+              value={size}
+              onChange={setSize}
+              cleanable={false}
+              searchable={false}
+              data={[
+                { value: 'xs', label: 'xs' },
+                { value: 'sm', label: 'sm' },
+                { value: 'md', label: 'md' },
+                { value: 'lg', label: 'lg' }
+              ]}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          limit：
-          <SelectPicker
-            value={limit}
-            onChange={setLimit}
-            cleanable={false}
-            searchable={false}
-            data={limitOptions.map(key => ({ value: key, label: key }))}
-          />
-        </span>
+          <HStack>
+            limit：
+            <SelectPicker
+              value={limit}
+              onChange={setLimit}
+              cleanable={false}
+              searchable={false}
+              data={limitOptions.map(key => ({ value: key, label: key }))}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          maxButtons：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={maxButtons}
-            max={10}
-            min={1}
-            onChange={value => {
-              setMaxButtons(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            maxButtons：
+            <InputNumber
+              w={80}
+              value={maxButtons}
+              max={10}
+              min={1}
+              onChange={value => {
+                setMaxButtons(parseInt(value));
+              }}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          total：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={total}
-            min={0}
-            onChange={value => {
-              setTotal(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            total：
+            <InputNumber
+              w={80}
+              value={total}
+              min={0}
+              onChange={value => {
+                setTotal(parseInt(value));
+              }}
+            />
+          </HStack>
+        </HStack>
 
         <hr />
-        <span>
+        <HStack>
           layout：
           <TagPicker
             value={layout}
@@ -110,7 +112,7 @@ const App = () => {
               { value: 'skip', label: 'skip' }
             ]}
           />
-        </span>
+        </HStack>
       </div>
 
       <hr />

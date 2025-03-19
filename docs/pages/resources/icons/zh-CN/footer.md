@@ -1,7 +1,7 @@
-## 使用图标
+## 使用方法
 
-- [如何使用图标组件？](/components/icon)
-- [SVG 源文件](https://github.com/rsuite/rsuite-icon-font/tree/master/src/svg)
+- [如何使用图标组件？](/zh/components/icon)
+- [SVG 源文件](https://github.com/rsuite/rsuite-icons/tree/main/src/icons)
 
 ## 参考及使用的项目
 

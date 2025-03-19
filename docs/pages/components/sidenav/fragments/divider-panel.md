@@ -6,11 +6,11 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import SettingIcon from '@rsuite/icons/Setting';
 import PieChartIcon from '@rsuite/icons/PieChart';
 import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
-import { Sidenav, Nav, HStack, VStack } from 'rsuite';
+import { Sidenav, Nav, HStack, VStack, Box } from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 
 const Header = () => (
-  <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
+  <VStack p="10px 10px 0 10px" spacing={12}>
     <HStack>
       <SiProtondb size={32} /> Brand
     </HStack>
@@ -18,7 +18,7 @@ const Header = () => (
 );
 
 const App = () => (
-  <div style={{ width: 240 }}>
+  <Box w={240}>
     <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Header>
         <Header />
@@ -51,7 +51,7 @@ const App = () => (
         </Nav>
       </Sidenav.Body>
     </Sidenav>
-  </div>
+  </Box>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

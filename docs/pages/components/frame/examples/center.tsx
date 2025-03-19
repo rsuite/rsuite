@@ -51,9 +51,10 @@ const App = () => {
           <Button>Create account</Button>
         </Navbar>
       </Header>
-      <Content style={{ padding: 20 }}>
-        <Stack align="center" justify="center" style={{ height: '100%' }}>
-          <Panel header="Sign in" bordered style={{ width: 360 }}>
+      <Content p={20}>
+        {/** @ts-ignore */}
+        <Stack align="center" justify="center" h="100%">
+          <Panel header="Sign in" bordered w={360}>
             <Form fluid>
               <Form.Group>
                 <Form.ControlLabel>Email address</Form.ControlLabel>

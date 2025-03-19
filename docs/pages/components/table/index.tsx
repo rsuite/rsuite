@@ -19,7 +19,8 @@ import {
   HStack,
   VStack,
   Input,
-  InputGroup
+  InputGroup,
+  Box
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import FakeBrowser from '@/components/FakeBrowser';
@@ -66,6 +67,7 @@ export default function Page() {
         Table,
         Button,
         Dropdown,
+        Box,
         MoreIcon,
         CollaspedOutlineIcon,
         ExpandOutlineIcon,

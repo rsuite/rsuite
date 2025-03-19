@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Progress, ButtonGroup, Button, VStack, HStack } from 'rsuite';
+import { Progress, ButtonGroup, Button, VStack, HStack, Box } from 'rsuite';
 
 const App = () => {
   const [percent, setPercent] = React.useState(30);
@@ -24,9 +24,9 @@ const App = () => {
       <VStack spacing={20}>
         <Progress.Line percent={percent} strokeColor={color} status={status} />
         <HStack spacing={40}>
-          <div style={{ width: 120, marginTop: 10 }}>
+          <Box w={120} mt={10}>
             <Progress.Circle percent={percent} strokeColor={color} status={status} />
-          </div>
+          </Box>
           <Progress.Line vertical percent={percent} strokeColor={color} status={status} />
         </HStack>
       </VStack>

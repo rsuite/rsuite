@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { DatePicker } from 'rsuite';
+import { DatePicker, Box } from 'rsuite';
 import { isBefore } from 'date-fns/isBefore';
 
 const Label = props => {
-  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
+  return <Box as="label" w={120} display="inline-block" mt={10} {...props} />;
 };
 
 const App = () => (

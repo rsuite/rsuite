@@ -1,7 +1,16 @@
 <!--start-code-->
 
 ```js
-import { FlexboxGrid, SelectPicker, Toggle, MaskedInput, HStack, VStack, Divider } from 'rsuite';
+import {
+  FlexboxGrid,
+  SelectPicker,
+  Toggle,
+  MaskedInput,
+  HStack,
+  VStack,
+  Divider,
+  Box
+} from 'rsuite';
 
 const options = [
   {
@@ -84,7 +93,9 @@ const placeholderChars = [
 
 const ControlRow = ({ label, control, ...rest }) => (
   <HStack {...rest} alignItems="center">
-    <span style={{ width: 180 }}>{label}: </span>
+    <Box as="span" w={180}>
+      {label}:
+    </Box>
     {control}
   </HStack>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimePicker, Stack } from 'rsuite';
+import { TimePicker, Stack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -13,7 +13,8 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         TimePicker,
-        Stack
+        Stack,
+        Box
       }}
       sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />

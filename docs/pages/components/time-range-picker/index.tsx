@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeRangePicker, Stack } from 'rsuite';
+import { TimeRangePicker, Stack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -13,7 +13,8 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         TimeRangePicker,
-        Stack
+        Stack,
+        Box
       }}
     />
   );

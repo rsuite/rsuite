@@ -30,7 +30,8 @@ import {
   InputGroup,
   Badge,
   Modal,
-  Placeholder
+  Placeholder,
+  Box
 } from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 
@@ -49,6 +50,7 @@ export default function Page() {
         Badge,
         HStack,
         VStack,
+        Box,
         Toggle,
         Input,
         InputGroup,

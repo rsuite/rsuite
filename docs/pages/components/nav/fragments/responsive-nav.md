@@ -5,7 +5,7 @@ import ResponsiveNav from '@rsuite/responsive-nav';
 <!--start-code-->
 
 ```js
-import { Slider } from 'rsuite';
+import { Slider, Box } from 'rsuite';
 import ResponsiveNav from '@rsuite/responsive-nav';
 
 const items = [
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <>
-      <div style={{ width, border: '1px solid #ddd', padding: 10 }}>
+      <Box w={width} bd="1px solid #ddd" p={10}>
         <ResponsiveNav activeKey={activeKey} onSelect={setActiveKey} appearance="tabs">
           {items.map(item => (
             <ResponsiveNav.Item key={item.eventKey} eventKey={item.eventKey}>
@@ -39,17 +39,9 @@ const App = () => {
             </ResponsiveNav.Item>
           ))}
         </ResponsiveNav>
-      </div>
+      </Box>
       <hr />
-      <Slider
-        w={500}
-        min={300}
-        max={700}
-        progress
-        step={50}
-        value={width}
-        onChange={setWidth}
-      />
+      <Slider w={500} min={300} max={700} progress step={50} value={width} onChange={setWidth} />
     </>
   );
 };

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Sidenav, Nav, Toggle } from 'rsuite';
+import { Sidenav, Nav, Toggle, Box } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/Dashboard';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import SettingIcon from '@rsuite/icons/Setting';
@@ -12,7 +12,7 @@ const App = () => {
   const [expanded, setExpanded] = React.useState(false);
   const [activeKey, setActiveKey] = React.useState('1');
   return (
-    <div style={{ width: 240 }}>
+    <Box w={240}>
       <Toggle
         onChange={setExpanded}
         checked={expanded}
@@ -53,7 +53,7 @@ const App = () => {
           <Sidenav.Toggle onToggle={setExpanded} />
         </Sidenav.Footer>
       </Sidenav>
-    </div>
+    </Box>
   );
 };
 

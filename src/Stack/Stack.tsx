@@ -1,10 +1,10 @@
 import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
-import Box from '@/internals/Box';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ResponsiveValue } from '@/internals/types';
+import type { ResponsiveValue } from '@/internals/types';
 
 interface DeprecatedStackProps {
   /**
@@ -19,7 +19,7 @@ interface DeprecatedStackProps {
   alignItems?: CSSProperties['alignItems'];
 }
 
-export interface StackProps extends WithAsProps, DeprecatedStackProps {
+export interface StackProps extends BoxProps, DeprecatedStackProps {
   /** Define the alignment of the children in the stack on the cross axis */
   align?: CSSProperties['alignItems'];
 

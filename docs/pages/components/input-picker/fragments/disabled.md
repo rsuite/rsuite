@@ -1,11 +1,14 @@
 <!--start-code-->
 
 ```js
-import { InputPicker, VStack, HStack } from 'rsuite';
+import { InputPicker, VStack, HStack, Box } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
+
+const Label = props => <Box w={120} {...props} />;
+
 const App = () => (
   <VStack spacing={16}>
     <HStack>
@@ -34,8 +37,6 @@ const App = () => (
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Label = ({ style, ...rest }) => <label style={{ width: 120, ...style }} {...rest} />;
 ```
 
 <!--end-code-->
