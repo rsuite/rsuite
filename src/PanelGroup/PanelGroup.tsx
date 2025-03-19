@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
 type KeyType = string | number;
-export interface PanelGroupProps<T = KeyType> extends WithAsProps {
+export interface PanelGroupProps<T = KeyType> extends BoxProps {
   /** Whether it is a collapsible panel. */
   accordion?: boolean;
 
@@ -40,7 +40,7 @@ export const PanelGroupContext = React.createContext<PanelGroupContext>({});
 const PanelGroup = forwardRef<'div', PanelGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PanelGroup', props);
   const {
-    as: Component = 'div',
+    as,
     accordion,
     defaultActiveKey,
     bordered,
@@ -69,9 +69,9 @@ const PanelGroup = forwardRef<'div', PanelGroupProps>((props, ref) => {
   );
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} {...rest} ref={ref} className={classes}>
       <PanelGroupContext.Provider value={contextValue}>{children}</PanelGroupContext.Provider>
-    </Component>
+    </Box>
   );
 });
 

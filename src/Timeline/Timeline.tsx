@@ -1,12 +1,12 @@
 import React from 'react';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, ReactChildren } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface TimelineProps extends WithAsProps {
+export interface TimelineProps extends BoxProps {
   /** The content of the component */
   children?: React.ReactNode;
 
@@ -43,8 +43,8 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
   (props, ref) => {
     const { propsWithDefaults } = useCustom('Timeline', props);
     const {
+      as = 'ul',
       children,
-      as: Component = 'ul',
       classPrefix = 'timeline',
       className,
       align = 'left',
@@ -63,13 +63,13 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
     );
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} ref={ref} className={classes} {...rest}>
         {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
           last: index + 1 === count,
           INTERNAL_active: isItemActive(index, count),
           align
         }))}
-      </Component>
+      </Box>
     );
   },
   SubcomponentsAndStaticMethods

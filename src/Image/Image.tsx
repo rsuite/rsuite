@@ -1,13 +1,13 @@
 import React, { CSSProperties } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
 export interface ImageProps
-  extends WithAsProps,
+  extends Omit<BoxProps, 'rounded'>,
     Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder'> {
   /**
    * An image may appear with border.
@@ -58,7 +58,7 @@ export interface ImageProps
 const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Image', props);
   const {
-    as: Component = 'img',
+    as = 'img',
     bordered,
     classPrefix = 'image',
     className,
@@ -87,10 +87,10 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
 
   const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
-  const wrapStyles = { width, height };
 
   const image = (
-    <Component
+    <Box
+      as={as}
       ref={ref}
       src={imgSrc}
       className={classes}
@@ -103,12 +103,16 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   );
 
   if (zoomed) {
-    return <ImageWrapper style={wrapStyles}>{image}</ImageWrapper>;
+    return (
+      <ImageWrapper w={width} h={height}>
+        {image}
+      </ImageWrapper>
+    );
   }
 
   if (placeholder) {
     return (
-      <ImageWrapper style={wrapStyles}>
+      <ImageWrapper w={width} h={height}>
         {isLoading && placeholder}
         {image}
       </ImageWrapper>

@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface ProgressCircleProps extends WithAsProps {
+export interface ProgressCircleProps extends BoxProps {
   /** Line color */
   strokeColor?: string;
 
@@ -44,7 +44,7 @@ export interface ProgressCircleProps extends WithAsProps {
 const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressCircle', props);
   const {
-    as: Component = 'div',
+    as,
     strokeWidth = 6,
     trailWidth = 6,
     percent = 0,
@@ -124,7 +124,8 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
   );
 
   return (
-    <Component
+    <Box
+      as={as}
       role="progressbar"
       aria-valuemin="0"
       aria-valuemax="100"
@@ -152,7 +153,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
           style={strokePathStyle}
         />
       </svg>
-    </Component>
+    </Box>
   );
 });
 

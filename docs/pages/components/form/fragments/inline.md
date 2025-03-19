@@ -12,7 +12,7 @@ const Password = React.forwardRef((props, ref) => {
     setVisible(!visible);
   };
   return (
-    <InputGroup inside style={{ width: 200 }}>
+    <InputGroup inside w={200}>
       <Input type={visible ? 'text' : 'password'} {...props} ref={ref} />
       <InputGroup.Button onClick={handleChange}>
         {visible ? <VisibleIcon /> : <EyeCloseIcon />}
@@ -27,7 +27,7 @@ const App = () => (
       <Form.Group controlId="username-7">
         <Form.ControlLabel>Username</Form.ControlLabel>
         <HStack>
-          <Form.Control name="username" style={{ width: 200 }} />
+          <Form.Control name="username" w={200} />
           <Form.HelpText tooltip>Required</Form.HelpText>
         </HStack>
       </Form.Group>

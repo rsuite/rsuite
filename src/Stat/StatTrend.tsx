@@ -1,7 +1,7 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
 const svgProps: React.SVGProps<SVGSVGElement> = {
   xmlns: 'http://www.w3.org/2000/svg',
@@ -33,14 +33,14 @@ const ArrowDown = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
-export interface StatTrendProps extends WithAsProps {
+export interface StatTrendProps extends BoxProps {
   indicator?: 'up' | 'down';
   appearance?: 'default' | 'subtle';
 }
 
 const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
   const {
-    as: Component = 'span',
+    as = 'span',
     appearance = 'default',
     classPrefix = 'stat-trend',
     indicator = 'up',
@@ -54,10 +54,10 @@ const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
   const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
 
   return (
-    <Component ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {children}
       {<IndicatorIcon className={prefix('indicator')} />}
-    </Component>
+    </Box>
   );
 });
 

@@ -1,4 +1,5 @@
-import { Option, DataProps, WithAsProps, ToArray } from '@/internals/types';
+import type { Option, DataProps, ToArray } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
 
 export interface SelectNode<T> {
   itemData: Option<T>;
@@ -12,9 +13,7 @@ export interface CascadeColumn<T> {
   layer?: number;
 }
 
-export interface CascadeTreeProps<T = any, V = T, L = any>
-  extends WithAsProps,
-    DataProps<Option<T>> {
+export interface CascadeTreeProps<T = any, V = T, L = any> extends BoxProps, DataProps<Option<T>> {
   /**
    * Initial value
    */

@@ -18,7 +18,7 @@ const App = () => (
   <CheckTreePicker
     defaultExpandAll
     data={data}
-    style={{ width: 280 }}
+    w={280}
     placeholder={
       <span>
         <PeoplesIcon /> Select

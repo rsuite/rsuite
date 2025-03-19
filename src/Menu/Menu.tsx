@@ -3,12 +3,13 @@ import Menubar from '@/internals/Menu/Menubar';
 import MenuContext from './MenuContext';
 import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
-import type { StandardProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface MenuProps<T = string | number>
-  extends StandardProps,
+  extends BoxProps,
     HTMLPropsWithoutSelect<HTMLUListElement> {
   /** Set the active key for the menu */
   activeKey?: T;
@@ -28,19 +29,26 @@ const Subcomponents = {
  * @see https://rsuitejs.com/components/menu
  */
 const Menu = forwardRef<'ul', MenuProps, typeof Subcomponents>((props, ref) => {
-  const { activeKey, classPrefix = 'menu', className, children, onSelect, ...rest } = props;
+  const {
+    as = 'ul',
+    activeKey,
+    classPrefix = 'menu',
+    className,
+    children,
+    onSelect,
+    ...rest
+  } = props;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-
   const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
-
   const classes = merge(className, withPrefix());
 
   return (
     <MenuContext.Provider value={contextValue}>
       <Menubar vertical>
         {(menubar, menubarRef: React.Ref<HTMLElement>) => (
-          <ul
+          <Box
+            as={as}
             {...menubar}
             {...rest}
             ref={mergeRefs(menubarRef, ref)}
@@ -48,7 +56,7 @@ const Menu = forwardRef<'ul', MenuProps, typeof Subcomponents>((props, ref) => {
             role="menu"
           >
             {children}
-          </ul>
+          </Box>
         )}
       </Menubar>
     </MenuContext.Provider>

@@ -4,7 +4,7 @@
 import { InputNumber } from 'rsuite';
 
 const App = () => (
-  <Stack direction="column" alignItems="flex-start" spacing={10}>
+  <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
     <InputNumber size="lg" placeholder="lg" />
     <InputNumber size="md" placeholder="md" />
     <InputNumber size="sm" placeholder="sm" />

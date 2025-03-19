@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker, VStack, HStack } from 'rsuite';
+import { CheckPicker, VStack, HStack, Box } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
@@ -24,8 +24,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const Select = ({ label, children, ...rest }) => (
   <HStack>
-    <label style={{ width: 120 }}>{label}:</label>
-    <CheckPicker {...rest} style={{ width: 180 }} />
+    <Box as="label" w={120}>
+      {label}:
+    </Box>
+    <CheckPicker {...rest} w={180} />
   </HStack>
 );
 ```

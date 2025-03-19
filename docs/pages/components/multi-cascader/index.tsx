@@ -1,5 +1,5 @@
 import React from 'react';
-import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack } from 'rsuite';
+import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
@@ -40,6 +40,7 @@ export default function Page() {
         AdminIcon,
         HStack,
         VStack,
+        Box,
         mockAsyncData,
         mockTreeData
       }}

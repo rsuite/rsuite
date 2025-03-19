@@ -2,14 +2,15 @@ import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import isNil from 'lodash/isNil';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
-import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
+import Ripple from '@/internals/Ripple';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface NavbarItemProps<T = string | number> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface NavbarItemProps<T = string | number> extends BoxProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 
@@ -34,7 +35,7 @@ export interface NavbarItemProps<T = string | number> extends WithAsProps, HTMLP
  */
 const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
   const {
-    as: Component = SafeAnchor,
+    as = SafeAnchor,
     active: activeProp,
     disabled,
     eventKey,
@@ -74,7 +75,8 @@ const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
   );
 
   return (
-    <Component
+    <Box
+      as={as}
       ref={ref}
       aria-selected={active || undefined}
       {...rest}
@@ -88,7 +90,7 @@ const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
         })}
       {children}
       <Ripple />
-    </Component>
+    </Box>
   );
 });
 

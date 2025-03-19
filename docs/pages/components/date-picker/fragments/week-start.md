@@ -25,7 +25,7 @@ const App = () => {
         <Radio value={6}>Sat</Radio>
       </RadioGroup>
       <hr />
-      <DatePicker weekStart={weekStart} style={{ width: 200 }} />
+      <DatePicker weekStart={weekStart} w={200} />
     </>
   );
 };

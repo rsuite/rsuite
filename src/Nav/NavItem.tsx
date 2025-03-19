@@ -4,12 +4,13 @@ import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from './NavContext';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface NavItemProps<T = string | number> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface NavItemProps<T = string | number> extends BoxProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 
@@ -51,7 +52,7 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
   }
 
   const {
-    as: Component = SafeAnchor,
+    as = SafeAnchor,
     active: activeProp,
     disabled,
     eventKey,
@@ -113,7 +114,8 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       ref={ref}
       tabIndex={disabled ? -1 : undefined}
       {...rest}
@@ -128,7 +130,7 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
         })}
       {children}
       <Ripple />
-    </Component>
+    </Box>
   );
 });
 

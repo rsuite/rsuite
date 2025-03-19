@@ -2,14 +2,15 @@ import React, { useCallback, useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import { useStyles, useControlled } from '@/internals/hooks';
-import { WithAsProps, FormControlBaseProps } from '@/internals/types';
 import { CheckboxGroupContext } from './CheckboxGroupContext';
 import { useCustom } from '../CustomProvider';
+import type { FormControlBaseProps } from '@/internals/types';
 
 export interface CheckboxGroupProps<V = (string | number)[]>
-  extends WithAsProps,
+  extends BoxProps,
     FormControlBaseProps<V> {
   /** Used for the name of the form */
   name?: string;
@@ -28,7 +29,7 @@ export interface CheckboxGroupProps<V = (string | number)[]>
 const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGroupProps, ref) => {
   const { propsWithDefaults } = useCustom('CheckboxGroup', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     inline,
     children,
@@ -84,9 +85,9 @@ const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGrou
           {value?.length ? children : null}
         </Plaintext>
       ) : (
-        <Component {...rest} ref={ref} role="group" className={classes}>
+        <Box as={as} {...rest} ref={ref} role="group" className={classes}>
           {children}
-        </Component>
+        </Box>
       )}
     </CheckboxGroupContext.Provider>
   );

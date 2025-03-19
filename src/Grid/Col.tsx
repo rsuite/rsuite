@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
 import omit from 'lodash/omit';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ResponsiveValue } from '@/internals/types';
+import type { ResponsiveValue } from '@/internals/types';
 import type { DeprecatedColProps } from './types';
 
 type ResponsiveKey = 'span' | 'offset' | 'push' | 'pull' | 'order' | 'hidden';
 
-export interface ColProps extends WithAsProps {
+export interface ColProps extends BoxProps {
   /** Grid column span for different breakpoints */
   span?: number | 'auto' | ResponsiveValue<number | 'auto'>;
 
@@ -37,7 +38,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
   (props: ColProps & DeprecatedColProps, ref) => {
     const { propsWithDefaults } = useCustom('Col', props);
     const {
-      as: Component = 'div',
+      as,
       classPrefix = 'col',
       className,
       span,
@@ -145,7 +146,7 @@ const Col = forwardRef<'div', ColProps & DeprecatedColProps>(
     const classes = merge(className, withPrefix(), colClasses);
     const unhandledProps = omit(rest, Object.keys(omitKeys));
 
-    return <Component {...unhandledProps} ref={ref} className={classes} />;
+    return <Box as={as} {...unhandledProps} ref={ref} className={classes} />;
   }
 );
 

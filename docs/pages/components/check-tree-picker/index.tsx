@@ -3,7 +3,7 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader } from 'rsuite';
+import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -40,6 +40,7 @@ export default function Page() {
         VStack,
         HStack,
         Loader,
+        Box,
         mockTreeData,
         mockAsyncData
       }}

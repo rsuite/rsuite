@@ -1,10 +1,11 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Size } from '@/internals/types';
+import type { Size } from '@/internals/types';
 
-export interface LoaderProps extends WithAsProps {
+export interface LoaderProps extends BoxProps {
   /** Centered in the container */
   center?: boolean;
 
@@ -34,7 +35,7 @@ export interface LoaderProps extends WithAsProps {
 const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Loader', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'loader',
     className,
     inverse,
@@ -60,12 +61,13 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
   );
 
   return (
-    <Component
+    <Box
+      as={as}
       role="status"
       aria-labelledby={content ? labelId : undefined}
-      {...rest}
       ref={ref}
       className={classes}
+      {...rest}
     >
       {backdrop && <div className={prefix('backdrop')} />}
       <div className={withPrefix()}>
@@ -76,7 +78,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
           </span>
         )}
       </div>
-    </Component>
+    </Box>
   );
 });
 

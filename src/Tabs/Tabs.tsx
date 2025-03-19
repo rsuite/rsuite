@@ -2,15 +2,16 @@ import React from 'react';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, ReactElement } from '@/internals/types';
+import type { ReactElement } from '@/internals/types';
 
 /**
  * Props for the Tabs component.
  */
-export interface TabsProps extends WithAsProps {
+export interface TabsProps extends BoxProps {
   /**
    * The appearance of the tabs.
    * @default 'tabs'
@@ -169,7 +170,7 @@ const Subcomponents = {
 const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'tabs',
     appearance = 'tabs',
     className,
@@ -245,7 +246,12 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
   );
 
   return (
-    <Component className={merge(className, withPrefix({ reversed, vertical }))} {...rest} ref={ref}>
+    <Box
+      as={as}
+      className={merge(className, withPrefix({ reversed, vertical }))}
+      {...rest}
+      ref={ref}
+    >
       <Nav
         role="tablist"
         aria-orientation={vertical ? 'vertical' : 'horizontal'}
@@ -262,7 +268,7 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
       {hasChildren && (
         <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
       )}
-    </Component>
+    </Box>
   );
 }, Subcomponents);
 

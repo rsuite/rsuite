@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface SafeAnchorProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
   /** Link specified url */
   href?: string;
 
@@ -21,7 +21,7 @@ function isTrivialHref(href: string | undefined) {
  */
 const SafeAnchor = forwardRef<'a', SafeAnchorProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('SafeAnchor', props);
-  const { as: Component = 'a', href, disabled, onClick, ...restProps } = propsWithDefaults;
+  const { as = 'a', href, disabled, onClick, ...restProps } = propsWithDefaults;
   const handleClick = useCallback(
     event => {
       if (disabled || isTrivialHref(href)) {
@@ -46,7 +46,9 @@ const SafeAnchor = forwardRef<'a', SafeAnchorProps>((props, ref) => {
     restProps['aria-disabled'] = true;
   }
 
-  return <Component ref={ref} href={href} {...trivialProps} {...restProps} onClick={handleClick} />;
+  return (
+    <Box as={as} ref={ref} href={href} {...trivialProps} {...restProps} onClick={handleClick} />
+  );
 });
 
 SafeAnchor.displayName = 'SafeAnchor';

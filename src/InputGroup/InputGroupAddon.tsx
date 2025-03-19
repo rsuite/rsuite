@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface InputGroupAddonProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface InputGroupAddonProps extends BoxProps, React.HTMLAttributes<HTMLSpanElement> {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }
@@ -13,18 +13,12 @@ export interface InputGroupAddonProps extends WithAsProps, React.HTMLAttributes<
  * @see https://rsuitejs.com/components/input/#input-group
  */
 const InputGroupAddon = forwardRef<'span', InputGroupAddonProps>((props, ref) => {
-  const {
-    as: Component = 'span',
-    classPrefix = 'input-group-addon',
-    className,
-    disabled,
-    ...rest
-  } = props;
+  const { as = 'span', classPrefix = 'input-group-addon', className, disabled, ...rest } = props;
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ disabled }));
 
-  return <Component {...rest} ref={ref} className={classes} />;
+  return <Box as={as} {...rest} ref={ref} className={classes} />;
 });
 
 InputGroupAddon.displayName = 'InputGroupAddon';

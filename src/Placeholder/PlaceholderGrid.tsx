@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-export interface PlaceholderGridProps extends WithAsProps {
+export interface PlaceholderGridProps extends BoxProps {
   /**
    * The number of rows.
    *
@@ -51,7 +51,7 @@ export interface PlaceholderGridProps extends WithAsProps {
 const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'placeholder',
     rows = 5,
@@ -63,14 +63,14 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const { merge, prefix, cssVar, withPrefix } = useStyles(classPrefix);
 
   const classes = merge(className, withPrefix('grid', { active }));
-
-  const styles = {
-    '--rs-placeholder-row-height': getCssValue(rowHeight),
-    '--rs-placeholder-row-spacing': getCssValue(rowSpacing)
-  } as React.CSSProperties;
+  const styles = mergeStyles(
+    style,
+    cssVar('row-height', rowHeight, getCssValue),
+    cssVar('row-spacing', rowSpacing, getCssValue)
+  );
 
   const items = useMemo(() => {
     const colItems: React.ReactElement[] = [];
@@ -93,9 +93,9 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
   }, [columns, prefix, rowHeight, rowSpacing, rows]);
 
   return (
-    <Component {...rest} ref={ref} className={classes} style={mergeStyles(styles, style)}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       {items}
-    </Component>
+    </Box>
   );
 });
 

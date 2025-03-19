@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import type { WithAsProps } from '@/internals/types';
 
-interface ProgressBarProps extends WithAsProps {
+interface ProgressBarProps extends BoxProps {
   vertical?: boolean;
   rtl?: boolean;
   start?: number;
@@ -12,14 +12,15 @@ interface ProgressBarProps extends WithAsProps {
 
 const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'slider-progress-bar',
     vertical,
     rtl,
     end = 0,
     start = 0,
     style,
-    className
+    className,
+    ...rest
   } = props;
 
   const { merge, withPrefix } = useStyles(classPrefix);
@@ -32,7 +33,14 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   return (
-    <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />
+    <Box
+      as={as}
+      ref={ref}
+      style={styles}
+      className={classes}
+      data-testid="slider-progress-bar"
+      {...rest}
+    />
   );
 });
 

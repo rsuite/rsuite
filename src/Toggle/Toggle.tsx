@@ -1,13 +1,14 @@
 import React, { useRef } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { SanitizedInputProps, WithAsProps, Color, Size } from '@/internals/types';
+import type { SanitizedInputProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
-export interface ToggleProps extends WithAsProps, SanitizedInputProps {
+export interface ToggleProps extends BoxProps, SanitizedInputProps {
   /**
    * The color of the toggle.
    */
@@ -77,7 +78,7 @@ export interface ToggleProps extends WithAsProps, SanitizedInputProps {
 const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
-    as: Component = 'span',
+    as = 'label',
     disabled,
     readOnly,
     loading = false,
@@ -125,7 +126,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   }
 
   return (
-    <label ref={ref} className={classes} {...restProps}>
+    <Box as={as} ref={ref} className={classes} {...restProps}>
       <input
         {...htmlInputProps}
         ref={inputRef}
@@ -143,18 +144,18 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         aria-label={labelledby ? undefined : label}
         aria-busy={loading || undefined}
       />
-      <Component className={prefix('presentation')}>
+      <span className={prefix('presentation')}>
         <span className={prefix('inner')} id={innerId}>
           {inner}
         </span>
         {loading && <Loader className={prefix('loader')} />}
-      </Component>
+      </span>
       {children && (
         <span className={prefix('label')} id={labelId}>
           {children}
         </span>
       )}
-    </label>
+    </Box>
   );
 });
 

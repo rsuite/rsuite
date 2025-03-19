@@ -5,10 +5,11 @@ import PageTopIcon from '@rsuite/icons/PageTop';
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Size } from '@/internals/types';
+import type { Size } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
 const icons = {
@@ -19,7 +20,7 @@ const icons = {
   next: <PageNextIcon />
 };
 
-export interface PaginationProps extends WithAsProps {
+export interface PaginationProps extends BoxProps {
   /** Current page number */
   activePage?: number;
 
@@ -74,7 +75,7 @@ export interface PaginationProps extends WithAsProps {
 const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Pagination', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'pagination',
     disabled: disabledProp,
@@ -240,13 +241,13 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
 
   const classes = merge(className, withPrefix(size));
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {renderFirst()}
       {renderPrev()}
       {renderPageButtons()}
       {renderNext()}
       {renderLast()}
-    </Component>
+    </Box>
   );
 });
 

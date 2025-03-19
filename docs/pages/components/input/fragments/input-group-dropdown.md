@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { InputGroup, Dropdown, Whisper, Popover, Input, VStack } from 'rsuite';
+import { InputGroup, Dropdown, Whisper, Popover, Input, VStack, Box } from 'rsuite';
 
 const currencies = [
   { label: 'CNY - Chinese Yuan', value: 'CNY', symbol: '¥', flag: '🇨🇳' },
@@ -16,19 +16,20 @@ function App() {
 
   const renderMenu = ({ onClose, left, top, className }, ref) => {
     return (
-      <Popover ref={ref} className={className} style={{ left, top }} full>
+      <Popover ref={ref} className={className} full>
         <Dropdown.Menu>
           {currencies.map(currency => (
             <Dropdown.Item
               key={currency.value}
               eventKey={currency.value}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               onSelect={() => {
                 setCurrency(currency);
                 onClose();
               }}
             >
-              <span style={{ marginRight: 8 }}>{currency.flag}</span>
+              <Box as="span" mr={8}>
+                {currency.flag}
+              </Box>
               {currency.label}
             </Dropdown.Item>
           ))}
@@ -38,7 +39,7 @@ function App() {
   };
 
   return (
-    <VStack style={{ width: 300 }}>
+    <VStack w={300}>
       <InputGroup>
         <Whisper placement="bottomStart" trigger="click" speaker={renderMenu}>
           <InputGroup.Button>

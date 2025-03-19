@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
-import IconButton from '../IconButton';
+import IconButton, { IconButtonProps } from '../IconButton';
 import { forwardRef } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 
-export interface SidenavToggleProps extends WithAsProps {
+export interface SidenavToggleProps extends IconButtonProps {
   /** Callback function for menu state switching */
   onToggle?: (expanded: boolean, event: React.MouseEvent) => void;
 }
@@ -19,25 +18,26 @@ const SidenavToggle = forwardRef<'div', SidenavToggleProps>((props, ref) => {
     return null;
   }
 
-  const { className, classPrefix = 'sidenav-toggle', onToggle, ...rest } = props;
+  const { className, classPrefix = 'sidenav-toggle', onToggle, onClick, ...rest } = props;
 
   const expanded = sidenav.expanded;
 
   const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ collapsed: !expanded }));
 
-  const handleToggle = (event: React.MouseEvent) => {
+  const handleToggle = useEventCallback((event: React.MouseEvent<any>) => {
     onToggle?.(!expanded, event);
-  };
+    onClick?.(event);
+  });
 
   return (
     <IconButton
-      {...rest}
       ref={ref}
       className={classes}
       icon={<ArrowLeftLineIcon aria-label="" />}
       onClick={handleToggle}
       aria-label={expanded ? 'Collapse' : 'Expand'}
+      {...rest}
     />
   );
 });

@@ -1,17 +1,16 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { FormattedNumber } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
-
-export interface StatValueProps extends WithAsProps {
+export interface StatValueProps extends BoxProps {
   value?: number;
   formatOptions?: Intl.NumberFormatOptions;
 }
 
 const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
   const {
-    as: Component = 'dd',
+    as = 'dd',
     classPrefix = 'stat-value',
     className,
     children,
@@ -23,10 +22,10 @@ const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   return (
-    <Component ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {value && <FormattedNumber value={value} formatOptions={formatOptions} />}
       {children}
-    </Component>
+    </Box>
   );
 });
 

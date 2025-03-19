@@ -5,6 +5,7 @@ import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
@@ -13,7 +14,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
@@ -83,7 +84,7 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
     }
 
     const {
-      as: Component = 'div',
+      as,
       title,
       onClose,
       onOpen,
@@ -122,7 +123,8 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
           const classes = merge(className, withPrefix({ disabled, open }));
           return (
-            <Component
+            <Box
+              as={as}
               ref={mergeRefs(ref, containerRef)}
               className={classes}
               style={style}
@@ -159,7 +161,7 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
                   );
                 }}
               </Disclosure.Content>
-            </Component>
+            </Box>
           );
         }}
       </Disclosure>

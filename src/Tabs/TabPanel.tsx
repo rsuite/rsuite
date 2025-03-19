@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
-export interface TabPanelProps extends WithAsProps {
+export interface TabPanelProps extends BoxProps {
   /** The active state of the tab. */
   active?: boolean;
 
@@ -12,19 +12,13 @@ export interface TabPanelProps extends WithAsProps {
 }
 
 const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
-  const {
-    as: Component = 'div',
-    classPrefix = 'tab-panel',
-    children,
-    active,
-    className,
-    ...rest
-  } = props;
+  const { as, classPrefix = 'tab-panel', children, active, className, ...rest } = props;
 
   const { withPrefix, merge } = useStyles(classPrefix);
 
   return (
-    <Component
+    <Box
+      as={as}
       role="tabpanel"
       ref={ref}
       tabIndex={0}
@@ -33,7 +27,7 @@ const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
       {...rest}
     >
       {children}
-    </Component>
+    </Box>
   );
 });
 

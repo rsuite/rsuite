@@ -8,10 +8,11 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import Tag from '../Tag';
 import TextBox from './TextBox';
-import Stack, { type StackProps } from '../Stack';
+import Stack, { StackProps } from '../Stack';
 import useInput from './hooks/useInput';
-import useData, { type InputOption } from './hooks/useData';
-import Plaintext, { type PlaintextProps } from '@/internals/Plaintext';
+import useData, { InputOption } from './hooks/useData';
+import Plaintext, { PlaintextProps } from '@/internals/Plaintext';
+import Box from '@/internals/Box';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
@@ -54,7 +55,7 @@ export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
   extends FormControlPickerProps<V, InputPickerLocale, InputOption>,
     Omit<SelectProps<V>, 'renderValue'>,
-    Pick<PickerToggleProps, 'caretAs' | 'loading'> {
+    Pick<PickerToggleProps, 'caretAs' | 'loading' | 'label'> {
   tabIndex?: number;
 
   /** Settings can create new options */
@@ -93,11 +94,12 @@ export interface InputPickerProps<V = ValueType>
 const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputPicker', props);
   const {
-    as: Component = 'div',
+    as,
     appearance = 'default',
     cleanable = true,
     cacheData = [],
     classPrefix = 'picker',
+    caretAs,
     data: controlledData = [],
     disabled,
     readOnly,
@@ -127,6 +129,8 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     listProps,
     id,
     tabIndex,
+    loading,
+    label,
     sort,
     renderListbox,
     renderExtraFooter,
@@ -472,6 +476,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     trigger: triggerRef,
     target,
     overlay,
+    loading,
     ...events,
     ...rest
   });
@@ -663,7 +668,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     [prefix`disabled-options`]: disabledOptions
   });
   const searching = !!searchKeyword && open;
-  const editable = searchable && !disabled && !rest.loading;
+  const editable = searchable && !disabled && !loading;
 
   if (plaintext) {
     const plaintextProps: PlaintextProps & StackProps = {};
@@ -698,20 +703,24 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       speaker={renderPopup}
       placement={placement}
     >
-      <Component
+      <Box
+        as={as}
         className={classes}
         style={style}
         onClick={focus}
         onKeyDown={onPickerKeyDown}
         ref={root}
+        {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
       >
         <PickerToggle
-          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
+          loading={loading}
+          label={label}
           appearance={appearance}
           readOnly={readOnly}
           plaintext={plaintext}
           ref={target}
           as={toggleAs}
+          caretAs={caretAs}
           tabIndex={tabIndex}
           onClean={handleClean}
           cleanable={cleanable && !disabled}
@@ -740,7 +749,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
           onFocus={handleFocus}
           onChange={handleSearch}
         />
-      </Component>
+      </Box>
     </PickerToggleTrigger>
   );
 });

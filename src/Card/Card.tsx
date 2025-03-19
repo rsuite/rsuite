@@ -2,12 +2,12 @@ import React from 'react';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
-export interface CardProps extends WithAsProps {
+export interface CardProps extends BoxProps {
   /**
    * Show border
    */
@@ -43,7 +43,7 @@ const Subcomponents = {
 const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProps, ref) => {
   const { propsWithDefaults } = useCustom('Card', props);
   const {
-    as: Component = 'div',
+    as,
     bordered = true,
     classPrefix = 'card',
     className,
@@ -68,9 +68,9 @@ const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProp
   const styles = mergeStyles(style, cssVar('width', width, getCssValue));
 
   return (
-    <Component ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
       {children}
-    </Component>
+    </Box>
   );
 }, Subcomponents);
 

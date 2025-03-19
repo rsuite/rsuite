@@ -6,15 +6,16 @@ import Ripple from '@/internals/Ripple';
 import Disclosure from '@/internals/Disclosure/Disclosure';
 import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, SanitizedHTMListProps } from '@/internals/types';
+import type { SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface SidenavDropdownMenuProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     SanitizedHTMListProps<HTMLLIElement, React.LiHTMLAttributes<HTMLLIElement>> {
   /** Primary content */
   children?: React.ReactNode;
@@ -53,7 +54,7 @@ const ExpandedSidenavDropdownMenu = forwardRef<'li', SidenavDropdownMenuProps>((
     );
   }
   const {
-    as: Component = 'li',
+    as = 'li',
     children,
     disabled,
     className,
@@ -110,12 +111,13 @@ const ExpandedSidenavDropdownMenu = forwardRef<'li', SidenavDropdownMenuProps>((
           prefix(`${open ? 'expand' : 'collapse'}-icon`)
         );
         return (
-          <Component
+          <Box
+            as={as}
             ref={ref}
-            {...rest}
             tabIndex={disabled ? -1 : tabIndex}
             style={style}
             className={classes}
+            {...rest}
             {...menuitemEventHandlers}
           >
             <Disclosure.Button>
@@ -139,7 +141,7 @@ const ExpandedSidenavDropdownMenu = forwardRef<'li', SidenavDropdownMenuProps>((
                 return <SidenavDropdownCollapse open={open}>{children}</SidenavDropdownCollapse>;
               }}
             </Disclosure.Content>
-          </Component>
+          </Box>
         );
       }}
     </Disclosure>

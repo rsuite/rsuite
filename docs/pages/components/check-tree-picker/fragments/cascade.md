@@ -30,7 +30,7 @@ const App = () => {
         cascade={cascade}
         defaultValue={[2, 38]}
         data={data}
-        style={{ width: 280 }}
+        w={280}
       />
     </div>
   );

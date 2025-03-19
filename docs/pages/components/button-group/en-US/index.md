@@ -60,3 +60,12 @@ The buttons are laid out horizontally in the button set and are equally wide.
 | justified   | boolean                               | Distribute buttons evenly with equal width in horizontal layout                            |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Uniform size for all buttons in the group (large/medium/small/extra-small)                 |
 | vertical    | boolean                               | Display buttons in a vertical stacked layout                                               |
+
+### `<ButtonToolbar>`
+
+| Property | Type `(Default)`          | Description                                           |
+| -------- | ------------------------- | ----------------------------------------------------- |
+| ...      | [StackProps][stack-props] | Inherit all properties from [Stack][stack] component. |
+
+[stack-props]: https://rsuitejs.com/components/stack/#code-lt-stack-gt-code
+[stack]: https://rsuitejs.com/components/stack

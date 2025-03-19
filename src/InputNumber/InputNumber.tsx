@@ -7,6 +7,7 @@ import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
@@ -15,7 +16,6 @@ import type {
   SanitizedInputProps,
   FormControlBaseProps,
   AppearanceType,
-  WithAsProps,
   Size
 } from '@/internals/types';
 
@@ -27,7 +27,7 @@ export interface InputNumberProps<T = number | string | null>
       // RDFa attributes
       | 'prefix'
     >,
-    WithAsProps,
+    BoxProps,
     FormControlBaseProps<T> {
   /**
    * Button can have different appearances
@@ -152,7 +152,7 @@ function valueReachesMin(value: number | string | null | undefined, min: number)
 const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('InputNumber', props);
   const {
-    as: Component = InputGroup,
+    as = InputGroup,
     className,
     classPrefix = 'input-number',
     disabled,
@@ -371,7 +371,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
   }
 
   return (
-    <Component {...rest} ref={ref} className={classes} disabled={disabled} size={size}>
+    <Box as={as} {...rest} ref={ref} className={classes} disabled={disabled} size={size}>
       {prefixElement && <InputGroupAddon>{prefixElement}</InputGroupAddon>}
       {input}
       <span className={prefix('btn-group-vertical')}>
@@ -399,7 +399,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
         </Button>
       </span>
       {postfix && <InputGroupAddon>{postfix}</InputGroupAddon>}
-    </Component>
+    </Box>
   );
 });
 

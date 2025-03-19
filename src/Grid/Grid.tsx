@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
-export interface GridProps extends WithAsProps {
+export interface GridProps extends BoxProps {
   /** Whether the grid container should have a fluid width */
   fluid?: boolean;
 }
@@ -14,18 +14,12 @@ export interface GridProps extends WithAsProps {
  */
 const Grid = forwardRef<'div', GridProps>((props: GridProps, ref) => {
   const { propsWithDefaults } = useCustom('Grid', props);
-  const {
-    as: Component = 'div',
-    classPrefix = 'grid-container',
-    className,
-    fluid,
-    ...rest
-  } = propsWithDefaults;
+  const { as, classPrefix = 'grid-container', className, fluid, ...rest } = propsWithDefaults;
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const classes = merge(className, fluid ? prefix({ fluid }) : withPrefix());
 
-  return <Component {...rest} ref={ref} className={classes} />;
+  return <Box as={as} {...rest} ref={ref} className={classes} />;
 });
 
 Grid.displayName = 'Grid';

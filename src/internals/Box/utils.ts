@@ -33,12 +33,12 @@ const boxPropKeys = [
   ...Object.keys(paddingStyleMap),
   ...Object.keys(marginStyleMap),
   ...Object.keys(sizeStyleMap),
-  'rounded',
-  'border',
-  'shadow',
+  'bd',
+  'bg',
+  'c',
   'display',
-  'color',
-  'bg'
+  'rounded',
+  'shadow'
 ];
 
 /**
@@ -108,16 +108,16 @@ export const getBoxCSSVariables = (
     }
   });
 
-  if (props.border !== undefined) {
-    cssVars['--rs-box-border'] = getCssValue(props.border);
+  if (props.bd !== undefined) {
+    cssVars['--rs-box-bd'] = getCssValue(props.bd);
   }
 
   if (props.display !== undefined) {
     cssVars['--rs-box-display'] = props.display;
   }
 
-  if (props.color !== undefined) {
-    cssVars['--rs-box-color'] = getColorVar(props.color);
+  if (props.c !== undefined) {
+    cssVars['--rs-box-c'] = getColorVar(props.c);
   }
 
   if (props.bg !== undefined) {

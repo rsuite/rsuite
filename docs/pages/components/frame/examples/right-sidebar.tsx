@@ -26,7 +26,7 @@ const App = () => {
             <Breadcrumb.Item active>Monthly View</Breadcrumb.Item>
           </Breadcrumb>
         </Header>
-        <Content>
+        <Content style={{ paddingBlock: 20 }}>
           <Placeholder.Paragraph graph="square" rows={5} />
           <Placeholder.Paragraph graph="square" rows={5} />
           <Placeholder.Paragraph graph="square" rows={5} />

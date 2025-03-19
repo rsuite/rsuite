@@ -24,13 +24,13 @@ const App = () => {
       <Header>
         <Navbar>
           {/* Navigation content for large screens */}
-          <Navbar.Content hidden="sm">
+          <Navbar.Content showFrom="xs">
             <NavbarBrand />
             <NavContent />
           </Navbar.Content>
 
           {/* Drawer menu for small screens */}
-          <Navbar.Content visible="sm">
+          <Navbar.Content hideFrom="xs">
             <Navbar.Toggle />
             <Navbar.Drawer placement="left" size="xs">
               <Drawer.Header>

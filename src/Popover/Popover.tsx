@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import Heading from '../Heading';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface PopoverProps extends WithAsProps {
+export interface PopoverProps extends BoxProps {
   /** The title of the component. */
   title?: React.ReactNode;
 
@@ -26,7 +26,7 @@ export interface PopoverProps extends WithAsProps {
 const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Popover', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'popover',
     title,
     children,
@@ -47,7 +47,7 @@ const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
   );
 
   return (
-    <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
+    <Box as={as} role="dialog" ref={ref} className={classes} style={styles} {...rest}>
       {arrow && <div className={prefix`arrow`} aria-hidden />}
       {title && (
         <Heading level={3} className={prefix`title`}>
@@ -55,7 +55,7 @@ const Popover = forwardRef<'div', PopoverProps>((props, ref) => {
         </Heading>
       )}
       <div className={prefix`content`}>{children}</div>
-    </Component>
+    </Box>
   );
 });
 

@@ -144,7 +144,7 @@ const App = () => (
     <DateRangePicker
       ranges={predefinedBottomRanges}
       placeholder="Placement defaults to bottom"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}
@@ -152,7 +152,7 @@ const App = () => (
     <DateRangePicker
       ranges={predefinedRanges}
       placeholder="Placement left"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}
@@ -161,7 +161,7 @@ const App = () => (
       ranges={predefinedRanges}
       showOneCalendar
       placeholder="One calendar"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}

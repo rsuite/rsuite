@@ -2,14 +2,15 @@ import React from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import NavItem, { NavItemProps } from './NavItem';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import type { WithAsProps, PlacementCorners } from '@/internals/types';
+import type { PlacementCorners } from '@/internals/types';
 
-export interface NavDropdownToggleProps extends WithAsProps {
+export interface NavDropdownToggleProps extends BoxProps {
   icon?: NavItemProps['icon'];
   noCaret?: boolean;
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
   placement?: PlacementCorners;
 }
 
@@ -24,7 +25,7 @@ export interface NavDropdownToggleProps extends WithAsProps {
  */
 const NavDropdownToggle = forwardRef<typeof Button, NavDropdownToggleProps>((props, ref) => {
   const {
-    as: Component = NavItem,
+    as = NavItem,
     className,
     classPrefix = 'dropdown-toggle',
     renderToggle,
@@ -38,10 +39,10 @@ const NavDropdownToggle = forwardRef<typeof Button, NavDropdownToggleProps>((pro
   const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
   const toggle = (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} {...rest} ref={ref} className={classes}>
       {children}
       {!noCaret && <ArrowDownLineIcon className={prefixNavItem('caret')} />}
-    </Component>
+    </Box>
   );
 
   return renderToggle ? renderToggle(rest, ref) : toggle;

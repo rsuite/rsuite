@@ -27,7 +27,7 @@ const data = [
 ];
 
 const App = () => (
-  <VStack spacing={10} style={{ width: 300 }}>
+  <VStack spacing={10} w={300}>
     <InputGroup>
       <AutoComplete data={data} />
       <InputGroup.Button tabIndex={-1}>

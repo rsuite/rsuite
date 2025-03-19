@@ -5,9 +5,9 @@ import { DatePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DatePicker appearance="default" placeholder="Default" style={{ width: 200 }} />
+    <DatePicker appearance="default" placeholder="Default" w={200} />
     <hr />
-    <DatePicker appearance="subtle" placeholder="Subtle" style={{ width: 200 }} />
+    <DatePicker appearance="subtle" placeholder="Subtle" w={200} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

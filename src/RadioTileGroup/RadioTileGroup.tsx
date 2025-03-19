@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import Stack from '../Stack';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, FormControlBaseProps } from '@/internals/types';
+import type { FormControlBaseProps } from '@/internals/types';
 
 export interface RadioTileContextProps {
   name?: string;
@@ -17,7 +18,7 @@ export interface RadioTileContextProps {
 }
 
 export interface RadioTileGroupProps<T = number | string>
-  extends WithAsProps,
+  extends BoxProps,
     FormControlBaseProps<T> {
   /** Name to use for form */
   name?: string;
@@ -42,7 +43,7 @@ export const RadioTileContext = React.createContext<RadioTileContextProps>({});
 const RadioTileGroup = forwardRef<'div', RadioTileGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RadioTileGroup', props);
   const {
-    as: Component = Stack,
+    as = Stack,
     className,
     inline,
     children,
@@ -78,17 +79,18 @@ const RadioTileGroup = forwardRef<'div', RadioTileGroupProps>((props, ref) => {
 
   return (
     <RadioTileContext.Provider value={contextValue}>
-      <Component
+      <Box
+        as={as}
         alignItems="stretch"
         spacing={10}
-        {...rest}
         role="radiogroup"
         direction={inline ? 'row' : 'column'}
         ref={ref}
         className={classes}
+        {...rest}
       >
         {children}
-      </Component>
+      </Box>
     </RadioTileContext.Provider>
   );
 });

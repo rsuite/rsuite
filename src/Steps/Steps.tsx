@@ -1,11 +1,11 @@
 import React from 'react';
 import StepItem from './StepItem';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, ReactChildren } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface StepsProps extends WithAsProps {
+export interface StepsProps extends BoxProps {
   /** Vertical display */
   vertical?: boolean;
 
@@ -34,7 +34,7 @@ const Subcomponents = {
 const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'steps',
     className,
     children,
@@ -80,9 +80,9 @@ const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) =
   });
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {items}
-    </Component>
+    </Box>
   );
 }, Subcomponents);
 

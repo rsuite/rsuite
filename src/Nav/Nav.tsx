@@ -7,14 +7,15 @@ import NavMegaMenu from './NavMegaMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
 import { useStyles, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface NavProps<T = any> extends WithAsProps, HTMLPropsWithoutSelect {
+export interface NavProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /**
    * The appearance style of the Nav component.
    *
@@ -91,7 +92,7 @@ const Subcomponents = {
 const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Nav', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'nav',
     appearance = 'default',
     vertical,
@@ -164,9 +165,9 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
       <NavContext.Provider value={contextValue}>
         <Menubar vertical={!!sidenav}>
           {(menubar, ref) => (
-            <Component ref={ref} {...rest} className={classes} {...menubar}>
+            <Box as={as} ref={ref} {...rest} className={classes} {...menubar}>
               {children}
-            </Component>
+            </Box>
           )}
         </Menubar>
       </NavContext.Provider>
@@ -174,10 +175,10 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
   }
   return (
     <NavContext.Provider value={contextValue}>
-      <Component {...rest} ref={menubarRef} className={classes}>
+      <Box as={as} {...rest} ref={menubarRef} className={classes}>
         {children}
         {hasWaterline && <div className={prefix('bar')} />}
-      </Component>
+      </Box>
     </NavContext.Provider>
   );
 }, Subcomponents);

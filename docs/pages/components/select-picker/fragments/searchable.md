@@ -9,7 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <>
-    <SelectPicker data={data} searchable={false} style={{ width: 224 }} />
+    <SelectPicker data={data} searchable={false} w={224} />
   </>
 );
 

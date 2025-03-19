@@ -14,7 +14,7 @@ const App = () => {
     <CheckTreePicker
       data={data}
       value={value}
-      style={{ width: 280 }}
+      w={280}
       getChildren={fetchNodes}
       onChange={value => setValue(value)}
       onOpen={() => {

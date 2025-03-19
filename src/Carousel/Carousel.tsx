@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
 import { forwardRef, guid, ReactChildren, mergeRefs } from '@/internals/utils';
-import { WithAsProps, ReactElement } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
+import type { ReactElement } from '@/internals/types';
 
-export interface CarouselProps extends WithAsProps {
+export interface CarouselProps extends BoxProps {
   /** Autoplay element */
   autoplay?: boolean;
 
@@ -41,7 +42,7 @@ export interface CarouselProps extends WithAsProps {
 const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) => {
   const { rtl, propsWithDefaults } = useCustom('Carousel', props);
   const {
-    as: Component = 'div',
+    as,
     children,
     classPrefix = 'carousel',
     className,
@@ -163,7 +164,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
 
   return (
-    <Component {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
+    <Box as={as} {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
       <div className={prefix('content')}>
         <div
           data-testid="carousel-slider"
@@ -190,7 +191,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
       <div className={prefix('toolbar')}>
         <ul>{labels}</ul>
       </div>
-    </Component>
+    </Box>
   );
 });
 

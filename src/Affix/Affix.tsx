@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
-import { Offset, WithAsProps } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useElementResize, useEventListener, useMount } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { Offset } from '@/internals/types';
 
-export interface AffixProps extends WithAsProps {
+export interface AffixProps extends BoxProps {
   /** Specify the container. */
   container?: HTMLElement | (() => HTMLElement);
 
@@ -127,7 +128,7 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
 const Affix = forwardRef<'div', AffixProps>((props: AffixProps, ref) => {
   const { propsWithDefaults } = useCustom('Affix', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'affix',
     className,
     children,
@@ -161,12 +162,12 @@ const Affix = forwardRef<'div', AffixProps>((props: AffixProps, ref) => {
   const affixStyles = fixed ? fixedStyles : undefined;
 
   return (
-    <Component {...rest} ref={mergeRefs(mountRef, ref)}>
+    <Box as={as} {...rest} ref={mergeRefs(mountRef, ref)}>
       <div className={classes} style={affixStyles}>
         {children}
       </div>
       {fixed && <div aria-hidden style={placeholderStyles}></div>}
-    </Component>
+    </Box>
   );
 });
 

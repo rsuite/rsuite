@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { Placement, WithAsProps } from '@/internals/types';
+import type { Placement } from '@/internals/types';
 
-export interface TooltipProps extends WithAsProps {
+export interface TooltipProps extends BoxProps {
   /** Dispaly placement */
   placement?: Placement;
 
@@ -26,7 +27,7 @@ export interface TooltipProps extends WithAsProps {
 const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
   const { propsWithDefaults } = useCustom('Tooltip', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     classPrefix = 'tooltip',
     children,
@@ -45,9 +46,9 @@ const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
   );
 
   return (
-    <Component role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
+    <Box as={as} role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
       {children}
-    </Component>
+    </Box>
   );
 });
 

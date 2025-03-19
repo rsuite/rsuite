@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-export function testTestIdProp(element, renderOptions) {
+export function testTestIdProp(element, renderOptions?: any) {
   it('Should accept data-testid prop', () => {
     const { getByTestId } = render(
       React.cloneElement(element, { 'data-testid': 'element' }),
@@ -15,7 +15,7 @@ export function testTestIdProp(element, renderOptions) {
 export function testClassNameProp(
   element,
   customClassName,
-  renderOptions,
+  renderOptions?: any,
   getRootElement = view => view.container.firstChild
 ) {
   it('Should accept custom className', () => {
@@ -51,7 +51,7 @@ export function testClassPrefixProp(
 
 export function testStyleProp(
   element,
-  renderOptions,
+  renderOptions?: any,
   getRootElement = view => view.container.firstChild
 ) {
   it('Should accept custom style', () => {
@@ -106,13 +106,22 @@ interface TestStandardPropsOptions {
   customClassName?: string | boolean;
   sizes?: string[] | boolean;
   colors?: string[];
+  hasClassPrefix?: boolean;
   getRootElement?: (view: any) => HTMLElement;
   getUIElement?: (view: any) => HTMLElement;
 }
 
 export function testStandardProps(element, options: TestStandardPropsOptions = {}) {
   const { displayName } = element.type;
-  const { renderOptions, customClassName, sizes, colors, getRootElement, getUIElement } = options;
+  const {
+    renderOptions,
+    customClassName,
+    sizes,
+    colors,
+    hasClassPrefix = true,
+    getRootElement,
+    getUIElement
+  } = options;
 
   describe(`${displayName} - Standard props`, () => {
     it('Should have a display name', () => {
@@ -128,7 +137,10 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
         getRootElement
       );
     }
-    testClassPrefixProp(element, renderOptions, getRootElement);
+    if (hasClassPrefix) {
+      testClassPrefixProp(element, renderOptions, getRootElement);
+    }
+
     testStyleProp(element, renderOptions, getRootElement);
 
     if (sizes) {

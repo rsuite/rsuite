@@ -1,9 +1,9 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
-export interface MenuSeparatorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface MenuSeparatorProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
   /** You can use a custom element for this component */
   as?: React.ElementType;
 }
@@ -14,21 +14,17 @@ export interface MenuSeparatorProps extends WithAsProps, React.HTMLAttributes<HT
  */
 const MenuSeparator = forwardRef<'li', MenuSeparatorProps>(
   (props: MenuSeparatorProps, ref: React.Ref<any>) => {
-    const {
-      classPrefix = 'menu-item-divider',
-      className,
-      as: Component = 'li',
-      ...restProps
-    } = props;
+    const { as = 'li', classPrefix = 'menu-item-divider', className, ...rest } = props;
 
     const { merge, withPrefix } = useStyles(classPrefix);
 
     return (
-      <Component
+      <Box
+        as={as}
         ref={ref}
         role="separator"
         className={merge(withPrefix(), className)}
-        {...restProps}
+        {...rest}
       />
     );
   }

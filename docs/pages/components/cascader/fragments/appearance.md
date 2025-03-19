@@ -14,9 +14,9 @@ const data = mockTreeData({
 
 const App = () => (
   <>
-    <Cascader data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
+    <Cascader data={data} appearance="default" placeholder="Default" w={224} />
     <hr />
-    <Cascader data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
+    <Cascader data={data} appearance="subtle" placeholder="Subtle" w={224} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

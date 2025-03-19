@@ -2,14 +2,15 @@ import React from 'react';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import NavbarItem from './NavbarItem';
 import Button from '../Button';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps, PlacementCorners } from '@/internals/types';
+import type { PlacementCorners } from '@/internals/types';
 
-export interface NavbarDropdownToggleProps extends WithAsProps {
+export interface NavbarDropdownToggleProps extends BoxProps {
   noCaret?: boolean;
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
   placement?: PlacementCorners;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
 }
 
 /**
@@ -23,7 +24,7 @@ export interface NavbarDropdownToggleProps extends WithAsProps {
  */
 const NavbarDropdownToggle = forwardRef<typeof Button, NavbarDropdownToggleProps>((props, ref) => {
   const {
-    as: Component = NavbarItem,
+    as = NavbarItem,
     className,
     classPrefix = 'navbar-item',
     renderToggle,
@@ -36,10 +37,10 @@ const NavbarDropdownToggle = forwardRef<typeof Button, NavbarDropdownToggleProps
   const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
   const toggle = (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} {...rest} ref={ref} className={classes}>
       {children}
       {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
-    </Component>
+    </Box>
   );
 
   return renderToggle ? renderToggle(rest, ref) : toggle;

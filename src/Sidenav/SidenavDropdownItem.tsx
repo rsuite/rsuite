@@ -8,12 +8,13 @@ import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
 import { useStyles } from '@/internals/hooks';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { DeprecatedDropdownItemProps } from '../Dropdown/types';
 
 export interface SidenavDropdownItemProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     DeprecatedDropdownItemProps,
     HTMLPropsWithoutSelect {
   /** Active the current option */
@@ -64,17 +65,17 @@ const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, r
   }
 
   const {
+    as = 'li',
+    active: activeProp,
     classPrefix = 'dropdown-item',
     className,
-    active: activeProp,
-    eventKey,
-    onSelect,
-    icon,
-    as: Component = 'li',
-    divider,
-    panel,
     children,
+    divider,
     disabled,
+    eventKey,
+    icon,
+    panel,
+    onSelect,
     ...restProps
   } = props;
 
@@ -90,7 +91,7 @@ const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, r
 
   const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav?.activeKey, eventKey));
 
-  const renderDropdownItem = useRenderMenuItem(Component);
+  const renderDropdownItem = useRenderMenuItem(as);
 
   if (sidenav.expanded) {
     return <ExpandedSidenavDropdownItem ref={ref} {...props} />;

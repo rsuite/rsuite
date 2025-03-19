@@ -5,7 +5,7 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-import { TreePicker, Button, VStack, HStack, Loader } from 'rsuite';
+import { TreePicker, Button, VStack, HStack, Loader, Box } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -42,6 +42,7 @@ export default function Page() {
         FolderFillIcon,
         PageIcon,
         Loader,
+        Box,
         mockTreeData,
         mockAsyncData
       }}

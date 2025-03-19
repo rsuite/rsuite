@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
+import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { getParentMap } from '@/internals/Tree/utils';
 import { flattenTree } from '../Tree/utils';
@@ -25,7 +26,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
   <T extends OptionValue>(props: CascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('CascadeTree', props);
     const {
-      as: Component = 'div',
+      as,
       data = [],
       defaultValue,
       className,
@@ -133,7 +134,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
     );
 
     return (
-      <Component className={classes} {...rest} ref={ref}>
+      <Box as={as} className={classes} {...rest} ref={ref}>
         {searchable && (
           <SearchView
             data={items}
@@ -165,7 +166,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
             renderTreeNode={renderTreeNode}
           />
         )}
-      </Component>
+      </Box>
     );
   }
 ) as CascadeTreeComponent;

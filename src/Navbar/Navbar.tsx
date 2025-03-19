@@ -3,13 +3,13 @@ import NavbarBrand from './NavbarBrand';
 import NavbarContent from './NavbarContent';
 import NavbarToggle from './NavbarToggle';
 import NavbarDrawer from './NavbarDrawer';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { NavbarContext } from './NavbarContext';
-import type { WithAsProps } from '@/internals/types';
 
-export interface NavbarProps extends WithAsProps {
+export interface NavbarProps extends BoxProps {
   /**
    * The appearance style of the Navbar component.
    */
@@ -36,7 +36,7 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
   const { propsWithDefaults } = useCustom('Navbar', props);
   const {
     className,
-    as: Component = 'nav',
+    as = 'nav',
     classPrefix = 'navbar',
     appearance = 'default',
     onDrawerOpenChange,
@@ -60,7 +60,7 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
 
   return (
     <NavbarContext.Provider value={context}>
-      <Component {...rest} ref={ref} className={classes} />
+      <Box as={as} {...rest} ref={ref} className={classes} />
     </NavbarContext.Provider>
   );
 }, Subcomponents);

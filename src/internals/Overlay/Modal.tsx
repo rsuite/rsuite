@@ -4,13 +4,14 @@ import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
+import Box, { BoxProps } from '@/internals/Box';
 import { OverlayProvider } from './OverlayProvider';
 import { KEY_VALUES } from '@/internals/constants';
 import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
-import type { WithAsPropsWithoutChildren, AnimationEventProps } from '@/internals/types';
+import type { AnimationEventProps } from '@/internals/types';
 
-export interface BaseModalProps extends WithAsPropsWithoutChildren, AnimationEventProps {
+export interface BaseModalProps extends Omit<BoxProps, 'children'>, AnimationEventProps {
   /** Animation-related properties */
   animationProps?: any;
 
@@ -99,7 +100,7 @@ const useModalManager = () => {
 
 const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     children,
     transition: Transition,
     dialogTransitionTimeout,
@@ -292,7 +293,8 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     <OverlayProvider overlayContainer={overlayContainer}>
       <Portal>
         {backdrop && renderBackdrop()}
-        <Component
+        <Box
+          as={as}
           {...rest}
           ref={mergeRefs(modal.setDialogRef, ref as any)}
           style={style}
@@ -300,7 +302,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
           tabIndex={-1}
         >
           {dialogElement}
-        </Component>
+        </Box>
       </Portal>
     </OverlayProvider>
   );

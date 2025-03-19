@@ -42,7 +42,7 @@ const App = () => {
       </div>
       <hr />
       <Slider
-        style={{ width: 500 }}
+        w={500}
         min={300}
         max={700}
         progress

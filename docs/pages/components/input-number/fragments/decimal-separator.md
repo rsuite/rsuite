@@ -4,7 +4,7 @@
 import { InputNumber, Stack } from 'rsuite';
 
 const App = () => (
-  <Stack>
+  <Stack w={200}>
     <InputNumber defaultValue={3.14159} step={0.00001} decimalSeparator="," />
   </Stack>
 );

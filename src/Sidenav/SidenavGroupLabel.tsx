@@ -1,4 +1,5 @@
 import { createComponent, ComponentProps } from '@/internals/utils';
+
 export type SidenavGroupLabelProps = ComponentProps;
 
 /**
@@ -6,6 +7,8 @@ export type SidenavGroupLabelProps = ComponentProps;
  *
  * @see https://rsuitejs.com/components/sidenav
  */
-const SidenavGroupLabel = createComponent({ name: 'SidenavGroupLabel' });
+const SidenavGroupLabel = createComponent<'div', SidenavGroupLabelProps>({
+  name: 'SidenavGroupLabel'
+});
 
 export default SidenavGroupLabel;

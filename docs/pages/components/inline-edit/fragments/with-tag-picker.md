@@ -10,7 +10,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 const App = () => (
   <InlineEdit
     placeholder="Click to edit ..."
-    style={{ width: 300 }}
+    w={300}
     defaultValue={['Bryan', 'Linda', 'Nancy', 'Lloyd']}
   >
     <TagPicker data={data} block />

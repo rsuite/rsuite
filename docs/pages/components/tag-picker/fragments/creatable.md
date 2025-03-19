@@ -16,7 +16,7 @@ const App = () => (
     <TagPicker
       creatable
       data={data}
-      style={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -25,7 +25,7 @@ const App = () => (
     <TagPicker
       creatable
       data={data}
-      style={{ width: 300 }}
+      w={300}
       groupBy="role"
       placeholder="Group Select"
       onCreate={(value, item) => {

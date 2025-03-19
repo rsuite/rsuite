@@ -4,7 +4,7 @@
 import { Grid, Row, Col, Center } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (
-  <Center bg="gray.100" p={20} my={6} rounded="lg" color="gray.500" {...rest}>
+  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
     {children}
   </Center>
 );
@@ -16,9 +16,7 @@ const App = () => (
         <DecorativeBox>hidden={`{ xs: true }`}</DecorativeBox>
       </Col>
       <Col span={{ xs: 24, md: 12 }}>
-        <DecorativeBox>
-          span={`{ xs: 24, md: 12 }`}
-        </DecorativeBox>
+        <DecorativeBox>span={`{ xs: 24, md: 12 }`}</DecorativeBox>
       </Col>
     </Row>
   </Grid>

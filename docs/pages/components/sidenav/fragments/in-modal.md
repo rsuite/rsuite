@@ -9,7 +9,7 @@ import TrashIcon from '@rsuite/icons/Trash';
 import { Sidenav, Nav, Modal, Button } from 'rsuite';
 
 const Sidebar = () => (
-  <Sidenav style={{ width: 200 }} defaultOpenKeys={['1', '2']}>
+  <Sidenav w={200} defaultOpenKeys={['1', '2']}>
     <Sidenav.Body>
       <Nav>
         <Nav.Item panel>

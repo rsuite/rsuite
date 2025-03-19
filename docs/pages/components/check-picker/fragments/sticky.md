@@ -20,7 +20,7 @@ const data = mockUsers(100)
 
 const App = () => (
   <>
-    <CheckPicker sticky data={data} labelKey="firstName" valueKey="name" style={{ width: 224 }} />
+    <CheckPicker sticky data={data} labelKey="firstName" valueKey="name" w={224} />
     <hr />
     <CheckPicker
       sticky
@@ -29,7 +29,7 @@ const App = () => (
       groupBy="firstLetter"
       labelKey="firstName"
       valueKey="name"
-      style={{ width: 224 }}
+      w={224}
     />
   </>
 );

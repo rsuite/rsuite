@@ -6,12 +6,12 @@ import SidenavHeader from './SidenavHeader';
 import SidenavFooter from './SidenavFooter';
 import SidenavToggle from './SidenavToggle';
 import SidenavGroupLabel from './SidenavGroupLabel';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useStyles, useControlled } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface SidenavProps<T = string | number> extends WithAsProps {
+export interface SidenavProps<T = string | number> extends BoxProps {
   /** Whether to expand the Sidenav */
   expanded?: boolean;
 
@@ -73,7 +73,7 @@ const Subcomponents = {
 const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Sidenav', props);
   const {
-    as: Component = 'nav',
+    as = 'nav',
     className,
     classPrefix = 'sidenav',
     appearance = 'default',
@@ -132,7 +132,8 @@ const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, re
         {(transitionProps, transitionRef) => {
           const { className, ...transitionRest } = transitionProps;
           return (
-            <Component
+            <Box
+              as={as}
               {...rest}
               {...transitionRest}
               ref={mergeRefs(ref, transitionRef)}

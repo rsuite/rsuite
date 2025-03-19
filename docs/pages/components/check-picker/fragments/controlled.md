@@ -10,7 +10,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 const App = () => {
   const [value, setValue] = React.useState([]);
 
-  return <CheckPicker value={value} onChange={setValue} data={data} style={{ width: 224 }} />;
+  return <CheckPicker value={value} onChange={setValue} data={data} w={224} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

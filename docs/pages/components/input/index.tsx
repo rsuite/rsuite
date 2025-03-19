@@ -19,7 +19,8 @@ import {
   Dropdown,
   Popover,
   Divider,
-  Kbd
+  Kbd,
+  Box
 } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -64,6 +65,7 @@ export default function Page() {
         Dropdown,
         Divider,
         Kbd,
+        Box,
         SearchIcon,
         InfoRoundIcon,
         EyeCloseIcon,

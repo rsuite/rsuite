@@ -7,7 +7,8 @@ import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
-import TreeView, { type TreeViewProps } from '../Tree/TreeView';
+import TreeView, { TreeViewProps } from '../Tree/TreeView';
+import Box from '@/internals/Box';
 import { PickerLocale } from '../locales';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -67,7 +68,7 @@ export interface TreePickerProps<V = number | string | null>
 const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('TreePicker', props);
   const {
-    as: Component = 'div',
+    as,
     appearance = 'default',
     classPrefix = 'picker',
     cleanable = true,
@@ -296,7 +297,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
       speaker={renderTreeView}
       {...triggerProps}
     >
-      <Component className={classes} style={style} ref={root}>
+      <Box as={as} className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
           ref={target}
@@ -314,7 +315,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>
-      </Component>
+      </Box>
     </PickerToggleTrigger>
   );
 });

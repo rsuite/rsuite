@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
-import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
+import Box from '@/internals/Box';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
@@ -33,6 +33,7 @@ import {
 } from '@/internals/types';
 import { useCustom } from '../CustomProvider';
 import useActive from './useActive';
+import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 
 interface DeprecatedProps extends DeprecatedMenuProps {
   /**
@@ -83,7 +84,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
   <T extends OptionValue>(props: CascaderProps<T>, ref) => {
     const { rtl, propsWithDefaults } = useCustom('Cascader', props);
     const {
-      as: Component = 'div',
+      as,
       data = emptyArray,
       classPrefix = 'picker',
       childrenKey = 'children',
@@ -437,7 +438,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
         onExited={handleExited}
         speaker={renderTreeView}
       >
-        <Component className={classes} style={style} ref={root}>
+        <Box as={as} className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             ref={target}
@@ -455,7 +456,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>
-        </Component>
+        </Box>
       </PickerToggleTrigger>
     );
   }

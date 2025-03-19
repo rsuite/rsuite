@@ -13,7 +13,8 @@ import { useStyles, useInternalId } from '@/internals/hooks';
 import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import { DropdownActionType } from './DropdownState';
 import type { IconProps } from '@rsuite/icons/Icon';
-import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { DeprecatedDropdownItemProps } from './types';
 
 interface DeprecatedDropdownMenuItemProps extends DeprecatedDropdownItemProps {
@@ -26,7 +27,7 @@ interface DeprecatedDropdownMenuItemProps extends DeprecatedDropdownItemProps {
 }
 
 export interface DropdownMenuItemProps<T = any>
-  extends WithAsProps,
+  extends BoxProps,
     DeprecatedDropdownMenuItemProps,
     HTMLPropsWithoutSelect {
   /** Active the current option */
@@ -70,7 +71,7 @@ export interface DropdownMenuItemProps<T = any>
 const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component = 'li',
+      as = 'li',
       active: activeProp,
       classPrefix = 'dropdown-item',
       className,
@@ -128,7 +129,7 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
       }
     }, [internalId, selected, dispatch]);
 
-    const renderDropdownItem = useRenderMenuItem(Component);
+    const renderDropdownItem = useRenderMenuItem(as);
 
     // If using <Dropdown.Item> within <Nav>
     // Suggest <Nav.Item>

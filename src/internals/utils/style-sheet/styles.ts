@@ -14,15 +14,13 @@ interface StylePropConfig<T = StyleValue> {
 
 export const createStyleValueSetter = <T = StyleValue>(config: StylePropConfig<T>) => {
   const { valueTransformer: t, presetChecker, useGlobalVar } = config;
-  return (value?: T, component?: string, prop: string = config.prop) => {
-    if (typeof value === 'undefined' || !component) {
+  return (value?: T, name?: string, prop: string = config.prop) => {
+    if (typeof value === 'undefined' || !name) {
       return;
     }
 
     if (presetChecker?.(value)) {
-      return useGlobalVar
-        ? `var(--rs-${prop}-${value})`
-        : `var(--rs-${component}-${prop}-${value})`;
+      return useGlobalVar ? `var(--rs-${prop}-${value})` : `var(--rs-${name}-${prop}-${value})`;
     } else if (Array.isArray(value)) {
       // If value is an array, join it with spaces,
       // .eg, gap=[10, 20] -> '10px 20px'
@@ -36,13 +34,13 @@ export const createStyleValueSetter = <T = StyleValue>(config: StylePropConfig<T
 export const createStyleGetter = <T = StyleValue>(config: StylePropConfig<T>) => {
   const setValue = createStyleValueSetter(config);
 
-  return (value?: T, component?: string, prop: string = config.prop) => {
-    if (typeof value === 'undefined' || !component) {
+  return (value?: T, name?: string, prop: string = config.prop) => {
+    if (typeof value === 'undefined' || !name) {
       return;
     }
 
     return {
-      [`--rs-${component}-${prop}`]: setValue(value, component, prop)
+      [`--rs-${name}-${prop}`]: setValue(value, name, prop)
     };
   };
 };

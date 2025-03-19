@@ -1,5 +1,16 @@
 import React from 'react';
-import { DatePicker, Button, InputGroup, Input, Stack, RadioGroup, Radio } from 'rsuite';
+import {
+  DatePicker,
+  Button,
+  InputGroup,
+  Input,
+  Stack,
+  RadioGroup,
+  Radio,
+  Box,
+  VStack,
+  Text
+} from 'rsuite';
 import { format, addDays, subDays, isBefore } from 'date-fns';
 import {
   FaCalendar,
@@ -27,7 +38,10 @@ export default function Page() {
         RadioGroup,
         Radio,
         Input,
+        Box,
+        VStack,
         Stack,
+        Text,
         format,
         addDays,
         subDays,

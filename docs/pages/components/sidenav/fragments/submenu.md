@@ -9,7 +9,7 @@ import PieChartIcon from '@rsuite/icons/PieChart';
 import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
 
 const App = () => (
-  <Sidenav defaultOpenKeys={['3', '4']} style={{ width: 240 }}>
+  <Sidenav defaultOpenKeys={['3', '4']} w={240}>
     <Sidenav.Body>
       <Nav>
         <Nav.Item eventKey="1" icon={<DashboardIcon />}>

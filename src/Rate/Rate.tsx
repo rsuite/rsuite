@@ -3,6 +3,7 @@ import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
 import { KEY_VALUES } from '@/internals/constants';
 import { useControlled, useStyles, useEventCallback } from '@/internals/hooks';
 import {
@@ -14,9 +15,9 @@ import {
 } from '@/internals/utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps, Color, FormControlBaseProps, Size } from '@/internals/types';
+import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 
-export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+export interface RateProps<T = number> extends BoxProps, FormControlBaseProps<T> {
   // Whether to allow semi selection
   allowHalf?: boolean;
 
@@ -55,7 +56,7 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
 const Rate = forwardRef<'ul', RateProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Rate', props);
   const {
-    as: Component = 'ul',
+    as = 'ul',
     character = <Star />,
     className,
     classPrefix = 'rate',
@@ -175,7 +176,8 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       role="radiogroup"
       tabIndex={0}
       ref={ref}
@@ -201,7 +203,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
           {renderCharacter ? renderCharacter(hoverValue, index) : character}
         </Character>
       ))}
-    </Component>
+    </Box>
   );
 });
 

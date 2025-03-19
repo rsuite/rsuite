@@ -4,10 +4,10 @@ import StyledBox from '@/internals/StyledBox';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
+import type { BoxProps } from '@/internals/Box';
 import type { BreadcrumbLocale } from '../locales';
-import type { WithAsProps } from '@/internals/types';
 
-export interface BreadcrumbProps extends WithAsProps {
+export interface BreadcrumbProps extends BoxProps {
   /**
    * The separator between each breadcrumb item.
    */

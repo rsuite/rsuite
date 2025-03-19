@@ -97,6 +97,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.keyDown(combobox, { key: 'Enter' });
+
         expect(screen.queryByTestId('picker-popup')).not.to.exist;
       });
     });

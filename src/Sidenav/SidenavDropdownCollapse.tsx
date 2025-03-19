@@ -1,17 +1,17 @@
 import React from 'react';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
-import type { StandardProps } from '@/internals/types';
 
-export interface SidenavDropdownCollapseProps extends StandardProps {
+export interface SidenavDropdownCollapseProps extends BoxProps {
   open?: boolean;
 }
 
 const SidenavDropdownCollapse = React.forwardRef(
   (props: SidenavDropdownCollapseProps & React.HTMLAttributes<HTMLUListElement>, ref) => {
-    const { className, classPrefix = 'dropdown-menu', open, ...restProps } = props;
+    const { as = 'ul', className, classPrefix = 'dropdown-menu', open, ...restProps } = props;
 
     const { withPrefix, merge, prefix } = useStyles(classPrefix);
 
@@ -29,7 +29,8 @@ const SidenavDropdownCollapse = React.forwardRef(
           const { className: transitionClassName, ...transitionRestProps } = transitionProps;
 
           return (
-            <ul
+            <Box
+              as={as}
               ref={mergeRefs(ref, transitionRef)}
               role="group"
               className={classNames(classes, transitionClassName)}

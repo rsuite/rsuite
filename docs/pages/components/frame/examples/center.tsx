@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -7,6 +8,7 @@ import {
   Header,
   Content,
   Footer,
+  Center,
   Form,
   Button,
   Navbar,
@@ -50,7 +52,7 @@ const App = () => {
         </Navbar>
       </Header>
       <Content style={{ padding: 20 }}>
-        <Stack alignItems="center" justifyContent="center" style={{ height: '100%' }}>
+        <Stack align="center" justify="center" style={{ height: '100%' }}>
           <Panel header="Sign in" bordered style={{ width: 360 }}>
             <Form fluid>
               <Form.Group>
@@ -78,9 +80,8 @@ const App = () => {
           </Panel>
         </Stack>
       </Content>
-
-      <Footer style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
-        Copyright &copy; 2022-present React Suite.
+      <Footer>
+        <Center p={10}>Copyright &copy; 2022-present React Suite.</Center>
       </Footer>
     </Container>
   );

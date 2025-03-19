@@ -1,11 +1,11 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface ProgressLineProps extends WithAsProps {
+export interface ProgressLineProps extends BoxProps {
   /** Line color */
   strokeColor?: string;
 
@@ -38,7 +38,7 @@ export interface ProgressLineProps extends WithAsProps {
 const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressLine', props);
   const {
-    as: Component = 'div',
+    as,
     className,
     percent = 0,
     strokeColor,
@@ -80,7 +80,8 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
   );
 
   return (
-    <Component
+    <Box
+      as={as}
       role="progressbar"
       aria-valuemin="0"
       aria-valuemax="100"
@@ -95,7 +96,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
         </div>
       </div>
       {showInfo ? <div className={prefix('info')}>{info}</div> : null}
-    </Component>
+    </Box>
   );
 });
 

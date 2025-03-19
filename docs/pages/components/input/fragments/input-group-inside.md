@@ -7,7 +7,7 @@ import { Input, InputGroup, Whisper, Tooltip, VStack, Kbd } from 'rsuite';
 import { FaRegUserCircle } from 'react-icons/fa';
 
 const App = () => (
-  <VStack style={{ width: 300 }}>
+  <VStack w={300}>
     <InputGroup inside>
       <Input />
       <InputGroup.Button>

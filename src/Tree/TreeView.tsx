@@ -8,6 +8,7 @@ import useFocusTree from './hooks/useFocusTree';
 import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '@/internals/SearchBox';
+import Box from '@/internals/Box';
 import {
   List,
   AutoSizer,
@@ -109,7 +110,7 @@ interface TreeViewInnerProps<V = string | number | null>
 
 const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     data = [],
     style,
     showIndentLine,
@@ -332,7 +333,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const formattedNodes = getFormattedNodes(renderNode);
 
   return (
-    <Component ref={ref} className={classes} style={style}>
+    <Box as={as} ref={ref} className={classes} style={style}>
       {searchable ? (
         <SearchBox
           placeholder={searchPlaceholder}
@@ -380,7 +381,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
           formattedNodes
         )}
       </BaseTreeView>
-    </Component>
+    </Box>
   );
 });
 

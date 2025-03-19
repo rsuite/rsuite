@@ -14,12 +14,12 @@ const data = mockTreeData({
 
 const App = () => (
   <VStack>
-    <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />
+    <TreePicker defaultExpandAll data={data} w={246} />
     <TreePicker
       defaultExpandAll
       data={data}
       searchable={false}
-      style={{ width: 246 }}
+      w={246}
       placeholder="Select without search"
     />
   </VStack>

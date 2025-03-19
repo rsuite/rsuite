@@ -1,6 +1,7 @@
 import React from 'react';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
+import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
 import { useStyles, useControlled } from '@/internals/hooks';
@@ -18,7 +19,7 @@ const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
   <T extends OptionValue>(props: MultiCascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('MultiCascadeTree', props);
     const {
-      as: Component = 'div',
+      as,
       data = emptyArray,
       defaultValue,
       className,
@@ -79,7 +80,7 @@ const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
     const classes = merge(className, withPrefix('multi'));
 
     return (
-      <Component ref={ref} className={classes} {...rest}>
+      <Box as={as} ref={ref} className={classes} {...rest}>
         {searchable && (
           <SearchView
             cascade={cascade}
@@ -115,7 +116,7 @@ const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
             renderTreeNode={renderTreeNode}
           />
         )}
-      </Component>
+      </Box>
     );
   }
 );

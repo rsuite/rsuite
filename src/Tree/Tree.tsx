@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import useFlattenTree from './hooks/useFlattenTree';
 import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';
-import TreeView, { type TreeViewProps } from './TreeView';
+import TreeView, { TreeViewProps } from './TreeView';
 import { forwardRef } from '@/internals/utils';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { TreeProvider } from '@/internals/Tree/TreeProvider';

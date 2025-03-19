@@ -44,7 +44,7 @@ const App = () => (
     <DatePicker
       ranges={predefinedBottomRanges}
       placeholder="Placement defaults to bottom"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}
@@ -52,7 +52,7 @@ const App = () => (
     <DatePicker
       ranges={predefinedRanges}
       placeholder="Placement mixed"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}

@@ -8,14 +8,14 @@ describe('NavbarContent', () => {
 
   it('Should render responsive classes', () => {
     render(
-      <NavbarContent visible="xs" hidden="md" data-testid="content">
+      <NavbarContent showFrom="xs" hideFrom="md" data-testid="content">
         Navbar Content
       </NavbarContent>
     );
 
     const content = screen.getByTestId('content');
 
-    expect(content).to.have.class('rs-box-visible-from-xs');
-    expect(content).to.have.class('rs-box-hidden-from-md');
+    expect(content).to.have.attr('data-visible-from', 'xs');
+    expect(content).to.have.attr('data-hidden-from', 'md');
   });
 });

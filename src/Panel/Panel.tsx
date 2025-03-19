@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { PanelGroupContext } from '../PanelGroup';
-import type { AnimationEventProps, WithAsProps } from '@/internals/types';
+import type { AnimationEventProps } from '@/internals/types';
 
-export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
+export interface PanelProps<T = string | number> extends BoxProps, AnimationEventProps {
   /**
    * Show border
    */
@@ -97,7 +98,7 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
 const Panel = forwardRef<'div', PanelProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Panel', props);
   const {
-    as: Component = 'div',
+    as,
     bodyFill,
     bodyProps,
     bordered,
@@ -148,7 +149,7 @@ const Panel = forwardRef<'div', PanelProps>((props, ref) => {
   const classes = merge(className, withPrefix({ in: expanded, collapsible, bordered, shaded }));
 
   return (
-    <Component {...rest} ref={ref} className={classes} id={idProp}>
+    <Box as={as} ref={ref} className={classes} id={idProp} {...rest}>
       {header && (
         <PanelHeader
           collapsible={collapsible}
@@ -182,7 +183,7 @@ const Panel = forwardRef<'div', PanelProps>((props, ref) => {
       >
         {children}
       </PanelBody>
-    </Component>
+    </Box>
   );
 });
 

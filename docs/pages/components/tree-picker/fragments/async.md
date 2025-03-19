@@ -15,7 +15,7 @@ const App = () => {
   return (
     <TreePicker
       data={data}
-      style={{ width: 280 }}
+      w={280}
       value={value}
       onChange={value => setValue(value)}
       getChildren={fetchNodes}

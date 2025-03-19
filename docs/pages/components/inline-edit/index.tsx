@@ -11,7 +11,8 @@ import {
   InputNumber,
   Cascader,
   Panel,
-  Form
+  Form,
+  Box
 } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
 import DefaultPage from '@/components/Page';
@@ -25,6 +26,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Box,
         Form,
         InlineEdit,
         Stack,

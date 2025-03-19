@@ -3,11 +3,11 @@ import InfoOutlineIcon from '@rsuite/icons/InfoOutline';
 import Whisper from '../Whisper';
 import Tooltip from '../Tooltip';
 import IconButton from '../IconButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import type { WithAsProps } from '@/internals/types';
 
-export interface StatLabelProps extends WithAsProps {
+export interface StatLabelProps extends BoxProps {
   /**
    * The info tip of the label
    */
@@ -21,7 +21,7 @@ export interface StatLabelProps extends WithAsProps {
 
 const StatLabel = forwardRef<'dt', StatLabelProps>((props, ref) => {
   const {
-    as: Component = 'dt',
+    as = 'dt',
     classPrefix = 'stat-label',
     className,
     children,
@@ -33,14 +33,14 @@ const StatLabel = forwardRef<'dt', StatLabelProps>((props, ref) => {
   const classes = merge(className, withPrefix({ uppercase }));
 
   return (
-    <Component ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {children}
       {info && (
         <Whisper placement="top" trigger={'click'} enterable speaker={<Tooltip>{info}</Tooltip>}>
           <IconButton circle size="xs" appearance="subtle" icon={<InfoOutlineIcon />} />
         </Whisper>
       )}
-    </Component>
+    </Box>
   );
 });
 

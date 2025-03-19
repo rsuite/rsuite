@@ -10,7 +10,7 @@ const App = () => (
   <VStack spacing={16}>
     <HStack>
       <Label>Disabled: </Label>
-      <InputPicker disabled data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <InputPicker disabled data={data} defaultValue={'Julia'} w={160} />
     </HStack>
     <HStack>
       <Label> Disabled option: </Label>
@@ -18,17 +18,17 @@ const App = () => (
         data={data}
         defaultValue={'Julia'}
         disabledItemValues={['Eugenia', 'Bryan', 'Lloyd']}
-        style={{ width: 160 }}
+        w={160}
       />
     </HStack>
     <HStack>
       <Label>Read only: </Label>
-      <InputPicker readOnly data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <InputPicker readOnly data={data} defaultValue={'Julia'} w={160} />
     </HStack>
 
     <HStack>
       <Label>Plaintext: </Label>
-      <InputPicker plaintext data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <InputPicker plaintext data={data} defaultValue={'Julia'} w={160} />
     </HStack>
   </VStack>
 );

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef, mergeStyles } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { ContainerContext } from '../Container/Container';
-import type { WithAsProps } from '@/internals/types';
 
-export interface SidebarProps extends WithAsProps {
+export interface SidebarProps extends BoxProps {
   /** Width */
   width?: number | string;
 
@@ -20,12 +20,11 @@ export interface SidebarProps extends WithAsProps {
 const Sidebar = forwardRef<'aside', SidebarProps>((props: SidebarProps, ref) => {
   const { propsWithDefaults } = useCustom('Sidebar', props);
   const {
-    as: Component = 'aside',
+    as = 'aside',
     classPrefix = 'sidebar',
     className,
     collapsible,
     width = 260,
-    style,
     ...rest
   } = propsWithDefaults;
 
@@ -38,11 +37,7 @@ const Sidebar = forwardRef<'aside', SidebarProps>((props: SidebarProps, ref) => 
     setHasSidebar?.(true);
   }, [setHasSidebar]);
 
-  const styles = mergeStyles(style, {
-    flex: `0 0 ${width}px`,
-    width
-  });
-  return <Component {...rest} ref={ref} className={classes} style={styles} />;
+  return <Box as={as} w={width} ref={ref} className={classes} {...rest} />;
 });
 
 Sidebar.displayName = 'Sidebar';

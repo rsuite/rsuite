@@ -47,14 +47,18 @@
   --rs-radius-4xl: 2rem;    // 32px
   --rs-radius-full: calc(infinity * 1px);
 
+  // Shadow colors
+  --rs-shadow-color: rgb(0 0 0 / 10%);
+  --rs-shadow-color-deep: rgb(0 0 0 / 25%);
+
   // Shadows
   --rs-shadow-none: 0 0 #0000;
-  --rs-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 5%);
-  --rs-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 10%);
-  --rs-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px 0 rgb(0 0 0 / 10%);
-  --rs-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px 0 rgb(0 0 0 / 10%);
-  --rs-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px 0 rgb(0 0 0 / 10%);
-  --rs-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 25%);
+  --rs-shadow-xs: 0 1px 2px 0 var(--rs-shadow-color);
+  --rs-shadow-sm: 0 1px 3px 0 var(--rs-shadow-color), 0 1px 2px 0 var(--rs-shadow-color);
+  --rs-shadow-md: 0 4px 6px -1px var(--rs-shadow-color), 0 2px 4px 0 var(--rs-shadow-color);
+  --rs-shadow-lg: 0 10px 15px -3px var(--rs-shadow-color), 0 4px 6px 0 var(--rs-shadow-color);
+  --rs-shadow-xl: 0 20px 25px -5px var(--rs-shadow-color), 0 8px 10px 0 var(--rs-shadow-color);
+  --rs-shadow-2xl: 0 25px 50px -12px var(--rs-shadow-color-deep);
 
 }
 

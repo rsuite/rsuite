@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -28,24 +29,27 @@ import { SiProtondb } from 'react-icons/si';
 const NavHeader = ({ expanded }) => {
   if (!expanded) {
     return (
-      <HStack justifyContent="center">
+      <HStack justify="center">
         <SiProtondb size={32} />
       </HStack>
     );
   }
 
   return (
-    <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
-      <HStack>
-        <SiProtondb size={32} /> Brand
-      </HStack>
-      <InputGroup inside size="sm">
-        <InputGroup.Addon>
-          <SearchIcon />
-        </InputGroup.Addon>
-        <Input type="search" placeholder="Search here..." />
-      </InputGroup>
-    </VStack>
+    <>
+      {/* @ts-ignore */}
+      <VStack p="10px 10px 0 10px" spacing={12}>
+        <HStack>
+          <SiProtondb size={32} /> Brand
+        </HStack>
+        <InputGroup inside size="sm">
+          <InputGroup.Addon>
+            <SearchIcon />
+          </InputGroup.Addon>
+          <Input type="search" placeholder="Search here..." />
+        </InputGroup>
+      </VStack>
+    </>
   );
 };
 
@@ -57,12 +61,10 @@ const App = () => {
 
   return (
     <Container>
-      <Sidebar
-        style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
-        width={isExpanded ? 260 : 56}
-        collapsible
-      >
-        <Sidenav expanded={isExpanded} defaultOpenKeys={['3', '4']} style={{ height: '100%' }}>
+      {/* @ts-ignore */}
+      <Sidebar h="100vh" width={isExpanded ? 260 : 56} collapsible>
+        {/* @ts-ignore */}
+        <Sidenav expanded={isExpanded} defaultOpenKeys={['3', '4']} h="100%">
           <Sidenav.Header>
             <NavHeader expanded={isExpanded} />
           </Sidenav.Header>
@@ -102,7 +104,8 @@ const App = () => {
       </Sidebar>
       <Container>
         <Header>
-          <HStack spacing={16} alignItems="center" style={{ padding: '1rem' }}>
+          {/* @ts-ignore */}
+          <HStack spacing={16} align="center" p="1rem">
             <Breadcrumb>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>Components</Breadcrumb.Item>
@@ -110,7 +113,8 @@ const App = () => {
             </Breadcrumb>
           </HStack>
         </Header>
-        <Content style={{ padding: '0 1rem' }}>
+        {/* @ts-ignore */}
+        <Content px="1rem">
           <Placeholder.Paragraph rows={10} />
         </Content>
       </Container>

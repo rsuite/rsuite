@@ -31,7 +31,7 @@ const App = () => {
   return (
     <SelectPicker
       data={items}
-      style={{ width: 224 }}
+      w={224}
       onOpen={updateData}
       onSearch={updateData}
       renderListbox={renderListbox}

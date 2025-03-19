@@ -1,9 +1,8 @@
 import React from 'react';
 import Collapse from '../Animation/Collapse';
-import { useStyles } from '@/internals/hooks';
-import { WithAsProps, AnimationEventProps } from '@/internals/types';
 import ScrollView from '@/internals/ScrollView';
-
+import { useStyles } from '@/internals/hooks';
+import type { WithAsProps, AnimationEventProps } from '@/internals/types';
 export interface PanelBodyProps
   extends WithAsProps,
     AnimationEventProps,

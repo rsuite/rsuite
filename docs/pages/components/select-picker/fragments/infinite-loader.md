@@ -57,7 +57,7 @@ const App = () => {
   return (
     <SelectPicker
       data={data}
-      style={{ width: 224 }}
+      w={224}
       virtualized
       renderListbox={renderListbox}
       listProps={{

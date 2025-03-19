@@ -6,11 +6,12 @@ import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
-import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
+import type { FormControlBaseProps, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -19,7 +20,7 @@ export interface LocaleType {
   loading?: string;
 }
 
-export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<T> {
   /**
    * The label of the slider.
    */
@@ -93,7 +94,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Componnet = 'div',
+    as,
     graduated,
     className,
     barClassName,
@@ -265,7 +266,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   }
 
   return (
-    <Componnet {...rest} ref={ref} className={classes} role="presentation">
+    <Box as={as} ref={ref} role="presentation" className={classes} {...rest}>
       <div
         ref={barRef}
         className={merge(barClassName, prefix('bar'))}
@@ -317,7 +318,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
       >
         {handleTitle}
       </Handle>
-    </Componnet>
+    </Box>
   );
 });
 

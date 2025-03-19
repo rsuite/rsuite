@@ -10,7 +10,8 @@ import {
   Panel,
   InputNumber,
   Slider,
-  Cascader
+  Cascader,
+  Box
 } from 'rsuite';
 
 const skills = ['React', 'Vue', 'Angular', 'Node.js', 'Webpack', 'Babel', 'TypeScript', 'RxJS'].map(
@@ -24,11 +25,11 @@ const TextArea = React.forwardRef((props, ref) => {
 const Field = ({ label, as: Component, defaultValue, ...rest }) => {
   return (
     <Stack direction="row">
-      <label style={{ width: 120, display: 'inline-block', color: 'var(--rs-text-secondary)' }}>
+      <Box w={120} display="inline-block" c="var(--rs-text-secondary)">
         {label}
-      </label>
+      </Box>
       <InlineEdit placeholder="Click to edit ..." defaultValue={defaultValue}>
-        <Component style={{ width: 300 }} {...rest} />
+        <Component w={300} {...rest} />
       </InlineEdit>
     </Stack>
   );
