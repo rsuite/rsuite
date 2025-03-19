@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import { useClassNames } from '@/internals/hooks';
@@ -60,16 +60,12 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       disabled,
       onDragStart,
       onDragMove,
-      onDragEnd
+      onDragEnd,
+      keepTooltipOpen
     });
 
     const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
-    useEffect(() => {
-      if (keepTooltipOpen) {
-        onMouseEnter();
-      }
-    }, [keepTooltipOpen]);
     return (
       <Component
         role={role}
