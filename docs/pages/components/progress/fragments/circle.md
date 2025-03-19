@@ -1,25 +1,23 @@
 <!--start-code-->
 
 ```js
-import { Progress, HStack } from 'rsuite';
-
-const Box = ({ children }) => <div style={{ width: 120 }}>{children}</div>;
+import { Progress, HStack, Box } from 'rsuite';
 
 const App = () => (
   <HStack spacing={20}>
-    <Box>
+    <Box w={120}>
       <Progress.Circle />
     </Box>
-    <Box>
+    <Box w={120}>
       <Progress.Circle percent={30} strokeColor="#ffc107" />
     </Box>
-    <Box>
+    <Box w={120}>
       <Progress.Circle percent={100} status="success" />
     </Box>
-    <Box>
+    <Box w={120}>
       <Progress.Circle percent={30} status="fail" />
     </Box>
-    <Box>
+    <Box w={120}>
       <Progress.Circle percent={30} showInfo={false} />
     </Box>
   </HStack>

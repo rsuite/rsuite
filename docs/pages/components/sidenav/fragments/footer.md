@@ -7,7 +7,7 @@ import SettingIcon from '@rsuite/icons/Setting';
 import PieChartIcon from '@rsuite/icons/PieChart';
 import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
 import SearchIcon from '@rsuite/icons/Search';
-import { Sidenav, Nav, HStack, VStack, Input, InputGroup } from 'rsuite';
+import { Sidenav, Nav, HStack, VStack, Input, InputGroup, Box } from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 
 const Header = ({ expanded }) => {
@@ -20,7 +20,7 @@ const Header = ({ expanded }) => {
   }
 
   return (
-    <VStack style={{ padding: '10px 10px 0 10px' }} spacing={12}>
+    <VStack p="10px 10px 0 10px" spacing={12}>
       <HStack>
         <SiProtondb size={32} /> Brand
       </HStack>
@@ -37,7 +37,7 @@ const Header = ({ expanded }) => {
 const App = () => {
   const [expanded, setExpanded] = React.useState(true);
   return (
-    <div style={{ width: 240 }}>
+    <Box w={240}>
       <Sidenav expanded={expanded}>
         <Sidenav.Header>
           <Header expanded={expanded} />
@@ -55,7 +55,7 @@ const App = () => {
           <Sidenav.Toggle onToggle={setExpanded} />
         </Sidenav.Footer>
       </Sidenav>
-    </div>
+    </Box>
   );
 };
 

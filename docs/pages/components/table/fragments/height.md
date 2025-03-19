@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table, Toggle, TagPicker, HStack } from 'rsuite';
+import { Table, Toggle, TagPicker, HStack, Box } from 'rsuite';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -36,6 +36,8 @@ const columns = [
     flexGrow: 1
   }
 ];
+
+const Label = ({ children }) => <Box w={76}>{children}</Box>;
 
 const App = () => {
   const [autoHeight, setAutoHeight] = React.useState(true);
@@ -117,8 +119,6 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Label = ({ children }) => <div style={{ width: 76 }}>{children}</div>;
 ```
 
 <!--end-code-->

@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import { Uploader, Button, Loader, Message, useToaster } from 'rsuite';
+import { Uploader, Button, Loader, Message, useToaster, Box } from 'rsuite';
 import { RxCamera, RxAvatar } from 'react-icons/rx';
 
 const inDocsComponents = {
@@ -16,6 +16,7 @@ export default function Page() {
         Uploader,
         Button,
         Loader,
+        Box,
         Message,
         RxCamera,
         RxAvatar,

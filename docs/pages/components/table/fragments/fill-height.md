@@ -24,13 +24,7 @@ const App = () => {
 
         <HStack>
           <span>Container height:</span>
-          <Input
-            size="sm"
-            style={{ width: 100, display: 'inline-block' }}
-            onChange={setHeight}
-            value={height}
-          />{' '}
-          rem
+          <Input size="sm" onChange={setHeight} value={height} w={100} /> rem
         </HStack>
       </HStack>
       <hr />

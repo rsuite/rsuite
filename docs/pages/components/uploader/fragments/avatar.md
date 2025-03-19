@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Uploader, Message, Loader, useToaster } from 'rsuite';
+import { Uploader, Message, Loader, Box, useToaster } from 'rsuite';
 import { RxAvatar } from 'react-icons/rx';
 
 function previewFile(file, callback) {
@@ -39,10 +39,10 @@ const App = () => {
         toaster.push(<Message type="error">Upload failed</Message>);
       }}
     >
-      <button style={{ width: 150, height: 150 }}>
+      <Box as="button" w={150} h={150}>
         {uploading && <Loader backdrop center />}
         {fileInfo ? <img src={fileInfo} width="100%" height="100%" /> : <RxAvatar size={80} />}
-      </button>
+      </Box>
     </Uploader>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress, Button, ButtonGroup, VStack, HStack } from 'rsuite';
+import { Progress, Button, ButtonGroup, VStack, HStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Progress, Button, ButtonGroup, VStack, HStack }}
+      dependencies={{ Progress, Button, ButtonGroup, VStack, HStack, Box }}
     />
   );
 }

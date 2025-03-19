@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import React from 'react';
 import { Row, Col } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
@@ -12,13 +13,8 @@ export default function Page() {
     <DefaultPage>
       <IconList />
       <Row>
-        <Col md={24}>
-          <MarkdownRenderer>
-            {
-              // eslint-disable-next-line @typescript-eslint/no-var-requires
-              require(`.${localePath}/footer.md`)?.default
-            }
-          </MarkdownRenderer>
+        <Col span={24}>
+          <MarkdownRenderer>{require(`.${localePath}/footer.md`)?.default}</MarkdownRenderer>
         </Col>
       </Row>
     </DefaultPage>

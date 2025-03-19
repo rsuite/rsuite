@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Button, Row, Col, Slider, VStack } from 'rsuite';
+import { Nav, Button, Row, Col, Slider, VStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import ResponsiveNav from '@rsuite/responsive-nav';
@@ -37,6 +37,7 @@ export default function Page() {
         Col,
         Slider,
         VStack,
+        Box,
         ResponsiveNav,
         HomeIcon,
         Link,
