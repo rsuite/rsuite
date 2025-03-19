@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <Form>
+      <Form layout="vertical">
         <Form.Group controlId={'input-2'}>
           <Form.ControlLabel>Input</Form.ControlLabel>
           <Form.Control

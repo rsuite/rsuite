@@ -87,19 +87,22 @@ const App = () => {
           formDefaultValue={formValue}
           model={model}
         >
-          <Field
-            name="foods"
-            label="Food"
-            accepter={CustomSelect}
-            options={options}
-            error={formError.foods}
-          />
+          <Form.Stack>
+            <Field
+              name="foods"
+              label="Food"
+              accepter={CustomSelect}
+              options={options}
+              error={formError.foods}
+            />
+          </Form.Stack>
 
-          <Form.Group>
+          <hr />
+          <ButtonToolbar>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          </Form.Group>
+          </ButtonToolbar>
         </Form>
       </Col>
       <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>

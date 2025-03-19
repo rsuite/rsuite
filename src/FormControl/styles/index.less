@@ -1,7 +1,7 @@
 @import '../../styles/common.less';
 
 // Full container.
-.rs-form-fluid {
+.rs-form-stack-fluid {
   .rs-form-control-wrapper {
     width: 100%;
 
@@ -11,12 +11,9 @@
     }
   }
 
-  &.rs-form-vertical .rs-form-group {
+  &.rs-form-stack-vertical .rs-form-group {
     .rs-input-group {
       width: 100%;
-    }
-    .rs-form-control-wrapper {
-      max-width: 100%;
     }
   }
 }
@@ -38,13 +35,14 @@
 }
 
 // Vertical forms
-.rs-form-vertical .rs-form-group .rs-input-group {
-  width: @form-control-width;
-}
+.rs-form-stack-vertical .rs-form-group {
+  .rs-input-group {
+    width: @form-control-width;
+  }
 
-.rs-form-vertical .rs-form-group .rs-form-control-wrapper {
-  display: inline-block;
-  max-width: max-content;
+  .rs-form-control-wrapper {
+    display: inline-block;
+  }
 }
 
 // Horizontal forms
@@ -52,7 +50,7 @@
 // Horizontal forms are built on grid classes and allow you to create forms with
 // labels on the left and inputs on the right.
 
-.rs-form-horizontal .rs-form-group {
+.rs-form-stack-horizontal .rs-form-group {
   .rs-form-control-wrapper {
     float: inline-start;
   }
@@ -63,7 +61,7 @@
 }
 
 // Inline
-.rs-form-inline .rs-form-group {
+.rs-form-stack-inline .rs-form-group {
   .rs-form-control-wrapper {
     display: inline-block;
   }

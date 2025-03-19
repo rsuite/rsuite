@@ -21,10 +21,15 @@
 }
 
 // Vertical forms
-.rs-form-vertical .rs-form-group {
+.rs-form-stack-vertical .rs-form-group {
   .rs-form-control-label {
     display: block;
   }
+}
+
+.rs-form-stack {
+  --rs-form-group-spacing: var(--rs-spacing);
+  --rs-form-group-direction: column;
 }
 
 // Horizontal forms
@@ -32,7 +37,7 @@
 // Horizontal forms are built on grid classes and allow you to create forms with
 // labels on the left and inputs on the right.
 
-.rs-form-horizontal {
+.rs-form-stack-horizontal {
   --rs-form-control-label-width: @form-control-label-width;
   --rs-form-group-spacing: calc(var(--rs-spacing) * 3);
   --rs-form-group-direction: row;
@@ -54,11 +59,17 @@
 }
 
 // Inline
-.rs-form-inline {
-  --rs-form-spacing: calc(var(--rs-spacing) * 4);
+.rs-form-stack-inline {
   --rs-form-group-direction: row;
   --rs-form-group-spacing: calc(var(--rs-spacing) * 3);
+
   .rs-form-group {
     align-items: center;
+  }
+}
+
+.rs-form-stack-fluid {
+  .rs-form-group {
+    width: 100%;
   }
 }

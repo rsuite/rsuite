@@ -69,13 +69,15 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Name" />
-          <TextField name="address.city" label="City" />
-          <TextField name="address.postCode" label="Post Code" />
-          <TextField name="skills[0].name" label="Skill 1" />
-          <TextField name="skills[1].name" label="Skill 2" />
+          <Form.Stack>
+            <TextField name="name" label="Name" />
+            <TextField name="address.city" label="City" />
+            <TextField name="address.postCode" label="Post Code" />
+            <TextField name="skills[0].name" label="Skill 1" />
+            <TextField name="skills[1].name" label="Skill 2" />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Check
             </Button>

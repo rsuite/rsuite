@@ -1,12 +1,12 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import { useFormGroup } from '../FormGroup';
-import type { WithAsProps } from '@/internals/types';
 
 export interface FormControlLabelProps
-  extends WithAsProps,
+  extends BoxProps,
     React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Attribute of the html label tag, defaults to the controlId of the FormGroup */
   htmlFor?: string;
@@ -21,7 +21,7 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
     const { propsWithDefaults } = useCustom('FormControlLabel', props);
     const { labelId, controlId } = useFormGroup();
     const {
-      as: Component = 'label',
+      as = 'label',
       classPrefix = 'form-control-label',
       htmlFor = controlId,
       className,
@@ -32,7 +32,7 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
     const { withPrefix, merge } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
 
-    return <Component id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
+    return <Box as={as} id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
   }
 );
 

@@ -2,13 +2,13 @@ import React from 'react';
 import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface FormHelpTextProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface FormHelpTextProps extends BoxProps, React.HTMLAttributes<HTMLSpanElement> {
   /** Whether to show through the Tooltip component */
   tooltip?: boolean;
 }
@@ -21,7 +21,7 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
   const { helpTextId } = useFormGroup();
   const { propsWithDefaults } = useCustom('FormHelpText', props);
   const {
-    as: Component = 'span',
+    as = 'span',
     classPrefix = 'form-help-text',
     className,
     tooltip,
@@ -44,17 +44,17 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
           </Tooltip>
         }
       >
-        <Component role="img" aria-label="help" className={classes}>
+        <Box as={as} role="img" aria-label="help" className={classes}>
           <HelpOutlineIcon aria-hidden={true} />
-        </Component>
+        </Box>
       </Whisper>
     );
   }
 
   return (
-    <Component id={id} {...rest} ref={ref} className={classes}>
+    <Box as={as} id={id} {...rest} ref={ref} className={classes}>
       {children}
-    </Component>
+    </Box>
   );
 });
 

@@ -1,17 +1,17 @@
-import React, { FormHTMLAttributes } from 'react';
+import React, { useMemo, FormHTMLAttributes } from 'react';
 import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
+import FormStack from '../FormStack';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
-import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
 import { Schema, SchemaModel } from 'schema-typed';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useStyles } from '@/internals/hooks';
 import { FormValueProvider, FormProvider } from './FormContext';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, CheckTriggerType } from '@/internals/types';
@@ -124,6 +124,7 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
 const defaultSchema = SchemaModel({});
 
 const Subcomponents = {
+  Stack: FormStack,
   Control: FormControl as FormControlComponent,
   ControlLabel: FormControlLabel,
   ErrorMessage: FormErrorMessage,
@@ -148,9 +149,9 @@ const Form = forwardRef<
     formDefaultValue = {},
     formValue: controlledFormValue,
     formError: controlledFormError,
-    fluid,
     nestedField = false,
-    layout = 'vertical',
+    fluid,
+    layout,
     model: formModel = defaultSchema,
     readOnly,
     plaintext,
@@ -164,6 +165,9 @@ const Form = forwardRef<
     onChange,
     ...rest
   } = propsWithDefaults;
+
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(
     formModel,
@@ -195,16 +199,6 @@ const Form = forwardRef<
     resetErrors,
     cleanErrorForField
   } = useFormValidate(controlledFormError, formValidateProps);
-
-  const classes = useFormClassNames({
-    classPrefix,
-    className,
-    fluid,
-    layout,
-    readOnly,
-    plaintext,
-    disabled
-  });
 
   const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
     // Check the form before submitting
@@ -289,10 +283,29 @@ const Form = forwardRef<
     checkFieldAsyncForNextValue
   };
 
+  const formChild = useMemo(() => {
+    return fluid || layout ? (
+      <FormStack fluid={fluid} layout={layout}>
+        {children}
+      </FormStack>
+    ) : (
+      children
+    );
+  }, [fluid, children, layout]);
+
   return (
-    <form {...rest} ref={formRef} onSubmit={handleSubmit} onReset={handleReset} className={classes}>
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+      className={classes}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-plaintext={plaintext}
+      {...rest}
+    >
       <FormProvider value={formContextValue}>
-        <FormValueProvider value={formValue}>{children}</FormValueProvider>
+        <FormValueProvider value={formValue}>{formChild}</FormValueProvider>
       </FormProvider>
     </form>
   );

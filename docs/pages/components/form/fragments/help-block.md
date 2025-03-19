@@ -4,7 +4,7 @@
 import { Form, HStack } from 'rsuite';
 
 const App = () => (
-  <Form>
+  <Form layout="vertical">
     <Form.Group controlId="email-5">
       <Form.Control name="email" placeholder="Email" />
       <Form.HelpText>This field is required</Form.HelpText>

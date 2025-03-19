@@ -61,12 +61,14 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <Form.Group controlId="name-2">
-            <Form.ControlLabel>Username </Form.ControlLabel>
-            <Form.Control checkAsync name="name" placeholder="Please enter abc" />
-          </Form.Group>
+          <Form.Stack>
+            <Form.Group controlId="name-2">
+              <Form.ControlLabel>Username </Form.ControlLabel>
+              <Form.Control checkAsync name="name" placeholder="Please enter abc" />
+            </Form.Group>
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>

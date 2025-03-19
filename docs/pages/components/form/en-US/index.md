@@ -6,12 +6,13 @@ A set of components and models that process form data.
 
 <!--{include:<import-guide>}-->
 
-- `Form>` Define a form.
-- `Form.Group` Define form groups, used for form layout.
-- `Form.Control` Define form-control.
-- `Form.ControlLabel` title of form-control.
-- `Form.HelpText` help infomation of form-control.
-- `Form.ErrorMessage` error infomation of form-control.
+- `Form` is used to define a form that supports data validation.
+- `Form.Stack` is used to layout a group of form controls.
+- `Form.Group` is used to layout a single form control.
+- `Form.Control` defines the control for a form field.
+- `Form.ControlLabel` is the title corresponding to the form field.
+- `Form.HelpText` provides help information for the form field.
+- `Form.ErrorMessage` displays error messages for the form field.
 
 ## Layouts
 

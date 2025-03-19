@@ -43,6 +43,7 @@ import type { FormControlLabelProps } from '../FormControlLabel';
 import type { FormErrorMessageProps } from '../FormErrorMessage';
 import type { FormGroupProps } from '../FormGroup';
 import type { FormHelpTextProps } from '../FormHelpText';
+import type { FormStackProps } from '../FormStack';
 import type { GridProps } from '../Grid';
 import type { HeaderProps } from '../Header';
 import type { HeadingProps } from '../Heading';
@@ -158,6 +159,7 @@ export interface ReactSuiteComponents {
   FormErrorMessage: ComponentProps<FormErrorMessageProps>;
   FormGroup: ComponentProps<FormGroupProps>;
   FormHelpText: ComponentProps<FormHelpTextProps>;
+  FormStack: ComponentProps<FormStackProps>;
   Grid: ComponentProps<GridProps>;
   Header: ComponentProps<HeaderProps>;
   Heading: ComponentProps<HeadingProps>;

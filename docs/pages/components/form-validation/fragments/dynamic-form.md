@@ -147,15 +147,17 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <Form.Group controlId="orderId">
-            <Form.ControlLabel>Order ID</Form.ControlLabel>
-            <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
-          </Form.Group>
-          <Form.Control
-            name="products"
-            accepter={ProductInputControl}
-            fieldError={formError.products}
-          />
+          <Form.Stack>
+            <Form.Group controlId="orderId">
+              <Form.ControlLabel>Order ID</Form.ControlLabel>
+              <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
+            </Form.Group>
+            <Form.Control
+              name="products"
+              accepter={ProductInputControl}
+              fieldError={formError.products}
+            />
+          </Form.Stack>
 
           <hr />
           <ButtonToolbar>

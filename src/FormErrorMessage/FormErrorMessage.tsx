@@ -1,10 +1,11 @@
 import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, kebabPlace } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
-import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { PlacementCorners } from '@/internals/types';
 
-export interface FormErrorMessageProps extends WithAsProps {
+export interface FormErrorMessageProps extends BoxProps {
   /** Show error messages */
   show?: boolean;
 
@@ -19,7 +20,7 @@ export interface FormErrorMessageProps extends WithAsProps {
 const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('FormErrorMessage', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'form-error-message',
     className,
     show,
@@ -33,7 +34,8 @@ const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) =
   const wrapperClasses = merge(className, prefix('wrapper'));
 
   return show ? (
-    <Component
+    <Box
+      as={as}
       ref={ref}
       data-placement={kebabPlace(placement)}
       className={wrapperClasses}
@@ -43,7 +45,7 @@ const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) =
         <span className={prefix`arrow`} />
         <span className={prefix`inner`}>{children}</span>
       </span>
-    </Component>
+    </Box>
   ) : null;
 });
 

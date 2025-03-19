@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack spacing={10}>
+      <VStack spacing={10}>
         <Input
           name="name"
           placeholder="Name"
@@ -37,7 +37,7 @@ const App = () => {
         <Button appearance="primary" type="submit">
           Submit
         </Button>
-      </Stack>
+      </VStack>
     </form>
   );
 };

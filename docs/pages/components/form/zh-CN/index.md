@@ -6,12 +6,13 @@
 
 <!--{include:<import-guide>}-->
 
-- `Form>` 定义一个表单。
-- `Form.Group` 表单控件组，用于表单控件布局。
-- `Form.Control` 表单控件，定义一个表单字段。
-- `Form.ControlLabel` 表单控件对应的标题。
-- `Form.HelpText` 表单控件对应帮助信息。
-- `Form.ErrorMessage` 表单控件对应的错误提示信息。
+- `Form` 用于定义支持数据校验的表单。
+- `Form.Stack` 用于布局一组表单控件。
+- `Form.Group` 用于布局单个表单控件。
+- `Form.Control` 定义表单字段的控件。
+- `Form.ControlLabel` 表单字段对应的标题。
+- `Form.HelpText` 提供表单字段的帮助信息。
+- `Form.ErrorMessage` 显示表单字段的错误提示信息。
 
 ## 布局
 

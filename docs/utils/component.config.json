@@ -334,6 +334,7 @@
         "title": "表单",
         "components": [
           "Form",
+          "Form.Stack",
           "Form.Group",
           "Form.Control",
           "Form.ControlLabel",

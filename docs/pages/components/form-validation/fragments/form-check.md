@@ -71,18 +71,20 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Username" />
-          <TextField name="email" label="Email" />
-          <TextField name="age" label="Age" />
-          <TextField name="password" label="Password" type="password" autoComplete="off" />
-          <TextField
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            autoComplete="off"
-          />
+          <Form.Stack>
+            <TextField name="name" label="Username" />
+            <TextField name="email" label="Email" />
+            <TextField name="age" label="Age" />
+            <TextField name="password" label="Password" type="password" autoComplete="off" />
+            <TextField
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              autoComplete="off"
+            />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>

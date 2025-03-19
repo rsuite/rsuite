@@ -21,9 +21,11 @@ function TextField(props) {
 function App() {
   return (
     <Form model={model}>
-      <TextField name="password" label="Password" />
-      <TextField name="confirmPassword" label="ConfirmPassword" />
-      <ButtonToolbar>
+      <Form.Stack>
+        <TextField name="password" label="Password" />
+        <TextField name="confirmPassword" label="ConfirmPassword" />
+      </Form.Stack>
+      <ButtonToolbar mt={20}>
         <Button appearance="primary" type="submit">
           Submit
         </Button>
