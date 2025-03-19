@@ -50,13 +50,15 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       ...rest
     } = props;
 
+    const actualTooltip = tooltip || keepTooltipOpen;
+
     const horizontalKey = rtl ? 'right' : 'left';
     const direction = vertical ? 'bottom' : horizontalKey;
     const styles = { ...style, [direction]: `${position}%` };
     const { merge, prefix } = useClassNames(classPrefix);
 
     const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
-      tooltip,
+      tooltip: actualTooltip,
       disabled,
       onDragStart,
       onDragMove,
@@ -81,7 +83,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
         data-key={dateKey}
         data-testid="slider-handle"
       >
-        {tooltip && (
+        {actualTooltip && (
           <Tooltip
             aria-hidden="true"
             ref={tooltipRef}
