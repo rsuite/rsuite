@@ -41,7 +41,7 @@
       --rs-@{color-name}-50: @@color-name-50;
 
       each(range(9), {
-        @level: @{index}00;
+        @level: ~'@{index}00';
         @color-name-level: ~'@{color-name}-@{level}-dark';
         --rs-@{color-name}-@{level}: @@color-name-level;
       });
