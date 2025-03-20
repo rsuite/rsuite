@@ -8,25 +8,25 @@ const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea
 const App = () => (
   <Form layout="horizontal">
     <Form.Group controlId="name-6">
-      <Form.ControlLabel>Username</Form.ControlLabel>
+      <Form.Label>Username</Form.Label>
       <VStack>
         <Form.Control name="name" />
-        <Form.HelpText>Required</Form.HelpText>
+        <Form.Text>Required</Form.Text>
       </VStack>
     </Form.Group>
     <Form.Group controlId="email-6">
-      <Form.ControlLabel>Email</Form.ControlLabel>
+      <Form.Label>Email</Form.Label>
       <HStack>
         <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Required</Form.HelpText>
+        <Form.Text tooltip>Required</Form.Text>
       </HStack>
     </Form.Group>
     <Form.Group controlId="password-6">
-      <Form.ControlLabel>Password</Form.ControlLabel>
+      <Form.Label>Password</Form.Label>
       <Form.Control name="password" type="password" autoComplete="off" />
     </Form.Group>
     <Form.Group controlId="textarea-6">
-      <Form.ControlLabel>Textarea</Form.ControlLabel>
+      <Form.Label>Textarea</Form.Label>
       <Form.Control name="textarea" rows={5} accepter={Textarea} />
     </Form.Group>
     <Form.Group>

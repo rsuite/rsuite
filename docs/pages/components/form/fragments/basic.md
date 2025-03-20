@@ -9,23 +9,23 @@ const App = () => (
   <Form>
     <Form.Stack>
       <Form.Group controlId="name">
-        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Label>Username</Form.Label>
         <Form.Control name="name" />
-        <Form.HelpText>Username is required</Form.HelpText>
+        <Form.Text>Username is required</Form.Text>
       </Form.Group>
       <Form.Group controlId="email">
-        <Form.ControlLabel>Email</Form.ControlLabel>
+        <Form.Label>Email</Form.Label>
         <HStack>
           <Form.Control name="email" type="email" />
-          <Form.HelpText tooltip>Email is required</Form.HelpText>
+          <Form.Text tooltip>Email is required</Form.Text>
         </HStack>
       </Form.Group>
       <Form.Group controlId="password">
-        <Form.ControlLabel>Password</Form.ControlLabel>
+        <Form.Label>Password</Form.Label>
         <Form.Control name="password" type="password" autoComplete="off" />
       </Form.Group>
       <Form.Group controlId="textarea">
-        <Form.ControlLabel>Textarea</Form.ControlLabel>
+        <Form.Label>Textarea</Form.Label>
         <Form.Control rows={5} name="textarea" accepter={Textarea} />
       </Form.Group>
       <Form.Group>

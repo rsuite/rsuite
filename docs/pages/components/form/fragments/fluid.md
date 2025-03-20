@@ -8,32 +8,32 @@ const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea
 const App = () => (
   <Form fluid>
     <Form.Group controlId="name-1">
-      <Form.ControlLabel>Username</Form.ControlLabel>
+      <Form.Label>Username</Form.Label>
       <Form.Control name="name" />
-      <Form.HelpText>Required</Form.HelpText>
+      <Form.Text>Required</Form.Text>
     </Form.Group>
     <Form.Group controlId="email-1">
-      <Form.ControlLabel>Email</Form.ControlLabel>
+      <Form.Label>Email</Form.Label>
       <Form.Control name="email" type="email" />
-      <Form.HelpText>Required</Form.HelpText>
+      <Form.Text>Required</Form.Text>
     </Form.Group>
     <Form.Group controlId="password-1">
-      <Form.ControlLabel>Password</Form.ControlLabel>
+      <Form.Label>Password</Form.Label>
       <Form.Control name="password" type="password" autoComplete="off" />
     </Form.Group>
     <Form.Group controlId="textarea-1">
-      <Form.ControlLabel>Textarea</Form.ControlLabel>
+      <Form.Label>Textarea</Form.Label>
       <Form.Control rows={5} name="textarea" accepter={Textarea} />
     </Form.Group>
     <Form.Group controlId="input-group">
-      <Form.ControlLabel>Input Group</Form.ControlLabel>
+      <Form.Label>Input Group</Form.Label>
       <InputGroup>
         <InputGroup.Addon> @</InputGroup.Addon>
         <Form.Control name="input-group" />
       </InputGroup>
     </Form.Group>
     <Form.Group>
-      <Form.ControlLabel>InputNumber</Form.ControlLabel>
+      <Form.Label>InputNumber</Form.Label>
       <Form.Control name="numder" accepter={InputNumber} />
     </Form.Group>
     <Form.Group>

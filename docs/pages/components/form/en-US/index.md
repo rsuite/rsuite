@@ -5,14 +5,16 @@ A set of components and models that process form data.
 ## Import
 
 <!--{include:<import-guide>}-->
-
-- `Form` is used to define a form that supports data validation.
-- `Form.Stack` is used to layout a group of form controls.
-- `Form.Group` is used to layout a single form control.
-- `Form.Control` defines the control for a form field.
-- `Form.ControlLabel` is the title corresponding to the form field.
-- `Form.HelpText` provides help information for the form field.
-- `Form.ErrorMessage` displays error messages for the form field.
+- **Basic**:
+  - `Form`: Used to define forms that support data validation.
+  - `Form.Label`: Title corresponding to the form field.
+  - `Form.Control`: Defines the control for the form field. Defaults to the `Input` component. Can customize the component through the `accepter` property.
+- **Layout**:
+  - `Form.Stack`: Used to layout a group of form controls.
+  - `Form.Group`: Used to layout a single form control.
+- **Field State**:
+  - `Form.Text`: Provides help information for form fields.
+  - `Form.ErrorMessage`: Displays error message for form fields.
 
 ## Layouts
 
@@ -48,7 +50,7 @@ The `fluid` property allows the Input 100% of the form to fill the container, va
 
 ### Help Text
 
-`<Form.HelpText>` A help description can be defined below the form component. If the `tooltip` property is set, an icon will be displayed on the form component and the help description information will be displayed as `<Tooltip>`.
+`<Form.Text>` A help description can be defined below the form component. If the `tooltip` property is set, an icon will be displayed on the form component and the help description information will be displayed as `<Tooltip>`.
 
 <!--{include:`help-block.md`}-->
 
@@ -71,13 +73,13 @@ Error message can be set in 2 ways:
 
 - You should set the `aria-label` or `aria-labelledby` property for each form so that the screen reader can read the purpose of the form correctly.
 
-- Through the `controlId` prop of `<Form.Group>`, you can set `id` on `<Form.Control>` and set `htmlFor` on `<Form.ControlLabel>`. In addition, `aria-labelledby` and `aria-describeby` will be generated for `<Form.Control>`, corresponding to the `id` of `<Form.ControlLabel>` and `<Form.HelpText>`.
+- Through the `controlId` prop of `<Form.Group>`, you can set `id` on `<Form.Control>` and set `htmlFor` on `<Form.Label>`. In addition, `aria-labelledby` and `aria-describeby` will be generated for `<Form.Control>`, corresponding to the `id` of `<Form.Label>` and `<Form.Text>`.
 
-```html
+```jsx
 <Form.Group controlId="name">
-  <Form.ControlLabel>Username</Form.ControlLabel>
+  <Form.Label>Username</Form.Label>
   <Form.Control />
-  <Form.HelpText>Username is required</Form.HelpText>
+  <Form.Text>Username is required</Form.Text>
 </Form.Group>
 ```
 
@@ -106,71 +108,79 @@ HTML:
 
 ### `<Form>`
 
-| Property         | Type `(default)`                                      | Description                                                                                                |
-| ---------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Trigger the type of form validation                                                                        |
-| classPrefix      | string `('form')`                                     | The prefix of the component CSS class                                                                      |
-| disabled         | boolean `(false)`                                     | Disable the form                                                                                           |
-| errorFromContext | boolean `(true)`                                      | Error reminders in Form.Control are defaulted from Context                                                 |
-| fluid            | boolean                                               | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
-| formDefaultValue | object                                                | Default value of form                                                                                      |
-| formError        | object                                                | Error message of form                                                                                      |
-| formValue        | object                                                | Value of form (Controlled)                                                                                 |
-| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
-| model            | Schema                                                | SchemaModel instance object                                                                                |
-| nestedField      | boolean `(false)`                                     | Whether to support nested fields                                                                           |
-| onChange         | (formValue: object, event) => void                    | Callback fired when data changing                                                                          |
-| onCheck          | (formError: object) => void                           | Callback fired when data cheking                                                                           |
-| onError          | (formError: object) => void                           | Callback fired when error checking                                                                         |
-| onReset          | (formValue: object, event: FormEvent) => void         | Callback fired when form reset                                                                             |
-| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback fired when form submit, only when the form data is validated will trigger                         |
-| plaintext        | boolean `(false)`                                     | Render the form as plain text                                                                              |
-| readOnly         | boolean `(false)`                                     | Make the form readonly                                                                                     |
+| Property         | Type `(default)`                                      | Description                                                                    |
+| ---------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Specifies when to trigger form validation                                      |
+| disabled         | boolean `(false)`                                     | Disables the form                                                              |
+| errorFromContext | boolean `(true)`                                      | Default error messages in Form.Control are sourced from Context                |
+| fluid            | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only                |
+| formDefaultValue | object                                                | Initial default values for the form                                            |
+| formError        | object                                                | Error messages for the form                                                    |
+| formValue        | object                                                | Values of the form (controlled)                                                |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                                   |
+| model            | Schema                                                | Instance of SchemaModel                                                        |
+| nestedField      | boolean `(false)`                                     | Allows support for nested fields                                               |
+| onChange         | (formValue: object, event) => void                    | Callback triggered on data change                                              |
+| onCheck          | (formError: object) => void                           | Callback triggered on data validation                                          |
+| onError          | (formError: object) => void                           | Callback triggered on validation errors                                        |
+| onReset          | (formValue: object, event: FormEvent) => void         | Callback triggered on form reset                                               |
+| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback triggered on form submission, only occurs when form data is validated |
+| plaintext        | boolean `(false)`                                     | Renders the form in plain text                                                 |
+| readOnly         | boolean `(false)`                                     | Sets the form to read-only mode                                                |
+
+### `<Form.Stack>`
+
+| Property    | Type`(default)`                                       | Description                                                     |
+| ----------- | ----------------------------------------------------- | --------------------------------------------------------------- |
+| classPrefix | string `('form-stack')`                               | CSS class prefix for the component                              |
+| fluid       | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only |
+| layout      | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                    |
+| spacing     | number                                                | Spacing between form controls                                   |
 
 ### `<Form.Control>`
 
-| Property               | Type`(default)`                                       | Description                                                                                                                                                                   |
-| ---------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| accepter               | ElementType `(Input)`                                 | Proxied components.                                                                                                                                                           |
-| checkAsync             | boolean                                               | Asynchronous check value.                                                                                                                                                     |
-| checkTrigger           | 'change' \| 'blur' \| 'none'                          | The data validation trigger type, and it wiill overrides the setting on `<Form>`.                                                                                             |
-| classPrefix            | string `('form-control')`                             | The prefix of the component CSS class.                                                                                                                                        |
-| errorMessage           | ReactNode                                             | Show error messages.                                                                                                                                                          |
-| errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | The placement of error messages.                                                                                                                                              |
-| name \*                | string                                                | The name of Form.Control, support nested path. such as `address.city`, the path will be used to get and set form values.                                                      |
-| plaintext              | boolean                                               | Make the control plaintext.                                                                                                                                                   |
-| readOnly               | boolean                                               | Make the control readonly.                                                                                                                                                    |
-| rule                   | checkType                                             | Current field verification rule. If it conflicts with the `<Form>`'s `model`, it get higher priority, [example](/components/form-validation/#field-level-verification-rules). |
-| shouldResetWithUnmount | boolean`('false')`                                    | Remove field value and error message when component is unmounted.                                                                                                             |
+| Property               | Type`(default)`                                       | Description                                                                                                                                                           |
+| ---------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accepter               | ElementType `(Input)`                                 | Component to be used as the input.                                                                                                                                    |
+| checkAsync             | boolean                                               | Enables asynchronous validation.                                                                                                                                      |
+| checkTrigger           | 'change' \| 'blur' \| 'none'                          | Overrides the form's validation trigger type for this control.                                                                                                        |
+| classPrefix            | string `('form-control')`                             | CSS class prefix for the component.                                                                                                                                   |
+| errorMessage           | ReactNode                                             | Displays error messages.                                                                                                                                              |
+| errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | Specifies where to display error messages.                                                                                                                            |
+| name \*                | string                                                | Name attribute for the control, supports nested paths like `address.city` for form value management.                                                                  |
+| plaintext              | boolean                                               | Renders the control in plain text.                                                                                                                                    |
+| readOnly               | boolean                                               | Sets the control to read-only mode.                                                                                                                                   |
+| rule                   | checkType                                             | Validation rule for the field. Overrides form-level `model` validation if there's a conflict, [example](/components/form-validation/#field-level-verification-rules). |
+| shouldResetWithUnmount | boolean`('false')`                                    | Removes the field value and error message when the component is unmounted.                                                                                            |
 
 ### `<Form.Group>`
 
-| Property    | Type`(default)`         | Description                                                         |
-| ----------- | ----------------------- | ------------------------------------------------------------------- |
-| classPrefix | string `('form-group')` | The prefix of the component CSS class                               |
-| controlId   | string                  | Sets id on `<Form.Control>` and `htmlFor` on `<Form.ControlLabel>`. |
+| Property    | Type`(default)`         | Description                                                                     |
+| ----------- | ----------------------- | ------------------------------------------------------------------------------- |
+| classPrefix | string `('form-group')` | CSS class prefix for the component                                              |
+| controlId   | string                  | Assigns an id to the `<Form.Control>` and sets `htmlFor` on the `<Form.Label>`. |
 
-### `<Form.ControlLabel>`
+### `<Form.Label>`
 
-| Property    | Type`(default)`                 | Description                                                                  |
-| ----------- | ------------------------------- | ---------------------------------------------------------------------------- |
-| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                        |
-| htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the Form.Group |
+| Property    | Type`(default)`                 | Description                                                                       |
+| ----------- | ------------------------------- | --------------------------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | CSS class prefix for the component                                                |
+| htmlFor     | string                          | The `for` attribute of the HTML label tag, defaults to the Form.Group's controlId |
 
-### `<Form.HelpText>`
+### `<Form.Text>`
 
-| Property    | Type`(default)`             | Description                                                                  |
-| ----------- | --------------------------- | ---------------------------------------------------------------------------- |
-| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                        |
-| htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
-| tooltip     | boolean                     | Whether to show through the Tooltip component                                |
+| Property    | Type`(default)`             | Description                                                                       |
+| ----------- | --------------------------- | --------------------------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | CSS class prefix for the component                                                |
+| htmlFor     | string                      | The `for` attribute of the HTML label tag, defaults to the Form.Group's controlId |
+| tooltip     | boolean                     | Shows the text through a Tooltip component                                        |
 
 ### `<Form.ErrorMessage>`
 
-| Property    | Type`(default)`                                       | Description                           |
-| ----------- | ----------------------------------------------------- | ------------------------------------- |
-| classPrefix | string `('form-error-message')`                       | The prefix of the component CSS class |
-| placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | The placement of error messages       |
-| show        | boolean                                               | Whether to display error message      |
+| Property    | Type`(default)`                                       | Description                                 |
+| ----------- | ----------------------------------------------------- | ------------------------------------------- |
+| classPrefix | string `('form-error-message')`                       | CSS class prefix for the component          |
+| placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | Specifies where to display error messages   |
+| show        | boolean                                               | Toggles the visibility of the error message |
 
 <!--{include:(_common/types/placement8.md)}-->

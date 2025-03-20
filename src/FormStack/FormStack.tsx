@@ -50,15 +50,7 @@ const FormStack = forwardRef<'span', FormStackProps>((props, ref) => {
   const styles = mergeStyles(style, cssVar('spacing', spacing, getCssValue));
 
   return (
-    <Box
-      as={as}
-      ref={ref}
-      style={styles}
-      className={classes}
-      data-layout={layout}
-      data-fluid={fluid}
-      {...rest}
-    >
+    <Box as={as} ref={ref} style={styles} className={classes} {...rest}>
       {children}
     </Box>
   );

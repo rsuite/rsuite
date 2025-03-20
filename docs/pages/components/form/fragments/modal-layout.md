@@ -34,25 +34,25 @@ const App = () => {
         <Modal.Body>
           <Form fluid onChange={setFormValue} formValue={formValue}>
             <Form.Group controlId="name-9">
-              <Form.ControlLabel>Username</Form.ControlLabel>
+              <Form.Label>Username</Form.Label>
               <Form.Control name="name" />
-              <Form.HelpText>Required</Form.HelpText>
+              <Form.Text>Required</Form.Text>
             </Form.Group>
             <Form.Group controlId="email-9">
-              <Form.ControlLabel>Email</Form.ControlLabel>
+              <Form.Label>Email</Form.Label>
               <Form.Control name="email" type="email" />
-              <Form.HelpText>Required</Form.HelpText>
+              <Form.Text>Required</Form.Text>
             </Form.Group>
             <Form.Group controlId="password-9">
-              <Form.ControlLabel>Password</Form.ControlLabel>
+              <Form.Label>Password</Form.Label>
               <Form.Control name="password" type="password" autoComplete="off" />
             </Form.Group>
             <Form.Group controlId="textarea-9">
-              <Form.ControlLabel>Textarea</Form.ControlLabel>
+              <Form.Label>Textarea</Form.Label>
               <Form.Control rows={5} name="textarea" accepter={Textarea} />
             </Form.Group>
             <Form.Group controlId="select-10">
-              <Form.ControlLabel>SelectPicker</Form.ControlLabel>
+              <Form.Label>SelectPicker</Form.Label>
               <Form.Control
                 name="select"
                 data={selectData}

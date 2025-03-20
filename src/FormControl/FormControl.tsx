@@ -121,8 +121,6 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     ...rest
   } = propsWithDefaults;
 
-  console.log(props);
-
   const { controlId, helpTextId, labelId, errorMessageId } = useFormGroup(id);
 
   if (!onFieldChange) {

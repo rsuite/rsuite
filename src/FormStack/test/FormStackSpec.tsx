@@ -27,4 +27,30 @@ describe('FormStack', () => {
 
     expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '10px');
   });
+
+  it('Should support string spacing', () => {
+    render(<FormStack spacing="1rem">Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '1rem');
+  });
+
+  it('Should support responsive spacing', () => {
+    render(<FormStack spacing={[10, 20]}>Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '10px 20px');
+  });
+
+  it('Should render with different layouts', () => {
+    const { rerender } = render(<FormStack layout="horizontal">Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.class('rs-form-stack-horizontal');
+
+    rerender(<FormStack layout="vertical">Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.class('rs-form-stack-vertical');
+
+    rerender(<FormStack layout="inline">Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.class('rs-form-stack-inline');
+  });
+
+  it('Should set fluid class when fluid prop is true', () => {
+    render(<FormStack fluid>Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.class('rs-form-stack-fluid');
+  });
 });

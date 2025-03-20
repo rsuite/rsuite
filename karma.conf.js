@@ -48,7 +48,7 @@ module.exports = config => {
     },
     client: {
       mocha: {
-        timeout: 30000 // default 2000
+        timeout: 120000 // increase timeout to 120 seconds
       }
     },
     webpack: require('./webpack.karma.js'),

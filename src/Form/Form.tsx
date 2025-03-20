@@ -5,13 +5,14 @@ import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import FormStack from '../FormStack';
+import Box from '@/internals/Box';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
 import { Schema, SchemaModel } from 'schema-typed';
-import { useEventCallback, useStyles } from '@/internals/hooks';
+import { useEventCallback } from '@/internals/hooks';
 import { FormValueProvider, FormProvider } from './FormContext';
 import { useCustom } from '../CustomProvider';
 import type { WithAsProps, CheckTriggerType } from '@/internals/types';
@@ -126,9 +127,19 @@ const defaultSchema = SchemaModel({});
 const Subcomponents = {
   Stack: FormStack,
   Control: FormControl as FormControlComponent,
-  ControlLabel: FormControlLabel,
+  Label: FormControlLabel,
   ErrorMessage: FormErrorMessage,
   Group: FormGroup,
+  Text: FormHelpText,
+
+  /**
+   * @deprecated Use `Form.Label` instead
+   */
+  ControlLabel: FormControlLabel,
+
+  /**
+   * @deprecated Use `Form.Text` instead
+   */
   HelpText: FormHelpText
 };
 
@@ -144,7 +155,6 @@ const Form = forwardRef<
   const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
-    classPrefix = 'form',
     errorFromContext = true,
     formDefaultValue = {},
     formValue: controlledFormValue,
@@ -155,7 +165,6 @@ const Form = forwardRef<
     model: formModel = defaultSchema,
     readOnly,
     plaintext,
-    className,
     children,
     disabled,
     onSubmit,
@@ -165,9 +174,6 @@ const Form = forwardRef<
     onChange,
     ...rest
   } = propsWithDefaults;
-
-  const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix());
 
   const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(
     formModel,
@@ -294,20 +300,21 @@ const Form = forwardRef<
   }, [fluid, children, layout]);
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      onReset={handleReset}
-      className={classes}
+    <Box
+      as="form"
+      data-rs="form"
       data-disabled={disabled}
       data-readonly={readOnly}
       data-plaintext={plaintext}
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onReset={handleReset}
       {...rest}
     >
       <FormProvider value={formContextValue}>
         <FormValueProvider value={formValue}>{formChild}</FormValueProvider>
       </FormProvider>
-    </form>
+    </Box>
   );
 }, Subcomponents);
 
