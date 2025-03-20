@@ -5,6 +5,7 @@ A set of components and models that process form data.
 ## Import
 
 <!--{include:<import-guide>}-->
+
 - **Basic**:
   - `Form`: Used to define forms that support data validation.
   - `Form.Label`: Title corresponding to the form field.
@@ -20,9 +21,7 @@ A set of components and models that process form data.
 
 ---
 
-### Basic
-
-The default is the vertical layout
+### Vertical Layout
 
 <!--{include:`basic.md`}-->
 
@@ -32,7 +31,7 @@ The `fluid` property allows the Input 100% of the form to fill the container, va
 
 <!--{include:`fluid.md`}-->
 
-### Horizontal layout
+### Horizontal Layout
 
 <!--{include:`horizontal.md`}-->
 
