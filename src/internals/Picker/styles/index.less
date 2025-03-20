@@ -92,7 +92,9 @@
 
   &-label.rs-input-group-addon {
     color: var(--rs-text-primary);
-    padding-inline-end: 4px !important;
+    padding-inline: calc(
+      var(--rs-input-group-inside-btn-padding) * 2 - var(--rs-picker-toggle-border-width)
+    );
   }
 
   &-loader {
