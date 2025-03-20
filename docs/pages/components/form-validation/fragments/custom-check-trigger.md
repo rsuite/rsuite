@@ -74,8 +74,10 @@ const App = () => {
           model={model}
           checkTrigger={checkTrigger}
         >
-          <Field name="name" label="Email" error={formError.name} message="Email address" />
-          <Button appearance="primary" onClick={handleSubmit}>
+          <Form.Stack>
+            <Field name="name" label="Email" error={formError.name} message="Email address" />
+          </Form.Stack>
+          <Button appearance="primary" onClick={handleSubmit} mt={20}>
             Submit
           </Button>
         </Form>

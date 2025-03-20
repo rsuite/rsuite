@@ -49,6 +49,7 @@ const inDocsComponents = {
       components={['Form']}
       hasCssComponents={[
         'Form',
+        'FormStack',
         'FormControl',
         'FormControlLabel',
         'FormErrorMessage',

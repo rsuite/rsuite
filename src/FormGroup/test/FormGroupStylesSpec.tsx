@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import FormGroup from '../index';
 import FormControl from '../../FormControl/index';
 import Form from '../../Form/index';
+import { render, screen } from '@testing-library/react';
 import '../../FormControl/styles/index.less';
 import '../styles/index.less';
 

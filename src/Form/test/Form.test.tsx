@@ -15,3 +15,12 @@ formRef.current?.checkAsync();
 formRef.current?.checkForFieldAsync('name');
 formRef.current?.reset();
 formRef.current?.submit();
+
+<Form.Control name="name" />;
+<Form.Label />;
+<Form.Text />;
+<Form.ErrorMessage />;
+<Form.Group />;
+<Form.Stack />;
+<Form.HelpText />;
+<Form.ControlLabel />;

@@ -22,9 +22,9 @@ const App = () => {
 
   return (
     <>
-      <Form>
+      <Form layout="vertical">
         <Form.Group controlId={'input-2'}>
-          <Form.ControlLabel>Input</Form.ControlLabel>
+          <Form.Label>Input</Form.Label>
           <Form.Control
             name="input-2"
             placeholder="Form.Control"
@@ -33,7 +33,7 @@ const App = () => {
           />
         </Form.Group>
         <Form.Group controlId={'input-1'}>
-          <Form.ControlLabel>InputGroup</Form.ControlLabel>
+          <Form.Label>InputGroup</Form.Label>
           <Form.Control
             name="input-1"
             accepter={InputGroupField}
@@ -42,7 +42,7 @@ const App = () => {
           />
         </Form.Group>
         <Form.Group>
-          <Form.ControlLabel>Custom error messages</Form.ControlLabel>
+          <Form.Label>Custom error messages</Form.Label>
           <Form.Control name="input-3" />
           <CustomErrorMessage show={errorVisible}>{errorMessage}</CustomErrorMessage>
         </Form.Group>

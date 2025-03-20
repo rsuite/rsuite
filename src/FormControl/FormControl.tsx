@@ -5,18 +5,14 @@ import FormContext, { FormValueContext } from '../Form/FormContext';
 import useRegisterModel from './hooks/useRegisterModel';
 import useField from './hooks/useField';
 import Toggle from '../Toggle';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { CheckType } from 'schema-typed';
-import type {
-  PlacementCorners,
-  FormControlBaseProps,
-  WithAsProps,
-  CheckTriggerType
-} from '@/internals/types';
+import type { PlacementCorners, FormControlBaseProps, CheckTriggerType } from '@/internals/types';
 
 /**
  * Props that FormControl passes to its accepter
@@ -24,7 +20,7 @@ import type {
 export type FormControlAccepterProps<ValueType = any> = FormControlBaseProps<ValueType>;
 
 export interface FormControlProps<ValueType = any>
-  extends WithAsProps,
+  extends BoxProps,
     Omit<React.HTMLAttributes<HTMLFormElement>, 'value' | 'onChange'> {
   /** Proxied components */
   accepter?: React.ElementType;
@@ -104,7 +100,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
   } = useContext(FormContext);
 
   const {
-    as: Component = 'div',
+    as,
     accepter: AccepterComponent = Input,
     classPrefix = 'form-control',
     checkAsync,
@@ -194,7 +190,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
   };
 
   return (
-    <Component className={classes} ref={ref} data-testid="form-control-wrapper">
+    <Box as={as} className={classes} ref={ref} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
         aria-labelledby={labelId}
@@ -221,7 +217,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
       >
         {fieldError}
       </FormErrorMessage>
-    </Component>
+    </Box>
   );
 }) as FormControlComponent;
 

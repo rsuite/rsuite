@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import type { WithAsProps } from '@/internals/types';
 
-export interface FormGroupProps extends WithAsProps {
+export interface FormGroupProps extends BoxProps {
   /**
    * Sets id on `<Form.Control>` and `htmlFor` on `<Form.ControlLabel>`.
    * And generate ʻaria-labelledby` and ʻaria-describedby` for `<Form.Control>`.
@@ -52,7 +52,7 @@ export const useFormGroup = (controlId?: string) => {
 const FormGroup = forwardRef<'div', FormGroupProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('FormGroup', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'form-group',
     controlId: controlIdProp,
     className,
@@ -67,7 +67,7 @@ const FormGroup = forwardRef<'div', FormGroupProps>((props, ref) => {
 
   return (
     <FormGroupContext.Provider value={contextValue}>
-      <Component {...rest} ref={ref} className={classes} role="group" />
+      <Box as={as} {...rest} ref={ref} className={classes} role="group" />
     </FormGroupContext.Provider>
   );
 });

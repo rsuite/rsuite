@@ -25,15 +25,15 @@ const App = () => (
   <>
     <Form layout="inline">
       <Form.Group controlId="username-7">
-        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Label>Username</Form.Label>
         <HStack>
           <Form.Control name="username" w={200} />
-          <Form.HelpText tooltip>Required</Form.HelpText>
+          <Form.Text tooltip>Required</Form.Text>
         </HStack>
       </Form.Group>
 
       <Form.Group controlId="password-7">
-        <Form.ControlLabel>Password</Form.ControlLabel>
+        <Form.Label>Password</Form.Label>
         <Form.Control name="password" type="password" autoComplete="off" accepter={Password} />
       </Form.Group>
 
