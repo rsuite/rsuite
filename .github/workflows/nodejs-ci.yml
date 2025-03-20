@@ -71,7 +71,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: xvfb-run --auto-servernum npm test
+        run: xvfb-run --auto-servernum npm run test:ci
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
