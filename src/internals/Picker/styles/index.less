@@ -66,6 +66,7 @@
     margin-inline: var(--rs-picker-value-count-margin);
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);
+    flex-shrink: 0;
   }
 
   &-value-separator {
@@ -256,13 +257,19 @@
     }
   }
 
+  &[data-size='md'] {
+    --rs-badge-one-char-size: 18px;
+  }
+
   &[data-size='sm'] {
+    --rs-badge-one-char-size: 16px;
     .rs-picker-clean {
       height: 18px;
     }
   }
 
   &[data-size='xs'] {
+    --rs-badge-one-char-size: 14px;
     .rs-picker-clean {
       height: 18px;
       .rs-icon {

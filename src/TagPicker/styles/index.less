@@ -19,6 +19,8 @@
   overflow: hidden;
 
   .rs-picker-toggle {
+    position: absolute;
+    height: 100%;
     border: none !important;
     height: var(--rs-picker-input-height);
     inset-inline-start: 0;
@@ -32,11 +34,6 @@
     // Consistent with InputPicker
     min-width: calc(20 * 0.5875rem);
     margin-inline-end: var(--rs-picker-textbox-min-height);
-  }
-
-  .rs-picker-toggle {
-    position: absolute;
-    height: 100%;
   }
 
   .rs-tag {

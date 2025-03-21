@@ -6,9 +6,15 @@ const webpack = require('webpack');
  */
 module.exports = {
   output: {
-    pathinfo: true
+    pathinfo: false  // Disable pathinfo to improve performance
   },
   mode: 'development',
+  cache: {
+    type: 'filesystem',  // Enable filesystem caching
+    buildDependencies: {
+      config: [__filename]
+    }
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
