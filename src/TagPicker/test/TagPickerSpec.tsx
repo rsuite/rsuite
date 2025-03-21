@@ -70,9 +70,9 @@ describe('TagPicker', () => {
   });
 
   it('Should output a TagPicker', () => {
-    const { container } = render(<TagPicker data={[]} />);
+    render(<TagPicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-tag');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'tag');
   });
 
   it('Should output a button', () => {
