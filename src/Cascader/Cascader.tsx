@@ -113,8 +113,8 @@ const Cascader = forwardRef<'div', CascaderProps>(
       valueKey = 'value',
       onClean,
       onChange,
-      onEntered,
-      onExited,
+      onEnter,
+      onExit,
       onSearch,
       onSelect,
       getChildren,
@@ -247,9 +247,9 @@ const Cascader = forwardRef<'div', CascaderProps>(
       onSearch: onSearchCallback
     });
 
-    const { active, handleEntered, handleExited } = useActive({
-      onEntered,
-      onExited,
+    const { active, events } = useActive({
+      onEnter,
+      onExit,
       target,
       setSearchKeyword
     });
@@ -418,8 +418,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
     const triggerProps = {
       ...pick(props, triggerPropKeys),
-      onEnter: handleEntered,
-      onExited: handleExited
+      ...events
     };
 
     return (

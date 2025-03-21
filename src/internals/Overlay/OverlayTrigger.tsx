@@ -16,7 +16,7 @@ import Overlay, { OverlayProps } from './Overlay';
 import { useOverlay } from './OverlayProvider';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
-import { isFragment } from '@/internals/utils/ReactChildren';
+import { isFragment } from '@/internals/utils';
 import type {
   AnimationEventProps,
   StandardProps,

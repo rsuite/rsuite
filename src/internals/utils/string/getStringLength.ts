@@ -10,5 +10,3 @@ export function getStringLength(str: string) {
 
   return length;
 }
-
-export default getStringLength;

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
-import { forwardRef, guid, ReactChildren, mergeRefs } from '@/internals/utils';
+import { forwardRef, guid, rch, mergeRefs } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { ReactElement } from '@/internals/types';
 
@@ -59,7 +59,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   } = propsWithDefaults;
 
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
-  const count = ReactChildren.count(children);
+  const count = rch.count(children);
   const labels: React.ReactElement[] = [];
   const vertical = placement === 'left' || placement === 'right';
   const lengthKey = vertical ? 'height' : 'width';
@@ -122,35 +122,32 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   );
 
   const uniqueId = useMemo(() => guid(), []);
-  const items = ReactChildren.map(
-    children as React.ReactElement[],
-    (child: ReactElement, index) => {
-      if (!child) {
-        return;
-      }
-      const inputKey = `indicator_${uniqueId}_${index}`;
-      labels.push(
-        <li key={`label${index}`} className={prefix('label-wrapper')}>
-          <input
-            name={inputKey}
-            id={inputKey}
-            type="radio"
-            onChange={handleChange}
-            value={index}
-            checked={activeIndex === index}
-          />
-          <label htmlFor={inputKey} className={prefix('label')} />
-        </li>
-      );
-
-      return React.cloneElement(child, {
-        key: `slider-item${index}`,
-        'aria-hidden': activeIndex !== index,
-        style: { ...child.props.style, [lengthKey]: `${100 / count}%` },
-        className: classNames(prefix('slider-item'), child.props?.className)
-      });
+  const items = rch.map(children as React.ReactElement[], (child: ReactElement, index) => {
+    if (!child) {
+      return;
     }
-  );
+    const inputKey = `indicator_${uniqueId}_${index}`;
+    labels.push(
+      <li key={`label${index}`} className={prefix('label-wrapper')}>
+        <input
+          name={inputKey}
+          id={inputKey}
+          type="radio"
+          onChange={handleChange}
+          value={index}
+          checked={activeIndex === index}
+        />
+        <label htmlFor={inputKey} className={prefix('label')} />
+      </li>
+    );
+
+    return React.cloneElement(child, {
+      key: `slider-item${index}`,
+      'aria-hidden': activeIndex !== index,
+      style: { ...child.props.style, [lengthKey]: `${100 / count}%` },
+      className: classNames(prefix('slider-item'), child.props?.className)
+    });
+  });
 
   const classes = merge(className, withPrefix(`placement-${placement}`, `shape-${shape}`));
 

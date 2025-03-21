@@ -1,5 +1,5 @@
 import React from 'react';
-import warnOnce from './warnOnce';
+import warnOnce from '../warnOnce';
 
 /**
  * HOC for display a deprecation message from a deprecated component

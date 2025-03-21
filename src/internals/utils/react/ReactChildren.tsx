@@ -1,25 +1,6 @@
 import React from 'react';
 import type { ReactElement } from '@/internals/types';
-
-/**
- * Returns the type of the given object.
- * @param object - The object to check.
- * @returns The type of the object.
- */
-function typeOf(object: any) {
-  if (typeof object === 'object' && object !== null) {
-    return object.type || object.$$typeof;
-  }
-}
-
-/**
- * Checks if the given children is a React fragment.
- * @param children - The children to check.
- * @returns True if the children is a React fragment, false otherwise.
- */
-export function isFragment(children: React.ReactNode) {
-  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
-}
+import { isFragment } from './ReactIs';
 
 /**
  * Flattens the given children into an array.
@@ -157,7 +138,7 @@ function some(children: React.ReactNode, func: any, context?: any) {
 /**
  * Utility functions for working with React children.
  */
-export const ReactChildren = {
+export const rch = {
   /**
    * Maps over the children and clones each child element with the provided props.
    */
@@ -185,4 +166,4 @@ export const ReactChildren = {
   find
 };
 
-export default ReactChildren;
+export default rch;

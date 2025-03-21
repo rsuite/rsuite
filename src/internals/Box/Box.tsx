@@ -1,7 +1,6 @@
 import React, { CSSProperties as CSS } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { mergeStyles } from '@/internals/utils';
-import { forwardRef } from '@/internals/utils/forwardRef';
+import { mergeStyles, forwardRef } from '@/internals/utils';
 import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
 import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import Box, { BoxProps } from '@/internals/Box/Box';
 import { useStyles } from '@/internals/hooks';
-import { forwardRef } from '@/internals/utils/forwardRef';
-import { useCustom } from '../../CustomProvider';
+import { forwardRef } from './forwardRef';
+import { useCustom } from '../../../CustomProvider';
 
 export type ComponentProps = BoxProps & React.HTMLAttributes<HTMLDivElement>;
 

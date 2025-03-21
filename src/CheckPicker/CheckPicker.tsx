@@ -108,8 +108,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       onGroupTitleClick,
       onSearch,
       onEnter,
-      onEntered,
-      onExited,
+      onExit,
       onClean,
       onChange,
       onSelect,
@@ -239,11 +238,11 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       }
     );
 
-    const handleEntered = useEventCallback(() => {
+    const handleEnter = useEventCallback(() => {
       setActive(true);
     });
 
-    const handleExited = useEventCallback(() => {
+    const handleExit = useEventCallback(() => {
       resetSearch();
       setFocusItemValue(null);
       setActive(false);
@@ -355,9 +354,8 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
 
     const triggerProps = {
       ...pick(props, triggerPropKeys),
-      onEnter: createChainedFunction(initStickyItems, onEnter),
-      onEntered: createChainedFunction(handleEntered, onEntered),
-      onExited: createChainedFunction(handleExited, onExited)
+      onEnter: createChainedFunction(initStickyItems, handleEnter, onEnter),
+      onExit: createChainedFunction(handleExit, onExit)
     };
 
     return (

@@ -140,8 +140,8 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       renderOption,
       renderExtraFooter,
       onGroupTitleClick,
-      onEntered,
-      onExited,
+      onEnter,
+      onExit,
       onClean,
       onChange,
       onSelect,
@@ -243,14 +243,14 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       ...rest
     });
 
-    const handleExited = useEventCallback(() => {
+    const handleExit = useEventCallback(() => {
       resetSearch();
       setActive(false);
       onSearch?.('');
       setFocusItemValue(null);
     });
 
-    const handleEntered = useEventCallback(() => {
+    const handleEnter = useEventCallback(() => {
       setActive(true);
       setFocusItemValue(value);
     });
@@ -344,8 +344,8 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const triggerProps = {
       ...pick(props, triggerPropKeys),
-      onEntered: createChainedFunction(handleEntered, onEntered),
-      onExited: createChainedFunction(handleExited, onExited)
+      onEnter: createChainedFunction(handleEnter, onEnter),
+      onExit: createChainedFunction(handleExit, onExit)
     };
 
     return (

@@ -3,7 +3,7 @@ import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, ReactChildren } from '@/internals/utils';
+import { forwardRef, rch } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { ReactElement } from '@/internals/types';
@@ -112,7 +112,7 @@ const renderPanels = (
   tabProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabProps;
-  return ReactChildren.map(children, (child: ReactElement) => {
+  return rch.map(children, (child: ReactElement) => {
     const { eventKey, children } = child.props;
     const selected = eventKey === activeKey;
     return (
@@ -133,7 +133,7 @@ const renderTabs = (
   tabPanelProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabPanelProps;
-  return ReactChildren.map(children, (child: ReactElement) => {
+  return rch.map(children, (child: ReactElement) => {
     const { eventKey, title, disabled, icon } = child.props;
     const selected = eventKey === activeKey;
     return (

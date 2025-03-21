@@ -85,14 +85,14 @@ describe('DateRangePicker', () => {
     }
   });
 
-  it('Should render a div with "rs-picker-daterange" class', () => {
+  it('Should render a div with data-picker attribute set to "date-range"', () => {
     render(<DateRangePicker />);
 
     expect(screen.getByTestId('picker')).to.have.tagName('DIV');
     expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date-range');
   });
 
-  it('Should have "default" appearance by default', () => {
+  it('Should have data-variant attribute set to "default" by default', () => {
     render(<DateRangePicker />);
 
     expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');

@@ -1,7 +1,7 @@
 import React from 'react';
 import StepItem from './StepItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, ReactChildren } from '@/internals/utils';
+import { forwardRef, rch } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 
@@ -49,8 +49,8 @@ const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) =
   const horizontal = !vertical;
   const classes = merge(className, withPrefix({ small, vertical, horizontal: !vertical }));
 
-  const count = ReactChildren.count(children);
-  const items = ReactChildren.mapCloneElement(children, (item, index) => {
+  const count = rch.count(children);
+  const items = rch.mapCloneElement(children, (item, index) => {
     const itemStyles = {
       flexBasis: index < count - 1 ? `${100 / (count - 1)}%` : undefined,
       maxWidth: index === count - 1 ? `${100 / count}%` : undefined

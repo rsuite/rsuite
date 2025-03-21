@@ -111,8 +111,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       onClean,
       onChange,
       onCheck,
-      onEntered,
-      onExited,
+      onEnter,
+      onExit,
       onSearch,
       onSelect,
       ...rest
@@ -208,9 +208,9 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       onSearch: onSearchCallback
     });
 
-    const { active, handleEntered, handleExited } = useActive({
-      onEntered,
-      onExited,
+    const { active, events } = useActive({
+      onEnter,
+      onExit,
       target,
       setSearchKeyword
     });
@@ -364,8 +364,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
 
     const triggerProps = {
       ...pick(props, triggerPropKeys),
-      onEnter: handleEntered,
-      onExited: handleExited
+      ...events
     };
 
     return (
