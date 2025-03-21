@@ -1,11 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
-import Box from '@/internals/Box';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
@@ -16,12 +14,10 @@ import {
   PickerToggle,
   PickerPopup,
   PickerToggleTrigger,
-  usePickerClassName,
   usePickerRef,
   useToggleKeyDownEvent,
   useFocusItemValue,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
@@ -84,41 +80,43 @@ const Cascader = forwardRef<'div', CascaderProps>(
   <T extends OptionValue>(props: CascaderProps<T>, ref) => {
     const { rtl, propsWithDefaults } = useCustom('Cascader', props);
     const {
-      as,
-      data = emptyArray,
-      classPrefix = 'picker',
-      childrenKey = 'children',
-      valueKey = 'value',
-      labelKey = 'label',
-      defaultValue,
-      placeholder,
-      disabled,
-      disabledItemValues = emptyArray,
       appearance = 'default',
+      as,
+      block,
+      className,
       cleanable = true,
-      locale,
-      toggleAs,
-      style,
-      value: valueProp,
-      popupClassName,
-      popupStyle,
+      classPrefix = 'picker',
       columnHeight,
       columnWidth,
-      searchable = true,
-      parentSelectable,
-      placement = 'bottomStart',
+      data = emptyArray,
+      defaultValue,
+      disabled,
+      disabledItemValues = emptyArray,
+      childrenKey = 'children',
       id,
+      labelKey = 'label',
+      locale,
+      parentSelectable,
+      placeholder,
+      placement = 'bottomStart',
+      popupClassName,
+      popupStyle,
       renderColumn,
-      renderTreeNode,
-      renderSearchItem,
-      renderValue,
       renderExtraFooter,
-      onEntered,
-      onExited,
+      renderSearchItem,
+      renderTreeNode,
+      renderValue,
+      searchable = true,
+      style,
+      toggleAs,
+      value: valueProp,
+      valueKey = 'value',
       onClean,
       onChange,
-      onSelect,
+      onEntered,
+      onExited,
       onSearch,
+      onSelect,
       getChildren,
       ...rest
     } = propsWithDefaults;
@@ -418,45 +416,47 @@ const Cascader = forwardRef<'div', CascaderProps>(
       }
     }
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      classPrefix,
-      hasValue,
-      name: 'cascader',
-      appearance,
-      cleanable
-    });
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: handleEntered,
+      onExited: handleExited
+    };
 
     return (
       <PickerToggleTrigger
+        as={as}
         id={id}
+        name="cascader"
+        block={block}
+        disabled={disabled}
+        appearance={appearance}
         popupType="tree"
-        pickerProps={pick(props, pickTriggerPropKeys)}
+        triggerProps={triggerProps}
         ref={trigger}
         placement={placement}
-        onEntered={handleEntered}
-        onExited={handleExited}
         speaker={renderTreeView}
+        rootRef={root}
+        style={style}
+        classPrefix={classPrefix}
+        className={className}
       >
-        <Box as={as} className={classes} style={style} ref={root}>
-          <PickerToggle
-            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            ref={target}
-            as={toggleAs}
-            appearance={appearance}
-            disabled={disabled}
-            onClean={createChainedFunction(handleClean, onClean)}
-            onKeyDown={onPickerKeyDown}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            active={active}
-            placement={placement}
-            inputValue={value ?? ''}
-            focusItemValue={focusItemValue}
-          >
-            {selectedElement || locale?.placeholder}
-          </PickerToggle>
-        </Box>
+        <PickerToggle
+          ref={target}
+          as={toggleAs}
+          appearance={appearance}
+          disabled={disabled}
+          onClean={createChainedFunction(handleClean, onClean)}
+          onKeyDown={onPickerKeyDown}
+          cleanable={cleanable && !disabled}
+          hasValue={hasValue}
+          active={active}
+          placement={placement}
+          inputValue={value ?? ''}
+          focusItemValue={focusItemValue}
+          {...rest}
+        >
+          {selectedElement || locale?.placeholder}
+        </PickerToggle>
       </PickerToggleTrigger>
     );
   }

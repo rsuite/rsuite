@@ -60,9 +60,10 @@ describe('TreePicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<TreePicker data={[]} />);
+    render(<TreePicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.class('rs-picker');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should set a height for the Tree', () => {
@@ -171,23 +172,20 @@ describe('TreePicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container: container1 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => '1'} data-testid="picker1" />
-    );
-    const { container: container2 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => null} data-testid="picker2" />
-    );
-    const { container: container3 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => undefined} data-testid="picker3" />
-    );
+    const { rerender } = render(<TreePicker data={[]} value="Test" renderValue={() => '1'} />);
 
-    expect(screen.getAllByRole('combobox')[0]).to.have.text('1');
-    expect(screen.getAllByRole('combobox')[1]).to.have.text('Select');
-    expect(screen.getAllByRole('combobox')[2]).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.text('1');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
-    expect(container1.firstChild).to.have.class('rs-picker-has-value');
-    expect(container2.firstChild).not.to.have.class('rs-picker-has-value');
-    expect(container3.firstChild).not.to.have.class('rs-picker-has-value');
+    rerender(<TreePicker data={[]} value="Test" renderValue={() => null} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
+
+    rerender(<TreePicker data={[]} value="Test" renderValue={() => undefined} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
   });
 
   it('Should not be call renderValue()', () => {

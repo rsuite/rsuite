@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
-import Box from '@/internals/Box';
 import useActive from '../Cascader/useActive';
 import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
@@ -18,12 +16,10 @@ import {
   PickerPopup,
   SelectedElement,
   PickerToggleTrigger,
-  usePickerClassName,
   usePickerRef,
   useToggleKeyDownEvent,
   useFocusItemValue,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
@@ -81,42 +77,44 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     const {
       as,
       appearance = 'default',
+      block,
+      className,
+      cleanable = true,
       classPrefix = 'picker',
-      defaultValue,
       columnHeight,
       columnWidth,
       childrenKey = 'children',
-      cleanable = true,
-      data = emptyArray,
-      disabled,
-      disabledItemValues = emptyArray,
-      value: valueProp,
-      valueKey = 'value',
-      labelKey = 'label',
-      locale,
-      toggleAs,
-      style,
       countable = true,
       cascade = true,
+      data = emptyArray,
+      defaultValue,
+      disabled,
+      disabledItemValues = emptyArray,
+      id,
+      labelKey = 'label',
+      locale,
       placeholder,
       placement = 'bottomStart',
       popupClassName,
       popupStyle,
-      searchable = true,
-      uncheckableItemValues = emptyArray,
-      id,
-      getChildren,
-      renderValue,
-      renderExtraFooter,
       renderColumn,
+      renderExtraFooter,
       renderTreeNode,
-      onEntered,
-      onExited,
+      renderValue,
+      searchable = true,
+      style,
+      toggleAs,
+      uncheckableItemValues = emptyArray,
+      value: valueProp,
+      valueKey = 'value',
+      getChildren,
       onClean,
-      onSearch,
-      onSelect,
       onChange,
       onCheck,
+      onEntered,
+      onExited,
+      onSearch,
+      onSelect,
       ...rest
     } = propsWithDefaults;
 
@@ -364,46 +362,48 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       }
     }
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      classPrefix,
-      hasValue,
-      countable,
-      name: 'cascader',
-      appearance,
-      cleanable
-    });
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: handleEntered,
+      onExited: handleExited
+    };
 
     return (
       <PickerToggleTrigger
+        as={as}
         id={id}
+        name="multi-cascader"
+        block={block}
+        disabled={disabled}
+        appearance={appearance}
         popupType="tree"
         multiple
-        pickerProps={pick(props, pickTriggerPropKeys)}
+        triggerProps={triggerProps}
         ref={trigger}
         placement={placement}
-        onEnter={handleEntered}
-        onExited={handleExited}
         speaker={renderTreeView}
+        rootRef={root}
+        style={style}
+        classPrefix={classPrefix}
+        className={className}
       >
-        <Box as={as} className={classes} style={style} ref={root}>
-          <PickerToggle
-            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            as={toggleAs}
-            appearance={appearance}
-            disabled={disabled}
-            ref={target}
-            onClean={createChainedFunction(handleClean, onClean)}
-            onKeyDown={onPickerKeyDown}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            active={active}
-            placement={placement}
-            inputValue={value}
-          >
-            {selectedElement || locale?.placeholder}
-          </PickerToggle>
-        </Box>
+        <PickerToggle
+          ref={target}
+          as={toggleAs}
+          appearance={appearance}
+          disabled={disabled}
+          onClean={createChainedFunction(handleClean, onClean)}
+          onKeyDown={onPickerKeyDown}
+          cleanable={cleanable && !disabled}
+          countable={countable}
+          hasValue={hasValue}
+          active={active}
+          placement={placement}
+          inputValue={value}
+          {...rest}
+        >
+          {selectedElement || locale?.placeholder}
+        </PickerToggle>
       </PickerToggleTrigger>
     );
   }

@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import clone from 'lodash/clone';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
-import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import SearchBox from '@/internals/SearchBox';
-import Box from '@/internals/Box';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
@@ -25,12 +23,10 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   useFocusItemValue,
-  usePickerClassName,
   useSearch,
   useToggleKeyDownEvent,
   usePickerRef,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
   PickerHandle,
   PickerToggleProps
@@ -73,33 +69,35 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const { propsWithDefaults } = useCustom('CheckPicker', props);
     const {
-      as,
       appearance = 'default',
+      as,
+      block,
+      className,
+      cleanable = true,
       classPrefix = 'picker',
       countable = true,
       data = emptyArray,
+      defaultValue,
+      disabled,
       disabledItemValues = emptyArray,
-      valueKey = 'value',
+      groupBy,
+      id,
       labelKey = 'label',
-      searchable = true,
-      virtualized,
-      cleanable = true,
-      placement = 'bottomStart',
-      popupAutoWidth = true,
+      listProps,
       listboxMaxHeight = 320,
-      popupClassName,
-      popupStyle,
       locale,
       placeholder,
-      disabled,
-      toggleAs,
-      style,
+      placement = 'bottomStart',
+      popupAutoWidth = true,
+      popupClassName,
+      popupStyle,
+      searchable = true,
       sticky,
+      style,
+      toggleAs,
       value: valueProp,
-      defaultValue,
-      groupBy,
-      listProps,
-      id,
+      valueKey = 'value',
+      virtualized,
       sort,
       searchBy,
       renderOption,
@@ -355,47 +353,49 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       );
     };
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      appearance,
-      classPrefix,
-      cleanable,
-      countable,
-      hasValue,
-      name: 'check'
-    });
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: createChainedFunction(initStickyItems, onEnter),
+      onEntered: createChainedFunction(handleEntered, onEntered),
+      onExited: createChainedFunction(handleExited, onExited)
+    };
 
     return (
       <PickerToggleTrigger
+        as={as}
         id={id}
         multiple
-        pickerProps={pick(props, pickTriggerPropKeys)}
+        name="check"
+        block={block}
+        disabled={disabled}
+        appearance={appearance}
+        triggerProps={triggerProps}
         ref={trigger}
         placement={placement}
-        onEnter={createChainedFunction(initStickyItems, onEnter)}
-        onEntered={createChainedFunction(handleEntered, onEntered)}
-        onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderPopup}
+        rootRef={root}
+        style={style}
+        classPrefix={classPrefix}
+        className={className}
       >
-        <Box as={as} className={classes} style={style} ref={root}>
-          <PickerToggle
-            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            ref={target}
-            appearance={appearance}
-            disabled={disabled}
-            onClean={handleClean}
-            onKeyDown={onPickerKeyDown}
-            as={toggleAs}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            active={active}
-            placement={placement}
-            inputValue={value}
-            focusItemValue={focusItemValue}
-          >
-            {selectedElement || locale?.placeholder}
-          </PickerToggle>
-        </Box>
+        <PickerToggle
+          ref={target}
+          appearance={appearance}
+          disabled={disabled}
+          onClean={handleClean}
+          onKeyDown={onPickerKeyDown}
+          as={toggleAs}
+          cleanable={cleanable && !disabled}
+          countable={countable}
+          hasValue={hasValue}
+          active={active}
+          placement={placement}
+          inputValue={value}
+          focusItemValue={focusItemValue}
+          {...rest}
+        >
+          {selectedElement || locale?.placeholder}
+        </PickerToggle>
       </PickerToggleTrigger>
     );
   }

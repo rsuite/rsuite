@@ -2,17 +2,11 @@ import omit from 'lodash/omit';
 import { useStyles } from '@/internals/hooks';
 
 export interface PickerClassNameProps {
-  name?: string;
   classPrefix: string;
   className?: string;
-  appearance?: 'default' | 'subtle';
-  cleanable?: boolean;
   block?: boolean;
   disabled?: boolean;
-  countable?: boolean;
-  readOnly?: boolean;
   plaintext?: boolean;
-  hasValue?: boolean;
   classes?: any;
 }
 
@@ -20,39 +14,13 @@ export interface PickerClassNameProps {
  * The className of the assembled Toggle is on the Picker.
  */
 function usePickerClassName(props: PickerClassNameProps): [string, string[]] {
-  const {
-    name,
-    classPrefix,
-    className,
-    appearance,
-    cleanable,
-    block,
-    disabled,
-    countable,
-    readOnly,
-    plaintext,
-    hasValue,
-    ...rest
-  } = props;
+  const { classPrefix, className, block, disabled, ...rest } = props;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(name, appearance, 'toggle-wrapper', {
-      'read-only': readOnly,
-      'has-value': hasValue,
-      cleanable,
-      block,
-      disabled,
-      countable,
-      plaintext
-    })
-  );
+  const classes = merge(className, withPrefix({ block, disabled }));
 
   // Those props that're used for composing the className
-  const usedClassNamePropKeys = Object.keys(
-    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext', 'name'])
-  );
+  const usedClassNamePropKeys = Object.keys(omit(props, [...Object.keys(rest || {}), 'disabled']));
 
   return [classes, usedClassNamePropKeys];
 }

@@ -86,22 +86,22 @@ describe('DateRangePicker', () => {
   });
 
   it('Should render a div with "rs-picker-daterange" class', () => {
-    const { container } = render(<DateRangePicker />);
+    render(<DateRangePicker />);
 
-    expect(container.firstChild).to.have.tagName('DIV');
-    expect(container.firstChild).to.have.class('rs-picker-daterange');
+    expect(screen.getByTestId('picker')).to.have.tagName('DIV');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date-range');
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<DateRangePicker />);
+    render(<DateRangePicker />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should be cleanable by default', () => {
-    const { container } = render(<DateRangePicker value={[new Date(), new Date()]} />);
+    render(<DateRangePicker value={[new Date(), new Date()]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cleanable');
+    expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
   it('Should output custom value with time', () => {

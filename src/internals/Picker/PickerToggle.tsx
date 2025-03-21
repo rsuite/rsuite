@@ -7,13 +7,16 @@ import Stack from '../../Stack';
 import useCombobox from './hooks/useCombobox';
 import { useStyles, useEventCallback, useToggleCaret } from '../hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
+import { triggerPropKeys } from './PickerToggleTrigger';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { Placement, OptionValue } from '@/internals/types';
+import { omit } from 'lodash';
 
 export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
   hasValue?: boolean;
   cleanable?: boolean;
+  countable?: boolean;
   caret?: boolean;
   /**
    * Custom caret component
@@ -54,6 +57,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     hasValue,
     loading = false,
     cleanable,
+    countable,
     tabIndex = 0,
     inputValue: inputValueProp,
     focusItemValue,
@@ -114,11 +118,16 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       aria-labelledby={labelId}
       aria-describedby={id ? `${id}-describe` : undefined}
       aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
-      {...rest}
+      data-has-value={hasValue}
+      data-cleanable={cleanable}
+      data-countable={countable}
+      data-size={size}
+      data-readonly={readOnly}
       ref={mergeRefs(combobox, ref)}
       disabled={disabled}
       tabIndex={disabled ? undefined : tabIndex}
       className={classes}
+      {...omit(rest, triggerPropKeys)}
     >
       <Stack className={prefix('stack')}>
         {label && (

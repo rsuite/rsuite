@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
-import Box from '@/internals/Box';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
 import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
@@ -10,7 +9,6 @@ import useFocusState from './hooks/useFocusState';
 import isNil from 'lodash/isNil';
 import pick from 'lodash/pick';
 import isFunction from 'lodash/isFunction';
-import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -21,11 +19,9 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   PickerToggleProps,
-  usePickerClassName,
   useToggleKeyDownEvent,
   usePickerRef,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps
 } from '@/internals/Picker';
 import { getSelectedItems } from '../CheckTree/utils';
@@ -80,9 +76,11 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     as,
     id,
     appearance = 'default',
+    block,
     cleanable = true,
     countable = true,
     cascade = true,
+    className,
     classPrefix = 'picker',
     childrenKey = 'children',
     disabled,
@@ -99,11 +97,11 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     placement = 'bottomStart',
     treeHeight = 320,
     toggleAs,
-    style,
     searchBy,
     searchKeyword,
     showIndentLine,
     searchable = true,
+    style,
     valueKey = 'value',
     value: controlledValue,
     virtualized = false,
@@ -285,47 +283,46 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     }
   }
 
-  const [classes, usedClassNamePropKeys] = usePickerClassName({
-    ...props,
-    classPrefix,
-    appearance,
-    countable,
-    cleanable,
-    disabled,
-    hasValue: hasValidValue,
-    name: 'check-tree'
-  });
-
   return (
     <PickerToggleTrigger
+      as={as}
       id={id}
+      name="check-tree"
+      block={block}
+      disabled={disabled}
+      appearance={appearance}
       popupType="tree"
       multiple
-      pickerProps={pick(props, pickTriggerPropKeys)}
+      triggerProps={{
+        ...pick(props, triggerPropKeys),
+        ...triggerProps
+      }}
       ref={trigger}
       placement={placement}
       speaker={renderTreeView}
-      {...triggerProps}
+      rootRef={root}
+      style={style}
+      classPrefix={classPrefix}
+      className={className}
     >
-      <Box as={as} className={classes} style={style} ref={root}>
-        <PickerToggle
-          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-          ref={target}
-          appearance={appearance}
-          onKeyDown={onPickerKeydown}
-          onClean={createChainedFunction(handleClean, onClean)}
-          cleanable={cleanable && !disabled}
-          disabled={disabled}
-          as={toggleAs}
-          hasValue={hasValidValue}
-          active={active}
-          placement={placement}
-          inputValue={value}
-          focusItemValue={focusItemValue}
-        >
-          {selectedElement || locale?.placeholder}
-        </PickerToggle>
-      </Box>
+      <PickerToggle
+        ref={target}
+        appearance={appearance}
+        onKeyDown={onPickerKeydown}
+        onClean={createChainedFunction(handleClean, onClean)}
+        cleanable={cleanable && !disabled}
+        countable={countable}
+        disabled={disabled}
+        as={toggleAs}
+        hasValue={hasValidValue}
+        active={active}
+        placement={placement}
+        inputValue={value}
+        focusItemValue={focusItemValue}
+        {...rest}
+      >
+        {selectedElement || locale?.placeholder}
+      </PickerToggle>
     </PickerToggleTrigger>
   );
 });

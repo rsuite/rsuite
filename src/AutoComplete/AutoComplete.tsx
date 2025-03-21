@@ -3,9 +3,10 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
 import Plaintext from '@/internals/Plaintext';
-import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, partitionHTMLProps } from '@/internals/utils';
+import { transformData, shouldDisplay } from './utils';
+import { useCustom } from '../CustomProvider';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
@@ -14,7 +15,7 @@ import {
   PickerPopup,
   useFocusItemValue,
   usePickerRef,
-  pickTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps
 } from '@/internals/Picker';
 import type {
@@ -26,8 +27,7 @@ import type {
   ListboxProps,
   PopupProps
 } from '@/internals/types';
-import { transformData, shouldDisplay } from './utils';
-import { useCustom } from '../CustomProvider';
+import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
   extends BoxProps,
@@ -220,7 +220,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ disabled }));
-  const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
+  const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, triggerPropKeys));
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
     const { className } = positionProps;
@@ -262,31 +262,38 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
 
   const expanded = open || (focus && hasItems);
 
+  const triggerProps = {
+    ...pick(props, triggerPropKeys),
+    open: expanded
+  };
+
   return (
     <PickerToggleTrigger
+      as={as}
       id={id}
       ref={trigger}
       placement={placement}
-      pickerProps={pick(props, pickTriggerPropKeys)}
+      triggerProps={triggerProps}
       trigger={['click', 'focus']}
-      open={expanded}
       speaker={renderPopup}
+      className={classes}
+      style={style}
+      rootRef={root}
+      {...restProps}
     >
-      <Box as={as} className={classes} style={style} ref={root} {...restProps}>
-        <Combobox
-          {...(htmlInputProps as SanitizedInputProps)}
-          disabled={disabled}
-          value={value}
-          size={size}
-          readOnly={readOnly}
-          expanded={expanded}
-          focusItemValue={focusItemValue}
-          onBlur={handleInputBlur}
-          onFocus={handleInputFocus}
-          onChange={handleChange}
-          onKeyDown={handleKeyDownEvent}
-        />
-      </Box>
+      <Combobox
+        {...(htmlInputProps as SanitizedInputProps)}
+        disabled={disabled}
+        value={value}
+        size={size}
+        readOnly={readOnly}
+        expanded={expanded}
+        focusItemValue={focusItemValue}
+        onBlur={handleInputBlur}
+        onFocus={handleInputFocus}
+        onChange={handleChange}
+        onKeyDown={handleKeyDownEvent}
+      />
     </PickerToggleTrigger>
   );
 });

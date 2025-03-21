@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker } from 'rsuite';
+import { CheckPicker, HStack } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 import { mockUsers } from './mock';
 
@@ -37,33 +37,29 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const renderOption = (label, item) => {
   return (
-    <Box>
+    <HStack>
       <FaUser /> <span>{label}</span>
-    </Box>
+    </HStack>
   );
 };
 
 const renderOptionGroup = (label, item) => {
   return (
-    <Box>
+    <HStack>
       <FaUserGroup />
       <span>
         {label} - ({item.children.length})
       </span>
-    </Box>
+    </HStack>
   );
 };
 
 const renderValue = (value, items) => {
   return (
-    <Box>
+    <HStack>
       <FaUserGroup /> Users: {value.join(' , ')}
-    </Box>
+    </HStack>
   );
-};
-
-const Box = ({ children }) => {
-  return <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{children}</div>;
 };
 ```
 

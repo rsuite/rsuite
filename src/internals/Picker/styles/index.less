@@ -25,19 +25,16 @@
   --rs-picker-toggle-border-width: 1px;
   --rs-picker-toggle-bg: var(--rs-input-bg);
 
-  &-toggle-wrapper {
-    display: inline-block;
-    // Clear whitespace.
-    vertical-align: middle;
-    max-width: 100%;
-  }
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
 
-  &-block {
+  &[data-block='true'] {
     display: block;
     width: 100%;
   }
 
-  &-disabled {
+  &[data-disabled='true'] {
     cursor: not-allowed;
 
     .rs-picker-toggle-value,
@@ -60,11 +57,6 @@
     color: var(--rs-picker-value);
   }
 
-  &-countable &-toggle-value {
-    display: flex;
-    align-items: center;
-  }
-
   &-value-list {
     flex: 0 1 auto;
     .ellipsis-basic();
@@ -80,7 +72,7 @@
     margin: 0 var(--rs-spacing) 0 0;
   }
 
-  &:not(.rs-picker-disabled):hover,
+  &:not([data-disabled='true']):hover,
   &.rs-picker-focused {
     border-color: var(--rs-input-focus-border);
   }
@@ -226,7 +218,8 @@
     opacity: 0;
   }
 
-  .rs-picker-default & {
+  .rs-picker[data-variant='default'],
+  & {
     transition: @picker-transition;
 
     .high-contrast-mode({
@@ -234,7 +227,8 @@
     });
   }
 
-  .rs-picker-default:not(.rs-picker-disabled) & {
+  .rs-picker[data-variant='default'],
+  :not([data-disabled='true']) & {
     &:hover,
     &:focus,
     &-active {
@@ -242,7 +236,7 @@
     }
   }
 
-  .rs-picker-subtle & {
+  .rs-picker[data-variant='subtle'] & {
     .rs-btn-subtle();
 
     transition: none;
@@ -251,6 +245,36 @@
       background-color: var(--rs-btn-subtle-hover-bg);
       color: var(--rs-btn-subtle-hover-text);
     }
+  }
+
+  &[data-size='lg'] {
+    .rs-picker-clean {
+      .rs-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &[data-size='sm'] {
+    .rs-picker-clean {
+      height: 18px;
+    }
+  }
+
+  &[data-size='xs'] {
+    .rs-picker-clean {
+      height: 18px;
+      .rs-icon {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
+  &[data-countable='true'] &-value {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -292,19 +316,19 @@
 }
 
 // Make sure styles the same with <Input>
-.rs-picker-default,
+.rs-picker[data-variant='default'],
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {
     background-color: var(--rs-picker-toggle-bg);
   }
 
-  &.rs-picker-disabled {
+  &[data-disabled='true'] {
     --rs-picker-toggle-bg: var(--rs-input-disabled-bg);
-  }
 
-  &.rs-picker-disabled .rs-input-group {
-    pointer-events: none;
+    .rs-input-group {
+      pointer-events: none;
+    }
   }
 }
 

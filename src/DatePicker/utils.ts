@@ -1,5 +1,5 @@
 import omit from 'lodash/omit';
-import { omitTriggerPropKeys } from '@/internals/Picker';
+import { overlayPropKeys } from '@/internals/Picker';
 import { ToolbarProps } from './Toolbar';
 import {
   subDays,
@@ -72,5 +72,5 @@ export function splitRanges(ranges?: DateOptionPreset<Date>[]) {
 }
 
 export const getRestProps = (props: any, omitProps: string[] = []) => {
-  return omit(props, [...omitTriggerPropKeys, ...calendarOnlyProps, ...omitProps]);
+  return omit(props, [...overlayPropKeys, ...calendarOnlyProps, ...omitProps]);
 };
