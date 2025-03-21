@@ -147,7 +147,7 @@ describe('Pagination Group', () => {
       expect(button).to.have.attribute('disabled');
     });
 
-    expect(screen.getByRole('combobox')).to.have.attribute('disabled');
+    expect(screen.getByRole('combobox')).to.have.attribute('aria-disabled', 'true');
   });
 
   it('Should be disabled by function', () => {
@@ -354,7 +354,7 @@ describe('Pagination Group', () => {
   it('Should disable all interactive elements when disabled', () => {
     render(<PaginationGroup layout={['limit', 'pager', 'skip']} total={100} disabled />);
 
-    expect(screen.getByRole('combobox')).to.have.attr('disabled');
+    expect(screen.getByRole('combobox')).to.have.attr('aria-disabled', 'true');
     expect(screen.getByRole('textbox')).to.have.attr('disabled');
     screen.getAllByRole('button').forEach(button => {
       expect(button).to.have.attr('disabled');

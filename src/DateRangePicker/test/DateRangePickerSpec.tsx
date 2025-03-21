@@ -1415,8 +1415,7 @@ describe('DateRangePicker', () => {
 
       ranges.forEach(range => {
         expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
-          'aria-disabled',
-          'true'
+          'disabled'
         );
       });
     });

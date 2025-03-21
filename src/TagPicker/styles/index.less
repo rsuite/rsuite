@@ -99,40 +99,41 @@
 
 // Tag Picker Size
 // --------------------------------------------------
+.rs-picker[data-picker='tag'] {
+  &[data-size='lg'] {
+    --rs-tag-spacing: 5px;
+    --rs-tag-list-padding: 5px;
+    --rs-picker-textbox-min-height: 40px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-lg);
+    --rs-tag-picker-input-padding: 3px 5px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-lg);
+  }
 
-.rs-picker[data-size='lg'] {
-  --rs-tag-spacing: 5px;
-  --rs-tag-list-padding: 5px;
-  --rs-picker-textbox-min-height: 40px;
-  --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-lg);
-  --rs-tag-picker-input-padding: 3px 5px;
-  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-lg);
-}
+  // Default size
+  &[data-size='md'] {
+    --rs-tag-spacing: 5px;
+    --rs-tag-list-padding: 5px;
+    --rs-picker-textbox-min-height: 34px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-md);
+    --rs-tag-picker-input-padding: 2px 4px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-md);
+  }
 
-// Default size
-.rs-picker[data-size='md'] {
-  --rs-tag-spacing: 5px;
-  --rs-tag-list-padding: 5px;
-  --rs-picker-textbox-min-height: 34px;
-  --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-md);
-  --rs-tag-picker-input-padding: 2px 4px;
-  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-md);
-}
+  &[data-size='sm'] {
+    --rs-tag-spacing: 4px;
+    --rs-tag-list-padding: 4px;
+    --rs-picker-textbox-min-height: 28px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-sm);
+    --rs-tag-picker-input-padding: 0 2px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-sm);
+  }
 
-.rs-picker[data-size='sm'] {
-  --rs-tag-spacing: 4px;
-  --rs-tag-list-padding: 4px;
-  --rs-picker-textbox-min-height: 28px;
-  --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-sm);
-  --rs-tag-picker-input-padding: 0 2px;
-  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-sm);
-}
-
-.rs-picker[data-size='xs'] {
-  --rs-tag-spacing: 2px;
-  --rs-tag-list-padding: 1px;
-  --rs-picker-textbox-min-height: 22px;
-  --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-xs);
-  --rs-tag-picker-input-padding: 0 1px;
-  --rs-tag-picker-padding-block: var(--rs-btn-padding-block-xs);
+  &[data-size='xs'] {
+    --rs-tag-spacing: 2px;
+    --rs-tag-list-padding: 1px;
+    --rs-picker-textbox-min-height: 22px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-xs);
+    --rs-tag-picker-input-padding: 0 1px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-xs);
+  }
 }

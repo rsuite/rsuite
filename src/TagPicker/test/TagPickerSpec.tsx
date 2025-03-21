@@ -350,7 +350,7 @@ describe('TagPicker', () => {
 
     expect(screen.getByRole('listbox')).to.have.text('1');
 
-    expect(screen.getByRole('combobox').parentNode).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
 
