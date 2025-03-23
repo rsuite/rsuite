@@ -10,7 +10,7 @@ import { ToastContainerProps } from '../toaster/ToastContainer';
  * It is often used with the Message and Notification components.
  * @returns toaster { push, remove, clear }
  *
- * @see https://rsuitejs.com/components/use-toaster/
+ * @see https://rsuitejs.com/components/toaster/
  */
 const useToaster = () => {
   const { toasters, toastContainer } = useContext(CustomContext);

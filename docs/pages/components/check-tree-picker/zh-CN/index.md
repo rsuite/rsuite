@@ -26,6 +26,10 @@
 
 <!--{include:`cascade.md`}-->
 
+### 显示缩进线
+
+<!--{include:`show-indent-line.md`}-->
+
 ### 位置
 
 <!--{include:`placement.md`}-->
@@ -132,6 +136,7 @@
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | 自定义渲染值                           |
 | searchable              | boolean `(true)`                                                                               | 是否显示搜索框                         |
 | searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                         | 自定义搜索方法                         |
+| showIndentLine          | boolean                                                                                        | 是否显示缩进线                         |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                          | 设置组件尺寸                           |
 | toggleAs                | ElementType `('a')`                                                                            | 为组件自定义元素类型                   |
 | treeHeight              | number `(320)`                                                                                 | 设置树的高度                           |

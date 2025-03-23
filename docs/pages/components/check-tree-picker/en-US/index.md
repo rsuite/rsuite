@@ -26,6 +26,10 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`cascade.md`}-->
 
+### Show Indent Lines
+
+<!--{include:`show-indent-line.md`}-->
+
 ### Placement
 
 <!--{include:`placement.md`}-->
@@ -132,6 +136,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | Custom render selected items                               |
 | searchable              | boolean `(true)`                                                                               | Whether display search input box                           |
 | searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                         | Custom search method                                       |
+| showIndentLine          | boolean                                                                                        | Whether to show the indent line                            |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                          | The size of the component                                  |
 | toggleAs                | ElementType `('a')`                                                                            | Custom component for the toggle button                     |
 | treeHeight              | number `(320)`                                                                                 | The height of the tree                                     |
