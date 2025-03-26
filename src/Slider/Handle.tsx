@@ -37,6 +37,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     value,
     role,
     tabIndex,
+    keepTooltipOpen,
     renderTooltip,
     onDragStart,
     onDragMove,
@@ -46,7 +47,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     'data-key': dateKey,
     ...rest
   } = props;
-  
+
   const actualTooltip = tooltip || keepTooltipOpen;
   const horizontalKey = rtl ? 'right' : 'left';
   const direction = vertical ? 'bottom' : horizontalKey;
