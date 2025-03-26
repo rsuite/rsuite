@@ -56,8 +56,6 @@ limits: 10 - 100
 
 ### `<InputNumber>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property         | Type `(Default)`                      | Description                                                        |
 | ---------------- | ------------------------------------- | ------------------------------------------------------------------ |
 | classPrefix      | string `('input-number')`             | The prefix of the component CSS class.                             |

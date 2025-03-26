@@ -7,6 +7,11 @@
 // ----------------------
 
 .rs-calendar {
+  --rs-calendar-cell-font-size: var(--rs-font-size-sm);
+  --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
+  --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
+  --rs-calendar-border-radius: var(--rs-radius-md);
+
   padding-top: @calendar-picker-padding;
   position: relative;
   min-height: 266px;
@@ -14,7 +19,7 @@
 
   &-bordered &-table {
     border: 1px solid var(--rs-border-primary);
-    border-radius: @calendar-panel-border-radius;
+    border-radius: var(--rs-calendar-border-radius);
   }
 
   &-bordered &-table-row:not(:last-child) &-table-cell,
@@ -24,7 +29,7 @@
 
   &-bordered &-month-dropdown {
     border: 1px solid var(--rs-border-primary);
-    border-radius: @calendar-panel-border-radius;
+    border-radius: var(--rs-calendar-border-radius);
   }
 
   &-panel &-header {
@@ -34,7 +39,7 @@
   }
 
   &-panel &-header &-btn-today {
-    float: right;
+    float: inline-end;
   }
 
   &-panel &-header-forward,
@@ -54,13 +59,13 @@
   }
 
   &-panel&-month-view &-header-month-toolbar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 
   &-panel &-month-view {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 
   &-panel &-table-header-row &-table-header-cell-content {
@@ -73,9 +78,9 @@
     width: @calendar-panel-today-active-side-length;
     height: @calendar-panel-today-active-side-length;
     background-color: var(--rs-calendar-today-bg);
-    border-radius: 50%;
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: var(--rs-radius-full);
+    margin-inline-start: auto;
+    margin-inline-end: auto;
   }
 
   &-panel &-table-cell-is-today &-table-cell-content {
@@ -94,9 +99,9 @@
   }
 
   &-panel &-month-dropdown {
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 6px;
+    margin-inline-start: 10px;
+    margin-inline-end: 10px;
+    border-radius: var(--rs-radius-md);
     width: ~'calc(100% - 20px)';
   }
 
@@ -117,15 +122,15 @@
 
   &-panel &-table-cell-content {
     width: 100%;
-    border-radius: 0;
+    border-radius: var(--rs-radius-none);
   }
 
   &-panel &-table-row:last-child :first-child &-table-cell-content {
-    border-bottom-left-radius: @calendar-panel-border-radius;
+    border-bottom-left-radius: var(--rs-radius-md);
   }
 
   &-panel &-table-row:last-child :last-child &-table-cell-content {
-    border-bottom-right-radius: @calendar-panel-border-radius;
+    border-bottom-right-radius: var(--rs-radius-md);
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
@@ -139,8 +144,8 @@
   &-btn-close {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     height: 14px;
     padding: 0;
     border: 0;
@@ -157,7 +162,8 @@
   &-panel &-btn-close {
     bottom: 4px;
     margin: 0 11px;
-    border-radius: 0 0 6px 6px;
+    border-bottom-left-radius: var(--rs-radius-md);
+    border-bottom-right-radius: var(--rs-radius-md);
   }
 
   &-panel&-bordered &-btn-close {
@@ -171,8 +177,8 @@
 // Show month dropdown
 .rs-calendar-month-view {
   .rs-calendar-header-month-toolbar {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-inline-start: 24px;
+    padding-inline-end: 24px;
   }
 
   .rs-calendar-header-backward,
@@ -246,8 +252,8 @@
 
 .rs-calendar-header {
   width: @calendar-header-width;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding-inline-start: @calendar-picker-padding;
+  padding-inline-end: @calendar-picker-padding;
   .clearfix();
 
   // Month toolbar && Time toolbar
@@ -257,11 +263,11 @@
   }
 
   &-month-toolbar {
-    float: left;
+    float: inline-start;
   }
 
   &-time-toolbar {
-    float: right;
+    float: inline-end;
   }
 
   &-title {
@@ -270,8 +276,8 @@
 
   &-meridiem {
     // Designer think it's nice!
-    font-size: @font-size-small;
-    margin-left: 4px;
+    font-size: var(--rs-font-size-xs);
+    margin-inline-start: 4px;
   }
 
   &-error {
@@ -295,8 +301,8 @@
   // Only Has month
   &-has-month:not(&-has-time) {
     margin: 0 auto;
-    padding-left: @calendar-picker-padding;
-    padding-right: @calendar-picker-padding;
+    padding-inline-start: @calendar-picker-padding;
+    padding-inline-end: @calendar-picker-padding;
   }
 
   &-has-month:not(&-has-time) &-month-toolbar {
@@ -307,11 +313,11 @@
   }
 
   &-has-month:not(&-has-time) &-backward {
-    float: left;
+    float: inline-start;
   }
 
   &-has-month:not(&-has-time) &-forward {
-    float: right;
+    float: inline-end;
   }
 
   // Only Has time
@@ -361,15 +367,15 @@
 
   &:nth-child(2) {
     .rs-calendar-table-cell-week-number {
-      border-top-left-radius: @calendar-panel-border-radius;
-      border-top-right-radius: @calendar-panel-border-radius;
+      border-top-left-radius: var(--rs-radius-md);
+      border-top-right-radius: var(--rs-radius-md);
     }
   }
 
   &:last-child {
     .rs-calendar-table-cell-week-number {
-      border-bottom-left-radius: @calendar-panel-border-radius;
-      border-bottom-right-radius: @calendar-panel-border-radius;
+      border-bottom-left-radius: var(--rs-radius-md);
+      border-bottom-right-radius: var(--rs-radius-md);
     }
   }
 }
@@ -426,7 +432,7 @@
 .rs-calendar-table-header-cell-content {
   display: inline-block;
   color: var(--rs-text-secondary);
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
   line-height: @line-height-small;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -448,7 +454,7 @@
   vertical-align: middle;
   color: var(--rs-text-secondary);
   background-color: var(--rs-bg-well);
-  font-size: @font-size-small;
+  font-size: var(--rs-font-size-xs);
 }
 
 // Calendar month dropdown
@@ -478,8 +484,8 @@
 
   &-row {
     position: relative;
-    padding-left: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
-    padding-right: @calendar-picker-padding;
+    padding-inline-start: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
+    padding-inline-end: @calendar-picker-padding;
     padding-top: 5px;
     padding-bottom: 5px;
 
@@ -491,7 +497,7 @@
   &-year {
     position: absolute;
     top: ~'calc(50% - 0.5em)';
-    left: @calendar-picker-padding;
+    inset-inline-start: @calendar-picker-padding;
 
     &-active {
       color: var(--rs-text-active);
@@ -507,11 +513,6 @@
     margin: 1px;
     text-align: center;
     vertical-align: middle;
-
-    // In IE and Edge need more minus 1px. @see https://github.com/rsuite/rsuite/issues/585
-    .ie11-edge-width(
-      ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 - 1px) / 6)'
-    );
   }
 
   &-cell-content {
@@ -540,8 +541,8 @@
   display: none;
   position: absolute;
   top: @calendar-dropdown-top;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding-inline-start: @calendar-picker-padding;
+  padding-inline-end: @calendar-picker-padding;
   width: 100%;
   background-color: var(--rs-bg-overlay);
   color: var(--rs-text-primary);
@@ -590,7 +591,7 @@
     background-color: var(--rs-calendar-time-unit-bg);
     color: var(--rs-text-secondary);
     text-align: center;
-    font-size: @font-size-small;
+    font-size: var(--rs-font-size-xs);
     line-height: @line-height-small;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -602,7 +603,7 @@
   }
 
   &-cell {
-    font-size: @font-size-base;
+    font-size: var(--rs-font-size-sm);
     line-height: @line-height-computed;
     color: inherit;
     padding: 5px;
@@ -654,9 +655,11 @@
     position: relative;
     top: 2px;
   }
+
   .rs-calendar-time-dropdown-row {
     display: flex;
   }
+
   .rs-calendar-time-dropdown-column {
     min-width: 60px;
   }

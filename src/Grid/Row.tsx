@@ -1,0 +1,69 @@
+import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { useCustom } from '../CustomProvider';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import { BREAKPOINTS } from '@/internals/constants';
+import type { ResponsiveValue } from '@/internals/types';
+import type { RowAlignment, RowJustify } from './types';
+
+const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<number | string>) => {
+  if (!gutter) {
+    return {};
+  }
+
+  if (typeof gutter !== 'object') {
+    return { '--rs-grid-gutter': getCssValue(gutter) };
+  }
+
+  return BREAKPOINTS.reduce<Record<string, string>>((styles, breakpoint) => {
+    const breakpointValue = gutter[breakpoint];
+    if (!breakpointValue) return styles;
+
+    const newStyles = {
+      [`--rs-grid-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]:
+        getCssValue(breakpointValue)
+    };
+
+    return mergeStyles(styles, newStyles) as Record<string, string>;
+  }, {});
+};
+
+export interface RowProps extends BoxProps {
+  /** Spacing between columns. Support responsive values */
+  gutter?: number | string | ResponsiveValue<number | string>;
+
+  /** Vertical alignment of columns. Support responsive values */
+  align?: RowAlignment | ResponsiveValue<RowAlignment>;
+
+  /** Horizontal distribution of columns. Support responsive values */
+  justify?: RowJustify | ResponsiveValue<RowJustify>;
+}
+
+/**
+ * The Row component is used to create a row container that can contain Col components.
+ * @see https://rsuitejs.com/components/grid
+ */
+const Row = forwardRef<'div', RowProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Row', props);
+  const {
+    as,
+    className,
+    classPrefix = 'row',
+    style,
+    align,
+    justify,
+    gutter,
+    ...rest
+  } = propsWithDefaults;
+
+  const { withPrefix, merge, responsive } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(), ...responsive(align), ...responsive(justify));
+  const rowStyles = mergeStyles(style, getResponsiveGutterStyles(gutter));
+
+  return <Box as={as} {...rest} ref={ref} className={classes} style={rowStyles} />;
+});
+
+Row.displayName = 'Row';
+
+export default Row;

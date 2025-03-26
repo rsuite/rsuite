@@ -33,7 +33,7 @@ const App = () => {
         >
           ScrollTo:
         </Button>
-        <InputNumber value={index} onChange={setIndex} style={{ width: 60 }} /> Item
+        <InputNumber value={index} onChange={setIndex} w={60} /> Item
       </Stack>
     </div>
   );

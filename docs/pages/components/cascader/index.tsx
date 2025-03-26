@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cascader, Button, RadioGroup, Radio, VStack, HStack } from 'rsuite';
+import { Cascader, Button, RadioGroup, Radio, VStack, HStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
@@ -33,6 +33,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Box,
         Cascader,
         Button,
         RadioGroup,

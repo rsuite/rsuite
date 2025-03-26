@@ -2,6 +2,13 @@ import sinon from 'sinon';
 import warnOnce from '../warnOnce';
 
 describe('internals/utils/warnOnce', () => {
+  // Ensure that uncaught exceptions between tests result in the tests failing.
+  afterEach(() => {
+    sinon.restore();
+
+    warnOnce._resetWarned();
+  });
+
   it('Should log a warning message', () => {
     const message = 'Useful message';
     sinon.spy(console, 'warn');

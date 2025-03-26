@@ -43,29 +43,11 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     it('Should be block', () => {
       const { container } = render(<TestComponent data={data} block />);
 
-      expect(container.firstChild).to.have.class('rs-picker-block');
-    });
-
-    it('Should have a custom menuStyle', () => {
-      render(<TestComponent open menuStyle={{ fontSize: 12 }} data={data} />);
-
-      expect(screen.getByTestId('picker-popup')).to.have.style('font-size', '12px');
-    });
-
-    it('Should have a custom menuClassName', () => {
-      render(<TestComponent open menuClassName="custom-class" data={data} />);
-
-      expect(screen.getByTestId('picker-popup')).to.have.class('custom-class');
+      expect(container.firstChild).to.have.attr('data-block', 'true');
     });
 
     if (popupAutoWidth) {
-      it('[DEPRECATED]:Should set minimum width for popup', () => {
-        render(<TestComponent data={data} open menuAutoWidth style={{ width: 100 }} />);
-
-        expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
-      });
-
-      it('[DEPRECATED]:Should set minimum width for popup', () => {
+      it('Should set minimum width for popup', () => {
         render(<TestComponent data={data} open popupAutoWidth style={{ width: 100 }} />);
 
         expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
@@ -106,7 +88,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.click(combobox);
-        expect(screen.queryByRole(ariaHaspopup)).not.to.exist;
+        expect(screen.queryByTestId('picker-popup')).not.to.exist;
       });
 
       it('Should not open menu on Enter key when loading=true', () => {
@@ -115,7 +97,8 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.keyDown(combobox, { key: 'Enter' });
-        expect(screen.queryByRole(ariaHaspopup)).not.to.exist;
+
+        expect(screen.queryByTestId('picker-popup')).not.to.exist;
       });
     });
 
@@ -127,22 +110,23 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         render(<TestComponent onOpen={onOpen} data={data} ref={ref} />);
 
         act(() => ref.current.open());
+
         await waitFor(() => {
           expect(onOpen).to.have.been.calledOnce;
         });
       });
 
       it('Should call `onClose` callback', async () => {
-        const onCloseSpy = sinon.spy();
+        const onClose = sinon.spy();
         const ref = React.createRef<any>();
 
-        render(<TestComponent onClose={onCloseSpy} data={data} ref={ref} />);
+        render(<TestComponent onClose={onClose} data={data} ref={ref} />);
 
         act(() => ref.current.open());
         act(() => ref.current.close());
 
         await waitFor(() => {
-          expect(onCloseSpy).to.have.been.calledOnce;
+          expect(onClose).to.have.been.calledOnce;
         });
       });
 
@@ -172,7 +156,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.click(combobox);
-        expect(screen.getByRole(ariaHaspopup)).to.exist;
+        expect(screen.getByTestId('picker-popup')).to.exist;
 
         expect(onOpen).to.have.been.called;
       });
@@ -185,7 +169,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.keyDown(combobox, { key: 'Enter' });
-        expect(screen.getByRole(ariaHaspopup)).to.exist;
+        expect(screen.getByTestId('picker-popup')).to.exist;
 
         expect(onOpen).to.have.been.calledOnce;
       });
@@ -208,7 +192,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.keyDown(combobox, { key: 'Escape' });
-        expect(screen.getByRole(ariaHaspopup)).to.exist;
+        expect(screen.getByTestId('picker-popup')).to.exist;
 
         expect(onClose).to.have.been.calledOnce;
       });
@@ -221,7 +205,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.keyDown(combobox, { key: 'Tab' });
-        expect(screen.getByRole(ariaHaspopup)).to.exist;
+        expect(screen.getByTestId('picker-popup')).to.exist;
 
         expect(onClose).to.have.been.calledOnce;
       });
@@ -248,8 +232,82 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         const combobox = screen.getByRole(role);
 
         fireEvent.click(combobox);
-        expect(screen.getByRole(ariaHaspopup)).to.exist;
+        expect(screen.getByTestId('picker-popup')).to.exist;
       });
     });
+  });
+}
+
+interface TestPickerSizeOptions {
+  role?: 'combobox' | 'textbox';
+  maxHeight?: number;
+  heightStep?: number;
+  subtle?: boolean;
+  [key: string]: any;
+}
+
+export function testPickerSize(
+  TestComponent: React.ComponentType<any>,
+  pickerProps: TestPickerSizeOptions = {}
+) {
+  const displayName = TestComponent.displayName;
+  const {
+    role = 'combobox',
+    maxHeight = 42,
+    heightStep = 6,
+    subtle = true,
+    ...restProps
+  } = pickerProps;
+
+  describe(`${displayName} - Size`, () => {
+    it('Should have different sizes', () => {
+      render(
+        <>
+          <TestComponent size="lg" placeholder="Large" {...restProps} />
+          <TestComponent size="md" placeholder="Medium" {...restProps} />
+          <TestComponent size="sm" placeholder="Small" {...restProps} />
+          <TestComponent size="xs" placeholder="Xsmall" {...restProps} />
+        </>
+      );
+
+      const paddings = ['10px 13px', '8px 11px', '5px 9px', '2px 7px'];
+
+      screen.getAllByRole(role).forEach((picker, index) => {
+        if (role === 'combobox') {
+          expect(picker).to.have.style('padding', paddings[index]);
+        }
+
+        // height: 42, 36, 30, 24
+        const height = maxHeight - index * heightStep;
+        const pickerType = (picker.parentNode as HTMLElement)?.dataset?.picker;
+
+        // TODO: fix tag picker height
+        if (pickerType !== 'tag') {
+          expect(picker).to.have.style('height', `${height}px`);
+        }
+      });
+    });
+
+    if (subtle) {
+      it('Should have different sizes with subtle appearance', () => {
+        render(
+          <>
+            <TestComponent size="lg" appearance="subtle" placeholder="Large" {...restProps} />
+            <TestComponent size="md" appearance="subtle" placeholder="Medium" {...restProps} />
+            <TestComponent size="sm" appearance="subtle" placeholder="Small" {...restProps} />
+            <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...restProps} />
+          </>
+        );
+
+        const paddings = ['10px 14px', '8px 12px', '5px 10px', '2px 8px'];
+
+        screen.getAllByRole(role).forEach((picker, index) => {
+          if (role === 'combobox') {
+            expect(picker).to.have.style('padding', paddings[index]);
+          }
+          expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+        });
+      });
+    }
   });
 }

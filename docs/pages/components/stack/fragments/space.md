@@ -10,7 +10,7 @@ const App = () => {
     <VStack spacing={20}>
       <HStack>
         Spacing:
-        <Slider value={spacing} style={{ width: 300 }} onChange={setSpacing} />
+        <Slider value={spacing} w={300} onChange={setSpacing} />
       </HStack>
       <Stack spacing={spacing}>
         <Button>Item 1</Button>

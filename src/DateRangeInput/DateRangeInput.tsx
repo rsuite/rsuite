@@ -1,8 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
 import { isValid } from '@/internals/utils/date';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import {
   validateDateTime,
@@ -15,7 +14,7 @@ import {
 } from '../DateInput';
 import { useCustom } from '../CustomProvider';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
-import { FormControlBaseProps } from '@/internals/types';
+import type { FormControlBaseProps } from '@/internals/types';
 
 type ValueType = [Date | null, Date | null] | null;
 
@@ -67,10 +66,10 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { selectedState, setSelectedState } = useSelectedState();
 
@@ -326,16 +325,5 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 });
 
 DateRangeInput.displayName = 'DateRangeInput';
-DateRangeInput.propTypes = {
-  character: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  format: PropTypes.string,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
-};
 
 export default DateRangeInput;

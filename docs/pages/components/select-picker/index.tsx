@@ -1,8 +1,7 @@
 import React from 'react';
-import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack } from 'rsuite';
+import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
@@ -30,11 +29,11 @@ export default function Page() {
         Loader,
         SelectPicker,
         Button,
-        SpinnerIcon,
         RadioGroup,
         Radio,
         VStack,
         HStack,
+        Box,
         FaUserGroup,
         FaUser
       }}

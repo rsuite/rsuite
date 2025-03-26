@@ -30,8 +30,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const Select = ({ label, children, ...rest }) => (
   <HStack>
-    <label style={{ width: 120 }}>{label}:</label>
-    <MultiCascader {...rest} style={{ width: 180 }} />
+    <Box as="label" w={120}>
+      {label}:
+    </Box>
+    <MultiCascader {...rest} w={180} />
   </HStack>
 );
 ```

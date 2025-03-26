@@ -1,17 +1,17 @@
 import React from 'react';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import MultiCascader from '../MultiCascader';
+import Button from '../../Button';
+import CustomProvider from '@/CustomProvider';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { mockTreeData } from '@test/mocks/data-mock';
 import {
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import MultiCascader from '../MultiCascader';
-import Button from '../../Button';
-import { PickerHandle } from '@/internals/Picker';
-import CustomProvider from '@/CustomProvider';
-import { mockTreeData } from '@test/mocks/data-mock';
+import type { PickerHandle } from '@/internals/Picker';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
@@ -51,22 +51,23 @@ describe('MultiCascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<MultiCascader data={[]}>Title</MultiCascader>);
+    render(<MultiCascader data={[]}>Title</MultiCascader>);
 
-    expect(container.firstChild).to.class('rs-picker-cascader');
+    expect(screen.getByTestId('picker')).to.have.class('rs-picker');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'multi-cascader');
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<MultiCascader data={[]} />);
+    render(<MultiCascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should display number of selected values', () => {
-    const { container } = render(<MultiCascader data={items} value={['3-1', '3-2']} />);
+    render(<MultiCascader data={items} value={['3-1', '3-2']} />);
 
     expect(screen.getByRole('combobox')).to.have.text('3 (All)1');
-    expect(container.firstChild).to.have.class('rs-picker-countable');
+    expect(screen.getByRole('combobox')).to.have.attr('data-countable', 'true');
   });
 
   it('Should not display number of selected values when `countable=false`', () => {
@@ -191,42 +192,12 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('group')).to.have.style('height', '100px');
   });
 
-  it('[Deprecated menuWidth] Should custom column width', () => {
-    render(<MultiCascader data={items} menuWidth={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('width', '100px');
-  });
-
-  it('[Deprecated menuHeight] Should custom column height', () => {
-    render(<MultiCascader data={items} menuHeight={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('height', '100px');
-  });
-
   it('Should custom render the column', () => {
     render(
       <MultiCascader
         defaultOpen
         data={items}
         renderColumn={(_childNodes, { items }) => (
-          <div data-testid="custom-column">
-            {items.map((item, index) => (
-              <i key={index}>{item.label}</i>
-            ))}
-          </div>
-        )}
-      />
-    );
-
-    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
-  });
-
-  it('[Deprecated renderMenu] Should custom render the column', () => {
-    render(
-      <MultiCascader
-        defaultOpen
-        data={items}
-        renderMenu={items => (
           <div data-testid="custom-column">
             {items.map((item, index) => (
               <i key={index}>{item.label}</i>
@@ -305,19 +276,19 @@ describe('MultiCascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       <MultiCascader data={[]} value={['Test']} renderValue={() => '1'} />
     );
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<MultiCascader data={[]} value={['Test']} renderValue={() => null} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).not.to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
 
     rerender(<MultiCascader data={[]} value={['Test']} renderValue={() => undefined} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).not.to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
   });
 
   it('Should update value', () => {
@@ -354,7 +325,7 @@ describe('MultiCascader', () => {
     render(
       <MultiCascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
-    // eslint-disable-next-line testing-library/no-node-access
+
     const checkbox = screen.getByRole('tree').querySelectorAll('.rs-checkbox')[2];
 
     fireEvent.click(checkbox);
@@ -421,7 +392,6 @@ describe('MultiCascader', () => {
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
       .exist;
   });

@@ -49,15 +49,15 @@ describe('Cascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<Cascader data={[]} />);
+    render(<Cascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cascader');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'cascader');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<Cascader data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<Cascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should output a placeholder', () => {
@@ -72,31 +72,11 @@ describe('Cascader', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should output a value by renderValue()', () => {
-    const placeholder = 'value';
-
-    // Valid value
-    const { rerender } = render(
-      <Cascader renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
-    );
-
-    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
-
-    // Invalid value
-    rerender(<Cascader renderValue={v => [v, placeholder]} data={[]} value={2} />);
-
-    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
-
-    // Invalid value
-    rerender(<Cascader data={[]} renderValue={v => [v, placeholder]} value={''} />);
-
-    expect(screen.getByRole('combobox')).to.have.text(placeholder);
-  });
-
   it('Should not be call renderValue()', () => {
     render(<Cascader data={[]} renderValue={() => 'value'} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should render a placeholder when value error', () => {
@@ -193,9 +173,9 @@ describe('Cascader', () => {
   });
 
   it('Should have a custom className', () => {
-    const { container } = render(<Cascader data={[]} className="custom" />);
+    render(<Cascader data={[]} className="custom" />);
 
-    expect(container.firstChild).to.have.class('custom');
+    expect(screen.getByTestId('picker')).to.have.class('custom');
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -238,22 +218,44 @@ describe('Cascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
-      <Cascader data={[]} value="Test" renderValue={() => '1'} />
-    );
+    const { rerender } = render(<Cascader data={[]} value="Test" renderValue={() => '1'} />);
 
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<Cascader data={[]} value="Test" renderValue={() => null} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
 
     rerender(<Cascader data={[]} value="Test" renderValue={() => undefined} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
+  });
+
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const { rerender } = render(
+      <Cascader renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
+    );
+
+    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+
+    // Invalid value
+    rerender(<Cascader renderValue={v => [v, placeholder]} data={[]} value={2} />);
+
+    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+
+    // Return null from renderValue
+    rerender(<Cascader data={[]} renderValue={() => null} value={''} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should update path', () => {
@@ -439,20 +441,20 @@ describe('Cascader', () => {
 
   it('Should item able to stringfy', () => {
     const onSelect = sinon.spy();
-    const renderMenuItem = sinon.spy();
+    const renderTreeNode = sinon.spy();
 
     render(
-      <Cascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
+      <Cascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
     const checkbox = screen.getAllByRole('treeitem')[2];
 
     fireEvent.click(checkbox);
 
     expect(onSelect).to.called;
-    expect(renderMenuItem).to.called;
+    expect(renderTreeNode).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
     expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
   });
 
   it("Should custom render the tree's node", () => {
@@ -473,24 +475,6 @@ describe('Cascader', () => {
         defaultOpen
         data={items}
         renderColumn={(_childNodes, { items }) => (
-          <div data-testid="custom-column">
-            {items.map((item, index) => (
-              <i key={index}>{item.label}</i>
-            ))}
-          </div>
-        )}
-      />
-    );
-
-    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
-  });
-
-  it('[Deprecated renderMenu] Should custom render the column', () => {
-    render(
-      <Cascader
-        defaultOpen
-        data={items}
-        renderMenu={items => (
           <div data-testid="custom-column">
             {items.map((item, index) => (
               <i key={index}>{item.label}</i>
@@ -542,18 +526,6 @@ describe('Cascader', () => {
     expect(screen.getByRole('group')).to.have.style('height', '100px');
   });
 
-  it('[Deprecated menuWidth] Should custom column width', () => {
-    render(<Cascader data={items} menuWidth={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('width', '100px');
-  });
-
-  it('[Deprecated menuHeight] Should custom column height', () => {
-    render(<Cascader data={items} menuHeight={100} defaultOpen />);
-
-    expect(screen.getByRole('group')).to.have.style('height', '100px');
-  });
-
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
       const onOpen = sinon.spy();
@@ -600,7 +572,7 @@ describe('Cascader', () => {
 
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
-      render(<Cascader defaultOpen data={items} menuHeight={72} />);
+      render(<Cascader defaultOpen data={items} columnHeight={72} />);
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
@@ -622,7 +594,7 @@ describe('Cascader', () => {
 
       let focusItems = screen
         .getByRole('tree')
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
@@ -630,7 +602,6 @@ describe('Cascader', () => {
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowRight' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(2);
@@ -639,7 +610,6 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowLeft' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);

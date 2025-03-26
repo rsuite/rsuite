@@ -7,7 +7,7 @@ import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
 
-const wrapper: React.FC = ({ children }) => (
+const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Navbar>
     <Nav>{children}</Nav>
   </Navbar>
@@ -44,14 +44,14 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
 
   it('Should call onSelect callback with correct eventKey on click', () => {
     const eventKey = 'Test';
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
-    render(<NavbarItem eventKey={eventKey} onSelect={onSelectSpy} data-testid="navbar-item" />, {
+    render(<NavbarItem eventKey={eventKey} onSelect={onSelect} data-testid="navbar-item" />, {
       wrapper
     });
 
     fireEvent.click(screen.getByTestId('navbar-item'));
-    expect(onSelectSpy).to.have.been.calledWith(eventKey);
+    expect(onSelect).to.have.been.calledWith(eventKey);
   });
 
   it('Should not call onSelect callback when disabled', () => {
@@ -66,14 +66,14 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
 
-    render(<NavbarItem disabled onClick={onClickSpy} data-testid="navbar-item" />, {
+    render(<NavbarItem disabled onClick={onClick} data-testid="navbar-item" />, {
       wrapper
     });
 
     userEvent.click(screen.getByTestId('navbar-item'));
-    expect(onClickSpy).not.to.have.been.called;
+    expect(onClick).not.to.have.been.called;
   });
 
   it('Should have a custom className', () => {
@@ -96,6 +96,7 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
     render(<NavbarItem classPrefix="custom-prefix" data-testid="navbar-item" />, {
       wrapper
     });
-    assert.ok(screen.getByTestId('navbar-item').className.match(/\bcustom-prefix\b/));
+
+    expect(screen.getByTestId('navbar-item')).to.have.class('rs-custom-prefix');
   });
 });

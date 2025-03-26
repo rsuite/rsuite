@@ -70,7 +70,7 @@ const App = () => {
           <MultiCascader
             preventOverflow
             placement={placement}
-            style={{ width: 224 }}
+            w={224}
             container={getContainer}
             data={data}
           />

@@ -27,6 +27,11 @@
   }
 }
 
-.rs-input-group > .rs-auto-complete {
+.rs-input-group > .rs-auto-complete > {
   &:extend(.rs-input-group > .rs-input);
+  > .rs-input {
+    border-radius: var(--rs-radius-none);
+    border: none;
+    outline: none;
+  }
 }

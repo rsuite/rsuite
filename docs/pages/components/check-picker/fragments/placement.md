@@ -1,20 +1,14 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker } from 'rsuite';
+import { CheckPicker, HStack } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
 
 const CustomCheckPicker = ({ placement, ...rest }) => (
-  <CheckPicker
-    style={{ width: 150 }}
-    data={data}
-    placement={placement}
-    placeholder={placement}
-    {...rest}
-  />
+  <CheckPicker w={200} data={data} placement={placement} placeholder={placement} {...rest} />
 );
 
 const App = () => (
@@ -66,11 +60,15 @@ const App = () => (
     <hr />
     <CustomCheckPicker placement="auto" />
     <hr />
-    <CustomCheckPicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
-    <CustomCheckPicker placement="autoVerticalEnd" style={{ width: 200 }} />
+    <HStack>
+      <CustomCheckPicker placement="autoVerticalStart" w={200} />
+      <CustomCheckPicker placement="autoVerticalEnd" w={200} />
+    </HStack>
     <hr />
-    <CustomCheckPicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
-    <CustomCheckPicker placement="autoHorizontalEnd" style={{ width: 200 }} />
+    <HStack>
+      <CustomCheckPicker placement="autoHorizontalStart" w={200} />
+      <CustomCheckPicker placement="autoHorizontalEnd" w={200} />
+    </HStack>
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

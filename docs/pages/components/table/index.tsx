@@ -19,7 +19,8 @@ import {
   HStack,
   VStack,
   Input,
-  InputGroup
+  InputGroup,
+  Box
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import FakeBrowser from '@/components/FakeBrowser';
@@ -28,7 +29,7 @@ import ImportGuide from '@/components/ImportGuide';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
 import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import SpinnerIcon from '@rsuite/icons/Spinner';
 import {
   importFakerString,
   mockTreeData,
@@ -66,6 +67,7 @@ export default function Page() {
         Table,
         Button,
         Dropdown,
+        Box,
         MoreIcon,
         CollaspedOutlineIcon,
         ExpandOutlineIcon,

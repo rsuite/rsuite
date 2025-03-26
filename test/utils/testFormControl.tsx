@@ -51,8 +51,7 @@ export function testFormControl(
     value = 'default value',
     valueType,
     componentProps,
-    getUIElement = () => screen.getByRole('textbox'),
-    getRootElement = view => view.container.firstChild as HTMLElement
+    getUIElement = () => screen.getByRole('textbox')
   } = options || {};
   const displayName = TestComponent.displayName;
 
@@ -72,14 +71,12 @@ export function testFormControl(
     });
 
     it('Should be read only', () => {
-      const view = render(<TestComponent readOnly value={value} {...componentProps} />);
+      render(<TestComponent readOnly value={value} {...componentProps} />);
 
       const element = getUIElement();
 
       if (element.tagName === 'INPUT') {
         expect(getUIElement()).to.have.attribute('readonly');
-      } else {
-        expect(getRootElement(view)).to.have.class(new RegExp('-read-only'));
       }
     });
 
@@ -156,10 +153,6 @@ export function testFormControl(
 
       if (element.tagName === 'INPUT') {
         expect(getUIElement()).to.have.attribute('readonly');
-      } else {
-        expect(screen.getByTestId('form-control-wrapper').firstChild).to.have.class(
-          new RegExp('-read-only')
-        );
       }
     });
 

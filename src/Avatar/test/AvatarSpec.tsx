@@ -1,12 +1,14 @@
 import React from 'react';
-import { testStandardProps } from '@test/utils';
 import Avatar from '../Avatar';
 import { render, screen, waitFor } from '@testing-library/react';
+import { testStandardProps, testStyleProps } from '@test/utils';
 
 describe('Avatar', () => {
-  testStandardProps(<Avatar />, {
-    sizes: ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'],
-    colors: ['red', 'green', 'blue', 'cyan', 'magenta', 'orange', 'purple', 'yellow']
+  testStandardProps(<Avatar />);
+
+  testStyleProps(Avatar, {
+    sizes: ['xs', 'sm', 'md', 'lg'],
+    colors: ['red', 'green', 'blue', 'cyan', 'orange', 'yellow']
   });
 
   it('Should render default avatar', () => {

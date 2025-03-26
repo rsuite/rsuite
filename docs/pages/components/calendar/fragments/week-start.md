@@ -8,13 +8,13 @@ const App = () => {
   const [isoWeek, setIsoWeek] = React.useState(false);
   const [showWeekNumbers, setShowWeekNumbers] = React.useState(true);
   return (
-    <HStack wrap divider={<Divider vertical />} spacing={10} style={{ height: 320 }}>
+    <HStack wrap divider={<Divider vertical />} spacing={10} h={320}>
       <Calendar
         compact
         weekStart={weekStart}
         showWeekNumbers={showWeekNumbers}
         isoWeek={isoWeek}
-        style={{ width: 320 }}
+        w={320}
       />
 
       <VStack spacing={20}>
@@ -27,7 +27,7 @@ const App = () => {
             setIsoWeek(false);
           }}
         >
-          <RadioLabel>Week start</RadioLabel>
+          <label>Week start</label>
           <Radio value={0}>Sun</Radio>
           <Radio value={1}>Mon</Radio>
           <Radio value={2}>Tue</Radio>
@@ -48,8 +48,6 @@ const App = () => {
     </HStack>
   );
 };
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

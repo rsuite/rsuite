@@ -198,10 +198,10 @@ Has keyboard interaction for the DateRangeInput component by default.
 <!--{include:(_common/types/range.md)}-->
 <!--{include:(_common/types/month-dropdown-props.md)}-->
 
-### `ts:ValueType`
+### `ts:Value`
 
 ```ts
-type ValueType = [Date, Date];
+type Value = [Date, Date];
 ```
 
 ### `ts:DisabledDateFunction`
@@ -216,7 +216,7 @@ type DisabledDateFunction = (
   /**
    * Date selected.
    */
-  selectDate?: ValueType,
+  selectDate?: Value,
 
   /**
    * Whether to choose to finish now.

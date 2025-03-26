@@ -18,7 +18,7 @@ describe('Checkbox styles', () => {
   it('Should render the correct size', () => {
     render(<Checkbox />);
 
-    expect(screen.getByRole('checkbox')).to.have.style('width', '36px');
-    expect(screen.getByRole('checkbox')).to.have.style('height', '36px');
+    expect(screen.getByRole('checkbox')).to.have.style('width', '16px');
+    expect(screen.getByRole('checkbox')).to.have.style('height', '16px');
   });
 });

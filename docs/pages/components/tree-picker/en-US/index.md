@@ -20,6 +20,10 @@
 
 <!--{include:`size.md`}-->
 
+### Show Indent Lines
+
+<!--{include:`show-indent-line.md`}-->
+
 ### Placement
 
 <!--{include:`placement.md`}-->
@@ -99,13 +103,10 @@
 | disabledItemValues      | string[]                                                                                      | Set the value of the disabled node                         |
 | expandItemValues        | string[]                                                                                      | Set the value of the expanded node (controlled)            |
 | getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                   | Load node children data asynchronously                     |
-| ~height~                | number                                                                                        | ⚠️`[Deprecated]` Use `treeHeight` instead                  |
 | labelKey                | string `('label')`                                                                            | Set the tree node display content to the `key` in `data`   |
 | listProps               | [ListProps][listprops]                                                                        | Properties of virtualized lists.                           |
 | loading                 | boolean `(false)`                                                                             | Whether to display a loading state indicator               |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                      | Localization configuration                                 |
-| ~menuClassName~         | string                                                                                        | ⚠️`[Deprecated]` Use `popupClassName` instead              |
-| ~menuStyle~             | CSSProperties                                                                                 | ⚠️`[Deprecated]` Use `popupStyle` instead                  |
 | onChange                | (value:string) => void                                                                        | Called when the tree value changes                         |
 | onClean                 | (event) => void                                                                               | Called when the clear button is clicked                    |
 | onClose                 | () => void                                                                                    | Called when the popup is closed                            |
@@ -125,13 +126,13 @@
 | popupClassName          | string                                                                                        | Custom class for the popup                                 |
 | popupStyle              | CSSProperties                                                                                 | Custom style for the popup                                 |
 | renderExtraFooter       | () => ReactNode                                                                               | Custom render extra footer                                 |
-| ~renderMenu~            | (tree:ReactNode) => ReactNode                                                                 | ⚠️`[Deprecated]` Use `renderTree` instead                  |
 | renderTree              | (tree:ReactNode) => ReactNode                                                                 | Custom render tree                                         |
 | renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render tree node icon                               |
 | renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | Custom render tree node                                    |
-| renderValue             | (value: string, node:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                               |
+| renderValue             | (value: string, node:[TreeNode][node], selected:ReactNode) => ReactNode                       | Custom render selected value                               |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                             |
 | searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | Custom search method                                       |
+| showIndentLine          | boolean                                                                                       | Whether to show the indent line                            |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | A picker can have different sizes                          |
 | toggleAs                | ElementType `('a')`                                                                           | Custom component for the toggle button                     |
 | treeHeight              | number `(320)`                                                                                | The height of the tree                                     |

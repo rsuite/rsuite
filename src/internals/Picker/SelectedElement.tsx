@@ -1,4 +1,5 @@
 import React from 'react';
+import Badge from '../../Badge';
 import { reactToString } from '@/internals/utils';
 import { PickerLocale } from '../../locales';
 
@@ -59,9 +60,11 @@ const SelectedElement = (props: SelectedElementProps) => {
         })}
       </span>
       {countable ? (
-        <span className={prefix('value-count')} title={`${count}`}>
-          {count > 99 ? '99+' : count}
-        </span>
+        <Badge
+          className={prefix('value-count')}
+          title={`${count}`}
+          content={count > 99 ? '99+' : count}
+        />
       ) : null}
     </React.Fragment>
   );

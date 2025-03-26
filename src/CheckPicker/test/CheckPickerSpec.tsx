@@ -58,10 +58,11 @@ describe('CheckPicker', () => {
     expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<CheckPicker data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<CheckPicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'check');
   });
 
   it('Should not clean selected value', () => {
@@ -70,12 +71,6 @@ describe('CheckPicker', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(screen.getByRole('combobox')).to.have.text('Eugenia1');
-  });
-
-  it('Should output a dropdown', () => {
-    const { container } = render(<CheckPicker data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-check');
   });
 
   it('Should output a button', () => {
@@ -268,7 +263,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
-    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
+    render(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
+    );
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
@@ -281,7 +278,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
-    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
+    render(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
+    );
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
@@ -393,21 +392,19 @@ describe('CheckPicker', () => {
   });
 
   it('Should trigger onOpen & onClose with open props set', () => {
-    const onOpenSpy = sinon.spy();
-    const onCloseSpy = sinon.spy();
-    const { rerender } = render(
-      <CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open />
-    );
+    const onOpen = sinon.spy();
+    const onClose = sinon.spy();
+    const { rerender } = render(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
 
-    rerender(<CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open={false} />);
+    rerender(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open={false} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -430,19 +427,17 @@ describe('CheckPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const { rerender, container } = render(
-      <CheckPicker data={[]} value={['Test']} renderValue={() => '1'} />
-    );
+    const { rerender } = render(<CheckPicker data={[]} value={['Test']} renderValue={() => '1'} />);
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<CheckPicker data={[]} value={['Test']} renderValue={() => null} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
 
     rerender(<CheckPicker data={[]} value={['Test']} renderValue={() => undefined} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should not call `onClean` callback on Input ', () => {
@@ -479,15 +474,13 @@ describe('CheckPicker', () => {
 
   describe('With a label', () => {
     it('Should render a label before placeholder', () => {
-      render(<CheckPicker label="User" data={[]} data-testid="picker" />);
+      render(<CheckPicker label="User" data={[]} />);
 
       expect(screen.getByTestId('picker')).to.have.text('UserSelect');
     });
 
     it('Should render a label before selected value', () => {
-      render(
-        <CheckPicker label="User" data={data} value={['Eugenia', 'Kariane']} data-testid="picker" />
-      );
+      render(<CheckPicker label="User" data={data} value={['Eugenia', 'Kariane']} />);
 
       expect(screen.getByTestId('picker')).to.have.text('UserEugenia,Kariane2');
     });
@@ -539,7 +532,6 @@ describe('CheckPicker', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(document.activeElement).to.have.text('Eugenia');
     });
 

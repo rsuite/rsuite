@@ -25,10 +25,10 @@ function renderMenuItem(ui) {
 
 describe('Menu - MenuItem', () => {
   it('Should not be active when activeDecsendant is empty', () => {
-    const renderPropSpy = sinon.spy((props, ref) => <li ref={ref} {...props}></li>);
+    const renderProp = sinon.spy((props, ref) => <li ref={ref} {...props}></li>);
 
-    renderMenuItem(<MenuItem>{renderPropSpy}</MenuItem>);
+    renderMenuItem(<MenuItem>{renderProp}</MenuItem>);
 
-    expect(renderPropSpy).not.to.have.been.calledWith(sinon.match({ active: true }));
+    expect(renderProp).not.to.have.been.calledWith(sinon.match({ active: true }));
   });
 });

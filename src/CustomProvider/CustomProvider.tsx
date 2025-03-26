@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
-import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
+import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, {
@@ -33,8 +33,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import format from 'date-fns/format';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { format } from 'date-fns/format';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function formatDate(date, formatStr) {
    *    return format(date, formatStr, { locale: eo });
@@ -48,8 +48,8 @@ export interface CustomValue<T = Locale> {
    *
    * Example:
    *
-   *  import parse from 'date-fns/parse';
-   *  import eo from 'date-fns/locale/eo'
+   *  import { parse } from 'date-fns/parse';
+   *  import { eo } from 'date-fns/locale/eo'
    *
    *  function parseDate(date, formatStr) {
    *    return parse(date, formatStr, new Date(), { locale: eo });
@@ -186,7 +186,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
               <ToastContainer
                 key={placement}
                 placement={placement}
-                ref={ref => {
+                ref={(ref: any) => {
                   toasters.current.set(placement, ref);
                 }}
               />

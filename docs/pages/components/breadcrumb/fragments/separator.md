@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Breadcrumb } from 'rsuite';
 import Link from 'next/link';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import { Breadcrumb, VStack } from 'rsuite';
+import { MdArrowRightAlt } from 'react-icons/md';
 
-const MyBreadcrumb = ({ separator }) => (
+const BreadcrumbBox = ({ separator }) => (
   <Breadcrumb separator={separator}>
     <Breadcrumb.Item as={Link} href="/">
       Home
@@ -18,11 +18,11 @@ const MyBreadcrumb = ({ separator }) => (
 );
 
 const App = () => (
-  <>
-    <MyBreadcrumb separator={'-'} />
-    <MyBreadcrumb separator={'>'} />
-    <MyBreadcrumb separator={<AngleRightIcon />} />
-  </>
+  <VStack spacing={20}>
+    <BreadcrumbBox separator={'-'} />
+    <BreadcrumbBox separator={'>'} />
+    <BreadcrumbBox separator={<MdArrowRightAlt size={16} />} />
+  </VStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

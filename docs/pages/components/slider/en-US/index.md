@@ -6,8 +6,8 @@ A Slider component for displaying current value
 
 <!--{include:<import-guide>}-->
 
-- `<Slider>` Slide input controls.
-- `<RangeSlider>` Slide range input controls.
+- `Slider` Slide input controls.
+- `RangeSlider` Slide range input controls.
 
 ## Examples
 
@@ -91,7 +91,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | Property          | Type `(Default)`                | Description                                                      |
 | ----------------- | ------------------------------- | ---------------------------------------------------------------- |
 | barClassName      | string                          | A css class to apply to the Bar DOM node                         |
-| defaultValue      | number                          | The default value (uncontrolled)                                                    |
+| defaultValue      | number                          | The default value (uncontrolled)                                 |
 | disabled          | boolean                         | The disabled of component                                        |
 | getAriaValueText  | (value: number) => string;      | Provide a user-friendly name for the current value of the slider |
 | graduated         | boolean                         | Show Ticks                                                       |
@@ -108,7 +108,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | step              | number`(1)`                     | Slide the value of one step                                      |
 | tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
 | keepTooltipOpen   | boolean`(false)`                | Whether `Tooltip` will always be visible   even without hover    |
-| value             | number                          | The current value (controlled)                                               |
+| value             | number                          | The current value (controlled)                                   |
 | vertical          | boolean                         | Vertical Slide                                                   |
 
 ### `<RangeSlider>`
@@ -117,7 +117,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
 | barClassName      | string                                                 | A css class to apply to the Bar DOM node                                                                             |
 | constraint        | `(value: [number, number]) => boolean`                 | Validate next value before `onChange` is triggered. Prevent `onChange` being triggered if constraint returns `false` |
-| defaultValue      | [number,number]                                        | The default value (uncontrolled)                                                                                                        |
+| defaultValue      | [number,number]                                        | The default value (uncontrolled)                                                                                     |
 | disabled          | boolean                                                | The disabled of component                                                                                            |
 | getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | Provide a user-friendly name for the current value of the slider                                                     |
 | graduated         | boolean                                                | Show Ticks                                                                                                           |
@@ -132,7 +132,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |
 | renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
 | step              | number`(1)`                                            | Slide the value of one step                                                                                          |
-| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding
-| keepTooltipOpen   | boolean`(false)`                                        | Whether `Tooltip` will always be visible   even without hover                                                                               |
-| value             | [number,number]                                        | The current value (controlled)                                                                                                   |
+| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |
+| keepTooltipOpen   | boolean`(false)`                                        | Whether `Tooltip` will always be visible   even without hover                                                       |
+| value             | [number,number]                                        | The current value (controlled)                                                                                       |
 | vertical          | boolean                                                | Vertical Slide                                                                                                       |

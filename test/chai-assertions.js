@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 /**
  * TODO: Add typescript definition for custom assertions
  */

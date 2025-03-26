@@ -9,7 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <InlineEdit placeholder="Click to edit ..." showControls={false}>
-    <InputPicker data={data} style={{ width: 200 }} />
+    <InputPicker data={data} w={200} />
   </InlineEdit>
 );
 

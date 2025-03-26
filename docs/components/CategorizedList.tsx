@@ -28,10 +28,10 @@ const CategorizedList = React.forwardRef(
                 <Heading level={4} className="rs-co-title" key={item.id} id={item.name}>
                   {item.name}
                 </Heading>
-                <HStack wrap spacing={10} alignItems="flex-start">
+                <HStack wrap spacing={10} align="flex-start">
                   {item.children?.map(item => {
                     return (
-                      <VStack key={item.id} className="rs-co-box" justifyContent="space-between">
+                      <VStack key={item.id} className="rs-co-box" justify="space-between">
                         <div>
                           <Link href={`/components/${item.id}`} className="rs-co-header">
                             {item.name}
@@ -72,5 +72,7 @@ const CategorizedList = React.forwardRef(
     );
   }
 );
+
+CategorizedList.displayName = 'CategorizedList';
 
 export default CategorizedList;

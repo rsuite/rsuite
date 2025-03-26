@@ -1,19 +1,18 @@
 @import '../../styles/common.less';
 @import '../../styles/mixins/menu.less';
 @import '../../styles/mixins/combobox.less';
-@import 'mixin.less';
+@import './mixin.less';
 @import '../../Button/styles/index.less';
 
 //
 // Dropdown menus
 // --------------------------------------------------
 
-.rs-dropdown-toggle-caret {
-  .combobox-indicator-icon();
-}
-
 // The dropdown wrapper (div)
 .rs-dropdown {
+  --rs-dropdown-divider-color: var(--rs-divider-border);
+  --rs-dropdown-shadow: var(--rs-shadow-md);
+
   position: relative;
   display: inline-block;
   vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
@@ -64,31 +63,36 @@
 }
 
 .rs-dropdown-toggle {
-  .dropdown-toggle-size();
-
   &,
   &.rs-btn {
     // Force set style even if has `.btn`.
     .dropdown-toggle();
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: calc(var(--rs-spacing) * 1.5);
   }
 
   &.rs-dropdown-toggle-no-caret {
-    padding-right: @padding-x;
+    padding-inline-end: @padding-x;
   }
 }
 
 // The dropdown menu (ul)
 .rs-dropdown-menu {
+  --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
+  --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
+  --rs-menuitem-divider-margin-block: calc(var(--rs-spacing) * 1.5);
+  --rs-menuitem-spacing: calc(var(--rs-spacing) * 2);
+
   margin: 0; // override default ul
   list-style: none;
-  font-size: @font-size-base;
-  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  font-size: var(--rs-font-size-sm);
+  text-align: start; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: var(--rs-bg-overlay);
-  border-radius: @dropdown-menu-radius;
-  padding: @dropdown-menu-padding-y 0;
+  border-radius: var(--rs-radius-md);
+  padding: var(--rs-menu-padding);
+
   outline: 0;
 
   &:focus-visible {
@@ -99,12 +103,12 @@
     position: absolute;
     // dropdown-menu zindex value is greater than dropdown-toggle
     z-index: @zindex-dropdown + 1;
-    float: left;
+    float: inline-start;
     box-shadow: var(--rs-dropdown-shadow);
     outline: none;
 
     .high-contrast-mode({
-      border: 1px solid var(--rs-border-primary);
+      border: 1px solid var(--rs-border-secondary);
     });
   }
 
@@ -118,23 +122,27 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 6px;
-  padding: @dropdown-item-padding-y @dropdown-item-padding-x;
+  gap: var(--rs-menuitem-spacing);
+  padding-inline: var(--rs-menuitem-padding-inline);
+  padding-block: var(--rs-menuitem-padding-block);
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
   color: var(--rs-text-primary);
+  border-radius: var(--rs-radius-sm);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   cursor: pointer; //fixed link has not [href] style
   .reset-link-text-decoration(none);
 
   &-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .rs-dropdown-item-shortcut {
-    margin-inline-start: 20px;
     border: none;
+    line-height: var(--rs-text-line-height-xs);
   }
 
   > .rs-icon {
@@ -149,11 +157,11 @@
     &,
     &:hover,
     &:focus {
-      color: var(--rs-dropdown-item-text-active);
-      background-color: var(--rs-dropdown-item-bg-active);
+      color: var(--rs-menuitem-text-active);
+      background-color: var(--rs-menuitem-bg-active);
 
       .rs-text {
-        color: var(--rs-dropdown-item-text-active);
+        color: var(--rs-menuitem-text-active);
       }
     }
   }
@@ -189,7 +197,10 @@
 }
 
 .rs-dropdown-item-divider {
-  .nav-divider(var(--rs-dropdown-divider));
+  height: 1px;
+  margin-block: var(--rs-menuitem-divider-margin-block);
+  overflow: hidden;
+  background-color: var(--rs-dropdown-divider-color);
 }
 
 // The dropdown submenu
@@ -213,7 +224,7 @@
 
     > .rs-dropdown-menu {
       position: absolute;
-      top: -@dropdown-menu-padding-y;
+      top: 0;
     }
   }
 
@@ -223,21 +234,21 @@
 
     .rs-dropdown-item-toggle {
       padding: @dropdown-item-padding-y @dropdown-item-padding-x;
-      padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
+      padding-inline-end: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
         @dropdown-item-submenu-icon-angle-width;
     }
 
     .rs-dropdown-menu-toggle-icon {
-      right: @dropdown-caret-icon-padding-horizontal;
+      inset-inline-end: @dropdown-caret-icon-padding-horizontal;
     }
   }
 
   .rs-dropdown-menu {
-    left: 100%;
+    inset-inline-start: 100%;
 
     &[data-direction='start'] {
-      left: unset;
-      right: 100%;
+      inset-inline-start: unset;
+      inset-inline-end: 100%;
     }
   }
 
@@ -253,7 +264,7 @@
 // Active state
 .rs-dropdown-menu > .rs-dropdown-menu-item-focus {
   outline: 0;
-  background-color: var(--rs-dropdown-item-bg-active);
+  background-color: var(--rs-menuitem-bg-active);
 
   &:hover,
   &:focus {
@@ -267,67 +278,42 @@
     animation-play-state: running;
   }
 
-  // Show the menu
-  &.rs-dropdown-placement-top-start,
-  &.rs-dropdown-placement-top-end {
-    > .rs-dropdown-menu {
-      bottom: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-left-start,
-  &.rs-dropdown-placement-left-end {
-    > .rs-dropdown-menu {
-      right: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-right-start,
-  &.rs-dropdown-placement-right-end {
-    > .rs-dropdown-menu {
-      left: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-bottom-start,
-  &.rs-dropdown-placement-bottom-end {
-    > .rs-dropdown-menu {
-      top: 100%;
-    }
-  }
-
-  &.rs-dropdown-placement-top-start,
-  &.rs-dropdown-placement-bottom-start {
-    > .rs-dropdown-menu {
-      left: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-top-end,
-  &.rs-dropdown-placement-bottom-end {
-    > .rs-dropdown-menu {
-      right: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-left-start,
-  &.rs-dropdown-placement-right-start {
-    > .rs-dropdown-menu {
-      top: 0;
-    }
-  }
-
-  &.rs-dropdown-placement-right-end,
-  &.rs-dropdown-placement-left-end {
-    > .rs-dropdown-menu {
-      bottom: 0;
-    }
-  }
-
   // Remove the outline when :focus is triggered
   > a {
     outline: 0;
   }
+
+  // Vertical placements
+  .placement-vertical(@position, @value) {
+    &[data-placement="@{position}-start"],
+    &[data-placement="@{position}-end"] {
+      > .rs-dropdown-menu {
+        @{value}: 100%;
+      }
+    }
+  }
+
+  // Horizontal alignments
+  .placement-align(@start, @end, @value) {
+    &[data-placement="@{start}"],
+    &[data-placement="@{end}"] {
+      > .rs-dropdown-menu {
+        @{value}: 0;
+      }
+    }
+  }
+
+  // Apply placements
+  .placement-vertical(top, bottom);
+  .placement-vertical(bottom, top);
+  .placement-vertical(left, inset-inline-end);
+  .placement-vertical(right, inset-inline-start);
+
+  // Apply alignments
+  .placement-align(top-start, bottom-start, inset-inline-start);
+  .placement-align(top-end, bottom-end, inset-inline-end);
+  .placement-align(left-start, right-start, top);
+  .placement-align(left-end, right-end, bottom);
 }
 
 // Dropdown section headers
@@ -336,8 +322,9 @@
   padding: @dropdown-item-padding-y @dropdown-item-padding-x;
   line-height: @line-height-base;
   color: var(--rs-dropdown-header-text);
-  border-bottom: 1px solid @dropdown-divider-bg;
+  border-bottom: 1px solid var(--rs-dropdown-divider-color);
   white-space: nowrap; // as with > li > a
+  margin-bottom: 2px;
 }
 
 // Opacity not working in Safari,so remove .

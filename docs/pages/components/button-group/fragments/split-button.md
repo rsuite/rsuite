@@ -9,7 +9,7 @@ const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'
 const App = () => {
   const [action, setAction] = React.useState(0);
   return (
-    <ButtonGroup>
+    <ButtonGroup divided>
       <Button appearance="primary" color="green">
         {options[action]}
       </Button>

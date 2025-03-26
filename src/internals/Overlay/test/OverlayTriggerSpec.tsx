@@ -1,9 +1,9 @@
 import React, { Ref } from 'react';
-import { Simulate } from 'react-dom/test-utils';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import OverlayTrigger, { OverlayTriggerHandle } from '../OverlayTrigger';
 import Tooltip from '@/Tooltip';
+import OverlayTrigger from '../OverlayTrigger';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {
@@ -68,18 +68,18 @@ describe('OverlayTrigger', () => {
     expect(screen.getByRole('tooltip')).to.have.class('test-whisper_focus');
   });
 
-  it('Should maintain overlay classname when trigger mouseOver and setting [trigger="hover"]', () => {
+  it('Should maintain overlay classname when trigger mouseOver and setting [trigger="hover"]', async () => {
     render(
       <OverlayTrigger trigger="hover" speaker={<Tooltip>test</Tooltip>}>
         <button>button</button>
       </OverlayTrigger>
     );
 
-    act(() => {
-      Simulate.mouseOver(screen.getByRole('button'));
-    });
+    fireEvent.mouseOver(screen.getByText('button'), { bubbles: true });
 
-    expect(screen.getByRole('tooltip')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).to.exist;
+    });
   });
 
   it('Should delay opening and closing of Tooltip', async () => {
@@ -89,17 +89,13 @@ describe('OverlayTrigger', () => {
       </OverlayTrigger>
     );
 
-    act(() => {
-      Simulate.mouseOver(screen.getByRole('button'));
-    });
+    fireEvent.mouseOver(screen.getByRole('button'));
 
     await waitFor(() => {
       expect(screen.getByRole('tooltip')).to.be.visible;
     });
 
-    act(() => {
-      Simulate.mouseOut(screen.getByRole('button'));
-    });
+    fireEvent.mouseOut(screen.getByRole('button'));
 
     await waitFor(() => {
       expect(screen.queryByRole('tooltip')).to.not.exist;
@@ -195,7 +191,7 @@ describe('OverlayTrigger', () => {
       </OverlayTrigger>
     );
 
-    Simulate.mouseMove(screen.getByText('button'));
+    fireEvent.mouseMove(screen.getByText('button'));
     expect(onMouseMove).to.have.been.calledOnce;
   });
 
@@ -220,9 +216,7 @@ describe('OverlayTrigger', () => {
 
     expect(count).to.equal(1);
 
-    act(() => {
-      Simulate.mouseMove(screen.getByRole('button'));
-    });
+    fireEvent.mouseMove(screen.getByRole('button'));
 
     expect(count).to.equal(1);
   });
@@ -249,18 +243,16 @@ describe('OverlayTrigger', () => {
 
     expect(count).to.equal(1);
 
-    act(() => {
-      Simulate.mouseOver(screen.getByRole('button'));
-      Simulate.mouseMove(screen.getByRole('button'), {
-        pageY: 10,
-        pageX: 10,
-        clientX: 10,
-        clientY: 10
-      });
+    fireEvent.mouseOver(screen.getByRole('button'));
+    fireEvent.mouseMove(screen.getByRole('button'), {
+      pageY: 10,
+      pageX: 10,
+      clientX: 10,
+      clientY: 10
     });
 
     expect(count).to.equal(2);
-    expect(screen.getByRole('tooltip').style).to.have.property('left', '10px');
+    expect(screen.getByRole('tooltip')).to.have.style('--rs-position-x', '10px');
   });
 
   it('Should open the Overlay', () => {

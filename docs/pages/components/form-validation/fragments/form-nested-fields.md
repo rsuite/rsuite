@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, FlexboxGrid } from 'rsuite';
+import { Form, Button, ButtonToolbar, Schema, Panel, Box, Row, Col } from 'rsuite';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
+  <Box mb={10}>
     <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
       <JSONTree data={formValue} />
     </Panel>
@@ -13,7 +13,7 @@ const JSONView = ({ formValue, formError }) => (
     <Panel className="json-tree-wrapper" header={<p>formError</p>}>
       <JSONTree data={formError} />
     </Panel>
-  </div>
+  </Box>
 );
 
 const { StringType, ObjectType, NumberType, ArrayType } = Schema.Types;
@@ -59,8 +59,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           nestedField
           ref={form}
@@ -69,23 +69,25 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Name" />
-          <TextField name="address.city" label="City" />
-          <TextField name="address.postCode" label="Post Code" />
-          <TextField name="skills[0].name" label="Skill 1" />
-          <TextField name="skills[1].name" label="Skill 2" />
+          <Form.Stack>
+            <TextField name="name" label="Name" />
+            <TextField name="address.city" label="City" />
+            <TextField name="address.postCode" label="Post Code" />
+            <TextField name="skills[0].name" label="Skill 1" />
+            <TextField name="skills[1].name" label="Skill 2" />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Check
             </Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

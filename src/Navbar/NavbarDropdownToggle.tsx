@@ -1,16 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
-import Button from '../Button';
-import { useClassNames } from '@/internals/hooks';
 import NavbarItem from './NavbarItem';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
+import Button from '../Button';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import type { PlacementCorners } from '@/internals/types';
 
-export interface NavbarDropdownToggleProps extends WithAsProps {
+export interface NavbarDropdownToggleProps extends BoxProps {
   noCaret?: boolean;
-  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
+  renderToggle?: (props: BoxProps, ref: React.Ref<any>) => any;
 }
 
 /**
@@ -22,49 +22,30 @@ export interface NavbarDropdownToggleProps extends WithAsProps {
  *   </Nav.Menu>
  * </Nav>
  */
-const NavbarDropdownToggle: RsRefForwardingComponent<typeof Button, NavbarDropdownToggleProps> =
-  React.forwardRef((props: NavbarDropdownToggleProps, ref) => {
-    const {
-      as: Component = NavbarItem,
-      className,
-      classPrefix = 'navbar-item',
-      renderToggle,
-      children,
-      noCaret,
-      ...rest
-    } = props;
+const NavbarDropdownToggle = forwardRef<typeof Button, NavbarDropdownToggleProps>((props, ref) => {
+  const {
+    as = NavbarItem,
+    className,
+    classPrefix = 'navbar-item',
+    renderToggle,
+    children,
+    noCaret,
+    ...rest
+  } = props;
 
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
-    const toggle = (
-      <Component {...rest} ref={ref} className={classes}>
-        {children}
-        {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
-      </Component>
-    );
+  const toggle = (
+    <Box as={as} {...rest} ref={ref} className={classes}>
+      {children}
+      {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
+    </Box>
+  );
 
-    return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  return renderToggle ? renderToggle(rest, ref) : toggle;
+});
 
 NavbarDropdownToggle.displayName = 'Navbar.Dropdown.Toggle';
-NavbarDropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default NavbarDropdownToggle;

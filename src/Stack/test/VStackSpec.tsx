@@ -21,6 +21,6 @@ describe('VStack', () => {
   it('Should render a reverse direction', () => {
     render(<VStack reverse>Test</VStack>);
 
-    expect(screen.getByText('Test')).to.have.style('flex-direction', 'column-reverse');
+    expect(screen.getByText('Test')).to.have.class('rs-stack-column-reverse');
   });
 });

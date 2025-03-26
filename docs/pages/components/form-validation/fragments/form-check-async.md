@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, FlexboxGrid } from 'rsuite';
+import { Form, Button, ButtonToolbar, Schema, Panel, Box, Row, Col } from 'rsuite';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
+  <Box mb={10}>
     <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
       <JSONTree data={formValue} />
     </Panel>
@@ -13,7 +13,7 @@ const JSONView = ({ formValue, formError }) => (
     <Panel className="json-tree-wrapper" header={<p>formError</p>}>
       <JSONTree data={formError} />
     </Panel>
-  </div>
+  </Box>
 );
 
 const { StringType } = Schema.Types;
@@ -52,8 +52,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -61,23 +61,25 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <Form.Group controlId="name-2">
-            <Form.ControlLabel>Username </Form.ControlLabel>
-            <Form.Control checkAsync name="name" placeholder="Please enter abc" />
-          </Form.Group>
+          <Form.Stack>
+            <Form.Group controlId="name-2">
+              <Form.ControlLabel>Username </Form.ControlLabel>
+              <Form.Control checkAsync name="name" placeholder="Please enter abc" />
+            </Form.Group>
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
+      </Col>
 
-      <FlexboxGrid.Item colspan={12}>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

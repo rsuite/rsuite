@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import Sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import Accordion from '../Accordion';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Accordion', () => {
   testStandardProps(<Accordion />);
@@ -14,7 +14,7 @@ describe('Accordion', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Accordion onSelect={onSelect}>
         <Accordion.Panel header="title" eventKey={1}>

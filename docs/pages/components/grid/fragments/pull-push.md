@@ -1,32 +1,40 @@
 <!--start-code-->
 
 ```js
-import { Grid, Row, Col } from 'rsuite';
+import { Grid, Row, Col, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xs={12} xsPush={12}>
-        xs={12} xsPush={12} `left`
+    <Row>
+      <Col span={12} push={12}>
+        <DecorativeBox>span: 12, push: 12</DecorativeBox>
       </Col>
-      <Col xs={12} xsPull={12}>
-        xs={12} xsPull={12} `right`
-      </Col>
-    </Row>
-
-    <Row className="show-grid">
-      <Col xs={6}>xs={6} `left`</Col>
-      <Col xs={6} xsPush={12}>
-        xs={6} xsPush={12} `right`
+      <Col span={12} pull={12}>
+        <DecorativeBox>span: 12, pull: 12</DecorativeBox>
       </Col>
     </Row>
 
-    <Row className="show-grid">
-      <Col xs={6} xsPush={18}>
-        xs={6} xsPush={18} `left`
+    <Row>
+      <Col span={6}>
+        <DecorativeBox>span: 6</DecorativeBox>
       </Col>
-      <Col xs={6} xsPull={6}>
-        xs={6} xsPull={6} `right`
+      <Col span={6} push={12}>
+        <DecorativeBox>span: 6, push: 12</DecorativeBox>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col span={6} push={18}>
+        <DecorativeBox>span: 6, push: 18</DecorativeBox>
+      </Col>
+      <Col span={6} pull={6}>
+        <DecorativeBox>span: 6, pull: 6</DecorativeBox>
       </Col>
     </Row>
   </Grid>

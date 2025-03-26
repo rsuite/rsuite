@@ -1,28 +1,14 @@
 import React from 'react';
-import { getDOMNode } from '@test/utils';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import Plaintext from '../Plaintext';
 
 describe('Plaintext', () => {
+  testStandardProps(<Plaintext />);
+
   it('Should render a Plaintext', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<Plaintext>{title}</Plaintext>);
-    assert.include(instance.className, 'rs-plaintext');
-    assert.equal(instance.textContent, title);
-  });
+    render(<Plaintext>Test</Plaintext>);
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Plaintext className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Plaintext style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Plaintext classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(screen.getByText('Test')).to.have.class('rs-plaintext');
   });
 });

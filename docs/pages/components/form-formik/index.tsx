@@ -1,6 +1,6 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
-import { Button, InputNumber, Input, Stack, Form, DatePicker, Rate } from 'rsuite';
+import { Button, InputNumber, Input, Stack, VStack, Form, DatePicker, Rate } from 'rsuite';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
@@ -19,6 +19,7 @@ export default function Page() {
         DatePicker,
         Rate,
         Stack,
+        VStack,
         Form,
         Yup,
         useFormik

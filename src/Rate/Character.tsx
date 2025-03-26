@@ -1,9 +1,9 @@
-import React, { useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { isNil } from 'lodash';
+import React, { useRef } from 'react';
 import contains from 'dom-lib/contains';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import isNil from 'lodash/isNil';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 
 const characterStatus = {
   [0]: 'empty',
@@ -11,7 +11,7 @@ const characterStatus = {
   [1]: 'full'
 };
 
-interface CharacterProps extends WithAsProps {
+interface CharacterProps extends BoxProps {
   vertical?: boolean;
   status?: 0 | 0.5 | 1;
   disabled?: boolean;
@@ -22,71 +22,52 @@ interface CharacterProps extends WithAsProps {
 
 const getKey = (a, b) => (contains(a, b) ? 'before' : 'after');
 
-const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardRef(
-  (props: CharacterProps, ref) => {
-    const {
-      as: Component = 'li',
-      classPrefix = 'rate-character',
-      className,
-      children,
-      vertical,
-      status,
-      disabled,
-      onClick,
-      onKeyDown,
-      onMouseMove,
-      ...rest
-    } = props;
+const Character = forwardRef<'li', CharacterProps>((props, ref) => {
+  const {
+    as = 'li',
+    classPrefix = 'rate-character',
+    className,
+    children,
+    vertical,
+    status,
+    disabled,
+    onClick,
+    onKeyDown,
+    onMouseMove,
+    ...rest
+  } = props;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const beforeRef = useRef<HTMLDivElement>(null);
-    const classes = merge(className, withClassPrefix(!isNil(status) && characterStatus[status]));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const beforeRef = useRef<HTMLDivElement>(null);
+  const classes = merge(className, withPrefix(!isNil(status) && characterStatus[status]));
 
-    const handleMouseMove = useCallback(
-      (event: React.MouseEvent) => {
-        onMouseMove?.(getKey(beforeRef.current, event.target), event);
-      },
-      [onMouseMove]
-    );
+  const handleMouseMove = useEventCallback((event: React.MouseEvent) => {
+    onMouseMove?.(getKey(beforeRef.current, event.target), event);
+  });
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        onClick?.(getKey(beforeRef.current, event.target), event);
-      },
-      [onClick]
-    );
+  const handleClick = useEventCallback((event: React.MouseEvent) => {
+    onClick?.(getKey(beforeRef.current, event.target), event);
+  });
 
-    return (
-      <Component
-        {...rest}
-        ref={ref}
-        className={classes}
-        tabIndex={0}
-        onClick={disabled ? null : handleClick}
-        onKeyDown={disabled ? null : onKeyDown}
-        onMouseMove={disabled ? null : handleMouseMove}
-      >
-        <div ref={beforeRef} className={prefix('before', { vertical })}>
-          {children}
-        </div>
-        <div className={prefix('after')}>{children}</div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      tabIndex={0}
+      onClick={disabled ? null : handleClick}
+      onKeyDown={disabled ? null : onKeyDown}
+      onMouseMove={disabled ? null : handleMouseMove}
+      {...rest}
+    >
+      <div ref={beforeRef} className={prefix('before', { vertical })}>
+        {children}
+      </div>
+      <div className={prefix('after')}>{children}</div>
+    </Box>
+  );
+});
 
 Character.displayName = 'Character';
-Character.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  vertical: PropTypes.bool,
-  status: PropTypes.number,
-  disabled: PropTypes.bool,
-  onMouseMove: PropTypes.func,
-  onClick: PropTypes.func,
-  onKeyDown: PropTypes.func
-};
 
 export default Character;

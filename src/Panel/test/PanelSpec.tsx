@@ -1,22 +1,20 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/utils';
 import Panel from '../Panel';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Panel', () => {
   testStandardProps(<Panel />);
 
   it('Should render a panel', () => {
-    const title = 'Test';
-    render(<Panel data-testid="panel">{title}</Panel>);
+    render(<Panel data-testid="panel">Panel Content</Panel>);
     const panel = screen.getByTestId('panel');
 
     expect(panel).to.have.tagName('div');
-    expect(panel).to.have.class(/\bpanel\b/);
-    expect(panel).to.have.text(title);
+    expect(panel).to.have.class('rs-panel');
+    expect(panel).to.have.text('Panel Content');
   });
 
   it('Should default expanded', () => {
@@ -142,19 +140,19 @@ describe('Panel', () => {
 
   describe('Collapsible - `collapsible=true`', () => {
     it('Should call onSelect callback with correct `eventKey`', () => {
-      const onSelectSpy = sinon.spy();
-      render(<Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />);
+      const onSelect = sinon.spy();
+      render(<Panel collapsible onSelect={onSelect} eventKey={12} header={'abc'} />);
 
       fireEvent.click(screen.getByText('abc'));
-      expect(onSelectSpy).to.have.been.calledWith(12);
+      expect(onSelect).to.have.been.calledWith(12);
     });
 
     it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
-      const onSelectSpy = sinon.spy();
-      render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
+      const onSelect = sinon.spy();
+      render(<Panel collapsible onSelect={onSelect} header={'abc'} />);
 
       fireEvent.click(screen.getByText('abc'));
-      expect(onSelectSpy).to.have.been.calledWith(undefined);
+      expect(onSelect).to.have.been.calledWith(undefined);
     });
 
     it('Should not hide caret icon when header prop is passed an element', () => {

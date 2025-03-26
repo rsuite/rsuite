@@ -38,8 +38,6 @@ Use `cellClassName` function to specify the custom class name added to each cell
 
 ### `<Calendar>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property           | Type`(Default)`                                   | Description                                                                                                                       |
 | ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | bordered           | boolean                                           | Show border                                                                                                                       |
