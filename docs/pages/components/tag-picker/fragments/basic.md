@@ -9,7 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <>
-    <TagPicker data={data} w={300} />
+    <TagPicker data={data} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

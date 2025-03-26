@@ -1,4 +1,4 @@
-import { isAndroid } from './BrowserDetection';
+import { isAndroid } from '../BrowserDetection';
 
 const strNone = 'none';
 

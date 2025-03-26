@@ -91,16 +91,16 @@
 
 // Default picker toggle
 .picker-default-toggle() {
-  .rs-picker-default & {
+  [data-variant='default'] & {
     color: var(--rs-text-primary);
     border: var(--rs-picker-toggle-border-width) solid var(--rs-border-primary);
   }
 
-  .rs-picker-disabled & {
+  [data-disabled='true'] & {
     cursor: @cursor-disabled;
   }
 
-  .rs-picker-default:not(.rs-picker-disabled) {
+  [data-variant='default']:not([data-disabled='true']) {
     &:hover,
     &:focus {
       border-color: var(--rs-input-focus-border);
@@ -110,12 +110,12 @@
 
 // Subtle picker toggle
 .picker-subtle-toggle {
-  .rs-picker-subtle & {
+  .rs-picker[data-variant='subtle'] & {
     --rs-picker-toggle-border-width: 0px;
     .dropdown-toggle();
   }
 
-  .rs-picker-subtle.rs-picker-disabled & {
+  .rs-picker[data-variant='subtle'][data-disabled='true'] & {
     cursor: @cursor-disabled;
 
     &:hover,

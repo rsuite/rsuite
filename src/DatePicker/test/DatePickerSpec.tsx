@@ -53,23 +53,23 @@ describe('DatePicker', () => {
     }
   });
 
-  it('Should render a div with "rs-picker-date" class', () => {
-    const { container } = render(<DatePicker />);
+  it('Should render a div with data-picker attribute', () => {
+    render(<DatePicker />);
 
-    expect(container.firstChild).to.have.tagName('DIV');
-    expect(container.firstChild).to.have.class('rs-picker-date');
+    expect(screen.getByTestId('picker')).to.have.tagName('DIV');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date');
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<DatePicker />);
+    render(<DatePicker />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should be cleanable by default', () => {
-    const { container } = render(<DatePicker value={new Date()} />);
+    render(<DatePicker value={new Date()} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cleanable');
+    expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
   it('Should be not cleanable', () => {

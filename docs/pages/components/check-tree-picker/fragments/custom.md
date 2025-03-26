@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker, Button } from 'rsuite';
+import { CheckTreePicker, Button, HStack } from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
@@ -16,29 +16,29 @@ const data = mockTreeData({
 
 const App = () => (
   <CheckTreePicker
+    block
     defaultExpandAll
     data={data}
-    w={280}
     placeholder={
-      <span>
+      <HStack>
         <PeoplesIcon /> Select
-      </span>
+      </HStack>
     }
     renderTreeNode={nodeData => {
       return (
-        <span>
+        <HStack>
           <AdminIcon /> {nodeData.label}
-        </span>
+        </HStack>
       );
     }}
     renderValue={(value, checkedItems) => {
       return (
-        <span>
-          <span style={{ color: '#575757' }}>
-            <PeoplesIcon /> Peoples:{' '}
-          </span>
+        <HStack>
+          <HStack c="#575757">
+            <PeoplesIcon /> Peoples:
+          </HStack>
           {checkedItems.map(item => item.label).join(' , ')}
-        </span>
+        </HStack>
       );
     }}
   />

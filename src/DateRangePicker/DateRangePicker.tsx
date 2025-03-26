@@ -13,7 +13,6 @@ import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
 import Calendar from './Calendar';
-import Box from '@/internals/Box';
 import * as StaticMethods from './disabledDateUtils';
 import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
@@ -21,14 +20,12 @@ import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import {
-  omitTriggerPropKeys,
   PickerPopup,
   PickerToggleTrigger,
   PickerIndicator,
   PickerLabel,
-  pickTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
-  usePickerClassName,
   usePickerRef,
   onMenuKeyDown
 } from '@/internals/Picker';
@@ -271,6 +268,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     const { formatDate, propsWithDefaults } = useCustom('DateRangePicker', props);
     const {
       as,
+      block,
       classPrefix = 'picker',
       className,
       appearance = 'default',
@@ -989,15 +987,6 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     };
 
     const hasValue = !isNil(value) && value.length > 1;
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      classPrefix,
-      className,
-      name: 'daterange',
-      appearance,
-      hasValue,
-      cleanable
-    });
 
     const caretAs: React.ElementType | null = useMemo(() => {
       if (caretAsProp === null) {
@@ -1056,66 +1045,69 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       loading
     });
 
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: createChainedFunction(events.onActive, handleEnter, onEnter),
+      onExit: createChainedFunction(events.onInactive, handleExit, onExit)
+    };
+
     return (
       <PickerToggleTrigger
-        trigger="active"
+        as={as}
+        name="date-range"
+        classPrefix={classPrefix}
+        className={merge(className, { [prefix('error')]: invalidValue })}
+        block={block}
+        disabled={disabled}
+        appearance={appearance}
+        style={style}
+        rootRef={root}
         ref={trigger}
-        pickerProps={pick(props, pickTriggerPropKeys)}
         placement={placement}
-        onEnter={createChainedFunction(events.onActive, handleEnter, onEnter)}
-        onExit={createChainedFunction(events.onInactive, handleExit, onExit)}
+        trigger="active"
+        triggerProps={triggerProps}
         speaker={renderCalendarOverlay}
+        data-cleanable={cleanable}
       >
-        <Box
-          as={as}
-          ref={root}
-          className={merge(classes, { [prefix('error')]: invalidValue })}
-          style={style}
-        >
-          {plaintext ? (
-            <DateRangeInput value={value} format={formatStr} plaintext={plaintext} />
-          ) : (
-            <InputGroup
-              {...omit(rest, [
-                ...omitTriggerPropKeys,
-                ...usedClassNamePropKeys,
-                ...calendarOnlyProps
-              ])}
-              inside
-              className={prefix`input-group`}
+        {plaintext ? (
+          <DateRangeInput value={value} format={formatStr} plaintext={plaintext} />
+        ) : (
+          <InputGroup
+            {...omit(rest, [...calendarOnlyProps, ...triggerPropKeys])}
+            inside
+            className={prefix`input-group`}
+            disabled={disabled}
+            size={size}
+          >
+            <PickerLabel className={prefix`label`} id={`${id}-label`}>
+              {label}
+            </PickerLabel>
+            <Input
+              aria-haspopup="dialog"
+              aria-invalid={invalidValue}
+              aria-labelledby={label ? `${id}-label` : undefined}
+              {...(ariaProps as any)}
+              ref={target}
+              id={id}
+              value={customValue || value}
+              character={character}
+              format={formatStr}
+              placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
+              readOnly={inputReadOnly}
+              htmlSize={getInputHtmlSize()}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+            />
+            <PickerIndicator
               size={size}
-            >
-              <PickerLabel className={prefix`label`} id={`${id}-label`}>
-                {label}
-              </PickerLabel>
-              <Input
-                aria-haspopup="dialog"
-                aria-invalid={invalidValue}
-                aria-labelledby={label ? `${id}-label` : undefined}
-                {...(ariaProps as any)}
-                ref={target}
-                id={id}
-                value={customValue || value}
-                character={character}
-                format={formatStr}
-                placeholder={placeholder ? placeholder : rangeFormatStr}
-                disabled={disabled}
-                readOnly={inputReadOnly}
-                htmlSize={getInputHtmlSize()}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-              />
-              <PickerIndicator
-                size={size}
-                loading={loading}
-                caretAs={caretAs}
-                onClose={handleClean}
-                showCleanButton={showCleanButton}
-              />
-            </InputGroup>
-          )}
-        </Box>
+              loading={loading}
+              caretAs={caretAs}
+              onClose={handleClean}
+              showCleanButton={showCleanButton}
+            />
+          </InputGroup>
+        )}
       </PickerToggleTrigger>
     );
   },

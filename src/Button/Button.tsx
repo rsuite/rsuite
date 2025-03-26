@@ -3,7 +3,7 @@ import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '../SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
-import { forwardRef, isOneOf } from '@/internals/utils';
+import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { Color, Size, AppearanceType } from '@/internals/types';
@@ -73,6 +73,7 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     color,
     disabled = buttonGroup?.disabled,
     loading,
+    role,
     ripple = true,
     size = buttonGroup?.size || 'md',
     startIcon,
@@ -119,20 +120,22 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
 
   const buttonAs = as || (rest.href ? SafeAnchor : 'button');
   const isCustomElement = buttonAs !== 'button' && buttonAs !== SafeAnchor;
-  const type = typeProp ?? (buttonAs === 'button' ? 'button' : undefined);
-  const role = rest.role ?? (isCustomElement ? 'button' : undefined);
+
+  const uncertainProps = {
+    [isDisableableElement(buttonAs) || buttonAs === SafeAnchor ? 'disabled' : 'aria-disabled']:
+      disabled,
+    type: typeProp ?? (buttonAs === 'button' ? 'button' : undefined),
+    role: role ?? (isCustomElement ? 'button' : undefined)
+  };
 
   return (
     <Box
-      {...rest}
       as={buttonAs}
-      role={role}
-      type={type}
       ref={ref}
-      disabled={disabled}
-      aria-disabled={disabled}
       className={classes}
       onClick={handleClick}
+      {...uncertainProps}
+      {...rest}
     >
       {buttonContent}
     </Box>

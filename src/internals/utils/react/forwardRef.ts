@@ -4,7 +4,7 @@ import {
   ForwardRefRenderFunction,
   forwardRef as reactForwardRef
 } from 'react';
-import type { InternalRefForwardingComponent } from '../types';
+import type { InternalRefForwardingComponent } from '@/internals/types';
 
 /**
  * A utility function to wrap components with `React.forwardRef`.

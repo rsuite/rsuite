@@ -27,3 +27,21 @@ export function isFocusableElement(element: Element) {
 
   return element.matches(focusableSelector);
 }
+
+const disableableElements = [
+  'button',
+  'fieldset',
+  'optgroup',
+  'option',
+  'select',
+  'textarea',
+  'input'
+];
+
+export function isDisableableElement(element: any) {
+  if (typeof element === 'string') {
+    return disableableElements.includes(element);
+  }
+
+  return false;
+}

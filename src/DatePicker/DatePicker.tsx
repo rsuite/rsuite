@@ -9,7 +9,6 @@ import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
-import Box from '@/internals/Box';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
@@ -36,9 +35,8 @@ import {
   PickerLabel,
   PickerIndicator,
   PickerToggleTrigger,
-  pickTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
-  usePickerClassName,
   usePickerRef,
   onMenuKeyDown
 } from '@/internals/Picker';
@@ -258,6 +256,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const { propsWithDefaults } = useCustom('DatePicker', props);
   const {
     as,
+    block,
     className,
     classPrefix = 'picker',
     calendarDefaultDate,
@@ -632,15 +631,6 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   };
 
   const hasValue = isValid(value);
-  const [classes, usedClassNamePropKeys] = usePickerClassName({
-    ...props,
-    className,
-    classPrefix,
-    name: 'date',
-    appearance,
-    hasValue,
-    cleanable
-  });
 
   const caretAs: React.ElementType | null = useMemo(() => {
     if (caretAsProp === null) {
@@ -668,63 +658,70 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const customizedProps = { value, formatStr, renderValue, readOnly, editable, loading };
   const { customValue, inputReadOnly, Input, events } = useCustomizedInput(customizedProps);
 
+  const triggerProps = {
+    ...pick(props, triggerPropKeys),
+    onClose: handleTriggerClose,
+    onEnter: createChainedFunction(events.onActive, onEnter),
+    onExit: createChainedFunction(events.onInactive, onExit)
+  };
+
   return (
     <PickerToggleTrigger
+      as={as}
+      name="date"
+      classPrefix={classPrefix}
+      className={merge(className, { [prefix('error')]: invalidValue })}
+      block={block}
+      disabled={disabled}
+      appearance={appearance}
+      style={style}
+      rootRef={root}
       trigger="active"
-      pickerProps={pick(props, pickTriggerPropKeys)}
+      triggerProps={triggerProps}
       ref={trigger}
       placement={placement}
-      onClose={handleTriggerClose}
-      onEnter={createChainedFunction(events.onActive, onEnter)}
-      onExit={createChainedFunction(events.onInactive, onExit)}
       speaker={renderCalendarOverlay}
+      data-cleanable={cleanable}
     >
-      <Box
-        as={as}
-        className={merge(classes, { [prefix('error')]: invalidValue })}
-        style={style}
-        ref={root}
-      >
-        {plaintext ? (
-          <DateInput value={value} format={formatStr} plaintext={plaintext} />
-        ) : (
-          <InputGroup
-            {...getRestProps(rest, usedClassNamePropKeys)}
-            inside
-            size={size}
+      {plaintext ? (
+        <DateInput value={value} format={formatStr} plaintext={plaintext} />
+      ) : (
+        <InputGroup
+          {...getRestProps(rest)}
+          inside
+          size={size}
+          disabled={disabled}
+          className={prefix`input-group`}
+          onClick={handleClick}
+        >
+          <PickerLabel className={prefix`label`} id={`${id}-label`}>
+            {label}
+          </PickerLabel>
+          <Input
+            aria-haspopup="dialog"
+            aria-invalid={invalidValue}
+            aria-labelledby={label ? `${id}-label` : undefined}
+            {...(ariaProps as any)}
+            ref={target}
+            id={id}
+            value={customValue || value}
+            format={formatStr}
+            placeholder={placeholder ? placeholder : formatStr}
             disabled={disabled}
-            className={prefix`input-group`}
-            onClick={handleClick}
-          >
-            <PickerLabel className={prefix`label`} id={`${id}-label`}>
-              {label}
-            </PickerLabel>
-            <Input
-              aria-haspopup="dialog"
-              aria-invalid={invalidValue}
-              aria-labelledby={label ? `${id}-label` : undefined}
-              {...(ariaProps as any)}
-              ref={target}
-              id={id}
-              value={customValue || value}
-              format={formatStr}
-              placeholder={placeholder ? placeholder : formatStr}
-              disabled={disabled}
-              readOnly={inputReadOnly}
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-            />
+            readOnly={inputReadOnly}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+          />
 
-            <PickerIndicator
-              size={size}
-              loading={loading}
-              caretAs={caretAs}
-              onClose={handleClean}
-              showCleanButton={showCleanButton}
-            />
-          </InputGroup>
-        )}
-      </Box>
+          <PickerIndicator
+            size={size}
+            loading={loading}
+            caretAs={caretAs}
+            onClose={handleClean}
+            showCleanButton={showCleanButton}
+          />
+        </InputGroup>
+      )}
     </PickerToggleTrigger>
   );
 });

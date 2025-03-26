@@ -5,18 +5,18 @@ interface UseActiveProps {
   target: React.RefObject<HTMLElement | null>;
   onOpen?: () => void;
   onClose?: () => void;
-  onEntered?: (node: HTMLElement) => void;
-  onExited?: (node: HTMLElement) => void;
+  onEnter?: (node: HTMLElement) => void;
+  onExit?: (node: HTMLElement) => void;
   setSearchKeyword: (keyword: string) => void;
 }
 
 const useActive = (props: UseActiveProps) => {
-  const { onOpen, onClose, onEntered, onExited, target, setSearchKeyword } = props;
+  const { onOpen, onClose, target, setSearchKeyword } = props;
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
 
-  const handleEntered = useEventCallback((node: HTMLElement) => {
-    onEntered?.(node);
+  const onEnter = useEventCallback((node: HTMLElement) => {
+    props.onEnter?.(node);
 
     if (!target.current) {
       return;
@@ -26,8 +26,8 @@ const useActive = (props: UseActiveProps) => {
     setActive(true);
   });
 
-  const handleExited = useEventCallback((node: HTMLElement) => {
-    onExited?.(node);
+  const onExit = useEventCallback((node: HTMLElement) => {
+    props.onExit?.(node);
     if (!target.current) {
       return;
     }
@@ -39,8 +39,7 @@ const useActive = (props: UseActiveProps) => {
 
   return {
     active,
-    handleEntered,
-    handleExited
+    events: { onEnter, onExit }
   };
 };
 

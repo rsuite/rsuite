@@ -57,10 +57,11 @@ describe('InputPicker', () => {
     expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<InputPicker data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<InputPicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'input');
   });
 
   it('Should not clean selected value', () => {
@@ -68,12 +69,6 @@ describe('InputPicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
     expect(screen.getByRole('combobox')).to.have.text('Eugenia');
-  });
-
-  it('Should output a dropdown', () => {
-    const { container } = render(<InputPicker data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-input');
   });
 
   it('Should be plaintext', () => {
@@ -393,21 +388,17 @@ describe('InputPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
-      <InputPicker data={[]} value="Test" renderValue={() => '1'} />
-    );
+    const { rerender } = render(<InputPicker data={[]} value={'Test'} renderValue={() => '1'} />);
+    expect(screen.getByRole('combobox')).to.have.text('1');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
-
-    rerender(<InputPicker data={[]} value="Test" renderValue={() => null} />);
-
+    rerender(<InputPicker data={[]} value={'Test'} renderValue={() => null} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
 
-    rerender(<InputPicker data={[]} value="Test" renderValue={() => undefined} />);
-
+    rerender(<InputPicker data={[]} value={'Test'} renderValue={() => undefined} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Children should not be selected', () => {

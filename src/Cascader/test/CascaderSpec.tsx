@@ -49,15 +49,15 @@ describe('Cascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<Cascader data={[]} />);
+    render(<Cascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cascader');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'cascader');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<Cascader data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<Cascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should output a placeholder', () => {
@@ -72,31 +72,11 @@ describe('Cascader', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should output a value by renderValue()', () => {
-    const placeholder = 'value';
-
-    // Valid value
-    const { rerender } = render(
-      <Cascader renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
-    );
-
-    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
-
-    // Invalid value
-    rerender(<Cascader renderValue={v => [v, placeholder]} data={[]} value={2} />);
-
-    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
-
-    // Invalid value
-    rerender(<Cascader data={[]} renderValue={v => [v, placeholder]} value={''} />);
-
-    expect(screen.getByRole('combobox')).to.have.text(placeholder);
-  });
-
   it('Should not be call renderValue()', () => {
     render(<Cascader data={[]} renderValue={() => 'value'} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should render a placeholder when value error', () => {
@@ -193,9 +173,9 @@ describe('Cascader', () => {
   });
 
   it('Should have a custom className', () => {
-    const { container } = render(<Cascader data={[]} className="custom" />);
+    render(<Cascader data={[]} className="custom" />);
 
-    expect(container.firstChild).to.have.class('custom');
+    expect(screen.getByTestId('picker')).to.have.class('custom');
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -238,22 +218,44 @@ describe('Cascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
-      <Cascader data={[]} value="Test" renderValue={() => '1'} />
-    );
+    const { rerender } = render(<Cascader data={[]} value="Test" renderValue={() => '1'} />);
 
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<Cascader data={[]} value="Test" renderValue={() => null} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
 
     rerender(<Cascader data={[]} value="Test" renderValue={() => undefined} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
+  });
+
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const { rerender } = render(
+      <Cascader renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
+    );
+
+    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+
+    // Invalid value
+    rerender(<Cascader renderValue={v => [v, placeholder]} data={[]} value={2} />);
+
+    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+
+    // Return null from renderValue
+    rerender(<Cascader data={[]} renderValue={() => null} value={''} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should update path', () => {

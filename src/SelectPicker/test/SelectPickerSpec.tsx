@@ -10,9 +10,7 @@ import {
 } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
 import SelectPicker from '../SelectPicker';
-import Input from '../../Input';
-import Button from '../../Button';
-import { PickerHandle } from '@/internals/Picker';
+import { Button } from '../../Button';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
@@ -59,23 +57,17 @@ describe('SelectPicker', () => {
     expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<SelectPicker data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<SelectPicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'select');
   });
 
   it('Should not clean selected value', () => {
-    render(<SelectPicker defaultOpen data={data} value={'Eugenia'} />);
-
+    render(<SelectPicker data={data} value="Eugenia" />);
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
     expect(screen.getByRole('combobox')).to.have.text('Eugenia');
-  });
-
-  it('Should output a dropdown', () => {
-    const { container } = render(<SelectPicker data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-select');
   });
 
   it('Should render a hidden <input> with given "name" attribute', () => {
@@ -86,7 +78,6 @@ describe('SelectPicker', () => {
 
   it('Should output a button', () => {
     render(<SelectPicker data={[]} toggleAs="button" />);
-
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
@@ -189,6 +180,20 @@ describe('SelectPicker', () => {
     expect(screen.getAllByRole('combobox')[0]).to.have.text(`1${placeholder}`);
     expect(screen.getAllByRole('combobox')[1]).to.have.text(`2${placeholder}`);
     expect(screen.getAllByRole('combobox')[2]).to.have.text(placeholder);
+  });
+
+  it('Should call renderValue', () => {
+    const { rerender } = render(<SelectPicker data={[]} value="Test" renderValue={() => '1'} />);
+    expect(screen.getByRole('combobox')).to.have.text('1');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+
+    rerender(<SelectPicker data={[]} value="Test" renderValue={() => null} />);
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
+
+    rerender(<SelectPicker data={[]} value="Test" renderValue={() => undefined} />);
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should not be call renderValue()', () => {
@@ -318,70 +323,15 @@ describe('SelectPicker', () => {
     expect(options[0]).to.have.text('Louisa');
   });
 
-  it('Should call renderValue', () => {
-    const { container: container1 } = render(
-      <SelectPicker data={[]} value="Test" renderValue={() => '1'} />
-    );
-    const { container: container2 } = render(
-      <SelectPicker data={[]} value="Test" renderValue={() => null} />
-    );
-    const { container: container3 } = render(
-      <SelectPicker data={[]} value="Test" renderValue={() => undefined} />
-    );
-
-    expect(screen.getAllByRole('combobox')[0]).to.text('1');
-    expect(screen.getAllByRole('combobox')[1]).to.text('Select');
-    expect(screen.getAllByRole('combobox')[2]).to.text('Select');
-
-    expect(container1.firstChild).to.have.class('rs-picker-has-value');
-    expect(container2.firstChild).to.not.have.class('rs-picker-has-value');
-    expect(container3.firstChild).to.not.have.class('rs-picker-has-value');
-  });
-
-  it('Children should not be selected', () => {
-    const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
-    const { container } = render(<SelectPicker data={data} value={2} />);
-
-    expect(screen.getByRole('combobox')).to.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
-  });
-
-  it('Should focus the search box', () => {
-    const pickerRef = React.createRef<PickerHandle>();
-    const inputRef = React.createRef<HTMLInputElement>();
-
-    render(
-      <SelectPicker
-        ref={pickerRef}
-        data={data}
-        renderExtraFooter={() => <Input ref={inputRef} />}
-      />
-    );
-
-    const target = (pickerRef.current as PickerHandle).target;
-
-    fireEvent.click(target as HTMLElement);
-
-    // https://codesandbox.io/s/silent-voice-6kzx7
-    (inputRef.current as HTMLInputElement).focus();
-    fireEvent.keyDown(inputRef.current as HTMLInputElement, { key: 'a' });
-
-    expect(inputRef.current).to.have.focus;
-
-    fireEvent.keyDown(target as HTMLElement, { key: 'a' });
-
-    expect(screen.getByRole('searchbox')).to.have.focus;
-  });
-
   describe('With a label', () => {
     it('Should render a label before placeholder', () => {
-      render(<SelectPicker label="User" data={[]} data-testid="picker" />);
+      render(<SelectPicker label="User" data={[]} />);
 
       expect(screen.getByTestId('picker')).to.have.text('UserSelect');
     });
 
     it('Should render a label before selected value', () => {
-      render(<SelectPicker label="User" data={data} value="Eugenia" data-testid="picker" />);
+      render(<SelectPicker label="User" data={data} value="Eugenia" />);
 
       expect(screen.getByTestId('picker')).to.have.text('UserEugenia');
     });

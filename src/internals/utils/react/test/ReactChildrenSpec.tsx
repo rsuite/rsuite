@@ -1,20 +1,20 @@
 import React from 'react';
-import ReactChildren from '../ReactChildren';
+import rch from '../ReactChildren';
 import { render, screen } from '@testing-library/react';
 
 describe('internals/utils/ReactChildren', () => {
-  describe('ReactChildren.count', () => {
+  describe('rch.count', () => {
     it('Should count a single element', () => {
-      expect(ReactChildren.count(<div />)).to.equal(1);
+      expect(rch.count(<div />)).to.equal(1);
     });
 
     it('Should count multiple elements in an array', () => {
-      expect(ReactChildren.count([<div key="1" />, <div key="2" />])).to.equal(2);
+      expect(rch.count([<div key="1" />, <div key="2" />])).to.equal(2);
     });
 
     it('Should count elements inside a React.Fragment', () => {
       expect(
-        ReactChildren.count(
+        rch.count(
           <React.Fragment>
             <div key="1.1" />
             <div key="1.2" />
@@ -25,7 +25,7 @@ describe('internals/utils/ReactChildren', () => {
 
     it('Should count elements inside an array with a React.Fragment', () => {
       expect(
-        ReactChildren.count([
+        rch.count([
           <React.Fragment key="1">
             <div key="1.1" />
             <div key="1.2"></div>
@@ -37,7 +37,7 @@ describe('internals/utils/ReactChildren', () => {
 
     it('Should ignore null, undefined, and boolean values in count', () => {
       expect(
-        ReactChildren.count([
+        rch.count([
           <React.Fragment key="1">
             <div key="1.1" />
             <div key="1.2"></div>
@@ -52,7 +52,7 @@ describe('internals/utils/ReactChildren', () => {
 
     it('Should count non-element children like numbers', () => {
       expect(
-        ReactChildren.count([
+        rch.count([
           <React.Fragment key="1">
             <div key="1.1" />
             <div key="1.2"></div>
@@ -64,9 +64,9 @@ describe('internals/utils/ReactChildren', () => {
     });
   });
 
-  describe('ReactChildren.mapCloneElement', () => {
+  describe('rch.mapCloneElement', () => {
     it('Should clone the element and add props', () => {
-      const children = ReactChildren.mapCloneElement(
+      const children = rch.mapCloneElement(
         [<div key="1" role="button" />, <div key="2" role="button" />],
         () => {
           return { className: 'foo' };
@@ -81,7 +81,7 @@ describe('internals/utils/ReactChildren', () => {
     });
 
     it('Should clone the element and add props with fragment syntax', () => {
-      const children = ReactChildren.mapCloneElement(
+      const children = rch.mapCloneElement(
         <>
           <div key="1" role="button" />
           <div key="2" role="button" />
@@ -99,7 +99,7 @@ describe('internals/utils/ReactChildren', () => {
     });
 
     it('Should clone the element and add props with React.Fragment', () => {
-      const children = ReactChildren.mapCloneElement(
+      const children = rch.mapCloneElement(
         [
           <React.Fragment key="1">
             <div key="1.1" role="button" />
@@ -120,9 +120,9 @@ describe('internals/utils/ReactChildren', () => {
     });
   });
 
-  describe('ReactChildren.map', () => {
+  describe('rch.map', () => {
     it('Should map the element', () => {
-      const children = ReactChildren.map(
+      const children = rch.map(
         [<div key="1" role="listitem" />, <div key="2" role="listitem" />],
         () => {
           return { className: 'foo' };
@@ -134,7 +134,7 @@ describe('internals/utils/ReactChildren', () => {
     });
 
     it('Should map the element with React.Fragment', () => {
-      const children = ReactChildren.map(
+      const children = rch.map(
         [
           <React.Fragment key="1">
             <div key="1.1" role="listitem" />
@@ -151,9 +151,9 @@ describe('internals/utils/ReactChildren', () => {
     });
   });
 
-  describe('ReactChildren.find', () => {
+  describe('rch.find', () => {
     it('Should find the specified element', () => {
-      const item = ReactChildren.find(
+      const item = rch.find(
         [
           <div key="1" role="button" className="foo" />,
           <div key="2" role="button" className="bar" />
@@ -166,7 +166,7 @@ describe('internals/utils/ReactChildren', () => {
     });
 
     it('Should fine the specified element with React.Fragment', () => {
-      const item = ReactChildren.find(
+      const item = rch.find(
         [
           <React.Fragment key="1">
             <div key="1.1" role="button" className="foo" />
@@ -182,17 +182,17 @@ describe('internals/utils/ReactChildren', () => {
     });
   });
 
-  describe('ReactChildren.find', () => {
+  describe('rch.find', () => {
     it('Should check if the specified element exists', () => {
       expect(
-        ReactChildren.some(
+        rch.some(
           [<div key="1" className="foo" />, <div key="2" className="bar" />],
           child => child.props.className === 'bar'
         )
       ).to.be.true;
 
       expect(
-        ReactChildren.some(
+        rch.some(
           [<div key="1" className="foo" />, <div key="2" className="bar" />],
           child => child.props.className === 'bar2'
         )
@@ -200,7 +200,7 @@ describe('internals/utils/ReactChildren', () => {
     });
     it('Should check if the specified element exists with React.Fragment', () => {
       expect(
-        ReactChildren.some(
+        rch.some(
           [
             <React.Fragment key="1">
               <div key="1.1" className="foo" />
@@ -214,7 +214,7 @@ describe('internals/utils/ReactChildren', () => {
     });
   });
 
-  describe('ReactChildren.forEach', () => {
+  describe('rch.forEach', () => {
     it('Should call the callback for each valid React element', () => {
       const mockFunc = (child, index) => {
         expect(child).to.be.an('object');
@@ -228,11 +228,11 @@ describe('internals/utils/ReactChildren', () => {
         </>
       );
 
-      ReactChildren.forEach(children, mockFunc);
+      rch.forEach(children, mockFunc);
 
       let callCount = 0;
 
-      ReactChildren.forEach(children, () => callCount++);
+      rch.forEach(children, () => callCount++);
 
       expect(callCount).to.equal(3);
     });
@@ -252,7 +252,7 @@ describe('internals/utils/ReactChildren', () => {
         </>
       );
 
-      ReactChildren.forEach(children, mockFunc);
+      rch.forEach(children, mockFunc);
       expect(callCount).to.equal(3);
     });
 
@@ -263,7 +263,7 @@ describe('internals/utils/ReactChildren', () => {
       };
       const children = <div>Child 1</div>;
 
-      ReactChildren.forEach(children, mockFunc, context);
+      rch.forEach(children, mockFunc, context);
     });
 
     it('Should work with no children', () => {
@@ -271,12 +271,12 @@ describe('internals/utils/ReactChildren', () => {
       const mockFunc = () => callCount++;
       const children = null;
 
-      ReactChildren.forEach(children, mockFunc);
+      rch.forEach(children, mockFunc);
       expect(callCount).to.equal(0);
     });
 
     it('Should apply transformations to cloned elements', () => {
-      const children = ReactChildren.mapCloneElement(
+      const children = rch.mapCloneElement(
         [<div key="1" role="button" />, <div key="2" role="button" />],
         () => {
           return { className: 'foo' };

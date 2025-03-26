@@ -4,7 +4,7 @@ import TimelineItem from './TimelineItem';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { forwardRef, ReactChildren } from '@/internals/utils';
+import { forwardRef, rch } from '@/internals/utils';
 
 export interface TimelineProps extends BoxProps {
   /** The content of the component */
@@ -54,7 +54,7 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
     } = propsWithDefaults;
 
     const { merge, withPrefix } = useStyles(classPrefix);
-    const count = ReactChildren.count(children);
+    const count = rch.count(children);
     const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
 
     const classes = merge(
@@ -64,7 +64,7 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
 
     return (
       <Box as={as} ref={ref} className={classes} {...rest}>
-        {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
+        {rch.mapCloneElement(children, (_child: any, index: number) => ({
           last: index + 1 === count,
           INTERNAL_active: isItemActive(index, count),
           align

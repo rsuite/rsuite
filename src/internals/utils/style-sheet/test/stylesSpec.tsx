@@ -1,4 +1,4 @@
-import { createStyleValueSetter, createStyleGetter } from '../style-sheet/styles';
+import { createStyleValueSetter, createStyleGetter } from '../styles';
 
 describe('styleProps utils', () => {
   describe('createStyleValueSetter', () => {

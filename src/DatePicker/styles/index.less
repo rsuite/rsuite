@@ -18,15 +18,7 @@
 }
 
 // Picker date
-.rs-picker-date {
-  &-inline {
-    height: 299px;
-
-    .rs-calendar {
-      height: 286px;
-    }
-  }
-
+.rs-picker[data-picker='date'] {
   .rs-input-group-addon {
     color: var(--rs-text-secondary);
     cursor: pointer;
@@ -36,7 +28,7 @@
     }
   }
 
-  &.rs-picker-subtle {
+  &.rs-picker[data-variant='subtle'] {
     .rs-input-group {
       border-color: transparent;
     }

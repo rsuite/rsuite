@@ -4,8 +4,7 @@
 @import '../../internals/Picker/styles/index.less';
 @import './mixin.less';
 
-.rs-picker-input {
-
+.rs-picker[data-picker='input'] {
   --rs-picker-textbox-margin-inline: var(--rs-picker-input-height);
 
   position: relative;
@@ -21,13 +20,13 @@
     cursor: text;
   }
 
-  &:not(.rs-picker-disabled) .rs-picker-toggle {
+  &:not([data-disabled='true']) .rs-picker-toggle {
     position: absolute !important;
   }
 
   @sizes: xs, sm, md, lg;
   each(@sizes, .(@size) {
-    &.rs-picker-input-@{size} {
+    &[data-size='@{size}'] {
       --rs-picker-input-height: calc(var(~'--rs-btn-size-@{size}') - 2px);
       --rs-picker-search-input-font-size: var(~'--rs-input-font-size-@{size}');
       --rs-picker-search-input-line-height: var(~'--rs-input-line-height-@{size}');

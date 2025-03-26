@@ -15,7 +15,7 @@ describe('DateRangePicker styles', () => {
   it('Should keep size in `block` mode', function () {
     const { container } = render(<DateRangePicker block defaultOpen />);
 
-    expect(container.firstChild).to.have.class('rs-picker-block');
+    expect(container.firstChild).to.have.attr('data-block', 'true');
     expect(screen.getByRole('dialog')).to.have.style('width', `${264 * 2}px`);
   });
 

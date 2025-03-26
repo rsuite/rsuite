@@ -85,23 +85,23 @@ describe('DateRangePicker', () => {
     }
   });
 
-  it('Should render a div with "rs-picker-daterange" class', () => {
-    const { container } = render(<DateRangePicker />);
+  it('Should render a div with data-picker attribute set to "date-range"', () => {
+    render(<DateRangePicker />);
 
-    expect(container.firstChild).to.have.tagName('DIV');
-    expect(container.firstChild).to.have.class('rs-picker-daterange');
+    expect(screen.getByTestId('picker')).to.have.tagName('DIV');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date-range');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<DateRangePicker />);
+  it('Should have data-variant attribute set to "default" by default', () => {
+    render(<DateRangePicker />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should be cleanable by default', () => {
-    const { container } = render(<DateRangePicker value={[new Date(), new Date()]} />);
+    render(<DateRangePicker value={[new Date(), new Date()]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cleanable');
+    expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
   it('Should output custom value with time', () => {
@@ -1415,8 +1415,7 @@ describe('DateRangePicker', () => {
 
       ranges.forEach(range => {
         expect(screen.getByRole('button', { name: range.label as string })).to.have.attribute(
-          'aria-disabled',
-          'true'
+          'disabled'
         );
       });
     });

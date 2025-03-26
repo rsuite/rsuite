@@ -51,22 +51,23 @@ describe('MultiCascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<MultiCascader data={[]}>Title</MultiCascader>);
+    render(<MultiCascader data={[]}>Title</MultiCascader>);
 
-    expect(container.firstChild).to.class('rs-picker-cascader');
+    expect(screen.getByTestId('picker')).to.have.class('rs-picker');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'multi-cascader');
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<MultiCascader data={[]} />);
+    render(<MultiCascader data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should display number of selected values', () => {
-    const { container } = render(<MultiCascader data={items} value={['3-1', '3-2']} />);
+    render(<MultiCascader data={items} value={['3-1', '3-2']} />);
 
     expect(screen.getByRole('combobox')).to.have.text('3 (All)1');
-    expect(container.firstChild).to.have.class('rs-picker-countable');
+    expect(screen.getByRole('combobox')).to.have.attr('data-countable', 'true');
   });
 
   it('Should not display number of selected values when `countable=false`', () => {
@@ -275,19 +276,19 @@ describe('MultiCascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       <MultiCascader data={[]} value={['Test']} renderValue={() => '1'} />
     );
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<MultiCascader data={[]} value={['Test']} renderValue={() => null} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).not.to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
 
     rerender(<MultiCascader data={[]} value={['Test']} renderValue={() => undefined} />);
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(container.firstChild).not.to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
   });
 
   it('Should update value', () => {

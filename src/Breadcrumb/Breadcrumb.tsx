@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
 import StyledBox from '@/internals/StyledBox';
 import { useStyles, useEventCallback } from '@/internals/hooks';
-import { forwardRef, ReactChildren, createComponent } from '@/internals/utils';
+import { forwardRef, rch, createComponent } from '@/internals/utils';
 import { useCustom } from '../CustomProvider';
 import type { BoxProps } from '@/internals/Box';
 import type { BreadcrumbLocale } from '../locales';
@@ -81,8 +81,8 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
     });
 
     const content = useMemo(() => {
-      const count = ReactChildren.count(children);
-      const items = ReactChildren.mapCloneElement(children, (item, index) => {
+      const count = rch.count(children);
+      const items = rch.mapCloneElement(children, (item, index) => {
         const isLast = index === count - 1;
         return {
           ...item.props,

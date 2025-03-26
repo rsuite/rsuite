@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
@@ -8,7 +7,6 @@ import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { TreeViewProps } from '../Tree/TreeView';
-import Box from '@/internals/Box';
 import { PickerLocale } from '../locales';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -17,11 +15,9 @@ import {
   PickerToggle,
   PickerPopup,
   PickerToggleTrigger,
-  usePickerClassName,
   usePickerRef,
   onMenuKeyDown,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
   useToggleKeyDownEvent,
   PickerToggleProps
@@ -81,6 +77,8 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     defaultExpandItemValues = [],
     expandItemValues: controlledExpandItemValues,
     id,
+    block,
+    className,
     locale,
     labelKey = 'label',
     placeholder,
@@ -278,44 +276,44 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     }
   }
 
-  const [classes, usedClassNamePropKeys] = usePickerClassName({
-    ...props,
-    classPrefix,
-    appearance,
-    hasValue: hasValidValue,
-    name: 'tree',
-    cleanable
-  });
-
   return (
     <PickerToggleTrigger
+      as={as}
       id={id}
+      name="tree"
+      block={block}
+      disabled={disabled}
+      appearance={appearance}
       popupType="tree"
-      pickerProps={pick(props, pickTriggerPropKeys)}
+      triggerProps={{
+        ...pick(props, triggerPropKeys),
+        ...triggerProps
+      }}
       ref={trigger}
       placement={placement}
       speaker={renderTreeView}
-      {...triggerProps}
+      rootRef={root}
+      style={style}
+      classPrefix={classPrefix}
+      className={className}
     >
-      <Box as={as} className={classes} style={style} ref={root}>
-        <PickerToggle
-          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
-          ref={target}
-          appearance={appearance}
-          onKeyDown={onPickerKeydown}
-          onClean={createChainedFunction(handleClean, onClean)}
-          cleanable={cleanable && !disabled}
-          as={toggleAs}
-          disabled={disabled}
-          hasValue={hasValidValue}
-          active={active}
-          placement={placement}
-          inputValue={value}
-          focusItemValue={focusItemValue}
-        >
-          {selectedElement || locale?.placeholder}
-        </PickerToggle>
-      </Box>
+      <PickerToggle
+        ref={target}
+        appearance={appearance}
+        onKeyDown={onPickerKeydown}
+        onClean={createChainedFunction(handleClean, onClean)}
+        cleanable={cleanable && !disabled}
+        as={toggleAs}
+        disabled={disabled}
+        hasValue={hasValidValue}
+        active={active}
+        placement={placement}
+        inputValue={value}
+        focusItemValue={focusItemValue}
+        {...rest}
+      >
+        {selectedElement || locale?.placeholder}
+      </PickerToggle>
     </PickerToggleTrigger>
   );
 });

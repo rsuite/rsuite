@@ -20,6 +20,10 @@
 
 <!--{include:`size.md`}-->
 
+### Show Indent Lines
+
+<!--{include:`show-indent-line.md`}-->
+
 ### Placement
 
 <!--{include:`placement.md`}-->
@@ -128,6 +132,7 @@
 | renderValue             | (value: string, node:[TreeNode][node], selected:ReactNode) => ReactNode                       | Custom render selected value                               |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                             |
 | searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | Custom search method                                       |
+| showIndentLine          | boolean                                                                                       | Whether to show the indent line                            |
 | size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | A picker can have different sizes                          |
 | toggleAs                | ElementType `('a')`                                                                           | Custom component for the toggle button                     |
 | treeHeight              | number `(320)`                                                                                | The height of the tree                                     |

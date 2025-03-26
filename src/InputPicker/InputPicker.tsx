@@ -4,7 +4,6 @@ import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
 import clone from 'lodash/clone';
 import isArray from 'lodash/isArray';
-import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import Tag from '../Tag';
 import TextBox from './TextBox';
@@ -12,7 +11,6 @@ import Stack, { StackProps } from '../Stack';
 import useInput from './hooks/useInput';
 import useData, { InputOption } from './hooks/useData';
 import Plaintext, { PlaintextProps } from '@/internals/Plaintext';
-import Box from '@/internals/Box';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
@@ -37,12 +35,10 @@ import {
   PickerPopup,
   PickerToggleTrigger,
   useFocusItemValue,
-  usePickerClassName,
   useSearch,
   usePickerRef,
   useToggleKeyDownEvent,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
@@ -96,8 +92,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const {
     as,
     appearance = 'default',
+    block,
     cleanable = true,
     cacheData = [],
+    className,
     classPrefix = 'picker',
     caretAs,
     data: controlledData = [],
@@ -652,21 +650,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     isArray(value) && value.length > 0 && isFunction(renderValue) && !isNil(tagElements);
   const hasValue = multi ? !!tagElements?.length || hasMultiValue : isValid || hasSingleValue;
 
-  const [pickerClasses, usedClassNamePropKeys] = usePickerClassName({
-    ...props,
-    classPrefix,
-    appearance,
-    hasValue,
-    name: 'input',
-    cleanable
+  const classes = merge(className, {
+    [prefix`focused`]: open
   });
 
-  const classes = merge(pickerClasses, {
-    [prefix`tag`]: multi,
-    [prefix(`${multi ? 'tag' : 'input'}-${size}`)]: size,
-    [prefix`focused`]: open,
-    [prefix`disabled-options`]: disabledOptions
-  });
   const searching = !!searchKeyword && open;
   const editable = searchable && !disabled && !loading;
 
@@ -688,68 +675,75 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   }
 
   const placeholderNode = placeholder || (disabledOptions ? null : locale?.placeholder);
+  const triggerProps = {
+    ...pick(props, triggerPropKeys),
+    onEnter: createChainedFunction(handleEnter, onEnter),
+    onEntered: onEntered,
+    onExit: createChainedFunction(handleExit, onExit),
+    onExited: createChainedFunction(handleExited, onExited)
+  };
 
   return (
     <PickerToggleTrigger
       id={id}
       multiple={multi}
-      pickerProps={pick(props, pickTriggerPropKeys)}
+      name={multi ? 'tag' : 'input'}
+      block={block}
+      disabled={disabled}
+      appearance={appearance}
+      as={as}
+      triggerProps={triggerProps}
       ref={triggerRef}
       trigger="active"
-      onEnter={createChainedFunction(handleEnter, onEnter)}
-      onEntered={onEntered}
-      onExit={createChainedFunction(handleExit, onExit)}
-      onExited={createChainedFunction(handleExited, onExited)}
       speaker={renderPopup}
       placement={placement}
+      rootRef={root}
+      style={style}
+      size={size}
+      classPrefix={classPrefix}
+      className={classes}
+      onClick={focus}
+      onKeyDown={onPickerKeyDown}
+      data-disabled-options={disabledOptions}
+      {...rest}
     >
-      <Box
-        as={as}
-        className={classes}
-        style={style}
-        onClick={focus}
-        onKeyDown={onPickerKeyDown}
-        ref={root}
-        {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
+      <PickerToggle
+        loading={loading}
+        label={label}
+        appearance={appearance}
+        readOnly={readOnly}
+        plaintext={plaintext}
+        ref={target}
+        as={toggleAs}
+        caretAs={caretAs}
+        tabIndex={tabIndex}
+        onClean={handleClean}
+        cleanable={cleanable && !disabled}
+        hasValue={hasValue}
+        active={open}
+        disabled={disabled}
+        placement={placement}
+        inputValue={value}
+        focusItemValue={focusItemValue}
+        caret={!disabledOptions}
+        size={size}
       >
-        <PickerToggle
-          loading={loading}
-          label={label}
-          appearance={appearance}
-          readOnly={readOnly}
-          plaintext={plaintext}
-          ref={target}
-          as={toggleAs}
-          caretAs={caretAs}
-          tabIndex={tabIndex}
-          onClean={handleClean}
-          cleanable={cleanable && !disabled}
-          hasValue={hasValue}
-          active={open}
-          disabled={disabled}
-          placement={placement}
-          inputValue={value}
-          focusItemValue={focusItemValue}
-          caret={!disabledOptions}
-          size={size}
-        >
-          {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
-        </PickerToggle>
-        <TextBox
-          showTagList={multi}
-          inputRef={inputRef}
-          inputValue={open ? searchKeyword : ''}
-          inputProps={inputProps}
-          tags={tagElements}
-          editable={editable}
-          readOnly={readOnly}
-          disabled={disabled}
-          multiple={multi}
-          onBlur={onBlur}
-          onFocus={handleFocus}
-          onChange={handleSearch}
-        />
-      </Box>
+        {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
+      </PickerToggle>
+      <TextBox
+        showTagList={multi}
+        inputRef={inputRef}
+        inputValue={open ? searchKeyword : ''}
+        inputProps={inputProps}
+        tags={tagElements}
+        editable={editable}
+        readOnly={readOnly}
+        disabled={disabled}
+        multiple={multi}
+        onBlur={onBlur}
+        onFocus={handleFocus}
+        onChange={handleSearch}
+      />
     </PickerToggleTrigger>
   );
 });

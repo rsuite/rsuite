@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import tplTransform from '../tplTransform';
+import { tplTransform } from '../tplTransform';
 
 describe('internals/utils/tplTransform', () => {
   it('Should return react component', () => {
