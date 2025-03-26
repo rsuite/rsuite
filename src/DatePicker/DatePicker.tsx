@@ -321,10 +321,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
-    const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
-      value,
-      calendarDefaultDate
-    );
+    const { calendarDate, setCalendarDate, resetCalendarDate, selectedDate, setSelectedDate } =
+      useCalendarDate(value, calendarDefaultDate);
 
     const { setMonthView, monthView, toggleMonthView } = useMonthView({ onToggleMonthDropdown });
     const { mode } = useDateMode(formatStr);
@@ -469,7 +467,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after clicking the OK button.
      */
     const handleOK = useEventCallback((event: React.SyntheticEvent) => {
-      updateValue(event);
+      console.log('selectedDate', selectedDate);
+      updateValue(event, selectedDate);
       onOk?.(calendarDate, event);
       focusInput();
     });
@@ -510,6 +509,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         const nextValue = copyTime({ from: calendarDate, to: date });
 
         setCalendarDate(nextValue);
+        setSelectedDate(nextValue);
         handleDateChange(nextValue);
 
         if (oneTap && updatableValue) {
@@ -615,6 +615,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 isoWeek={isoWeek}
                 weekStart={weekStart}
                 calendarDate={calendarDate}
+                selectedDate={selectedDate}
                 monthDropdownProps={monthDropdownProps}
                 renderCellOnPicker={renderCell}
                 onMoveForward={handleMoveForward}
