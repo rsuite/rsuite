@@ -20,6 +20,7 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
   'data-range'?: number[];
   'data-key'?: string;
+  keepTooltipOpen?: boolean;
 }
 
 const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
@@ -45,8 +46,11 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       onKeyDown,
       'data-range': dataRange,
       'data-key': dateKey,
+      keepTooltipOpen,
       ...rest
     } = props;
+
+    const actualTooltip = tooltip || keepTooltipOpen;
 
     const horizontalKey = rtl ? 'right' : 'left';
     const direction = vertical ? 'bottom' : horizontalKey;
@@ -54,14 +58,15 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     const { merge, prefix } = useClassNames(classPrefix);
 
     const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
-      tooltip,
+      tooltip: actualTooltip,
       disabled,
       onDragStart,
       onDragMove,
-      onDragEnd
+      onDragEnd,
+      keepTooltipOpen
     });
 
-    const handleClasses = merge(className, prefix('handle'), { active });
+    const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
     return (
       <Component
@@ -78,7 +83,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
         data-key={dateKey}
         data-testid="slider-handle"
       >
-        {tooltip && (
+        {actualTooltip && (
           <Tooltip
             aria-hidden="true"
             ref={tooltipRef}

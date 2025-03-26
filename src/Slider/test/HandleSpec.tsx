@@ -43,4 +43,22 @@ describe('Slider - Handle', () => {
 
     expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
   });
+
+  it('Should show tooltip by default when keepTooltipOpen is true', () => {
+    render(<Handle tooltip value={10} keepTooltipOpen />);
+
+    expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
+  });
+
+  it('Should show tooltip when keepTooltipOpen is true but tooltip is false', () => {
+    render(<Handle tooltip={false} value={10} keepTooltipOpen />);
+
+    expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
+  });
+
+  it('Should NOT show tooltip when keepTooltipOpen is false and tooltip is also false', () => {
+    render(<Handle tooltip={false} value={10} keepTooltipOpen={false} />);
+
+    expect(screen.queryByRole('tooltip')).to.null;
+  });
 });
