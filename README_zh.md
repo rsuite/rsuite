@@ -7,7 +7,7 @@
 </p>
 
 [![npm][npm-svg]][npm-home]
-[![GitHub Actions][actions-svg]][actions-home]
+[![GitHub Actions][nodejs-ci-svg]][nodejs-ci]
 [![npm bundle size][npm-bundle-size-img]][npm-bundle-size]
 [![codecov][codecov-img]][codecov]
 [![Discord][discord-svg]][discord-invite]
@@ -141,8 +141,8 @@ React Suite 基于 [MIT licensed][license] 发布。
 [npm-home]: https://www.npmjs.com/package/rsuite
 [npm-bundle-size-img]: https://badgen.net/bundlephobia/minzip/rsuite?icon=npm
 [npm-bundle-size]: https://bundlephobia.com/package/rsuite
-[actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=main
-[actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amain+workflow%3A%22Node.js+CI%22
+[nodejs-ci-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg
+[nodejs-ci]: https://github.com/rsuite/rsuite/actions/workflows/nodejs-ci.yml?query=branch%3Amain+workflow%3A%22Node.js+CI%22
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [release-notes]: https://github.com/rsuite/rsuite/releases
