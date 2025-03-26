@@ -33,7 +33,7 @@ Toaster 用于在应用程序中显示简短的、临时的通知，用于表示
 ```ts
 import { useToaster } from 'rsuite';
 
-return () => {
+function App() {
   const toaster = useToaster();
 
   const handleClick = () => {
@@ -42,7 +42,22 @@ return () => {
   };
 
   return <Button onClick={handleClick}>Push</Button>;
-};
+}
+```
+
+通过 `useToaster` 创建的 toaster 实例需要在指定的容器中使用。因此，我们需要在 App 组件外部提供一个 `CustomProvider` 组件来包裹应用。示例如下：
+
+```tsx
+import { createRoot } from 'react-dom/client';
+import { CustomProvider } from 'rsuite';
+
+const root = createRoot(document.getElementById('root')!);
+
+root.render(
+  <CustomProvider>
+    <App />
+  </CustomProvider>
+);
 ```
 
 #### toaster.push
