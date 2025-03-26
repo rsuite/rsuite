@@ -1154,6 +1154,170 @@ describe('Form Validation', () => {
       });
     });
 
+    it('Should validate explicit nested ArrayType', async () => {
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+      const defaultValues = {
+        name: '',
+        address: [
+          {
+            city: '',
+            postCode: ''
+          },
+          ''
+        ]
+      };
+      const model = Schema.Model({
+        name: Schema.Types.StringType().isRequired('Name is required.'),
+        address: Schema.Types.ArrayType().of(
+          Schema.Types.ObjectType().shape({
+            city: Schema.Types.StringType().isRequired('City is required.'),
+            postCode: Schema.Types.StringType().isRequired('Post Code is required.')
+          }),
+          Schema.Types.StringType().isRequired('Phone Number is required.')
+        )
+      });
+
+      render(
+        <Form formValue={defaultValues} model={model} ref={formRef} onError={onError} nestedField>
+          <FormControl name="name" />
+          <FormControl name="address[0].city" />
+          <FormControl name="address[0].postCode" />
+          <FormControl name="address[1]" />
+        </Form>
+      );
+
+      act(() => {
+        formRef.current?.check();
+      });
+
+      expect(onError).to.have.been.calledOnce;
+
+      await waitFor(() => {
+        expect(onError).to.have.been.calledWith({
+          name: 'Name is required.',
+          address: {
+            hasError: true,
+            array: [
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              },
+              {
+                hasError: true,
+                errorMessage: 'Phone Number is required.'
+              }
+            ]
+          }
+        });
+      });
+
+      expect(screen.getAllByRole('alert')).to.have.length(4);
+
+      screen.getAllByRole('alert').forEach((alert, index) => {
+        expect(alert).to.have.text(
+          [
+            'Name is required.',
+            'City is required.',
+            'Post Code is required.',
+            'Phone Number is required.'
+          ][index]
+        );
+      });
+    });
+
+    it('Should validate explicit nested ArrayType with FormControl set rule', async () => {
+      const formRef = React.createRef<FormInstance>();
+      const onError = sinon.spy();
+      const defaultValues = {
+        name: '',
+        address: [
+          {
+            city: '',
+            postCode: ''
+          },
+          ''
+        ]
+      };
+
+      render(
+        <Form formValue={defaultValues} ref={formRef} onError={onError} nestedField>
+          <FormControl
+            name="name"
+            rule={Schema.Types.StringType().isRequired('Name is required.')}
+          />
+          <FormControl
+            name="address[0].city"
+            rule={Schema.Types.StringType().isRequired('City is required.')}
+          />
+          <FormControl
+            name="address[0].postCode"
+            rule={Schema.Types.StringType().isRequired('Post Code is required.')}
+          />
+          <FormControl
+            name="address[1]"
+            rule={Schema.Types.StringType().isRequired('Phone Number is required.')}
+          />
+        </Form>
+      );
+
+      act(() => {
+        formRef.current?.check();
+      });
+
+      expect(onError).to.have.been.calledOnce;
+
+      await waitFor(() => {
+        expect(onError).to.have.been.calledWith({
+          name: 'Name is required.',
+          address: {
+            hasError: true,
+            array: [
+              {
+                hasError: true,
+                object: {
+                  city: {
+                    hasError: true,
+                    errorMessage: 'City is required.'
+                  },
+                  postCode: {
+                    hasError: true,
+                    errorMessage: 'Post Code is required.'
+                  }
+                }
+              },
+              {
+                hasError: true,
+                errorMessage: 'Phone Number is required.'
+              }
+            ]
+          }
+        });
+      });
+
+      expect(screen.getAllByRole('alert')).to.have.length(4);
+
+      screen.getAllByRole('alert').forEach((alert, index) => {
+        expect(alert).to.have.text(
+          [
+            'Name is required.',
+            'City is required.',
+            'Post Code is required.',
+            'Phone Number is required.'
+          ][index]
+        );
+      });
+    });
+
     it('Should validate deeply nested ArrayType when checkTrigger = blur', async () => {
       const model = Schema.Model({
         address: Schema.Types.ArrayType().of(
