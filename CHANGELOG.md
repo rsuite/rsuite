@@ -1,3 +1,18 @@
+# [5.79.0](https://github.com/rsuite/rsuite/compare/v5.78.1...v5.79.0) (2025-03-26)
+
+
+### Bug Fixes
+
+* **Form:** support explicit type of array type when use rule of formControl ([#4165](https://github.com/rsuite/rsuite/issues/4165)) ([55df308](https://github.com/rsuite/rsuite/commit/55df3080ebcb57ab5e3a8482e381220499600831))
+* **useToaster:** fix the incorrect [@see](https://github.com/see) link in the useToaster comment ([#4200](https://github.com/rsuite/rsuite/issues/4200)) ([cd8087a](https://github.com/rsuite/rsuite/commit/cd8087a4529fad814378104a4f19c2734bcd55f2))
+
+
+### Features
+
+* **Slider,RangeSlider:** add support for `keepTooltipOpen` prop ([#4186](https://github.com/rsuite/rsuite/issues/4186)) ([a1bdea4](https://github.com/rsuite/rsuite/commit/a1bdea4fad33feca63636631aa1cac7989c0eb87))
+
+
+
 ## [5.78.1](https://github.com/rsuite/rsuite/compare/v5.78.0...v5.78.1) (2025-03-14)
 
 

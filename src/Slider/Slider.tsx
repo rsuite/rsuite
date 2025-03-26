@@ -81,6 +81,9 @@ export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<
 
   /** Callback function that is fired when the mouseup is triggered. */
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
+
+  /** If true, tooltip will always be visible  even without hover */
+  keepTooltipOpen?: boolean;
 }
 
 /**
@@ -119,6 +122,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     renderMark,
     onChange,
     onChangeCommitted,
+    keepTooltipOpen,
     ...rest
   } = propsWithDefaults;
 
@@ -302,6 +306,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
         tooltip={tooltip}
         rtl={rtl}
         value={value}
+        keepTooltipOpen={keepTooltipOpen}
         renderTooltip={renderTooltip}
         onDragMove={handleChangeValue}
         onKeyDown={handleKeyDown}

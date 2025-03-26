@@ -45,6 +45,21 @@ return () => {
 };
 ```
 
+The toaster instance created by `useToaster` needs to be used within a specified container. Therefore, we need to provide a `CustomProvider` component to wrap the application outside the App component. Here's an example:
+
+```tsx
+import { createRoot } from 'react-dom/client';
+import { CustomProvider } from 'rsuite';
+
+const root = createRoot(document.getElementById('root')!);
+
+root.render(
+  <CustomProvider>
+    <App />
+  </CustomProvider>
+);
+```
+
 #### toaster.push
 
 Push a message and return a unique toastId.

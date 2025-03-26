@@ -13,6 +13,7 @@ export interface HandleProps extends BoxProps, React.HTMLAttributes<HTMLDivEleme
   rtl?: boolean;
   position?: number;
   value?: number;
+  keepTooltipOpen?: boolean;
   renderTooltip?: (value: number | undefined) => React.ReactNode;
   onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
@@ -45,21 +46,23 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     'data-key': dateKey,
     ...rest
   } = props;
-
+  
+  const actualTooltip = tooltip || keepTooltipOpen;
   const horizontalKey = rtl ? 'right' : 'left';
   const direction = vertical ? 'bottom' : horizontalKey;
   const styles = mergeStyles(style, { [direction]: `${position}%` });
   const { merge, prefix } = useStyles(classPrefix);
 
   const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
-    tooltip,
+    tooltip: actualTooltip,
     disabled,
     onDragStart,
     onDragMove,
-    onDragEnd
+    onDragEnd,
+    keepTooltipOpen
   });
 
-  const handleClasses = merge(className, prefix('handle'), { active });
+  const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
   return (
     <Box
@@ -77,7 +80,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
       data-key={dateKey}
       data-testid="slider-handle"
     >
-      {tooltip && (
+      {actualTooltip && (
         <Tooltip
           aria-hidden="true"
           ref={tooltipRef}

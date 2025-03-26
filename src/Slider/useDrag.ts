@@ -10,12 +10,13 @@ interface DragProps {
   onDragStart?: (event: React.MouseEvent) => void;
   onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
+  keepTooltipOpen?: boolean;
 }
 
 const useDrag = (props: DragProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const { tooltip, disabled, onDragMove, onDragEnd, onDragStart } = props;
+  const { tooltip, disabled, onDragMove, onDragEnd, onDragStart, keepTooltipOpen } = props;
   const [active, setActive] = useState(false);
   const moveTracker = useRef<PointerMoveTracker>(null);
 
@@ -79,10 +80,13 @@ const useDrag = (props: DragProps) => {
   });
 
   useEffect(() => {
+    if (keepTooltipOpen) {
+      onMouseEnter();
+    }
     return () => {
       releaseMoves();
     };
-  }, [releaseMoves]);
+  }, [releaseMoves, keepTooltipOpen]);
 
   return {
     active,

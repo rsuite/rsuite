@@ -49,6 +49,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     disabled,
     graduated,
     progress = true,
+    keepTooltipOpen = false,
     vertical,
     readOnly,
     min = 0,
@@ -338,7 +339,8 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     'aria-valuemax': max,
     'aria-valuemin': min,
     'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledby
+    'aria-labelledby': ariaLabelledby,
+    keepTooltipOpen
   };
 
   return (
