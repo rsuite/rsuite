@@ -45,9 +45,13 @@ Limit starting value to be no greater than 25 and ending value to be no smaller 
 
 <!--{include:`custom.md`}-->
 
-### Size
+### Custom width
 
 <!--{include:`size.md`}-->
+
+### Keep tooltip open
+
+<!--{include:`keep-tooltip-open.md`}-->
 
 ## Accessibility
 
@@ -98,6 +102,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                          | A css class to apply to the Handle node                          |
 | handleStyle       | CSSProperties                   | A css style to apply to the Handle node                          |
 | handleTitle       | ReactNode                       | Customizing what is displayed inside a handle                    |
+| keepTooltipOpen   | boolean`(false)`                | Whether `Tooltip` will always be visible even without hover      |
 | max               | number`(100)`                   | Maximum sliding range                                            |
 | min               | number`(0)`                     | Minimum value of sliding range                                   |
 | onChange          | (value: number) => void         | Callback function that changes data                              |
@@ -107,7 +112,6 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |
 | step              | number`(1)`                     | Slide the value of one step                                      |
 | tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
-| keepTooltipOpen   | boolean`(false)`                | Whether `Tooltip` will always be visible   even without hover    |
 | value             | number                          | The current value (controlled)                                   |
 | vertical          | boolean                         | Vertical Slide                                                   |
 
@@ -124,6 +128,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                                                 | A css class to apply to the Handle node                                                                              |
 | handleStyle       | CSSProperties                                          | A css style to apply to the Handle node                                                                              |
 | handleTitle       | ReactNode                                              | Customizing what is displayed inside a handle                                                                        |
+| keepTooltipOpen   | boolean`(false)`                                       | Whether `Tooltip` will always be visible even without hover                                                          |
 | max               | number`(100)`                                          | Maximum sliding range                                                                                                |
 | min               | number`(0)`                                            | Minimum value of sliding range                                                                                       |
 | onChange          | (value: [number,number]) => void                       | Callback function that changes data                                                                                  |
@@ -133,6 +138,5 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
 | step              | number`(1)`                                            | Slide the value of one step                                                                                          |
 | tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |
-| keepTooltipOpen   | boolean`(false)`                                        | Whether `Tooltip` will always be visible   even without hover                                                       |
 | value             | [number,number]                                        | The current value (controlled)                                                                                       |
 | vertical          | boolean                                                | Vertical Slide                                                                                                       |

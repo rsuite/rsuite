@@ -45,9 +45,13 @@
 
 <!--{include:`custom.md`}-->
 
-### 自定义大小
+### 自定义长度
 
 <!--{include:`size.md`}-->
+
+### 保持工具提示打开
+
+<!--{include:`keep-open.md`}-->
 
 ### 无障碍设计
 
@@ -96,6 +100,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                          | 应用于手柄 DOM 节点的 css class               |
 | handleStyle       | CSSProperties                   | 附加手柄样式                                  |
 | handleTitle       | ReactNode                       | 自定义手柄内显示内容                          |
+| keepTooltipOpen   | boolean`(false)`                | `Tooltip` 始终保持可见                        |
 | max               | number`(100)`                   | 滑动范围的最大值                              |
 | min               | number`(0)`                     | 滑动范围的最小值                              |
 | onChange          | (value: number, event) => void  | 数据发生改变的回调函数                        |
@@ -121,6 +126,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                                                 | 应用于手柄 DOM 节点的 css class                                            |
 | handleStyle       | CSSProperties                                          | 附加手柄样式                                                               |
 | handleTitle       | ReactNode                                              | 自定义手柄内显示内容                                                       |
+| keepTooltipOpen   | boolean`(false)`                                       | `Tooltip` 始终保持可见                                                     |
 | max               | number`(100)`                                          | 滑动范围的最大值                                                           |
 | min               | number`(0)`                                            | 滑动范围的最小值                                                           |
 | onChange          | (value: [number,number], event) => void                | 数据发生改变的回调函数                                                     |
