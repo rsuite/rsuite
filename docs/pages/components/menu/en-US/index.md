@@ -32,9 +32,9 @@ A menu component that provides a list of options with support for icons, descrip
 
 <!--{include:`separator.md`}-->
 
-### Routing
+### Routing Library
 
-The `Menu.Item` component works with frameworks and client side routers like Next.js and React Router. See the [Routing Guide](/guide/composition/#third-party-routing-library) for setup instructions.
+The `Menu.Item` component can be used with other routing libraries (such as Next.js, React Router) through the `as` prop. See the [Composition Guide](/guide/composition/#third-party-routing-library) for details.
 
 <!--{include:`with-router.md`}-->
 

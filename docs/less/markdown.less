@@ -1,6 +1,8 @@
 @import './themes/hightlight/default.less';
 
 .rcv-markdown {
+  --rs-color-muted: #818b981f;
+
   h1 {
     font-size: 28px;
     code {
@@ -99,6 +101,33 @@
       color: rgb(236, 80, 96);
     }
   }
+
+  p,
+  li,
+  td,
+  th {
+    & > code:not(.rcv-highlight) {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      white-space: break-spaces;
+      background-color: #818b981f;
+      border-radius: 6px;
+      color: var(--rs-text-primary);
+    }
+  }
+}
+
+code:not(.rcv-highlight) {
+  font-size: 0.8rem;
+  margin-inline: 2px;
+  white-space: pre-wrap;
+  font-family:
+    Roboto Mono,
+    Monaco,
+    courier,
+    monospace;
+  color: rgb(236, 80, 96);
 }
 
 .rs-theme-dark,

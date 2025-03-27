@@ -34,11 +34,11 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 
 <!--{include:`max-items.md`}-->
 
-### Used with `Link` in `next/link`
+### Routing Library
+
+The `Breadcrumb.Item` component can be used with other routing libraries (such as Next.js, React Router) through the `as` prop. See the [Composition Guide](https://rsuitejs.com/guide/composition/#react-router-dom) for details.
 
 <!--{include:`with-router.md`}-->
-
-> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ### Accessibility
 

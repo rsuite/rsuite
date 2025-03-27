@@ -80,9 +80,9 @@ You can disable the entire component or disable individual options by configurin
 
 <!--{include:`buttons.md`}-->
 
-### Routing
+### Routing Library
 
-The `<Dropdown.Item>` component works with frameworks and client side routers like Next.js and React Router. See the [Routing Guide](/guide/composition/#third-party-routing-library) for setup instructions.
+The `<Dropdown.Item>` component works with frameworks and client side routers like Next.js and React Router. See the [Composition Guide](https://rsuitejs.com/guide/composition/#third-party-routing-library) for setup instructions.
 
 <!--{include:`with-router.md`}-->
 

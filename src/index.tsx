@@ -4,7 +4,6 @@ export * from './Text';
 export * from './Heading';
 export * from './HeadingGroup';
 export * from './Highlight';
-export * from './SafeAnchor';
 export * from './Kbd';
 
 // Buttons
@@ -49,6 +48,7 @@ export * from './Sidenav';
 export * from './Breadcrumb';
 export * from './Pagination';
 export * from './Steps';
+export * from './Link';
 
 // Form
 // --------------------------------------------------------

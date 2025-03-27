@@ -47,11 +47,11 @@
 
 <!--{include:`icon.md`}-->
 
-### 与 next/link 中的 Link 组合
+### 路由
+
+`Nav.Item` 组件可以与 Next.js 和 React Router 等框架和客户端路由器一起使用。有关设置说明，请参阅[路由指南](/guide/composition/#third-party-routing-library)。
 
 <!--{include:`with-router.md`}-->
-
-> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
 
 ## Props
 

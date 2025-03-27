@@ -34,7 +34,7 @@
 
 ### 路由
 
-`Menu.Item` 组件可以与 Next.js 和 React Router 等框架和客户端路由器一起使用。有关设置说明，请参阅[路由指南](/guide/composition/#third-party-routing-library)。
+`Menu.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。
 
 <!--{include:`with-router.md`}-->
 

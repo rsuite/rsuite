@@ -78,9 +78,9 @@
 
 <!--{include:`buttons.md`}-->
 
-### 使用路由
+### 路由
 
-`<Dropdown.Item>` 组件可与框架和客户端路由（例如 Next.js 和 React Router）配合使用。请参阅[路由指南](/zh/guide/composition/#third-party-routing-library)以了解如何进行设置。
+`Dropdown.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。
 
 <!--{include:`with-router.md`}-->
 
