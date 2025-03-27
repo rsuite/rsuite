@@ -9,12 +9,6 @@
 
   .rs-tooltip {
     display: none;
-
-    &.rs-tooltip-placement-top .rs-tooltip::after {
-      margin: auto;
-      inset-inline-start: 0;
-      inset-inline-end: 0;
-    }
   }
 
   &-disabled {
@@ -68,7 +62,9 @@
     margin-inline-start: -(@slider-handle-diameter / 2);
     cursor: pointer;
     /* stylelint-disable */ //Formatted by prettier
-    transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition,
+    transition:
+      box-shadow @slider-handle-transition,
+      background-color @slider-handle-transition,
       transform @slider-handle-transition;
     /* stylelint-enable */
   }

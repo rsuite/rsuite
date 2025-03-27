@@ -85,7 +85,8 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
         <Tooltip
           aria-hidden="true"
           ref={tooltipRef}
-          className={merge(prefix('tooltip'), 'placement-top')}
+          className={prefix('tooltip')}
+          data-placement="top"
         >
           {renderTooltip ? renderTooltip(value) : value}
         </Tooltip>
