@@ -11,8 +11,8 @@ const App = () => {
     min: 10,
     step: vertical ? 20 : 10,
     max: 100,
-    graduated,
-    progress,
+    graduated: true,
+    progress: true,
     vertical,
     h: vertical ? 200 : undefined,
     w: vertical ? undefined : '100%'
