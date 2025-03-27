@@ -11,7 +11,7 @@ import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
-import type { FormControlBaseProps, Offset } from '@/internals/types';
+import type { FormControlBaseProps, Size, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -70,6 +70,21 @@ export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<
   /** Vertical Slide */
   vertical?: boolean;
 
+  /** If true, tooltip will always be visible  even without hover */
+  keepTooltipOpen?: boolean;
+
+  /**
+   * A slider can have different sizes.
+   *
+   * @default 'sm'
+   */
+  size?: Size;
+
+  /**
+   * Custom marks on the ruler
+   */
+  marks?: { value: number; label: React.ReactNode }[];
+
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
 
@@ -81,9 +96,6 @@ export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<
 
   /** Callback function that is fired when the mouseup is triggered. */
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
-
-  /** If true, tooltip will always be visible  even without hover */
-  keepTooltipOpen?: boolean;
 }
 
 /**
@@ -113,10 +125,12 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     handleTitle,
     tooltip = true,
     step = 1,
+    size = 'sm',
     defaultValue = 0,
     value: valueProp,
     max: maxProp = 100,
     placeholder,
+    marks,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -270,7 +284,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={ref} role="presentation" className={classes} {...rest}>
+    <Box as={as} ref={ref} role="presentation" className={classes} data-size={size} {...rest}>
       <div
         ref={barRef}
         className={merge(barClassName, prefix('bar'))}
@@ -292,6 +306,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}
@@ -304,7 +319,6 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
         disabled={disabled}
         vertical={vertical}
         tooltip={tooltip}
-        rtl={rtl}
         value={value}
         keepTooltipOpen={keepTooltipOpen}
         renderTooltip={renderTooltip}

@@ -5,6 +5,7 @@ import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
+import Plaintext from '@/internals/Plaintext';
 import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
@@ -55,11 +56,15 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     min = 0,
     max: maxProp = 100,
     step = 1,
+    size = 'sm',
     value: valueProp,
     handleClassName,
     handleStyle,
     handleTitle,
     tooltip = true,
+    marks,
+    plaintext,
+    placeholder,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -323,7 +328,6 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   );
 
   const handleCommonProps: HandleProps = {
-    rtl,
     disabled,
     vertical,
     tooltip,
@@ -343,8 +347,16 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     keepTooltipOpen
   };
 
+  if (plaintext) {
+    return (
+      <Plaintext localeKey="notSelected" ref={ref} placeholder={placeholder}>
+        {value && (value[0] || value[1]) ? value.join('~') : null}
+      </Plaintext>
+    );
+  }
+
   return (
-    <Box as={as} ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} data-size={size} {...rest}>
       <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar
@@ -361,6 +373,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}

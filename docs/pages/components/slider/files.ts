@@ -6,7 +6,7 @@ const files = [
   margin-top: 18px;
 
   .rs-slider-handle {
-    top: -6px;
+    top: -8px;
     background-color: #3498ff;
     text-align: center;
     padding: 3px;
