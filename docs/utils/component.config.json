@@ -241,6 +241,13 @@
         "keywords": ["menu"]
       },
       {
+        "id": "link",
+        "name": "Link",
+        "title": "链接",
+        "components": ["Link"],
+        "keywords": ["anchor"]
+      },
+      {
         "id": "menu",
         "name": "Menu",
         "title": "菜单",

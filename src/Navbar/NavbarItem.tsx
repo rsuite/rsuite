@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import isNil from 'lodash/isNil';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
-import SafeAnchor from '../SafeAnchor';
+import SafeAnchor from '@/internals/SafeAnchor';
 import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';

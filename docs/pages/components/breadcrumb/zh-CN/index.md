@@ -34,11 +34,11 @@
 
 <!--{include:`max-items.md`}-->
 
-### 与 next/link 中的 Link 组合
+### 路由
+
+`Breadcrumb.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。
 
 <!--{include:`with-router.md`}-->
-
-> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
 
 ### 无障碍设计
 

@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
-import SafeAnchor from '../SafeAnchor';
+import SafeAnchor from '@/internals/SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
 import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';

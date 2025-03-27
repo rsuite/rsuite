@@ -57,6 +57,7 @@ import type { InputNumberProps } from '../InputNumber';
 import type { InputPickerProps } from '../InputPicker';
 import type { KbdProps } from '../Kbd';
 import type { ImageProps } from '../Image';
+import type { LinkProps } from '../Link';
 import type { ListProps } from '../List';
 import type { LoaderProps } from '../Loader';
 import type { MaskedInputProps } from '../MaskedInput';
@@ -83,7 +84,6 @@ import type { RadioTileGroupProps } from '../RadioTileGroup';
 import type { RangeSliderProps } from '../RangeSlider';
 import type { RateProps } from '../Rate';
 import type { RowProps } from '../Row';
-import type { SafeAnchorProps } from '../SafeAnchor';
 import type { SelectPickerProps } from '../SelectPicker';
 import type { SidebarProps } from '../Sidebar';
 import type { SidenavProps } from '../Sidenav';
@@ -109,6 +109,7 @@ import type { TreePickerProps } from '../TreePicker';
 import type { UploaderProps } from '../Uploader';
 import type { VisuallyHiddenProps } from '../VisuallyHidden';
 import type { WhisperProps } from '../Whisper';
+import type { SafeAnchorProps } from '../internals/SafeAnchor';
 
 interface ComponentProps<T> {
   defaultProps: Partial<T>;
@@ -173,6 +174,7 @@ export interface ReactSuiteComponents {
   InputPicker: ComponentProps<InputPickerProps>;
   Image: ComponentProps<ImageProps>;
   Kbd: ComponentProps<KbdProps>;
+  Link: ComponentProps<LinkProps>;
   List: ComponentProps<ListProps>;
   Loader: ComponentProps<LoaderProps>;
   MaskedInput: ComponentProps<MaskedInputProps>;
@@ -199,7 +201,6 @@ export interface ReactSuiteComponents {
   RangeSlider: ComponentProps<RangeSliderProps>;
   Rate: ComponentProps<RateProps>;
   Row: ComponentProps<RowProps>;
-  SafeAnchor: ComponentProps<SafeAnchorProps>;
   SelectPicker: ComponentProps<SelectPickerProps>;
   Sidebar: ComponentProps<SidebarProps>;
   Sidenav: ComponentProps<SidenavProps>;
@@ -225,4 +226,5 @@ export interface ReactSuiteComponents {
   Uploader: ComponentProps<UploaderProps>;
   VisuallyHidden: ComponentProps<VisuallyHiddenProps>;
   Whisper: ComponentProps<WhisperProps>;
+  SafeAnchor: ComponentProps<SafeAnchorProps>;
 }

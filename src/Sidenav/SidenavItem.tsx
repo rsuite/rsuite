@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import classNames from 'classnames';
 import isNil from 'lodash/isNil';
-import SafeAnchor from '../SafeAnchor';
+import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';

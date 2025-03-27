@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
-import SafeAnchor from '../SafeAnchor';
+import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';

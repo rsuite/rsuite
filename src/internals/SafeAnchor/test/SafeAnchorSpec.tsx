@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render, screen, fireEvent } from '@testing-library/react';
 import SafeAnchor from '../SafeAnchor';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('SafeAnchor', () => {
   it('Should output a Anchor', () => {

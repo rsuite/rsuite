@@ -47,11 +47,11 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 <!--{include:`icon.md`}-->
 
-### Used with `Link` in `next/link`
+### Routing Library
+
+The `Nav.Item` component can be used with other routing libraries (such as Next.js, React Router) through the `as` prop. See the [Composition Guide](https://rsuitejs.com/guide/composition/#react-router-dom) for details.
 
 <!--{include:`with-router.md`}-->
-
-> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ## Props
 
