@@ -51,8 +51,7 @@
 
 ### 保持工具提示打开
 
-<!--{include:`keep-open.md`}-->
-
+<!--{include:`keep-tooltip-open.md`}-->
 ### 无障碍设计
 
 WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
