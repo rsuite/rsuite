@@ -6,10 +6,10 @@ import { Link, HStack } from 'rsuite';
 const App = () => {
   return (
     <HStack spacing={20}>
-      <Link href="https://rsuitejs.com" isExternal>
+      <Link href="https://rsuitejs.com" external>
         External Link
       </Link>
-      <Link href="https://rsuitejs.com" isExternal showAnchorIcon>
+      <Link href="https://rsuitejs.com" external showAnchorIcon>
         External Link with Icon
       </Link>
     </HStack>
