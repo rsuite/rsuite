@@ -5,6 +5,7 @@ import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 import {
   importFakerString,
@@ -25,7 +26,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Cascader']} />
+  'import-guide': () => <ImportGuide components={['Cascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="cascader" />
 };
 
 export default function Page() {

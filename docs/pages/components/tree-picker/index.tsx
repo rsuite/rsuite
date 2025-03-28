@@ -5,6 +5,7 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
+import Simulation from '@/components/Simulation';
 import { TreePicker, Button, VStack, HStack, Loader, Box } from 'rsuite';
 import {
   importFakerString,
@@ -25,7 +26,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TreePicker']} />
+  'import-guide': () => <ImportGuide components={['TreePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="tree-picker" />
 };
 
 export default function Page() {

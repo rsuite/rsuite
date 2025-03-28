@@ -4,7 +4,11 @@ interface UseBreakpointValueOptions<T = any> {
   /**
    * The default value to return if no screen size matches.
    */
-  defaultValue: T;
+  defaultValue?: T;
+  /**
+   * Whether to enable the media query, defaults to true
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -24,12 +28,15 @@ export function useBreakpointValue<T = any>(
   breakpoints: Record<Query, T>,
   options?: UseBreakpointValueOptions<T>
 ) {
-  const { defaultValue } = options || {};
+  const { defaultValue, enabled = true } = options || {};
   const keys = Object.keys(breakpoints);
   const values = Object.values(breakpoints);
-  const matches = useMediaQuery(keys);
+  const matches = useMediaQuery(keys, enabled);
 
-  const index = matches.indexOf(true);
+  // Use lastIndexOf instead of indexOf to return the value of the last matching breakpoint
+  // Due to how media queries work, multiple breakpoints may match simultaneously on larger screens
+  // Using lastIndexOf ensures we return the value for the largest matching breakpoint
+  const index = matches.lastIndexOf(true);
 
   return index !== -1 ? values[index] : defaultValue;
 }

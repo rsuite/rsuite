@@ -1,6 +1,7 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import {
   CheckPicker,
   Button,
@@ -26,7 +27,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['CheckPicker']} />
+  'import-guide': () => <ImportGuide components={['CheckPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="check-picker" />
 };
 
 export default function Page() {

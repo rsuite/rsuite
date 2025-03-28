@@ -4,6 +4,7 @@ import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
+import Simulation from '@/components/Simulation';
 import {
   importFakerString,
   mockAsyncData,
@@ -23,7 +24,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['MultiCascader']} />
+  'import-guide': () => <ImportGuide components={['MultiCascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="multi-cascader" />
 };
 
 export default function Page() {

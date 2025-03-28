@@ -29,7 +29,7 @@ const resizePlacement = [
 ];
 
 const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
-  const { placement } = useCombobox();
+  const { placement, breakpoint } = useCombobox();
   const {
     as: Component = 'div',
     autoWidth,
@@ -63,7 +63,7 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
       const width = getWidth(getDOMNode(toggle.root));
 
       if (overlayRef.current) {
-        addStyle(overlayRef.current, 'min-width', `${width}px`);
+        addStyle(overlayRef.current, '--rs-picker-min-width', `${width}px`);
       }
     }
   }, [autoWidth, target, overlayRef]);
@@ -76,6 +76,7 @@ const PickerPopup = forwardRef<'div', PickerPopupProps>((props, ref) => {
       data-testid="picker-popup"
       ref={mergeRefs(overlayRef, ref)}
       className={classes}
+      data-breakpoint={breakpoint}
       {...rest}
     />
   );

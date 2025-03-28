@@ -81,6 +81,10 @@
 
 <!--{include:`infinite-loader.md`}-->
 
+## 响应式
+
+<!--{include:<example-responsive>}-->
+
 ## 可访问性
 
 ### ARIA 属性

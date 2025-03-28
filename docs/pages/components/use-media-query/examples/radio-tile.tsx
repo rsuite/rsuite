@@ -1,18 +1,15 @@
-<!--start-code-->
+'use client';
 
-```js
+import React from 'react';
 import { RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
 
 const App = () => {
-  const [isInline, isDark] = useMediaQuery([
-    'xl', // (min-width: 1200px)
-    '(prefers-color-scheme: dark)'
-  ]);
+  const [isInline] = useMediaQuery(['md']);
 
   return (
-    <RadioTileGroup defaultValue="blank" inline={isInline} aria-label="Create new project">
+    <RadioTileGroup defaultValue="blank" inline={isInline} aria-label="Create new project" p={20}>
       <RadioTile icon={<Icon as={VscFile} />} label="Create blank project" value="blank">
         Create a blank project to house your files, plan your work, and collaborate on code, among
         other things.
@@ -31,8 +28,4 @@ const App = () => {
     </RadioTileGroup>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-<!--end-code-->
+export default App;

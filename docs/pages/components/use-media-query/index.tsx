@@ -1,4 +1,8 @@
 import React from 'react';
+import Icon from '@rsuite/icons/Icon';
+import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import {
   Modal,
   Button,
@@ -8,13 +12,14 @@ import {
   RadioTileGroup,
   useMediaQuery
 } from 'rsuite';
-import Icon from '@rsuite/icons/Icon';
 import { VscRepo, VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
-import DefaultPage from '@/components/Page';
-import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['useMediaQuery']} hasCssComponents={[]} />
+  'import-guide': () => <ImportGuide components={['useMediaQuery']} hasCssComponents={[]} />,
+  'responsive-radio-tile': () => (
+    <Simulation example="radio-tile" componentName="use-media-query" />
+  ),
+  'responsive-modal': () => <Simulation example="modal" componentName="use-media-query" />
 };
 
 export default function Page() {

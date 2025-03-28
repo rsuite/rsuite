@@ -48,7 +48,7 @@
 
 ### ARIA 属性
 
-- SelectPicker 组件的 `role` 属性为 `combobox`。
+- InputPicker 组件的 `role` 属性为 `combobox`。
 - 有 `aria-haspopup="listbox"` 属性来指示 combobox 有一个弹出的列表框。
 - 有 `aria-expanded` 属性来指示列表框是否打开。
 - 有 `aria-controls` 属性来指示列表框元素的 ID。

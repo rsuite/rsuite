@@ -2,12 +2,14 @@ import React, { useMemo } from 'react';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Box from '@/internals/Box';
+import PickerDrawer from './PickerDrawer';
 import OverlayTrigger, {
   OverlayTriggerProps,
   OverlayTriggerType
 } from '@/internals/Overlay/OverlayTrigger';
 import { useUniqueId } from '@/internals/hooks';
 import { useStyles } from '@/internals/hooks';
+import { useBreakpointValue } from '../../useBreakpointValue';
 import type { Placement, Size, AnimationEventProps } from '@/internals/types';
 
 export interface PickerToggleTriggerProps
@@ -55,10 +57,16 @@ export interface PickerToggleTriggerProps
   style?: React.CSSProperties;
   /** Trigger type for the overlay */
   trigger?: OverlayTriggerType | OverlayTriggerType[];
-
+  /** Size of the component */
   size?: Size;
 
+  /** Whether the component should be responsive */
+  responsive?: boolean;
+
+  /** Handler for keydown events */
   onKeyDown?: (event: React.KeyboardEvent) => void;
+
+  /** Handler for click events */
   onClick?: (event: React.MouseEvent) => void;
 }
 
@@ -85,6 +93,7 @@ export interface ComboboxContextProps {
   multiple?: boolean;
   hasLabel?: boolean;
   placement?: Placement;
+  breakpoint?: string;
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
 }
 
@@ -113,12 +122,14 @@ export const PickerToggleTrigger = React.forwardRef(
       style,
       size,
       trigger = 'click',
+      responsive = true,
       onKeyDown,
       onClick,
       ...rest
     } = props;
     const pickerTriggerProps = pick(triggerProps, triggerPropKeys);
     const pickerId = useUniqueId('rs-', id);
+    const breakpoint = useBreakpointValue({ xsOnly: 'xs' }, { enabled: responsive && !disabled });
 
     const comboboxContext = useMemo(
       () => ({
@@ -126,9 +137,10 @@ export const PickerToggleTrigger = React.forwardRef(
         hasLabel: typeof pickerTriggerProps.label !== 'undefined',
         multiple,
         placement,
+        breakpoint,
         popupType
       }),
-      [pickerId, multiple, placement, popupType]
+      [pickerId, multiple, placement, breakpoint, popupType]
     );
 
     const { withPrefix, merge } = useStyles(classPrefix);
@@ -143,6 +155,7 @@ export const PickerToggleTrigger = React.forwardRef(
           trigger={trigger}
           placement={placement}
           speaker={speaker}
+          overlayAs={breakpoint === 'xs' ? PickerDrawer : undefined}
         >
           <Box
             as={as}

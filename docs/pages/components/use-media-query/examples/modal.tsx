@@ -1,7 +1,7 @@
-<!--start-code-->
+'use client';
 
-```js
-import { useMediaQuery, Modal, Button, ButtonToolbar, Placeholder } from 'rsuite';
+import React from 'react';
+import { useMediaQuery, Modal, Button, ButtonToolbar, Placeholder, Center } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -11,7 +11,7 @@ const App = () => {
   const [isMobile] = useMediaQuery('(max-width: 700px)');
 
   return (
-    <>
+    <Center h={200}>
       <ButtonToolbar>
         <Button onClick={handleOpen}> Open</Button>
       </ButtonToolbar>
@@ -32,11 +32,8 @@ const App = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </Center>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-<!--end-code-->
+export default App;

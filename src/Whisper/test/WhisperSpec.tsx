@@ -189,15 +189,21 @@ describe('Whisper', () => {
           style,
           onClose,
           ...rest
-        }: { style: CSSProperties; onClose: () => void } & React.DetailedHTMLProps<
-          React.HTMLAttributes<HTMLDivElement>,
-          HTMLDivElement
-        >,
+        }: {
+          style: CSSProperties;
+          onClose?: (delay?: number) => void | NodeJS.Timeout;
+        } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
         ref
       ) => {
+        const handleClose = () => {
+          if (onClose) {
+            onClose();
+          }
+        };
+
         return (
           <div {...rest} style={style} ref={ref as Ref<HTMLDivElement>}>
-            <button onClick={onClose}>close</button>
+            <button onClick={handleClose}>close</button>
           </div>
         );
       }
