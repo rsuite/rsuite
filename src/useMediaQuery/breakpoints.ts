@@ -91,9 +91,9 @@ function createLegacyMediaQueryMap(breakpoints: BreakpointMap): MediaQueryMap {
  * });
  *
  * // Using breakpoints
- * breakpoints.up('md'); // '@media screen and (min-width: 768px)'
- * breakpoints.down('lg'); // '@media screen and (max-width: 991.99px)'
- * breakpoints.between('sm', 'lg'); // '@media screen and (min-width: 576px) and (max-width: 991.99px)'
+ * breakpoints.up('md'); // '(min-width: 768px)'
+ * breakpoints.down('lg'); // '(max-width: 991.99px)'
+ * breakpoints.between('sm', 'lg'); // '(min-width: 576px) and (max-width: 991.99px)'
  * ```
  */
 export function createBreakpoints(breakpoints: BreakpointMap): BreakpointSystem {

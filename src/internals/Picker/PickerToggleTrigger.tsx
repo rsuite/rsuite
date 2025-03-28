@@ -129,7 +129,9 @@ export const PickerToggleTrigger = React.forwardRef(
     } = props;
     const pickerTriggerProps = pick(triggerProps, triggerPropKeys);
     const pickerId = useUniqueId('rs-', id);
-    const breakpoint = useBreakpointValue({ xsOnly: 'xs' }, { enabled: responsive && !disabled });
+    const breakpoint = useBreakpointValue({ xsOnly: 'xs' }, { enabled: responsive });
+    // Only use the breakpoint value if not disabled
+    const effectiveBreakpoint = disabled ? undefined : breakpoint;
 
     const comboboxContext = useMemo(
       () => ({
@@ -137,10 +139,10 @@ export const PickerToggleTrigger = React.forwardRef(
         hasLabel: typeof pickerTriggerProps.label !== 'undefined',
         multiple,
         placement,
-        breakpoint,
+        breakpoint: effectiveBreakpoint,
         popupType
       }),
-      [pickerId, multiple, placement, breakpoint, popupType]
+      [pickerId, multiple, placement, effectiveBreakpoint, popupType]
     );
 
     const { withPrefix, merge } = useStyles(classPrefix);
@@ -155,7 +157,7 @@ export const PickerToggleTrigger = React.forwardRef(
           trigger={trigger}
           placement={placement}
           speaker={speaker}
-          overlayAs={breakpoint === 'xs' ? PickerDrawer : undefined}
+          overlayAs={effectiveBreakpoint === 'xs' ? PickerDrawer : undefined}
         >
           <Box
             as={as}

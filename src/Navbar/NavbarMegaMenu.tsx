@@ -48,7 +48,7 @@ const NavbarMegaMenu = React.forwardRef<HTMLElement, NavbarMegaMenuProps>((props
       const { onClose, className } = menuProps || {};
       return (
         <Popover ref={ref} full arrow={false} className={className}>
-          {typeof children === 'function' ? children({ onClose: onClose || (() => {}) }) : children}
+          {typeof children === 'function' ? children({ onClose }) : children}
         </Popover>
       );
     },
