@@ -2,6 +2,7 @@ import React from 'react';
 import { DateRangePicker, Button, Divider, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import {
   startOfWeek,
   endOfWeek,
@@ -23,7 +24,8 @@ import {
 } from 'react-icons/fa';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['DateRangePicker']} />
+  'import-guide': () => <ImportGuide components={['DateRangePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="date-range-picker" />
 };
 
 export default function Page() {

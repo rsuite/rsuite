@@ -48,6 +48,10 @@ The TimeRangePicker component is used to select a time range.
 
 <!--{include:`controlled.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

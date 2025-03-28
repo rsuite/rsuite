@@ -715,6 +715,13 @@ describe('DatePicker', () => {
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
   });
 
+  it('Should render default shortcut buttons', () => {
+    render(<DatePicker defaultOpen />);
+
+    expect(screen.getByRole('button', { name: 'Today' })).to.be.visible;
+    expect(screen.getByRole('button', { name: 'Yesterday' })).to.be.visible;
+  });
+
   it('Should call `onShortcutClick` callback', () => {
     const onShortcutClick = sinon.spy();
 

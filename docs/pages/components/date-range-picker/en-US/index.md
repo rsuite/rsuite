@@ -118,6 +118,10 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 <!--{include:`hide-header.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

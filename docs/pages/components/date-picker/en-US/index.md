@@ -116,6 +116,10 @@ If you only need to meet the simple date selection function, you can use the nat
 
 <!--{include:`native-pickers.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

@@ -114,6 +114,10 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 <!--{include:`native-pickers.md`}-->
 
+## 响应式
+
+<!--{include:<example-responsive>}-->
+
 ## 可访问性
 
 ### ARIA 属性
