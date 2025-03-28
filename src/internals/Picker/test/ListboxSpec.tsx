@@ -74,7 +74,10 @@ describe('picker -  Listbox', () => {
       <Listbox className="custom" maxHeight={200} classPrefix={classPrefix} listItemAs={ListItem} />
     );
 
-    expect(screen.getByRole('listbox')).to.have.style('max-height', '200px');
+    expect(screen.getByRole('listbox')).to.have.attr(
+      'style',
+      '--rs-picker-listbox-max-height: 200px;'
+    );
   });
 
   it('Should output 3 `menu-item` ', () => {
