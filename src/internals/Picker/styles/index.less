@@ -171,12 +171,31 @@
     cursor: default;
   }
 
+  .rs-picker-listbox {
+    max-height: var(--rs-picker-listbox-max-height);
+  }
+
   // Responsive popup
   &[data-breakpoint='xs'] {
     min-width: unset;
     width: 100%;
     height: 100%;
     overflow: auto;
+
+    .rs-picker-listbox {
+      height: unset;
+      max-height: unset;
+    }
+
+    .rs-tree,
+    .rs-check-tree {
+      display: flex;
+      flex-direction: column;
+      &-view {
+        height: unset;
+        flex: 1 1 auto;
+      }
+    }
   }
 }
 

@@ -44,6 +44,12 @@ Single item selector with text box input.
 
 <!--{include:`controlled.md`}-->
 
+## Responsive
+
+On small screen devices, the selection list will be converted to a popup selector. To maintain the component's search functionality, this will only take effect when `searchable={false}` is set.
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

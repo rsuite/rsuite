@@ -44,6 +44,12 @@
 
 <!--{include:`controlled.md`}-->
 
+## 响应式
+
+在小屏幕设备上，选择列表将被转换为弹出式选择器。 为了不影响组件的搜索功能，只有在设置 `searchable={false}` 时，才会生效。
+
+<!--{include:<example-responsive>}-->
+
 ## 可访问性
 
 ### ARIA 属性

@@ -1,6 +1,7 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import { TagPicker, Button, Tag, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
@@ -16,7 +17,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TagPicker']} />
+  'import-guide': () => <ImportGuide components={['TagPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="tag-picker" />
 };
 
 export default function Page() {
