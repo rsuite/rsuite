@@ -160,4 +160,55 @@ describe('createBreakpoints', () => {
       xxlTo2xl: '(min-width: 1400px) and (max-width: 1399.99px)'
     });
   });
+
+  it('Should generate correct legacy media query map', () => {
+    expect(breakpointSystem.legacyMap).to.deep.equal({
+      xs: '(max-width: 575.99px)',
+      sm: '(min-width: 576px)',
+      md: '(min-width: 768px)',
+      lg: '(min-width: 992px)',
+      xl: '(min-width: 1200px)',
+      xxl: '(min-width: 1400px)'
+    });
+  });
+
+  it('Should handle empty breakpoints object', () => {
+    const emptyBreakpoints = createBreakpoints({});
+    expect(emptyBreakpoints.values).to.have.length(0);
+    expect(emptyBreakpoints.keys()).to.deep.equal(['base']);
+  });
+
+  it('Should handle single breakpoint', () => {
+    const singleBreakpoint = createBreakpoints({ sm: '576px' });
+    expect(singleBreakpoint.values).to.have.length(1);
+    expect(singleBreakpoint.up('sm')).to.equal('(min-width: 576px)');
+    expect(singleBreakpoint.only('sm')).to.equal('(min-width: 576px)');
+  });
+
+  it('Should handle non-pixel units', () => {
+    const emBreakpoints = createBreakpoints({
+      sm: '30em',
+      md: '48em'
+    });
+    expect(emBreakpoints.up('sm')).to.equal('(min-width: 30em)');
+    expect(emBreakpoints.between('sm', 'md')).to.equal(
+      '(min-width: 30em) and (max-width: 47.99em)'
+    );
+  });
+
+  it('Should correctly sort breakpoints regardless of input order', () => {
+    const unsortedBreakpoints = createBreakpoints({
+      lg: '992px',
+      sm: '576px',
+      md: '768px'
+    });
+    expect(unsortedBreakpoints.values[0].name).to.equal('sm');
+    expect(unsortedBreakpoints.values[1].name).to.equal('md');
+    expect(unsortedBreakpoints.values[2].name).to.equal('lg');
+  });
+
+  it('Should handle invalid breakpoint names gracefully', () => {
+    expect(() => breakpointSystem.up('nonExistent')).to.throw();
+    expect(breakpointSystem.getCondition('nonExistent')).to.equal('');
+  });
 });
