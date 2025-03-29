@@ -31,8 +31,9 @@ const useDrag = (props: DragProps) => {
 
     if (tooltip && tooltipElement) {
       const width = getWidth(tooltipElement);
+
       // Set the position of the tooltip
-      addStyle(tooltipElement, 'left', `-${width / 2}px`);
+      addStyle(tooltipElement, '--rs-tooltip-offset', `-${width / 2}px`);
     }
   }, [tooltip]);
 

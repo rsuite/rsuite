@@ -86,6 +86,38 @@ describe('RangeSlider', () => {
     expect(onChangeCommitted).to.have.not.been.called;
   });
 
+  it('Should apply the specified size', () => {
+    const { container, rerender } = render(<RangeSlider size="lg" />);
+
+    expect(container.firstChild).to.have.attr('data-size', 'lg');
+
+    rerender(<RangeSlider size="md" />);
+    expect(container.firstChild).to.have.attr('data-size', 'md');
+
+    rerender(<RangeSlider size="sm" />);
+    expect(container.firstChild).to.have.attr('data-size', 'sm');
+
+    rerender(<RangeSlider size="xs" />);
+    expect(container.firstChild).to.have.attr('data-size', 'xs');
+  });
+
+  it('Should render custom marks', () => {
+    const marks = [
+      { value: 0, label: 'Start' },
+      { value: 50, label: 'Middle' },
+      { value: 100, label: 'End' }
+    ];
+
+    const { container } = render(<RangeSlider marks={marks} graduated />);
+
+    const markElements = container.querySelectorAll('.rs-slider-mark-content');
+
+    expect(markElements).to.have.length(3);
+    expect(markElements[0]).to.have.text('Start');
+    expect(markElements[1]).to.have.text('Middle');
+    expect(markElements[2]).to.have.text('End');
+  });
+
   it('Should call onChange callback', () => {
     const onChange = sinon.spy();
     const { container } = render(<RangeSlider defaultValue={[10, 50]} onChange={onChange} />);
@@ -236,5 +268,23 @@ describe('RangeSlider', () => {
     expect(onChange).to.have.been.calledWith([20, 100]);
 
     expect(onChange).to.have.been.calledTwice;
+  });
+
+  describe('Plain text', () => {
+    it('Should render input value', () => {
+      const { rerender } = render(<RangeSlider value={[1, 2]} plaintext />);
+
+      expect(screen.getByText('1~2')).to.have.class('rs-plaintext');
+
+      rerender(<RangeSlider value={[0, 10]} plaintext />);
+
+      expect(screen.getByText('0~10')).to.have.class('rs-plaintext');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      render(<RangeSlider plaintext />);
+
+      expect(screen.getByText('Not selected')).to.have.class('rs-plaintext');
+    });
   });
 });

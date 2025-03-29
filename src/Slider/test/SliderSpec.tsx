@@ -92,6 +92,40 @@ describe('Slider', () => {
     expect(screen.getByText('test')).to.have.class('rs-slider-handle');
   });
 
+  it('Should apply the specified size', () => {
+    const { container, rerender } = render(<Slider size="lg" />);
+
+    expect(container.firstChild).to.have.attr('data-size', 'lg');
+
+    rerender(<Slider size="md" />);
+    expect(container.firstChild).to.have.attr('data-size', 'md');
+
+    rerender(<Slider size="sm" />);
+    expect(container.firstChild).to.have.attr('data-size', 'sm');
+
+    rerender(<Slider size="xs" />);
+    expect(container.firstChild).to.have.attr('data-size', 'xs');
+  });
+
+  it('Should render custom marks', () => {
+    const marks = [
+      { value: 0, label: 'Start' },
+      { value: 50, label: 'Middle' },
+      { value: 100, label: 'End' }
+    ];
+
+    render(<Slider marks={marks} graduated />);
+
+    const markElements = screen
+      .getByTestId('slider-bar')
+      .querySelectorAll('.rs-slider-mark-content');
+
+    expect(markElements).to.have.length(3);
+    expect(markElements[0]).to.have.text('Start');
+    expect(markElements[1]).to.have.text('Middle');
+    expect(markElements[2]).to.have.text('End');
+  });
+
   it('Should handle keyboard operations', () => {
     render(<Slider defaultValue={10} />);
 

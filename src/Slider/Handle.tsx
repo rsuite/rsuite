@@ -10,7 +10,6 @@ export interface HandleProps extends BoxProps, React.HTMLAttributes<HTMLDivEleme
   disabled?: boolean;
   vertical?: boolean;
   tooltip?: boolean;
-  rtl?: boolean;
   position?: number;
   value?: number;
   keepTooltipOpen?: boolean;
@@ -33,7 +32,6 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     position,
     vertical,
     tooltip,
-    rtl,
     value,
     role,
     tabIndex,
@@ -49,10 +47,8 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
   } = props;
 
   const actualTooltip = tooltip || keepTooltipOpen;
-  const horizontalKey = rtl ? 'right' : 'left';
-  const direction = vertical ? 'bottom' : horizontalKey;
-  const styles = mergeStyles(style, { [direction]: `${position}%` });
-  const { merge, prefix } = useStyles(classPrefix);
+  const { merge, prefix, cssVar } = useStyles(classPrefix);
+  const styles = mergeStyles(style, cssVar('offset', `${position}%`));
 
   const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
     tooltip: actualTooltip,
@@ -86,7 +82,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
           aria-hidden="true"
           ref={tooltipRef}
           className={prefix('tooltip')}
-          data-placement="top"
+          data-placement={vertical ? 'left' : 'top'}
         >
           {renderTooltip ? renderTooltip(value) : value}
         </Tooltip>

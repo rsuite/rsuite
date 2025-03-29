@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `Slider` 滑动输入控件。
-- `RangeSlider` 滑动范围输入控件。
+- `Slider` 滑动输入控件，用于选择单个值。
+- `RangeSlider` 滑动范围输入控件，用于选择一个区间。
 
 ## 演示
 
@@ -23,6 +23,14 @@
 
 <!--{include:`graduated.md`}-->
 
+### 带标记的刻度
+
+<!--{include:`marks.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
 ### 垂直滑动
 
 <!--{include:`vertical.md`}-->
@@ -31,7 +39,7 @@
 
 <!--{include:`disabled.md`}-->
 
-### 显示值(受控的)
+### 受控的值
 
 <!--{include:`value.md`}-->
 
@@ -41,17 +49,14 @@
 
 <!--{include:`constraint.md`}-->
 
-### 自定义
+### 自定义手柄
 
 <!--{include:`custom.md`}-->
-
-### 自定义长度
-
-<!--{include:`size.md`}-->
 
 ### 保持工具提示打开
 
 <!--{include:`keep-tooltip-open.md`}-->
+
 ### 无障碍设计
 
 WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
@@ -99,7 +104,8 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                          | 应用于手柄 DOM 节点的 css class               |
 | handleStyle       | CSSProperties                   | 附加手柄样式                                  |
 | handleTitle       | ReactNode                       | 自定义手柄内显示内容                          |
-| keepTooltipOpen   | boolean`(false)`                | `Tooltip` 始终保持可见                        |
+| keepTooltipOpen   | boolean                         | `Tooltip` 始终保持可见                        |
+| marks             | [Mark][mark][]                  | 滑动条上的自定义标记                          |
 | max               | number`(100)`                   | 滑动范围的最大值                              |
 | min               | number`(0)`                     | 滑动范围的最小值                              |
 | onChange          | (value: number, event) => void  | 数据发生改变的回调函数                        |
@@ -107,6 +113,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                         | 显示滑动的进度条                              |
 | renderMark        | (mark: number) => ReactNode     | 自定义渲染标尺上的标签                        |
 | renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |
+| size              | [Size][size] \| `('sm')`        | 指定滑动条的尺寸                              |
 | step              | number`(1)`                     | 滑动一步的值                                  |
 | tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |
 | value             | number                          | 当前值（受控）                                |
@@ -125,7 +132,8 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleClassName   | string                                                 | 应用于手柄 DOM 节点的 css class                                            |
 | handleStyle       | CSSProperties                                          | 附加手柄样式                                                               |
 | handleTitle       | ReactNode                                              | 自定义手柄内显示内容                                                       |
-| keepTooltipOpen   | boolean`(false)`                                       | `Tooltip` 始终保持可见                                                     |
+| keepTooltipOpen   | boolean                                                | `Tooltip` 始终保持可见                                                     |
+| marks             | [Mark][mark][]                                         | 滑动条上的自定义标记                                                       |
 | max               | number`(100)`                                          | 滑动范围的最大值                                                           |
 | min               | number`(0)`                                            | 滑动范围的最小值                                                           |
 | onChange          | (value: [number,number], event) => void                | 数据发生改变的回调函数                                                     |
@@ -133,7 +141,22 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                                                | 显示滑动的进度条                                                           |
 | renderMark        | (mark: number) => ReactNode                            | 自定义渲染标尺上的标签                                                     |
 | renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |
+| size              | [Size][size] \| `('sm')`                               | 指定滑动条的尺寸                                                           |
 | step              | number`(1)`                                            | 滑动一步的值                                                               |
 | tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |
 | value             | [number,number]                                        | 当前值（受控）                                                             |
 | vertical          | boolean                                                | 垂直滑动                                                                   |
+
+<!--{include:(_common/types/size.md)}-->
+
+[size]: #code-ts-size-code
+[mark]: #code-ts-mark-code
+
+### `ts:Mark`
+
+```ts
+interface Mark {
+  value: number;
+  label?: React.ReactNode;
+}
+```
