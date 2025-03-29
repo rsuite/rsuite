@@ -12,11 +12,11 @@ A React Hook that returns different values based on different screen sizes in re
 
 ### Responsive avatar size
 
-<!--{include:`basic.md`}-->
+<!--{include:<responsive-avatar>}-->
 
 ### Responsive stack direction
 
-<!--{include:`stack.md`}-->
+<!--{include:<responsive-stack>}-->
 
 ## API
 

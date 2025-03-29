@@ -279,6 +279,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompletePr
       className={classes}
       style={style}
       rootRef={root}
+      responsive={false}
       {...restProps}
     >
       <Combobox

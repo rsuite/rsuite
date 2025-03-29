@@ -48,6 +48,10 @@
 
 <!--{include:`extra-footer.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

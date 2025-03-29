@@ -67,8 +67,14 @@
   }
 
   .rs-picker-daterange-panel-only-time {
+    height: 100%;
+
     .rs-picker-daterange-calendar-group {
       min-width: auto;
+    }
+
+    .rs-picker-daterange-content {
+      flex: 1;
     }
   }
 
@@ -106,14 +112,14 @@
       width: 50%;
       bottom: -1px;
       border-bottom: 2px solid #3498ff;
-      inset-inline-start:  0;
+      inset-inline-start: 0;
       transition: left 0.3s;
     }
   }
 
   &.rs-picker-tab-active-end {
     &::after {
-      inset-inline-start:  50%;
+      inset-inline-start: 50%;
     }
   }
 }

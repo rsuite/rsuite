@@ -21,6 +21,12 @@ describe('InputPicker styles', () => {
   it('Should have correct height when disabled', () => {
     render(<InputPicker data={data} disabled />);
 
-    expect(screen.getByRole('combobox')).to.have.style('height', '34px');
+    expect(screen.getByTestId('picker')).to.have.style('height', '36px');
+  });
+
+  it('Should have correct height when searchable is false', () => {
+    render(<InputPicker data={data} searchable={false} />);
+
+    expect(screen.getByTestId('picker')).to.have.style('height', '36px');
   });
 });

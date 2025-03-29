@@ -4,6 +4,7 @@ import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
+import Simulation from '@/components/Simulation';
 
 const mockfile = {
   name: 'mock.js',
@@ -15,7 +16,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['SelectPicker']} />
+  'import-guide': () => <ImportGuide components={['SelectPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="select-picker" />
 };
 
 export default function Page() {

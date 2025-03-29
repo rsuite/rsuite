@@ -280,7 +280,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       }
     }
 
-    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef: any) => {
       const { className } = positionProps;
       const classes = merge(className, popupClassName, prefix('select-menu'));
       let items = filteredData;

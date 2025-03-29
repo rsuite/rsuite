@@ -50,7 +50,10 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should set minimum width for popup', () => {
         render(<TestComponent data={data} open popupAutoWidth style={{ width: 100 }} />);
 
-        expect(screen.getByTestId('picker-popup').style.minWidth).to.equal('100px');
+        expect(screen.getByTestId('picker-popup')).to.have.attr(
+          'style',
+          '--rs-picker-min-width: 100px;'
+        );
       });
     }
 

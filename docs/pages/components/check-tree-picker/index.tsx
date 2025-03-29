@@ -3,6 +3,7 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
 import {
   importFakerString,
@@ -23,7 +24,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['CheckTreePicker']} />
+  'import-guide': () => <ImportGuide components={['CheckTreePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="check-tree-picker" />
 };
 
 export default function Page() {

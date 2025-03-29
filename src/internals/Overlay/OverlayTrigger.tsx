@@ -67,7 +67,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
     | ((
         props: PositionChildProps &
           Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'onMouseEnter' | 'onMouseLeave'> & {
-            onClose: (delay?: number) => NodeJS.Timeout | void;
+            onClose?: (delay?: number) => NodeJS.Timeout | void;
           },
         ref: React.RefCallback<HTMLElement>
       ) => React.ReactElement);
@@ -102,6 +102,11 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   /**  Set the `id` on `<Overlay>` and `aria-describedby` on `<OverlayTrigger>` */
   controlId?: string;
 
+  /** Whether speaker to follow the cursor */
+  followCursor?: boolean;
+
+  overlayAs?: React.ElementType;
+
   /** Lose Focus callback function */
   onBlur?: React.FocusEventHandler;
 
@@ -128,9 +133,6 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
 
   /** Callback fired when close component */
   onClose?: (cause?: OverlayCloseCause) => void;
-
-  /** Whether speaker to follow the cursor */
-  followCursor?: boolean;
 }
 
 /**
@@ -190,6 +192,7 @@ const OverlayTrigger = React.forwardRef(
       placement = 'bottomStart',
       speaker,
       rootClose = true,
+      overlayAs: OverlayComponent,
       onClick,
       onMouseOver,
       onMouseMove,
@@ -560,7 +563,16 @@ const OverlayTrigger = React.forwardRef(
     return (
       <>
         {triggerElement}
-        <Portal>{renderOverlay()}</Portal>
+        {OverlayComponent ? (
+          <OverlayComponent
+            open={open}
+            onClose={handleClose}
+            placement="bottom"
+            speaker={speaker}
+          />
+        ) : (
+          <Portal>{renderOverlay()}</Portal>
+        )}
       </>
     );
   }

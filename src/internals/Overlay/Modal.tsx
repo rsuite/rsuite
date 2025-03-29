@@ -56,7 +56,7 @@ export interface BaseModalProps extends Omit<BoxProps, 'children'>, AnimationEve
   onOpen?: () => void;
 
   /** Called when Modal is closed */
-  onClose?: (event: React.SyntheticEvent) => void;
+  onClose?: (event?: React.SyntheticEvent) => void;
   container?: HTMLElement | (() => HTMLElement);
   containerClassName?: string;
   backdropTransitionTimeout?: number;

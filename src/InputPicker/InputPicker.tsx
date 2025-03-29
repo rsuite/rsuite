@@ -702,6 +702,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       size={size}
       classPrefix={classPrefix}
       className={classes}
+      responsive={searchable === false}
       onClick={focus}
       onKeyDown={onPickerKeyDown}
       data-disabled-options={disabledOptions}

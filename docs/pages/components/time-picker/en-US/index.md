@@ -48,6 +48,10 @@ TimePicker is a component that allows users to select a time value.
 
 <!--{include:`controlled.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

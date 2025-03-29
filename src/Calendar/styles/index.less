@@ -11,6 +11,7 @@
   --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
   --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
   --rs-calendar-border-radius: var(--rs-radius-md);
+  --rs-calendar-table-width: 100%;
 
   padding-top: @calendar-picker-padding;
   position: relative;
@@ -359,7 +360,7 @@
 .rs-calendar-table {
   display: table;
   table-layout: fixed;
-  width: 100%;
+  width: var(--rs-calendar-table-width);
 }
 
 .rs-calendar-table-row {
@@ -662,6 +663,7 @@
 
   .rs-calendar-time-dropdown-column {
     min-width: 60px;
+    flex: 1;
   }
 }
 

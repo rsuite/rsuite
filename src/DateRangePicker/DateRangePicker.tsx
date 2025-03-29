@@ -12,6 +12,7 @@ import InputGroup from '../InputGroup';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
+import Box from '@/internals/Box';
 import Calendar from './Calendar';
 import * as StaticMethods from './disabledDateUtils';
 import { DateRangePickerProvider } from './DateRangePickerProvider';
@@ -19,6 +20,7 @@ import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
 import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import { splitRanges } from '../DatePicker/utils';
 import {
   PickerPopup,
   PickerToggleTrigger,
@@ -917,10 +919,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         );
       };
 
-      const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
-      const bottomRanges = ranges?.filter(
-        range => range?.placement === 'bottom' || range?.placement === undefined
-      );
+      const { sideRanges, bottomRanges } = splitRanges(ranges);
 
       return (
         <PickerPopup
@@ -933,8 +932,8 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
           style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
-            <Stack align="flex-start">
-              {sideRanges.length > 0 && (
+            <Stack align="flex-start" h="100%">
+              {sideRanges && sideRanges.length > 0 && (
                 <PredefinedRanges
                   direction="column"
                   spacing={0}
@@ -948,7 +947,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
                 />
               )}
 
-              <Stack.Item>
+              <Box className={prefix('box')}>
                 <div className={prefix('daterange-content')}>
                   {showHeader && (
                     <Header
@@ -979,7 +978,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
                   onShortcutClick={handleShortcutPageDate}
                   ranges={bottomRanges}
                 />
-              </Stack.Item>
+              </Box>
             </Stack>
           </div>
         </PickerPopup>

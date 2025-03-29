@@ -56,6 +56,10 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 <!--{include:`container.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties
