@@ -6,6 +6,7 @@ import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementContainer from '@/components/PlacementContainer';
 import { Cascader, Button, RadioGroup, Radio, VStack, HStack, Box } from 'rsuite';
+import Simulation from '@/components/Simulation';
 import {
   importFakerString,
   mockAsyncData,
@@ -25,7 +26,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Cascader']} />
+  'import-guide': () => <ImportGuide components={['Cascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="cascader" />
 };
 
 export default function Page() {

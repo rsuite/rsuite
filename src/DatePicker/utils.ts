@@ -57,13 +57,14 @@ export const getRanges = <T extends Date | DateRange>({
     : ranges.map(generateRangesIterator({ calendarDate }));
 };
 
-export function splitRanges(ranges?: DateOptionPreset<Date>[]) {
+export function splitRanges<T extends Date | DateRange>(ranges?: DateOptionPreset<T | null>[]) {
   // The shortcut option on the left side of the calendar panel
-  const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
+  const sideRanges = ranges?.filter(range => range?.placement === 'left');
 
   // The shortcut option on the bottom of the calendar panel
-  const bottomRanges =
-    ranges?.filter(range => range?.placement === 'bottom' || range?.placement === undefined) || [];
+  const bottomRanges = ranges?.filter(
+    range => range?.placement === 'bottom' || range?.placement === undefined
+  );
 
   return {
     sideRanges,

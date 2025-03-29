@@ -50,6 +50,10 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`extra-footer.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

@@ -140,4 +140,117 @@ describe('useMediaQuery', () => {
     act(() => window.resizeTo(1400, 1000));
     expect(result.current).to.be.deep.equal([false, true, true, true, true, true, false]);
   });
+
+  // New test cases for enhanced breakpoint features
+  it('Should match the "Only" breakpoint conditions correctly', () => {
+    // Test mdOnly (768px to 991.99px)
+    act(() => window.resizeTo(767, 1000));
+    const { result: mdOnlyResult } = renderHook(() =>
+      useMediaQuery('(min-width: 768px) and (max-width: 991.99px)')
+    );
+    expect(mdOnlyResult.current).to.be.deep.equal([false]);
+
+    act(() => window.resizeTo(768, 1000));
+    expect(mdOnlyResult.current).to.be.deep.equal([true]);
+
+    act(() => window.resizeTo(991, 1000));
+    expect(mdOnlyResult.current).to.be.deep.equal([true]);
+
+    act(() => window.resizeTo(992, 1000));
+    expect(mdOnlyResult.current).to.be.deep.equal([false]);
+  });
+
+  it('Should match the "Down" breakpoint conditions correctly', () => {
+    // Test lgDown (max-width: 991.99px)
+    act(() => window.resizeTo(991, 1000));
+    const { result: lgDownResult } = renderHook(() => useMediaQuery('(max-width: 991.99px)'));
+    expect(lgDownResult.current).to.be.deep.equal([true]);
+
+    act(() => window.resizeTo(992, 1000));
+    expect(lgDownResult.current).to.be.deep.equal([false]);
+  });
+
+  it('Should match the range breakpoint conditions correctly', () => {
+    // Test smToLg (576px to 991.99px)
+    act(() => window.resizeTo(575, 1000));
+    const { result: smToLgResult } = renderHook(() =>
+      useMediaQuery('(min-width: 576px) and (max-width: 991.99px)')
+    );
+    expect(smToLgResult.current).to.be.deep.equal([false]);
+
+    act(() => window.resizeTo(576, 1000));
+    expect(smToLgResult.current).to.be.deep.equal([true]);
+
+    act(() => window.resizeTo(991, 1000));
+    expect(smToLgResult.current).to.be.deep.equal([true]);
+
+    act(() => window.resizeTo(992, 1000));
+    expect(smToLgResult.current).to.be.deep.equal([false]);
+  });
+
+  it('Should handle multiple enhanced breakpoint conditions', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result } = renderHook(() =>
+      useMediaQuery([
+        '(min-width: 768px) and (max-width: 991.99px)',
+        '(max-width: 991.99px)',
+        '(min-width: 576px) and (max-width: 991.99px)'
+      ])
+    );
+
+    expect(result.current).to.be.deep.equal([true, true, true]);
+
+    act(() => window.resizeTo(1200, 1000));
+    expect(result.current).to.be.deep.equal([false, false, false]);
+  });
+
+  it('Should handle non-existent breakpoint names gracefully', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result } = renderHook(() => useMediaQuery('nonExistentBreakpoint' as any));
+
+    // Should return false for non-existent breakpoint names
+    expect(result.current).to.be.deep.equal([false]);
+  });
+
+  // Test cases for the 'enabled' parameter
+  it('Should return false when enabled is set to false', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result } = renderHook(() => useMediaQuery('md', false));
+
+    // Should return false even though the media query would match
+    expect(result.current).to.be.deep.equal([false]);
+  });
+
+  it('Should not respond to screen size changes when disabled', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result } = renderHook(() => useMediaQuery('md', false));
+
+    expect(result.current).to.be.deep.equal([false]);
+
+    // Change window size to match a different breakpoint
+    act(() => window.resizeTo(1200, 1000));
+
+    // Should still return false despite window size change
+    expect(result.current).to.be.deep.equal([false]);
+  });
+
+  it('Should handle multiple queries when disabled', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result } = renderHook(() => useMediaQuery(['xs', 'sm', 'md', 'lg', 'xl'], false));
+
+    // Should return an array of false values with the same length as the query array
+    expect(result.current).to.be.deep.equal([false, false, false, false, false]);
+  });
+
+  it('Should respond to enabled prop changes', () => {
+    act(() => window.resizeTo(768, 1000));
+
+    // Test with enabled=true
+    const { result: enabledResult } = renderHook(() => useMediaQuery('md', true));
+    expect(enabledResult.current).to.be.deep.equal([true]);
+
+    // Test with enabled=false
+    const { result: disabledResult } = renderHook(() => useMediaQuery('md', false));
+    expect(disabledResult.current).to.be.deep.equal([false]);
+  });
 });

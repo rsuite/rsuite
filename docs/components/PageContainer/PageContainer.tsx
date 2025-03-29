@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import PageToolbar from '../PageToolbar';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
-import { Row, Col } from 'rsuite';
+import { Row, Col, Box } from 'rsuite';
 import { useApp } from '../AppContext';
 
 interface ContainerProps {
@@ -37,25 +37,28 @@ export default function PageContainer(props: ContainerProps) {
   return (
     <>
       <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
-        <Col md={24} xs={24} sm={24} className="main-container">
+        <Col span={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>
       </Row>
 
       <PageToolbar designHash={designHash} routerId={routerId} />
       {hidePageNav ? null : (
-        <PageNav
-          showOrderNumber={false}
-          width={150}
-          scrollBar="left"
-          rtl={rtl}
-          once={false}
-          deep={4}
-          offset={{
-            top: 80,
-            [rtl ? 'left' : 'right']: 10
-          }}
-        />
+        <Box showFrom="sm">
+          <PageNav
+            as={Col}
+            showOrderNumber={false}
+            width={150}
+            scrollBar="left"
+            rtl={rtl}
+            once={false}
+            deep={4}
+            offset={{
+              top: 80,
+              [rtl ? 'left' : 'right']: 10
+            }}
+          />
+        </Box>
       )}
     </>
   );

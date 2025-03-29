@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementContainer from '@/components/PlacementContainer';
+import Simulation from '@/components/Simulation';
 import {
   SelectPicker,
   CheckPicker,
@@ -30,7 +31,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['CheckPicker']} />
+  'import-guide': () => <ImportGuide components={['CheckPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="check-picker" />
 };
 
 export default function Page() {

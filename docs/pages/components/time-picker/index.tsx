@@ -2,9 +2,11 @@ import React from 'react';
 import { TimePicker, Stack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TimePicker']} />
+  'import-guide': () => <ImportGuide components={['TimePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="time-picker" />
 };
 
 export default function Page() {

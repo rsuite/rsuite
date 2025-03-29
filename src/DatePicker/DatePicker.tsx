@@ -12,6 +12,7 @@ import InputGroup from '../InputGroup';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
+import Box from '@/internals/Box';
 import { useCalendarDate } from '../Calendar/hooks';
 import { isEveryDateInMonth } from '../Calendar/utils';
 import {
@@ -132,7 +133,7 @@ export interface DatePickerProps
   /**
    * Predefined date Ranges
    */
-  ranges?: DateOptionPreset<Date>[];
+  ranges?: DateOptionPreset<Date | null>[];
 
   /**
    * Whether to show week numbers
@@ -573,8 +574,8 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
         target={trigger}
         onKeyDown={handlePickerPopupKeyDown}
       >
-        <Stack align="flex-start">
-          {sideRanges.length > 0 && (
+        <Stack align="flex-start" h="100%">
+          {sideRanges && sideRanges.length > 0 && (
             <PredefinedRanges
               direction="column"
               spacing={0}
@@ -587,7 +588,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
             />
           )}
 
-          <Stack.Item>
+          <Box className={prefix('box')}>
             <CalendarContainer
               {...calendarProps}
               targetId={id}
@@ -624,7 +625,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
               onOk={handleOK}
               hideOkBtn={oneTap}
             />
-          </Stack.Item>
+          </Box>
         </Stack>
       </PickerPopup>
     );

@@ -1,4 +1,7 @@
 import React from 'react';
+import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 import {
   DatePicker,
   Button,
@@ -20,11 +23,10 @@ import {
   FaClock
 } from 'react-icons/fa';
 import { BsCalendar2MonthFill } from 'react-icons/bs';
-import DefaultPage from '@/components/Page';
-import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['DatePicker']} />
+  'import-guide': () => <ImportGuide components={['DatePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="date-picker" />
 };
 
 export default function Page() {

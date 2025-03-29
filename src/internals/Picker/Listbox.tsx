@@ -22,7 +22,7 @@ import {
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
 import { useStyles, useMount, useEventCallback } from '../hooks';
-import { shallowEqual, mergeRefs } from '@/internals/utils';
+import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import type {
   StandardProps,
@@ -140,9 +140,13 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       ...rest
     } = props;
 
-    const { withPrefix, prefix, merge, rootPrefix } = useStyles(classPrefix);
+    const { prefix, merge, rootPrefix } = useStyles(classPrefix);
     const groupable = typeof groupBy !== 'undefined';
-    const classes = merge(className, withPrefix('items', { grouped: groupable }));
+    const classes = merge(
+      className,
+      rootPrefix('picker-listbox'),
+      prefix('items', { grouped: groupable })
+    );
     const { id, labelId, popupType, multiple } = useCombobox();
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
@@ -294,16 +298,18 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       listRef.current?.scrollToItem?.(itemIndex);
     });
 
+    const styles = mergeStyles(style, { '--rs-picker-listbox-max-height': getCssValue(maxHeight) });
+
     return (
       <div
         role="listbox"
         id={`${id}-${popupType}`}
         aria-labelledby={labelId}
         aria-multiselectable={multiple}
-        {...rest}
         className={classes}
         ref={mergeRefs(menuBodyContainerRef, ref)}
-        style={{ ...style, maxHeight }}
+        style={styles}
+        {...rest}
       >
         {virtualized ? (
           <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>

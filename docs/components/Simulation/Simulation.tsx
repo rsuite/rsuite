@@ -88,7 +88,7 @@ const Simulation: React.FC<SimulationProps> = ({
 
   return (
     <div className="rs-simulation">
-      <HStack justifyContent="space-between" alignItems="flex-start">
+      <HStack justify="space-between" align="flex-start">
         <Tabs appearance="pills" activeKey={device} onSelect={handleChangeDevice}>
           <Tabs.Tab
             eventKey="desktop"

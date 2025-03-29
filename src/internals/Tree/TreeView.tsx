@@ -3,7 +3,7 @@ import useCombobox from '../Picker/hooks/useCombobox';
 import ScrollView, { ScrollViewProps } from '../ScrollView';
 import Box, { BoxProps } from '@/internals/Box';
 import { useTreeContextProps } from './TreeProvider';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 
 interface TreeViewProps extends BoxProps, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
@@ -32,7 +32,9 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   const treeAs = scrollShadow && !virtualized ? ScrollShadowView : as;
 
   // If the tree is virtualized, the height is not needed.
-  const viewStyles = { height: virtualized ? undefined : height, ...style };
+  const viewStyles = mergeStyles(style, {
+    '--rs-tree-view-height': virtualized ? undefined : getCssValue(height)
+  });
 
   return (
     <Box

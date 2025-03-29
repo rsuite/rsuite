@@ -44,11 +44,17 @@
 
 <!--{include:`controlled.md`}-->
 
+## 响应式
+
+在小屏幕设备上，选择列表将被转换为弹出式选择器。 为了不影响组件的搜索功能，只有在设置 `searchable={false}` 时，才会生效。
+
+<!--{include:<example-responsive>}-->
+
 ## 可访问性
 
 ### ARIA 属性
 
-- SelectPicker 组件的 `role` 属性为 `combobox`。
+- InputPicker 组件的 `role` 属性为 `combobox`。
 - 有 `aria-haspopup="listbox"` 属性来指示 combobox 有一个弹出的列表框。
 - 有 `aria-expanded` 属性来指示列表框是否打开。
 - 有 `aria-controls` 属性来指示列表框元素的 ID。

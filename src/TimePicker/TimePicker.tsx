@@ -104,7 +104,7 @@ const TimePicker = forwardRef<'div', TimePickerProps>((props, ref) => {
   const { propsWithDefaults, getLocale } = useCustom('TimePicker', props);
   const locale = getLocale('DateTimeFormats');
 
-  const defaultRanges: DateOptionPreset<Date>[] = useMemo(
+  const defaultRanges: DateOptionPreset<Date | null>[] = useMemo(
     () => [{ label: locale?.now, value: () => new Date() }],
     [locale]
   );

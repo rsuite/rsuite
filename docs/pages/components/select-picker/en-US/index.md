@@ -79,6 +79,10 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`infinite-loader.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

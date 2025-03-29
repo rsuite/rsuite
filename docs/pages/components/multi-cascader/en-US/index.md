@@ -60,6 +60,10 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 <!--{include:`container.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

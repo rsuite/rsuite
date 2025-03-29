@@ -492,6 +492,14 @@ describe('DateRangePicker', () => {
     expect(btnOk).to.have.property('disabled', false);
   });
 
+  it('Should render default shortcut buttons', () => {
+    render(<DateRangePicker defaultOpen />);
+
+    expect(screen.getByRole('button', { name: 'Today' })).to.be.visible;
+    expect(screen.getByRole('button', { name: 'Yesterday' })).to.be.visible;
+    expect(screen.getByRole('button', { name: 'Last 7 Days' })).to.be.visible;
+  });
+
   it('Should close picker after predefined range is clicked', async () => {
     const onClose = sinon.spy();
     const onChange = sinon.spy();

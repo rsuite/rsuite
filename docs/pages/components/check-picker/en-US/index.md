@@ -79,6 +79,10 @@ Customize a select all function.
 
 <!--{include:`virtualized.md`}-->
 
+## Responsive
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
 ### ARIA properties

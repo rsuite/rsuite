@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, CSSProperties } from 'react';
-import StyledBox from '@/internals/StyledBox';
+import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
 import { useStyles } from '@/internals/hooks';
@@ -7,14 +7,12 @@ import { forwardRef } from '@/internals/utils';
 import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
 import { useCustom } from '../CustomProvider';
 import type { BoxProps } from '@/internals/Box';
-import type { ColorScheme, Size } from '@/internals/types';
+import type { ColorScheme } from '@/internals/types';
 export interface AvatarProps extends BoxProps {
   /**
    * A avatar can have different sizes.
-   *
-   * @default 'md'
    */
-  size?: Size;
+  size?: StyledBoxProps['size'];
 
   /**
    * The `src` attribute for the `img` element.
