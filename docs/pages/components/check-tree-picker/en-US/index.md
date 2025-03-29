@@ -30,7 +30,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`show-indent-line.md`}-->
 
-### Placement
+### Placement and prevent overflow
 
 <!--{include:`placement.md`}-->
 

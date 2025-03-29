@@ -40,8 +40,6 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 <!--{include:`placement.md`}-->
 
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
-
 ### Custom options
 
 <!--{include:`custom.md`}-->

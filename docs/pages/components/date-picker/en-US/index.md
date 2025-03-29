@@ -82,8 +82,6 @@ The calendar panel can be displayed in different week start days via the `weekSt
 
 <!--{include:`placement.md`}-->
 
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
-
 ### Custom short options
 
 Clicking "Prev Day" in the example does not close the picker layer because the `closeOverlay=false` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.

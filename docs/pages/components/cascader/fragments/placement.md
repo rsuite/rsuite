@@ -3,6 +3,7 @@
 ```js
 import { Cascader } from 'rsuite';
 import { mockTreeData } from './mock';
+import PlacementContainer from '@/components/PlacementContainer';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -12,16 +13,23 @@ const data = mockTreeData({
   }
 });
 
-const CustomCascader = ({ placement }) => (
-  <Cascader data={data} placement={placement} placeholder={placement} />
-);
+const App = () => {
+  return (
+    <PlacementContainer>
+      {({ container, placement, preventOverflow }) => (
+        <Cascader
+          w={224}
+          preventOverflow={preventOverflow}
+          data={data}
+          placement={placement}
+          container={preventOverflow ? container : undefined}
+          placeholder={`Will pop from ${placement}`}
+        />
+      )}
+    </PlacementContainer>
+  );
+};
 
-const App = () => (
-  <>
-    <CustomCascader placement="topStart" /> <CustomCascader placement="bottomStart" />{' '}
-    <CustomCascader placement="autoVerticalStart" />
-  </>
-);
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

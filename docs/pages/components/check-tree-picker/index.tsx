@@ -3,6 +3,7 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
 import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
 import {
   importFakerString,
@@ -42,7 +43,8 @@ export default function Page() {
         Loader,
         Box,
         mockTreeData,
-        mockAsyncData
+        mockAsyncData,
+        PlacementContainer
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}

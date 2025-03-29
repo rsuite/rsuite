@@ -1,7 +1,9 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
 import {
+  SelectPicker,
   CheckPicker,
   Button,
   Checkbox,
@@ -10,6 +12,8 @@ import {
   VStack,
   HStack,
   Loader,
+  Toggle,
+  Divider,
   Box
 } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
@@ -37,15 +41,19 @@ export default function Page() {
       sandboxFiles={[mockfile]}
       dependencies={{
         mockUsers,
+        PlacementContainer,
         Box,
         VStack,
         HStack,
+        Toggle,
+        SelectPicker,
         CheckPicker,
         Button,
         Checkbox,
         RadioGroup,
         Radio,
         Loader,
+        Divider,
         FaUserGroup,
         FaUser
       }}

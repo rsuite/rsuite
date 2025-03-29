@@ -43,8 +43,6 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`placement.md`}-->
 
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
-
 ### Custom options
 
 <!--{include:`custom.md`}-->
