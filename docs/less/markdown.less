@@ -173,12 +173,18 @@ code:not(.rcv-highlight) {
 
       td,
       th {
-        display: flex;
         padding: 10px 8px;
         border: none;
         background: none;
-        word-break: break-all;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
         position: relative;
+
+        code {
+          word-break: keep-all;
+          overflow-wrap: break-word;
+        }
 
         &:before {
           content: attr(data-label);
