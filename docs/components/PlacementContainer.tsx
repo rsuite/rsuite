@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PlacementPicker from '@/components/PlacementPicker';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';
-import { Toggle, HStack, HStackProps, VStack, Divider, Message } from 'rsuite';
+import { Toggle, HStack, HStackProps, VStack, Divider, Message, useMediaQuery } from 'rsuite';
 
 interface ChildrenProps {
   placement: string;
@@ -13,13 +13,20 @@ interface PlacementContainerProps extends Omit<HStackProps, 'children'> {
   children: (props: ChildrenProps) => React.ReactNode;
 }
 
-const PlacementContainer = (props: PlacementContainerProps) => {
+export const PlacementContainer = (props: PlacementContainerProps) => {
   const { children, h = 400, ...rest } = props;
+  const [isMobile] = useMediaQuery('xs');
   const [placement, setPlacement] = useState('bottomStart');
   const [preventOverflow, setPreventOverflow] = useState(true);
 
   return (
-    <HStack divider={<Divider vertical />} h={h} align="start" {...rest}>
+    <HStack
+      divider={<Divider vertical={!isMobile} />}
+      h={isMobile ? 'auto' : h}
+      align="start"
+      wrap
+      {...rest}
+    >
       <PreventOverflowContainer>
         {container => children({ placement, preventOverflow, container })}
       </PreventOverflowContainer>

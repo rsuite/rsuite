@@ -78,7 +78,7 @@ The calendar panel can be displayed in different week start days via the `weekSt
 
 <!--{include:`intl.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
 

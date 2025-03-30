@@ -45,7 +45,7 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`group.md`}-->
 
-### Placement and prevent overflow
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
 

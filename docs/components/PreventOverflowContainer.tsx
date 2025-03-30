@@ -6,7 +6,8 @@ const containerStyle: CSSProperties = {
   overflow: 'auto',
   position: 'relative',
   flex: 1,
-  backgroundColor: 'rgba(0, 0, 0, 0.1)'
+  backgroundColor: 'rgba(0, 0, 0, 0.1)',
+  minWidth: 200
 };
 
 const contentStyle: CSSProperties = {

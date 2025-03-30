@@ -39,7 +39,7 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`group.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
 
@@ -62,10 +62,6 @@ Clicking a loading picker won't open its options menu.
 ### Async
 
 <!--{include:`async.md`}-->
-
-### Container and prevent overflow
-
-<!--{include:`container.md`}-->
 
 ### Controlled
 

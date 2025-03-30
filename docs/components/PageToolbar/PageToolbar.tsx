@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ButtonToolbar, Tooltip, Whisper, Dropdown, IconButton } from 'rsuite';
+import { ButtonToolbar, Tooltip, Whisper, Menu, IconButton, Button, Popover } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
 import { useApp } from '../AppContext';
 import LanguageButton from '../LanguageButton';
@@ -42,14 +42,29 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
         href="https://opencollective.com/rsuite"
         target="_blank"
       />
-      <Dropdown title={packageJson.version} size="sm">
-        {versions.map(version => (
-          <Dropdown.Item key={version.id} as="a" href={version.url}>
-            {version.name}
-          </Dropdown.Item>
-        ))}
-      </Dropdown>
-      <Whisper placement="bottom" speaker={<Tooltip>{locales?.common?.changeLanguage}</Tooltip>}>
+      <Whisper
+        placement="autoVertical"
+        trigger="click"
+        speaker={({ className }, ref) => {
+          return (
+            <Popover ref={ref} className={className} full>
+              <Menu>
+                {versions.map(version => (
+                  <Menu.Item key={version.id} as="a" href={version.url}>
+                    {version.name}
+                  </Menu.Item>
+                ))}
+              </Menu>
+            </Popover>
+          );
+        }}
+      >
+        <Button size="sm">{packageJson.version}</Button>
+      </Whisper>
+      <Whisper
+        placement="autoVertical"
+        speaker={<Tooltip>{locales?.common?.changeLanguage}</Tooltip>}
+      >
         <LanguageButton />
       </Whisper>
 

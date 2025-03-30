@@ -36,7 +36,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 <!--{include:`block.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
 
@@ -55,10 +55,6 @@ The `MultiCascader` component is used to select multiple values from cascading o
 ### Async
 
 <!--{include:`async.md`}-->
-
-### Container and prevent overflow
-
-<!--{include:`container.md`}-->
 
 ## Responsive
 

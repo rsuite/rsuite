@@ -1,10 +1,11 @@
 import React from 'react';
-import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack, Box } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import Simulation from '@/components/Simulation';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
+import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack, Box } from 'rsuite';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
-import Simulation from '@/components/Simulation';
 
 const mockfile = {
   name: 'mock.js',
@@ -36,6 +37,7 @@ export default function Page() {
         VStack,
         HStack,
         Box,
+        PlacementContainer,
         FaUserGroup,
         FaUser
       }}

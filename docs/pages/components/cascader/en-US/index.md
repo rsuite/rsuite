@@ -24,7 +24,7 @@ The `Cascader` component displays a hierarchical list of options.
 
 <!--{include:`block.md`}-->
 
-### Placement and prevent overflow
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
 

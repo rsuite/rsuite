@@ -66,6 +66,17 @@
     }
   }
 
+  &-bordered {
+    border: 1px solid var(--rs-message-border-color);
+    border-left-width: 4px;
+
+    .rs-message-icon {
+      box-sizing: content-box;
+      border: 4px solid var(--rs-message-icon-border-color);
+      border-radius: 50%;
+    }
+  }
+
   &&-centered {
     --rs-message-icon-size: var(--rs-font-size-5xl);
 

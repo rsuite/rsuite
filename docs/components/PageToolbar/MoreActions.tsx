@@ -32,7 +32,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
 
   return (
     <Whisper
-      placement="bottomEnd"
+      placement="autoVerticalEnd"
       trigger="click"
       speaker={({ onClose, left, top, className }, ref) => (
         <Popover ref={ref} className={className} style={{ left, top, width: '200px' }} full>

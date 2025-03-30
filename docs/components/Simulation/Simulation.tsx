@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import FakeBrowser from '../FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
 import hljs from 'highlight.js';
-import { Tabs, HStack, IconButton, Loader, Divider } from 'rsuite';
+import { Tabs, HStack, IconButton, Loader, Divider, Message, useMediaQuery } from 'rsuite';
 import { useApp } from '../AppContext';
 import {
   IoDesktopOutline,
@@ -38,6 +38,7 @@ const Simulation: React.FC<SimulationProps> = ({
   const { locales } = useApp();
   const codeRef = useRef<HTMLElement>(null);
   const exampleUrl = `/components/${componentName}/examples?example=${example}`;
+  const [isMobile] = useMediaQuery('xs');
 
   const getDeviceDimensions = () => {
     switch (device) {
@@ -85,6 +86,14 @@ const Simulation: React.FC<SimulationProps> = ({
 
     setDevice(key as Device);
   };
+
+  if (isMobile) {
+    return (
+      <Message type="warning" showIcon bordered>
+        Please preview on a computer
+      </Message>
+    );
+  }
 
   return (
     <div className="rs-simulation">

@@ -59,8 +59,8 @@ const App = () => {
 
       <hr />
       <PlacementGrid
-        renderCell={({ placement, button }) => (
-          <EventTrigger placement={placement} loading={loading}>
+        renderCell={({ placement, button, key }) => (
+          <EventTrigger key={key} placement={placement} loading={loading}>
             {button}
           </EventTrigger>
         )}

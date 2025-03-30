@@ -139,3 +139,69 @@ code:not(.rcv-highlight) {
     }
   }
 }
+
+@media (max-width: @media-xs) {
+  .rcv-markdown {
+    table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+      tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid var(--rs-border-primary);
+        padding: 8px;
+        position: relative;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:nth-child(2n) {
+          background-color: var(--rs-bg-well);
+        }
+      }
+
+      thead {
+        display: none;
+      }
+
+      td,
+      th {
+        display: flex;
+        padding: 10px 8px;
+        border: none;
+        background: none;
+        word-break: break-all;
+        position: relative;
+
+        &:before {
+          content: attr(data-label);
+          font-weight: bold;
+          margin-right: 8px;
+          min-width: 120px;
+          display: none; /* Hidden by default, can be enabled with JS */
+        }
+
+        &:first-child {
+          font-weight: bold;
+          font-size: 1.05em;
+          border-bottom: 1px dashed var(--rs-border-primary);
+          margin-bottom: 4px;
+          padding-bottom: 8px;
+        }
+
+        &:not(:first-child) {
+          padding-left: 12px;
+          border-left: 2px solid var(--rs-state-info);
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+}
