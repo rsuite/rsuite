@@ -5,7 +5,7 @@ import { Badge, Avatar, HStack } from 'rsuite';
 
 const App = () => (
   <>
-    <HStack spacing={10}>
+    <HStack spacing={10} wrap>
       <Badge color="red" content={6}>
         <Avatar />
       </Badge>
@@ -32,7 +32,7 @@ const App = () => (
       </Badge>
     </HStack>
     <hr />
-    <HStack spacing={10}>
+    <HStack spacing={10} wrap>
       <Badge color="red" content="red" />
       <Badge color="orange" content="orange" />
       <Badge color="yellow" content="yellow" />

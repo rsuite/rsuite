@@ -114,6 +114,21 @@ describe('Box', () => {
     expect(getStyle(box, '--rs-box-h')).to.equal('100px');
   });
 
+  // Min/Max size tests
+  it('Should render with min/max width and height props', () => {
+    render(
+      <Box minw="100px" maxw="300px" minh="50px" maxh="150px">
+        Content
+      </Box>
+    );
+    const box = screen.getByText('Content');
+
+    expect(getStyle(box, '--rs-box-minw')).to.equal('100px');
+    expect(getStyle(box, '--rs-box-maxw')).to.equal('300px');
+    expect(getStyle(box, '--rs-box-minh')).to.equal('50px');
+    expect(getStyle(box, '--rs-box-maxh')).to.equal('150px');
+  });
+
   // Color tests
   it('Should render with color prop', () => {
     render(<Box c="red">Content</Box>);

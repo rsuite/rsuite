@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
-import { Grid, Row, Col, HStack, VStack, Slider, RadioGroup, Radio, Center } from 'rsuite';
+import { Grid, Row, Col, HStack, Slider, Center, SelectPicker } from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Grid', 'Row', 'Col']} />,
@@ -18,11 +18,9 @@ export default function Page() {
         Row,
         Col,
         HStack,
-        VStack,
         Slider,
-        RadioGroup,
-        Radio,
-        Center
+        Center,
+        SelectPicker
       }}
     />
   );

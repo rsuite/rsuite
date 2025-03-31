@@ -30,6 +30,7 @@ Box 组件是所有组件的基础组件，为样式属性提供了简写方式�
 
 | 属性      | 类型`(默认值)`                                | 描述                                           |
 | --------- | --------------------------------------------- | ---------------------------------------------- |
+| ...       | [Style Shorthand](#code-style-shorthand-code) | 其他样式简写属性                               |
 | as        | ElementType `('div')`                         | 自定义元素类型                                 |
 | children  | ReactNode                                     | 组件的内容                                     |
 | className | string                                        | 额外的 CSS 类                                  |
@@ -37,7 +38,6 @@ Box 组件是所有组件的基础组件，为样式属性提供了简写方式�
 | hideFrom  | [Breakpoints][breakpoints]                    | 在指定断点以上隐藏组件（使用 `display: none`） |
 | showFrom  | [Breakpoints][breakpoints]                    | 在指定断点以下显示组件（使用 `display: none`） |
 | style     | CSSProperties                                 | 内联样式                                       |
-| ...       | [Style Shorthand](#code-style-shorthand-code) | 其他样式简写属性                               |
 
 ### `Style Shorthand`
 
@@ -48,7 +48,11 @@ Box 组件是所有组件的基础组件，为样式属性提供了简写方式�
 | c       | [ColorScheme][color-scheme] \| CSSProperties['color']      | 文本颜色。支持主题颜色（例如：'blue.600'）       |
 | h       | CSSProperties['height']                                    | 盒子的高度                                       |
 | m       | CSSProperties['margin']                                    | 四周外边距                                       |
+| maxh    | CSSProperties['maxHeight']                                 | 盒子的最大高度                                   |
+| maxw    | CSSProperties['maxWidth']                                  | 盒子的最大宽度                                   |
 | mb      | CSSProperties['marginBottom']                              | 底部外边距                                       |
+| minh    | CSSProperties['minHeight']                                 | 盒子的最小高度                                   |
+| minw    | CSSProperties['minWidth']                                  | 盒子的最小宽度                                   |
 | ml      | CSSProperties['marginLeft']                                | 左侧外边距                                       |
 | mr      | CSSProperties['marginRight']                               | 右侧外边距                                       |
 | mt      | CSSProperties['marginTop']                                 | 顶部外边距                                       |

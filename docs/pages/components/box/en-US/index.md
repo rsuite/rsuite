@@ -34,6 +34,7 @@ Box component is the base component for all components, providing shorthand for 
 
 | Property  | Type`(default)`                               | Description                                                         |
 | --------- | --------------------------------------------- | ------------------------------------------------------------------- |
+| ...       | [Style Shorthand](#code-style-shorthand-code) | Other style shorthand properties                                    |
 | as        | ElementType `('div')`                         | Custom element type for the component                               |
 | children  | ReactNode                                     | The content of the component                                        |
 | className | string                                        | Additional CSS class                                                |
@@ -41,7 +42,6 @@ Box component is the base component for all components, providing shorthand for 
 | hideFrom  | [Breakpoints][breakpoints]                    | Breakpoint above which the component is hidden with `display: none` |
 | showFrom  | [Breakpoints][breakpoints]                    | Breakpoint below which the component is hidden with `display: none` |
 | style     | CSSProperties                                 | Inline style                                                        |
-| ...       | [Style Shorthand](#code-style-shorthand-code) | Other style shorthand properties                                    |
 
 ### `Style Shorthand`
 
@@ -52,7 +52,11 @@ Box component is the base component for all components, providing shorthand for 
 | c        | [ColorScheme][color-scheme] \| CSSProperties['color']      | Text color of the box. Supports theme colors (e.g., 'blue.600')       |
 | h        | CSSProperties['height']                                    | Height of the box                                                     |
 | m        | CSSProperties['margin']                                    | Margin on all sides                                                   |
+| maxh     | CSSProperties['maxHeight']                                 | Maximum height of the box                                             |
+| maxw     | CSSProperties['maxWidth']                                  | Maximum width of the box                                              |
 | mb       | CSSProperties['marginBottom']                              | Margin bottom                                                         |
+| minh     | CSSProperties['minHeight']                                 | Minimum height of the box                                             |
+| minw     | CSSProperties['minWidth']                                  | Minimum width of the box                                              |
 | ml       | CSSProperties['marginLeft']                                | Margin left                                                           |
 | mr       | CSSProperties['marginRight']                               | Margin right                                                          |
 | mt       | CSSProperties['marginTop']                                 | Margin top                                                            |

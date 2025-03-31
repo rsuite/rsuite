@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Row, Col, Divider, Center } from 'rsuite';
+import { Row, Col, Center, HStack, SelectPicker } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (
   <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
@@ -15,22 +15,34 @@ const App = () => {
 
   return (
     <>
-      <VStack>
-        <RadioGroup name="justify" appearance="picker" inline value={justify} onChange={setJustify}>
-          <label>justify: </label>
-          <Radio value="start">start</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="end">end</Radio>
-          <Radio value="space-around">space-around</Radio>
-          <Radio value="space-between">space-between</Radio>
-        </RadioGroup>
-        <RadioGroup name="align" appearance="picker" inline value={align} onChange={setAlign}>
-          <label>align: </label>
-          <Radio value="top">top</Radio>
-          <Radio value="middle">middle</Radio>
-          <Radio value="bottom">bottom</Radio>
-        </RadioGroup>
-      </VStack>
+      <HStack wrap>
+        <SelectPicker
+          data={[
+            { value: 'start', label: 'start' },
+            { value: 'center', label: 'center' },
+            { value: 'end', label: 'end' },
+            { value: 'space-around', label: 'space-around' },
+            { value: 'space-between', label: 'space-between' }
+          ]}
+          label="justify"
+          searchable={false}
+          cleanable={false}
+          value={justify}
+          onChange={setJustify}
+        />
+        <SelectPicker
+          data={[
+            { value: 'top', label: 'top' },
+            { value: 'middle', label: 'middle' },
+            { value: 'bottom', label: 'bottom' }
+          ]}
+          label="align"
+          searchable={false}
+          cleanable={false}
+          value={align}
+          onChange={setAlign}
+        />
+      </HStack>
       <hr />
       <Row align={align} justify={justify}>
         <Col xs={6}>

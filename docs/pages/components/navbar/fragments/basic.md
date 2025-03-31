@@ -6,10 +6,10 @@ import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
 const App = () => (
   <Navbar>
-    <Navbar.Content>
-      <Navbar.Brand href="#">
-        <IoLogoReact size={26} /> Brand
-      </Navbar.Brand>
+    <Navbar.Brand href="#">
+      <IoLogoReact size={26} /> Brand
+    </Navbar.Brand>
+    <Navbar.Content showFrom="xs">
       <Nav>
         <Nav.Item>Docs</Nav.Item>
         <Nav.Item>Components</Nav.Item>
