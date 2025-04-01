@@ -37,7 +37,7 @@ import {
 import { VscLock, VscWorkspaceTrusted, VscRepo } from 'react-icons/vsc';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
-import Header from './Header';
+import Header from '../Header';
 
 const Brand = ({ expand, ...rest }) => {
   return (

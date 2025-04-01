@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ColorPicker from '@/components/ColorPicker';
 import ThemeGroup from '@/components/ThemeGroup';
-import AdminFrame from './components/AdminFrame/AdminFrame';
+import AdminFrame from '@/components/resources/palette/AdminFrame/AdminFrame';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/layout/Page';
 import FakeBrowser from '@/components/FakeBrowser';

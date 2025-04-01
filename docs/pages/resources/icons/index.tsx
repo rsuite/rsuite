@@ -3,7 +3,7 @@ import React from 'react';
 import { Row, Col } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
 import { useApp } from '@/hooks/useApp';
-import IconList from './components/IconList';
+import IconList from '@/components/resources/icons/IconList';
 import DefaultPage from '@/components/layout/Page';
 
 export default function Page() {

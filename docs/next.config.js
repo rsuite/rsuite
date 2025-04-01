@@ -42,13 +42,13 @@ module.exports = {
   experimental: {
     externalDir: true
   },
-  // Exclude example pages from static generation
+  // Exclude example pages and _components directory from static generation
   exportPathMap: async function (defaultPathMap) {
     const pathMap = { ...defaultPathMap };
 
     // Remove example pages from static generation
     Object.keys(pathMap).forEach(path => {
-      if (path.includes('/examples/')) {
+      if (path.includes('/examples/') || path.includes('/_components/')) {
         delete pathMap[path];
       }
     });
@@ -61,7 +61,6 @@ module.exports = {
    * @param {{ isServer: boolean }}
    */
   webpack(config, { isServer }) {
-
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import usePages, { type MenuItem } from '@/hooks/usePages';
 import DefaultPage from '@/components/layout/Page';
-import CategorizedList from './components/CategorizedList';
-import SortedList from './components/SortedList';
 import SearchIcon from '@rsuite/icons/Search';
+import { CategorizedList } from '@/components/overview/CategorizedList';
+import { SortedList } from '@/components/overview/SortedList';
 import { useApp } from '@/hooks/useApp';
 import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';

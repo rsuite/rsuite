@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SupportVersion = ({ minVersion }: { minVersion: string }) => {
+export const SupportVersion = ({ minVersion }: { minVersion: string }) => {
   return (
     <img
       src={`https://img.shields.io/badge/version->=${minVersion}-blue`}
@@ -10,5 +10,3 @@ const SupportVersion = ({ minVersion }: { minVersion: string }) => {
     />
   );
 };
-
-export default SupportVersion;

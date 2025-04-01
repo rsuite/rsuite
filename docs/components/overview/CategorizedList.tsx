@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from '@/components/Link';
-import SupportVersion from './SupportVersion';
+import { SupportVersion } from './SupportVersion';
 import { Heading, HStack, VStack, Tag } from 'rsuite';
 
 const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
@@ -14,7 +14,7 @@ interface CategorizedListProps {
   language: string;
 }
 
-const CategorizedList = React.forwardRef(function CategorizedList(
+export const CategorizedList = React.forwardRef(function CategorizedList(
   props: CategorizedListProps,
   ref: React.Ref<HTMLDivElement>
 ) {
@@ -73,5 +73,3 @@ const CategorizedList = React.forwardRef(function CategorizedList(
     </div>
   );
 });
-
-export default CategorizedList;

@@ -49,7 +49,7 @@ function getSortedComponents(components): SortedObject {
   return categorizedList;
 }
 
-const SortedList = React.forwardRef(function SortedList(
+export const SortedList = React.forwardRef(function SortedList(
   props: SortedListProps,
   ref: React.Ref<HTMLDivElement>
 ) {
@@ -77,5 +77,3 @@ const SortedList = React.forwardRef(function SortedList(
     </div>
   );
 });
-
-export default SortedList;
