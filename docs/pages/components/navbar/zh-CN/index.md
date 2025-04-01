@@ -22,9 +22,9 @@
 
 `appearance` 属性设置导航栏外观:
 
-- 'default'(默认值) 默认导航栏。
-- 'inverse' 反色的导航栏。
-- 'subtle' 弱化的导航栏。
+- `default` (默认值) 默认导航栏。
+- `inverse` 反色的导航栏。
+- `subtle` 弱化的导航栏。
 
 <!--{include:`appearance.md`}-->
 
@@ -43,6 +43,10 @@
 ### 带抽屉菜单
 
 <!--{include:`with-drawer.md`}-->
+
+### 带 Popover 菜单
+
+<!--{include:`with-popover.md`}-->
 
 ## 响应式
 

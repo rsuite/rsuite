@@ -23,11 +23,7 @@ import {
   IconButton,
   Avatar,
   Drawer,
-  Grid,
-  Row,
-  Col,
   Panel,
-  Card,
   Container,
   Header,
   Sidenav,
@@ -35,8 +31,9 @@ import {
   Content,
   Footer,
   Box,
-  Placeholder,
-  useMediaQuery
+  Whisper,
+  Popover,
+  Placeholder
 } from 'rsuite';
 
 import {
@@ -80,11 +77,7 @@ export default function Page() {
         Avatar,
         Drawer,
         SearchIcon,
-        Grid,
-        Row,
-        Col,
         Panel,
-        Card,
         Menu,
         MenuIcon,
         PageIcon,
@@ -99,7 +92,8 @@ export default function Page() {
         Sidebar,
         Sidenav,
         Placeholder,
-        useMediaQuery,
+        Whisper,
+        Popover,
         IoLogoReact,
         IoLanguage,
         IoNotifications,

@@ -6,7 +6,7 @@ import { IoLogoReact } from 'react-icons/io5';
 import SearchIcon from '@rsuite/icons/Search';
 
 const Searchbox = () => (
-  <InputGroup inside>
+  <InputGroup inside showFrom="xs">
     <InputGroup.Addon>
       <SearchIcon />
     </InputGroup.Addon>
@@ -14,17 +14,26 @@ const Searchbox = () => (
   </InputGroup>
 );
 
+const Brand = () => (
+  <Navbar.Brand href="#">
+    <IoLogoReact size={26} /> Brand
+  </Navbar.Brand>
+);
+
 const App = () => (
   <Navbar>
-    <Navbar.Content>
-      <Navbar.Brand href="#">
-        <IoLogoReact size={26} /> Brand
-      </Navbar.Brand>
+    <Navbar.Content showFrom="xs">
+      <Brand />
       <Nav>
         <Nav.Item>Docs</Nav.Item>
         <Nav.Item>Components</Nav.Item>
         <Nav.Item>Tools</Nav.Item>
       </Nav>
+    </Navbar.Content>
+
+    <Navbar.Content hideFrom="xs">
+      <Navbar.Toggle />
+      <Brand />
     </Navbar.Content>
 
     <Navbar.Content>

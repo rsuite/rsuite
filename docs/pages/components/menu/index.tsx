@@ -6,7 +6,7 @@ import PageIcon from '@rsuite/icons/Page';
 import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
-import { Menu } from 'rsuite';
+import { Menu, Popover, Whisper, Button } from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Menu']} />
@@ -21,7 +21,10 @@ export default function Page() {
         IdInfoIcon,
         DetailIcon,
         FileDownloadIcon,
+        Button,
         Menu,
+        Popover,
+        Whisper,
         Link
       }}
     />

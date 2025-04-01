@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav, Avatar, Text, Badge, IconButton } from 'rsuite';
+import { Navbar, Nav, Avatar, Badge, IconButton, Whisper, Popover, Menu } from 'rsuite';
 import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
 const Brand = () => (
@@ -27,13 +27,23 @@ const App = () => (
     </Navbar.Content>
 
     <Navbar.Content>
-      <Badge content={6} shape="circle">
-        <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="sm" />
-      </Badge>
-      <HStack>
+      <Whisper
+        trigger="click"
+        placement="bottomEnd"
+        speaker={
+          <Popover full>
+            <Menu>
+              <Menu.Item>Profile</Menu.Item>
+              <Menu.Item>Settings</Menu.Item>
+              <Menu.Item>Notifications</Menu.Item>
+              <Menu.Separator />
+              <Menu.Item>Sign out</Menu.Item>
+            </Menu>
+          </Popover>
+        }
+      >
         <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
-        <Text showFrom="xs">John Doe</Text>
-      </HStack>
+      </Whisper>
     </Navbar.Content>
   </Navbar>
 );

@@ -72,10 +72,6 @@ You can disable the entire component or disable individual options by configurin
 
 <!--{include:`custom-toggle.md`}-->
 
-### Used with Popover
-
-<!--{include:`with-popover.md`}-->
-
 ### Used with Buttons
 
 <!--{include:`buttons.md`}-->

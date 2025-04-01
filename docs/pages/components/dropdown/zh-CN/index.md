@@ -70,10 +70,6 @@
 
 <!--{include:`custom-toggle.md`}-->
 
-### 与 Popover 组合使用
-
-<!--{include:`with-popover.md`}-->
-
 ### 与按钮组合使用
 
 <!--{include:`buttons.md`}-->

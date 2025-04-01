@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Button, Menu, Popover } from 'rsuite';
+import { Button, Menu, Popover, Whisper } from 'rsuite';
 
 const renderSpeaker = ({ onClose, className, ...rest }, ref) => {
   const handleSelect = eventKey => {
