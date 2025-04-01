@@ -1,6 +1,6 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';

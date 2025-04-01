@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from '@/components/Page';
+import Page from '@/components/layout/Page';
 import InstallGuide from '@/components/InstallGuide';
 
 const craCommands = {

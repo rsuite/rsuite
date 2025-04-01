@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
 import { TagPicker, Button, Tag, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';

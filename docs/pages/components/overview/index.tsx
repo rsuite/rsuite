@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
-import usePages, { type MenuItem } from '@/utils/usePages';
-import DefaultPage from '@/components/Page';
-import { useApp } from '@/components/AppContext';
-import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
-import CategorizedList from '@/components/CategorizedList';
-import SortedList from '@/components/SortedList';
-
+import usePages, { type MenuItem } from '@/hooks/usePages';
+import DefaultPage from '@/components/layout/Page';
+import CategorizedList from './components/CategorizedList';
+import SortedList from './components/SortedList';
 import SearchIcon from '@rsuite/icons/Search';
+import { useApp } from '@/hooks/useApp';
+import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
 
 function includes(str: string, keyword: string) {

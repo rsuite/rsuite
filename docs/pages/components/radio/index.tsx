@@ -1,6 +1,6 @@
 import React from 'react';
 import { RadioGroup, Button, Radio, HStack, VStack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {

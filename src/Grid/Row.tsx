@@ -8,7 +8,7 @@ import type { ResponsiveValue } from '@/internals/types';
 import type { RowAlignment, RowJustify } from './types';
 
 const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<number | string>) => {
-  if (!gutter) {
+  if (typeof gutter === 'undefined') {
     return {};
   }
 

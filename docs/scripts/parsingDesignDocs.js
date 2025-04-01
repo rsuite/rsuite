@@ -8,7 +8,7 @@ const _ = require('lodash');
 const themes = ['default', 'dark'];
 
 const DESIGN_INDEX_PATH = '../public/design';
-const COMPONENTS_JSON_PATH = '../utils/component.config.json';
+const COMPONENTS_JSON_PATH = '../component.config.json';
 
 const readfile = path => fs.readFileSync(resolve(__dirname, path), { encoding: 'UTF-8' });
 

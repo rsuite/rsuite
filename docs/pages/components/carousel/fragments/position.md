@@ -7,7 +7,8 @@ const App = () => {
   const [activeIndex, setActiveIndex] = React.useState(2);
   return (
     <Carousel
-      className="custom-slider"
+      w={600}
+      h={250}
       activeIndex={activeIndex}
       onSelect={index => {
         setActiveIndex(index);

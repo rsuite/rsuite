@@ -4,7 +4,7 @@
 import { Carousel } from 'rsuite';
 
 const App = () => (
-  <Carousel autoplay className="custom-slider">
+  <Carousel autoplay w={600} h={250}>
     <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=1" height="250" />
     <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=2" height="250" />
     <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=3" height="250" />

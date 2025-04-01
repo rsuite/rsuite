@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import TopLevelNav from '@/components/TopLevelNav';
+import MainNav from '@/components/layout/MainNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
-import Head from '@/components/Head';
-import PageToolbar from '@/components/PageToolbar';
+import Head from '@/components/layout/Head';
+import PageToolbar from '@/components/layout/PageToolbar';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
-import { useApp } from '@/components/AppContext';
+import { useApp } from '@/hooks/useApp';
 
 function HomePage() {
   const [running, setRuning] = useState(false);
@@ -22,7 +22,7 @@ function HomePage() {
     <>
       <Head title={locales?.common?.home} description={locales?.common?.resume}></Head>
       <Grid className="page-home">
-        <TopLevelNav hideToggle />
+        <MainNav hideToggle />
         <PageToolbar />
         <Row>
           <FlexboxGrid align="middle" className="banner">

@@ -62,7 +62,7 @@ const App = () => {
   };
 
   return (
-    <Row>
+    <Row gutter={[16, 24]}>
       <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}

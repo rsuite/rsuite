@@ -3,7 +3,7 @@ import FakeBrowser from '../FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
 import hljs from 'highlight.js';
 import { Tabs, HStack, IconButton, Loader, Divider, Message, useMediaQuery } from 'rsuite';
-import { useApp } from '../AppContext';
+import { useApp } from '@/hooks/useApp';
 import {
   IoDesktopOutline,
   IoPhonePortraitOutline,

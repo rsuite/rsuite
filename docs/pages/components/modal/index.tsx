@@ -1,6 +1,6 @@
 import React from 'react';
 import Simulation from '@/components/Simulation';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import RemindFillIcon from '@rsuite/icons/RemindFill';
 import ImportGuide from '@/components/ImportGuide';
 import {

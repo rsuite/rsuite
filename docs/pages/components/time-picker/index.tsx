@@ -1,6 +1,6 @@
 import React from 'react';
 import { TimePicker, Stack, Box } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
 

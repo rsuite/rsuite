@@ -34,12 +34,8 @@ function App() {
         <Radio value="dot">Dot</Radio>
         <Radio value="bar">Bar</Radio>
       </RadioGroup>
-      <Carousel
-        key={`${placement}.${shape}`}
-        placement={placement}
-        shape={shape}
-        className="custom-slider"
-      >
+      <hr />
+      <Carousel key={`${placement}.${shape}`} placement={placement} shape={shape} w={600} h={250}>
         <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=1" height="250" />
         <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=2" height="250" />
         <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=3" height="250" />

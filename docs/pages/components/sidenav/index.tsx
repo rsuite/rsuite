@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import DashboardIcon from '@rsuite/icons/Dashboard';
 import SettingIcon from '@rsuite/icons/Setting';

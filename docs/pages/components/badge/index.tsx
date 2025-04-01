@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { Badge, Button, Toggle, Avatar, HStack, Text, IconButton } from 'rsuite';
 import { MdCheck, MdNotifications } from 'react-icons/md';

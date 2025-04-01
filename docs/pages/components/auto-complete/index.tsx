@@ -1,6 +1,6 @@
 import React from 'react';
 import { AutoComplete, InputGroup, Stack, VStack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
 import MemberIcon from '@rsuite/icons/Member';
 import ImportGuide from '@/components/ImportGuide';

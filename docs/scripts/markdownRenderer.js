@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const markdownRenderer = require('react-code-view/webpack-md-loader/renderer');
 const kebabCase = require('lodash/kebabCase');
 

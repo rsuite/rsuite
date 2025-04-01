@@ -1,6 +1,6 @@
 import React from 'react';
 import Simulation from '@/components/Simulation';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { RxArrowUp, RxArrowDown, RxArrowLeft, RxArrowRight } from 'react-icons/rx';
 import {

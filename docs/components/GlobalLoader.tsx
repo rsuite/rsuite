@@ -14,15 +14,21 @@ export default function GlobalLoader() {
         <div className="sk-cube sk-cube8"></div>
         <div className="sk-cube sk-cube9"></div>
       </div>
-      <style jsx global>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         body {
           overflow: hidden;
         }
         #nprogress .bar {
           z-index: 10001;
         }
-      `}</style>
-      <style jsx>{`
+      `
+        }}
+      />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .sk-cube-grid::before {
           content: '';
           position: fixed;
@@ -123,7 +129,9 @@ export default function GlobalLoader() {
             transform: scale3D(0, 0, 1);
           }
         }
-      `}</style>
+      `
+        }}
+      />
     </>
   );
 }

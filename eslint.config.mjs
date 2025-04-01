@@ -46,8 +46,8 @@ export default [
     }
   },
   {
-    // Config files
-    files: ['webpack.*.js', 'gulpfile.js', 'docs/next.config.js'],
+    // Config files and scripts
+    files: ['webpack.*.js', 'gulpfile.js', 'docs/next.config.js', 'docs/scripts/*.js'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off'
     }

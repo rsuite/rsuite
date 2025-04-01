@@ -1,6 +1,6 @@
 import React from 'react';
+import Page from '@/components/layout/Page';
 import { Panel, Row, Col, Stack, Button, IconButton } from 'rsuite';
-import Page from '@/components/Page';
 
 import GitHubIcon from '@rsuite/icons/legacy/Github';
 
@@ -42,13 +42,13 @@ const resources = [
   }
 ];
 
-export default () => {
+export default function Index() {
   return (
     <Page hidePageNav>
       <Row gutter={20}>
         {resources.map((item, index) => {
           return (
-            <Col md={12} sm={12} xs={24} key={index}>
+            <Col span={12} key={index}>
               <Card {...item} />
             </Col>
           );
@@ -56,4 +56,4 @@ export default () => {
       </Row>
     </Page>
   );
-};
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import ImportGuide from '@/components/ImportGuide';
 import { Breadcrumb, VStack, Box } from 'rsuite';
