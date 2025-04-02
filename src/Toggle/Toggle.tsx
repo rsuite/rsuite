@@ -57,7 +57,7 @@ export interface ToggleProps extends BoxProps, SanitizedInputProps {
   /**
    * The size of the toggle
    */
-  size?: Omit<Size, 'xs'>;
+  size?: Size;
 
   /**
    * Custom locale

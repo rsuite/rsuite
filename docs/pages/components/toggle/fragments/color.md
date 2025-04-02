@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Toggle, Stack } from 'rsuite';
+import { Toggle, HStack } from 'rsuite';
 
 const App = () => (
-  <Stack spacing={10}>
+  <HStack spacing={10} wrap>
     <Toggle defaultChecked color="red">
       Red
     </Toggle>
@@ -26,7 +26,7 @@ const App = () => (
     <Toggle defaultChecked color="violet">
       Violet
     </Toggle>
-  </Stack>
+  </HStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

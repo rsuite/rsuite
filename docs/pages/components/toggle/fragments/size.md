@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
-import { Toggle, Stack } from 'rsuite';
+import { Toggle, VStack } from 'rsuite';
 
 const App = () => (
-  <Stack spacing={10}>
+  <VStack spacing={20}>
+    <Toggle size="xl">Extra Large</Toggle>
     <Toggle size="lg">Large</Toggle>
     <Toggle size="md">Medium</Toggle>
     <Toggle size="sm">Small</Toggle>
-  </Stack>
+    <Toggle size="xs">Extra Small</Toggle>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

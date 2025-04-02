@@ -8,31 +8,47 @@
 .rs-toggle {
   // CSS Variables
   --rs-toggle-transition: 0.2s ease-in-out;
+  --rs-toggle-gap: 10px;
+
+  // Extra small size
+  --rs-toggle-font-size-xs: var(--rs-font-size-2xs);
+  --rs-toggle-inner-font-size-xs: var(--rs-font-size-2xs);
+  --rs-toggle-line-height-xs: 1;
+  --rs-toggle-gap-xs: 4px;
 
   // Small size
   --rs-toggle-font-size-sm: var(--rs-font-size-xs);
   --rs-toggle-inner-font-size-sm: var(--rs-font-size-2xs);
   --rs-toggle-line-height-sm: 1.4;
+  --rs-toggle-gap-sm: 6px;
 
   // Medium size
   --rs-toggle-font-size-md: var(--rs-font-size-sm);
   --rs-toggle-inner-font-size-md: var(--rs-font-size-xs);
   --rs-toggle-line-height-md: 2;
+  --rs-toggle-gap-md: 8px;
 
   // Large size
   --rs-toggle-font-size-lg: var(--rs-font-size-md);
   --rs-toggle-inner-font-size-lg: var(--rs-font-size-sm);
   --rs-toggle-line-height-lg: 2.14285714;
+  --rs-toggle-gap-lg: 10px;
+
+  // Extra large size
+  --rs-toggle-font-size-xl: var(--rs-font-size-lg);
+  --rs-toggle-inner-font-size-xl: var(--rs-font-size-md);
+  --rs-toggle-line-height-xl: 2.14285714;
+  --rs-toggle-gap-xl: 10px;
 
   position: relative;
   display: inline-flex;
   align-items: center;
   font-size: var(--rs-toggle-font-size);
+  gap: var(--rs-toggle-gap);
 
   &-label {
     cursor: pointer;
     font-size: inherit;
-    margin-inline-start: 10px;
   }
 
   &-inner {
@@ -222,7 +238,7 @@
   });
 
   // Size variants
-  @sizes: sm, md, lg;
+  @sizes: xs, sm, md, lg, xl;
 
   each(@sizes, .(@size) {
     &-@{size} {
@@ -243,6 +259,7 @@
       --rs-toggle-handle-gap: @@handle-gap;
       --rs-toggle-min-width: @@min-width;
       --rs-toggle-size: @@height;
+      --rs-toggle-gap: var(~'--rs-toggle-gap-@{size}');
 
       --rs-toggle-checked-margin-left: @margin-left;
       --rs-toggle-active-checked-margin-left: @active-margin-left;
