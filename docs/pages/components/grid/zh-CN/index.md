@@ -18,7 +18,7 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 ### 栅格间隔
 
-通过在 `Row` 上设置 `gutter` 属性来调整栅格间距。gutter 在保持栅格对齐的同时创建列之间的水平间距。
+通过在 `Row` 上设置 `gutter` 属性来调整栅格间距。`gutter` 属性可以设置水平和垂直方向的间距，支持响应式值。
 
 <!--{include:`gutter.md`}-->
 
@@ -91,7 +91,7 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 | align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | 垂直对齐方式。支持响应式值 |
 | as          | ElementType`('div')`                                                                               | 自定义元素类型             |
 | classPrefix | string `('row')`                                                                                   | 组件 CSS 类的前缀          |
-| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | 栅格间距。支持响应式值     |
+| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | 栅格间距。支持响应式值     |
 | justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | 水平分布方式。支持响应式值 |
 
 ### `<Col>`
@@ -110,3 +110,10 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 <!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code
+[gutter]: #code-ts-gutter-type-code
+
+### `ts:GutterType`
+
+```ts
+type GutterType = number | string | [number | string, number | string];
+```

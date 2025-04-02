@@ -17,10 +17,33 @@ describe('Row', () => {
       const { rerender } = render(<Row gutter={10}>Row</Row>);
 
       expect(screen.getByText('Row')).to.have.style('--rs-grid-gutter', '10px');
+      expect(screen.getByText('Row')).to.have.style('--rs-grid-row-gutter', '10px');
 
       rerender(<Row gutter={'2rem'}>Row</Row>);
 
       expect(screen.getByText('Row')).to.have.style('--rs-grid-gutter', '2rem');
+      expect(screen.getByText('Row')).to.have.style('--rs-grid-row-gutter', '2rem');
+    });
+
+    it('Should render a row with array gutter', () => {
+      const { rerender } = render(<Row gutter={[10, 20]}>Row</Row>);
+      const rowElement = screen.getByText('Row');
+
+      // Check horizontal and vertical gutters
+      expect(rowElement).to.have.style('--rs-grid-gutter', '10px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter', '20px');
+
+      // Test with string values
+      rerender(<Row gutter={['1rem', '2rem']}>Row</Row>);
+
+      expect(rowElement).to.have.style('--rs-grid-gutter', '1rem');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter', '2rem');
+
+      // Test with mixed values
+      rerender(<Row gutter={[10, '2rem']}>Row</Row>);
+
+      expect(rowElement).to.have.style('--rs-grid-gutter', '10px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter', '2rem');
     });
 
     it('Should render a row with responsive gutter', () => {
@@ -86,6 +109,69 @@ describe('Row', () => {
 
       expect(rowElement).to.have.style('--rs-grid-gutter', '1rem');
       expect(rowElement).to.have.style('--rs-grid-gutter-md', '2rem');
+    });
+
+    it('Should render a row with responsive array gutter', () => {
+      const { rerender } = render(
+        <Row
+          gutter={{
+            xs: [8, 16],
+            sm: [16, 24],
+            md: [24, 32],
+            lg: [32, 40],
+            xl: [40, 48],
+            xxl: [48, 56]
+          }}
+        >
+          Row
+        </Row>
+      );
+
+      const rowElement = screen.getByText('Row');
+
+      // Check base gutter (xs)
+      expect(rowElement).to.have.style('--rs-grid-gutter', '8px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter', '16px');
+
+      // Check responsive gutters
+      expect(rowElement).to.have.style('--rs-grid-gutter-sm', '16px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-sm', '24px');
+
+      expect(rowElement).to.have.style('--rs-grid-gutter-md', '24px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-md', '32px');
+
+      expect(rowElement).to.have.style('--rs-grid-gutter-lg', '32px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-lg', '40px');
+
+      expect(rowElement).to.have.style('--rs-grid-gutter-xl', '40px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-xl', '48px');
+
+      expect(rowElement).to.have.style('--rs-grid-gutter-xxl', '48px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-xxl', '56px');
+
+      // Test with partial breakpoints and mixed value types
+      rerender(
+        <Row
+          gutter={{
+            xs: [8, '1rem'],
+            md: ['2rem', 32]
+          }}
+        >
+          Row
+        </Row>
+      );
+
+      expect(rowElement).to.have.style('--rs-grid-gutter', '8px');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter', '1rem');
+
+      expect(rowElement).to.have.style('--rs-grid-gutter-md', '2rem');
+      expect(rowElement).to.have.style('--rs-grid-row-gutter-md', '32px');
+
+      // Check that other breakpoints are not set
+      expect(rowElement.style.getPropertyValue('--rs-grid-gutter-sm')).to.equal('');
+      expect(rowElement.style.getPropertyValue('--rs-grid-row-gutter-sm')).to.equal('');
+      expect(rowElement.style.getPropertyValue('--rs-grid-gutter-lg')).to.equal('');
+      expect(rowElement.style.getPropertyValue('--rs-grid-row-gutter-lg')).to.equal('');
     });
 
     it('Should handle undefined gutter', () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import isPlainObject from 'lodash/isPlainObject';
 import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
@@ -7,31 +8,40 @@ import { BREAKPOINTS } from '@/internals/constants';
 import type { ResponsiveValue } from '@/internals/types';
 import type { RowAlignment, RowJustify } from './types';
 
-const getResponsiveGutterStyles = (gutter?: number | string | ResponsiveValue<number | string>) => {
+type GutterType = number | string | [number | string, number | string];
+
+const getResponsiveGutterStyles = (gutter?: GutterType | ResponsiveValue<GutterType>) => {
   if (typeof gutter === 'undefined') {
     return {};
   }
 
-  if (typeof gutter !== 'object') {
-    return { '--rs-grid-gutter': getCssValue(gutter) };
+  if (isPlainObject(gutter)) {
+    return BREAKPOINTS.reduce<Record<string, string>>((styles, breakpoint) => {
+      const value = gutter[breakpoint];
+      if (!value) return styles;
+
+      const [h, v] = Array.isArray(value) ? value : [value, value];
+
+      const cssVars = {
+        [`--rs-grid-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]: getCssValue(h),
+        [`--rs-grid-row-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]: getCssValue(v)
+      };
+
+      return mergeStyles(styles, cssVars) as Record<string, string>;
+    }, {});
   }
 
-  return BREAKPOINTS.reduce<Record<string, string>>((styles, breakpoint) => {
-    const breakpointValue = gutter[breakpoint];
-    if (!breakpointValue) return styles;
+  const [h, v] = Array.isArray(gutter) ? gutter : [gutter, gutter];
 
-    const newStyles = {
-      [`--rs-grid-gutter${breakpoint === 'xs' ? '' : `-${breakpoint}`}`]:
-        getCssValue(breakpointValue)
-    };
-
-    return mergeStyles(styles, newStyles) as Record<string, string>;
-  }, {});
+  return {
+    '--rs-grid-gutter': getCssValue(h as string | number),
+    '--rs-grid-row-gutter': getCssValue(v as string | number)
+  };
 };
 
 export interface RowProps extends BoxProps {
   /** Spacing between columns. Support responsive values */
-  gutter?: number | string | ResponsiveValue<number | string>;
+  gutter?: GutterType | ResponsiveValue<GutterType>;
 
   /** Vertical alignment of columns. Support responsive values */
   align?: RowAlignment | ResponsiveValue<RowAlignment>;

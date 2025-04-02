@@ -18,7 +18,7 @@ The Grid component provides a flexible system for creating responsive layouts us
 
 ### Gutter
 
-Adjust the grid spacing by setting the `gutter` property on `Row`. The gutter creates horizontal spacing between columns while maintaining the grid's alignment.
+Adjust the grid spacing by setting the `gutter` property on `Row`. The `gutter` property can set horizontal and vertical spacing, and supports responsive values.
 
 <!--{include:`gutter.md`}-->
 
@@ -90,7 +90,7 @@ Use the `order` property to control the visual order of columns regardless of th
 | align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment. Supports responsive values      |
 | as          | ElementType`('div')`                                                                               | You can use a custom element for this component     |
 | classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class               |
-| gutter      | number \| string \| [ResponsiveValue][responsive]                                                  | Grid spacing. Supports responsive values            |
+| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | Grid spacing. Supports responsive values            |
 | justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution. Supports responsive values |
 
 ### `<Col>`
@@ -109,3 +109,10 @@ Use the `order` property to control the visual order of columns regardless of th
 <!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code
+[gutter]: #code-ts-gutter-type-code
+
+### `ts:GutterType`
+
+```ts
+type GutterType = number | string | [number | string, number | string];
+```
