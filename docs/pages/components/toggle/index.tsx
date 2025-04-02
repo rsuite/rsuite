@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Toggle, Radio, RadioGroup, Checkbox, Form, Stack, VStack, HStack } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
 

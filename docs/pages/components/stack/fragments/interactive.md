@@ -16,7 +16,7 @@ const App = () => {
   const [spacing, setSpacing] = React.useState(6);
 
   return (
-    <HStack wrap spacing={20}>
+    <HStack wrap spacing={20} align="start">
       <Stack
         spacing={spacing}
         direction={direction}
@@ -28,14 +28,21 @@ const App = () => {
         w={400}
         h={300}
       >
-        <Button size="lg" appearance="ghost">Large</Button>
-        <Button size="md" appearance="ghost">Medium</Button>
-        <Button size="sm" appearance="ghost">Small</Button>
-        <Button size="xs" appearance="ghost">Xsmall</Button>
-        <Button size="xs" appearance="ghost">Xsmall</Button>
+        <Button size="lg" appearance="ghost">
+          Large
+        </Button>
+        <Button size="md" appearance="ghost">
+          Medium
+        </Button>
+        <Button size="sm" appearance="ghost">
+          Small
+        </Button>
+        <Button size="xs" appearance="ghost">
+          Xsmall
+        </Button>
       </Stack>
 
-      <VStack spacing={12} >
+      <VStack spacing={12}>
         <SelectPicker
           label="spacing"
           searchable={false}
@@ -45,38 +52,55 @@ const App = () => {
           onChange={setSpacing}
         />
 
-        <RadioGroup inline value={direction} onChange={setDirection} appearance="picker">
-          <label>direction:</label>
-          <Radio value="row">row</Radio>
-          <Radio value="row-reverse">row-reverse</Radio>
-          <Radio value="column">column</Radio>
-          <Radio value="column-reverse">column-reverse</Radio>
-        </RadioGroup>
+        <SelectPicker
+          label="direction"
+          searchable={false}
+          cleanable={false}
+          value={direction}
+          data={[
+            { value: 'row', label: 'row' },
+            { value: 'row-reverse', label: 'row-reverse' },
+            { value: 'column', label: 'column' },
+            { value: 'column-reverse', label: 'column-reverse' }
+          ]}
+          onChange={setDirection}
+        />
 
-        <RadioGroup inline value={align} onChange={setAlign} appearance="picker">
-          <label>align:</label>
-          <Radio value="flex-start">flex-start</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="flex-end">flex-end</Radio>
-          <Radio value="stretch">stretch</Radio>
-          <Radio value="baseline">baseline</Radio>
-        </RadioGroup>
+        <SelectPicker
+          label="align"
+          searchable={false}
+          cleanable={false}
+          value={align}
+          data={[
+            { value: 'flex-start', label: 'flex-start' },
+            { value: 'center', label: 'center' },
+            { value: 'flex-end', label: 'flex-end' },
+            { value: 'stretch', label: 'stretch' },
+            { value: 'baseline', label: 'baseline' }
+          ]}
+          onChange={setAlign}
+        />
 
-        <RadioGroup inline value={justify} onChange={setJustify} appearance="picker">
-          <label>justify:</label>
-          <Radio value="flex-start">flex-start</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="flex-end">flex-end</Radio>
-          <Radio value="space-between">space-between</Radio>
-          <Radio value="space-around">space-around</Radio>
-        </RadioGroup>
-      </Stack>
+        <SelectPicker
+          label="justify"
+          searchable={false}
+          cleanable={false}
+          value={justify}
+          data={[
+            { value: 'flex-start', label: 'flex-start' },
+            { value: 'center', label: 'center' },
+            { value: 'flex-end', label: 'flex-end' },
+            { value: 'space-between', label: 'space-between' },
+            { value: 'space-around', label: 'space-around' }
+          ]}
+          onChange={setJustify}
+        />
+      </VStack>
     </HStack>
   );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
 ```
 
 <!--end-code-->

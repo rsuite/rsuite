@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import { Button, InputNumber, Input, Stack, VStack, Form, DatePicker, Rate } from 'rsuite';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';

@@ -10,7 +10,7 @@ import {
   VStack,
   HStack
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';

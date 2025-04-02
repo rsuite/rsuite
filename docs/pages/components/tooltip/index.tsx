@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementGrid from '@/components/PlacementGrid';
 import { Tooltip, Whisper, Button, ButtonToolbar, Text, Loader, HStack } from 'rsuite';

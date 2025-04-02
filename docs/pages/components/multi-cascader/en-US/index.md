@@ -36,11 +36,9 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 <!--{include:`block.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
-
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
 
 ### Custom options
 
@@ -57,10 +55,6 @@ The `MultiCascader` component is used to select multiple values from cascading o
 ### Async
 
 <!--{include:`async.md`}-->
-
-### Container and prevent overflow
-
-<!--{include:`container.md`}-->
 
 ## Responsive
 

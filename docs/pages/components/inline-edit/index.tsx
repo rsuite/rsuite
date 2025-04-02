@@ -15,7 +15,7 @@ import {
   Box
 } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['InlineEdit']} />

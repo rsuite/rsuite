@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { VStack, HStack, Button } from 'rsuite';
 import Link from 'next/link';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import { generatePalette } from 'rsuite/styles/plugins/palette';
-import { useApp } from '@/components/AppContext';
+import { useApp } from '@/hooks/useApp';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
 import ThemeGroup from '@/components/ThemeGroup';
 import { MdPalette } from 'react-icons/md';

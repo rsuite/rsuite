@@ -20,8 +20,10 @@ const EventTrigger = ({ placement, children }) => (
 const App = () => (
   <>
     <PlacementGrid
-      renderCell={({ placement, button }) => (
-        <EventTrigger placement={placement}>{button}</EventTrigger>
+      renderCell={({ placement, button, key }) => (
+        <EventTrigger key={key} placement={placement}>
+          {button}
+        </EventTrigger>
       )}
     />
     <hr />

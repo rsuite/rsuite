@@ -24,11 +24,9 @@ The `Cascader` component displays a hierarchical list of options.
 
 <!--{include:`block.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
-
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
 
 ### Parent selectable
 
@@ -51,10 +49,6 @@ This tree allows the use of the `getChildren` option and the length of the child
 ### Controlled
 
 <!--{include:`controlled.md`}-->
-
-### Container and prevent overflow
-
-<!--{include:`container.md`}-->
 
 ## Responsive
 

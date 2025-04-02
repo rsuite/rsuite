@@ -1,18 +1,17 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
-import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
 import GithubIcon from '@rsuite/icons/legacy/Github';
 import Icon from '@rsuite/icons/Icon';
 import stackBlitzSDK, { Project } from '@stackblitz/sdk';
-
-import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '../SvgIcons';
-import { useApp } from '../AppContext';
-import Paragraph from '../Paragraph';
+import Paragraph from './Paragraph';
 import ReactCodeView from './ReactCodeView';
 import CodeSandbox from './CodeSandbox';
 import AdCarbonInline from '../AdCarbon/AdCarbonInline';
+import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '@/components/icons';
+import { useApp } from '@/hooks/useApp';
 import { html, css, dependencies as codeDependencies } from './utils';
 
 export interface CustomCodeViewProps {

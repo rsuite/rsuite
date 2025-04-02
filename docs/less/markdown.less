@@ -1,10 +1,20 @@
 @import './themes/hightlight/default.less';
 
+/* 
+ * RSuite Markdown Styles
+ * Organized styling for markdown content in the RSuite documentation
+ */
+
 .rcv-markdown {
+  // Variables
   --rs-color-muted: #818b981f;
 
+  /* ===== Typography ===== */
+  
+  // Headings
   h1 {
     font-size: 28px;
+    
     code {
       font-size: 14px;
       border-radius: 4px;
@@ -17,30 +27,59 @@
     font-weight: bold;
     margin-top: 10px;
   }
+  
   h3 {
     font-size: 18px;
     margin-top: 10px;
-  }
-  h3 code {
-    font-size: 18px !important;
+    
+    code {
+      font-size: 18px !important;
+    }
   }
 
   h4 {
     font-size: 16px;
     margin-top: 10px;
   }
+  
+  // Page heading styles
+  .page-heading {
+    margin-bottom: 10px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 
+    &[id*='code'] {
+      margin-top: calc(var(--rs-spacing) * 6);
+    }
+  }
+  
+  .page-heading-text {
+    display: inline-flex;
+    align-items: center;
+    
+    svg {
+      color: rgb(236, 80, 96);
+    }
+  }
+
+  /* ===== Lists ===== */
   ol,
   ul {
     padding: 10px 20px;
     list-style-type: circle;
+    
     li {
       line-height: 26px;
     }
   }
+
+  /* ===== Tables ===== */
   table {
     width: 100%;
     margin-top: 10px;
+    
     td,
     th {
       padding: 10px;
@@ -57,10 +96,13 @@
     tr:nth-child(2n) {
       background-color: var(--rs-bg-well);
     }
+    
+    th {
+      text-align: left;
+    }
   }
-  table th {
-    text-align: left;
-  }
+
+  /* ===== Block Elements ===== */
   blockquote {
     padding: 0.75rem;
     margin: 1.5rem 0;
@@ -69,11 +111,13 @@
     background-color: var(--rs-bg-warning);
     border-radius: 4px;
   }
+
+  /* ===== Inline Elements ===== */
   kbd {
     box-sizing: border-box;
     font-family: var(--font-family-mono);
     border-radius: 0.25em;
-    background-color: var(--rs-bg-well); // rgb(235, 235, 235);
+    background-color: var(--rs-bg-well);
     padding: 0.2em 0.3em;
     border-style: solid;
     border-color: rgb(200, 200, 200);
@@ -83,25 +127,7 @@
     color: var(--rs-text-primary);
   }
 
-  .page-heading {
-    margin-bottom: 10px;
-    line-height: 1.2;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    &[id*='code'] {
-      margin-top: calc(var(--rs-spacing) * 6);
-    }
-  }
-  .page-heading-text {
-    display: inline-flex;
-    align-items: center;
-    svg {
-      color: rgb(236, 80, 96);
-    }
-  }
-
+  // Inline code styling
   p,
   li,
   td,
@@ -111,13 +137,14 @@
       margin: 0;
       font-size: 85%;
       white-space: break-spaces;
-      background-color: #818b981f;
+      background-color: var(--rs-color-muted);
       border-radius: 6px;
       color: var(--rs-text-primary);
     }
   }
 }
 
+/* ===== Code Blocks ===== */
 code:not(.rcv-highlight) {
   font-size: 0.8rem;
   margin-inline: 2px;
@@ -130,12 +157,89 @@ code:not(.rcv-highlight) {
   color: rgb(236, 80, 96);
 }
 
+/* ===== Dark Theme Overrides ===== */
 .rs-theme-dark,
 .rs-theme-high-contrast {
   .rcv-markdown {
     blockquote {
       background-color: var(--rs-yellow-900);
       border-color: var(--rs-yellow-500);
+    }
+  }
+}
+
+/* ===== Responsive Styles ===== */
+@media (max-width: @media-xs) {
+  .rcv-markdown {
+    table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+      // Responsive table rows
+      tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid var(--rs-border-primary);
+        padding: 8px;
+        position: relative;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:nth-child(2n) {
+          background-color: var(--rs-bg-well);
+        }
+      }
+
+      // Hide table headers on mobile
+      thead {
+        display: none;
+      }
+
+      // Responsive table cells
+      td,
+      th {
+        padding: 10px 8px;
+        border: none;
+        background: none;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        position: relative;
+
+        code {
+          word-break: keep-all;
+          overflow-wrap: break-word;
+        }
+
+        &:before {
+          content: attr(data-label);
+          font-weight: bold;
+          margin-right: 8px;
+          min-width: 120px;
+          display: none; /* Hidden by default, can be enabled with JS */
+        }
+
+        &:first-child {
+          font-weight: bold;
+          font-size: 1.05em;
+          border-bottom: 1px dashed var(--rs-border-primary);
+          margin-bottom: 4px;
+          padding-bottom: 8px;
+        }
+
+        &:not(:first-child) {
+          padding-left: 12px;
+          border-left: 2px solid var(--rs-state-info);
+          margin-left: 4px;
+        }
+      }
     }
   }
 }

@@ -8,9 +8,9 @@ const App = () => {
 
   return (
     <VStack spacing={20}>
-      <HStack>
-        Spacing:
-        <Slider value={spacing} w={300} onChange={setSpacing} />
+      <HStack wrap>
+        <label>Spacing:</label>
+        <Slider value={spacing} w={300} onChange={setSpacing} keepTooltipOpen />
       </HStack>
       <Stack spacing={spacing}>
         <Button>Item 1</Button>

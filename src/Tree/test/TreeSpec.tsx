@@ -22,11 +22,11 @@ describe('Tree', () => {
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<Tree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 360px;');
 
     rerender(<Tree data={data} height={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {

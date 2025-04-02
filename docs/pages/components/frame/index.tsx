@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import FakeBrowser from '@/components/FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
@@ -37,8 +37,6 @@ import {
   MdOutlineKeyboardArrowRight
 } from 'react-icons/md';
 
-import files from './files';
-
 const inDocsComponents = {
   'import-guide': () => (
     <ImportGuide components={['Container', 'Header', 'Content', 'Footer', 'Sidebar']} />
@@ -61,7 +59,6 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      sandboxFiles={files}
       dependencies={{
         FakeBrowser,
         Avatar,

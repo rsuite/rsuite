@@ -8,7 +8,7 @@ const markdownRenderer = require('./scripts/markdownRenderer');
 const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
-const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
+const SVG_LOGO_PATH = resolveToStaticPath('./components/icons/svg');
 
 const {
   // 'production' on main branch
@@ -42,13 +42,13 @@ module.exports = {
   experimental: {
     externalDir: true
   },
-  // Exclude example pages from static generation
+  // Exclude example pages and _components directory from static generation
   exportPathMap: async function (defaultPathMap) {
     const pathMap = { ...defaultPathMap };
 
     // Remove example pages from static generation
     Object.keys(pathMap).forEach(path => {
-      if (path.includes('/examples/')) {
+      if (path.includes('/examples/') || path.includes('/_components/')) {
         delete pathMap[path];
       }
     });
@@ -61,8 +61,6 @@ module.exports = {
    * @param {{ isServer: boolean }}
    */
   webpack(config, { isServer }) {
-    const originEntry = config.entry;
-
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
@@ -174,14 +172,6 @@ module.exports = {
         }
       })
     );
-
-    config.entry = async () => {
-      const entries = await originEntry();
-      if (entries['main.js'] && !entries['main.js'].includes('./client/polyfills.ts')) {
-        entries['main.js'].unshift('./client/polyfills.ts');
-      }
-      return entries;
-    };
 
     // If we are building docs with local rsuite from src (local development and review builds),
     // we should stick `react` and `react-dom` imports to docs/node_modules

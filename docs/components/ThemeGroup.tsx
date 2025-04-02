@@ -1,8 +1,9 @@
 import React from 'react';
 import ThemeIcon from '@/components/ThemeIcon';
 import { Nav, NavProps } from 'rsuite';
-import { useApp, Theme } from '@/components/AppContext';
+import { useApp } from '@/hooks/useApp';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
+import type { Theme } from '@/components/AppProvider';
 
 function ThemeGroup(props: NavProps) {
   const { theme, onChangeTheme, locales } = useApp();

@@ -25,7 +25,11 @@ const marginStyleMap: Record<string, string> = {
 // Mapping for size properties to their CSS style equivalents
 const sizeStyleMap: Record<string, string> = {
   w: 'width',
-  h: 'height'
+  h: 'height',
+  minw: 'minWidth',
+  maxw: 'maxWidth',
+  minh: 'minHeight',
+  maxh: 'maxHeight'
 };
 
 // Derive box property keys from style mappings

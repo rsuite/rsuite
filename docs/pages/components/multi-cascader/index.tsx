@@ -1,10 +1,11 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
 import {
   importFakerString,
   mockAsyncData,
@@ -43,6 +44,7 @@ export default function Page() {
         HStack,
         VStack,
         Box,
+        PlacementContainer,
         mockAsyncData,
         mockTreeData
       }}

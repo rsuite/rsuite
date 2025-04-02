@@ -5,7 +5,7 @@ React Suite provides some guidance and suggestions for using icons in React Suit
 ## React Suite Icons
 
 <a href="/resources/icons" target="_blank" rel="noopener noreferrer" title="React Suite Icons" >
- <img src="../../../../public/images/icons.png" alt="React Icons" style="max-width: 400px; margin-bottom:20px">
+ <img src="../../../../public/images/icons.png" alt="React Icons" style="max-width: 100%; width: 400px; margin-bottom:20px">
 </a>
 
 React Suite provides a set of icon components, you need to install the `@rsuite/icons` icon component.

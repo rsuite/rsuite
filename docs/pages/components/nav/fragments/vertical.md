@@ -1,44 +1,35 @@
 <!--start-code-->
 
 ```js
-import { Nav, Row, Col } from 'rsuite';
-
-const CustomNav = ({ active, onSelect, ...props }) => {
-  return (
-    <Nav {...props} vertical activeKey={active} onSelect={onSelect} w={100}>
-      <Nav.Item eventKey="home">Home</Nav.Item>
-      <Nav.Item eventKey="news">News</Nav.Item>
-      <Nav.Item eventKey="solutions">Solutions</Nav.Item>
-      <Nav.Item eventKey="products">Products</Nav.Item>
-      <Nav.Item eventKey="about">About</Nav.Item>
-    </Nav>
-  );
-};
+import { Nav, SelectPicker } from 'rsuite';
 
 const App = () => {
   const [active, setActive] = React.useState('home');
+  const [appearance, setAppearance] = React.useState('default');
 
   return (
-    <Row>
-      <Col md={4}>
-        <CustomNav active={active} onSelect={setActive} />
-      </Col>
-      <Col md={4}>
-        <CustomNav appearance="tabs" active={active} onSelect={setActive} />
-      </Col>
-      <Col md={4}>
-        <CustomNav appearance="tabs" reversed active={active} onSelect={setActive} />
-      </Col>
-      <Col md={4}>
-        <CustomNav appearance="subtle" active={active} onSelect={setActive} />
-      </Col>
-      <Col md={4}>
-        <CustomNav appearance="subtle" reversed active={active} onSelect={setActive} />
-      </Col>
-      <Col md={4}>
-        <CustomNav appearance="pills" reversed active={active} onSelect={setActive} />
-      </Col>
-    </Row>
+    <>
+      <SelectPicker
+        label="Appearance"
+        searchable={false}
+        cleanable={false}
+        data={[
+          { value: 'default', label: 'Default' },
+          { value: 'tabs', label: 'Tabs' },
+          { value: 'subtle', label: 'Subtle' },
+          { value: 'pills', label: 'Pills' }
+        ]}
+        value={appearance}
+        onChange={setAppearance}
+      />
+      <hr />
+      <Nav vertical activeKey={active} onSelect={setActive} w={100} appearance={appearance}>
+        <Nav.Item eventKey="home">Home</Nav.Item>
+        <Nav.Item eventKey="products">Products</Nav.Item>
+        <Nav.Item eventKey="services">Services</Nav.Item>
+        <Nav.Item eventKey="contact">Contact Us</Nav.Item>
+      </Nav>
+    </>
   );
 };
 

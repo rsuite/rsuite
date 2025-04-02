@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
 import ColorPicker from '@/components/ColorPicker';
-import { readThemeName } from '@/utils/themeHelpers';
+import ThemeGroup from '@/components/ThemeGroup';
+import AdminFrame from '@/components/resources/palette/AdminFrame/AdminFrame';
 import NextHead from 'next/head';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import FakeBrowser from '@/components/FakeBrowser';
 import palette from 'rsuite/styles/plugins/palette';
-import { useLess } from '@/utils/useLess';
+import useClipboard from '@/hooks/useClipboard';
+import { readThemeName } from '@/utils/themeHelpers';
+import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
+import { useLess } from '@/hooks/useLess';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
-import ThemeGroup from '@/components/ThemeGroup';
-import AdminFrame from '@/components/AdminFrame';
 import { generatePalette } from 'rsuite/styles/plugins/palette';
-import useClipboard from '@/utils/useClipboard';
-import { useApp } from '@/components/AppContext';
+import { useApp } from '@/hooks/useApp';
 
 const colors: ColorMeta[] = [
   '50',
@@ -146,9 +146,9 @@ export default function Page() {
 
   return (
     <DefaultPage hidePageNav>
-      <VStack spacing={20} alignItems="center">
+      <VStack spacing={20} align="center">
         <ThemeGroup />
-        <HStack justifyContent="center" spacing={10}>
+        <HStack justify="center" spacing={10}>
           <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
           <CopyButton color={color} />
         </HStack>

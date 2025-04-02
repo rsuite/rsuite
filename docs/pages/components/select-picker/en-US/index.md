@@ -39,11 +39,9 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`group.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
-
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
 
 ### Custom options
 
@@ -64,10 +62,6 @@ Clicking a loading picker won't open its options menu.
 ### Async
 
 <!--{include:`async.md`}-->
-
-### Container and prevent overflow
-
-<!--{include:`container.md`}-->
 
 ### Controlled
 

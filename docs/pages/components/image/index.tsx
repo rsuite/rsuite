@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Placeholder, Button } from 'rsuite';
 import NextImage from 'next/image';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {

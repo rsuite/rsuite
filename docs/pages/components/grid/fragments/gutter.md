@@ -4,7 +4,7 @@
 import { Grid, Row, Col, HStack, Slider, Center } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (
-  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
+  <Center bg="var(--rs-placeholder)" p={20} rounded="lg" {...rest}>
     {children}
   </Center>
 );
@@ -19,7 +19,27 @@ const App = () => {
       </HStack>
       <hr />
       <Grid fluid>
-        <Row gutter={gutter}>
+        <Row
+          gutter={gutter}
+        >
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
+          <Col span={4}>
+            <DecorativeBox>4</DecorativeBox>
+          </Col>
           <Col span={4}>
             <DecorativeBox>4</DecorativeBox>
           </Col>

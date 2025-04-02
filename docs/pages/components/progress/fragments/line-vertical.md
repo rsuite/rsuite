@@ -4,7 +4,7 @@
 import { Progress, HStack } from 'rsuite';
 
 const App = () => (
-  <HStack style={{ height: 300 }} spacing={50}>
+  <HStack h={300} spacing={32} wrap>
     <Progress.Line vertical />
     <Progress.Line vertical percent={30} strokeColor="#ffc107" />
     <Progress.Line vertical percent={30} status="active" />

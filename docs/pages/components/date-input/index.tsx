@@ -1,7 +1,7 @@
 import React from 'react';
 import { DateInput, Stack, InputGroup, Button } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {

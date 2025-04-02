@@ -79,11 +79,11 @@ describe('CheckTreePicker', () => {
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '320px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 320px;');
 
     rerender(<CheckTreePicker defaultOpen data={data} treeHeight={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should set a height for the Tree with virtualized', () => {

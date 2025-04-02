@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const rtlcss = require('rtlcss');
 const postcss = require('postcss');

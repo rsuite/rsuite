@@ -4,19 +4,29 @@
 import { Navbar, Nav, Avatar, Badge, IconButton } from 'rsuite';
 import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
+const Brand = () => (
+  <Navbar.Brand href="#">
+    <IoLogoReact size={26} /> Brand
+  </Navbar.Brand>
+);
+
 const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
   return (
     <Navbar appearance={appearance} {...props}>
-      <Navbar.Content>
-        <Navbar.Brand href="#">
-          <IoLogoReact size={26} /> {appearance.toUpperCase()}
-        </Navbar.Brand>
+      <Navbar.Content showFrom="xs">
+        <Brand />
         <Nav>
           <Nav.Item>Docs</Nav.Item>
           <Nav.Item>Components</Nav.Item>
           <Nav.Item>Tools</Nav.Item>
         </Nav>
       </Navbar.Content>
+
+      <Navbar.Content hideFrom="xs">
+        <Navbar.Toggle />
+        <Brand />
+      </Navbar.Content>
+
       <Navbar.Content>
         <Badge content={6} shape="circle">
           <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="sm" />

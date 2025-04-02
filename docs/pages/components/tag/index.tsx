@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlusIcon from '@rsuite/icons/Plus';
 import { Tag, TagGroup, IconButton, Input, VStack } from 'rsuite';

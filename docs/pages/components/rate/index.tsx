@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Icon from '@rsuite/icons/Icon';
 import { Badge, Button, Toggle, Rate, VStack } from 'rsuite';

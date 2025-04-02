@@ -36,6 +36,10 @@ export interface BoxProps extends WithAsProps {
   /** Box size */
   w?: CSS['width'];
   h?: CSS['height'];
+  minw?: CSS['minWidth'];
+  maxw?: CSS['maxWidth'];
+  minh?: CSS['minHeight'];
+  maxh?: CSS['maxHeight'];
 
   /** Box Color */
   c?: ColorScheme | CSS['color'];

@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import PlusIcon from '@rsuite/icons/Plus';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Carousel, Radio, RadioGroup, Divider } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {

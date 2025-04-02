@@ -1,8 +1,9 @@
 import React from 'react';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
 import Simulation from '@/components/Simulation';
 import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
 import {
@@ -44,7 +45,8 @@ export default function Page() {
         Loader,
         Box,
         mockTreeData,
-        mockAsyncData
+        mockAsyncData,
+        PlacementContainer
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}

@@ -32,6 +32,10 @@
 
 <!--{include:`separator.md`}-->
 
+### 弹出式菜单
+
+<!--{include:`with-popover.md`}-->
+
 ### 路由
 
 `Menu.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。

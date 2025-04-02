@@ -4,17 +4,26 @@
 import { Navbar, Nav, Avatar, Text, Badge, IconButton } from 'rsuite';
 import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
+const Brand = () => (
+  <Navbar.Brand href="#">
+    <IoLogoReact size={26} /> Brand
+  </Navbar.Brand>
+);
+
 const App = () => (
   <Navbar>
-    <Navbar.Content>
-      <Navbar.Brand href="#">
-        <IoLogoReact size={26} /> Brand
-      </Navbar.Brand>
+    <Navbar.Content showFrom="xs">
+      <Brand />
       <Nav>
         <Nav.Item>Docs</Nav.Item>
         <Nav.Item>Components</Nav.Item>
         <Nav.Item>Tools</Nav.Item>
       </Nav>
+    </Navbar.Content>
+
+    <Navbar.Content hideFrom="xs">
+      <Navbar.Toggle />
+      <Brand />
     </Navbar.Content>
 
     <Navbar.Content>
@@ -23,7 +32,7 @@ const App = () => (
       </Badge>
       <HStack>
         <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
-        <Text>John Doe</Text>
+        <Text showFrom="xs">John Doe</Text>
       </HStack>
     </Navbar.Content>
   </Navbar>

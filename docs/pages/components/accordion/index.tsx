@@ -1,7 +1,7 @@
 import React from 'react';
-import { Accordion, Button, ButtonGroup, Placeholder, Stack, Avatar } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import { Accordion, Button, ButtonGroup, Placeholder, Stack, Avatar } from 'rsuite';
 import { FaAngleDoubleDown, FaArrowAltCircleDown, FaArrowDown } from 'react-icons/fa';
 
 const inDocsComponents = {

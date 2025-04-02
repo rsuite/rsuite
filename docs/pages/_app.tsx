@@ -7,9 +7,9 @@ import NProgress from 'nprogress';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
 import Router, { useRouter } from 'next/router';
+import AppProvider from '@/components/AppProvider';
 import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import { Analytics } from '@vercel/analytics/react';
-import { AppProvider } from '@/components/AppContext';
 import { getMessages } from '../locales';
 import {
   DirectionType,

@@ -34,7 +34,11 @@ interface PlacementGridProps {
   /**
    * Custom render function for each cell
    */
-  renderCell?: (props: { placement: Placement; button: React.ReactNode }) => React.ReactNode;
+  renderCell?: (props: {
+    placement: Placement;
+    button: React.ReactNode;
+    key: string;
+  }) => React.ReactNode;
 }
 
 /**
@@ -92,7 +96,7 @@ const PlacementGrid: React.FC<PlacementGridProps> = ({ renderCell, width = 220 }
             />
           );
 
-          cells.push(renderCell?.({ placement: placementValue, button }) ?? button);
+          cells.push(renderCell?.({ placement: placementValue, button, key: position }) ?? button);
         } else {
           cells.push(<span key={position} />);
         }

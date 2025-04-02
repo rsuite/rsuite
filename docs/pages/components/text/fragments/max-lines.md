@@ -4,7 +4,7 @@
 import { Text, Box } from 'rsuite';
 
 const App = () => (
-  <Box w={500} p={10} bd="1px solid #ddd">
+  <Box w={500} maxw="fit-content" p={10} bd="1px solid #ddd">
     <Text maxLines={1}>
       Max lines is 1: This is a long text that will be truncated with an ellipsis. To demonstrate
       the effect, we copied the text several times. This is a long text that will be truncated with

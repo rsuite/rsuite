@@ -12,10 +12,8 @@ import {
   Radio,
   RadioGroup
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-
-import files from './files';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Slider', 'RangeSlider']} />
@@ -38,7 +36,6 @@ export default function Page() {
         Radio,
         RadioGroup
       }}
-      sandboxFiles={files}
     />
   );
 }

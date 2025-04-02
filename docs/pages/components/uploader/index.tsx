@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { Uploader, Button, Loader, Message, useToaster, Box } from 'rsuite';
 import { RxCamera, RxAvatar } from 'react-icons/rx';

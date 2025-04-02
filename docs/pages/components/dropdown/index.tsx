@@ -13,7 +13,7 @@ import {
   Box
 } from 'rsuite';
 import Link from 'next/link';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PageIcon from '@rsuite/icons/Page';
 import IdInfoIcon from '@rsuite/icons/IdInfo';
@@ -21,6 +21,7 @@ import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import PlusIcon from '@rsuite/icons/Plus';
+import { PlacementCornerGrid } from '@/components/PlacementGrid';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Dropdown']} />
@@ -48,7 +49,8 @@ export default function Page() {
         Link,
         Stack,
         Avatar,
-        Box
+        Box,
+        PlacementCornerGrid
       }}
     />
   );

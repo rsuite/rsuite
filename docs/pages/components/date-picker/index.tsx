@@ -1,7 +1,8 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
 import {
   DatePicker,
   Button,
@@ -53,7 +54,8 @@ export default function Page() {
         FaCalendarDay,
         FaCalendarCheck,
         FaClock,
-        BsCalendar2MonthFill
+        BsCalendar2MonthFill,
+        PlacementContainer
       }}
       sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />

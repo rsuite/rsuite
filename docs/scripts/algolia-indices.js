@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
 const util = require('util');
 const fs = require('fs');
 const { resolve } = require('path');
 const algoliaSearch = require('algoliasearch');
-const components = require('../utils/component.config.json');
+const components = require('../component.config.json');
 
 const items = components.filter(item => !item.group && item.id !== 'overview' && !item.target);
 const readFile = util.promisify(fs.readFile);

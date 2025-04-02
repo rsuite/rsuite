@@ -32,6 +32,10 @@ A menu component that provides a list of options with support for icons, descrip
 
 <!--{include:`separator.md`}-->
 
+### Popover Menu
+
+<!--{include:`with-popover.md`}-->
+
 ### Routing Library
 
 The `Menu.Item` component can be used with other routing libraries (such as Next.js, React Router) through the `as` prop. See the [Composition Guide](/guide/composition/#third-party-routing-library) for details.

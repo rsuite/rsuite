@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@rsuite/icons/Icon';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
 import {

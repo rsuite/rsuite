@@ -22,9 +22,9 @@ A wrapper for Nav that is generally used for the top navigation of a page.
 
 The `appearance` property sets the navigation bar appearance:
 
-- 'default' (default value) Default navigation bar.
-- 'inverse' Inverse color navigation bar.
-- 'subtle' Subtle navigation bar.
+- `default` (default value) Default navigation bar.
+- `inverse` Inverse color navigation bar.
+- `subtle` Subtle navigation bar.
 
 <!--{include:`appearance.md`}-->
 
@@ -39,6 +39,10 @@ The `appearance` property sets the navigation bar appearance:
 ### Mega Menu
 
 <!--{include:`mege-menu.md`}-->
+
+### With Popover Menu
+
+<!--{include:`with-popover.md`}-->
 
 ### With Drawer
 

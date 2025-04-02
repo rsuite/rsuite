@@ -13,11 +13,11 @@ describe('CheckTree', () => {
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<CheckTree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 360px;');
 
     rerender(<CheckTree data={data} height={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should set a height for the Tree with virtualized', () => {

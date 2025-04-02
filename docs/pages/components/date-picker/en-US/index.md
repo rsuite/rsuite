@@ -78,11 +78,9 @@ The calendar panel can be displayed in different week start days via the `weekSt
 
 <!--{include:`intl.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
-
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
 
 ### Custom short options
 
