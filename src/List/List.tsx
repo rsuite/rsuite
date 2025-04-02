@@ -70,7 +70,15 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
   } = propsWithDefaults;
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({
+  const {
+    containerRef,
+    register,
+    sorting,
+    handleEnd,
+    handleStart,
+    handleTouchStart,
+    handleTouchEnd
+  } = useSortHelper({
     autoScroll,
     onSort,
     onSortEnd,
@@ -96,6 +104,8 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
+      onTouchStart={sortable ? handleTouchStart : undefined}
+      onTouchEnd={sortable ? handleTouchEnd : undefined}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
     </Component>
