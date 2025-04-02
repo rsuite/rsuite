@@ -48,7 +48,7 @@ module.exports = {
 
     // Remove example pages from static generation
     Object.keys(pathMap).forEach(path => {
-      if (path.includes('/examples/') || path.includes('/_components/')) {
+      if (path.includes('/examples/')) {
         delete pathMap[path];
       }
     });
