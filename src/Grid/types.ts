@@ -2,6 +2,8 @@ export type RowAlignment = 'top' | 'middle' | 'bottom';
 
 export type RowJustify = 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 
+export type GutterType = number | string | [number | string, number | string];
+
 /** @deprecated Use new responsive props format instead */
 export interface DeprecatedColProps {
   /** @deprecated Use span={{ xs: number }} instead */
