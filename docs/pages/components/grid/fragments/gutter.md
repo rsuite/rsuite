@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Grid, Row, Col, VStack, HStack, Slider, Center, Box } from 'rsuite';
+import { Grid, Row, Col, VStack, HStack, Slider, Center, Text } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (
   <Center bg="var(--rs-placeholder)" p={20} rounded="lg" {...rest}>
@@ -16,13 +16,13 @@ const App = () => {
   return (
     <>
       <VStack spacing={20}>
-        <HStack spacing={20}>
-          <Box w={100}>Column Gutter</Box>
-          <Slider value={columnGutter} w={300} onChange={setColumnGutter} />
+        <HStack spacing={20} w="100%">
+          <Text muted w={120}>Column Gutter</Text>
+          <Slider value={columnGutter} w="100%" onChange={setColumnGutter} />
         </HStack>
-        <HStack spacing={20}>
-          <Box w={100}>Row Gutter</Box>
-          <Slider value={rowGutter} w={300} onChange={setRowGutter} />
+        <HStack spacing={20} w="100%">
+          <Text muted w={120}>Row Gutter</Text>
+          <Slider value={rowGutter} w="100%" onChange={setRowGutter} />
         </HStack>
       </VStack>
       <hr />
