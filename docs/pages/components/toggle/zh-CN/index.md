@@ -69,9 +69,10 @@
 | loading           | boolean                                    | 是否展示一个圈圈表示选中状态正在获取/更新          |
 | locale            | [ToggleLocaleType](/zh/guide/i18n/#toggle) | 定义本地化设置，使组件文本根据用户地区显示相应语言 |
 | onChange          | (checked: boolean, event) => void          | 状态改变时的回调函数                               |
-| size              | 'lg' \| 'md' \| 'sm'                       | 开关尺寸                                           |
+| size              | [Size](#code-ts-size-code)                 | 开关尺寸                                           |
 | unCheckedChildren | ReactNode                                  | 非选中显示的内容                                   |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/size.md)}-->
 
 [5.63.0]: https://img.shields.io/badge/>=-v5.63.0-blue

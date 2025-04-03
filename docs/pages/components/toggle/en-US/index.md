@@ -69,9 +69,10 @@ You can set the content displayed in the two states of the switch through the `c
 | loading           | boolean                                 | Whether the switch is in loading state          |
 | locale            | [ToggleLocaleType](/guide/i18n/#toggle) | Custom locale text                              |
 | onChange          | (checked: boolean, event) => void       | Callback function when state changes            |
-| size              | 'lg' \| 'md' \| 'sm'                    | Toggle size                                     |
+| size              | [Size](#code-ts-size-code)              | Toggle size                                     |
 | unCheckedChildren | ReactNode                               | Unchecked display content                       |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/size.md)}-->
 
 [5.63.0]: https://img.shields.io/badge/>=-v5.63.0-blue

@@ -8,7 +8,7 @@ import Toggle from '../Toggle';
 
 describe('Toggle', () => {
   testStandardProps(<Toggle />, {
-    sizes: ['lg', 'md', 'sm'],
+    sizes: ['xl', 'lg', 'md', 'sm', 'xs'],
     colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
   });
 

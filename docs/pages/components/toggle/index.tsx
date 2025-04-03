@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Toggle, Radio, RadioGroup, Checkbox, Form, Stack, VStack, HStack } from 'rsuite';
+import { Button, Toggle, VStack, HStack, Divider, Text, Center, SelectPicker } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
 import DefaultPage from '@/components/layout/Page';
 import CheckIcon from '@rsuite/icons/Check';
@@ -20,13 +20,12 @@ export default function Page() {
         Toggle,
         CheckIcon,
         CloseIcon,
-        Radio,
-        RadioGroup,
-        Checkbox,
-        Form,
-        Stack,
         VStack,
-        HStack
+        HStack,
+        Divider,
+        Text,
+        Center,
+        SelectPicker
       }}
     />
   );

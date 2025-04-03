@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Toggle, Checkbox, RadioGroup, Form, Stack } from 'rsuite';
+import { Toggle, VStack, HStack, SelectPicker, Divider, Center } from 'rsuite';
 
 function AsyncToggle(props) {
   const [checked, setChecked] = useState(false);
@@ -23,41 +23,50 @@ const App = () => {
   const [checked, setChecked] = useState(true);
   const [withText, setWithText] = useState(false);
   const [size, setSize] = useState('md');
+  const [withLabel, setWithLabel] = useState(false);
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <Stack w={300} alignItems="center" justifyContent="center">
+      <HStack divider={<Divider vertical />} h={200}>
+        <Center w={300}>
           <Toggle
             loading
             checked={checked}
             checkedChildren={withText ? 'Enabled' : undefined}
             unCheckedChildren={withText ? 'Disabled' : undefined}
             size={size}
+          >
+            {withLabel ? 'With label' : undefined}
+          </Toggle>
+        </Center>
+
+        <VStack spacing={20}>
+          <SelectPicker
+            label="Size"
+            value={size}
+            onChange={setSize}
+            searchable={false}
+            cleanable={false}
+            data={[
+              { value: 'xs', label: 'Extra Small (xs)' },
+              { value: 'sm', label: 'Small (sm)' },
+              { value: 'md', label: 'Medium (md)' },
+              { value: 'lg', label: 'Large (lg)' },
+              { value: 'xl', label: 'Extra Large (xl)' }
+            ]}
           />
-        </Stack>
-        <div style={{ borderLeft: '1px solid var(--rs-border-primary)', padding: '0 20px' }}>
-          <Form>
-            <Form.Group>
-              <Toggle checked={checked} onChange={setChecked}>
-                Checked
-              </Toggle>
-            </Form.Group>
-            <Form.Group>
-              <Toggle checked={withText} onChange={setWithText}>
-                With text
-              </Toggle>
-            </Form.Group>
-            <Form.Group>
-              <Form.ControlLabel>Size</Form.ControlLabel>
-              <RadioGroup value={size} onChange={setSize} inline>
-                <Radio value="sm">sm</Radio>
-                <Radio value="md">md</Radio>
-                <Radio value="lg">lg</Radio>
-              </RadioGroup>
-            </Form.Group>
-          </Form>
-        </div>
-      </div>
+          <Toggle checked={checked} onChange={setChecked}>
+            Checked
+          </Toggle>
+
+          <Toggle checked={withText} onChange={setWithText}>
+            With text
+          </Toggle>
+
+          <Toggle checked={withLabel} onChange={setWithLabel}>
+            With label
+          </Toggle>
+        </VStack>
+      </HStack>
     </>
   );
 };

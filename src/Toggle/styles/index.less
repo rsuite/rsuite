@@ -8,36 +8,96 @@
 .rs-toggle {
   // CSS Variables
   --rs-toggle-transition: 0.2s ease-in-out;
+  --rs-toggle-gap: 10px;
+
+  // Extra small size
+  --rs-toggle-font-size-xs: var(--rs-font-size-2xs);
+  --rs-toggle-inner-font-size-xs: var(--rs-font-size-3xs);
+  --rs-toggle-line-height-xs: 1;
+  --rs-toggle-gap-xs: 4px;
+  --rs-toggle-handle-gap-xs: 2px;
+  --rs-toggle-size-xs: 14px;
+  --rs-toggle-inner-margin-xs: 4px;
 
   // Small size
   --rs-toggle-font-size-sm: var(--rs-font-size-xs);
   --rs-toggle-inner-font-size-sm: var(--rs-font-size-2xs);
   --rs-toggle-line-height-sm: 1.4;
+  --rs-toggle-gap-sm: 6px;
+  --rs-toggle-handle-gap-sm: 2px;
+  --rs-toggle-size-sm: 18px;
+  --rs-toggle-inner-margin-sm: 6px;
 
   // Medium size
   --rs-toggle-font-size-md: var(--rs-font-size-sm);
   --rs-toggle-inner-font-size-md: var(--rs-font-size-xs);
   --rs-toggle-line-height-md: 2;
+  --rs-toggle-gap-md: 8px;
+  --rs-toggle-handle-gap-md: 3px;
+  --rs-toggle-size-md: 22px;
+  --rs-toggle-inner-margin-md: 8px;
 
   // Large size
   --rs-toggle-font-size-lg: var(--rs-font-size-md);
   --rs-toggle-inner-font-size-lg: var(--rs-font-size-sm);
   --rs-toggle-line-height-lg: 2.14285714;
+  --rs-toggle-gap-lg: 10px;
+  --rs-toggle-handle-gap-lg: 4px;
+  --rs-toggle-size-lg: 28px;
+  --rs-toggle-inner-margin-lg: 10px;
+
+  // Extra large size
+  --rs-toggle-font-size-xl: var(--rs-font-size-lg);
+  --rs-toggle-inner-font-size-xl: var(--rs-font-size-md);
+  --rs-toggle-line-height-xl: 2.14285714;
+  --rs-toggle-gap-xl: 12px;
+  --rs-toggle-handle-gap-xl: 5px;
+  --rs-toggle-size-xl: 34px;
+  --rs-toggle-inner-margin-xl: 12px;
+
+  // Size variants
+  @sizes: xs, sm, md, lg, xl;
+
+  each(@sizes, .(@size) {
+    &-@{size} {
+
+      --rs-toggle-font-size: var(~'--rs-toggle-font-size-@{size}');
+      --rs-toggle-inner-font-size: var(~'--rs-toggle-inner-font-size-@{size}');
+      --rs-toggle-line-height: var(~'--rs-toggle-line-height-@{size}');
+      --rs-toggle-inner-margin: var(~'--rs-toggle-inner-margin-@{size}');
+      --rs-toggle-handle-size: calc(var(~'--rs-toggle-size-@{size}') - var(~'--rs-toggle-handle-gap-@{size}') * 2);
+      --rs-toggle-handle-gap: var(~'--rs-toggle-handle-gap-@{size}');
+      --rs-toggle-gap: var(~'--rs-toggle-gap-@{size}');
+      --rs-toggle-min-width: calc(var(~'--rs-toggle-size-@{size}') * 2 - var(--rs-toggle-handle-gap));
+      --rs-toggle-size: var(~'--rs-toggle-size-@{size}');
+      --rs-toggle-checked-margin-left: calc((var(--rs-toggle-size) - var(--rs-toggle-handle-gap)) * -1);
+      --rs-toggle-active-checked-margin-left: calc((var(--rs-toggle-size) * @toggle-active-scale - var(--rs-toggle-handle-gap)) * -1);
+    }
+  });
+
+  // Colorful
+  each(@spectrum, .(@color) {
+    &-@{color} {
+      --rs-toggle-checked-bg: var(~'--rs-@{color}-500');
+      --rs-toggle-checked-hover-bg: var(~'--rs-@{color}-600');
+    }
+  });
 
   position: relative;
   display: inline-flex;
   align-items: center;
   font-size: var(--rs-toggle-font-size);
+  gap: var(--rs-toggle-gap);
 
   &-label {
     cursor: pointer;
     font-size: inherit;
-    margin-inline-start: 10px;
   }
 
   &-inner {
     display: flex;
     align-items: center;
+    justify-content: center;
     transition: margin var(--rs-toggle-transition);
     font-size: var(--rs-toggle-inner-font-size);
     line-height: var(--rs-toggle-line-height);
@@ -212,40 +272,4 @@
       }
     }
   }
-
-  // Colorful
-  each(@spectrum, .(@color) {
-    &-@{color} {
-      --rs-toggle-checked-bg: var(~'--rs-@{color}-500');
-      --rs-toggle-checked-hover-bg: var(~'--rs-@{color}-600');
-    }
-  });
-
-  // Size variants
-  @sizes: sm, md, lg;
-
-  each(@sizes, .(@size) {
-    &-@{size} {
-
-      @height: ~'toggle-@{size}-height';
-      @min-width: ~'toggle-@{size}-min-width';
-      @handle-gap: ~'toggle-@{size}-handle-gap';
-      @inner-margin: ~'toggle-@{size}-inner-margin';
-      @handle-diameter: (@@height - @@handle-gap * 2);
-      @margin-left: (0 - (@@height - @@handle-gap));
-      @active-margin-left: (0 - (@@height * @toggle-active-scale - @@handle-gap));
-
-      --rs-toggle-font-size: var(~'--rs-toggle-font-size-@{size}');
-      --rs-toggle-inner-font-size: var(~'--rs-toggle-inner-font-size-@{size}');
-      --rs-toggle-line-height: var(~'--rs-toggle-line-height-@{size}');
-      --rs-toggle-inner-margin: @@inner-margin;
-      --rs-toggle-handle-size: @handle-diameter;
-      --rs-toggle-handle-gap: @@handle-gap;
-      --rs-toggle-min-width: @@min-width;
-      --rs-toggle-size: @@height;
-
-      --rs-toggle-checked-margin-left: @margin-left;
-      --rs-toggle-active-checked-margin-left: @active-margin-left;
-    }
-  });
 }
