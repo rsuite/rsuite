@@ -68,7 +68,15 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({
+  const {
+    containerRef,
+    register,
+    sorting,
+    handleEnd,
+    handleStart,
+    handleTouchStart,
+    handleTouchEnd
+  } = useSortHelper({
     autoScroll,
     onSort,
     onSortEnd,
@@ -91,6 +99,8 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
+      onTouchStart={sortable ? handleTouchStart : undefined}
+      onTouchEnd={sortable ? handleTouchEnd : undefined}
       {...rest}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
