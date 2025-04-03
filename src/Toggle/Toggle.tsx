@@ -145,9 +145,11 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         aria-busy={loading || undefined}
       />
       <span className={prefix('presentation')}>
-        <span className={prefix('inner')} id={innerId}>
-          {inner}
-        </span>
+        {inner && (
+          <span className={prefix('inner')} id={innerId}>
+            {inner}
+          </span>
+        )}
         {loading && <Loader className={prefix('loader')} />}
       </span>
       {children && (
