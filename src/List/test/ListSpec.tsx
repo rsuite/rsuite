@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render, waitFor, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
 import List from '../List';
 
@@ -76,7 +76,7 @@ describe('List', () => {
   });
 
   // Simulating DOM events requires special handling in tests
-  it('Should call onSortStart when mouse is pressed', async () => {
+  it('Should call onSortStart when mouse is pressed', () => {
     const onSortStart = sinon.spy();
 
     // Use setTimeout to simulate pressDelay
@@ -95,14 +95,13 @@ describe('List', () => {
     // Advance time to trigger callback after pressDelay
     clock.tick(10);
 
-    await waitFor(() => {
-      expect(onSortStart).to.have.been.called;
-    });
+    // Verify callback was called synchronously after the clock tick
+    expect(onSortStart).to.have.been.called;
 
     clock.restore();
   });
 
-  it('Should call onSortMove when mouse is moved after sort starts', async () => {
+  it('Should call onSortMove when mouse is moved after sort starts', () => {
     const onSortMove = sinon.spy();
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
 
@@ -123,10 +122,8 @@ describe('List', () => {
       </List>
     );
 
-    // Ensure ref.current is set
-    await waitFor(() => {
-      expect(ref.current).to.not.be.null;
-    });
+    // Verify ref.current is set (this should be synchronous in the test environment)
+    expect(ref.current).to.not.be.null;
 
     // Trigger mousedown event
     fireEvent.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
@@ -134,14 +131,13 @@ describe('List', () => {
     // Advance time to trigger callback after pressDelay
     clock.tick(10);
 
-    await waitFor(() => {
-      expect(onSortMove).to.have.been.called;
-    });
+    // Verify callback was called synchronously after the clock tick
+    expect(onSortMove).to.have.been.called;
 
     clock.restore();
   });
 
-  it('Should call onSortEnd and onSort when sorting is completed', async () => {
+  it('Should call onSortEnd and onSort when sorting is completed', () => {
     const onSort = sinon.spy();
     const onSortEnd = sinon.spy();
 
@@ -174,10 +170,8 @@ describe('List', () => {
       </List>
     );
 
-    // Ensure ref.current is set
-    await waitFor(() => {
-      expect(ref.current).to.not.be.null;
-    });
+    // Verify ref.current is set (this should be synchronous in the test environment)
+    expect(ref.current).to.not.be.null;
 
     // Trigger mousedown event
     fireEvent.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);

@@ -82,7 +82,7 @@ export function getScrollingParent(el: HTMLElement) {
       const properties = ['overflow', 'overflowX', 'overflowY'];
       return properties.some(property => overflowRegex.test(computedStyle[property]));
     });
-  } catch (error) {
+  } catch {
     // In test environments, errors may occur, so return null
     return null;
   }
