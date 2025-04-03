@@ -33,7 +33,9 @@ function useFocus(props: UseFocusProps) {
    */
   const checkFocusable = (date: Date) => {
     const formatStr = showMonth ? formattedMonthPattern : formattedDayPattern;
-    const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
+    const ariaLabel = getAriaLabel(date, formatStr as string, formatDate, {
+      locale: localeProp?.dateLocale
+    });
     const container = getOverlayContainer();
 
     const dateElement = container?.querySelector(`[aria-label="${ariaLabel}"]`);
