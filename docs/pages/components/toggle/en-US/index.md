@@ -24,7 +24,7 @@ Toggle switch, used for selection between two values.
 
 <!--{include:`with-label.md`}-->
 
-### Text and icon
+### Inner labels
 
 You can set the content displayed in the two states of the switch through the `checkedChildren` and `unCheckedChildren` properties.
 
@@ -61,11 +61,12 @@ You can set the content displayed in the two states of the switch through the `c
 | ----------------- | --------------------------------------- | ----------------------------------------------- |
 | checked           | boolean                                 | Whether the toggle is checked (Controlled)      |
 | checkedChildren   | ReactNode                               | Checked display content                         |
-| children          | ReactNode                               | The label of the toggle switch <br/>![][5.63.0] |
 | classPrefix       | string `('toggle')`                     | The prefix of the component CSS class           |
 | color             | [Color](#code-ts-color-code)            | Color of the toggle switch <br/>![][5.63.0]     |
 | defaultChecked    | boolean                                 | Default checked state                           |
 | disabled          | boolean                                 | Whether the switch is disabled                  |
+| label             | ReactNode                               | The label of the toggle switch                  |
+| labelPlacement    | 'start' \| 'end' `('end')`              | The placement of the label                      |
 | loading           | boolean                                 | Whether the switch is in loading state          |
 | locale            | [ToggleLocaleType](/guide/i18n/#toggle) | Custom locale text                              |
 | onChange          | (checked: boolean, event) => void       | Callback function when state changes            |

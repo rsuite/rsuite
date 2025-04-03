@@ -84,7 +84,7 @@ export default {
     expandText: 'Show path'
   },
   Toggle: {
-    on: 'Open',
-    off: 'Close'
+    on: 'ON',
+    off: 'OFF'
   }
 };

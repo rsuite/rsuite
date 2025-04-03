@@ -47,8 +47,8 @@ describe('useCustom', () => {
       emptyMessage: 'No data found',
       remove: 'Remove',
       clear: 'Clear',
-      on: 'Open',
-      off: 'Close'
+      on: 'ON',
+      off: 'OFF'
     });
   });
 

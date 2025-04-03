@@ -160,4 +160,43 @@ describe('Toggle', () => {
       expect(screen.getByRole('switch')).to.have.attr('aria-busy', 'true');
     });
   });
+
+  describe('Label', () => {
+    it('Should render label when provided as a prop', () => {
+      render(<Toggle label="Custom Label" />);
+
+      expect(screen.getByText('Custom Label')).to.have.class('rs-toggle-label');
+      expect(screen.getByRole('switch')).to.have.attr(
+        'aria-labelledby',
+        screen.getByText('Custom Label').id
+      );
+    });
+
+    it('Should prioritize label prop over children', () => {
+      render(<Toggle label="Label Prop">Children Text</Toggle>);
+
+      expect(screen.getByText('Label Prop')).to.exist;
+      expect(screen.queryByText('Children Text')).to.not.exist;
+    });
+  });
+
+  describe('LabelPlacement', () => {
+    it('Should have data-placement attribute set to "end" by default', () => {
+      render(<Toggle label="Default Placement" data-testid="toggle" />);
+
+      expect(screen.getByTestId('toggle')).to.have.attr('data-placement', 'end');
+    });
+
+    it('Should have data-placement attribute set to "start" when specified', () => {
+      render(<Toggle label="Start Placement" labelPlacement="start" data-testid="toggle" />);
+
+      expect(screen.getByTestId('toggle')).to.have.attr('data-placement', 'start');
+    });
+
+    it('Should have data-placement attribute set to "end" when specified', () => {
+      render(<Toggle label="End Placement" labelPlacement="end" data-testid="toggle" />);
+
+      expect(screen.getByTestId('toggle')).to.have.attr('data-placement', 'end');
+    });
+  });
 });

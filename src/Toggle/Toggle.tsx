@@ -65,6 +65,16 @@ export interface ToggleProps extends BoxProps, SanitizedInputProps {
   locale?: ToggleLocale;
 
   /**
+   * The label of the toggle switch
+   */
+  label?: React.ReactNode;
+
+  /**
+   * The placement of the label
+   */
+  labelPlacement?: 'start' | 'end';
+
+  /**
    * Called when the state of the toggle changes
    */
   onChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -93,6 +103,8 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
     defaultChecked,
     size = 'md',
     locale,
+    label = children,
+    labelPlacement = 'end',
     onChange,
     ...rest
   } = propsWithDefaults;
@@ -103,11 +115,11 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix(size, color, { checked, disabled, loading }));
   const inner = checked ? checkedChildren : unCheckedChildren;
-  const label = checked ? locale?.on : locale?.off;
+  const innerLabel = checked ? locale?.on : locale?.off;
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;
-  const labelledby = children ? labelId : innerId;
+  const labelledby = label ? labelId : innerId;
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
@@ -122,11 +134,11 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   });
 
   if (plaintext) {
-    return <Plaintext>{inner || label}</Plaintext>;
+    return <Plaintext>{inner || innerLabel}</Plaintext>;
   }
 
   return (
-    <Box as={as} ref={ref} className={classes} {...restProps}>
+    <Box as={as} ref={ref} className={classes} data-placement={labelPlacement} {...restProps}>
       <input
         {...htmlInputProps}
         ref={inputRef}
@@ -141,10 +153,10 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         aria-checked={checked}
         aria-disabled={disabled}
         aria-labelledby={labelledby}
-        aria-label={labelledby ? undefined : label}
+        aria-label={labelledby ? undefined : innerLabel}
         aria-busy={loading || undefined}
       />
-      <span className={prefix('presentation')}>
+      <span className={prefix('track')}>
         {inner && (
           <span className={prefix('inner')} id={innerId}>
             {inner}
@@ -152,9 +164,9 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         )}
         {loading && <Loader className={prefix('loader')} />}
       </span>
-      {children && (
+      {label && (
         <span className={prefix('label')} id={labelId}>
-          {children}
+          {label}
         </span>
       )}
     </Box>
