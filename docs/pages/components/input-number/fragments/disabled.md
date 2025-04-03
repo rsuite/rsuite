@@ -4,7 +4,7 @@
 import { InputNumber, Stack } from 'rsuite';
 
 const App = () => (
-  <Stack direction="column" alignItems="flex-start" spacing={10}>
+  <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
     <Stack.Item>
       <label>Disabled:</label>
       <InputNumber disabled defaultValue={10} />

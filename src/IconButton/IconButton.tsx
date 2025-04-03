@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button, { ButtonProps } from '../Button';
-import { IconProps } from '@rsuite/icons/Icon';
-import { RsRefForwardingComponent } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface IconButtonProps extends ButtonProps {
   /** Set the icon */
@@ -22,12 +20,7 @@ export interface IconButtonProps extends ButtonProps {
  * The `IconButton` component is used to specify a button with icon.
  * @see https://rsuitejs.com/components/button
  */
-const IconButton: RsRefForwardingComponent<
-  typeof Button,
-  IconButtonProps & {
-    ref?: React.Ref<HTMLElement>;
-  }
-> = React.forwardRef((props: IconButtonProps, ref) => {
+const IconButton = forwardRef<typeof Button, IconButtonProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('IconButton', props);
   const {
     icon,
@@ -39,10 +32,10 @@ const IconButton: RsRefForwardingComponent<
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(`placement-${placement}`, {
+    withPrefix(`placement-${placement}`, {
       circle,
       'with-text': typeof children !== 'undefined'
     })
@@ -57,13 +50,5 @@ const IconButton: RsRefForwardingComponent<
 });
 
 IconButton.displayName = 'IconButton';
-IconButton.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  circle: PropTypes.bool,
-  children: PropTypes.node,
-  placement: oneOf(['left', 'right'])
-};
 
 export default IconButton;

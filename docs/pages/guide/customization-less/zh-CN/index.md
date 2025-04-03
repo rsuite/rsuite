@@ -27,18 +27,11 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 
 如果你想同时自定义内建深色模式的颜色，你可以使用 `@primary-color-dark` 变量。
 
-### 调整组件圆角半径
-
-```less
-@border-radius: 2px;
-```
-
 ### 修改字体样式
 
 ```less
 @font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial,
   'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
-@font-size-base: 14px;
 ```
 
 ### 第二色板
@@ -71,14 +64,6 @@ React Suite 在 `<Button>` 等一些可点击的组件上添加了涟漪动画�
 
 ```less
 @enable-ripple-effect: false;
-```
-
-### 禁用 IE polyfill
-
-React Suite 默认包含了一些用于兼容 IE 11 的样式。如果您不需要这些兼容，可以关闭如下标识。
-
-```less
-@enable-ie-polyfill: false;
 ```
 
 ### 禁用 reset 相关样式引用

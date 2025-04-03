@@ -1,0 +1,827 @@
+[
+  {
+    "id": "overview",
+    "name": "All Components",
+    "title": "概览"
+  },
+  {
+    "group": true,
+    "id": "layout",
+    "name": "Layout",
+    "title": "布局",
+    "children": [
+      {
+        "id": "box",
+        "name": "Box",
+        "title": "盒子",
+        "components": ["Box"]
+      },
+      {
+        "id": "center",
+        "name": "Center",
+        "title": "居中",
+        "components": ["Center"]
+      },
+      {
+        "id": "divider",
+        "name": "Divider",
+        "title": "分割线",
+        "components": ["Divider"]
+      },
+      {
+        "id": "frame",
+        "name": "Frame",
+        "title": "框架",
+        "components": ["Container", "Header", "Footer", "Content", "Sidebar"],
+        "keywords": ["layout"]
+      },
+      {
+        "id": "grid",
+        "name": "Grid",
+        "title": "栅格",
+        "components": ["Grid", "Row", "Col"],
+        "keywords": ["layout"]
+      },
+      {
+        "id": "stack",
+        "name": "Stack",
+        "title": "堆叠",
+        "components": ["Stack", "Stack.Item", "HStack", "VStack"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "buttons",
+    "name": "Buttons",
+    "title": "按钮",
+    "children": [
+      {
+        "id": "button",
+        "name": "Button",
+        "title": "按钮",
+        "components": ["Button"]
+      },
+      {
+        "id": "icon-button",
+        "name": "IconButton",
+        "title": "图标按钮",
+        "components": ["IconButton"]
+      },
+      {
+        "id": "button-group",
+        "name": "ButtonGroup",
+        "title": "按钮组",
+        "components": ["ButtonGroup", "ButtonToolbar"],
+        "keywords": ["SplitButton"]
+      }
+    ]
+  },
+
+  {
+    "group": true,
+    "id": "status",
+    "name": "Status",
+    "title": "状态",
+    "children": [
+      {
+        "id": "badge",
+        "name": "Badge",
+        "title": "徽标",
+        "components": ["Badge"]
+      },
+      {
+        "id": "loader",
+        "name": "Loader",
+        "title": "加载器",
+        "components": ["Loader"],
+        "keywords": ["spinner"]
+      },
+      {
+        "id": "message",
+        "name": "Message",
+        "title": "消息框",
+        "components": ["Message"],
+        "keywords": ["alert"]
+      },
+      {
+        "id": "notification",
+        "name": "Notification",
+        "title": "通知框",
+        "components": ["Notification"]
+      },
+      {
+        "id": "progress",
+        "name": "Progress",
+        "title": "进度条",
+        "components": ["Progress.Line", "Progress.Circle"],
+        "keywords": ["loading", "meter"]
+      },
+      {
+        "id": "placeholder",
+        "name": "Placeholder",
+        "title": "占位符",
+        "components": ["Placeholder.Graph", "Placeholder.Grid", "Placeholder.Paragraph"],
+        "keywords": ["skeleton"]
+      },
+      {
+        "id": "toaster",
+        "name": "Toaster",
+        "title": "轻量弹窗",
+        "apis": ["useToaster"],
+        "keywords": ["toast", "alert"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "typography",
+    "name": "Typography",
+    "title": "排版",
+    "children": [
+      {
+        "id": "heading",
+        "name": "Heading",
+        "title": "标题",
+        "components": ["Heading"],
+        "minVersion": "5.58.0"
+      },
+      {
+        "id": "highlight",
+        "name": "Highlight",
+        "title": "高亮",
+        "components": ["Highlight"],
+        "minVersion": "5.61.0"
+      },
+      {
+        "id": "kbd",
+        "name": "Kbd",
+        "title": "键盘快捷键",
+        "components": ["Kbd"],
+        "minVersion": "6.0.0"
+      },
+      {
+        "id": "text",
+        "name": "Text",
+        "title": "文本",
+        "components": ["Text"],
+        "minVersion": "5.58.0"
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "overlays",
+    "name": "Overlays",
+    "title": "覆盖层",
+    "children": [
+      {
+        "id": "drawer",
+        "name": "Drawer",
+        "title": "抽屉",
+        "components": ["Drawer", "Drawer.Header", "Drawer.Body", "Drawer.Footer"]
+      },
+      {
+        "id": "modal",
+        "name": "Modal",
+        "title": "模态框",
+        "components": ["Modal", "Modal.Header", "Modal.Body", "Modal.Footer"],
+        "keywords": ["dialog"]
+      },
+      {
+        "id": "popover",
+        "name": "Popover",
+        "title": "弹出框",
+        "components": ["Popover"]
+      },
+      {
+        "id": "tooltip",
+        "name": "Tooltip",
+        "title": "工具提示框",
+        "components": ["Tooltip"]
+      },
+      {
+        "id": "whisper",
+        "name": "Whisper",
+        "title": "弹窗触发器",
+        "components": ["Whisper"]
+      },
+      {
+        "id": "modal-integrations",
+        "name": "Modal Integrations",
+        "title": "",
+        "icon": "MdOutlineIntegrationInstructions"
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "navigation",
+    "name": "Navigation and Menu",
+    "title": "导航和菜单",
+    "children": [
+      {
+        "id": "affix",
+        "name": "Affix",
+        "title": "固定位置",
+        "components": ["Affix"],
+        "keywords": ["sticky"]
+      },
+      {
+        "id": "breadcrumb",
+        "name": "Breadcrumb",
+        "title": "面包屑",
+        "components": ["Breadcrumb", "Breadcrumb.Item"]
+      },
+      {
+        "id": "dropdown",
+        "name": "Dropdown",
+        "title": "下拉菜单",
+        "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu", "Dropdown.Separator"],
+        "keywords": ["menu"]
+      },
+      {
+        "id": "link",
+        "name": "Link",
+        "title": "链接",
+        "components": ["Link"],
+        "keywords": ["anchor"]
+      },
+      {
+        "id": "menu",
+        "name": "Menu",
+        "title": "菜单",
+        "components": ["Menu", "Menu.Item", "Menu.Separator"],
+        "keywords": ["menu"]
+      },
+      {
+        "id": "nav",
+        "name": "Nav",
+        "title": "导航",
+        "components": ["Nav", "Nav.Item", "Nav.Menu"]
+      },
+      {
+        "id": "navbar",
+        "name": "Navbar",
+        "title": "导航栏",
+        "components": [
+          "Navbar",
+          "Navbar.Brand",
+          "Navbar.Content",
+          "Navbar.Drawer",
+          "Navbar.Toggle"
+        ],
+        "keywords": ["menu", "header"]
+      },
+      {
+        "id": "sidenav",
+        "name": "Sidenav",
+        "title": "侧导航",
+        "components": [
+          "Sidenav",
+          "Sidenav.Header",
+          "Sidenav.Body",
+          "Sidenav.Footer",
+          "Sidenav.Toggle",
+          "Sidenav.GroupLabel"
+        ]
+      },
+      {
+        "id": "steps",
+        "name": "Steps",
+        "title": "步骤条",
+        "components": ["Steps", "Steps.Item"],
+        "keywords": ["stepper"]
+      },
+      {
+        "id": "pagination",
+        "name": "Pagination",
+        "title": "分页",
+        "components": ["Pagination"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "media-and-icons",
+    "name": "Media and icons",
+    "title": "媒体和图标",
+    "children": [
+      {
+        "id": "avatar",
+        "name": "Avatar",
+        "title": "头像",
+        "components": ["Avatar", "AvatarGroup"]
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "title": "图标",
+        "components": ["Icon"]
+      },
+      {
+        "id": "image",
+        "name": "Image",
+        "title": "图片",
+        "components": ["Image"],
+        "minVersion": "5.76.0"
+      }
+    ]
+  },
+
+  {
+    "group": true,
+    "id": "form-category",
+    "name": "Form",
+    "title": "表单",
+    "children": [
+      {
+        "id": "form",
+        "name": "Form",
+        "title": "表单",
+        "components": [
+          "Form",
+          "Form.Stack",
+          "Form.Group",
+          "Form.Control",
+          "Form.ControlLabel",
+          "Form.HelpText",
+          "Form.ErrorMessage"
+        ]
+      },
+      {
+        "id": "form-validation",
+        "name": "Form Validation",
+        "title": "表单校验",
+        "components": ["Form", "Form.Control"],
+        "apis": ["Schema"]
+      },
+      {
+        "id": "form-formik",
+        "name": "Formik",
+        "title": "",
+        "icon": "MdOutlineIntegrationInstructions"
+      },
+      {
+        "id": "form-react-hook-form",
+        "name": "React Hook Form",
+        "title": "",
+        "icon": "MdOutlineIntegrationInstructions"
+      },
+      {
+        "id": "schema",
+        "name": "schema-typed",
+        "title": "数据模型",
+        "target": "_blank",
+        "url": "https://github.com/rsuite/schema-typed#schema-typed"
+      }
+    ]
+  },
+
+  {
+    "group": true,
+    "id": "entry",
+    "name": "Data Entry",
+    "title": "数据录入",
+    "children": [
+      {
+        "id": "auto-complete",
+        "name": "AutoComplete",
+        "title": "自动完成控件",
+        "components": ["AutoComplete"]
+      },
+      {
+        "id": "cascade-tree",
+        "name": "CascadeTree",
+        "title": "级联树",
+        "components": ["CascadeTree"],
+        "minVersion": "5.56.0",
+        "keywords": ["tree"]
+      },
+      {
+        "id": "checkbox",
+        "name": "Checkbox",
+        "title": "复选框",
+        "components": ["Checkbox", "CheckboxGroup"],
+        "keywords": ["boolean"]
+      },
+      {
+        "id": "check-tree",
+        "name": "CheckTree",
+        "title": "树形多选控件",
+        "components": ["CheckTree"],
+        "keywords": ["tree"]
+      },
+      {
+        "id": "input",
+        "name": "Input",
+        "title": "输入框",
+        "components": [
+          "Input",
+          "InputGroup",
+          "InputGroup.Button",
+          "InputGroup.Addon",
+          "MaskedInput"
+        ],
+        "keywords": ["text", "string"]
+      },
+      {
+        "id": "input-number",
+        "name": "InputNumber",
+        "title": "数字输入框",
+        "components": ["InputNumber"],
+        "keywords": ["number"]
+      },
+      {
+        "id": "inline-edit",
+        "name": "InlineEdit",
+        "title": "行内编辑",
+        "components": ["InlineEdit"],
+        "minVersion": "5.54.0"
+      },
+      {
+        "id": "multi-cascade-tree",
+        "name": "MultiCascadeTree",
+        "title": "多选级联树",
+        "components": ["MultiCascadeTree"],
+        "minVersion": "5.56.0",
+        "keywords": ["multi", "tree", "check"]
+      },
+      {
+        "id": "radio",
+        "name": "Radio",
+        "title": "单选框",
+        "components": ["Radio", "RadioGroup"]
+      },
+      {
+        "id": "radio-tile",
+        "name": "RadioTile",
+        "title": "磁贴单选",
+        "components": ["RadioTile", "RadioTileGroup"],
+        "minVersion": "5.35.0"
+      },
+      {
+        "id": "rate",
+        "name": "Rate",
+        "title": "评分",
+        "components": ["Rate"],
+        "keywords": ["star", "number", "rating"]
+      },
+      {
+        "id": "slider",
+        "name": "Slider",
+        "title": "滑动输入控件",
+        "components": ["Slider", "RangeSlider"],
+        "keywords": ["range", "number"]
+      },
+      {
+        "id": "tag-input",
+        "name": "TagInput",
+        "title": "标签输入",
+        "components": ["TagInput"],
+        "keywords": ["text"]
+      },
+      {
+        "id": "toggle",
+        "name": "Toggle",
+        "title": "开关",
+        "components": ["Toggle"],
+        "keywords": ["boolean", "switch"]
+      },
+
+      {
+        "id": "tree",
+        "name": "Tree",
+        "title": "树形控件",
+        "components": ["Tree"]
+      },
+      {
+        "id": "uploader",
+        "name": "Uploader",
+        "title": "上传控件",
+        "components": ["Uploader"],
+        "keywords": ["file"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "data-pickers",
+    "name": "Data Pickers",
+    "title": "数据选择器",
+    "children": [
+      {
+        "id": "cascader",
+        "name": "Cascader",
+        "title": "级联选择器",
+        "components": ["Cascader"],
+        "keywords": ["tree", "combobox"]
+      },
+      {
+        "id": "check-picker",
+        "name": "CheckPicker",
+        "title": "多项选择器",
+        "components": ["CheckPicker"],
+        "keywords": ["multi", "select", "array", "combobox"]
+      },
+      {
+        "id": "check-tree-picker",
+        "name": "CheckTreePicker",
+        "title": "树形多项选择器",
+        "components": ["CheckTreePicker"],
+        "keywords": ["multi", "tree", "array"]
+      },
+      {
+        "id": "input-picker",
+        "name": "InputPicker",
+        "title": "输入选择器",
+        "components": ["InputPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "multi-cascader",
+        "name": "MultiCascader",
+        "title": "级联多项选择器",
+        "components": ["MultiCascader"],
+        "keywords": ["multi", "tree", "combobox"]
+      },
+      {
+        "id": "select-picker",
+        "name": "SelectPicker",
+        "title": "单项选择器",
+        "components": ["SelectPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tag-picker",
+        "name": "TagPicker",
+        "title": "标签选择器",
+        "components": ["TagPicker"],
+        "keywords": ["select", "text", "combobox"]
+      },
+      {
+        "id": "tree-picker",
+        "name": "TreePicker",
+        "title": "树形单项选择器",
+        "components": ["TreePicker"],
+        "keywords": ["tree", "select", "combobox"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "date-time",
+    "name": "Date and Time",
+    "title": "日期和时间",
+    "children": [
+      {
+        "id": "calendar",
+        "name": "Calendar",
+        "title": "日历",
+        "components": ["Calendar"],
+        "keywords": ["date"]
+      },
+      {
+        "id": "date-input",
+        "name": "DateInput",
+        "title": "日期输入框",
+        "components": ["DateInput"],
+        "minVersion": "5.48.0",
+        "keywords": ["date", "time"]
+      },
+      {
+        "id": "date-picker",
+        "name": "DatePicker",
+        "title": "日期选择器",
+        "components": ["DatePicker"],
+        "keywords": ["date", "time", "combobox"]
+      },
+      {
+        "id": "date-range-input",
+        "name": "DateRangeInput",
+        "title": "日期范围输入框",
+        "components": ["DateRangeInput"],
+        "minVersion": "5.49.0",
+        "keywords": ["date", "time"]
+      },
+      {
+        "id": "date-range-picker",
+        "name": "DateRangePicker",
+        "title": "日期范围选择器",
+        "components": ["DateRangePicker"],
+        "keywords": ["date", "time", "combobox"]
+      },
+      {
+        "id": "time-picker",
+        "name": "TimePicker",
+        "title": "时间选择器",
+        "components": ["TimePicker"],
+        "keywords": ["date", "time", "combobox"],
+        "minVersion": "5.72.0"
+      },
+      {
+        "id": "time-range-picker",
+        "name": "TimeRangePicker",
+        "title": "时间范围选择器",
+        "components": ["TimeRangePicker"],
+        "keywords": ["date", "time", "combobox"],
+        "minVersion": "5.72.0"
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "data-grid",
+    "name": "Data Grid",
+    "title": "数据表格",
+    "children": [
+      {
+        "id": "table",
+        "name": "Table",
+        "title": "表格",
+        "components": [
+          "Table",
+          "Table.Column",
+          "Table.ColumnGroup",
+          "Table.HeaderCell",
+          "Table.Cell"
+        ],
+        "keywords": ["array", "data", "grid", "datagrid"]
+      },
+      {
+        "id": "table-virtualized",
+        "name": "Table Virtualized",
+        "title": "表格虚拟化",
+        "keywords": ["table", "datagrid"]
+      },
+      {
+        "id": "table-tree",
+        "name": "Tree Table",
+        "title": "树形表格",
+        "keywords": ["table", "datagrid", "tree", "treegrid"]
+      },
+      {
+        "id": "table-affix",
+        "name": "Table Affix",
+        "title": "表格固定",
+        "keywords": ["table", "datagrid", "sticky"]
+      },
+      {
+        "id": "table-editable",
+        "name": "Table Editable",
+        "title": "表格编辑",
+        "keywords": ["table", "datagrid", "edit"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "display",
+    "name": "Data Display",
+    "title": "数据展示",
+    "children": [
+      {
+        "id": "card",
+        "name": "Card",
+        "title": "卡片",
+        "components": ["Card", "Card.Header", "Card.Body", "Card.Footer", "CardGroup"],
+        "minVersion": "5.75.0"
+      },
+      {
+        "id": "carousel",
+        "name": "Carousel",
+        "title": "轮播",
+        "components": ["Carousel"],
+        "keywords": ["image"]
+      },
+      {
+        "id": "list",
+        "name": "List",
+        "title": "列表",
+        "components": ["List", "List.Item"],
+        "keywords": ["array", "data"]
+      },
+      {
+        "id": "stat",
+        "name": "Stat",
+        "title": "统计数值",
+        "components": [
+          "Stat",
+          "Stat.Label",
+          "Stat.ValueText",
+          "Stat.ValueUnit",
+          "Stat.HelpText",
+          "Stat.Trend"
+        ],
+        "keywords": ["statistic"],
+        "minVersion": "5.75.0"
+      },
+      {
+        "id": "tag",
+        "name": "Tag",
+        "title": "标签",
+        "components": ["Tag"]
+      },
+      {
+        "id": "timeline",
+        "name": "Timeline",
+        "title": "时间轴",
+        "components": ["Timeline", "Timeline.Item"],
+        "keywords": ["time"]
+      },
+      {
+        "id": "panel",
+        "name": "Panel",
+        "title": "面板",
+        "components": ["Panel", "PanelGroup"],
+        "keywords": ["card"]
+      }
+    ]
+  },
+
+  {
+    "group": true,
+    "id": "disclosure",
+    "name": "Disclosure",
+    "title": "展现",
+    "children": [
+      {
+        "id": "accordion",
+        "name": "Accordion",
+        "title": "手风琴",
+        "components": ["Accordion", "Accordion.Item"],
+        "minVersion": "5.52.0"
+      },
+      {
+        "id": "tabs",
+        "name": "Tabs",
+        "title": "选项卡",
+        "components": ["Tabs", "Tabs.Tab"],
+        "minVersion": "5.53.0"
+      },
+      {
+        "id": "visually-hidden",
+        "name": "VisuallyHidden",
+        "title": "视觉隐藏",
+        "components": ["VisuallyHidden"],
+        "minVersion": "5.52.0"
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "misc",
+    "name": "Misc",
+    "title": "杂项",
+    "children": [
+      {
+        "id": "animation",
+        "name": "Animation",
+        "title": "动画",
+        "components": [
+          "Animation.Transition",
+          "Animation.Fade",
+          "Animation.Bounce",
+          "Animation.Slide",
+          "Animation.Collapse"
+        ]
+      },
+      {
+        "id": "custom-provider",
+        "name": "CustomProvider",
+        "title": "个性化配置",
+        "apis": ["CustomProvider"]
+      },
+      {
+        "id": "dom-helper",
+        "name": "DOMHelper",
+        "title": "DOM 助手",
+        "apis": ["DOMHelper"]
+      }
+    ]
+  },
+  {
+    "group": true,
+    "id": "hooks",
+    "name": "Hooks",
+    "children": [
+      {
+        "id": "use-media-query",
+        "name": "useMediaQuery",
+        "title": "",
+        "apis": ["useMediaQuery"],
+        "tag": "Unstable 🧪",
+        "tagColor": "orange"
+      },
+      {
+        "id": "use-breakpoint-value",
+        "name": "useBreakpointValue",
+        "title": "",
+        "apis": ["useBreakpointValue"],
+        "tag": "Unstable 🧪",
+        "tagColor": "orange",
+        "minVersion": "5.63.0"
+      }
+    ]
+  }
+]

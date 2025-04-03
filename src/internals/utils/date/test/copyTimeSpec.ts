@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import copyTime from '../copyTime';
 
 describe('internals/utils/date/copyTime', () => {

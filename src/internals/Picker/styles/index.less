@@ -3,12 +3,11 @@
 @import '../../../styles/mixins/listbox.less';
 @import '../../../styles/mixins/combobox.less';
 @import '../../../Stack/styles/index.less';
-@import '../../../Form/styles/mixin.less';
-@import '../../CloseButton/styles/index.less';
 @import '../../../Loader/styles/index.less';
 @import '../../../Input/styles/index.less';
 @import '../../../InputGroup/styles/index.less';
 @import '../../../Highlight/styles/index.less';
+@import '../../CloseButton/styles/index.less';
 @import './mixin.less';
 
 //
@@ -18,24 +17,24 @@
 // Common styles
 // ----------------------
 .rs-picker {
-  &-toggle-wrapper {
-    display: inline-block;
-    // Clear whitespace.
-    vertical-align: middle;
-    max-width: 100%;
-  }
+  --rs-picker-value-count-border-radius: var(--rs-radius-full);
+  --rs-picker-value-count-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-picker-value-count-margin: var(--rs-spacing);
+  --rs-picker-size: 0.875rem;
+  --rs-picker-loader-size: 20px;
+  --rs-picker-toggle-border-width: 1px;
+  --rs-picker-toggle-bg: var(--rs-input-bg);
 
-  &-toggle.rs-btn {
-    .rs-ripple-pond {
-      display: none !important;
-    }
-  }
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
 
-  &-block {
+  &[data-block='true'] {
     display: block;
+    width: 100%;
   }
 
-  &-disabled {
+  &[data-disabled='true'] {
     cursor: not-allowed;
 
     .rs-picker-toggle-value,
@@ -58,37 +57,23 @@
     color: var(--rs-picker-value);
   }
 
-  // empty listbox
-  &-none {
-    padding: @picker-none-padding;
-    color: var(--rs-text-secondary);
-    cursor: default;
-  }
-
-  &-countable &-toggle-value {
-    display: flex;
-  }
-
   &-value-list {
     flex: 0 1 auto;
     .ellipsis-basic();
-    .ie11-max-width(100%);
   }
 
   &-value-count {
-    margin: 0 @picker-value-count-margin;
+    margin-inline: var(--rs-picker-value-count-margin);
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);
-    border-radius: @picker-value-count-border-radius;
-    padding: 0 @picker-value-count-padding;
-    line-height: @line-height-computed;
+    flex-shrink: 0;
   }
 
   &-value-separator {
-    margin: 0 4px 0 0;
+    margin: 0 var(--rs-spacing) 0 0;
   }
 
-  &:not(.rs-picker-disabled):hover,
+  &:not([data-disabled='true']):hover,
   &.rs-picker-focused {
     border-color: var(--rs-input-focus-border);
   }
@@ -100,12 +85,14 @@
 
   &-label.rs-input-group-addon {
     color: var(--rs-text-primary);
-    padding-right: 4px !important;
+    padding-inline: calc(
+      var(--rs-input-group-inside-btn-padding) * 2 - var(--rs-picker-toggle-border-width)
+    );
   }
 
   &-loader {
-    width: 14px;
-    height: 14px;
+    width: var(--rs-picker-loader-size);
+    height: var(--rs-picker-loader-size);
     display: flex;
     align-items: center;
   }
@@ -124,50 +111,166 @@
   }
 }
 
+// Picker Menu
+.rs-picker-popup {
+  --rs-picker-popup-none-padding: calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-border-radius: var(--rs-radius-md);
+  --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-z-index: @zindex-picker-popup;
+  --rs-picker-popup-shadow: var(--rs-shadow-md);
+  --rs-picker-popup-position-x: var(--rs-position-x);
+  --rs-picker-popup-position-y: var(--rs-position-y);
+  --rs-picker-min-width: 0;
+
+  position: absolute;
+  top: var(--rs-picker-popup-position-y);
+  left: var(--rs-picker-popup-position-x) /* rtl:ignore */;
+  text-align: start;
+  overflow: hidden;
+  transition: none;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--rs-picker-popup-z-index);
+  border-radius: var(--rs-picker-popup-border-radius);
+  background-color: var(--rs-bg-overlay);
+  box-shadow: var(--rs-picker-popup-shadow);
+  padding-block: var(--rs-picker-popup-border-radius);
+  min-width: var(--rs-picker-min-width);
+
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+  });
+
+  // Increase z-index when modal opened.
+  .rs-modal-open & {
+    --rs-picker-popup-z-index: calc(@zindex-modal + @zindex-picker-toggle);
+  }
+
+  // Increase z-index when drawer opened.
+  .rs-drawer-open & {
+    --rs-picker-popup-z-index: calc(@zindex-drawer + @zindex-picker-toggle);
+  }
+
+  &.rs-picker-inline {
+    position: relative;
+    box-shadow: none;
+  }
+
+  .rs-search-box {
+    padding: var(--rs-picker-search-box-padding);
+  }
+
+  .rs-highlight .rs-highlight-mark {
+    padding: 0;
+  }
+
+  // Empty listbox
+  .rs-picker-none {
+    padding: var(--rs-picker-popup-none-padding);
+    color: var(--rs-text-secondary);
+    cursor: default;
+  }
+
+  .rs-picker-listbox {
+    max-height: var(--rs-picker-listbox-max-height);
+  }
+
+  // Responsive popup
+  &[data-breakpoint='xs'] {
+    min-width: unset;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .rs-picker-listbox {
+      height: unset;
+      max-height: unset;
+    }
+
+    .rs-tree,
+    .rs-check-tree {
+      display: flex;
+      flex-direction: column;
+      &-view {
+        max-height: unset;
+        flex: 1 1 auto;
+      }
+    }
+
+    .rs-calendar-table {
+      width: 100%;
+    }
+
+    .rs-picker-box {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &.rs-picker-popup-date,
+    .rs-picker-daterange-panel-only-time {
+      .rs-calendar {
+        height: 348px;
+      }
+    }
+  }
+}
+
 .rs-picker-toggle {
-  // TODO: Should inherit from <Input> styles?
-  .rs-btn();
+  --rs-badge-one-char-size: 18px;
 
-  .rs-picker-default & {
-    @padding-vertical: (@padding-y - @picker-default-toggle-border-width);
-    @padding-horizontal: (@padding-x - @picker-default-toggle-border-width);
+  .picker-default-toggle();
+  .picker-subtle-toggle();
 
-    padding: @padding-vertical @padding-horizontal;
+  &-label {
+    color: var(--rs-text-secondary);
+  }
+
+  .rs-picker-toggle-stack {
+    flex: 1 1 auto;
+    gap: calc(var(--rs-spacing) * 2);
+    overflow: hidden;
+  }
+
+  &-value {
+    display: block;
+    .ellipsis();
   }
 
   &-textbox {
     position: absolute;
     width: 100%;
     height: 100%;
-    left: 0;
+    inset-inline-start: 0;
     top: 0;
     border: 1px solid #0000;
-    padding-left: 10px;
-    padding-right: 32px;
+    padding-inline-start: 10px;
+    padding-inline-end: 32px;
     color: var(--rs-text-primary);
     background-color: var(--rs-input-bg);
     outline: none;
   }
 
   &.rs-btn-lg &-textbox {
-    padding-left: 14px;
+    padding-inline-start: 14px;
   }
 
   &.rs-btn-sm &-textbox {
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 
   &.rs-btn-xs &-textbox {
-    padding-left: 6px;
+    padding-inline-start: 6px;
   }
 
   &-read-only {
     opacity: 0;
   }
-}
 
-.rs-picker-toggle {
-  .rs-picker-default & {
+  .rs-picker[data-variant='default'],
+  & {
     transition: @picker-transition;
 
     .high-contrast-mode({
@@ -175,7 +278,8 @@
     });
   }
 
-  .rs-picker-default:not(.rs-picker-disabled) & {
+  .rs-picker[data-variant='default'],
+  :not([data-disabled='true']) & {
     &:hover,
     &:focus,
     &-active {
@@ -183,7 +287,7 @@
     }
   }
 
-  .rs-picker-subtle & {
+  .rs-picker[data-variant='subtle'] & {
     .rs-btn-subtle();
 
     transition: none;
@@ -193,88 +297,61 @@
       color: var(--rs-btn-subtle-hover-text);
     }
   }
+
+  &[data-size='lg'] {
+    --rs-badge-one-char-size: 20px;
+    .rs-picker-clean {
+      .rs-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &[data-size='md'] {
+    --rs-badge-one-char-size: 18px;
+  }
+
+  &[data-size='sm'] {
+    --rs-badge-one-char-size: 16px;
+    .rs-picker-clean {
+      height: 18px;
+    }
+  }
+
+  &[data-size='xs'] {
+    --rs-badge-one-char-size: 14px;
+    .rs-picker-clean {
+      height: 18px;
+      .rs-icon {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
+  &[data-countable='true'] &-value {
+    display: flex;
+    align-items: center;
+  }
 }
 
-/* stylelint-disable-next-line */ // Custom button sizes
 .rs-picker-toggle.rs-btn {
-  .picker-button-caret-md();
-  .date-picker-button-caret-md();
-  .date-picker-button-size(base);
-
-  &-lg {
-    .picker-button-caret-lg();
-    .picker-default-button-reset-padding-left(large);
-    .date-picker-button-caret-lg();
-    .date-picker-button-size(large);
-
-    .button-size-lg();
-
-    .rs-picker-value-count {
-      line-height: @line-height-large-computed;
-    }
-  }
-
-  &-md {
-    .picker-button-caret-md();
-    .picker-default-button-reset-padding-left(base);
-    .date-picker-button-caret-md();
-    .date-picker-button-size(base);
-  }
-
-  &-sm {
-    .button-size-sm();
-
-    .picker-button-caret-sm();
-    .picker-default-button-reset-padding-left(small);
-    .date-picker-button-caret-sm();
-    .date-picker-button-size(small);
-  }
-
-  &-xs {
-    .button-size-xs();
-
-    .picker-button-caret-xs();
-    .picker-default-button-reset-padding-left(extra-small);
-    .date-picker-button-caret-xs();
-    .date-picker-button-size(extra-small);
-  }
-}
-
-/* stylelint-disable-next-line */ // Custom button
-.rs-picker-toggle {
-  .picker-default-toggle();
-  .picker-subtle-toggle();
-
-  &.rs-btn {
-    width: 100%;
-    text-align: left;
-  }
-
-  .ellipsis();
-
-  &-label {
-    color: var(--rs-text-primary);
-
-    &::after {
-      content: ':';
-      margin: 0 4px 0 2px;
-    }
-  }
-
-  &-value {
-    display: block;
-    .ellipsis();
-  }
-
-  .rs-picker-cleanable.rs-picker-has-value & {
-    padding-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
-  }
+  text-align: start;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-picker-toggle-border-width));
 }
 
 .rs-picker-toggle-indicator {
+  display: inline-flex;
+  align-items: center;
+
   // Picker clear button
   .rs-picker-clean {
-    .combobox-indicator-icon(@picker-toggle-clean-right);
+    .combobox-indicator-icon();
 
     background: inherit;
     color: var(--rs-text-secondary);
@@ -282,12 +359,7 @@
     cursor: pointer;
 
     &.rs-btn-close {
-      padding: 4px 0;
-    }
-
-    .rs-@{date-picker-prefix} &,
-    .rs-@{date-range-picker-prefix} & {
-      right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
+      padding: 0;
     }
   }
 
@@ -296,74 +368,25 @@
     // Extend  Dropdown toggle caret style
     .combobox-indicator-icon();
 
-    font-size: 16px;
+    font-size: var(--rs-font-size-md);
     color: var(--rs-text-secondary);
-  }
-
-  .rs-picker-loader {
-    .combobox-indicator-icon();
-  }
-}
-
-// Picker Menu
-.rs-picker-popup {
-  position: absolute;
-  text-align: left;
-  z-index: @zindex-picker-popup;
-  border-radius: @border-radius;
-  background-color: var(--rs-bg-overlay);
-  box-shadow: var(--rs-shadow-overlay);
-  overflow: hidden;
-  // Remove transition
-  transition: none;
-  display: flex;
-  flex-direction: column;
-  padding: @border-radius 0;
-
-  .high-contrast-mode({
-    border: 1px solid var(--rs-border-primary);
-  });
-
-  // Increase z-index when modal opened.
-  .rs-modal-open & {
-    z-index: (@zindex-modal + @zindex-picker-toggle);
-  }
-
-  // Increase z-index when drawer opened.
-  .rs-drawer-open & {
-    z-index: (@zindex-drawer + @zindex-picker-toggle);
-  }
-
-  &.rs-picker-inline {
-    position: relative;
-    box-shadow: none;
-  }
-
-  .rs-search-box {
-    padding: (@picker-menu-padding - @border-radius) @picker-menu-padding
-      (@picker-menu-padding - @border-radius);
-  }
-
-  .rs-highlight .rs-highlight-mark {
-    padding: 0;
   }
 }
 
 // Make sure styles the same with <Input>
-.rs-picker-default,
+.rs-picker[data-variant='default'],
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {
-    background-color: var(--rs-input-bg) !important;
+    background-color: var(--rs-picker-toggle-bg);
   }
 
-  &.rs-picker-disabled .rs-picker-toggle,
-  &.rs-picker-disabled .rs-btn {
-    background-color: var(--rs-input-disabled-bg) !important;
-  }
+  &[data-disabled='true'] {
+    --rs-picker-toggle-bg: var(--rs-input-disabled-bg);
 
-  &.rs-picker-disabled .rs-input-group {
-    pointer-events: none;
+    .rs-input-group {
+      pointer-events: none;
+    }
   }
 }
 
@@ -384,15 +407,13 @@
   }
 
   .rs-checkbox-checker {
-    padding: 0;
+    display: flex;
 
     > label {
-      position: relative;
       cursor: pointer;
-      display: block;
-      padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal
-        @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
-      line-height: @line-height-computed;
+      width: 100%;
+      padding-inline: var(--rs-check-item-padding-inline);
+      padding-block: var(--rs-check-item-padding-block);
 
       .high-contrast-mode({
         transition: none;
@@ -412,17 +433,17 @@
 
       .grouped &,
       .@{ckpns}-menu-group-children & {
-        padding-left: @picker-check-item-content-padding-left +
+        padding-inline-start: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;
       }
     }
 
     .rs-checkbox-control {
-      left: @picker-item-content-padding-horizontal;
-
       .grouped &,
       .@{ckpns}-menu-group-children & {
-        left: (@picker-item-content-padding-horizontal + @picker-children-check-item-padding-left);
+        inset-inline-start: (
+          @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
+        );
       }
     }
   }

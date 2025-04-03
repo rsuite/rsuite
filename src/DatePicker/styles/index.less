@@ -14,19 +14,11 @@
 // Toolbar
 .rs-picker-toolbar {
   padding: @calendar-picker-padding;
-  border-top: 1px solid @calendar-toolbar-border-color;
+  border-top: 1px solid var(--rs-divider-border);
 }
 
 // Picker date
-.rs-picker-date {
-  &-inline {
-    height: 299px;
-
-    .rs-calendar {
-      height: 286px;
-    }
-  }
-
+.rs-picker[data-picker='date'] {
   .rs-input-group-addon {
     color: var(--rs-text-secondary);
     cursor: pointer;
@@ -36,14 +28,14 @@
     }
   }
 
-  &.rs-picker-subtle {
+  &.rs-picker[data-variant='subtle'] {
     .rs-input-group {
       border-color: transparent;
     }
   }
 
   > .rs-input-group.rs-input-group-inside .rs-input {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 }
 
@@ -90,8 +82,8 @@
       min-width: @calendar-width;
 
       & .rs-calendar-body {
-        padding-left: @calendar-padding-x-condensed;
-        padding-right: @calendar-padding-x-condensed;
+        padding-inline-start: @calendar-padding-x-condensed;
+        padding-inline-end: @calendar-padding-x-condensed;
       }
     }
 
@@ -100,8 +92,8 @@
     }
 
     &-body {
-      padding-left: @calendar-padding-x;
-      padding-right: @calendar-padding-x;
+      padding-inline-start: @calendar-padding-x;
+      padding-inline-end: @calendar-padding-x;
     }
 
     &-table {
@@ -142,8 +134,8 @@
     }
 
     .rs-calendar-table-cell-content {
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
       display: inline-block;
     }
 
@@ -164,9 +156,11 @@
 
     &.rs-calendar-only-time {
       min-width: auto;
+      width: 100%;
+      flex: 1;
 
       .rs-calendar-time-dropdown-column > ul {
-        height: 240px;
+        height: 100%;
       }
     }
   }

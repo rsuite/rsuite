@@ -1,10 +1,9 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
+import Calendar from '../Calendar';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
-import Calendar from '../Calendar';
 
 describe('Calendar', () => {
   testStandardProps(<Calendar />);
@@ -47,12 +46,12 @@ describe('Calendar', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelectSpy = sinon.spy();
-    render(<Calendar format="yyyy-MM-dd" onSelect={onSelectSpy} data-testid="calendar" />);
+    const onSelect = sinon.spy();
+    render(<Calendar format="yyyy-MM-dd" onSelect={onSelect} data-testid="calendar" />);
 
     fireEvent.click(screen.getByTitle(/today/i));
 
-    expect(onSelectSpy).to.have.been.calledOnce;
+    expect(onSelect).to.have.been.calledOnce;
   });
 
   it('Should be a controlled value', async () => {
@@ -63,7 +62,7 @@ describe('Calendar', () => {
     const ref = React.createRef<AppInstance>();
     const App = React.forwardRef((_props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
-      const calendarRef = React.useRef();
+      const calendarRef = React.useRef(null);
 
       React.useImperativeHandle(ref, () => ({
         calendar: calendarRef.current,
@@ -78,13 +77,11 @@ describe('Calendar', () => {
 
     const calendar = (ref.current as AppInstance).calendar;
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
 
     (ref.current as AppInstance).setDate(new Date('7/11/2021'));
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
   });
@@ -95,7 +92,7 @@ describe('Calendar', () => {
     const cells = Array.from(
       screen
         .getByRole('grid', { name: 'Apr 2023' })
-        // eslint-disable-next-line testing-library/no-node-access
+
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).map(cell => (cell as HTMLDivElement).innerText);
 
@@ -103,63 +100,62 @@ describe('Calendar', () => {
   });
 
   it('Should call `onMonthChange` callback when the display month changes', () => {
-    const onMonthChangeSpy = sinon.spy();
+    const onMonthChange = sinon.spy();
 
     const { rerender } = render(
-      <Calendar defaultValue={new Date(2023, 0, 1)} onMonthChange={onMonthChangeSpy} />
+      <Calendar defaultValue={new Date(2023, 0, 1)} onMonthChange={onMonthChange} />
     );
 
     // Change month with Next/Previous month button
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
-    expect(onMonthChangeSpy).to.have.been.calledOnce;
+    expect(onMonthChange).to.have.been.calledOnce;
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
-    expect(onMonthChangeSpy).to.have.been.calledTwice;
+    expect(onMonthChange).to.have.been.calledTwice;
 
     // Change month with Month dropdown
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
     fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
       screen.getByRole('gridcell', { name: 'Jan 2023' })?.nextElementSibling as HTMLDivElement
     );
 
-    expect(onMonthChangeSpy).to.have.been.calledThrice;
+    expect(onMonthChange).to.have.been.calledThrice;
 
     // Change month by clicking on a date in a different month
-    rerender(<Calendar value={new Date(2023, 0, 1)} onMonthChange={onMonthChangeSpy} />);
+    rerender(<Calendar value={new Date(2023, 0, 1)} onMonthChange={onMonthChange} />);
     fireEvent.click(screen.getByTitle('01 Feb 2023')); // TODO-Doma Add accessible name to the button via aria-label
-    expect(onMonthChangeSpy).to.have.callCount(4);
-    expect((onMonthChangeSpy.getCall(3).args[0] as Date).getFullYear()).to.equal(2023);
-    expect((onMonthChangeSpy.getCall(3).args[0] as Date).getMonth()).to.equal(1);
+    expect(onMonthChange).to.have.callCount(4);
+    expect((onMonthChange.getCall(3).args[0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChange.getCall(3).args[0] as Date).getMonth()).to.equal(1);
 
     // Change month with "Today" button
     const clock = sinon.useFakeTimers(new Date(2023, 0, 1));
-    rerender(<Calendar value={new Date(2023, 1, 1)} onMonthChange={onMonthChangeSpy} />);
+    rerender(<Calendar value={new Date(2023, 1, 1)} onMonthChange={onMonthChange} />);
     fireEvent.click(screen.getByRole('button', { name: 'Today' }));
-    expect(onMonthChangeSpy).to.have.callCount(5);
-    expect((onMonthChangeSpy.getCall(4).args[0] as Date).getFullYear()).to.equal(2023);
-    expect((onMonthChangeSpy.getCall(4).args[0] as Date).getMonth()).to.equal(0);
+    expect(onMonthChange).to.have.callCount(5);
+    expect((onMonthChange.getCall(4).args[0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChange.getCall(4).args[0] as Date).getMonth()).to.equal(0);
     clock.restore();
   });
 
   it('Should  not call `onMonthChange` callback when same month is clicked', () => {
-    const onMonthChangeSpy = sinon.spy();
-    const onToggleMonthDropdownSpy = sinon.spy();
+    const onMonthChange = sinon.spy();
+    const onToggleMonthDropdown = sinon.spy();
 
     render(
       <Calendar
         defaultValue={new Date('2023-01-01')}
-        onMonthChange={onMonthChangeSpy}
-        onToggleMonthDropdown={onToggleMonthDropdownSpy}
+        onMonthChange={onMonthChange}
+        onToggleMonthDropdown={onToggleMonthDropdown}
       />
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Jan 2023' }));
 
-    expect(onMonthChangeSpy).to.have.been.not.called;
-    expect(onToggleMonthDropdownSpy).to.have.been.called;
+    expect(onMonthChange).to.have.been.not.called;
+    expect(onToggleMonthDropdown).to.have.been.called;
   });
 
   describe('Custom week ', () => {

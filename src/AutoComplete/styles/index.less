@@ -7,7 +7,7 @@
 .rs-auto-complete {
   &-menu > {
     // Auto complete items style the same to Picker menu items
-    .picker-menu-items-reset();
+    .picker-listbox-reset();
   }
 
   // The same to Picker select menu item
@@ -27,6 +27,11 @@
   }
 }
 
-.rs-input-group > .rs-auto-complete {
+.rs-input-group > .rs-auto-complete > {
   &:extend(.rs-input-group > .rs-input);
+  > .rs-input {
+    border-radius: var(--rs-radius-none);
+    border: none;
+    outline: none;
+  }
 }

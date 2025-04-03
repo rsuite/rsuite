@@ -1,32 +1,26 @@
 <!--start-code-->
 
 ```js
-import { Progress } from 'rsuite';
-
-const style = {
-  width: 120,
-  display: 'inline-block',
-  marginRight: 10
-};
+import { Progress, HStack, Box } from 'rsuite';
 
 const App = () => (
-  <>
-    <div style={style}>
+  <HStack spacing={20}>
+    <Box w={120}>
       <Progress.Circle />
-    </div>
-    <div style={style}>
+    </Box>
+    <Box w={120}>
       <Progress.Circle percent={30} strokeColor="#ffc107" />
-    </div>
-    <div style={style}>
+    </Box>
+    <Box w={120}>
       <Progress.Circle percent={100} status="success" />
-    </div>
-    <div style={style}>
+    </Box>
+    <Box w={120}>
       <Progress.Circle percent={30} status="fail" />
-    </div>
-    <div style={style}>
+    </Box>
+    <Box w={120}>
       <Progress.Circle percent={30} showInfo={false} />
-    </div>
-  </>
+    </Box>
+  </HStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

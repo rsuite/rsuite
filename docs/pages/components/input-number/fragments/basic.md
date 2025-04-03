@@ -5,7 +5,7 @@ import { InputNumber, Stack } from 'rsuite';
 
 const App = () => (
   <Stack>
-    <InputNumber />
+    <InputNumber w={200} />
   </Stack>
 );
 

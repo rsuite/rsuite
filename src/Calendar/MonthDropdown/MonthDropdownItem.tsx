@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
+import { forwardRef, composeFunctions } from '@/internals/utils';
 import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { composeFunctions } from '@/internals/utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -14,7 +14,7 @@ export interface MonthDropdownItemProps extends WithAsProps {
   disabled?: boolean;
 }
 
-const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
+const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
   (props: MonthDropdownItemProps, ref) => {
     const {
       as: Component = 'div',
@@ -49,8 +49,8 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       onSelect?.(currentMonth, event);
     });
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }), { disabled });
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ active }), { disabled });
     const ariaLabel = currentMonth ? getAriaLabel(currentMonth, formatStr, formatDate) : '';
 
     return (

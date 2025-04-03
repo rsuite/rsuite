@@ -18,7 +18,7 @@ const App = () => {
         value={size}
         onChange={size => setSize(size)}
       >
-        <RadioLabel>Size:</RadioLabel>
+        <label>Size:</label>
         {sizes.map(item => (
           <Radio value={item} key={item}>
             {item}
@@ -28,17 +28,15 @@ const App = () => {
       <hr />
       <VStack>
         <CheckPicker data={data} loading size={size} />
-        <CheckPicker data={data} loading style={{ width: 200 }} size={size} />
+        <CheckPicker data={data} loading w={200} size={size} />
         <CheckPicker label="User" data={data} loading size={size} />
-        <CheckPicker label="User" data={data} loading style={{ width: 200 }} size={size} />
+        <CheckPicker label="User" data={data} loading w={200} size={size} />
       </VStack>
     </>
   );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 ```
 
 <!--end-code-->

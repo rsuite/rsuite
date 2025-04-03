@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TypeAttributes } from '@/internals/types';
+import type { CheckTriggerType } from '@/internals/types';
 import type { FieldRuleType } from './hooks/useSchemaModel';
 
 type RecordAny = Record<string, any>;
@@ -24,7 +24,7 @@ interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M
 }
 
 type ExternalPropsContextValue = {
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  checkTrigger?: CheckTriggerType;
   errorFromContext?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;

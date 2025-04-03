@@ -43,6 +43,7 @@ import type { FormControlLabelProps } from '../FormControlLabel';
 import type { FormErrorMessageProps } from '../FormErrorMessage';
 import type { FormGroupProps } from '../FormGroup';
 import type { FormHelpTextProps } from '../FormHelpText';
+import type { FormStackProps } from '../FormStack';
 import type { GridProps } from '../Grid';
 import type { HeaderProps } from '../Header';
 import type { HeadingProps } from '../Heading';
@@ -54,7 +55,9 @@ import type { InputProps } from '../Input';
 import type { InputGroupProps } from '../InputGroup';
 import type { InputNumberProps } from '../InputNumber';
 import type { InputPickerProps } from '../InputPicker';
+import type { KbdProps } from '../Kbd';
 import type { ImageProps } from '../Image';
+import type { LinkProps } from '../Link';
 import type { ListProps } from '../List';
 import type { LoaderProps } from '../Loader';
 import type { MaskedInputProps } from '../MaskedInput';
@@ -81,7 +84,6 @@ import type { RadioTileGroupProps } from '../RadioTileGroup';
 import type { RangeSliderProps } from '../RangeSlider';
 import type { RateProps } from '../Rate';
 import type { RowProps } from '../Row';
-import type { SafeAnchorProps } from '../SafeAnchor';
 import type { SelectPickerProps } from '../SelectPicker';
 import type { SidebarProps } from '../Sidebar';
 import type { SidenavProps } from '../Sidenav';
@@ -107,6 +109,7 @@ import type { TreePickerProps } from '../TreePicker';
 import type { UploaderProps } from '../Uploader';
 import type { VisuallyHiddenProps } from '../VisuallyHidden';
 import type { WhisperProps } from '../Whisper';
+import type { SafeAnchorProps } from '../internals/SafeAnchor';
 
 interface ComponentProps<T> {
   defaultProps: Partial<T>;
@@ -157,6 +160,7 @@ export interface ReactSuiteComponents {
   FormErrorMessage: ComponentProps<FormErrorMessageProps>;
   FormGroup: ComponentProps<FormGroupProps>;
   FormHelpText: ComponentProps<FormHelpTextProps>;
+  FormStack: ComponentProps<FormStackProps>;
   Grid: ComponentProps<GridProps>;
   Header: ComponentProps<HeaderProps>;
   Heading: ComponentProps<HeadingProps>;
@@ -169,6 +173,8 @@ export interface ReactSuiteComponents {
   InputNumber: ComponentProps<InputNumberProps>;
   InputPicker: ComponentProps<InputPickerProps>;
   Image: ComponentProps<ImageProps>;
+  Kbd: ComponentProps<KbdProps>;
+  Link: ComponentProps<LinkProps>;
   List: ComponentProps<ListProps>;
   Loader: ComponentProps<LoaderProps>;
   MaskedInput: ComponentProps<MaskedInputProps>;
@@ -195,7 +201,6 @@ export interface ReactSuiteComponents {
   RangeSlider: ComponentProps<RangeSliderProps>;
   Rate: ComponentProps<RateProps>;
   Row: ComponentProps<RowProps>;
-  SafeAnchor: ComponentProps<SafeAnchorProps>;
   SelectPicker: ComponentProps<SelectPickerProps>;
   Sidebar: ComponentProps<SidebarProps>;
   Sidenav: ComponentProps<SidenavProps>;
@@ -221,4 +226,5 @@ export interface ReactSuiteComponents {
   Uploader: ComponentProps<UploaderProps>;
   VisuallyHidden: ComponentProps<VisuallyHiddenProps>;
   Whisper: ComponentProps<WhisperProps>;
+  SafeAnchor: ComponentProps<SafeAnchorProps>;
 }

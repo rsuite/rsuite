@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -23,11 +22,11 @@ describe('Tree', () => {
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<Tree data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '360px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 360px;');
 
     rerender(<Tree data={data} height={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
@@ -165,8 +164,6 @@ describe('Tree', () => {
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragEnter(treeNode);
-      assert.isTrue(onDragEnter.calledOnce);
-      assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
 
       expect(onDragEnter).to.have.calledOnce;
       expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });

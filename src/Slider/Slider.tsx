@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
@@ -7,10 +6,12 @@ import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
+import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
-import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
+import type { FormControlBaseProps, Size, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -19,7 +20,7 @@ export interface LocaleType {
   loading?: string;
 }
 
-export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<T> {
   /**
    * The label of the slider.
    */
@@ -69,6 +70,21 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   /** Vertical Slide */
   vertical?: boolean;
 
+  /** If true, tooltip will always be visible  even without hover */
+  keepTooltipOpen?: boolean;
+
+  /**
+   * A slider can have different sizes.
+   *
+   * @default 'sm'
+   */
+  size?: Size;
+
+  /**
+   * Custom marks on the ruler
+   */
+  marks?: { value: number; label: React.ReactNode }[];
+
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
 
@@ -80,49 +96,20 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
 
   /** Callback function that is fired when the mouseup is triggered. */
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
-
-  /** If true, tooltip will always be visible  even without hover */
-  keepTooltipOpen?: boolean;
 }
-
-export const sliderPropTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.number,
-  defaultValue: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  handleClassName: PropTypes.string,
-  handleTitle: PropTypes.node,
-  barClassName: PropTypes.string,
-  handleStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  graduated: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  progress: PropTypes.bool,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  onChangeCommitted: PropTypes.func,
-  renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func,
-  getAriaValueText: PropTypes.func
-};
 
 /**
  * A Slider is an interface for users to adjust a value in a specific range.
  *
  * @see https://rsuitejs.com/components/slider
  */
-const Slider = React.forwardRef((props: SliderProps, ref) => {
+const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Componnet = 'div',
+    as,
     graduated,
     className,
     barClassName,
@@ -138,10 +125,12 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     handleTitle,
     tooltip = true,
     step = 1,
+    size = 'sm',
     defaultValue = 0,
     value: valueProp,
     max: maxProp = 100,
     placeholder,
+    marks,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -152,12 +141,12 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   } = propsWithDefaults;
 
   const barRef = useRef<HTMLDivElement>(null);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('Slider');
 
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
+    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
   );
 
   const max = useMemo(
@@ -295,7 +284,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   }
 
   return (
-    <Componnet {...rest} ref={ref} className={classes} role="presentation">
+    <Box as={as} ref={ref} role="presentation" className={classes} data-size={size} {...rest}>
       <div
         ref={barRef}
         className={merge(barClassName, prefix('bar'))}
@@ -317,6 +306,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}
@@ -329,7 +319,6 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
         disabled={disabled}
         vertical={vertical}
         tooltip={tooltip}
-        rtl={rtl}
         value={value}
         keepTooltipOpen={keepTooltipOpen}
         renderTooltip={renderTooltip}
@@ -348,11 +337,10 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       >
         {handleTitle}
       </Handle>
-    </Componnet>
+    </Box>
   );
 });
 
 Slider.displayName = 'Slider';
-Slider.propTypes = sliderPropTypes;
 
 export default Slider;

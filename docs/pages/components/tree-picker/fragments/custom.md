@@ -1,9 +1,9 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
+import { TreePicker, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -18,24 +18,24 @@ const App = () => (
   <TreePicker
     defaultExpandAll
     data={data}
-    style={{ width: 246 }}
+    w={246}
     renderTreeNode={nodeData => {
       return (
-        <span>
+        <HStack>
           <AdminIcon /> {nodeData.label}
-        </span>
+        </HStack>
       );
     }}
     placeholder={
-      <span>
+      <HStack>
         <PeoplesIcon /> Select
-      </span>
+      </HStack>
     }
     renderValue={(value, item, selectedElement) => {
       return (
-        <span>
+        <HStack>
           <PeoplesIcon /> {item.label}
-        </span>
+        </HStack>
       );
     }}
   />

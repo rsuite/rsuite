@@ -1,6 +1,6 @@
 import React from 'react';
 import loadable from '@loadable/component';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import {
   Form,
   Button,
@@ -21,9 +21,11 @@ import {
   Message,
   Uploader,
   toaster,
-  FlexboxGrid,
   IconButton,
-  Toggle
+  Toggle,
+  Box,
+  Row,
+  Col
 } from 'rsuite';
 
 import PlusIcon from '@rsuite/icons/Plus';
@@ -63,11 +65,13 @@ export default function Page() {
         Message,
         toaster,
         Uploader,
-        FlexboxGrid,
+        Row,
+        Col,
         IconButton,
         PlusIcon,
         MinusIcon,
-        Toggle
+        Toggle,
+        Box
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}

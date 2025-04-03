@@ -1,0 +1,52 @@
+@import '../../../less/variables.less';
+
+.page-toolbar {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 6;
+  .rs-btn-subtle {
+    .rs-icon {
+      fill: currentColor;
+    }
+  }
+}
+
+@media (max-width: @media-xs) {
+  .page-toolbar {
+    position: static;
+    margin-top: 60px;
+    text-align: right;
+    justify-content: flex-end;
+  }
+}
+
+.more-actions-panel {
+  padding: 8px 12px;
+
+  .rs-icon {
+    width: 14px;
+    text-align: center;
+    margin-right: 6px;
+  }
+
+  .theme-item,
+  .rtl-item {
+    display: flex;
+    align-items: center;
+    .item-name {
+      cursor: pointer;
+      flex: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rs-radio{
+      margin-inline: calc(var(--rs-spacing) * 2);
+    }
+  }
+}
+
+.theme-panel {
+  padding: 8px 0 8px 12px;
+}

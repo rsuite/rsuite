@@ -13,7 +13,7 @@ const App = () => {
   };
 
   return (
-    <Stack direction="column" alignItems="flex-start" spacing={10}>
+    <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
       <InputNumber prefix="$" />
       <InputNumber postfix="￥" />
       <InputNumber postfix="%" />

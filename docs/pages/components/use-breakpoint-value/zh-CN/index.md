@@ -12,11 +12,11 @@
 
 ### 响应式的改变头像大小
 
-<!--{include:`basic.md`}-->
+<!--{include:<responsive-avatar>}-->
 
 ### 响应式的改变堆栈方向
 
-<!--{include:`stack.md`}-->
+<!--{include:<responsive-stack>}-->
 
 ## API
 

@@ -24,15 +24,19 @@
 
 <!--{include:`backdrop.md`}-->
 
+### 垂直居中
+
+<!--{include:`centered.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
 
-### 溢出
+### 内容溢出
 
 <!--{include:`overflow.md`}-->
 
-### 动态
+### 动态加载的内容
 
 <!--{include:`dynamic.md`}-->
 
@@ -40,17 +44,23 @@
 
 <!--{include:`alert-dialog.md`}-->
 
+### 表单
+
+<!--{include:`form.md`}-->
+
+## 响应式
+
+在移动设备上，Modal 的最大宽度会撑满屏幕并保留边距。
+
+<!--{include:<example-responsive>}-->
+
 ## 无障碍设计
-
-### 键盘交互
-
-- <kbd>ESC</kbd> 可以关闭 `Modal`，同时也可以通过设置 `keyboard=false` 禁用它。
 
 ### WAI-ARIA Roles, States, and Properties
 
 - Modal 拥有一个值为 `dialog` 的 `role` 属性。
 - Modal 将 `aria-modal` 设置为 `true`。 告诉辅助技术当前对话框下方的窗口不可用于交互（惰性）。
-- 不要忘记用 `aria-labelledby` 属性来指向 Modal 的标题。 使用 `aria-describedby` 属性来为 Modal 组件添加一段描述。
+- Modal 会自动添加 `aria-labelledby` 属性来指向 Modal.Title 组件。 使用 `aria-describedby` 属性来为 Modal.Body 组件添加一段描述。 你也可以手动添加 `aria-labelledby` 和 `aria-describedby` 属性去覆盖默认设置。
 
 ```js
 <Modal aria-labelledby="modal-title" aria-describedby="modal-description">
@@ -69,58 +79,73 @@
 </Modal>
 ```
 
+### 键盘交互
+
+- <kbd>ESC</kbd> 可以关闭 Modal，同时也可以通过设置 `keyboard=false` 禁用它。
+- <kbd>Tab</kbd> 当 Modal 打开时，焦点会自动移动到 Modal 内部。按 Tab 键可以在 Modal 内的可聚焦元素之间循环切换。
+- <kbd>Shift + Tab</kbd> 反向循环切换 Modal 内的可聚焦元素。
+- 当 Modal 关闭时，焦点会返回到触发 Modal 打开的元素。
+
 ## Props
 
 ### `<Modal>`
 
-<!-- prettier-sort-markdown-table -->
-
-| 属性名称          | 类型 `(默认值)`                                                                            | 描述                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| autoFocus         | boolean `(true)`                                                                           | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
-| backdrop          | unions: boolean &#124; 'static'                                                            | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
-| backdropClassName | string                                                                                     | 应用于 backdrop DOM 节点的 css class                                                                 |
-| classPrefix       | string `('modal')`                                                                         | 组件 CSS 类的前缀                                                                                    |
-| container         | HTMLElement &#124; (() => HTMLElement)                                                     | 设置渲染的容器                                                                                       |
-| dialogAs          | ElementType `(ModalDialog)`                                                                | 以对 Dialog 使用自定义元素类型                                                                       |
-| dialogClassName   | string                                                                                     | 应用于 Dialog DOM 节点的 css class                                                                   |
-| enforceFocus      | boolean `(true)`                                                                           | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
-| ~full~            | boolean                                                                                    | 已废弃，使用 size="full" 代替。撑满全屏                                                              |
-| keyboard          | boolean `(true)`                                                                           | 按下 esc 键时关闭 Modal                                                                              |
-| onClose           | () => void                                                                                 | 隐藏时的回调函数                                                                                     |
-| onEnter           | () => void                                                                                 | 显示前动画过渡的回调函数                                                                             |
-| onEntered         | () => void                                                                                 | 显示后动画过渡的回调函数                                                                             |
-| onEntering        | () => void                                                                                 | 显示中动画过渡的回调函数                                                                             |
-| onExit            | () => void                                                                                 | 退出前动画过渡的回调函数                                                                             |
-| onExited          | () => void                                                                                 | 退出后动画过渡的回调函数                                                                             |
-| onExiting         | () => void                                                                                 | 退出中动画过渡的回调函数                                                                             |
-| onOpen            | () => void                                                                                 | 显示时的回调函数                                                                                     |
-| open \*           | boolean                                                                                    | 显示 Modal                                                                                           |
-| overflow          | boolean `(true)`                                                                           | body 内容过长时自动设置高度                                                                          |
-| size              | 'xs' &#124; 'sm' &#124; 'md' &#124; lg' &#124; 'full' &#124; number &#124; string `('sm')` | 设置 Modal 的宽度                                                                                    |
+| 属性名称          | 类型 `(默认值)`                                                    | 描述                                                                                                 |
+| ----------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| autoFocus         | boolean `(true)`                                                   | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
+| backdrop          | unions: boolean \| 'static'                                        | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
+| backdropClassName | string                                                             | 应用于 backdrop DOM 节点的 css class                                                                 |
+| centered          | boolean                                                            | 将模态框在页面垂直方向上居中对齐。                                                                   |
+| children          | ReactNode                                                          | Modal 的内容                                                                                         |
+| classPrefix       | string `('modal')`                                                 | 组件 CSS 类的前缀                                                                                    |
+| container         | HTMLElement \| (() => HTMLElement)                                 | 设置渲染的容器                                                                                       |
+| dialogAs          | ElementType `(ModalDialog)`                                        | 以对 Dialog 使用自定义元素类型                                                                       |
+| dialogClassName   | string                                                             | 应用于 Dialog DOM 节点的 css class                                                                   |
+| dialogStyle       | CSSProperties                                                      | 应用于 Dialog DOM 节点的 css style                                                                   |
+| enforceFocus      | boolean `(true)`                                                   | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
+| keyboard          | boolean `(true)`                                                   | 按下 esc 键时关闭 Modal                                                                              |
+| onClose           | () => void                                                         | 隐藏时的回调函数                                                                                     |
+| onEnter           | () => void                                                         | 显示前动画过渡的回调函数                                                                             |
+| onEntered         | () => void                                                         | 显示后动画过渡的回调函数                                                                             |
+| onEntering        | () => void                                                         | 显示中动画过渡的回调函数                                                                             |
+| onExit            | () => void                                                         | 退出前动画过渡的回调函数                                                                             |
+| onExited          | () => void                                                         | 退出后动画过渡的回调函数                                                                             |
+| onExiting         | () => void                                                         | 退出中动画过渡的回调函数                                                                             |
+| onOpen            | () => void                                                         | 显示时的回调函数                                                                                     |
+| open \*           | boolean                                                            | 显示 Modal                                                                                           |
+| overflow          | boolean `(true)`                                                   | body 内容过长时自动设置高度                                                                          |
+| size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string `('sm')` | 设置 Modal 的宽度                                                                                    |
 
 ### `<Modal.Header>`
 
-| 属性名称    | 类型 `(默认值 )`          | 描述                        |
-| ----------- | ------------------------- | --------------------------- |
-| classPrefix | string `('modal-header')` | 组件 CSS 类的前缀           |
-| closeButton | boolean `(true)`          | 当设置为 true, 显示关闭按钮 |
-| onClose     | (event) => void           | 点击关闭按钮的回调函数      |
+| 属性名称    | 类型 `(默认值 )`          | 描述                           |
+| ----------- | ------------------------- | ------------------------------ |
+| as          | ElementType `('div')`     | 以对 Header 使用自定义元素类型 |
+| children    | ReactNode                 | Header 的内容                  |
+| classPrefix | string `('modal-header')` | 组件 CSS 类的前缀              |
+| closeButton | boolean `(true)`          | 当设置为 true, 显示关闭按钮    |
+| onClose     | (event) => void           | 点击关闭按钮的回调函数         |
 
 ### `<Modal.Title>`
 
-| 属性名称    | 类型 `(默认值)`          | 描述              |
-| ----------- | ------------------------ | ----------------- |
-| classPrefix | string `('modal-title')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`          | 描述                          |
+| ----------- | ------------------------ | ----------------------------- |
+| as          | ElementType `('h4')`     | 以对 Title 使用自定义元素类型 |
+| children    | ReactNode                | Title 的内容                  |
+| classPrefix | string `('modal-title')` | 组件 CSS 类的前缀             |
 
 ### `<Modal.Footer>`
 
-| 属性名称    | 类型 `(默认值)`           | 描述              |
-| ----------- | ------------------------- | ----------------- |
-| classPrefix | string `('modal-footer')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`           | 描述                           |
+| ----------- | ------------------------- | ------------------------------ |
+| as          | ElementType `('div')`     | 以对 Footer 使用自定义元素类型 |
+| children    | ReactNode                 | Footer 的内容                  |
+| classPrefix | string `('modal-footer')` | 组件 CSS 类的前缀              |
 
 ### `<Modal.Body>`
 
-| 属性名称    | 类型 `(默认值)`         | 描述              |
-| ----------- | ----------------------- | ----------------- |
-| classPrefix | string `('modal-body')` | 组件 CSS 类的前缀 |
+| 属性名称    | 类型 `(默认值)`         | 描述                         |
+| ----------- | ----------------------- | ---------------------------- |
+| as          | ElementType `('div')`   | 以对 Body 使用自定义元素类型 |
+| children    | ReactNode               | Body 的内容                  |
+| classPrefix | string `('modal-body')` | 组件 CSS 类的前缀            |

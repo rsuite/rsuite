@@ -86,7 +86,7 @@ const renderMenu = ({ onClose, left, top, className }, ref) => {
 
 const ActionCell = ({ rowData, dataKey, ...props }) => {
   return (
-    <Cell {...props} className="link-group">
+    <Cell {...props} style={{ padding: 5 }}>
       <Whisper placement="autoVerticalStart" trigger="click" speaker={renderMenu}>
         <IconButton appearance="subtle" icon={<MoreIcon />} />
       </Whisper>

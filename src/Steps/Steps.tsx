@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StepItem from './StepItem';
-import { ReactChildren } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, rch } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 
-export interface StepsProps extends WithAsProps {
+export interface StepsProps extends BoxProps {
   /** Vertical display */
   vertical?: boolean;
 
@@ -24,19 +22,19 @@ export interface StepsProps extends WithAsProps {
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
-  Item: typeof StepItem;
-}
+const Subcomponents = {
+  Item: StepItem
+};
 
 /**
  * The `Steps` component is used to guide users to complete tasks in accordance with the process.
  *
  * @see https://rsuitejs.com/components/steps
  */
-const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
+const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Steps', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'steps',
     className,
     children,
@@ -47,12 +45,12 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const horizontal = !vertical;
-  const classes = merge(className, withClassPrefix({ small, vertical, horizontal: !vertical }));
+  const classes = merge(className, withPrefix({ small, vertical, horizontal: !vertical }));
 
-  const count = ReactChildren.count(children);
-  const items = ReactChildren.mapCloneElement(children, (item, index) => {
+  const count = rch.count(children);
+  const items = rch.mapCloneElement(children, (item, index) => {
     const itemStyles = {
       flexBasis: index < count - 1 ? `${100 / (count - 1)}%` : undefined,
       maxWidth: index === count - 1 ? `${100 / count}%` : undefined
@@ -82,23 +80,12 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
   });
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {items}
-    </Component>
+    </Box>
   );
-}) as unknown as StepsComponent;
-
-Steps.Item = StepItem;
+}, Subcomponents);
 
 Steps.displayName = 'Steps';
-Steps.propTypes = {
-  classPrefix: PropTypes.string,
-  vertical: PropTypes.bool,
-  small: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  current: PropTypes.number,
-  currentStatus: oneOf(['finish', 'wait', 'process', 'error'])
-};
 
 export default Steps;

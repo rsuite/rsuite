@@ -120,6 +120,10 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 <!--{include:`hide-header.md`}-->
 
+## 响应式
+
+<!--{include:<example-responsive>}-->
+
 ## 可访问性
 
 ### ARIA 属性
@@ -151,7 +155,6 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | defaultOpen          | boolean                                                         | 默认打开                                                                                      |
 | defaultValue         | [Date, Date]                                                    | 默认值（非受控）                                                                              |
 | disabled             | boolean                                                         | 禁用组件                                                                                      |
-| ~disabledDate~       | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                    |
 | editable             | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                     |
 | format               | string `('dd/MM/yyyy')`                                         | 日期显示格式化                                                                                |
 | hideHours            | (hour:number, date:Date) => boolean                             | 隐藏指定的小时选项<br/>![][5.71.0]                                                            |
@@ -164,7 +167,8 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | limitStartYear       | number                                                          | 相对当前选择日期，设置可选年份下限                                                            |
 | loading              | boolean `(false)`                                               | 是否显示一个加载中状态指示器                                                                  |
 | locale               | [DateTimeFormats](/zh/guide/i18n/#date-time-formats)            | 定义本地化设置，使组件文本根据用户地区显示相应语言                                            |
-| menuClassName        | string                                                          | 选项菜单的 className                                                                          |
+| popupClassName       | string                                                          | 自定义弹出框的 CSS 类名                                                                       |
+| popupStyle           | CSSProperties                                                   | 自定义弹出框的样式                                                                            |
 | monthDropdownProps   | [MonthDropdownProps][month-dropdown-props]                      | 月份下拉框属性                                                                                |
 | onChange             | (value: [Date, Date]) => void                                   | 值改变后的回调函数                                                                            |
 | onClean              | (event) => void                                                 | 清除值后的回调函数                                                                            |
@@ -213,7 +217,7 @@ type DisabledDateFunction = (
   /**
    * Date selected.
    */
-  selectDate?: ValueType,
+  selectDate?: Value,
 
   /**
    * Whether to choose to finish now.

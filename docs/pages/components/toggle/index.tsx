@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Toggle, Radio, RadioGroup, Checkbox, Form, Stack } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
+import { Button, Toggle, VStack, HStack, Divider, Text, Center, SelectPicker } from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Toggle']} />
@@ -20,11 +20,12 @@ export default function Page() {
         Toggle,
         CheckIcon,
         CloseIcon,
-        Radio,
-        RadioGroup,
-        Checkbox,
-        Form,
-        Stack
+        VStack,
+        HStack,
+        Divider,
+        Text,
+        Center,
+        SelectPicker
       }}
     />
   );

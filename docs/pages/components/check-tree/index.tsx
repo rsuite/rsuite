@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckTree, Panel, Button, Toggle, InputNumber, Stack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';

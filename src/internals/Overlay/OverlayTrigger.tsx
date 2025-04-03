@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useImperativeHandle,
   useCallback,
-  useContext,
   useState,
   useMemo,
   isValidElement,
@@ -13,18 +12,19 @@ import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
 import contains from 'dom-lib/contains';
-import OverlayContext from './OverlayContext';
 import Overlay, { OverlayProps } from './Overlay';
+import { useOverlay } from './OverlayProvider';
 import { usePortal, useControlled } from '../hooks';
 import { createChainedFunction, isOneOf } from '@/internals/utils';
-import { isFragment } from '@/internals/utils/ReactChildren';
+import { isFragment } from '@/internals/utils';
 import type {
   AnimationEventProps,
-  CursorPosition,
   StandardProps,
-  TypeAttributes
+  Placement,
+  ReactElement
 } from '@/internals/types';
-import type { PositionChildProps, PositionInstance } from './Position';
+import type { PositionInstance } from './Position';
+import type { CursorPosition, OverlayTriggerHandle, PositionChildProps } from './types';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 
@@ -44,7 +44,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   trigger?: OverlayTriggerType | OverlayTriggerType[];
 
   /** Display placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Delay time */
   delay?: number;
@@ -67,7 +67,7 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
     | ((
         props: PositionChildProps &
           Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'onMouseEnter' | 'onMouseLeave'> & {
-            onClose: (delay?: number) => NodeJS.Timeout | void;
+            onClose?: (delay?: number) => NodeJS.Timeout | void;
           },
         ref: React.RefCallback<HTMLElement>
       ) => React.ReactElement);
@@ -102,6 +102,11 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   /**  Set the `id` on `<Overlay>` and `aria-describedby` on `<OverlayTrigger>` */
   controlId?: string;
 
+  /** Whether speaker to follow the cursor */
+  followCursor?: boolean;
+
+  overlayAs?: React.ElementType;
+
   /** Lose Focus callback function */
   onBlur?: React.FocusEventHandler;
 
@@ -128,9 +133,6 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
 
   /** Callback fired when close component */
   onClose?: (cause?: OverlayCloseCause) => void;
-
-  /** Whether speaker to follow the cursor */
-  followCursor?: boolean;
 }
 
 /**
@@ -153,22 +155,14 @@ export enum OverlayCloseCause {
 function onMouseEventHandler(
   handler: (event: React.MouseEvent, delay?: number) => void,
   event: React.MouseEvent,
-  delay?: number
+  relatedNative: 'fromElement' | 'toElement'
 ) {
   const target = event.currentTarget;
-  const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
+  const related = event.relatedTarget || get(event, ['nativeEvent', relatedNative]);
 
   if ((!related || related !== target) && !contains(target as HTMLElement, related)) {
-    handler(event, delay);
+    handler(event);
   }
-}
-
-export interface OverlayTriggerHandle {
-  root?: HTMLElement | null;
-  updatePosition: () => void;
-  open: (delay?: number) => void;
-  close: (delay?: number) => void;
-  getState: () => { open?: boolean };
 }
 
 const defaultTrigger = ['hover', 'focus'];
@@ -179,7 +173,7 @@ const defaultTrigger = ['hover', 'focus'];
  */
 const OverlayTrigger = React.forwardRef(
   (props: OverlayTriggerProps, ref: React.Ref<OverlayTriggerHandle>) => {
-    const { overlayContainer } = useContext(OverlayContext);
+    const { overlayContainer } = useOverlay();
     const {
       children,
       container = overlayContainer,
@@ -198,6 +192,7 @@ const OverlayTrigger = React.forwardRef(
       placement = 'bottomStart',
       speaker,
       rootClose = true,
+      overlayAs: OverlayComponent,
       onClick,
       onMouseOver,
       onMouseMove,
@@ -213,7 +208,7 @@ const OverlayTrigger = React.forwardRef(
 
     const { Portal, target: containerElement } = usePortal({ container });
     const triggerRef = useRef(null);
-    const overlayRef = useRef<PositionInstance>();
+    const overlayRef = useRef<PositionInstance>(null);
     const [open, setOpen] = useControlled(openProp, defaultOpen);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
 
@@ -406,6 +401,20 @@ const OverlayTrigger = React.forwardRef(
       }));
     }, []);
 
+    const handleMouseOver = useCallback(
+      (event: React.MouseEvent<Element, MouseEvent>) => {
+        onMouseEventHandler(handleDelayedOpen, event, 'fromElement');
+      },
+      [handleDelayedOpen]
+    );
+
+    const handleMouseOut = useCallback(
+      (event: React.MouseEvent<Element, MouseEvent>) => {
+        onMouseEventHandler(handleDelayedClose, event, 'toElement');
+      },
+      [handleDelayedClose]
+    );
+
     const preventDefault = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
     }, []);
@@ -447,11 +456,8 @@ const OverlayTrigger = React.forwardRef(
       }
 
       if (isOneOf('hover', trigger)) {
-        const onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
-        const onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
-
-        events.onMouseOver = createChainedFunction(onMouseOverListener, events.onMouseOver);
-        events.onMouseOut = createChainedFunction(onMouseOutListener, events.onMouseOut);
+        events.onMouseOver = createChainedFunction(handleMouseOver, events.onMouseOver);
+        events.onMouseOut = createChainedFunction(handleMouseOut, events.onMouseOut);
       }
 
       if (isOneOf('focus', trigger)) {
@@ -473,6 +479,8 @@ const OverlayTrigger = React.forwardRef(
       followCursor,
       handleDelayedClose,
       handleDelayedOpen,
+      handleMouseOut,
+      handleMouseOver,
       handleOpenState,
       handledMoveOverlay,
       onBlur,
@@ -503,10 +511,7 @@ const OverlayTrigger = React.forwardRef(
         open
       };
 
-      const speakerProps: Pick<
-        React.HTMLAttributes<HTMLElement>,
-        'id' | 'onMouseEnter' | 'onMouseLeave'
-      > = {
+      const speakerProps: React.HTMLAttributes<HTMLElement> = {
         id: controlId
       };
 
@@ -546,17 +551,28 @@ const OverlayTrigger = React.forwardRef(
         );
       }
 
-      return cloneElement(children as React.ReactElement, {
+      const childElement = children as ReactElement;
+
+      return cloneElement(childElement, {
         ref: triggerRef,
         'aria-describedby': controlId,
-        ...mergeEvents(triggerEvents, children.props)
+        ...mergeEvents(triggerEvents, childElement.props)
       });
     }, [children, controlId, triggerEvents]);
 
     return (
       <>
         {triggerElement}
-        <Portal>{renderOverlay()}</Portal>
+        {OverlayComponent ? (
+          <OverlayComponent
+            open={open}
+            onClose={handleClose}
+            placement="bottom"
+            speaker={speaker}
+          />
+        ) : (
+          <Portal>{renderOverlay()}</Portal>
+        )}
       </>
     );
   }

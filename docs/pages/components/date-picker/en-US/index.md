@@ -78,11 +78,9 @@ The calendar panel can be displayed in different week start days via the `weekSt
 
 <!--{include:`intl.md`}-->
 
-### Placement
+### Placement and Prevent overflow
 
 <!--{include:`placement.md`}-->
-
-> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
 
 ### Custom short options
 
@@ -115,6 +113,10 @@ Clicking "Prev Day" in the example does not close the picker layer because the `
 If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
 
 <!--{include:`native-pickers.md`}-->
+
+## Responsive
+
+<!--{include:<example-responsive>}-->
 
 ## Accessibility
 
@@ -149,10 +151,6 @@ Has keyboard interaction for the DateInput component by default.
 | defaultOpen           | boolean                                                | Default value of open property                                                                                                    |
 | defaultValue          | Date                                                   | The default value (uncontrolled)                                                                                                  |
 | disabled              | boolean                                                | Whether disabled the component                                                                                                    |
-| ~disabledDate~        | (date:Date) => boolean                                 | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                  |
-| ~disabledHours~       | (hour:number, date:Date) => boolean                    | ⚠️`[Deprecated]` Use `shouldDisableHour` instead                                                                                  |
-| ~disabledMinutes~     | (minute:number, date:Date) => boolean                  | ⚠️`[Deprecated]` Use `shouldDisableMinute` instead                                                                                |
-| ~disabledSeconds~     | (second:number, date:Date) => boolean                  | ⚠️`[Deprecated]` Use `shouldDisableSecond` instead                                                                                |
 | editable              | boolean `(true)`                                       | Rendered as an input, the date can be entered via the keyboard                                                                    |
 | format                | string `('dd/MM/yyyy')`                                | Format of the date when rendered in the input                                                                                     |
 | hideHours             | (hour:number, date:Date) => boolean                    | Hide specific hour options                                                                                                        |

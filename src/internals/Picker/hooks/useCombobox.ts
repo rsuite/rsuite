@@ -1,14 +1,16 @@
 import { useContext } from 'react';
-import { ComboboxContextContext, type ComboboxContextProps } from '../PickerToggleTrigger';
+import { ComboboxContext, type ComboboxContextProps } from '../PickerToggleTrigger';
 
 function useCombobox() {
-  const { id, hasLabel, popupType, multiple } =
-    useContext<ComboboxContextProps>(ComboboxContextContext);
+  const { id, hasLabel, popupType, multiple, placement, breakpoint } =
+    useContext<ComboboxContextProps>(ComboboxContext);
 
   return {
     id,
     popupType,
     multiple,
+    placement,
+    breakpoint,
     labelId: hasLabel ? `${id}-label` : undefined
   };
 }

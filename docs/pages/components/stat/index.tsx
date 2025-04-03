@@ -10,7 +10,7 @@ import {
 } from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import FunnelStepsIcon from '@rsuite/icons/FunnelSteps';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
