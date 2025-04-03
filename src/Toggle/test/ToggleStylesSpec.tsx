@@ -9,7 +9,7 @@ describe('Toggle styles', () => {
   it('Should render the correct background color', () => {
     const { container } = render(<Toggle />);
 
-    expect(container.querySelector('.rs-toggle-presentation')).to.have.style(
+    expect(container.querySelector('.rs-toggle-track')).to.have.style(
       'background-color',
       toRGB('#b6b7b8')
     );

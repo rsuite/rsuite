@@ -1,10 +1,15 @@
 <!--start-code-->
 
 ```js
-import { Toggle } from 'rsuite';
+import { Toggle, VStack } from 'rsuite';
 
 const App = () => {
-  return <Toggle>Developer mode</Toggle>;
+  return (
+    <VStack spacing={20}>
+      <Toggle label="Label on the right" labelPlacement="end" />
+      <Toggle label="Label on the left" labelPlacement="start" />
+    </VStack>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

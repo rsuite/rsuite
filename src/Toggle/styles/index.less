@@ -89,6 +89,10 @@
   font-size: var(--rs-toggle-font-size);
   gap: var(--rs-toggle-gap);
 
+  &:where([data-placement='start']) {
+    flex-direction: row-reverse;
+  }
+
   &-label {
     cursor: pointer;
     font-size: inherit;
@@ -117,7 +121,7 @@
     opacity: 0;
   }
 
-  &-presentation {
+  &-track {
     position: relative;
     display: inline-block;
     box-sizing: border-box;

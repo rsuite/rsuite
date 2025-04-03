@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Toggle, SelectPicker, HStack } from 'rsuite';
+import { Toggle, SelectPicker, VStack } from 'rsuite';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
 
@@ -24,15 +24,15 @@ const App = () => {
         ]}
       />
       <hr />
-      <HStack spacing={20}>
-        <Toggle size={size} checkedChildren="Open" unCheckedChildren="Close" defaultChecked />
+      <VStack spacing={20}>
+        <Toggle size={size} checkedChildren="ON" unCheckedChildren="OFF" defaultChecked />
         <Toggle
           size={size}
           checkedChildren={<CheckIcon />}
           unCheckedChildren={<CloseIcon />}
           defaultChecked
         />
-      </HStack>
+      </VStack>
     </>
   );
 };
