@@ -39,9 +39,7 @@
   }
   .rs-row {
     --rs-row-gutter: calc(var(~'--rs-grid-gutter-@{size}', var(--rs-grid-gutter)) / -2);
-    --rs-row-gap: var(~'--rs-grid-gutter-@{size}', var(--rs-grid-gutter));
-
-    row-gap: var(--rs-row-gap);
+    --rs-row-gap: var(~'--rs-grid-row-gutter-@{size}', var(--rs-grid-row-gutter));
 
     .responsive-align(@size);
     .responsive-justify(@size);
