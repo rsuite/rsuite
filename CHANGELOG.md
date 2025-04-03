@@ -1,3 +1,12 @@
+## [5.79.1](https://github.com/rsuite/rsuite/compare/v5.79.0...v5.79.1) (2025-04-03)
+
+
+### Bug Fixes
+
+* **List:** fix sorting issue on mobile devices ([#4215](https://github.com/rsuite/rsuite/issues/4215)) ([5b74d8b](https://github.com/rsuite/rsuite/commit/5b74d8b6e09e3d662e63f0c437a28585f2535a94))
+
+
+
 # [5.79.0](https://github.com/rsuite/rsuite/compare/v5.78.1...v5.79.0) (2025-03-26)
 
 
