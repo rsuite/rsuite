@@ -67,9 +67,9 @@
       --rs-toggle-inner-margin: var(~'--rs-toggle-inner-margin-@{size}');
       --rs-toggle-handle-size: calc(var(~'--rs-toggle-size-@{size}') - var(~'--rs-toggle-handle-gap-@{size}') * 2);
       --rs-toggle-handle-gap: var(~'--rs-toggle-handle-gap-@{size}');
-      --rs-toggle-min-width: calc(var(~'--rs-toggle-size-@{size}') * 2);
-      --rs-toggle-size: var(~'--rs-toggle-size-@{size}');
       --rs-toggle-gap: var(~'--rs-toggle-gap-@{size}');
+      --rs-toggle-min-width: calc(var(~'--rs-toggle-size-@{size}') * 2 - var(--rs-toggle-handle-gap));
+      --rs-toggle-size: var(~'--rs-toggle-size-@{size}');
       --rs-toggle-checked-margin-left: calc((var(--rs-toggle-size) - var(--rs-toggle-handle-gap)) * -1);
       --rs-toggle-active-checked-margin-left: calc((var(--rs-toggle-size) * @toggle-active-scale - var(--rs-toggle-handle-gap)) * -1);
     }
