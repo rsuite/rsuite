@@ -2,7 +2,6 @@ import React from 'react';
 import Toggle from '../';
 import { render } from '@testing-library/react';
 import { toRGB } from '@test/utils';
-
 import '../styles/index.less';
 
 describe('Toggle styles', () => {
@@ -11,7 +10,7 @@ describe('Toggle styles', () => {
 
     expect(container.querySelector('.rs-toggle-track')).to.have.style(
       'background-color',
-      toRGB('#b6b7b8')
+      toRGB('#939393')
     );
   });
 
