@@ -99,4 +99,89 @@ describe('Image', () => {
       { timeout: 5000 }
     );
   });
+
+  it('Should handle loading states correctly', async () => {
+    render(
+      <Image
+        src="https://example.com/image.jpg"
+        placeholder={<div data-testid="placeholder">Loading...</div>}
+      />
+    );
+
+    // Initially should show placeholder and be in loading state
+    expect(screen.getByTestId('placeholder')).to.exist;
+
+    const img = screen.getByRole('img');
+
+    // Simulate successful image load
+    img.dispatchEvent(new Event('load'));
+
+    await waitFor(() => {
+      // Placeholder should be removed after load
+      expect(screen.queryByTestId('placeholder')).to.not.exist;
+    });
+  });
+
+  it('Should handle src changes correctly', async () => {
+    const { rerender } = render(<Image src="https://example.com/image1.jpg" />);
+    const img = screen.getByRole('img');
+
+    // Initial src should be set
+    expect(img).to.have.attr('src', 'https://example.com/image1.jpg');
+
+    // Change src
+    rerender(<Image src="https://example.com/image2.jpg" />);
+
+    // Should update src and be in loading state
+    expect(img).to.have.attr('src', 'https://example.com/image2.jpg');
+
+    // Simulate load complete
+    img.dispatchEvent(new Event('load'));
+
+    await waitFor(() => {
+      expect(img).to.have.attr('src', 'https://example.com/image2.jpg');
+    });
+  });
+
+  it('Should handle empty src correctly', () => {
+    render(<Image />);
+    const img = screen.getByRole('img');
+
+    // Should not have src attribute when no src provided
+    expect(img).to.not.have.attr('src');
+  });
+
+  it('Should support lazy loading with fallback', async () => {
+    render(
+      <Image
+        src="https://example.com/lazy-image.jpg"
+        loading="lazy"
+        fallbackSrc="https://example.com/fallback.jpg"
+        placeholder={<div data-testid="placeholder">Loading...</div>}
+      />
+    );
+
+    const img = screen.getByRole('img');
+
+    // Should have lazy loading attribute
+    expect(img).to.have.attr('loading', 'lazy');
+
+    // Should show placeholder initially
+    expect(screen.getByTestId('placeholder')).to.exist;
+
+    // Simulate load error and fallback
+    img.dispatchEvent(new Event('error'));
+
+    await waitFor(() => {
+      expect(img).to.have.attr('src', 'https://example.com/fallback.jpg');
+    });
+
+    // Simulate successful load of fallback
+    img.dispatchEvent(new Event('load'));
+
+    await waitFor(() => {
+      // Placeholder should be removed
+      expect(screen.queryByTestId('placeholder')).to.not.exist;
+    });
+  });
 });

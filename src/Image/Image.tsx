@@ -83,8 +83,7 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
 
   const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ circle, bordered, rounded, shaded, zoomed }));
-  const imgProps = { crossOrigin, srcSet, sizes, loading };
-  const { imgSrc, isLoading } = useImage({ src, fallbackSrc, ...imgProps });
+  const { imgSrc, isLoading, onLoad, onError } = useImage({ src, fallbackSrc });
 
   const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
 
@@ -97,7 +96,12 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
       style={styles}
       width={width}
       height={height}
-      {...imgProps}
+      loading={loading}
+      onLoad={onLoad}
+      onError={onError}
+      crossOrigin={crossOrigin}
+      srcSet={srcSet}
+      sizes={sizes}
       {...rest}
     />
   );
