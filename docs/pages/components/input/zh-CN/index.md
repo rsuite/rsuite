@@ -53,6 +53,10 @@
 
 <!--{include:`input-group-password.md`}-->
 
+### 搜索框
+
+<!--{include:`input-group-search.md`}-->
+
 ### 带加载状态
 
 <!--{include:`input-group-loader.md`}-->

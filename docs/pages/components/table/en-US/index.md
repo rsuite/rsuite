@@ -1,4 +1,4 @@
-# Table
+# Basic Table
 
 A table displays rows of data.
 
@@ -10,7 +10,7 @@ A table displays rows of data.
 - `Table.Column` Table definition column component
 - `Table.ColumnGroup` Used for column header grouping
 - `Table.HeaderCell` Column Header cell component
-- `Table.Cellåå` Cell component
+- `Table.Cell` Cell component
 
 ## Examples
 
@@ -216,10 +216,11 @@ Display the hidden text in its entirety when hovering over the cell.
 
 ## More Examples
 
-- [Table Virtualized](/components/table-virtualized/)
+- [Virtual Table](/components/table-virtualized/)
 - [Tree Table](/components/table-tree)
-- [Table Affix](/components/table-affix/)
-- [Table Editable](/components/table-editable/)
+- [Sticky Table](/components/table-affix/)
+- [Editable Table](/components/table-editable/)
+- [Filterable Table](/components/table-filterable/)
 
 ## Accessibility
 

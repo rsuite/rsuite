@@ -12,6 +12,7 @@ import {
   CheckPicker,
   Popover,
   Dropdown,
+  Menu,
   Whisper
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
@@ -55,6 +56,7 @@ export default function Page() {
         HStack,
         Popover,
         Dropdown,
+        Menu,
         Whisper,
         faker,
         HTML5Backend,

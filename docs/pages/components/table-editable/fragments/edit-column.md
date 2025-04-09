@@ -134,29 +134,29 @@ const App = () => {
 
 const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
   <Popover ref={ref} {...rest} full>
-    <Dropdown.Menu onSelect={onSelect}>
-      <Dropdown.Item eventKey="align-left" icon={<FaAlignLeft />}>
+    <Menu onSelect={onSelect}>
+      <Menu.Item eventKey="align-left" icon={<FaAlignLeft />}>
         Align Left
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="align-center" icon={<FaAlignCenter />}>
+      </Menu.Item>
+      <Menu.Item eventKey="align-center" icon={<FaAlignCenter />}>
         Align Center
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="align-right" icon={<FaAlignRight />}>
+      </Menu.Item>
+      <Menu.Item eventKey="align-right" icon={<FaAlignRight />}>
         Align Right
-      </Dropdown.Item>
+      </Menu.Item>
 
-      <Dropdown.Separator />
-      <Dropdown.Item eventKey="sort-asc" icon={<FaArrowUp />}>
+      <Menu.Separator />
+      <Menu.Item eventKey="sort-asc" icon={<FaArrowUp />}>
         Sort Asc
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="sort-desc" icon={<FaArrowDown />}>
+      </Menu.Item>
+      <Menu.Item eventKey="sort-desc" icon={<FaArrowDown />}>
         Sort Desc
-      </Dropdown.Item>
-      <Dropdown.Separator />
-      <Dropdown.Item eventKey="hide" icon={<BiHide />}>
+      </Menu.Item>
+      <Menu.Separator />
+      <Menu.Item eventKey="hide" icon={<BiHide />}>
         Hide Column
-      </Dropdown.Item>
-    </Dropdown.Menu>
+      </Menu.Item>
+    </Menu>
   </Popover>
 ));
 

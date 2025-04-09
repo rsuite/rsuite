@@ -637,8 +637,8 @@
     "children": [
       {
         "id": "table",
-        "name": "Table",
-        "title": "表格",
+        "name": "Basic Table",
+        "title": "基础表格",
         "components": [
           "Table",
           "Table.Column",
@@ -650,8 +650,8 @@
       },
       {
         "id": "table-virtualized",
-        "name": "Table Virtualized",
-        "title": "表格虚拟化",
+        "name": "Virtual Table",
+        "title": "虚拟滚动表格",
         "keywords": ["table", "datagrid"]
       },
       {
@@ -662,15 +662,21 @@
       },
       {
         "id": "table-affix",
-        "name": "Table Affix",
-        "title": "表格固定",
-        "keywords": ["table", "datagrid", "sticky"]
+        "name": "Sticky Table",
+        "title": "固定表格",
+        "keywords": ["table", "datagrid", "sticky", "affix"]
       },
       {
         "id": "table-editable",
-        "name": "Table Editable",
-        "title": "表格编辑",
+        "name": "Editable Table",
+        "title": "可编辑表格",
         "keywords": ["table", "datagrid", "edit"]
+      },
+      {
+        "id": "table-filterable",
+        "name": "Filterable Table",
+        "title": "可筛选表格",
+        "keywords": ["table", "datagrid", "filter"]
       }
     ]
   },
