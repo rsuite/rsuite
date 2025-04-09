@@ -3,28 +3,33 @@ import {
   Table,
   Button,
   Input,
-  IconButton,
+  InputGroup,
+  TagPicker,
+  SelectPicker,
+  CheckPicker,
+  Toggle,
   InputNumber,
+  DateRangePicker,
   DatePicker,
-  DateInput,
+  InputPicker,
   VStack,
   HStack,
-  CheckPicker,
   Popover,
   Dropdown,
   Menu,
-  Whisper
+  Whisper,
+  IconButton,
+  Tag,
+  Box
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
-import { VscEdit, VscSave, VscRemove } from 'react-icons/vsc';
-import { IoMdMore } from 'react-icons/io';
-import { FaAlignLeft, FaAlignCenter, FaAlignRight, FaArrowDown, FaArrowUp } from 'react-icons/fa6';
-import { BiHide } from 'react-icons/bi';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { VscFilter, VscFilterFilled, VscSearch } from 'react-icons/vsc';
+import { IoMdMore, IoIosCloseCircle } from 'react-icons/io';
+import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { TbFilter, TbFilterOff } from 'react-icons/tb';
 
 const mockfile = {
   name: 'mock.js',
@@ -46,34 +51,37 @@ export default function Page() {
       dependencies={{
         Table,
         Button,
-        IconButton,
         Input,
-        InputNumber,
-        DatePicker,
+        InputGroup,
+        TagPicker,
+        SelectPicker,
         CheckPicker,
-        DateInput,
+        InputPicker,
+        Toggle,
+        InputNumber,
+        DateRangePicker,
+        DatePicker,
         VStack,
         HStack,
         Popover,
         Dropdown,
         Menu,
         Whisper,
+        IconButton,
+        Tag,
+        Box,
         faker,
-        HTML5Backend,
-        useDrag,
-        useDrop,
-        DndProvider,
-        FaAlignLeft,
-        FaAlignCenter,
-        FaAlignRight,
-        FaArrowDown,
-        FaArrowUp,
-        BiHide,
-        VscEdit,
-        VscSave,
-        VscRemove,
+        mockUsers,
+        VscFilter,
+        VscFilterFilled,
+        VscSearch,
         IoMdMore,
-        mockUsers
+        IoIosCloseCircle,
+        FaFilter,
+        FaSortAmountDown,
+        FaSortAmountUp,
+        TbFilter,
+        TbFilterOff
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}

@@ -20,7 +20,8 @@ import {
   VStack,
   Input,
   InputGroup,
-  Box
+  Box,
+  Center
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import FakeBrowser from '@/components/FakeBrowser';
@@ -59,6 +60,7 @@ export default function Page() {
       dependencies={{
         Nav,
         Checkbox,
+        Center,
         Toggle,
         Popover,
         Whisper,

@@ -1,7 +1,17 @@
 <!--start-code-->
 
 ```js
-import { Table, Popover, Whisper, Checkbox, Dropdown, IconButton, Progress } from 'rsuite';
+import {
+  Table,
+  Popover,
+  Whisper,
+  Checkbox,
+  Dropdown,
+  IconButton,
+  Progress,
+  Center,
+  Box
+} from 'rsuite';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import { mockUsers } from './mock';
 
@@ -55,14 +65,14 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
 
 const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }) => (
   <Cell {...props} style={{ padding: 0 }}>
-    <div style={{ lineHeight: '46px' }}>
+    <Center>
       <Checkbox
         value={rowData[dataKey]}
         inline
         onChange={onChange}
         checked={checkedKeys.some(item => item === rowData[dataKey])}
       />
-    </div>
+    </Center>
   </Cell>
 );
 
@@ -117,17 +127,21 @@ const App = () => {
   };
 
   return (
-    <Table height={300} data={data} id="table">
+    <Table autoHeight data={data} id="table">
       <Column width={50} align="center">
-        <HeaderCell style={{ padding: 0 }}>
-          <div style={{ lineHeight: '40px' }}>
+        <HeaderCell
+          style={{
+            padding: 0
+          }}
+        >
+          <Center>
             <Checkbox
               inline
               checked={checked}
               indeterminate={indeterminate}
               onChange={handleCheckAll}
             />
-          </div>
+          </Center>
         </HeaderCell>
         <CheckCell dataKey="id" checkedKeys={checkedKeys} onChange={handleCheck} />
       </Column>
@@ -141,11 +155,9 @@ const App = () => {
         <NameCell dataKey="name" />
       </Column>
 
-      <Column width={230}>
+      <Column width={230} verticalAlign="middle">
         <HeaderCell>Skill Proficiency</HeaderCell>
-        <Cell style={{ padding: '10px 0' }}>
-          {rowData => <Progress percent={rowData.progress} showInfo={false} />}
-        </Cell>
+        <Cell>{rowData => <Progress percent={rowData.progress} showInfo={false} />}</Cell>
       </Column>
 
       <Column width={100}>
