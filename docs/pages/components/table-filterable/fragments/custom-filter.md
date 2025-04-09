@@ -1,5 +1,4 @@
 <!--start-code-->
-
 ```js
 import {
   Table,
@@ -13,8 +12,11 @@ import {
   HStack,
   Button,
   Tag,
-  Box
+  Box,
+  Text,
+  Divider
 } from 'rsuite';
+import faker from '@faker-js/faker';
 import { mockUsers } from './mock';
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { IoIosCloseCircle } from 'react-icons/io';
@@ -27,20 +29,26 @@ const data = mockUsers(20).map(user => ({
   active: faker.datatype.boolean()
 }));
 
-// Custom header cell with filter
-const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) => {
+// Custom header cell with filter and sort
+const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, onSort, ...rest }) => {
   const ref = React.useRef();
   const [isFiltered, setIsFiltered] = React.useState(false);
+  const [sortDirection, setSortDirection] = React.useState(null);
+  // Store the current filter value to restore it when reopening the popover
+  const [currentFilterValue, setCurrentFilterValue] = React.useState(null);
 
   const handleApplyFilter = value => {
     setIsFiltered(!!value);
+    setCurrentFilterValue(value); // Store the current filter value
     onFilter(dataKey, value);
     ref.current?.close();
   };
 
   const handleClearFilter = () => {
     setIsFiltered(false);
+    setCurrentFilterValue(null); // Clear the stored filter value
     onFilter(dataKey, null);
+    handleSort(null);
     ref.current?.close();
   };
 
@@ -49,18 +57,39 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
     event.stopPropagation();
   };
 
+  // Handle custom sorting
+  const handleSort = direction => {
+    setSortDirection(direction);
+    // Get the App component's handleSortColumn function from context or props
+    onSort?.(dataKey, direction);
+    ref.current?.close();
+  };
+
+  // Common filter action buttons
+  const FilterActions = ({ onApply, value }) => (
+    <HStack mt={10} justify="flex-end" spacing={10}>
+      <Button appearance="subtle" onClick={handleClearFilter} size="xs">
+        Clear
+      </Button>
+      <Button appearance="primary" onClick={onApply} size="xs">
+        Apply
+      </Button>
+    </HStack>
+  );
+
   let FilterComponent = null;
 
   switch (filterType) {
     case 'text':
       FilterComponent = ({ onFilter, close }) => {
-        const [value, setValue] = React.useState('');
+        // Initialize with the current filter value if available
+        const [value, setValue] = React.useState(currentFilterValue || '');
         return (
-          <Box p={10} w={250}>
-            <Box as="h5" mb={10}>
+          <Box w={250}>
+            <Text muted mb={10}>
               Filter by {children}
-            </Box>
-            <InputGroup inside>
+            </Text>
+            <InputGroup inside size="sm">
               <Input placeholder={`Type to filter...`} value={value} onChange={setValue} />
               {value && (
                 <InputGroup.Button onClick={() => setValue('')}>
@@ -68,14 +97,7 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
                 </InputGroup.Button>
               )}
             </InputGroup>
-            <HStack mt={10} justify="flex-end" spacing={10}>
-              <Button appearance="subtle" onClick={handleClearFilter}>
-                Clear
-              </Button>
-              <Button appearance="primary" onClick={() => handleApplyFilter(value)}>
-                Apply
-              </Button>
-            </HStack>
+            <FilterActions onApply={() => handleApplyFilter(value)} />
           </Box>
         );
       };
@@ -83,8 +105,9 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
 
     case 'number':
       FilterComponent = ({ onFilter, close }) => {
-        const [min, setMin] = React.useState('');
-        const [max, setMax] = React.useState('');
+        // Initialize with the current filter values if available
+        const [min, setMin] = React.useState(currentFilterValue?.min || '');
+        const [max, setMax] = React.useState(currentFilterValue?.max || '');
 
         const handleApply = () => {
           const hasFilter = min !== '' || max !== '';
@@ -92,23 +115,16 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
         };
 
         return (
-          <Box p={10} w={250}>
-            <Box as="h5" mb={10}>
+          <Box w={250}>
+            <Text muted mb={10}>
               Filter by {children}
-            </Box>
+            </Text>
             <HStack spacing={10}>
-              <Input placeholder="Min" type="number" value={min} onChange={setMin} />
+              <Input placeholder="Min" size="sm" type="number" value={min} onChange={setMin} />
               <span>to</span>
-              <Input placeholder="Max" type="number" value={max} onChange={setMax} />
+              <Input placeholder="Max" size="sm" type="number" value={max} onChange={setMax} />
             </HStack>
-            <HStack mt={10} justify="flex-end" spacing={10}>
-              <Button appearance="subtle" onClick={handleClearFilter}>
-                Clear
-              </Button>
-              <Button appearance="primary" onClick={handleApply}>
-                Apply
-              </Button>
-            </HStack>
+            <FilterActions onApply={handleApply} onClear={handleClearFilter} />
           </Box>
         );
       };
@@ -116,29 +132,24 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
 
     case 'date':
       FilterComponent = ({ onFilter, close }) => {
-        const [value, setValue] = React.useState(null);
+        // Initialize with the current filter value if available
+        const [value, setValue] = React.useState(currentFilterValue || null);
         // Create a reference to the Popover content element
         const containerRef = React.useRef(null);
 
         return (
-          <Box p={10} w={300} ref={containerRef}>
-            <Box as="h5" mb={10}>
+          <Box w={250} ref={containerRef}>
+            <Text muted mb={10}>
               Filter by {children}
-            </Box>
+            </Text>
             <DateRangePicker
-              style={{ width: '100%' }}
+              showOneCalendar
+              size="sm"
               value={value}
               onChange={setValue}
               container={() => containerRef.current}
             />
-            <HStack mt={10} justify="flex-end" spacing={10}>
-              <Button appearance="subtle" onClick={handleClearFilter}>
-                Clear
-              </Button>
-              <Button appearance="primary" onClick={() => handleApplyFilter(value)}>
-                Apply
-              </Button>
-            </HStack>
+            <FilterActions onApply={() => handleApplyFilter(value)} />
           </Box>
         );
       };
@@ -146,7 +157,8 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
 
     case 'options':
       FilterComponent = ({ onFilter, close }) => {
-        const [value, setValue] = React.useState(null);
+        // Initialize with the current filter value if available
+        const [value, setValue] = React.useState(currentFilterValue);
         // Create a reference to the Popover content element
         const containerRef = React.useRef(null);
 
@@ -156,26 +168,20 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
         ];
 
         return (
-          <Box p={10} w={250} ref={containerRef}>
-            <Box as="h5" mb={10}>
+          <Box w={250} ref={containerRef}>
+            <Text muted mb={10}>
               Filter by {children}
-            </Box>
+            </Text>
             <InputPicker
               data={options}
+              size="sm"
               value={value}
               onChange={setValue}
               w="100%"
               cleanable
               container={() => containerRef.current}
             />
-            <HStack mt={10} justify="flex-end" spacing={10}>
-              <Button appearance="subtle" onClick={handleClearFilter}>
-                Clear
-              </Button>
-              <Button appearance="primary" onClick={() => handleApplyFilter(value)}>
-                Apply
-              </Button>
-            </HStack>
+            <FilterActions onApply={() => handleApplyFilter(value)} />
           </Box>
         );
       };
@@ -192,23 +198,60 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, ...rest }) 
           trigger="click"
           speaker={
             <Popover full onClick={stopPropagation}>
-              {FilterComponent && <FilterComponent onFilter={handleApplyFilter} />}
+              <Box p={10}>
+                {/* Sort Controls */}
+                <Box>
+                  <Text muted mb={10}>
+                    Sort {children}
+                  </Text>
+                  <HStack spacing={10}>
+                    <Button
+                      appearance={sortDirection === 'asc' ? 'primary' : 'default'}
+                      onClick={() => handleSort('asc')}
+                      startIcon={<FaSortAmountUp />}
+                      size="xs"
+                      block
+                    >
+                      Ascending
+                    </Button>
+                    <Button
+                      appearance={sortDirection === 'desc' ? 'primary' : 'default'}
+                      onClick={() => handleSort('desc')}
+                      startIcon={<FaSortAmountDown />}
+                      size="xs"
+                      block
+                    >
+                      Descending
+                    </Button>
+                  </HStack>
+                </Box>
+
+                {/* Filter Controls */}
+                {FilterComponent && (
+                  <>
+                    <Divider />
+                    <FilterComponent onFilter={handleApplyFilter} />
+                  </>
+                )}
+              </Box>
             </Popover>
           }
         >
           <IconButton
-            appearance="subtle"
+            appearance={isFiltered || sortDirection ? 'primary' : 'subtle'}
             size="xs"
+            color="blue"
             icon={
-              isFiltered ? (
-                <Tag color="green">
-                  <FaFilter />
-                </Tag>
+              sortDirection ? (
+                sortDirection === 'asc' ? (
+                  <FaSortAmountUp />
+                ) : (
+                  <FaSortAmountDown />
+                )
               ) : (
                 <FaFilter />
               )
             }
-            ml={5}
             onClick={stopPropagation}
           />
         </Whisper>
@@ -330,40 +373,38 @@ const App = () => {
       data={filteredData}
       bordered
       cellBordered
-      headerHeight={60}
-      rowHeight={50}
+      // Remove default table sorting UI, we'll use our custom sort buttons
       sortColumn={sortColumn}
       sortType={sortType}
-      onSortColumn={handleSortColumn}
     >
-      <Column width={60} align="center" sortable>
+      <Column width={60} align="center">
         <HeaderCell>ID</HeaderCell>
         <Cell dataKey="id" />
       </Column>
 
-      <Column width={140} sortable>
-        <CustomHeaderCell filterType="text" onFilter={handleFilter}>
+      <Column width={140}>
+        <CustomHeaderCell filterType="text" onFilter={handleFilter} onSort={handleSortColumn}>
           Name
         </CustomHeaderCell>
         <Cell dataKey="name" />
       </Column>
 
-      <Column width={180} sortable>
-        <CustomHeaderCell filterType="text" onFilter={handleFilter}>
+      <Column width={180}>
+        <CustomHeaderCell filterType="text" onFilter={handleFilter} onSort={handleSortColumn}>
           Email
         </CustomHeaderCell>
         <Cell dataKey="email" />
       </Column>
 
-      <Column width={100} sortable>
-        <CustomHeaderCell filterType="number" onFilter={handleFilter}>
+      <Column width={100}>
+        <CustomHeaderCell filterType="number" onFilter={handleFilter} onSort={handleSortColumn}>
           Age
         </CustomHeaderCell>
         <Cell dataKey="age" />
       </Column>
 
-      <Column width={140} sortable>
-        <CustomHeaderCell filterType="date" onFilter={handleFilter}>
+      <Column width={140}>
+        <CustomHeaderCell filterType="date" onFilter={handleFilter} onSort={handleSortColumn}>
           Join Date
         </CustomHeaderCell>
         <Cell dataKey="joinDate">
@@ -373,22 +414,22 @@ const App = () => {
         </Cell>
       </Column>
 
-      <Column width={140} sortable>
-        <CustomHeaderCell filterType="text" onFilter={handleFilter}>
+      <Column width={140}>
+        <CustomHeaderCell filterType="text" onFilter={handleFilter} onSort={handleSortColumn}>
           Company
         </CustomHeaderCell>
         <Cell dataKey="company" />
       </Column>
 
-      <Column width={120} sortable>
-        <CustomHeaderCell filterType="number" onFilter={handleFilter}>
+      <Column width={120}>
+        <CustomHeaderCell filterType="number" onFilter={handleFilter} onSort={handleSortColumn}>
           Salary
         </CustomHeaderCell>
         <Cell dataKey="salary">{rowData => `$${rowData.salary.toLocaleString()}`}</Cell>
       </Column>
 
-      <Column width={100} sortable>
-        <CustomHeaderCell filterType="options" onFilter={handleFilter}>
+      <Column width={100}>
+        <CustomHeaderCell filterType="options" onFilter={handleFilter} onSort={handleSortColumn}>
           Status
         </CustomHeaderCell>
         <Cell dataKey="active">

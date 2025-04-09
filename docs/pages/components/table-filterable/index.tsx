@@ -1,30 +1,27 @@
 import React from 'react';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
 import {
   Table,
   Button,
   Input,
   InputGroup,
-  TagPicker,
   SelectPicker,
   CheckPicker,
-  Toggle,
   InputNumber,
   DateRangePicker,
-  DatePicker,
   InputPicker,
   VStack,
   HStack,
   Popover,
-  Dropdown,
   Menu,
   Whisper,
   IconButton,
   Tag,
-  Box
+  Box,
+  Text
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
-import DefaultPage from '@/components/layout/Page';
-import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { VscFilter, VscFilterFilled, VscSearch } from 'react-icons/vsc';
 import { IoMdMore, IoIosCloseCircle } from 'react-icons/io';
@@ -53,23 +50,20 @@ export default function Page() {
         Button,
         Input,
         InputGroup,
-        TagPicker,
         SelectPicker,
         CheckPicker,
         InputPicker,
-        Toggle,
         InputNumber,
         DateRangePicker,
-        DatePicker,
         VStack,
         HStack,
         Popover,
-        Dropdown,
         Menu,
         Whisper,
         IconButton,
         Tag,
         Box,
+        Text,
         faker,
         mockUsers,
         VscFilter,
