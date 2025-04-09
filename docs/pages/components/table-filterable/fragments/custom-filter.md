@@ -19,7 +19,7 @@ import {
 import faker from '@faker-js/faker';
 import { mockUsers } from './mock';
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import { IoIosCloseCircle } from 'react-icons/io';
+import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(20).map(user => ({
@@ -93,7 +93,7 @@ const CustomHeaderCell = ({ children, onFilter, filterType, dataKey, onSort, ...
               <Input placeholder={`Type to filter...`} value={value} onChange={setValue} />
               {value && (
                 <InputGroup.Button onClick={() => setValue('')}>
-                  <IoIosCloseCircle />
+                  <CloseOutlineIcon />
                 </InputGroup.Button>
               )}
             </InputGroup>

@@ -1,6 +1,8 @@
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import SearchIcon from '@rsuite/icons/Search';
+import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 import {
   Table,
   Button,
@@ -65,6 +67,8 @@ export default function Page() {
         Box,
         Text,
         faker,
+        SearchIcon,
+        CloseOutlineIcon,
         mockUsers,
         VscFilter,
         VscFilterFilled,

@@ -3,8 +3,8 @@
 ```js
 import { Table, InputGroup, Input, Box } from 'rsuite';
 import { mockUsers } from './mock';
-import { VscSearch } from 'react-icons/vsc';
-import { IoIosCloseCircle } from 'react-icons/io';
+import SearchIcon from "@rsuite/icons/Search";
+import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(20);
@@ -34,12 +34,12 @@ const App = () => {
           <Input placeholder="Search..." value={searchKeyword} onChange={handleSearch} />
           {searchKeyword ? (
             <InputGroup.Button onClick={() => handleSearch('')}>
-              <IoIosCloseCircle />
+              <CloseOutlineIcon />
             </InputGroup.Button>
           ) : (
-            <InputGroup.Button>
-              <VscSearch />
-            </InputGroup.Button>
+            <InputGroup.Addon>
+              <SearchIcon />
+            </InputGroup.Addon>
           )}
         </InputGroup>
       </Box>
