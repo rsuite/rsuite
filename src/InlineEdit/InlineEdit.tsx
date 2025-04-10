@@ -94,7 +94,7 @@ const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwa
   } = propsWithDefaults;
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, htmlProps } =
+  const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, onFocus, htmlProps } =
     useEditState({ ...rest, disabled });
 
   const { target, root, onBlur } = useFocusEvent({
@@ -121,6 +121,7 @@ const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwa
       className={merge(className, withClassPrefix(size, { disabled }))}
       onClick={onClick}
       onKeyDown={onKeyDown}
+      onFocus={onFocus}
       {...htmlProps}
     >
       {renderChildren(children, childrenProps, target)}
