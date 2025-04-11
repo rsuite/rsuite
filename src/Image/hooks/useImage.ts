@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import useIsomorphicLayoutEffect from '@/internals/hooks/useIsomorphicLayoutEffect';
+import { useState, useEffect } from 'react';
 
 interface UseImageProps {
   src?: string;
@@ -11,60 +10,38 @@ interface UseImageProps {
 }
 
 export const useImage = (props: UseImageProps) => {
-  const { src, fallbackSrc, crossOrigin, srcSet, sizes, loading } = props;
+  const { src, fallbackSrc } = props;
   const [imgSrc, setImgSrc] = useState<string | null>(src || fallbackSrc || null);
   const [isLoading, setIsLoading] = useState<boolean>(!!src);
   const [error, setError] = useState<boolean>(false);
 
-  const imageRef = useRef<HTMLImageElement | null>(null);
-
   useEffect(() => {
-    setIsLoading(!!src); // true if src exists, false otherwise
+    if (!src) {
+      setIsLoading(false);
+      return;
+    }
+
+    setImgSrc(src);
+    setIsLoading(true);
+    setError(false);
   }, [src]);
 
-  const flush = () => {
-    if (imageRef.current) {
-      imageRef.current.onload = null;
-      imageRef.current.onerror = null;
-    }
+  const handleLoad = () => {
+    setIsLoading(false);
+    setError(false);
   };
 
-  const loadImage = useCallback(() => {
-    if (!src) return;
+  const handleError = () => {
+    setIsLoading(false);
+    setError(true);
+    setImgSrc(fallbackSrc || null);
+  };
 
-    flush();
-
-    const image = new Image();
-    image.src = src;
-
-    if (crossOrigin) image.crossOrigin = crossOrigin;
-    if (srcSet) image.srcset = srcSet;
-    if (sizes) image.sizes = sizes;
-    if (loading) image.loading = loading;
-
-    image.onload = () => {
-      flush();
-      setImgSrc(src);
-      setIsLoading(false);
-    };
-
-    image.onerror = () => {
-      flush();
-      setError(true);
-      setImgSrc(fallbackSrc || null);
-      setIsLoading(false);
-    };
-
-    imageRef.current = image;
-  }, [crossOrigin, fallbackSrc, loading, sizes, src, srcSet]);
-
-  useIsomorphicLayoutEffect(() => {
-    loadImage();
-
-    return () => {
-      flush();
-    };
-  }, [loadImage]);
-
-  return { imgSrc, isLoading, error };
+  return {
+    imgSrc,
+    isLoading,
+    error,
+    onLoad: handleLoad,
+    onError: handleError
+  };
 };
