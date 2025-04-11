@@ -1,13 +1,7 @@
 import React from 'react';
 import Link from '@/components/Link';
-import { SupportVersion } from './SupportVersion';
-import { Heading, HStack, VStack, Tag } from 'rsuite';
-
-const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
-  <li>
-    <span className="rs-co-name">{isComponent ? `<${name}>` : name}</span>
-  </li>
-);
+import { Heading, HStack, VStack, Tag, Text } from 'rsuite';
+import { ComponentThumbnail } from './ComponentThumbnail';
 
 interface CategorizedListProps {
   components: any[];
@@ -33,37 +27,37 @@ export const CategorizedList = React.forwardRef(function CategorizedList(
               <HStack wrap spacing={10} align="flex-start">
                 {item.children?.map(item => {
                   return (
-                    <VStack key={item.id} className="rs-co-box" justify="space-between">
-                      <div>
-                        <Link href={`/components/${item.id}`} className="rs-co-header">
-                          {item.name}
-                          {language === 'zh' ? (
-                            <span>
-                              <br /> {item.title ? `(${item.title})` : null}
-                            </span>
-                          ) : null}
-                        </Link>
-                        <ul className="rs-co-content">
-                          {item.components
-                            ? item.components.map(name => (
-                                <Item name={name} key={name} isComponent />
-                              ))
-                            : null}
+                    <Link key={item.id} href={`/components/${item.id}`} className="rs-co-box-link">
+                      <div className="rs-co-box">
+                        <div className="rs-co-thumbnail">
+                          <ComponentThumbnail componentId={item.id} />
+                        </div>
+                        <div className="rs-co-content">
+                          <Text className="rs-co-header">
+                            {item.name}
+                            {language === 'zh' ? (
+                              <span className="rs-co-subtitle">
+                                {item.title ? item.title : null}
+                              </span>
+                            ) : null}
+                          </Text>
 
-                          {item.apis
-                            ? item.apis.map(name => <Item name={name} key={name} />)
-                            : null}
-                        </ul>
+                          <div className="rs-co-description">
+                            {item.components && item.components.length > 0 && (
+                              <Tag size="sm">{item.components.length} components</Tag>
+                            )}
+                            {item.apis && item.apis.length > 0 && (
+                              <Tag size="sm">{item.apis.length} APIs</Tag>
+                            )}
+                            {item.tag && (
+                              <Tag size="sm" color="orange">
+                                {item.tag}
+                              </Tag>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        {item.tag && (
-                          <Tag size="sm" color="orange">
-                            {item.tag}
-                          </Tag>
-                        )}
-                        {item.minVersion && <SupportVersion minVersion={item.minVersion} />}
-                      </div>
-                    </VStack>
+                    </Link>
                   );
                 })}
               </HStack>

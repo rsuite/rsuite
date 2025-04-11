@@ -37,8 +37,7 @@ const NavHeader = ({ expanded }) => {
 
   return (
     <>
-      {/* @ts-ignore */}
-      <VStack p="10px 10px 0 10px" spacing={12}>
+      <VStack spacing={12}>
         <HStack>
           <SiProtondb size={32} /> Brand
         </HStack>
@@ -61,9 +60,7 @@ const App = () => {
 
   return (
     <Container>
-      {/* @ts-ignore */}
       <Sidebar h="100vh" width={isExpanded ? 260 : 56} collapsible>
-        {/* @ts-ignore */}
         <Sidenav expanded={isExpanded} defaultOpenKeys={['3', '4']} h="100%">
           <Sidenav.Header>
             <NavHeader expanded={isExpanded} />
@@ -104,7 +101,6 @@ const App = () => {
       </Sidebar>
       <Container>
         <Header>
-          {/* @ts-ignore */}
           <HStack spacing={16} align="center" p="1rem">
             <Breadcrumb>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -113,7 +109,6 @@ const App = () => {
             </Breadcrumb>
           </HStack>
         </Header>
-        {/* @ts-ignore */}
         <Content px="1rem">
           <Placeholder.Paragraph rows={10} />
         </Content>
