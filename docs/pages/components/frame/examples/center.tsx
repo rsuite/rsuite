@@ -52,16 +52,15 @@ const App = () => {
         </Navbar>
       </Header>
       <Content p={20}>
-        {/** @ts-ignore */}
         <Stack align="center" justify="center" h="100%">
           <Panel header="Sign in" bordered w={360}>
             <Form fluid>
               <Form.Group>
-                <Form.ControlLabel>Email address</Form.ControlLabel>
+                <Form.Label>Email address</Form.Label>
                 <Form.Control name="email" autoFocus={false} />
               </Form.Group>
               <Form.Group>
-                <Form.ControlLabel>Password</Form.ControlLabel>
+                <Form.Label>Password</Form.Label>
                 <Form.Control name="password" autoComplete="off" accepter={Password} />
               </Form.Group>
 
