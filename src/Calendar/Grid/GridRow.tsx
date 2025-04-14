@@ -6,6 +6,7 @@ import { useCalendar } from '../hooks';
 import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
 import GridCell from './GridCell';
 export interface GridRowProps extends WithAsProps {
+  /** The weekend: Sunday */
   weekendDate?: Date;
   rowIndex?: number;
 }
@@ -105,12 +106,14 @@ const GridRow: RsRefForwardingComponent<'div', GridRowProps> = React.forwardRef(
     };
 
     const classes = merge(className, prefix('row'));
-    const { firstWeekContainsDate, weekStartsOn } = locale?.dateLocale?.options ?? {};
+    const { firstWeekContainsDate } = locale?.dateLocale?.options ?? {};
 
-    const week = format(weekendDate, isoWeek ? 'I' : 'w', {
+    // ISO week starts on Monday
+    const date = isoWeek ? addDays(weekendDate, 1) : weekendDate;
+    const week = format(date, isoWeek ? 'I' : 'w', {
       locale: locale?.dateLocale,
       firstWeekContainsDate,
-      weekStartsOn: weekStart || weekStartsOn
+      weekStartsOn: weekStart
     });
 
     return (

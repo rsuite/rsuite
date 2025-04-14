@@ -75,11 +75,11 @@ export const getWeekHoverRange = (
   date: Date,
   options: {
     isoWeek: boolean;
-    weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
     locale?: Locale;
   }
 ): DateRange => {
-  const { isoWeek, weekStart, locale } = options;
+  const { isoWeek, weekStart = 0, locale } = options;
 
   if (isoWeek) {
     // set to the first day of this week according to ISO 8601, 12:00 am

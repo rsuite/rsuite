@@ -1,6 +1,12 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import CustomProvider from '@/CustomProvider';
+import rsEnUS from '@/locales/en_US';
+import DateRangePicker from '../DateRangePicker';
+import GearIcon from '@rsuite/icons/Gear';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import {
   testStandardProps,
@@ -8,8 +14,6 @@ import {
   testControlledUnControlled,
   testPickers
 } from '@test/utils';
-import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
 import { keyPress } from '@test/utils/simulateEvent';
 import {
   addDays,
@@ -23,8 +27,6 @@ import {
   subDays,
   addMonths
 } from 'date-fns';
-import DateRangePicker from '../DateRangePicker';
-import GearIcon from '@rsuite/icons/Gear';
 import { RangeType, DateRange } from '../types';
 
 function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seconds }) {
@@ -399,38 +401,42 @@ describe('DateRangePicker', () => {
 
   it('Should update the calendar when clicking on a non-current month', () => {
     render(
-      <DateRangePicker
-        defaultOpen
-        defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
-      />
+      <CustomProvider locale={rsEnUS}>
+        <DateRangePicker
+          defaultOpen
+          defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
+        />
+      </CustomProvider>
     );
 
     // Jun 27, 2021
-    const unSameMonthCell = screen.getByTitle('27 Jun 2021');
+    const unSameMonthCell = screen.getByTitle('Jun 27, 2021');
 
     fireEvent.mouseEnter(unSameMonthCell);
     fireEvent.click(unSameMonthCell);
 
-    expect(screen.getByTitle('30 May 2021')).to.be.exist;
+    expect(screen.getByTitle('May 30, 2021')).to.be.exist;
   });
 
   it('Should update the calendar when calendarSnapping is true', () => {
     render(
-      <DateRangePicker
-        defaultOpen
-        calendarSnapping
-        defaultValue={[new Date('08/01/2024'), new Date('09/01/2024')]}
-      />
+      <CustomProvider locale={rsEnUS}>
+        <DateRangePicker
+          defaultOpen
+          calendarSnapping
+          defaultValue={[new Date('08/01/2024'), new Date('09/01/2024')]}
+        />
+      </CustomProvider>
     );
 
     screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
-      expect(item).to.have.text(['Aug 2024', 'Sep 2024'][index]);
+      expect(item).to.have.text(['Aug, 2024', 'Sep, 2024'][index]);
     });
 
-    fireEvent.click(screen.getByTitle('08 Sep 2024'));
+    fireEvent.click(screen.getByTitle('Sep 08, 2024'));
 
     screen.getAllByRole('button', { name: 'Select month' }).forEach((item, index) => {
-      expect(item).to.have.text(['Sep 2024', 'Oct 2024'][index]);
+      expect(item).to.have.text(['Sep, 2024', 'Oct, 2024'][index]);
     });
   });
 
