@@ -1,33 +1,30 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React from 'react';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
-import Box, { BoxProps } from '@/internals/Box';
+import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import { KEY_VALUES } from '@/internals/constants';
 import { useControlled, useStyles, useEventCallback } from '@/internals/hooks';
-import {
-  forwardRef,
-  shallowEqualArray,
-  isPresetColor,
-  createColorVariables,
-  mergeStyles
-} from '@/internals/utils';
-import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
+import { forwardRef, shallowEqualArray, mergeStyles } from '@/internals/utils';
+import { transformStarStatusToValue, getFractionalValue } from './utils';
+import { useRatingStates } from './useRatingStates';
 import { useCustom } from '../CustomProvider';
 import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 
-export interface RateProps<T = number> extends BoxProps, FormControlBaseProps<T> {
-  // Whether to allow semi selection
+export interface RateProps<T = number>
+  extends Omit<StyledBoxProps, 'name'>,
+    FormControlBaseProps<T> {
+  /** Whether to allow semi selection */
   allowHalf?: boolean;
 
-  // custom character of rate
+  /** Custom character of rate */
   character?: React.ReactNode;
 
-  // The prefix of the component CSS class
+  /** The prefix of the component CSS class */
   classPrefix?: string;
 
-  // Whether to allow cancel selection
+  /** Whether to allow cancel selection */
   cleanable?: boolean;
 
   /** A rate can have different sizes */
@@ -36,16 +33,16 @@ export interface RateProps<T = number> extends BoxProps, FormControlBaseProps<T>
   /** A rate can have different colors */
   color?: Color | React.CSSProperties['color'];
 
-  // Maximum rate
+  /** Maximum rate */
   max?: number;
 
-  // Vertical Rate half
+  /** Vertical Rate half */
   vertical?: boolean;
 
-  // render coutom character
+  /** Render custom character */
   renderCharacter?: (value: number, index: number) => React.ReactNode;
 
-  // Callback function when hover state changes
+  /** Callback function when hover state changes */
   onChangeActive?: (value: T, event: React.SyntheticEvent) => void;
 }
 
@@ -64,7 +61,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     max = 5,
     readOnly,
     vertical,
-    size = 'md',
+    size,
     color,
     allowHalf = false,
     value: valueProp,
@@ -79,59 +76,41 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
   } = propsWithDefaults;
 
   const [value, setValue] = useControlled(valueProp, defaultValue);
-
-  const getCharacterMap = useCallback(
-    (v?: number) => {
-      return transformValueToCharacterMap(typeof v !== 'undefined' ? v : value, max, allowHalf);
-    },
-    [allowHalf, max, value]
-  );
-
-  const [characterMap, setCharacterMap] = useState<CharacterType[]>(getCharacterMap());
-
-  const hoverValue = transformCharacterMapToValue(characterMap);
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(size, isPresetColor(color) && color, { disabled, readonly: readOnly })
+  const classes = merge(className, withPrefix());
+
+  // Use the custom hook to manage rating star states
+  const { starStates, setStarStates, resetStarStates, hoverValue, getStarStates } = useRatingStates(
+    {
+      value,
+      max,
+      allowHalf,
+      valueProp
+    }
   );
-
-  const styles = useMemo(
-    () => mergeStyles(style, createColorVariables(color, '--rs-rate-symbol-checked')),
-    [style, color]
-  );
-
-  const resetCharacterMap = useCallback(() => {
-    setCharacterMap(getCharacterMap());
-  }, [getCharacterMap]);
-
-  useEffect(() => {
-    // Update characterMap when value is updated.
-    setCharacterMap(getCharacterMap(valueProp));
-  }, [valueProp]);
 
   const handleMouseLeave = useEventCallback((event: React.SyntheticEvent) => {
-    resetCharacterMap();
+    resetStarStates();
     onChangeActive?.(value, event);
   });
 
   const handleChangeValue = useEventCallback((index: number, event: React.SyntheticEvent) => {
-    let nextValue = transformCharacterMapToValue(characterMap);
+    let nextValue = transformStarStatusToValue(starStates);
 
-    if (cleanable && value === nextValue && getCharacterMap(value)[index] === characterMap[index]) {
+    if (cleanable && value === nextValue && getStarStates(value)[index] === starStates[index]) {
       nextValue = 0;
     }
 
     if (nextValue !== value) {
       setValue(nextValue);
-      setCharacterMap(getCharacterMap(nextValue));
+      setStarStates(getStarStates(nextValue));
       onChange?.(nextValue, event);
     }
   });
 
   const handleKeyDown = useEventCallback((index: number, event: React.KeyboardEvent) => {
     const { key } = event;
-    let nextValue = transformCharacterMapToValue(characterMap);
+    let nextValue = transformStarStatusToValue(starStates);
 
     if (key === KEY_VALUES.RIGHT && nextValue < max) {
       nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
@@ -139,71 +118,80 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
       nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
     }
 
-    setCharacterMap(getCharacterMap(nextValue));
+    setStarStates(getStarStates(nextValue));
 
     if (key === KEY_VALUES.ENTER) {
       handleChangeValue(index, event);
     }
   });
 
-  const handleChangeCharacterMap = useEventCallback(
+  const handleChangeStarStates = useEventCallback(
     (index: number, key: string, event: React.MouseEvent) => {
-      const nextCharacterMap = characterMap.map((_item, i) => {
+      const nextStarStates = starStates.map((_item, i) => {
         if (i === index && key === 'before' && allowHalf) {
           return 0.5;
         }
         return index >= i ? 1 : 0;
       });
 
-      if (!shallowEqualArray(characterMap, nextCharacterMap)) {
-        setCharacterMap(nextCharacterMap);
-        onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
+      if (!shallowEqualArray(starStates, nextStarStates)) {
+        setStarStates(nextStarStates);
+        onChangeActive?.(transformStarStatusToValue(nextStarStates), event);
       }
     }
   );
 
   const handleClick = useEventCallback((index: number, key: string, event: React.MouseEvent) => {
-    handleChangeCharacterMap(index, key, event);
+    handleChangeStarStates(index, key, event);
     handleChangeValue(index, event);
   });
 
   if (plaintext) {
     return (
       <Plaintext localeKey="notSelected" className={className}>
-        {!isNil(value) ? `${value}(${max})` : null}
+        {!isNil(value) ? `${value}/${max}` : null}
       </Plaintext>
     );
   }
 
+  const mergedStyle = mergeStyles(style, {
+    '--rs-rate-before-size': getFractionalValue(value)
+  });
+
   return (
-    <Box
+    <StyledBox
       as={as}
+      name="rate"
+      size={size}
+      color={color}
       role="radiogroup"
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       ref={ref}
       className={classes}
-      style={styles}
+      style={mergedStyle}
       onMouseLeave={handleMouseLeave}
+      data-disabled={disabled}
+      data-readonly={readOnly}
       {...rest}
     >
-      {characterMap.map((item, index) => (
+      {starStates.map((status, index) => (
         <Character
           role="radio"
           aria-posinset={index + 1}
           aria-setsize={max}
           aria-checked={value === index + 1}
           key={index}
-          status={item}
+          status={status}
           disabled={disabled || readOnly}
           vertical={vertical}
           onClick={(key, event) => handleClick(index, key, event)}
           onKeyDown={event => handleKeyDown(index, event)}
-          onMouseMove={(key, event) => handleChangeCharacterMap(index, key, event)}
+          onMouseMove={(key, event) => handleChangeStarStates(index, key, event)}
         >
           {renderCharacter ? renderCharacter(hoverValue, index) : character}
         </Character>
       ))}
-    </Box>
+    </StyledBox>
   );
 });
 

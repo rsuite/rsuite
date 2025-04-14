@@ -1,3 +1,5 @@
+@import '../../../less/variables.less';
+
 .component-overview {
   ul {
     padding: 0;
@@ -9,7 +11,6 @@
     margin-top: 30px;
   }
   .rs-co-title {
-
     clear: both;
     width: 100%;
     font-size: 20px;
@@ -40,6 +41,12 @@
       transform: translateY(-2px);
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
       border-color: var(--rs-primary-300);
+    }
+  }
+
+  @media (max-width: @media-xs) {
+    .rs-co-box {
+      width: 162px;
     }
   }
 
@@ -81,7 +88,8 @@
       height: 80px;
     }
 
-    .rs-theme-dark &, .rs-theme-high-contrast & {
+    .rs-theme-dark &,
+    .rs-theme-high-contrast & {
       background: linear-gradient(45deg, rgba(var(--rs-primary-500), 0.15), var(--rs-bg-card));
     }
   }
@@ -89,8 +97,6 @@
   .rs-co-content {
     padding: 16px;
   }
-
-
 
   .rs-stack {
     gap: 24px;

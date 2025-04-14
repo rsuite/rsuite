@@ -1,26 +1,22 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import contains from 'dom-lib/contains';
-import isNil from 'lodash/isNil';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
+import { getStarStatus } from './utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
-
-const characterStatus = {
-  [0]: 'empty',
-  [0.5]: 'half',
-  [1]: 'full'
-};
-
+import type { StarStatus } from './types';
 interface CharacterProps extends BoxProps {
   vertical?: boolean;
-  status?: 0 | 0.5 | 1;
+  status?: StarStatus;
   disabled?: boolean;
-  onMouseMove?: (key, event: React.MouseEvent) => void;
-  onClick?: (key, event: React.MouseEvent) => void;
+  onMouseMove?: (key: 'before' | 'after', event: React.MouseEvent) => void;
+  onClick?: (key: 'before' | 'after', event: React.MouseEvent) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const getKey = (a, b) => (contains(a, b) ? 'before' : 'after');
+const getKey = (element: HTMLElement | null, target: EventTarget | null): 'before' | 'after' => {
+  return element && target && contains(element, target as HTMLElement) ? 'before' : 'after';
+};
 
 const Character = forwardRef<'li', CharacterProps>((props, ref) => {
   const {
@@ -37,9 +33,8 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
   const beforeRef = useRef<HTMLDivElement>(null);
-  const classes = merge(className, withPrefix(!isNil(status) && characterStatus[status]));
 
   const handleMouseMove = useEventCallback((event: React.MouseEvent) => {
     onMouseMove?.(getKey(beforeRef.current, event.target), event);
@@ -49,15 +44,25 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
     onClick?.(getKey(beforeRef.current, event.target), event);
   });
 
+  const eventHandlers = useMemo(() => {
+    if (disabled) {
+      return null;
+    }
+    return {
+      onClick: handleClick,
+      onKeyDown,
+      onMouseMove: handleMouseMove
+    };
+  }, [disabled, handleClick, onKeyDown, handleMouseMove]);
+
   return (
     <Box
       as={as}
       ref={ref}
-      className={classes}
-      tabIndex={0}
-      onClick={disabled ? null : handleClick}
-      onKeyDown={disabled ? null : onKeyDown}
-      onMouseMove={disabled ? null : handleMouseMove}
+      className={merge(className, withPrefix())}
+      tabIndex={disabled ? -1 : 0}
+      data-status={getStarStatus(status)}
+      {...eventHandlers}
       {...rest}
     >
       <div ref={beforeRef} className={prefix('before', { vertical })}>
