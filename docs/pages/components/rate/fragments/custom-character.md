@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
+import { Rate, VStack, Divider } from 'rsuite';
 import { FaFrown, FaMeh, FaSmile } from 'react-icons/fa';
 
 const renderCharacter = (value, index) => {
@@ -19,7 +19,7 @@ const renderCharacter = (value, index) => {
 };
 
 const App = () => (
-  <>
+  <VStack spacing={10}>
     <VStack>
       <Rate defaultValue={1} renderCharacter={renderCharacter} />
       <Rate defaultValue={2} renderCharacter={renderCharacter} />
@@ -28,9 +28,9 @@ const App = () => (
       <Rate defaultValue={5} renderCharacter={renderCharacter} />
     </VStack>
 
-    <hr />
+    <Divider label="Max 10" labelPosition="left" />
     <Rate max={10} defaultValue={2} />
-  </>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
