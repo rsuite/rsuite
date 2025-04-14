@@ -401,7 +401,7 @@ describe('Rate', () => {
         </div>
       );
 
-      expect(screen.getByTestId('content')).to.have.text('1(5)');
+      expect(screen.getByTestId('content')).to.have.text('1/5');
     });
 
     it('Should render "Not selected" if value is empty', () => {

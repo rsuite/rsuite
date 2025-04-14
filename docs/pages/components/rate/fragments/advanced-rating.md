@@ -27,7 +27,7 @@ const App = () => {
           </Text>
         </VStack>
 
-        <VStack spacing={8} >
+        <VStack spacing={8}>
           {ratingData.distribution.map(item => (
             <HStack key={item.stars} spacing={10} align="center" w={300}>
               <Text>{item.stars} star</Text>
@@ -42,11 +42,8 @@ const App = () => {
           ))}
         </VStack>
       </HStack>
-
-      <VStack spacing={10}>
-        <Text fontWeight="bold">Rate this product</Text>
-        <Rate defaultValue={0} color="yellow" />
-      </VStack>
+      <Divider label="Rate this product" labelPosition="left" />
+      <Rate defaultValue={0} color="yellow" />
     </VStack>
   );
 };

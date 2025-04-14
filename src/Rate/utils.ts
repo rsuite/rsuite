@@ -1,14 +1,14 @@
-export type CharacterType = 0 | 0.5 | 1 | number;
+import type { StarStatus } from './types';
 
 /**
  * Transforms a numeric value into a character map array.
  */
-export const transformValueToCharacterMap = (
+export const transformValueToStarStatus = (
   value: number,
   max: number,
   allowHalf: boolean
-): CharacterType[] => {
-  const characterMap: CharacterType[] = [];
+): StarStatus[] => {
+  const characterMap: StarStatus[] = [];
   for (let i = 0; i < max; i++) {
     if (i < value && value >= i + 1) {
       // Fully filled star
@@ -19,7 +19,7 @@ export const transformValueToCharacterMap = (
         // Use 0.5 to represent partial fill when half ratings are allowed
         characterMap.push(0.5);
       } else {
-        // 取出小数部分
+        // Extract the decimal part
         characterMap.push(value - i);
       }
     } else {
@@ -33,7 +33,7 @@ export const transformValueToCharacterMap = (
 /**
  * Transforms a character map array into a numeric value.
  */
-export const transformCharacterMapToValue = (characterMap: CharacterType[]) =>
+export const transformStarStatusToValue = (characterMap: StarStatus[]) =>
   (characterMap as number[]).reduce((total, currentValue) => {
     return total + currentValue;
   });
@@ -51,4 +51,17 @@ export const getFractionalValue = (value: number) => {
 
   // Round to avoid floating-point precision issues
   return decimal ? `${Math.round(decimal * 100)}%` : undefined;
+};
+
+const starStatusMap = {
+  [0]: 'empty',
+  [0.5]: 'half',
+  [1]: 'full'
+};
+
+export const getStarStatus = (status?: StarStatus) => {
+  if (typeof status === 'number') {
+    return starStatusMap[status] || 'frac';
+  }
+  return null;
 };

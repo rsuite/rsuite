@@ -24,7 +24,7 @@ The color of the rate component. Supports both preset theme colors and custom co
 
 <!--{include:`color.md`}}-->
 
-### Half ratings
+### Half Star
 
 <!--{include:`half-select.md`}}-->
 
