@@ -49,15 +49,15 @@ describe('Divider', () => {
       expect(screen.getByRole('button')).to.exist;
     });
 
-    it('Should render with different label positions', () => {
-      const { rerender } = render(<Divider label="Left" labelPosition="left" />);
-      expect(screen.getByRole('separator')).to.have.attribute('data-position', 'left');
+    it('Should render with different label placements', () => {
+      const { rerender } = render(<Divider label="Start" labelPlacement="start" />);
+      expect(screen.getByRole('separator')).to.have.attribute('data-placement', 'start');
 
-      rerender(<Divider label="Right" labelPosition="right" />);
-      expect(screen.getByRole('separator')).to.have.attribute('data-position', 'right');
+      rerender(<Divider label="End" labelPlacement="end" />);
+      expect(screen.getByRole('separator')).to.have.attribute('data-placement', 'end');
 
       rerender(<Divider label="Center" />);
-      expect(screen.getByRole('separator')).to.not.have.attribute('data-position');
+      expect(screen.getByRole('separator')).to.not.have.attribute('data-placement');
     });
   });
 });

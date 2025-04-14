@@ -5,7 +5,7 @@ import { Rate, VStack, Divider } from 'rsuite';
 
 const App = () => (
   <VStack spacing={20}>
-    <Divider label="Preset colors" labelPosition="left" />
+    <Divider label="Preset colors" labelPlacement="start" />
     <VStack>
       <Rate defaultValue={5} color="red" />
       <Rate defaultValue={4} color="orange" />
@@ -16,7 +16,7 @@ const App = () => (
       <Rate defaultValue={5} color="violet" />
     </VStack>
 
-    <Divider label="Custom colors" labelPosition="left" />
+    <Divider label="Custom colors" labelPlacement="start" />
 
     <VStack>
       <Rate defaultValue={3} color="#FF0000" />

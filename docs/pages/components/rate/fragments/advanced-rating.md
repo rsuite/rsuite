@@ -42,7 +42,7 @@ const App = () => {
           ))}
         </VStack>
       </HStack>
-      <Divider label="Rate this product" labelPosition="left" />
+      <Divider label="Rate this product" labelPlacement="start" />
       <Rate defaultValue={0} color="yellow" />
     </VStack>
   );

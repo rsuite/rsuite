@@ -8,7 +8,7 @@ const App = () => {
   const [value, setValue] = React.useState(2.5);
   return (
     <VStack spacing={10}>
-      <Divider label="Svg icon" labelPosition="left" />
+      <Divider label="Svg icon" labelPlacement="start" />
       <Rate allowHalf value={value} character={<FaHeart />} color="red" onChange={setValue} />
       <Rate
         allowHalf
@@ -22,7 +22,7 @@ const App = () => {
           return <FaRegStar />;
         }}
       />
-      <Divider label="Emoji" labelPosition="left" />
+      <Divider label="Emoji" labelPlacement="start" />
       <Rate allowHalf value={value} character="❤️" onChange={setValue} />
       <Rate allowHalf value={value} character="👍" onChange={setValue} />
       <Rate allowHalf value={value} character="⭐️" onChange={setValue} />

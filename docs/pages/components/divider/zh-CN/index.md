@@ -43,7 +43,7 @@
 | classPrefix   | string `('divider')`                             | 组件 CSS 类的前缀                |
 | color         | Color \| CSSProperties['color']                  | 分割线的颜色                     |
 | label         | ReactNode                                        | 标签内容                         |
-| labelPosition | 'left' \| 'right' \| 'center'                    | 标签位置                         |
+| labelPlacement | 'start' \| 'center' \| 'end'                    | 标签位置                         |
 | size          | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线的尺寸                     |
 | spacing       | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线与内容之间的间距           |
 | vertical      | boolean                                          | 垂直分割线（不能与标签同时使用） |

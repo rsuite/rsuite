@@ -28,7 +28,7 @@ const App = () => (
       <Rate defaultValue={5} renderCharacter={renderCharacter} />
     </VStack>
 
-    <Divider label="Max 10" labelPosition="left" />
+    <Divider label="Max 10" labelPlacement="start" />
     <Rate max={10} defaultValue={2} />
   </VStack>
 );
