@@ -8,6 +8,8 @@ import GridCell from './GridCell';
 export interface GridRowProps extends WithAsProps {
   /** The weekend: Sunday */
   weekendDate?: Date;
+
+  /** The index of the row */
   rowIndex?: number;
 }
 

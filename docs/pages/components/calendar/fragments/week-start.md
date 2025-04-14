@@ -24,7 +24,6 @@ const App = () => {
           value={weekStart}
           onChange={value => {
             setWeekStart(value);
-            setIsoWeek(false);
           }}
         >
           <RadioLabel>Week start</RadioLabel>
