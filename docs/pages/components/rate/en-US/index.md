@@ -54,11 +54,21 @@ When there are multiple levels of rating, you can customize the character displa
 
 <!--{include:`custom-character.md`}}-->
 
+### Fractional ratings
+
+<!--{include:`fractional.md`}}-->
+
+### Advanced rating
+
+<!--{include:`advanced-rating.md`}}-->
+
 ## Accessibility
 
 WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating
 
 ## Props
+
+### `<Rate>`
 
 | Property        | Type `(Default)`                                       | Description                                                                          |
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
@@ -70,7 +80,7 @@ WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rat
 | max             | number`(5)`                                            | Maximum score                                                                        |
 | renderCharacter | (value: number) => ReactNode                           | Customize the render character function                                              |
 | readOnly        | boolean                                                | Whether it is read-only, if true, no interaction is possible                         |
-| size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | Set component size                                                                   |
+| size            | [Size](#code-ts-size-code) \| number \| string         | Set component size                                                                   |
 | color           | [Color](#code-ts-color-code) \| CSSProperties['color'] | Set component color. Supports preset theme colors and custom colors (hex, rgb, etc.) |
 | value           | number                                                 | The current value (controlled)                                                       |
 | vertical        | boolean`(false)`                                       | direction when half select                                                           |
@@ -78,3 +88,4 @@ WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rat
 | onChangeActive  | (value: number, event) => void                         | Callback function that is fired when the hover state changes.                        |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/size.md)}-->

@@ -1,23 +1,24 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/Star';
 import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
-import Box, { BoxProps } from '@/internals/Box';
+import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import { KEY_VALUES } from '@/internals/constants';
 import { useControlled, useStyles, useEventCallback } from '@/internals/hooks';
+import { forwardRef, shallowEqualArray, mergeStyles } from '@/internals/utils';
 import {
-  forwardRef,
-  shallowEqualArray,
-  isPresetColor,
-  createColorVariables,
-  mergeStyles
-} from '@/internals/utils';
-import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
+  transformValueToCharacterMap,
+  transformCharacterMapToValue,
+  getFractionalValue,
+  CharacterType
+} from './utils';
 import { useCustom } from '../CustomProvider';
 import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 
-export interface RateProps<T = number> extends BoxProps, FormControlBaseProps<T> {
+export interface RateProps<T = number>
+  extends Omit<StyledBoxProps, 'name'>,
+    FormControlBaseProps<T> {
   // Whether to allow semi selection
   allowHalf?: boolean;
 
@@ -64,7 +65,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     max = 5,
     readOnly,
     vertical,
-    size = 'md',
+    size,
     color,
     allowHalf = false,
     value: valueProp,
@@ -91,15 +92,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
 
   const hoverValue = transformCharacterMapToValue(characterMap);
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(size, isPresetColor(color) && color, { disabled, readonly: readOnly })
-  );
-
-  const styles = useMemo(
-    () => mergeStyles(style, createColorVariables(color, '--rs-rate-symbol-checked')),
-    [style, color]
-  );
+  const classes = merge(className, withPrefix());
 
   const resetCharacterMap = useCallback(() => {
     setCharacterMap(getCharacterMap());
@@ -175,15 +168,24 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     );
   }
 
+  const mergedStyle = mergeStyles(style, {
+    '--rs-rate-before-size': getFractionalValue(value)
+  });
+
   return (
-    <Box
+    <StyledBox
       as={as}
+      name="rate"
+      size={size}
+      color={color}
       role="radiogroup"
       tabIndex={0}
       ref={ref}
       className={classes}
-      style={styles}
+      style={mergedStyle}
       onMouseLeave={handleMouseLeave}
+      data-disabled={disabled}
+      data-readonly={readOnly}
       {...rest}
     >
       {characterMap.map((item, index) => (
@@ -203,7 +205,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
           {renderCharacter ? renderCharacter(hoverValue, index) : character}
         </Character>
       ))}
-    </Box>
+    </StyledBox>
   );
 });
 

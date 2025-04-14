@@ -10,34 +10,25 @@ const renderCharacter = (value, index) => {
     return <FaMeh />;
   }
   if (value < 3) {
-    return <FaFrown style={{ color: '#99A9BF' }} />;
+    return <FaFrown color="#99A9BF" />;
   }
   if (value < 4) {
-    return <FaMeh style={{ color: '#F4CA1D' }} />;
+    return <FaMeh color="#F4CA1D" />;
   }
-  return <FaSmile style={{ color: '#ff9800' }} />;
+  return <FaSmile color="#ff9800" />;
 };
 
 const App = () => (
   <>
-    <div>
+    <VStack>
       <Rate defaultValue={1} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={2} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={3} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={4} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={5} renderCharacter={renderCharacter} />
-    </div>
+    </VStack>
 
     <hr />
-
     <Rate max={10} defaultValue={2} />
   </>
 );

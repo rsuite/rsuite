@@ -1,20 +1,26 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
+import { Rate, HStack, Text } from 'rsuite';
 
 const App = () => (
   <>
-    <label>Disabled: </label>
-    <Rate disabled defaultValue={2.5} allowHalf />
+    <HStack spacing={10}>
+      <label>Disabled: </label>
+      <Rate disabled defaultValue={2.5} allowHalf />
+    </HStack>
 
     <hr />
-    <label>Read only: </label>
-    <Rate readOnly defaultValue={2.5} allowHalf />
+    <HStack spacing={10}>
+      <label>Readonly: </label>
+      <Rate readOnly defaultValue={2.5} allowHalf />
+    </HStack>
 
     <hr />
-    <label>Plaintext: </label>
-    <Rate plaintext defaultValue={2.5} allowHalf />
+    <HStack spacing={10}>
+      <label>Plaintext: </label>
+      <Rate plaintext defaultValue={2.5} allowHalf />
+    </HStack>
   </>
 );
 

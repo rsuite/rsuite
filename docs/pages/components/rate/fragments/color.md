@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Rate, VStack } from 'rsuite';
+import { Rate, VStack, Divider } from 'rsuite';
 
 const App = () => (
   <VStack spacing={20}>
-    {/* Preset theme colors */}
+    <Divider label="Preset colors" labelPosition="left" />
     <VStack>
       <Rate defaultValue={5} color="red" />
       <Rate defaultValue={4} color="orange" />
@@ -16,7 +16,7 @@ const App = () => (
       <Rate defaultValue={5} color="violet" />
     </VStack>
 
-    <p>Custom colors</p>
+    <Divider label="Custom colors" labelPosition="left" />
 
     <VStack>
       <Rate defaultValue={3} color="#FF0000" />

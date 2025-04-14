@@ -41,7 +41,7 @@
       --rs-@{color-name}-50: @@color-name-50;
 
       each(range(9), {
-        @level: @{index}00;
+        @level: ~'@{index}00';
         @color-name-level: ~'@{color-name}-@{level}-high-contrast';
         --rs-@{color-name}-@{level}: @@color-name-level;
       });
@@ -300,7 +300,7 @@
 
   // Rate
   --rs-rate-symbol: var(--rs-gray-100);
-  --rs-rate-symbol-checked: var(--rs-primary-500);
+  --rs-rate-color: var(--rs-primary-500);
 
   // Toggle
   --rs-toggle-bg: var(--rs-gray-800);

@@ -4,15 +4,18 @@
 // ----------------------
 
 .rs-rate {
-  --rate-font-size-xs: var(--rs-font-size-lg);
-  --rate-font-size-sm: var(--rs-font-size-2xl);
-  --rate-font-size-md: var(--rs-font-size-3xl);
-  --rate-font-size-lg: var(--rs-font-size-4xl);
+  --rs-rate-size-xs: var(--rs-font-size-lg);
+  --rs-rate-size-sm: var(--rs-font-size-2xl);
+  --rs-rate-size-md: var(--rs-font-size-3xl);
+  --rs-rate-size-lg: var(--rs-font-size-4xl);
+  --rs-rate-size-xl: var(--rs-font-size-5xl);
+  --rs-rate-size: var(--rs-rate-size-md);
+  --rs-rate-before-size: 50%;
 
   position: relative;
   display: inline-flex;
-  color: var(--rs-rate-symbol-checked);
-  font-size: var(--rate-font-size, var(--rate-font-size-md));
+  color: var(--rs-rate-color);
+  font-size: var(--rs-rate-size);
   list-style: none;
   vertical-align: middle;
   margin: 0;
@@ -24,12 +27,12 @@
     cursor: pointer;
     outline: none;
     user-select: none;
-    width: var(--rate-font-size);
-    height: var(--rate-font-size);
+    width: max-content;
+    height: max-content;
 
     &-before {
       position: absolute;
-      width: 50%;
+      width: var(--rs-rate-before-size);
       height: 100%;
       overflow: hidden;
       opacity: 0;
@@ -57,12 +60,13 @@
       }
     }
 
-    &-half &-before {
+    &:where([data-status='half']) &-before,
+    &:where([data-status='frac']) &-before {
       opacity: 1;
       filter: none;
     }
 
-    &-full &-after {
+    &:where([data-status='full']) &-after {
       color: inherit;
       filter: none;
 
@@ -73,20 +77,26 @@
 
     &-vertical {
       width: 100%;
-      height: 50%;
+      height: var(--rs-rate-before-size);
       flex-direction: column-reverse;
       bottom: 0;
     }
 
     .rs-icon,
     svg {
-      position: absolute;
       height: 1em;
       width: 1em;
     }
+
+    &-before {
+      .rs-icon,
+      svg {
+        position: absolute;
+      }
+    }
   }
 
-  &:not(&-readonly)&:not(&-disabled) &-character {
+  &-character {
     &:hover {
       transform: scale(1.1);
     }
@@ -96,33 +106,34 @@
     }
   }
 
-  &-disabled {
+  &:where([data-disabled='true']) {
+    cursor: @cursor-disabled;
     opacity: 0.5;
     outline: none;
   }
 
-  &-disabled &-character {
-    cursor: @cursor-disabled;
+  &:where([data-disabled='true']) &-character {
+    pointer-events: none;
   }
 
-  &-readonly &-character {
+  &:where([data-readonly='true']) &-character {
     cursor: default;
     pointer-events: none;
   }
 
   // Size variants
-  @sizes: lg, md, sm, xs;
+  @sizes: xl, lg, md, sm, xs;
 
   each(@sizes, .(@size) {
     &&-@{size} {
-      --rate-font-size: var(~'--rate-font-size-@{size}');
+      --rs-rate-size: var(~'--rs-rate-size-@{size}');
     }
   });
 
   // Color variants
   each(@spectrum, .(@color) {
     &&-@{color} {
-      --rs-rate-symbol-checked: var(~'--rs-@{color}-500');
+      --rs-rate-color: var(~'--rs-@{color}-500');
     }
   });
 }

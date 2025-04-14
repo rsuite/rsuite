@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import contains from 'dom-lib/contains';
-import isNil from 'lodash/isNil';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
@@ -11,9 +10,16 @@ const characterStatus = {
   [1]: 'full'
 };
 
+function getStatus(status?: 0 | 0.5 | 1 | number) {
+  if (typeof status === 'number') {
+    return characterStatus[status] || 'frac';
+  }
+  return null;
+}
+
 interface CharacterProps extends BoxProps {
   vertical?: boolean;
-  status?: 0 | 0.5 | 1;
+  status?: 0 | 0.5 | 1 | number;
   disabled?: boolean;
   onMouseMove?: (key, event: React.MouseEvent) => void;
   onClick?: (key, event: React.MouseEvent) => void;
@@ -37,9 +43,8 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const { prefix, withPrefix, merge } = useStyles(classPrefix);
   const beforeRef = useRef<HTMLDivElement>(null);
-  const classes = merge(className, withPrefix(!isNil(status) && characterStatus[status]));
 
   const handleMouseMove = useEventCallback((event: React.MouseEvent) => {
     onMouseMove?.(getKey(beforeRef.current, event.target), event);
@@ -49,15 +54,25 @@ const Character = forwardRef<'li', CharacterProps>((props, ref) => {
     onClick?.(getKey(beforeRef.current, event.target), event);
   });
 
+  const eventHandlers = useMemo(() => {
+    if (disabled) {
+      return null;
+    }
+    return {
+      onClick: handleClick,
+      onKeyDown: onKeyDown,
+      onMouseMove: handleMouseMove
+    };
+  }, [disabled, handleClick, onKeyDown, handleMouseMove]);
+
   return (
     <Box
       as={as}
       ref={ref}
-      className={classes}
+      className={merge(className, withPrefix())}
       tabIndex={0}
-      onClick={disabled ? null : handleClick}
-      onKeyDown={disabled ? null : onKeyDown}
-      onMouseMove={disabled ? null : handleMouseMove}
+      data-status={getStatus(status)}
+      {...eventHandlers}
       {...rest}
     >
       <div ref={beforeRef} className={prefix('before', { vertical })}>

@@ -1,15 +1,18 @@
 import React from 'react';
 import { render, act, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps, testStyleProps } from '@test/utils';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
 import sinon from 'sinon';
 
 describe('Rate', () => {
-  testStandardProps(<Rate />, {
-    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  testStandardProps(<Rate />);
+
+  testStyleProps(Rate, {
+    sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+    colors: ['red', 'green', 'blue', 'cyan', 'orange', 'yellow']
   });
 
   it('Should render a default Rate', () => {
@@ -20,45 +23,45 @@ describe('Rate', () => {
 
   it('Should allow half select, value is 0.5', () => {
     render(<Rate allowHalf defaultValue={0.5} />);
-    expect(screen.getAllByRole('radio')[0]).to.have.class('rs-rate-character-half');
+    expect(screen.getAllByRole('radio')[0]).to.have.attr('data-status', 'half');
   });
 
   it('Should allow clean full value', () => {
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate defaultValue={1} ref={ref} />);
 
-    userEvent.click(ref.current?.querySelector('.rs-rate-character-full') as HTMLElement);
+    userEvent.click(ref.current?.querySelector('[data-status="full"]') as HTMLElement);
 
-    expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
+    expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(0);
   });
 
   it('Should allow clean half value', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf />);
 
-    userEvent.hover(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    userEvent.hover(container.querySelector('[data-status="half"]') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
 
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(0);
   });
 
   it('Should cant clean value', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="half"]')).to.have.length(1);
   });
 
   it('Should render same value for a half-rate when click again after clean ', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf />);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="half"]')).to.have.length(1);
   });
 
   it('Should render same value for a full-rate when click again after clean ', () => {
     const { container } = render(<Rate defaultValue={1} />);
     userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should render A character', () => {
@@ -86,23 +89,18 @@ describe('Rate', () => {
   it('Should disabled,cant click', () => {
     const { container } = render(<Rate defaultValue={1} disabled />);
     userEvent.click(container.querySelectorAll('.rs-rate-character')[3]);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should disabled,cant hover', () => {
     const { container } = render(<Rate defaultValue={1} disabled />);
     userEvent.hover(container.querySelectorAll('.rs-rate-character')[3]);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should render 10 characters', () => {
     render(<Rate max={10} />);
     expect(screen.getAllByRole('radio')).to.have.length(10);
-  });
-
-  it('Should render lg size character', () => {
-    render(<Rate size="lg" character="A" />);
-    expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-lg');
   });
 
   it('Should call onChange callback with correct value', () => {
@@ -197,49 +195,32 @@ describe('Rate', () => {
     expect(onChangeActive).to.have.been.calledWith(3);
 
     // Should reset the visual state
-    expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(3);
+    expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(3);
   });
 
   describe('Custom colors', () => {
-    it('Should render with preset color', () => {
-      render(<Rate defaultValue={3} color="red" />);
-      expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-red');
-    });
-
     it('Should render with custom hex color', () => {
       const { container } = render(<Rate defaultValue={3} color="#FF5733" />);
       const rateElement = container.querySelector('.rs-rate');
       const style = getComputedStyle(rateElement as HTMLElement);
-      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#ff5733');
     });
 
     it('Should render with custom rgb color', () => {
       const { container } = render(<Rate defaultValue={3} color="rgb(255, 87, 51)" />);
       const rateElement = container.querySelector('.rs-rate');
       const style = getComputedStyle(rateElement as HTMLElement);
-      expect(style.getPropertyValue('--rs-rate-symbol-checked')).to.equal('rgb(255, 87, 51)');
+      expect(style.getPropertyValue('--rs-rate-color')).to.equal('rgb(255, 87, 51)');
     });
 
     it('Should update color when prop changes', () => {
       const { container, rerender } = render(<Rate defaultValue={3} color="#FF5733" />);
       const rateElement = container.querySelector('.rs-rate');
       const style = getComputedStyle(rateElement as HTMLElement);
-      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#ff5733');
 
       rerender(<Rate defaultValue={3} color="#33FF57" />);
-      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#33ff57');
-    });
-
-    it('Should render correctly when switching between preset and custom colors', () => {
-      const { container, rerender } = render(<Rate defaultValue={3} color="red" />);
-      let rateElement = screen.getByRole('radiogroup');
-      expect(rateElement).to.have.class('rs-rate-red');
-
-      rerender(<Rate defaultValue={3} color="#FF5733" />);
-      rateElement = container.querySelector('.rs-rate') as HTMLElement;
-      const style = getComputedStyle(rateElement);
-      expect(style.getPropertyValue('--rs-rate-symbol-checked').toLowerCase()).to.equal('#ff5733');
-      expect(rateElement).to.not.have.class('rs-rate-red');
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#33ff57');
     });
   });
 
@@ -345,7 +326,7 @@ describe('Rate', () => {
       );
 
       // Verify visual state still shows max stars
-      expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(max);
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(max);
     });
 
     it('Should not go below 0 when using left arrow key', () => {
@@ -371,7 +352,44 @@ describe('Rate', () => {
       });
 
       // Verify visual state shows no filled stars
-      expect(ref.current?.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(0);
+    });
+  });
+
+  describe('Fractional ratings', () => {
+    it('Should render fractional value correctly', () => {
+      const { container } = render(<Rate value={4.32} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('32%');
+    });
+
+    it('Should render fractional value with vertical direction', () => {
+      const { container } = render(<Rate value={3.7} vertical readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('70%');
+    });
+
+    it('Should update fractional value when value changes', () => {
+      const { container, rerender } = render(<Rate value={4.25} readOnly />);
+
+      let style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('25%');
+
+      rerender(<Rate value={4.75} readOnly />);
+      style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('75%');
+    });
+
+    it('Should not set --rs-rate-before-size for integer values', () => {
+      const { container } = render(<Rate value={3} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('');
+    });
+
+    it('Should not set --rs-rate-before-size for zero value', () => {
+      const { container } = render(<Rate value={0} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('');
     });
   });
 

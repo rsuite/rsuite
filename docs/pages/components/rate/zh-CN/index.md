@@ -54,23 +54,33 @@
 
 <!--{include:`custom-character.md`}}-->
 
+### 分数
+
+<!--{include:`fractional.md`}}-->
+
+### 高级评分
+
+<!--{include:`advanced-rating.md`}}-->
+
 ## 无障碍设计
 
 WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating
 
 ## Props
 
+### `<Rate>`
+
 | 属性名称        | 类型 `(默认值)`                                        | 描述                                                      |
-| --------------- | ------------------------------------------------------ | --------------------------------------------------------- | --- |
+| --------------- | ------------------------------------------------------ | --------------------------------------------------------- |
 | allowHalf       | boolean                                                | 是否支持半选                                              |
 | character       | ReactNode                                              | 自定义字符                                                |
 | cleanable       | boolean`(true)`                                        | 是否支持清除                                              |
 | defaultValue    | number`(0)`                                            | 默认值（非受控）                                          |
-| disabled        | boolean                                                | 是否禁用，为 true 时无法进行交互                          |     |
+| disabled        | boolean                                                | 是否禁用，为 true 时无法进行交互                          |
 | max             | number`(5)`                                            | 最大分数                                                  |
 | renderCharacter | (value: number,index: number) => ReactNode             | 自定义渲染 character 函数                                 |
 | readOnly        | boolean                                                | 是否只读，为 true 时无法进行交互                          |
-| size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | 设置组件尺寸                                              |
+| size            | [Size](#code-ts-size-code) \| number \| string         | 设置组件尺寸                                              |
 | color           | [Color](#code-ts-color-code) \| CSSProperties['color'] | 设置组件颜色。支持预设主题颜色和自定义颜色（hex、rgb 等） |
 | value           | number                                                 | 当前值（受控）                                            |
 | vertical        | boolean                                                | 是否竖直方向上半选                                        |
@@ -78,3 +88,4 @@ WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rat
 | onChangeActive  | (value: number, event) => void                         | 悬停状态更改时触发的回调函数。                            |
 
 <!--{include:(_common/types/color.md)}-->
+<!--{include:(_common/types/size.md)}-->
