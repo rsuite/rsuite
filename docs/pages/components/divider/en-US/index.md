@@ -43,7 +43,7 @@ Divider are used to group content horizontally or vertically.
 | classPrefix   | string `('divider')`                             | The prefix of the component CSS class             |
 | color         | Color \| CSSProperties['color']                  | The color of the divider                          |
 | label         | ReactNode                                        | The content of the label                          |
-| labelPosition | 'left' \| 'right' \| 'center'                    | The position of the label                         |
+| labelPlacement | 'start' \| 'center' \| 'end'                    | The placement of the label                        |
 | size          | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The size of the divider                           |
 | spacing       | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The spacing between the divider and its content   |
 | vertical      | boolean                                          | Vertical dividing line. Cannot be used with label |

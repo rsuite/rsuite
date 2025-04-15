@@ -18,9 +18,9 @@ export interface DividerProps extends BoxProps {
   label?: React.ReactNode;
 
   /**
-   * The position of the label.
+   * The placement of the label.
    */
-  labelPosition?: 'left' | 'right' | 'center';
+  labelPlacement?: 'start' | 'center' | 'end';
 
   /**
    * Vertical dividing line. Cannot be used with label.
@@ -57,7 +57,7 @@ const Divider = forwardRef<'div', DividerProps>((props: DividerProps, ref) => {
     children,
     color,
     label = children,
-    labelPosition,
+    labelPlacement,
     vertical,
     spacing,
     style,
@@ -82,7 +82,7 @@ const Divider = forwardRef<'div', DividerProps>((props: DividerProps, ref) => {
       data-appearance={appearance}
       data-orientation={vertical ? 'vertical' : 'horizontal'}
       data-with-label={label ? 'true' : undefined}
-      data-position={labelPosition}
+      data-placement={labelPlacement}
       {...rest}
     >
       {label}
