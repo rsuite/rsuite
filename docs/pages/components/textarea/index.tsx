@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-// @ts-expect-error Textarea is not typed in main entry yet
+// @ts-ignore
 import { Textarea, Divider, Text, VStack, SelectPicker } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -5,7 +6,7 @@ import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
 import VisibleIcon from '@rsuite/icons/Visible';
 import {
-  // @ts-expect-error Textarea is not typed in main entry yet
+  // @ts-ignore
   Textarea,
   Form,
   Button,
