@@ -11,16 +11,13 @@ import {
   InputNumber,
   Slider,
   Cascader,
-  Box
+  Box,
+  Textarea
 } from 'rsuite';
 
 const skills = ['React', 'Vue', 'Angular', 'Node.js', 'Webpack', 'Babel', 'TypeScript', 'RxJS'].map(
   item => ({ label: item, value: item })
 );
-
-const TextArea = React.forwardRef((props, ref) => {
-  return <Input as="textarea" ref={ref} {...props} />;
-});
 
 const Field = ({ label, as: Component, defaultValue, ...rest }) => {
   return (

@@ -5,6 +5,8 @@ import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { RxArrowUp, RxArrowDown, RxArrowLeft, RxArrowRight } from 'react-icons/rx';
 import {
+  // @ts-ignore
+  Textarea,
   ButtonToolbar,
   Button,
   IconButton,
@@ -43,6 +45,7 @@ export default function Page() {
         PasswordInput,
         PasswordStrengthMeter,
         Form,
+        Textarea,
         RxArrowUp,
         RxArrowDown,
         RxArrowLeft,

@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, ButtonToolbar, Button, Input, PasswordInput, HStack } from 'rsuite';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+import { Form, ButtonToolbar, Button, Input, HStack, PasswordInput, Textarea } from 'rsuite';
 
 const FormField = ({ name, label, text, ...props }) => (
   <Form.Group controlId={name}>

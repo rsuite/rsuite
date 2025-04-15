@@ -6,6 +6,8 @@ import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
 import VisibleIcon from '@rsuite/icons/Visible';
 import {
+  // @ts-ignore
+  Textarea,
   Form,
   Button,
   ButtonGroup,
@@ -68,6 +70,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Textarea,
         Form,
         Input,
         InputGroup,

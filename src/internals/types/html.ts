@@ -29,6 +29,12 @@ export type SanitizedInputProps = PropsWithout<
   'onChange' | 'size'
 >;
 
+/** Textarea props with 'onChange' attribute removed. */
+export type SanitizedTextareaProps = PropsWithout<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  'onChange'
+>;
+
 /** HTML props excluding 'title', 'onToggle', and 'onSelect' attributes. */
 export type SanitizedHTMListProps<
   T extends HTMLElement = HTMLElement,

@@ -1,40 +1,21 @@
 import React, { useContext } from 'react';
-import Plaintext from '@/internals/Plaintext';
-import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useFormGroup } from '../FormGroup';
+import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import { KEY_VALUES } from '@/internals/constants';
-import { useStyles } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
-import { PrependParameters } from '@/internals/types/utils';
 import { useCustom } from '../CustomProvider';
+import { PrependParameters } from '@/internals/types/utils';
 import type {
-  PropsWithoutChange,
   SanitizedInputProps,
-  FormControlBaseProps,
-  Size
+  PropsWithoutChange,
+  FormControlBaseProps
 } from '@/internals/types';
 
-export interface LocaleType {
-  unfilled: string;
-}
-
 export interface InputProps
-  extends BoxProps,
+  extends InputBaseCommonProps,
     SanitizedInputProps,
     PropsWithoutChange<FormControlBaseProps> {
   /** The HTML input type */
   type?: string;
-
-  /** The HTML input id */
-  id?: string;
-
-  /** A component can have different sizes */
-  size?: Size;
-
-  /** Ref of input element */
-  inputRef?: React.Ref<any>;
 
   /**
    * The htmlSize attribute defines the width of the <input> element.
@@ -62,79 +43,22 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Input', props);
   const inputGroup = useContext(InputGroupContext);
   const {
-    as = 'input',
-    className,
-    classPrefix = 'input',
     type = 'text',
-    disabled,
-    value,
-    defaultValue,
-    inputRef,
-    id,
-    size = inputGroup?.size || 'md',
     htmlSize,
-    plaintext,
-    placeholder,
-    readOnly,
-    onPressEnter,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    onChange,
+    size = inputGroup?.size || 'md',
+    classPrefix = 'input',
     ...rest
   } = propsWithDefaults;
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === KEY_VALUES.ENTER) {
-      onPressEnter?.(event);
-    }
-    onKeyDown?.(event);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event.target?.value, event);
-  };
-
-  const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, { plaintext }));
-
-  const { controlId } = useFormGroup();
-
-  // Make the Input component display in plain text,
-  // and display default characters when there is no value.
-  if (plaintext) {
-    return (
-      <Plaintext ref={ref} localeKey="unfilled" placeholder={placeholder}>
-        {typeof value === 'undefined' ? defaultValue : value}
-      </Plaintext>
-    );
-  }
-
-  const inputable = !disabled && !readOnly;
-  const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
-
-  if (inputable) {
-    eventProps.onChange = handleChange;
-    eventProps.onKeyDown = handleKeyDown;
-    eventProps.onFocus = createChainedFunction(onFocus, inputGroup?.onFocus);
-    eventProps.onBlur = createChainedFunction(onBlur, inputGroup?.onBlur);
-  }
-
   return (
-    <Box
-      as={as}
-      {...rest}
-      {...eventProps}
-      ref={mergeRefs(ref, inputRef)}
-      className={classes}
+    <InputBase
+      as="input"
+      ref={ref}
+      classPrefix={classPrefix}
+      size={size}
       type={type}
-      id={id || controlId}
-      value={value}
-      defaultValue={defaultValue}
-      disabled={disabled}
-      readOnly={readOnly}
-      size={htmlSize}
-      placeholder={placeholder}
+      inputProps={{ size: htmlSize }}
+      {...rest}
     />
   );
 });

@@ -64,6 +64,7 @@ export * from './FormControl';
 // --------------------------------------------------------
 export * from './Toggle';
 export * from './Input';
+export * from './Textarea';
 export * from './MaskedInput';
 export * from './InputNumber';
 export * from './InputGroup';

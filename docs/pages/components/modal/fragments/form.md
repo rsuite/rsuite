@@ -9,6 +9,7 @@ import {
   Form,
   Input,
   SelectPicker,
+  Textarea,
   PasswordInput,
   PasswordStrengthMeter
 } from 'rsuite';
@@ -17,8 +18,6 @@ const selectData = ['Developer', 'Designer', 'Manager', 'Analyst', 'Tester'].map
   label: item,
   value: item
 }));
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const requirements = [
   { re: /[0-9]/ },

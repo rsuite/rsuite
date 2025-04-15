@@ -108,6 +108,7 @@ import type { ToggleProps } from '../Toggle';
 import type { TooltipProps } from '../Tooltip';
 import type { TreeProps } from '../Tree';
 import type { TreePickerProps } from '../TreePicker';
+import type { TextareaProps } from '../Textarea';
 import type { UploaderProps } from '../Uploader';
 import type { VisuallyHiddenProps } from '../VisuallyHidden';
 import type { WhisperProps } from '../Whisper';
@@ -227,6 +228,7 @@ export interface ReactSuiteComponents {
   Tooltip: ComponentProps<TooltipProps>;
   Tree: ComponentProps<TreeProps>;
   TreePicker: ComponentProps<TreePickerProps>;
+  Textarea: ComponentProps<TextareaProps>;
   Uploader: ComponentProps<UploaderProps>;
   VisuallyHidden: ComponentProps<VisuallyHiddenProps>;
   Whisper: ComponentProps<WhisperProps>;

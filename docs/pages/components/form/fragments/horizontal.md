@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Input, ButtonToolbar, Button, HStack, VStack } from 'rsuite';
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+import { Form, Input, ButtonToolbar, Button, HStack, VStack, Textarea } from 'rsuite';
 
 const App = () => (
   <Form layout="horizontal">

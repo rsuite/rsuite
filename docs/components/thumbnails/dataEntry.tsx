@@ -103,6 +103,49 @@ export const Input: React.FC = () => (
 );
 
 /**
+ * Textarea component thumbnail
+ */
+export const Textarea: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      x="15"
+      y="20"
+      width="50"
+      height="40"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    {/* Simulate multiple lines of text */}
+    <line
+      x1="20"
+      y1="32"
+      x2="55"
+      y2="32"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+    />
+    <line
+      x1="20"
+      y1="40"
+      x2="55"
+      y2="40"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+    />
+    <line
+      x1="20"
+      y1="48"
+      x2="45"
+      y2="48"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+/**
  * InputNumber component thumbnail
  */
 export const InputNumber: React.FC = () => (
