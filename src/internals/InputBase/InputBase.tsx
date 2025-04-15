@@ -31,6 +31,15 @@ export interface InputBaseCommonProps extends BoxProps, PropsWithoutChange<FormC
 }
 
 export interface InputBaseProps extends InputBaseCommonProps {
+  /** Component element type */
+  as?: React.ElementType;
+
+  /** Class prefix for component */
+  classPrefix?: string;
+
+  /** HTML input props */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+
   /** Event handler for focus event */
   onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -39,11 +48,6 @@ export interface InputBaseProps extends InputBaseCommonProps {
 
   /** Event handler for keydown event */
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  /** Component element type */
-  as?: React.ElementType;
-
-  /** Class prefix for component */
-  classPrefix?: string;
 
   /** Input specific props like handling enter key for Input */
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -73,6 +77,7 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
     plaintext,
     placeholder,
     readOnly,
+    inputProps,
     onPressEnter,
     onFocus,
     onBlur,
@@ -121,8 +126,6 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
   return (
     <Box
       as={as}
-      {...rest}
-      {...eventProps}
       ref={mergeRefs(ref, inputRef)}
       className={classes}
       id={id || controlId}
@@ -131,6 +134,9 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
       disabled={disabled}
       readOnly={readOnly}
       placeholder={placeholder}
+      {...inputProps}
+      {...eventProps}
+      {...rest}
     />
   );
 });

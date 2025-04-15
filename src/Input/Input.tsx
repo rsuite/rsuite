@@ -57,8 +57,8 @@ const Input = forwardRef<'input', InputProps>((props, ref) => {
       classPrefix={classPrefix}
       size={size}
       type={type}
+      inputProps={{ size: htmlSize }}
       {...rest}
-      htmlSize={htmlSize}
     />
   );
 });
