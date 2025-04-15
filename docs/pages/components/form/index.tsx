@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -16,6 +17,8 @@ import {
   CheckPicker,
   InputGroup,
   InputNumber,
+  // @ts-ignore
+  PasswordInput,
   Toggle,
   Panel,
   Modal,
@@ -78,6 +81,7 @@ export default function Page() {
         SelectPicker,
         RadioGroup,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
         Modal,

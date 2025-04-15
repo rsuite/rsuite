@@ -36,6 +36,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
 
     // Form components
     form: <thumbnails.Form />,
+    'password-input': <thumbnails.PasswordInput />,
     'form-validation': <thumbnails.FormValidation />,
     'form-formik': <thumbnails.FormValidation />,
     'form-react-hook-form': <thumbnails.FormValidation />,

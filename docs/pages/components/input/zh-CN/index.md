@@ -49,10 +49,6 @@
 
 <!--{include:`input-group-button.md`}-->
 
-### 密码框
-
-<!--{include:`input-group-password.md`}-->
-
 ### 搜索框
 
 <!--{include:`input-group-search.md`}-->
