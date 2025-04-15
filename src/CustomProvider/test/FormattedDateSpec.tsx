@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import ru from 'date-fns/locale/ru';
 import CustomProvider from '../CustomProvider';
 import FormattedDate from '../FormattedDate';
+import ptBr from 'date-fns/locale/pt-BR';
 
 import ruRU from '../../locales/ru_RU';
 
@@ -50,5 +51,15 @@ describe('FormattedDate', () => {
     );
 
     expect(container.firstChild).to.have.text('Jan 01, 2020');
+  });
+
+  it('Should render default formatted date with custom locale', () => {
+    const { container } = render(
+      <div>
+        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" dateLocale={ptBr} />
+      </div>
+    );
+
+    expect(container.firstChild).to.have.text('jan 01, 2020');
   });
 });

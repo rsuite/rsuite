@@ -28,7 +28,9 @@ const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.f
             weekStart,
             locale: locale?.dateLocale
           })}
-          aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
+          aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern, {
+            locale: overrideLocale?.dateLocale
+          })}
         />
       </Component>
     );
