@@ -49,10 +49,6 @@ For it to work as expected you will also need to provide the `style={{ width: 'a
 
 <!--{include:`input-group-button.md`}-->
 
-### Password
-
-<!--{include:`input-group-password.md`}-->
-
 ### Search
 
 <!--{include:`input-group-search.md`}-->

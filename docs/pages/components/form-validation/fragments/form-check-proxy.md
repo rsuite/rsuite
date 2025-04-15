@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel } from 'rsuite';
+import { Form, Button, ButtonToolbar, Schema, PasswordInput, Panel } from 'rsuite';
 
 const { StringType } = Schema.Types;
 const model = Schema.Model({
@@ -22,8 +22,8 @@ function App() {
   return (
     <Form model={model}>
       <Form.Stack>
-        <TextField name="password" label="Password" />
-        <TextField name="confirmPassword" label="ConfirmPassword" />
+        <TextField name="password" label="Password" accepter={PasswordInput} />
+        <TextField name="confirmPassword" label="ConfirmPassword" accepter={PasswordInput} />
       </Form.Stack>
       <ButtonToolbar mt={20}>
         <Button appearance="primary" type="submit">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import Simulation from '@/components/Simulation';
 import DefaultPage from '@/components/layout/Page';
@@ -13,6 +14,10 @@ import {
   Placeholder,
   SelectPicker,
   Input,
+  // @ts-ignore
+  PasswordInput,
+  // @ts-ignore
+  PasswordStrengthMeter,
   Form
 } from 'rsuite';
 
@@ -35,6 +40,8 @@ export default function Page() {
         Radio,
         SelectPicker,
         Input,
+        PasswordInput,
+        PasswordStrengthMeter,
         Form,
         RxArrowUp,
         RxArrowDown,

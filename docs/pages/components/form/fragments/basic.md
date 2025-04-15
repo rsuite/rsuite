@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, ButtonToolbar, Button, Input, HStack } from 'rsuite';
+import { Form, ButtonToolbar, Button, Input, PasswordInput, HStack } from 'rsuite';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
@@ -13,23 +13,25 @@ const FormField = ({ name, label, text, ...props }) => (
   </Form.Group>
 );
 
-const App = () => (
-  <Form>
-    {/* Default vertical layout */}
-    <Form.Stack>
-      <FormField name="name" label="Username" text="Username is required" />
-      <FormField name="email" label="Email" text="Email is required" type="email" />
-      <FormField name="password" label="Password" type="password" autoComplete="off" />
-      <FormField name="textarea" label="Textarea" accepter={Textarea} rows={5} />
-      <Form.Group>
-        <ButtonToolbar>
-          <Button appearance="primary">Submit</Button>
-          <Button appearance="default">Cancel</Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form.Stack>
-  </Form>
-);
+const App = () => {
+  return (
+    <Form>
+      {/* Default vertical layout */}
+      <Form.Stack>
+        <FormField name="name" label="Username" text="Username is required" />
+        <FormField name="email" label="Email" text="Email is required" type="email" />
+        <FormField name="password" label="Password" accepter={PasswordInput} />
+        <FormField name="textarea" label="Textarea" accepter={Textarea} rows={5} />
+        <Form.Group>
+          <ButtonToolbar>
+            <Button appearance="primary">Submit</Button>
+            <Button appearance="default">Cancel</Button>
+          </ButtonToolbar>
+        </Form.Group>
+      </Form.Stack>
+    </Form>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

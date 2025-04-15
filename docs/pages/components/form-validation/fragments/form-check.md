@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, Box, Row, Col } from 'rsuite';
+import { Form, Button, ButtonToolbar, Schema, PasswordInput, Panel, Box, Row, Col } from 'rsuite';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
@@ -75,13 +75,8 @@ const App = () => {
             <TextField name="name" label="Username" />
             <TextField name="email" label="Email" />
             <TextField name="age" label="Age" />
-            <TextField name="password" label="Password" type="password" autoComplete="off" />
-            <TextField
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              autoComplete="off"
-            />
+            <TextField name="password" label="Password" accepter={PasswordInput} />
+            <TextField name="confirmPassword" label="Confirm Password" accepter={PasswordInput} />
           </Form.Stack>
 
           <ButtonToolbar mt={20}>
