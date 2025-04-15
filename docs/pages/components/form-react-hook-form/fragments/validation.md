@@ -36,30 +36,32 @@ const App = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="name"
-        control={control}
-        rules={{ required: 'Name is required' }}
-        render={({ field, fieldState }) => (
-          <Field field={field} error={errors[field.name]?.message} placeholder="Name" />
-        )}
-      />
+      <Form.Stack fluid>
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: 'Name is required' }}
+          render={({ field, fieldState }) => (
+            <Field field={field} error={errors[field.name]?.message} placeholder="Name" />
+          )}
+        />
 
-      <Controller
-        name="email"
-        control={control}
-        rules={{
-          required: 'Email is required',
-          pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' }
-        }}
-        render={({ field, fieldState }) => (
-          <Field field={field} error={errors[field.name]?.message} placeholder="Email" />
-        )}
-      />
+        <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: 'Email is required',
+            pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' }
+          }}
+          render={({ field, fieldState }) => (
+            <Field field={field} error={errors[field.name]?.message} placeholder="Email" />
+          )}
+        />
 
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };
