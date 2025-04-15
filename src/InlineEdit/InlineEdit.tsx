@@ -89,7 +89,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
   } = propsWithDefaults;
 
   const { withPrefix, merge, prefix } = useStyles(classPrefix);
-  const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, htmlProps } =
+  const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, onFocus, htmlProps } =
     useEditState({ ...rest, disabled });
 
   const { target, root, onBlur } = useFocusEvent({
@@ -117,6 +117,7 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
       className={merge(className, withPrefix(size, { disabled }))}
       onClick={onClick}
       onKeyDown={onKeyDown}
+      onFocus={onFocus}
       {...htmlProps}
     >
       {renderChildren(children, childrenProps, target)}

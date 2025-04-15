@@ -10,6 +10,7 @@ interface EditStateProps {
   onCancel?: (event?: React.MouseEvent) => void;
   onSave?: (event?: React.MouseEvent) => void;
   onClick?: (event: React.SyntheticEvent) => void;
+  onFocus?: (event?: React.FocusEvent) => void;
 }
 
 const useEditState = (props: EditStateProps) => {
@@ -22,6 +23,7 @@ const useEditState = (props: EditStateProps) => {
     onCancel,
     onSave,
     onClick,
+    onFocus,
     ...htmlProps
   } = props;
 
@@ -37,6 +39,13 @@ const useEditState = (props: EditStateProps) => {
     }
     onClick?.(event);
     onEdit?.(event);
+    setIsEditing(true);
+    setResetValue(value);
+  });
+
+  const handleFocus = useEventCallback((event?: React.FocusEvent) => {
+    if (disabled) return;
+    onFocus?.(event);
     setIsEditing(true);
     setResetValue(value);
   });
@@ -80,6 +89,7 @@ const useEditState = (props: EditStateProps) => {
     value,
     onClick: handleClick,
     onChange: handleChange,
+    onFocus: handleFocus,
     onCancel: handleCancel,
     onSave: handleSave,
     onKeyDown: handleKeyDown,

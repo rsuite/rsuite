@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
@@ -306,6 +307,30 @@ describe('InlineEdit', () => {
 
       expect(screen.getByText('input something')).to.exist;
       expect(onCancel).to.have.been.calledOnce;
+    });
+
+    [
+      { showControls: false, expectedTabs: 1 },
+      { showControls: true, expectedTabs: 3 }
+    ].forEach(({ showControls, expectedTabs }) => {
+      it(`Should move to second input with ${expectedTabs} TAB(s) when showControls is ${showControls}`, () => {
+        render(
+          <>
+            <InlineEdit defaultValue="first input" showControls={showControls} />
+            <InlineEdit defaultValue="second input" />
+          </>
+        );
+
+        userEvent.click(screen.getByText('first input'));
+
+        for (let i = 0; i < expectedTabs; i++) {
+          userEvent.tab();
+        }
+
+        const inputs = screen.getAllByRole('textbox');
+        expect(inputs[inputs.length - 1] instanceof HTMLInputElement).to.be.true;
+        expect((inputs[inputs.length - 1] as HTMLInputElement).value).to.equal('second input');
+      });
     });
   });
 });
