@@ -10,10 +10,8 @@ const App = () => {
       <SelectPicker
         label="Resize"
         data={[
-          { value: 'block', label: 'block' },
           { value: 'both', label: 'both' },
           { value: 'horizontal', label: 'horizontal' },
-          { value: 'inline', label: 'inline' },
           { value: 'none', label: 'none' },
           { value: 'vertical', label: 'vertical' }
         ]}

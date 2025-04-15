@@ -58,6 +58,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     uploader: <thumbnails.Uploader />,
     'cascade-tree': <thumbnails.CascadeTree />,
     tree: <thumbnails.Tree />,
+    textarea: <thumbnails.Textarea />,
     'check-tree': <thumbnails.CheckTree />,
     'multi-cascade-tree': <thumbnails.MultiCascadeTree />,
 
