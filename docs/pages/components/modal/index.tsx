@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import Simulation from '@/components/Simulation';
 import DefaultPage from '@/components/layout/Page';
@@ -11,6 +12,10 @@ import {
   RadioGroup,
   Radio,
   Loader,
+  // @ts-ignore
+  PasswordInput,
+  // @ts-ignore
+  PasswordStrengthMeter,
   Placeholder,
   Form,
   Input,
@@ -41,6 +46,8 @@ export default function Page() {
         Text,
         SelectPicker,
         RemindFillIcon,
+        PasswordInput,
+        PasswordStrengthMeter,
         Placeholder
       }}
     />

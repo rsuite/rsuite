@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Modal, SelectPicker, Textarea } from 'rsuite';
+import { Form, Button, Input, Modal, SelectPicker, PasswordInput, Textarea } from 'rsuite';
 
 const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
   label: item,
@@ -41,7 +41,7 @@ const App = () => {
           <Form fluid onChange={setFormValue} formValue={formValue}>
             <FormField name="name" label="Username" text="Username is required" />
             <FormField name="email" label="Email" text="Email is required" type="email" />
-            <FormField name="password" label="Password" type="password" autoComplete="off" />
+            <FormField name="password" label="Password" accepter={PasswordInput} />
             <FormField name="textarea" label="Textarea" accepter={Textarea} rows={5} />
             <FormField
               name="select"

@@ -19,6 +19,8 @@ import {
   CheckPicker,
   InputGroup,
   InputNumber,
+  // @ts-ignore
+  PasswordInput,
   Toggle,
   Panel,
   Modal,
@@ -82,6 +84,7 @@ export default function Page() {
         SelectPicker,
         RadioGroup,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
         Modal,

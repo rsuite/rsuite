@@ -68,6 +68,8 @@ import type { MultiCascaderProps } from '../MultiCascader';
 import type { NavProps } from '../Nav';
 import type { NavbarProps } from '../Navbar';
 import type { NotificationProps } from '../Notification';
+import type { PasswordInputProps } from '../PasswordInput';
+import type { PasswordStrengthMeterProps } from '../PasswordStrengthMeter';
 import type { PaginationProps } from '../Pagination';
 import type { PanelProps } from '../Panel';
 import type { PanelGroupProps } from '../PanelGroup';
@@ -186,6 +188,8 @@ export interface ReactSuiteComponents {
   Nav: ComponentProps<NavProps>;
   Navbar: ComponentProps<NavbarProps>;
   Notification: ComponentProps<NotificationProps>;
+  PasswordInput: ComponentProps<PasswordInputProps>;
+  PasswordStrengthMeter: ComponentProps<PasswordStrengthMeterProps>;
   Pagination: ComponentProps<PaginationProps>;
   Panel: ComponentProps<PanelProps>;
   PanelGroup: ComponentProps<PanelGroupProps>;

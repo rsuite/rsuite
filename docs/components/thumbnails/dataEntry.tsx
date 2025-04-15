@@ -1,6 +1,40 @@
 import React from 'react';
 
 /**
+ * PasswordInput component thumbnail
+ */
+export const PasswordInput: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Outer input box */}
+    <rect
+      x="15"
+      y="30"
+      width="50"
+      height="20"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    {/* Password dots */}
+    <circle cx="26" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="34" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="42" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    {/* Eye icon (simple) */}
+    <ellipse
+      cx="55"
+      cy="40"
+      rx="5"
+      ry="3"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <circle cx="55" cy="40" r="1.2" fill="var(--rs-thumbnail-color-primary)" />
+  </svg>
+);
+
+/**
  * Checkbox component thumbnail
  */
 export const Checkbox: React.FC = () => (

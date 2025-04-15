@@ -475,6 +475,12 @@
         "keywords": ["range", "number"]
       },
       {
+        "id": "password-input",
+        "name": "PasswordInput",
+        "title": "密码输入框",
+        "components": ["PasswordInput", "PasswordStrengthMeter"]
+      },
+      {
         "id": "tag-input",
         "name": "TagInput",
         "title": "标签输入",

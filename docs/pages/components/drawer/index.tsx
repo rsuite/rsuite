@@ -16,6 +16,10 @@ import {
   Placeholder,
   SelectPicker,
   Input,
+  // @ts-ignore
+  PasswordInput,
+  // @ts-ignore
+  PasswordStrengthMeter,
   Form
 } from 'rsuite';
 
@@ -38,6 +42,8 @@ export default function Page() {
         Radio,
         SelectPicker,
         Input,
+        PasswordInput,
+        PasswordStrengthMeter,
         Form,
         Textarea,
         RxArrowUp,

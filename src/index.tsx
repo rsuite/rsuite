@@ -68,6 +68,8 @@ export * from './Textarea';
 export * from './MaskedInput';
 export * from './InputNumber';
 export * from './InputGroup';
+export * from './PasswordInput';
+export * from './PasswordStrengthMeter';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Radio';

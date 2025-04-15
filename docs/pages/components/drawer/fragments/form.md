@@ -1,12 +1,41 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Drawer, SelectPicker, Textarea } from 'rsuite';
+import {
+  Form,
+  Button,
+  Input,
+  Drawer,
+  Textarea,
+  SelectPicker,
+  PasswordInput,
+  PasswordStrengthMeter
+} from 'rsuite';
 
 const selectData = ['Developer', 'Designer', 'Manager', 'Analyst', 'Tester'].map(item => ({
   label: item,
   value: item
 }));
+
+const requirements = [
+  { re: /[0-9]/ },
+  { re: /[a-z]/ },
+  { re: /[A-Z]/ },
+  { re: /[$&+,:;=?@#|'<>.^*()%!-_]/ }
+];
+
+function getStrengthLevel(password) {
+  const passed = requirements.reduce((acc, req) => acc + req.re.test(password), 0);
+  const hasLength = password.length >= 8;
+  // 0: very weak, 1: weak, 2: fair, 3: strong
+  if (passed <= 1) return 0;
+  if (passed === 2) return 1;
+  if (passed === 3) return 2;
+  if (passed === requirements.length && hasLength) return 3;
+  return 2;
+}
+
+const strengthLabels = ['Very weak', 'Weak', 'Fair', 'Strong'];
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -24,6 +53,8 @@ const App = () => {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const level = getStrengthLevel(formValue.password);
 
   return (
     <>
@@ -59,8 +90,8 @@ const App = () => {
             </Form.Group>
             <Form.Group controlId="password">
               <Form.ControlLabel>Create Password</Form.ControlLabel>
-              <Form.Control name="password" type="password" autoComplete="new-password" />
-              <Form.HelpText>Password must be at least 8 characters long</Form.HelpText>
+              <Form.Control name="password" accepter={PasswordInput} />
+              <PasswordStrengthMeter level={level} label={strengthLabels[level]} />
             </Form.Group>
             <Form.Group controlId="bio">
               <Form.ControlLabel>Brief Bio</Form.ControlLabel>
