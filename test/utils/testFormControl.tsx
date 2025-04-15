@@ -63,7 +63,7 @@ export function testFormControl(
 
       const element = getUIElement();
 
-      if (element.tagName === 'INPUT') {
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
         expect(element).to.have.attribute('disabled');
       } else {
         expect(element).to.have.attribute('aria-disabled', 'true');
@@ -135,7 +135,7 @@ export function testFormControl(
 
       const element = getUIElement();
 
-      if (element.tagName === 'INPUT') {
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
         expect(element).to.have.attribute('disabled');
       } else {
         expect(element).to.have.attribute('aria-disabled', 'true');

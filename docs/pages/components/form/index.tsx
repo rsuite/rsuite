@@ -5,6 +5,8 @@ import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
 import VisibleIcon from '@rsuite/icons/Visible';
 import {
+  // @ts-expect-error Textarea is not typed in main entry yet
+  Textarea,
   Form,
   Button,
   ButtonGroup,
@@ -65,6 +67,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Textarea,
         Form,
         Input,
         InputGroup,

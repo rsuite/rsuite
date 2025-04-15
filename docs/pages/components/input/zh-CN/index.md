@@ -1,6 +1,6 @@
 # Input 输入框
 
-代替 HTML 原生控件，input、textarea。
+用于接收和展示用户的单行文本输入。
 
 ## 获取组件
 
@@ -28,10 +28,6 @@
 ```jsx
 <Input htmlSize={10} style={{ width: 'auto' }} />
 ```
-
-### Textarea
-
-<!--{include:`textarea.md`}-->
 
 ### 禁用与只读
 

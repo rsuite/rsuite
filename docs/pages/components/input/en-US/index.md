@@ -1,6 +1,6 @@
 # Input
 
-Instead of HTML native controls, input, textarea.
+Used for receiving and displaying single-line text input from the user.
 
 ## Import
 
@@ -28,10 +28,6 @@ For it to work as expected you will also need to provide the `style={{ width: 'a
 ```jsx
 <Input htmlSize={10} style={{ width: 'auto' }} />
 ```
-
-### Textarea
-
-<!--{include:`textarea.md`}-->
 
 ### Disabled and read only
 

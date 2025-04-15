@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Input } from 'rsuite';
+import { Textarea } from 'rsuite';
 
 const App = () => (
   <>
-    <Input as="textarea" rows={3} placeholder="Textarea" />
+    <Textarea placeholder="Default Textarea" />
   </>
 );
 

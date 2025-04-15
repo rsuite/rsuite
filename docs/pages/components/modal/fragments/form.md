@@ -1,14 +1,21 @@
 <!--start-code-->
 
 ```js
-import { Modal, Button, ButtonToolbar, Placeholder, Form, Input, SelectPicker } from 'rsuite';
+import {
+  Modal,
+  Button,
+  ButtonToolbar,
+  Placeholder,
+  Form,
+  Input,
+  SelectPicker,
+  Textarea
+} from 'rsuite';
 
 const selectData = ['Developer', 'Designer', 'Manager', 'Analyst', 'Tester'].map(item => ({
   label: item,
   value: item
 }));
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const App = () => {
   const [open, setOpen] = React.useState(false);

@@ -67,6 +67,7 @@
     "date-fns": "^4.1.0",
     "dom-lib": "^3.3.1",
     "lodash": "^4.17.21",
+    "react-textarea-autosize": "^8.5.9",
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.11",
     "rsuite-table": "^5.19.1",

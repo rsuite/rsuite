@@ -482,13 +482,19 @@
         "keywords": ["text"]
       },
       {
+        "id": "textarea",
+        "name": "Textarea",
+        "title": "文本域",
+        "components": ["Textarea"],
+        "keywords": ["text", "string"]
+      },
+      {
         "id": "toggle",
         "name": "Toggle",
         "title": "开关",
         "components": ["Toggle"],
         "keywords": ["boolean", "switch"]
       },
-
       {
         "id": "tree",
         "name": "Tree",

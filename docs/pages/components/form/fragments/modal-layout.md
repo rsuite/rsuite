@@ -1,14 +1,12 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Input, Modal, SelectPicker } from 'rsuite';
+import { Form, Button, Input, Modal, SelectPicker, Textarea } from 'rsuite';
 
 const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
   label: item,
   value: item
 }));
-
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const FormField = ({ name, label, text, ...props }) => (
   <Form.Group controlId={name}>

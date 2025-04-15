@@ -4,6 +4,8 @@ import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { RxArrowUp, RxArrowDown, RxArrowLeft, RxArrowRight } from 'react-icons/rx';
 import {
+  // @ts-expect-error Textarea is not typed in main entry yet
+  Textarea,
   ButtonToolbar,
   Button,
   IconButton,
@@ -36,6 +38,7 @@ export default function Page() {
         SelectPicker,
         Input,
         Form,
+        Textarea,
         RxArrowUp,
         RxArrowDown,
         RxArrowLeft,
