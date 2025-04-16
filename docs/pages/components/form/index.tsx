@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -6,7 +5,6 @@ import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
 import VisibleIcon from '@rsuite/icons/Visible';
 import {
-  // @ts-ignore
   Textarea,
   Form,
   Button,
@@ -19,7 +17,6 @@ import {
   CheckPicker,
   InputGroup,
   InputNumber,
-  // @ts-ignore
   PasswordInput,
   Toggle,
   Panel,

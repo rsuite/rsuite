@@ -14,6 +14,12 @@ export interface PasswordInputProps extends Omit<InputProps, 'type' | 'plaintext
   /** Default visibility state of the password */
   defaultVisible?: boolean;
 
+  /** The icon element to display before the input field */
+  startIcon?: React.ReactNode;
+
+  /**  The icon element to display after the input field */
+  endIcon?: React.ReactNode;
+
   /** Custom icon for visibility toggle */
   renderVisibilityIcon?: (visible: boolean) => React.ReactNode;
 
@@ -37,6 +43,8 @@ const PasswordInput = forwardRef<'input', PasswordInputProps>((props, ref) => {
     name,
     readOnly,
     inputRef,
+    startIcon,
+    endIcon,
     onChange,
     onVisibleChange,
     renderVisibilityIcon,
@@ -53,6 +61,8 @@ const PasswordInput = forwardRef<'input', PasswordInputProps>((props, ref) => {
 
   return (
     <InputGroup inside ref={ref} size={size} className={classes} {...rest}>
+      {startIcon && <InputGroup.Addon>{startIcon}</InputGroup.Addon>}
+
       <Input
         type={visible ? 'text' : 'password'}
         value={value}
@@ -65,13 +75,19 @@ const PasswordInput = forwardRef<'input', PasswordInputProps>((props, ref) => {
         id={id}
         inputRef={inputRef}
       />
-      <InputGroup.Button
-        tabIndex={-1}
-        onClick={handleToggleVisibility}
-        aria-label="Toggle password visibility"
-      >
-        {renderVisibilityIcon?.(visible ?? false) || (visible ? <EyeCloseIcon /> : <VisibleIcon />)}
-      </InputGroup.Button>
+
+      {endIcon ? (
+        <InputGroup.Addon>{endIcon}</InputGroup.Addon>
+      ) : (
+        <InputGroup.Button
+          tabIndex={-1}
+          onClick={handleToggleVisibility}
+          aria-label="Toggle password visibility"
+        >
+          {renderVisibilityIcon?.(visible ?? false) ||
+            (visible ? <EyeCloseIcon /> : <VisibleIcon />)}
+        </InputGroup.Button>
+      )}
     </InputGroup>
   );
 });
