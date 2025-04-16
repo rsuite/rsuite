@@ -83,5 +83,3 @@
 | value        | string                        | 当前值(受控)       |
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

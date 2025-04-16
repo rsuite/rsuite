@@ -5,13 +5,13 @@ import React from 'react';
  */
 export const Heading: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text x="20" y="30" fontSize="16" fill="var(--rs-primary-700)" fontWeight="bold">
+    <text x="20" y="30" fontSize="16" fill="var(--rs-thumbnail-color-high)" fontWeight="bold">
       H1
     </text>
-    <text x="20" y="45" fontSize="14" fill="var(--rs-primary-700)" fontWeight="bold">
+    <text x="20" y="45" fontSize="14" fill="var(--rs-thumbnail-color-high)" fontWeight="bold">
       H2
     </text>
-    <text x="20" y="58" fontSize="12" fill="var(--rs-primary-700)" fontWeight="bold">
+    <text x="20" y="58" fontSize="12" fill="var(--rs-thumbnail-color-high)" fontWeight="bold">
       H3
     </text>
     <line

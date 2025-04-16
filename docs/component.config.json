@@ -14,33 +14,38 @@
         "id": "box",
         "name": "Box",
         "title": "盒子",
-        "components": ["Box"]
+        "components": ["Box"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "center",
         "name": "Center",
         "title": "居中",
-        "components": ["Center"]
+        "components": ["Center"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "divider",
         "name": "Divider",
         "title": "分割线",
-        "components": ["Divider"]
+        "components": ["Divider"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "frame",
         "name": "Frame",
         "title": "框架",
         "components": ["Container", "Header", "Footer", "Content", "Sidebar"],
-        "keywords": ["layout"]
+        "keywords": ["layout"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "grid",
         "name": "Grid",
         "title": "栅格",
         "components": ["Grid", "Row", "Col"],
-        "keywords": ["layout"]
+        "keywords": ["layout"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "stack",
@@ -77,7 +82,6 @@
       }
     ]
   },
-
   {
     "group": true,
     "id": "status",
@@ -128,7 +132,7 @@
         "id": "toaster",
         "name": "Toaster",
         "title": "轻量弹窗",
-        "apis": ["useToaster"],
+        "hooks": ["useToaster"],
         "keywords": ["toast", "alert"]
       }
     ]
@@ -245,20 +249,23 @@
         "name": "Link",
         "title": "链接",
         "components": ["Link"],
-        "keywords": ["anchor"]
+        "keywords": ["anchor"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "menu",
         "name": "Menu",
         "title": "菜单",
         "components": ["Menu", "Menu.Item", "Menu.Separator"],
-        "keywords": ["menu"]
+        "keywords": ["menu"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "nav",
         "name": "Nav",
         "title": "导航",
-        "components": ["Nav", "Nav.Item", "Nav.Menu"]
+        "components": ["Nav", "Nav.Item", "Nav.Menu", "Nav.MegaMenu"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "navbar",
@@ -271,7 +278,8 @@
           "Navbar.Drawer",
           "Navbar.Toggle"
         ],
-        "keywords": ["menu", "header"]
+        "keywords": ["menu", "header"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "sidenav",
@@ -284,7 +292,8 @@
           "Sidenav.Footer",
           "Sidenav.Toggle",
           "Sidenav.GroupLabel"
-        ]
+        ],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "steps",
@@ -347,7 +356,8 @@
           "Form.ControlLabel",
           "Form.HelpText",
           "Form.ErrorMessage"
-        ]
+        ],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "form-validation",
@@ -472,13 +482,15 @@
         "name": "Slider",
         "title": "滑动输入控件",
         "components": ["Slider", "RangeSlider"],
-        "keywords": ["range", "number"]
+        "keywords": ["range", "number"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "password-input",
         "name": "PasswordInput",
         "title": "密码输入框",
-        "components": ["PasswordInput", "PasswordStrengthMeter"]
+        "components": ["PasswordInput", "PasswordStrengthMeter"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "tag-input",
@@ -492,14 +504,16 @@
         "name": "Textarea",
         "title": "文本域",
         "components": ["Textarea"],
-        "keywords": ["text", "string"]
+        "keywords": ["text", "string"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "toggle",
         "name": "Toggle",
         "title": "开关",
         "components": ["Toggle"],
-        "keywords": ["boolean", "switch"]
+        "keywords": ["boolean", "switch"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "tree",
@@ -808,7 +822,7 @@
         "id": "custom-provider",
         "name": "CustomProvider",
         "title": "个性化配置",
-        "apis": ["CustomProvider"]
+        "components": ["CustomProvider"]
       },
       {
         "id": "dom-helper",
@@ -827,7 +841,7 @@
         "id": "use-media-query",
         "name": "useMediaQuery",
         "title": "",
-        "apis": ["useMediaQuery"],
+        "hooks": ["useMediaQuery"],
         "tag": "Unstable 🧪",
         "tagColor": "orange"
       },
@@ -835,10 +849,10 @@
         "id": "use-breakpoint-value",
         "name": "useBreakpointValue",
         "title": "",
-        "apis": ["useBreakpointValue"],
+        "hooks": ["useBreakpointValue"],
         "tag": "Unstable 🧪",
         "tagColor": "orange",
-        "minVersion": "5.63.0"
+        "minVersion": "5.64.0"
       }
     ]
   }

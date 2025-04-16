@@ -104,4 +104,4 @@ Only one panel can be expanded.
 | defaultActiveKey | string                            | The default expansion panel                                  |
 | onSelect         | (eventKey: string, event) => void | Toggles the callback function for the expand panel           |
 
-[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
+

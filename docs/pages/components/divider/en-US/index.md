@@ -36,16 +36,16 @@ Divider are used to group content horizontally or vertically.
 
 ### `<Divider>`
 
-| Property      | Type`(default)`                                  | Description                                       |
-| ------------- | ------------------------------------------------ | ------------------------------------------------- |
-| appearance    | 'solid' \| 'dashed' \| 'dotted'                  | The appearance of the divider                     |
-| as            | ElementType `(div)`                              | You can use a custom element for this component   |
-| classPrefix   | string `('divider')`                             | The prefix of the component CSS class             |
-| color         | Color \| CSSProperties['color']                  | The color of the divider                          |
-| label         | ReactNode                                        | The content of the label                          |
-| labelPlacement | 'start' \| 'center' \| 'end'                    | The placement of the label                        |
-| size          | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The size of the divider                           |
-| spacing       | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The spacing between the divider and its content   |
-| vertical      | boolean                                          | Vertical dividing line. Cannot be used with label |
+| Property       | Type`(default)`                                  | Description                                       |
+| -------------- | ------------------------------------------------ | ------------------------------------------------- |
+| appearance     | 'solid' \| 'dashed' \| 'dotted'                  | The appearance of the divider                     |
+| as             | ElementType `(div)`                              | You can use a custom element for this component   |
+| classPrefix    | string `('divider')`                             | The prefix of the component CSS class             |
+| color          | Color \| CSSProperties['color']                  | The color of the divider                          |
+| label          | ReactNode                                        | The content of the label ![][6.0.0]               |
+| labelPlacement | 'start' \| 'center' \| 'end'                     | The placement of the label ![][6.0.0]             |
+| size           | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The size of the divider                           |
+| spacing        | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | The spacing between the divider and its content   |
+| vertical       | boolean                                          | Vertical dividing line. Cannot be used with label |
 
 <!--{include:(_common/types/color.md)}-->

@@ -92,12 +92,16 @@ The `appearance` prop allows you to define the appearance of the Sidenav. The av
 
 ### `<Sidenav.Footer>`
 
+![][6.0.0]
+
 | Property    | Type `(Default)`            | Description                                  |
 | ----------- | --------------------------- | -------------------------------------------- |
 | as          | ElementType `('div')`       | Custom element type for the footer component |
 | classPrefix | string `('sidenav-footer')` | Prefix for footer component CSS class names  |
 
 ### `<Sidenav.Toggle>`
+
+![][6.0.0]
 
 | Property    | Type `(Default)`            | Description                                         |
 | ----------- | --------------------------- | --------------------------------------------------- |
@@ -107,6 +111,8 @@ The `appearance` prop allows you to define the appearance of the Sidenav. The av
 | onToggle    | (expanded: boolean) => void | Callback triggered when toggle state changes        |
 
 ### `<Sidenav.GroupLabel>`
+
+![][6.0.0]
 
 | Property    | Type `(Default)`                 | Description                                       |
 | ----------- | -------------------------------- | ------------------------------------------------- |

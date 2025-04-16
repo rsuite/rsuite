@@ -110,7 +110,7 @@
 
 继承 [`Drawer`](/zh/components/drawer)
 
-[6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+
 
 <!--{include:(_common/types/breakpoints.md)}-->
 

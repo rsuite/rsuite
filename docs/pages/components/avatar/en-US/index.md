@@ -80,8 +80,6 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 | spacing  | number          | Set the spacing of the avatars. |
 | stack    | boolean         | Render all avatars as stacks.   |
 
-[5.59.0]: https://img.shields.io/badge/>=-v5.59.0-blue
-
 <!--{include:(_common/types/color-scheme.md)}-->
 <!--{include:(_common/types/size.md)}-->
 

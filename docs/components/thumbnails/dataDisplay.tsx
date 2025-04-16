@@ -321,7 +321,7 @@ export const Stat: React.FC = () => (
       y1="42"
       x2="35"
       y2="42"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="3"
       strokeLinecap="round"
     />

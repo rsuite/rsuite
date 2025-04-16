@@ -105,7 +105,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleStyle       | CSSProperties                   | 附加手柄样式                                  |
 | handleTitle       | ReactNode                       | 自定义手柄内显示内容                          |
 | keepTooltipOpen   | boolean                         | `Tooltip` 始终保持可见                        |
-| marks             | [Mark][mark][]                  | 滑动条上的自定义标记                          |
+| marks             | [Mark][mark][]                  | 滑动条上的自定义标记 <br />![][6.0.0]         |
 | max               | number`(100)`                   | 滑动范围的最大值                              |
 | min               | number`(0)`                     | 滑动范围的最小值                              |
 | onChange          | (value: number, event) => void  | 数据发生改变的回调函数                        |
@@ -113,7 +113,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                         | 显示滑动的进度条                              |
 | renderMark        | (mark: number) => ReactNode     | 自定义渲染标尺上的标签                        |
 | renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |
-| size              | [Size][size] \| `('sm')`        | 指定滑动条的尺寸                              |
+| size              | [Size][size] \| `('sm')`        | 指定滑动条的尺寸 <br />![][6.0.0]             |
 | step              | number`(1)`                     | 滑动一步的值                                  |
 | tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |
 | value             | number                          | 当前值（受控）                                |
@@ -133,7 +133,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleStyle       | CSSProperties                                          | 附加手柄样式                                                               |
 | handleTitle       | ReactNode                                              | 自定义手柄内显示内容                                                       |
 | keepTooltipOpen   | boolean                                                | `Tooltip` 始终保持可见                                                     |
-| marks             | [Mark][mark][]                                         | 滑动条上的自定义标记                                                       |
+| marks             | [Mark][mark][]                                         | 滑动条上的自定义标记 <br />![][6.0.0]                                      |
 | max               | number`(100)`                                          | 滑动范围的最大值                                                           |
 | min               | number`(0)`                                            | 滑动范围的最小值                                                           |
 | onChange          | (value: [number,number], event) => void                | 数据发生改变的回调函数                                                     |
@@ -141,7 +141,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                                                | 显示滑动的进度条                                                           |
 | renderMark        | (mark: number) => ReactNode                            | 自定义渲染标尺上的标签                                                     |
 | renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |
-| size              | [Size][size] \| `('sm')`                               | 指定滑动条的尺寸                                                           |
+| size              | [Size][size] \| `('sm')`                               | 指定滑动条的尺寸 <br />![][6.0.0]                                          |
 | step              | number`(1)`                                            | 滑动一步的值                                                               |
 | tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |
 | value             | [number,number]                                        | 当前值（受控）                                                             |

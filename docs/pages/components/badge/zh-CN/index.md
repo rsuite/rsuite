@@ -65,4 +65,4 @@
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/placement-corners.md)}-->
 
-[6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+

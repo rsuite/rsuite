@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "5.79.1",
+  "version": "6.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {

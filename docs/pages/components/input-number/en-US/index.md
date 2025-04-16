@@ -72,6 +72,3 @@ limits: 10 - 100
 | size             | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | An input can have different sizes.                                 |
 | step             | number `(1)`                          | The value of each step. can be decimal.                            |
 | value            | number                                | The current value (controlled).                                    |
-
-[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
-[5.55.0]: https://img.shields.io/badge/>=-v5.55.0-blue

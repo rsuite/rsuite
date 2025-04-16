@@ -72,6 +72,3 @@
 | size             | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 设置输入框尺寸                   |
 | step             | number `(1)`                          | 每次改变步数，可以为小数         |
 | value            | number                                | 当前值（受控）                   |
-
-[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
-[5.55.0]: https://img.shields.io/badge/>=-v5.55.0-blue

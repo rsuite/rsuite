@@ -72,5 +72,3 @@ No keyboard interaction needed.
 | onClose     | (event?: MouseEvent) => void                | Called after the message is closed                    |
 | showIcon    | boolean                                     | Whether to display an icon.                           |
 | type        | 'info' \| 'success' \| 'warning' \| 'error' | The type of the message box.                          |
-
-[5.53.0]: https://img.shields.io/badge/>=-v5.53.0-blue

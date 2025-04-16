@@ -80,8 +80,6 @@
 | spacing  | number         | 为一组的头像设置间距。       |
 | stack    | boolean        | 把一组头像以堆栈的方式显示。 |
 
-[5.59.0]: https://img.shields.io/badge/>=-v5.59.0-blue
-
 <!--{include:(_common/types/color-scheme.md)}-->
 <!--{include:(_common/types/size.md)}-->
 

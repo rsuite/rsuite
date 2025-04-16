@@ -13,7 +13,7 @@ interface UseBreakpointValueOptions<T = any> {
 
 /**
  * A React Hook that returns different values based on different screen sizes in responsive design.
- * @version 5.63.0
+ * @version 5.64.0
  * @unstable Please note that this API is not stable and may change in the future.
  * @see https://rsuitejs.com/components/use-breakpoint-value
  *

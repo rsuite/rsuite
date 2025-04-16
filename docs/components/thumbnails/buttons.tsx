@@ -20,7 +20,7 @@ export const Button: React.FC = () => (
       y="45"
       fontSize="12"
       textAnchor="middle"
-      fill="var(--rs-primary-700)"
+      fill="var(--rs-thumbnail-color-high)"
       fontWeight="bold"
     >
       Button

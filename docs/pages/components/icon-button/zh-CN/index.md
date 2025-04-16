@@ -83,4 +83,4 @@
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->
 
-[6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+

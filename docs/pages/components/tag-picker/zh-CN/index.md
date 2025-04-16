@@ -130,4 +130,3 @@
 [listprops]: #code-ts-list-props-code
 [tagprops]: https://rsuitejs.com/components/tag#Props
 [item]: #code-ts-option-code
-[5.47.0]: https://img.shields.io/badge/>=-v5.47.0-blue

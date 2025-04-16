@@ -234,7 +234,17 @@ export const VisuallyHidden: React.FC = () => (
       strokeLinecap="round"
       strokeDasharray="3 2"
     />
-    <path d="M30 30L50 50" stroke="var(--rs-primary-700)" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M50 30L30 50" stroke="var(--rs-primary-700)" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M30 30L50 50"
+      stroke="var(--rs-thumbnail-color-high)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M50 30L30 50"
+      stroke="var(--rs-thumbnail-color-high)"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );

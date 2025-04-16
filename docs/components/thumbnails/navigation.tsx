@@ -118,7 +118,7 @@ export const Breadcrumb: React.FC = () => (
       height="25"
       rx="4"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="1.5"
     />
   </svg>
@@ -494,7 +494,7 @@ export const Steps: React.FC = () => (
       cy="40"
       r="10"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="1.5"
     />
     <text x="20" y="44" fontSize="12" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -592,7 +592,7 @@ export const Pagination: React.FC = () => (
       height="20"
       rx="2"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="1.5"
     />
     <text x="45" y="44" fontSize="12" textAnchor="middle" fill="transparent" fontWeight="bold">
