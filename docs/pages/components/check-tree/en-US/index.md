@@ -118,5 +118,5 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 [listprops]: #code-ts-list-props-code
 [node]: #code-ts-tree-node-code
-[5.61.0]: https://img.shields.io/badge/>=-v5.61.0-blue
-[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
+
+

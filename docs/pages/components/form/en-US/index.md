@@ -129,6 +129,8 @@ HTML:
 
 ### `<Form.Stack>`
 
+![][6.0.0]
+
 | Property    | Type`(default)`                                       | Description                                                     |
 | ----------- | ----------------------------------------------------- | --------------------------------------------------------------- |
 | classPrefix | string `('form-stack')`                               | CSS class prefix for the component                              |

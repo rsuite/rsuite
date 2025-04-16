@@ -97,4 +97,3 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 <!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code
-[5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

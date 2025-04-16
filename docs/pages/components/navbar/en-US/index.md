@@ -110,7 +110,7 @@ Extends [`IconButton`](/components/icon-button)
 
 Extends [`Drawer`](/components/drawer)
 
-[6.0.0]: https://img.shields.io/badge/>=-v6.0.0-blue
+
 
 <!--{include:(_common/types/breakpoints.md)}-->
 

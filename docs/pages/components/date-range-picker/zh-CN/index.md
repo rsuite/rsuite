@@ -255,8 +255,3 @@ const Ranges = [
 
 [month-dropdown-props]: #code-ts-month-dropdown-props-code
 [ISO-8601]: https://en.wikipedia.org/wiki/ISO_week_date
-[5.52.0]: https://img.shields.io/badge/>=-v5.52.0-blue
-[5.62.0]: https://img.shields.io/badge/>=-v5.62.0-blue
-[5.69.0]: https://img.shields.io/badge/>=-v5.69.0-blue
-[5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue
-[5.77.0]: https://img.shields.io/badge/>=-v5.77.0-blue

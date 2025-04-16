@@ -14,10 +14,12 @@ export interface MenuItem {
   group?: boolean;
   url?: string;
   apis?: string[];
+  hooks?: string[];
   children?: MenuItem[];
   tag?: string;
   tagColor?: string;
   minVersion?: string;
+  updateVersion?: string;
   keywords?: string[];
   designHash?: string;
 }

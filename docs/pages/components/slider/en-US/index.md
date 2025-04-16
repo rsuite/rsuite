@@ -107,7 +107,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleStyle       | CSSProperties                   | A css style to apply to the Handle node                          |
 | handleTitle       | ReactNode                       | Customizing what is displayed inside a handle                    |
 | keepTooltipOpen   | boolean                         | Whether `Tooltip` will always be visible even without hover      |
-| marks             | [Mark][mark][]                  | Custom marks on the slider                                       |
+| marks             | [Mark][mark][]                  | Custom marks on the slider <br />![][6.0.0]                      |
 | max               | number`(100)`                   | Maximum sliding range                                            |
 | min               | number`(0)`                     | Minimum value of sliding range                                   |
 | onChange          | (value: number) => void         | Callback function that changes data                              |
@@ -115,7 +115,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                         | Show sliding progress bar                                        |
 | renderMark        | (mark: number) => ReactNode     | Customize labels on the render ruler                             |
 | renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |
-| size              | [Size][size] \| `('sm')`        | Specifies the size of the slider                                 |
+| size              | [Size][size] \| `('sm')`        | Specifies the size of the slider <br />![][6.0.0]                |
 | step              | number`(1)`                     | Slide the value of one step                                      |
 | tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
 | value             | number                          | The current value (controlled)                                   |
@@ -135,7 +135,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | handleStyle       | CSSProperties                                          | A css style to apply to the Handle node                                                                              |
 | handleTitle       | ReactNode                                              | Customizing what is displayed inside a handle                                                                        |
 | keepTooltipOpen   | boolean                                                | Whether `Tooltip` will always be visible even without hover                                                          |
-| marks             | [Mark][mark][]                                         | Custom marks on the slider                                                                                           |
+| marks             | [Mark][mark][]                                         | Custom marks on the slider <br />![][6.0.0]                                                                          |
 | max               | number`(100)`                                          | Maximum sliding range                                                                                                |
 | min               | number`(0)`                                            | Minimum value of sliding range                                                                                       |
 | onChange          | (value: [number,number]) => void                       | Callback function that changes data                                                                                  |
@@ -143,7 +143,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | progress          | boolean                                                | Show sliding progress bar                                                                                            |
 | renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |
 | renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
-| size              | [Size][size] \| `('sm')`                               | Specifies the size of the slider                                                                                     |
+| size              | [Size][size] \| `('sm')`                               | Specifies the size of the slider <br />![][6.0.0]                                                                    |
 | step              | number`(1)`                                            | Slide the value of one step                                                                                          |
 | tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |
 | value             | [number,number]                                        | The current value (controlled)                                                                                       |

@@ -83,5 +83,3 @@ Radios are used when only one choice may be selected in a series of options.
 | value        | string                        | The current value (controlled)               |
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

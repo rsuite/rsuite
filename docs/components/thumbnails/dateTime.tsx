@@ -1013,7 +1013,7 @@ export const TimeRangePicker: React.FC = () => (
       height="4"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="22" y="48" fontSize="4" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1056,7 +1056,7 @@ export const TimeRangePicker: React.FC = () => (
       height="4"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="32" y="48" fontSize="4" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1100,7 +1100,7 @@ export const TimeRangePicker: React.FC = () => (
       height="4"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="48" y="48" fontSize="4" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1143,7 +1143,7 @@ export const TimeRangePicker: React.FC = () => (
       height="4"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="58" y="48" fontSize="4" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1574,7 +1574,7 @@ export const TimePicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="25" y="49" fontSize="5" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1607,7 +1607,7 @@ export const TimePicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="40" y="49" fontSize="5" textAnchor="middle" fill="transparent" fontWeight="bold">
@@ -1640,7 +1640,7 @@ export const TimePicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <text x="55" y="49" fontSize="5" textAnchor="middle" fill="transparent" fontWeight="bold">

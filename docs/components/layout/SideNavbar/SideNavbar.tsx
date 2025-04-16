@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import classnames from 'classnames';
 import NavGroup from './NavGroup';
 import BarsIcon from '@rsuite/icons/legacy/Bars';
@@ -10,10 +10,8 @@ import { useApp } from '@/hooks/useApp';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import { MdOutlineIntegrationInstructions, MdOutlineOpenInNew } from 'react-icons/md';
-
+import { isNewComponent, isUpdatedComponent } from '@/utils/version';
 import type { Color } from 'rsuite/esm/internals/types';
-
-import pkg from '../../../package.json';
 
 const icons = { MdOutlineIntegrationInstructions };
 interface SideNavbarProps {
@@ -37,20 +35,6 @@ function initSidebarScrollTop() {
   }
 }
 
-const isNewComponent = (minVersion?: string) => {
-  if (!minVersion) return false;
-
-  const [, currentMinor] = pkg.version.split('.');
-  const [, minor] = minVersion.split('.');
-
-  // If the current version is less than 10 minor versions of the minimum version, it is considered a new component.
-  if (parseInt(currentMinor) - parseInt(minor) <= 10) {
-    return true;
-  }
-
-  return false;
-};
-
 export default function SideNavbar(props: SideNavbarProps) {
   const { onToggleMenu, showSubmenu, style } = props;
   const router = useRouter();
@@ -64,15 +48,15 @@ export default function SideNavbar(props: SideNavbarProps) {
 
   const { name: activeTitle, icon, children = [] } = data;
 
-  const handleOpenMediaSidebar = React.useCallback(() => {
+  const handleOpenMediaSidebar = useCallback(() => {
     onToggleMenu(true);
   }, [onToggleMenu]);
 
-  const handleCloseMediaSidebar = React.useCallback(() => {
+  const handleCloseMediaSidebar = useCallback(() => {
     onToggleMenu(false);
   }, [onToggleMenu]);
 
-  React.useEffect(initSidebarScrollTop, []);
+  useEffect(initSidebarScrollTop, []);
 
   const renderTag = (item: MenuItem) => {
     if (item.tag) {
@@ -86,8 +70,13 @@ export default function SideNavbar(props: SideNavbarProps) {
     }
 
     if (isNewComponent(item.minVersion)) {
-      return <Badge content="New" color="green" style={{ marginLeft: 5 }} />;
+      return <Badge content="New" color="green" ml={5} />;
     }
+
+    if (isUpdatedComponent(item.updateVersion)) {
+      return <Badge content="Updated" color="orange" ml={5} />;
+    }
+
     return null;
   };
 

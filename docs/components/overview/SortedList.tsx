@@ -60,8 +60,8 @@ export const SortedList = React.forwardRef(function SortedList(
     <div {...rest} ref={ref}>
       {Object.entries(sortedList).map(([category, items]) => {
         return (
-          <div key={category} className="sorted-list">
-            <h3 className="title">{category}</h3>
+          <div key={category} className="rs-sorted-list">
+            <h3 className="rs-sorted-title">{category}</h3>
             <List>
               {items.map((item, index) => (
                 <List.Item key={index} index={index}>

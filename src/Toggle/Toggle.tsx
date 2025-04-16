@@ -71,6 +71,7 @@ export interface ToggleProps extends BoxProps, SanitizedInputProps {
 
   /**
    * The placement of the label
+   * @version 6.0.0
    */
   labelPlacement?: 'start' | 'end';
 

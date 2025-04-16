@@ -53,7 +53,7 @@ export const CheckPicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -80,7 +80,7 @@ export const CheckPicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -175,7 +175,7 @@ export const CheckTreePicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -203,7 +203,7 @@ export const CheckTreePicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -367,7 +367,7 @@ export const InputPicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
 
@@ -448,7 +448,7 @@ export const SelectPicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <line
@@ -538,7 +538,7 @@ export const TagPicker: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
 
@@ -772,7 +772,7 @@ export const MultiCascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -819,7 +819,7 @@ export const MultiCascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -847,7 +847,7 @@ export const MultiCascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -874,7 +874,7 @@ export const MultiCascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <path
@@ -989,7 +989,7 @@ export const Cascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <line
@@ -1037,7 +1037,7 @@ export const Cascader: React.FC = () => (
       height="5"
       rx="1"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-primary-700)"
+      stroke="var(--rs-thumbnail-color-high)"
       strokeWidth="0.5"
     />
     <line

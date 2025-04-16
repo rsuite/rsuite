@@ -94,6 +94,8 @@ The `Nav.Item` component can be used with other routing libraries (such as Next.
 
 ### `<Nav.MegaMenu>`
 
+![][6.0.0]
+
 | Property  | Type `(Default)`                                             | Description                                                                                  |
 | --------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
 | title     | ReactNode                                                    | Title or content of the mega menu trigger                                                    |
@@ -104,3 +106,5 @@ The `Nav.Item` component can be used with other routing libraries (such as Next.
 [NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
 
 <!--{include:(_common/types/placement-all.md)}-->
+
+

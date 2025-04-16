@@ -86,26 +86,26 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 
 ### `<Row>`
 
-| 属性名称    | 类型`(默认值)`                                                                                     | 描述                       |
-| ----------- | -------------------------------------------------------------------------------------------------- | -------------------------- |
-| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | 垂直对齐方式。支持响应式值 |
-| as          | ElementType`('div')`                                                                               | 自定义元素类型             |
-| classPrefix | string `('row')`                                                                                   | 组件 CSS 类的前缀          |
-| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | 栅格间距。支持响应式值     |
-| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | 水平分布方式。支持响应式值 |
+| 属性名称    | 类型`(默认值)`                                                                                     | 描述                                  |
+| ----------- | -------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | 垂直对齐方式。支持响应式值 ![][6.0.0] |
+| as          | ElementType`('div')`                                                                               | 自定义元素类型                        |
+| classPrefix | string `('row')`                                                                                   | 组件 CSS 类的前缀                     |
+| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | 栅格间距。支持响应式值                |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | 水平分布方式。支持响应式值 ![][6.0.0] |
 
 ### `<Col>`
 
-| 属性名称    | 类型`(默认值)`                                    | 描述                                                 |
-| ----------- | ------------------------------------------------- | ---------------------------------------------------- |
-| as          | ElementType`('div')`                              | 自定义元素类型                                       |
-| classPrefix | string `('col')`                                  | 组件 CSS 类的前缀                                    |
-| hidden      | boolean \| [ResponsiveValue][responsive]          | 是否隐藏栅格                                         |
-| offset      | number \| [ResponsiveValue][responsive]           | 栅格左侧的间隔格数                                   |
-| order       | number \| [ResponsiveValue][responsive]           | 栅格列的顺序                                         |
-| pull        | number \| [ResponsiveValue][responsive]           | 栅格向左移动格数                                     |
-| push        | number \| [ResponsiveValue][responsive]           | 栅格向右移动格数                                     |
-| span        | number \| 'auto' \| [ResponsiveValue][responsive] | 栅格占位格数，设置为 'auto' 时宽度会根据内容自动调整 |
+| 属性名称    | 类型`(默认值)`                                    | 描述                                                            |
+| ----------- | ------------------------------------------------- | --------------------------------------------------------------- |
+| as          | ElementType`('div')`                              | 自定义元素类型                                                  |
+| classPrefix | string `('col')`                                  | 组件 CSS 类的前缀                                               |
+| hidden      | boolean \| [ResponsiveValue][responsive]          | 是否隐藏栅格 ![][6.0.0]                                         |
+| offset      | number \| [ResponsiveValue][responsive]           | 栅格左侧的间隔格数 ![][6.0.0]                                   |
+| order       | number \| [ResponsiveValue][responsive]           | 栅格列的顺序 ![][6.0.0]                                         |
+| pull        | number \| [ResponsiveValue][responsive]           | 栅格向左移动格数 ![][6.0.0]                                     |
+| push        | number \| [ResponsiveValue][responsive]           | 栅格向右移动格数 ![][6.0.0]                                     |
+| span        | number \| 'auto' \| [ResponsiveValue][responsive] | 栅格占位格数，设置为 'auto' 时宽度会根据内容自动调整 ![][6.0.0] |
 
 <!--{include:(_common/types/responsive-value.md)}-->
 

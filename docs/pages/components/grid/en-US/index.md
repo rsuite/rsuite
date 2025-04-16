@@ -85,26 +85,26 @@ Use the `order` property to control the visual order of columns regardless of th
 
 ### `<Row>`
 
-| Property    | Type`(Default)`                                                                                    | Description                                         |
-| ----------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment. Supports responsive values      |
-| as          | ElementType`('div')`                                                                               | You can use a custom element for this component     |
-| classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class               |
-| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | Grid spacing. Supports responsive values            |
-| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution. Supports responsive values |
+| Property    | Type`(Default)`                                                                                    | Description                                                    |
+| ----------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| align       | 'top' \| 'middle' \| 'bottom' \| [ResponsiveValue][responsive]                                     | Vertical alignment. Supports responsive values ![][6.0.0]      |
+| as          | ElementType`('div')`                                                                               | You can use a custom element for this component                |
+| classPrefix | string `('row')`                                                                                   | The prefix of the component CSS class                          |
+| gutter      | [GutterType][gutter] \| [ResponsiveValue\<GutterType\>][responsive]                                | Grid spacing. Supports responsive values                       |
+| justify     | 'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| [ResponsiveValue][responsive] | Horizontal distribution. Supports responsive values ![][6.0.0] |
 
 ### `<Col>`
 
-| Property    | Type`(Default)`                                   | Description                                                                               |
-| ----------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| as          | ElementType`('div')`                              | You can use a custom element for this component                                           |
-| classPrefix | string `('col')`                                  | The prefix of the component CSS class                                                     |
-| hidden      | boolean \| [ResponsiveValue][responsive]          | Whether to hide the grid                                                                  |
-| offset      | number \| [ResponsiveValue][responsive]           | Number of grids on the left side                                                          |
-| order       | number \| [ResponsiveValue][responsive]           | The order of grid columns                                                                 |
-| pull        | number \| [ResponsiveValue][responsive]           | Number of grids to move left                                                              |
-| push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right                                                             |
-| span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content |
+| Property    | Type`(Default)`                                   | Description                                                                                          |
+| ----------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| as          | ElementType`('div')`                              | You can use a custom element for this component                                                      |
+| classPrefix | string `('col')`                                  | The prefix of the component CSS class                                                                |
+| hidden      | boolean \| [ResponsiveValue][responsive]          | Whether to hide the grid ![][6.0.0]                                                                  |
+| offset      | number \| [ResponsiveValue][responsive]           | Number of grids on the left side ![][6.0.0]                                                          |
+| order       | number \| [ResponsiveValue][responsive]           | The order of grid columns ![][6.0.0]                                                                 |
+| pull        | number \| [ResponsiveValue][responsive]           | Number of grids to move left ![][6.0.0]                                                              |
+| push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right ![][6.0.0]                                                             |
+| span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content ![][6.0.0] |
 
 <!--{include:(_common/types/responsive-value.md)}-->
 

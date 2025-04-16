@@ -406,7 +406,7 @@ export const StickyTable: React.FC = () => (
       width="50"
       height="10"
       rx="4"
-      fill="var(--rs-primary-700)"
+      fill="var(--rs-thumbnail-color-high)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
     />

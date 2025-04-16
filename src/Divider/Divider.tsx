@@ -19,6 +19,7 @@ export interface DividerProps extends BoxProps {
 
   /**
    * The placement of the label.
+   * @version 6.0.0
    */
   labelPlacement?: 'start' | 'center' | 'end';
 

@@ -136,5 +136,3 @@
 
 <!--{include:(_common/types/placement8.md)}-->
 <!--{include:(_common/types/trigger.md)}-->
-
-[5.58.0]: https://img.shields.io/badge/>=-v5.58.0-blue

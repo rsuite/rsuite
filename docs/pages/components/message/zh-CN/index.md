@@ -72,5 +72,3 @@ Message 的 `role` 为 `alert`。
 | onClose     | (event?: MouseEvent) => void                           | 消息关闭后调用                  |
 | showIcon    | boolean                                                | 显示图标                        |
 | type        | 'info' \| 'success' \| 'warning' \| 'error' `('info')` | 消息框类型                      |
-
-[5.53.0]: https://img.shields.io/badge/>=-v5.53.0-blue

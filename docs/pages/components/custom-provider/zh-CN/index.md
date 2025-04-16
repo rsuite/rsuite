@@ -92,7 +92,5 @@ return (
 
 [csp]: https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP
 [nonce]: https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/nonce
-[5.73.0]: https://img.shields.io/badge/>=-v5.73.0-blue
-[5.74.0]: https://img.shields.io/badge/>=-v5.74.0-blue
 [en_gb]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
 [locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts
