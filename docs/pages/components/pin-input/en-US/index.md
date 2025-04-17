@@ -1,6 +1,6 @@
 # PinInput
 
-PinInput is used for entering one-time passwords (OTP), PIN codes, or any short fixed-length input. Each digit is entered in its own input box, and the component manages focus and value updates automatically.
+Used for capturing pin codes or one-time passwords (OTP) from users.
 
 ## Import
 

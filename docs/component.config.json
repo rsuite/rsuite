@@ -495,7 +495,7 @@
       {
         "id": "pin-input",
         "name": "PinInput",
-        "title": "一次性密码输入框",
+        "title": "验证码输入框",
         "components": ["PinInput"],
         "minVersion": "6.0.0"
       },

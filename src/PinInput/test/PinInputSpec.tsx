@@ -60,7 +60,9 @@ describe('PinInput', () => {
     render(<PinInput otp />);
     const inputs = screen.getAllByRole('textbox');
     inputs.forEach(input => {
-      expect(input).to.have.property('autocomplete', 'one-time-code');
+      // In Firefox, to.have.property('autocomplete') cannot get the 'one-time-code' value,
+      // so we use getAttribute
+      expect(input.getAttribute('autocomplete')).to.equal('one-time-code');
     });
   });
 
