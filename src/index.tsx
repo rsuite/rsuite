@@ -70,6 +70,7 @@ export * from './InputNumber';
 export * from './InputGroup';
 export * from './PasswordInput';
 export * from './PasswordStrengthMeter';
+export * from './PinInput';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Radio';

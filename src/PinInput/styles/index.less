@@ -1,0 +1,66 @@
+@import '../../Input/styles/index.less';
+@import '../../styles/common';
+
+.rs-pin-input {
+  --rs-pin-input-size-lg: 42px;
+  --rs-pin-input-size-md: 36px;
+  --rs-pin-input-size-sm: 30px;
+  --rs-pin-input-size-xs: 24px;
+
+  --rs-pin-input-size: var(--rs-pin-input-size-md);
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  // Individual segment styling
+  &-segment {
+    text-align: center;
+    width: var(--rs-pin-input-size);
+    caret-color: transparent;
+
+    // Size variants
+    &.rs-input-lg {
+      --rs-pin-input-size: var(--rs-pin-input-size-lg);
+    }
+
+    &.rs-input-md {
+      --rs-pin-input-size: var(--rs-pin-input-size-md);
+    }
+
+    &.rs-input-sm {
+      --rs-pin-input-size: var(--rs-pin-input-size-sm);
+    }
+
+    &.rs-input-xs {
+      --rs-pin-input-size: var(--rs-pin-input-size-xs);
+    }
+  }
+
+  // Masked input styling
+  &-masked {
+    font-family: monospace;
+  }
+
+  // Attached segments
+  &-attached {
+    .rs-pin-input-segment {
+      &:not(:first-child) {
+        margin-left: -1px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      // Focus state for attached inputs
+      &:focus {
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+}
