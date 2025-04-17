@@ -9,6 +9,24 @@ import { useStyles, useEventCallback } from '@/internals/hooks';
 import { useCustom } from '../CustomProvider';
 import type { BasicSize } from '@/internals/types';
 
+/**
+ * Map `type` prop to regex for allowed keys
+ */
+function getAllowedKeys(type: PinInputProps['type']): RegExp {
+  if (type instanceof RegExp) {
+    return type;
+  }
+  switch (type) {
+    case 'alphabetic':
+      return /[A-Za-z]/;
+    case 'alphanumeric':
+      return /[A-Za-z0-9]/;
+    default:
+      // number and any other fallback
+      return /\d/;
+  }
+}
+
 export interface PinInputProps extends BoxProps {
   /** Whether input fields are attached (no gap between) */
   attached?: boolean;
@@ -16,8 +34,8 @@ export interface PinInputProps extends BoxProps {
   /** Whether to auto-focus the first input on mount */
   autoFocus?: boolean;
 
-  /** Pattern for allowed input characters */
-  allowedKeys?: RegExp;
+  /** Type of allowed input: number, alphabetic, alphanumeric, or custom regex */
+  type?: 'number' | 'alphabetic' | 'alphanumeric' | RegExp;
 
   /** Default PIN value */
   defaultValue?: string;
@@ -59,7 +77,7 @@ export interface PinInputProps extends BoxProps {
 const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PinInput', props);
   const {
-    allowedKeys = /\d/,
+    type = 'number',
     as,
     autoFocus,
     attached,
@@ -79,6 +97,15 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
     onComplete,
     ...rest
   } = propsWithDefaults;
+
+  // Regex for filtering input chars based on type prop
+  const allowedKeys = getAllowedKeys(type);
+
+  // Determine inputMode based on type prop
+  const inputModeValue = type === 'number' ? 'numeric' : 'text';
+
+  // Determine input type attribute based on type prop and mask
+  const inputTypeValue = mask ? 'password' : type === 'number' ? 'tel' : 'text';
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
 
@@ -108,7 +135,7 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
       const char = inputValue.length > 0 ? inputValue.charAt(inputValue.length - 1) : '';
 
       // Filter by allowedKeys if provided
-      if (allowedKeys && !allowedKeys.test(char)) {
+      if (!allowedKeys.test(char)) {
         return;
       }
 
@@ -223,9 +250,9 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
             readOnly={readOnly}
             maxLength={1}
             autoComplete={otp ? 'one-time-code' : 'off'}
-            inputMode="text"
+            inputMode={inputModeValue}
             placeholder={placeholder}
-            type={mask ? 'password' : 'text'}
+            type={inputTypeValue}
             ref={getRefSetter(index)}
           />
         ))}

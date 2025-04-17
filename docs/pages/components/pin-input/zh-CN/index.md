@@ -66,11 +66,11 @@
 
 <!--{include:`controlled.md`}-->
 
-### 允许的输入字符
+### 类型
 
-使用 `allowedKeys` 属性限制可输入字符。例如 `/^[A-Fa-f0-9]$/`。
+定义和过滤输入字符，通过 `type` 属性（默认值：`number`）。
 
-<!--{include:`allowed-keys.md`}-->
+<!--{include:`type.md`}-->
 
 ## 无障碍支持
 
@@ -84,25 +84,25 @@
 - 输入字符后，自动聚焦下一个输入框。
 - 按 <kbd>Backspace</kbd> 清除当前输入，或在当前输入为空时聚焦上一个输入框。
 - 使用 <kbd>ArrowLeft</kbd> 和 <kbd>ArrowRight</kbd> 在输入框之间导航。
-- 粘贴内容时，依次填充输入框，并根据 `allowedKeys` 进行过滤。
+- 粘贴内容时，依次填充输入框，并根据 `type` 属性进行过滤。
 
 ## 属性
 
-| 名称         | 类型                         | 默认值      | 说明                                 |
-| ------------ | ---------------------------- | ----------- | ------------------------------------ |
-| allowedKeys  | RegExp                       | /\d/        | 允许输入字符的正则模式               |
-| attached     | boolean                      | false       | 是否紧凑排列输入框（无间隙）         |
-| autoFocus    | boolean                      | false       | 是否在组件挂载后自动聚焦第一个输入框 |
-| classPrefix  | string                       | 'pin-input' | 组件样式类名前缀                     |
-| defaultValue | string                       | ''          | 默认 PIN 值（非受控）                |
-| disabled     | boolean                      | false       | 是否禁用 PIN 输入                    |
-| length       | number                       | 4           | PIN 位数                             |
-| mask         | boolean                      | false       | 是否隐藏输入内容（如密码）           |
-| name         | string                       |             | 表单提交时的 name 属性               |
-| onChange     | (value: string) => void      |             | PIN 值变化时触发的回调               |
-| onComplete   | (value: string) => void      |             | PIN 输入完成时触发的回调             |
-| otp          | boolean                      | false       | 是否优化为一次性密码（OTP）输入      |
-| placeholder  | string                       |             | 输入框占位提示                       |
-| readOnly     | boolean                      | false       | 是否只读                             |
-| size         | 'lg' \| 'md' \| 'sm' \| 'xs' | 'md'        | 输入框尺寸                           |
-| value        | string                       |             | 受控值                               |
+| 名称         | 类型                                                              | 说明                                 |
+| ------------ | ----------------------------------------------------------------- | ------------------------------------ |
+| attached     | boolean                                                           | 是否紧凑排列输入框（无间隙）         |
+| autoFocus    | boolean                                                           | 是否在组件挂载后自动聚焦第一个输入框 |
+| classPrefix  | string `('pin-input')`                                            | 组件样式类名前缀                     |
+| defaultValue | string                                                            | 默认 PIN 值（非受控）                |
+| disabled     | boolean                                                           | 是否禁用 PIN 输入                    |
+| length       | number (`4`)                                                      | PIN 位数                             |
+| mask         | boolean                                                           | 是否隐藏输入内容（如密码）           |
+| name         | string                                                            | 表单提交时的 name 属性               |
+| onChange     | (value: string) => void                                           | PIN 值变化时触发的回调               |
+| onComplete   | (value: string) => void                                           | PIN 输入完成时触发的回调             |
+| otp          | boolean                                                           | 是否优化为一次性密码（OTP）输入      |
+| placeholder  | string                                                            | 输入框占位提示                       |
+| readOnly     | boolean                                                           | 是否只读                             |
+| size         | 'lg' \| 'md' \| 'sm' \| 'xs' (`'md'`)                             | 输入框尺寸                           |
+| type         | 'number' \| 'alphabetic' \| 'alphanumeric' \| RegExp (`'number'`) | 筛选输入字符的类型                   |
+| value        | string                                                            | 受控值                               |

@@ -214,12 +214,11 @@ describe('PinInput', () => {
     expect(document.activeElement).to.equal(inputs[0]);
   });
 
-  describe('Allowed keys', () => {
+  describe('Type validation', () => {
     it('Should use default allowedKeys to restrict non-digit input', () => {
       const onChange = sinon.spy(() => {});
       render(<PinInput length={4} onChange={onChange} />);
       const inputs = screen.getAllByRole('textbox');
-
       fireEvent.keyDown(inputs[0], { key: 'A' });
       expect(onChange).not.to.have.been.called;
 
@@ -241,9 +240,9 @@ describe('PinInput', () => {
       expect(onChange).to.have.been.calledWith('12');
     });
 
-    it('Should restrict input based on allowedKeys prop', () => {
+    it('Should restrict input based on type prop', () => {
       const onChange = sinon.spy();
-      render(<PinInput length={4} onChange={onChange} allowedKeys={/^[0-9]$/} />);
+      render(<PinInput length={4} onChange={onChange} type={/^[0-9]$/} />);
       const inputs = screen.getAllByRole('textbox');
 
       fireEvent.keyDown(inputs[0], { key: 'A' });
@@ -253,9 +252,9 @@ describe('PinInput', () => {
       expect(onChange).to.have.been.calledWith('1');
     });
 
-    it('Should filter paste content based on allowedKeys prop', async () => {
+    it('Should filter paste content based on type prop', async () => {
       const onChange = sinon.spy(() => {});
-      render(<PinInput length={4} onChange={onChange} allowedKeys={/^[A-Fa-f0-9]$/} />);
+      render(<PinInput length={4} onChange={onChange} type={/^[A-Fa-f0-9]$/} />);
       const inputs = screen.getAllByRole('textbox');
       const pasteEvent = new Event('paste', { bubbles: true });
 
@@ -268,6 +267,99 @@ describe('PinInput', () => {
       inputs[0].dispatchEvent(pasteEvent);
 
       expect(onChange).to.have.been.calledWith('ABC1');
+    });
+
+    // Alphabetic type validation
+    it('Should restrict input to letters when type="alphabetic"', () => {
+      const onChange = sinon.spy();
+      render(<PinInput length={4} onChange={onChange} type="alphabetic" />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      fireEvent.keyDown(inputs[0], { key: '1' });
+      expect(onChange).not.to.have.been.called;
+      fireEvent.keyDown(inputs[0], { key: 'A' });
+      expect(onChange).to.have.been.calledWith('A');
+    });
+
+    it('Should filter pasted content with only letters when type="alphabetic"', async () => {
+      const onChange = sinon.spy(() => {});
+      render(<PinInput length={4} onChange={onChange} type="alphabetic" />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      const pasteEvent = new Event('paste', { bubbles: true });
+
+      Object.defineProperty(pasteEvent, 'clipboardData', { value: { getData: () => 'A1B2c3' } });
+
+      inputs[0].dispatchEvent(pasteEvent);
+
+      expect(onChange).to.have.been.calledWith('ABc');
+    });
+
+    // Alphanumeric type validation
+    it('Should allow letters and digits when type="alphanumeric"', () => {
+      const onChange = sinon.spy();
+      render(<PinInput length={4} onChange={onChange} type="alphanumeric" />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      fireEvent.keyDown(inputs[0], { key: '!' });
+      expect(onChange).not.to.have.been.called;
+      fireEvent.keyDown(inputs[0], { key: '5' });
+      expect(onChange).to.have.been.calledWith('5');
+      fireEvent.keyDown(inputs[0], { key: 'B' });
+      expect(onChange).to.have.been.calledWith('B');
+    });
+
+    it('Should filter pasted content for alphanumeric type', async () => {
+      const onChange = sinon.spy(() => {});
+      render(<PinInput length={4} onChange={onChange} type="alphanumeric" />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      const pasteEvent = new Event('paste', { bubbles: true });
+
+      Object.defineProperty(pasteEvent, 'clipboardData', { value: { getData: () => 'A!2@b#3' } });
+
+      inputs[0].dispatchEvent(pasteEvent);
+
+      expect(onChange).to.have.been.calledWith('A2b3');
+    });
+  });
+
+  describe('Navigation and deletion', () => {
+    it('Should navigate between inputs with arrow keys', () => {
+      render(<PinInput length={3} />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      inputs[0].focus();
+      expect(document.activeElement).to.equal(inputs[0]);
+      fireEvent.keyDown(inputs[0], { key: 'ArrowRight' });
+      expect(document.activeElement).to.equal(inputs[1]);
+      fireEvent.keyDown(inputs[1], { key: 'ArrowRight' });
+      expect(document.activeElement).to.equal(inputs[2]);
+      fireEvent.keyDown(inputs[2], { key: 'ArrowLeft' });
+      expect(document.activeElement).to.equal(inputs[1]);
+    });
+
+    it('Should clear current and previous digits on Backspace', () => {
+      render(<PinInput defaultValue="12" length={3} />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      expect(inputs[0]).to.have.value('1');
+      expect(inputs[1]).to.have.value('2');
+      inputs[1].focus();
+      // clear current
+      fireEvent.keyDown(inputs[1], { key: 'Backspace' });
+      expect(inputs[1]).to.have.value('');
+      expect(document.activeElement).to.equal(inputs[1]);
+      // clear previous and move focus
+      fireEvent.keyDown(inputs[1], { key: 'Backspace' });
+      expect(inputs[0]).to.have.value('');
+      expect(document.activeElement).to.equal(inputs[0]);
+    });
+  });
+
+  describe('Completion callback', () => {
+    it('Should call onComplete when all digits are entered', () => {
+      const onComplete = sinon.spy();
+      render(<PinInput length={3} onComplete={onComplete} />);
+      const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
+      fireEvent.change(inputs[0], { target: { value: '1' } });
+      fireEvent.change(inputs[1], { target: { value: '2' } });
+      fireEvent.change(inputs[2], { target: { value: '3' } });
+      expect(onComplete).to.have.been.calledWith('123');
     });
   });
 

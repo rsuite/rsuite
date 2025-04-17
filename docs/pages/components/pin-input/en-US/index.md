@@ -58,11 +58,11 @@ Set inputs to read-only via the `readOnly` prop.
 
 <!--{include:`readonly.md`}-->
 
-### Allowed Keys
+### Type
 
-Restrict allowed characters with the `allowedKeys` prop. e.g. `/^[A-Fa-f0-9]$/`
+Define and filter input characters via the `type` prop (default: `number`).
 
-<!--{include:`allowed-keys.md`}-->
+<!--{include:`type.md`}-->
 
 ### Controlled
 
@@ -88,21 +88,21 @@ Controlled usage with `value`, `onChange`, and `onComplete` props.
 
 ### `<PinInput>`
 
-| Property     | Type `(Default)`                      | Description                                    |
-| ------------ | ------------------------------------- | ---------------------------------------------- |
-| allowedKeys  | RegExp (`/\d/`)                       | Pattern for allowed input characters           |
-| attached     | boolean                               | Whether input fields are attached              |
-| autoFocus    | boolean                               | Auto-focus on the first input on mount         |
-| classPrefix  | string `('pin-input')`                | The prefix of the component CSS class.         |
-| defaultValue | string                                | Default PIN value (uncontrolled)               |
-| disabled     | boolean                               | Whether to disable PIN input                   |
-| length       | number `(4)`                          | Number of PIN digits.                          |
-| mask         | boolean                               | Whether to mask PIN input (like password)      |
-| name         | string                                | Name for form submission                       |
-| onChange     | (value: string) => void               | Callback fired when the PIN value changes      |
-| onComplete   | (value: string) => void               | Callback fired when the PIN input is completed |
-| otp          | boolean                               | Optimize for one-time password (OTP) input     |
-| placeholder  | string                                | Placeholder for input fields                   |
-| readOnly     | boolean                               | Whether the input is read-only                 |
-| size         | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Input size                                     |
-| value        | string                                | PIN value (controlled)                         |
+| Property     | Type `(Default)`                                                  | Description                                    |
+| ------------ | ----------------------------------------------------------------- | ---------------------------------------------- |
+| attached     | boolean                                                           | Whether input fields are attached              |
+| autoFocus    | boolean                                                           | Auto-focus on the first input on mount         |
+| classPrefix  | string `('pin-input')`                                            | The prefix of the component CSS class.         |
+| defaultValue | string                                                            | Default PIN value (uncontrolled)               |
+| disabled     | boolean                                                           | Whether to disable PIN input                   |
+| length       | number `(4)`                                                      | Number of PIN digits.                          |
+| mask         | boolean                                                           | Whether to mask PIN input (like password)      |
+| name         | string                                                            | Name for form submission                       |
+| onChange     | (value: string) => void                                           | Callback fired when the PIN value changes      |
+| onComplete   | (value: string) => void                                           | Callback fired when the PIN input is completed |
+| otp          | boolean                                                           | Optimize for one-time password (OTP) input     |
+| placeholder  | string                                                            | Placeholder for input fields                   |
+| readOnly     | boolean                                                           | Whether the input is read-only                 |
+| size         | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                             | Input size                                     |
+| type         | 'number' \| 'alphabetic' \| 'alphanumeric' \| RegExp `('number')` | Filter input characters by type                |
+| value        | string                                                            | PIN value (controlled)                         |
