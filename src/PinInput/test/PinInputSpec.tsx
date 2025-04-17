@@ -7,7 +7,6 @@ import { testStandardProps } from '@test/utils';
 describe('PinInput', () => {
   testStandardProps(<PinInput />);
 
-  // Basic rendering tests
   it('Should render correct number of inputs', () => {
     render(<PinInput length={6} />);
     expect(screen.getAllByRole('textbox')).to.have.length(6);
@@ -33,11 +32,63 @@ describe('PinInput', () => {
     });
   });
 
+  it('Should not trigger events when disabled', () => {
+    const onChange = sinon.spy();
+    const { container } = render(<PinInput disabled onChange={onChange} />);
+    const inputs = container.querySelectorAll('input');
+    const firstInput = Array.from(inputs).find(input => input.type !== 'hidden');
+
+    expect(firstInput).to.exist;
+    if (!firstInput) return;
+
+    // Try keyboard input
+    fireEvent.keyDown(firstInput, { key: '5' });
+    expect(onChange).not.to.have.been.called;
+
+    // Try change event
+    fireEvent.change(firstInput, { target: { value: '5' } });
+    expect(onChange).not.to.have.been.called;
+
+    // Try paste
+    const pasteEvent = new Event('paste', { bubbles: true });
+    Object.defineProperty(pasteEvent, 'clipboardData', {
+      value: { getData: () => '1234' }
+    });
+    firstInput.dispatchEvent(pasteEvent);
+    expect(onChange).not.to.have.been.called;
+  });
+
   it('Should be read only', () => {
     render(<PinInput readOnly placeholder="-" />);
     screen.getAllByRole('textbox').forEach(input => {
       expect(input).to.have.property('readOnly', true);
     });
+  });
+
+  it('Should not trigger events when readOnly', () => {
+    const onChange = sinon.spy();
+    const { container } = render(<PinInput readOnly onChange={onChange} />);
+    const inputs = container.querySelectorAll('input');
+    const firstInput = Array.from(inputs).find(input => input.type !== 'hidden');
+
+    expect(firstInput).to.exist;
+    if (!firstInput) return;
+
+    // Try keyboard input
+    fireEvent.keyDown(firstInput, { key: '5' });
+    expect(onChange).not.to.have.been.called;
+
+    // Try change event
+    fireEvent.change(firstInput, { target: { value: '5' } });
+    expect(onChange).not.to.have.been.called;
+
+    // Try paste
+    const pasteEvent = new Event('paste', { bubbles: true });
+    Object.defineProperty(pasteEvent, 'clipboardData', {
+      value: { getData: () => '1234' }
+    });
+    firstInput.dispatchEvent(pasteEvent);
+    expect(onChange).not.to.have.been.called;
   });
 
   it('Should apply mask when specified', () => {
@@ -214,6 +265,12 @@ describe('PinInput', () => {
     expect(document.activeElement).to.equal(inputs[0]);
   });
 
+  it('Should apply correct styles when attached is true', () => {
+    const { container } = render(<PinInput attached />);
+    const pinInputElement = container.querySelector('.rs-pin-input');
+    expect(pinInputElement).to.have.class('rs-pin-input-attached');
+  });
+
   describe('Type validation', () => {
     it('Should use default allowedKeys to restrict non-digit input', () => {
       const onChange = sinon.spy(() => {});
@@ -317,6 +374,69 @@ describe('PinInput', () => {
       inputs[0].dispatchEvent(pasteEvent);
 
       expect(onChange).to.have.been.calledWith('A2b3');
+    });
+
+    it('Should handle custom RegExp type properly', () => {
+      const onChange = sinon.spy();
+      const { container } = render(
+        <PinInput length={4} onChange={onChange} type={/^[A-Fa-f0-9]$/} />
+      );
+      const inputs = container.querySelectorAll('input');
+      const firstInput = Array.from(inputs).find(input => input.type !== 'hidden');
+
+      // 确保找到了输入元素
+      expect(firstInput).to.exist;
+      if (!firstInput) return;
+
+      fireEvent.keyDown(firstInput, { key: 'G' });
+      expect(onChange).not.to.have.been.called;
+
+      fireEvent.keyDown(firstInput, { key: 'F' });
+      expect(onChange).to.have.been.calledWith('F');
+      fireEvent.keyDown(firstInput, { key: 'a' });
+      expect(onChange).to.have.been.calledWith('a');
+      fireEvent.keyDown(firstInput, { key: '9' });
+      expect(onChange).to.have.been.calledWith('9');
+    });
+
+    it('Should set correct inputMode based on type prop', () => {
+      const { container, rerender } = render(<PinInput type="number" />);
+      let inputs = container.querySelectorAll('input');
+      inputs.forEach(input => {
+        if (input.type !== 'hidden') {
+          expect(input).to.have.property('inputMode', 'numeric');
+        }
+      });
+
+      rerender(<PinInput type="alphabetic" />);
+      inputs = container.querySelectorAll('input');
+      inputs.forEach(input => {
+        if (input.type !== 'hidden') {
+          expect(input).to.have.property('inputMode', 'text');
+        }
+      });
+
+      rerender(<PinInput type="alphanumeric" />);
+      inputs = container.querySelectorAll('input');
+      inputs.forEach(input => {
+        if (input.type !== 'hidden') {
+          expect(input).to.have.property('inputMode', 'text');
+        }
+      });
+    });
+
+    it('Should set correct input type based on type and mask props', () => {
+      const { container, rerender } = render(<PinInput type="number" />);
+      let inputs = container.querySelectorAll('input[type="tel"]');
+      expect(inputs.length).to.be.greaterThan(0);
+
+      rerender(<PinInput type="number" mask />);
+      inputs = container.querySelectorAll('input[type="password"]');
+      expect(inputs.length).to.be.greaterThan(0);
+
+      rerender(<PinInput type="alphabetic" />);
+      inputs = container.querySelectorAll('input[type="text"]');
+      expect(inputs.length).to.be.greaterThan(0);
     });
   });
 
