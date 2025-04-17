@@ -1096,3 +1096,52 @@ export const MultiCascadeTree: React.FC = () => (
     />
   </svg>
 );
+
+/**
+ * PinInput component thumbnail
+ */
+export const PinInput: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* PinInput segments */}
+    <rect
+      x="10"
+      y="30"
+      width="12"
+      height="20"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    <rect
+      x="25"
+      y="30"
+      width="12"
+      height="20"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    <rect
+      x="40"
+      y="30"
+      width="12"
+      height="20"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    <rect
+      x="55"
+      y="30"
+      width="12"
+      height="20"
+      rx="4"
+      fill="transparent"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+  </svg>
+);

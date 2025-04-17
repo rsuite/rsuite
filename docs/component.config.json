@@ -493,6 +493,13 @@
         "minVersion": "6.0.0"
       },
       {
+        "id": "pin-input",
+        "name": "PinInput",
+        "title": "验证码输入框",
+        "components": ["PinInput"],
+        "minVersion": "6.0.0"
+      },
+      {
         "id": "tag-input",
         "name": "TagInput",
         "title": "标签输入",

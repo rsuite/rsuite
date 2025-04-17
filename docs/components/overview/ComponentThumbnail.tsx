@@ -46,6 +46,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     input: <thumbnails.Input />,
     'input-number': <thumbnails.InputNumber />,
     toggle: <thumbnails.Toggle />,
+    'pin-input': <thumbnails.PinInput />,
 
     // Data Entry components
     'auto-complete': <thumbnails.AutoComplete />,

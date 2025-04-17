@@ -79,6 +79,7 @@ import type { PlaceholderParagraphProps } from '../Placeholder/PlaceholderParagr
 import type { PopoverProps } from '../Popover';
 import type { ProgressCircleProps } from '../Progress/ProgressCircle';
 import type { ProgressLineProps } from '../Progress/ProgressLine';
+import type { PinInputProps } from '../PinInput';
 import type { RadioProps } from '../Radio';
 import type { RadioGroupProps } from '../RadioGroup';
 import type { RadioTileProps } from '../RadioTile';
@@ -196,6 +197,7 @@ export interface ReactSuiteComponents {
   PlaceholderGraph: ComponentProps<PlaceholderGraphProps>;
   PlaceholderGrid: ComponentProps<PlaceholderGridProps>;
   PlaceholderParagraph: ComponentProps<PlaceholderParagraphProps>;
+  PinInput: ComponentProps<PinInputProps>;
   Popover: ComponentProps<PopoverProps>;
   ProgressCircle: ComponentProps<ProgressCircleProps>;
   ProgressLine: ComponentProps<ProgressLineProps>;
