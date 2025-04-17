@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { NumberInput, InputGroup, Stack } from 'rsuite';
+import { NumberInput, InputGroup, VStack } from 'rsuite';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 const App = () => {
   const [value, setValue] = React.useState(0);
@@ -13,21 +14,22 @@ const App = () => {
   };
 
   return (
-    <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
-      <NumberInput prefix="$" />
-      <NumberInput postfix="￥" />
-      <NumberInput postfix="%" />
-      <InputGroup>
-        <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
-        <NumberInput className={'custom-number-input'} value={value} onChange={setValue} />
-        <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
+    <VStack spacing={10} w={200}>
+      <InputGroup inside>
+        <InputGroup.Button onClick={handleMinus} appearance="default">
+          <FaMinus size={10} />
+        </InputGroup.Button>
+        <NumberInput value={value} onChange={setValue} controls={false} />
+        <InputGroup.Button onClick={handlePlus} appearance="default">
+          <FaPlus size={10} />
+        </InputGroup.Button>
       </InputGroup>
-      <InputGroup>
-        <NumberInput />
+      <InputGroup inside>
+        <NumberInput controls={false} />
         <InputGroup.Addon>~</InputGroup.Addon>
-        <NumberInput />
+        <NumberInput controls={false} />
       </InputGroup>
-    </Stack>
+    </VStack>
   );
 };
 

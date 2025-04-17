@@ -1,12 +1,12 @@
 <!--start-code-->
 
 ```js
-import { NumberInput, Stack } from 'rsuite';
+import { NumberInput, VStack } from 'rsuite';
 
 const App = () => (
-  <Stack w={200}>
+  <VStack w={200}>
     <NumberInput defaultValue={0.01} step={0.01} />
-  </Stack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

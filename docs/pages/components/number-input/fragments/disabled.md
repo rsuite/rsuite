@@ -1,25 +1,25 @@
 <!--start-code-->
 
 ```js
-import { NumberInput, Stack } from 'rsuite';
+import { NumberInput, VStack, HStack, Text } from 'rsuite';
 
 const App = () => (
-  <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
-    <Stack.Item>
-      <label>Disabled:</label>
+  <VStack spacing={10} >
+    <HStack  w={300}>
+      <Text w={100}>Disabled:</Text>
       <NumberInput disabled defaultValue={10} />
-    </Stack.Item>
+    </HStack>
 
-    <Stack.Item>
-      <label>Read only:</label>
+    <HStack w={300}>
+      <Text w={100}>Read only:</Text>
       <NumberInput readOnly defaultValue={10} />
-    </Stack.Item>
+    </HStack>
 
-    <Stack.Item>
-      <label>Plaintext</label>
+    <HStack w={300}>
+      <Text w={100}>Plaintext</Text>
       <NumberInput plaintext defaultValue={10} />
-    </Stack.Item>
-  </Stack>
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

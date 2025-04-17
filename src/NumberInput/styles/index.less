@@ -1,7 +1,7 @@
-@import '../../styles/common';
-@import '../../Input/styles/index';
-@import '../../InputGroup/styles/index';
-@import 'mixin';
+@import '../../styles/common.less';
+@import '../../Input/styles/index.less';
+@import '../../InputGroup/styles/index.less';
+@import './mixin.less';
 
 .rs-number-input {
   --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
@@ -10,16 +10,23 @@
   --rs-number-input-touchspin-height-md: calc(calc(@input-height-base - 2px) / 2);
   --rs-number-input-touchspin-height-lg: calc(calc(@input-height-large - 2px) / 2);
 
-  background-color: var(--rs-input-bg);
+  &.rs-input-group {
+    width: auto;
+  }
 
   @sizes: xs, sm, md, lg;
-  each(@sizes, .(@size) {
+
+  each(@sizes, .(@size, @index) {
     &.rs-input-group-@{size} {
+      @offset: (@index - 1) * 2px;
+
       --rs-number-input-touchspin-height: var(~'--rs-number-input-touchspin-height-@{size}');
+      --rs-number-input-icon-height: calc(var(--rs-number-input-touchspin-height) - @offset);
     }
   });
 
   &-btn-group-vertical {
+    border-left: 1px solid var(--rs-border-secondary);
     position: relative;
     width: 20px;
     flex: 0 0 20px;
@@ -38,7 +45,7 @@
   .rs-number-input-touchspin-up,
   .rs-number-input-touchspin-down {
     position: relative;
-     border-radius: var(--rs-radius-none);
+    border-radius: var(--rs-radius-none);
     padding: 0;
     box-shadow: none !important;
     height: var(--rs-number-input-touchspin-height);
@@ -47,7 +54,7 @@
       width: 100%;
       font-size: var(--rs-number-input-touchspin-font-size);
       color: var(--rs-text-secondary);
-      height: var(--rs-number-input-touchspin-height);
+      height: var(--rs-number-input-icon-height);
       display: flex;
       align-items: center;
       justify-content: center;

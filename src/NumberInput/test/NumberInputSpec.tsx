@@ -74,6 +74,31 @@ describe('NumberInput', () => {
     expect(screen.getByTestId('postfix')).to.exist;
   });
 
+  it('Should render a suffix', () => {
+    render(<NumberInput suffix={<i data-testid="suffix" />} />);
+    expect(screen.getByTestId('suffix')).to.exist;
+  });
+
+  it('Should support custom controls via function', () => {
+    render(<NumberInput controls={trigger => <i data-testid={trigger} />} />);
+    expect(screen.getByTestId('up')).to.exist;
+    expect(screen.getByTestId('down')).to.exist;
+  });
+
+  it('Should hide control buttons when controls is false', () => {
+    render(<NumberInput controls={false} />);
+    expect(screen.queryByRole('button', { name: /increment/i })).to.be.null;
+    expect(screen.queryByRole('button', { name: /decrement/i })).to.be.null;
+  });
+
+  it('Should render custom control icons via function', () => {
+    render(<NumberInput controls={trigger => <i data-testid={`icon-${trigger}`} />} />);
+    expect(screen.getByTestId('icon-up')).to.exist;
+    expect(screen.getByTestId('icon-down')).to.exist;
+    const upBtn = screen.getByRole('button', { name: /increment/i });
+    expect(upBtn).to.contain(screen.getByTestId('icon-up'));
+  });
+
   it('Should render increment/decrement buttons', () => {
     render(<NumberInput />);
 
@@ -329,5 +354,68 @@ describe('NumberInput', () => {
       expect(screen.getByRole('textbox')).to.have.value('1,2');
       expect(onChange.lastCall).to.have.been.calledWith('1.2');
     });
+
+    it('Should allow input of standard decimal point when custom separator is set', () => {
+      const onChange = sinon.spy();
+
+      render(<NumberInput decimalSeparator="," onChange={onChange} />);
+
+      userEvent.type(screen.getByRole('textbox'), '1.2');
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(screen.getByRole('textbox')).to.have.value('1,2');
+      expect(onChange.lastCall).to.have.been.calledWith('1.2');
+    });
+
+    it('Should allow input of both custom separator and standard decimal point', () => {
+      const onChange = sinon.spy();
+
+      render(<NumberInput decimalSeparator=";" onChange={onChange} />);
+
+      // Test with custom separator
+      userEvent.type(screen.getByRole('textbox'), '1;5');
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(screen.getByRole('textbox')).to.have.value('1;5');
+      expect(onChange.lastCall).to.have.been.calledWith('1.5');
+
+      // Clear input
+      userEvent.clear(screen.getByRole('textbox'));
+      onChange.resetHistory();
+
+      // Test with standard decimal point
+      userEvent.type(screen.getByRole('textbox'), '2.5');
+      fireEvent.blur(screen.getByRole('textbox'));
+
+      expect(screen.getByRole('textbox')).to.have.value('2;5');
+      expect(onChange.lastCall).to.have.been.calledWith('2.5');
+    });
+  });
+
+  it('Should not call onChange in readOnly mode (click, key, wheel)', () => {
+    const onChange = sinon.spy();
+    const onWheel = sinon.spy();
+    render(<NumberInput value={1} readOnly onChange={onChange} onWheel={onWheel} />);
+    const input = screen.getByRole('textbox');
+    fireEvent.click(screen.getByRole('button', { name: /increment/i }));
+    expect(onChange).not.to.have.been.called;
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    expect(onChange).not.to.have.been.called;
+    act(() => {
+      input.focus();
+      input.dispatchEvent(new WheelEvent('wheel', { deltaY: -10 }));
+    });
+    expect(onChange).not.to.have.been.called;
+    expect(onWheel).to.have.been.called;
+  });
+
+  it('Should handle decimal step precision correctly', () => {
+    const onChange = sinon.spy();
+    render(<NumberInput value={0.2} step={0.1} onChange={onChange} />);
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    expect(onChange).to.have.been.calledWith('0.3');
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    expect(onChange).to.have.been.calledWith('0.1');
   });
 });
