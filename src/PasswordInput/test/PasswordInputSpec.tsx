@@ -112,4 +112,25 @@ describe('PasswordInput', () => {
     expect(inputRef.current).to.be.instanceOf(HTMLInputElement);
     expect(inputRef.current?.placeholder).to.equal('ref-input');
   });
+
+  it('Should render startIcon', () => {
+    render(
+      <PasswordInput
+        startIcon={<span data-testid="start-icon">S</span>}
+        placeholder="start-icon-input"
+      />
+    );
+    expect(screen.getByTestId('start-icon')).to.exist;
+    expect(screen.getByTestId('start-icon')).to.have.text('S');
+    expect(screen.queryByRole('button', { name: 'Toggle password visibility' })).to.exist;
+  });
+
+  it('Should render endIcon', () => {
+    render(
+      <PasswordInput endIcon={<span data-testid="end-icon">E</span>} placeholder="end-icon-input" />
+    );
+    expect(screen.getByTestId('end-icon')).to.exist;
+    expect(screen.getByTestId('end-icon')).to.have.text('E');
+    expect(screen.queryByRole('button', { name: 'Toggle password visibility' })).to.not.exist;
+  });
 });
