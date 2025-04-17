@@ -1,12 +1,12 @@
 import type { StoryObj } from '@storybook/react';
-import InputNumber from '../InputNumber';
+import NumberInput from '../NumberInput';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
 
-const meta = createMeta(InputNumber);
+const meta = createMeta(NumberInput);
 
 export default {
-  title: 'Components/InputNumber',
+  title: 'Components/NumberInput',
   ...meta
 };
 

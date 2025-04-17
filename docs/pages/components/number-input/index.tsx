@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-import { InputNumber, InputGroup, Stack } from 'rsuite';
+// @ts-ignore
+import { NumberInput, InputGroup, Stack } from 'rsuite';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['InputNumber']} />
+  'import-guide': () => <ImportGuide components={['NumberInput']} />
 };
 
 export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ InputNumber, InputGroup, Stack }}
+      dependencies={{ NumberInput, InputGroup, Stack }}
     />
   );
 }

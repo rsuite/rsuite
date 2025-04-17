@@ -1,4 +1,4 @@
-# InputNumber
+# NumberInput
 
 An input component that can only enter numbers.
 
@@ -54,11 +54,11 @@ limits: 10 - 100
 
 ## Props
 
-### `<InputNumber>`
+### `<NumberInput>`
 
 | Property         | Type `(Default)`                      | Description                                                        |
 | ---------------- | ------------------------------------- | ------------------------------------------------------------------ |
-| classPrefix      | string `('input-number')`             | The prefix of the component CSS class.                             |
+| classPrefix      | string `('number-input')`             | The prefix of the component CSS class.                             |
 | decimalSeparator | string                                | The decimal separator <br/>![][5.69.0]                             |
 | defaultValue     | number                                | Default value.                                                     |
 | disabled         | boolean                               | Disabled component.                                                |

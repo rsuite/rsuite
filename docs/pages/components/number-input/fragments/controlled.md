@@ -1,14 +1,14 @@
 <!--start-code-->
 
 ```js
-import { InputNumber, Stack } from 'rsuite';
+import { NumberInput, Stack } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(0.01);
 
   return (
     <Stack w={200}>
-      <InputNumber value={value} onChange={setValue} step={0.01} />
+      <NumberInput value={value} onChange={setValue} step={0.01} />
     </Stack>
   );
 };

@@ -436,13 +436,6 @@
         "keywords": ["text", "string"]
       },
       {
-        "id": "input-number",
-        "name": "InputNumber",
-        "title": "数字输入框",
-        "components": ["InputNumber"],
-        "keywords": ["number"]
-      },
-      {
         "id": "inline-edit",
         "name": "InlineEdit",
         "title": "行内编辑",
@@ -456,6 +449,14 @@
         "components": ["MultiCascadeTree"],
         "minVersion": "5.56.0",
         "keywords": ["multi", "tree", "check"]
+      },
+      {
+        "id": "number-input",
+        "name": "NumberInput",
+        "title": "数字输入框",
+        "components": ["NumberInput"],
+        "keywords": ["number", "InputNumber"],
+        "minVersion": "6.0.0"
       },
       {
         "id": "radio",

@@ -1,4 +1,4 @@
-# InputNumber 数字输入框
+# NumberInput 数字输入框
 
 只能输入数字的文本输入组件。
 
@@ -54,11 +54,11 @@
 
 ## Props
 
-### `<InputNumber>`
+### `<NumberInput>`
 
 | 属性名称         | 类型 `(默认值)`                       | 描述                             |
 | ---------------- | ------------------------------------- | -------------------------------- |
-| classPrefix      | string `('input-number')`             | 组件 CSS 类的前缀                |
+| classPrefix      | string `('number-input')`             | 组件 CSS 类的前缀                |
 | decimalSeparator | string                                | 小数点分隔符<br/>![][5.69.0]     |
 | defaultValue     | number                                | 默认值（非受控）                 |
 | disabled         | boolean                               | 禁用                             |

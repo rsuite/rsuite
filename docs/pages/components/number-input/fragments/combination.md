@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { InputNumber, InputGroup, Stack } from 'rsuite';
+import { NumberInput, InputGroup, Stack } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(0);
@@ -14,18 +14,18 @@ const App = () => {
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={10} w={200}>
-      <InputNumber prefix="$" />
-      <InputNumber postfix="￥" />
-      <InputNumber postfix="%" />
+      <NumberInput prefix="$" />
+      <NumberInput postfix="￥" />
+      <NumberInput postfix="%" />
       <InputGroup>
         <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
-        <InputNumber className={'custom-input-number'} value={value} onChange={setValue} />
+        <NumberInput className={'custom-number-input'} value={value} onChange={setValue} />
         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
       </InputGroup>
       <InputGroup>
-        <InputNumber />
+        <NumberInput />
         <InputGroup.Addon>~</InputGroup.Addon>
-        <InputNumber />
+        <NumberInput />
       </InputGroup>
     </Stack>
   );

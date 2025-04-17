@@ -16,10 +16,10 @@ import type {
   SanitizedInputProps,
   FormControlBaseProps,
   AppearanceType,
-  Size
+  BasicSize
 } from '@/internals/types';
 
-export interface InputNumberProps<T = number | string | null>
+export interface NumberInputProps<T = number | string | null>
   extends Omit<
       SanitizedInputProps,
       | 'value'
@@ -82,7 +82,7 @@ export interface InputNumberProps<T = number | string | null>
   /**
    * An Input can have different sizes
    */
-  size?: Size;
+  size?: BasicSize;
 
   /**
    * Whether the value can be changed through the wheel event
@@ -146,15 +146,15 @@ function valueReachesMin(value: number | string | null | undefined, min: number)
 }
 
 /**
- * The `InputNumber` component is used to enter a numerical value.
- * @see https://rsuitejs.com/components/input-number
+ * The `NumberInput` component is used to enter a numerical value.
+ * @see https://rsuitejs.com/components/number-input
  */
-const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref) => {
-  const { propsWithDefaults } = useCustom('InputNumber', props);
+const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('NumberInput', props);
   const {
     as = InputGroup,
     className,
-    classPrefix = 'input-number',
+    classPrefix = 'number-input',
     disabled,
     decimalSeparator,
     formatter,
@@ -227,7 +227,7 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
   });
 
   // Disables step up/down button when
-  // - InputNumber is disabled/readonly
+  // - NumberInput is disabled/readonly
   // - value reaches max/min limits
   const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max);
   const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min);
@@ -403,6 +403,6 @@ const InputNumber = forwardRef<typeof InputGroup, InputNumberProps>((props, ref)
   );
 });
 
-InputNumber.displayName = 'InputNumber';
+NumberInput.displayName = 'NumberInput';
 
-export default InputNumber;
+export default NumberInput;

@@ -3,14 +3,14 @@ import { render, fireEvent, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
-import InputNumber from '../InputNumber';
+import NumberInput from '../NumberInput';
 
-describe('InputNumber', () => {
-  testStandardProps(<InputNumber />, {
+describe('NumberInput', () => {
+  testStandardProps(<NumberInput />, {
     sizes: ['lg', 'md', 'sm', 'xs']
   });
 
-  testControlledUnControlled(InputNumber, {
+  testControlledUnControlled(NumberInput, {
     value: 1,
     defaultValue: 2,
     changedValue: 3,
@@ -27,55 +27,55 @@ describe('InputNumber', () => {
     }
   });
 
-  testFormControl(InputNumber, {
+  testFormControl(NumberInput, {
     value: 1,
     getUIElement: () => screen.getByRole('textbox')
   });
 
   it('Should render a input', () => {
-    const { container } = render(<InputNumber />);
-    expect(container.firstChild).to.have.class('rs-input-number');
+    const { container } = render(<NumberInput />);
+    expect(container.firstChild).to.have.class('rs-number-input');
   });
 
   it('Should output a subtle button', () => {
-    render(<InputNumber />);
+    render(<NumberInput />);
     expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-subtle');
   });
 
   it('Should render placeholder in input', () => {
-    render(<InputNumber placeholder="abc" />);
+    render(<NumberInput placeholder="abc" />);
 
     expect(screen.getByRole('textbox')).to.have.attr('placeholder', 'abc');
   });
 
   it('Should output a link button', () => {
-    render(<InputNumber buttonAppearance="link" />);
+    render(<NumberInput buttonAppearance="link" />);
     expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-link');
   });
 
   it('Should be disabled of down button', () => {
-    render(<InputNumber min={10} value={10} />);
+    render(<NumberInput min={10} value={10} />);
     expect(screen.getByRole('button', { name: /decrement/i })).to.have.property('disabled', true);
   });
 
   it('Should be disabled of up button', () => {
-    render(<InputNumber max={10} value={10} />);
+    render(<NumberInput max={10} value={10} />);
     expect(screen.getByRole('button', { name: /increment/i })).to.have.property('disabled', true);
   });
 
   it('Should render a prefix', () => {
-    render(<InputNumber prefix={<i data-testid="prefix" />} />);
+    render(<NumberInput prefix={<i data-testid="prefix" />} />);
 
     expect(screen.getByTestId('prefix')).to.exist;
   });
 
   it('Should render a postfix', () => {
-    render(<InputNumber postfix={<i data-testid="postfix" />} />);
+    render(<NumberInput postfix={<i data-testid="postfix" />} />);
     expect(screen.getByTestId('postfix')).to.exist;
   });
 
   it('Should render increment/decrement buttons', () => {
-    render(<InputNumber />);
+    render(<NumberInput />);
 
     expect(screen.getByRole('button', { name: /increment/i })).to.exist;
     expect(screen.getByRole('button', { name: /decrement/i })).to.exist;
@@ -83,7 +83,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with incremented value when increment button is clicked', () => {
     const onChange = sinon.spy();
-    render(<InputNumber value={0} step={5} onChange={onChange} />);
+    render(<NumberInput value={0} step={5} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
@@ -93,7 +93,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with decremented value when decrement button is clicked', () => {
     const onChange = sinon.spy();
-    render(<InputNumber value={0} step={5} onChange={onChange} />);
+    render(<NumberInput value={0} step={5} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
@@ -103,7 +103,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with min value when increment button is clicked but initial value underflows', () => {
     const onChange = sinon.spy();
-    render(<InputNumber value={0} min={10} onChange={onChange} />);
+    render(<NumberInput value={0} min={10} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
@@ -113,7 +113,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with max value when decrement button is clicked but initial value overflows', () => {
     const onChange = sinon.spy();
-    render(<InputNumber value={100} max={10} onChange={onChange} />);
+    render(<NumberInput value={100} max={10} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
@@ -123,7 +123,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when onblur', () => {
     const onChange = sinon.spy();
-    render(<InputNumber onChange={onChange} />);
+    render(<NumberInput onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.blur(input, { target: { value: 2 } });
@@ -133,7 +133,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when onwheel', () => {
     const onChange = sinon.spy();
-    render(<InputNumber onChange={onChange} />);
+    render(<NumberInput onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
     act(() => {
@@ -153,7 +153,7 @@ describe('InputNumber', () => {
 
   it('Should call onWheel callback', () => {
     const onWheel = sinon.spy();
-    render(<InputNumber onWheel={onWheel} />);
+    render(<NumberInput onWheel={onWheel} />);
     const input = screen.getByRole('textbox');
 
     act(() => {
@@ -166,7 +166,7 @@ describe('InputNumber', () => {
 
   it('Should not call onWheel callback when `scrollable` is false', () => {
     const onWheel = sinon.spy();
-    render(<InputNumber onWheel={onWheel} scrollable={false} />);
+    render(<NumberInput onWheel={onWheel} scrollable={false} />);
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     input.focus();
@@ -177,7 +177,7 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when is control component', () => {
     const onChnage = sinon.spy();
-    render(<InputNumber onChange={onChnage} value={2} />);
+    render(<NumberInput onChange={onChnage} value={2} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
@@ -187,7 +187,7 @@ describe('InputNumber', () => {
 
   it('Should not call onChange callback when is not control component', () => {
     const onChnage = sinon.spy();
-    render(<InputNumber onChange={onChnage} />);
+    render(<NumberInput onChange={onChnage} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
@@ -197,7 +197,7 @@ describe('InputNumber', () => {
 
   it('Should call onBlur callback', () => {
     const onBlur = sinon.spy();
-    render(<InputNumber onBlur={onBlur} />);
+    render(<NumberInput onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('textbox'));
 
     expect(onBlur).to.called;
@@ -205,13 +205,13 @@ describe('InputNumber', () => {
 
   it('Should call onFocus callback', () => {
     const onFocus = sinon.spy();
-    render(<InputNumber onFocus={onFocus} />);
+    render(<NumberInput onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('textbox'));
     expect(onFocus).to.called;
   });
 
   it('Should format value', () => {
-    render(<InputNumber value={1000} formatter={value => `$${value}`} />);
+    render(<NumberInput value={1000} formatter={value => `$${value}`} />);
     expect(screen.getByRole('textbox')).to.have.value('$1000');
 
     fireEvent.focus(screen.getByRole('textbox'));
@@ -222,7 +222,7 @@ describe('InputNumber', () => {
     it('Should render input value', () => {
       render(
         <div data-testid="content">
-          <InputNumber value={1} plaintext />
+          <NumberInput value={1} plaintext />
         </div>
       );
 
@@ -232,7 +232,7 @@ describe('InputNumber', () => {
     it('Should render "Unfilled" if value is empty', () => {
       render(
         <div data-testid="content">
-          <InputNumber value={null} plaintext />
+          <NumberInput value={null} plaintext />
         </div>
       );
 
@@ -243,13 +243,13 @@ describe('InputNumber', () => {
   // @see https://www.w3.org/TR/wai-aria-practices-1.2/#textbox
   describe('Accessibility', () => {
     it('Should render an ARIA textbox', () => {
-      render(<InputNumber value={0} />);
+      render(<NumberInput value={0} />);
 
       expect(screen.getByRole('textbox')).to.exist;
     });
 
     it('Should not have focusable elements other than the input', () => {
-      const { container } = render(<InputNumber value={0} />);
+      const { container } = render(<NumberInput value={0} />);
 
       // Move focus to the input
       userEvent.tab();
@@ -263,7 +263,7 @@ describe('InputNumber', () => {
     describe('Keyboard interaction', () => {
       it('Should increase the value when ArrowUp is pressed', () => {
         const onChange = sinon.spy();
-        render(<InputNumber value={0} onChange={onChange} />);
+        render(<NumberInput value={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowUp' });
         expect(onChange).to.have.been.calledWith('1');
@@ -271,7 +271,7 @@ describe('InputNumber', () => {
 
       it('Should increase the value when ArrowDown is pressed', () => {
         const onChange = sinon.spy();
-        render(<InputNumber value={0} onChange={onChange} />);
+        render(<NumberInput value={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
         expect(onChange).to.have.been.calledWith('-1');
@@ -279,12 +279,12 @@ describe('InputNumber', () => {
 
       it('Should set the value to minimum (if specified) when Home is pressed', () => {
         const onChange = sinon.spy();
-        const { rerender } = render(<InputNumber value={10} onChange={onChange} />);
+        const { rerender } = render(<NumberInput value={10} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Home' });
         expect(onChange).not.to.have.been.called;
 
-        rerender(<InputNumber value={10} min={0} onChange={onChange} />);
+        rerender(<NumberInput value={10} min={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Home' });
         expect(onChange).to.have.been.calledWith('0');
@@ -292,12 +292,12 @@ describe('InputNumber', () => {
 
       it('Should set the value to maximum (if specified) when End is pressed', () => {
         const onChange = sinon.spy();
-        const { rerender } = render(<InputNumber value={10} onChange={onChange} />);
+        const { rerender } = render(<NumberInput value={10} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'End' });
         expect(onChange).not.to.have.been.called;
 
-        rerender(<InputNumber value={10} max={100} onChange={onChange} />);
+        rerender(<NumberInput value={10} max={100} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'End' });
         expect(onChange).to.have.been.calledWith('100');
@@ -307,13 +307,13 @@ describe('InputNumber', () => {
 
   describe('Decimal separator', () => {
     it('Should render a decimal separator', () => {
-      render(<InputNumber value={0.1} />);
+      render(<NumberInput value={0.1} />);
 
       expect(screen.getByRole('textbox')).to.have.value('0.1');
     });
 
     it('Should render a decimal separator with a custom separator', () => {
-      render(<InputNumber value={0.1} decimalSeparator="," />);
+      render(<NumberInput value={0.1} decimalSeparator="," />);
 
       expect(screen.getByRole('textbox')).to.have.value('0,1');
     });
@@ -321,7 +321,7 @@ describe('InputNumber', () => {
     it('Should allow input of custom decimal separator', () => {
       const onChange = sinon.spy();
 
-      render(<InputNumber decimalSeparator="," onChange={onChange} />);
+      render(<NumberInput decimalSeparator="," onChange={onChange} />);
 
       userEvent.type(screen.getByRole('textbox'), '1,2');
       fireEvent.blur(screen.getByRole('textbox'));

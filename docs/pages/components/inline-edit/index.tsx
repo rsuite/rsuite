@@ -8,7 +8,9 @@ import {
   DatePicker,
   Slider,
   RangeSlider,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   Cascader,
   Panel,
   Form,
@@ -37,7 +39,7 @@ export default function Page() {
         DatePicker,
         Slider,
         RangeSlider,
-        InputNumber,
+        NumberInput,
         Cascader
       }}
     />

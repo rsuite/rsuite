@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { InputNumber, Stack } from 'rsuite';
+import { NumberInput, Stack } from 'rsuite';
 
 const App = () => (
-  <Stack>
-    <InputNumber w={200} />
+  <Stack w={200}>
+    <NumberInput defaultValue={0.01} step={0.01} />
   </Stack>
 );
 
