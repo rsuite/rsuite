@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames, useEventCallback } from '../hooks';
+import { useClassNames, useEventCallback } from '@/internals/hooks';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import useCombobox from './hooks/useCombobox';
 

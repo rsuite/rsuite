@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClassNames } from '../hooks';
+import { useClassNames } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 

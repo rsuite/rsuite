@@ -3,7 +3,7 @@ import Icon from '@rsuite/icons/Icon';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
-import { useClassNames } from '../hooks';
+import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 
 interface PickerIndicatorProps {

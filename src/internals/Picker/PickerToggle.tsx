@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
-import { useClassNames, useEventCallback, useToggleCaret } from '../hooks';
+import { useClassNames, useEventCallback, useToggleCaret } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '@/internals/types';
 import Plaintext from '../Plaintext';
