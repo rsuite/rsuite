@@ -1,0 +1,67 @@
+.rs-burger {
+  --rs-burger-size: 36px;
+  --rs-burger-thickness: 2px;
+  --rs-burger-color: currentColor;
+  --rs-burger-spacing: calc(var(--rs-spacing) * 1.5);
+  --rs-burger-line-size: calc(var(--rs-burger-size) - var(--rs-burger-spacing) * 2);
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s;
+  box-sizing: border-box;
+  width: var(--rs-burger-size);
+  height: var(--rs-burger-size);
+  padding: var(--rs-burger-spacing);
+
+  // The burger line (middle)
+  &-line {
+    position: relative;
+    display: block;
+    width: var(--rs-burger-line-size);
+    height: var(--rs-burger-thickness);
+    background: var(--rs-burger-color);
+    border-radius: var(--rs-burger-thickness);
+    transition-property: background, transform;
+    transition-duration: 0.2s, 0.3s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+
+    // Top and bottom lines
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      inset-inline-start: 0;
+      width: 100%;
+      height: var(--rs-burger-thickness);
+      background: var(--rs-burger-color);
+      border-radius: var(--rs-burger-thickness);
+      transition-property: transform;
+      transition-duration: 0.3s;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &::before {
+      top: calc(var(--rs-burger-line-size) / -3);
+    }
+    &::after {
+      top: calc(var(--rs-burger-line-size) / 3);
+    }
+  }
+
+  // Opened state animation
+  &:where([data-opened='true']) {
+    .rs-burger-line {
+      background: transparent;
+      &::before {
+        transform: translateY(calc(var(--rs-burger-line-size) / 3)) rotate(45deg);
+      }
+      &::after {
+        transform: translateY(calc(var(--rs-burger-line-size) / -3)) rotate(-45deg);
+      }
+    }
+  }
+}

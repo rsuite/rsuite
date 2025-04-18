@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Navbar>
       <Navbar.Content>
-        <Navbar.Toggle />
+        <Navbar.Toggle aria-label="Toggle navigation" />
         <Navbar.Drawer placement="left" size="xs">
           <Drawer.Header>
             <Drawer.Title>Menu</Drawer.Title>

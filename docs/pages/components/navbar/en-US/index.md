@@ -72,8 +72,8 @@ You can use the `showFrom` and `hideFrom` props to control the visibility at dif
 
 | Property name      | Type `(Default)`                                | Description                                               |
 | ------------------ | ----------------------------------------------- | --------------------------------------------------------- |
-| as                 | ElementType `('div')`                           | Custom element type                                       |
 | appearance         | 'default' \| 'inverse' \| 'subtle'`('default')` | Navigation bar appearance                                 |
+| as                 | ElementType `('div')`                           | Custom element type                                       |
 | classPrefix        | string `('navbar')`                             | The prefix of the component CSS class                     |
 | onDrawerOpenChange | (open: boolean) => void                         | Callback when drawer menu opens or closes<br/> ![][6.0.0] |
 
@@ -82,9 +82,9 @@ You can use the `showFrom` and `hideFrom` props to control the visibility at dif
 | Property name | Type `(Default)`          | Description                 |
 | ------------- | ------------------------- | --------------------------- |
 | as            | ElementType `('a')`       | Custom element type         |
-| href          | string                    | The URL of the brand link   |
-| classPrefix   | string `('navbar-brand')` | The prefix of the CSS class |
 | children      | ReactNode                 | Brand content               |
+| classPrefix   | string `('navbar-brand')` | The prefix of the CSS class |
+| href          | string                    | The URL of the brand link   |
 
 ### `<Navbar.Content>`
 
@@ -93,16 +93,23 @@ You can use the `showFrom` and `hideFrom` props to control the visibility at dif
 | Property name | Type `(Default)`            | Description                          |
 | ------------- | --------------------------- | ------------------------------------ |
 | as            | ElementType `('div')`       | Custom element type                  |
-| classPrefix   | string `('navbar-content')` | The prefix of the CSS class          |
 | children      | ReactNode                   | Content                              |
-| showFrom      | [Breakpoints][breakpoints]  | Show content at specified breakpoint |
+| classPrefix   | string `('navbar-content')` | The prefix of the CSS class          |
 | hideFrom      | [Breakpoints][breakpoints]  | Hide content at specified breakpoint |
+| showFrom      | [Breakpoints][breakpoints]  | Show content at specified breakpoint |
 
 ### `<Navbar.Toggle>`
 
 ![][6.0.0]
 
-Extends [`IconButton`](/components/icon-button)
+| Property name | Type `(Default)`                         | Description                                                 |
+| ------------- | ---------------------------------------- | ----------------------------------------------------------- |
+| as            | ElementType `('button')`                 | Custom element type                                         |
+| classPrefix   | string `('burger')`                      | The prefix of the CSS class                                 |
+| color         | [Color][Color] \| CSSProperties['color'] | The color of the burger lines                               |
+| lineThickness | number                                   | The thickness of the burger lines                           |
+| onToggle      | (open: boolean) => void                  | Callback function that is called when the toggle is clicked |
+| open          | boolean                                  | Whether the burger is in open (X) state                     |
 
 ### `<Navbar.Drawer>`
 
@@ -110,8 +117,8 @@ Extends [`IconButton`](/components/icon-button)
 
 Extends [`Drawer`](/components/drawer)
 
-
-
 <!--{include:(_common/types/breakpoints.md)}-->
+<!--{include:(_common/types/color.md)}-->
 
 [breakpoints]: #code-ts-breakpoints-code
+[Color]: #code-ts-color-code
