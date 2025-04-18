@@ -43,11 +43,11 @@ const Styled = () => (
             font-size: 12px;
             cursor: pointer;
 
-            &:hover {
+            .custom-slider-handle:hover {
               box-shadow: var(--rs-slider-thumb-hover-shadow);
             }
 
-            &::before {
+            .custom-slider-handle::before {
               display: none;
             }
           }
