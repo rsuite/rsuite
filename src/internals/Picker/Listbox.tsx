@@ -21,7 +21,7 @@ import {
   ListChildComponentProps
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
-import { useStyles, useMount, useEventCallback } from '../hooks';
+import { useStyles, useMount, useEventCallback } from '@/internals/hooks';
 import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import type {

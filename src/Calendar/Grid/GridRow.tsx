@@ -7,7 +7,10 @@ import { useStyles } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 export interface GridRowProps extends WithAsProps {
+  /** The weekend: Sunday */
   weekendDate?: Date;
+
+  /** The index of the row */
   rowIndex?: number;
 }
 
@@ -105,12 +108,13 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
   };
 
   const classes = merge(className, prefix('row'));
-  const { firstWeekContainsDate, weekStartsOn } = locale?.dateLocale?.options ?? {};
-
-  const week = format(weekendDate, isoWeek ? 'I' : 'w', {
+  const { firstWeekContainsDate } = locale?.dateLocale?.options ?? {};
+  // ISO week starts on Monday
+  const date = isoWeek ? addDays(weekendDate, 1) : weekendDate;
+  const week = format(date, isoWeek ? 'I' : 'w', {
     locale: locale?.dateLocale,
     firstWeekContainsDate,
-    weekStartsOn: weekStart || weekStartsOn
+    weekStartsOn: weekStart
   });
 
   return (

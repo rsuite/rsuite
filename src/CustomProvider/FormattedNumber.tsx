@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useCustom } from './useCustom';
+import { useCustom } from './';
 
 interface FormattedNumberProps {
   value: number;

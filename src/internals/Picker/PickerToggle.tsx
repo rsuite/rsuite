@@ -5,7 +5,7 @@ import PickerLabel from './PickerLabel';
 import Plaintext from '../Plaintext';
 import Stack from '../../Stack';
 import useCombobox from './hooks/useCombobox';
-import { useStyles, useEventCallback, useToggleCaret } from '../hooks';
+import { useStyles, useEventCallback, useToggleCaret } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { triggerPropKeys } from './PickerToggleTrigger';
 import type { IconProps } from '@rsuite/icons/Icon';

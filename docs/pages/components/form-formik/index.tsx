@@ -1,6 +1,8 @@
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
-import { Button, InputNumber, Input, Stack, VStack, Form, DatePicker, Rate } from 'rsuite';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { Button, NumberInput, Input, Stack, VStack, Form, DatePicker, Rate } from 'rsuite';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
@@ -14,7 +16,7 @@ export default function Page() {
     <DefaultPage
       dependencies={{
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         DatePicker,
         Rate,

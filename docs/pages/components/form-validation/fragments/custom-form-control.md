@@ -10,7 +10,7 @@ import {
   Radio,
   Schema,
   CheckPicker,
-  InputNumber,
+  NumberInput,
   Panel,
   Slider,
   DatePicker,
@@ -90,7 +90,7 @@ const App = () => {
           model={model}
         >
           <Form.Stack>
-            <Field name="number" label="Number" accepter={InputNumber} error={formError.number} />
+            <Field name="number" label="Number" accepter={NumberInput} error={formError.number} />
             <Field
               name="skills"
               label="Skills"

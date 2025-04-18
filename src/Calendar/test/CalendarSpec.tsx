@@ -1,6 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
 import Calendar from '../Calendar';
+import CustomProvider from '@/CustomProvider';
+import enUS from '@/locales/en_US';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
@@ -40,7 +42,11 @@ describe('Calendar', () => {
   });
 
   it('Should output valid one day', () => {
-    render(<Calendar format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />);
+    render(
+      <CustomProvider locale={enUS}>
+        <Calendar format="yyyy-MM-dd" defaultValue={new Date('2018-07-01')} />
+      </CustomProvider>
+    );
 
     expect(within(screen.getAllByRole('row')[1]).getAllByRole('gridcell')[0]).to.have.text('1');
   });
@@ -87,12 +93,15 @@ describe('Calendar', () => {
   });
 
   it('Should be to not highlight dates that are not in this month', () => {
-    render(<Calendar defaultValue={new Date('2023-04-01')} />);
+    render(
+      <CustomProvider locale={enUS}>
+        <Calendar defaultValue={new Date('2023-04-01')} />
+      </CustomProvider>
+    );
 
     const cells = Array.from(
       screen
-        .getByRole('grid', { name: 'Apr 2023' })
-
+        .getByRole('grid', { name: 'Apr, 2023' })
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).map(cell => (cell as HTMLDivElement).innerText);
 
@@ -197,6 +206,32 @@ describe('Calendar', () => {
 
       expect(gridcells[0]).to.have.attribute('aria-label', '29 Apr 2024');
       expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '09 Jun 2024');
+    });
+
+    it('Should override `isoWeek` (default Monday start) with `weekStart`', () => {
+      render(<Calendar value={new Date('2026-12-01')} isoWeek weekStart={0} />);
+
+      const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+      const rows = screen.getAllByRole('columnheader');
+      const gridcells = screen.getAllByRole('gridcell');
+
+      rows.forEach((row, index) => {
+        expect(row).to.have.text(days[index]);
+      });
+
+      expect(gridcells[0]).to.have.attribute('aria-label', '29 Nov 2026');
+      expect(gridcells[gridcells.length - 1]).to.have.attribute('aria-label', '09 Jan 2027');
+    });
+
+    it('Should override default `isoWeek` configuration with `weekStart` to display week numbers', () => {
+      render(<Calendar value={new Date('2026-12-01')} isoWeek weekStart={0} showWeekNumbers />);
+
+      const expectedWeeks = ['49', '50', '51', '52', '53', '1', '2'];
+      const weekHeaders = screen.getAllByRole('rowheader');
+
+      weekHeaders.forEach((header, index) => {
+        expect(header).to.have.text(expectedWeeks[index]);
+      });
     });
   });
 

@@ -10,11 +10,10 @@ import type { Locale } from 'date-fns';
  */
 export function getWeekStartDates(
   firstDayOfMonth: Date,
-  options: { weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6; isoWeek?: boolean; locale?: Locale }
+  options: { weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6; locale?: Locale }
 ): Date[] {
-  const { weekStart = 0, isoWeek, locale } = options;
-  const weekStartsOn = isoWeek ? 1 : weekStart;
-  const firstDay = startOfWeek(firstDayOfMonth, { weekStartsOn, locale });
+  const { weekStart, locale } = options;
+  const firstDay = startOfWeek(firstDayOfMonth, { weekStartsOn: weekStart, locale });
   const days = [firstDay];
 
   for (let i = 1; i < 6; i++) {

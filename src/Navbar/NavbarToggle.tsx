@@ -1,37 +1,35 @@
 import React, { useContext } from 'react';
-import IconButton, { IconButtonProps } from '../IconButton';
-import MenuIcon from '@rsuite/icons/Menu';
+import { Burger, BurgerProps } from '@/internals/Burger';
 import { useEventCallback } from '@/internals/hooks';
-import { createComponent, createChainedFunction } from '@/internals/utils';
+import { createChainedFunction } from '@/internals/utils';
 import { NavbarContext } from './NavbarContext';
 
-export type NavbarToggleProps = IconButtonProps;
-
-const Toggle = createComponent<typeof IconButton, IconButtonProps>({
-  name: 'NavbarToggle',
-  componentAs: IconButton,
-  componentClassPrefix: 'navbar-toggle',
-  icon: <MenuIcon />
-});
+export interface NavbarToggleProps extends Omit<BurgerProps, 'onToggle'> {
+  /**
+   * Callback function that is called when the toggle is clicked.
+   */
+  onToggle?: (open: boolean) => void;
+}
 
 const NavbarToggle = React.forwardRef((props: NavbarToggleProps, ref: React.Ref<any>) => {
-  const { appearance: navbarAppearance, navbarId, onToggle } = useContext(NavbarContext) || {};
   const {
-    appearance = navbarAppearance === 'inverse' ? 'primary' : 'subtle',
-    onClick,
-    ...rest
-  } = props;
+    navbarId,
+    open: contextOpen,
+    onToggle: onToggleContext
+  } = useContext(NavbarContext) || {};
+  const { open, onClick, onToggle, ...rest } = props;
 
   const handleClick = useEventCallback(() => {
     onToggle?.(true);
+    onToggleContext?.(true);
   });
 
   return (
-    <Toggle
+    <Burger
       ref={ref}
-      appearance={appearance}
       onClick={createChainedFunction(handleClick, onClick)}
       aria-controls={`${navbarId}-drawer`}
+      open={typeof open === 'boolean' ? open : contextOpen}
       {...rest}
     />
   );

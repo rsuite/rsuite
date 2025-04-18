@@ -44,7 +44,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     checkbox: <thumbnails.Checkbox />,
     radio: <thumbnails.Radio />,
     input: <thumbnails.Input />,
-    'input-number': <thumbnails.InputNumber />,
+    'number-input': <thumbnails.NumberInput />,
     toggle: <thumbnails.Toggle />,
     'pin-input': <thumbnails.PinInput />,
 

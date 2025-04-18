@@ -146,9 +146,9 @@ export const Textarea: React.FC = () => (
 );
 
 /**
- * InputNumber component thumbnail
+ * NumberInput component thumbnail
  */
-export const InputNumber: React.FC = () => (
+export const NumberInput: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
       x="15"

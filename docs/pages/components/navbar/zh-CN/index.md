@@ -102,7 +102,14 @@
 
 ![][6.0.0]
 
-继承 [`IconButton`](/zh/components/icon-button)
+| 属性名称      | 类型 `(Default)`                         | 描述                       |
+| ------------- | ---------------------------------------- | -------------------------- |
+| as            | ElementType `('button')`                 | 为组件自定义元素类型       |
+| classPrefix   | string `('burger')`                      | 组件 CSS 类的前缀          |
+| color         | [Color][Color] \| CSSProperties['color'] | 菜单按钮的线条颜色         |
+| lineThickness | number                                   | 菜单按钮的线条粗细         |
+| onToggle      | (open: boolean) => void                  | 菜单按钮点击时的回调函数   |
+| open          | boolean                                  | 菜单按钮是否为打开状态 (X) |
 
 ### `<Navbar.Drawer>`
 
@@ -110,8 +117,8 @@
 
 继承 [`Drawer`](/zh/components/drawer)
 
-
-
 <!--{include:(_common/types/breakpoints.md)}-->
+<!--{include:(_common/types/color.md)}-->
 
 [breakpoints]: #code-ts-breakpoints-code
+[Color]: #code-ts-color-code

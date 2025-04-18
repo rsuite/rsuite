@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStyles } from '../hooks';
+import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 

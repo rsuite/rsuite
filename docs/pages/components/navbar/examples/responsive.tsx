@@ -25,7 +25,7 @@ const App = () => {
 
       {/* Drawer menu for small screens */}
       <Navbar.Content hideFrom="xs">
-        <Navbar.Toggle />
+        <Navbar.Toggle aria-label="Toggle navigation" />
         <Navbar.Drawer placement="left" size="full">
           <Drawer.Header>
             <Drawer.Title>Menu</Drawer.Title>

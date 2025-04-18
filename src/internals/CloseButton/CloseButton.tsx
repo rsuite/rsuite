@@ -2,7 +2,7 @@ import React from 'react';
 import Close from '@rsuite/icons/Close';
 import IconButton from '../../IconButton';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '../hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import { CloseButtonLocale } from '../../locales';
 import type { WithAsProps } from '@/internals/types';

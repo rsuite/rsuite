@@ -1,7 +1,7 @@
 <!-- start-code -->
 
 ```js
-import { Slider, RangeSlider, HStack, InputGroup, InputNumber, Text } from 'rsuite';
+import { Slider, RangeSlider, HStack, InputGroup, NumberInput, Text } from 'rsuite';
 
 function SliderExample() {
   const [value, setValue] = React.useState(0);
@@ -17,7 +17,7 @@ function SliderExample() {
         onChangeCommitted={setCommittedValue}
       />
 
-      <InputNumber min={0} max={100} w={160} value={value} onChange={setValue} />
+      <NumberInput min={0} max={100} w={160} value={value} onChange={setValue} />
       <span>Committed: {committedValue}</span>
     </HStack>
   );
@@ -38,7 +38,7 @@ function RangeSliderExample() {
       />
 
       <InputGroup w={160}>
-        <InputNumber
+        <NumberInput
           min={0}
           max={100}
           value={value[0]}
@@ -51,7 +51,7 @@ function RangeSliderExample() {
           }}
         />
         <InputGroup.Addon>to</InputGroup.Addon>
-        <InputNumber
+        <NumberInput
           min={0}
           max={100}
           value={value[1]}
@@ -85,7 +85,7 @@ function FixedEndValueExample() {
         onChangeCommitted={setCommittedValue}
       />
       <InputGroup w={160}>
-        <InputNumber
+        <NumberInput
           min={0}
           max={100}
           value={value[0]}
@@ -98,7 +98,7 @@ function FixedEndValueExample() {
           }}
         />
         <InputGroup.Addon>to</InputGroup.Addon>
-        <InputNumber min={0} max={100} value={value[1]} disabled />
+        <NumberInput min={0} max={100} value={value[1]} disabled />
       </InputGroup>
       <span>Committed: {committedValue.join(' - ')}</span>
     </HStack>

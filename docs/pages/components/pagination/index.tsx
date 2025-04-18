@@ -7,7 +7,9 @@ import {
   Slider,
   SelectPicker,
   TagPicker,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   HStack,
   Box
 } from 'rsuite';
@@ -32,7 +34,7 @@ export default function Page() {
         Slider,
         SelectPicker,
         TagPicker,
-        InputNumber,
+        NumberInput,
         HStack,
         Box
       }}

@@ -1,7 +1,7 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useEventCallback } from '../hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface ListItemProps extends WithAsProps, HTMLPropsWithoutSelect {

@@ -10,10 +10,10 @@ export type GridHeaderRowProps = WithAsProps;
 
 const GridHeaderRow = forwardRef<'div', GridHeaderRowProps>((props: GridHeaderRowProps, ref) => {
   const { as: Component = 'div', className, classPrefix = 'calendar-table', ...rest } = props;
-  const { locale, showWeekNumbers, isoWeek, weekStart } = useCalendar();
+  const { locale, showWeekNumbers, weekStart } = useCalendar();
   const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('row', 'header-row'));
-  const weeks = getWeekKeys(isoWeek ? 1 : weekStart);
+  const weeks = getWeekKeys(weekStart);
 
   return (
     <Component role="row" {...rest} ref={ref} className={classes}>

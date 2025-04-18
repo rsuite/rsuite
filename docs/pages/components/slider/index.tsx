@@ -3,7 +3,9 @@ import {
   Slider,
   RangeSlider,
   Input,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   InputGroup,
   Box,
   Center,
@@ -28,7 +30,7 @@ export default function Page() {
         Slider,
         RangeSlider,
         Input,
-        InputNumber,
+        NumberInput,
         InputGroup,
         Center,
         Box,
