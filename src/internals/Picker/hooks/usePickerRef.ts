@@ -1,5 +1,5 @@
 import { useImperativeHandle, useRef } from 'react';
-import { useEventCallback } from '../../hooks';
+import { useEventCallback } from '@/internals/hooks';
 import { RSUITE_PICKER_TYPE } from '../../symbols';
 import type { OverlayTriggerHandle } from '../PickerToggleTrigger';
 import type { ListHandle } from '../../Windowing';

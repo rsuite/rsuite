@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import { prefix as addPrefix } from '../utils/prefix';
-import { CustomContext } from '../../CustomProvider/CustomProvider';
+import { CustomContext } from '../../CustomProvider/CustomContext';
 
 export type ClassValue =
   | string

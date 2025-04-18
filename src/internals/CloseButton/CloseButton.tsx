@@ -1,7 +1,7 @@
 import React from 'react';
 import Close from '@rsuite/icons/Close';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { useClassNames } from '../hooks';
+import { useClassNames } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import { CloseButtonLocale } from '../../locales';
 
