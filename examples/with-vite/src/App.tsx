@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import reactLogo from './assets/react.svg';
 import rsuiteLogo from './assets/rsuite.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import { Button, Stack } from 'rsuite';
+
+const DateRangePicker = lazy(() => delayForDemo(import('./CustomDateRangePicker')));
+
+const delayForDemo = <T,>(promise: Promise<T>): Promise<T> =>
+  new Promise(resolve => setTimeout(() => promise.then(resolve), 1000));
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,6 +34,10 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">Click on the Vite, React and React Suite logos to learn more</p>
+      <hr />
+      <Suspense fallback={<div>Loading...</div>}>
+        <DateRangePicker />
+      </Suspense>
     </>
   );
 }
