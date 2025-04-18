@@ -4,8 +4,7 @@ import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface CardProps extends BoxProps {
   /**

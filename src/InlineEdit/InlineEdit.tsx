@@ -3,10 +3,9 @@ import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { renderChildren, defaultRenderInput, ChildrenProps } from './renderChildren';
-import { useCustom } from '../CustomProvider';
 
 export interface InlineEditProps extends Omit<BoxProps, 'children'> {
   /**

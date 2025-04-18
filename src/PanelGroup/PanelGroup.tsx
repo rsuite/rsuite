@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 
 type KeyType = string | number;
 export interface PanelGroupProps<T = KeyType> extends BoxProps {

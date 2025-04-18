@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useEventCallback,
+  useUniqueId
+} from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
 export interface RadioProps<T = string | number> extends BoxProps, HTMLPropsWithoutChange {

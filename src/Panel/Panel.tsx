@@ -4,8 +4,7 @@ import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { PanelGroupContext } from '../PanelGroup';
 import type { AnimationEventProps } from '@/internals/types';
 

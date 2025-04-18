@@ -4,9 +4,8 @@ import useTreeWithChildren from './hooks/useTreeWithChildren';
 import useExpandTree from './hooks/useExpandTree';
 import TreeView, { TreeViewProps } from './TreeView';
 import { forwardRef } from '@/internals/utils';
-import { useControlled, useEventCallback } from '@/internals/hooks';
+import { useControlled, useEventCallback, useCustom } from '@/internals/hooks';
 import { TreeProvider } from '@/internals/Tree/TreeProvider';
-import { useCustom } from '../CustomProvider';
 import type { TreeExtraProps, WithTreeDragProps } from './types';
 
 export interface TreeProps<T = string | number | null>

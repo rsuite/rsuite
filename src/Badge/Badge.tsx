@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import {
   forwardRef,
   mergeStyles,

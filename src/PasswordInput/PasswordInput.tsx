@@ -4,8 +4,7 @@ import InputGroup from '../InputGroup';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
 import VisibleIcon from '@rsuite/icons/Visible';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 
 export interface PasswordInputProps extends Omit<InputProps, 'type' | 'plaintext'> {
   /** Controls whether the password is visible */

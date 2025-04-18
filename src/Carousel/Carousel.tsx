@@ -1,9 +1,14 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useControlled, useUpdateEffect, useTimeout } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useUpdateEffect,
+  useTimeout
+} from '@/internals/hooks';
 import { forwardRef, guid, rch, mergeRefs } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { ReactElement } from '@/internals/types';
 
 export interface CarouselProps extends BoxProps {

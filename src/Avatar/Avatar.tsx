@@ -2,10 +2,9 @@ import React, { useContext, useMemo, CSSProperties } from 'react';
 import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import AvatarIcon from './AvatarIcon';
 import useImage from './useImage';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
-import { useCustom } from '../CustomProvider';
 import type { BoxProps } from '@/internals/Box';
 import type { ColorScheme } from '@/internals/types';
 export interface AvatarProps extends BoxProps {

@@ -4,7 +4,7 @@ import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './M
 import useMenu from './useMenu';
 import { useUniqueId, useFocus, useClickOutside } from '../hooks';
 import { KEY_VALUES } from '../constants';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { isFocusLeaving, isFocusableElement } from '@/internals/utils';
 
 export interface MenuProps {

@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import {
   forwardRef,
   createChainedFunction,
@@ -26,7 +26,6 @@ import {
   PositionChildProps,
   PickerToggleProps
 } from '@/internals/Picker';
-import { useCustom } from '../CustomProvider';
 import type { ListProps } from '@/internals/Windowing';
 import type {
   FormControlPickerProps,

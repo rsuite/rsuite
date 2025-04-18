@@ -4,8 +4,7 @@ import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import Box, { BoxProps } from '@/internals/Box';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useIsMounted, useEventCallback } from '@/internals/hooks';
 import type { StatusType, DisplayStateType } from '@/internals/types';
 
 export interface MessageProps extends BoxProps {

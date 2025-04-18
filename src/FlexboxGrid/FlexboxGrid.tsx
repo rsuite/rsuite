@@ -1,8 +1,7 @@
 import React from 'react';
 import FlexboxGridItem from './FlexboxGridItem';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { WithAsProps } from '@/internals/types';
 
 export interface FlexboxGridProps extends WithAsProps {

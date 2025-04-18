@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import useMenu from './useMenu';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES } from '../constants';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { isFocusEntering, isFocusLeaving, isFocusableElement } from '@/internals/utils/';
 
 export interface MenubarProps {

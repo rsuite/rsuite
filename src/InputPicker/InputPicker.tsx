@@ -12,11 +12,10 @@ import useInput from './hooks/useInput';
 import useData, { InputOption } from './hooks/useData';
 import Plaintext, { PlaintextProps } from '@/internals/Plaintext';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { useTagContext } from './InputPickerContext';
 import { convertSize } from './utils';
-import { useCustom } from '../CustomProvider';
 import {
   forwardRef,
   shallowEqual,

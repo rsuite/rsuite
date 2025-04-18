@@ -2,8 +2,7 @@ import React from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type {
   SanitizedTextareaProps,
   PropsWithoutChange,

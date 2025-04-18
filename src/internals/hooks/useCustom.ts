@@ -1,10 +1,10 @@
 import assign from 'lodash/assign';
-import enGB from '../locales/en_GB';
+import enGB from '../../locales/en_GB';
 import { useContext, useCallback, useMemo } from 'react';
 import { format, parse, isValid } from '@/internals/utils/date';
-import { CustomContext } from './CustomContext';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
-import type { ReactSuiteComponents } from './types';
+import type { ReactSuiteComponents } from '@/internals/Provider/types';
 
 type LocaleKey = keyof typeof enGB;
 

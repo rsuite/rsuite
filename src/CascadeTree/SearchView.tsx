@@ -2,9 +2,8 @@ import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Highlight from '../Highlight';
 import { Option, WithAsProps } from '@/internals/types';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { getPathTowardsItem } from '@/internals/Tree/utils';
-import { useCustom } from '../CustomProvider';
 
 interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;

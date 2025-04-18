@@ -2,9 +2,8 @@ import React from 'react';
 import Grid from './Grid';
 import { forwardRef } from '@/internals/utils';
 import { getWeekStartDates, setDate } from '@/internals/utils/date';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { useCalendar } from './hooks';
-import { useCustom } from '../CustomProvider';
 import type { WithAsProps } from '@/internals/types';
 
 export type CalendarBodyProps = WithAsProps;

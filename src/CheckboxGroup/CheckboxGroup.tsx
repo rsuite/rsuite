@@ -4,9 +4,8 @@ import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual } from '@/internals/utils';
-import { useStyles, useControlled } from '@/internals/hooks';
+import { useStyles, useControlled, useCustom } from '@/internals/hooks';
 import { CheckboxGroupContext } from './CheckboxGroupContext';
-import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps } from '@/internals/types';
 
 export interface CheckboxGroupProps<V = (string | number)[]>

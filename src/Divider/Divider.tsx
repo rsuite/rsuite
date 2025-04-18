@@ -1,8 +1,7 @@
 import React from 'react';
 import StyledBox from '@/internals/StyledBox';
 import { forwardRef, getSizeStyle, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { Size, Color } from '@/internals/types';
 import type { BoxProps } from '@/internals/Box';
 

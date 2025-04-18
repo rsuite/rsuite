@@ -1,7 +1,7 @@
 import React from 'react';
 import OverlayTrigger, { OverlayTriggerProps } from '@/internals/Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 export type WhisperProps = OverlayTriggerProps;

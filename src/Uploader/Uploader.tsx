@@ -6,8 +6,7 @@ import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
-import { useStyles, useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import type { UploaderLocale } from '../locales';
 
 export interface FileType {

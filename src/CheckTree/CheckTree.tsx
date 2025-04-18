@@ -5,9 +5,8 @@ import useFlattenTree from '../Tree/hooks/useFlattenTree';
 import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import { forwardRef } from '@/internals/utils';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { TreeProvider } from '@/internals/Tree/TreeProvider';
-import { useCustom } from '../CustomProvider';
 import type { TreeExtraProps } from '../Tree/types';
 
 export type ValueType = (string | number)[];

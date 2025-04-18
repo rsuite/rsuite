@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { Size } from '@/internals/types';
 
 export interface ButtonGroupProps extends BoxProps {

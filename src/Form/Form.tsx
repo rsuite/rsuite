@@ -12,9 +12,8 @@ import useFormValue from './hooks/useFormValue';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
 import { Schema, SchemaModel } from 'schema-typed';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { FormValueProvider, FormProvider } from './FormContext';
-import { useCustom } from '../CustomProvider';
 import type { WithAsProps, CheckTriggerType } from '@/internals/types';
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>

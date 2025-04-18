@@ -3,10 +3,15 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
 import Plaintext from '@/internals/Plaintext';
-import { useStyles, useControlled, useIsMounted, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useIsMounted,
+  useEventCallback
+} from '@/internals/hooks';
 import { forwardRef, mergeRefs, partitionHTMLProps } from '@/internals/utils';
 import { transformData, shouldDisplay } from './utils';
-import { useCustom } from '../CustomProvider';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,

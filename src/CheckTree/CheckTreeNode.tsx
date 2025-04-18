@@ -6,8 +6,7 @@ import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import { useStyles, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
   /**

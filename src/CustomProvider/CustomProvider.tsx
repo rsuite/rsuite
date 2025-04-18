@@ -3,7 +3,7 @@ import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
-import { CustomContext, CustomProviderProps } from './CustomContext';
+import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
 import ToastContainer, {
   ToastContainerInstance,
   toastPlacements,

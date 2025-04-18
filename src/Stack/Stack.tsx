@@ -2,8 +2,7 @@ import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { ResponsiveValue } from '@/internals/types';
 
 interface DeprecatedStackProps {

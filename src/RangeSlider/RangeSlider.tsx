@@ -8,9 +8,8 @@ import Graduated from '../Slider/Graduated';
 import Plaintext from '@/internals/Plaintext';
 import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
-import { useCustom } from '../CustomProvider';
 import type { SliderProps } from '../Slider';
 import type { Offset } from '@/internals/types';
 

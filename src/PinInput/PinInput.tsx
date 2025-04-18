@@ -5,8 +5,7 @@ import usePinValue from './hooks/usePinValue';
 import { Box, BoxProps } from '@/internals/Box';
 import { HStack } from '../Stack';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import type { BasicSize } from '@/internals/types';
 
 /**

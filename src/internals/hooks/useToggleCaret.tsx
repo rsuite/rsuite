@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { PlacementCorners, Placement } from '@/internals/types';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import ArrowUpLineIcon from '@rsuite/icons/ArrowUpLine';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';

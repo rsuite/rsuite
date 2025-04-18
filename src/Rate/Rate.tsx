@@ -5,11 +5,10 @@ import Character from './Character';
 import Plaintext from '@/internals/Plaintext';
 import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import { KEY_VALUES } from '@/internals/constants';
-import { useControlled, useStyles, useEventCallback } from '@/internals/hooks';
+import { useControlled, useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { forwardRef, shallowEqualArray, mergeStyles } from '@/internals/utils';
 import { transformStarStatusToValue, getFractionalValue } from './utils';
 import { useRatingStates } from './useRatingStates';
-import { useCustom } from '../CustomProvider';
 import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 
 export interface RateProps<T = number>

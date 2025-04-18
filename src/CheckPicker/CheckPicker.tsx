@@ -6,8 +6,7 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import SearchBox from '@/internals/SearchBox';
 import { filterNodesOfTree } from '@/internals/Tree/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useControlled, useCustom, useEventCallback } from '@/internals/hooks';
 import {
   forwardRef,
   createChainedFunction,

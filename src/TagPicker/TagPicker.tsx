@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { TagProvider, TagOnlyProps } from '../InputPicker/InputPickerContext';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { Option } from '@/internals/types';
 import type { CheckboxProps } from '../Checkbox';

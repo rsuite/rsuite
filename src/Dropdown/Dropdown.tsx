@@ -10,11 +10,10 @@ import Menu, { MenuButtonTrigger } from '@/internals/Menu/Menu';
 import DropdownToggle from './DropdownToggle';
 import NavContext from '../Nav/NavContext';
 import Nav from '../Nav';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs, kebabPlace, warnOnce } from '@/internals/utils';
 import { IconProps } from '@rsuite/icons/Icon';
 import { initialState, reducer } from './DropdownState';
-import { useCustom } from '../CustomProvider';
 import type {
   PlacementCorners,
   WithAsProps,

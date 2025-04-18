@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 
 export interface PlaceholderGridProps extends BoxProps {

@@ -8,7 +8,7 @@ import useFocusState from './hooks/useFocusState';
 import useExpandTree from '../Tree/hooks/useExpandTree';
 import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
@@ -24,7 +24,6 @@ import {
 } from '@/internals/Picker';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { TreeNode } from '@/internals/Tree/types';
-import { useCustom } from '../CustomProvider';
 import type { FormControlPickerProps, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';
 

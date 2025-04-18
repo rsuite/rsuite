@@ -3,9 +3,8 @@ import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
 export interface ListProps extends BoxProps, SortConfig {
   /**

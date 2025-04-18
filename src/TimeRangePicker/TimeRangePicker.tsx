@@ -1,6 +1,6 @@
 import React from 'react';
 import DateRangePicker, { DateRange } from '../DateRangePicker';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { DateOptionPreset } from '@/internals/types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';

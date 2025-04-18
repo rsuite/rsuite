@@ -1,8 +1,8 @@
 import React from 'react';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
-import type { ToastContainerInstance } from '../toaster/ToastContainer';
 import type { ReactSuiteComponents } from './types';
-import type { Locale } from '../locales';
+import type { ToastContainerInstance } from '../../toaster/ToastContainer';
+import type { Locale } from '../../locales';
 
 export interface CustomValue<T = Locale> {
   /**

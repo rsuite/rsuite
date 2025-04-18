@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
 import type { Color } from '@/internals/types';
 import type { CommonLocale } from '../locales';

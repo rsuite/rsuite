@@ -5,11 +5,10 @@ import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
 import useIsFocused from './hooks/useIsFocused';
 import useFieldCursor from './hooks/useFieldCursor';
 import useSelectedState from './hooks/useSelectedState';
-import { useControlled, useEventCallback } from '@/internals/hooks';
+import { useControlled, useEventCallback, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { isValid } from '@/internals/utils/date';
 import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
-import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps } from '@/internals/types';
 
 export interface DateInputProps

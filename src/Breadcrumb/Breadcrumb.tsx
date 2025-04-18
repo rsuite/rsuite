@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
 import StyledBox from '@/internals/StyledBox';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { forwardRef, rch, createComponent } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { BoxProps } from '@/internals/Box';
 import type { BreadcrumbLocale } from '../locales';
 

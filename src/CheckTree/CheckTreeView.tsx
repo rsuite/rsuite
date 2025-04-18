@@ -11,7 +11,7 @@ import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import { forwardRef } from '@/internals/utils';
 import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView } from '@/internals/Tree';
@@ -23,7 +23,6 @@ import {
 } from './utils';
 import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import { useCustom } from '../CustomProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { WithAsProps, Option, ToArray, DataProps } from '@/internals/types';
 import type { TreeViewBaseProps } from '../Tree/types';

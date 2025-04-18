@@ -4,8 +4,7 @@ import SearchView from './SearchView';
 import Box from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
-import { useStyles, useControlled } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled } from '@/internals/hooks';
 import type { OptionValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 

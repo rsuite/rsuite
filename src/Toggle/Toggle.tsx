@@ -2,9 +2,14 @@ import React, { useRef } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useControlled,
+  useUniqueId,
+  useEventCallback,
+  useCustom
+} from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { SanitizedInputProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 

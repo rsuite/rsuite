@@ -8,8 +8,7 @@ import SidenavToggle from './SidenavToggle';
 import SidenavGroupLabel from './SidenavGroupLabel';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
-import { useStyles, useControlled } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled } from '@/internals/hooks';
 
 export interface SidenavProps<T = string | number> extends BoxProps {
   /** Whether to expand the Sidenav */

@@ -4,9 +4,8 @@ import addStyle from 'dom-lib/addStyle';
 import get from 'lodash/get';
 import capitalize from 'lodash/capitalize';
 import Transition, { TransitionProps } from './Transition';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
 export enum DIMENSION {
   HEIGHT = 'height',

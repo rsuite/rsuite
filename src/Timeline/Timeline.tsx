@@ -2,8 +2,7 @@ import React from 'react';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, rch } from '@/internals/utils';
 
 export interface TimelineProps extends BoxProps {

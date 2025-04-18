@@ -11,7 +11,7 @@ import {
   lastDayOfMonth,
   isValid
 } from '@/internals/utils/date';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { useDateField, patternMap } from '../DateField';
 import type { Locale } from 'date-fns';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCustom } from './';
+import { useCustom } from '@/internals/hooks';
 
 interface FormattedDateProps {
   date: Date;

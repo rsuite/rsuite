@@ -2,8 +2,7 @@ import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import Text from '../Text';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface PasswordStrengthMeterProps extends BoxProps {
   /** The strength level of the password (0-3) */

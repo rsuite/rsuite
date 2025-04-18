@@ -5,9 +5,8 @@ import Divider from '../Divider';
 import Input from '../Input';
 import LimitPicker from './LimitPicker';
 import Box from '@/internals/Box';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, tplTransform } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
 /**
  * The layout of the paging component.

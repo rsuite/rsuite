@@ -7,8 +7,7 @@ import PageEndIcon from '@rsuite/icons/PageEnd';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { Size } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 

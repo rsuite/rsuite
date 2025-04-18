@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useCallback, useContext } from 'react';
 import { createStyleGetter, prefix as addPrefix, getResponsiveClasses } from '@/internals/utils';
-import { CustomContext } from '../../CustomProvider/CustomContext';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import type { ResponsiveValue } from '@/internals/types';
 
 export type ClassValue =

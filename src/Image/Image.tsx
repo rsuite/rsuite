@@ -1,10 +1,9 @@
 import React, { CSSProperties } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
-import { useCustom } from '../CustomProvider';
-import { forwardRef } from '@/internals/utils';
 
 export interface ImageProps
   extends Omit<BoxProps, 'rounded'>,

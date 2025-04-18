@@ -5,8 +5,7 @@ import NavbarToggle from './NavbarToggle';
 import NavbarDrawer from './NavbarDrawer';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useEventCallback, useUniqueId } from '@/internals/hooks';
 import { NavbarContext } from './NavbarContext';
 
 export interface NavbarProps extends BoxProps {

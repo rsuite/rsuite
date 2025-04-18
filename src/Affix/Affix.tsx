@@ -2,9 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useElementResize, useEventListener, useMount } from '@/internals/hooks';
+import {
+  useStyles,
+  useElementResize,
+  useEventListener,
+  useCustom,
+  useMount
+} from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { Offset } from '@/internals/types';
 
 export interface AffixProps extends BoxProps {

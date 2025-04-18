@@ -1,9 +1,14 @@
 import React, { useContext, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useControlled, useStyles, useEventCallback, useUniqueId } from '@/internals/hooks';
+import {
+  useControlled,
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useUniqueId
+} from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { useCustom } from '../CustomProvider';
 import type { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
 export interface CheckboxProps<V = string | number>

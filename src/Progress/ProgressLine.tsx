@@ -2,8 +2,7 @@ import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface ProgressLineProps extends BoxProps {
   /** Line color */
