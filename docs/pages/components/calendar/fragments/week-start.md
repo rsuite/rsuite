@@ -24,7 +24,6 @@ const App = () => {
           value={weekStart}
           onChange={value => {
             setWeekStart(value);
-            setIsoWeek(false);
           }}
         >
           <label>Week start</label>

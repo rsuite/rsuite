@@ -1,18 +1,20 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import DatePicker from '../DatePicker';
+import GearIcon from '@rsuite/icons/Gear';
+import CustomProvider from '@/CustomProvider';
+import rsEnUS from '@/locales/en_US';
+import { enGB } from 'date-fns/locale/en-GB';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
+import { keyPress } from '@test/utils/simulateEvent';
+import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
 } from '@test/utils';
-import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { keyPress } from '@test/utils/simulateEvent';
-import sinon from 'sinon';
-import { enGB } from 'date-fns/locale/en-GB';
-import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
-import DatePicker from '../DatePicker';
-import GearIcon from '@rsuite/icons/Gear';
 
 afterEach(() => {
   sinon.restore();
@@ -481,12 +483,15 @@ describe('DatePicker', () => {
   });
 
   it('Should show dates that are not in the same month', () => {
-    render(<DatePicker value={new Date('6/10/2021')} open />);
+    render(
+      <CustomProvider locale={rsEnUS}>
+        <DatePicker value={new Date('6/10/2021')} open />
+      </CustomProvider>
+    );
 
     expect(
       screen
-        .getByRole('grid', { name: 'Jun 2021' })
-
+        .getByRole('grid', { name: 'Jun, 2021' })
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
 
@@ -494,8 +499,7 @@ describe('DatePicker', () => {
 
     expect(
       screen
-        .getByRole('grid', { name: 'Jul 2021' })
-
+        .getByRole('grid', { name: 'Jul, 2021' })
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7']);
   });
@@ -521,10 +525,14 @@ describe('DatePicker', () => {
   });
 
   it('Should render week numbers given `showWeekNumbers=true`', () => {
-    render(<DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />);
+    render(
+      <CustomProvider locale={rsEnUS}>
+        <DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />
+      </CustomProvider>
+    );
 
-    [47, 48, 49, 50, 51, 52].forEach(weekOrder => {
-      expect(screen.getByRole('grid', { name: 'Dec 2021' })).to.contain(
+    [49, 50, 51, 52, 1, 2].forEach(weekOrder => {
+      expect(screen.getByRole('grid', { name: 'Dec, 2021' })).to.contain(
         screen.getByRole('rowheader', {
           name: `Week ${weekOrder}`
         })

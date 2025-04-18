@@ -271,7 +271,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     format,
     id: idProp,
     isoWeek,
-    weekStart = 0,
+    weekStart,
     limitEndYear = 1000,
     limitStartYear,
     locale,

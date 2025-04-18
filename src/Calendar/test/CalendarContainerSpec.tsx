@@ -1,10 +1,10 @@
 import React from 'react';
+import sinon from 'sinon';
+import CalendarContainer from '../CalendarContainer';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/utils';
-import sinon from 'sinon';
-import CalendarContainer from '../CalendarContainer';
-import { enGB, enUS } from '../../locales';
+import { enGB, enUS } from '@/locales';
 
 describe('CalendarContainer', () => {
   testStandardProps(
@@ -99,7 +99,7 @@ describe('CalendarContainer', () => {
     it('Should render the first week of the year correctly when firstWeekContainsDate is 4', () => {
       render(
         <CalendarContainer
-          calendarDate={new Date('2025-01-01')}
+          calendarDate={new Date('2022-01-01')}
           format="yyyy-MM-dd"
           showWeekNumbers
           // enGB.Calendar.dateLocale.options.firstWeekContainsDate = 4;

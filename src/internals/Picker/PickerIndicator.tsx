@@ -3,7 +3,7 @@ import Icon from '@rsuite/icons/Icon';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
-import { useStyles } from '../hooks';
+import { useStyles } from '@/internals/hooks';
 import { useCustom } from '../../CustomProvider';
 import type { Size } from '@/internals/types';
 

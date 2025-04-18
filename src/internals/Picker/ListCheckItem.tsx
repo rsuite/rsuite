@@ -1,7 +1,7 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
-import { useStyles, useEventCallback } from '../hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsProps, PropsWithoutSelect } from '@/internals/types';
 

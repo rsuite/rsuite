@@ -290,7 +290,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       hoverRange,
       id: idProp,
       isoWeek = false,
-      weekStart = 0,
+      weekStart,
       limitEndYear = 1000,
       limitStartYear,
       locale,

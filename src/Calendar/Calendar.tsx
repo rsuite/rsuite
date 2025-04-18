@@ -101,7 +101,7 @@ const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
       compact,
       defaultValue = startOfDay(new Date()),
       isoWeek,
-      weekStart = 0,
+      weekStart,
       locale,
       cellClassName,
       onChange,

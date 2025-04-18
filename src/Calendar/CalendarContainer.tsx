@@ -219,7 +219,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     hoverRangeValue,
     inline,
     isoWeek = false,
-    weekStart = 0,
+    weekStart,
     targetId,
     limitEndYear,
     limitStartYear,
