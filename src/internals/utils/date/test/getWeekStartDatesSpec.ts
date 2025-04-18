@@ -3,7 +3,7 @@ import getWeekStartDates from '../getWeekStartDates';
 
 describe('internals/utils/date/getWeekStartDates', () => {
   it('Sunday is the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { isoWeek: false });
+    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 0 });
     const dates = [
       '2017-11-26',
       '2017-12-03',
@@ -19,7 +19,7 @@ describe('internals/utils/date/getWeekStartDates', () => {
   });
 
   it('Monday is the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { isoWeek: true });
+    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 1 });
     const dates = [
       '2017-11-27',
       '2017-12-04',

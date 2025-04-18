@@ -271,7 +271,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       format,
       id: idProp,
       isoWeek,
-      weekStart = 0,
+      weekStart,
       limitEndYear = 1000,
       limitStartYear,
       locale,

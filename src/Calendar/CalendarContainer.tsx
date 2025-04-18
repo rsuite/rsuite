@@ -219,7 +219,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       hoverRangeValue,
       inline,
       isoWeek = false,
-      weekStart = 0,
+      weekStart,
       targetId,
       limitEndYear,
       limitStartYear,

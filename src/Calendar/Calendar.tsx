@@ -101,7 +101,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       compact,
       defaultValue = startOfDay(new Date()),
       isoWeek,
-      weekStart = 0,
+      weekStart,
       locale,
       onChange,
       onMonthChange,
