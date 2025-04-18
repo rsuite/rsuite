@@ -24,7 +24,7 @@ const Burger = forwardRef<'button', BurgerProps>((props, ref) => {
     classPrefix = 'burger',
     className,
     color,
-    open = true,
+    open = false,
     lineThickness,
     style,
     ...rest
