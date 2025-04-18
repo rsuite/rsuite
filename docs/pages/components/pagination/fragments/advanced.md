@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Pagination, Toggle, SelectPicker, TagPicker, InputNumber } from 'rsuite';
+import { Pagination, Toggle, SelectPicker, TagPicker, NumberInput } from 'rsuite';
 
 const Switch = ({ label, checked, onChange }) => {
   return (
@@ -71,7 +71,7 @@ const App = () => {
 
           <HStack>
             maxButtons：
-            <InputNumber
+            <NumberInput
               w={80}
               value={maxButtons}
               max={10}
@@ -84,7 +84,7 @@ const App = () => {
 
           <HStack>
             total：
-            <InputNumber
+            <NumberInput
               w={80}
               value={total}
               min={0}

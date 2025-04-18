@@ -4,7 +4,9 @@ import {
   Button,
   Input,
   IconButton,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   DatePicker,
   DateInput,
   VStack,
@@ -48,7 +50,7 @@ export default function Page() {
         Button,
         IconButton,
         Input,
-        InputNumber,
+        NumberInput,
         DatePicker,
         CheckPicker,
         DateInput,

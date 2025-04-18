@@ -53,7 +53,7 @@ import type { IconButtonProps } from '../../IconButton';
 import type { InlineEditProps } from '../../InlineEdit';
 import type { InputProps } from '../../Input';
 import type { InputGroupProps } from '../../InputGroup';
-import type { InputNumberProps } from '../../InputNumber';
+import type { NumberInputProps } from '../../NumberInput';
 import type { InputPickerProps } from '../../InputPicker';
 import type { KbdProps } from '../../Kbd';
 import type { ImageProps } from '../../Image';
@@ -174,7 +174,7 @@ export interface ReactSuiteComponents {
   InlineEdit: ComponentProps<InlineEditProps>;
   Input: ComponentProps<InputProps>;
   InputGroup: ComponentProps<InputGroupProps>;
-  InputNumber: ComponentProps<InputNumberProps>;
+  NumberInput: ComponentProps<NumberInputProps>;
   InputPicker: ComponentProps<InputPickerProps>;
   Image: ComponentProps<ImageProps>;
   Kbd: ComponentProps<KbdProps>;

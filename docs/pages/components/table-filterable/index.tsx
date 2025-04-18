@@ -10,7 +10,9 @@ import {
   InputGroup,
   SelectPicker,
   CheckPicker,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   DateRangePicker,
   InputPicker,
   VStack,
@@ -55,7 +57,7 @@ export default function Page() {
         SelectPicker,
         CheckPicker,
         InputPicker,
-        InputNumber,
+        NumberInput,
         DateRangePicker,
         VStack,
         HStack,

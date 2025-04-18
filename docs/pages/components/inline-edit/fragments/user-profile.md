@@ -8,7 +8,7 @@ import {
   DatePicker,
   Form,
   Panel,
-  InputNumber,
+  NumberInput,
   Slider,
   Cascader,
   Box,

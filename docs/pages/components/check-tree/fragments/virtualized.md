@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTree, Panel, InputNumber, Button, Stack } from 'rsuite';
+import { CheckTree, Panel, NumberInput, Button, Stack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -33,7 +33,7 @@ const App = () => {
         >
           ScrollTo:
         </Button>
-        <InputNumber value={index} onChange={setIndex} w={60} /> Item
+        <NumberInput value={index} onChange={setIndex} w={60} /> Item
       </Stack>
     </div>
   );
