@@ -9,17 +9,17 @@ const marks = [
     label: '256 GB'
   },
   {
-    value: 512,
-    label: '512 GB'
+    value: 1024,
+    label: '1 TB'
   },
   {
-    value: 1024,
-    label: '1024 GB'
+    value: 2048,
+    label: '2 TB'
   }
 ];
 
 const App = () => (
-  <HStack p={20} spacing={16}>
+  <HStack p={20} spacing={16} wrap>
     <label>Memory size</label>
     <Slider
       defaultValue={512}
@@ -28,6 +28,7 @@ const App = () => (
       max={2000}
       marks={marks}
       w={500}
+      keepTooltipOpen
       renderTooltip={value => `${value}GB`}
     />
   </HStack>

@@ -17,43 +17,61 @@ A Slider component for selecting a value or range within a given interval.
 
 ### Progress
 
+Display the progress bar of the current value with the `progress` prop.
+
 <!--{include:`progress.md`}-->
 
 ### Graduated
+
+Show tick marks with the `graduated` prop.
 
 <!--{include:`graduated.md`}-->
 
 ### Graduated with marks
 
+Customize tick marks with the `marks` prop.
+
 <!--{include:`marks.md`}-->
 
 ### Size
+
+Support multiple sizes via the `size` prop.
 
 <!--{include:`size.md`}-->
 
 ### Vertical
 
+Set the slider to vertical orientation with the `vertical` prop.
+
 <!--{include:`vertical.md`}-->
 
 ### Disabled and read only
+
+Set the slider to disabled or read only with the `disabled` or `readOnly` props.
 
 <!--{include:`disabled.md`}-->
 
 ### Controlled value
 
+Controlled usage with the `value` prop and callback functions.
+
 <!--{include:`value.md`}-->
 
 ### Constraint
 
-Limit starting value to be no greater than 25 and ending value to be no smaller than 35.
+Customize value constraints with the `constraint` prop.
 
 <!--{include:`constraint.md`}-->
 
 ### Custom handle
 
+Customize the handle content and style with the `handleTitle` and `handleClassName` props.
+
 <!--{include:`custom.md`}-->
 
 ### Keep tooltip open
+
+Keep the tooltip always visible with the `keepTooltipOpen` prop.
 
 <!--{include:`keep-tooltip-open.md`}-->
 

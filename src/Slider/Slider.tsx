@@ -69,18 +69,22 @@ export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<
   /** Vertical Slide */
   vertical?: boolean;
 
-  /** If true, tooltip will always be visible  even without hover */
+  /**
+   * If true, tooltip will always be visible  even without hover
+   */
   keepTooltipOpen?: boolean;
 
   /**
    * A slider can have different sizes.
    *
    * @default 'sm'
+   * @version 6.0.0
    */
   size?: Size;
 
   /**
    * Custom marks on the ruler
+   * @version 6.0.0
    */
   marks?: { value: number; label: React.ReactNode }[];
 
@@ -109,33 +113,33 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
     as,
-    graduated,
     className,
-    barClassName,
-    progress,
-    vertical,
-    disabled,
-    readOnly,
-    plaintext,
     classPrefix = 'slider',
-    min = 0,
+    barClassName,
+    defaultValue = 0,
+    disabled,
+    progress,
+    graduated,
     handleClassName,
     handleStyle,
     handleTitle,
-    tooltip = true,
+    keepTooltipOpen,
+    readOnly,
     step = 1,
     size = 'sm',
-    defaultValue = 0,
-    value: valueProp,
+    tooltip = true,
     max: maxProp = 100,
     placeholder,
+    plaintext,
     marks,
+    min = 0,
+    vertical,
+    value: valueProp,
     getAriaValueText,
     renderTooltip,
     renderMark,
     onChange,
     onChangeCommitted,
-    keepTooltipOpen,
     ...rest
   } = propsWithDefaults;
 

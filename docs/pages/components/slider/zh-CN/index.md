@@ -17,43 +17,61 @@
 
 ### 显示进度条
 
+通过 `progress` 属性显示当前滑动的进度条。
+
 <!--{include:`progress.md`}-->
 
 ### 显示刻度
+
+通过 `graduated` 属性显示刻度。
 
 <!--{include:`graduated.md`}-->
 
 ### 带标记的刻度
 
+通过 `marks` 属性自定义刻度标记。
+
 <!--{include:`marks.md`}-->
 
 ### 尺寸
+
+支持多种尺寸，可通过 `size` 属性设置。
 
 <!--{include:`size.md`}-->
 
 ### 垂直滑动
 
+通过 `vertical` 属性设置为垂直方向。
+
 <!--{include:`vertical.md`}-->
 
 ### 禁用与只读
+
+通过 `disabled` 或 `readOnly` 属性设置禁用或只读状态。
 
 <!--{include:`disabled.md`}-->
 
 ### 受控的值
 
+受控用法，通过 `value` 属性和回调函数控制滑块的值。
+
 <!--{include:`value.md`}-->
 
 ### 约束
 
-限制起始值不得大于 25, 结束值不得小于 35。
+通过 `constraint` 属性自定义数值区间的限制。
 
 <!--{include:`constraint.md`}-->
 
 ### 自定义手柄
 
+通过 `handleTitle` 和 `handleClassName` 属性自定义手柄内容和样式。
+
 <!--{include:`custom.md`}-->
 
 ### 保持工具提示打开
+
+通过 `keepTooltipOpen` 属性让 Tooltip 始终可见。
 
 <!--{include:`keep-tooltip-open.md`}-->
 

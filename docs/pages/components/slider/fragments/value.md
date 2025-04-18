@@ -1,14 +1,14 @@
 <!-- start-code -->
 
 ```js
-import { Slider, RangeSlider, HStack, InputGroup, NumberInput } from 'rsuite';
+import { Slider, RangeSlider, HStack, InputGroup, NumberInput, Text } from 'rsuite';
 
 function SliderExample() {
   const [value, setValue] = React.useState(0);
   const [committedValue, setCommittedValue] = React.useState(0);
 
   return (
-    <HStack spacing={20}>
+    <HStack spacing={20} wrap>
       <Slider
         w={400}
         progress
@@ -28,7 +28,7 @@ function RangeSliderExample() {
   const [committedValue, setCommittedValue] = React.useState([10, 50]);
 
   return (
-    <HStack spacing={20}>
+    <HStack spacing={20} wrap>
       <RangeSlider
         w={400}
         progress
@@ -74,35 +74,34 @@ function FixedEndValueExample() {
   const [committedValue, setCommittedValue] = React.useState([10, 100]);
 
   return (
-    <VStack>
-      <p>Fixed end value</p>
-      <HStack spacing={20}>
-        <RangeSlider
-          w={400}
-          progress
-          value={value}
-          onChange={setValue}
-          onChangeCommitted={setCommittedValue}
+    <HStack spacing={20} wrap>
+      <RangeSlider
+        w={400}
+        progress
+        value={value}
+        onChange={value => {
+          setValue([value[0], 100]);
+        }}
+        onChangeCommitted={setCommittedValue}
+      />
+      <InputGroup w={160}>
+        <NumberInput
+          min={0}
+          max={100}
+          value={value[0]}
+          onChange={nextValue => {
+            const [start, end] = value;
+            if (nextValue > end) {
+              return;
+            }
+            setValue([nextValue, end]);
+          }}
         />
-        <InputGroup w={160}>
-          <NumberInput
-            min={0}
-            max={100}
-            value={value[0]}
-            onChange={nextValue => {
-              const [start, end] = value;
-              if (nextValue > end) {
-                return;
-              }
-              setValue([nextValue, end]);
-            }}
-          />
-          <InputGroup.Addon>to</InputGroup.Addon>
-          <NumberInput min={0} max={100} value={value[1]} disabled />
-        </InputGroup>
-        <span>Committed: {committedValue.join(' - ')}</span>
-      </HStack>
-    </VStack>
+        <InputGroup.Addon>to</InputGroup.Addon>
+        <NumberInput min={0} max={100} value={value[1]} disabled />
+      </InputGroup>
+      <span>Committed: {committedValue.join(' - ')}</span>
+    </HStack>
   );
 }
 
@@ -112,6 +111,7 @@ const App = () => (
     <hr />
     <RangeSliderExample />
     <hr />
+    <Text mb={10}>Fixed end value</Text>
     <FixedEndValueExample />
   </>
 );

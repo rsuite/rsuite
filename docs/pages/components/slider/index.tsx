@@ -11,6 +11,7 @@ import {
   Center,
   HStack,
   VStack,
+  Text,
   Radio,
   RadioGroup
 } from 'rsuite';
@@ -35,6 +36,7 @@ export default function Page() {
         Box,
         HStack,
         VStack,
+        Text,
         Radio,
         RadioGroup
       }}
