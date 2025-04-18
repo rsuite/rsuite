@@ -10,47 +10,69 @@ Used to display statistical data with a title and its corresponding value, empha
 
 ### Basic
 
+Display a simple statistic with a label and value.
+
 <!--{include:`basic.md`}-->
 
 ### Format Options
+
+Customize the value display using `formatOptions` for locale-aware number formatting.
 
 <!--{include:`format-options.md`}-->
 
 ### Trend
 
+Show a trend indicator (up/down) alongside the value to reflect changes.
+
 <!--{include:`trend.md`}-->
 
 ### Border
+
+Add a border around the statistic for emphasis.
 
 <!--{include:`bordered.md`}-->
 
 ### Stat with Progress
 
+Combine the statistic with a progress bar to visualize progress.
+
 <!--{include:`progress-bar.md`}-->
 
 ### Stat with Ring Progress
+
+Display progress as a ring around the statistic value.
 
 <!--{include:`ring-progress.md`}-->
 
 ### Icon
 
+Add an icon to the statistic for visual context.
+
 <!--{include:`icon.md`}-->
 
 ### Info Tip
+
+Show additional information with an info tip on the label.
 
 <!--{include:`info-tip.md`}-->
 
 ### Value Unit
 
+Display a unit next to the value for clarity (e.g., %, $).
+
 <!--{include:`value-unit.md`}-->
 
 ### Stat Group
+
+Group multiple statistics together in a grid layout.
 
 <!--{include:`group.md`}-->
 
 ### Responsive Stat Group
 
-<!--{include:`responsive-group.md`}-->
+Make the stat group responsive to different screen sizes.
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

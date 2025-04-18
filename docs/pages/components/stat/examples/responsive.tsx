@@ -1,20 +1,20 @@
-<!--start-code-->
+'use client';
 
-```js
+import React from 'react';
 import { Stat, StatGroup, HStack, useBreakpointValue } from 'rsuite';
 
 const App = () => {
   const columns = useBreakpointValue(
     {
-      '(min-width: 1200px)': 4,
-      '(min-width: 992px)': 2,
-      '(min-width: 768px)': 1
+      xs: 1,
+      sm: 2,
+      md: 4
     },
     { defaultValue: 1 }
   );
 
   return (
-    <StatGroup columns={columns} spacing={20}>
+    <StatGroup columns={columns} spacing={20} p={10}>
       <Stat bordered>
         <Stat.Label>Profits</Stat.Label>
         <HStack spacing={10}>
@@ -50,7 +50,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-<!--end-code-->
+export default App;
