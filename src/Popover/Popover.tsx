@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import Heading from '../Heading';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface PopoverProps extends BoxProps {
   /** The title of the component. */

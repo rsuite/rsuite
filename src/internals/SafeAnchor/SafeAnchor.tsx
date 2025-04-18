@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 
 export interface SafeAnchorProps extends BoxProps, React.HTMLAttributes<HTMLElement> {

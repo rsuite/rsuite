@@ -2,7 +2,7 @@ import React from 'react';
 import PanelGroup, { type PanelGroupProps } from '../PanelGroup';
 import AccordionPanel from './AccordionPanel';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 
 export type AccordionProps = Omit<PanelGroupProps, 'accordion'>;
 

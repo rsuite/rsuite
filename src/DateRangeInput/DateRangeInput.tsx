@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import Input, { InputProps } from '../Input';
 import { isValid } from '@/internals/utils/date';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import {
   validateDateTime,
@@ -12,7 +12,6 @@ import {
   useSelectedState,
   useFieldCursor
 } from '../DateInput';
-import { useCustom } from '../CustomProvider';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
 import type { FormControlBaseProps } from '@/internals/types';
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { highlightText } from './utils/highlightText';
 import { forwardRef, stringifyReactNode } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { highlightText } from './utils/highlightText';
 
 export interface HighlightProps extends BoxProps {
   query?: string | string[];

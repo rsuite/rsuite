@@ -3,7 +3,7 @@ import TableCell from './TableCell';
 import TableHeaderCell from './TableHeaderCell';
 import TableColumn from './TableColumn';
 import TableColumnGroup from './TableColumnGroup';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import {
   Table as RsTable,
   TableProps,

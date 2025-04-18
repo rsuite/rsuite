@@ -10,7 +10,7 @@ import isNil from 'lodash/isNil';
 import pick from 'lodash/pick';
 import isFunction from 'lodash/isFunction';
 import { PickerLocale } from '../locales';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import {
   PickerToggle,
@@ -26,7 +26,6 @@ import {
 } from '@/internals/Picker';
 import { getSelectedItems } from '../CheckTree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
-import { useCustom } from '../CustomProvider';
 import type { TreeNode } from '@/internals/Tree/types';
 import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
 import type { TreeExtraProps } from '../Tree/types';

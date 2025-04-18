@@ -9,10 +9,9 @@ import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
-import { useStyles, useEnsuredRef, useControlled } from '@/internals/hooks';
+import { useStyles, useCustom, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import { useCustom } from '../CustomProvider';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface NavProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {

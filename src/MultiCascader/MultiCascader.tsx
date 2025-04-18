@@ -6,11 +6,10 @@ import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
 import useActive from '../Cascader/useActive';
 import { findNodeOfTree } from '@/internals/Tree/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
-import { useCustom } from '../CustomProvider';
 import {
   PickerToggle,
   PickerPopup,

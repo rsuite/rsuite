@@ -8,9 +8,8 @@ import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { SidenavContext } from './Sidenav';
-import { useCustom } from '../CustomProvider';
 import type { SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 

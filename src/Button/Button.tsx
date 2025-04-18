@@ -4,8 +4,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '@/internals/SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { Color, Size, AppearanceType } from '@/internals/types';
 
 export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {

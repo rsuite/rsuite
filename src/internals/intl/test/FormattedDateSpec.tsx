@@ -1,11 +1,10 @@
 import React from 'react';
+import FormattedDate from '../FormattedDate';
+import CustomProvider from '../../../CustomProvider';
+import ruRU from '../../../locales/ru_RU';
 import { render } from '@testing-library/react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale/ru';
-import CustomProvider from '../CustomProvider';
-import FormattedDate from '../FormattedDate';
-
-import ruRU from '../../locales/ru_RU';
 
 function formatDate(date, formatStr) {
   return format(date, formatStr, {

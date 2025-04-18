@@ -1,7 +1,6 @@
 import React from 'react';
 import Transition, { TransitionProps } from './Transition';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export type BounceProps = TransitionProps;
 

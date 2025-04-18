@@ -3,8 +3,7 @@ import CheckIcon from '@rsuite/icons/Check';
 import Box, { BoxProps } from '@/internals/Box';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
-import { useStyles, useControlled, useUniqueId } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled, useUniqueId } from '@/internals/hooks';
 import type { HTMLPropsWithoutChange } from '@/internals/types';
 
 export interface RadioTileProps<T = string | number> extends BoxProps, HTMLPropsWithoutChange {

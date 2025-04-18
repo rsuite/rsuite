@@ -2,9 +2,8 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../../Animation/Transition';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
-import { useCustom } from '../../CustomProvider';
 import type { Offset, WithAsProps } from '@/internals/types';
 
 export interface RippleProps extends WithAsProps {

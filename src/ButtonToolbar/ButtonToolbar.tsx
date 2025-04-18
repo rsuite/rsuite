@@ -1,8 +1,7 @@
 import React from 'react';
 import Stack, { StackProps } from '../Stack';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
 export interface ButtonToolbarProps extends StackProps {
   /**

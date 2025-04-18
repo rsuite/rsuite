@@ -21,7 +21,13 @@ import {
   partitionHTMLProps,
   createChainedFunction
 } from '@/internals/utils';
-import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useUniqueId,
+  useEventCallback
+} from '@/internals/hooks';
 import {
   isValid,
   copyTime,
@@ -44,7 +50,6 @@ import {
 import { OverlayCloseCause } from '@/internals/Overlay/OverlayTrigger';
 import { splitRanges, getRestProps } from './utils';
 import { startOfToday } from '@/internals/utils/date';
-import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DateOptionPreset } from '@/internals/types';
 import type { DatePickerLocale } from '../locales';

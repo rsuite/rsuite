@@ -6,8 +6,7 @@ import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface StatProps extends BoxProps {
   /**

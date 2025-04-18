@@ -1,7 +1,6 @@
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import SafeAnchor, { SafeAnchorProps } from '@/internals/SafeAnchor';
 import ExternalLinkIcon from './ExternalLinkIcon';
 

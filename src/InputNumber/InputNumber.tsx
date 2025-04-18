@@ -8,10 +8,9 @@ import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
 import { forwardRef, partitionHTMLProps, createChainedFunction } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type {
   SanitizedInputProps,
   FormControlBaseProps,

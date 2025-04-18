@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export type ContainerProps = BoxProps & React.HTMLAttributes<HTMLDivElement>;
 export const ContainerContext = React.createContext<ContainerContextValue>({});

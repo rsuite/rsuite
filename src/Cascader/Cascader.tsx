@@ -8,7 +8,7 @@ import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
 import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
-import { useControlled, useStyles, useEventCallback, useMap } from '@/internals/hooks';
+import { useControlled, useStyles, useCustom, useEventCallback, useMap } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
 import {
   PickerToggle,
@@ -27,7 +27,6 @@ import {
   FormControlPickerProps,
   DeprecatedMenuProps
 } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
 import useActive from './useActive';
 import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
 

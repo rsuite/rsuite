@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useUniqueId } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useUniqueId } from '@/internals/hooks';
 
 export interface FormGroupProps extends BoxProps {
   /**

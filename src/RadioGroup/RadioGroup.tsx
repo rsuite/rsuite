@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import Plaintext from '@/internals/Plaintext';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import type { PrependParameters, FormControlBaseProps } from '@/internals/types';
 
 export interface RadioContextProps {

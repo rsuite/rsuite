@@ -18,12 +18,11 @@ import {
 } from '@/internals/Windowing';
 import { forwardRef } from '@/internals/utils';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView as BaseTreeView } from '@/internals/Tree';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import { useCustom } from '../CustomProvider';
 import type { DataProps, ToArray, WithAsPropsWithoutChildren } from '@/internals/types';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { TreeViewBaseProps, TreeDragProps } from './types';

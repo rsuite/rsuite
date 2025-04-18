@@ -1,7 +1,6 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeStyles, getSizeStyle } from '@/internals/utils';
 import { TextSize } from '@/internals/types';
 

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import DatePicker from '../DatePicker';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
-import type { DateOptionPreset } from '@/internals/types';
-import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
+import { useCustom } from '@/internals/hooks';
+import type { DateOptionPreset, FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DatePickerLocale } from '../locales';
 
 export interface TimePickerProps

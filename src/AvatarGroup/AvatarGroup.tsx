@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { Size } from '@/internals/types';
 
 export interface AvatarGroupProps extends BoxProps {

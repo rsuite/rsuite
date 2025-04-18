@@ -1,8 +1,7 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 export interface GridProps extends BoxProps {
   /** Whether the grid container should have a fluid width */
   fluid?: boolean;

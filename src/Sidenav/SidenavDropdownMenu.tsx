@@ -6,10 +6,9 @@ import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
 import { SidenavContext } from './Sidenav';
-import { useCustom } from '../CustomProvider';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
 

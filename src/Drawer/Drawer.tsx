@@ -6,9 +6,8 @@ import DrawerHeader from './DrawerHeader';
 import DrawerActions from './DrawerActions';
 import DrawerFooter from './DrawerFooter';
 import DrawerTitle from './DrawerTitle';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { PlacementCardinal } from '@/internals/types';
 
 export interface DrawerProps extends Omit<ModalProps, 'overflow'> {

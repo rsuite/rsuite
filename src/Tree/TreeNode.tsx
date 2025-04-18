@@ -2,10 +2,9 @@ import React, { useMemo } from 'react';
 import TreeNodeToggle from './TreeNodeToggle';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, stringifyReactNode, mergeStyles } from '@/internals/utils';
-import { useFocusVirtualListItem, useStyles, useEventCallback } from '@/internals/hooks';
+import { useFocusVirtualListItem, useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
-import { useCustom } from '../CustomProvider';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';

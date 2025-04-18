@@ -1,8 +1,7 @@
 import React from 'react';
 import Button, { ButtonProps } from '../Button';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface IconButtonProps extends ButtonProps {

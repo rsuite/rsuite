@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '@/internals/hooks';
 import { compareAsc } from '@/internals/utils/date';
-import { FormattedDate } from '../CustomProvider';
+import { FormattedDate } from '@/internals/intl/FormattedDate';
 import Button from '../Button';
 
 interface HeaderProps {

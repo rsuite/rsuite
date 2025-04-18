@@ -4,10 +4,9 @@ import Button from '../Button';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { isSameMonth, startOfDay } from '@/internals/utils/date';
-import { FormattedDate } from '../CustomProvider';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { FormattedDate } from '@/internals/intl/FormattedDate';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { useCalendarDate } from './hooks';
-import { useCustom } from '../CustomProvider';
 import type { CalendarLocale } from '../locales';
 import type { MonthDropdownProps } from './types';
 

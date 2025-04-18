@@ -1,8 +1,7 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface CardGroupProps extends BoxProps {
   /**

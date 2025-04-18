@@ -2,8 +2,7 @@ import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { isSomeChildChecked, getNodeParents } from './utils';
 import type { Option, WithAsProps } from '@/internals/types';
 

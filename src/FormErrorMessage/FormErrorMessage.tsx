@@ -1,8 +1,7 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, kebabPlace } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { PlacementCorners } from '@/internals/types';
 
 export interface FormErrorMessageProps extends BoxProps {

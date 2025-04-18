@@ -18,8 +18,13 @@ import * as StaticMethods from './disabledDateUtils';
 import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
-import { useStyles, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useUniqueId,
+  useEventCallback
+} from '@/internals/hooks';
 import { splitRanges } from '../DatePicker/utils';
 import {
   PickerPopup,

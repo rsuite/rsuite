@@ -7,10 +7,9 @@ import useField from './hooks/useField';
 import Toggle from '../Toggle';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
 import type { CheckType } from 'schema-typed';
 import type { PlacementCorners, FormControlBaseProps, CheckTriggerType } from '@/internals/types';
 

@@ -1,9 +1,19 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import Box, { BoxProps } from '@/internals/Box/Box';
-import { useStyles } from '@/internals/hooks';
 import { forwardRef } from './forwardRef';
-import { useCustom } from '../../../CustomProvider';
+/**
+ * Why not import like this:
+ * ```
+ * import { useStyles, useCustom } from '@/internals/hooks';
+ * ```
+ *
+ * We import useStyles and useCustom separately to prevent Vite from displaying Rollup warnings
+ * during the build process. This approach avoids circular dependency issues that could affect
+ * chunk division and optimizes the build output.
+ */
+import { useStyles } from '@/internals/hooks/useStyles';
+import { useCustom } from '@/internals/hooks/useCustom';
 
 export type ComponentProps = BoxProps & React.HTMLAttributes<HTMLDivElement>;
 

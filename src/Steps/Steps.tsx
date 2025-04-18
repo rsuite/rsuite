@@ -2,8 +2,7 @@ import React from 'react';
 import StepItem from './StepItem';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, rch } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface StepsProps extends BoxProps {
   /** Vertical display */

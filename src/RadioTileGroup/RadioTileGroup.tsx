@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import Stack from '../Stack';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useControlled } from '@/internals/hooks';
+import { useStyles, useCustom, useControlled } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { FormControlBaseProps } from '@/internals/types';
 
 export interface RadioTileContextProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import TextMask from './TextMask';
 import Input, { InputProps } from '../Input';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import type { PropsWithoutChange } from '@/internals/types';
 import type { TextMaskProps } from './TextMask';
 

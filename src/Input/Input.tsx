@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { forwardRef } from '@/internals/utils';
 import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
+import { forwardRef } from '@/internals/utils';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import { useCustom } from '../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { PrependParameters } from '@/internals/types/utils';
 import type {
   SanitizedInputProps,

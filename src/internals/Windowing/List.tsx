@@ -8,7 +8,7 @@ import {
   ListOnItemsRenderedProps,
   ListProps as BaseListProps
 } from 'react-window';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import type { WithAsPropsWithoutChildren } from '@/internals/types';
 

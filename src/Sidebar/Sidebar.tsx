@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import { ContainerContext } from '../Container/Container';
 
 export interface SidebarProps extends BoxProps {

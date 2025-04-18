@@ -6,7 +6,7 @@ import Button, { ButtonProps } from '../Button';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { extractTimeFormat } from '@/internals/utils/date';
-import { FormattedDate } from '../CustomProvider';
+import { FormattedDate } from '@/internals/intl/FormattedDate';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from './hooks';
 import { useDateRangePicker } from '../DateRangePicker/hooks';

@@ -4,8 +4,13 @@ import Tab from './Tab';
 import TabPanel from './TabPanel';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, rch } from '@/internals/utils';
-import { useStyles, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useEventCallback,
+  useUniqueId
+} from '@/internals/hooks';
 import type { ReactElement } from '@/internals/types';
 
 /**

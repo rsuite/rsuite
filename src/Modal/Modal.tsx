@@ -9,11 +9,10 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import { useStyles, useWillUnmount, useUniqueId } from '@/internals/hooks';
+import { useStyles, useCustom, useWillUnmount, useUniqueId } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
-import { useCustom } from '../CustomProvider';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 

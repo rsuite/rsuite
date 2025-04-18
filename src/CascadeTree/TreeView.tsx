@@ -7,9 +7,8 @@ import SpinnerIcon from '@rsuite/icons/Spinner';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { forwardRef, shallowEqual, mergeRefs, mergeStyles } from '@/internals/utils';
-import { useStyles, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
-import { useCustom } from '../CustomProvider';
 import type { Option, WithAsProps, DataProps, ToArray } from '@/internals/types';
 import type { SelectNode, CascadeColumn } from './types';
 

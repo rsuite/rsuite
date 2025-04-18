@@ -2,7 +2,7 @@ import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { FormattedNumber } from '../CustomProvider';
+import { FormattedNumber } from '@/internals/intl/FormattedNumber';
 export interface StatValueProps extends BoxProps {
   value?: number;
   formatOptions?: Intl.NumberFormatOptions;

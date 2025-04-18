@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import type { Placement } from '@/internals/types';
 
 export interface TooltipProps extends BoxProps {

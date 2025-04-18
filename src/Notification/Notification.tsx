@@ -3,9 +3,8 @@ import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useStyles, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { useStyles, useCustom, useIsMounted, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 import type { StatusType, DisplayStateType } from '@/internals/types';
 
 export interface NotificationProps extends Omit<BoxProps, 'children'> {

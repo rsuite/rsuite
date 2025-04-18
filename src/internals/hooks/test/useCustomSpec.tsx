@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderHook } from '@testing-library/react';
-import CustomProvider from '../CustomProvider';
+import CustomProvider from '../../../CustomProvider';
 import useCustom from '../useCustom';
 
 describe('useCustom', () => {

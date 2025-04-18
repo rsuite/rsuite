@@ -4,9 +4,8 @@ import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
-import { useCustom } from '../CustomProvider';
 
 export interface FormHelpTextProps extends BoxProps, React.HTMLAttributes<HTMLSpanElement> {
   /** Whether to show through the Tooltip component */
