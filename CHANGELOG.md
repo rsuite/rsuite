@@ -1,3 +1,18 @@
+# [5.80.0](https://github.com/rsuite/rsuite/compare/v5.79.1...v5.80.0) (2025-04-18)
+
+
+### Bug Fixes
+
+* **calendar:** adjust priority of weekStart over isoWeek ([#4234](https://github.com/rsuite/rsuite/issues/4234)) ([4697f22](https://github.com/rsuite/rsuite/commit/4697f221fef5d16edc4b8a18a7491aa7d2187a85))
+* **vite:** resolve circular dependency between chunks ([#4246](https://github.com/rsuite/rsuite/issues/4246)) ([9dca238](https://github.com/rsuite/rsuite/commit/9dca23899d007bcd204711da56c3a98323b87e7d))
+
+
+### Features
+
+* **InlineEdit:** enhance focus handling with TAB navigation support ([#4226](https://github.com/rsuite/rsuite/issues/4226)) ([18d4f6a](https://github.com/rsuite/rsuite/commit/18d4f6a4554fb7c07d6972563272fa67f0ebd1b4))
+
+
+
 ## [5.79.1](https://github.com/rsuite/rsuite/compare/v5.79.0...v5.79.1) (2025-04-03)
 
 
