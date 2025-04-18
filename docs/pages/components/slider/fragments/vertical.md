@@ -21,10 +21,8 @@ const marks = [
 const App = () => {
   return (
     <HStack spacing={40}>
-      <Slider defaultValue={50} vertical h={400} />
       <Slider defaultValue={50} vertical progress h={400} />
       <RangeSlider defaultValue={[10, 50]} vertical h={400} />
-      <Slider defaultValue={50} min={0} step={10} max={100} graduated vertical progress h={400} />
       <RangeSlider min={0} step={10} max={100} defaultValue={[10, 50]} vertical graduated h={400} />
       <HStack spacing={120}>
         <Slider
