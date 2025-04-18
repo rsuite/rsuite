@@ -7,7 +7,7 @@ import {
   ButtonGroup,
   ButtonToolbar,
   Schema,
-  InputNumber,
+  NumberInput,
   Panel,
   Input,
   Row,
@@ -69,7 +69,7 @@ const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
         {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
       </Cell>
       <Cell>
-        <InputNumber min={0} value={rowValue.quantity} onChange={handleChangeAmount} w={100} />
+        <NumberInput min={0} value={rowValue.quantity} onChange={handleChangeAmount} w={100} />
         {rowError ? <ErrorMessage>{rowError.quantity.errorMessage}</ErrorMessage> : null}
       </Cell>
     </tr>

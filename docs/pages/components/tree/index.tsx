@@ -1,9 +1,11 @@
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
-import { Tree, Button, InputNumber, Panel, SelectPicker, Stack } from 'rsuite';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { Tree, Button, NumberInput, Panel, SelectPicker, Stack } from 'rsuite';
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowRight,
@@ -38,7 +40,7 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         Button,
-        InputNumber,
+        NumberInput,
         Tree,
         Panel,
         FolderFillIcon,

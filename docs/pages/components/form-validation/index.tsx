@@ -12,7 +12,9 @@ import {
   Radio,
   Schema,
   CheckPicker,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   PasswordInput,
   Panel,
   SelectPicker,
@@ -48,7 +50,7 @@ export default function Page() {
         Schema,
         Form,
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         ButtonGroup,
         ButtonToolbar,

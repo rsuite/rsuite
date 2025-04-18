@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, ButtonToolbar, Button, Input, InputGroup, InputNumber, Textarea } from 'rsuite';
+import { Form, ButtonToolbar, Button, Input, InputGroup, NumberInput, Textarea } from 'rsuite';
 
 const FormField = ({ name, label, text, ...props }) => (
   <Form.Group controlId={name}>
@@ -27,7 +27,7 @@ const App = () => (
     <FormField name="password" label="Password" type="password" autoComplete="off" />
     <FormField name="textarea" label="Textarea" accepter={Textarea} rows={5} />
     <FormField name="input-group" label="Input Group" accepter={InputGroupField} />
-    <FormField name="numder" label="InputNumber" accepter={InputNumber} />
+    <FormField name="numder" label="NumberInput" accepter={NumberInput} />
     <Form.Group>
       <ButtonToolbar>
         <Button appearance="primary">Submit</Button>

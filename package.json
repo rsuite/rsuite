@@ -206,7 +206,7 @@
   "size-limit": [
     {
       "path": "lib/dist/rsuite.min.js",
-      "limit": "280 kB",
+      "limit": "300 kB",
       "gzip": true
     }
   ]

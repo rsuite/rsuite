@@ -67,6 +67,7 @@ export * from './Input';
 export * from './Textarea';
 export * from './MaskedInput';
 export * from './InputNumber';
+export * from './NumberInput';
 export * from './InputGroup';
 export * from './PasswordInput';
 export * from './PasswordStrengthMeter';
