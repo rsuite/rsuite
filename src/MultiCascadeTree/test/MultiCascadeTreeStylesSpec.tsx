@@ -14,11 +14,7 @@ describe('MultiCascadeTree styles', () => {
 
     const tree = screen.getByRole('tree');
 
-    expect(tree.querySelector('.rs-checkbox-checker label')).to.have.style(
-      'padding',
-      '8px 26px 8px 38px'
-    );
-
+    expect(tree.querySelector('.rs-checkbox-checker label')).to.have.style('padding', '8px 12px');
     expect(tree.querySelector('[aria-label="arrow right line"]')).to.exist;
   });
 });

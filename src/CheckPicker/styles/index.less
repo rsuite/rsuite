@@ -7,22 +7,15 @@
 
 // Menu Items
 .rs-picker-check-menu-items {
-  .picker-menu-items-reset();
+  --rs-check-item-padding-inline: calc(var(--rs-spacing) * 3);
+  --rs-check-item-padding-block: calc(var(--rs-spacing) * 2);
+
+  .picker-listbox-reset();
   .picker-menu-group-common(picker);
   .picker-menu-group-title(picker);
   .picker-menu-group-closed(picker);
 
   .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
     .picker-item-active();
-  }
-
-  &.rs-picker-check-menu-grouped {
-    .rs-check-item .rs-checkbox-checker > label {
-      padding-left: 52px;
-    }
-
-    .rs-check-item .rs-checkbox-checker .rs-checkbox-control {
-      left: 26px;
-    }
   }
 }

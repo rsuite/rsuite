@@ -82,5 +82,3 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 | value        | string[] \| number[]                        | Value of checked box (Controlled)                           |
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

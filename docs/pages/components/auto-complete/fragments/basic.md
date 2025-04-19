@@ -26,7 +26,7 @@ const data = [
 
 const App = () => (
   <>
-    <AutoComplete data={data} style={{ width: 224 }} />
+    <AutoComplete data={data} w={224} />
   </>
 );
 

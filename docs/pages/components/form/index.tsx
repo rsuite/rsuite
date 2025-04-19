@@ -1,5 +1,11 @@
 import React from 'react';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import VisibleIcon from '@rsuite/icons/Visible';
 import {
+  Textarea,
   Form,
   Button,
   ButtonGroup,
@@ -10,7 +16,10 @@ import {
   Radio,
   CheckPicker,
   InputGroup,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
+  PasswordInput,
   Toggle,
   Panel,
   Modal,
@@ -25,12 +34,12 @@ import {
   MultiCascader,
   Message,
   Rate,
-  Uploader
+  Uploader,
+  HStack,
+  VStack,
+  Box
 } from 'rsuite';
 
-import DefaultPage from '@/components/Page';
-import ImportGuide from '@/components/ImportGuide';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
 
 const mockfile = {
@@ -44,6 +53,7 @@ const inDocsComponents = {
       components={['Form']}
       hasCssComponents={[
         'Form',
+        'FormStack',
         'FormControl',
         'FormControlLabel',
         'FormErrorMessage',
@@ -59,10 +69,11 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Textarea,
         Form,
         Input,
         InputGroup,
-        InputNumber,
+        NumberInput,
         Toggle,
         Button,
         ButtonGroup,
@@ -72,6 +83,7 @@ export default function Page() {
         SelectPicker,
         RadioGroup,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
         Modal,
@@ -85,7 +97,12 @@ export default function Page() {
         Message,
         Rate,
         Uploader,
+        HStack,
+        VStack,
+        Box,
         mockTreeData,
+        EyeCloseIcon,
+        VisibleIcon,
         AvatarIcon
       }}
       sandboxFiles={[mockfile]}

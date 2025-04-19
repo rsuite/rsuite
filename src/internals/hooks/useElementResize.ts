@@ -12,7 +12,7 @@ export function useElementResize(
   eventTarget: Element | null | (() => Element | null),
   listener: ResizeObserverCallback
 ) {
-  const resizeObserver = useRef<ResizeObserver>();
+  const resizeObserver = useRef<ResizeObserver>(null);
 
   useEffect(() => {
     if (!resizeObserver.current) {

@@ -100,7 +100,7 @@ const useFocusItemValue = <T, D>(
     }
 
     // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
-    // 2. The values ​​in `keys` are all string, so the corresponding value of `data` should also be converted to string
+    // 2. The values in `keys` are all string, so the corresponding value of `data` should also be converted to string
     return currentKeys.map(key => find(data, i => `${i[valueKey]}` === key));
   };
 

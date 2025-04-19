@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import AvatarGroup from '../AvatarGroup';
 import Avatar from '../../Avatar';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('AvatarGroup', () => {
   testStandardProps(<AvatarGroup />);
@@ -15,14 +15,14 @@ describe('AvatarGroup', () => {
       </AvatarGroup>
     );
 
-    expect(screen.getByText('A')).to.have.class('rs-avatar-xs');
-    expect(screen.getByText('B')).to.have.class('rs-avatar-xs');
-  });
-
-  it('Should set the spacing between the avatars', () => {
-    render(<AvatarGroup spacing={10} />);
-
-    expect(screen.getByRole('group')).to.have.style('gap', '10px');
+    expect(screen.getByText('A')).to.have.attr(
+      'style',
+      '--rs-avatar-size: var(--rs-avatar-size-xs);'
+    );
+    expect(screen.getByText('B')).to.have.attr(
+      'style',
+      '--rs-avatar-size: var(--rs-avatar-size-xs);'
+    );
   });
 
   it('Should be stack', () => {

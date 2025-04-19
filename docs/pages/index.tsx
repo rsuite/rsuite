@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
-import TopLevelNav from '@/components/TopLevelNav';
+import MainNav from '@/components/layout/MainNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
-import Head from '@/components/Head';
-import PageToolbar from '@/components/PageToolbar';
-import { useApp } from '@/components/AppContext';
+import Head from '@/components/layout/Head';
+import PageToolbar from '@/components/layout/PageToolbar';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
+import { useApp } from '@/hooks/useApp';
 
 function HomePage() {
   const [running, setRuning] = useState(false);
@@ -22,7 +22,7 @@ function HomePage() {
     <>
       <Head title={locales?.common?.home} description={locales?.common?.resume}></Head>
       <Grid className="page-home">
-        <TopLevelNav hideToggle />
+        <MainNav hideToggle />
         <PageToolbar />
         <Row>
           <FlexboxGrid align="middle" className="banner">
@@ -86,13 +86,6 @@ function HomePage() {
               </div>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-        </Row>
-        <Row>
-          <div className="footerbar">
-            <a href="http://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">
-              沪 ICP 备 12011101 号 - 10
-            </a>
-          </div>
         </Row>
       </Grid>
     </>

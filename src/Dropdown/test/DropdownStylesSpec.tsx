@@ -14,7 +14,7 @@ describe('Dropdown styles', () => {
     );
 
     expect(screen.getByRole('button')).to.have.style('position', 'relative');
-    expect(screen.getByRole('button')).to.have.style('padding', '8px 32px 8px 12px');
+    expect(screen.getByRole('button')).to.have.style('padding', '8px 12px');
     expect(screen.getByRole('button')).to.have.contain('.rs-icon[aria-label="arrow down line"]');
   });
 

@@ -1,5 +1,5 @@
-import addDays from 'date-fns/addDays';
-import startOfWeek from 'date-fns/startOfWeek';
+import { addDays } from 'date-fns/addDays';
+import { startOfWeek } from 'date-fns/startOfWeek';
 import type { Locale } from 'date-fns';
 /**
  * Get the first days of weeks in a month。

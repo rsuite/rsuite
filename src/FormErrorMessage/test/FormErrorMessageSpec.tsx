@@ -1,33 +1,46 @@
 import React from 'react';
+import FormErrorMessage from '../FormErrorMessage';
+import { kebabPlace } from '@/internals/utils';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/utils';
-import FormErrorMessage from '../FormErrorMessage';
 
 describe('FormErrorMessage', () => {
   testStandardProps(<FormErrorMessage show />);
 
-  it('Should render nothing', () => {
+  it('Should not render when show is false', () => {
     const { container } = render(<FormErrorMessage />);
     expect(container.firstChild).to.not.exist;
   });
 
-  it('Should render a FormErrorMessage', () => {
+  it('Should render the error message when show is true', () => {
     render(<FormErrorMessage show data-testid="error" />);
 
     expect(screen.getByTestId('error')).to.have.class('rs-form-error-message-wrapper');
     expect(screen.getByTestId('error')).to.contain('.rs-form-error-message');
   });
 
-  it('Should be show', () => {
+  it('Should be visible when show prop is true', () => {
     render(<FormErrorMessage show data-testid="error" />);
     expect(screen.getByTestId('error')).to.contain('.rs-form-error-message-show');
   });
 
-  it('Should hava a `bottomStart` for placement', () => {
-    render(<FormErrorMessage show placement="bottomStart" data-testid="error" />);
+  describe('Placement', () => {
+    const placements = [
+      'bottomStart',
+      'bottomEnd',
+      'topStart',
+      'topEnd',
+      'leftStart',
+      'leftEnd',
+      'rightStart',
+      'rightEnd'
+    ];
 
-    expect(screen.getByTestId('error')).to.have.class(
-      'rs-form-error-message-placement-bottom-start'
-    );
+    placements.forEach(placement => {
+      it(`Should render with ${placement} placement`, () => {
+        render(<FormErrorMessage show placement={placement as any} data-testid="error" />);
+        expect(screen.getByTestId('error')).to.have.attr('data-placement', kebabPlace(placement));
+      });
+    });
   });
 });

@@ -1,30 +1,25 @@
 <!--start-code-->
 
 ```js
-import { Input, InputGroup } from 'rsuite';
+import { Input, InputGroup, VStack } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 
-const styles = {
-  width: 300,
-  marginBottom: 10
-};
-
 const App = () => (
-  <>
-    <InputGroup style={styles}>
+  <VStack w={300}>
+    <InputGroup>
       <Input />
       <InputGroup.Button>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <Input />
       <InputGroup.Button>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
-  </>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Panel, HStack, VStack, Text, Avatar, RadioGroup, Radio } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import LocationIcon from '@rsuite/icons/Location';

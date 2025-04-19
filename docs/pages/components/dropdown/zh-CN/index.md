@@ -1,15 +1,15 @@
 # Dropdown 下拉菜单
 
-下拉菜单是一种导航，如果需要选择值请使用 SelectPicker。
+用于创建一个易于访问的下拉菜单，为用户提供多个选项以供选择
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
-- `<Dropdown>` 下拉菜单。
-- `<Dropdown.Item>` 下拉菜单选项。
-- `<Dropdown.Menu>` 下拉菜单中创建子菜单。
-- `<Dropdown.Separator>` 下拉菜单中的分割线。
+- `Dropdown` 下拉菜单。
+- `Dropdown.Item` 下拉菜单选项。
+- `Dropdown.Menu` 下拉菜单中创建子菜单。
+- `Dropdown.Separator` 下拉菜单中的分割线。
 
 ## 演示
 
@@ -24,8 +24,6 @@
 - `click` (默认值)
 - `hover`
 - `contextMenu`
-
-> 同时支持多个事件 `Array<click, hover, contextMenu>`
 
 <!--{include:`trigger.md`}-->
 
@@ -49,6 +47,10 @@
 
 <!--{include:`icons.md`}-->
 
+### 带描述
+
+<!--{include:`description.md`}-->
+
 ### 分割线与面板
 
 - 使用 `<Dropdown.Separator>` 设置分割线。
@@ -64,25 +66,17 @@
 
 <!--{include:`submenu.md`}-->
 
-### 菜单项
-
-<!--{include:`menu-items.md`}-->
-
 ### 自定义 Toggle
 
 <!--{include:`custom-toggle.md`}-->
-
-### 与 Popover 组合使用
-
-<!--{include:`with-popover.md`}-->
 
 ### 与按钮组合使用
 
 <!--{include:`buttons.md`}-->
 
-### 使用路由
+### 路由
 
-`<Dropdown.Item>` 组件可与框架和客户端路由（例如 Next.js 和 React Router）配合使用。请参阅[路由指南](/zh/guide/composition/#third-party-routing-library)以了解如何进行设置。
+`Dropdown.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。
 
 <!--{include:`with-router.md`}-->
 
@@ -142,5 +136,3 @@
 
 <!--{include:(_common/types/placement8.md)}-->
 <!--{include:(_common/types/trigger.md)}-->
-
-[5.58.0]: https://img.shields.io/badge/>=-v5.58.0-blue

@@ -7,6 +7,10 @@
 // ----------------------
 
 .rs-uploader {
+  --rs-uploader-file-item-icon-font-size: 1.375rem;
+  --rs-uploader-file-item-icon-margin: 0.75rem;
+  --rs-uploader-file-item-icon-margin-plus: 1.375rem;
+
   &-trigger {
     input[type='file'] {
       position: absolute !important;
@@ -33,9 +37,9 @@
 
   &-file-item-icon-reupload {
     cursor: pointer;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     color: var(--rs-text-primary);
-    font-size: 12px;
+    font-size: var(--rs-font-size-xs);
   }
 }
 
@@ -67,7 +71,7 @@
       display: inline-flex;
       align-items: center;
       top: @padding-y;
-      left: @padding-x;
+      inset-inline-start: @padding-x;
       width: @line-height-computed;
       height: @line-height-computed;
       justify-content: center;
@@ -75,7 +79,7 @@
 
     &-icon-loading {
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         > svg {
@@ -113,9 +117,9 @@
 
     &-btn-remove {
       position: absolute;
-      font-size: 14px;
+      font-size: var(--rs-font-size-sm);
       top: 12px;
-      right: @padding-x;
+      inset-inline-end: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       padding: 0;
@@ -134,7 +138,7 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      left: 0;
+      inset-inline-start: 0;
 
       &-bar {
         height: 2px;
@@ -165,7 +169,7 @@
     margin: 0;
     padding: 0;
     border: 2px dotted var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     margin-top: @uploader-picture-item-gap;
   }
 
@@ -180,7 +184,7 @@
 
   .rs-uploader-trigger,
   .rs-uploader-file-item {
-    float: left;
+    float: inline-start;
   }
 
   .rs-uploader-file-items {
@@ -192,10 +196,10 @@
     height: @uploader-picture-side-length;
     overflow: hidden;
     background-color: var(--rs-uploader-item-bg);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     position: relative;
     margin-top: @uploader-picture-item-gap;
-    margin-right: @uploader-picture-item-gap;
+    margin-inline-end: @uploader-picture-item-gap;
 
     &-preview {
       position: relative;
@@ -209,15 +213,15 @@
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin-plus;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin-plus);
       }
     }
 
     &-status {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       width: @uploader-picture-side-length;
       height: @uploader-picture-side-length;
       text-align: center;
@@ -248,13 +252,13 @@
       cursor: pointer;
       position: absolute;
       top: 3px;
-      right: 3px;
+      inset-inline-end: 3px;
       width: @uploader-picture-remove-button-radius;
       height: @uploader-picture-remove-button-radius;
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
       background-color: var(--rs-uploader-overlay-bg);
-      border-radius: 50%;
+      border-radius: var(--rs-radius-full);
       visibility: hidden;
       opacity: 0;
       transition: 0.2s opacity;
@@ -283,12 +287,12 @@
       background-color: var(--rs-uploader-overlay-bg);
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       z-index: @zindex-uploader-picture-loading-wrapper;
       text-align: center;
 
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         display: inline-block;
@@ -303,7 +307,7 @@
 
   // Reset margin-left.
   .rs-uploader-file-item-icon-reupload {
-    margin-left: 0;
+    margin-inline-start: 0;
     display: block;
   }
 }
@@ -312,11 +316,11 @@
   .rs-uploader-file-item {
     position: relative;
     height: @uploader-picture-text-preview-side-length;
-    padding-left: @uploader-picture-text-preview-side-length;
+    padding-inline-start: @uploader-picture-text-preview-side-length;
     margin-top: @uploader-picture-item-gap;
-    padding-right: 30px;
+    padding-inline-end: 30px;
     border: 1px solid var(--rs-border-primary);
-    border-radius: @border-radius;
+    border-radius: var(--rs-radius-md);
     overflow: hidden;
     transition: 0.3s linear background-color;
 
@@ -330,7 +334,7 @@
 
     &-preview {
       position: absolute;
-      left: 0;
+      inset-inline-start: 0;
       top: 0;
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
@@ -338,15 +342,16 @@
       text-align: center;
       background-color: var(--rs-border-primary);
       overflow: hidden;
-      border-radius: @border-radius 0 0 @border-radius;
+      border-top-left-radius: var(--rs-radius-md);
+      border-bottom-left-radius: var(--rs-radius-md);
 
       > img {
         .img-cover();
       }
 
       .rs-uploader-file-item-icon {
-        font-size: @uploader-file-item-icon-font-size;
-        margin: @uploader-file-item-icon-margin;
+        font-size: var(--rs-uploader-file-item-icon-font-size);
+        margin: var(--rs-uploader-file-item-icon-margin);
       }
     }
 
@@ -372,7 +377,7 @@
     &-btn-remove {
       position: absolute;
       top: 0;
-      right: @padding-x;
+      inset-inline-end: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       height: @uploader-picture-text-preview-side-length;
@@ -391,8 +396,8 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      left: 0;
-      padding-left: @uploader-picture-text-preview-side-length;
+      inset-inline-start: 0;
+      padding-inline-start: @uploader-picture-text-preview-side-length;
 
       &-bar {
         height: 2px;
@@ -404,7 +409,7 @@
     &-icon-loading {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-start: 0;
       display: block;
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
@@ -414,7 +419,7 @@
       line-height: 50px;
 
       .rs-uploader-file-item-icon {
-        .set-side-length(@loader-default-diameter);
+        .loader-size(@loader-default-diameter);
         .loader-spin();
 
         display: inline-block;

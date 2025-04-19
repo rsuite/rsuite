@@ -46,10 +46,9 @@ describe('FormControl', () => {
       </Form>
     );
 
-    expect(
-      // eslint-disable-next-line
-      (container.querySelector('div') as HTMLDivElement).className
-    ).to.match(/\bcustom-prefix\b/);
+    expect((container.querySelector('div') as HTMLDivElement).className).to.match(
+      /\bcustom-prefix\b/
+    );
   });
 
   it('Should call onChange callback', () => {
@@ -114,9 +113,6 @@ describe('FormControl', () => {
 
   it('Should render correctly when form value was null', () => {
     render(
-      // FIXME `formValue` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formValue={null}>
         <FormControl name="name" />
       </Form>

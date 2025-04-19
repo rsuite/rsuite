@@ -21,7 +21,7 @@ const App = () => (
       <Avatar color="red" circle />
       <Avatar color="orange" circle />
       <Avatar color="yellow" circle />
-      <Avatar olor="green" circle />
+      <Avatar color="green" circle />
       <Avatar color="cyan" circle />
       <Avatar color="blue" circle />
       <Avatar color="violet" circle />

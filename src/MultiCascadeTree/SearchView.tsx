@@ -2,10 +2,9 @@ import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { isSomeChildChecked, getNodeParents } from './utils';
-import type { ItemDataType, WithAsProps } from '@/internals/types';
+import type { Option, WithAsProps } from '@/internals/types';
 
 interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;
@@ -13,13 +12,13 @@ interface SearchViewProps<T> extends WithAsProps {
   valueKey: string;
   childrenKey: string;
   value: T[];
-  data: ItemDataType<T>[];
+  data: Option<T>[];
   disabledItemValues: any[];
   cascade?: boolean;
   locale?: Record<string, string>;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
-  onCheck: (item: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  onCheck: (item: Option<T>, event: React.SyntheticEvent, checked: boolean) => void;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
 function SearchView<T>(props: SearchViewProps<T>) {
@@ -42,12 +41,12 @@ function SearchView<T>(props: SearchViewProps<T>) {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { merge, prefix, withPrefix, rootPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 
-  const renderSearchRow = (item: ItemDataType<T>, key: number) => {
+  const renderSearchRow = (item: Option<T>, key: number) => {
     const nodes = getNodeParents(item);
     const label = (
       <Highlight as="span" query={searchKeyword}>

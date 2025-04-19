@@ -1,12 +1,11 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import enGB from 'date-fns/locale/en-GB';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
 import rsEnUS from '@/locales/en_US';
+import { enGB } from 'date-fns/locale/en-GB';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { keyPress } from '@test/utils/simulateEvent';
 import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
@@ -25,7 +24,6 @@ describe('DatePicker', () => {
   testStandardProps(<DatePicker />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      // eslint-disable-next-line testing-library/no-node-access
       return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });
@@ -57,23 +55,23 @@ describe('DatePicker', () => {
     }
   });
 
-  it('Should render a div with "rs-picker-date" class', () => {
-    const { container } = render(<DatePicker />);
+  it('Should render a div with data-picker attribute', () => {
+    render(<DatePicker />);
 
-    expect(container.firstChild).to.have.tagName('DIV');
-    expect(container.firstChild).to.have.class('rs-picker-date');
+    expect(screen.getByTestId('picker')).to.have.tagName('DIV');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date');
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<DatePicker />);
+    render(<DatePicker />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should be cleanable by default', () => {
-    const { container } = render(<DatePicker value={new Date()} />);
+    render(<DatePicker value={new Date()} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-cleanable');
+    expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
   it('Should be not cleanable', () => {
@@ -494,7 +492,6 @@ describe('DatePicker', () => {
     expect(
       screen
         .getByRole('grid', { name: 'Jun, 2021' })
-        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
 
@@ -503,7 +500,6 @@ describe('DatePicker', () => {
     expect(
       screen
         .getByRole('grid', { name: 'Jul, 2021' })
-        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7']);
   });
@@ -725,6 +721,13 @@ describe('DatePicker', () => {
     render(<DatePicker defaultValue={new Date('2023-04-01')} open />);
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
+  });
+
+  it('Should render default shortcut buttons', () => {
+    render(<DatePicker defaultOpen />);
+
+    expect(screen.getByRole('button', { name: 'Today' })).to.be.visible;
+    expect(screen.getByRole('button', { name: 'Yesterday' })).to.be.visible;
   });
 
   it('Should call `onShortcutClick` callback', () => {
@@ -1078,62 +1081,6 @@ describe('DatePicker', () => {
   });
 
   describe('Disable Date, Hour, Minute, Second', () => {
-    it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
-      sinon.spy(console, 'warn');
-      render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
-
-      expect(screen.getByRole('option', { name: '11 hours' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
-      );
-    });
-
-    it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
-      sinon.spy(console, 'warn');
-      render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
-
-      expect(screen.getByRole('option', { name: '40 minutes' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
-      );
-    });
-    it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
-      sinon.spy(console, 'warn');
-      render(
-        <DatePicker
-          calendarDefaultDate={new Date(2023, 2, 7)}
-          disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
-          open
-        />
-      );
-      expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
-        'rs-calendar-table-cell-disabled'
-      );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
-      );
-    });
-
-    it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
-      sinon.spy(console, 'warn');
-      render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
-
-      expect(screen.getByRole('option', { name: '40 seconds' })).to.have.attribute(
-        'aria-disabled',
-        'true'
-      );
-      expect(console.warn).to.have.been.calledWith(
-        '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
-      );
-    });
-
     it('Should disable date cells according to `shouldDisableDate`', () => {
       const onSelect = sinon.spy();
       render(
@@ -1382,25 +1329,33 @@ describe('DatePicker', () => {
   });
 
   describe('Error handling', () => {
-    it('Should render an error message when the format is deprecated', () => {
-      sinon.spy(console, 'error');
+    let consoleErrorStub;
 
+    beforeEach(() => {
+      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+        // do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+    it('Should render an error message when the format is deprecated', () => {
       expect(() => {
         render(<DatePicker format="YY" value={new Date()} />);
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
-      sinon.spy(console, 'error');
       expect(() => {
         render(<DatePicker format="_error_" value={new Date()} />);
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(console.error).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
+      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 

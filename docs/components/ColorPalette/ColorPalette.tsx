@@ -1,6 +1,6 @@
 import { VStack, HStack, Text, Modal, ModalProps, Button, Tooltip, Whisper, Divider } from 'rsuite';
 import classNames from 'classnames';
-import useClipboard from '@/utils/useClipboard';
+import useClipboard from '@/hooks/useClipboard';
 import { tinycolor } from 'rsuite/styles/plugins/palette';
 import React from 'react';
 

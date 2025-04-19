@@ -6,8 +6,8 @@ Radios are used when only one choice may be selected in a series of options.
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
-- `<RadioGroup>` Radio Group allow users to select a single option from a list of mutually exclusive options.
+- `Radio` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
+- `RadioGroup` Radio Group allow users to select a single option from a list of mutually exclusive options.
 
 ## Examples
 
@@ -75,13 +75,11 @@ Radios are used when only one choice may be selected in a series of options.
 
 | Property     | Type `(Default)`              | Description                                  |
 | ------------ | ----------------------------- | -------------------------------------------- |
-| appearance   | 'default' &#124; 'picker'     | A radio group can have different appearances |
-| defaultValue | string                        | The default value (uncontrolled)                                |
+| appearance   | 'default' \| 'picker'         | A radio group can have different appearances |
+| defaultValue | string                        | The default value (uncontrolled)             |
 | inline       | boolean                       | Inline layout                                |
 | name         | string                        | Name to use for form                         |
 | onChange     | (value:string, event) => void | Callback function with value changed         |
-| value        | string                        | The current value (controlled)                           |
+| value        | string                        | The current value (controlled)               |
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

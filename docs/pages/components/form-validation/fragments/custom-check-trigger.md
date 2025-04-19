@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, RadioGroup, Radio, Schema, Panel, FlexboxGrid } from 'rsuite';
+import { Form, Button, RadioGroup, Radio, Schema, Panel, Box, Row, Col } from 'rsuite';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
+  <Box mb={10}>
     <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
       <JSONTree data={formValue} />
     </Panel>
@@ -13,10 +13,8 @@ const JSONView = ({ formValue, formError }) => (
     <Panel className="json-tree-wrapper" header={<p>formError</p>}>
       <JSONTree data={formError} />
     </Panel>
-  </div>
+  </Box>
 );
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
@@ -50,8 +48,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <RadioGroup
           inline
           appearance="picker"
@@ -61,7 +59,7 @@ const App = () => {
             setFormError({});
           }}
         >
-          <RadioLabel>checkTrigger: </RadioLabel>
+          <label>checkTrigger: </label>
           <Radio value="blur">blur</Radio>
           <Radio value="change">change</Radio>
           <Radio value="none">none</Radio>
@@ -76,16 +74,18 @@ const App = () => {
           model={model}
           checkTrigger={checkTrigger}
         >
-          <Field name="name" label="Email" error={formError.name} message="Email address" />
-          <Button appearance="primary" onClick={handleSubmit}>
+          <Form.Stack>
+            <Field name="name" label="Email" error={formError.name} message="Email address" />
+          </Form.Stack>
+          <Button appearance="primary" onClick={handleSubmit} mt={20}>
             Submit
           </Button>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

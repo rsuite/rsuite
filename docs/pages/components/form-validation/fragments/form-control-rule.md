@@ -27,11 +27,15 @@ function EmailField() {
 function App() {
   return (
     <Form>
-      <UsernameField />
-      <EmailField />
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+      <Form.Stack>
+        <UsernameField />
+        <EmailField />
+      </Form.Stack>
+      <ButtonToolbar mt={20}>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </ButtonToolbar>
     </Form>
   );
 }

@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
@@ -26,7 +25,11 @@ describe('TreePicker', () => {
     }
   });
 
-  testPickers(TreePicker, { virtualized: true, ariaHaspopup: 'tree', popupAutoWidth: true });
+  testPickers(TreePicker, {
+    virtualized: true,
+    ariaHaspopup: 'tree',
+    popupAutoWidth: true
+  });
 
   testControlledUnControlled(TreePicker, {
     componentProps: { data, defaultOpen: true },
@@ -57,19 +60,20 @@ describe('TreePicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const { container } = render(<TreePicker data={[]} />);
+    render(<TreePicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.class('rs-picker');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
   });
 
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<TreePicker defaultOpen data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '320px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 320px;');
 
     rerender(<TreePicker defaultOpen data={data} treeHeight={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should set a height for the Tree with virtualized', () => {
@@ -168,23 +172,20 @@ describe('TreePicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container: container1 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => '1'} data-testid="picker1" />
-    );
-    const { container: container2 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => null} data-testid="picker2" />
-    );
-    const { container: container3 } = render(
-      <TreePicker data={[]} value="Test" renderValue={() => undefined} data-testid="picker3" />
-    );
+    const { rerender } = render(<TreePicker data={[]} value="Test" renderValue={() => '1'} />);
 
-    expect(screen.getAllByRole('combobox')[0]).to.have.text('1');
-    expect(screen.getAllByRole('combobox')[1]).to.have.text('Select');
-    expect(screen.getAllByRole('combobox')[2]).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.text('1');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
-    expect(container1.firstChild).to.have.class('rs-picker-has-value');
-    expect(container2.firstChild).not.to.have.class('rs-picker-has-value');
-    expect(container3.firstChild).not.to.have.class('rs-picker-has-value');
+    rerender(<TreePicker data={[]} value="Test" renderValue={() => null} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
+
+    rerender(<TreePicker data={[]} value="Test" renderValue={() => undefined} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'false');
   });
 
   it('Should not be call renderValue()', () => {
@@ -229,31 +230,31 @@ describe('TreePicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
-    render(<TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={onCleanSpy} />);
+    const onClean = sinon.spy();
+    render(<TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onCleanSpy).to.have.been.calledOnce;
+    expect(onClean).to.have.been.calledOnce;
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpenSpy = sinon.spy();
-    render(<TreePicker onOpen={onOpenSpy} data={data} />);
+    const onOpen = sinon.spy();
+    render(<TreePicker onOpen={onOpen} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should call `onClose` callback', async () => {
-    const onCloseSpy = sinon.spy();
-    render(<TreePicker defaultOpen onClose={onCloseSpy} data={data} />);
+    const onClose = sinon.spy();
+    render(<TreePicker defaultOpen onClose={onClose} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(onClose).to.have.been.calledOnce;
     });
   });
 
@@ -290,25 +291,30 @@ describe('TreePicker', () => {
       picker: PickerHandle;
       setExpandItemValues: (values: string[]) => void;
     };
-    const TestApp = React.forwardRef((props: Omit<TreePickerProps, 'data' | 'open'>, ref) => {
-      const pickerRef = React.useRef<PickerHandle>(null);
-      const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
-      React.useImperativeHandle(ref, () => {
-        return {
-          picker: pickerRef.current,
-          setExpandItemValues
-        };
-      });
-      return (
-        <TreePicker
-          ref={pickerRef}
-          {...props}
-          data={data}
-          open
-          expandItemValues={expandItemValues}
-        />
-      );
-    });
+
+    type AppProps = Omit<TreePickerProps, 'data' | 'open'>;
+
+    const TestApp = React.forwardRef<TestAppInstance, AppProps>(
+      (props: AppProps, ref: React.Ref<any>) => {
+        const pickerRef = React.useRef<PickerHandle>(null);
+        const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
+        React.useImperativeHandle(ref, () => {
+          return {
+            picker: pickerRef.current,
+            setExpandItemValues
+          };
+        });
+        return (
+          <TreePicker
+            ref={pickerRef}
+            {...props}
+            data={data}
+            open
+            expandItemValues={expandItemValues}
+          />
+        );
+      }
+    );
 
     TestApp.displayName = 'TestApp';
 
@@ -390,7 +396,7 @@ describe('TreePicker', () => {
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
-    const onScrollSpy = sinon.spy();
+    const onScroll = sinon.spy();
     const ref = React.createRef<PickerHandle>();
 
     render(
@@ -401,7 +407,7 @@ describe('TreePicker', () => {
         style={{ height: 30 }}
         open
         listProps={{
-          onScroll: onScrollSpy
+          onScroll: onScroll
         }}
       />
     );
@@ -410,28 +416,23 @@ describe('TreePicker', () => {
       ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
     });
 
-    expect(onScrollSpy).to.be.calledOnce;
+    expect(onScroll).to.be.calledOnce;
   });
 
   it('Should item able to stringfy', () => {
-    const onSelectSpy = sinon.spy();
-    const renderTreeNodeSpy = sinon.spy();
+    const onSelect = sinon.spy();
+    const renderTreeNode = sinon.spy();
 
     render(
-      <TreePicker
-        defaultOpen
-        data={data}
-        onSelect={onSelectSpy}
-        renderTreeNode={renderTreeNodeSpy}
-      />
+      <TreePicker defaultOpen data={data} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
     fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-    expect(onSelectSpy).to.called;
-    expect(renderTreeNodeSpy).to.called;
+    expect(onSelect).to.called;
+    expect(renderTreeNode).to.called;
     expect(() => JSON.stringify(data[0])).not.to.throw();
-    expect(() => JSON.stringify(onSelectSpy.firstCall.args[0])).not.to.throw();
-    expect(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(onSelect.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(renderTreeNode.firstCall.args[0])).not.to.throw();
   });
 
   it('Should not clean values when setting disabled=true', () => {

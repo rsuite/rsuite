@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import type { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { Placement } from '@/internals/types';
 
-export interface TooltipProps extends WithAsProps {
+export interface TooltipProps extends BoxProps {
   /** Dispaly placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Whether visible */
   visible?: boolean;
@@ -23,48 +23,34 @@ export interface TooltipProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/tooltip
  */
-const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
-  (props: TooltipProps, ref) => {
-    const { propsWithDefaults } = useCustom('Tooltip', props);
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'tooltip',
-      children,
-      style,
-      visible,
-      arrow = true,
-      ...rest
-    } = propsWithDefaults;
+const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
+  const { propsWithDefaults } = useCustom('Tooltip', props);
+  const {
+    as,
+    className,
+    classPrefix = 'tooltip',
+    children,
+    style,
+    visible,
+    arrow = true,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({
-        arrow
-      })
-    );
-    const styles = {
-      opacity: visible ? 1 : undefined,
-      ...style
-    };
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ arrow }));
 
-    return (
-      <Component role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
-        {children}
-      </Component>
-    );
-  }
-);
+  const styles = useMemo(
+    () => mergeStyles(style, { ['--rs-opacity']: visible ? 1 : undefined }),
+    [visible, style]
+  );
+
+  return (
+    <Box as={as} role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
+      {children}
+    </Box>
+  );
+});
 
 Tooltip.displayName = 'Tooltip';
-Tooltip.propTypes = {
-  visible: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  arrow: PropTypes.bool
-};
 
 export default Tooltip;

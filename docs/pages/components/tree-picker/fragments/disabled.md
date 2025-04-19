@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TreePicker, VStack, HStack } from 'rsuite';
+import { TreePicker, VStack, HStack, Box } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -31,8 +31,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 const Select = ({ label, children, ...rest }) => (
   <HStack>
-    <label style={{ width: 120 }}>{label}:</label>
-    <TreePicker {...rest} style={{ width: 180 }} />
+    <Box as="label" w={120}>
+      {label}:
+    </Box>
+    <TreePicker {...rest} w={180} />
   </HStack>
 );
 ```

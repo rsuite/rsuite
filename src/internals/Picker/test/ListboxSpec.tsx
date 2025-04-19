@@ -1,10 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import Listbox from '../Listbox';
 import ListItem from '../ListItem';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import { getDataGroupBy } from '@/internals/utils';
-import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';
 
@@ -74,7 +74,10 @@ describe('picker -  Listbox', () => {
       <Listbox className="custom" maxHeight={200} classPrefix={classPrefix} listItemAs={ListItem} />
     );
 
-    expect(screen.getByRole('listbox')).to.have.style('max-height', '200px');
+    expect(screen.getByRole('listbox')).to.have.attr(
+      'style',
+      '--rs-picker-listbox-max-height: 200px;'
+    );
   });
 
   it('Should output 3 `menu-item` ', () => {
@@ -107,7 +110,7 @@ describe('picker -  Listbox', () => {
   });
 
   it('Should call onSelect callback with correct value', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <Listbox
@@ -125,7 +128,7 @@ describe('picker -  Listbox', () => {
   });
 
   it('Should call onGroupTitleClick callback', () => {
-    const onGroupTitleClick = Sinon.spy();
+    const onGroupTitleClick = sinon.spy();
 
     render(
       <Listbox
@@ -148,7 +151,7 @@ describe('picker -  Listbox', () => {
         groupBy="groupKey"
         classPrefix={classPrefix}
         data={items}
-        renderMenuItem={item => <i>{item}</i>}
+        renderOption={item => <i>{item}</i>}
         listItemAs={ListItem}
       />
     );
@@ -162,7 +165,7 @@ describe('picker -  Listbox', () => {
         groupBy="groupKey"
         classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
-        renderMenuGroup={item => <i>{item}</i>}
+        renderOptionGroup={item => <i>{item}</i>}
         listItemAs={ListItem}
       />
     );

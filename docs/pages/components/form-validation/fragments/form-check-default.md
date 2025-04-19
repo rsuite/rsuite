@@ -23,9 +23,11 @@ function TextField(props) {
 function App() {
   return (
     <Form model={model}>
-      <TextField name="name" label="Username" />
-      <TextField name="email" label="Email" />
-      <ButtonToolbar>
+      <Form.Stack>
+        <TextField name="name" label="Username" />
+        <TextField name="email" label="Email" />
+      </Form.Stack>
+      <ButtonToolbar mt={20}>
         <Button appearance="primary" type="submit">
           Submit
         </Button>

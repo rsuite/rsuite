@@ -1,10 +1,10 @@
 import React from 'react';
-import Sinon from 'sinon';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import sinon from 'sinon';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Tabs from '../Tabs';
 import CustomProvider from '../../CustomProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('Tabs', () => {
   testStandardProps(<Tabs />);
@@ -101,7 +101,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -118,7 +118,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -141,7 +141,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback when keydown Home or End', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -167,7 +167,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown when vertical', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <Tabs vertical onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -190,7 +190,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback by keydown when rtl', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     render(
       <CustomProvider rtl>
         <Tabs onSelect={onSelect}>
@@ -212,5 +212,94 @@ describe('Tabs', () => {
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 2' }), { key: 'ArrowLeft' });
 
     expect(onSelect).to.have.been.calledWith('1');
+  });
+
+  describe('Content rendering', () => {
+    it('Should render content when has children', () => {
+      render(
+        <Tabs defaultActiveKey="1">
+          <Tabs.Tab eventKey="1" title="Tab 1">
+            Content 1
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="2" title="Tab 2">
+            Content 2
+          </Tabs.Tab>
+        </Tabs>
+      );
+
+      const content = screen.getByRole('tabpanel');
+      expect(content).to.exist;
+      expect(content.parentElement).to.have.class('rs-tabs-content');
+      expect(content).to.have.text('Content 1');
+    });
+
+    it('Should not render content when no children', () => {
+      render(<Tabs />);
+
+      const content = screen.queryByRole('tabpanel');
+      expect(content).to.be.null;
+    });
+
+    it('Should render correct panel based on activeKey', () => {
+      render(
+        <Tabs activeKey="2">
+          <Tabs.Tab eventKey="1" title="Tab 1">
+            Content 1
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="2" title="Tab 2">
+            Content 2
+          </Tabs.Tab>
+        </Tabs>
+      );
+
+      const content = screen.getByRole('tabpanel');
+      expect(content).to.have.text('Content 2');
+    });
+
+    it('Should update content when activeKey changes', () => {
+      const { rerender } = render(
+        <Tabs activeKey="1">
+          <Tabs.Tab eventKey="1" title="Tab 1">
+            Content 1
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="2" title="Tab 2">
+            Content 2
+          </Tabs.Tab>
+        </Tabs>
+      );
+
+      let content = screen.getByRole('tabpanel');
+      expect(content).to.have.text('Content 1');
+
+      rerender(
+        <Tabs activeKey="2">
+          <Tabs.Tab eventKey="1" title="Tab 1">
+            Content 1
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="2" title="Tab 2">
+            Content 2
+          </Tabs.Tab>
+        </Tabs>
+      );
+
+      content = screen.getByRole('tabpanel');
+      expect(content).to.have.text('Content 2');
+    });
+
+    it('Should pass id to panels', () => {
+      render(
+        <Tabs activeKey="1" id="custom-tabs">
+          <Tabs.Tab eventKey="1" title="Tab 1">
+            Content 1
+          </Tabs.Tab>
+          <Tabs.Tab eventKey="2" title="Tab 2">
+            Content 2
+          </Tabs.Tab>
+        </Tabs>
+      );
+
+      const panel = screen.getByRole('tabpanel');
+      expect(panel.id).to.equal('custom-tabs-panel-1');
+    });
   });
 });

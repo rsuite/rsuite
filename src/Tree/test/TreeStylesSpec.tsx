@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import Tree from '../index';
+import { render, screen } from '@testing-library/react';
 import { itChrome } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 import '../styles/index.less';
@@ -13,6 +13,6 @@ describe('Tree styles', () => {
 
     const itemLabel = screen.getByRole('tree').querySelector('.rs-tree-node-label');
 
-    expect(itemLabel).to.have.style('padding', '6px');
+    expect(itemLabel).to.have.style('padding', '4px');
   });
 });

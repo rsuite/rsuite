@@ -75,7 +75,7 @@
 
 | 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
-| appearance   | 'default' &#124; 'picker'     | 设置外观           |
+| appearance   | 'default' \| 'picker'         | 设置外观           |
 | defaultValue | string                        | 默认值（非受控）   |
 | inline       | boolean                       | 内联布局           |
 | name         | string                        | 用于表单对应的名称 |
@@ -83,5 +83,3 @@
 | value        | string                        | 当前值(受控)       |
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

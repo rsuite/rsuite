@@ -7,8 +7,17 @@
 // ----------------------
 
 .rs-cascade-tree {
-  &-items .rs-check-item .rs-checkbox-checker > label {
-    padding-right: 26px; // 12px + 8px + 6px
+  &-items {
+    --rs-check-item-padding-inline: calc(var(--rs-spacing) * 3);
+    --rs-check-item-padding-block: calc(var(--rs-spacing) * 2);
+  }
+
+  &-items .rs-checkbox-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rs-spacing);
+    flex: 1 1 auto;
   }
 
   &-items .rs-check-item.rs-check-item-focus,
@@ -20,13 +29,13 @@
 
   &-column&-column-uncheckable {
     .rs-check-item .rs-checkbox-checker > label {
-      padding-left: @picker-item-content-padding-horizontal;
+      padding-inline-start: @picker-item-content-padding-horizontal;
     }
   }
 }
 .rs-cascade-tree-multi {
   .rs-cascade-search-view-row {
-    padding-left: 0;
+    padding-inline-start: 0;
     padding-top: 0;
     padding-bottom: 0;
   }

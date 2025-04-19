@@ -1,6 +1,6 @@
 import React from 'react';
 import loadable from '@loadable/component';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import {
   Form,
   Button,
@@ -12,7 +12,10 @@ import {
   Radio,
   Schema,
   CheckPicker,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
+  PasswordInput,
   Panel,
   SelectPicker,
   Slider,
@@ -21,9 +24,11 @@ import {
   Message,
   Uploader,
   toaster,
-  FlexboxGrid,
   IconButton,
-  Toggle
+  Toggle,
+  Box,
+  Row,
+  Col
 } from 'rsuite';
 
 import PlusIcon from '@rsuite/icons/Plus';
@@ -45,7 +50,7 @@ export default function Page() {
         Schema,
         Form,
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -54,6 +59,7 @@ export default function Page() {
         SelectPicker,
         RadioGroup,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
         JSONTree,
@@ -63,11 +69,13 @@ export default function Page() {
         Message,
         toaster,
         Uploader,
-        FlexboxGrid,
+        Row,
+        Col,
         IconButton,
         PlusIcon,
         MinusIcon,
-        Toggle
+        Toggle,
+        Box
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}

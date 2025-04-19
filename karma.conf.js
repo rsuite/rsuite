@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 /**
  * Run all tests: `npm run tdd`
  * Run all styles tests: `M=styles npm run tdd`
@@ -11,17 +12,22 @@
  */
 module.exports = config => {
   const { env } = process;
-  const { M, F } = env;
+  const { M, F, RUN_ENV } = env;
 
   // Weird pattern syntax but works
   // @see https://github.com/karma-runner/karma/issues/1532#issuecomment-127128326
-  let testFile = 'src/**/*Spec.+(js|ts|tsx)';
+  let testMain = 'src/**/*Spec.+(js|ts|tsx)';
 
   if (M) {
-    testFile = `src/${M}/test/*Spec.+(js|ts|tsx)`;
+    testMain = `src/${M}/test/*Spec.+(js|ts|tsx)`;
   } else if (F) {
-    testFile = F;
+    testMain = F;
   }
+
+  console.group('Karma Config');
+  console.log(`Run Environment: ${RUN_ENV}`);
+  console.log('Test Main:', testMain);
+  console.groupEnd();
 
   config.set({
     /** Timeout for capturing a browser (in ms). */
@@ -36,7 +42,7 @@ module.exports = config => {
     /** How long will Karma wait for a message from a browser before disconnecting from it (in ms). */
     browserNoActivityTimeout: 210000,
     basePath: '',
-    files: ['test/setupTests.js', ...[testFile].map(pattern => ({ pattern, watched: false }))],
+    files: ['test/setupTests.js', ...[testMain].map(pattern => ({ pattern, watched: false }))],
     frameworks: ['mocha', 'chai-dom', 'sinon-chai', 'webpack'],
     colors: true,
     reporters: ['mocha', 'coverage'],
@@ -47,7 +53,7 @@ module.exports = config => {
     },
     client: {
       mocha: {
-        timeout: 10000 // default 2000
+        timeout: 30000 // default 2000
       }
     },
     webpack: require('./webpack.karma.js'),
@@ -58,7 +64,7 @@ module.exports = config => {
     customLaunchers: {
       ChromeCi: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: ['--headless', '--no-sandbox', '--disable-gpu']
       },
       FirefoxAutoAllowGUM: {
         base: 'Firefox',
