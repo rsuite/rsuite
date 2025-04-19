@@ -4,9 +4,9 @@
 import { Navbar, Nav, Avatar, Badge, IconButton } from 'rsuite';
 import { IoLogoReact, IoNotifications } from 'react-icons/io5';
 
-const Brand = () => (
+const Brand = ({ title }) => (
   <Navbar.Brand href="#">
-    <IoLogoReact size={26} /> Brand
+    <IoLogoReact size={26} /> {title}
   </Navbar.Brand>
 );
 
@@ -14,7 +14,7 @@ const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
   return (
     <Navbar appearance={appearance} {...props}>
       <Navbar.Content showFrom="xs">
-        <Brand />
+        <Brand title={appearance.toLocaleUpperCase()} />
         <Nav>
           <Nav.Item>Docs</Nav.Item>
           <Nav.Item>Components</Nav.Item>
@@ -24,7 +24,7 @@ const CustomNavbar = ({ appearance, onSelect, activeKey, ...props }) => {
 
       <Navbar.Content hideFrom="xs">
         <Navbar.Toggle />
-        <Brand />
+        <Brand title={appearance} />
       </Navbar.Content>
 
       <Navbar.Content>

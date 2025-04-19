@@ -16,39 +16,49 @@ A wrapper for Nav that is generally used for the top navigation of a page.
 
 ### Default
 
+The most basic usage of the navigation bar, including brand and navigation items.
+
 <!--{include:`basic.md`}-->
 
 ### Appearance
 
-The `appearance` property sets the navigation bar appearance:
-
-- `default` (default value) Default navigation bar.
-- `inverse` Inverse color navigation bar.
-- `subtle` Subtle navigation bar.
+Switch between different visual styles of the navigation bar using the `appearance` property.
 
 <!--{include:`appearance.md`}-->
 
 ### Search
 
+Integrate a search box into the navigation bar.
+
 <!--{include:`search.md`}-->
 
 ### Sub Nav
+
+Show a navigation bar with a secondary menu.
 
 <!--{include:`subnav.md`}-->
 
 ### Mega Menu
 
+Display a navigation bar with a large dropdown menu.
+
 <!--{include:`mege-menu.md`}-->
 
 ### With Popover Menu
+
+Show additional navigation items using a popover menu.
 
 <!--{include:`with-popover.md`}-->
 
 ### With Drawer
 
+Display navigation items in a drawer menu on small screens.
+
 <!--{include:`with-drawer.md`}-->
 
 ## Responsive
+
+The navigation bar supports responsive layouts and adapts to different screen sizes.
 
 <!--{include:<example-responsive>}-->
 
