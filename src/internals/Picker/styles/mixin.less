@@ -93,7 +93,9 @@
 .picker-default-toggle() {
   [data-variant='default'] & {
     color: var(--rs-text-primary);
-    border: var(--rs-picker-toggle-border-width) solid var(--rs-border-primary);
+    border-width: var(--rs-picker-toggle-border-width);
+    border-color: var(--rs-picker-toggle-border-color);
+    border-style: solid;
   }
 
   [data-disabled='true'] & {
@@ -101,7 +103,6 @@
   }
 
   [data-variant='default']:not([data-disabled='true']) {
-    &:hover,
     &:focus {
       border-color: var(--rs-input-focus-border);
     }
@@ -118,7 +119,6 @@
   .rs-picker[data-variant='subtle'][data-disabled='true'] & {
     cursor: @cursor-disabled;
 
-    &:hover,
     &:focus,
     &:active {
       background: none;
