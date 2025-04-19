@@ -16,39 +16,49 @@
 
 ### 默认
 
+最基础的导航栏用法，包含品牌和导航项。
+
 <!--{include:`basic.md`}-->
 
 ### 外观
 
-`appearance` 属性设置导航栏外观:
-
-- `default` (默认值) 默认导航栏。
-- `inverse` 反色的导航栏。
-- `subtle` 弱化的导航栏。
+通过 `appearance` 属性切换导航栏的不同视觉风格。
 
 <!--{include:`appearance.md`}-->
 
 ### 搜索
 
+在导航栏中集成搜索框。
+
 <!--{include:`search.md`}-->
 
 ### 二级导航
+
+展示包含二级菜单的导航栏。
 
 <!--{include:`subnav.md`}-->
 
 ### 大菜单
 
+展示带有大型下拉菜单的导航栏。
+
 <!--{include:`mege-menu.md`}-->
 
 ### 带抽屉菜单
+
+小屏幕下可通过抽屉菜单展示导航项。
 
 <!--{include:`with-drawer.md`}-->
 
 ### 带 Popover 菜单
 
+通过弹出菜单（Popover）展示更多导航项。
+
 <!--{include:`with-popover.md`}-->
 
 ## 响应式
+
+导航栏可自适应不同屏幕尺寸，支持响应式布局。
 
 <!--{include:<example-responsive>}-->
 
