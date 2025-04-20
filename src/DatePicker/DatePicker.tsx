@@ -72,6 +72,7 @@ export interface DatePickerProps
 
   /**
    * The default value of the component, uncontrolled mode
+   * @default true
    */
   isAnimated?: boolean;
 

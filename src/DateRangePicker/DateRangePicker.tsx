@@ -80,6 +80,12 @@ export interface DateRangePickerProps
   format?: string;
 
   /**
+   * The default value of the component, uncontrolled mode
+   * @default true
+   */
+  isAnimated?: boolean;
+
+  /**
    * Rendered as an input, the date can be entered via the keyboard.
    * @default true
    */
@@ -299,6 +305,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       as: Component = 'div',
       classPrefix = 'picker',
       className,
+      isAnimated = true,
       appearance = 'default',
       editable = true,
       cleanable = true,
@@ -919,6 +926,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         calendarDateRange,
         limitStartYear,
         showWeekNumbers,
+        isAnimated,
         format: formatStr,
         value: selectedDates,
         monthDropdownProps,
