@@ -46,6 +46,7 @@ Use `cellClassName` function to specify the custom class name added to each cell
 | cellClassName      | (date: Date) => string \| undefined               | Custom cell classes base on it's date                                                                                             |
 | compact            | boolean                                           | Display a compact calendar                                                                                                        |
 | defaultValue       | Date                                              | The default value (uncontrolled)                                                                                                  |
+| isAnimated         | boolean `(true)`                                  | Disable dropdown transition animation                                                                                                                          |
 | isoWeek            | boolean                                           | [ISO 8601 standard][ISO-8601], each calendar week begins on Monday and Sunday on the seventh day                                  |
 | locale             | [DateTimeFormats](/guide/i18n/#date-time-formats) | Locale configuration                                                                                                              |
 | monthDropdownProps | [MonthDropdownProps][month-dropdown-props]        | Props for the month dropdown                                                                                                      |
