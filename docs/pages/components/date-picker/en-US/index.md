@@ -12,6 +12,10 @@ DatePicker is a highly customizable component that allows users to enter and pic
 
 <!--{include:`basic.md`}-->
 
+### Without animation
+
+<!--{include:`non-animated.md`}-->
+
 ### Customize the date format
 
 <!--{include:`format.md`}-->
