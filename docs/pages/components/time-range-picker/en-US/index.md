@@ -12,6 +12,10 @@ The TimeRangePicker component is used to select a time range.
 
 <!--{include:`basic.md`}-->
 
+### Without animation
+
+<!--{include:`non-animated.md`}-->
+
 ### Meridiem — 12h/24h format
 
 <!--{include:`meridiem.md`}-->
