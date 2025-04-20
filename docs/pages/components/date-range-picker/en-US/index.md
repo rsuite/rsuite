@@ -12,6 +12,10 @@ DateRangePicker is used to quickly enter or pick a date and time range.
 
 <!--{include:`basic.md`}-->
 
+### Without animation
+
+<!--{include:`non-animated.md`}-->
+
 ### Customize the date format
 
 <!--{include:`format.md`}-->
