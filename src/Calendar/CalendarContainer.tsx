@@ -32,6 +32,11 @@ export interface CalendarProps
   dateRange?: Date[];
 
   /**
+   * Whether to show animation
+   */
+  isAnimated?: boolean;
+
+  /**
    * The Id of the target element that triggers the opening of the calendar
    */
   targetId?: string;
@@ -208,6 +213,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
   (props: CalendarProps, ref) => {
     const {
       as: Component = 'div',
+      isAnimated = true,
       className,
       classPrefix = 'calendar',
       calendarDate: calendarDateProp,
@@ -335,11 +341,17 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
               show={monthMode}
               limitEndYear={limitEndYear}
               limitStartYear={limitStartYear}
+              isAnimated={isAnimated}
               disabledMonth={isDateDisabled}
             />
           )}
           {has('time') && (
-            <TimeDropdown {...timeDropdownProps} show={timeMode} showMeridiem={showMeridiem} />
+            <TimeDropdown
+              {...timeDropdownProps}
+              show={timeMode}
+              isAnimated={isAnimated}
+              showMeridiem={showMeridiem}
+            />
           )}
 
           {(monthMode || timeMode) && has('day') && (

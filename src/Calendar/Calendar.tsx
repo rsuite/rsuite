@@ -18,6 +18,11 @@ export interface CalendarProps extends WithAsProps {
   value?: Date;
 
   /**
+   * Whether to show animation
+   */
+  isAnimated?: boolean;
+
+  /**
    * Default value
    */
   defaultValue?: Date;
@@ -95,6 +100,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
     const { propsWithDefaults } = useCustom('Calendar', props);
     const {
       as: Component = CalendarContainer,
+      isAnimated = true,
       bordered,
       className,
       classPrefix = 'calendar',
@@ -152,6 +158,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         inline
         className={classes}
         ref={ref}
+        isAnimated={isAnimated}
         isoWeek={isoWeek}
         weekStart={weekStart}
         format="yyyy-MM-dd"
