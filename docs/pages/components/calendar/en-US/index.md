@@ -12,6 +12,10 @@ A component that displays data by calendar
 
 <!--{include:`basic.md`}-->
 
+### Without animation
+
+<!--{include:`non-animated.md`}-->
+
 ### Compact
 
 <!--{include:`compact.md`}-->
