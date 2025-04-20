@@ -148,6 +148,7 @@ Has keyboard interaction for the DateInput component by default.
 | container             | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                                                                      |
 | defaultOpen           | boolean                                                | Default value of open property                                                                                                    |
 | defaultValue          | Date                                                   | The default value (uncontrolled)                                                                                                  |
+| isAnimated            | boolean `(true)`                                       | Disable dropdown transition animation                                                                                             |
 | disabled              | boolean                                                | Whether disabled the component                                                                                                    |
 | ~disabledDate~        | (date:Date) => boolean                                 | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                  |
 | ~disabledHours~       | (hour:number, date:Date) => boolean                    | ⚠️`[Deprecated]` Use `shouldDisableHour` instead                                                                                  |

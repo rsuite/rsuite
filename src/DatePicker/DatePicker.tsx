@@ -71,6 +71,11 @@ export interface DatePickerProps
   disabled?: boolean;
 
   /**
+   * The default value of the component, uncontrolled mode
+   */
+  isAnimated?: boolean;
+
+  /**
    * Rendered as an input, the date can be entered via the keyboard
    */
   editable?: boolean;
@@ -263,6 +268,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       calendarDefaultDate,
       cleanable = true,
       caretAs: caretAsProp,
+      isAnimated = true,
       editable = true,
       defaultValue,
       disabled,
@@ -612,6 +618,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 limitEndYear={limitEndYear}
                 limitStartYear={limitStartYear}
                 format={formatStr}
+                isAnimated={isAnimated}
                 isoWeek={isoWeek}
                 weekStart={weekStart}
                 calendarDate={calendarDate}
