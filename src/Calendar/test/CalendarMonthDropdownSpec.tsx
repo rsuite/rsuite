@@ -149,4 +149,38 @@ describe('Calendar-MonthDropdown', () => {
     expect(cells[8]).to.have.class('rs-calendar-month-dropdown-cell-active');
     expect(cells[9]).to.have.class('disabled');
   });
+
+  it('should apply disable-animation class when isAnimated=false', () => {
+    render(
+      <CalendarProvider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <MonthDropdown isAnimated={false} show />
+      </CalendarProvider>
+    );
+    const el = screen.getByTestId('month-dropdown-content');
+    expect(el.classList.contains('disable-animation')).to.be.true;
+  });
+
+  it('should not apply disable-animation class when isAnimated=true', () => {
+    render(
+      <CalendarProvider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <MonthDropdown isAnimated={true} show />
+      </CalendarProvider>
+    );
+    const el = screen.getByTestId('month-dropdown-content');
+    expect(el.classList.contains('disable-animation')).to.be.false;
+  });
 });

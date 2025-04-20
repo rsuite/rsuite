@@ -136,7 +136,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
         data-testid="calendar-month-dropdown"
         {...rest}
       >
-        <div className={scrollClassNames()}>
+        <div data-testid="month-dropdown-content" className={scrollClassNames()}>
           <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
             {({ height, width }) => (
               <FixedSizeList
