@@ -24,6 +24,12 @@ export interface TimePickerProps
   disabled?: boolean;
 
   /**
+   * The default value of the component, uncontrolled mode
+   * @default true
+   */
+  isAnimated?: boolean;
+
+  /**
    * Rendered as an input, the date can be entered via the keyboard
    */
   editable?: boolean;
@@ -113,6 +119,7 @@ const TimePicker: PickerComponent<TimePickerProps> = React.forwardRef(
       <DatePicker
         ref={ref}
         format={locale?.shortTimeFormat}
+        isAnimated={props.isAnimated}
         ranges={defaultRanges}
         {...propsWithDefaults}
       />

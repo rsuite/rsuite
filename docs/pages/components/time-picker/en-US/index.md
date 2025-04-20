@@ -71,6 +71,7 @@ Has all ARIA properties of the DateInput component by default.
 | container           | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                        |
 | defaultOpen         | boolean                                                         | Default value of open property                                                      |
 | defaultValue        | Date                                                            | The default value (uncontrolled)                                                    |
+| isAnimated          | boolean `(true)`                                                | Disable the dropdown animation                                                    |
 | disabled            | boolean                                                         | Whether disabled the component                                                      |
 | editable            | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                      |
 | format              | string `('HH:mm')`                                              | Format of the date when rendered in the input                                       |

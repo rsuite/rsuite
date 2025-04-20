@@ -70,6 +70,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | character       | string `(' ~ ')`                                       | The character that separates two dates                                                    |
 | cleanable       | boolean `(true)`                                       | Whether the selected value can be cleared                                                 |
 | container       | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                              |
+| isAnimated      | boolean `(true)`                                       | Disable the dropdown animation                                                            |
 | defaultOpen     | boolean                                                | Default value of open property                                                            |
 | defaultValue    | [Date, Date]                                           | The default value (uncontrolled)                                                          |
 | disabled        | boolean                                                | Whether disabled the component                                                            |
