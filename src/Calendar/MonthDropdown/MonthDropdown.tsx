@@ -11,6 +11,7 @@ export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
   limitStartYear?: number;
   limitEndYear?: number;
+  isAnimated?: boolean;
   height?: number;
   width?: number;
   disabledMonth?: (date: Date) => boolean;
@@ -31,6 +32,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       limitStartYear,
       limitEndYear = 5,
       show,
+      isAnimated = true,
       height: defaultHeight = 221,
       width: defaultWidth = 256,
       disabledMonth,
@@ -111,6 +113,14 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const initialItemIndex = getYear(date) - startYear;
     const initialScrollOffset = ITEM_SIZE * initialItemIndex;
 
+    const scrollClassNames = () => {
+      if (!isAnimated) {
+        return merge(prefix('scroll'), 'disable-animation');
+      }
+
+      return prefix('scroll');
+    };
+
     if (!show) {
       return null;
     }
@@ -126,7 +136,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
         data-testid="calendar-month-dropdown"
         {...rest}
       >
-        <div className={prefix('scroll')}>
+        <div className={scrollClassNames()}>
           <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
             {({ height, width }) => (
               <FixedSizeList
