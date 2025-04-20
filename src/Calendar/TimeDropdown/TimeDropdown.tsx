@@ -195,7 +195,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         ref={ref}
         className={classes}
       >
-        <div className={contentClassNames()}>
+        <div data-testid="time-dropdown-content" className={contentClassNames()}>
           <div className={prefix('row')} ref={rowRef}>
             {renderColumn('hours', time.hours)}
             {renderColumn('minutes', time.minutes)}

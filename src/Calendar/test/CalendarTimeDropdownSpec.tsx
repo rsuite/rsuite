@@ -143,4 +143,40 @@ describe('Calendar - TimeDropdown', () => {
 
     expect(screen.getAllByRole('option', { hidden: true })).to.have.length(11);
   });
+
+  it('should apply disable-animation class when isAnimated=false', () => {
+    render(
+      <CalendarProvider
+        value={{
+          format: 'HH:mm:ss' as const,
+          date: new Date(2022, 10, 2),
+          locale: en_US.Calendar,
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <TimeDropdown isAnimated={false} />
+      </CalendarProvider>
+    );
+    const el = screen.getByTestId('time-dropdown-content');
+    expect(el.classList.contains('disable-animation')).to.be.true;
+  });
+
+  it('should not apply disable-animation class when isAnimated=true', () => {
+    render(
+      <CalendarProvider
+        value={{
+          format: 'HH:mm:ss' as const,
+          date: new Date(2022, 10, 2),
+          locale: en_US.Calendar,
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <TimeDropdown isAnimated={true} />
+      </CalendarProvider>
+    );
+    const el = screen.getByTestId('time-dropdown-content');
+    expect(el.classList.contains('disable-animation')).to.be.false;
+  });
 });
