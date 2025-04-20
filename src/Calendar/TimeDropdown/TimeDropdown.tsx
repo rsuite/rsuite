@@ -18,6 +18,7 @@ import { getTimeLimits, getClockTime, scrollToTime, formatWithLeadingZero } from
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;
+  isAnimated?: boolean;
   showMeridiem?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
@@ -37,6 +38,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       className,
       classPrefix = 'calendar-time-dropdown',
       show,
+      isAnimated = true,
       showMeridiem = false,
       ...rest
     } = props;
@@ -176,6 +178,14 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     const time = getClockTime({ format, date, showMeridiem });
     const classes = merge(className, rootPrefix(classPrefix), { show });
 
+    const contentClassNames = () => {
+      if (!isAnimated) {
+        return merge(prefix('content'), 'disable-animation');
+      }
+
+      return prefix('content');
+    };
+
     return (
       <Component
         role="group"
@@ -185,7 +195,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         ref={ref}
         className={classes}
       >
-        <div className={prefix('content')}>
+        <div className={contentClassNames()}>
           <div className={prefix('row')} ref={rowRef}>
             {renderColumn('hours', time.hours)}
             {renderColumn('minutes', time.minutes)}
