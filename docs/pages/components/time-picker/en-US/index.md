@@ -12,6 +12,10 @@ TimePicker is a component that allows users to select a time value.
 
 <!--{include:`basic.md`}-->
 
+### Without animation
+
+<!--{include:`non-animated.md`}-->
+
 ### Meridiem — 12h/24h format
 
 <!--{include:`meridiem.md`}-->
