@@ -158,10 +158,9 @@
     // Focus state
     .rs-toggle-input:focus-visible + & {
       .focus-ring();
-
-      .high-contrast-mode({
-        box-shadow: inset 0 0 0 1px var(--rs-toggle-thumb), var(--rs-state-focus-shadow);
-      });
+      box-shadow:
+        inset 0 0 0 1px var(--rs-toggle-thumb),
+        var(--rs-state-focus-shadow);
     }
 
     // Hover state

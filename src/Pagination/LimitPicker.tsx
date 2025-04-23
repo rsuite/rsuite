@@ -2,14 +2,14 @@ import React, { useRef } from 'react';
 import SelectPicker, { type SelectPickerProps } from '../SelectPicker';
 import { forwardRef, mergeRefs, tplTransform } from '@/internals/utils';
 import { PaginationLocale } from '../locales';
-import type { OnChangeCallback, Size } from '@/internals/types';
+import type { OnChangeCallback, BasicSize } from '@/internals/types';
 
 interface LimitPickerProps extends Omit<SelectPickerProps<any>, 'locale' | 'disabled' | 'data'> {
   disabled?: boolean | ((eventKey: number | string) => boolean);
   limitOptions: number[];
   locale: PaginationLocale;
   limit: number;
-  size?: Size;
+  size?: BasicSize;
   prefix: (input: string) => string;
   onChangeLimit: OnChangeCallback<any>;
 }

@@ -125,10 +125,7 @@
 // Useful when appending the ring into an existing :focus rule
 .focus-ring() {
   outline: 2px solid var(--rs-color-focus-ring);
-
-  .high-contrast-mode({
-    outline-offset: 2px;
-  });
+  outline-offset: -1px;
 }
 
 .focus-ring(slim) {
