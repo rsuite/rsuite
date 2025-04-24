@@ -353,12 +353,13 @@
 
   // Picker clear button
   .rs-picker-clean {
-    .combobox-indicator-icon();
-
-    background: inherit;
     color: var(--rs-text-secondary);
     transition: 0.2s color linear;
     cursor: pointer;
+
+    &:hover {
+      color: var(--rs-text-primary);
+    }
 
     &.rs-btn-close {
       padding: 0;

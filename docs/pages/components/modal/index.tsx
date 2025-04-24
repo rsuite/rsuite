@@ -18,6 +18,7 @@ import {
   Input,
   SelectPicker,
   HStack,
+  Textarea,
   Text
 } from 'rsuite';
 const inDocsComponents = {
@@ -41,6 +42,7 @@ export default function Page() {
         Input,
         HStack,
         Text,
+        Textarea,
         SelectPicker,
         RemindFillIcon,
         PasswordInput,
