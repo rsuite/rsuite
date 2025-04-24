@@ -13,7 +13,7 @@ const DateTimeFormats = {
   yesterday: 'Gisteren',
   now: 'Nu',
   hours: 'Uren',
-  minutes: 'Mimnuten',
+  minutes: 'Minuten',
   seconds: 'Seconden',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'dd MMM, yyyy',
@@ -41,7 +41,7 @@ export default {
     loading: 'Laden...',
     emptyMessage: 'Geen data gevonden',
     remove: 'Verwijderen',
-    clear: 'Duidelijk'
+    clear: 'Wissen'
   },
   Plaintext: {
     unfilled: 'Ongevuld',
