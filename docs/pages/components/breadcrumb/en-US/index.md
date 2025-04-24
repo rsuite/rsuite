@@ -10,21 +10,31 @@ Used to display the current page path and quickly return to the history page.
 
 ### Basic
 
+A basic example of breadcrumb navigation.
+
 <!--{include:`basic.md`}-->
 
 ### Size
+
+Breadcrumbs are available in different sizes to match your design needs.
 
 <!--{include:`size.md`}-->
 
 ### With Icons
 
+Add icons to breadcrumb items for enhanced visual cues.
+
 <!--{include:`icons.md`}-->
 
 ### With Background
 
+Add background color to make breadcrumbs stand out on the page.
+
 <!--{include:`background.md`}-->
 
 ### Custom separator
+
+Replace the default separator with custom elements or icons.
 
 <!--{include:`separator.md`}-->
 
@@ -33,6 +43,12 @@ Used to display the current page path and quickly return to the history page.
 Should automatically collapse if there are more than 5 items. Use `maxItems` to set the maximum number of breadcrumbs to display.
 
 <!--{include:`max-items.md`}-->
+
+### Dropdown
+
+Integrate dropdown menus with breadcrumb items for additional navigation options.
+
+<!--{include:`dropdown.md`}-->
 
 ### Routing Library
 
