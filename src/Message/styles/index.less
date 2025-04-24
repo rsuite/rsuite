@@ -13,10 +13,11 @@
   --rs-message-line-height: var(--rs-text-line-height-sm);
   --rs-message-border-radius: var(--rs-radius-md);
   --rs-message-icon-size: var(--rs-font-size-md);
-  --rs-message-padding: 1.25rem;
+  --rs-message-padding: calc(var(--rs-spacing) * 4);
   --rs-message-header-color: var(--rs-text-heading);
   --rs-message-body-color: var(--rs-text-primary);
   --rs-message-icon-color: var(--rs-text-secondary);
+  --rs-message-spacing: calc(var(--rs-spacing) * 2);
 
   border-radius: var(--rs-message-border-radius);
   font-size: var(--rs-message-font-size);
@@ -50,6 +51,7 @@
     padding: var(--rs-message-padding);
     display: flex;
     align-items: baseline;
+    gap: var(--rs-message-spacing);
   }
 
   // Message with a title
@@ -84,7 +86,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 20px;
+      gap: calc(var(--rs-spacing) * 4);
     }
 
     .rs-message-icon {
@@ -108,7 +110,6 @@
   &-icon {
     align-self: center;
     font-size: 0; // remove whitespace before svg
-    margin-inline-end: 10px;
 
     // Icon
     .rs-icon {
