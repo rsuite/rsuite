@@ -1,6 +1,6 @@
 import React from 'react';
 import IconButton from '../index';
-import type { AppearanceType, Size } from '@/internals/types';
+import type { AppearanceType, BasicSize } from '@/internals/types';
 import SearchIcon from '@rsuite/icons/Search';
 import { render, screen } from '@testing-library/react';
 import '../styles/index.less';
@@ -23,7 +23,7 @@ describe('IconButton styles', () => {
             <IconButton
               icon={<SearchIcon />}
               appearance={appearance as AppearanceType}
-              size={size as Size}
+              size={size as BasicSize}
             />
           );
 

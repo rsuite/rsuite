@@ -11,7 +11,7 @@ import type { ToArray } from './utils';
 import type { FormControlBaseProps } from './form';
 import type { AnimationEventProps } from './animation';
 import type { BoxProps } from '@/internals/Box';
-import type { Size } from './sizes';
+import type { BasicSize } from './sizes';
 import type { PickerHandle } from '@/internals/Picker/types';
 
 export interface Option<T = number | string> extends Record<string, any> {
@@ -163,7 +163,7 @@ export interface PickerBaseProps<L = any> extends PopupProps, BoxProps, Animatio
   cleanable?: boolean;
 
   /** A picker can have different sizes */
-  size?: Size;
+  size?: BasicSize;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;

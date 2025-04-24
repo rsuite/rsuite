@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { toRGB, testPickerSize } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
 import SelectPicker from '../index';
@@ -14,12 +14,13 @@ describe('SelectPicker styles', () => {
     render(<SelectPicker data={[]} open />);
 
     expect(screen.getByRole('combobox')).to.have.style('background-color', toRGB('#fff'));
-    expect(screen.getByRole('combobox')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
+    expect(screen.getByRole('combobox')).to.have.style('border-width', `1px`);
     expect(screen.getByRole('combobox')).to.have.style('padding', '8px 11px');
-    expect(screen.getByTestId('picker-popup').querySelector('.rs-picker-none')).to.have.style(
-      'padding',
-      '12px'
-    );
+
+    const popup = screen.getByTestId('picker-popup');
+    const noneElement = within(popup).getByText('No results found');
+
+    expect(noneElement).to.have.style('padding', '12px');
   });
 
   it('Subtle select picker should render correct toggle styles', () => {

@@ -8,7 +8,7 @@ import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
-import type { Size } from '@/internals/types';
+import type { BasicSize } from '@/internals/types';
 import type { PaginationLocale } from '../locales';
 
 const icons = {
@@ -60,7 +60,7 @@ export interface PaginationProps extends BoxProps {
   locale?: PaginationLocale;
 
   /** A pagination can have different sizes */
-  size?: Size;
+  size?: BasicSize;
 
   /** callback function for pagination clicked */
   onSelect?: (eventKey: string | number, event: React.MouseEvent) => void;

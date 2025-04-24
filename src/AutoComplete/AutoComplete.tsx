@@ -28,7 +28,7 @@ import type {
   SanitizedInputProps,
   Placement,
   Option,
-  Size,
+  BasicSize,
   ListboxProps,
   PopupProps
 } from '@/internals/types';
@@ -46,7 +46,7 @@ export interface AutoCompleteProps<T = string>
   selectOnEnter?: boolean;
 
   /** A component can have different sizes */
-  size?: Size;
+  size?: BasicSize;
 
   /** Open the menu and control it */
   open?: boolean;

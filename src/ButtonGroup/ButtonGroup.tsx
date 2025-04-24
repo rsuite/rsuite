@@ -3,7 +3,7 @@ import ButtonGroupContext from './ButtonGroupContext';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
-import type { Size } from '@/internals/types';
+import type { BasicSize } from '@/internals/types';
 
 export interface ButtonGroupProps extends BoxProps {
   /** Display block buttongroups */
@@ -29,7 +29,7 @@ export interface ButtonGroupProps extends BoxProps {
   role?: string;
 
   /** A button group can have different sizes */
-  size?: Size;
+  size?: BasicSize;
 }
 
 /**

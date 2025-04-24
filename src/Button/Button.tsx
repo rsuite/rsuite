@@ -5,7 +5,7 @@ import SafeAnchor from '@/internals/SafeAnchor';
 import { ButtonGroupContext } from '../ButtonGroup';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
-import { Color, Size, AppearanceType } from '@/internals/types';
+import { Color, BasicSize, AppearanceType } from '@/internals/types';
 
 export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
   /** A button can have different appearances. */
@@ -15,7 +15,7 @@ export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLEle
   active?: boolean;
 
   /** A button can have different sizes */
-  size?: Size;
+  size?: BasicSize;
 
   /** A button can have different colors */
   color?: Color;
