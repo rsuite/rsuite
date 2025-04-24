@@ -31,13 +31,13 @@ const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   const context = useContext(ModalContext);
-  const { isDrawer, onModalClose } = context || {};
+  const { onModalClose } = context || {};
 
   return (
     <Box as={as} {...rest} ref={ref} className={classes}>
       {closeButton && (
         <CloseButton
-          as={isDrawer ? IconButton : 'button'}
+          as={IconButton}
           className={prefix('close')}
           onClick={createChainedFunction(onClose, onModalClose)}
         />
