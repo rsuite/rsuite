@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import isMatch from 'date-fns/isMatch';
 import formatDate from 'date-fns/format';
 import { keyPress } from '@test/utils/simulateEvent';
+import { TestKeyPressProps } from "./types/TestKeyPressProps";
 
 export function keyPressTests(TestComponent: React.FC<any>) {
   function testKeyPress({
@@ -12,12 +13,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     format = 'yyyy-MM-dd',
     expectedValue,
     key
-  }: {
-    defaultValue?: Date | [Date | null, Date | null] | null;
-    format?: string;
-    expectedValue: string;
-    key: string;
-  }) {
+  }: TestKeyPressProps) {
     const onChange = sinon.spy();
     render(
       <TestComponent
@@ -30,13 +26,23 @@ export function keyPressTests(TestComponent: React.FC<any>) {
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
-    userEvent.click(input);
+    input.focus();
 
-    userEvent.type(input, key);
-    expect(input).to.value(expectedValue);
+    const isFunctionKey =
+      key.startsWith('F') &&
+      !isNaN(Number(key.slice(1)));
 
-    if (isMatch(expectedValue, format)) {
-      expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
+    if (isFunctionKey) {
+      fireEvent.keyDown(input, { key });
+      expect(input).to.have.value(expectedValue);
+      expect(onChange.called).to.be.false;
+    } else {
+      userEvent.type(input, key);
+      expect(input).to.have.value(expectedValue);
+
+      if (isMatch(expectedValue, format)) {
+        expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
+      }
     }
   }
 
