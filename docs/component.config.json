@@ -364,7 +364,9 @@
         "name": "Form Validation",
         "title": "表单校验",
         "components": ["Form", "Form.Control"],
-        "apis": ["Schema"]
+        "hooks": ["useFormControl"],
+        "apis": ["Schema"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "form-formik",

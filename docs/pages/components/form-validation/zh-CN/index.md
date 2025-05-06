@@ -127,6 +127,12 @@ return (
 
 > 注意：当 `Form` 启用`nestedField`时，不支持`proxy`。
 
+### 使用 useFormControl 创建自定义表单字段
+
+`useFormControl` hook 允许您创建与表单验证系统无缝集成的自定义表单字段。这种方法使您可以完全控制表单字段的 UI，同时保持所有验证功能。
+
+<!--{include:`use-form-control.md`}-->
+
 ## 与其他库集成
 
 - [与 Formik 集成](/zh/components/form-formik/)

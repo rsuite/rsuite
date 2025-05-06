@@ -146,6 +146,7 @@ export * from './CustomProvider';
 // --------------------------------------------------------
 export * from './useMediaQuery';
 export * from './useBreakpointValue';
+export * from './useFormControl';
 
 // Disclosure
 // --------------------------------------------------------

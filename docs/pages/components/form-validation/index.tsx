@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import loadable from '@loadable/component';
 import DefaultPage from '@/components/layout/Page';
@@ -12,7 +13,8 @@ import {
   Radio,
   Schema,
   CheckPicker,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  useFormControl,
   // @ts-ignore
   NumberInput,
   PasswordInput,
@@ -75,7 +77,8 @@ export default function Page() {
         PlusIcon,
         MinusIcon,
         Toggle,
-        Box
+        Box,
+        useFormControl
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}

@@ -1,7 +1,7 @@
-import { isValidElement, useCallback, useMemo } from 'react';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { nameToPath } from '../utils';
+import { isValidElement, useCallback, useMemo } from 'react';
+import { nameToPath } from '../utils/nameToPath';
 
 interface FieldProps {
   name: string;

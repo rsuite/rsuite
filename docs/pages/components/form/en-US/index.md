@@ -16,6 +16,8 @@ A set of components and models that process form data.
 - **Field State**:
   - `Form.Text`: Provides help information for form fields.
   - `Form.ErrorMessage`: Displays error message for form fields.
+- **Hooks**
+  - `useFormControl`: A hook that provides form control functionality for custom form components, enabling seamless integration with the Form component.
 
 ## Layouts
 
@@ -185,3 +187,70 @@ HTML:
 | show        | boolean                                               | Toggles the visibility of the error message |
 
 <!--{include:(_common/types/placement8.md)}-->
+
+## Hooks
+
+### `useFormControl`
+
+The `useFormControl` hook provides form control functionality for custom form components. It must be used within a `<Form>` component.
+
+```tsx
+const {
+  value, // Current field value
+  error, // Field error message
+  plaintext, // Whether the field is in plaintext mode
+  readOnly, // Whether the field is read-only
+  disabled, // Whether the field is disabled
+  onChange, // Handler for field value changes
+  onBlur, // Handler for field blur events
+  onCheck, // Handler for manually triggering field validation
+  setValue // Directly sets the field value
+} = useFormControl(props);
+```
+
+| Property               | Type`(default)`            | Description                                                         |
+| ---------------------- | -------------------------- | ------------------------------------------------------------------- |
+| checkAsync             | boolean`(false)`           | Whether to perform asynchronous validation                          |
+| checkTrigger           | 'change' \| 'blur' \| null | The data validation trigger type, overrides the Form's checkTrigger |
+| errorMessage           | React.ReactNode            | Custom error message to display                                     |
+| name                   | string                     | The name of the form field (required)                               |
+| rule                   | CheckType                  | Validation rule (from Schema)                                       |
+| shouldResetWithUnmount | boolean`(false)`           | Whether to remove field value and error when component unmounts     |
+| value                  | any                        | The current value                                                   |
+
+#### Return Values
+
+| Property  | Type                                           | Description                                                                                                                                |
+| --------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| disabled  | boolean                                        | Whether the field is disabled (inherited from Form)                                                                                        |
+| error     | React.ReactNode                                | Field error message                                                                                                                        |
+| onBlur    | () => void                                     | Handler for field blur events                                                                                                              |
+| onChange  | (value: any, event: SyntheticEvent) => void    | Handler for field value changes                                                                                                            |
+| onCheck   | (value: any) => void                           | Handler for manually triggering field validation                                                                                           |
+| plaintext | boolean                                        | Whether the field is in plaintext mode (inherited from Form)                                                                               |
+| readOnly  | boolean                                        | Whether the field is read-only (inherited from Form)                                                                                       |
+| setValue  | (value: any, shouldValidate?: boolean) => void | Directly sets the field value without triggering onChange events. If shouldValidate is true, will trigger validation based on checkTrigger |
+| value     | any                                            | Current field value                                                                                                                        |
+
+#### Example
+
+```jsx
+import { useFormControl } from 'rsuite';
+
+function CustomField({ name, label }) {
+  const { value, error, onChange, onBlur } = useFormControl({ name });
+
+  return (
+    <div className="custom-field">
+      <label>{label}</label>
+      <input value={value || ''} onChange={e => onChange(e.target.value, e)} onBlur={onBlur} />
+      {error && <div className="error-message">{error}</div>}
+    </div>
+  );
+}
+
+// Usage
+<Form>
+  <CustomField name="email" label="Email" />
+</Form>;
+```

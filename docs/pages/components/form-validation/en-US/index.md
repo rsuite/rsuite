@@ -125,6 +125,12 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 > Note: `proxy` isn't supported when `Form` enables `nestedField`
 
+### Custom form fields with useFormControl
+
+The `useFormControl` hook allows you to create custom form fields that integrate seamlessly with the Form validation system. This approach gives you complete control over your form field's UI while maintaining all validation capabilities.
+
+<!--{include:`use-form-control.md`}-->
+
 ## Integration with other libraries
 
 - [With Formik Integration](/components/form-formik/)

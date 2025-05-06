@@ -11,7 +11,7 @@ interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M
   removeFieldError: (name: string) => void;
   removeFieldRule: (name: string) => void;
   pushFieldRule: (name: string, fieldRule: FieldRuleType) => void;
-  onFieldChange: (name: string, value: any, event: React.SyntheticEvent) => void;
+  onFieldChange: (name: string, value: any, event?: React.SyntheticEvent) => void;
   checkFieldForNextValue: (
     name: string,
     nextValue: Record<string, unknown>,
