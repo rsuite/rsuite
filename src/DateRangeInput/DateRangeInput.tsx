@@ -193,6 +193,11 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       const input = event.target as HTMLInputElement;
       const key = event.key;
       const pattern = selectedState.selectedPattern;
+      const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
+
+      if (isFunctionKey) {
+        return;
+      }
 
       if (!pattern) {
         return;
