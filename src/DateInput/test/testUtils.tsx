@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import isMatch from 'date-fns/isMatch';
 import formatDate from 'date-fns/format';
 import { keyPress } from '@test/utils/simulateEvent';
-import { TestKeyPressProps } from "./types/TestKeyPressProps";
+import { TestKeyPressProps } from './types/TestKeyPressProps';
 
 export function keyPressTests(TestComponent: React.FC<any>) {
   function testKeyPress({
@@ -28,9 +28,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
 
     input.focus();
 
-    const isFunctionKey =
-      key.startsWith('F') &&
-      !isNaN(Number(key.slice(1)));
+    const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
 
     if (isFunctionKey) {
       fireEvent.keyDown(input, { key });
