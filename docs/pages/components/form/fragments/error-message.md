@@ -1,10 +1,21 @@
 <!--start-code-->
 
 ```js
-import { Form, InputGroup, Input, Toggle, SelectPicker, HStack, Box } from 'rsuite';
+import {
+  Form,
+  InputGroup,
+  Input,
+  Toggle,
+  SelectPicker,
+  HStack,
+  VStack,
+  Box,
+  Divider
+} from 'rsuite';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
 
 const errorPlacementData = [
+  { label: 'Static', value: 'static' },
   { label: 'Bottom Start', value: 'bottomStart' },
   { label: 'Bottom End', value: 'bottomEnd' },
   { label: 'Top Start', value: 'topStart' },
@@ -16,48 +27,54 @@ const errorPlacementData = [
 ];
 
 const App = () => {
-  const [errorVisible, setErrorVisible] = React.useState(false);
-  const [errorPlacement, setErrorPlacement] = React.useState('bottomStart');
+  const [errorVisible, setErrorVisible] = React.useState(true);
+  const [errorPlacement, setErrorPlacement] = React.useState('static');
   const errorMessage = errorVisible ? 'This field is required' : null;
 
   return (
-    <>
-      <Form layout="vertical">
-        <Form.Group controlId={'input-2'}>
-          <Form.Label>Input</Form.Label>
-          <Form.Control
-            name="input-2"
-            placeholder="Form.Control"
-            errorMessage={errorMessage}
-            errorPlacement={errorPlacement}
-          />
-        </Form.Group>
-        <Form.Group controlId={'input-1'}>
-          <Form.Label>InputGroup</Form.Label>
-          <Form.Control
-            name="input-1"
-            accepter={InputGroupField}
-            errorMessage={errorMessage}
-            errorPlacement={errorPlacement}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Custom error messages</Form.Label>
-          <Form.Control name="input-3" />
-          <CustomErrorMessage show={errorVisible}>{errorMessage}</CustomErrorMessage>
-        </Form.Group>
-      </Form>
-      <hr />
+    <HStack divider={<Divider vertical />} h={368} spacing={40} align="flex-start">
+      <Box>
+        <Form layout="vertical">
+          <Form.Group controlId={'input-2'}>
+            <Form.Label>Input</Form.Label>
+            <Form.Control
+              name="input-2"
+              placeholder="Form.Control"
+              errorMessage={errorMessage}
+              errorPlacement={errorPlacement}
+            />
+          </Form.Group>
+          <Form.Group controlId={'input-1'}>
+            <Form.Label>InputGroup</Form.Label>
+            <Form.Control
+              name="input-1"
+              accepter={InputGroupField}
+              errorMessage={errorMessage}
+              errorPlacement={errorPlacement}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Custom error messages</Form.Label>
+            <Form.Control name="input-3" />
+            <CustomErrorMessage show={errorVisible}>{errorMessage}</CustomErrorMessage>
+          </Form.Group>
 
-      <Box className="rs-form-control-wrapper" w={300}>
-        <Input placeholder="Use Form.ErrorMessage" />
-        <Form.ErrorMessage show={errorVisible} placement={errorPlacement}>
-          {errorMessage}
-        </Form.ErrorMessage>
+          <Box
+            w={300}
+            style={{
+              position: 'relative'
+            }}
+          >
+            <Input placeholder="Use Form.ErrorMessage" />
+            <Form.ErrorMessage show={errorVisible} placement={errorPlacement}>
+              {errorMessage}
+            </Form.ErrorMessage>
+          </Box>
+        </Form>
       </Box>
 
-      <hr />
-      <HStack spacing={20}>
+      <VStack spacing={20} h="100%" justify="center">
+        <Toggle onChange={setErrorVisible} checked={errorVisible} label="Show Error" />
         <SelectPicker
           label="Error Placement"
           value={errorPlacement}
@@ -66,11 +83,8 @@ const App = () => {
           cleanable={false}
           onChange={setErrorPlacement}
         />
-        <Toggle onChange={setErrorVisible} checked={errorVisible}>
-          Show Error
-        </Toggle>
-      </HStack>
-    </>
+      </VStack>
+    </HStack>
   );
 };
 
@@ -84,12 +98,17 @@ const InputGroupField = React.forwardRef((props, ref) => (
 ));
 
 const CustomErrorMessage = ({ show, children }) => {
-  const styles = {
-    display: show ? 'block' : 'none',
-    color: 'red',
-    marginTop: 6
-  };
-  return <div style={styles}>{children}</div>;
+  return (
+    <div
+      style={{
+        display: show ? 'block' : 'none',
+        color: 'var(--rs-color-red)',
+        marginTop: 'var(--rs-spacing)'
+      }}
+    >
+      {children}
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

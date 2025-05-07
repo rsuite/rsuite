@@ -183,4 +183,4 @@
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
-<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/placement-error-message.md)}-->

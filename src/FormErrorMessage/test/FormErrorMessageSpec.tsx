@@ -26,6 +26,7 @@ describe('FormErrorMessage', () => {
 
   describe('Placement', () => {
     const placements = [
+      'static',
       'bottomStart',
       'bottomEnd',
       'topStart',

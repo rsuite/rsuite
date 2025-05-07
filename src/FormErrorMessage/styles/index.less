@@ -67,6 +67,34 @@
 .rs-form-error-message-wrapper {
   position: absolute;
 
+  &[data-placement='static'] {
+    position: static;
+    margin-top: var(--rs-spacing);
+    display: block;
+    width: 100%;
+
+    .rs-form-error-message {
+      position: static;
+      display: block;
+      width: 100%;
+      white-space: normal;
+      word-wrap: break-word;
+      padding: 0;
+      filter: none;
+      border: none;
+      border-radius: 0;
+
+
+      &-show {
+        animation: none;
+      }
+
+      &-arrow {
+        display: none;
+      }
+    }
+  }
+
   // Vertical placements (top/bottom)
   &:where([data-placement='bottom-start'], [data-placement='bottom-end']) {
     bottom: 0;

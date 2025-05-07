@@ -37,7 +37,9 @@ import {
   Uploader,
   HStack,
   VStack,
-  Box
+  Box,
+  Center,
+  Divider
 } from 'rsuite';
 
 import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
@@ -78,6 +80,7 @@ export default function Page() {
         Button,
         ButtonGroup,
         ButtonToolbar,
+        Center,
         CheckboxGroup,
         CheckPicker,
         SelectPicker,
@@ -90,6 +93,7 @@ export default function Page() {
         Slider,
         DatePicker,
         DateRangePicker,
+        Divider,
         TagPicker,
         InputPicker,
         Cascader,

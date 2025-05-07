@@ -11,7 +11,11 @@ import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
 import type { CheckType } from 'schema-typed';
-import type { PlacementCorners, FormControlBaseProps, CheckTriggerType } from '@/internals/types';
+import type {
+  ErrorMessagePlacement,
+  FormControlBaseProps,
+  CheckTriggerType
+} from '@/internals/types';
 
 /**
  * Props that FormControl passes to its accepter
@@ -47,7 +51,7 @@ export interface FormControlProps<ValueType = any>
   errorMessage?: React.ReactNode;
 
   /** The placement of error messages */
-  errorPlacement?: PlacementCorners;
+  errorPlacement?: ErrorMessagePlacement;
 
   /** Make the control readonly */
   readOnly?: boolean;

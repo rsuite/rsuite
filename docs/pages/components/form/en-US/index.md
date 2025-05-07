@@ -184,4 +184,4 @@ HTML:
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | Specifies where to display error messages   |
 | show        | boolean                                               | Toggles the visibility of the error message |
 
-<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/placement-error-message.md)}-->
