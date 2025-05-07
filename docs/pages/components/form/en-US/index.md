@@ -186,11 +186,31 @@ HTML:
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | Specifies where to display error messages   |
 | show        | boolean                                               | Toggles the visibility of the error message |
 
+### Form Ref
+
+| Name               | Type                                                                          | Description                                                   |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | Verify form data                                              |
+| checkAsync         | () => Promise<CheckResult>                                                    | Asynchronously check form data                                |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | Checklist single field value                                  |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | Asynchronous check form single field value                    |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | Clear single field error message                              |
+| cleanErrors        | (callback: () => void) => void                                                | Clean error message                                           |
+| reset              | () => void                                                                    | Reset form data to initial value and clear all error messages |
+| resetErrors        | () => void                                                                    | Reset error message                                           |
+| submit             | () => void                                                                    | Trigger form submission and verify data                       |
+
+### Schema
+
+Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
+
 <!--{include:(_common/types/placement8.md)}-->
 
 ## Hooks
 
 ### `useFormControl`
+
+![][6.0.0]
 
 The `useFormControl` hook provides form control functionality for custom form components. It must be used within a `<Form>` component.
 

@@ -6,7 +6,6 @@ import {
   Button,
   ButtonGroup,
   ButtonToolbar,
-  Schema,
   NumberInput,
   Panel,
   Input,
@@ -15,6 +14,7 @@ import {
   IconButton,
   Box
 } from 'rsuite';
+import { SchemaModel, ArrayType, StringType, NumberType, ObjectType } from 'rsuite/Schema';
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
 import JSONTree from 'react-json-tree';
@@ -31,8 +31,7 @@ const JSONView = ({ formValue, formError }) => (
   </Box>
 );
 
-const { ArrayType, StringType, NumberType, ObjectType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   orderId: StringType().minLength(6, 'Minimum 6 characters required').isRequired('Required.'),
   products: ArrayType().of(
     ObjectType().shape({
@@ -149,7 +148,7 @@ const App = () => {
         >
           <Form.Stack>
             <Form.Group controlId="orderId">
-              <Form.ControlLabel>Order ID</Form.ControlLabel>
+              <Form.Label>Order ID</Form.Label>
               <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
             </Form.Group>
             <Form.Control

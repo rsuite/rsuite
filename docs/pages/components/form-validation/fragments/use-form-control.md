@@ -1,9 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Schema, useFormControl } from 'rsuite';
-
-const { StringType } = Schema.Types;
+import { Form, Button, useFormControl } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 
 // Custom styles for the form field
 const fieldStyles = {
@@ -68,7 +67,7 @@ function App() {
     email: ''
   });
 
-  const model = Schema.Model({
+  const model = SchemaModel({
     name: StringType().isRequired('This field is required.'),
     email: StringType().isEmail('Please enter a valid email address.')
   });

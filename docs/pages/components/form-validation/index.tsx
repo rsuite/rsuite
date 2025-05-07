@@ -11,7 +11,6 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
   // @ts-ignore
   useFormControl,
@@ -32,6 +31,14 @@ import {
   Row,
   Col
 } from 'rsuite';
+import {
+  SchemaModel,
+  StringType,
+  ObjectType,
+  NumberType,
+  ArrayType,
+  BooleanType
+} from 'rsuite/Schema';
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
@@ -49,7 +56,12 @@ export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Schema,
+        SchemaModel,
+        StringType,
+        ObjectType,
+        NumberType,
+        ArrayType,
+        BooleanType,
         Form,
         Input,
         NumberInput,

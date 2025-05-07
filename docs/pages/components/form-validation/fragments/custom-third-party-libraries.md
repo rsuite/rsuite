@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Schema, Panel, Message, toaster, Box, Row, Col } from 'rsuite';
+import { Form, Button, Panel, Message, toaster, Box, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 import JSONTree from 'react-json-tree';
 import Select from 'react-select';
 
@@ -21,15 +22,14 @@ const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const { StringType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   foods: StringType().isRequired('This field is required.')
 });
 

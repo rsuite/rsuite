@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, Box, Row, Col } from 'rsuite';
+import { Form, Button, ButtonToolbar, Panel, Box, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
@@ -16,8 +17,6 @@ const JSONView = ({ formValue, formError }) => (
   </Box>
 );
 
-const { StringType } = Schema.Types;
-
 function asyncCheckUsername(name) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -30,7 +29,7 @@ function asyncCheckUsername(name) {
   });
 }
 
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType()
     .addRule((value, data) => {
       return asyncCheckUsername(value);
@@ -63,7 +62,7 @@ const App = () => {
         >
           <Form.Stack>
             <Form.Group controlId="name-2">
-              <Form.ControlLabel>Username </Form.ControlLabel>
+              <Form.Label>Username </Form.Label>
               <Form.Control checkAsync name="name" placeholder="Please enter abc" />
             </Form.Group>
           </Form.Stack>

@@ -4,31 +4,40 @@
 
 ## 使用
 
-**第一步**: 导入 `Form` 与 `Schema`。
+<div class="rs-doc-steps">
+
+<h3 class="rs-doc-step-header">导入 Form 与 Schema</h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
-import { Form, Schema } from 'rsuite';
+import { Form } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 ```
 
-**第二步**: 通过 `Schema.Model` 定义数据模型。
+</div>
+
+<h3 class="rs-doc-step-header">通过 SchemaModel 定义数据模型</h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
-const { StringType } = Schema.Types;
-
-/** Use Schema to define the data model. */
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired('This field is required.'),
   email: StringType().isEmail('Please enter a valid email address.')
 });
 ```
 
-**第三步**: 为 `<Form>` 设置 `model`。
+</div>
+
+<h3 class="rs-doc-step-header">为 Form 设置 model</h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
-/** Create form fields and design the layout. */
 const TextField = ({ name, label, accepter, ...rest }) => (
   <Form.Group controlId={name}>
-    <Form.ControlLabel>{label} </Form.ControlLabel>
+    <Form.Label>{label} </Form.Label>
     <Form.Control name={name} accepter={accepter} {...rest} />
   </Form.Group>
 );
@@ -45,6 +54,10 @@ return (
 );
 ```
 
+</div>
+
+</div>
+
 ## 演示
 
 ### 默认校验
@@ -57,9 +70,9 @@ return (
 
 表单校验需要用到 `<Form>`, `<Form.Control>` 组件， 和 `Schema` 。
 
-- `<Form>` 定义一个表单，可以给表单设置 `formValue` 和 `model`，`model` 是由 `Schema.Model` 创建的数据模型。
-- `<Form.Control>` 定义一个 Field ，通过 `name` 属性和 `Schema.Model` 对象的 `key` 对应, 详细参考： 自定义表单组件。
-- `Schema.Model` 定义一个数据模型，详细使用参考 [schema](https://github.com/rsuite/schema-typed#schema-typed)。
+- `<Form>` 定义一个表单，可以给表单设置 `formValue` 和 `model`，`model` 是由 `SchemaModel` 创建的数据模型。
+- `<Form.Control>` 定义一个 Field ，通过 `name` 属性和 `SchemaModel` 对象的 `key` 对应, 详细参考： 自定义表单组件。
+- `SchemaModel` 定义一个数据模型，详细使用参考 [schema](https://github.com/rsuite/schema-typed#schema-typed)。
 - 自定义触发校验： `<Form>` 实例提供 [check()](#methods) 与 [checkForField()](#methods) 方法，分别用于触发表单校验和字段校验。
 
 <!--{include:`form-check.md`}-->
@@ -88,7 +101,7 @@ return (
 
 所有的 Data Entry 相关的组件都可以在表单中使用。 需要通过 `Form.Control` 组件进行数据管理，实现与 `Form` 组件的数据关联。
 
-- Form.Control 用于绑定 Form 中的数据字段，通过 `name` 属性和 Schema.Model 对象的 `key` 对应。
+- Form.Control 用于绑定 Form 中的数据字段，通过 `name` 属性和 SchemaModel 对象的 `key` 对应。
 - Form.Control 默认是个 `Input` 组件，可以通过 `accepter` 设置需要的数据录入组件。
 
 <!--{include:`custom-form-control.md`}-->
@@ -129,6 +142,8 @@ return (
 
 ### 使用 useFormControl 创建自定义表单字段
 
+![][6.0.0]
+
 `useFormControl` hook 允许您创建与表单验证系统无缝集成的自定义表单字段。这种方法使您可以完全控制表单字段的 UI，同时保持所有验证功能。
 
 <!--{include:`use-form-control.md`}-->
@@ -137,37 +152,3 @@ return (
 
 - [与 Formik 集成](/zh/components/form-formik/)
 - [与 React Hook Form 集成](/zh/components/form-react-hook-form/)
-
-## API
-
-### Form ref
-
-| 名称               | 类型                                                                          | 描述                                     |
-| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- |
-| check              | (callback?: (formError: E) => void) => boolean                                | 检验表单数据                             |
-| checkAsync         | () => Promise<CheckResult>                                                    | 异步检验表单数据                         |
-| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | 校验表单单个字段值                       |
-| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | 异步校验表单单个字段值                   |
-| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | 清除单个字段错误信息                     |
-| cleanErrors        | (callback: () => void) => void                                                | 清除错误信息                             |
-| reset              | () => void                                                                    | 重置表单数据为初始值，并清除所有错误信息 |
-| resetErrors        | () => void                                                                    | 重置错误信息                             |
-| submit             | () => void                                                                    | 触发表单提交并校验数据                   |
-
-### Schema
-
-Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
-
-```ts
-interface Schema {
-  Model(schemaSpec: SchemaDeclaration<DataType, ErrorMsgType>): schema;
-  Types: {
-    StringType: (errorMessage?: string) => this;
-    NumberType: (errorMessage?: string) => this;
-    ArrayType: (errorMessage?: string) => this;
-    ObjectType: (errorMessage?: string) => this;
-    DateType: (errorMessage?: string) => this;
-    BooleanType: (errorMessage?: string) => this;
-  };
-}
-```

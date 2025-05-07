@@ -185,11 +185,31 @@
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
+### Form ref
+
+| 名称               | 类型                                                                          | 描述                                     |
+| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | 检验表单数据                             |
+| checkAsync         | () => Promise<CheckResult>                                                    | 异步检验表单数据                         |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | 校验表单单个字段值                       |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | 异步校验表单单个字段值                   |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | 清除单个字段错误信息                     |
+| cleanErrors        | (callback: () => void) => void                                                | 清除错误信息                             |
+| reset              | () => void                                                                    | 重置表单数据为初始值，并清除所有错误信息 |
+| resetErrors        | () => void                                                                    | 重置错误信息                             |
+| submit             | () => void                                                                    | 触发表单提交并校验数据                   |
+
+### Schema
+
+Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
+
 <!--{include:(_common/types/placement8.md)}-->
 
 ## Hooks
 
 ### `useFormControl`
+
+![][6.0.0]
 
 `useFormControl` hook 为自定义表单组件提供表单控制功能。必须在 `<Form>` 组件内使用。
 
