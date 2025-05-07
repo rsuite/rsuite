@@ -8,7 +8,7 @@ interface FieldProps {
   formValue?: Record<string, any>;
   formError?: Record<string, any>;
   value: any;
-  nestedField: boolean;
+  nestedField?: boolean;
   errorMessage: React.ReactNode;
   errorFromContext?: boolean;
 }

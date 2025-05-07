@@ -58,10 +58,9 @@ export function useFormControl(props: UseFormControlProps) {
 
   // Throw an error if not used within a Form component
   if (!onFieldChange) {
-    throw new Error(`
-      <useFormControl> must be used inside a component decorated with <Form>.
-      And need to update React to 16.6.0 +.
-    `);
+    console.error(
+      `<useFormControl> must be used inside a component decorated with <Form>. And need to update React to 16.6.0 +.`
+    );
   }
 
   const formValue = useContext(FormValueContext);

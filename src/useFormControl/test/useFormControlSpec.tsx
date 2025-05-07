@@ -110,20 +110,15 @@ function FormWrapper({ children, formValue = {}, ...contextProps }: FormWrapperP
 }
 
 describe('useFormControl', () => {
-  // Test for error when used outside Form context
   it('Should throw error when used outside Form context', () => {
-    // Mock console.error to prevent React from logging the error
-    const originalConsoleError = console.error;
-    console.error = () => {};
+    sinon.spy(console, 'error');
+    render(<TestComponent name="name" />);
 
-    expect(() => {
-      render(<TestComponent name="name" />);
-    }).to.throw('<useFormControl> must be used inside a component decorated with <Form>');
-
-    // Restore console.error
-    console.error = originalConsoleError;
+    expect(console.error).to.have.been.calledWith(
+      '<useFormControl> must be used inside a component decorated with <Form>. And need to update React to 16.6.0 +.'
+    );
   });
-  // Basic functionality tests
+
   it('Should correctly use field value from context', () => {
     const formValue = { name: 'test-value' };
 
