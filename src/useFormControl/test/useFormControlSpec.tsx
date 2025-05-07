@@ -110,6 +110,19 @@ function FormWrapper({ children, formValue = {}, ...contextProps }: FormWrapperP
 }
 
 describe('useFormControl', () => {
+  // Test for error when used outside Form context
+  it('Should throw error when used outside Form context', () => {
+    // Mock console.error to prevent React from logging the error
+    const originalConsoleError = console.error;
+    console.error = () => {};
+
+    expect(() => {
+      render(<TestComponent name="name" />);
+    }).to.throw('<useFormControl> must be used inside a component decorated with <Form>');
+
+    // Restore console.error
+    console.error = originalConsoleError;
+  });
   // Basic functionality tests
   it('Should correctly use field value from context', () => {
     const formValue = { name: 'test-value' };
@@ -386,9 +399,35 @@ describe('useFormControl', () => {
     });
   });
 
+  // Tests for checkTrigger=null
+  describe('checkTrigger=null', () => {
+    it('Should not call onCheck when checkTrigger is null', () => {
+      const checkFieldForNextValue = sinon.spy();
+
+      render(
+        <FormWrapper
+          onFieldChange={() => {}}
+          checkFieldForNextValue={checkFieldForNextValue}
+          checkTrigger={null}
+        >
+          <TestComponent name="name" />
+        </FormWrapper>
+      );
+
+      // Trigger change event
+      fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
+
+      // Trigger blur event
+      fireEvent.blur(screen.getByTestId('test-input'));
+
+      // Check that validation was not triggered on change or blur
+      expect(checkFieldForNextValue).to.not.have.been.called;
+    });
+  });
+
   // Tests for setValue method
   describe('setValue method', () => {
-    it('Should update field value when setValue is called', () => {
+    it('Should update field value and call onFieldChange when setValue is called', () => {
       const onChange = sinon.spy();
       const App = () => {
         const [formValue, setFormValue] = useState<{ name?: string }>({ name: '' });
@@ -417,15 +456,19 @@ describe('useFormControl', () => {
 
     it('Should trigger validation when setValue is called with shouldValidate=true', () => {
       const checkFieldForNextValue = sinon.spy();
+      const onFieldChange = sinon.spy();
 
       render(
-        <FormWrapper onFieldChange={() => {}} checkFieldForNextValue={checkFieldForNextValue}>
+        <FormWrapper onFieldChange={onFieldChange} checkFieldForNextValue={checkFieldForNextValue}>
           <TestComponent name="name" />
         </FormWrapper>
       );
 
       // Call setValue with validation
       fireEvent.click(screen.getByTestId('set-value-button'));
+
+      // Check if onFieldChange was called
+      expect(onFieldChange).to.have.been.calledWith('name', 'programmatic-value');
 
       // Check if validation was triggered
       expect(checkFieldForNextValue).to.have.been.called;
@@ -495,6 +538,26 @@ describe('useFormControl', () => {
 
       fireEvent.blur(screen.getByTestId('test-input'));
 
+      expect(checkFieldAsyncForNextValue).to.have.been.called;
+    });
+
+    it('Should use checkFieldAsyncForNextValue when setValue is called with shouldValidate=true and checkAsync=true', () => {
+      const checkFieldAsyncForNextValue = sinon.spy();
+      const onFieldChange = sinon.spy();
+
+      render(
+        <FormWrapper
+          onFieldChange={onFieldChange}
+          checkFieldAsyncForNextValue={checkFieldAsyncForNextValue}
+        >
+          <TestComponent name="name" checkAsync={true} />
+        </FormWrapper>
+      );
+
+      // Call setValue with validation
+      fireEvent.click(screen.getByTestId('set-value-button'));
+
+      // Check if validation was triggered with async method
       expect(checkFieldAsyncForNextValue).to.have.been.called;
     });
   });

@@ -38,7 +38,7 @@ function getErrorMessage(error?: ErrorType | string) {
   return error?.errorMessage;
 }
 
-function useField(props: FieldProps) {
+export function useField(props: FieldProps) {
   const { name, formValue, formError, value, nestedField, errorMessage, errorFromContext } = props;
   const fieldValue = useMemo(() => {
     if (typeof value !== 'undefined') {
@@ -79,5 +79,3 @@ function useField(props: FieldProps) {
 
   return { fieldValue, fieldError, setFieldValue };
 }
-
-export default useField;

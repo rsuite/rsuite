@@ -6,7 +6,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
-import useFormControl from '../useFormControl';
+import { useFormControl } from '../useFormControl';
 import type { CheckType } from 'schema-typed';
 import type { PlacementCorners, FormControlBaseProps, CheckTriggerType } from '@/internals/types';
 

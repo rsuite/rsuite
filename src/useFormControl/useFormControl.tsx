@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react';
 import { FormValueContext, useFormContext } from '../Form/FormContext';
 import { useWillUnmount, useEventCallback } from '@/internals/hooks';
-import useRegisterModel from './hooks/useRegisterModel';
-import useField from './hooks/useField';
+import { useRegisterModel } from './hooks/useRegisterModel';
+import { useField } from './hooks/useField';
 import type { CheckType } from 'schema-typed';
 import type { CheckTriggerType } from '@/internals/types';
 
@@ -153,7 +153,6 @@ export function useFormControl(props: UseFormControlProps) {
     plaintext,
     readOnly,
     disabled,
-    checkTrigger,
     onChange,
     onCheck,
     onBlur,
