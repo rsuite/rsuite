@@ -133,6 +133,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement;
       const key = event.key;
+      const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
+
+      if (isFunctionKey) {
+        return;
+      }
 
       const pattern = selectedState.selectedPattern;
       if (!pattern) {
