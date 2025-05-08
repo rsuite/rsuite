@@ -56,12 +56,12 @@ describe('Progress - Line Sections', () => {
     // First section
     const firstSectionStyle = sectionElements?.[0].getAttribute('style');
     expect(firstSectionStyle).to.include('width: 30%');
-    expect(firstSectionStyle).to.include('background-color: red');
+    expect(firstSectionStyle).to.include('background: red');
 
     // Second section
     const secondSectionStyle = sectionElements?.[1].getAttribute('style');
     expect(secondSectionStyle).to.include('width: 40%');
-    expect(secondSectionStyle).to.include('background-color: blue');
+    expect(secondSectionStyle).to.include('background: blue');
   });
 
   it('Should render section labels', () => {
