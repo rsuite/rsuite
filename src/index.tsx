@@ -31,6 +31,7 @@ export * from './Badge';
 export * from './toaster';
 export * from './useToaster';
 export * from './Progress';
+export * from './ProgressCircle';
 
 // Media
 // --------------------------------------------------------

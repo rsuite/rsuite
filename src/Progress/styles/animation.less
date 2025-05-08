@@ -32,3 +32,21 @@
     height: 100%;
   }
 }
+
+@keyframes progress-stripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: var(--rs-progress-line-stripe-size) 0;
+  }
+}
+
+@keyframes progress-stripe-vertical {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 var(--rs-progress-line-stripe-size);
+  }
+}

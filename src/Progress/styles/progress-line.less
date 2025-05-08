@@ -1,0 +1,238 @@
+.rs-progress-line {
+  --rs-progress-line-color: var(--rs-progress-bar);
+  --rs-progress-line-trail-color: var(--rs-progress-bg);
+  --rs-progress-line-size: @progress-bar-height;
+  --rs-progress-line-trail-size: var(--rs-progress-line-size);
+  --rs-progress-line-stroke: 0;
+  --rs-progress-line-radius: var(--rs-radius-sm);
+  --rs-progress-line-stripe-size: 16px;
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: calc(var(--rs-spacing) * 3);
+
+  &:where([data-status='active']) {
+    .rs-progress-line-stroke {
+      position: relative;
+
+      &::before {
+        content: '';
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        background-color: #fff;
+        border-radius: var(--rs-radius-lg);
+        animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+      }
+    }
+  }
+  &:where([data-status='success']) {
+    color: var(--rs-progress-bar-success);
+
+    .rs-progress-line-stroke {
+      background: var(--rs-progress-bar-success);
+    }
+  }
+
+  &:where([data-status='fail']) {
+    color: var(--rs-progress-bar-fail);
+
+    .rs-progress-line-stroke {
+      background: var(--rs-progress-bar-fail);
+    }
+  }
+
+  .rs-progress-line-info {
+    height: 20px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      .icon-bolder(0.5px);
+    }
+  }
+
+  // Default end position (info on the right)
+  &:where([data-placement='end']) {
+    flex-direction: row;
+  }
+
+  // Start position (info on the left)
+  &:where([data-placement='start']) {
+    flex-direction: row-reverse;
+  }
+
+  // Inside positions
+  &:where([data-placement='insideStart']),
+  &:where([data-placement='insideEnd']),
+  &:where([data-placement='insideCenter']) {
+    .rs-progress-line-info {
+      color: #fff;
+      padding-inline: var(--rs-spacing);
+    }
+  }
+
+  &:where([data-placement='insideStart']) .rs-progress-line-stroke {
+    justify-content: flex-start;
+  }
+
+  &:where([data-placement='insideEnd']) .rs-progress-line-stroke {
+    justify-content: flex-end;
+  }
+
+  &:where([data-placement='insideCenter']) .rs-progress-line-stroke {
+    justify-content: center;
+  }
+
+  &-outer {
+    flex: 1 1 auto;
+    border-radius: var(--rs-progress-line-radius);
+    overflow: hidden;
+    // Make sure outer vertical-align:center;
+    vertical-align: middle;
+    position: relative;
+  }
+
+  &-trail {
+    display: flex;
+    align-items: center;
+    background: var(--rs-progress-line-trail-color);
+    border-radius: var(--rs-progress-line-radius);
+    height: var(--rs-progress-line-trail-size);
+  }
+
+  &-stroke {
+    display: flex;
+    align-items: center;
+    background: var(--rs-progress-line-color);
+    border-radius: var(--rs-progress-line-radius);
+    transition: @progress-bg-transition;
+    transition-property: width, background-color;
+    width: var(--rs-progress-line-stroke);
+    height: var(--rs-progress-line-size);
+    position: relative;
+    overflow: hidden;
+  }
+
+  &&-vertical {
+    flex-direction: column-reverse;
+    width: auto;
+    height: 100%;
+  }
+
+  // Inside positions
+
+  &&-vertical {
+    // Vertical mode positioning
+    &:where([data-placement='start']) {
+      flex-direction: column;
+    }
+
+    &:where([data-placement='end']) {
+      flex-direction: column-reverse;
+    }
+
+    &:where([data-placement='insideStart']),
+    &:where([data-placement='insideEnd']),
+    &:where([data-placement='insideCenter']) {
+      .rs-progress-line-info {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        padding-block: var(--rs-spacing);
+        height: auto;
+      }
+    }
+
+    &:where([data-placement='insideStart']) .rs-progress-line-stroke {
+      align-items: flex-start;
+    }
+    &:where([data-placement='insideEnd']) .rs-progress-line-stroke {
+      align-items: flex-end;
+    }
+    &:where([data-placement='insideCenter']) .rs-progress-line-stroke {
+      align-items: center;
+    }
+  }
+
+  &&-vertical &-outer {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  &&-vertical &-trail {
+    min-height: 100px;
+    width: var(--rs-progress-line-trail-size);
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: relative;
+    height: 100%;
+  }
+
+  &&-vertical .rs-progress-line-info {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  &&-vertical &-stroke {
+    width: 100%;
+    height: var(--rs-progress-line-stroke);
+    transition-property: height, background-color;
+    transform: rotate(180deg);
+    position: absolute;
+    bottom: 0;
+  }
+
+  &&-vertical&-active &-stroke::before {
+    animation-name: progress-active-vertical;
+  }
+  
+  // Striped effect
+  &-striped &-stroke {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: var(--rs-progress-line-stripe-size) var(--rs-progress-line-stripe-size);
+      z-index: 0;
+    }
+  }
+  
+  &-striped:where([data-status='active']) &-stroke::after {
+    animation: progress-stripe 1s linear infinite;
+  }
+  
+  &&-vertical&-striped &-stroke::after {
+    background-image: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.15) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.15) 75%,
+      transparent 75%,
+      transparent
+    );
+  }
+  
+  &&-vertical&-striped:where([data-status='active']) &-stroke::after {
+    animation: progress-stripe-vertical 1s linear infinite;
+  }
+}

@@ -118,8 +118,17 @@
         "id": "progress",
         "name": "Progress",
         "title": "进度条",
-        "components": ["Progress.Line", "Progress.Circle"],
-        "keywords": ["loading", "meter"]
+        "components": ["Progress", "ProgressCircle"],
+        "keywords": ["loading", "meter"],
+        "updateVersion": "6.0.0"
+      },
+      {
+        "id": "progress-circle",
+        "name": "ProgressCircle",
+        "title": " 圆形进度条",
+        "components": ["ProgressCircle"],
+        "keywords": ["loading", "meter"],
+        "updateVersion": "6.0.0"
       },
       {
         "id": "placeholder",

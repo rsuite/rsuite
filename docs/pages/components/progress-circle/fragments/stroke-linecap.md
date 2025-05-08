@@ -1,0 +1,17 @@
+<!--start-code-->
+
+```js
+import { ProgressCircle, HStack } from 'rsuite';
+
+const App = () => (
+  <HStack spacing={20}>
+    <ProgressCircle percent={30} strokeLinecap="round" w={100} />
+    <ProgressCircle percent={30} strokeLinecap="square" w={100} />
+    <ProgressCircle percent={30} strokeLinecap="butt" w={100} />
+  </HStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+<!--end-code-->

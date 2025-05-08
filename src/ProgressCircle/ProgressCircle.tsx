@@ -1,66 +1,70 @@
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
+import ProgressInfo from '../Progress/ProgressInfo';
 
 export interface ProgressCircleProps extends BoxProps {
-  /** Line color */
-  strokeColor?: string;
-
-  /** The end of different types of open paths */
-  strokeLinecap?: 'butt' | 'round' | 'square';
-
-  /** Tail color */
-  trailColor?: string;
-
-  /** Percent of progress */
-  percent?: number;
-
-  /** Line width */
-  strokeWidth?: number;
-
-  /** Tail width */
-  trailWidth?: number;
-
   /** Circular progress bar degree */
   gapDegree?: number;
 
   /** Circular progress bar Notch position */
   gapPosition?: 'top' | 'bottom' | 'left' | 'right';
 
+  /** Percent of progress */
+  percent?: number;
+
+  /** Custom render function for info content */
+  renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
+
   /** Show text */
   showInfo?: boolean;
 
   /** Progress status */
   status?: 'success' | 'fail' | 'active';
+
+  /** Line color */
+  strokeColor?: string;
+
+  /** The end of different types of open paths */
+  strokeLinecap?: 'butt' | 'round' | 'square';
+
+  /** Line width */
+  strokeWidth?: number;
+
+  /** Tail color */
+  trailColor?: string;
+
+  /** Tail width */
+  trailWidth?: number;
 }
 
 /**
- * The `Progress.Circle` component is used to display the progress of current operation.
- * @see https://rsuitejs.com/components/progress/#circle
+ * Display circular progress for an operation.
+ * @see https://rsuitejs.com/components/progress-circle
  */
 const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressCircle', props);
   const {
     as,
-    strokeWidth = 6,
-    trailWidth = 6,
-    percent = 0,
-    strokeLinecap = 'round',
+    classPrefix = 'progress-circle',
     className,
-    showInfo = true,
-    status,
-    classPrefix = 'progress',
-    style,
     gapDegree = 0,
     gapPosition = 'top',
-    trailColor,
+    percent = 0,
+    renderInfo,
+    showInfo = true,
+    status,
     strokeColor,
+    strokeLinecap = 'round',
+    strokeWidth = 6,
+    style,
+    trailColor,
+    trailWidth = 6,
     ...rest
   } = propsWithDefaults;
 
-  const getPathStyles = useCallback(() => {
+  const { pathString, trailPathStyle, strokePathStyle } = useMemo(() => {
     const radius = 50 - strokeWidth / 2;
 
     let x1 = 0;
@@ -110,17 +114,8 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
     };
   }, [gapDegree, gapPosition, percent, strokeColor, strokeWidth, trailColor]);
 
-  const { pathString, trailPathStyle, strokePathStyle } = getPathStyles();
-
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix('circle', { [`circle-${status || ''}`]: !!status }));
-
-  const showIcon = status && status !== 'active';
-  const info = showIcon ? (
-    <span className={prefix(`icon-${status || ''}`)}>{PROGRESS_STATUS_ICON[status]}</span>
-  ) : (
-    <span key={1}>{percent}%</span>
-  );
+  const classes = merge(className, withPrefix({ [`${status || ''}`]: !!status }));
 
   return (
     <Box
@@ -132,10 +127,17 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
       ref={ref}
       className={classes}
       style={style}
+      {...rest}
     >
-      {showInfo ? <span className={prefix('circle-info')}>{info}</span> : null}
-
-      <svg className={prefix('svg')} viewBox="0 0 100 100" {...rest}>
+      {showInfo && (
+        <ProgressInfo
+          percent={percent}
+          renderInfo={renderInfo}
+          status={status}
+          classPrefix={classPrefix}
+        />
+      )}
+      <svg className={prefix('svg')} viewBox="0 0 100 100">
         <path
           className={prefix('trail')}
           d={pathString}
