@@ -335,7 +335,7 @@ describe('DateRangeInput', () => {
         }
       ])
       .forEach(({ key, defaultValue, expectedValue }) => {
-        it.only(`Should not modify the input when function key (${key}) is pressed`, () => {
+        it(`Should not modify the input when function key (${key}) is pressed`, () => {
           testKeyPress({ key, defaultValue, expectedValue });
         });
       });
