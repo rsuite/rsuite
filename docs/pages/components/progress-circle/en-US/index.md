@@ -56,6 +56,12 @@ Use the `renderInfo` prop to customize the content displayed in the progress inf
 
 <!--{include:`render-info.md`}-->
 
+### Multiple Sections
+
+Use the `sections` prop to create a progress circle with multiple colored segments. Each section can have its own percentage and color.
+
+<!--{include:`sections.md`}-->
+
 ## Props
 
 ### `<ProgressCircle>`
@@ -69,6 +75,7 @@ Use the `renderInfo` prop to customize the content displayed in the progress inf
 | renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | Custom render function for info content ![][6.0.0] |
 | showInfo      | boolean `(true)`                                                         | Show text                                          |
 | status        | 'success' \| 'fail' \| 'active'                                          | Progress status                                    |
+| sections      | { percent: number, color: string }[]                                     | Multiple sections with different colors ![][6.0.0] |
 | strokeColor   | string                                                                   | Line color                                         |
 | strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | The end of different types of open paths           |
 | strokeWidth   | number `(6)`                                                             | Line width                                         |

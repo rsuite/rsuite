@@ -44,17 +44,23 @@ Apply a striped effect to the progress bar using the `striped` prop. When combin
 
 <!--{include:`line-striped.md`}-->
 
-### Vertical
-
-Display a vertical progress bar with the `vertical` prop. All other properties like status, color, and percent placement work with vertical progress bars as well.
-
-<!--{include:`line-vertical.md`}-->
-
 ### Custom Info Content
 
 Use the `renderInfo` prop to customize the content displayed in the progress info area. This allows for more complex and informative displays beyond the default percentage.
 
 <!--{include:`line-render-info.md`}-->
+
+### Multiple Sections
+
+Use the `sections` prop to display multiple progress sections with different colors. This is useful for visualizing different parts of a process or comparing multiple values.
+
+<!--{include:`line-sections.md`}-->
+
+### Vertical
+
+Display a vertical progress bar with the `vertical` prop. All other properties like status, color, and percent placement work with vertical progress bars as well.
+
+<!--{include:`line-vertical.md`}-->
 
 ## Props
 
@@ -74,4 +80,23 @@ Use the `renderInfo` prop to customize the content displayed in the progress inf
 | strokeWidth      | number                                                                       | Line width                                         |
 | trailColor       | string                                                                       | Trail color                                        |
 | trailWidth       | number                                                                       | Trail width                                        |
+| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | Multiple sections with different colors ![][6.0.0] |
 | vertical         | boolean                                                                      | The progress bar is displayed vertically           |
+
+### `ts:ProgressSection`
+
+```ts
+interface ProgressSection {
+  /** Percent of this section */
+  percent: number;
+
+  /** Color of this section */
+  color: string;
+
+  /** Label of this section */
+  label?: React.ReactNode;
+
+  /** Tooltip of this section */
+  tooltip?: React.ReactNode;
+}
+```

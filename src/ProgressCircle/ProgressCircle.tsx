@@ -3,6 +3,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import ProgressInfo from '../Progress/ProgressInfo';
+import { ProgressSection } from '../Progress/ProgressLine';
 
 export interface ProgressCircleProps extends BoxProps {
   /** Circular progress bar degree */
@@ -37,6 +38,9 @@ export interface ProgressCircleProps extends BoxProps {
 
   /** Custom render function for info content */
   renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
+
+  /** Multiple sections with different colors */
+  sections?: ProgressSection[];
 }
 
 /**
@@ -60,9 +64,19 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
     strokeWidth = 6,
     style,
     trailColor,
-    trailWidth = 6,
+    trailWidth = strokeWidth,
+    sections,
     ...rest
   } = propsWithDefaults;
+
+  // Calculate total percent from sections if provided
+  const totalPercent = useMemo(() => {
+    if (!sections) return percent;
+    return Math.min(
+      100,
+      sections.reduce((acc, section) => acc + section.percent, 0)
+    );
+  }, [percent, sections]);
 
   const { pathString, trailPathStyle, strokePathStyle } = useMemo(() => {
     const radius = 50 - strokeWidth / 2;
@@ -106,7 +120,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
 
     const strokePathStyle = {
       stroke: strokeColor,
-      strokeDasharray: `${(percent / 100) * (len - gapLength)}px ${len}px`,
+      strokeDasharray: `${(totalPercent / 100) * (len - gapLength)}px ${len}px`,
       strokeDashoffset: `-${gapLength / 2}px`
     };
 
@@ -115,7 +129,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
       trailPathStyle,
       strokePathStyle
     };
-  }, [gapDegree, gapPosition, percent, strokeColor, strokeWidth, trailColor]);
+  }, [gapDegree, gapPosition, totalPercent, strokeColor, strokeWidth, trailColor]);
 
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ [`${status || ''}`]: !!status }));
@@ -126,7 +140,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
       role="progressbar"
       aria-valuemin="0"
       aria-valuemax="100"
-      aria-valuenow={percent}
+      aria-valuenow={totalPercent}
       ref={ref}
       className={classes}
       style={style}
@@ -134,7 +148,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
     >
       {showInfo && (
         <ProgressInfo
-          percent={percent}
+          percent={totalPercent}
           renderInfo={renderInfo}
           status={status}
           classPrefix={classPrefix}
@@ -148,14 +162,52 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
           fillOpacity="0"
           style={trailPathStyle}
         />
-        <path
-          d={pathString}
-          strokeLinecap={strokeLinecap}
-          className={prefix('stroke')}
-          strokeWidth={percent === 0 ? 0 : strokeWidth}
-          fillOpacity="0"
-          style={strokePathStyle}
-        />
+        {sections ? (
+          // Render multiple sections
+          <>
+            {(() => {
+              let startPercent = 0;
+              return sections.map((section, index) => {
+                const sectionLen = Math.PI * 2 * (50 - strokeWidth / 2);
+                const gapLength = (gapDegree / 360) * sectionLen;
+                const sectionPercent = section.percent;
+                const endPercent = startPercent + sectionPercent;
+
+                // Calculate the stroke dash array and offset for this section
+                const sectionStyle = {
+                  stroke: section.color,
+                  strokeDasharray: `${(sectionPercent / 100) * (sectionLen - gapLength)}px ${sectionLen}px`,
+                  strokeDashoffset: `-${gapLength / 2 + (startPercent / 100) * (sectionLen - gapLength)}px`
+                };
+
+                const sectionPath = (
+                  <path
+                    key={index}
+                    d={pathString}
+                    strokeLinecap={strokeLinecap}
+                    className={prefix('stroke')}
+                    strokeWidth={totalPercent === 0 ? 0 : strokeWidth}
+                    fillOpacity="0"
+                    style={sectionStyle}
+                  />
+                );
+
+                startPercent = endPercent;
+                return sectionPath;
+              });
+            })()}
+          </>
+        ) : (
+          // Render single stroke
+          <path
+            d={pathString}
+            strokeLinecap={strokeLinecap}
+            className={prefix('stroke')}
+            strokeWidth={totalPercent === 0 ? 0 : strokeWidth}
+            fillOpacity="0"
+            style={strokePathStyle}
+          />
+        )}
       </svg>
     </Box>
   );

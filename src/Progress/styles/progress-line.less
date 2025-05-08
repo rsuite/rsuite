@@ -1,3 +1,5 @@
+@import './mixins.less';
+
 .rs-progress-line {
   --rs-progress-line-color: var(--rs-progress-bar);
   --rs-progress-line-trail-color: var(--rs-progress-bg);
@@ -6,6 +8,7 @@
   --rs-progress-line-stroke: 0;
   --rs-progress-line-radius: var(--rs-radius-sm);
   --rs-progress-line-stripe-size: 16px;
+  --rs-progress-line-section-gap: 0px;
 
   display: flex;
   align-items: center;
@@ -105,17 +108,46 @@
     height: var(--rs-progress-line-trail-size);
   }
 
+  &-sections {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--rs-progress-line-radius);
+    cursor: default;
+  }
+
   &-stroke {
     display: flex;
     align-items: center;
     background: var(--rs-progress-line-color);
     border-radius: var(--rs-progress-line-radius);
     transition: @progress-bg-transition;
-    transition-property: width, background-color;
+    transition-property: width, height, background-color;
     width: var(--rs-progress-line-stroke);
     height: var(--rs-progress-line-size);
     position: relative;
     overflow: hidden;
+
+    // Section-specific border radius styles
+    &.rs-progress-line-section {
+      color: #fff;
+      border-radius: 0;
+      padding-inline: var(--rs-spacing);
+
+      // First section in horizontal layout
+      &:where(:first-of-type) {
+        border-top-left-radius: var(--rs-progress-line-radius);
+        border-bottom-left-radius: var(--rs-progress-line-radius);
+      }
+
+      // Last section in horizontal layout
+      &:where(:last-of-type) {
+        border-top-right-radius: var(--rs-progress-line-radius);
+        border-bottom-right-radius: var(--rs-progress-line-radius);
+      }
+    }
   }
 
   &&-vertical {
@@ -140,10 +172,7 @@
     &:where([data-placement='insideEnd']),
     &:where([data-placement='insideCenter']) {
       .rs-progress-line-info {
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-        padding-block: var(--rs-spacing);
-        height: auto;
+        .vertical-text();
       }
     }
 
@@ -178,6 +207,13 @@
     width: 100%;
   }
 
+  &&-vertical &-sections {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
   &&-vertical &-stroke {
     width: 100%;
     height: var(--rs-progress-line-stroke);
@@ -185,12 +221,32 @@
     transform: rotate(180deg);
     position: absolute;
     bottom: 0;
+    left: 0;
+
+    &.rs-progress-line-section {
+      .vertical-text();
+      // First section in vertical layout
+      &:where(:first-of-type) {
+        border-top-left-radius: var(--rs-progress-line-radius);
+        border-top-right-radius: var(--rs-progress-line-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      // Last section in vertical layout
+      &:where(:last-of-type) {
+        border-bottom-left-radius: var(--rs-progress-line-radius);
+        border-bottom-right-radius: var(--rs-progress-line-radius);
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    }
   }
 
   &&-vertical&-active &-stroke::before {
     animation-name: progress-active-vertical;
   }
-  
+
   // Striped effect
   &-striped &-stroke {
     &::after {
@@ -214,11 +270,11 @@
       z-index: 0;
     }
   }
-  
+
   &-striped:where([data-status='active']) &-stroke::after {
     animation: progress-stripe 1s linear infinite;
   }
-  
+
   &&-vertical&-striped &-stroke::after {
     background-image: linear-gradient(
       -45deg,
@@ -231,7 +287,7 @@
       transparent
     );
   }
-  
+
   &&-vertical&-striped:where([data-status='active']) &-stroke::after {
     animation: progress-stripe-vertical 1s linear infinite;
   }

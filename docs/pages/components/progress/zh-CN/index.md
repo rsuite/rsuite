@@ -44,17 +44,23 @@
 
 <!--{include:`line-striped.md`}-->
 
-### 垂直
-
-使用 `vertical` 属性显示垂直进度条。状态、颜色和百分比位置等所有其他属性也适用于垂直进度条。
-
-<!--{include:`line-vertical.md`}-->
-
 ### 自定义信息内容
 
 使用 `renderInfo` 属性自定义进度信息区域中显示的内容。这允许显示比默认百分比更复杂和更具信息性的内容。
 
 <!--{include:`line-render-info.md`}-->
+
+### 多段进度
+
+使用 `sections` 属性显示具有不同颜色的多个进度段。这对于可视化过程的不同部分或比较多个值非常有用。
+
+<!--{include:`line-sections.md`}-->
+
+### 垂直
+
+使用 `vertical` 属性显示垂直进度条。状态、颜色和百分比位置等所有其他属性也适用于垂直进度条。
+
+<!--{include:`line-vertical.md`}-->
 
 ## Props
 
@@ -74,4 +80,23 @@
 | strokeWidth      | number                                                                       | 线条宽度                            |
 | trailColor       | string                                                                       | 背景颜色                            |
 | trailWidth       | number                                                                       | 背景宽度                            |
+| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | 具有不同颜色的多个进度段 ![][6.0.0] |
 | vertical         | boolean                                                                      | 垂直显示进度条                      |
+
+### `ts:ProgressSection`
+
+```ts
+interface ProgressSection {
+  /** Percent of this section */
+  percent: number;
+
+  /** Color of this section */
+  color: string;
+
+  /** Label of this section */
+  label?: React.ReactNode;
+
+  /** Tooltip of this section */
+  tooltip?: React.ReactNode;
+}
+```

@@ -56,6 +56,12 @@
 
 <!--{include:`render-info.md`}-->
 
+### 多段进度
+
+使用 `sections` 属性创建具有多个彩色段的圆形进度条。每个段可以有自己的百分比和颜色。
+
+<!--{include:`sections.md`}-->
+
 ## Props
 
 ### `<ProgressCircle>`
@@ -69,6 +75,7 @@
 | renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | 自定义信息内容的渲染函数 ![][6.0.0] |
 | showInfo      | boolean `(true)`                                                         | 是否显示文字                        |
 | status        | 'success' \| 'fail' \| 'active'                                          | 进度状态                            |
+| sections      | { percent: number, color: string }[]                                     | 多个具有不同颜色的进度段 ![][6.0.0] |
 | strokeColor   | string                                                                   | 线条颜色                            |
 | strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | 不同类型的开放路径的端点形状        |
 | strokeWidth   | number `(6)`                                                             | 线条宽度                            |

@@ -206,4 +206,75 @@ describe('Progress - Line', () => {
     expect(infoElement).to.exist;
     expect(infoElement?.textContent).to.equal('50-success');
   });
+
+  describe('Sections', () => {
+    it('Should render multiple sections', () => {
+      const sections = [
+        { percent: 30, color: 'red' },
+        { percent: 40, color: 'blue' }
+      ];
+
+      render(<ProgressLine sections={sections} />);
+
+      const progressBar = screen.getByRole('progressbar');
+      const sectionsContainer = progressBar.querySelector('.rs-progress-line-sections');
+      expect(sectionsContainer).to.exist;
+
+      const sectionElements = sectionsContainer?.querySelectorAll(
+        '.rs-progress-line-stroke.rs-progress-line-section'
+      );
+      expect(sectionElements).to.have.length(2);
+    });
+
+    it('Should calculate total percent from sections', () => {
+      const sections = [
+        { percent: 30, color: 'red' },
+        { percent: 40, color: 'blue' }
+      ];
+
+      render(<ProgressLine sections={sections} />);
+
+      const progressBar = screen.getByRole('progressbar');
+      expect(progressBar).to.have.attr('aria-valuenow', '70');
+
+      const style = progressBar.getAttribute('style');
+      expect(style).to.include('--rs-progress-line-stroke: 70%');
+    });
+
+    it('Should apply correct styles to sections', () => {
+      const sections = [
+        { percent: 30, color: 'red' },
+        { percent: 40, color: 'blue' }
+      ];
+
+      render(<ProgressLine sections={sections} />);
+
+      const sectionsContainer = screen
+        .getByRole('progressbar')
+        .querySelector('.rs-progress-line-sections');
+      const sectionElements = sectionsContainer?.querySelectorAll(
+        '.rs-progress-line-stroke.rs-progress-line-section'
+      );
+
+      // First section
+      const firstSectionStyle = sectionElements?.[0].getAttribute('style');
+      expect(firstSectionStyle).to.include('width: 30%');
+      expect(firstSectionStyle).to.include('background: red');
+    });
+
+    it('Should render section labels', () => {
+      const sections = [{ percent: 30, color: 'red', label: 'Section 1' }];
+
+      render(<ProgressLine sections={sections} />);
+
+      const sectionsContainer = screen
+        .getByRole('progressbar')
+        .querySelector('.rs-progress-line-sections');
+      const sectionElement = sectionsContainer?.querySelector(
+        '.rs-progress-line-stroke.rs-progress-line-section'
+      );
+
+      expect(sectionElement).to.have.text('Section 1');
+    });
+  });
 });

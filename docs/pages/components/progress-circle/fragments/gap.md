@@ -4,7 +4,7 @@
 import { ProgressCircle, VStack, HStack } from 'rsuite';
 
 const App = () => (
-  <VStack spacing={20} alignItems="flex-start">
+  <VStack spacing={20}>
     <HStack spacing={20}>
       <ProgressCircle
         percent={30}
