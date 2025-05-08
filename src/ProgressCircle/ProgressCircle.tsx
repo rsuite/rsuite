@@ -14,9 +14,6 @@ export interface ProgressCircleProps extends BoxProps {
   /** Percent of progress */
   percent?: number;
 
-  /** Custom render function for info content */
-  renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
-
   /** Show text */
   showInfo?: boolean;
 
@@ -37,6 +34,9 @@ export interface ProgressCircleProps extends BoxProps {
 
   /** Tail width */
   trailWidth?: number;
+
+  /** Custom render function for info content */
+  renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
 }
 
 /**
@@ -95,16 +95,19 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
     const pathString = `M 50,50 m ${x1},${y1} a ${radius},${radius} 0 1 1 ${x2},${-y2} a ${radius},${radius} 0 1 1 ${-x2},${y2}`;
 
     const len = Math.PI * 2 * radius;
+    // Convert gapDegree from degrees to a proportion of the circumference
+    const gapLength = (gapDegree / 360) * len;
+
     const trailPathStyle = {
       stroke: trailColor,
-      strokeDasharray: `${len - gapDegree}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`
+      strokeDasharray: `${len - gapLength}px ${len}px`,
+      strokeDashoffset: `-${gapLength / 2}px`
     };
 
     const strokePathStyle = {
       stroke: strokeColor,
-      strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`
+      strokeDasharray: `${(percent / 100) * (len - gapLength)}px ${len}px`,
+      strokeDashoffset: `-${gapLength / 2}px`
     };
 
     return {

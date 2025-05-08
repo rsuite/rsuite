@@ -3,17 +3,17 @@ import { PROGRESS_STATUS_ICON } from '@/internals/constants/statusIcons';
 import { useStyles } from '@/internals/hooks';
 
 export interface ProgressInfoProps {
+  /** The prefix of the component CSS class */
+  classPrefix: string;
+
   /** Percent of progress */
   percent: number;
-
-  /** Custom render function for info content */
-  renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
 
   /** Progress status */
   status?: 'success' | 'fail' | 'active';
 
-  /** The prefix of the component CSS class */
-  classPrefix: string;
+  /** Custom render function for info content */
+  renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
 }
 
 /**
