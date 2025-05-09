@@ -125,7 +125,7 @@
       {
         "id": "progress-circle",
         "name": "ProgressCircle",
-        "title": " 圆形进度条",
+        "title": "圆形进度条",
         "components": ["ProgressCircle"],
         "keywords": ["loading", "meter"],
         "updateVersion": "6.0.0"
