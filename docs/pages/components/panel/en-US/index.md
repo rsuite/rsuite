@@ -79,20 +79,20 @@ Only one panel can be expanded.
 
 ### `<Panel>`
 
-| Property        | Type `(Default)`   | Description                                              |
-| --------------- | ------------------ | -------------------------------------------------------- |
-| bodyFill        | boolean            | Content area filled with containers                      |
-| bodyProps       | HTMLAttributes     | The properties of the content area<br/>![][5.62.0]       |
-| bordered        | boolean            | Show border                                              |
-| classPrefix     | string `('panel')` | The prefix of the component CSS class                    |
-| collapsible     | boolean            | Whether it is a collapsible panel                        |
-| defaultExpanded | boolean            | Expand by default                                        |
-| eventKey        | string             | The event key corresponding to the panel.                |
-| expanded        | boolean            | Expand the Panel                                         |
-| header          | ReactNode          | The head displays information.                           |
-| id              | string             | HTML ID attribute                                        |
-| scrollShadow    | boolean            | The shadow of the content when scrolling<br/>![][5.62.0] |
-| shaded          | boolean            | Add shadow effect to the border                          |
+| Property        | Type `(Default)`   | Description                               | Version     |
+| --------------- | ------------------ | ----------------------------------------- | ----------- |
+| bodyFill        | boolean            | Content area filled with containers       |             |
+| bodyProps       | HTMLAttributes     | The properties of the content area        | ![][5.62.0] |
+| bordered        | boolean            | Show border                               |             |
+| classPrefix     | string `('panel')` | The prefix of the component CSS class     |             |
+| collapsible     | boolean            | Whether it is a collapsible panel         |             |
+| defaultExpanded | boolean            | Expand by default                         |             |
+| eventKey        | string             | The event key corresponding to the panel. |             |
+| expanded        | boolean            | Expand the Panel                          |             |
+| header          | ReactNode          | The head displays information.            |             |
+| id              | string             | HTML ID attribute                         |             |
+| scrollShadow    | boolean            | The shadow of the content when scrolling  | ![][5.62.0] |
+| shaded          | boolean            | Add shadow effect to the border           |             |
 
 ### `<PanelGroup>`
 
@@ -103,5 +103,3 @@ Only one panel can be expanded.
 | classPrefix      | string                            | The prefix of the component CSS class                        |
 | defaultActiveKey | string                            | The default expansion panel                                  |
 | onSelect         | (eventKey: string, event) => void | Toggles the callback function for the expand panel           |
-
-

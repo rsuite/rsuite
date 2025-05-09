@@ -107,19 +107,19 @@
 
 ### `<Dropdown.Item>`
 
-| 属性名称    | 类型 `(默认值)`                | 描述                                    |
-| ----------- | ------------------------------ | --------------------------------------- |
-| active      | boolean                        | 选中当前选项                            |
-| as          | ElementType `('li')`           | 为组件自定义元素类型                    |
-| children \* | ReactNode                      | 组件内容                                |
-| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀                       |
-| disabled    | boolean                        | 禁用当前选项                            |
-| divider     | boolean                        | 显示为分割线                            |
-| eventKey    | string                         | 当前选项的值                            |
-| icon        | Element&lt;typeof Icon&gt;     | 设置图标                                |
-| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数                  |
-| panel       | boolean                        | 显示一个自定义的面板                    |
-| shortcut    | string                         | 下拉菜单项的键盘快捷键 <br/>![][5.58.0] |
+| 属性名称    | 类型 `(默认值)`                | 描述                   | 版本        |
+| ----------- | ------------------------------ | ---------------------- | ----------- |
+| active      | boolean                        | 选中当前选项           |             |
+| as          | ElementType `('li')`           | 为组件自定义元素类型   |             |
+| children \* | ReactNode                      | 组件内容               |             |
+| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |             |
+| disabled    | boolean                        | 禁用当前选项           |             |
+| divider     | boolean                        | 显示为分割线           |             |
+| eventKey    | string                         | 当前选项的值           |             |
+| icon        | Element&lt;typeof Icon&gt;     | 设置图标               |             |
+| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数 |             |
+| panel       | boolean                        | 显示一个自定义的面板   |             |
+| shortcut    | string                         | 下拉菜单项的键盘快捷键 | ![][5.58.0] |
 
 ### `<Dropdown.Menu>`
 

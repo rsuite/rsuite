@@ -76,17 +76,17 @@ return (
 
 ### `<CustomProvider>`
 
-| 属性名称            | 类型`(默认值)`                          | 描述                                                                      |
-| ------------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| components          | [Components](#code-ts-components-code)  | 自定义组件默认配置 <br/>![][5.74.0]                                       |
-| csp                 | { nonce: string }                       | 配置 [Content Security Policy][csp] 的 [nonce][nonce] 值 <br/>![][5.73.0] |
-| disableInlineStyles | boolean                                 | 禁用内联样式 <br/>![][5.73.0]                                             |
-| disableRipple       | boolean                                 | 禁用组件的涟漪效果，受影响的组件包括：`Button`、`Nav.Item`、 `Pagination` |
-| formatDate          | (date: Date, format?: string) => string | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |
-| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | 语言包配置                                                                |
-| parseDate           | (date: string, format: string) => Date  | 使用给定的格式字符串返回从字符串解析的日期                                |
-| rtl                 | boolean                                 | 可设置文本和其他元素的默认方向是从左到右                                  |
-| theme               | 'light' \| 'dark' \| 'high-contrast'    | 支持的主题                                                                |
+| 属性名称            | 类型`(默认值)`                          | 描述                                                                      | 版本        |
+| ------------------- | --------------------------------------- | ------------------------------------------------------------------------- | ----------- |
+| components          | [Components](#code-ts-components-code)  | 自定义组件默认配置                                                        | ![][5.74.0] |
+| csp                 | { nonce: string }                       | 配置 [Content Security Policy][csp] 的 [nonce][nonce] 值                  | ![][5.73.0] |
+| disableInlineStyles | boolean                                 | 禁用内联样式                                                              | ![][5.73.0] |
+| disableRipple       | boolean                                 | 禁用组件的涟漪效果，受影响的组件包括：`Button`、`Nav.Item`、 `Pagination` |             |
+| formatDate          | (date: Date, format?: string) => string | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |             |
+| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | 语言包配置                                                                |             |
+| parseDate           | (date: string, format: string) => Date  | 使用给定的格式字符串返回从字符串解析的日期                                |             |
+| rtl                 | boolean                                 | 可设置文本和其他元素的默认方向是从左到右                                  |             |
+| theme               | 'light' \| 'dark' \| 'high-contrast'    | 支持的主题                                                                |             |
 
 <!--{include:(_common/types/react-suite-components.md)}-->
 

@@ -57,21 +57,21 @@
 
 ### `<Toggle>`
 
-| 属性名称          | 类型 `(默认值)`                            | 描述                                               |
-| ----------------- | ------------------------------------------ | -------------------------------------------------- |
-| checked           | boolean                                    | 指定当前是否选中                                   |
-| checkedChildren   | ReactNode                                  | 选中显示的内容                                     |
-| classPrefix       | string `('toggle')`                        | 组件 CSS 类的前缀                                  |
-| color             | [Color](#code-ts-color-code)               | 开关颜色 ![][5.64.0]                               |
-| defaultChecked    | boolean                                    | 初始是否选中                                       |
-| disabled          | boolean                                    | 禁用                                               |
-| label             | ReactNode                                  | 开关的标签 ![][6.0.0]                              |
-| labelPlacement    | 'start' \| 'end' `('end')`                 | 开关标签的位置 ![][6.0.0]                          |
-| loading           | boolean                                    | 是否展示一个圈圈表示选中状态正在获取/更新          |
-| locale            | [ToggleLocaleType](/zh/guide/i18n/#toggle) | 定义本地化设置，使组件文本根据用户地区显示相应语言 |
-| onChange          | (checked: boolean, event) => void          | 状态改变时的回调函数                               |
-| size              | [Size](#code-ts-size-code)                 | 开关尺寸                                           |
-| unCheckedChildren | ReactNode                                  | 非选中显示的内容                                   |
+| 属性名称          | 类型 `(默认值)`                            | 描述                                               | 版本        |
+| ----------------- | ------------------------------------------ | -------------------------------------------------- | ----------- |
+| checked           | boolean                                    | 指定当前是否选中                                   |             |
+| checkedChildren   | ReactNode                                  | 选中显示的内容                                     |             |
+| classPrefix       | string `('toggle')`                        | 组件 CSS 类的前缀                                  |             |
+| color             | [Color](#code-ts-color-code)               | 开关颜色                                           | ![][5.64.0] |
+| defaultChecked    | boolean                                    | 初始是否选中                                       |             |
+| disabled          | boolean                                    | 禁用                                               |             |
+| label             | ReactNode                                  | 开关的标签                                         | ![][6.0.0]  |
+| labelPlacement    | 'start' \| 'end' `('end')`                 | 开关标签的位置                                     | ![][6.0.0]  |
+| loading           | boolean                                    | 是否展示一个圈圈表示选中状态正在获取/更新          |             |
+| locale            | [ToggleLocaleType](/zh/guide/i18n/#toggle) | 定义本地化设置，使组件文本根据用户地区显示相应语言 |             |
+| onChange          | (checked: boolean, event) => void          | 状态改变时的回调函数                               |             |
+| size              | [Size](#code-ts-size-code)                 | 开关尺寸                                           |             |
+| unCheckedChildren | ReactNode                                  | 非选中显示的内容                                   |             |
 
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/size.md)}-->

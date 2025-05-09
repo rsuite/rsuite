@@ -57,19 +57,19 @@
 
 ### `<Radio>`
 
-| 属性名称       | 类型                                             | 描述                                       |
-| -------------- | ------------------------------------------------ | ------------------------------------------ |
-| as             | ElementType`(div)`                               | 为组件自定义元素类型                       |
-| checked        | boolean                                          | 被选中（受控）                             |
-| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色 <br/>![][5.56.0]          |
-| defaultChecked | boolean                                          | 默认被选中                                 |
-| disabled       | boolean                                          | 禁用                                       |
-| inline         | boolean                                          | 内联布局                                   |
-| inputProps     | object                                           | 设置 input 元素的属性                      |
-| inputRef       | ref                                              | 将 ref 传递给 input 元素                   |
-| name           | string                                           | 用于表单对应的名称                         |
-| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数             |
-| value          | string                                           | 当前值，对应 RadioGroup 的值，判断是否选中 |
+| 属性名称       | 类型                                             | 描述                                       | 版本        |
+| -------------- | ------------------------------------------------ | ------------------------------------------ | ----------- |
+| as             | ElementType`(div)`                               | 为组件自定义元素类型                       |             |
+| checked        | boolean                                          | 被选中（受控）                             |             |
+| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色                           | ![][5.56.0] |
+| defaultChecked | boolean                                          | 默认被选中                                 |             |
+| disabled       | boolean                                          | 禁用                                       |             |
+| inline         | boolean                                          | 内联布局                                   |             |
+| inputProps     | object                                           | 设置 input 元素的属性                      |             |
+| inputRef       | ref                                              | 将 ref 传递给 input 元素                   |             |
+| name           | string                                           | 用于表单对应的名称                         |             |
+| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数             |             |
+| value          | string                                           | 当前值，对应 RadioGroup 的值，判断是否选中 |             |
 
 ### `<RadioGroup>`
 

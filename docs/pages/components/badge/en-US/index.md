@@ -48,21 +48,19 @@ If the Badge position is not reasonable, you can use the `offset` property to ma
 
 ### `<Badge>`
 
-| Property    | Type`(Default)`                                        | Description                                                                                            |
-| ----------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| children    | ReactNode                                              | The wrapped component                                                                                  |
-| classPrefix | string `('badge')`                                     | The prefix of the component CSS class                                                                  |
-| color       | [Color](#code-ts-color-code) \| CSSProperties['color'] | Set the color of the badge                                                                             |
-| compact     | boolean                                                | Whether to use compact mode<br/>![][6.0.0]                                                             |
-| content     | number \| ReactNode                                    | The content of the badge                                                                               |
-| invisible   | boolean                                                | Whether the badge is invisible<br/>![][6.0.0]                                                          |
-| maxCount    | number`(99)`                                           | Max count number（Only valid if `content` is type number）                                             |
-| offset      | [number,number] \| [string, string]                    | Define the horizontal and vertical offset of the badge relative to its wrapped element <br/>![][6.0.0] |
-| outline     | boolean`(true)`                                        | Whether to use outline mode<br/>![][6.0.0]                                                             |
-| placement   | [PlacementCorners](#code-ts-placement-corners-code)    | Set the position of the badge in the wrapped element<br/>![][6.0.0]                                    |
-| shape       | 'rectangle' \| 'circle'                                | The shape of the wrapped element<br/>![][6.0.0]                                                        |
+| Property    | Type`(Default)`                                        | Description                                                                            | Version    |
+| ----------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------- | ---------- |
+| children    | ReactNode                                              | The wrapped component                                                                  |            |
+| classPrefix | string `('badge')`                                     | The prefix of the component CSS class                                                  |            |
+| color       | [Color](#code-ts-color-code) \| CSSProperties['color'] | Set the color of the badge                                                             |            |
+| compact     | boolean                                                | Whether to use compact mode                                                            | ![][6.0.0] |
+| content     | number \| ReactNode                                    | The content of the badge                                                               |            |
+| invisible   | boolean                                                | Whether the badge is invisible                                                         | ![][6.0.0] |
+| maxCount    | number`(99)`                                           | Max count number（Only valid if `content` is type number）                             |            |
+| offset      | [number,number] \| [string, string]                    | Define the horizontal and vertical offset of the badge relative to its wrapped element | ![][6.0.0] |
+| outline     | boolean`(true)`                                        | Whether to use outline mode                                                            | ![][6.0.0] |
+| placement   | [PlacementCorners](#code-ts-placement-corners-code)    | Set the position of the badge in the wrapped element                                   | ![][6.0.0] |
+| shape       | 'rectangle' \| 'circle'                                | The shape of the wrapped element                                                       | ![][6.0.0] |
 
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/placement-corners.md)}-->
-
-
