@@ -68,6 +68,9 @@
   position: absolute;
 
   &[data-placement='static'] {
+    --rs-form-errormessage-text: var(--rs-color-red);
+    --rs-form-errormessage-bg: transparent;
+
     position: static;
     margin-top: var(--rs-spacing);
     display: block;
@@ -83,7 +86,6 @@
       filter: none;
       border: none;
       border-radius: 0;
-
 
       &-show {
         animation: none;
