@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, RadioGroup, Radio, Schema, Panel, Box, Row, Col } from 'rsuite';
+import { Form, Button, RadioGroup, Radio, Panel, Box, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
@@ -20,15 +21,15 @@ const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const model = Schema.Model({
-  name: Schema.Types.StringType()
+const model = SchemaModel({
+  name: StringType()
     .isEmail('Please enter a valid email address.')
     .isRequired('This field is required.')
 });

@@ -4,29 +4,40 @@ We recommend using [`schema-typed`](https://github.com/rsuite/schema-typed) to m
 
 ## Usage
 
-**Step 1**: Import `Form` and `Schema`.
+<div class="rs-doc-steps">
+
+<h3 class="rs-doc-step-header"> Import Form and Schema </h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
-import { Form, Schema } from 'rsuite';
+import { Form } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 ```
 
-**Step 2**: Use Schema to define the data model.
+</div>
+
+<h3 class="rs-doc-step-header"> Use SchemaModel to define the data model </h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
-const { StringType } = Schema.Types;
-
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired('This field is required.'),
   email: StringType().isEmail('Please enter a valid email address.')
 });
 ```
 
-**Step 3**: Set `model` for `<Form>`.
+</div>
+
+<h3 class="rs-doc-step-header"> Set model for Form </h3>
+
+<div class="rs-doc-step-body">
 
 ```jsx
 const TextField = ({ name, label, accepter, ...rest }) => (
   <Form.Group controlId={name}>
-    <Form.ControlLabel>{label} </Form.ControlLabel>
+    <Form.Label>{label} </Form.Label>
     <Form.Control name={name} accepter={accepter} {...rest} />
   </Form.Group>
 );
@@ -43,6 +54,10 @@ return (
 );
 ```
 
+</div>
+
+</div>
+
 ## Examples
 
 ### Default check
@@ -55,9 +70,9 @@ The form will automatically trigger the data check after the `submit` event is t
 
 Form Check needs to be used `<Form>`, `<Form.Control>` and `Schema` 。
 
-- `<Form>` To define a form, you can set `formValue` and `model` for the form, and `model` is the data model created by `Schema.Model`.
-- `<Form.Control>` Define a Field that corresponds to the `key` of the `Schema.Model` object via the `name` property. For detailed reference: Custom Form Components.
-- `Schema.Model` Define a data model, using the reference [schema](https://github.com/rsuite/schema-typed#schema-typed).
+- `<Form>` To define a form, you can set `formValue` and `model` for the form, and `model` is the data model created by `SchemaModel`.
+- `<Form.Control>` Define a Field that corresponds to the `key` of the `SchemaModel` object via the `name` property. For detailed reference: Custom Form Components.
+- `SchemaModel` Define a data model, using the reference [schema](https://github.com/rsuite/schema-typed#schema-typed).
 - Custom trigger check: `<Form>` instance provides `check` and `checkForField` methods, used to trigger form checksum field validation
 
 <!--{include:`form-check.md`}-->
@@ -82,11 +97,11 @@ Under certain conditions, we need to perform asynchronous verification on the da
 
 <!--{include:`form-check-async.md`}-->
 
-### Custom Form.Control
+### Form Control
 
 All Data Entry-related components can be used in forms such as `Checkbox`, `SelectPicker`, `Slider`, and so on. But you need to use the `Form.Control` component for data management and data association with the `Form` component.
 
-- `Form.Control` used to bind data fields in a Form, passing the `name` attribute to the `key` of the Schema.Model object.
+- `Form.Control` used to bind data fields in a Form, passing the `name` attribute to the `key` of the SchemaModel object.
 - `Form.Control` the default is an `Input` component, which can be set through the ʻaccepter` component.
 
 <!--{include:`custom-form-control.md`}-->
@@ -125,41 +140,15 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 > Note: `proxy` isn't supported when `Form` enables `nestedField`
 
+### Custom form fields with useFormControl
+
+![][6.0.0]
+
+The `useFormControl` hook allows you to create custom form fields that integrate seamlessly with the Form validation system. This approach gives you complete control over your form field's UI while maintaining all validation capabilities.
+
+<!--{include:`use-form-control.md`}-->
+
 ## Integration with other libraries
 
 - [With Formik Integration](/components/form-formik/)
 - [With React Hook Form Integration](/components/form-react-hook-form/)
-
-## API
-
-### Form ref
-
-| Name               | Type                                                                          | Description                                                   |
-| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| check              | (callback?: (formError: E) => void) => boolean                                | Verify form data                                              |
-| checkAsync         | () => Promise<CheckResult>                                                    | Asynchronously check form data                                |
-| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | Checklist single field value                                  |
-| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | Asynchronous check form single field value                    |
-| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | Clear single field error message                              |
-| cleanErrors        | (callback: () => void) => void                                                | Clean error message                                           |
-| reset              | () => void                                                                    | Reset form data to initial value and clear all error messages |
-| resetErrors        | () => void                                                                    | Reset error message                                           |
-| submit             | () => void                                                                    | Trigger form submission and verify data                       |
-
-### Schema
-
-Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
-
-```ts
-interface Schema {
-  Model(schemaSpec: SchemaDeclaration<DataType, ErrorMsgType>): schema;
-  Types: {
-    StringType: (errorMessage?: string) => this;
-    NumberType: (errorMessage?: string) => this;
-    ArrayType: (errorMessage?: string) => this;
-    ObjectType: (errorMessage?: string) => this;
-    DateType: (errorMessage?: string) => this;
-    BooleanType: (errorMessage?: string) => this;
-  };
-}
-```

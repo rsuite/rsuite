@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import type { CheckType } from 'schema-typed';
 import { useFormContext } from '../../Form/FormContext';
 
-function useRegisterModel(
+export function useRegisterModel(
   name: string,
 
   rule?: CheckType<unknown, any>
@@ -19,5 +19,3 @@ function useRegisterModel(
     };
   }, [name, pushFieldRule, removeFieldRule]);
 }
-
-export default useRegisterModel;

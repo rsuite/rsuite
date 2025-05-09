@@ -1,14 +1,14 @@
-import { isValidElement, useCallback, useMemo } from 'react';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { nameToPath } from '../utils';
+import { isValidElement, useCallback, useMemo } from 'react';
+import { nameToPath } from '../utils/nameToPath';
 
 interface FieldProps {
   name: string;
   formValue?: Record<string, any>;
   formError?: Record<string, any>;
   value: any;
-  nestedField: boolean;
+  nestedField?: boolean;
   errorMessage: React.ReactNode;
   errorFromContext?: boolean;
 }
@@ -38,7 +38,7 @@ function getErrorMessage(error?: ErrorType | string) {
   return error?.errorMessage;
 }
 
-function useField(props: FieldProps) {
+export function useField(props: FieldProps) {
   const { name, formValue, formError, value, nestedField, errorMessage, errorFromContext } = props;
   const fieldValue = useMemo(() => {
     if (typeof value !== 'undefined') {
@@ -79,5 +79,3 @@ function useField(props: FieldProps) {
 
   return { fieldValue, fieldError, setFieldValue };
 }
-
-export default useField;

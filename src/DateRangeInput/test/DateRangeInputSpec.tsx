@@ -9,6 +9,7 @@ import DateRangeInput from '../DateRangeInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { keyPressTests } from '../../DateInput/test/testUtils';
+import { TestKeyPressProps } from '@/DateInput/test/types/TestKeyPressProps';
 
 const { testKeyPress, testKeyPressAsync, testContinuousKeyPress } = keyPressTests(DateRangeInput);
 
@@ -181,6 +182,21 @@ describe('DateRangeInput', () => {
   });
 
   describe('DateRangeInput - KeyPress', () => {
+    const functionKeys = [
+      'F1',
+      'F2',
+      'F3',
+      'F4',
+      'F5',
+      'F6',
+      'F7',
+      'F8',
+      'F9',
+      'F10',
+      'F11',
+      'F12'
+    ];
+
     it('Should increase year when pressing ArrowUp ', () => {
       testKeyPress({
         key: '{arrowup}',
@@ -309,6 +325,20 @@ describe('DateRangeInput', () => {
         expectedValue: '2023-10-dd ~ yyyy-MM-dd'
       });
     });
+
+    functionKeys
+      .flatMap<TestKeyPressProps>(fnKey => [
+        {
+          key: fnKey,
+          defaultValue: [new Date(2023, 9, 1), null],
+          expectedValue: '2023-10-01 ~ yyyy-MM-dd'
+        }
+      ])
+      .forEach(({ key, defaultValue, expectedValue }) => {
+        it(`Should not modify the input when function key (${key}) is pressed`, () => {
+          testKeyPress({ key, defaultValue, expectedValue });
+        });
+      });
 
     it('Should support the hour format', () => {
       testContinuousKeyPress({

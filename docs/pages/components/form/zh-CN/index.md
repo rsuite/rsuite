@@ -16,6 +16,8 @@
 - **字段状态组件**:
   - `Form.Text` 提供表单字段的帮助信息。
   - `Form.ErrorMessage` 显示表单字段的错误提示信息。
+- **Hooks**
+  - `useFormControl`: 为自定义表单组件提供表单控制功能的 Hook，使其能够与 Form 组件无缝集成。
 
 ## 布局
 
@@ -183,4 +185,94 @@
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
+
+### Form ref
+
+| 名称               | 类型                                                                          | 描述                                     |
+| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | 检验表单数据                             |
+| checkAsync         | () => Promise<CheckResult>                                                    | 异步检验表单数据                         |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | 校验表单单个字段值                       |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | 异步校验表单单个字段值                   |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | 清除单个字段错误信息                     |
+| cleanErrors        | (callback: () => void) => void                                                | 清除错误信息                             |
+| reset              | () => void                                                                    | 重置表单数据为初始值，并清除所有错误信息 |
+| resetErrors        | () => void                                                                    | 重置错误信息                             |
+| submit             | () => void                                                                    | 触发表单提交并校验数据                   |
+
+### Schema
+
+Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
+
 <!--{include:(_common/types/placement-error-message.md)}-->
+
+## Hooks
+
+### `useFormControl`
+
+![][6.0.0]
+
+`useFormControl` hook 为自定义表单组件提供表单控制功能。必须在 `<Form>` 组件内使用。
+
+```tsx
+const {
+  value, // 当前字段值
+  error, // 字段错误信息
+  plaintext, // 字段是否为纯文本模式
+  readOnly, // 字段是否为只读
+  disabled, // 字段是否禁用
+  onChange, // 字段值变化处理函数
+  onBlur, // 字段失焦事件处理函数
+  onCheck, // 手动触发字段验证的处理函数
+  setValue // 直接设置字段值
+} = useFormControl(props);
+```
+
+#### 属性
+
+| 名称                   | 类型`(默认值)`             | 描述                                          |
+| ---------------------- | -------------------------- | --------------------------------------------- |
+| checkAsync             | boolean`(false)`           | 是否执行异步验证                              |
+| checkTrigger           | 'change' \| 'blur' \| null | 数据验证触发类型，会覆盖 Form 的 checkTrigger |
+| errorMessage           | React.ReactNode            | 自定义错误信息                                |
+| name                   | string                     | 表单字段名称（必填）                          |
+| rule                   | CheckType                  | 验证规则（来自 Schema）                       |
+| shouldResetWithUnmount | boolean`(false)`           | 组件卸载时是否移除字段值和错误信息            |
+| value                  | any                        | 当前值（受控）                                |
+
+#### 返回值
+
+| 名称      | 类型                                           | 描述                                                                                              |
+| --------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| disabled  | boolean                                        | 字段是否禁用（继承自 Form）                                                                       |
+| error     | React.ReactNode                                | 字段错误信息                                                                                      |
+| onBlur    | () => void                                     | 字段失焦事件处理函数                                                                              |
+| onChange  | (value: any, event: SyntheticEvent) => void    | 字段值变化处理函数                                                                                |
+| onCheck   | (value: any) => void                           | 手动触发字段验证的处理函数                                                                        |
+| plaintext | boolean                                        | 字段是否为纯文本模式（继承自 Form）                                                               |
+| readOnly  | boolean                                        | 字段是否为只读（继承自 Form）                                                                     |
+| setValue  | (value: any, shouldValidate?: boolean) => void | 直接设置字段值，不会触发 onChange 事件。如果 shouldValidate 为 true，将根据 checkTrigger 触发验证 |
+| value     | any                                            | 当前字段值                                                                                        |
+
+#### 示例
+
+```jsx
+import { useFormControl } from 'rsuite';
+
+function CustomField({ name, label }) {
+  const { value, error, onChange, onBlur } = useFormControl({ name });
+
+  return (
+    <div className="custom-field">
+      <label>{label}</label>
+      <input value={value || ''} onChange={e => onChange(e.target.value, e)} onBlur={onBlur} />
+      {error && <div className="error-message">{error}</div>}
+    </div>
+  );
+}
+
+// 使用方式
+<Form>
+  <CustomField name="email" label="邮箱" />
+</Form>;
+```

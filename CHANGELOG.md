@@ -1,3 +1,12 @@
+## [5.80.1](https://github.com/rsuite/rsuite/compare/v5.80.0...v5.80.1) (2025-04-25)
+
+
+### Bug Fixes
+
+* **locale:** fixed some minor issue with dutch locale ([#4257](https://github.com/rsuite/rsuite/issues/4257)) ([79a6de6](https://github.com/rsuite/rsuite/commit/79a6de6b3b524f1c16df3490c736d22f4d767b7b))
+
+
+
 # [5.80.0](https://github.com/rsuite/rsuite/compare/v5.79.1...v5.80.0) (2025-04-18)
 
 
