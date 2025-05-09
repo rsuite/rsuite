@@ -36,16 +36,16 @@
 
 ### `<Divider>`
 
-| 属性名称       | 类型`(默认值)`                                   | 描述                             |
-| -------------- | ------------------------------------------------ | -------------------------------- |
-| appearance     | 'solid' \| 'dashed' \| 'dotted'                  | 分割线的外观样式                 |
-| as             | ElementType `(div)`                              | 自定义元素类型                   |
-| classPrefix    | string `('divider')`                             | 组件 CSS 类的前缀                |
-| color          | Color \| CSSProperties['color']                  | 分割线的颜色                     |
-| label          | ReactNode                                        | 标签内容 ![][6.0.0]              |
-| labelPlacement | 'start' \| 'center' \| 'end'                     | 标签位置 ![][6.0.0]              |
-| size           | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线的尺寸                     |
-| spacing        | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线与内容之间的间距           |
-| vertical       | boolean                                          | 垂直分割线（不能与标签同时使用） |
+| 属性名称       | 类型                                             | 描述                             | 版本       |
+| -------------- | ------------------------------------------------ | -------------------------------- | ---------- |
+| appearance     | 'solid' \| 'dashed' \| 'dotted'                  | 分割线的外观样式                 |            |
+| as             | ElementType `(div)`                              | 自定义元素类型                   |            |
+| classPrefix    | string `('divider')`                             | 组件 CSS 类的前缀                |            |
+| color          | Color \| CSSProperties['color']                  | 分割线的颜色                     |            |
+| label          | ReactNode                                        | 标签内容                         | ![][6.0.0] |
+| labelPlacement | 'start' \| 'center' \| 'end'                     | 标签位置                         | ![][6.0.0] |
+| size           | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线的尺寸                     |            |
+| spacing        | 'xs' \| 'sm' \| 'md' \| 'lg' \| number \| string | 分割线与内容之间的间距           |            |
+| vertical       | boolean                                          | 垂直分割线（不能与标签同时使用） |            |
 
 <!--{include:(_common/types/color.md)}-->

@@ -54,20 +54,20 @@ Based on `Collection Sort`, the items in the list are fixed in position during s
 
 ### `<List>`
 
-| Property           | Type `(Default)`                                   | Description                                               |
-| ------------------ | -------------------------------------------------- | --------------------------------------------------------- |
-| autoScroll         | boolean `(true)`                                   | Enables automatic scrolling when the list overflows       |
-| bordered           | boolean                                            | Displays borders around the list items                    |
-| divider            | boolean                                            | Displays a divider between the list items<br/>![][5.75.0] |
-| hover              | boolean                                            | Enables hover animation on list items                     |
-| onSort             | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when sorting ends                      |
-| onSortEnd          | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered after the sorting operation ends       |
-| onSortMove         | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when an item is moved in the list      |
-| onSortStart        | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered at the start of sorting                |
-| pressDelay         | number `(0)`                                       | Delay before sorting is triggered after pressing          |
-| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `(md)`                | Defines the size of the list items                        |
-| sortable           | boolean                                            | Enables sorting functionality for the list items          |
-| transitionDuration | number `(300)`                                     | Duration (in milliseconds) of the sort animation          |
+| Property           | Type `(Default)`                                   | Description                                          | Version     |
+| ------------------ | -------------------------------------------------- | ---------------------------------------------------- | ----------- |
+| autoScroll         | boolean `(true)`                                   | Enables automatic scrolling when the list overflows  |             |
+| bordered           | boolean                                            | Displays borders around the list items               |             |
+| divider            | boolean                                            | Displays a divider between the list items            | ![][5.75.0] |
+| hover              | boolean                                            | Enables hover animation on list items                |             |
+| onSort             | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when sorting ends                 |             |
+| onSortEnd          | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered after the sorting operation ends  |             |
+| onSortMove         | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered when an item is moved in the list |             |
+| onSortStart        | (payload:[Payload](#code-ts-payload-code)) => void | Callback triggered at the start of sorting           |             |
+| pressDelay         | number `(0)`                                       | Delay before sorting is triggered after pressing     |             |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `(md)`                | Defines the size of the list items                   |             |
+| sortable           | boolean                                            | Enables sorting functionality for the list items     |             |
+| transitionDuration | number `(300)`                                     | Duration (in milliseconds) of the sort animation     |             |
 
 ### `<List.Item>`
 
@@ -88,5 +88,3 @@ interface Payload {
   oldIndex: number;
 }
 ```
-
-

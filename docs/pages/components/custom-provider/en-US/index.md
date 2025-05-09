@@ -76,17 +76,17 @@ return (
 
 ### `<CustomProvider>`
 
-| Property            | Type`(Default)`                         | Description                                                                                             |
-| ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| components          | [Components](#code-ts-components-code)  | Custom component default configuration <br/>![][5.74.0]                                                 |
-| csp                 | { nonce: string }                       | Configure the [nonce][nonce] value of [Content Security Policy][csp] <br/>![][5.73.0]                   |
-| disableInlineStyles | boolean                                 | Disable inline styles <br/>![][5.73.0]                                                                  |
-| disableRipple       | boolean                                 | If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination` |
-| formatDate          | (date: Date, format?: string) => string | Return the formatted date string in the given format. The result may vary by locale.                    |
-| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | Configure Language Pack                                                                                 |
-| parseDate           | (date: string, format: string) => Date  | Return the date parsed from string using the given format string.                                       |
-| rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |
-| theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |
+| Property            | Type`(Default)`                         | Description                                                                                             | Version     |
+| ------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------- |
+| components          | [Components](#code-ts-components-code)  | Custom component default configuration                                                                  | ![][5.74.0] |
+| csp                 | { nonce: string }                       | Configure the [nonce][nonce] value of [Content Security Policy][csp]                                    | ![][5.73.0] |
+| disableInlineStyles | boolean                                 | Disable inline styles                                                                                   | ![][5.73.0] |
+| disableRipple       | boolean                                 | If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination` |             |
+| formatDate          | (date: Date, format?: string) => string | Return the formatted date string in the given format. The result may vary by locale.                    |             |
+| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | Configure Language Pack                                                                                 |             |
+| parseDate           | (date: string, format: string) => Date  | Return the date parsed from string using the given format string.                                       |             |
+| rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |             |
+| theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |             |
 
 <!--{include:(_common/types/react-suite-components.md)}-->
 

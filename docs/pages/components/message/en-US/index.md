@@ -60,15 +60,15 @@ No keyboard interaction needed.
 
 ### `<Message>`
 
-| Property    | Type `(Default)`                            | Description                                           |
-| ----------- | ------------------------------------------- | ----------------------------------------------------- |
-| bordered    | boolean                                     | Show a border around the message box.<br/>![][5.53.0] |
-| centered    | boolean                                     | Center the message vertically.<br/>![][5.53.0]        |
-| children    | ReactNode                                   | The description information for the message.          |
-| classPrefix | string `('message')`                        | The prefix of the component CSS class.                |
-| closable    | boolean                                     | Whether it is possible to close the message box       |
-| full        | boolean                                     | Fill the container                                    |
-| header      | ReactNode                                   | The title of the message.                             |
-| onClose     | (event?: MouseEvent) => void                | Called after the message is closed                    |
-| showIcon    | boolean                                     | Whether to display an icon.                           |
-| type        | 'info' \| 'success' \| 'warning' \| 'error' | The type of the message box.                          |
+| Property    | Type `(Default)`                            | Description                                     | Version     |
+| ----------- | ------------------------------------------- | ----------------------------------------------- | ----------- |
+| bordered    | boolean                                     | Show a border around the message box.           | ![][5.53.0] |
+| centered    | boolean                                     | Center the message vertically.                  | ![][5.53.0] |
+| children    | ReactNode                                   | The description information for the message.    |             |
+| classPrefix | string `('message')`                        | The prefix of the component CSS class.          |             |
+| closable    | boolean                                     | Whether it is possible to close the message box |             |
+| full        | boolean                                     | Fill the container                              |             |
+| header      | ReactNode                                   | The title of the message.                       |             |
+| onClose     | (event?: MouseEvent) => void                | Called after the message is closed              |             |
+| showIcon    | boolean                                     | Whether to display an icon.                     |             |
+| type        | 'info' \| 'success' \| 'warning' \| 'error' | The type of the message box.                    |             |

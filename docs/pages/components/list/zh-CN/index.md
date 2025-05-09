@@ -54,20 +54,20 @@ List 组件用于展示一组数据，适用于展示类似于列表的内容. �
 
 ### `<List>`
 
-| 属性名称           | 类型 `(默认值)`                     | 描述                           |
-| ------------------ | ----------------------------------- | ------------------------------ |
-| autoScroll         | boolean `(true)`                    | 溢出表格自动滚动               |
-| bordered           | boolean                             | 是否需要边框                   |
-| divider            | boolean                             | 是否显示分割线<br/>![][5.75.0] |
-| hover              | boolean                             | 是否有鼠标悬停效果             |
-| onSort             | (payload: Payload) => void          | 排序结束回调                   |
-| onSortEnd          | (payload: Payload) => void          | 排序结束回调                   |
-| onSortMove         | (payload: Payload) => void          | 排序移动元素时的回调           |
-| onSortStart        | (payload: Payload) => void          | 排序开始回调                   |
-| pressDelay         | number `(0)`                        | 排序触发延迟                   |
-| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `(md)` | 列表大小                       |
-| sortable           | boolean                             | 是否可以排序                   |
-| transitionDuration | number `(300)`                      | 排序动画持续时间               |
+| 属性名称           | 类型 `(默认值)`                     | 描述                 | 版本        |
+| ------------------ | ----------------------------------- | -------------------- | ----------- |
+| autoScroll         | boolean `(true)`                    | 溢出表格自动滚动     |             |
+| bordered           | boolean                             | 是否需要边框         |             |
+| divider            | boolean                             | 是否显示分割线       | ![][5.75.0] |
+| hover              | boolean                             | 是否有鼠标悬停效果   |             |
+| onSort             | (payload: Payload) => void          | 排序结束回调         |             |
+| onSortEnd          | (payload: Payload) => void          | 排序结束回调         |             |
+| onSortMove         | (payload: Payload) => void          | 排序移动元素时的回调 |             |
+| onSortStart        | (payload: Payload) => void          | 排序开始回调         |             |
+| pressDelay         | number `(0)`                        | 排序触发延迟         |             |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `(md)` | 列表大小             |             |
+| sortable           | boolean                             | 是否可以排序         |             |
+| transitionDuration | number `(300)`                      | 排序动画持续时间     |             |
 
 ### `<List.Item>`
 
@@ -88,5 +88,3 @@ interface Payload {
   oldIndex: number;
 }
 ```
-
-

@@ -79,33 +79,33 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 ### `<CheckTree>`
 
-| Property                | Type `(Default)`                                                                               | Description                                                |
-| ----------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| cascade                 | boolean `(true)`                                                                               | Whether to enable cascade selection                        |
-| childrenKey             | string `('children')`                                                                          | Set the `key` of the child node of the tree node in `data` |
-| data \*                 | [TreeNode][node][]                                                                             | Data to render the tree                                    |
-| defaultExpandAll        | boolean                                                                                        | Default expand all nodes                                   |
-| defaultExpandItemValues | string[]                                                                                       | Set the value of the default expanded node                 |
-| defaultValue            | string[]                                                                                       | Default selected Value                                     |
-| disabledItemValues      | string[]                                                                                       | Disabled tree node values                                  |
-| expandItemValues        | string[]                                                                                       | Set the value of the expanded node (controlled)            |
-| getChildren             | (item: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                    | Load node children data asynchronously                     |
-| height                  | number `(360px)`                                                                               | The height of the tree                                     |
-| labelKey                | string `('label')`                                                                             | Set the tree node display content to the `key` in `data`   |
-| listProps               | [ListProps][listprops]                                                                         | Properties of virtualized lists                            |
-| onChange                | (values:string[]) => void                                                                      | Called when the tree value changes                         |
-| onExpand                | (expandItemValues: string[], item: [TreeNode][node], concat:(data, children) => Array) => void | Called when the tree node expands the child node           |
-| onSearch                | (keyword: string) => void                                                                      | Called when the search box changes                         |
-| onSelect                | (item: [TreeNode][node], value:string, event) => void                                          | Called when the tree node is selected                      |
-| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                       | Custom render the icon in tree node                        |
-| renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                          | Custom render tree node                                    |
-| scrollShadow            | boolean                                                                                        | The shadow of the content when scrolling<br/>![][5.62.0]   |
-| searchable              | boolean                                                                                        | Whether to show the search box <br/>![][5.61.0]            |
-| searchKeyword           | string                                                                                         | Set search keywords for the search box                     |
-| uncheckableItemValues   | string[]                                                                                       | Set the tree node values that do not display checkboxes    |
-| value                   | string[]                                                                                       | The value of the selected tree node                        |
-| valueKey                | string `('value')`                                                                             | Set the `key` of the tree node value in `data`             |
-| virtualized             | boolean                                                                                        | Whether to enable virtualized lists                        |
+| Property                | Type `(Default)`                                                                               | Description                                                | Version     |
+| ----------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| cascade                 | boolean `(true)`                                                                               | Whether to enable cascade selection                        |             |
+| childrenKey             | string `('children')`                                                                          | Set the `key` of the child node of the tree node in `data` |             |
+| data \*                 | [TreeNode][node][]                                                                             | Data to render the tree                                    |             |
+| defaultExpandAll        | boolean                                                                                        | Default expand all nodes                                   |             |
+| defaultExpandItemValues | string[]                                                                                       | Set the value of the default expanded node                 |             |
+| defaultValue            | string[]                                                                                       | Default selected Value                                     |             |
+| disabledItemValues      | string[]                                                                                       | Disabled tree node values                                  |             |
+| expandItemValues        | string[]                                                                                       | Set the value of the expanded node (controlled)            |             |
+| getChildren             | (item: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                    | Load node children data asynchronously                     |             |
+| height                  | number `(360px)`                                                                               | The height of the tree                                     |             |
+| labelKey                | string `('label')`                                                                             | Set the tree node display content to the `key` in `data`   |             |
+| listProps               | [ListProps][listprops]                                                                         | Properties of virtualized lists                            |             |
+| onChange                | (values:string[]) => void                                                                      | Called when the tree value changes                         |             |
+| onExpand                | (expandItemValues: string[], item: [TreeNode][node], concat:(data, children) => Array) => void | Called when the tree node expands the child node           |             |
+| onSearch                | (keyword: string) => void                                                                      | Called when the search box changes                         |             |
+| onSelect                | (item: [TreeNode][node], value:string, event) => void                                          | Called when the tree node is selected                      |             |
+| renderTreeIcon          | (item: [TreeNode][node], expanded: boolean) => ReactNode                                       | Custom render the icon in tree node                        |             |
+| renderTreeNode          | (item: [TreeNode][node]) => ReactNode                                                          | Custom render tree node                                    |             |
+| scrollShadow            | boolean                                                                                        | The shadow of the content when scrolling                   | ![][5.62.0] |
+| searchable              | boolean                                                                                        | Whether to show the search box                             | ![][5.61.0] |
+| searchKeyword           | string                                                                                         | Set search keywords for the search box                     |             |
+| uncheckableItemValues   | string[]                                                                                       | Set the tree node values that do not display checkboxes    |             |
+| value                   | string[]                                                                                       | The value of the selected tree node                        |             |
+| valueKey                | string `('value')`                                                                             | Set the `key` of the tree node value in `data`             |             |
+| virtualized             | boolean                                                                                        | Whether to enable virtualized lists                        |             |
 
 <!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
@@ -118,5 +118,3 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 [listprops]: #code-ts-list-props-code
 [node]: #code-ts-tree-node-code
-
-

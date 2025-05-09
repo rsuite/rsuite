@@ -72,40 +72,40 @@
 
 ### `<Tree>`
 
-| Property                | Type `(Default)`                                                                            | Description                                                |
-| ----------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| childrenKey             | string `('children')`                                                                       | Set the `key` of the child node of the tree node in `data` |
-| classPrefix             | string`('picker')`                                                                          | The prefix of the component CSS class                      |
-| data \*                 | [TreeNode][node][]                                                                          | Data to render the tree                                    |
-| defaultExpandAll        | boolean                                                                                     | Default expand all nodes                                   |
-| defaultExpandItemValues | string[]                                                                                    | Set the value of the default expanded node                 |
-| defaultValue            | string                                                                                      | Default selected Value                                     |
-| disabledItemValues      | string[]                                                                                    | Disabled tree node values                                  |
-| draggable               | boolean                                                                                     | Whether to enable drag and drop                            |
-| expandItemValues        | string[]                                                                                    | Set the value of the expanded node (controlled)            |
-| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node] &gt;                                | Load node children data asynchronously                     |
-| height                  | number `(360px)`                                                                            | The height of the tree                                     |
-| labelKey                | string `('label')`                                                                          | Set the tree node display content to the `key` in `data`   |
-| listProps               | [ListProps][listprops]                                                                      | Properties of virtualized lists                            |
-| onChange                | (value:string) => void                                                                      | Called when the tree value changes                         |
-| onDragEnd               | (node: [TreeNode][node], event) => void                                                     | Called when drag ends                                      |
-| onDragEnter             | (node: [TreeNode][node], event) => void                                                     | Called when drag enters a node                             |
-| onDragLeave             | (node: [TreeNode][node], event) => void                                                     | Called when drag leaves a node                             |
-| onDragOver              | (node: [TreeNode][node], event) => void                                                     | Called when drag over a node                               |
-| onDragStart             | (node: [TreeNode][node], event) => void                                                     | Called when drag start                                     |
-| onDrop                  | (dropData: [DropDataType][drop], event) => void                                             | Called when drop                                           |
-| onExpand                | (expandItemValues: string[], node: [TreeNode][node], concat:(data, children) => []) => void | Called when the tree node expand state changes             |
-| onSearch                | (keyword: string) => void                                                                   | Called when the search box input changes                   |
-| onSelect                | (node: [TreeNode][node], value, event) => void                                              | Called when the tree node is selected                      |
-| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                    | Custom render tree node icon                               |
-| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                       | Custom render tree node                                    |
-| scrollShadow            | boolean                                                                                     | The shadow of the content when scrolling<br/>![][5.62.0]   |
-| searchable              | boolean                                                                                     | Whether to show the search box <br/>![][5.61.0]            |
-| searchKeyword           | string                                                                                      | Set search keywords for the search box                     |
-| showIndentLine          | boolean                                                                                     | Whether to show the indent line                            |
-| value                   | string                                                                                      | Set the current selected value                             |
-| valueKey                | string `('value')`                                                                          | Set the tree node value to the `key` in `data`             |
-| virtualized             | boolean                                                                                     | Whether using Virtualized List                             |
+| Property                | Type `(Default)`                                                                            | Description                                                | Version     |
+| ----------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| childrenKey             | string `('children')`                                                                       | Set the `key` of the child node of the tree node in `data` |             |
+| classPrefix             | string`('picker')`                                                                          | The prefix of the component CSS class                      |             |
+| data \*                 | [TreeNode][node][]                                                                          | Data to render the tree                                    |             |
+| defaultExpandAll        | boolean                                                                                     | Default expand all nodes                                   |             |
+| defaultExpandItemValues | string[]                                                                                    | Set the value of the default expanded node                 |             |
+| defaultValue            | string                                                                                      | Default selected Value                                     |             |
+| disabledItemValues      | string[]                                                                                    | Disabled tree node values                                  |             |
+| draggable               | boolean                                                                                     | Whether to enable drag and drop                            |             |
+| expandItemValues        | string[]                                                                                    | Set the value of the expanded node (controlled)            |             |
+| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node] &gt;                                | Load node children data asynchronously                     |             |
+| height                  | number `(360px)`                                                                            | The height of the tree                                     |             |
+| labelKey                | string `('label')`                                                                          | Set the tree node display content to the `key` in `data`   |             |
+| listProps               | [ListProps][listprops]                                                                      | Properties of virtualized lists                            |             |
+| onChange                | (value:string) => void                                                                      | Called when the tree value changes                         |             |
+| onDragEnd               | (node: [TreeNode][node], event) => void                                                     | Called when drag ends                                      |             |
+| onDragEnter             | (node: [TreeNode][node], event) => void                                                     | Called when drag enters a node                             |             |
+| onDragLeave             | (node: [TreeNode][node], event) => void                                                     | Called when drag leaves a node                             |             |
+| onDragOver              | (node: [TreeNode][node], event) => void                                                     | Called when drag over a node                               |             |
+| onDragStart             | (node: [TreeNode][node], event) => void                                                     | Called when drag start                                     |             |
+| onDrop                  | (dropData: [DropDataType][drop], event) => void                                             | Called when drop                                           |             |
+| onExpand                | (expandItemValues: string[], node: [TreeNode][node], concat:(data, children) => []) => void | Called when the tree node expand state changes             |             |
+| onSearch                | (keyword: string) => void                                                                   | Called when the search box input changes                   |             |
+| onSelect                | (node: [TreeNode][node], value, event) => void                                              | Called when the tree node is selected                      |             |
+| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                    | Custom render tree node icon                               |             |
+| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                       | Custom render tree node                                    |             |
+| scrollShadow            | boolean                                                                                     | The shadow of the content when scrolling                   | ![][5.62.0] |
+| searchable              | boolean                                                                                     | Whether to show the search box                             | ![][5.61.0] |
+| searchKeyword           | string                                                                                      | Set search keywords for the search box                     |             |
+| showIndentLine          | boolean                                                                                     | Whether to show the indent line                            |             |
+| value                   | string                                                                                      | Set the current selected value                             |             |
+| valueKey                | string `('value')`                                                                          | Set the tree node value to the `key` in `data`             |             |
+| virtualized             | boolean                                                                                     | Whether using Virtualized List                             |             |
 
 <!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/list-props.md)}-->
