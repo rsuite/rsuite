@@ -3,6 +3,7 @@
 ```js
 import { MultiCascader } from 'rsuite';
 import { mockTreeData } from './mock';
+import PlacementContainer from '@/components/PlacementContainer';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -12,16 +13,22 @@ const data = mockTreeData({
   }
 });
 
-const CustomMultiCascader = ({ placement }) => (
-  <MultiCascader data={data} placement={placement} placeholder={placement} />
-);
-
-const App = () => (
-  <>
-    <CustomMultiCascader placement="topStart" /> <CustomMultiCascader placement="bottomStart" />{' '}
-    <CustomMultiCascader placement="autoVerticalStart" />
-  </>
-);
+const App = () => {
+  return (
+    <PlacementContainer>
+      {({ container, placement, preventOverflow }) => (
+        <MultiCascader
+          w={224}
+          preventOverflow={preventOverflow}
+          data={data}
+          placement={placement}
+          container={preventOverflow ? container : undefined}
+          placeholder={`Will pop from ${placement}`}
+        />
+      )}
+    </PlacementContainer>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

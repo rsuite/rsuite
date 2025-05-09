@@ -1,0 +1,95 @@
+<!--start-code-->
+
+```js
+import { Row, Col, Divider, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
+
+const App = () => (
+  <>
+    <Divider>justify="start"</Divider>
+    <Row justify="start">
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+    </Row>
+    <Divider>justify="center"</Divider>
+    <Row justify="center">
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+    </Row>
+    <Divider>justify="end"</Divider>
+    <Row justify="end">
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+    </Row>
+    <Divider>justify="space-between"</Divider>
+    <Row justify="space-between">
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+    </Row>
+    <Divider>justify="space-around"</Divider>
+    <Row justify="space-around">
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+      <Col xs={4}>
+        <DecorativeBox>4</DecorativeBox>
+      </Col>
+    </Row>
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+<!--end-code-->

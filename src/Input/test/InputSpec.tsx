@@ -1,8 +1,8 @@
 import React from 'react';
+import sinon from 'sinon';
+import Input from '../Input';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
-import Input from '../Input';
-import Sinon from 'sinon';
 
 describe('Input', () => {
   testStandardProps(<Input />, { sizes: ['lg', 'md', 'sm', 'xs'] });
@@ -20,7 +20,7 @@ describe('Input', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
     render(<Input onChange={onChange} />);
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
 
@@ -28,7 +28,7 @@ describe('Input', () => {
   });
 
   it('Should call onKeyDown callback', () => {
-    const onKeyDown = Sinon.spy();
+    const onKeyDown = sinon.spy();
     render(<Input onKeyDown={onKeyDown} />);
     fireEvent.keyDown(screen.getByRole('textbox'));
 
@@ -36,7 +36,7 @@ describe('Input', () => {
   });
 
   it('Should call onPressEnter callback', () => {
-    const onPressEnter = Sinon.spy();
+    const onPressEnter = sinon.spy();
     render(<Input onPressEnter={onPressEnter} />);
     fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 

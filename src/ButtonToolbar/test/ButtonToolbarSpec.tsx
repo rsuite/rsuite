@@ -1,9 +1,8 @@
 import React from 'react';
-import { testStandardProps } from '@test/utils';
-import { render, screen } from '@testing-library/react';
-
 import Button from '../../Button';
 import ButtonToolbar from '../ButtonToolbar';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 
 describe('ButtonToolbar', () => {
   testStandardProps(<ButtonToolbar />);
@@ -15,29 +14,14 @@ describe('ButtonToolbar', () => {
     expect(screen.getByRole('toolbar')).to.have.class('rs-btn-toolbar');
   });
 
-  it('Should have flex property by default', () => {
+  it('Should render a stack component', () => {
     render(
       <ButtonToolbar>
         <Button />
       </ButtonToolbar>
     );
 
-    expect(screen.getByRole('toolbar')).to.be.style('flex-wrap', 'wrap');
-    expect(screen.getByRole('toolbar')).to.be.style('gap', '10px');
     expect(screen.getByRole('toolbar')).to.have.class('rs-stack');
-    expect(screen.getByRole('button')).to.have.class('rs-stack-item');
-  });
-
-  it('Should not have flex property when changing `as`', () => {
-    render(
-      <ButtonToolbar as="div">
-        <Button />
-      </ButtonToolbar>
-    );
-
-    expect(screen.getByRole('toolbar')).to.not.have.style('flex-wrap', 'wrap');
-    expect(screen.getByRole('toolbar')).to.not.have.style('gap', '10px');
-    expect(screen.getByRole('button')).to.not.have.class('rs-stack-item');
   });
 
   it('Should render 2 buttons', () => {

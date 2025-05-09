@@ -14,8 +14,7 @@ import {
   Text
 } from 'rsuite';
 import { HolidayUtil, Lunar, Solar } from 'lunar-typescript';
-import DefaultPage from '@/components/Page';
-import files from './files';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -43,7 +42,6 @@ export default function Page() {
         Text,
         List
       }}
-      sandboxFiles={files}
     />
   );
 }

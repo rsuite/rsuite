@@ -1,17 +1,18 @@
-/* eslint-disable testing-library/no-node-access, testing-library/no-container */
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, act, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps, testStyleProps } from '@test/utils';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
-import Sinon from 'sinon';
+import sinon from 'sinon';
 
 describe('Rate', () => {
-  testStandardProps(<Rate />, {
-    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  testStandardProps(<Rate />);
+
+  testStyleProps(Rate, {
+    sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+    colors: ['red', 'green', 'blue', 'cyan', 'orange', 'yellow']
   });
 
   it('Should render a default Rate', () => {
@@ -22,50 +23,45 @@ describe('Rate', () => {
 
   it('Should allow half select, value is 0.5', () => {
     render(<Rate allowHalf defaultValue={0.5} />);
-    expect(screen.getAllByRole('radio')[0]).to.have.class('rs-rate-character-half');
+    expect(screen.getAllByRole('radio')[0]).to.have.attr('data-status', 'half');
   });
 
   it('Should allow clean full value', () => {
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate defaultValue={1} ref={ref} />);
 
-    userEvent.click(
-      (ref.current as HTMLElement).querySelector('.rs-rate-character-full') as HTMLElement
-    );
+    userEvent.click(ref.current?.querySelector('[data-status="full"]') as HTMLElement);
 
-    assert.equal(
-      (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-full').length,
-      0
-    );
+    expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(0);
   });
 
   it('Should allow clean half value', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf />);
 
-    userEvent.hover(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    userEvent.hover(container.querySelector('[data-status="half"]') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
 
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(0);
   });
 
   it('Should cant clean value', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="half"]')).to.have.length(1);
   });
 
   it('Should render same value for a half-rate when click again after clean ', () => {
     const { container } = render(<Rate defaultValue={0.5} allowHalf />);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="half"]')).to.have.length(1);
   });
 
   it('Should render same value for a full-rate when click again after clean ', () => {
     const { container } = render(<Rate defaultValue={1} />);
     userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
     userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should render A character', () => {
@@ -93,13 +89,13 @@ describe('Rate', () => {
   it('Should disabled,cant click', () => {
     const { container } = render(<Rate defaultValue={1} disabled />);
     userEvent.click(container.querySelectorAll('.rs-rate-character')[3]);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should disabled,cant hover', () => {
     const { container } = render(<Rate defaultValue={1} disabled />);
     userEvent.hover(container.querySelectorAll('.rs-rate-character')[3]);
-    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
+    expect(container.querySelectorAll('[data-status="full"]')).to.have.length(1);
   });
 
   it('Should render 10 characters', () => {
@@ -107,13 +103,8 @@ describe('Rate', () => {
     expect(screen.getAllByRole('radio')).to.have.length(10);
   });
 
-  it('Should render lg size character', () => {
-    render(<Rate size="lg" character="A" />);
-    expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-lg');
-  });
-
   it('Should call onChange callback with correct value', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
@@ -126,37 +117,22 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback by KeyDown event', () => {
-    const onChange = Sinon.spy();
+    const onChange = sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
 
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1],
-        {
-          key: 'ArrowRight'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1], {
+      key: 'ArrowRight'
     });
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
-        {
-          key: 'ArrowRight'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2], {
+      key: 'ArrowRight'
     });
 
-    act(() => {
-      ReactTestUtils.Simulate.keyDown(
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
-        {
-          key: 'Enter'
-        }
-      );
+    fireEvent.keyDown((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2], {
+      key: 'Enter'
     });
 
     expect(onChange).to.have.been.calledWith(3);
@@ -186,20 +162,235 @@ describe('Rate', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef<TestAppInstance>();
+
     render(<TestApp ref={ref} />);
 
-    expect(
-      (ref.current as TestAppInstance).root.querySelector('[aria-checked="true"]') as HTMLElement
-    ).to.have.attr('aria-posinset', '2');
+    const current = ref.current as TestAppInstance;
+
+    expect(current.root.querySelector('[aria-checked="true"]') as HTMLElement).to.have.attr(
+      'aria-posinset',
+      '2'
+    );
 
     act(() => {
-      (ref.current as TestAppInstance).setValue(0);
+      current.setValue(0);
     });
 
-    assert.equal(
-      (ref.current as TestAppInstance).root.querySelectorAll('[aria-checked="false"]').length,
-      5
-    );
+    expect(current.root.querySelectorAll('[aria-checked="false"]')).to.have.length(5);
+  });
+
+  it('Should handle mouse leave correctly', () => {
+    const onChangeActive = sinon.spy();
+    const ref = React.createRef<HTMLUListElement>();
+
+    render(<Rate ref={ref} defaultValue={3} onChangeActive={onChangeActive} />);
+
+    // Simulate hovering over a different rating
+    userEvent.hover(ref.current?.querySelectorAll('.rs-rate-character')[3] as HTMLElement);
+
+    // Simulate mouse leave
+    fireEvent.mouseLeave(ref.current as HTMLElement);
+
+    // Should call onChangeActive with the original value
+    expect(onChangeActive).to.have.been.calledWith(3);
+
+    // Should reset the visual state
+    expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(3);
+  });
+
+  describe('Custom colors', () => {
+    it('Should render with custom hex color', () => {
+      const { container } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#ff5733');
+    });
+
+    it('Should render with custom rgb color', () => {
+      const { container } = render(<Rate defaultValue={3} color="rgb(255, 87, 51)" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-color')).to.equal('rgb(255, 87, 51)');
+    });
+
+    it('Should update color when prop changes', () => {
+      const { container, rerender } = render(<Rate defaultValue={3} color="#FF5733" />);
+      const rateElement = container.querySelector('.rs-rate');
+      const style = getComputedStyle(rateElement as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#ff5733');
+
+      rerender(<Rate defaultValue={3} color="#33FF57" />);
+      expect(style.getPropertyValue('--rs-rate-color').toLowerCase()).to.equal('#33ff57');
+    });
+  });
+
+  describe('Keyboard navigation', () => {
+    it('Should handle right arrow key with allowHalf=false', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={2} onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowRight'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(3);
+    });
+
+    it('Should handle right arrow key with allowHalf=true', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={2} allowHalf onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowRight'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2.5);
+    });
+
+    it('Should handle left arrow key with allowHalf=false', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={3} onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2);
+    });
+
+    it('Should handle left arrow key with allowHalf=true', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={3} allowHalf onChange={onChange} />);
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[2] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(2.5);
+    });
+
+    it('Should not exceed max value when using right arrow key', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+      const max = 5;
+
+      render(<Rate ref={ref} defaultValue={max - 1} onChange={onChange} />);
+
+      // First press right arrow to reach max
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'ArrowRight'
+        }
+      );
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'Enter'
+        }
+      );
+
+      expect(onChange).to.have.been.calledWith(max);
+      onChange.resetHistory();
+
+      // Try to exceed max
+      fireEvent.keyDown(
+        ref.current?.querySelectorAll('.rs-rate-character')[max - 1] as HTMLElement,
+        {
+          key: 'ArrowRight'
+        }
+      );
+
+      // Verify visual state still shows max stars
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(max);
+    });
+
+    it('Should not go below 0 when using left arrow key', () => {
+      const onChange = sinon.spy();
+      const ref = React.createRef<HTMLUListElement>();
+
+      render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
+
+      // First press left arrow to reach 0
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'Enter'
+      });
+
+      expect(onChange).to.have.been.calledWith(0);
+      onChange.resetHistory();
+
+      // Try to go below 0
+      fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
+        key: 'ArrowLeft'
+      });
+
+      // Verify visual state shows no filled stars
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(0);
+    });
+  });
+
+  describe('Fractional ratings', () => {
+    it('Should render fractional value correctly', () => {
+      const { container } = render(<Rate value={4.32} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('32%');
+    });
+
+    it('Should render fractional value with vertical direction', () => {
+      const { container } = render(<Rate value={3.7} vertical readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('70%');
+    });
+
+    it('Should update fractional value when value changes', () => {
+      const { container, rerender } = render(<Rate value={4.25} readOnly />);
+
+      let style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('25%');
+
+      rerender(<Rate value={4.75} readOnly />);
+      style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('75%');
+    });
+
+    it('Should not set --rs-rate-before-size for integer values', () => {
+      const { container } = render(<Rate value={3} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('');
+    });
+
+    it('Should not set --rs-rate-before-size for zero value', () => {
+      const { container } = render(<Rate value={0} readOnly />);
+      const style = window.getComputedStyle(container.querySelector('.rs-rate') as HTMLElement);
+      expect(style.getPropertyValue('--rs-rate-before-size')).to.equal('');
+    });
   });
 
   describe('Plain text', () => {
@@ -210,7 +401,7 @@ describe('Rate', () => {
         </div>
       );
 
-      expect(screen.getByTestId('content')).to.have.text('1(5)');
+      expect(screen.getByTestId('content')).to.have.text('1/5');
     });
 
     it('Should render "Not selected" if value is empty', () => {

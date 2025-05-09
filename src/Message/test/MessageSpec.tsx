@@ -48,7 +48,6 @@ describe('Message', () => {
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
-    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.exist;
     expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
   });
@@ -65,24 +64,24 @@ describe('Message', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onCloseSpy = sinon.spy();
-    render(<Message closable onClose={onCloseSpy} />);
+    const onClose = sinon.spy();
+    render(<Message closable onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should call onClose callback by usedToaster', async () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     render(
       <ToastContext.Provider value={{ usedToaster: true }}>
-        <Message duration={1} onClose={onCloseSpy} />
+        <Message duration={1} onClose={onClose} />
       </ToastContext.Provider>
     );
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(onClose).to.have.been.calledOnce;
     });
   });
 });

@@ -4,7 +4,9 @@ import {
   Button,
   Input,
   IconButton,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   DatePicker,
   DateInput,
   VStack,
@@ -12,10 +14,11 @@ import {
   CheckPicker,
   Popover,
   Dropdown,
+  Menu,
   Whisper
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { VscEdit, VscSave, VscRemove } from 'react-icons/vsc';
@@ -47,7 +50,7 @@ export default function Page() {
         Button,
         IconButton,
         Input,
-        InputNumber,
+        NumberInput,
         DatePicker,
         CheckPicker,
         DateInput,
@@ -55,6 +58,7 @@ export default function Page() {
         HStack,
         Popover,
         Dropdown,
+        Menu,
         Whisper,
         faker,
         HTML5Backend,

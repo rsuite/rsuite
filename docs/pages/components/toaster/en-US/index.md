@@ -70,12 +70,12 @@ toaster.push(message: ReactNode, toastProps?: ToastProps): string;
 
 ##### ToastProps
 
-| Property   | Type`(Default)`                                                                                         | Description                                                                  |
-| ---------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| container  | HTMLElement \| (() => HTMLElement)                                                                      | Set the container where the message appears                                  |
-| duration   | number                                                                                                  | The number of milliseconds to wait before automatically closing the message  |
-| mouseReset | boolean `(true)`                                                                                        | Reset the auto-close timer when the mouse enters the message<br/>![][5.65.0] |
-| placement  | 'topCenter' \| 'topStart' \| 'topEnd' \| 'bottomCenter' \| 'bottomStart' \| 'bottomEnd' `('topCenter')` | Set the position of the message                                              |
+| Property   | Type                                                                                                    | Description                                                                 | Version     |
+| ---------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------- |
+| container  | HTMLElement \| (() => HTMLElement)                                                                      | Set the container where the message appears                                 |             |
+| duration   | number                                                                                                  | The number of milliseconds to wait before automatically closing the message |             |
+| mouseReset | boolean `(true)`                                                                                        | Reset the auto-close timer when the mouse enters the message                | ![][5.65.0] |
+| placement  | 'topCenter' \| 'topStart' \| 'topEnd' \| 'bottomCenter' \| 'bottomStart' \| 'bottomEnd' `('topCenter')` | Set the position of the message                                             |             |
 
 #### toaster.remove
 
@@ -92,5 +92,3 @@ Remove all messages.
 ```
 toaster.clear(): void;
 ```
-
-[5.65.0]: https://img.shields.io/badge/>=-v5.65.0-blue

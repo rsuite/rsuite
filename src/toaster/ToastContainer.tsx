@@ -1,13 +1,12 @@
-import React, { useState, useImperativeHandle, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { forwardRef, useState, useImperativeHandle, useCallback } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
 import ToastContext from './ToastContext';
 import canUseDOM from 'dom-lib/canUseDOM';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { guid, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { render } from './render';
+import type { WithAsProps, InternalRefForwardingComponent } from '@/internals/types';
 
 export const defaultToasterContainer = () => {
   return canUseDOM ? document.body : null;
@@ -41,7 +40,7 @@ export interface ToastContainerProps extends WithAsProps {
   /**
    * Set the message to appear in the specified container
    */
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement) | null;
 
   /**
    * The number of milliseconds to wait before automatically closing a message.
@@ -57,7 +56,7 @@ export interface ToastContainerProps extends WithAsProps {
 interface PushOptions {
   duration?: number;
   mouseReset?: boolean;
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement) | null;
 }
 
 export interface ToastContainerInstance {
@@ -82,10 +81,11 @@ export type GetInstancePropsType = Omit<ToastContainerProps, 'container' | 'plac
   placement: PlacementType;
 };
 
-interface ToastContainerComponent extends RsRefForwardingComponent<'div', ToastContainerProps> {
+interface ToastContainerComponent
+  extends InternalRefForwardingComponent<'div', ToastContainerProps> {
   getInstance: (
     props: GetInstancePropsType
-  ) => Promise<[React.RefObject<ToastContainerInstance>, string]>;
+  ) => Promise<[React.RefObject<ToastContainerInstance | null>, string]>;
 }
 
 const useMessages = () => {
@@ -147,88 +147,87 @@ const useMessages = () => {
   return { messages, push, clear, remove };
 };
 
-const ToastContainer: ToastContainerComponent = React.forwardRef(
-  (props: ToastContainerProps, ref: any) => {
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'toast-container',
-      placement = 'topCenter',
-      ...rest
-    } = props;
+const ToastContainer: ToastContainerComponent = forwardRef<
+  Partial<ToastContainerInstance>,
+  ToastContainerProps
+>(function ToastContainer(props, ref) {
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'toast-container',
+    placement = 'topCenter',
+    ...rest
+  } = props;
 
-    const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(kebabCase(placement)));
-    const { push, clear, remove, messages } = useMessages();
+  const { withPrefix, merge, rootPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(kebabCase(placement)));
+  const { push, clear, remove, messages } = useMessages();
 
-    useImperativeHandle(ref, () => ({ push, clear, remove }));
+  useImperativeHandle(ref, () => ({ push, clear, remove }));
 
-    const elements = messages.map(item => {
-      const { mouseReset, duration, node } = item;
-      return (
-        <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
-          <Transition
-            in={item.visible}
-            exitedClassName={rootPrefix('toast-fade-exited')}
-            exitingClassName={rootPrefix('toast-fade-exiting')}
-            enteringClassName={rootPrefix('toast-fade-entering')}
-            enteredClassName={rootPrefix('toast-fade-entered')}
-            timeout={300}
-          >
-            {(transitionProps, ref) => {
-              const { className: transitionClassName, ...rest } = transitionProps;
-              return React.cloneElement(node, {
-                ...rest,
-                ref,
-                duration,
-                onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
-                className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
-              });
-            }}
-          </Transition>
-        </ToastContext.Provider>
-      );
-    });
-
+  const elements = messages.map(item => {
+    const { mouseReset, duration, node } = item;
     return (
-      <Component {...rest} className={classes}>
-        {elements}
-      </Component>
+      <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
+        <Transition
+          in={item.visible}
+          exitedClassName={rootPrefix('toast-fade-exited')}
+          exitingClassName={rootPrefix('toast-fade-exiting')}
+          enteringClassName={rootPrefix('toast-fade-entering')}
+          enteredClassName={rootPrefix('toast-fade-entered')}
+          timeout={300}
+        >
+          {(transitionProps, ref) => {
+            const { className: transitionClassName, ...rest } = transitionProps;
+            return React.cloneElement(node, {
+              ...rest,
+              ref,
+              duration,
+              onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
+              className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
+            });
+          }}
+        </Transition>
+      </ToastContext.Provider>
     );
-  }
-) as any;
-
-ToastContainer.getInstance = async (props: GetInstancePropsType) => {
-  const { container, ...rest } = props;
-  let getRefResolve: null | ((value?: unknown) => void) = null;
-  const getRefPromise = new Promise(res => {
-    getRefResolve = res;
   });
 
-  const containerRef = React.createRef<ToastContainerInstance>();
+  return (
+    <Component {...rest} className={classes}>
+      {elements}
+    </Component>
+  );
+}) as unknown as ToastContainerComponent;
 
-  // promise containerId & containerRef all have value
+ToastContainer.getInstance = async (props: GetInstancePropsType) => {
+  const { container, ...toastProps } = props;
+
+  // Promise to wait for containerRef to be assigned
+  let resolveContainerRef: null | ((value?: unknown) => void) = null;
+  const containerRefReady = new Promise(resolve => {
+    resolveContainerRef = resolve;
+  });
+
+  // Create a React ref for the ToastContainer instance
+  const toastContainerRef = React.createRef<ToastContainerInstance>();
+
+  // Render the ToastContainer component into the specified container
   const containerId = render(
     <ToastContainer
-      {...rest}
+      {...toastProps}
       ref={ref => {
-        (containerRef as any).current = ref;
-        getRefResolve && getRefResolve();
+        (toastContainerRef.current as any) = ref;
+        resolveContainerRef?.();
       }}
     />,
     container
   );
-  await getRefPromise;
-  return [containerRef, containerId];
+
+  await containerRefReady;
+
+  return [toastContainerRef, containerId];
 };
 
 ToastContainer.displayName = 'ToastContainer';
-ToastContainer.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  placement: PropTypes.elementType,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  callback: PropTypes.func
-};
 
 export default ToastContainer;

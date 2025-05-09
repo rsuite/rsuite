@@ -17,7 +17,7 @@
   > .rs-tree-node-loading-icon {
     display: flex;
     align-items: center;
-    font-size: @font-size-base;
+    font-size: var(--rs-font-size-sm);
   }
 
   &-placeholder {
@@ -26,11 +26,7 @@
   }
 }
 
-/* rtl:begin:ignore */
-
 [dir='rtl'] .rs-tree-node-toggle {
-  right: 0;
-  padding-right: inherit;
+  inset-inline-end: 0;
+  padding-inline-end: inherit;
 }
-
-/* rtl:end:ignore */

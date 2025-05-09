@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import AddOutline from '@rsuite/icons/AddOutline';
-import Nav from '../../Nav';
 
 describe('<Dropdown.Item>', () => {
   it('Should render element with role="menuitem" and given content', () => {
@@ -31,12 +30,11 @@ describe('<Dropdown.Item>', () => {
     const element = screen.getByTestId('dropdown-item');
 
     expect(element).to.have.tagName('A');
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(element.parentElement).to.have.tagName('LI');
   });
 
   it('[Deprecated] Should render a divider with deprecation message', () => {
-    const warn = sinon.spy(console, 'warn');
     render(
       <Dropdown>
         <DropdownItem divider data-testid="item" />
@@ -44,9 +42,6 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(screen.getByTestId('item')).to.have.class('rs-dropdown-item-divider');
-    expect(warn).to.have.been.calledWith(
-      '[rsuite] "divider" property of Dropdown.Item component has been deprecated.\nUse Dropdown.Separator component instead.'
-    );
   });
 
   it('Should render a panel with given content', () => {
@@ -99,11 +94,11 @@ describe('<Dropdown.Item>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
     render(
       <Dropdown>
-        <DropdownItem onSelect={onSelectSpy} eventKey="ABC" data-testid="item">
+        <DropdownItem onSelect={onSelect} eventKey="ABC" data-testid="item">
           Title
         </DropdownItem>
       </Dropdown>
@@ -111,15 +106,15 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onSelectSpy).to.have.been.calledWith('ABC');
+    expect(onSelect).to.have.been.calledWith('ABC');
   });
 
   it('Should call onClick callback', () => {
-    const onClickSpy = sinon.spy();
+    const onClick = sinon.spy();
 
     render(
       <Dropdown>
-        <DropdownItem onClick={onClickSpy} data-testid="item">
+        <DropdownItem onClick={onClick} data-testid="item">
           Title
         </DropdownItem>
       </Dropdown>
@@ -127,7 +122,7 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onClickSpy).to.have.been.called;
+    expect(onClick).to.have.been.called;
   });
 
   it('Should have a custom className', () => {
@@ -182,23 +177,5 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(screen.getByRole('menuitem')).to.contain.text('Ctrl + A');
-  });
-
-  context('[Deprecated] Within <Nav>', () => {
-    it('Should warn deprecation message', () => {
-      sinon.spy(console, 'warn');
-
-      render(
-        <Nav>
-          <Dropdown title="Dropdown">
-            <Dropdown.Item>Dropdown item</Dropdown.Item>
-          </Dropdown>
-        </Nav>
-      );
-
-      expect(console.warn).to.have.been.calledWith(
-        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
-      );
-    });
   });
 });

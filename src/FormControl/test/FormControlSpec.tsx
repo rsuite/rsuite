@@ -46,10 +46,9 @@ describe('FormControl', () => {
       </Form>
     );
 
-    expect(
-      // eslint-disable-next-line
-      (container.querySelector('div') as HTMLDivElement).className
-    ).to.match(/\bcustom-prefix\b/);
+    expect((container.querySelector('div') as HTMLDivElement).className).to.match(
+      /\bcustom-prefix\b/
+    );
   });
 
   it('Should call onChange callback', () => {
@@ -114,9 +113,6 @@ describe('FormControl', () => {
 
   it('Should render correctly when form value was null', () => {
     render(
-      // FIXME `formValue` prop does not support `null` value
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Form formValue={null}>
         <FormControl name="name" />
       </Form>
@@ -532,6 +528,23 @@ describe('FormControl', () => {
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'tom' } });
 
       expect(formValue.user.name[1]).to.equal('tom');
+    });
+  });
+
+  describe('Error Message Placement', () => {
+    it('Should render error message with static placement', () => {
+      render(
+        <Form formError={{ name: 'This field is required' }}>
+          <FormControl name="name" errorPlacement="static" />
+        </Form>
+      );
+
+      const errorMessageWrapper = screen
+        .getByRole('alert')
+        .closest('.rs-form-error-message-wrapper');
+
+      expect(errorMessageWrapper).to.exist;
+      expect(errorMessageWrapper).to.have.attr('data-placement', 'static');
     });
   });
 

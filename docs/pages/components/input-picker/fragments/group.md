@@ -19,13 +19,7 @@ const data = mockUsers(100)
   .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
 const App = () => (
-  <InputPicker
-    data={data}
-    groupBy="firstLetter"
-    labelKey="firstName"
-    valueKey="name"
-    style={{ width: 200 }}
-  />
+  <InputPicker data={data} groupBy="firstLetter" labelKey="firstName" valueKey="name" w={200} />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -16,7 +16,7 @@ const App = () => (
     <InputPicker
       creatable
       data={data}
-      style={{ width: 224 }}
+      w={224}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -25,7 +25,7 @@ const App = () => (
     <InputPicker
       creatable
       data={data}
-      style={{ width: 224 }}
+      w={224}
       groupBy="role"
       placeholder="Group Select"
       onCreate={(value, item) => {

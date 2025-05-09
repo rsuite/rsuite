@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -26,7 +25,13 @@ describe('CheckTreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(CheckTreePicker, { virtualized: true, ariaHaspopup: 'tree', popupAutoWidth: true });
+
+  testPickers(CheckTreePicker, {
+    virtualized: true,
+    ariaHaspopup: 'tree',
+    popupAutoWidth: true
+  });
+
   testControlledUnControlled(CheckTreePicker, {
     componentProps: {
       data: controlledData,
@@ -64,20 +69,21 @@ describe('CheckTreePicker', () => {
     expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
 
-  it('Should have "default" appearance by default', () => {
-    const { container } = render(<CheckTreePicker data={[]} />);
+  it('Should render with "default" appearance by default', () => {
+    render(<CheckTreePicker data={[]} />);
 
-    expect(container.firstChild).to.have.class('rs-picker-default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'check-tree');
   });
 
   it('Should set a height for the Tree', () => {
     const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '320px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 320px;');
 
     rerender(<CheckTreePicker defaultOpen data={data} treeHeight={100} />);
 
-    expect(screen.getByRole('tree')).to.have.style('height', '100px');
+    expect(screen.getByRole('tree')).to.have.attr('style', '--rs-tree-view-height: 100px;');
   });
 
   it('Should set a height for the Tree with virtualized', () => {
@@ -123,7 +129,7 @@ describe('CheckTreePicker', () => {
 
   it('Should checked 1 node by `value` when cascade is false', () => {
     render(
-      <CheckTreePicker open cascade={false} data={data} value={['Master']} defaultExpandAll />
+      <CheckTreePicker open data={data} cascade={false} value={['Master']} defaultExpandAll />
     );
 
     expect(screen.queryAllByRole('checkbox', { checked: true })).to.have.length(1);
@@ -185,19 +191,19 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       <CheckTreePicker data={[]} value={['test']} renderValue={() => '1'} />
     );
     expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(container.firstChild).to.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
 
     rerender(<CheckTreePicker data={[]} value={['test']} renderValue={() => null} />);
-    expect(screen.getByRole('combobox')).to.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
 
     rerender(<CheckTreePicker data={[]} value={['test']} renderValue={() => undefined} />);
-    expect(screen.getByRole('combobox')).to.text('Select');
-    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Should not be call renderValue()', () => {
@@ -243,34 +249,34 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
+    const onClean = sinon.spy();
     render(
-      <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onCleanSpy} />
+      <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onClean} />
     );
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }) as HTMLElement);
 
-    expect(onCleanSpy).to.calledOnce;
+    expect(onClean).to.calledOnce;
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpenSpy = sinon.spy();
-    render(<CheckTreePicker onOpen={onOpenSpy} data={data} />);
+    const onOpen = sinon.spy();
+    render(<CheckTreePicker onOpen={onOpen} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
-    expect(onOpenSpy).to.calledOnce;
+    expect(onOpen).to.calledOnce;
   });
 
   it('Should call `onClose` callback', async () => {
-    const onCloseSpy = sinon.spy();
-    render(<CheckTreePicker onClose={onCloseSpy} data={data} />);
+    const onClose = sinon.spy();
+    render(<CheckTreePicker onClose={onClose} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
     await waitFor(() => {
-      expect(onCloseSpy).to.calledOnce;
+      expect(onClose).to.calledOnce;
     });
   });
 

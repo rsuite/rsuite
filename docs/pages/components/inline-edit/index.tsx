@@ -8,13 +8,16 @@ import {
   DatePicker,
   Slider,
   RangeSlider,
-  InputNumber,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  NumberInput,
   Cascader,
   Panel,
-  Form
+  Form,
+  Box
 } from 'rsuite';
 import ImportGuide from '@/components/ImportGuide';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['InlineEdit']} />
@@ -25,6 +28,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Box,
         Form,
         InlineEdit,
         Stack,
@@ -35,7 +39,7 @@ export default function Page() {
         DatePicker,
         Slider,
         RangeSlider,
-        InputNumber,
+        NumberInput,
         Cascader
       }}
     />

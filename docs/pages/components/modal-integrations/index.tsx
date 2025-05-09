@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import { Modal, Button, Drawer, HStack } from 'rsuite';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { alert, confirm, prompt } from '@rsuite/interactions';

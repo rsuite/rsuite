@@ -1,12 +1,12 @@
 import React from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import { TimeRangePicker, Stack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { TimeRangePicker, Stack, Box } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TimeRangePicker']} />
+  'import-guide': () => <ImportGuide components={['TimeRangePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="time-range-picker" />
 };
 
 export default function Page() {
@@ -15,7 +15,8 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         TimeRangePicker,
-        Stack
+        Stack,
+        Box
       }}
     />
   );

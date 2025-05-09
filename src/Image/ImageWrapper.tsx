@@ -1,3 +1,8 @@
-import { createComponent } from '@/internals/utils';
+import { createComponent, ComponentProps } from '@/internals/utils';
 
-export const ImageWrapper = createComponent({ name: 'ImageWrapper', componentAs: 'div' });
+export type ImageWrapperProps = ComponentProps;
+
+export const ImageWrapper = createComponent<'div', ImageWrapperProps>({
+  name: 'ImageWrapper',
+  componentAs: 'div'
+});

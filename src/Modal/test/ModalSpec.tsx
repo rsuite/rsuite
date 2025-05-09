@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 
@@ -10,6 +10,7 @@ describe('Modal', () => {
   testStandardProps(<Modal open></Modal>, {
     getRootElement: () => screen.getByRole('dialog')
   });
+
   it('Should render the modal content', () => {
     render(
       <Modal open>
@@ -45,17 +46,17 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('dialog'));
     fireEvent.click(screen.getByRole('document'));
 
-    assert.isFalse(onClose.calledOnce);
+    expect(onClose).to.be.not.called;
   });
 
   it('Should be automatic height', () => {
-    const instance = getDOMNode(
+    render(
       <Modal overflow open>
-        <Modal.Body style={{ height: 2000 }} />
+        <Modal.Body style={{ height: 2000 }}>body</Modal.Body>
       </Modal>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('.rs-modal-body') as HTMLElement).style.overflow, 'auto');
+
+    expect(screen.getByText('body')).to.have.style('overflow', 'auto');
   });
 
   it('Should call onClose callback', () => {
@@ -72,11 +73,11 @@ describe('Modal', () => {
   });
 
   it('Should call onExited callback', async () => {
-    const onExitedSpy = sinon.spy();
+    const onExited = sinon.spy();
     const App = () => {
       const [open, setOpen] = React.useState(true);
       return (
-        <Modal open={open} onClose={() => setOpen(false)} onExited={onExitedSpy}>
+        <Modal open={open} onClose={() => setOpen(false)} onExited={onExited}>
           <Modal.Header />
         </Modal>
       );
@@ -87,12 +88,12 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     await waitFor(() => {
-      expect(onExitedSpy).to.have.been.calledOnce;
+      expect(onExited).to.have.been.calledOnce;
     });
   });
 
   it('Should call onOpen callback', () => {
-    const onOpenSpy = sinon.spy();
+    const onOpen = sinon.spy();
     type AppInstance = {
       openModal: () => void;
     };
@@ -106,7 +107,7 @@ describe('Modal', () => {
       }));
 
       return (
-        <Modal {...props} onOpen={onOpenSpy} open={open}>
+        <Modal {...props} onOpen={onOpen} open={open}>
           <Modal.Header />
         </Modal>
       );
@@ -118,7 +119,7 @@ describe('Modal', () => {
       (ref.current as AppInstance).openModal();
     });
 
-    expect(onOpenSpy).to.have.been.calledOnce;
+    expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should call onClose callback by Esc', () => {
@@ -131,7 +132,7 @@ describe('Modal', () => {
 
     const event = new KeyboardEvent('keydown', { key: 'Escape' });
     document.dispatchEvent(event);
-    assert.isTrue(onClose.calledOnce);
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should be rendered inside Modal', () => {
@@ -145,7 +146,7 @@ describe('Modal', () => {
       </Modal>
     );
 
-    assert.isNotEmpty(screen.getByRole('listbox'));
+    expect(screen.getByRole('listbox')).to.be.exist;
   });
 
   describe('Focused state', () => {
@@ -231,14 +232,9 @@ describe('Modal', () => {
 
     // Remove this case when full prop is dropped
     it('[Deprecated] Should have .rs-modal-full class when full=true', () => {
-      sinon.spy(console, 'warn');
       render(<Modal open full></Modal>);
 
       expect(screen.getByRole('dialog')).to.have.class('rs-modal-full');
-
-      expect(console.warn).to.have.been.calledWith(
-        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
-      );
     });
 
     it('Should not have a style attribute on body when size="full" ', () => {
@@ -248,7 +244,6 @@ describe('Modal', () => {
         </Modal>
       );
 
-      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('dialog').querySelector('.rs-modal-body')).to.not.have.attribute(
         'style'
       );

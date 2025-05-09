@@ -40,25 +40,27 @@ const App = () => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <Field
-        name="name"
-        placeholder="Name"
-        value={formik.values.name}
-        error={formik.errors.name}
-        onChange={value => formik.setFieldValue('name', value)}
-      />
+      <Form.Stack fluid>
+        <Field
+          name="name"
+          placeholder="Name"
+          value={formik.values.name}
+          error={formik.errors.name}
+          onChange={value => formik.setFieldValue('name', value)}
+        />
 
-      <Field
-        name="email"
-        placeholder="Email"
-        value={formik.values.email}
-        error={formik.errors.email}
-        onChange={value => formik.setFieldValue('email', value)}
-      />
+        <Field
+          name="email"
+          placeholder="Email"
+          value={formik.values.email}
+          error={formik.errors.email}
+          onChange={value => formik.setFieldValue('email', value)}
+        />
 
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };

@@ -1,9 +1,9 @@
-/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
 import Stack from '../Stack';
 import StackItem from '../StackItem';
+import { render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
+import '../styles/index.less';
 
 describe('Stack', () => {
   testStandardProps(<Stack />);
@@ -34,7 +34,8 @@ describe('Stack', () => {
 
   it('Should have a align-items style', () => {
     render(<Stack data-testid="test" alignItems="stretch"></Stack>);
-    assert.equal(screen.getByTestId('test').style.alignItems, 'stretch');
+
+    expect(screen.getByTestId('test')).to.have.style('align-items', 'stretch');
   });
 
   it('Should have a justify-content style', () => {
@@ -74,28 +75,6 @@ describe('Stack', () => {
     expect(screen.getByTestId('test')).to.have.text('012');
   });
 
-  it('Should wrap children', () => {
-    render(
-      <Stack data-testid="test">
-        <button />
-      </Stack>
-    );
-
-    expect(screen.getByTestId('test').firstChild).to.tagName('DIV');
-    expect(screen.getByTestId('test').firstChild).to.have.class('rs-stack-item');
-  });
-
-  it('Should clone children', () => {
-    render(
-      <Stack data-testid="test" childrenRenderMode="clone">
-        <button />
-      </Stack>
-    );
-
-    expect(screen.getByTestId('test').firstChild).to.tagName('BUTTON');
-    expect(screen.getByTestId('test').firstChild).to.have.class('rs-stack-item');
-  });
-
   it('Should render deep children, when direct child is a Fragment', () => {
     render(
       <Stack data-testid="test">
@@ -127,5 +106,31 @@ describe('Stack', () => {
     expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
     expect(screen.getByText('stack item').parentNode).to.equal(container.firstChild);
     expect(screen.getByText('stack item')).to.have.style('align-self', 'flex-end');
+  });
+
+  it('Should render a stack with responsive direction', () => {
+    render(
+      <Stack
+        direction={{
+          xs: 'column',
+          sm: 'row',
+          md: 'column-reverse',
+          lg: 'row-reverse',
+          xl: 'row',
+          xxl: 'column'
+        }}
+      >
+        Stack
+      </Stack>
+    );
+
+    const stack = screen.getByText('Stack');
+
+    expect(stack).to.have.class('rs-stack-xs-column');
+    expect(stack).to.have.class('rs-stack-sm-row');
+    expect(stack).to.have.class('rs-stack-md-column-reverse');
+    expect(stack).to.have.class('rs-stack-lg-row-reverse');
+    expect(stack).to.have.class('rs-stack-xl-row');
+    expect(stack).to.have.class('rs-stack-xxl-column');
   });
 });

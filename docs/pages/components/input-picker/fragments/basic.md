@@ -26,7 +26,7 @@ const data = [
 
 const App = () => (
   <>
-    <InputPicker data={data} style={{ width: 224 }} />
+    <InputPicker data={data} w={224} />
   </>
 );
 

@@ -1,47 +1,36 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
-import FrownIcon from '@rsuite/icons/legacy/FrownO';
-import MehIcon from '@rsuite/icons/legacy/MehO';
-import SmileIcon from '@rsuite/icons/legacy/SmileO';
+import { Rate, VStack, Divider } from 'rsuite';
+import { FaFrown, FaMeh, FaSmile } from 'react-icons/fa';
 
 const renderCharacter = (value, index) => {
   // unselected character
   if (value < index + 1) {
-    return <MehIcon />;
+    return <FaMeh />;
   }
   if (value < 3) {
-    return <FrownIcon style={{ color: '#99A9BF' }} />;
+    return <FaFrown color="#99A9BF" />;
   }
   if (value < 4) {
-    return <MehIcon style={{ color: '#F4CA1D' }} />;
+    return <FaMeh color="#F4CA1D" />;
   }
-  return <SmileIcon style={{ color: '#ff9800' }} />;
+  return <FaSmile color="#ff9800" />;
 };
 
 const App = () => (
-  <>
-    <div>
+  <VStack spacing={10}>
+    <VStack>
       <Rate defaultValue={1} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={2} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={3} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={4} renderCharacter={renderCharacter} />
-    </div>
-    <div>
       <Rate defaultValue={5} renderCharacter={renderCharacter} />
-    </div>
+    </VStack>
 
-    <hr />
-
+    <Divider label="Max 10" labelPlacement="start" />
     <Rate max={10} defaultValue={2} />
-  </>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

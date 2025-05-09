@@ -47,7 +47,7 @@ const App = () => {
 
   return (
     <HStack spacing={10} style={{ height: 320 }} alignItems="flex-start" wrap>
-      <Calendar compact renderCell={renderCell} onSelect={handleSelect} style={{ width: 320 }} />
+      <Calendar compact renderCell={renderCell} onSelect={handleSelect} w={320} />
       <TodoList date={selectedDate} />
     </HStack>
   );

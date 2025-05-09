@@ -1,12 +1,12 @@
 import React, { Dispatch, useContext, useReducer } from 'react';
 import NavDropdown, { NavDropdownProps } from './NavDropdown';
 import NavDropdownMenu, { NavDropdownMenuProps } from './NavDropdownMenu';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import SidenavDropdown from '../Sidenav/SidenavDropdown';
-import { NavbarContext } from '../Navbar';
 import NavbarDropdown from '../Navbar/NavbarDropdown';
 import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
+import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
+import { NavbarContext } from '../Navbar';
+import { SidenavContext } from '../Sidenav/Sidenav';
 
 export interface NavMenuProps extends NavDropdownProps, Omit<NavDropdownMenuProps, 'onToggle'> {}
 
@@ -73,13 +73,6 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
   const sidenav = useContext(SidenavContext);
 
   if (!parentNavMenu) {
-    if (navbar) {
-      return (
-        <NavMenuContext.Provider value={navMenuContext}>
-          <NavbarDropdown ref={ref} {...props} />
-        </NavMenuContext.Provider>
-      );
-    }
     if (sidenav) {
       return (
         <NavMenuContext.Provider value={navMenuContext}>
@@ -87,6 +80,15 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
         </NavMenuContext.Provider>
       );
     }
+
+    if (navbar) {
+      return (
+        <NavMenuContext.Provider value={navMenuContext}>
+          <NavbarDropdown ref={ref} {...props} />
+        </NavMenuContext.Provider>
+      );
+    }
+
     return (
       <NavMenuContext.Provider value={navMenuContext}>
         <NavDropdown ref={ref} {...props} />

@@ -1,9 +1,9 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
-import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
+import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
-import { CustomContext, CustomProviderProps } from './CustomContext';
+import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
 import ToastContainer, {
   ToastContainerInstance,
   toastPlacements,
@@ -66,8 +66,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
               <ToastContainer
                 key={placement}
                 placement={placement}
-                ref={ref => {
-                  toasters.current.set(placement, ref as any);
+                ref={(ref: any) => {
+                  toasters.current.set(placement, ref);
                 }}
               />
             ))}
