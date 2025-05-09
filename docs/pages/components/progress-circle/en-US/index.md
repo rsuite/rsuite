@@ -66,18 +66,18 @@ Use the `sections` prop to create a progress circle with multiple colored segmen
 
 ### `<ProgressCircle>`
 
-| Property      | Type `(Default)`                                                         | Description                                        |
-| ------------- | ------------------------------------------------------------------------ | -------------------------------------------------- |
-| classPrefix   | string `('progress')`                                                    | The prefix of the component CSS class              |
-| gapDegree     | number `(0)`                                                             | The gap degree of half circle, 0 ~ 360             |
-| gapPosition   | 'right' \| 'top' \| 'bottom' \| 'left' `('top')`                         | Circular progress bar gap position                 |
-| percent       | number `(0)`                                                             | Percent of progress                                |
-| renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | Custom render function for info content ![][6.0.0] |
-| showInfo      | boolean `(true)`                                                         | Show text                                          |
-| status        | 'success' \| 'fail' \| 'active'                                          | Progress status                                    |
-| sections      | { percent: number, color: string }[]                                     | Multiple sections with different colors ![][6.0.0] |
-| strokeColor   | string                                                                   | Line color                                         |
-| strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | The end of different types of open paths           |
-| strokeWidth   | number `(6)`                                                             | Line width                                         |
-| trailColor    | string                                                                   | Trail color                                        |
-| trailWidth    | number `(6)`                                                             | Trail width                                        |
+| Property      | Type                                                                     | Description                              | Version    |
+| ------------- | ------------------------------------------------------------------------ | ---------------------------------------- | ---------- |
+| classPrefix   | string `('progress')`                                                    | The prefix of the component CSS class    |            |
+| gapDegree     | number `(0)`                                                             | The gap degree of half circle, 0 ~ 360   |            |
+| gapPosition   | 'right' \| 'top' \| 'bottom' \| 'left' `('top')`                         | Circular progress bar gap position       |            |
+| percent       | number `(0)`                                                             | Percent of progress                      |            |
+| renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | Custom render function for info content  | ![][6.0.0] |
+| showInfo      | boolean `(true)`                                                         | Show text                                |            |
+| status        | 'success' \| 'fail' \| 'active'                                          | Progress status                          |            |
+| sections      | { percent: number, color: string }[]                                     | Multiple sections with different colors  | ![][6.0.0] |
+| strokeColor   | string                                                                   | Line color                               |            |
+| strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | The end of different types of open paths |            |
+| strokeWidth   | number `(6)`                                                             | Line width                               |            |
+| trailColor    | string                                                                   | Trail color                              |            |
+| trailWidth    | number `(6)`                                                             | Trail width                              |            |

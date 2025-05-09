@@ -66,18 +66,18 @@
 
 ### `<ProgressCircle>`
 
-| 属性名称      | 类型 `(默认值)`                                                          | 描述                                |
-| ------------- | ------------------------------------------------------------------------ | ----------------------------------- |
-| classPrefix   | string `('progress')`                                                    | 组件 CSS 类的前缀                   |
-| gapDegree     | number `(0)`                                                             | 圆形进度条缺口角度，可取值 0 ~ 360  |
-| gapPosition   | 'right' \| 'top' \| 'bottom' \| 'left' `('top')`                         | 圆形进度条缺口位置                  |
-| percent       | number `(0)`                                                             | 进度百分比                          |
-| renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | 自定义信息内容的渲染函数 ![][6.0.0] |
-| showInfo      | boolean `(true)`                                                         | 是否显示文字                        |
-| status        | 'success' \| 'fail' \| 'active'                                          | 进度状态                            |
-| sections      | { percent: number, color: string }[]                                     | 多个具有不同颜色的进度段 ![][6.0.0] |
-| strokeColor   | string                                                                   | 线条颜色                            |
-| strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | 不同类型的开放路径的端点形状        |
-| strokeWidth   | number `(6)`                                                             | 线条宽度                            |
-| trailColor    | string                                                                   | 背景颜色                            |
-| trailWidth    | number `(6)`                                                             | 背景宽度                            |
+| 属性名称      | 类型 `(默认值)`                                                          | 描述                               | 版本       |
+| ------------- | ------------------------------------------------------------------------ | ---------------------------------- | ---------- |
+| classPrefix   | string `('progress')`                                                    | 组件 CSS 类的前缀                  |            |
+| gapDegree     | number `(0)`                                                             | 圆形进度条缺口角度，可取值 0 ~ 360 |            |
+| gapPosition   | 'right' \| 'top' \| 'bottom' \| 'left' `('top')`                         | 圆形进度条缺口位置                 |            |
+| percent       | number `(0)`                                                             | 进度百分比                         |            |
+| renderInfo    | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode | 自定义信息内容的渲染函数           | ![][6.0.0] |
+| showInfo      | boolean `(true)`                                                         | 是否显示文字                       |            |
+| status        | 'success' \| 'fail' \| 'active'                                          | 进度状态                           |            |
+| sections      | { percent: number, color: string }[]                                     | 多个具有不同颜色的进度段           | ![][6.0.0] |
+| strokeColor   | string                                                                   | 线条颜色                           |            |
+| strokeLinecap | 'round' \| 'square' \| 'butt' `('round')`                                | 不同类型的开放路径的端点形状       |            |
+| strokeWidth   | number `(6)`                                                             | 线条宽度                           |            |
+| trailColor    | string                                                                   | 背景颜色                           |            |
+| trailWidth    | number `(6)`                                                             | 背景宽度                           |            |

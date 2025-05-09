@@ -1,23 +1,11 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
-import { useStyles, useCustom } from '@/internals/hooks';
 import ProgressInfo from './ProgressInfo';
 import ProgressStroke from './ProgressStroke';
-
-export interface ProgressSection {
-  /** Percent of this section */
-  percent: number;
-
-  /** Color of this section */
-  color: string;
-
-  /** Label of this section */
-  label?: React.ReactNode;
-
-  /** Tooltip of this section */
-  tooltip?: React.ReactNode;
-}
+import ProgressSections from './ProgressSections';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { ProgressSection } from './types';
 
 export interface ProgressLineProps extends BoxProps {
   /** Percent of progress */
@@ -73,7 +61,6 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     percent = 0,
     percentPlacement = 'end',
     radius,
-    renderInfo,
     strokeColor,
     strokeWidth,
     status,
@@ -84,6 +71,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     trailWidth,
     vertical,
     sections,
+    renderInfo,
     ...rest
   } = propsWithDefaults;
 
@@ -116,7 +104,6 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
 
   // Determine if the info should be placed inside the stroke
   const isInsidePlacement = percentPlacement?.startsWith('inside');
-  let countPercent = 0;
   return (
     <Box
       as={as}
@@ -134,28 +121,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
       <div className={prefix('outer')}>
         <div className={prefix('trail')}>
           {sections ? (
-            <div className={prefix('sections')}>
-              {sections.map((section, index) => {
-                const sectionStroke = (
-                  <ProgressStroke
-                    key={index}
-                    classPrefix={classPrefix}
-                    percent={section.percent}
-                    color={section.color}
-                    vertical={vertical}
-                    isSection={true}
-                    tooltip={section.tooltip}
-                    countPercent={countPercent}
-                  >
-                    {section.label}
-                  </ProgressStroke>
-                );
-
-                countPercent += section.percent;
-
-                return sectionStroke;
-              })}
-            </div>
+            <ProgressSections classPrefix={classPrefix} sections={sections} vertical={vertical} />
           ) : (
             <ProgressStroke classPrefix={classPrefix} percent={percent} vertical={vertical}>
               {showInfo && isInsidePlacement ? info : null}

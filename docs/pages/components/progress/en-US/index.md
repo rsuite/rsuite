@@ -66,22 +66,22 @@ Display a vertical progress bar with the `vertical` prop. All other properties l
 
 ### `<Progress>`
 
-| Property         | Type `(Default)`                                                             | Description                                        |
-| ---------------- | ---------------------------------------------------------------------------- | -------------------------------------------------- |
-| classPrefix      | string `('progress-line')`                                                   | The prefix of the component CSS class              |
-| percent          | number `(0)`                                                                 | Percent of progress                                |
-| percentPlacement | 'start' \| 'end' \| 'insideStart' \| 'insideEnd' \| 'insideCenter' `('end')` | The placement of the percent info ![][6.0.0]       |
-| radius           | number \| string                                                             | The radius of the progress bar ![][6.0.0]          |
-| renderInfo       | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode     | Custom render function for info content ![][6.0.0] |
-| showInfo         | boolean `(true)`                                                             | Show text                                          |
-| status           | 'success' \| 'fail' \| 'active'                                              | Progress status                                    |
-| striped          | boolean                                                                      | Whether to apply a striped effect ![][6.0.0]       |
-| strokeColor      | string                                                                       | Line color                                         |
-| strokeWidth      | number                                                                       | Line width                                         |
-| trailColor       | string                                                                       | Trail color                                        |
-| trailWidth       | number                                                                       | Trail width                                        |
-| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | Multiple sections with different colors ![][6.0.0] |
-| vertical         | boolean                                                                      | The progress bar is displayed vertically           |
+| Property         | Type `(Default)`                                                             | Description                              | Version    |
+| ---------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
+| classPrefix      | string `('progress-line')`                                                   | The prefix of the component CSS class    |            |
+| percent          | number `(0)`                                                                 | Percent of progress                      |            |
+| percentPlacement | 'start' \| 'end' \| 'insideStart' \| 'insideEnd' \| 'insideCenter' `('end')` | The placement of the percent info        | ![][6.0.0] |
+| radius           | number \| string                                                             | The radius of the progress bar           | ![][6.0.0] |
+| renderInfo       | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode     | Custom render function for info content  | ![][6.0.0] |
+| showInfo         | boolean `(true)`                                                             | Show text                                |            |
+| status           | 'success' \| 'fail' \| 'active'                                              | Progress status                          |            |
+| striped          | boolean                                                                      | Whether to apply a striped effect        | ![][6.0.0] |
+| strokeColor      | string                                                                       | Line color                               |            |
+| strokeWidth      | number                                                                       | Line width                               |            |
+| trailColor       | string                                                                       | Trail color                              |            |
+| trailWidth       | number                                                                       | Trail width                              |            |
+| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | Multiple sections with different colors  | ![][6.0.0] |
+| vertical         | boolean                                                                      | The progress bar is displayed vertically |            |
 
 ### `ts:ProgressSection`
 

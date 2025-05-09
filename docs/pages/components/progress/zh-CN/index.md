@@ -66,22 +66,22 @@
 
 ### `<Progress>`
 
-| 属性名称         | 类型 `(默认值)`                                                              | 描述                                |
-| ---------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
-| classPrefix      | string `('progress-line')`                                                   | 组件 CSS 类的前缀                   |
-| percent          | number `(0)`                                                                 | 进度百分比                          |
-| percentPlacement | 'start' \| 'end' \| 'insideStart' \| 'insideEnd' \| 'insideCenter' `('end')` | 百分比信息的显示位置 ![][6.0.0]     |
-| radius           | number \| string                                                             | 进度条的圆角半径 ![][6.0.0]         |
-| renderInfo       | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode     | 自定义信息内容的渲染函数 ![][6.0.0] |
-| showInfo         | boolean `(true)`                                                             | 是否显示文字                        |
-| status           | 'success' \| 'fail' \| 'active'                                              | 进度状态                            |
-| striped          | boolean                                                                      | 是否显示条纹效果 ![][6.0.0]         |
-| strokeColor      | string                                                                       | 线条颜色                            |
-| strokeWidth      | number                                                                       | 线条宽度                            |
-| trailColor       | string                                                                       | 背景颜色                            |
-| trailWidth       | number                                                                       | 背景宽度                            |
-| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | 具有不同颜色的多个进度段 ![][6.0.0] |
-| vertical         | boolean                                                                      | 垂直显示进度条                      |
+| 属性名称         | 类型 `(默认值)`                                                              | 描述                     | 版本       |
+| ---------------- | ---------------------------------------------------------------------------- | ------------------------ | ---------- |
+| classPrefix      | string `('progress-line')`                                                   | 组件 CSS 类的前缀        |            |
+| percent          | number `(0)`                                                                 | 进度百分比               |            |
+| percentPlacement | 'start' \| 'end' \| 'insideStart' \| 'insideEnd' \| 'insideCenter' `('end')` | 百分比信息的显示位置     | ![][6.0.0] |
+| radius           | number \| string                                                             | 进度条的圆角半径         | ![][6.0.0] |
+| renderInfo       | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode     | 自定义信息内容的渲染函数 | ![][6.0.0] |
+| showInfo         | boolean `(true)`                                                             | 是否显示文字             |            |
+| status           | 'success' \| 'fail' \| 'active'                                              | 进度状态                 |            |
+| striped          | boolean                                                                      | 是否显示条纹效果         | ![][6.0.0] |
+| strokeColor      | string                                                                       | 线条颜色                 |            |
+| strokeWidth      | number                                                                       | 线条宽度                 |            |
+| trailColor       | string                                                                       | 背景颜色                 |            |
+| trailWidth       | number                                                                       | 背景宽度                 |            |
+| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | 具有不同颜色的多个进度段 | ![][6.0.0] |
+| vertical         | boolean                                                                      | 垂直显示进度条           |            |
 
 ### `ts:ProgressSection`
 
