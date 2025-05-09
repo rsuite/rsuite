@@ -1,3 +1,13 @@
+## [5.80.2](https://github.com/rsuite/rsuite/compare/v5.80.1...v5.80.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* **DateInput:** ignore function keys (F1–F12) to prevent NaN input ([#4272](https://github.com/rsuite/rsuite/issues/4272)) ([42899bf](https://github.com/rsuite/rsuite/commit/42899bfe54b51fff285d28de118bf8f62f9b2a99))
+* **DateRangeInput:** ignore function keys (F1–F12) to prevent NaN input ([#4263](https://github.com/rsuite/rsuite/issues/4263)) ([3fd1516](https://github.com/rsuite/rsuite/commit/3fd15161d40ae257bd56eb3fa0c5c57e7ec93faf))
+
+
+
 ## [5.80.1](https://github.com/rsuite/rsuite/compare/v5.80.0...v5.80.1) (2025-04-25)
 
 
