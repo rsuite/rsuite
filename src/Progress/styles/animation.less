@@ -1,4 +1,3 @@
-
 @keyframes progress-active {
   0% {
     opacity: 0.1;
@@ -48,5 +47,23 @@
   }
   100% {
     background-position: 0 var(--rs-progress-line-stripe-size);
+  }
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes progress-indeterminate-vertical {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
   }
 }

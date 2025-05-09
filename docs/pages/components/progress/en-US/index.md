@@ -20,6 +20,12 @@ Use the `status` prop to indicate different states: 'active', 'success', or 'fai
 
 <!--{include:`line-status.md`}-->
 
+### Indeterminate
+
+Use the `indeterminate` prop to display an animated loading state when the progress percentage is unknown. This creates a continuous animation effect to indicate that an operation is in progress.
+
+<!--{include:`line-indeterminate.md`}-->
+
 ### Color
 
 Customize the progress bar color with the `strokeColor` prop.
@@ -69,10 +75,12 @@ Display a vertical progress bar with the `vertical` prop. All other properties l
 | Property         | Type `(Default)`                                                             | Description                              | Version    |
 | ---------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | ---------- |
 | classPrefix      | string `('progress-line')`                                                   | The prefix of the component CSS class    |            |
+| indeterminate    | boolean                                                                      | Show indeterminate loading animation     | ![][6.0.0] |
 | percent          | number `(0)`                                                                 | Percent of progress                      |            |
 | percentPlacement | 'start' \| 'end' \| 'insideStart' \| 'insideEnd' \| 'insideCenter' `('end')` | The placement of the percent info        | ![][6.0.0] |
 | radius           | number \| string                                                             | The radius of the progress bar           | ![][6.0.0] |
 | renderInfo       | (percent: number, status?: 'success' \| 'fail' \| 'active') => ReactNode     | Custom render function for info content  | ![][6.0.0] |
+| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | Multiple sections with different colors  | ![][6.0.0] |
 | showInfo         | boolean `(true)`                                                             | Show text                                |            |
 | status           | 'success' \| 'fail' \| 'active'                                              | Progress status                          |            |
 | striped          | boolean                                                                      | Whether to apply a striped effect        | ![][6.0.0] |
@@ -80,7 +88,6 @@ Display a vertical progress bar with the `vertical` prop. All other properties l
 | strokeWidth      | number                                                                       | Line width                               |            |
 | trailColor       | string                                                                       | Trail color                              |            |
 | trailWidth       | number                                                                       | Trail width                              |            |
-| sections         | [ProgressSection](#code-ts-progress-section-code)[]                          | Multiple sections with different colors  | ![][6.0.0] |
 | vertical         | boolean                                                                      | The progress bar is displayed vertically |            |
 
 ### `ts:ProgressSection`

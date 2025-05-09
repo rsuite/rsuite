@@ -8,6 +8,9 @@ import { useStyles, useCustom } from '@/internals/hooks';
 import type { ProgressSection } from './types';
 
 export interface ProgressLineProps extends BoxProps {
+  /** Whether to show indeterminate loading animation */
+  indeterminate?: boolean;
+
   /** Percent of progress */
   percent?: number;
 
@@ -29,6 +32,9 @@ export interface ProgressLineProps extends BoxProps {
   /** Whether to apply a striped effect to the progress bar */
   striped?: boolean;
 
+  /** Multiple sections with different colors */
+  sections?: ProgressSection[];
+
   /** Trail color */
   trailColor?: string;
 
@@ -43,9 +49,6 @@ export interface ProgressLineProps extends BoxProps {
 
   /** Custom render function for info content */
   renderInfo?: (percent: number, status?: 'success' | 'fail' | 'active') => React.ReactNode;
-
-  /** Multiple sections with different colors */
-  sections?: ProgressSection[];
 }
 
 /**
@@ -72,12 +75,13 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     vertical,
     sections,
     renderInfo,
+    indeterminate,
     ...rest
   } = propsWithDefaults;
 
   const { merge, prefix, withPrefix, cssVar } = useStyles(classPrefix);
 
-  const classes = merge(className, withPrefix({ vertical, striped }));
+  const classes = merge(className, withPrefix({ vertical, striped, indeterminate }));
 
   const totalPercent = sections
     ? sections.reduce((sum, section) => sum + section.percent, 0)
@@ -123,7 +127,11 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
           {sections ? (
             <ProgressSections classPrefix={classPrefix} sections={sections} vertical={vertical} />
           ) : (
-            <ProgressStroke classPrefix={classPrefix} percent={percent} vertical={vertical}>
+            <ProgressStroke
+              classPrefix={classPrefix}
+              percent={indeterminate ? 100 : percent}
+              vertical={vertical}
+            >
               {showInfo && isInsidePlacement ? info : null}
             </ProgressStroke>
           )}

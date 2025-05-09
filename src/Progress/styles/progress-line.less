@@ -29,7 +29,7 @@
         inset-inline-end: 0;
         background-color: #fff;
         border-radius: var(--rs-radius-lg);
-        animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+        animation: progress-active 1.5s cubic-bezier(0.23, 1, 0.32, 1) infinite;
       }
     }
   }
@@ -243,7 +243,7 @@
     }
   }
 
-  &&-vertical&-active &-stroke::before {
+  &&-vertical:where([data-status='active']) &-stroke::before {
     animation-name: progress-active-vertical;
   }
 
@@ -290,5 +290,48 @@
 
   &&-vertical&-striped:where([data-status='active']) &-stroke::after {
     animation: progress-stripe-vertical 1s linear infinite;
+  }
+
+  // Indeterminate animation
+  &-indeterminate {
+    .rs-progress-line-stroke {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--rs-progress-line-trail-color);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 30%;
+        background-color: var(--rs-progress-line-color);
+        will-change: transform;
+        animation: progress-indeterminate 1.5s ease-in-out infinite;
+      }
+    }
+  }
+
+  &&-vertical&-indeterminate {
+    .rs-progress-line-stroke {
+      height: 100%;
+      background-color: var(--rs-progress-line-trail-color);
+      transform: rotate(180deg);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30%;
+        background-color: var(--rs-progress-line-color);
+        will-change: transform;
+        animation: progress-indeterminate-vertical 1.5s ease-in-out infinite;
+      }
+    }
   }
 }

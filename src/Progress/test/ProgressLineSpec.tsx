@@ -67,6 +67,22 @@ describe('Progress - Line', () => {
     expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-striped');
   });
 
+  it('Should have indeterminate animation', () => {
+    render(<ProgressLine indeterminate />);
+
+    expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-indeterminate');
+  });
+
+  it('Should set stroke to 100% when indeterminate is true', () => {
+    render(<ProgressLine indeterminate percent={30} />);
+
+    const progressbar = screen.getByRole('progressbar');
+    const strokeElement = progressbar.querySelector('.rs-progress-line-stroke');
+
+    expect(progressbar).to.have.class('rs-progress-line-indeterminate');
+    expect(strokeElement).to.have.attr('style', 'width: 100%; height: 100%;');
+  });
+
   it('Should have correct percent placement', () => {
     render(<ProgressLine percentPlacement="start" />);
 

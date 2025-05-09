@@ -9,6 +9,7 @@ const App = () => (
     <Progress vertical percent={30} status="active" />
     <Progress vertical percent={50} status="fail" />
     <Progress vertical percent={100} status="success" />
+    <Progress vertical indeterminate />
     <Progress vertical percent={80} showInfo={false} />
     <Progress vertical percent={30} percentPlacement="start" />
     <Progress vertical percent={30} percentPlacement="end" />
@@ -23,7 +24,7 @@ const App = () => (
       sections={[
         { percent: 40, color: '#f7635c', label: 'Documents' },
         { percent: 30, color: '#f08800', label: 'Media' },
-        { percent: 30, color: '#409af5', label: 'Applications' },
+        { percent: 30, color: '#409af5', label: 'Applications' }
       ]}
     />
   </HStack>
