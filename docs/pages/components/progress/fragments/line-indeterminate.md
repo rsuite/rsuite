@@ -1,9 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Progress, VStack } from 'rsuite';
-
-const App = () => <Progress percent={20} />;
+import { Progress } from 'rsuite';
+const App = () => {
+  return <Progress indeterminate />;
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

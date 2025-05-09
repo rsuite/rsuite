@@ -1,4 +1,4 @@
-import ProgressCircle from './ProgressCircle';
+import ProgressCircle from '../ProgressCircle';
 import ProgressLine, { ProgressLineProps } from './ProgressLine';
 import { InternalRefForwardingComponent } from '@/internals/types';
 

@@ -1,10 +1,10 @@
 import Progress from './Progress';
-import ProgressCircle from './ProgressCircle';
+import ProgressCircle from '../ProgressCircle';
 import ProgressLine from './ProgressLine';
 
 // export types
-export type { ProgressCircleProps } from './ProgressCircle';
-export type { ProgressLineProps } from './ProgressLine';
+export type { ProgressLineProps as ProgressProps } from './ProgressLine';
+export type { ProgressSection } from './types';
 
 // export components
 export { Progress, ProgressCircle, ProgressLine };

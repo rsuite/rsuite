@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Badge 组件缩略图
+ * Badge
  */
 export const Badge: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@ export const Badge: React.FC = () => (
 );
 
 /**
- * Loader 组件缩略图
+ * Loader
  */
 export const Loader: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@ export const Loader: React.FC = () => (
 );
 
 /**
- * Message 组件缩略图
+ * Message
  */
 export const Message: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +82,7 @@ export const Message: React.FC = () => (
 );
 
 /**
- * Notification 组件缩略图
+ * Notification
  */
 export const Notification: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +128,7 @@ export const Notification: React.FC = () => (
 );
 
 /**
- * Progress 组件缩略图
+ * Progress
  */
 export const Progress: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +147,7 @@ export const Progress: React.FC = () => (
 );
 
 /**
- * Placeholder 组件缩略图
+ * Placeholder
  */
 export const Placeholder: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -210,7 +210,7 @@ export const Placeholder: React.FC = () => (
 );
 
 /**
- * Toaster 组件缩略图
+ * Toaster
  */
 export const Toaster: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -246,5 +246,29 @@ export const Toaster: React.FC = () => (
       strokeWidth="1.5"
       strokeDasharray="2 1"
     />
+  </svg>
+);
+
+export const ProgressCircle: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle
+      cx="40"
+      cy="40"
+      r="20"
+      stroke="var(--rs-thumbnail-bg-secondary)"
+      strokeWidth="5"
+      fill="transparent"
+    />
+
+    <path
+      d="M 40,40 m 0,-20 a 20,20 0 1 1 0,40 a 20,20 0 1 1 0,-40"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeDasharray="125.6 188.4"
+      fill="transparent"
+    />
+
+    <circle cx="40" cy="40" r="12" fill="var(--rs-thumbnail-bg)" />
   </svg>
 );

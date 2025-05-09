@@ -10,7 +10,7 @@ describe('ProgressLine styles', () => {
 
     const progressBar = screen.getByRole('progressbar');
     const lineOuter = progressBar.querySelector('.rs-progress-line-outer') as HTMLElement;
-    const lineInner = progressBar.querySelector('.rs-progress-line-inner') as HTMLElement;
+    const lineInner = progressBar.querySelector('.rs-progress-line-trail') as HTMLElement;
 
     expect(progressBar).to.have.style('font-size', '16px');
     expect(lineOuter).to.have.style('border-radius', '4px');

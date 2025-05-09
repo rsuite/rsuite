@@ -23,23 +23,21 @@ describe('Progress - Circle', () => {
   it('Should have a width', () => {
     render(<ProgressCircle trailWidth={0} percent={1} strokeWidth={10} />);
 
-    expect(screen.getByRole('progressbar').querySelector('.rs-progress-trail')).to.have.attr(
+    expect(screen.getByRole('progressbar').querySelector('.rs-progress-circle-trail')).to.have.attr(
       'stroke-width',
       '10'
     );
-    expect(screen.getByRole('progressbar').querySelector('.rs-progress-stroke')).to.have.attr(
-      'stroke-width',
-      '10'
-    );
+    expect(
+      screen.getByRole('progressbar').querySelector('.rs-progress-circle-stroke')
+    ).to.have.attr('stroke-width', '10');
   });
 
   it('Should have a background color', () => {
     render(<ProgressCircle strokeColor={'#ff0000'} />);
 
-    expect(screen.getByRole('progressbar').querySelector('.rs-progress-stroke')).to.have.style(
-      'stroke',
-      'rgb(255, 0, 0)'
-    );
+    expect(
+      screen.getByRole('progressbar').querySelector('.rs-progress-circle-stroke')
+    ).to.have.style('stroke', 'rgb(255, 0, 0)');
   });
 
   it('Should render info', () => {
@@ -63,10 +61,9 @@ describe('Progress - Circle', () => {
   it('Should be able to customize the Path type', () => {
     render(<ProgressCircle strokeLinecap="butt" />);
 
-    expect(screen.getByRole('progressbar').querySelector('.rs-progress-stroke')).to.have.attr(
-      'stroke-linecap',
-      'butt'
-    );
+    expect(
+      screen.getByRole('progressbar').querySelector('.rs-progress-circle-stroke')
+    ).to.have.attr('stroke-linecap', 'butt');
   });
 
   it('Should render start position by `gapPosition`', () => {
@@ -81,21 +78,51 @@ describe('Progress - Circle', () => {
 
     const progressCircles = screen.getAllByRole('progressbar');
 
-    expect(progressCircles[0].querySelector('.rs-progress-trail')).to.have.attr(
+    expect(progressCircles[0].querySelector('.rs-progress-circle-trail')).to.have.attr(
       'd',
       'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94'
     );
-    expect(progressCircles[1].querySelector('.rs-progress-trail')).to.have.attr(
+    expect(progressCircles[1].querySelector('.rs-progress-circle-trail')).to.have.attr(
       'd',
       'M 50,50 m 0,47 a 47,47 0 1 1 0,-94 a 47,47 0 1 1 0,94'
     );
-    expect(progressCircles[2].querySelector('.rs-progress-trail')).to.have.attr(
+    expect(progressCircles[2].querySelector('.rs-progress-circle-trail')).to.have.attr(
       'd',
       'M 50,50 m -47,0 a 47,47 0 1 1 94,0 a 47,47 0 1 1 -94,0'
     );
-    expect(progressCircles[3].querySelector('.rs-progress-trail')).to.have.attr(
+    expect(progressCircles[3].querySelector('.rs-progress-circle-trail')).to.have.attr(
       'd',
       'M 50,50 m 47,0 a 47,47 0 1 1 -94,0 a 47,47 0 1 1 94,0'
     );
+  });
+
+  it('Should render custom info content using renderInfo', () => {
+    const customContent = 'Custom Content';
+    render(
+      <ProgressCircle
+        percent={50}
+        renderInfo={() => <span className="custom-info">{customContent}</span>}
+      />
+    );
+
+    const infoElement = screen.getByRole('progressbar').querySelector('.rs-progress-circle-info');
+    expect(infoElement).to.exist;
+    expect(infoElement?.textContent).to.equal(customContent);
+  });
+
+  it('Should render custom info content with status using renderInfo', () => {
+    render(
+      <ProgressCircle
+        percent={50}
+        status="success"
+        renderInfo={(percent, status) => (
+          <span className="custom-info">{`${percent}-${status}`}</span>
+        )}
+      />
+    );
+
+    const infoElement = screen.getByRole('progressbar').querySelector('.rs-progress-circle-info');
+    expect(infoElement).to.exist;
+    expect(infoElement?.textContent).to.equal('50-success');
   });
 });

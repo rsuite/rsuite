@@ -118,6 +118,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     message: <thumbnails.Message />,
     notification: <thumbnails.Notification />,
     progress: <thumbnails.Progress />,
+    'progress-circle': <thumbnails.ProgressCircle />,
     placeholder: <thumbnails.Placeholder />,
     toaster: <thumbnails.Toaster />,
 
