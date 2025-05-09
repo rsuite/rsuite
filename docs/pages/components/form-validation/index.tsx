@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import loadable from '@loadable/component';
 import DefaultPage from '@/components/layout/Page';
@@ -10,9 +11,9 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  useFormControl,
   // @ts-ignore
   NumberInput,
   PasswordInput,
@@ -30,6 +31,14 @@ import {
   Row,
   Col
 } from 'rsuite';
+import {
+  SchemaModel,
+  StringType,
+  ObjectType,
+  NumberType,
+  ArrayType,
+  BooleanType
+} from 'rsuite/Schema';
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
@@ -47,7 +56,12 @@ export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Schema,
+        SchemaModel,
+        StringType,
+        ObjectType,
+        NumberType,
+        ArrayType,
+        BooleanType,
         Form,
         Input,
         NumberInput,
@@ -75,7 +89,8 @@ export default function Page() {
         PlusIcon,
         MinusIcon,
         Toggle,
-        Box
+        Box,
+        useFormControl
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}

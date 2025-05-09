@@ -8,7 +8,6 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
   NumberInput,
   Panel,
@@ -21,6 +20,7 @@ import {
   Col,
   Toggle
 } from 'rsuite';
+import { SchemaModel, StringType, ArrayType } from 'rsuite/Schema';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
@@ -39,15 +39,14 @@ const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group controlId={`${name}-10`} ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const { ArrayType, NumberType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   skills: ArrayType()
     .minLength(2, 'Please select at least 2 types of Skills.')
     .isRequired('This field is required.'),

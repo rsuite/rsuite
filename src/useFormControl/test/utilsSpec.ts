@@ -1,4 +1,4 @@
-import { nameToPath } from '../utils';
+import { nameToPath } from '../utils/nameToPath';
 
 describe('FormControl - utils', () => {
   describe('nameToPath', () => {

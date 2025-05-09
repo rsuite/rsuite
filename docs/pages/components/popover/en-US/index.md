@@ -40,7 +40,7 @@ Positioned popover components in scrolling container
 
 <!--{include:`container.md`}-->
 
-### Used with `Menu`
+### Used with Menu
 
 <!--{include:`with-menu.md`}-->
 

@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, Box, Row, Col } from 'rsuite';
+import { Form, Button, ButtonToolbar, Panel, Box, Row, Col } from 'rsuite';
+import { SchemaModel, StringType, ObjectType, NumberType, ArrayType } from 'rsuite/Schema';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
@@ -16,9 +17,7 @@ const JSONView = ({ formValue, formError }) => (
   </Box>
 );
 
-const { StringType, ObjectType, NumberType, ArrayType } = Schema.Types;
-
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired('Name is required.'),
   address: ObjectType().shape({
     city: StringType().isRequired('City is required.'),
@@ -35,7 +34,7 @@ const TextField = React.forwardRef((props, ref) => {
   const { name, label, accepter, ...rest } = props;
   return (
     <Form.Group ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );

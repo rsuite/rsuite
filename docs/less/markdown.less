@@ -1,6 +1,6 @@
 @import './themes/hightlight/default.less';
 
-/* 
+/*
  * RSuite Markdown Styles
  * Organized styling for markdown content in the RSuite documentation
  */
@@ -10,11 +10,11 @@
   --rs-color-muted: #818b981f;
 
   /* ===== Typography ===== */
-  
+
   // Headings
   h1 {
     font-size: 28px;
-    
+
     code {
       font-size: 14px;
       border-radius: 4px;
@@ -27,11 +27,11 @@
     font-weight: bold;
     margin-top: 10px;
   }
-  
+
   h3 {
     font-size: 18px;
     margin-top: 10px;
-    
+
     code {
       font-size: 18px !important;
     }
@@ -41,7 +41,7 @@
     font-size: 16px;
     margin-top: 10px;
   }
-  
+
   // Page heading styles
   .page-heading {
     margin-bottom: 10px;
@@ -54,11 +54,11 @@
       margin-top: calc(var(--rs-spacing) * 6);
     }
   }
-  
+
   .page-heading-text {
     display: inline-flex;
     align-items: center;
-    
+
     svg {
       color: rgb(236, 80, 96);
     }
@@ -69,7 +69,7 @@
   ul {
     padding: 10px 20px;
     list-style-type: circle;
-    
+
     li {
       line-height: 26px;
     }
@@ -79,7 +79,7 @@
   table {
     width: 100%;
     margin-top: 10px;
-    
+
     td,
     th {
       padding: 10px;
@@ -96,7 +96,7 @@
     tr:nth-child(2n) {
       background-color: var(--rs-bg-well);
     }
-    
+
     th {
       text-align: left;
     }
@@ -164,6 +164,86 @@ code:not(.rcv-highlight) {
     blockquote {
       background-color: var(--rs-yellow-900);
       border-color: var(--rs-yellow-500);
+    }
+  }
+}
+
+/* ===== Documentation Steps ===== */
+.rs-doc-steps {
+  counter-reset: step-counter;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // Vertical connecting line
+  &::before {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    bottom: 1rem;
+    width: 2px;
+    background-color: var(--rs-gray-100);
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .rs-doc-step-header {
+    position: relative;
+    margin: 0.5rem 0;
+    padding-left: 2.5rem;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--rs-text-primary);
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: counter(step-counter);
+      counter-increment: step-counter;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background-color: var(--rs-gray-100);
+      color: var(--rs-text-secondary);
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      z-index: 2;
+    }
+  }
+
+  .rs-doc-step-body {
+    padding-left: 2.5rem;
+  }
+
+  // Code blocks within steps
+  pre {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+  }
+
+  // Dark theme styles
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
+    &::before {
+      background-color: var(--rs-gray-700);
+    }
+
+    .rs-doc-step-header {
+      &::before {
+        background-color: var(--rs-gray-700);
+        color: var(--rs-text-primary);
+      }
     }
   }
 }
