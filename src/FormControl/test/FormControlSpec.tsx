@@ -531,6 +531,23 @@ describe('FormControl', () => {
     });
   });
 
+  describe('Error Message Placement', () => {
+    it('Should render error message with static placement', () => {
+      render(
+        <Form formError={{ name: 'This field is required' }}>
+          <FormControl name="name" errorPlacement="static" />
+        </Form>
+      );
+
+      const errorMessageWrapper = screen
+        .getByRole('alert')
+        .closest('.rs-form-error-message-wrapper');
+
+      expect(errorMessageWrapper).to.exist;
+      expect(errorMessageWrapper).to.have.attr('data-placement', 'static');
+    });
+  });
+
   describe('Accessibility', () => {
     it('Should have a default `id` in FormControl', () => {
       render(

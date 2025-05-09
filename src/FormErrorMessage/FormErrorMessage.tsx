@@ -2,14 +2,14 @@ import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, kebabPlace } from '@/internals/utils';
-import type { PlacementCorners } from '@/internals/types';
+import type { ErrorMessagePlacement } from '@/internals/types';
 
 export interface FormErrorMessageProps extends BoxProps {
   /** Show error messages */
   show?: boolean;
 
   /** The placement of error messages */
-  placement?: PlacementCorners;
+  placement?: ErrorMessagePlacement;
 }
 
 /**

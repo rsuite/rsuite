@@ -204,7 +204,7 @@ HTML:
 
 Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
 
-<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/placement-error-message.md)}-->
 
 ## Hooks
 

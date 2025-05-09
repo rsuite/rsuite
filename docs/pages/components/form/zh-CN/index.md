@@ -185,6 +185,7 @@
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
+
 ### Form ref
 
 | 名称               | 类型                                                                          | 描述                                     |
@@ -203,7 +204,7 @@
 
 Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
 
-<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/placement-error-message.md)}-->
 
 ## Hooks
 
