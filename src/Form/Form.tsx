@@ -99,7 +99,7 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
   /**
    * Callback fired when data changing
    */
-  onChange?: (formValue: V, event?: React.SyntheticEvent) => void;
+  onChange?: (formValue: M, event?: React.SyntheticEvent) => void;
 
   /**
    * Callback fired when error checking
