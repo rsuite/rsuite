@@ -77,4 +77,33 @@ describe('Form', () => {
     expect(screen.getAllByRole('textbox')[0]).to.have.value(values.name);
     expect(screen.getAllByRole('textbox')[1]).to.have.value(values.email);
   });
+
+  it('Should allow using strictly typed setState as onChange without TypeScript error', () => {
+    type FormState = {
+      name: string;
+      code: string;
+      type: string;
+      status: string;
+    };
+
+    const StrictlyTypedSetStateForm = () => {
+      const [formValue, setFormValue] = React.useState<FormState>({
+        name: '',
+        code: '',
+        type: '',
+        status: ''
+      });
+
+      return (
+        <Form formValue={formValue} onChange={setFormValue}>
+          <FormControl name="name" />
+          <FormControl name="code" />
+          <FormControl name="type" />
+          <FormControl name="status" />
+        </Form>
+      );
+    };
+
+    render(<StrictlyTypedSetStateForm />);
+  });
 });
