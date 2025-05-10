@@ -145,6 +145,31 @@ describe('InlineEdit', () => {
     expect(onEdit).to.not.have.been.called;
   });
 
+  it('Should call onFocus and set editing state when not editing', () => {
+    const onFocus = sinon.spy();
+
+    render(<InlineEdit onFocus={onFocus} defaultValue="test value" />);
+
+    const element = screen.getByText('test value');
+    fireEvent.focus(element);
+
+    expect(onFocus).to.have.been.calledOnce;
+    expect(screen.getByRole('textbox')).to.exist;
+  });
+
+  it('Should not call onFocus again if already editing', () => {
+    const onFocus = sinon.spy();
+
+    render(<InlineEdit onFocus={onFocus} defaultValue="test value" />);
+
+    const element = screen.getByText('test value');
+    fireEvent.focus(element);
+    // By the second focus call, isEditing is already set.
+    fireEvent.focus(element);
+
+    expect(onFocus).to.have.been.calledOnce;
+  });
+
   it('Should have a custom size', () => {
     const { container } = render(<InlineEdit size="lg" defaultValue="input something" />);
 
