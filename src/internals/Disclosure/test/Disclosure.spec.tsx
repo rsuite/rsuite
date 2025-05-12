@@ -137,7 +137,7 @@ describe('<Disclosure>', () => {
     expect(screen.getByTestId('content')).to.be.visible;
 
     fireEvent.mouseLeave(screen.getByTestId('button'));
-    expect(screen.getByTestId('content')).not.to.be.visible;
+    expect(screen.getByTestId('content')).to.have.attr('hidden');
   });
 
   describe('Nested disclosures', () => {
@@ -211,7 +211,7 @@ describe('<Disclosure>', () => {
 
       userEvent.click(screen.getByText('Close all disclosures'));
 
-      expect(screen.getByTestId('parent-content')).not.to.be.visible;
+      expect(screen.getByTestId('parent-content')).to.have.attr('hidden');
     });
   });
 

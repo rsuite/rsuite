@@ -47,7 +47,8 @@ async function createConfig() {
         provider: 'playwright',
         instances: [
           {
-            browser: 'chromium'
+            browser: 'chromium',
+            viewport: { width: 1280, height: 800 }
           }
         ]
       }

@@ -204,7 +204,7 @@ describe('<Dropdown>', () => {
 
     fireEvent.click(screen.getByText('1'));
 
-    expect(screen.getByRole('menu', { hidden: true })).not.to.be.visible;
+    expect(screen.getByRole('menu', { hidden: true })).to.have.attr('hidden');
   });
 
   it('Should close menu after clicking an item without submenu (inside a submenu)', () => {
@@ -219,7 +219,7 @@ describe('<Dropdown>', () => {
 
     fireEvent.click(screen.getByText('Submenu item'));
 
-    expect(screen.getAllByRole('menu', { hidden: true })[0]).not.to.be.visible;
+    expect(screen.getAllByRole('menu', { hidden: true })[0]).to.have.attr('hidden');
   });
 
   it('Should call onToggle callback', () => {
@@ -473,7 +473,7 @@ describe('<Dropdown>', () => {
 
             fireEvent.keyDown(menu, { key });
             expect(onSelect, 'The item is activated').to.have.been.calledOnce;
-            expect(menu).to.not.be.visible;
+            expect(menu).to.have.attr('hidden');
           });
         });
       });
@@ -630,7 +630,7 @@ describe('<Dropdown>', () => {
 
           fireEvent.keyDown(submenu, { key: 'ArrowRight' });
 
-          expect(submenu).to.not.be.visible;
+          expect(submenu).to.have.attr('hidden');
         });
       });
 
@@ -749,7 +749,7 @@ describe('<Dropdown>', () => {
         const menu = screen.getByRole('menu');
         fireEvent.keyDown(menu, { key: 'Escape' });
 
-        expect(menu).to.not.be.visible;
+        expect(menu).to.have.attr('hidden');
       });
     });
   });

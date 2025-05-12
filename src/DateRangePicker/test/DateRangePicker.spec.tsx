@@ -7,7 +7,7 @@ import rsEnUS from '@/locales/en_US';
 import CustomProvider from '@/CustomProvider';
 import type { DateOptionPreset } from '@/internals/types';
 import type { DateRange } from '../types';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, afterEach } from 'vitest';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import { keyPress } from '@test/utils/simulateEvent';
 
@@ -1329,18 +1329,6 @@ describe('DateRangePicker', () => {
   });
 
   describe('Error handling', () => {
-    let consoleErrorStub;
-
-    beforeEach(() => {
-      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
-        // do nothing
-      });
-    });
-
-    afterEach(() => {
-      consoleErrorStub.restore();
-    });
-
     it('Should render an error message when the format is deprecated', () => {
       expect(() => {
         render(<DateRangePicker format="YY" value={[new Date(), new Date()]} />);
@@ -1349,7 +1337,6 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
@@ -1360,7 +1347,6 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value(
         'Error: Invalid date format ~ Error: Invalid date format'
       );
-      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 

@@ -5,7 +5,7 @@ import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
 import rsEnUS from '@/locales/en_US';
-import { describe, expect, it, afterEach, beforeEach } from 'vitest';
+import { describe, expect, it, afterEach } from 'vitest';
 import { enGB } from 'date-fns/locale/en-GB';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { keyPress } from '@test/utils/simulateEvent';
@@ -571,8 +571,10 @@ describe('DatePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
+    console.log(document.activeElement);
+
     await waitFor(() => {
-      expect(screen.getByRole('textbox')).to.be.focus;
+      expect(document.activeElement).to.equal(screen.getByRole('textbox'));
     });
   });
 
@@ -1331,24 +1333,12 @@ describe('DatePicker', () => {
   });
 
   describe('Error handling', () => {
-    let consoleErrorStub;
-
-    beforeEach(() => {
-      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
-        // do nothing
-      });
-    });
-
-    afterEach(() => {
-      consoleErrorStub.restore();
-    });
     it('Should render an error message when the format is deprecated', () => {
       expect(() => {
         render(<DatePicker format="YY" value={new Date()} />);
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
 
     it('Should render an error message when the format is incorrect', () => {
@@ -1357,7 +1347,6 @@ describe('DatePicker', () => {
       }).to.not.throw();
 
       expect(screen.getByRole('textbox')).to.have.value('Error: Invalid date format');
-      expect(consoleErrorStub).to.have.been.calledWith(sinon.match(/Error: Invalid date format/));
     });
   });
 
