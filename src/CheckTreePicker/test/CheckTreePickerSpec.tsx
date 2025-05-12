@@ -253,6 +253,49 @@ describe('CheckTreePicker', () => {
     expect(onCleanSpy).to.calledOnce;
   });
 
+  it('Should call `onCascadeChange` with values of children', () => {
+    const onCascadeChange = sinon.spy();
+    render(<CheckTreePicker open data={data} defaultExpandAll onCascadeChange={onCascadeChange} />);
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).to.have.been.calledWith(['tester0', 'tester2']);
+  });
+
+  it('Should call `onCascadeChange` without disabled values', () => {
+    const onCascadeChange = sinon.spy();
+    render(
+      <CheckTreePicker
+        open
+        data={data}
+        disabledItemValues={['tester0']}
+        defaultExpandAll
+        onCascadeChange={onCascadeChange}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).to.have.been.calledWith(['tester2']);
+  });
+
+  it('Should call `onCascadeChange` without uncheckable values', () => {
+    const onCascadeChange = sinon.spy();
+    render(
+      <CheckTreePicker
+        open
+        data={data}
+        uncheckableItemValues={['tester0']}
+        defaultExpandAll
+        onCascadeChange={onCascadeChange}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).to.have.been.calledWith(['tester2']);
+  });
+
   it('Should call `onOpen` callback', () => {
     const onOpenSpy = sinon.spy();
     render(<CheckTreePicker onOpen={onOpenSpy} data={data} />);

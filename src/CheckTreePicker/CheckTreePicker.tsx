@@ -78,6 +78,11 @@ export interface CheckTreePickerProps<V = ValueType>
     selectedNodes: TreeNode[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
+
+  /**
+   * In the cascade case, the leaf node's value change callbacks
+   */
+  onCascadeChange?: (v: ValueType, event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -141,6 +146,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     renderTree = DEPRECATED_renderMenu,
     renderTreeIcon,
     renderTreeNode,
+    onCascadeChange,
     ...rest
   } = propsWithDefaults;
 
@@ -191,6 +197,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     setFocusItemValue(null);
     setValue([]);
     onChange?.([], event);
+    onCascadeChange?.([], event);
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
@@ -209,9 +216,43 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ...rest
   });
 
+  // transform the parent node value to the leaf node value
+  const handleTransValue2Children = useEventCallback((nextSelectedNodes: TreeNode[]) => {
+    return nextSelectedNodes
+      .map((node: TreeNode) => {
+        const currentNode = node.refKey ? flattenedNodes[node.refKey] : null;
+        if (currentNode && currentNode[childrenKey] && currentNode[childrenKey].length) {
+          const childNodes = currentNode[childrenKey].filter((child: TreeNode) => {
+            const childValue = child[valueKey];
+            return (
+              !disabledItemValues.includes(childValue) &&
+              !uncheckableItemValues.includes(childValue)
+            );
+          });
+          return handleTransValue2Children(childNodes);
+        }
+        return node;
+      })
+      .flat();
+  });
+
+  const handleChangeCascade = useEventCallback(
+    (nextValue: ValueType, event: React.SyntheticEvent) => {
+      if (!cascade) {
+        onCascadeChange?.(nextValue, event);
+      } else {
+        const nextSelectedNodes = getSelectedItems(flattenedNodes, nextValue);
+        const childrenNodes = handleTransValue2Children(nextSelectedNodes);
+        const childrenValue = childrenNodes.map((node: TreeNode) => node[valueKey]);
+        onCascadeChange?.(childrenValue, event);
+      }
+    }
+  );
+
   const handleChange = useEventCallback((nextValue: ValueType, event: React.SyntheticEvent) => {
     setValue(nextValue);
     onChange?.(nextValue, event);
+    handleChangeCascade(nextValue, event);
   });
 
   const treeContext = useMemo(
