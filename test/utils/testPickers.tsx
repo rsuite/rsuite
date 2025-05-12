@@ -190,7 +190,6 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.mouseDown(document.body);
 
         expect(onClose).to.have.been.calledOnce;
-
       });
 
       it('Should call onClose when pressing Escape key', () => {

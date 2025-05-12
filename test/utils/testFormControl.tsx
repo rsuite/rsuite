@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { format } from 'date-fns';
 
-
 interface TestFormControlOptions {
   /**
    * The value when the component is controlled.
