@@ -1,4 +1,5 @@
 import tinycolor from 'tinycolor2';
+import { it } from 'vitest';
 import { getPalette } from './getPalette';
 
 export { getStyle } from 'dom-lib';

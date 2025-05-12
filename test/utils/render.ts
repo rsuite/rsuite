@@ -1,4 +1,5 @@
 import { createRoot, Root } from 'react-dom/client';
+import { afterEach } from 'vitest';
 
 const mountedContainers = new Set<HTMLDivElement>();
 const mountedRoots = new Set<Root>();

@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
+import { describe, expect, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
 const majorVersion = parseInt(React.version);
 

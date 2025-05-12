@@ -1,3 +1,5 @@
+import { it } from 'vitest';
+
 export default function dynamicTests(arrayOfTests, generateTestDefinition) {
   arrayOfTests = arrayOfTests || [];
   generateTestDefinition = generateTestDefinition || function () {};

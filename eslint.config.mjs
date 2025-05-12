@@ -15,8 +15,6 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.mocha,
-        ...globals.chai
       }
     }
   },
@@ -47,7 +45,7 @@ export default [
   },
   {
     // Config files and scripts
-    files: ['webpack.*.js', 'gulpfile.js', 'docs/next.config.js', 'docs/scripts/*.js'],
+    files: ['webpack.*.js', 'gulpfile.js', 'docs/next.config.js','postcss.config.cjs', 'docs/scripts/*.js'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off'
     }

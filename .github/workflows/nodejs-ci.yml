@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        browser: [ChromeCi, Firefox]
+        browser: [chromium, firefox]
         react: ['React18', 'React19']
 
     steps:
@@ -62,6 +62,9 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
         run: npm run install:react-18
@@ -71,7 +74,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: xvfb-run --auto-servernum npm run test:ci
+        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless --coverage
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
