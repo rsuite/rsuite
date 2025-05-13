@@ -145,9 +145,14 @@ describe('useToaster', () => {
       { duration: 10 }
     );
 
-    await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
-    });
+    await waitFor(
+      () => {
+        expect(onClose).to.have.been.calledOnce;
+      },
+      {
+        timeout: 500
+      }
+    );
   });
 
   it('Should keep the same reference when useToaster re-renders', async () => {
