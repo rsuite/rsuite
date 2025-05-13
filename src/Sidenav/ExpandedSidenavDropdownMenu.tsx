@@ -9,7 +9,7 @@ import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, createChainedFunction } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import type { SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 

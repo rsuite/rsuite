@@ -14,16 +14,20 @@ describe('Placeholder.Graph', () => {
     expect(screen.getByTestId('p')).to.have.class('rs-placeholder-graph');
   });
 
-  it('Should hava a custom height', () => {
+  it('Should have a custom height', () => {
     render(<PlaceholderGraph height={100} data-testid="p" />);
 
-    expect(screen.getByTestId('p')).to.have.style('height', '100px');
+    expect(screen.getByTestId('p'))
+      .to.have.attr('style')
+      .contains('--rs-placeholder-graph-height: 100px');
   });
 
-  it('Should hava a custom width', () => {
+  it('Should have a custom width', () => {
     render(<PlaceholderGraph width={100} data-testid="p" />);
 
-    expect(screen.getByTestId('p')).to.have.style('width', '100px');
+    expect(screen.getByTestId('p'))
+      .to.have.attr('style')
+      .contains('--rs-placeholder-graph-width: 100px');
   });
 
   it('Should be active', () => {

@@ -1,4 +1,4 @@
-export * from './styles-test';
+export * from './styles';
 export * from './testStandardProps';
 export { testControlledUnControlled } from './testControlledUnControlled';
 export { testFormControl } from './testFormControl';

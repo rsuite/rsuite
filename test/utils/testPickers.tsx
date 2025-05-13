@@ -178,11 +178,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         expect(onOpen).to.have.been.calledOnce;
       });
 
-      it.skip('Should call onClose when clicking outside', async () => {
-        // Skip this test for now as it's causing issues
-        // This is a temporary solution to make the tests pass
-        // The actual implementation works correctly in the browser
-
+      it('Should call onClose when clicking outside', async () => {
         const onClose = sinon.spy();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);

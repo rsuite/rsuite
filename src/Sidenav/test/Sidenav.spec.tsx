@@ -47,7 +47,7 @@ describe('<Sidenav>', () => {
   });
 
   describe('<Dropdown> inside <Sidenav>', () => {
-    it('Should render a disclosure', () => {
+    it('Should render a disclosure', async () => {
       render(
         <Sidenav>
           <Nav>
@@ -59,11 +59,16 @@ describe('<Sidenav>', () => {
       );
 
       // Disclosure content is hidden by default
-      expect(screen.getByText('Dropdown Item')).not.to.be.visible;
+      const dropdownMenu = screen.getByText('Dropdown Item').closest('ul');
+      expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-out');
 
       // Click the disclosure's button to reveal its content
       fireEvent.click(screen.getByText('Dropdown'));
-      expect(screen.getByText('Dropdown Item')).to.be.visible;
+
+      // Wait for the animation to complete
+      await waitFor(() => {
+        expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-in');
+      });
     });
 
     it('Should not render panel when sidenav is not expanded', () => {
@@ -151,9 +156,9 @@ describe('<Sidenav>', () => {
     );
 
     ['1', '2'].forEach(key => {
-      expect(within(screen.getByTestId(`menu-${key}`)).getByRole('group')).to.have.class(
-        'rs-dropdown-menu-collapse-in'
-      );
+      const menuElement = screen.getByTestId(`menu-${key}`);
+      const dropdownMenu = within(menuElement).getAllByRole('group')[0];
+      expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-in');
     });
 
     expect(screen.getByTestId('m-2-2')).not.to.have.attr('aria-expanded', 'true');

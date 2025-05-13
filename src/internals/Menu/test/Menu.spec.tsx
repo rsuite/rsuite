@@ -29,7 +29,7 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    expect(screen.getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).not.to.have.attribute('hidden');
   });
 
   it('Should display/hide menu according to controlled `open` prop', () => {
@@ -51,7 +51,7 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    expect(screen.getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).not.to.have.attribute('hidden');
 
     rerender(
       <Menu
@@ -100,7 +100,7 @@ describe('<Menu>', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(menu).to.be.visible;
+      expect(menu).not.to.have.attribute('hidden');
     });
 
     sinon.spy(button, 'focus');
@@ -108,10 +108,11 @@ describe('<Menu>', () => {
     userEvent.click(screen.getByTestId('div'));
 
     await waitFor(() => {
-      expect(menu).not.to.be.visible;
+      expect(menu).to.have.attribute('hidden');
       expect(button.focus).to.have.been.called;
     });
   });
+
   it('Closes menu but dont move focus to button when clicking on a focusable element outside', async () => {
     render(
       <div>
@@ -139,7 +140,7 @@ describe('<Menu>', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(menu).to.be.visible;
+      expect(menu).not.to.have.attribute('hidden');
     });
 
     sinon.spy(button, 'focus');
@@ -147,7 +148,7 @@ describe('<Menu>', () => {
     userEvent.click(screen.getByTestId('outside-button'));
 
     await waitFor(() => {
-      expect(menu).not.to.be.visible;
+      expect(menu).to.have.attribute('hidden');
       expect(button.focus).not.to.have.been.called;
     });
   });
@@ -173,10 +174,10 @@ describe('<Menu>', () => {
     const menu = screen.getByTestId('menu');
 
     fireEvent.click(button);
-    expect(menu).to.be.visible;
+    expect(menu).not.to.have.attribute('hidden');
 
     fireEvent.blur(screen.getByTestId('container'));
-    expect(menu).not.to.be.visible;
+    expect(menu).to.have.attribute('hidden');
   });
 
   it('Should call onToggleMenu when focus or blur', () => {

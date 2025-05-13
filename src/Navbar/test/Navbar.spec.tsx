@@ -62,11 +62,11 @@ describe('Navbar', () => {
         </Navbar>
       );
 
-      expect(screen.getByText('Company')).not.to.be.visible;
+      expect(screen.getByText('Company').closest('ul')).to.have.attribute('hidden');
 
       // Clicking the button opens the disclosure
       fireEvent.click(screen.getByText('About'));
-      expect(screen.getByText('Company')).to.be.visible;
+      expect(screen.getByText('Company').closest('ul')).not.to.have.attribute('hidden');
     });
 
     it('Should work with submenus', () => {
@@ -85,9 +85,9 @@ describe('Navbar', () => {
       // Opens the disclosure
       fireEvent.click(screen.getByText('Menu'));
 
-      expect(screen.getByText('Submenu item')).not.to.be.visible;
+      expect(screen.getByText('Submenu item').closest('ul')).to.have.attribute('hidden');
       fireEvent.mouseOver(screen.getByText('Submenu'));
-      expect(screen.getByText('Submenu item')).to.be.visible;
+      expect(screen.getByText('Submenu item').closest('ul')).not.to.have.attribute('hidden');
     });
 
     it('Should not get validateDOMNesting warning', () => {
@@ -123,7 +123,7 @@ describe('Navbar', () => {
       fireEvent.click(screen.getByText('About'));
 
       fireEvent.click(screen.getByText('Company'));
-      expect(screen.getByText('Company')).not.to.be.visible;
+      expect(screen.getByText('Company').closest('ul')).to.have.attribute('hidden');
     });
 
     it('Should close dropdown when a submenu item is clicked', () => {
@@ -142,11 +142,11 @@ describe('Navbar', () => {
       // Opens the disclosure
       fireEvent.click(screen.getByText('Menu'));
 
-      expect(screen.getByText('Submenu item')).not.to.be.visible;
+      expect(screen.getByText('Submenu item').closest('ul')).to.have.attribute('hidden');
       fireEvent.mouseOver(screen.getByText('Submenu'));
       fireEvent.click(screen.getByText('Submenu item'));
 
-      expect(screen.getByText('Submenu')).not.to.be.visible;
+      expect(screen.getByText('Submenu').closest('ul')).to.have.attribute('hidden');
     });
 
     it('Should highlight <Dropdown.Item> matching <Nav> `activeKey`', () => {

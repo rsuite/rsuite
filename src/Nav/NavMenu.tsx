@@ -6,7 +6,7 @@ import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
 import { NavbarContext } from '../Navbar';
-import { SidenavContext } from '../Sidenav/Sidenav';
+import { SidenavContext } from '../Sidenav/SidenavContext';
 
 export interface NavMenuProps extends NavDropdownProps, Omit<NavDropdownMenuProps, 'onToggle'> {}
 

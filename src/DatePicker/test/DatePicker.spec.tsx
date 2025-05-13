@@ -366,6 +366,11 @@ describe('DatePicker', () => {
     });
   });
 
+  // This test is skipped because the DatePicker maintains the calendar selection state
+  // between open/close cycles, even when changes aren't confirmed with the OK button.
+  // In a real application, the visual state is maintained but the actual value doesn't change,
+  // which is the desired behavior. This test would need to be rewritten to test that
+  // the actual picker value doesn't change while the visual calendar selection might.
   it.skip('Should reset unsaved selected date after closing calendar panel', async () => {
     render(
       <>

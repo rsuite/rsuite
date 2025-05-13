@@ -63,6 +63,8 @@ describe('InputGroup', () => {
   });
 
   // issue: https://github.com/rsuite/rsuite/issues/3393
+  // This test is being skipped because the SelectPicker doesn't reliably trigger
+  // onClose and onExited callbacks in the test environment when disabled via InputGroup
   it.skip('Should callback onExited and onClose after the InputGroup is disabled ', async () => {
     const onExited = vi.fn();
     const onClose = vi.fn();

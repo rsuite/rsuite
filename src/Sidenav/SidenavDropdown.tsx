@@ -12,7 +12,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { NavMenuContext } from '../Nav/NavMenu';
 import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import type { PlacementCorners, SanitizedHTMListProps } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 

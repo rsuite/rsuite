@@ -11,7 +11,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
 import { useStyles, useCustom, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
-import { SidenavContext } from '../Sidenav/Sidenav';
+import { SidenavContext } from '../Sidenav/SidenavContext';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
 export interface NavProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {

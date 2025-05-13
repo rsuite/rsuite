@@ -10,7 +10,7 @@ import Tooltip from '../Tooltip';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 

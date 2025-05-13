@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil';
 import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import { useStyles } from '@/internals/hooks';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { BoxProps } from '@/internals/Box';

@@ -82,8 +82,11 @@ describe('DatePicker - Toolbar', () => {
   });
 
   it('Should be wrap in ranges', () => {
-    const { container } = render(<Toolbar calendarDate={new Date()} locale={{}} />);
+    render(<Toolbar calendarDate={new Date()} locale={{}} />);
 
-    expect(container.querySelector('.rs-picker-toolbar-ranges')).to.have.style('flex-wrap', 'wrap');
+    expect(screen.getByTestId('daterange-predefined-bottom')).to.have.style(
+      '--rs-stack-wrap',
+      'wrap'
+    );
   });
 });
