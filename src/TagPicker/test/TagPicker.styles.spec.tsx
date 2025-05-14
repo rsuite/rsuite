@@ -3,7 +3,7 @@ import TagPicker from '../index';
 import type { BasicSize } from '@/internals/types';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testPickerSize } from '@test/utils';
+import { testPickerSize } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';

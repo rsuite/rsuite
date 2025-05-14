@@ -2,7 +2,7 @@ import React from 'react';
 import TabPanel from '../TabPanel';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('TabPanel', () => {
   testStandardProps(<TabPanel />);

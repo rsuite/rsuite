@@ -3,7 +3,7 @@ import AvatarGroup from '../AvatarGroup';
 import Avatar from '../../Avatar';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('AvatarGroup', () => {
   testStandardProps(<AvatarGroup />);

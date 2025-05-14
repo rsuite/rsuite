@@ -2,7 +2,8 @@ import React from 'react';
 import Box from '../Box';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps, getStyle, getCssVarValue } from '@test/utils';
+import { getStyle, getCssVarValue } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Box', () => {
   testStandardProps(<Box />, { hasClassPrefix: false });

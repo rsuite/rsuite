@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from '../Avatar';
 import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { testStandardProps, testStyleProps } from '@test/utils';
+import { testStandardProps, testStyleProps } from '@test/cases';
 
 describe('Avatar', () => {
   testStandardProps(<Avatar />);

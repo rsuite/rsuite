@@ -1,19 +1,26 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, ViteUserConfig } from 'vitest/config';
 import { resolve } from 'path';
 
-const { M, F, RUN_ENV } = process.env;
+const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
 
-let testFiles = 'src/**/*.spec.+(js|ts|tsx)';
+let testPatterns: string;
+let testMainDescription: string;
 
 if (M) {
-  testFiles = `src/${M}/test/*.spec.+(js|ts|tsx)`;
+  testPatterns = `src/${M}/test/*.spec.+(js|ts|tsx)`;
+  testMainDescription = `Module tests: ${testPatterns}`;
 } else if (F) {
-  testFiles = F;
+  testPatterns = F; // F is treated as a single file path or glob string
+  testMainDescription = `Specific file/pattern: ${F}`;
+} else {
+  // Default for 'npm run test': only include tests from src directory
+  testPatterns = 'src/**/*.spec.+(js|ts|tsx)';
+  testMainDescription = `Default src patterns: ${testPatterns}`;
 }
 
 console.group('Vitest Config');
 console.log(`Run Environment: ${RUN_ENV}`);
-console.log('Test Main:', testFiles);
+console.log('Test Main:', testMainDescription); // Updated log message
 console.groupEnd();
 
 // Create a function to initialize the config
@@ -26,7 +33,7 @@ async function createConfig() {
   const react = reactModule.default;
   const tsconfigPaths = tsconfigPathsModule.default;
 
-  return defineConfig({
+  const config: ViteUserConfig = {
     define: {
       __DEV__: true
     },
@@ -40,9 +47,22 @@ async function createConfig() {
       }
     },
     test: {
-      include: [testFiles],
-      setupFiles: ['vitest.setup.ts'],
-      browser: {
+      include: [testPatterns],
+      setupFiles: ['vitest.setup.ts']
+      // Browser settings will be conditionally added
+    }
+  };
+
+  if (VITEST_RUNNING_POSTBUILD === 'true') {
+    if (config.test) {
+      config.test.include = ['test/validateBuilds.spec.ts'];
+      config.test.environment = 'node';
+      config.test.browser = { enabled: false }; // Explicitly disable browser mode
+    }
+  } else {
+    // Default browser configuration for other test runs
+    if (config.test) {
+      config.test.browser = {
         enabled: true,
         provider: 'playwright',
         instances: [
@@ -51,9 +71,11 @@ async function createConfig() {
             viewport: { width: 1280, height: 800 }
           }
         ]
-      }
+      };
     }
-  });
+  }
+
+  return defineConfig(config);
 }
 
 // Export the config

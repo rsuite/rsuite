@@ -6,13 +6,12 @@ import Button from '../../Button';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 import '../styles/index.less';
 

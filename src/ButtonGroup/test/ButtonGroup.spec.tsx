@@ -3,7 +3,7 @@ import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('ButtonGroup', () => {
   testStandardProps(<ButtonGroup />);

@@ -9,14 +9,13 @@ import type { DateOptionPreset } from '@/internals/types';
 import type { DateRange } from '../types';
 import { describe, expect, it, afterEach } from 'vitest';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
-import { keyPress } from '@test/utils/simulateEvent';
-
+import { keyPress } from '@test/utils';
 import {
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 import {
   addDays,

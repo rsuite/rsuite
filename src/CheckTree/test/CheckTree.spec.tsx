@@ -4,7 +4,7 @@ import CheckTree from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2', 'tester3']], 'disabled']);
 

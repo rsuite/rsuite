@@ -4,15 +4,14 @@ import sinon from 'sinon';
 import SelectPicker from '../SelectPicker';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { mockGroupData } from '@test/mocks/data-mock';
+import { mockGroupData } from '@test/mocks';
 import { Button } from '../../Button';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 

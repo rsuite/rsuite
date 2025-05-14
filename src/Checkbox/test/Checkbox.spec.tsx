@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Checkbox from '../Checkbox';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Checkbox', () => {
   testStandardProps(<Checkbox />, {

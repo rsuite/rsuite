@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testPickerSize } from '@test/utils';
+import { testPickerSize } from '@test/cases';
 
 import '../styles/index.less';
 

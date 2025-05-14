@@ -5,7 +5,7 @@ import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Modal', () => {
   testStandardProps(<Modal open></Modal>, {

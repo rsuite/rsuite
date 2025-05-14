@@ -5,7 +5,7 @@ import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Uploader', () => {
   testStandardProps(<Uploader action="" />, {

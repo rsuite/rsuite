@@ -4,7 +4,7 @@ import InputAutosize from '../InputAutosize';
 import InputSearch from '../InputSearch';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('InputPicker - InputSearch', () => {
   testStandardProps(<InputSearch />);

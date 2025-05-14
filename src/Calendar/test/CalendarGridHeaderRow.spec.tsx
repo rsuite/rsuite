@@ -3,7 +3,7 @@ import GirdHeaderRow from '../Grid/GridHeaderRow';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Calendar-GirdHeaderRow', () => {
   testStandardProps(<GirdHeaderRow />);

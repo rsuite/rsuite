@@ -4,7 +4,7 @@ import UploadFileItem, { formatSize } from '../UploadFileItem';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 const file = {
   fileKey: 'key',

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Header from '../CalendarHeader';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { CalendarProvider } from '../CalendarProvider';
 
 describe('Calendar-Header', () => {

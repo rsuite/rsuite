@@ -2,7 +2,7 @@ import React from 'react';
 import FlexboxGridItem from '../FlexboxGridItem';
 import Col from '../../Col';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render } from '@testing-library/react';
 
 describe('FlexboxGridItem', () => {

@@ -3,7 +3,7 @@ import Kbd from '../Kbd';
 import type { Size } from '@/internals/types';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Kbd', () => {
   testStandardProps(<Kbd />);

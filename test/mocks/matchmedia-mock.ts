@@ -17,7 +17,7 @@ interface MediaQueryList {
 }
 type MediaQueriesType = { [key: string]: MediaQueryListener[] };
 
-export default class MatchMedia {
+export class MatchMedia {
   private mediaQueries: MediaQueriesType = {};
   private prevMatchMap = new Map<string, boolean>();
 
@@ -218,3 +218,5 @@ export default class MatchMedia {
     delete window.matchMedia;
   }
 }
+
+export default MatchMedia;

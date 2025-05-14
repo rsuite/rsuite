@@ -3,7 +3,7 @@ import FormErrorMessage from '../FormErrorMessage';
 import { describe, expect, it } from 'vitest';
 import { kebabPlace } from '@/internals/utils';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('FormErrorMessage', () => {
   testStandardProps(<FormErrorMessage show />);

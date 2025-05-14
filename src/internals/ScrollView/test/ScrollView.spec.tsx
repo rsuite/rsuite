@@ -2,7 +2,7 @@ import React from 'react';
 import ScrollView from '../ScrollView';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 import '../styles/index.less';
 

@@ -6,7 +6,7 @@ import Rate from '../Rate';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
 import { render, act, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps, testStyleProps } from '@test/utils';
+import { testStandardProps, testStyleProps } from '@test/cases';
 
 describe('Rate', () => {
   testStandardProps(<Rate />);

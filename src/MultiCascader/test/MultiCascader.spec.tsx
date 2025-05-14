@@ -7,13 +7,12 @@ import type { PickerHandle } from '@/internals/Picker';
 import { describe, expect, it } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
-
 import {
   testStandardProps,
   testFormControl,
   testControlledUnControlled,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 

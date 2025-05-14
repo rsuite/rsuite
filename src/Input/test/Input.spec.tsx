@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Input from '../Input';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 
 describe('Input', () => {
   testStandardProps(<Input />, { sizes: ['lg', 'md', 'sm', 'xs'] });

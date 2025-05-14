@@ -5,7 +5,7 @@ import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('<Nav.Item>', () => {
   testStandardProps(<Nav.Item />, {

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import PasswordInput from '../PasswordInput';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('PasswordInput', () => {
   testStandardProps(<PasswordInput />);

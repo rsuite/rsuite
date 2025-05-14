@@ -8,15 +8,14 @@ import rsEnUS from '@/locales/en_US';
 import { describe, expect, it, afterEach } from 'vitest';
 import { enGB } from 'date-fns/locale/en-GB';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
-import { keyPress } from '@test/utils/simulateEvent';
+import { keyPress } from '@test/utils';
 import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 afterEach(() => {
   sinon.restore();

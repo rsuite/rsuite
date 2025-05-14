@@ -4,7 +4,7 @@ import TreeView from '../TreeView';
 import CascadeTree from '../CascadeTree';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);

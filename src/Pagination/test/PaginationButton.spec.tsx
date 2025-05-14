@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('PaginationButton', () => {
   testStandardProps(<PaginationButton eventKey="" />);

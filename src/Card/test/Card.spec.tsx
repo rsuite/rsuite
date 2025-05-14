@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import Card from '../Card';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render, screen } from '@testing-library/react';
 
 describe('Card', () => {

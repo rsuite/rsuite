@@ -6,7 +6,7 @@ import enUS from '@/locales/en_US';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Calendar', () => {
   testStandardProps(<Calendar />);

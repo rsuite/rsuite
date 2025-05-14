@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Carousel from '../Carousel';
 import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Carousel', () => {
   testStandardProps(<Carousel />);

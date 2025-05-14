@@ -7,13 +7,12 @@ import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
 import { PickerHandle } from '@/internals/Picker';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 

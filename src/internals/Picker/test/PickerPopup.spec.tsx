@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import PickerPopup from '../PickerPopup';
 import { describe, expect, it, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('PickerPopup', () => {
   afterEach(() => {

@@ -6,7 +6,7 @@ import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { describe, expect, it } from 'vitest';
 import { format, isValid } from 'date-fns';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { mockClipboardEvent } from '@test/mocks/data-mock';
 import { keyPressTests } from './testUtils';

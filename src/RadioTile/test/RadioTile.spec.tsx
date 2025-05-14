@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import RadioTile from '../RadioTile';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('RadioTile', () => {
   testStandardProps(<RadioTile />);

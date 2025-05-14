@@ -3,7 +3,7 @@ import Radio from '../Radio';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Radio', () => {
   testStandardProps(<Radio />, {

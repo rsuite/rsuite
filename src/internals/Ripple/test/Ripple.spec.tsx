@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Ripple from '../Ripple';
 import { describe, expect, it } from 'vitest';
 import { render, act } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Ripple', () => {
   testStandardProps(<Ripple />);

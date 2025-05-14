@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import List from '../List';
 import { describe, expect, it, afterEach } from 'vitest';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('List', () => {
   afterEach(() => {

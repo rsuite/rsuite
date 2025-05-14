@@ -2,7 +2,7 @@ import React from 'react';
 import AutoComplete from '../AutoComplete';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { render, fireEvent, screen } from '@testing-library/react';
 
 const data = ['item1', 'item2'];

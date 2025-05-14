@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import CascadeTree from '../CascadeTree';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';

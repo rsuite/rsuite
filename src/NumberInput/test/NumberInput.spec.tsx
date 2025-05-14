@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import NumberInput from '../NumberInput';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, act, screen } from '@testing-library/react';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 
 describe('NumberInput', () => {
   testStandardProps(<NumberInput />, {

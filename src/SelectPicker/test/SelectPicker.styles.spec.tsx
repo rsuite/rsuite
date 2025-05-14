@@ -2,7 +2,8 @@ import React from 'react';
 import SelectPicker from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-import { toRGB, testPickerSize } from '@test/utils';
+import { toRGB } from '@test/utils';
+import { testPickerSize } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';

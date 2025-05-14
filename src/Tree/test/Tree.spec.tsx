@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { ListHandle } from '@/internals/Windowing';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 

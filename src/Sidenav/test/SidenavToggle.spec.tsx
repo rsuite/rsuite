@@ -4,7 +4,7 @@ import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Sidenav.Toggle', () => {
   testStandardProps(<SidenavToggle />, {

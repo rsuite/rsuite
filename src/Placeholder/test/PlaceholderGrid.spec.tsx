@@ -2,7 +2,7 @@ import React from 'react';
 import PlaceholderGrid from '../PlaceholderGrid';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Placeholder.Grid', () => {
   testStandardProps(<PlaceholderGrid />);

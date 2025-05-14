@@ -24,7 +24,7 @@
     "build:types-cjs": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && resolve-tspaths --project tsconfig.build.json --out lib/cjs ",
     "build:types-esm": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/esm && resolve-tspaths --project tsconfig.build.json --out lib/esm ",
     "build:types": "npm run build:types-cjs && npm run build:types-esm",
-    "postbuild": "mocha test/validateBuilds.js",
+    "postbuild": "VITEST_RUNNING_POSTBUILD=true vitest run --environment=node test/validateBuilds.spec.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bump-docs": "node scripts/bumpDocsVersion.js",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",

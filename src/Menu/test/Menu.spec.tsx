@@ -4,7 +4,7 @@ import Menu from '../Menu';
 import PageIcon from '@rsuite/icons/Page';
 import { describe, expect, it, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 afterEach(() => {
   sinon.restore();

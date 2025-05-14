@@ -2,9 +2,9 @@ import React from 'react';
 import InputPicker from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { toRGB, testPickerSize } from '@test/utils';
+import { toRGB } from '@test/utils';
+import { testPickerSize } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
-
 import '../styles/index.less';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });

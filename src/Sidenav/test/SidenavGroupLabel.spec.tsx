@@ -1,7 +1,7 @@
 import React from 'react';
 import SidenavGroupLabel from '../SidenavGroupLabel';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render } from '@testing-library/react';
 
 describe('SidenavGroupLabel', () => {

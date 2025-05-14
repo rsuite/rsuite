@@ -9,13 +9,12 @@ import { mockTreeData } from '@test/mocks/data-mock';
 import { KEY_VALUES } from '@/internals/constants';
 import { PickerHandle } from '@/internals/Picker';
 import { ListHandle } from '@/internals/Windowing';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 

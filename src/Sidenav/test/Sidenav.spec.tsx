@@ -5,7 +5,7 @@ import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import { describe, expect, it, afterEach } from 'vitest';
 import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('<Sidenav>', () => {
   afterEach(() => {

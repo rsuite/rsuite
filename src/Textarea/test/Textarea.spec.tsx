@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Textarea from '../Textarea';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 
 describe('Textarea', () => {
   testStandardProps(<Textarea />, { sizes: ['lg', 'md', 'sm', 'xs'] });

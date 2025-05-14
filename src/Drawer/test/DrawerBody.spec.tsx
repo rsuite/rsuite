@@ -2,7 +2,7 @@ import React from 'react';
 import Drawer from '../index';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Drawer.Body', () => {
   testStandardProps(<Drawer.Body />);

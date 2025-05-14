@@ -4,7 +4,7 @@ import Calendar from '../Calendar';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { parseISO } from 'date-fns';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('DateRangePicker - Calendar', () => {
   testStandardProps(<Calendar index={0} />);

@@ -3,7 +3,7 @@ import CheckPicker from '../index';
 import { getWidth } from 'dom-lib';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { testPickerSize } from '@test/utils';
+import { testPickerSize } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';

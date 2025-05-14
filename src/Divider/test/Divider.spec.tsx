@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from '../Divider';
 import Button from '../../Button';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps, testStyleProps } from '@test/utils';
+import { testStandardProps, testStyleProps } from '@test/cases';
 import { render, screen } from '@testing-library/react';
 
 describe('Divider', () => {

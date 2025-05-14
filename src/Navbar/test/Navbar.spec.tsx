@@ -8,7 +8,7 @@ import Tooltip from '../../Tooltip';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, afterEach } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 afterEach(() => {
   sinon.restore();

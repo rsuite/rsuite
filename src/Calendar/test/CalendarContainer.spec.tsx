@@ -4,7 +4,7 @@ import CalendarContainer from '../CalendarContainer';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { enGB, enUS } from '@/locales';
 
 describe('CalendarContainer', () => {

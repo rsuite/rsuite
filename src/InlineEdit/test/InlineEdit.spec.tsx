@@ -7,7 +7,7 @@ import InputPicker from '../../InputPicker';
 import Input from '../../Input';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });

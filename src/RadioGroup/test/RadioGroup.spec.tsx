@@ -4,7 +4,7 @@ import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('RadioGroup', () => {
   testStandardProps(<RadioGroup />);

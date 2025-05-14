@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledBox from '../StyledBox';
 import { describe } from 'vitest';
-import { testStandardProps, testSizeStyle, testColorStyle } from '@test/utils';
+import { testStandardProps, testSizeStyle, testColorStyle } from '@test/cases';
 
 describe('StyledBox', () => {
   testStandardProps(<StyledBox name="box" />, { hasClassPrefix: false });

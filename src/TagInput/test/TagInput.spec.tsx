@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { PickerHandle } from '@/internals/Picker';
 
 describe('TagInput', () => {

@@ -5,13 +5,12 @@ import TimePicker from '../TimePicker';
 import { describe, expect, it, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { format } from 'date-fns';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 afterEach(() => {
   sinon.restore();

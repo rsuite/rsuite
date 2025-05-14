@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 
 describe('<Nav>', () => {

@@ -4,7 +4,7 @@ import Input from '../../Input';
 import FormControlLabel from '../../FormControlLabel';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('FormGroup', () => {
   testStandardProps(<FormGroup />);

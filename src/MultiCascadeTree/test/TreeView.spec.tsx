@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import TreeView from '../TreeView';
 import MultiCascadeTree from '../MultiCascadeTree';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 

@@ -7,13 +7,12 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { format } from 'date-fns/format';
 import { startOfToday } from 'date-fns/startOfToday';
 import { addHours } from 'date-fns/addHours';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 afterEach(() => {
   sinon.restore();

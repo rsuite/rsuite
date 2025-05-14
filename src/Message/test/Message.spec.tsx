@@ -4,7 +4,7 @@ import Message from '../Message';
 import ToastContext from '../../toaster/ToastContext';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Message', () => {
   testStandardProps(<Message />);

@@ -2,7 +2,7 @@ import React from 'react';
 import PlaceholderParagraph from '../PlaceholderParagraph';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Placeholder.Paragraph', () => {
   testStandardProps(<PlaceholderParagraph />);

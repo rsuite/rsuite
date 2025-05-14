@@ -2,7 +2,7 @@ import React from 'react';
 import ModalBody from '../ModalBody';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 const modalBodyText = 'Test';
 describe('ModalBody', () => {

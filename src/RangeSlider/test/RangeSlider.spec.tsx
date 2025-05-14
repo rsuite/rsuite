@@ -5,7 +5,7 @@ import RangeSlider from '../RangeSlider';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { addStyle } from 'dom-lib';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 import '../../Slider/styles/index.less';
 

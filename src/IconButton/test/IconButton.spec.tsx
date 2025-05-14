@@ -2,7 +2,7 @@ import React from 'react';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import IconButton from '../IconButton';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render, screen } from '@testing-library/react';
 
 describe('IconButton', () => {

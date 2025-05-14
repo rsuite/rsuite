@@ -13,7 +13,7 @@ import {
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {
   role: 'Master',

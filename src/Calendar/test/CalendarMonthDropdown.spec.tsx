@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { getYear } from 'date-fns';
 import { CalendarProvider } from '../CalendarProvider';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Calendar-MonthDropdown', () => {
   testStandardProps(<MonthDropdown show />);

@@ -8,7 +8,7 @@ import Popover from '../../Popover';
 import Whisper from '../../Whisper';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('<Dropdown.Menu>', () => {
   testStandardProps(<DropdownMenu />);

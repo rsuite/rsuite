@@ -8,13 +8,12 @@ import { describe, expect, it } from 'vitest';
 import { render, waitFor, fireEvent, act, screen } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 import { mockTreeData } from '@test/mocks/data-mock';
-
 import {
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
-} from '@test/utils';
+} from '@test/cases';
 
 import '../styles/index.less';
 

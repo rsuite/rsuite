@@ -2,7 +2,7 @@ import React from 'react';
 import Plaintext from '../Plaintext';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('Plaintext', () => {
   testStandardProps(<Plaintext />);

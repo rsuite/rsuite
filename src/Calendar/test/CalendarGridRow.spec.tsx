@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { getDate, format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { isToday } from 'date-fns';
 
 describe('Calendar-GridRow', () => {

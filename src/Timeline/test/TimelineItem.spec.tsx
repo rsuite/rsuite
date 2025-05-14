@@ -2,7 +2,7 @@ import React from 'react';
 import TimelineItem from '../TimelineItem';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 
 describe('TimelineItem', () => {
   testStandardProps(<TimelineItem />);

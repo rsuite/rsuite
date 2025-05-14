@@ -3,7 +3,7 @@ import Container from '../Container';
 import Sidebar from '../../Sidebar';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { waitFor } from '@testing-library/react';
 
 describe('Container', () => {

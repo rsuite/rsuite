@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import Slider from '../Slider';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { testStandardProps, getStyle } from '@test/utils';
+import { testStandardProps } from '@test/cases';
+import { getStyle } from '@test/utils';
 
 describe('Slider', () => {
   testStandardProps(<Slider />);

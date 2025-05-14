@@ -1,7 +1,7 @@
 import React from 'react';
 import StatGroup from '../StatGroup';
 import { describe, expect, it } from 'vitest';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/cases';
 import { render } from '@testing-library/react';
 
 describe('StatGroup', () => {

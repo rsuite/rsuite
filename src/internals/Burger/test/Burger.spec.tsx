@@ -3,7 +3,7 @@ import Burger from '../Burger';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { testStandardProps, testColorStyle } from '@test/utils';
+import { testStandardProps, testColorStyle } from '@test/cases';
 
 describe('Burger', () => {
   testStandardProps(<Burger />);
