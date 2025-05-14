@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import TimeRangePicker from '../TimeRangePicker';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { format } from 'date-fns/format';
 import { startOfToday } from 'date-fns/startOfToday';
@@ -13,10 +13,6 @@ import {
   testFormControl,
   testPickers
 } from '@test/cases';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('TimeRangePicker', () => {
   testStandardProps(<TimeRangePicker />, {

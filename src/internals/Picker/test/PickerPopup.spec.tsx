@@ -1,15 +1,10 @@
 import React from 'react';
-import sinon from 'sinon';
 import PickerPopup from '../PickerPopup';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
 describe('PickerPopup', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
-
   testStandardProps(<PickerPopup />);
   it('Should render a popup', () => {
     render(<PickerPopup data-testid="overlay" />);

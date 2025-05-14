@@ -1,10 +1,6 @@
 import sinon from 'sinon';
 import ajaxUpload from '../utils/ajaxUpload';
-import { describe, expect, it, afterEach } from 'vitest';
-
-afterEach(() => {
-  sinon.restore();
-});
+import { describe, expect, it } from 'vitest';
 
 describe('Uploader/utils/ajaxUpload', () => {
   it('Should upload a FormData', () => {

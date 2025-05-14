@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react';
-import sinon from 'sinon';
 import toaster from '../toaster';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { screen, render, waitFor } from '@testing-library/react';
 
 const element = document.createElement('div');
 document.body.appendChild(element);
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('toaster', () => {
   it('Should push a message', async () => {

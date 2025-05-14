@@ -5,12 +5,8 @@ import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
 import Message from '../../Message';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { screen, render, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('useToaster', () => {
   it('Should push a message', () => {

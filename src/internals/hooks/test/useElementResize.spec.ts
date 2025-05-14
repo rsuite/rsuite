@@ -1,11 +1,7 @@
 import sinon from 'sinon';
 import useElementResize from '../useElementResize';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('internals/hooks/useElementResize', () => {
   it('should be defined', () => {

@@ -2,12 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Menu from '../Menu';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('<Menu>', () => {
   it('Should open menu initially when defaultOpen=true', () => {

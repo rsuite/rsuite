@@ -1,11 +1,7 @@
 import sinon from 'sinon';
 import useTimeout from '../useTimeout';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('internals/hooks/useTimeout', () => {
   it('Should return clear and reset functions', () => {

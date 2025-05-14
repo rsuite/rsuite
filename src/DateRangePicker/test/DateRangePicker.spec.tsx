@@ -7,7 +7,7 @@ import rsEnUS from '@/locales/en_US';
 import CustomProvider from '@/CustomProvider';
 import type { DateOptionPreset } from '@/internals/types';
 import type { DateRange } from '../types';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import { keyPress } from '@test/utils';
 import {
@@ -45,10 +45,6 @@ function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seco
   expect(minuteNode).to.be.attribute('aria-selected', 'true');
   expect(secondNode).to.be.attribute('aria-selected', 'true');
 }
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('DateRangePicker', () => {
   testStandardProps(<DateRangePicker />, {

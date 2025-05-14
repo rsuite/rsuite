@@ -5,14 +5,10 @@ import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 import { KEY_VALUES } from '@/internals/constants';
 import { testStandardProps } from '@test/cases';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 /**
  * @param ui

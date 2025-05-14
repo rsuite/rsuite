@@ -2,13 +2,9 @@ import React from 'react';
 import sinon from 'sinon';
 import Menu from '../Menu';
 import PageIcon from '@rsuite/icons/Page';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('Menu', () => {
   testStandardProps(<Menu />);

@@ -5,7 +5,7 @@ import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
 import rsEnUS from '@/locales/en_US';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { enGB } from 'date-fns/locale/en-GB';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { keyPress } from '@test/utils';
@@ -16,10 +16,6 @@ import {
   testFormControl,
   testPickers
 } from '@test/cases';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('DatePicker', () => {
   testStandardProps(<DatePicker />, {
@@ -574,8 +570,6 @@ describe('DatePicker', () => {
     render(<DatePicker defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
-
-    console.log(document.activeElement);
 
     await waitFor(() => {
       expect(document.activeElement).to.equal(screen.getByRole('textbox'));

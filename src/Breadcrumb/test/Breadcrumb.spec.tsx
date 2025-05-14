@@ -1,13 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps, testSizeStyle } from '@test/cases';
-
-afterEach(() => {
-  sinon.restore();
-});
 
 describe('Breadcrumb', () => {
   testStandardProps(<Breadcrumb />);
