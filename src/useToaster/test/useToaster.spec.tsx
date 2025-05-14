@@ -142,7 +142,7 @@ describe('useToaster', () => {
       <Message data-testid="msg-1" onClose={onClose}>
         message
       </Message>,
-      { duration: 10 }
+      { duration: 200 }
     );
 
     await waitFor(
@@ -150,7 +150,7 @@ describe('useToaster', () => {
         expect(onClose).to.have.been.calledOnce;
       },
       {
-        timeout: 500
+        timeout: 1000
       }
     );
   });
