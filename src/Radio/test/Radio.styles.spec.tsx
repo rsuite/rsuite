@@ -2,12 +2,12 @@ import React from 'react';
 import Radio from '../index';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import { toRGB, itChrome } from '@test/utils';
+import { toRGB } from '@test/utils';
 
 import '../styles/index.less';
 
 describe('Radio styles', () => {
-  itChrome('Should render the correct border', () => {
+  it('Should render the correct border', () => {
     const { container } = render(<Radio />);
 
     const inner = container.querySelector('.rs-radio-inner') as HTMLElement;

@@ -3,7 +3,7 @@ import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { getStyle, itChrome } from '@test/utils';
+import { getStyle } from '@test/utils';
 
 import '../../Button/styles/index.less';
 import '../styles/index.less';
@@ -22,7 +22,7 @@ describe('Button Group styles', () => {
     );
   });
 
-  itChrome('Should render the correct padding', () => {
+  it('Should render the correct padding', () => {
     render(
       <ButtonGroup size="lg">
         <Button data-testid="button">Text</Button>

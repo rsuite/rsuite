@@ -3,7 +3,7 @@ import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { getDefaultPalette, toRGB, itChrome } from '@test/utils';
+import { getDefaultPalette, toRGB } from '@test/utils';
 
 import '../styles/index.less';
 
@@ -43,7 +43,7 @@ describe('Button styles', () => {
     expect(screen.getByRole('button')).to.have.style('color', H700);
   });
 
-  itChrome('Button should render the correct padding', () => {
+  it('Button should render the correct padding', () => {
     render(
       <ButtonToolbar>
         <Button size="lg">Large</Button>

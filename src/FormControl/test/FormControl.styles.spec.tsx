@@ -1,15 +1,14 @@
 import React from 'react';
 import FormControl from '../index';
 import Form from '../../Form';
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { toRGB, itChrome } from '@test/utils';
-
+import { toRGB } from '@test/utils';
 import '../../Input/styles/index.less';
 import '../styles/index.less';
 
 describe('Form control styles', () => {
-  itChrome('Should render the correct styles', () => {
+  it('Should render the correct styles', () => {
     render(
       <Form>
         <FormControl name="name" />

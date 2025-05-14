@@ -1,13 +1,11 @@
 import React from 'react';
 import PlaceholderGrid from '../PlaceholderGrid';
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { itChrome } from '@test/utils';
-
 import '../styles/index.less';
 
 describe('Placeholder.Grid styles', () => {
-  itChrome('Should render the correct styles', () => {
+  it('Should render the correct styles', () => {
     render(<PlaceholderGrid data-testid="p" />);
 
     const firstCol = screen

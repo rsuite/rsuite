@@ -1,13 +1,12 @@
 import React from 'react';
 import FormErrorMessage from '../index';
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { toRGB, itChrome } from '@test/utils';
-
+import { toRGB } from '@test/utils';
 import '../styles/index.less';
 
 describe('FormErrorMessage styles', () => {
-  itChrome('Should render the correct styles', () => {
+  it('Should render the correct styles', () => {
     render(
       <div className="rs-form-control-wrapper">
         <FormErrorMessage show data-testid="error">

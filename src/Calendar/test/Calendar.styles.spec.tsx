@@ -2,7 +2,7 @@ import React from 'react';
 import Calendar from '../Calendar';
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { getDefaultPalette, itChrome, toRGB } from '@test/utils';
+import { getDefaultPalette, toRGB } from '@test/utils';
 import { CalendarState } from '../hooks';
 
 import '../styles/index.less';
@@ -55,7 +55,7 @@ describe('Calendar styles', () => {
     expect(selectedCell).to.have.style('color', toRGB('#fff'));
   });
 
-  itChrome('Should be bordered on cell', () => {
+  it('Should be bordered on cell', () => {
     render(<Calendar bordered value={new Date('2024-05-01')} />);
 
     expect(screen.getByRole('gridcell', { name: '01 May 2024' })).to.have.style(
@@ -64,7 +64,7 @@ describe('Calendar styles', () => {
     );
   });
 
-  itChrome('Should be bordered on month row', () => {
+  it('Should be bordered on month row', () => {
     render(<Calendar defaultState={CalendarState.MONTH} bordered value={new Date('2024-05-01')} />);
 
     expect(screen.queryByRole('row', { name: '2024' })).to.have.style(

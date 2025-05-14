@@ -2,7 +2,7 @@ import React from 'react';
 import Panel from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { toRGB, inChrome, itChrome } from '@test/utils';
+import { toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 
@@ -13,7 +13,7 @@ describe('Panel styles', () => {
     expect(screen.getByTestId('panel')).to.have.style('overflow', 'hidden');
   });
 
-  itChrome('Should render the correct border', () => {
+  it('Should render the correct border', () => {
     render(<Panel data-testid="panel" bordered />);
     expect(screen.getByTestId('panel')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
   });
