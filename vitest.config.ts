@@ -34,6 +34,7 @@ async function createConfig() {
   const tsconfigPaths = tsconfigPathsModule.default;
 
   const config: ViteUserConfig = {
+    base: './',
     define: {
       __DEV__: true
     },
