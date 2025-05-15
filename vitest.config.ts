@@ -1,4 +1,4 @@
-import { defineConfig, ViteUserConfig } from 'vitest/config';
+import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/config';
 import { resolve } from 'path';
 
 const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
@@ -37,7 +37,7 @@ async function createConfig() {
     define: {
       __DEV__: true
     },
-    plugins: [tsconfigPaths(), react()],
+    plugins: [tsconfigPaths({ ignoreConfigErrors: true }), react()],
     resolve: {
       alias: {
         '@test': resolve(__dirname, './test'),
@@ -48,8 +48,19 @@ async function createConfig() {
     },
     test: {
       include: [testPatterns],
-      setupFiles: ['vitest.setup.ts']
-      // Browser settings will be conditionally added
+      setupFiles: ['vitest.setup.ts'],
+      coverage: {
+        provider: 'istanbul',
+        exclude: [
+          ...coverageConfigDefaults.exclude,
+          'docs/**',
+          'examples/**',
+          'storybook/**',
+          'src/**/stories/**',
+          '**/*.js',
+          '**/*.cjs'
+        ]
+      }
     }
   };
 
