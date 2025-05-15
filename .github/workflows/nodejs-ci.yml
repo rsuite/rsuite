@@ -50,6 +50,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+
+      - name: Free disk space on runner
+        if: runner.os == 'Linux' # ubuntu-latest is Linux
+        run: |
+          echo "Initial disk space:"
+          df -h
+          sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
+          sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
+          sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
+          sudo apt-get clean || echo "apt-get clean failed"
+          echo "Disk space after cleanup:"
+          df -h
+
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
@@ -63,7 +76,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
