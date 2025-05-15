@@ -8,14 +8,10 @@ on:
     branches:
       - main
       - next
-      - v4
-      - '*.x'
   pull_request:
     branches:
       - main
       - next
-      - v4
-      - '*.x'
 
 jobs:
   lint:
@@ -56,10 +52,17 @@ jobs:
         run: |
           echo "Initial disk space:"
           df -h
+          sudo docker image prune -a -f || echo "Docker image prune failed or Docker not available"
           sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
           sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
           sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
-          sudo apt-get clean || echo "apt-get clean failed"
+          sudo rm -rf /usr/local/share/powershell || echo "Failed to remove powershell or it doesn't exist"
+          sudo rm -rf /usr/local/share/rust || echo "Failed to remove rust or it doesn't exist"
+          sudo rm -rf /opt/hostedtoolcache || echo "Failed to remove hostedtoolcache"
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo rm -rf /var/lib/apt/lists/*
+          npm cache clean --force || echo "npm cache clean failed"
           echo "Disk space after cleanup:"
           df -h
 
@@ -87,7 +90,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless --no-file-parallelism --browser.fileParallelism=false --maxConcurrency=1 --bail=1 --reporter=verbose --printConsoleTrace
+        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
