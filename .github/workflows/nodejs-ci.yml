@@ -87,7 +87,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless --no-file-parallelism --browser.fileParallelism=false --maxConcurrency=1 --bail=1 --reporter=verbose --printConsoleTrace
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
