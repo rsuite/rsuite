@@ -1,6 +1,9 @@
-@import '../../styles/common';
-@import 'mixin';
-@import 'grid-framework';
+@import '../../styles/common.less';
+@import './mixin.less';
+@import './grid-framework.less';
+@import './variables.less';
+@import './row.less';
+@import './columns.less';
 
 //
 // Grid system
@@ -59,33 +62,17 @@
   .make-grid(sm);
 }
 
-// Medium grid
-//
-// Columns, offsets, pushes, and pulls for the desktop device range.
-
 @media (min-width: @screen-md) {
   .make-grid(md);
 }
-
-// Large grid
-//
-// Columns, offsets, pushes, and pulls for the large desktop device range.
 
 @media (min-width: @screen-lg) {
   .make-grid(lg);
 }
 
-// Extra Large grid
-//
-// Columns, offsets, pushes, and pulls for the large desktop device range.
-
 @media (min-width: @screen-xl) {
   .make-grid(xl);
 }
-
-// Extra extra Large grid
-//
-// Columns, offsets, pushes, and pulls for the large desktop device range.
 
 @media (min-width: @screen-xxl) {
   .make-grid(xxl);

@@ -2,7 +2,7 @@
 
 ```js
 import { DateRangePicker } from 'rsuite';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 
 const App = () => {
   return (

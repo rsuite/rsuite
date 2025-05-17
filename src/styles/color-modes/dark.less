@@ -41,7 +41,7 @@
       --rs-@{color-name}-50: @@color-name-50;
 
       each(range(9), {
-        @level: @{index}00;
+        @level: ~'@{index}00';
         @color-name-level: ~'@{color-name}-@{level}-dark';
         --rs-@{color-name}-@{level}: @@color-name-level;
       });
@@ -76,11 +76,15 @@
   --rs-bg-active: var(--rs-primary-700);
   --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 80%);
   --rs-state-hover-bg: var(--rs-gray-600);
-  --rs-color-focus-ring: 0 0 0 3px rgb(from var(--rs-gray-500) r g b / 25%);
-  --rs-state-focus-shadow: 0 0 0 3px rgb(from var(--rs-gray-500) r g b / 25%);
-  --rs-state-focus-outline: 3px solid rgb(from var(--rs-gray-500) r g b / 25%);
-  --rs-state-error-outline: 3px solid rgb(from var(--rs-color-red) r g b / 25%);
-  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-color-focus-ring: 0 0 0 2px rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-state-focus-shadow: 0 0 0 2px rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-state-focus-outline: 2px solid rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-state-error-outline: 2px solid rgb(from var(--rs-color-red) r g b / 25%);
+
+  // Kbd
+  --rs-kbd-bg: var(--rs-gray-600);
+  --rs-kbd-text: var(--rs-gray-50);
+  --rs-kbd-border: var(--rs-gray-700);
 
   // Scrollbar
   --rs-scrollbar-bg: transparent;
@@ -90,6 +94,7 @@
   // Button
   --rs-btn-default-bg: var(--rs-gray-600);
   --rs-btn-default-text: var(--rs-gray-50);
+  --rs-btn-default-border-color: var(--rs-gray-700);
   --rs-btn-default-hover-bg: var(--rs-gray-500);
   --rs-btn-default-active-bg: var(--rs-gray-300);
   --rs-btn-default-active-text: var(--rs-gray-0);
@@ -97,6 +102,7 @@
   --rs-btn-default-disabled-text: var(--rs-gray-400);
   --rs-btn-primary-bg: var(--rs-primary-700);
   --rs-btn-primary-text: var(--rs-gray-0);
+  --rs-btn-primary-border-color: var(--rs-primary-800);
   --rs-btn-primary-hover-bg: var(--rs-primary-600);
   --rs-btn-primary-active-bg: var(--rs-primary-400);
   --rs-btn-subtle-text: var(--rs-gray-200);
@@ -174,14 +180,11 @@
   --rs-breadcrumb-item-active-text: #fff;
 
   // Dropdown
-  --rs-dropdown-divider: var(--rs-gray-600);
-  --rs-dropdown-item-bg-hover: var(--rs-gray-600);
-  --rs-dropdown-item-bg-active: rgb(from var(--rs-primary-900) r g b / 20%);
-  --rs-dropdown-item-text-active: var(--rs-primary-500);
   --rs-dropdown-header-text: var(--rs-gray-500);
-  --rs-dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
 
-  // ARIA menu
+  // Menu
+  --rs-menuitem-bg-active: rgb(from var(--rs-primary-900) r g b / 20%);
+  --rs-menuitem-text-active: var(--rs-primary-500);
   --rs-menuitem-active-bg: var(--rs-gray-600);
   --rs-menuitem-active-text: currentColor;
 
@@ -234,20 +237,25 @@
   --rs-sidenav-default-bg: var(--rs-gray-800);
   --rs-sidenav-default-text: var(--rs-gray-200);
   --rs-sidenav-default-selected-text: var(--rs-primary-500);
+  --rs-sidenav-default-selected-bg: var(--rs-gray-700);
   --rs-sidenav-default-hover-bg: var(--rs-gray-700);
   --rs-sidenav-default-hover-text: var(--rs-gray-50);
   --rs-sidenav-default-footer-border: var(--rs-gray-600);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-600);
   --rs-sidenav-inverse-bg: var(--rs-primary-700);
   --rs-sidenav-inverse-text: #fff;
-  --rs-sidenav-inverse-selected-bg: var(--rs-primary-400);
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-600);
   --rs-sidenav-inverse-hover-bg: var(--rs-primary-600);
   --rs-sidenav-inverse-footer-border: var(--rs-primary-600);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-primary-500);
   --rs-sidenav-subtle-bg: transparent;
   --rs-sidenav-subtle-text: var(--rs-gray-200);
   --rs-sidenav-subtle-selected-text: var(--rs-primary-500);
+  --rs-sidenav-subtle-selected-bg: var(--rs-gray-700);
   --rs-sidenav-subtle-hover-bg: var(--rs-gray-700);
   --rs-sidenav-subtle-hover-text: var(--rs-gray-50);
   --rs-sidenav-subtle-footer-border: var(--rs-gray-600);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-600);
 
   // Input
   --rs-input-bg: var(--rs-gray-800);
@@ -287,10 +295,10 @@
 
   // Rate
   --rs-rate-symbol: var(--rs-gray-600);
-  --rs-rate-symbol-checked: var(--rs-yellow-500);
+  --rs-rate-color: var(--rs-yellow-500);
 
   // Toggle
-  --rs-toggle-bg: var(--rs-gray-400);
+  --rs-toggle-bg: var(--rs-gray-500);
   --rs-toggle-thumb: #fff;
   --rs-toggle-hover-bg: var(--rs-gray-300);
   --rs-toggle-disabled-bg: var(--rs-gray-600);
@@ -326,9 +334,7 @@
   // Badge
   --rs-badge-bg: var(--rs-color-red);
   --rs-badge-text: var(--rs-gray-0);
-
-  // Close Button
-  --rs-close-button-hover-color: var(--rs-color-red);
+  --rs-badge-border: var(--rs-gray-900);
 
   // Tag
   --rs-tag-bg: var(--rs-gray-600);
@@ -341,9 +347,6 @@
   --rs-carousel-indicator: rgb(from var(--rs-gray-0) r g b / 40%);
   --rs-carousel-indicator-hover: var(--rs-gray-0);
   --rs-carousel-indicator-active: var(--rs-primary-500);
-
-  // Panel
-  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // List
   --rs-list-bg: var(--rs-gray-900);
@@ -365,12 +368,6 @@
   --rs-table-scrollbar-thumb: var(--rs-gray-200);
   --rs-table-scrollbar-thumb-active: var(--rs-gray-100);
   --rs-table-scrollbar-vertical-track: var(--rs-gray-700);
-
-  // Drawer
-  --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
-
-  // Modal
-  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Form
   --rs-form-errormessage-text: #fff;
@@ -407,9 +404,9 @@
   @supports not (color: rgb(from white r g b)) {
     // Misc
     --rs-bg-backdrop: fade(@B900-dark, 80%);
-    --rs-color-focus-ring: 0 0 0 3px fade(@H500-dark, 25%);
-    --rs-state-focus-shadow: 0 0 0 3px fade(@H500-dark, 25%);
-    --rs-state-focus-outline: 3px solid fade(@H500-dark, 25%);
+    --rs-color-focus-ring: 0 0 0 2px fade(@H500-dark, 25%);
+    --rs-state-focus-shadow: 0 0 0 2px fade(@H500-dark, 25%);
+    --rs-state-focus-outline: 2px solid fade(@H500-dark, 25%);
 
     // Loader
     --rs-loader-ring: fade(@B050-dark, 30);
@@ -418,7 +415,7 @@
     --rs-loader-backdrop-inverse: fade(@B000-dark, 90);
 
     // Dropdown
-    --rs-dropdown-item-bg-active: fade(@H900-dark, 20);
+    --rs-menuitem-bg-active: fade(@H900-dark, 20);
 
     // ARIA Listboxes
     --rs-listbox-option-selected-bg: fade(@H900-dark, 20%);

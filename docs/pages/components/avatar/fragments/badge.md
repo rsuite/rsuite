@@ -4,7 +4,7 @@
 import { AvatarGroup, Badge, Avatar } from 'rsuite';
 
 const App = () => (
-  <AvatarGroup>
+  <AvatarGroup spacing={20}>
     <Badge>
       <Avatar src="https://i.pravatar.cc/150?u=1" />
     </Badge>

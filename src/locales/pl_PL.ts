@@ -1,4 +1,4 @@
-import pl from 'date-fns/locale/pl';
+import { pl } from 'date-fns/locale/pl';
 
 const DateTimeFormats = {
   sunday: 'Ndz',

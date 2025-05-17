@@ -1,6 +1,6 @@
 import React from 'react';
-import { TagInput } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { TagInput, VStack } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -8,5 +8,5 @@ const inDocsComponents = {
 };
 
 export default function Page() {
-  return <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ TagInput }} />;
+  return <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ TagInput, VStack }} />;
 }

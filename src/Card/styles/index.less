@@ -6,11 +6,12 @@
 
 .rs-card {
   --rs-card-width: 100%;
-  --rs-card-padding: 16px;
+  --rs-card-padding: calc(var(--rs-spacing) * 4);
+  --rs-card-shadow: var(--rs-shadow-md);
 
   display: flex;
   flex-direction: column;
-  border-radius: 6px;
+  border-radius: var(--rs-radius-md);
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
@@ -22,24 +23,24 @@
   }
 
   &-shaded {
-    box-shadow: var(--rs-panel-shadow);
+    box-shadow: var(--rs-card-shadow);
   }
 
   &-shaded-hover:hover {
-    box-shadow: var(--rs-panel-shadow);
+    box-shadow: var(--rs-card-shadow);
     cursor: pointer;
   }
 
   &-sm {
-    --rs-card-padding: 8px;
+    --rs-card-padding: calc(var(--rs-spacing) * 2);
   }
 
   &-md {
-    --rs-card-padding: 16px;
+    --rs-card-padding: calc(var(--rs-spacing) * 4);
   }
 
   &-lg {
-    --rs-card-padding: 24px;
+    --rs-card-padding: calc(var(--rs-spacing) * 6);
   }
 
   &-row {

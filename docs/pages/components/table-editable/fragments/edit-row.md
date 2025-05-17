@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table, Button, IconButton, Input, DatePicker, InputNumber } from 'rsuite';
+import { Table, Button, IconButton, Input, DatePicker, NumberInput } from 'rsuite';
 import { VscEdit, VscSave, VscRemove } from 'react-icons/vsc';
 import { mockUsers } from './mock';
 
@@ -101,7 +101,7 @@ function toValueString(value, dataType) {
 
 const fieldMap = {
   string: Input,
-  number: InputNumber,
+  number: NumberInput,
   date: DatePicker
 };
 

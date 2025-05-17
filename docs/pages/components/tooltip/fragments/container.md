@@ -45,7 +45,7 @@ const App = () => (
         trigger="click"
         container={getContainer}
         speaker={
-          <Tooltip style={{ width: 120 }}>
+          <Tooltip w={120}>
             This is a <i>tooltip</i> .
           </Tooltip>
         }

@@ -1,26 +1,28 @@
-import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import canUseDOM from 'dom-lib/canUseDOM';
-import pick from 'lodash/pick';
+import { useSyncExternalStore, useCallback, useRef, useMemo } from 'react';
+import { createBreakpoints } from './breakpoints';
+import type { BreakpointMap, Query } from './types';
 
-export const mediaQuerySizeMap = {
-  xs: '(max-width: 575px)',
-  sm: '(min-width: 576px)',
-  md: '(min-width: 768px)',
-  lg: '(min-width: 992px)',
-  xl: '(min-width: 1200px)',
-  xxl: '(min-width: 1400px)'
+// Basic breakpoint values definition
+const breakpointValues: BreakpointMap = {
+  xs: '0px',
+  sm: '576px',
+  md: '768px',
+  lg: '992px',
+  xl: '1200px',
+  xxl: '1400px',
+  '2xl': '1400px'
 };
 
-interface MediaQuery {
-  matches: boolean;
-  media: string;
-}
+// Create enhanced breakpoint system
+const breakpointSystem = createBreakpoints(breakpointValues);
+
+// Create media query map that combines legacy breakpoints with enhanced conditions
+const mediaQuerySizeMap = breakpointSystem.createMediaQueryMap();
 
 /**
- * The type of the query parameter.
+ * Create a MediaQueryList object or a mock for server-side rendering
  */
-export type Query = string | keyof typeof mediaQuerySizeMap;
-
 const matchMedia = (query: string) => {
   if (canUseDOM) {
     return window.matchMedia(query);
@@ -33,60 +35,25 @@ const matchMedia = (query: string) => {
 };
 
 /**
- * React hook that tracks state of a CSS media query.
- * @see https://rsuitejs.com/components/use-media-query
- */
-export function useMediaQueryOld(query: Query | Query[]): boolean[] {
-  const queries = Array.isArray(query) ? query : [query];
-  const mediaQueries = useMemo(
-    () => queries.map(query => mediaQuerySizeMap[query] || query),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...queries]
-  );
-
-  const [mediaQueryArray, setMediaQueryArray] = useState<MediaQuery[]>(() =>
-    mediaQueries.map(query => pick(matchMedia(query), ['matches', 'media']))
-  );
-
-  function handleChange(event: MediaQueryListEvent) {
-    setMediaQueryArray((prevMediaQueryArray: MediaQuery[]) => {
-      return prevMediaQueryArray.map(item => {
-        return item.media === event.media ? { ...item, matches: event.matches } : item;
-      });
-    });
-  }
-
-  useEffect(() => {
-    const mediaQueryList = mediaQueries.map(query => matchMedia(query));
-
-    mediaQueryList.forEach(query => {
-      query.addEventListener('change', handleChange);
-    });
-
-    return () => {
-      mediaQueryList.forEach(query => {
-        query.removeEventListener('change', handleChange);
-      });
-    };
-  }, [mediaQueries]);
-
-  return mediaQueryArray.map(query => query.matches);
-}
-
-/**
  * React hook that tracks state of a CSS media query
  * @version 5.48.0
  * @unstable Please note that this API is not stable and may change in the future.
  * @see https://rsuitejs.com/components/use-media-query
+ * @param query - The media query string or array of query strings
+ * @param enabled - Whether to enable the media query, defaults to true
  */
-export function useMediaQuery(query: Query | Query[]): boolean[] {
+export function useMediaQuery(query: Query | Query[], enabled: boolean = true): boolean[] {
   const queries = Array.isArray(query) ? query : [query];
 
   const mediaQueries = useMemo(
     () => queries.map(query => mediaQuerySizeMap[query] || query),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [...queries]
   );
+
+  // If not enabled, we don't need to set up any media queries
+  if (!enabled) {
+    return queries.map(() => false);
+  }
 
   const mediaQueryArray = useRef<boolean[]>(mediaQueries.map(query => matchMedia(query).matches));
 
@@ -117,7 +84,6 @@ export function useMediaQuery(query: Query | Query[]): boolean[] {
         });
       };
     },
-
     [mediaQueries]
   );
 
@@ -129,9 +95,7 @@ export function useMediaQuery(query: Query | Query[]): boolean[] {
     return mediaQueryArray.current;
   }, []);
 
-  return React['useSyncExternalStore']?.(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-export default typeof React['useSyncExternalStore'] === 'function'
-  ? useMediaQuery
-  : useMediaQueryOld;
+export default useMediaQuery;

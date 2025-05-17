@@ -1,7 +1,18 @@
 <!--start-code-->
 
 ```js
-import { TimeRangePicker, Stack } from 'rsuite';
+import { TimeRangePicker, Box } from 'rsuite';
+
+const Row = ({ children, title }) => {
+  return (
+    <Box>
+      <Box as="label" w={120} display="inline-block" mt={10}>
+        {title}
+      </Box>
+      {children}
+    </Box>
+  );
+};
 
 const App = () => (
   <>
@@ -16,15 +27,6 @@ const App = () => (
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Row = ({ children, title }) => {
-  return (
-    <div>
-      <label style={{ width: 80, display: 'inline-block', marginTop: 10 }}>{title}</label>
-      {children}
-    </div>
-  );
-};
 ```
 
 <!--end-code-->

@@ -1,11 +1,12 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
 import Table, { TableProps, ColumnProps } from '../';
-import { createMeta } from '@/storybook/utils';
-import { mockUsers } from '@/storybook/mocks';
 import IconButton from '../../IconButton';
 import EditIcon from '@rsuite/icons/Edit';
 import { colspanData, rowspanData } from './mock-data';
+import { createMeta } from '@/storybook/utils';
+import { mockUsers } from '@/storybook/mocks';
+import type { StoryObj } from '@storybook/react';
+
 import '../styles/index.less';
 import '../../IconButton/styles/index.less';
 
@@ -20,8 +21,6 @@ export default {
   title: 'Components/Table'
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore Expression produces a union type that is too complex to represent.
 type Story = StoryObj<typeof meta>;
 
 const data = mockUsers(20);

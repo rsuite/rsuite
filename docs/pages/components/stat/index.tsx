@@ -10,11 +10,13 @@ import {
 } from 'rsuite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import FunnelStepsIcon from '@rsuite/icons/FunnelSteps';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['Stat', 'StatGroup']} />
+  'import-guide': () => <ImportGuide components={['Stat', 'StatGroup']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="stat" />
 };
 
 export default function Page() {

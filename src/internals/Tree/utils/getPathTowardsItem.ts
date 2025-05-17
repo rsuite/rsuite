@@ -8,7 +8,7 @@ export function getPathTowardsItem<T>(
   if (!target) return [];
 
   const path = [target];
-  for (let parent = getParent(target); !!parent; parent = getParent(parent)) {
+  for (let parent = getParent(target); parent; parent = getParent(parent)) {
     path.unshift(parent);
   }
 

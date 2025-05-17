@@ -9,7 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <>
-    <CheckPicker label="User" data={data} style={{ width: 224 }} />
+    <CheckPicker label="User" data={data} w={224} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
