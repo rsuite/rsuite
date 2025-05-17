@@ -1,3 +1,16 @@
+## [5.80.3](https://github.com/rsuite/rsuite/compare/v5.80.2...v5.80.3) (2025-05-17)
+
+
+### Bug Fixes
+
+* examples/with-electron/package.json & examples/with-electron/package-lock.json to reduce vulnerabilities ([#4282](https://github.com/rsuite/rsuite/issues/4282)) ([6891756](https://github.com/rsuite/rsuite/commit/689175696a52848b8b2f757089fdf8e9e26620a9))
+* examples/with-parcel/package.json & examples/with-parcel/package-lock.json to reduce vulnerabilities ([#4281](https://github.com/rsuite/rsuite/issues/4281)) ([07b6922](https://github.com/rsuite/rsuite/commit/07b692261927498421af82f3ae0f02cf2428df97))
+* examples/with-preact/package.json & examples/with-preact/package-lock.json to reduce vulnerabilities ([#4276](https://github.com/rsuite/rsuite/issues/4276)) ([10d9e0d](https://github.com/rsuite/rsuite/commit/10d9e0d17da64b09efa428c4d546114467d0c01e))
+* examples/with-umi/package.json & examples/with-umi/package-lock.json to reduce vulnerabilities ([#4277](https://github.com/rsuite/rsuite/issues/4277)) ([ede8f51](https://github.com/rsuite/rsuite/commit/ede8f5149e760f56bcc7da339dba53720d076509))
+* **InlineEdit:** reset input value to original on cancel instead of preserving edited value ([#4283](https://github.com/rsuite/rsuite/issues/4283)) ([c1d98b5](https://github.com/rsuite/rsuite/commit/c1d98b5f0f7f2b1bcb270a7b5d9a94e40670b031))
+
+
+
 ## [5.80.2](https://github.com/rsuite/rsuite/compare/v5.80.1...v5.80.2) (2025-05-09)
 
 

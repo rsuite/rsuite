@@ -44,7 +44,7 @@ const useEditState = (props: EditStateProps) => {
   });
 
   const handleFocus = useEventCallback((event?: React.FocusEvent) => {
-    if (disabled) return;
+    if (disabled || isEditing) return;
     onFocus?.(event);
     setIsEditing(true);
     setResetValue(value);

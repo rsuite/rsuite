@@ -18,6 +18,6 @@
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "rsuite": "^5.18.1"
+    "rsuite": "^5.28.1"
   }
 }
