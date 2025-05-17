@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import IconButton, { IconButtonProps } from '../IconButton';
 import { forwardRef } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 
 export interface SidenavToggleProps extends IconButtonProps {

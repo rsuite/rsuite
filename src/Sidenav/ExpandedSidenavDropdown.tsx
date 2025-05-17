@@ -7,7 +7,7 @@ import SidenavDropdownToggle from './SidenavDropdownToggle';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useInternalId } from '@/internals/hooks';
 import { forwardRef, kebabPlace, mergeRefs } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import { NavMenuContext } from '../Nav/NavMenu';
 import type { PlacementCorners } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';

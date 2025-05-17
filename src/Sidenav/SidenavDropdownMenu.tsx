@@ -8,7 +8,7 @@ import NavContext from '../Nav/NavContext';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { mergeRefs } from '@/internals/utils';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
 

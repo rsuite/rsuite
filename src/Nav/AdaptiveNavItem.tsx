@@ -9,7 +9,7 @@ import SidenavItem from '../Sidenav/SidenavItem';
 import { forwardRef } from '@/internals/utils';
 import { useInternalId } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
-import { SidenavContext } from '../Sidenav/Sidenav';
+import { SidenavContext } from '../Sidenav/SidenavContext';
 import { NavMenuActionType, NavMenuContext } from './NavMenu';
 
 /**

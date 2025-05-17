@@ -5,7 +5,7 @@ import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import { forwardRef, createChainedFunction, shallowEqual } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { SidenavContext } from './Sidenav';
+import { SidenavContext } from './SidenavContext';
 import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
 import type { BoxProps } from '@/internals/Box';
 import type { IconProps } from '@rsuite/icons/Icon';

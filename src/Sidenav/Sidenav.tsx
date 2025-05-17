@@ -9,6 +9,7 @@ import SidenavGroupLabel from './SidenavGroupLabel';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import { useStyles, useCustom, useControlled } from '@/internals/hooks';
+import { SidenavContext, SidenavContextType } from './SidenavContext';
 
 export interface SidenavProps<T = string | number> extends BoxProps {
   /** Whether to expand the Sidenav */
@@ -35,23 +36,6 @@ export interface SidenavProps<T = string | number> extends BoxProps {
   /**
    * Select the callback function for the menu
    * @deprecated Use <Nav onSelect> instead
-   */
-  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
-}
-
-export const SidenavContext = React.createContext<SidenavContextType | null>(null);
-
-export interface SidenavContextType<T = string | number> {
-  openKeys: T[];
-  /**
-   * @deprecated Use activeKey from NavContext instead
-   */
-  activeKey: T | undefined;
-  sidenav: boolean;
-  expanded: boolean;
-  onOpenChange: (eventKey: T, event: React.SyntheticEvent) => void;
-  /**
-   * @deprecated Use onSelect from NavContext instead
    */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }

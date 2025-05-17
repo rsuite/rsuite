@@ -8,14 +8,10 @@ on:
     branches:
       - main
       - next
-      - v4
-      - '*.x'
   pull_request:
     branches:
       - main
       - next
-      - v4
-      - '*.x'
 
 jobs:
   lint:
@@ -37,19 +33,35 @@ jobs:
 
     strategy:
       matrix:
-        browser: [ChromeCi, Firefox]
+        browser: [chromium, firefox]
         react: ['React18', 'React19']
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup kernel, increase watchers
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+
+      - name: Free disk space on runner
+        if: runner.os == 'Linux' # ubuntu-latest is Linux
+        run: |
+          echo "Initial disk space:"
+          df -h
+          sudo docker image prune -a -f || echo "Docker image prune failed or Docker not available"
+          sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
+          sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
+          sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
+          sudo rm -rf /usr/local/share/powershell || echo "Failed to remove powershell or it doesn't exist"
+          sudo rm -rf /usr/local/share/rust || echo "Failed to remove rust or it doesn't exist"
+          sudo rm -rf /opt/hostedtoolcache || echo "Failed to remove hostedtoolcache"
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo rm -rf /var/lib/apt/lists/*
+          npm cache clean --force || echo "npm cache clean failed"
+          echo "Disk space after cleanup:"
+          df -h
+
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
@@ -62,6 +74,9 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
         run: npm run install:react-18
@@ -71,7 +86,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: xvfb-run --auto-servernum npm run test:ci
+        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}

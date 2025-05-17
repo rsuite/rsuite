@@ -1,7 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { isMatch } from 'date-fns/isMatch';
 import { formatDate } from 'date-fns/format';
 import { keyPress } from '@test/utils/simulateEvent';
