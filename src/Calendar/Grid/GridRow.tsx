@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { isSameDay, addDays, isBefore, isAfter, format } from '@/internals/utils/date';
+import { isSameDay, isSameMonth, addDays, isBefore, isAfter, format } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { useClassNames } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
@@ -25,7 +25,7 @@ const GridRow: RsRefForwardingComponent<'div', GridRowProps> = React.forwardRef(
     } = props;
 
     const {
-      date: selected = new Date(),
+      selectedDate = new Date(),
       dateRange,
       hoverRangeValue,
       isoWeek,
@@ -65,7 +65,7 @@ const GridRow: RsRefForwardingComponent<'div', GridRowProps> = React.forwardRef(
         const rangeEnd = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
         const isSelected = isRangeSelectionMode
           ? rangeStart || rangeEnd
-          : isSameDay(thisDate, selected);
+          : isSameDay(thisDate, selectedDate) && isSameMonth(thisDate, selectedDate);
 
         // TODO-Doma Move those logic that's for DatePicker/DateRangePicker to a separate component
         //           Calendar is not supposed to be reused this way
