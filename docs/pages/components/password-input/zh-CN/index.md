@@ -29,11 +29,11 @@
 可以通过 `startIcon` 和 `endIcon` 分别设置前置图标和后置图标。
 当使用 `endIcon` 时，密码输入框的可见性切换图标将被覆盖。
 
+<!--{include:`icons.md`}-->
+
 ### 密码强度
 
 <!--{include:`password-strength-meter.md`}-->
-
-<!--{include:`icons.md`}-->
 
 ## Props
 

@@ -29,11 +29,11 @@ A password input component.
 You can use `startIcon` and `endIcon` to set the start and end icons, respectively.
 When using `endIcon`, the password visibility toggle icon will be overridden.
 
+<!--{include:`icons.md`}-->
+
 ### Password strength meter
 
 <!--{include:`password-strength-meter.md`}-->
-
-<!--{include:`icons.md`}-->
 
 ## Props
 
