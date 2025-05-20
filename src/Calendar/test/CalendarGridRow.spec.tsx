@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import GridRow from '../Grid/GridRow';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { getDate, format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
@@ -25,7 +24,7 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarProvider
@@ -40,7 +39,7 @@ describe('Calendar-GridRow', () => {
       ) as HTMLElement
     );
 
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a week number', () => {

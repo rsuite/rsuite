@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Accordion from '../Accordion';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -15,7 +14,7 @@ describe('Accordion', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Accordion onSelect={onSelect}>
         <Accordion.Panel header="title" eventKey={1}>
@@ -24,8 +23,9 @@ describe('Accordion', () => {
       </Accordion>
     );
 
-    fireEvent.click(screen.getByText('title'));
-    expect(onSelect).to.have.been.calledWith(1);
+    const button = screen.getByText('title');
+    fireEvent.click(button);
+    expect(onSelect).toHaveBeenCalledWith(1, expect.any(Object));
   });
 
   it('Should only expand one panel', () => {

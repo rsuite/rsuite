@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Collapse, { DIMENSION } from '../Collapse';
 import { render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 describe('Animation.Collapse', () => {
   it('Should be horizontal', () => {
@@ -24,7 +23,7 @@ describe('Animation.Collapse', () => {
   });
 
   it('Should set a dimension value at onExit of the transition', async () => {
-    const onExit = sinon.spy();
+    const onExit = vi.fn();
 
     const { container, rerender } = render(
       <Collapse
@@ -60,6 +59,6 @@ describe('Animation.Collapse', () => {
 
     expect(container.firstChild).to.have.class('rs-anim-collapsing');
     expect(container.firstChild).to.have.style('height', '0px');
-    expect(onExit).to.have.been.called;
+    expect(onExit).toHaveBeenCalled();
   });
 });

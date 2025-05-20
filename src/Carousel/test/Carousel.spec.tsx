@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Carousel from '../Carousel';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -38,7 +37,7 @@ describe('Carousel', () => {
 
   it('Should be autoplay', async () => {
     const style = { height: 20 };
-    const onSlideStart = sinon.spy();
+    const onSlideStart = vi.fn();
     render(
       <Carousel
         autoplay
@@ -52,12 +51,12 @@ describe('Carousel', () => {
     );
 
     await waitFor(() => {
-      expect(onSlideStart).to.called;
+      expect(onSlideStart).toHaveBeenCalled();
     });
   });
 
   it('Should call `onSlideStart` callback', async () => {
-    const onSlideStart = sinon.spy();
+    const onSlideStart = vi.fn();
     render(
       <Carousel onSlideStart={onSlideStart}>
         <div>1</div>
@@ -68,12 +67,12 @@ describe('Carousel', () => {
     fireEvent.click(screen.getAllByRole('radio')[1]);
 
     await waitFor(() => {
-      expect(onSlideStart).to.called;
+      expect(onSlideStart).toHaveBeenCalled();
     });
   });
 
   it('Should call `onSelect` callback', async () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Carousel onSelect={onSelect}>
         <div>1</div>
@@ -84,12 +83,12 @@ describe('Carousel', () => {
     fireEvent.click(screen.getAllByRole('radio')[1]);
 
     await waitFor(() => {
-      expect(onSelect).to.called;
+      expect(onSelect).toHaveBeenCalled();
     });
   });
 
   it('Should call `onSlideEnd` callback', async () => {
-    const onSlideEnd = sinon.spy();
+    const onSlideEnd = vi.fn();
 
     render(
       <Carousel onSlideEnd={onSlideEnd}>
@@ -101,7 +100,7 @@ describe('Carousel', () => {
     fireEvent.transitionEnd(screen.getByTestId('carousel-slider'));
 
     await waitFor(() => {
-      expect(onSlideEnd).to.called;
+      expect(onSlideEnd).toHaveBeenCalled();
     });
   });
 

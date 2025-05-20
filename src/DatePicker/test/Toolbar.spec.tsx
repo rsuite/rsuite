@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi, describe, expect, it } from 'vitest';
 import Toolbar from '../Toolbar';
-import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -44,15 +43,15 @@ describe('DatePicker - Toolbar', () => {
   });
 
   it('Should call `onOk` callback', () => {
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
     render(<Toolbar calendarDate={new Date(2021, 11, 24)} onOk={onOk} locale={{ ok: 'OK' }} />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
-    expect(onOk).to.have.been.calledOnce;
+    expect(onOk).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onShortcutClick` callback', () => {
-    const onShortcutClick = sinon.spy();
+    const onShortcutClick = vi.fn();
     render(
       <Toolbar
         calendarDate={new Date(2021, 11, 24)}
@@ -64,7 +63,7 @@ describe('DatePicker - Toolbar', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Today' }));
-    expect(onShortcutClick).to.have.been.calledOnce;
+    expect(onShortcutClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should not render the ok button', () => {

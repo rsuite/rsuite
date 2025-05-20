@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import getOffset from 'dom-lib/getOffset';
 import Affix from '../Affix';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('Affix', () => {
@@ -18,7 +17,7 @@ describe('Affix', () => {
 
   it('Should call onChange callback', () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <div style={{ height: 3000 }}>
@@ -36,7 +35,7 @@ describe('Affix', () => {
       window.dispatchEvent(new UIEvent('scroll'));
     });
 
-    expect(onChange).to.have.been.called;
+    expect(onChange).toHaveBeenCalled();
 
     const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
@@ -53,7 +52,7 @@ describe('Affix', () => {
 
   it('Should call onOffsetChange callback', async () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const onOffsetChange = sinon.spy();
+    const onOffsetChange = vi.fn();
 
     const App = () => {
       const [height, setHeight] = React.useState(100);
@@ -82,7 +81,7 @@ describe('Affix', () => {
     });
 
     await waitFor(() => {
-      expect(onOffsetChange).to.have.been.called;
+      expect(onOffsetChange).toHaveBeenCalled();
     });
   });
 });

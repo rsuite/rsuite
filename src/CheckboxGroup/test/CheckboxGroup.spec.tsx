@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -112,7 +111,7 @@ describe('CheckboxGroup', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <CheckboxGroup onChange={onChange}>
         <Checkbox value={1}>Option 1</Checkbox>
@@ -124,12 +123,12 @@ describe('CheckboxGroup', () => {
 
     fireEvent.click(screen.getByLabelText('Option 3'));
 
-    expect(onChange).to.have.been.calledWith([3]);
+    expect(onChange).toHaveBeenCalledWith([3], expect.anything());
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
-    const onGroupChange = sinon.spy();
+    const onChange = vi.fn();
+    const onGroupChange = vi.fn();
 
     render(
       <CheckboxGroup onChange={onGroupChange}>
@@ -144,8 +143,8 @@ describe('CheckboxGroup', () => {
 
     fireEvent.click(screen.getByLabelText('Test3'));
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onGroupChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onGroupChange).toHaveBeenCalledTimes(1);
   });
 
   describe('Plain text', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps, testSizeStyle } from '@test/cases';
 
@@ -53,7 +52,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Should call onExpand callback', () => {
-    const onExpand = sinon.spy();
+    const onExpand = vi.fn();
     render(
       <Breadcrumb onExpand={onExpand}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
@@ -67,7 +66,7 @@ describe('Breadcrumb', () => {
 
     fireEvent.click(screen.getByText('...'));
 
-    expect(onExpand).to.have.been.calledOnce;
+    expect(onExpand).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a default separator', () => {
@@ -95,7 +94,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Should not get "children with the same key" warning when generating items with array.map', () => {
-    sinon.spy(console, 'error');
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const items = [{ text: 'Home', href: '/' }, { text: 'Current Page' }];
 
@@ -109,9 +108,10 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    expect(console.error).not.to.have.been.calledWith(
-      sinon.match(/Warning: Encountered two children with the same key/)
+    expect(errorSpy).not.toHaveBeenCalledWith(
+      expect.stringMatching(/Warning: Encountered two children with the same key/)
     );
+    errorSpy.mockRestore();
   });
 
   it('Should not render null or undefined children', () => {

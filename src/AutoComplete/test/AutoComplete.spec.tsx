@@ -1,7 +1,6 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { render, fireEvent, screen } from '@testing-library/react';
 
@@ -41,63 +40,63 @@ describe('AutoComplete', () => {
   });
 
   it('Should call onSelect callback with correct args', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('option', { name: 'a' }));
 
-    expect(onSelect).to.be.calledOnce;
-    expect(onSelect).to.be.calledWith('a', { value: 'a', label: 'a' });
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith('a', { value: 'a', label: 'a' }, expect.anything());
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<AutoComplete data={data} onChange={onChange} />);
     const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'a' } });
-    expect(onChange).to.have.been.calledOnce;
-    expect(onChange).to.have.been.calledWith('a');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('a', expect.anything());
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<AutoComplete data={data} onFocus={onFocus} />);
     const input = screen.getByRole('combobox');
     fireEvent.focus(input);
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
 
     render(<AutoComplete data={data} onBlur={onBlur} />);
     const input = screen.getByRole('combobox');
     fireEvent.blur(input);
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onKeyDown callback on input', () => {
-    const onKeyDown = sinon.spy();
+    const onKeyDown = vi.fn();
 
     render(<AutoComplete onKeyDown={onKeyDown} data={['a', 'b', 'ab']} open />);
     const input = screen.getByRole('combobox');
     fireEvent.keyDown(input);
-    expect(onKeyDown).to.have.been.calledOnce;
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onKeyDown callback on menu', () => {
-    const onKeyDown = sinon.spy();
+    const onKeyDown = vi.fn();
 
     render(<AutoComplete defaultValue="a" onKeyDown={onKeyDown} data={['a', 'b']} open />);
 
     fireEvent.keyDown(screen.getByTestId('picker-popup'));
 
-    expect(onKeyDown).to.be.calledOnce;
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onMenuFocus callback when key=ArrowDown', () => {
-    const onMenuFocus = sinon.spy();
+    const onMenuFocus = vi.fn();
 
     render(
       <AutoComplete defaultValue="a" onMenuFocus={onMenuFocus} data={['a', 'ab', 'ac']} open />
@@ -107,43 +106,43 @@ describe('AutoComplete', () => {
       key: 'ArrowDown'
     });
 
-    expect(onMenuFocus).to.be.calledOnce;
+    expect(onMenuFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onMenuFocus callback when key=ArrowUp', () => {
-    const onMenuFocus = sinon.spy();
+    const onMenuFocus = vi.fn();
     render(
       <AutoComplete defaultValue="a" onMenuFocus={onMenuFocus} data={['a', 'ab', 'ac']} open />
     );
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowUp' });
 
-    expect(onMenuFocus).to.be.calledTwice;
+    expect(onMenuFocus).toHaveBeenCalledTimes(2);
   });
 
   it('Should call onChange callback when key=Enter', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<AutoComplete defaultValue="a" onChange={onChange} data={['a', 'ab', 'ac']} open />);
 
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Enter' });
-    expect(onChange).to.be.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onSelect callback with selected item when key=Enter', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<AutoComplete defaultValue="a" onSelect={onSelect} data={['a', 'ab', 'ac']} open />);
 
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Enter' });
 
-    expect(onSelect).to.be.calledOnce;
-    expect(onSelect).to.be.calledWith('ab', { value: 'ab', label: 'ab' });
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith('ab', { value: 'ab', label: 'ab' }, expect.anything());
   });
 
   it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <AutoComplete
@@ -158,14 +157,14 @@ describe('AutoComplete', () => {
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'ArrowUp' });
 
-    expect(onSelect).to.be.not.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should call onClose callback when key=Escape', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<AutoComplete defaultValue="a" onClose={onClose} data={['a', 'ab', 'ac']} open />);
     fireEvent.keyDown(screen.getByTestId('picker-popup'), { key: 'Escape' });
-    expect(onClose).to.be.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a icon in li', () => {
@@ -244,12 +243,12 @@ describe('AutoComplete', () => {
   });
 
   it('Should not throw an error', () => {
-    const callback = sinon.spy();
+    const callback = vi.fn();
     expect(() => {
       render(
         <AutoComplete data={data} onExit={callback} onExiting={callback} onEnter={callback} />
       );
-    }).to.not.throw();
+    }).not.toThrow();
   });
 
   it('Should only receive input attributes on `<input>`', () => {

@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import TimeDropdown from '../TimeDropdown';
 import en_US from '../../locales/en_US';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { CalendarProvider } from '../CalendarProvider';
@@ -31,9 +30,9 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarProvider>
     );
 
-    expect(screen.queryByText('Hours')).to.exist;
-    expect(screen.queryByText('Minutes')).to.exist;
-    expect(screen.queryByText('Seconds')).to.exist;
+    expect(screen.queryByText('Hours')).not.toBeNull();
+    expect(screen.queryByText('Minutes')).not.toBeNull();
+    expect(screen.queryByText('Seconds')).not.toBeNull();
   });
 
   it('Should render hours and minutes', () => {
@@ -51,9 +50,9 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarProvider>
     );
 
-    expect(screen.queryByText('Hours')).to.exist;
-    expect(screen.queryByText('Minutes')).to.exist;
-    expect(screen.queryByText('Seconds')).to.not.exist;
+    expect(screen.queryByText('Hours')).not.toBeNull();
+    expect(screen.queryByText('Minutes')).not.toBeNull();
+    expect(screen.queryByText('Seconds')).toBeNull();
   });
 
   it('Should only render hours', () => {
@@ -71,13 +70,13 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarProvider>
     );
 
-    expect(screen.queryByText('Hours')).to.exist;
-    expect(screen.queryByText('Minutes')).to.not.exist;
-    expect(screen.queryByText('Seconds')).to.not.exist;
+    expect(screen.queryByText('Hours')).not.toBeNull();
+    expect(screen.queryByText('Minutes')).toBeNull();
+    expect(screen.queryByText('Seconds')).toBeNull();
   });
 
   it('Should call `onChangeTime` callback', () => {
-    const onChangeTime = sinon.spy();
+    const onChangeTime = vi.fn();
 
     render(
       <CalendarProvider
@@ -96,7 +95,7 @@ describe('Calendar - TimeDropdown', () => {
 
     fireEvent.click(screen.getByRole('option', { name: '1 hours', hidden: true }));
 
-    expect(onChangeTime).to.have.been.calledOnce;
+    expect(onChangeTime).toHaveBeenCalledTimes(1);
   });
 
   it('Should set aria-disabled attribute for disabled hours', () => {
@@ -142,6 +141,6 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarProvider>
     );
 
-    expect(screen.getAllByRole('option', { hidden: true })).to.have.length(11);
+    expect(screen.getAllByRole('option', { hidden: true })).toHaveLength(11);
   });
 });

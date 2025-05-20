@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { expect } from 'vitest';
+import { expect, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { isMatch } from 'date-fns/isMatch';
 import { formatDate } from 'date-fns/format';
@@ -15,7 +14,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     expectedValue,
     key
   }: TestKeyPressProps) {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <TestComponent
         onChange={onChange}
@@ -34,13 +33,13 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     if (isFunctionKey) {
       fireEvent.keyDown(input, { key });
       expect(input).to.have.value(expectedValue);
-      expect(onChange.called).to.be.false;
+      expect(onChange).not.toHaveBeenCalled();
     } else {
       userEvent.type(input, key);
       expect(input).to.have.value(expectedValue);
 
       if (isMatch(expectedValue, format)) {
-        expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
+        expect(formatDate(onChange.mock.calls[0][0], format)).toBe(expectedValue);
       }
     }
   }
@@ -56,7 +55,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     expectedValue: string;
     keys: string[] | string;
   }) {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TestComponent onChange={onChange} format={format} defaultValue={defaultValue} />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
@@ -66,7 +65,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     expect(input).to.value(expectedValue);
 
     if (isMatch(expectedValue, format)) {
-      expect(formatDate(onChange.lastCall.firstArg, format)).to.equal(expectedValue);
+      expect(formatDate(onChange.mock.lastCall?.[0], format)).toBe(expectedValue);
     }
   }
 
@@ -82,7 +81,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
       expected: string;
     }[];
   }) {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <TestComponent
         onChange={onChange}

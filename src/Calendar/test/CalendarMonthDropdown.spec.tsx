@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { getYear } from 'date-fns';
 import { CalendarProvider } from '../CalendarProvider';
@@ -24,8 +23,8 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarProvider>
     );
 
-    expect(screen.getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
-    expect(screen.getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7 * 12);
+    expect(screen.getAllByRole('rowheader', { hidden: true })).toHaveLength(7);
+    expect(screen.getAllByRole('gridcell', { hidden: true })).toHaveLength(7 * 12);
   });
 
   it('Should output year and month of current year', () => {
@@ -100,7 +99,7 @@ describe('Calendar-MonthDropdown', () => {
   });
 
   it('Should call `onChangeMonth` callback ', () => {
-    const onChangeMonth = sinon.spy();
+    const onChangeMonth = vi.fn();
     render(
       <CalendarProvider
         value={{
@@ -121,7 +120,7 @@ describe('Calendar-MonthDropdown', () => {
       })[0]
     );
 
-    expect(onChangeMonth).to.be.calledOnce;
+    expect(onChangeMonth).toHaveBeenCalledTimes(1);
   });
 
   it('Should disable month', () => {

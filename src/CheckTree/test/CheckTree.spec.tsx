@@ -1,10 +1,14 @@
 import React from 'react';
-import sinon from 'sinon';
 import CheckTree from '../index';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { testStandardProps } from '@test/cases';
+
+// Mock the Icon component to avoid context issues in tests
+vi.mock('@rsuite/icons', () => ({
+  CheckTreeIcon: () => <span data-testid="check-tree-icon" />
+}));
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2', 'tester3']], 'disabled']);
 
@@ -44,7 +48,7 @@ describe('CheckTree', () => {
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+    const onSelectItem = vi.fn();
 
     render(
       <CheckTree data={data} expandItemValues={['Master', 'tester1']} onSelectItem={onSelectItem} />
@@ -52,31 +56,33 @@ describe('CheckTree', () => {
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
+    expect(onSelectItem).toHaveBeenCalledWith(expect.objectContaining({ value: 'tester2' }), [
+      expect.objectContaining({ value: 'Master' }),
+      expect.objectContaining({ value: 'tester1' }),
+      expect.objectContaining({ value: 'tester2' })
     ]);
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<CheckTree data={data} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
 
-    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'Master' }));
+    // The first argument is the selected item, second is the selected values, third is the event
+    expect(onSelect.mock.calls[0][0]).toMatchObject({ value: 'Master' });
+    expect(onSelect).toHaveBeenCalled();
   });
 
   it('Should not call `onSelect` callback when the item is disabled', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<CheckTree data={data} onSelect={onSelect} disabledItemValues={['Master']} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
 
-    expect(onSelect).to.not.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should all nodes be checked', () => {
@@ -121,18 +127,18 @@ describe('CheckTree', () => {
 
   describe('Disabled/Uncheckable items', () => {
     it('Should render the item as disabled', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(<CheckTree data={data} disabledItemValues={['Master']} onSelect={onSelect} />);
 
       expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attribute('aria-disabled');
 
       fireEvent.click(screen.getByRole('checkbox', { name: 'Master' }));
 
-      expect(onSelect).to.not.have.been.called;
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('Should not render the checkbox when the item is uncheckable', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(<CheckTree data={data} onSelect={onSelect} uncheckableItemValues={['Master']} />);
 
@@ -282,13 +288,15 @@ describe('CheckTree', () => {
     });
 
     it('Should call `onChange` when the value changes', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<CheckTree data={data} onChange={onChange} defaultExpandAll />);
 
       fireEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
 
-      expect(onChange).to.have.been.calledWith(['tester2']);
+      // The first argument should be the selected value, second is the event object
+      expect(onChange.mock.calls[0][0]).toEqual(['tester2']);
+      expect(onChange).toHaveBeenCalled();
     });
 
     it('Should be controlled and render the updated value', () => {
@@ -430,13 +438,15 @@ describe('CheckTree', () => {
     });
 
     it('Should call `onSearch` callback', () => {
-      const onSearch = sinon.spy();
+      const onSearch = vi.fn();
 
       render(<CheckTree data={data} searchable onSearch={onSearch} />);
 
       fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'disabled' } });
 
-      expect(onSearch).to.have.been.calledWith('disabled');
+      // The first argument is the search value, second is the event
+      expect(onSearch.mock.calls[0][0]).toBe('disabled');
+      expect(onSearch).toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Checkbox from '../Checkbox';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -57,8 +56,8 @@ describe('Checkbox', () => {
   });
 
   it('Should be clickable on the label', () => {
-    const onChange = sinon.spy();
-    const onCheckboxClick = sinon.spy();
+    const onChange = vi.fn();
+    const onCheckboxClick = vi.fn();
 
     const { rerender } = render(
       <Checkbox labelClickable={false} onChange={onChange} onCheckboxClick={onCheckboxClick}>
@@ -68,8 +67,8 @@ describe('Checkbox', () => {
 
     fireEvent.click(screen.getByText('Label'));
 
-    expect(onChange).to.not.have.been.called;
-    expect(onCheckboxClick).to.not.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onCheckboxClick).not.toHaveBeenCalled();
 
     rerender(
       <Checkbox onChange={onChange} onCheckboxClick={onCheckboxClick}>
@@ -79,8 +78,8 @@ describe('Checkbox', () => {
 
     fireEvent.click(screen.getByText('Label'));
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onCheckboxClick).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onCheckboxClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should be checked by default', () => {
@@ -130,7 +129,7 @@ describe('Checkbox', () => {
   });
 
   it('Should call onChange callback with correct value and checked state', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     const { rerender } = render(
       <Checkbox onChange={onChange} value="Test">
@@ -140,7 +139,7 @@ describe('Checkbox', () => {
 
     fireEvent.click(screen.getByLabelText('Checkbox'));
 
-    expect(onChange).to.have.been.calledWith('Test', true);
+    expect(onChange).toHaveBeenCalledWith('Test', true, expect.anything());
 
     rerender(
       <Checkbox onChange={onChange} value="Test" defaultChecked>
@@ -150,41 +149,41 @@ describe('Checkbox', () => {
 
     fireEvent.click(screen.getByLabelText('Checkbox'));
 
-    expect(onChange).to.have.been.calledWith('Test', false);
+    expect(onChange).toHaveBeenCalledWith('Test', false, expect.anything());
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     const { container } = render(<Checkbox onClick={onClick}>Title</Checkbox>);
     fireEvent.click(container.firstChild as HTMLElement);
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onCheckboxClick callback', () => {
-    const onCheckboxClick = sinon.spy();
+    const onCheckboxClick = vi.fn();
 
     render(<Checkbox onCheckboxClick={onCheckboxClick} />);
 
     fireEvent.click(screen.getByRole('checkbox'));
 
-    expect(onCheckboxClick).to.have.been.calledOnce;
+    expect(onCheckboxClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<Checkbox onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('checkbox'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<Checkbox onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('checkbox'));
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should inputProps be working', () => {
