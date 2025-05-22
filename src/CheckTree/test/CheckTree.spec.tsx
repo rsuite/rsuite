@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckTree from '../index';
+import CheckTree from '../CheckTree';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
