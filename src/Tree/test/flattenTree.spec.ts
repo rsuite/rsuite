@@ -1,5 +1,4 @@
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { walkTreeDfs, walkTreeBfs } from '../utils/flattenTree';
 
 describe('[utils] Tree utils', () => {
@@ -16,11 +15,11 @@ describe('[utils] Tree utils', () => {
         return [node * 2 + 1, node * 2 + 2];
       }
 
-      const callback = sinon.spy();
+      const callback = vi.fn();
       walkTreeBfs([0], getChildren, callback);
 
-      expect(callback.callCount).to.equal(7);
-      expect(callback.getCalls().map(call => call.firstArg)).to.eql([0, 1, 2, 3, 4, 5, 6]);
+      expect(callback).toHaveBeenCalledTimes(7);
+      expect(callback.mock.calls.map(call => call[0])).toEqual([0, 1, 2, 3, 4, 5, 6]);
     });
   });
   describe('walkTreeDfs', () => {
@@ -36,11 +35,11 @@ describe('[utils] Tree utils', () => {
         return [node * 2 + 1, node * 2 + 2];
       }
 
-      const callback = sinon.spy();
+      const callback = vi.fn();
       walkTreeDfs([0], getChildren, callback);
 
-      expect(callback.callCount).to.equal(7);
-      expect(callback.getCalls().map(call => call.firstArg)).to.eql([0, 1, 3, 4, 2, 5, 6]);
+      expect(callback).toHaveBeenCalledTimes(7);
+      expect(callback.mock.calls.map(call => call[0])).toEqual([0, 1, 3, 4, 2, 5, 6]);
     });
   });
 });

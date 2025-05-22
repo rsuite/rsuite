@@ -1,12 +1,11 @@
 import React from 'react';
-import sinon from 'sinon';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Whisper from '../../Whisper';
 import Tooltip from '../../Tooltip';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -87,7 +86,7 @@ describe('Navbar', () => {
     });
 
     it('Should not get validateDOMNesting warning', () => {
-      sinon.spy(console, 'error');
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       render(
         <Navbar>
@@ -101,7 +100,10 @@ describe('Navbar', () => {
         </Navbar>
       );
 
-      expect(console.error).not.to.have.been.calledWith(sinon.match(/Warning: validateDOMNesting/));
+      expect(errorSpy).not.toHaveBeenCalledWith(
+        expect.stringMatching(/Warning: validateDOMNesting/)
+      );
+      errorSpy.mockRestore();
     });
 
     it('Should close <Dropdown> when clicking an item', () => {
@@ -162,7 +164,7 @@ describe('Navbar', () => {
     });
 
     it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <Navbar>
           <Nav activeKey="2-1" onSelect={onSelect}>
@@ -179,7 +181,7 @@ describe('Navbar', () => {
       fireEvent.click(screen.getByTestId('dropdown'));
 
       fireEvent.click(screen.getByTestId('dropdown-item'));
-      expect(onSelect).to.have.been.calledWith('2-1', sinon.match.any);
+      expect(onSelect).toHaveBeenCalledWith('2-1', expect.any(Object));
     });
   });
 

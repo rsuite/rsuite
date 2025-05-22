@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import TagPicker from '../index';
 import Button from '../../Button';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { mockGroupData } from '@test/mocks/data-mock';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
@@ -191,34 +190,35 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TagPicker defaultOpen onChange={onChange} data={[{ label: '1', value: '1' }]} />);
 
     fireEvent.click(screen.getByLabelText('1'));
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<TagPicker data={data} defaultValue={['Kariane']} onClean={onClean} />);
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<TagPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onSelect).to.have.been.calledWith(
+    expect(onSelect).toHaveBeenCalledWith(
       ['Kariane', 'Louisa'],
-      sinon.match({
+      expect.objectContaining({
         value: 'Louisa'
-      })
+      }),
+      expect.any(Object)
     );
   });
 
@@ -229,13 +229,13 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
     render(<TagPicker data={[]} defaultOpen onSearch={onSearch} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearch).to.have.been.calledWith('a');
+    expect(onSearch).toHaveBeenCalledWith('a', expect.any(Object));
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -253,16 +253,16 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TagPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChange` by remove last item ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <TagPicker
         defaultOpen
@@ -273,11 +273,11 @@ describe('TagPicker', () => {
     );
     fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
 
-    expect(onChange).to.have.been.calledWith(['Kariane']);
+    expect(onChange).toHaveBeenCalledWith(['Kariane'], expect.any(Object));
   });
 
   it('Should call `onChange` by removeTag ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <TagPicker
         defaultOpen
@@ -288,7 +288,7 @@ describe('TagPicker', () => {
     );
     fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
-    expect(onChange).to.have.been.calledWith(['Eugenia']);
+    expect(onChange).toHaveBeenCalledWith(['Eugenia'], expect.any(Object));
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -298,7 +298,7 @@ describe('TagPicker', () => {
   });
 
   it('Should call `tagProps.onClose` ', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <TagPicker
         defaultOpen
@@ -311,7 +311,7 @@ describe('TagPicker', () => {
     );
     fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should not render tag close icon', () => {
@@ -377,7 +377,7 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onCreate` with correct value', async () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
 
     const inputRef = React.createRef<PickerHandle>();
 
@@ -390,12 +390,18 @@ describe('TagPicker', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
-  it('Should create a tag by tirgger="Space" ', () => {
-    const onCreate = sinon.spy();
-
+  it('Should create a tag by trigger="Space"', () => {
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Space" />);
@@ -407,11 +413,18 @@ describe('TagPicker', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ' ' });
 
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
-  it('Should create a tag by tirgger="Comma" ', () => {
-    const onCreate = sinon.spy();
+  it('Should create a tag by trigger="Comma"', () => {
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Comma" />);
@@ -423,7 +436,14 @@ describe('TagPicker', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ',' });
 
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
   it('Should be plaintext', () => {
@@ -443,12 +463,12 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onTagRemove` callback', () => {
-    const onTagRemove = sinon.spy();
+    const onTagRemove = vi.fn();
     render(<TagPicker data={data} defaultValue={['Kariane']} onTagRemove={onTagRemove} />);
     fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
-    expect(onTagRemove).to.have.been.calledOnce;
-    expect(onTagRemove).to.have.been.calledWith('Kariane');
+    expect(onTagRemove).toHaveBeenCalledTimes(1);
+    expect(onTagRemove).toHaveBeenCalledWith('Kariane', expect.any(Object));
   });
 
   describe('Accessibility', () => {

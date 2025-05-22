@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi, describe, expect, it } from 'vitest';
 import Pagination from '../Pagination';
-import { describe, expect, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -111,10 +110,10 @@ describe('Pagination', () => {
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Pagination pages={20} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('button', { name: '2' }));
-    expect(onSelect).to.have.been.calledWith(2);
+    expect(onSelect).toHaveBeenCalledWith(2, expect.any(Object));
   });
 
   it('Should show ellipsis when pages exceed maxButtons', () => {
@@ -134,31 +133,31 @@ describe('Pagination', () => {
   });
 
   it('Should handle first page navigation correctly', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Pagination pages={20} activePage={5} first onSelect={onSelect} />);
     fireEvent.click(screen.getByLabelText('First'));
-    expect(onSelect).to.have.been.calledWith(1);
+    expect(onSelect).toHaveBeenCalledWith(1, expect.any(Object));
   });
 
   it('Should handle last page navigation correctly', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Pagination pages={20} activePage={5} last onSelect={onSelect} />);
     fireEvent.click(screen.getByLabelText('Last'));
-    expect(onSelect).to.have.been.calledWith(20);
+    expect(onSelect).toHaveBeenCalledWith(20, expect.any(Object));
   });
 
   it('Should handle prev page navigation correctly', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Pagination pages={20} activePage={5} prev onSelect={onSelect} />);
     fireEvent.click(screen.getByLabelText('Previous'));
-    expect(onSelect).to.have.been.calledWith(4);
+    expect(onSelect).toHaveBeenCalledWith(4, expect.any(Object));
   });
 
   it('Should handle next page navigation correctly', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Pagination pages={20} activePage={5} next onSelect={onSelect} />);
     fireEvent.click(screen.getByLabelText('Next'));
-    expect(onSelect).to.have.been.calledWith(6);
+    expect(onSelect).toHaveBeenCalledWith(6, expect.any(Object));
   });
 
   it('Should render correct number of buttons with different maxButtons values', () => {

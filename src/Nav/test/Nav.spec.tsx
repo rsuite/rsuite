@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { testStandardProps } from '@test/cases';
 import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 
@@ -62,7 +61,7 @@ describe('<Nav>', () => {
   });
 
   it('Should call onSelect callback with correct arguments', async () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Nav onSelect={onSelect}>
         <Nav.Item eventKey="1" data-testid="item">
@@ -80,16 +79,16 @@ describe('<Nav>', () => {
     userEvent.click(screen.getByTestId('item'));
 
     await waitFor(() => {
-      expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      expect(onSelect, 'Works with <Nav.Item>').toHaveBeenCalledWith('1', expect.any(Object));
     });
 
-    onSelect.resetHistory();
+    onSelect.mockClear();
     userEvent.click(screen.getByTestId('dropdown-item'));
 
     await waitFor(() => {
-      expect(onSelect, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+      expect(onSelect, 'Works with <Nav.Dropdown.Item>').toHaveBeenCalledWith(
         '2-1',
-        sinon.match.any
+        expect.any(Object)
       );
     });
   });
@@ -123,7 +122,7 @@ describe('<Nav>', () => {
 
   describe('[Deprecated] Legacy Nav.Dropdown API', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1" data-testid="item">
@@ -141,16 +140,16 @@ describe('<Nav>', () => {
       userEvent.click(screen.getByTestId('item'));
 
       await waitFor(() => {
-        expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+        expect(onSelect, 'Works with <Nav.Item>').toHaveBeenCalledWith('1', expect.any(Object));
       });
 
-      onSelect.resetHistory();
+      onSelect.mockClear();
       userEvent.click(screen.getByTestId('dropdown-item'));
 
       await waitFor(() => {
-        expect(onSelect, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+        expect(onSelect, 'Works with <Nav.Dropdown.Item>').toHaveBeenCalledWith(
           '2-1',
-          sinon.match.any
+          expect.any(Object)
         );
       });
     });
@@ -183,7 +182,7 @@ describe('<Nav>', () => {
   });
 
   it('Should call onClose callback when click element inside the menu item ', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Nav>
         <Nav.Item eventKey="1">1</Nav.Item>
@@ -199,12 +198,12 @@ describe('<Nav>', () => {
 
     fireEvent.click(screen.getByTestId('item2'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <Nav onSelect={onSelect}>
           <Nav.Item eventKey="1" data-testid="item">
@@ -222,16 +221,16 @@ describe('<Nav>', () => {
       userEvent.click(screen.getByTestId('item'));
 
       await waitFor(() => {
-        expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+        expect(onSelect, 'Works with <Nav.Item>').toHaveBeenCalledWith('1', expect.any(Object));
       });
 
-      onSelect.resetHistory();
+      onSelect.mockClear();
       userEvent.click(screen.getByTestId('dropdown-item'));
 
       await waitFor(() => {
-        expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+        expect(onSelect, 'Works with <Dropdown.Item>').toHaveBeenCalledWith(
           '2-1',
-          sinon.match.any
+          expect.any(Object)
         );
       });
     });

@@ -1,12 +1,11 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
 import Dropdown from '../Dropdown';
 import Popover from '../../Popover';
 import Whisper from '../../Whisper';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -147,8 +146,8 @@ describe('<Dropdown.Menu>', () => {
 
     describe('Enter', () => {
       it('Activates the item with focus.', () => {
-        const onSelect = sinon.spy();
-        const onSelectItem = sinon.spy();
+        const onSelect = vi.fn();
+        const onSelectItem = vi.fn();
 
         const menubar = renderMenubar(
           <DropdownMenu onSelect={onSelect}>
@@ -159,15 +158,15 @@ describe('<Dropdown.Menu>', () => {
         );
 
         fireEvent.keyDown(menubar, { key: 'Enter' });
-        expect(onSelectItem).to.have.been.called;
-        expect(onSelect).to.have.been.calledWith('active-item');
+        expect(onSelectItem).toHaveBeenCalled();
+        expect(onSelect).toHaveBeenCalledWith('active-item', expect.anything());
       });
     });
 
     describe('Space', () => {
       it('Activates the item with focus.', () => {
-        const onSelect = sinon.spy();
-        const onSelectItem = sinon.spy();
+        const onSelect = vi.fn();
+        const onSelectItem = vi.fn();
 
         const menubar = renderMenubar(
           <DropdownMenu onSelect={onSelect}>
@@ -177,14 +176,14 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
         fireEvent.keyDown(menubar, { key: ' ' });
-        expect(onSelectItem).to.have.been.called;
-        expect(onSelect).to.have.been.calledWith('active-item');
+        expect(onSelectItem).toHaveBeenCalled();
+        expect(onSelect).toHaveBeenCalledWith('active-item', expect.anything());
       });
     });
   });
 
   it('Should call Dropdown.Menu onSelect callback only once', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <DropdownMenu onSelect={onSelect}>
@@ -198,7 +197,7 @@ describe('<Dropdown.Menu>', () => {
 
     fireEvent.click(screen.getByTestId('item-1'));
 
-    expect(onSelect.callCount).to.be.eq(1);
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should highlight menu item when hover', () => {
@@ -223,7 +222,7 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <DropdownMenu onSelect={onSelect} activeKey={1}>
@@ -237,8 +236,8 @@ describe('<Dropdown.Menu>', () => {
       bubbles: true
     });
 
-    expect(onSelect).to.have.been.called;
-    expect(onSelect).to.have.been.calledWith(3);
+    expect(onSelect).toHaveBeenCalled();
+    expect(onSelect).toHaveBeenCalledWith(3, expect.anything());
   });
 
   it('Should not move visual focus to first item when focus on an focusable element within', () => {

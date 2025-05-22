@@ -1,8 +1,8 @@
 import React from 'react';
 import ModalHeader from '../ModalHeader';
-import sinon from 'sinon';
+
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -21,10 +21,10 @@ describe('ModalHeader', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<ModalHeader onClose={onClose} />);
     userEvent.click(screen.getByRole('button'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

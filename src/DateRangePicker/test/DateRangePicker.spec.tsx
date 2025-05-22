@@ -174,26 +174,20 @@ describe('DateRangePicker', () => {
       <DateRangePicker defaultValue={[start, end]} format="hh:mm:ss" defaultOpen onOk={onOk} />
     );
 
-    //const startTimeButton = screen.queryAllByLabelText('Select time')[0];
-    //const endTimeButton = screen.queryAllByLabelText('Select time')[1];
-
     // select time to 6:6:6
     setTimePickerValue('start', { hours: 6, minutes: 6, seconds: 6 });
-
-    //expect(startTimeButton).to.be.text('06:06:06');
 
     // select time to 9:9:9
     setTimePickerValue('end', { hours: 9, minutes: 9, seconds: 9 });
 
-    //expect(endTimeButton).to.be.text('09:09:09');
-
     // press ok button
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(onOk).to.be.calledWithMatch([
-      new Date(2019, 10, 11, 6, 6, 6),
-      new Date(2019, 11, 11, 9, 9, 9)
-    ]);
+    expect(onOk).toHaveBeenCalled();
+    const args = onOk.mock.calls[0][0];
+    expect(args).toHaveLength(2);
+    expect(format(args[0], 'yyyy-MM-dd HH:mm:ss')).toEqual('2019-11-11 06:06:06');
+    expect(format(args[1], 'yyyy-MM-dd HH:mm:ss')).toEqual('2019-12-11 09:09:09');
 
     expect(screen.getByRole('textbox')).to.have.value('06:06:06 ~ 09:09:09');
   });
@@ -210,7 +204,7 @@ describe('DateRangePicker', () => {
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClean callback', () => {
@@ -218,7 +212,7 @@ describe('DateRangePicker', () => {
     render(<DateRangePicker defaultValue={[new Date(), new Date()]} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', async () => {

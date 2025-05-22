@@ -1,10 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
 import NavMegaMenu from '../NavMegaMenu';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 describe('NavMegaMenu', () => {
@@ -46,23 +45,23 @@ describe('NavMegaMenu', () => {
   });
 
   describe('Error handling', () => {
-    let consoleErrorStub;
+    const originalConsoleError = console.error;
+    let consoleErrorMock;
 
     beforeEach(() => {
-      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
-        // do nothing
-      });
+      consoleErrorMock = vi.fn();
+      console.error = consoleErrorMock;
     });
 
     afterEach(() => {
-      consoleErrorStub.restore();
+      console.error = originalConsoleError;
     });
 
     it('Should throw error if rendered outside of Navbar context', () => {
       render(<NavMegaMenu title="Mega Menu" />);
 
-      expect(consoleErrorStub).to.have.been.calledWith(
-        sinon.match(/<Nav.MegaMenu> should be used within a <Navbar> component./)
+      expect(consoleErrorMock).toHaveBeenCalledWith(
+        expect.stringMatching(/<Nav.MegaMenu> should be used within a <Navbar> component./)
       );
     });
 
@@ -73,8 +72,8 @@ describe('NavMegaMenu', () => {
         </Nav>
       );
 
-      expect(consoleErrorStub).to.have.been.calledWith(
-        sinon.match(/<Nav.MegaMenu> should be used within a <Navbar> component./)
+      expect(consoleErrorMock).toHaveBeenCalledWith(
+        expect.stringMatching(/<Nav.MegaMenu> should be used within a <Navbar> component./)
       );
     });
   });

@@ -1,10 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import Navbar from '../Navbar';
 import NavbarDrawer from '../NavbarDrawer';
 import NavbarToggle from '../NavbarToggle';
 import Drawer from '../../Drawer';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 describe('NavbarDrawer', () => {
@@ -15,7 +14,7 @@ describe('NavbarDrawer', () => {
   });
 
   it('Should render a drawer when NavbarToggle is clicked', async () => {
-    const onDrawerOpenChange = sinon.spy();
+    const onDrawerOpenChange = vi.fn();
     render(
       <Navbar onDrawerOpenChange={onDrawerOpenChange}>
         <NavbarToggle />
@@ -32,7 +31,7 @@ describe('NavbarDrawer', () => {
     fireEvent.click(screen.getByRole('button'));
 
     expect(screen.getByRole('dialog')).to.be.visible;
-    expect(onDrawerOpenChange).to.be.calledWith(true);
+    expect(onDrawerOpenChange).toHaveBeenCalledWith(true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
@@ -40,6 +39,6 @@ describe('NavbarDrawer', () => {
       expect(screen.queryByRole('dialog')).to.not.exist;
     });
 
-    expect(onDrawerOpenChange).to.be.calledWith(false);
+    expect(onDrawerOpenChange).toHaveBeenCalledWith(false);
   });
 });

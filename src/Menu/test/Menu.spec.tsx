@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Menu from '../Menu';
 import PageIcon from '@rsuite/icons/Page';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -57,7 +56,7 @@ describe('Menu', () => {
 
   describe('onSelect', () => {
     it('Should call onSelect with eventKey when item is clicked', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(
         <Menu onSelect={onSelect}>
@@ -67,13 +66,13 @@ describe('Menu', () => {
       );
 
       fireEvent.click(screen.getByText('Item 1'));
-      expect(onSelect).to.have.been.calledOnce;
-      expect(onSelect.firstCall.args[0]).to.equal('1');
-      expect(onSelect.firstCall.args[1]).to.exist;
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onSelect.mock.calls[0][0]).to.equal('1');
+      expect(onSelect.mock.calls[0][1]).to.exist;
     });
 
     it('Should not call onSelect when clicking a disabled item', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(
         <Menu onSelect={onSelect}>
@@ -84,11 +83,11 @@ describe('Menu', () => {
       );
 
       fireEvent.click(screen.getByText('Item 1'));
-      expect(onSelect).to.not.have.been.called;
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('Should call onSelect with undefined when item has no eventKey', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(
         <Menu onSelect={onSelect}>
@@ -97,12 +96,12 @@ describe('Menu', () => {
       );
 
       fireEvent.click(screen.getByText('Item without key'));
-      expect(onSelect).to.have.been.calledWith(undefined);
+      expect(onSelect).toHaveBeenCalledWith(undefined, expect.any(Object));
     });
 
     it('Should handle both Menu onSelect and MenuItem onSelect', () => {
-      const menuOnSelect = sinon.spy();
-      const itemOnSelect = sinon.spy();
+      const menuOnSelect = vi.fn();
+      const itemOnSelect = vi.fn();
 
       render(
         <Menu onSelect={menuOnSelect}>
@@ -113,8 +112,8 @@ describe('Menu', () => {
       );
 
       fireEvent.click(screen.getByText('Item 1'));
-      expect(menuOnSelect).to.have.been.calledWith('1');
-      expect(itemOnSelect).to.have.been.calledWith('1');
+      expect(menuOnSelect).toHaveBeenCalledWith('1', expect.any(Object));
+      expect(itemOnSelect).toHaveBeenCalledWith('1', expect.any(Object));
     });
   });
 

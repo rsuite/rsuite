@@ -1,9 +1,8 @@
 import React, { Ref } from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Disclosure from '../Disclosure';
 import useDisclosureContext from '../useDisclosureContext';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { DisclosureActionTypes } from '../DisclosureContext';
 
@@ -46,7 +45,7 @@ describe('<Disclosure>', () => {
   });
 
   it('Should be possible to control Disclosure with `open` and `onToggle`', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     const { rerender } = render(
       <Disclosure open onToggle={onToggle}>
         {() => (
@@ -77,7 +76,7 @@ describe('<Disclosure>', () => {
 
     fireEvent.click(button);
 
-    expect(onToggle).to.have.been.calledWith(false);
+    expect(onToggle).toHaveBeenCalledWith(false, expect.any(Object));
 
     rerender(
       <Disclosure open={false} onToggle={onToggle}>
@@ -105,8 +104,7 @@ describe('<Disclosure>', () => {
     expect(content.hidden, 'Content is hidden').to.be.true;
 
     fireEvent.click(button);
-
-    expect(onToggle).to.have.been.calledWith(true);
+    expect(onToggle).toHaveBeenCalledWith(true, expect.any(Object));
   });
 
   it('Should be toggled by mouseEnter/mouseLeave given `trigger=[hover]`', () => {

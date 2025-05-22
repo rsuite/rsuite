@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -30,7 +29,7 @@ describe('PanelGroup', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <PanelGroup accordion onSelect={onSelect}>
         <Panel eventKey={1} header="Click me 1">
@@ -43,11 +42,11 @@ describe('PanelGroup', () => {
     );
 
     fireEvent.click(screen.getByText('Click me 2'));
-    expect(onSelect).to.have.been.calledWith(2);
+    expect(onSelect).toHaveBeenCalledWith(2, expect.any(Object));
   });
 
   it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <PanelGroup accordion onSelect={onSelect}>
         <Panel header="Click me">111</Panel>
@@ -55,7 +54,7 @@ describe('PanelGroup', () => {
     );
 
     fireEvent.click(screen.getByText('Click me'));
-    expect(onSelect).to.have.been.calledWith(undefined);
+    expect(onSelect).toHaveBeenCalledWith(undefined, expect.any(Object));
   });
 
   it('Should be a collapsible panel with accordion', () => {

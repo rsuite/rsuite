@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import RangeSlider from '../RangeSlider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { addStyle } from 'dom-lib';
 import { testStandardProps } from '@test/cases';
@@ -55,8 +54,8 @@ describe('RangeSlider', () => {
   });
 
   it('Should be disabled', () => {
-    const onChange = sinon.spy();
-    const onChangeCommitted = sinon.spy();
+    const onChange = vi.fn();
+    const onChangeCommitted = vi.fn();
 
     const { container } = render(
       <RangeSlider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
@@ -67,13 +66,13 @@ describe('RangeSlider', () => {
 
     fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
 
-    expect(onChange).to.have.not.been.called;
-    expect(onChangeCommitted).to.have.not.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onChangeCommitted).not.toHaveBeenCalled();
   });
 
   it('Should be readOnly', () => {
-    const onChange = sinon.spy();
-    const onChangeCommitted = sinon.spy();
+    const onChange = vi.fn();
+    const onChangeCommitted = vi.fn();
 
     const { container } = render(
       <RangeSlider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
@@ -83,8 +82,8 @@ describe('RangeSlider', () => {
 
     fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
 
-    expect(onChange).to.have.not.been.called;
-    expect(onChangeCommitted).to.have.not.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onChangeCommitted).not.toHaveBeenCalled();
   });
 
   it('Should apply the specified size', () => {
@@ -120,16 +119,15 @@ describe('RangeSlider', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(<RangeSlider defaultValue={[10, 50]} onChange={onChange} />);
 
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
-
-    expect(onChange).to.have.been.calledWith([0, 50]);
+    expect(onChange).toHaveBeenCalledWith([0, 50], expect.any(Object));
   });
 
   it('Should respond to keyboard event', async () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<RangeSlider value={[10, 50]} onChange={onChange} />);
 
     // FIXME Should dispatch event on [role=slider] directly
@@ -139,17 +137,17 @@ describe('RangeSlider', () => {
         key: 'ArrowRight'
       }
     );
-    expect(onChange).to.have.been.calledWith([11, 50]);
+    expect(onChange).toHaveBeenCalledWith([11, 50], expect.any(Object));
   });
 
   it('Should not call onChange when next value does not match given constraint', async () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(
       <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
 
     fireEvent.keyDown(
       screen.getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement,
@@ -157,7 +155,7 @@ describe('RangeSlider', () => {
         key: 'ArrowRight'
       }
     );
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should render custom title', () => {
@@ -201,7 +199,7 @@ describe('RangeSlider', () => {
   });
 
   it('Should call `onChangeCommitted` callback', async () => {
-    const onChangeCommitted = sinon.spy();
+    const onChangeCommitted = vi.fn();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     const { container } = render(<RangeSlider onChangeCommitted={onChangeCommitted} />);
@@ -213,18 +211,17 @@ describe('RangeSlider', () => {
     expect(handle).to.have.class('active');
 
     handle.dispatchEvent(mouseupEvent);
-    expect(onChangeCommitted).to.have.been.calledOnce;
+    expect(onChangeCommitted).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChangeCommitted` callback when click bar', () => {
-    const onChangeCommitted = sinon.spy();
+    const onChangeCommitted = vi.fn();
     const { container } = render(
       <RangeSlider defaultValue={[10, 50]} onChangeCommitted={onChangeCommitted} />
     );
 
     fireEvent.click(container.querySelector('.rs-slider-bar') as HTMLElement);
-
-    expect(onChangeCommitted).to.have.been.calledWith([0, 50]);
+    expect(onChangeCommitted).toHaveBeenCalledWith([0, 50], expect.any(Object));
   });
 
   it('Should output an `input` stored value', () => {
@@ -246,7 +243,7 @@ describe('RangeSlider', () => {
   });
 
   it('Should be reversed start and end values', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(
       <RangeSlider style={{ height: 100 }} defaultValue={[10, 50]} onChange={onChange} vertical />
     );
@@ -257,8 +254,7 @@ describe('RangeSlider', () => {
     addStyle(document.body, 'margin', '0');
 
     userEvent.click(sliderBar, { clientX: 0, clientY: 80 });
-
-    expect(onChange).to.have.been.calledWith([20, 50]);
+    expect(onChange).toHaveBeenCalledWith([20, 50], expect.any(Object));
 
     userEvent.click(sliderBar, { clientX: 0, clientY: 0 });
 
@@ -266,9 +262,9 @@ describe('RangeSlider', () => {
      * fix: https://github.com/rsuite/rsuite/issues/2425
      * Error thrown before fix: expected [ 100, 20 ] to deeply equal [ 20, 100 ]
      */
-    expect(onChange).to.have.been.calledWith([20, 100]);
+    expect(onChange).toHaveBeenCalledWith([20, 100], expect.any(Object));
 
-    expect(onChange).to.have.been.calledTwice;
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 
   describe('Plain text', () => {

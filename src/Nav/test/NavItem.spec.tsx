@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -25,7 +24,7 @@ describe('<Nav.Item>', () => {
   });
 
   it('Should call onSelect callback with correct eventKey', async () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<Nav.Item onSelect={onSelect} eventKey={'Test'} data-testid="item" />, {
       wrapper: Nav
@@ -34,12 +33,12 @@ describe('<Nav.Item>', () => {
     fireEvent.click(screen.getByTestId('item'));
 
     await waitFor(() => {
-      expect(onSelect).to.have.been.calledWith('Test');
+      expect(onSelect).toHaveBeenCalledWith('Test', expect.any(Object));
     });
   });
 
   it('Should call onClick callback', async () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<Nav.Item onClick={onClick} data-testid="item" />, {
       wrapper: Nav
@@ -48,7 +47,7 @@ describe('<Nav.Item>', () => {
     fireEvent.click(screen.getByTestId('item'));
 
     await waitFor(() => {
-      expect(onClick).to.have.been.called;
+      expect(onClick).toHaveBeenCalled();
     });
   });
 
@@ -65,7 +64,7 @@ describe('<Nav.Item>', () => {
   });
 
   it('Should not call onSelect callback when the `NavItem` is disabled', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<Nav.Item onSelect={onSelect} disabled data-testid="item" />, {
       wrapper: Nav
@@ -73,11 +72,11 @@ describe('<Nav.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onSelect).not.to.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<Nav.Item onClick={onClick} disabled data-testid="item" />, {
       wrapper: Nav
@@ -85,7 +84,7 @@ describe('<Nav.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onClick).not.to.have.been.called;
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   describe('Within <Navbar>', () => {
@@ -140,7 +139,7 @@ describe('<Nav.Item>', () => {
     });
 
     it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
-      const onMouseOver = sinon.spy();
+      const onMouseOver = vi.fn();
       render(
         <Sidenav expanded={false}>
           <Nav onMouseOver={onMouseOver}>
@@ -151,8 +150,8 @@ describe('<Nav.Item>', () => {
 
       fireEvent.mouseOver(screen.getByTestId('nav-item'));
 
-      expect(onMouseOver).to.have.been.called;
-      expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
+      expect(onMouseOver).toHaveBeenCalled();
+      expect(screen.getByRole('tooltip'), 'Tooltip').not.toBeNull();
     });
   });
 

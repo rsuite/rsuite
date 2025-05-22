@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Form from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
 import Button from '../../Button';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import { FormInstance } from '../hooks/useFormRef';
 
@@ -152,7 +151,7 @@ describe('Form Validation', () => {
       name: 'abc'
     };
 
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <Form formDefaultValue={values} onChange={onChange}>
@@ -162,15 +161,15 @@ describe('Form Validation', () => {
 
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onChange).to.be.called;
-    expect(onChange).to.be.calledWith({ name: 'abcd' });
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange.mock.calls[0][0]).toEqual({ name: 'abcd' });
   });
 
   it('Should call onError callback', () => {
     const values = {
       name: 'abc'
     };
-    const onError = sinon.spy();
+    const onError = vi.fn();
     render(
       <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="name" />
@@ -179,8 +178,8 @@ describe('Form Validation', () => {
 
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onError).to.be.called;
-    expect(onError).to.be.calledWith({ name: 'Email error' });
+    expect(onError).toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({ name: 'Email error' });
   });
 
   it('Should not call onError callback', () => {
@@ -188,7 +187,7 @@ describe('Form Validation', () => {
       name: 'abc@ddd.com'
     };
 
-    const onError = sinon.spy();
+    const onError = vi.fn();
     render(
       <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="name" />
@@ -200,7 +199,7 @@ describe('Form Validation', () => {
       initialSelectionEnd: 3
     });
 
-    expect(onError).to.be.not.called;
+    expect(onError).not.toHaveBeenCalled();
   });
 
   it('Should call onError callback by checkAsync', async () => {
@@ -208,7 +207,7 @@ describe('Form Validation', () => {
       name: 'abc'
     };
 
-    const onError = sinon.spy();
+    const onError = vi.fn();
     render(
       <Form formDefaultValue={values} onError={onError} model={modelAsync}>
         <FormControl name="name" checkAsync />
@@ -218,8 +217,8 @@ describe('Form Validation', () => {
     userEvent.type(screen.getByRole('textbox'), 'd');
 
     await waitFor(() => {
-      expect(onError).to.be.called;
-      expect(onError).to.be.calledWith({ name: 'Duplicate name' });
+      expect(onError).toHaveBeenCalled();
+      expect(onError).toHaveBeenCalledWith({ name: 'Duplicate name' });
     });
   });
 
@@ -274,7 +273,7 @@ describe('Form Validation', () => {
       items: []
     };
 
-    const onError = sinon.spy();
+    const onError = vi.fn();
     render(
       <Form formDefaultValue={values} onError={onError} model={model}>
         <FormControl name="items" accepter={Field} />
@@ -283,7 +282,7 @@ describe('Form Validation', () => {
 
     userEvent.type(screen.getByRole('textbox'), 'abcd');
 
-    expect(onError).to.be.calledWith({
+    expect(onError).toHaveBeenCalledWith({
       items: {
         hasError: true,
         array: [
@@ -316,7 +315,7 @@ describe('Form Validation', () => {
     const values = { items: [{ field1: '', field2: '' }] };
 
     const formRef = React.createRef<FormInstance>();
-    const onError = sinon.spy();
+    const onError = vi.fn();
 
     render(
       <Form formDefaultValue={values} onError={onError} model={model} ref={formRef}>
@@ -328,7 +327,7 @@ describe('Form Validation', () => {
       (formRef.current as FormInstance).check();
     });
 
-    expect(onError).to.be.calledWith({
+    expect(onError).toHaveBeenCalledWith({
       items: {
         hasError: true,
         array: [
@@ -365,7 +364,7 @@ describe('Form Validation', () => {
         name: 'abc'
       };
 
-      const onCheck = sinon.spy();
+      const onCheck = vi.fn();
       render(
         <Form formDefaultValue={values} onCheck={onCheck}>
           <FormControl name="name" />
@@ -374,8 +373,8 @@ describe('Form Validation', () => {
 
       userEvent.type(screen.getByRole('textbox'), 'd');
 
-      expect(onCheck).to.be.called;
-      expect(onCheck).to.be.calledWith({});
+      expect(onCheck).toHaveBeenCalled();
+      expect(onCheck).toHaveBeenCalledWith({});
     });
 
     it('Should call onCheck callback when blur', () => {
@@ -383,7 +382,7 @@ describe('Form Validation', () => {
         name: 'abc'
       };
 
-      const onCheck = sinon.spy();
+      const onCheck = vi.fn();
       render(
         <Form formDefaultValue={values} onCheck={onCheck} checkTrigger="blur">
           <FormControl name="name" />
@@ -391,8 +390,8 @@ describe('Form Validation', () => {
       );
       fireEvent.blur(screen.getByRole('textbox'));
 
-      expect(onCheck).to.be.called;
-      expect(onCheck).to.be.calledWith({});
+      expect(onCheck).toHaveBeenCalled();
+      expect(onCheck).toHaveBeenCalledWith({});
     });
 
     it('Should not call onCheck callback when checkTrigger is null', () => {
@@ -400,7 +399,7 @@ describe('Form Validation', () => {
         name: 'abc'
       };
 
-      const onCheck = sinon.spy();
+      const onCheck = vi.fn();
       render(
         <Form formDefaultValue={values} onCheck={onCheck} checkTrigger={null}>
           <FormControl name="name" />
@@ -409,7 +408,7 @@ describe('Form Validation', () => {
       fireEvent.blur(screen.getByRole('textbox'));
       userEvent.type(screen.getByRole('textbox'), 'd');
 
-      expect(onCheck).to.be.not.called;
+      expect(onCheck).not.toHaveBeenCalled();
     });
 
     it('Should call onCheck callback', () => {
@@ -417,7 +416,7 @@ describe('Form Validation', () => {
         name: 'abc'
       };
 
-      const onCheck = sinon.spy();
+      const onCheck = vi.fn();
       render(
         <Form
           formDefaultValue={values}
@@ -431,8 +430,8 @@ describe('Form Validation', () => {
       );
       userEvent.type(screen.getByRole('textbox'), 'd');
 
-      expect(onCheck).to.be.called;
-      expect(onCheck).to.be.calledWith({ email: 'email is null' });
+      expect(onCheck).toHaveBeenCalled();
+      expect(onCheck).toHaveBeenCalledWith({ email: 'email is null' });
     });
   });
 
@@ -442,9 +441,9 @@ describe('Form Validation', () => {
         mail: 'foobar@gmail.com'
       };
 
-      const onSubmit = sinon.spy();
-      const onError = sinon.spy();
-      const onCheck = sinon.spy();
+      const onSubmit = vi.fn();
+      const onError = vi.fn();
+      const onCheck = vi.fn();
       render(
         <Form
           formDefaultValue={values}
@@ -460,9 +459,10 @@ describe('Form Validation', () => {
 
       fireEvent.click(screen.getByRole('button'));
 
-      expect(onSubmit).to.be.calledWith(values);
-      expect(onCheck).to.be.calledWith({});
-      expect(onError).to.be.not.called;
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onSubmit.mock.calls[0][0]).toEqual(values);
+      expect(onCheck).toHaveBeenCalledWith({});
+      expect(onError).not.toHaveBeenCalled();
     });
 
     it('Should call onSubmit callback by submit method', () => {
@@ -470,9 +470,9 @@ describe('Form Validation', () => {
         mail: 'foobar@gmail.com'
       };
 
-      const onSubmit = sinon.spy();
-      const onError = sinon.spy();
-      const onCheck = sinon.spy();
+      const onSubmit = vi.fn();
+      const onError = vi.fn();
+      const onCheck = vi.fn();
       const formRef = React.createRef<FormInstance>();
       render(
         <Form
@@ -489,9 +489,10 @@ describe('Form Validation', () => {
 
       formRef.current?.submit();
 
-      expect(onSubmit).to.be.calledWith(values);
-      expect(onCheck).to.be.calledWith({});
-      expect(onError).to.be.not.called;
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onSubmit.mock.calls[0][0]).toEqual(values);
+      expect(onCheck).toHaveBeenCalledWith({});
+      expect(onError).not.toHaveBeenCalled();
     });
 
     it('Should not call onSubmit callback when check failed', () => {
@@ -499,9 +500,9 @@ describe('Form Validation', () => {
         name: 'foobar'
       };
 
-      const onSubmit = sinon.spy();
-      const onError = sinon.spy();
-      const onCheck = sinon.spy();
+      const onSubmit = vi.fn();
+      const onError = vi.fn();
+      const onCheck = vi.fn();
       render(
         <Form
           formDefaultValue={values}
@@ -517,14 +518,14 @@ describe('Form Validation', () => {
 
       fireEvent.click(screen.getByRole('button'));
 
-      expect(onSubmit).to.be.not.called;
-      expect(onCheck).to.be.calledWith({ name: 'Email error' });
-      expect(onError).to.be.calledWith({ name: 'Email error' });
+      expect(onSubmit).not.toHaveBeenCalled();
+      expect(onCheck).toHaveBeenCalledWith({ name: 'Email error' });
+      expect(onError).toHaveBeenCalledWith({ name: 'Email error' });
     });
 
     it('Should not call onSubmit callback when form is disabled', () => {
       const values = { name: 'foobar@gmail.com' };
-      const onSubmit = sinon.spy();
+      const onSubmit = vi.fn();
       render(
         <Form formDefaultValue={values} model={model} onSubmit={onSubmit} disabled>
           <FormControl name="name" />
@@ -533,12 +534,12 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onSubmit).to.be.not.called;
+      expect(onSubmit).not.toHaveBeenCalled();
     });
 
     it('Should not call onSubmit callback when form is readOnly', () => {
       const values = { name: 'foobar@gmail.com' };
-      const onSubmit = sinon.spy();
+      const onSubmit = vi.fn();
       render(
         <Form formDefaultValue={values} model={model} onSubmit={onSubmit} readOnly>
           <FormControl name="name" />
@@ -547,12 +548,12 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onSubmit).to.be.not.called;
+      expect(onSubmit).not.toHaveBeenCalled();
     });
 
     it('Should not call onSubmit callback when form is plaintext', () => {
       const values = { name: 'foobar@gmail.com' };
-      const onSubmit = sinon.spy();
+      const onSubmit = vi.fn();
       render(
         <Form formDefaultValue={values} model={model} onSubmit={onSubmit} plaintext>
           <FormControl name="name" />
@@ -561,10 +562,10 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onSubmit).to.be.not.called;
+      expect(onSubmit).not.toHaveBeenCalled();
     });
     it('Should pass event object to onSubmit callback', () => {
-      const onSubmit = sinon.spy();
+      const onSubmit = vi.fn();
       render(
         <Form onSubmit={onSubmit}>
           <FormControl name="name" />
@@ -574,14 +575,14 @@ describe('Form Validation', () => {
 
       userEvent.click(screen.getByRole('button'));
 
-      expect(onSubmit).to.be.calledWithMatch(sinon.match.object, sinon.match.object);
+      expect(onSubmit).toHaveBeenCalledWith(expect.any(Object), expect.any(Object));
     });
   });
 
   describe('The onReset callback', () => {
     it('Should call onReset callback', () => {
       const values = { name: 'foobar@mail.com' };
-      const onReset = sinon.spy();
+      const onReset = vi.fn();
 
       render(
         <Form formDefaultValue={values} onReset={onReset} model={model}>
@@ -599,12 +600,13 @@ describe('Form Validation', () => {
 
       expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
       expect(screen.queryAllByRole('alert')).to.be.empty;
-      expect(onReset).to.be.calledWith(values);
+      expect(onReset).toHaveBeenCalled();
+      expect(onReset.mock.calls[0][0]).toEqual(values);
     });
 
     it('Should call onReset callback by reset method', async () => {
       const values = { name: 'foobar@mail.com' };
-      const onReset = sinon.spy();
+      const onReset = vi.fn();
       const formRef = React.createRef<FormInstance>();
 
       render(
@@ -624,13 +626,14 @@ describe('Form Validation', () => {
       await waitFor(() => {
         expect(screen.getByRole('textbox')).to.have.value('foobar@mail.com');
         expect(screen.queryAllByRole('alert')).to.be.empty;
-        expect(onReset).to.be.calledWith(values);
+        expect(onReset).toHaveBeenCalled();
+        expect(onReset.mock.calls[0][0]).toEqual(values);
       });
     });
 
     it('Should not call onReset callback when form is disabled', () => {
       const values = { name: 'foobar@mail.com' };
-      const onReset = sinon.spy();
+      const onReset = vi.fn();
       render(
         <Form formDefaultValue={values} onReset={onReset} model={model} disabled>
           <FormControl name="name" />
@@ -639,12 +642,12 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onReset).to.be.not.called;
+      expect(onReset).not.toHaveBeenCalled();
     });
 
     it('Should not call onReset callback when form is readOnly', () => {
       const values = { name: 'foobar@mail.com' };
-      const onReset = sinon.spy();
+      const onReset = vi.fn();
       render(
         <Form formDefaultValue={values} onReset={onReset} model={model} readOnly>
           <FormControl name="name" />
@@ -653,11 +656,11 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onReset).to.be.not.called;
+      expect(onReset).not.toHaveBeenCalled();
     });
     it('Should not call onReset callback when form is plaintext', () => {
       const values = { name: 'foobar@mail.com' };
-      const onReset = sinon.spy();
+      const onReset = vi.fn();
       render(
         <Form formDefaultValue={values} onReset={onReset} model={model} plaintext>
           <FormControl name="name" />
@@ -666,7 +669,7 @@ describe('Form Validation', () => {
       );
 
       fireEvent.click(screen.getByRole('button'));
-      expect(onReset).to.be.not.called;
+      expect(onReset).not.toHaveBeenCalled();
     });
   });
 
@@ -823,7 +826,7 @@ describe('Form Validation', () => {
     });
 
     it('Should only validate the field of the current interactive control', () => {
-      const onCheck = sinon.spy();
+      const onCheck = vi.fn();
       const model = Schema.Model({
         obj: Schema.Types.ObjectType().shape({
           number1: Schema.Types.NumberType(),
@@ -891,7 +894,7 @@ describe('Form Validation', () => {
     });
 
     it('Should render deeply nested error messages with addRule', async () => {
-      const onAddRule = sinon.spy();
+      const onAddRule = vi.fn();
       const model = Schema.Model({
         name: Schema.Types.StringType().isRequired('Name is required'),
         user: Schema.Types.ObjectType().shape({
@@ -925,7 +928,7 @@ describe('Form Validation', () => {
       await screen.findAllByRole('alert');
 
       expect(screen.getAllByRole('alert')).to.have.length(4);
-      expect(onAddRule).to.be.calledWith(formDefaultValue.user.street, formDefaultValue);
+      expect(onAddRule).toHaveBeenCalledWith(formDefaultValue.user.street, formDefaultValue);
 
       screen.getAllByRole('alert').forEach((alert, index) => {
         expect(alert).to.have.text(
@@ -980,7 +983,7 @@ describe('Form Validation', () => {
       });
 
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       render(
         <Form model={model} ref={formRef} onError={onError} nestedField>
@@ -995,7 +998,7 @@ describe('Form Validation', () => {
       });
 
       await waitFor(() => {
-        expect(onError).to.have.been.calledWith({
+        expect(onError).toHaveBeenCalledWith({
           name: 'Name is required.',
           address: {
             object: {
@@ -1027,7 +1030,7 @@ describe('Form Validation', () => {
       });
 
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       const validFormValue = {
         name: 'John',
@@ -1053,7 +1056,7 @@ describe('Form Validation', () => {
       });
 
       await waitFor(() => {
-        expect(onError).to.not.have.been.called;
+        expect(onError).not.toHaveBeenCalled();
         expect(screen.queryAllByRole('alert')).to.have.length(0);
       });
     });
@@ -1072,7 +1075,7 @@ describe('Form Validation', () => {
       });
 
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
       const defaultValues = {
         name: '',
         address: [
@@ -1101,10 +1104,10 @@ describe('Form Validation', () => {
         formRef.current?.check();
       });
 
-      expect(onError).to.have.been.calledOnce;
+      expect(onError).toHaveBeenCalledTimes(1);
 
       await waitFor(() => {
-        expect(onError).to.have.been.calledWith({
+        expect(onError).toHaveBeenCalledWith({
           name: 'Name is required.',
           address: {
             hasError: true,
@@ -1157,7 +1160,7 @@ describe('Form Validation', () => {
 
     it('Should validate explicit nested ArrayType', async () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
       const defaultValues = {
         name: '',
         address: [
@@ -1192,10 +1195,10 @@ describe('Form Validation', () => {
         formRef.current?.check();
       });
 
-      expect(onError).to.have.been.calledOnce;
+      expect(onError).toHaveBeenCalledTimes(1);
 
       await waitFor(() => {
-        expect(onError).to.have.been.calledWith({
+        expect(onError).toHaveBeenCalledWith({
           name: 'Name is required.',
           address: {
             hasError: true,
@@ -1238,7 +1241,7 @@ describe('Form Validation', () => {
 
     it('Should validate explicit nested ArrayType with FormControl set rule', async () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
       const defaultValues = {
         name: '',
         address: [
@@ -1275,10 +1278,10 @@ describe('Form Validation', () => {
         formRef.current?.check();
       });
 
-      expect(onError).to.have.been.calledOnce;
+      expect(onError).toHaveBeenCalledTimes(1);
 
       await waitFor(() => {
-        expect(onError).to.have.been.calledWith({
+        expect(onError).toHaveBeenCalledWith({
           name: 'Name is required.',
           address: {
             hasError: true,
@@ -1328,7 +1331,7 @@ describe('Form Validation', () => {
         )
       });
 
-      const onError = sinon.spy();
+      const onError = vi.fn();
       const defaultValues = { address: [{ city: '' }] };
 
       render(
@@ -1345,8 +1348,8 @@ describe('Form Validation', () => {
 
       fireEvent.blur(screen.getByRole('textbox'));
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWith({
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith({
         address: {
           array: [
             {
@@ -1373,7 +1376,7 @@ describe('Form Validation', () => {
         )
       });
 
-      const onError = sinon.spy();
+      const onError = vi.fn();
       const defaultValues = { address: [{ city: 'Shanghai' }] };
 
       render(
@@ -1390,8 +1393,8 @@ describe('Form Validation', () => {
 
       fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWith({
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith({
         address: {
           array: [
             {
@@ -1415,7 +1418,7 @@ describe('Form Validation', () => {
 
   describe('Custom validation rules', () => {
     it('Should get the correct formValue in the addRule callback', () => {
-      const onAddRule = sinon.spy();
+      const onAddRule = vi.fn();
       const model = Schema.Model({
         name: Schema.Types.StringType().isRequired(),
         email: Schema.Types.StringType()
@@ -1444,7 +1447,7 @@ describe('Form Validation', () => {
 
       fireEvent.click(screen.getByRole('button'));
 
-      expect(onAddRule).to.be.calledWith(formValue.email, formValue);
+      expect(onAddRule).toHaveBeenCalledWith(formValue.email, formValue);
     });
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Tree from '../Tree';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { ListHandle } from '@/internals/Windowing';
@@ -31,7 +30,7 @@ describe('Tree', () => {
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+    const onSelectItem = vi.fn();
 
     render(
       <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
@@ -39,31 +38,35 @@ describe('Tree', () => {
 
     userEvent.click(screen.getByRole('treeitem', { name: 'tester2' }));
 
-    expect(onSelectItem).to.have.been.calledWithMatch({ value: 'tester2' }, [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
-    ]);
+    expect(onSelectItem).toHaveBeenCalledWith(
+      expect.objectContaining({ value: 'tester2' }),
+      expect.arrayContaining([
+        expect.objectContaining({ value: 'Master' }),
+        expect.objectContaining({ value: 'tester1' }),
+        expect.objectContaining({ value: 'tester2' })
+      ])
+    );
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
-
+    const onSelect = vi.fn();
     render(<Tree data={data} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+    userEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'Master' }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    // Check the first argument of the first call
+    expect(onSelect.mock.calls[0][0]).toMatchObject({ value: 'Master' });
   });
 
   it('Should not call `onSelect` callback when the item is disabled', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<Tree data={data} onSelect={onSelect} disabledItemValues={['Master']} />);
 
     fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-    expect(onSelect).to.not.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should show indent line', () => {
@@ -106,14 +109,18 @@ describe('Tree', () => {
   });
 
   describe('Searchable', () => {
-    it('Should call `onSearch` callback', () => {
-      const onSearch = sinon.spy();
+    it('Should call `onSearch` callback', async () => {
+      const onSearch = vi.fn();
       render(<Tree data={data} onSearch={onSearch} searchable />);
       const input = screen.getByRole('searchbox');
 
-      userEvent.type(input, 'tester');
+      // Use await with userEvent.type
+      await userEvent.type(input, 'tester');
 
-      expect(onSearch).to.have.been.calledWith('tester');
+      // The callback is called with the value and event
+      expect(onSearch).toHaveBeenCalled();
+      // Check the first argument of the last call
+      expect(onSearch.mock.calls[onSearch.mock.calls.length - 1][0]).toBe('tester');
     });
 
     it('Should filter the tree when searching', () => {
@@ -147,60 +154,65 @@ describe('Tree', () => {
     });
 
     it('Should call `onDragStart` callback', () => {
-      const onDragStart = sinon.spy();
+      const onDragStart = vi.fn();
       render(<Tree data={data} onDragStart={onDragStart} draggable />);
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragStart(treeNode);
 
-      expect(onDragStart).to.have.calledOnce;
-      expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
+      expect(onDragStart).toHaveBeenCalledTimes(1);
+      // The first argument is the node, second is the event
+      expect(onDragStart.mock.calls[0][0]).toMatchObject({ value: 'Master' });
 
       expect(treeNode).to.have.contain('.rs-tree-node-dragging');
     });
 
     it('Should call `onDragEnter` callback', () => {
-      const onDragEnter = sinon.spy();
+      const onDragEnter = vi.fn();
       render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragEnter(treeNode);
 
-      expect(onDragEnter).to.have.calledOnce;
-      expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
+      expect(onDragEnter).toHaveBeenCalledTimes(1);
+      // The first argument is the node, second is the event
+      expect(onDragEnter.mock.calls[0][0]).toMatchObject({ value: 'Master' });
     });
 
     it('Should call `onDragOver` callback', () => {
-      const onDragOver = sinon.spy();
+      const onDragOver = vi.fn();
       render(<Tree data={data} onDragOver={onDragOver} draggable />);
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragOver(treeNode);
 
-      expect(onDragOver).to.have.calledOnce;
-      expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
+      expect(onDragOver).toHaveBeenCalledTimes(1);
+      // The first argument is the node, second is the event
+      expect(onDragOver.mock.calls[0][0]).toMatchObject({ value: 'Master' });
     });
 
     it('Should call `onDragLeave` callback', () => {
-      const onDragLeave = sinon.spy();
+      const onDragLeave = vi.fn();
       render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragLeave(treeNode);
 
-      expect(onDragLeave).to.have.calledOnce;
-      expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
+      expect(onDragLeave).toHaveBeenCalledTimes(1);
+      // The first argument is the node, second is the event
+      expect(onDragLeave.mock.calls[0][0]).toMatchObject({ value: 'Master' });
     });
 
     it('Should call `onDragEnd` callback', () => {
-      const onDragEnd = sinon.spy();
+      const onDragEnd = vi.fn();
       render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
       const treeNode = screen.getAllByRole('treeitem')[0];
 
       fireEvent.dragEnd(treeNode);
 
-      expect(onDragEnd).to.have.calledOnce;
-      expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
+      expect(onDragEnd).toHaveBeenCalledTimes(1);
+      // The first argument is the node, second is the event
+      expect(onDragEnd.mock.calls[0][0]).toMatchObject({ value: 'Master' });
     });
 
     it('Should display drag Preview when dragging, and remove after drop', () => {
@@ -217,7 +229,7 @@ describe('Tree', () => {
 
     it('Should call `onDrop` callback without exception', () => {
       expect(() => {
-        const onDrop = sinon.spy();
+        const onDrop = vi.fn();
         render(<Tree data={data} onDrop={onDrop} draggable defaultExpandAll />);
         const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
         const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
@@ -225,13 +237,15 @@ describe('Tree', () => {
         fireEvent.dragStart(dragTreeNode);
         fireEvent.drop(dropTreeNode);
 
-        expect(onDrop).to.have.calledOnce;
+        expect(onDrop).toHaveBeenCalledTimes(1);
 
-        const { dragNode } = onDrop.firstCall.firstArg;
+        // Get the first argument passed to onDrop
+        const dropArgs = onDrop.mock.calls[0][0];
+        const { dragNode } = dropArgs;
 
         // make sure dragNode hasn't cyclic object
         JSON.stringify(dragNode);
-      }).to.not.throw();
+      }).not.toThrow();
     });
   });
 
@@ -353,7 +367,7 @@ describe('Tree', () => {
     });
 
     it('Should scroll the list by `scrollToRow`', () => {
-      const onScroll = sinon.spy();
+      const onScroll = vi.fn();
       const ref = React.createRef<ListHandle>();
       render(
         <Tree
@@ -365,7 +379,7 @@ describe('Tree', () => {
         />
       );
       ref.current?.scrollToItem?.(2);
-      expect(onScroll).to.have.calledOnce;
+      expect(onScroll).toHaveBeenCalledTimes(1);
     });
   });
 

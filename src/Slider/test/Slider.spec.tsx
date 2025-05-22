@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Slider from '../Slider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { getStyle } from '@test/utils';
@@ -37,8 +36,8 @@ describe('Slider', () => {
   });
 
   it('Should be disabled', () => {
-    const onChange = sinon.spy();
-    const onChangeCommitted = sinon.spy();
+    const onChange = vi.fn();
+    const onChangeCommitted = vi.fn();
     const { container } = render(
       <Slider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
@@ -48,13 +47,13 @@ describe('Slider', () => {
 
     fireEvent.click(screen.getByTestId('slider-bar'));
 
-    expect(onChange).to.have.not.been.called;
-    expect(onChangeCommitted).to.have.not.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onChangeCommitted).not.toHaveBeenCalled();
   });
 
   it('Should be readOnly', () => {
-    const onChange = sinon.spy();
-    const onChangeCommitted = sinon.spy();
+    const onChange = vi.fn();
+    const onChangeCommitted = vi.fn();
     const { container } = render(
       <Slider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
@@ -64,8 +63,8 @@ describe('Slider', () => {
 
     fireEvent.click(screen.getByTestId('slider-bar'));
 
-    expect(onChange).to.have.not.been.called;
-    expect(onChangeCommitted).to.have.not.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onChangeCommitted).not.toHaveBeenCalled();
   });
 
   it('Should custom render mark', () => {
@@ -164,7 +163,7 @@ describe('Slider', () => {
   });
 
   it('Should call `onChangeCommitted` callback', () => {
-    const onChangeCommitted = sinon.spy();
+    const onChangeCommitted = vi.fn();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     render(<Slider onChangeCommitted={onChangeCommitted} />);
@@ -176,25 +175,27 @@ describe('Slider', () => {
     expect(handle).to.have.class('active');
     handle.dispatchEvent(mouseupEvent);
 
-    expect(onChangeCommitted).to.have.been.calledOnce;
+    expect(onChangeCommitted).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChangeCommitted` callback when click bar', () => {
-    const onChangeCommitted = sinon.spy();
+    const onChangeCommitted = vi.fn();
     render(<Slider onChangeCommitted={onChangeCommitted} />);
 
     fireEvent.click(screen.getByTestId('slider-bar'));
 
-    expect(onChangeCommitted).to.have.been.calledOnce;
+    expect(onChangeCommitted).toHaveBeenCalledTimes(1);
+    expect(onChangeCommitted).toHaveBeenCalledWith(expect.any(Number), expect.any(Object));
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<Slider onChange={onChange} />);
 
     fireEvent.click(screen.getByTestId('slider-bar'));
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(expect.any(Number), expect.any(Object));
   });
 
   it('Should output an `input` stored value', () => {

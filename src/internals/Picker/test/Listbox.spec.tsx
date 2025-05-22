@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Listbox from '../Listbox';
 import ListItem from '../ListItem';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { getDataGroupBy } from '@/internals/utils';
@@ -111,7 +110,7 @@ describe('picker -  Listbox', () => {
   });
 
   it('Should call onSelect callback with correct value', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <Listbox
@@ -125,11 +124,21 @@ describe('picker -  Listbox', () => {
 
     fireEvent.click(screen.getByRole('option', { name: 'b' }));
 
-    expect(onSelect).to.have.been.calledWith('b');
+    expect(onSelect).toHaveBeenCalled();
+    const args = onSelect.mock.calls[0];
+    expect(args[0]).toBe('b');
+    expect(args[1]).toMatchObject({
+      groupKey: 'group-1',
+      label: 'b',
+      value: 'b'
+    });
+    // Check if the third argument is an event-like object
+    expect(args[2]).toBeDefined();
+    expect(args[2]).toHaveProperty('type', 'click');
   });
 
   it('Should call onGroupTitleClick callback', () => {
-    const onGroupTitleClick = sinon.spy();
+    const onGroupTitleClick = vi.fn();
 
     render(
       <Listbox
@@ -143,7 +152,7 @@ describe('picker -  Listbox', () => {
 
     fireEvent.click(screen.getByRole('group'));
 
-    expect(onGroupTitleClick).to.have.been.calledOnce;
+    expect(onGroupTitleClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should render custom item', () => {

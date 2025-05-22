@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import RadioTile from '../RadioTile';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -66,16 +65,16 @@ describe('RadioTile', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<RadioTile onClick={onClick}>Title</RadioTile>);
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <RadioTile onChange={onChange} value="100">
         Title
@@ -83,24 +82,24 @@ describe('RadioTile', () => {
     );
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onChange).to.have.been.calledWith('100');
+    expect(onChange).toHaveBeenCalledWith('100', expect.any(Object));
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
 
     render(<RadioTile onBlur={onBlur}>Title</RadioTile>);
     fireEvent.blur(screen.getByRole('radio'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<RadioTile onFocus={onFocus}>Title</RadioTile>);
     fireEvent.focus(screen.getByRole('radio'));
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 });

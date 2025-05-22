@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import NumberInput from '../NumberInput';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 
@@ -20,11 +19,11 @@ describe('NumberInput', () => {
         const input = screen.getByRole('textbox');
         userEvent.clear(input);
         userEvent.type(input, '4');
-        return { changedValue: 4 };
+        return { changedValue: '4' };
       }
     },
-    expectedValue: (value: number) => {
-      expect(screen.getByRole('textbox')).to.value(value.toString());
+    expectedValue: (value: number | string) => {
+      expect(screen.getByRole('textbox')).to.have.value(value.toString());
     }
   });
 
@@ -108,132 +107,147 @@ describe('NumberInput', () => {
   });
 
   it('Should call onChange callback with incremented value when increment button is clicked', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput value={0} step={5} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
-    // fixme '5' or 5?
-    expect(onChange).to.have.been.calledWith('5');
+    // The callback is called with (value, event)
+    expect(onChange).toHaveBeenCalledWith('5', expect.any(Object));
   });
 
   it('Should call onChange callback with decremented value when decrement button is clicked', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput value={0} step={5} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
-    // fixme '-5' or -5?
-    expect(onChange).to.have.been.calledWith('-5');
+    // The callback is called with (value, event)
+    expect(onChange).toHaveBeenCalledWith('-5', expect.any(Object));
   });
 
   it('Should call onChange callback with min value when increment button is clicked but initial value underflows', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput value={0} min={10} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
-    // fixme '10' or 10?
-    expect(onChange).to.have.been.calledWith('10');
+    // The callback is called with (value, event)
+    expect(onChange).toHaveBeenCalledWith('10', expect.any(Object));
   });
 
   it('Should call onChange callback with max value when decrement button is clicked but initial value overflows', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput value={100} max={10} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
-    // fixme '10' or 10?
-    expect(onChange).to.have.been.calledWith('10');
+    // The callback is called with (value, event)
+    expect(onChange).toHaveBeenCalledWith('10', expect.any(Object));
   });
 
   it('Should call onChange callback when onblur', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.blur(input, { target: { value: 2 } });
 
-    expect(onChange).to.be.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onChange callback when onwheel', () => {
-    const onChange = sinon.spy();
-    render(<NumberInput onChange={onChange} />);
+    const onChange = vi.fn();
+    render(<NumberInput value={0} onChange={onChange} />);
     const input = screen.getByRole('textbox');
 
+    // Focus the input first
     act(() => {
       input.focus();
-      input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    expect(onChange).to.be.calledOnce;
-
+    // Trigger wheel down
     act(() => {
-      input.focus();
-      input.dispatchEvent(new WheelEvent('wheel', { deltaY: -10 }));
+      const wheelEvent = new WheelEvent('wheel', { deltaY: 1 });
+      input.dispatchEvent(wheelEvent);
     });
 
-    expect(onChange).to.be.calledTwice;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('-1', expect.any(Object));
+    onChange.mockClear();
+
+    // Trigger wheel up
+    act(() => {
+      const wheelEvent = new WheelEvent('wheel', { deltaY: -1 });
+      input.dispatchEvent(wheelEvent);
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   it('Should call onWheel callback', () => {
-    const onWheel = sinon.spy();
+    const onWheel = vi.fn();
     render(<NumberInput onWheel={onWheel} />);
     const input = screen.getByRole('textbox');
 
+    // Focus the input first
     act(() => {
       input.focus();
-      input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    expect(onWheel).to.be.calledOnce;
+    act(() => {
+      const wheelEvent = new WheelEvent('wheel', { deltaY: 1 });
+      input.dispatchEvent(wheelEvent);
+    });
+
+    expect(onWheel).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call onWheel callback when `scrollable` is false', () => {
-    const onWheel = sinon.spy();
+    const onWheel = vi.fn();
     render(<NumberInput onWheel={onWheel} scrollable={false} />);
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     input.focus();
     input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
 
-    expect(onWheel).not.to.have.been.called;
+    expect(onWheel).not.toHaveBeenCalled();
   });
 
   it('Should call onChange callback when is control component', () => {
-    const onChnage = sinon.spy();
+    const onChnage = vi.fn();
     render(<NumberInput onChange={onChnage} value={2} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
 
-    expect(onChnage).to.have.been.calledWith('3');
+    expect(onChnage).toHaveBeenCalledWith('3', expect.any(Object));
   });
 
   it('Should not call onChange callback when is not control component', () => {
-    const onChnage = sinon.spy();
+    const onChnage = vi.fn();
     render(<NumberInput onChange={onChnage} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 3 } });
 
-    expect(onChnage).to.called;
+    expect(onChnage).toHaveBeenCalled();
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<NumberInput onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlur).to.called;
+    expect(onBlur).toHaveBeenCalled();
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<NumberInput onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('textbox'));
-    expect(onFocus).to.called;
+    expect(onFocus).toHaveBeenCalled();
   });
 
   it('Should format value', () => {
@@ -288,45 +302,47 @@ describe('NumberInput', () => {
 
     describe('Keyboard interaction', () => {
       it('Should increase the value when ArrowUp is pressed', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         render(<NumberInput value={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowUp' });
-        expect(onChange).to.have.been.calledWith('1');
+        expect(onChange).toHaveBeenCalledWith('1', expect.any(Object));
       });
 
       it('Should increase the value when ArrowDown is pressed', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         render(<NumberInput value={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
-        expect(onChange).to.have.been.calledWith('-1');
+        expect(onChange).toHaveBeenCalledWith('-1', expect.any(Object));
       });
 
       it('Should set the value to minimum (if specified) when Home is pressed', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         const { rerender } = render(<NumberInput value={10} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Home' });
-        expect(onChange).not.to.have.been.called;
+        expect(onChange).not.toHaveBeenCalled();
 
+        onChange.mockClear();
         rerender(<NumberInput value={10} min={0} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Home' });
-        expect(onChange).to.have.been.calledWith('0');
+        expect(onChange).toHaveBeenCalledWith('0', expect.any(Object));
       });
 
       it('Should set the value to maximum (if specified) when End is pressed', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         const { rerender } = render(<NumberInput value={10} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'End' });
-        expect(onChange).not.to.have.been.called;
+        expect(onChange).not.toHaveBeenCalled();
 
+        onChange.mockClear();
         rerender(<NumberInput value={10} max={100} onChange={onChange} />);
 
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'End' });
-        expect(onChange).to.have.been.calledWith('100');
+        expect(onChange).toHaveBeenCalledWith('100', expect.any(Object));
       });
     });
   });
@@ -345,7 +361,7 @@ describe('NumberInput', () => {
     });
 
     it('Should allow input of custom decimal separator', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<NumberInput decimalSeparator="," onChange={onChange} />);
 
@@ -353,11 +369,11 @@ describe('NumberInput', () => {
       fireEvent.blur(screen.getByRole('textbox'));
 
       expect(screen.getByRole('textbox')).to.have.value('1,2');
-      expect(onChange.lastCall).to.have.been.calledWith('1.2');
+      expect(onChange.mock.lastCall?.[0]).toBe('1.2');
     });
 
     it('Should allow input of standard decimal point when custom separator is set', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<NumberInput decimalSeparator="," onChange={onChange} />);
 
@@ -365,11 +381,11 @@ describe('NumberInput', () => {
       fireEvent.blur(screen.getByRole('textbox'));
 
       expect(screen.getByRole('textbox')).to.have.value('1,2');
-      expect(onChange.lastCall).to.have.been.calledWith('1.2');
+      expect(onChange.mock.lastCall?.[0]).toBe('1.2');
     });
 
     it('Should allow input of both custom separator and standard decimal point', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<NumberInput decimalSeparator=";" onChange={onChange} />);
 
@@ -378,45 +394,46 @@ describe('NumberInput', () => {
       fireEvent.blur(screen.getByRole('textbox'));
 
       expect(screen.getByRole('textbox')).to.have.value('1;5');
-      expect(onChange.lastCall).to.have.been.calledWith('1.5');
+      expect(onChange.mock.lastCall?.[0]).toBe('1.5');
 
       // Clear input
       userEvent.clear(screen.getByRole('textbox'));
-      onChange.resetHistory();
+      onChange.mockClear();
 
       // Test with standard decimal point
       userEvent.type(screen.getByRole('textbox'), '2.5');
       fireEvent.blur(screen.getByRole('textbox'));
 
       expect(screen.getByRole('textbox')).to.have.value('2;5');
-      expect(onChange.lastCall).to.have.been.calledWith('2.5');
+      expect(onChange.mock.lastCall?.[0]).toBe('2.5');
     });
   });
 
   it('Should not call onChange in readOnly mode (click, key, wheel)', () => {
-    const onChange = sinon.spy();
-    const onWheel = sinon.spy();
+    const onChange = vi.fn();
+    const onWheel = vi.fn();
     render(<NumberInput value={1} readOnly onChange={onChange} onWheel={onWheel} />);
     const input = screen.getByRole('textbox');
     fireEvent.click(screen.getByRole('button', { name: /increment/i }));
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
     fireEvent.keyDown(input, { key: 'ArrowUp' });
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
     act(() => {
       input.focus();
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: -10 }));
     });
-    expect(onChange).not.to.have.been.called;
-    expect(onWheel).to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onWheel).toHaveBeenCalled();
   });
 
   it('Should handle decimal step precision correctly', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<NumberInput value={0.2} step={0.1} onChange={onChange} />);
     const input = screen.getByRole('textbox');
     fireEvent.keyDown(input, { key: 'ArrowUp' });
-    expect(onChange).to.have.been.calledWith('0.3');
+    expect(onChange).toHaveBeenCalledWith('0.3', expect.any(Object));
+    onChange.mockClear();
     fireEvent.keyDown(input, { key: 'ArrowDown' });
-    expect(onChange).to.have.been.calledWith('0.1');
+    expect(onChange).toHaveBeenCalledWith('0.1', expect.any(Object));
   });
 });

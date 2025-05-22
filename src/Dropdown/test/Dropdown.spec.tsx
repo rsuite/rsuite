@@ -1,11 +1,11 @@
 import React, { Ref, useState } from 'react';
-import sinon from 'sinon';
+
 import CustomProvider from '../../CustomProvider';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 import { KEY_VALUES } from '@/internals/constants';
 import { testStandardProps } from '@test/cases';
@@ -179,7 +179,7 @@ describe('<Dropdown>', () => {
   });
 
   it('Should call onSelect callback with correct eventKey when clicking an item', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Dropdown onSelect={onSelect}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -188,7 +188,8 @@ describe('<Dropdown>', () => {
     );
 
     fireEvent.click(screen.getByText('2'));
-    expect(onSelect).to.have.been.calledWith(2);
+    // The first argument is the eventKey, second is the event
+    expect(onSelect).toHaveBeenCalledWith(2, expect.anything());
   });
 
   it('Should close menu after clicking an item without submenu', () => {
@@ -219,7 +220,7 @@ describe('<Dropdown>', () => {
   });
 
   it('Should call onToggle callback', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     render(
       <Dropdown onToggle={onToggle}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -228,11 +229,11 @@ describe('<Dropdown>', () => {
     );
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onToggle).to.have.been.calledOnce;
+    expect(onToggle).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onOpen callback', () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     render(
       <Dropdown onOpen={onOpen}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -241,11 +242,11 @@ describe('<Dropdown>', () => {
     );
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onOpen).to.have.been.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Dropdown defaultOpen onClose={onClose}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -254,11 +255,11 @@ describe('<Dropdown>', () => {
     );
 
     fireEvent.click(screen.getByRole('button'));
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback when click menu item', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Dropdown defaultOpen onClose={onClose}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -267,11 +268,11 @@ describe('<Dropdown>', () => {
     );
 
     fireEvent.click(screen.queryAllByRole('menuitem')[0]);
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback when click element inside the menu item ', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Dropdown defaultOpen onClose={onClose}>
         <Dropdown.Item eventKey={1}>
@@ -284,11 +285,11 @@ describe('<Dropdown>', () => {
     );
 
     fireEvent.click(screen.getByTestId('item1'));
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call onToggle callback when set disabled', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     render(
       <Dropdown onToggle={onToggle} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -298,11 +299,11 @@ describe('<Dropdown>', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onToggle).to.have.not.been.called;
+    expect(onToggle).not.toHaveBeenCalled();
   });
 
   it('Should not call onToggle callback when set disabled and hover', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     render(
       <Dropdown onToggle={onToggle} disabled trigger="hover">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -312,11 +313,11 @@ describe('<Dropdown>', () => {
 
     fireEvent.mouseEnter(screen.getByRole('button'));
 
-    expect(onToggle).to.have.not.been.called;
+    expect(onToggle).not.toHaveBeenCalled();
   });
 
   it('Should not call onToggle callback when set disabled and contextMenu', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     render(
       <Dropdown onToggle={onToggle} disabled trigger="contextMenu">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
@@ -326,7 +327,7 @@ describe('<Dropdown>', () => {
 
     fireEvent.contextMenu(screen.getByRole('button'));
 
-    expect(onToggle).to.have.not.been.called;
+    expect(onToggle).not.toHaveBeenCalled();
   });
 
   it('Should have a custom style in Menu', () => {
@@ -454,7 +455,7 @@ describe('<Dropdown>', () => {
             );
           });
           it('Otherwise, activates the item and closes the menu.', () => {
-            const onSelect = sinon.spy();
+            const onSelect = vi.fn();
 
             render(
               <Dropdown title="Menu">
@@ -468,7 +469,7 @@ describe('<Dropdown>', () => {
             const menu = screen.getByRole('menu');
 
             fireEvent.keyDown(menu, { key });
-            expect(onSelect, 'The item is activated').to.have.been.calledOnce;
+            expect(onSelect).toHaveBeenCalledTimes(1);
             expect(menu).to.have.attr('hidden');
           });
         });
@@ -770,23 +771,34 @@ describe('<Dropdown>', () => {
 
   describe('[Deprecated] Usage within <Nav>', () => {
     it('Should warn deprecation message', () => {
-      sinon.spy(console, 'warn');
+      const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       render(
         <Nav>
-          <Dropdown title="Dropdown"></Dropdown>
+          <Dropdown title="Dropdown">
+            <Dropdown.Item>Dropdown item</Dropdown.Item>
+          </Dropdown>
         </Nav>
       );
 
-      expect(console.warn).to.have.been.calledWith(
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
         'Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>'
       );
+
+      // The second warning is expected for Dropdown.Item
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
+      );
+
+      // Clean up
+      consoleWarnSpy.mockRestore();
     });
 
-    it('Should render a As Component', () => {
+    it('Should render an As Component', () => {
       const AsComponent = React.forwardRef((_, ref) => (
         <div ref={ref as Ref<HTMLDivElement>}>As Component</div>
       ));
+
       render(
         <Nav>
           <Dropdown title="" open>

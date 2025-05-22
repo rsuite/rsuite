@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import NavbarToggle from '../NavbarToggle';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { NavbarContext } from '../NavbarContext';
@@ -22,19 +21,19 @@ describe('NavbarToggle', () => {
   });
 
   it('Should call onToggle and onClick when clicked', () => {
-    const onToggle = sinon.spy();
-    const onClick = sinon.spy();
+    const onToggle = vi.fn();
+    const onClick = vi.fn();
     render(<NavbarToggle onToggle={onToggle} onClick={onClick} />);
 
     screen.getByRole('button').click();
 
-    expect(onToggle).to.have.been.calledOnce;
-    expect(onToggle).to.have.been.calledWith(true);
-    expect(onClick).to.have.been.calledOnce;
+    expect(onToggle).toHaveBeenCalledTimes(1);
+    expect(onToggle).toHaveBeenCalledWith(true);
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call context onToggle if provided', () => {
-    const onToggleContext = sinon.spy();
+    const onToggleContext = vi.fn();
     const value = {
       appearance: 'default' as const,
       open: false,
@@ -49,8 +48,8 @@ describe('NavbarToggle', () => {
 
     screen.getByRole('button').click();
 
-    expect(onToggleContext).to.have.been.calledOnce;
-    expect(onToggleContext).to.have.been.calledWith(true);
+    expect(onToggleContext).toHaveBeenCalledTimes(1);
+    expect(onToggleContext).toHaveBeenCalledWith(true);
   });
 
   it('Should set aria-controls according to navbarId', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import sinon from 'sinon';
 
 interface TestPickerOptions {
   data?: any;
@@ -108,7 +107,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
     describe('ref testing', () => {
       it('Should call `onOpen` callback', async () => {
-        const onOpen = sinon.spy();
+        const onOpen = vi.fn();
         const ref = React.createRef<any>();
 
         render(<TestComponent onOpen={onOpen} data={data} ref={ref} />);
@@ -116,12 +115,12 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         act(() => ref.current.open());
 
         await waitFor(() => {
-          expect(onOpen).to.have.been.calledOnce;
+          expect(onOpen).toHaveBeenCalledTimes(1);
         });
       });
 
       it('Should call `onClose` callback', async () => {
-        const onClose = sinon.spy();
+        const onClose = vi.fn();
         const ref = React.createRef<any>();
 
         render(<TestComponent onClose={onClose} data={data} ref={ref} />);
@@ -130,7 +129,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         act(() => ref.current.close());
 
         await waitFor(() => {
-          expect(onClose).to.have.been.calledOnce;
+          expect(onClose).toHaveBeenCalledTimes(1);
         });
       });
 
@@ -153,7 +152,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
     describe('Open state', () => {
       it('Should open the popup on click', () => {
-        const onOpen = sinon.spy();
+        const onOpen = vi.fn();
 
         render(<TestComponent data={data} onOpen={onOpen} />);
 
@@ -162,11 +161,11 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.click(combobox);
         expect(screen.getByTestId('picker-popup')).to.exist;
 
-        expect(onOpen).to.have.been.called;
+        expect(onOpen).toHaveBeenCalled();
       });
 
       it('Should open the popup on Enter key', () => {
-        const onOpen = sinon.spy();
+        const onOpen = vi.fn();
 
         render(<TestComponent data={data} onOpen={onOpen} />);
 
@@ -175,21 +174,21 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.keyDown(combobox, { key: 'Enter' });
         expect(screen.getByTestId('picker-popup')).to.exist;
 
-        expect(onOpen).to.have.been.calledOnce;
+        expect(onOpen).toHaveBeenCalledTimes(1);
       });
 
       it('Should call onClose when clicking outside', async () => {
-        const onClose = sinon.spy();
+        const onClose = vi.fn();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 
         fireEvent.mouseDown(document.body);
 
-        expect(onClose).to.have.been.calledOnce;
+        expect(onClose).toHaveBeenCalledTimes(1);
       });
 
       it('Should call onClose when pressing Escape key', () => {
-        const onClose = sinon.spy();
+        const onClose = vi.fn();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 
@@ -200,11 +199,11 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.keyDown(screen.getByRole(role), { key: 'Escape' });
 
         // Verify onClose was called
-        expect(onClose).to.have.been.called;
+        expect(onClose).toHaveBeenCalled();
       });
 
       it('Should close the popup on Tab key', () => {
-        const onClose = sinon.spy();
+        const onClose = vi.fn();
 
         render(<TestComponent data={data} defaultOpen onClose={onClose} />);
 
@@ -213,7 +212,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.keyDown(combobox, { key: 'Tab' });
         expect(screen.getByTestId('picker-popup')).to.exist;
 
-        expect(onClose).to.have.been.calledOnce;
+        expect(onClose).toHaveBeenCalledTimes(1);
       });
 
       it('Should be controlled by `open`', () => {

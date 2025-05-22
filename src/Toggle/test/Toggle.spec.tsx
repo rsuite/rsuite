@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Toggle from '../Toggle';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -68,26 +67,26 @@ describe('Toggle', () => {
 
   describe('onChange', () => {
     it('Should call onChange callback with checked state', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       const { rerender } = render(<Toggle onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
-      expect(onChange).to.have.been.calledWith(true);
+      expect(onChange).toHaveBeenCalledWith(true, expect.any(Object));
 
       rerender(<Toggle defaultChecked onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
-      expect(onChange).to.have.been.calledWith(false);
+      expect(onChange).toHaveBeenCalledWith(false, expect.any(Object));
     });
 
     it('Should emit ChangeEvent with correct target name, type and checked state', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       const { rerender } = render(
         <Toggle name="toggle" onChange={onChange} data-testid="toggle" />
       );
       fireEvent.click(screen.getByTestId('toggle'));
 
-      let event = onChange.getCall(0).args[1];
+      let event = onChange.mock.calls[0][1];
       expect(event.target).to.have.property('name', 'toggle');
       expect(event.target).to.have.property('type', 'checkbox');
       expect(event.target).to.have.property('checked', true);
@@ -95,21 +94,21 @@ describe('Toggle', () => {
       rerender(<Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />);
       fireEvent.click(screen.getByTestId('toggle'));
 
-      event = onChange.getCall(1).args[1];
+      event = onChange.mock.calls[1][1];
       expect(event.target).to.have.property('name', 'toggle');
       expect(event.target).to.have.property('type', 'checkbox');
       expect(event.target).to.have.property('checked', false);
     });
 
     it('Should toggle with the Space key', async () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       const { rerender } = render(<Toggle onChange={onChange} data-testid="toggle" />);
       screen.getByRole('switch').focus();
       userEvent.keyboard(' ');
 
       await waitFor(() => {
-        expect(onChange).to.have.been.calledWith(true);
+        expect(onChange).toHaveBeenCalledWith(true, expect.any(Object));
       });
 
       rerender(<Toggle defaultChecked onChange={onChange} data-testid="toggle" />);
@@ -118,35 +117,35 @@ describe('Toggle', () => {
       userEvent.keyboard(' ');
 
       await waitFor(() => {
-        expect(onChange).to.have.been.calledWith(false);
+        expect(onChange).toHaveBeenCalledWith(false, expect.any(Object));
       });
     });
 
     it('Should not call `onChange` callback when disabled', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<Toggle disabled onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
     });
 
     it('Should not call `onChange` callback when readOnly', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<Toggle readOnly onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
     });
 
     it('Should not call `onChange` callback when loading', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<Toggle loading onChange={onChange} data-testid="toggle" />);
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
     });
   });
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -23,31 +22,31 @@ describe('Modal', () => {
   });
 
   it('Should close the modal when the modal dialog is clicked', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Modal open onClose={onClose} />);
 
     userEvent.click(screen.getByTestId('modal-wrapper'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Modal open onClose={onClose} backdrop="static" />);
 
     userEvent.click(screen.getByTestId('modal-wrapper'));
 
-    expect(onClose).to.not.have.been.calledOnce;
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('Should not close the modal when clicking inside the dialog', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Modal open onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('dialog'));
     fireEvent.click(screen.getByRole('document'));
 
-    expect(onClose).to.be.not.called;
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('Should be automatic height', () => {
@@ -61,7 +60,7 @@ describe('Modal', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Modal open onClose={onClose}>
         <Modal.Header />
@@ -70,11 +69,11 @@ describe('Modal', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onExited callback', async () => {
-    const onExited = sinon.spy();
+    const onExited = vi.fn();
     const App = () => {
       const [open, setOpen] = React.useState(true);
       return (
@@ -89,12 +88,12 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     await waitFor(() => {
-      expect(onExited).to.have.been.calledOnce;
+      expect(onExited).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onOpen callback', () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     type AppInstance = {
       openModal: () => void;
     };
@@ -120,11 +119,11 @@ describe('Modal', () => {
       (ref.current as AppInstance).openModal();
     });
 
-    expect(onOpen).to.have.been.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback by Esc', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <Modal open onClose={onClose}>
         <Modal.Header />
@@ -133,7 +132,7 @@ describe('Modal', () => {
 
     const event = new KeyboardEvent('keydown', { key: 'Escape' });
     document.dispatchEvent(event);
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should be rendered inside Modal', () => {
@@ -165,7 +164,7 @@ describe('Modal', () => {
     });
 
     it('Should focus on the Modal when it is opened', () => {
-      const onOpen = sinon.spy();
+      const onOpen = vi.fn();
 
       const { rerender } = render(
         <Modal onOpen={onOpen} open={false}>
@@ -181,7 +180,7 @@ describe('Modal', () => {
         </Modal>
       );
 
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
       expect(screen.getByTestId('modal-wrapper')).to.have.focus;
     });
 
@@ -210,11 +209,11 @@ describe('Modal', () => {
     });
 
     it('Should only call onOpen once', () => {
-      const onOpen = sinon.spy();
+      const onOpen = vi.fn();
 
       render(<Modal open onOpen={onOpen}></Modal>);
 
-      expect(onOpen).to.be.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 

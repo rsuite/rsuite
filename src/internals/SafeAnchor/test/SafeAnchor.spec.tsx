@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import SafeAnchor from '../SafeAnchor';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('SafeAnchor', () => {
@@ -14,16 +13,16 @@ describe('SafeAnchor', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     render(<SafeAnchor onClick={onClick}>Title</SafeAnchor>);
 
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     render(
       <SafeAnchor onClick={onClick} href="#">
         Title
@@ -31,11 +30,13 @@ describe('SafeAnchor', () => {
     );
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should not prevent the default value when href is provided', () => {
-    const handleClick = sinon.spy();
+    const handleClick = vi.fn(event => {
+      event.persist();
+    });
     render(
       <SafeAnchor onClick={handleClick} href="#foo">
         Title
@@ -43,12 +44,12 @@ describe('SafeAnchor', () => {
     );
     fireEvent.click(screen.getByText('Title'));
 
-    expect(handleClick).to.have.been.calledOnce;
-    expect(handleClick.getCall(0).args[0].isDefaultPrevented()).to.be.false;
+    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(handleClick.mock.calls[0][0].defaultPrevented).toBe(false);
   });
 
   it('Should disabled onClick callback and tabIndex = -1', () => {
-    const handleClick = sinon.spy();
+    const handleClick = vi.fn();
     const { container } = render(
       <SafeAnchor onClick={handleClick} disabled>
         Title
@@ -56,7 +57,7 @@ describe('SafeAnchor', () => {
     );
     fireEvent.click(screen.getByText('Title'));
 
-    expect(handleClick).to.not.have.been.calledOnce;
+    expect(handleClick).not.toHaveBeenCalled();
     expect(container.firstChild).to.have.attr('tabindex', '-1');
   });
 

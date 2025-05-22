@@ -1,8 +1,7 @@
 import React from 'react';
 import TagInput from '../index';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { PickerHandle } from '@/internals/Picker';
@@ -42,7 +41,7 @@ describe('TagInput', () => {
   });
 
   it('Should create a tag', () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
@@ -55,11 +54,18 @@ describe('TagInput', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
   it('Should create a tag by tirgger="Space" ', () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Space" />);
@@ -69,11 +75,18 @@ describe('TagInput', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ' ' });
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
   it('Should create a tag by tirgger="Comma" ', () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Comma" />);
@@ -84,7 +97,14 @@ describe('TagInput', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ',' });
-    expect(onCreate).to.have.been.calledWith(['abc']);
+    expect(onCreate).toHaveBeenCalledWith(
+      ['abc'],
+      expect.objectContaining({
+        label: 'abc',
+        value: 'abc'
+      }),
+      expect.any(Object)
+    );
   });
 
   it('Should render 2 tags by events', () => {
@@ -121,7 +141,7 @@ describe('TagInput', () => {
   });
 
   it('Should create a label only through `Enter`', () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
@@ -134,24 +154,24 @@ describe('TagInput', () => {
     fireEvent.keyDown(input, { key: ' ' });
     fireEvent.keyDown(input, { key: 'Comma' });
 
-    expect(onCreate).to.not.called;
+    expect(onCreate).not.toHaveBeenCalled();
 
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreate).to.calledOnce;
+    expect(onCreate).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChange` with empty array when clicking "Clear" button', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TagInput value={['New tag']} onChange={onChange} />);
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
-    expect(onChange).to.have.been.calledWith([]);
+    expect(onChange).toHaveBeenCalledWith([], expect.any(Object));
   });
 
   it('Should not create tag while text composing', () => {
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     const inputRef = React.createRef<PickerHandle>();
 
     render(<TagInput ref={inputRef} onCreate={onCreate} creatable trigger="Enter" />);
@@ -164,19 +184,19 @@ describe('TagInput', () => {
 
     fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
 
-    expect(onCreate).to.not.called;
+    expect(onCreate).not.toHaveBeenCalled();
 
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreate).to.calledOnce;
+    expect(onCreate).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onTagRemove` callback', () => {
-    const onTagRemove = sinon.spy();
+    const onTagRemove = vi.fn();
     render(<TagInput defaultValue={['New tag']} onTagRemove={onTagRemove} />);
     fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
-    expect(onTagRemove).to.have.been.calledOnce;
-    expect(onTagRemove).to.have.been.calledWith('New tag');
+    expect(onTagRemove).toHaveBeenCalledTimes(1);
+    expect(onTagRemove).toHaveBeenCalledWith('New tag', expect.any(Object));
   });
 });

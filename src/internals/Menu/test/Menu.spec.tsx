@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Menu from '../Menu';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 
 describe('<Menu>', () => {
@@ -99,13 +98,13 @@ describe('<Menu>', () => {
       expect(menu).not.to.have.attribute('hidden');
     });
 
-    sinon.spy(button, 'focus');
+    const focusSpy = vi.spyOn(button, 'focus');
 
     userEvent.click(screen.getByTestId('div'));
 
     await waitFor(() => {
       expect(menu).to.have.attribute('hidden');
-      expect(button.focus).to.have.been.called;
+      expect(focusSpy).toHaveBeenCalled();
     });
   });
 
@@ -139,13 +138,13 @@ describe('<Menu>', () => {
       expect(menu).not.to.have.attribute('hidden');
     });
 
-    sinon.spy(button, 'focus');
+    const focusSpy = vi.spyOn(button, 'focus');
 
     userEvent.click(screen.getByTestId('outside-button'));
 
     await waitFor(() => {
       expect(menu).to.have.attribute('hidden');
-      expect(button.focus).not.to.have.been.called;
+      expect(focusSpy).not.toHaveBeenCalled();
     });
   });
   it('Closes menu when focus is moving outside of menu', () => {
@@ -177,7 +176,7 @@ describe('<Menu>', () => {
   });
 
   it('Should call onToggleMenu when focus or blur', () => {
-    const onToggleMenu = sinon.spy();
+    const onToggleMenu = vi.fn();
     render(
       <div>
         <Menu
@@ -203,11 +202,11 @@ describe('<Menu>', () => {
     userEvent.click(button);
 
     expect(button).to.have.focus;
-    expect(onToggleMenu.firstCall).to.have.been.calledWith(true);
+    expect(onToggleMenu).toHaveBeenNthCalledWith(1, true, expect.any(Object));
 
     userEvent.click(input);
 
     expect(input).to.have.focus;
-    expect(onToggleMenu.secondCall).to.have.been.calledWith(false);
+    expect(onToggleMenu).toHaveBeenNthCalledWith(2, false, expect.any(Object));
   });
 });

@@ -1,10 +1,26 @@
 import React from 'react';
-import sinon from 'sinon';
 import Message from '../Message';
 import ToastContext from '../../toaster/ToastContext';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+
+// Mock the icon components to avoid React hooks errors in tests
+vi.mock('@rsuite/icons/InfoRound', () => ({
+  default: () => <svg data-testid="info-icon" />
+}));
+
+vi.mock('@rsuite/icons/CheckRound', () => ({
+  default: () => <svg data-testid="check-icon" />
+}));
+
+vi.mock('@rsuite/icons/WarningRound', () => ({
+  default: () => <svg data-testid="warning-icon" />
+}));
+
+vi.mock('@rsuite/icons/RemindRound', () => ({
+  default: () => <svg data-testid="remind-icon" />
+}));
 
 describe('Message', () => {
   testStandardProps(<Message />);
@@ -49,7 +65,8 @@ describe('Message', () => {
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
-    expect(screen.getByRole('alert').querySelector('.rs-icon')).to.exist;
+    // Check for the presence of the icon using our mock
+    expect(screen.getByTestId('info-icon')).to.exist;
     expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
   });
 
@@ -65,16 +82,16 @@ describe('Message', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Message closable onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback by usedToaster', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <ToastContext.Provider value={{ usedToaster: true }}>
         <Message duration={1} onClose={onClose} />
@@ -82,7 +99,7 @@ describe('Message', () => {
     );
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 });

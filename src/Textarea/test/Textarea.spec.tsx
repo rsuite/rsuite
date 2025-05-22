@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Textarea from '../Textarea';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 
@@ -22,10 +21,10 @@ describe('Textarea', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<Textarea onChange={onChange} />);
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should support resize style', () => {

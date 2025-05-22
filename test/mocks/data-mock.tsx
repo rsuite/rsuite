@@ -1,5 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi } from 'vitest';
 
 /**
  * Mock tree data
@@ -65,7 +65,7 @@ export function mockClipboardEvent(data: string) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   clipboardEvent.clipboardData = {
-    getData: sinon.stub().withArgs('text').returns(data)
+    getData: vi.fn().mockImplementation((type) => type === 'text' ? data : '')
   };
 
   return clipboardEvent;

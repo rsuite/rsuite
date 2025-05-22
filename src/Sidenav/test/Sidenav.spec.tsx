@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -26,7 +25,7 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <Sidenav onSelect={onSelect}>
@@ -39,7 +38,7 @@ describe('<Sidenav>', () => {
 
     fireEvent.click(screen.getByText('a'));
 
-    expect(onSelect, 'onSelect').to.have.been.calledWith('1');
+    expect(onSelect).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   describe('<Dropdown> inside <Sidenav>', () => {
@@ -113,7 +112,7 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call onOpenChange callback', () => {
-    const onOpenChange = sinon.spy();
+    const onOpenChange = vi.fn();
     render(
       <Sidenav onOpenChange={onOpenChange}>
         <Nav>
@@ -129,7 +128,7 @@ describe('<Sidenav>', () => {
 
     fireEvent.click(screen.getByText('3'));
 
-    expect(onOpenChange).to.have.been.calledOnce;
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should open the default menu', () => {
@@ -215,7 +214,7 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call <Nav onSelect> with correct eventKey', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Sidenav>
         <Nav onSelect={onSelect}>
@@ -232,18 +231,18 @@ describe('<Sidenav>', () => {
     );
 
     fireEvent.click(screen.getByTestId('nav-item'));
-    expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+    expect(onSelect).toHaveBeenCalledWith('1-1', expect.any(Object));
 
-    onSelect.resetHistory();
+    onSelect.mockClear();
     // opens the dropdown
     fireEvent.click(screen.getByTestId('dropdown'));
 
     fireEvent.click(screen.getByTestId('dropdown-item'));
-    expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith('2-1', sinon.match.any);
+    expect(onSelect).toHaveBeenCalledWith('2-1', expect.any(Object));
   });
 
   it('Should call <Nav onSelect> with correct eventKey when <Sidenav expanded={false}>', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Sidenav expanded={false}>
         <Nav onSelect={onSelect}>
@@ -260,14 +259,14 @@ describe('<Sidenav>', () => {
     );
 
     fireEvent.click(screen.getByTestId('nav-item'));
-    expect(onSelect, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+    expect(onSelect).toHaveBeenCalledWith('1-1', expect.any(Object));
 
-    onSelect.resetHistory();
+    onSelect.mockClear();
     // opens the dropdown
     fireEvent.click(screen.getByTestId('dropdown'));
 
     fireEvent.click(screen.getByTestId('dropdown-item'));
-    expect(onSelect, 'Works with <Dropdown.Item>').to.have.been.calledWith('2-1', sinon.match.any);
+    expect(onSelect).toHaveBeenCalledWith('2-1', expect.any(Object));
   });
 
   it('Should add data-active-descendant attribute on <Nav.Menu> when some item inside is selected', () => {

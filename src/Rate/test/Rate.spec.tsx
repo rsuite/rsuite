@@ -3,8 +3,7 @@ import userEvent from '@testing-library/user-event';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, act, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps, testStyleProps } from '@test/cases';
 
@@ -105,7 +104,7 @@ describe('Rate', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
@@ -114,11 +113,11 @@ describe('Rate', () => {
 
     userEvent.click((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2]);
 
-    expect(onChange).to.have.been.calledWith(3);
+    expect(onChange).toHaveBeenCalledWith(3, expect.any(Object));
   });
 
   it('Should call onChange callback by KeyDown event', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     const ref = React.createRef<HTMLUListElement>();
 
@@ -136,7 +135,7 @@ describe('Rate', () => {
       key: 'Enter'
     });
 
-    expect(onChange).to.have.been.calledWith(3);
+    expect(onChange).toHaveBeenCalledWith(3, expect.any(Object));
   });
 
   it('Should be vertical', () => {
@@ -181,7 +180,7 @@ describe('Rate', () => {
   });
 
   it('Should handle mouse leave correctly', () => {
-    const onChangeActive = sinon.spy();
+    const onChangeActive = vi.fn();
     const ref = React.createRef<HTMLUListElement>();
 
     render(<Rate ref={ref} defaultValue={3} onChangeActive={onChangeActive} />);
@@ -192,11 +191,11 @@ describe('Rate', () => {
     // Simulate mouse leave
     fireEvent.mouseLeave(ref.current as HTMLElement);
 
-    // Should call onChangeActive with the original value
-    expect(onChangeActive).to.have.been.calledWith(3);
+    // Should call onChangeActive with the original value and event object
+    expect(onChangeActive).toHaveBeenCalledWith(3, expect.any(Object));
 
     // Should reset the visual state
-    expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(3);
+    expect(ref.current?.querySelectorAll('[data-status="full"]')).toHaveLength(3);
   });
 
   describe('Custom colors', () => {
@@ -227,7 +226,7 @@ describe('Rate', () => {
 
   describe('Keyboard navigation', () => {
     it('Should handle right arrow key with allowHalf=false', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={2} onChange={onChange} />);
@@ -240,11 +239,11 @@ describe('Rate', () => {
         key: 'Enter'
       });
 
-      expect(onChange).to.have.been.calledWith(3);
+      expect(onChange).toHaveBeenCalledWith(3, expect.any(Object));
     });
 
     it('Should handle right arrow key with allowHalf=true', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={2} allowHalf onChange={onChange} />);
@@ -257,11 +256,11 @@ describe('Rate', () => {
         key: 'Enter'
       });
 
-      expect(onChange).to.have.been.calledWith(2.5);
+      expect(onChange).toHaveBeenCalledWith(2.5, expect.any(Object));
     });
 
     it('Should handle left arrow key with allowHalf=false', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={3} onChange={onChange} />);
@@ -274,11 +273,11 @@ describe('Rate', () => {
         key: 'Enter'
       });
 
-      expect(onChange).to.have.been.calledWith(2);
+      expect(onChange).toHaveBeenCalledWith(2, expect.any(Object));
     });
 
     it('Should handle left arrow key with allowHalf=true', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={3} allowHalf onChange={onChange} />);
@@ -291,11 +290,11 @@ describe('Rate', () => {
         key: 'Enter'
       });
 
-      expect(onChange).to.have.been.calledWith(2.5);
+      expect(onChange).toHaveBeenCalledWith(2.5, expect.any(Object));
     });
 
     it('Should not exceed max value when using right arrow key', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
       const max = 5;
 
@@ -315,8 +314,9 @@ describe('Rate', () => {
         }
       );
 
-      expect(onChange).to.have.been.calledWith(max);
-      onChange.resetHistory();
+      expect(onChange).toHaveBeenCalledWith(expect.any(Number), expect.any(Object));
+      expect(onChange.mock.calls[0][0]).toBe(max);
+      onChange.mockClear();
 
       // Try to exceed max
       fireEvent.keyDown(
@@ -327,11 +327,11 @@ describe('Rate', () => {
       );
 
       // Verify visual state still shows max stars
-      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(max);
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).toHaveLength(max);
     });
 
     it('Should not go below 0 when using left arrow key', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const ref = React.createRef<HTMLUListElement>();
 
       render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
@@ -344,8 +344,9 @@ describe('Rate', () => {
         key: 'Enter'
       });
 
-      expect(onChange).to.have.been.calledWith(0);
-      onChange.resetHistory();
+      expect(onChange).toHaveBeenCalledWith(expect.any(Number), expect.any(Object));
+      expect(onChange.mock.calls[0][0]).toBe(0);
+      onChange.mockClear();
 
       // Try to go below 0
       fireEvent.keyDown(ref.current?.querySelectorAll('.rs-rate-character')[0] as HTMLElement, {
@@ -353,7 +354,7 @@ describe('Rate', () => {
       });
 
       // Verify visual state shows no filled stars
-      expect(ref.current?.querySelectorAll('[data-status="full"]')).to.have.length(0);
+      expect(ref.current?.querySelectorAll('[data-status="full"]')).toHaveLength(0);
     });
   });
 

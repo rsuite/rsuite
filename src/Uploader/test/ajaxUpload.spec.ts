@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import ajaxUpload from '../utils/ajaxUpload';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('Uploader/utils/ajaxUpload', () => {
   it('Should upload a FormData', () => {
@@ -43,9 +42,28 @@ describe('Uploader/utils/ajaxUpload', () => {
   });
 
   it('Should time out', () => {
-    sinon.useFakeXMLHttpRequest();
-    const onError = sinon.spy();
-    const clock = sinon.useFakeTimers();
+    const onError = vi.fn();
+
+    // Mock XMLHttpRequest
+    const originalXMLHttpRequest = window.XMLHttpRequest;
+    const xhrMock = {
+      open: vi.fn(),
+      send: vi.fn().mockImplementation(function (this: XMLHttpRequest) {
+        (this as any).ontimeout(new Event('timeout'));
+      }),
+      upload: {},
+      readyState: 4,
+      status: 0,
+      withCredentials: false,
+      setRequestHeader: vi.fn(),
+      timeout: 0,
+      ontimeout: null
+    };
+
+    window.XMLHttpRequest = vi.fn(() => xhrMock) as any;
+
+    vi.useFakeTimers();
+
     const file = new File(['foo'], 'foo.txt');
     ajaxUpload({
       name: 'file',
@@ -54,8 +72,17 @@ describe('Uploader/utils/ajaxUpload', () => {
       timeout: 1,
       onError
     });
-    clock.tick(1000);
 
-    expect(onError).to.have.been.calledWithMatch({ type: 'timeout' });
+    // Trigger timeout
+    vi.advanceTimersByTime(1000);
+
+    // Verify the error callback was called with timeout error
+    expect(onError).toHaveBeenCalled();
+    const errorArg = onError.mock.calls[0][0];
+    expect(errorArg).toHaveProperty('type', 'timeout');
+
+    // Cleanup
+    vi.useRealTimers();
+    window.XMLHttpRequest = originalXMLHttpRequest;
   });
 });

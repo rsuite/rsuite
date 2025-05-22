@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Panel from '../Panel';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -84,12 +83,12 @@ describe('Panel', () => {
   });
 
   it('Should pass transition callbacks to Collapse', async () => {
-    const onEnter = sinon.spy();
-    const onEntering = sinon.spy();
-    const onEntered = sinon.spy();
-    const onExit = sinon.spy();
-    const onExiting = sinon.spy();
-    const onExited = sinon.spy();
+    const onEnter = vi.fn();
+    const onEntering = vi.fn();
+    const onEntered = vi.fn();
+    const onExit = vi.fn();
+    const onExiting = vi.fn();
+    const onExited = vi.fn();
 
     render(
       <Panel
@@ -108,19 +107,19 @@ describe('Panel', () => {
     );
 
     userEvent.click(screen.getByText('Click me'));
-    await waitFor(() => expect(onEnter).to.have.been.called);
-    await waitFor(() => expect(onEntering).to.have.been.called);
-    await waitFor(() => expect(onEntered).to.have.been.called);
+    await waitFor(() => expect(onEnter).toHaveBeenCalled());
+    await waitFor(() => expect(onEntering).toHaveBeenCalled());
+    await waitFor(() => expect(onEntered).toHaveBeenCalled());
 
     userEvent.click(screen.getByText('Click me'));
-    await waitFor(() => expect(onExit).to.have.been.called);
-    await waitFor(() => expect(onExiting).to.have.been.called);
-    await waitFor(() => expect(onExited).to.have.been.called);
+    await waitFor(() => expect(onExit).toHaveBeenCalled());
+    await waitFor(() => expect(onExiting).toHaveBeenCalled());
+    await waitFor(() => expect(onExited).toHaveBeenCalled());
   });
 
   // fix: https://github.com/rsuite/rsuite/issues/4043
   it('Should not call onSubmit on form when click on header', () => {
-    const onSubmit = sinon.spy();
+    const onSubmit = vi.fn();
     render(
       <form
         onSubmit={event => {
@@ -136,24 +135,24 @@ describe('Panel', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Panel title' }));
 
-    expect(onSubmit).to.not.have.been.called;
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 
   describe('Collapsible - `collapsible=true`', () => {
     it('Should call onSelect callback with correct `eventKey`', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(<Panel collapsible onSelect={onSelect} eventKey={12} header={'abc'} />);
 
       fireEvent.click(screen.getByText('abc'));
-      expect(onSelect).to.have.been.calledWith(12);
+      expect(onSelect).toHaveBeenCalledWith(12, expect.any(Object));
     });
 
     it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(<Panel collapsible onSelect={onSelect} header={'abc'} />);
 
       fireEvent.click(screen.getByText('abc'));
-      expect(onSelect).to.have.been.calledWith(undefined);
+      expect(onSelect).toHaveBeenCalledWith(undefined, expect.any(Object));
     });
 
     it('Should not hide caret icon when header prop is passed an element', () => {

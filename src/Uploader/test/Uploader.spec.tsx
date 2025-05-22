@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -57,7 +56,7 @@ describe('Uploader', () => {
   });
 
   it('Should call `onUpload` callback', () => {
-    const onUpload = sinon.spy();
+    const onUpload = vi.fn();
     const file = {
       blobFile: new File(['foo'], 'foo.txt', { type: 'text/plain' })
     };
@@ -68,23 +67,23 @@ describe('Uploader', () => {
 
     ref.current.start(file);
 
-    expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
-    expect(onUpload).to.been.calledOnce;
+    expect(onUpload.mock.calls[0][1] instanceof FormData).to.equal(true);
+    expect(onUpload).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onUpload` callback', () => {
-    const onUpload = sinon.spy();
+    const onUpload = vi.fn();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
     const ref = React.createRef<any>();
 
     render(<Uploader ref={ref} name="file" action="" onUpload={onUpload} />);
     ref.current.start(file);
 
-    expect(onUpload).to.been.calledOnce;
+    expect(onUpload).toHaveBeenCalledTimes(1);
   });
 
   it('Should upload a FormData', () => {
-    const onUpload = sinon.spy();
+    const onUpload = vi.fn();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
     const ref = React.createRef<any>();
 
@@ -92,11 +91,12 @@ describe('Uploader', () => {
 
     ref.current.start(file);
 
-    expect(onUpload.args[0][1] instanceof FormData).to.equal(true);
+    expect(onUpload).toHaveBeenCalledTimes(1);
+    expect(onUpload.mock.calls[0][1] instanceof FormData).to.equal(true);
   });
 
   it('Should upload a File', () => {
-    const onUpload = sinon.spy();
+    const onUpload = vi.fn();
     const file = { blobFile: new File(['foo'], 'foo.txt') };
     const ref = React.createRef<any>();
 
@@ -104,11 +104,11 @@ describe('Uploader', () => {
 
     ref.current.start(file);
 
-    expect(onUpload.args[0][1] instanceof File).to.equal(true);
+    expect(onUpload.mock.calls[0][1] instanceof File).to.equal(true);
   });
 
   it('Should call `onChange` callback', async () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<Uploader name="file" action="" onChange={onChange} />);
 
@@ -118,13 +118,13 @@ describe('Uploader', () => {
       target: { files: [new File(['foo'], 'foo.txt')] }
     });
 
-    expect(onChange).to.been.calledOnce;
-    expect(onChange.firstCall.args[1].target).to.equal(input);
-    expect(onChange.firstCall.args[0][0].blobFile).to.instanceOf(File);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][1].target).to.equal(input);
+    expect(onChange.mock.calls[0][0][0].blobFile).to.instanceOf(File);
   });
 
   it('Should call `onRemove` callback', () => {
-    const onRemove = sinon.spy();
+    const onRemove = vi.fn();
     const file = {
       blobFile: new File(['foo'], 'foo.txt'),
       status: 'finished',
@@ -135,7 +135,7 @@ describe('Uploader', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Remove file: foo.txt' }));
 
-    expect(onRemove).to.have.been.calledOnce;
+    expect(onRemove).toHaveBeenCalledTimes(1);
   });
 
   it('Should apply appearance', () => {

@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import useSearch from '../hooks/useSearch';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 
 describe('useSearch(data, opts)', () => {
@@ -57,7 +56,7 @@ describe('useSearch(data, opts)', () => {
   });
 
   it('Should filter data based on opts.searchBy function when specified', () => {
-    const searchBy = sinon.spy((_keyword, _label, item: string) => item === 'other');
+    const searchBy = vi.fn((_keyword, _label, item: string) => item === 'other');
 
     const { result } = renderHook(() => useSearch(data, { labelKey: '', searchBy }));
 
@@ -65,12 +64,12 @@ describe('useSearch(data, opts)', () => {
       result.current.handleSearch('wanted', void 0 as any);
     });
 
-    expect(searchBy).to.have.been.calledWith('wanted', 'wanted', 'wanted');
+    expect(searchBy).toHaveBeenCalledWith('wanted', 'wanted', 'wanted');
     expect(result.current.filteredData).to.deep.equal(['other']);
   });
 
   it('Should call opts.callback when keyword is updated', () => {
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     const { result } = renderHook(() => useSearch(data, { labelKey: '', callback }));
 
@@ -78,7 +77,7 @@ describe('useSearch(data, opts)', () => {
       result.current.handleSearch('wanted', void 0 as any);
     });
 
-    expect(callback).to.have.been.calledWith('wanted', ['wanted'], void 0);
+    expect(callback).toHaveBeenCalledWith('wanted', ['wanted'], void 0);
   });
 
   it('Should reset search keyword to empty string when calling resetSearch', () => {
