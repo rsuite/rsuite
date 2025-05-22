@@ -3,7 +3,7 @@ import Plaintext from '@/internals/Plaintext';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useFormGroup } from '../../FormGroup';
-import { InputGroupContext } from '../../InputGroup/InputGroup';
+import { InputGroupContext } from '../../InputGroup';
 import { KEY_VALUES } from '@/internals/constants';
 import { useStyles } from '@/internals/hooks';
 import { PrependParameters } from '@/internals/types/utils';

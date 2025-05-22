@@ -4,13 +4,8 @@ import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
+import { InputGroupContext } from './InputGroupContext';
 import type { Size } from '@/internals/types';
-
-export const InputGroupContext = React.createContext<{
-  onFocus: () => void;
-  onBlur: () => void;
-  size?: Size;
-} | null>(null);
 
 export interface InputGroupProps extends BoxProps {
   /** Sets the composition content internally */
