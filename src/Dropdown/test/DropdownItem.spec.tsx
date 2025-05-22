@@ -4,14 +4,6 @@ import DropdownItem from '../DropdownItem';
 import { describe, expect, it, vi, beforeAll } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-// Mock @rsuite/icons
-vi.mock('@rsuite/icons/AddOutline', () => {
-  return {
-    __esModule: true,
-    default: props => <span data-testid="icon" {...props} />
-  };
-});
-
 const AddOutline = vi.fn().mockImplementation(() => <span data-testid="icon" />);
 
 beforeAll(() => {

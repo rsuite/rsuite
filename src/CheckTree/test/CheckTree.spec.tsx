@@ -5,11 +5,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { testStandardProps } from '@test/cases';
 
-// Mock the Icon component to avoid context issues in tests
-vi.mock('@rsuite/icons', () => ({
-  CheckTreeIcon: () => <span data-testid="check-tree-icon" />
-}));
-
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2', 'tester3']], 'disabled']);
 
 describe('CheckTree', () => {

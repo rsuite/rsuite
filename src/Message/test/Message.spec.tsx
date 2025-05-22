@@ -5,23 +5,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
-// Mock the icon components to avoid React hooks errors in tests
-vi.mock('@rsuite/icons/InfoRound', () => ({
-  default: () => <svg data-testid="info-icon" />
-}));
-
-vi.mock('@rsuite/icons/CheckRound', () => ({
-  default: () => <svg data-testid="check-icon" />
-}));
-
-vi.mock('@rsuite/icons/WarningRound', () => ({
-  default: () => <svg data-testid="warning-icon" />
-}));
-
-vi.mock('@rsuite/icons/RemindRound', () => ({
-  default: () => <svg data-testid="remind-icon" />
-}));
-
 describe('Message', () => {
   testStandardProps(<Message />);
 
@@ -59,20 +42,19 @@ describe('Message', () => {
   it('Should have a type', () => {
     render(<Message type="info" />);
 
-    expect(screen.getByRole('alert').className).to.include('rs-message-info');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-info');
   });
 
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
-    // Check for the presence of the icon using our mock
-    expect(screen.getByTestId('info-icon')).to.exist;
-    expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
+    expect(screen.getByRole('alert')).to.have.contain('.rs-message-icon');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-has-icon');
   });
 
   it('Should be full', () => {
     render(<Message full />);
-    expect(screen.getByRole('alert').className).to.include('rs-message-full');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-full');
   });
 
   it('Should be closable', () => {
