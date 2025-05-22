@@ -65,7 +65,7 @@ export function mockClipboardEvent(data: string) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   clipboardEvent.clipboardData = {
-    getData: vi.fn().mockImplementation((type) => type === 'text' ? data : '')
+    getData: vi.fn().mockImplementation(type => (type === 'text' ? data : ''))
   };
 
   return clipboardEvent;
