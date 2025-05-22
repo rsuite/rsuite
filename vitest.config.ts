@@ -57,6 +57,7 @@ async function createConfig() {
           'docs/**',
           'examples/**',
           'storybook/**',
+          'tooling/**',
           'src/**/stories/**',
           '**/*.js',
           '**/*.cjs'
