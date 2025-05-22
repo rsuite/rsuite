@@ -4,7 +4,7 @@ import FormGroup from './FormGroup';
 export type { FormGroupProps } from './FormGroup';
 
 // export hooks
-export { useFormGroup } from './FormGroup';
+export { useFormGroup } from './useFormGroup';
 
 // export components
 export { FormGroup };
