@@ -82,6 +82,25 @@ describe('useToaster', () => {
     expect(screen.queryByTestId('msg-4')).to.not.exist;
   });
 
+  it('Should show warning when used outside of CustomProvider', () => {
+    // Mock console.warn to track the warning
+    const originalWarn = console.warn;
+    const mockWarn = vi.fn();
+    console.warn = mockWarn;
+
+    // Render hook without CustomProvider wrapper
+    renderHook(() => useToaster());
+
+    // Verify the warning was called
+    expect(mockWarn).toHaveBeenCalledWith(
+      'Warning: useToaster is being used outside of a CustomProvider. ' +
+        'Please wrap your application with <CustomProvider> to ensure proper functionality.'
+    );
+
+    // Restore console.warn
+    console.warn = originalWarn;
+  });
+
   it('Should be localized on components rendered via toaster', () => {
     const App = () => {
       const toaster = useToaster();

@@ -1,7 +1,8 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useMemo, useContext, useEffect } from 'react';
 import toaster from '../toaster';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import { ToastContainerProps } from '../toaster/ToastContainer';
+import { canUseDOM } from '../DOMHelper';
 
 /**
  * Toaster display brief, temporary notifications of actions, errors, or other events in an application.
@@ -12,6 +13,15 @@ import { ToastContainerProps } from '../toaster/ToastContainer';
  */
 const useToaster = () => {
   const { toasters, toastContainer } = useContext(CustomContext);
+
+  useEffect(() => {
+    if (canUseDOM && !toasters) {
+      console.warn(
+        'Warning: useToaster is being used outside of a CustomProvider. ' +
+          'Please wrap your application with <CustomProvider> to ensure proper functionality.'
+      );
+    }
+  }, [toasters]);
 
   return useMemo(
     () => ({
