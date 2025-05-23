@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import PinInput from '../PinInput';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -34,7 +33,7 @@ describe('PinInput', () => {
   });
 
   it('Should not trigger events when disabled', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(<PinInput disabled onChange={onChange} />);
     const inputs = container.querySelectorAll('input');
     const firstInput = Array.from(inputs).find(input => input.type !== 'hidden');
@@ -44,11 +43,11 @@ describe('PinInput', () => {
 
     // Try keyboard input
     fireEvent.keyDown(firstInput, { key: '5' });
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
 
     // Try change event
     fireEvent.change(firstInput, { target: { value: '5' } });
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
 
     // Try paste
     const pasteEvent = new Event('paste', { bubbles: true });
@@ -56,18 +55,19 @@ describe('PinInput', () => {
       value: { getData: () => '1234' }
     });
     firstInput.dispatchEvent(pasteEvent);
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should be read only', () => {
     render(<PinInput readOnly placeholder="-" />);
     screen.getAllByRole('textbox').forEach(input => {
+      expect(input).toHaveProperty('readOnly', true);
       expect(input).to.have.property('readOnly', true);
     });
   });
 
   it('Should not trigger events when readOnly', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(<PinInput readOnly onChange={onChange} />);
     const inputs = container.querySelectorAll('input');
     const firstInput = Array.from(inputs).find(input => input.type !== 'hidden');
@@ -77,11 +77,11 @@ describe('PinInput', () => {
 
     // Try keyboard input
     fireEvent.keyDown(firstInput, { key: '5' });
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
 
     // Try change event
     fireEvent.change(firstInput, { target: { value: '5' } });
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
 
     // Try paste
     const pasteEvent = new Event('paste', { bubbles: true });
@@ -89,7 +89,7 @@ describe('PinInput', () => {
       value: { getData: () => '1234' }
     });
     firstInput.dispatchEvent(pasteEvent);
-    expect(onChange).not.to.have.been.called;
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should apply mask when specified', () => {
@@ -164,24 +164,24 @@ describe('PinInput', () => {
 
   // Event handling tests
   it('Should call onChange when input changes', () => {
-    const handleChange = sinon.spy(() => {});
+    const handleChange = vi.fn();
     render(<PinInput length={4} onChange={handleChange} />);
     const inputs = screen.getAllByRole('textbox');
     fireEvent.change(inputs[0], { target: { value: '9' } });
-    expect(handleChange).to.have.been.calledWith('9');
+    expect(handleChange).toHaveBeenCalledWith('9');
   });
 
   it('Should call onComplete when all inputs are filled', () => {
-    const handleComplete = sinon.spy(() => {});
-    const handleChange = sinon.spy(() => {});
+    const handleComplete = vi.fn();
+    const handleChange = vi.fn();
     render(<PinInput length={4} onChange={handleChange} onComplete={handleComplete} value="123" />);
     const inputs = screen.getAllByRole('textbox');
 
     // Fill the last input to complete the PIN
     fireEvent.change(inputs[3], { target: { value: '4' } });
 
-    expect(handleChange).to.have.been.calledWith('1234');
-    expect(handleComplete).to.have.been.calledWith('1234');
+    expect(handleChange).toHaveBeenCalledWith('1234');
+    expect(handleComplete).toHaveBeenCalledWith('1234');
   });
 
   // Focus management tests
@@ -218,7 +218,7 @@ describe('PinInput', () => {
   });
 
   it('Should clear current input on backspace when it has value', () => {
-    const handleChange = sinon.spy(() => {});
+    const handleChange = vi.fn(() => {});
     render(<PinInput length={4} value="123" onChange={handleChange} />);
     const inputs = screen.getAllByRole('textbox');
 
@@ -226,7 +226,7 @@ describe('PinInput', () => {
     inputs[2].focus();
     fireEvent.keyDown(inputs[2], { key: 'Backspace' });
 
-    expect(handleChange).to.have.been.calledWith('12');
+    expect(handleChange).toHaveBeenCalledWith('12');
     expect(document.activeElement).to.equal(inputs[2]);
   });
 
@@ -248,7 +248,7 @@ describe('PinInput', () => {
 
   // Direct keyboard input tests
   it('Should handle direct key input', () => {
-    const handleChange = sinon.spy(() => {});
+    const handleChange = vi.fn();
     render(<PinInput length={4} onChange={handleChange} />);
     const inputs = screen.getAllByRole('textbox');
 
@@ -274,18 +274,18 @@ describe('PinInput', () => {
 
   describe('Type validation', () => {
     it('Should use default allowedKeys to restrict non-digit input', () => {
-      const onChange = sinon.spy(() => {});
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} />);
       const inputs = screen.getAllByRole('textbox');
       fireEvent.keyDown(inputs[0], { key: 'A' });
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(inputs[0], { key: '2' });
-      expect(onChange).to.have.been.calledWith('2');
+      expect(onChange).toHaveBeenCalledWith('2');
     });
 
     it('Should filter pasted content using default allowedKeys pattern', async () => {
-      const onChange = sinon.spy(() => {});
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} />);
       const inputs = screen.getAllByRole('textbox');
       const pasteEvent = new Event('paste', { bubbles: true });
@@ -295,23 +295,23 @@ describe('PinInput', () => {
       });
 
       inputs[0].dispatchEvent(pasteEvent);
-      expect(onChange).to.have.been.calledWith('12');
+      expect(onChange).toHaveBeenCalledWith('12');
     });
 
     it('Should restrict input based on type prop', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type={/^[0-9]$/} />);
       const inputs = screen.getAllByRole('textbox');
 
       fireEvent.keyDown(inputs[0], { key: 'A' });
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(inputs[0], { key: '1' });
-      expect(onChange).to.have.been.calledWith('1');
+      expect(onChange).toHaveBeenCalledWith('1');
     });
 
     it('Should filter paste content based on type prop', async () => {
-      const onChange = sinon.spy(() => {});
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type={/^[A-Fa-f0-9]$/} />);
       const inputs = screen.getAllByRole('textbox');
       const pasteEvent = new Event('paste', { bubbles: true });
@@ -324,22 +324,22 @@ describe('PinInput', () => {
 
       inputs[0].dispatchEvent(pasteEvent);
 
-      expect(onChange).to.have.been.calledWith('ABC1');
+      expect(onChange).toHaveBeenCalledWith('ABC1');
     });
 
     // Alphabetic type validation
     it('Should restrict input to letters when type="alphabetic"', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type="alphabetic" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       fireEvent.keyDown(inputs[0], { key: '1' });
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
       fireEvent.keyDown(inputs[0], { key: 'A' });
-      expect(onChange).to.have.been.calledWith('A');
+      expect(onChange).toHaveBeenCalledWith('A');
     });
 
     it('Should filter pasted content with only letters when type="alphabetic"', async () => {
-      const onChange = sinon.spy(() => {});
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type="alphabetic" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       const pasteEvent = new Event('paste', { bubbles: true });
@@ -348,24 +348,24 @@ describe('PinInput', () => {
 
       inputs[0].dispatchEvent(pasteEvent);
 
-      expect(onChange).to.have.been.calledWith('ABc');
+      expect(onChange).toHaveBeenCalledWith('ABc');
     });
 
     // Alphanumeric type validation
     it('Should allow letters and digits when type="alphanumeric"', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type="alphanumeric" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       fireEvent.keyDown(inputs[0], { key: '!' });
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
       fireEvent.keyDown(inputs[0], { key: '5' });
-      expect(onChange).to.have.been.calledWith('5');
+      expect(onChange).toHaveBeenCalledWith('5');
       fireEvent.keyDown(inputs[0], { key: 'B' });
-      expect(onChange).to.have.been.calledWith('B');
+      expect(onChange).toHaveBeenCalledWith('B');
     });
 
     it('Should filter pasted content for alphanumeric type', async () => {
-      const onChange = sinon.spy(() => {});
+      const onChange = vi.fn();
       render(<PinInput length={4} onChange={onChange} type="alphanumeric" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       const pasteEvent = new Event('paste', { bubbles: true });
@@ -374,11 +374,11 @@ describe('PinInput', () => {
 
       inputs[0].dispatchEvent(pasteEvent);
 
-      expect(onChange).to.have.been.calledWith('A2b3');
+      expect(onChange).toHaveBeenCalledWith('A2b3');
     });
 
     it('Should handle custom RegExp type properly', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const { container } = render(
         <PinInput length={4} onChange={onChange} type={/^[A-Fa-f0-9]$/} />
       );
@@ -390,14 +390,14 @@ describe('PinInput', () => {
       if (!firstInput) return;
 
       fireEvent.keyDown(firstInput, { key: 'G' });
-      expect(onChange).not.to.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(firstInput, { key: 'F' });
-      expect(onChange).to.have.been.calledWith('F');
+      expect(onChange).toHaveBeenCalledWith('F');
       fireEvent.keyDown(firstInput, { key: 'a' });
-      expect(onChange).to.have.been.calledWith('a');
+      expect(onChange).toHaveBeenCalledWith('a');
       fireEvent.keyDown(firstInput, { key: '9' });
-      expect(onChange).to.have.been.calledWith('9');
+      expect(onChange).toHaveBeenCalledWith('9');
     });
 
     it('Should set correct inputMode based on type prop', () => {
@@ -474,13 +474,13 @@ describe('PinInput', () => {
 
   describe('Completion callback', () => {
     it('Should call onComplete when all digits are entered', () => {
-      const onComplete = sinon.spy();
+      const onComplete = vi.fn();
       render(<PinInput length={3} onComplete={onComplete} />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       fireEvent.change(inputs[0], { target: { value: '1' } });
       fireEvent.change(inputs[1], { target: { value: '2' } });
       fireEvent.change(inputs[2], { target: { value: '3' } });
-      expect(onComplete).to.have.been.calledWith('123');
+      expect(onComplete).toHaveBeenCalledWith('123');
     });
   });
 
@@ -500,7 +500,7 @@ describe('PinInput', () => {
 
   describe('Paste handling', () => {
     it('Should handle paste event', async () => {
-      const onComplete = sinon.spy(() => {});
+      const onComplete = vi.fn();
 
       render(<PinInput length={4} onComplete={onComplete} />);
 
@@ -515,11 +515,11 @@ describe('PinInput', () => {
 
       inputs[0].dispatchEvent(pasteEvent);
 
-      expect(onComplete).to.have.been.calledWith('1234');
+      expect(onComplete).toHaveBeenCalledWith('1234');
     });
 
     it('Should handle paste with non-alphanumeric characters', async () => {
-      const handleChange = sinon.spy(() => {});
+      const handleChange = vi.fn();
       render(<PinInput length={4} onChange={handleChange} />);
 
       const inputs = screen.getAllByRole('textbox');
@@ -532,11 +532,11 @@ describe('PinInput', () => {
       });
 
       inputs[0].dispatchEvent(pasteEvent);
-      expect(handleChange).to.have.been.calledWith('1234');
+      expect(handleChange).toHaveBeenCalledWith('1234');
     });
 
     it('Should handle paste with more characters than length', async () => {
-      const handleChange = sinon.spy(() => {});
+      const handleChange = vi.fn();
       render(<PinInput length={4} onChange={handleChange} />);
 
       const inputs = screen.getAllByRole('textbox');
@@ -550,7 +550,7 @@ describe('PinInput', () => {
 
       inputs[0].dispatchEvent(pasteEvent);
 
-      expect(handleChange).to.have.been.calledWith('1234');
+      expect(handleChange).toHaveBeenCalledWith('1234');
     });
   });
 });

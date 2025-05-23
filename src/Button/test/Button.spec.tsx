@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Button from '../Button';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -40,13 +39,13 @@ describe('Button', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<Button onClick={onClick}>Title</Button>);
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should be disabled', () => {
@@ -63,7 +62,7 @@ describe('Button', () => {
   });
 
   it('Should be disabled link', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(
       <Button disabled href="https://rsuitejs.com" onClick={onClick}>
@@ -73,7 +72,7 @@ describe('Button', () => {
 
     fireEvent.click(screen.getByText('Title'));
 
-    expect(onClick).to.not.have.been.calledOnce;
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   it('Should have block class', () => {
@@ -149,7 +148,7 @@ describe('Button', () => {
   });
 
   it('Should call onToggle callback', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
 
     render(
       <Button toggleable onToggle={onToggle}>
@@ -158,9 +157,9 @@ describe('Button', () => {
     );
 
     fireEvent.click(screen.getByRole('button'));
-    expect(onToggle).to.have.been.calledWith(true);
+    expect(onToggle).toHaveBeenCalledWith(true, expect.anything());
 
     fireEvent.click(screen.getByRole('button'));
-    expect(onToggle).to.have.been.calledWith(false);
+    expect(onToggle).toHaveBeenCalledWith(false, expect.anything());
   });
 });

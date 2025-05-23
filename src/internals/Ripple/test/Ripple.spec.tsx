@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Ripple from '../Ripple';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -15,7 +14,7 @@ describe('Ripple', () => {
   });
 
   it('Should call onMouseDown callback', () => {
-    const onMouseDown = sinon.spy();
+    const onMouseDown = vi.fn();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <div ref={ref} style={{ width: 100, height: 100 }}>
@@ -28,6 +27,6 @@ describe('Ripple', () => {
       (ref.current as HTMLElement).dispatchEvent(event);
     });
 
-    expect(onMouseDown).to.have.been.calledOnce;
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 });

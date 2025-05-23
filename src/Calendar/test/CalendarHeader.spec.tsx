@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Header from '../CalendarHeader';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { CalendarProvider } from '../CalendarProvider';
@@ -16,36 +15,36 @@ describe('Calendar-Header', () => {
   });
 
   it('Should call `onMoveForward` callback', () => {
-    const onMoveForward = sinon.spy();
+    const onMoveForward = vi.fn();
 
     render(<Header showMonth onMoveForward={onMoveForward} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
-    expect(onMoveForward).to.have.been.calledOnce;
+    expect(onMoveForward).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onMoveBackward` callback', () => {
-    const onMoveBackward = sinon.spy();
+    const onMoveBackward = vi.fn();
 
     render(<Header showMonth onMoveBackward={onMoveBackward} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
 
-    expect(onMoveBackward).to.have.been.calledOnce;
+    expect(onMoveBackward).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onToggleMonthDropdown` callback', () => {
-    const onToggleMonthDropdown = sinon.spy();
+    const onToggleMonthDropdown = vi.fn();
 
     render(<Header showMonth onToggleMonthDropdown={onToggleMonthDropdown} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
-    expect(onToggleMonthDropdown).to.have.been.calledOnce;
+    expect(onToggleMonthDropdown).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onToggleTimeDropdown` callback', () => {
-    const onToggleTimeDropdown = sinon.spy();
+    const onToggleTimeDropdown = vi.fn();
 
     render(
       <CalendarProvider
@@ -57,6 +56,6 @@ describe('Calendar-Header', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
 
-    expect(onToggleTimeDropdown).to.have.been.calledOnce;
+    expect(onToggleTimeDropdown).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,11 +1,10 @@
 import React from 'react';
-import sinon from 'sinon';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
 import Message from '../../Message';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { screen, render, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 
 describe('useToaster', () => {
@@ -44,7 +43,7 @@ describe('useToaster', () => {
 
   it('Should remove a message', () => {
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
-    const clock = sinon.useFakeTimers();
+    vi.useFakeTimers();
 
     let key;
     act(() => {
@@ -56,7 +55,7 @@ describe('useToaster', () => {
 
     act(() => {
       toaster.remove(key);
-      clock.tick(400);
+      vi.advanceTimersByTime(400);
     });
 
     expect(screen.queryByTestId('message')).not.to.exist;
@@ -64,7 +63,7 @@ describe('useToaster', () => {
 
   it('Should clear all message', () => {
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
-    const clock = sinon.useFakeTimers();
+    vi.useFakeTimers();
 
     act(() => {
       toaster.push(<div data-testid="msg-3">3</div>);
@@ -76,7 +75,7 @@ describe('useToaster', () => {
 
     act(() => {
       toaster.clear();
-      clock.tick(400);
+      vi.advanceTimersByTime(400);
     });
 
     expect(screen.queryByTestId('msg-3')).to.not.exist;
@@ -112,6 +111,7 @@ describe('useToaster', () => {
   });
 
   it('Should pass duration to Message', async () => {
+    vi.useFakeTimers();
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
     const Message = React.forwardRef<HTMLDivElement, any>((props, ref) => {
@@ -123,15 +123,15 @@ describe('useToaster', () => {
       );
     });
 
-    toaster.push(<Message>message</Message>, { duration: 10 });
-
-    await waitFor(() => {
-      expect(screen.getByTestId('msg-1')).to.have.text('10');
+    act(() => {
+      toaster.push(<Message>message</Message>, { duration: 10 });
     });
+
+    expect(screen.getByTestId('msg-1')).to.have.text('10');
   });
 
   it.skip('Should call onClose callback with duration', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
     toaster.push(
@@ -142,7 +142,7 @@ describe('useToaster', () => {
     );
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalled();
     });
   });
 
@@ -159,6 +159,8 @@ describe('useToaster', () => {
   });
 
   it('Should push a message to a custom container', async () => {
+    // Use real timers for this test since we need to wait for DOM updates
+    vi.useRealTimers();
     const container = React.createRef<HTMLDivElement>();
     const App = props => {
       const { children, ...rest } = props;
@@ -176,6 +178,9 @@ describe('useToaster', () => {
       toaster.push(<div>message</div>, { container: container.current });
     });
 
-    await waitFor(() => expect(container.current).to.have.text('message'));
+    // Wait for the message to be rendered in the container
+    await waitFor(() => {
+      expect(container.current).to.have.text('message');
+    });
   });
 });

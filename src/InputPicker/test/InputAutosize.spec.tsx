@@ -1,7 +1,6 @@
 import React from 'react';
 import InputAutosize from '../InputAutosize';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('InputPicker - InputAutosize', () => {
@@ -17,13 +16,13 @@ describe('InputPicker - InputAutosize', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<InputAutosize onChange={onChange} />);
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a placeholder', () => {

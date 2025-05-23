@@ -1,24 +1,23 @@
 import React from 'react';
-import sinon from 'sinon';
 import Handle from '../Handle';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, act, waitFor, render, screen } from '@testing-library/react';
 import { getCssVarValue } from '@test/utils';
 
 describe('Slider - Handle', () => {
   it('Should call `onDragStart` callback', () => {
-    const onDragStart = sinon.spy();
+    const onDragStart = vi.fn();
 
     render(<Handle onDragStart={onDragStart} />);
 
     fireEvent.mouseDown(screen.getByTestId('slider-handle'));
 
     expect(screen.getByTestId('slider-handle')).to.have.class('active');
-    expect(onDragStart).to.have.been.calledOnce;
+    expect(onDragStart).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onDragMove` callback', async () => {
-    const onDragMove = sinon.spy();
+    const onDragMove = vi.fn();
 
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
@@ -32,7 +31,7 @@ describe('Slider - Handle', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('slider-handle')).to.have.class('active');
-      expect(onDragMove).to.have.been.calledOnce;
+      expect(onDragMove).toHaveBeenCalledTimes(1);
     });
   });
 

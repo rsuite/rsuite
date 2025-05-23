@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import PaginationGroup from '../PaginationGroup';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -94,7 +93,7 @@ describe('Pagination Group', () => {
   });
 
   it('Should call onChangePage callback', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup
         last={false}
@@ -108,7 +107,7 @@ describe('Pagination Group', () => {
 
     fireEvent.click(screen.getByText('2'));
 
-    expect(onChangePage).to.have.been.calledOnce;
+    expect(onChangePage).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a limit picker', () => {
@@ -223,7 +222,7 @@ describe('Pagination Group', () => {
   });
 
   it('Should call onChangeLimit callback when limit changes', () => {
-    const onChangeLimit = sinon.spy();
+    const onChangeLimit = vi.fn();
     render(
       <PaginationGroup
         layout={['limit']}
@@ -237,11 +236,11 @@ describe('Pagination Group', () => {
     const option20 = screen.getAllByRole('option')[1];
     fireEvent.click(option20);
 
-    expect(onChangeLimit).to.have.been.calledWith(20);
+    expect(onChangeLimit).toHaveBeenCalledWith(20);
   });
 
   it('Should handle skip input correctly', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
     );
@@ -250,11 +249,11 @@ describe('Pagination Group', () => {
     fireEvent.change(input, { target: { value: '5' } });
     fireEvent.blur(input);
 
-    expect(onChangePage).to.have.been.calledWith(5);
+    expect(onChangePage).toHaveBeenCalledWith(5);
   });
 
   it('Should ignore invalid skip input', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
     );
@@ -263,11 +262,11 @@ describe('Pagination Group', () => {
     fireEvent.change(input, { target: { value: '15' } });
     fireEvent.blur(input);
 
-    expect(onChangePage).to.not.have.been.called;
+    expect(onChangePage).not.toHaveBeenCalled();
   });
 
   it('Should handle input blur with valid page number', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
     );
@@ -276,11 +275,11 @@ describe('Pagination Group', () => {
     fireEvent.change(input, { target: { value: '5' } });
     fireEvent.blur(input);
 
-    expect(onChangePage).to.have.been.calledWith(5);
+    expect(onChangePage).toHaveBeenCalledWith(5);
   });
 
   it('Should not call onChangePage when input value is invalid', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
     );
@@ -289,11 +288,11 @@ describe('Pagination Group', () => {
     fireEvent.change(input, { target: { value: '15' } });
     fireEvent.blur(input);
 
-    expect(onChangePage).to.not.have.been.called;
+    expect(onChangePage).not.toHaveBeenCalled();
   });
 
   it('Should not call onChangePage when input value is less than 1', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
     );
@@ -302,11 +301,11 @@ describe('Pagination Group', () => {
     fireEvent.change(input, { target: { value: '0' } });
     fireEvent.blur(input);
 
-    expect(onChangePage).to.not.have.been.called;
+    expect(onChangePage).not.toHaveBeenCalled();
   });
 
   it('Should handle Enter key press with valid page number', () => {
-    const onChangePage = sinon.spy();
+    const onChangePage = vi.fn();
     render(
       <PaginationGroup
         layout={['skip', 'pager']}
@@ -324,7 +323,7 @@ describe('Pagination Group', () => {
     // TODO: The Enter key will automatically lose focus, but it will not be simulated by fireEvent.keyDown
     fireEvent.blur(input);
 
-    expect(onChangePage).to.have.been.calledWith(2);
+    expect(onChangePage).toHaveBeenCalledWith(2);
   });
 
   it('Should render all layout elements in correct order', () => {

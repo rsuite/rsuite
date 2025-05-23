@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import CascadeTree from '../CascadeTree';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
@@ -32,11 +31,11 @@ describe('CascadeTree', () => {
   });
 
   it('Should call `onSelect` callback with correct node value', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<CascadeTree data={items} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    const args = onSelect.getCall(0).args;
+    const args = onSelect.mock.calls[0];
 
     expect(args[0]).to.deep.equal({ value: '2', label: '2' });
     expect(args[1]).to.deep.equal([{ value: '2', label: '2' }]);
@@ -77,19 +76,21 @@ describe('CascadeTree', () => {
   });
 
   it('Should item able to stringfy', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(<CascadeTree data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />);
     const checkbox = screen.getAllByRole('treeitem')[2];
 
     fireEvent.click(checkbox);
 
-    expect(onSelect).to.called;
-    expect(renderTreeNode).to.called;
-    expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
+    expect(onSelect).toHaveBeenCalled();
+    expect(renderTreeNode).toHaveBeenCalled();
+    expect(() => JSON.stringify(items[2])).not.toThrow();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][1])).not.toThrow();
+    expect(() =>
+      JSON.stringify(renderTreeNode.mock.calls[renderTreeNode.mock.calls.length - 1][1])
+    ).not.toThrow();
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
@@ -108,7 +109,7 @@ describe('CascadeTree', () => {
 
   it('Should call `onSearch` callback', () => {
     const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
 
     render(<CascadeTree searchable data={data} onSearch={onSearch} />);
 
@@ -117,8 +118,8 @@ describe('CascadeTree', () => {
     fireEvent.focus(searchbox);
     fireEvent.change(searchbox, { target: { value: 'c' } });
 
-    expect(onSearch).to.be.calledOnce;
-    expect(onSearch).to.be.calledWith('c');
+    expect(onSearch).toHaveBeenCalledTimes(1);
+    expect(onSearch.mock.calls[0][0]).toBe('c');
   });
 
   it('Should show search items with childrenKey', () => {

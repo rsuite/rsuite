@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import ListCheckItem from '../ListCheckItem';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('picker - ListCheckItem', () => {
@@ -30,40 +29,40 @@ describe('picker - ListCheckItem', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<ListCheckItem title="title" onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox'));
 
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onKeyDown callback', () => {
-    const onKeyDown = sinon.spy();
+    const onKeyDown = vi.fn();
     render(<ListCheckItem title="title" onKeyDown={onKeyDown} />);
 
     fireEvent.keyDown(screen.getByRole('checkbox'));
-    expect(onKeyDown).to.have.been.calledOnce;
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onCheck callback', () => {
-    const onSelect = sinon.spy();
-    const onCheck = sinon.spy();
+    const onSelect = vi.fn();
+    const onCheck = vi.fn();
 
     render(<ListCheckItem title="title" onCheck={onCheck} onSelectItem={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox'));
 
-    expect(onCheck).to.have.been.calledOnce;
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onCheck).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onSelectItem callback', () => {
-    const onSelectItem = sinon.spy();
+    const onSelectItem = vi.fn();
     render(<ListCheckItem title="title" onSelectItem={onSelectItem} />);
 
     fireEvent.click(screen.getByRole('checkbox'));
-    expect(onSelectItem).to.have.been.calledOnce;
+    expect(onSelectItem).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a custom className', () => {

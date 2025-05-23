@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import ListItem from '../ListItem';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('picker - ListItem', () => {
@@ -30,20 +29,20 @@ describe('picker - ListItem', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<ListItem title="title" onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('option'));
 
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onKeyDown callback', () => {
-    const onKeyDown = sinon.spy();
+    const onKeyDown = vi.fn();
     render(<ListItem title="title" onKeyDown={onKeyDown} />);
 
     fireEvent.keyDown(screen.getByRole('option'));
-    expect(onKeyDown).to.have.been.calledOnce;
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a custom className', () => {

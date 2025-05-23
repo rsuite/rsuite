@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Drawer from '../Drawer';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -22,10 +21,10 @@ describe('Drawer.Header', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Drawer.Header onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('button'));
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

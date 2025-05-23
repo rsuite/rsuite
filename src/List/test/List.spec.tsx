@@ -1,14 +1,12 @@
 import React from 'react';
-import sinon from 'sinon';
 import List from '../List';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it, afterEach, vi } from 'vitest';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
 describe('List', () => {
   afterEach(() => {
     cleanup();
-    // 确保在每个测试后恢复 document.body.style.overflow
     document.body.style.overflow = '';
   });
 
@@ -78,10 +76,10 @@ describe('List', () => {
 
   // Simulating DOM events requires special handling in tests
   it('Should call onSortStart when mouse is pressed', () => {
-    const onSortStart = sinon.spy();
+    const onSortStart = vi.fn();
 
-    // Use setTimeout to simulate pressDelay
-    const clock = sinon.useFakeTimers();
+    // Use Vitest's fake timers
+    vi.useFakeTimers();
 
     render(
       <List sortable pressDelay={0} onSortStart={onSortStart}>
@@ -94,20 +92,20 @@ describe('List', () => {
     fireEvent.mouseDown(screen.getAllByRole('listitem')[0]);
 
     // Advance time to trigger callback after pressDelay
-    clock.tick(10);
+    vi.advanceTimersByTime(10);
 
-    // Verify callback was called synchronously after the clock tick
-    expect(onSortStart).to.have.been.called;
+    // Verify callback was called
+    expect(onSortStart).toHaveBeenCalled();
 
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it('Should call onSortMove when mouse is moved after sort starts', () => {
-    const onSortMove = sinon.spy();
+    const onSortMove = vi.fn();
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
 
-    // Use setTimeout to simulate pressDelay
-    const clock = sinon.useFakeTimers();
+    // Use Vitest's fake timers
+    vi.useFakeTimers();
 
     const ref = React.createRef<HTMLDivElement>();
     render(
@@ -124,32 +122,32 @@ describe('List', () => {
     );
 
     // Verify ref.current is set (this should be synchronous in the test environment)
-    expect(ref.current).to.not.be.null;
+    expect(ref.current).not.toBeNull();
 
     // Trigger mousedown event
     fireEvent.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
 
     // Advance time to trigger callback after pressDelay
-    clock.tick(10);
+    vi.advanceTimersByTime(10);
 
-    // Verify callback was called synchronously after the clock tick
-    expect(onSortMove).to.have.been.called;
+    // Verify callback was called
+    expect(onSortMove).toHaveBeenCalled();
 
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it('Should call onSortEnd and onSort when sorting is completed', () => {
-    const onSort = sinon.spy();
-    const onSortEnd = sinon.spy();
+    const onSort = vi.fn();
+    const onSortEnd = vi.fn();
 
     // Create a mouseup event, but don't trigger it immediately
     const mouseupEvent = new Event('mouseup', { bubbles: true });
 
-    // Use setTimeout to simulate pressDelay
-    const clock = sinon.useFakeTimers();
+    // Use Vitest's fake timers
+    vi.useFakeTimers();
 
-    // Use sinon to mock onSortStart behavior
-    const onSortStart = sinon.spy(() => {
+    // Mock onSortStart behavior
+    const onSortStart = vi.fn(() => {
       // When onSortStart is called, trigger the mouseup event
       setTimeout(() => {
         window.dispatchEvent(mouseupEvent);
@@ -172,28 +170,28 @@ describe('List', () => {
     );
 
     // Verify ref.current is set (this should be synchronous in the test environment)
-    expect(ref.current).to.not.be.null;
+    expect(ref.current).not.toBeNull();
 
     // Trigger mousedown event
     fireEvent.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
 
     // Advance time to trigger callback after pressDelay
-    clock.tick(10);
+    vi.advanceTimersByTime(10);
 
     // Confirm onSortStart was called
-    expect(onSortStart).to.have.been.called;
+    expect(onSortStart).toHaveBeenCalled();
 
     // Advance time to trigger mouseup event in setTimeout
-    clock.tick(10);
+    vi.advanceTimersByTime(10);
 
     // Advance time to wait for async callbacks to complete
-    clock.tick(500);
+    vi.advanceTimersByTime(500);
 
     // Verify callbacks were called
-    expect(onSortEnd).to.have.been.called;
-    expect(onSort).to.have.been.called;
+    expect(onSortEnd).toHaveBeenCalled();
+    expect(onSort).toHaveBeenCalled();
 
-    clock.restore();
+    vi.useRealTimers();
   });
 
   // Note: Due to limitations in the test environment, we cannot fully test touch events

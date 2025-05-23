@@ -1,11 +1,10 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import InlineEdit from '../InlineEdit';
 import SelectPicker from '../../SelectPicker';
 import InputPicker from '../../InputPicker';
 import Input from '../../Input';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
@@ -22,28 +21,28 @@ describe('InlineEdit', () => {
   });
 
   it('Should call onEdit callback', () => {
-    const onEdit = sinon.spy();
+    const onEdit = vi.fn();
 
     render(<InlineEdit onEdit={onEdit} defaultValue="input something" />);
 
     fireEvent.click(screen.getByText('input something'));
 
-    expect(onEdit).to.have.been.calledOnce;
+    expect(onEdit).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onCancel callback', () => {
-    const onCancel = sinon.spy();
+    const onCancel = vi.fn();
 
     render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
 
     fireEvent.click(screen.getByText('input something'));
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
-    expect(onCancel).to.have.been.calledOnce;
+    expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onCancel callback and reset value', () => {
-    const onCancel = sinon.spy();
+    const onCancel = vi.fn();
 
     render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
 
@@ -51,12 +50,12 @@ describe('InlineEdit', () => {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
-    expect(onCancel).to.have.been.calledOnce;
-    expect(screen.getByText('input something')).to.exist;
+    expect(onCancel).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('input something')).toBeTruthy();
   });
 
   it('Should call onCancel callback and reset value when blur', () => {
-    const onCancel = sinon.spy();
+    const onCancel = vi.fn();
 
     render(<InlineEdit onCancel={onCancel} stateOnBlur="cancel" defaultValue="input something" />);
 
@@ -64,23 +63,23 @@ describe('InlineEdit', () => {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
 
-    expect(onCancel).to.have.been.calledOnce;
-    expect(screen.getByText('input something')).to.exist;
+    expect(onCancel).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('input something')).toBeTruthy();
   });
 
   it('Should call onSave callback', () => {
-    const onSave = sinon.spy();
+    const onSave = vi.fn();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
     fireEvent.click(screen.getByText('input something'));
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(onSave).to.have.been.calledOnce;
+    expect(onSave).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onSave callback and update value', () => {
-    const onSave = sinon.spy();
+    const onSave = vi.fn();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
@@ -88,12 +87,12 @@ describe('InlineEdit', () => {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(onSave).to.have.been.calledOnce;
-    expect(screen.getByText('new value')).to.exist;
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('new value')).toBeTruthy();
   });
 
   it('Should call onSave callback and update value when blur', () => {
-    const onSave = sinon.spy();
+    const onSave = vi.fn();
 
     render(<InlineEdit onSave={onSave} defaultValue="input something" />);
 
@@ -101,20 +100,20 @@ describe('InlineEdit', () => {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
 
-    expect(onSave).to.have.been.calledOnce;
-    expect(screen.getByText('new value')).to.exist;
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('new value')).toBeTruthy();
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<InlineEdit onChange={onChange} defaultValue="input something" />);
 
     fireEvent.click(screen.getByText('input something'));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onChange).to.have.been.calledWith('new value');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(expect.any(String), expect.any(Object));
   });
 
   it('Should render controls', () => {
@@ -136,30 +135,30 @@ describe('InlineEdit', () => {
   });
 
   it('Should be disabled', () => {
-    const onEdit = sinon.spy();
+    const onEdit = vi.fn();
     render(<InlineEdit disabled onEdit={onEdit} defaultValue="input something" />);
 
     expect(screen.getByText('input something')).to.exist;
 
     fireEvent.click(screen.getByText('input something'));
 
-    expect(onEdit).to.not.have.been.called;
+    expect(onEdit).not.toHaveBeenCalled();
   });
 
   it('Should call onFocus and set editing state when not editing', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<InlineEdit onFocus={onFocus} defaultValue="test value" />);
 
     const element = screen.getByText('test value');
     fireEvent.focus(element);
 
-    expect(onFocus).to.have.been.calledOnce;
-    expect(screen.getByRole('textbox')).to.exist;
+    expect(onFocus).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('textbox')).toBeTruthy();
   });
 
   it('Should not call onFocus again if already editing', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<InlineEdit onFocus={onFocus} defaultValue="test value" />);
 
@@ -168,7 +167,7 @@ describe('InlineEdit', () => {
     // By the second focus call, isEditing is already set.
     fireEvent.focus(element);
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a custom size', () => {
@@ -238,7 +237,7 @@ describe('InlineEdit', () => {
 
   describe('InlineEdit with InputPicker', () => {
     it('Should open the popup picker automatically when clicked', async () => {
-      const onSave = sinon.spy();
+      const onSave = vi.fn();
       render(
         <InlineEdit value="Louisa" onSave={onSave}>
           <InputPicker data={data} />
@@ -253,8 +252,8 @@ describe('InlineEdit', () => {
     });
 
     it('Should call onSave callback when clicked on an option', async () => {
-      const onSave = sinon.spy();
-      const onExit = sinon.spy();
+      const onSave = vi.fn();
+      const onExit = vi.fn();
       render(
         <InlineEdit value="Louisa" onSave={onSave}>
           <InputPicker data={data} onExit={onExit} />
@@ -267,13 +266,13 @@ describe('InlineEdit', () => {
 
       fireEvent.click(screen.getByRole('option', { name: 'Kariane' }));
 
-      expect(onSave).to.have.been.calledOnce;
-      expect(onExit).to.have.been.calledOnce;
+      expect(onSave).toHaveBeenCalledTimes(1);
+      expect(onExit).toHaveBeenCalledTimes(1);
     });
 
     it('Should call onSave callback when clicked on clear button', async () => {
-      const onSave = sinon.spy();
-      const onClean = sinon.spy();
+      const onSave = vi.fn();
+      const onClean = vi.fn();
       render(
         <InlineEdit value="Louisa" onSave={onSave}>
           <InputPicker data={data} onClean={onClean} />
@@ -286,14 +285,14 @@ describe('InlineEdit', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
-      expect(onSave).to.have.been.calledOnce;
-      expect(onClean).to.have.been.calledOnce;
+      expect(onSave).toHaveBeenCalledTimes(1);
+      expect(onClean).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('InlineEdit with keyboard', () => {
     it('Should change value by pressing Enter', () => {
-      const onSave = sinon.spy();
+      const onSave = vi.fn();
 
       render(<InlineEdit onSave={onSave} defaultValue="input something" />);
       fireEvent.click(screen.getByText('input something'));
@@ -301,12 +300,12 @@ describe('InlineEdit', () => {
 
       fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
-      expect(screen.getByText('new value')).to.exist;
-      expect(onSave).to.have.been.calledOnce;
+      expect(screen.getByText('new value')).toBeTruthy();
+      expect(onSave).toHaveBeenCalledTimes(1);
     });
 
     it('Should not change value by pressing Enter when the input is a textarea', () => {
-      const onSave = sinon.spy();
+      const onSave = vi.fn();
 
       render(
         <InlineEdit onSave={onSave} defaultValue="input something">
@@ -319,11 +318,11 @@ describe('InlineEdit', () => {
       fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
       expect(screen.getByRole('textbox')).to.exist;
-      expect(onSave).to.not.have.been.called;
+      expect(onSave).not.toHaveBeenCalled();
     });
 
     it('Should cancel editing by pressing Escape', () => {
-      const onCancel = sinon.spy();
+      const onCancel = vi.fn();
 
       render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
       fireEvent.click(screen.getByText('input something'));
@@ -332,7 +331,7 @@ describe('InlineEdit', () => {
       fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape' });
 
       expect(screen.getByText('input something')).to.exist;
-      expect(onCancel).to.have.been.calledOnce;
+      expect(onCancel).toHaveBeenCalledTimes(1);
     });
 
     [

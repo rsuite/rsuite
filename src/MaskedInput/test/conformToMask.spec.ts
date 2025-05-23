@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import sinon from 'sinon';
 import conformToMask from '../conformToMask';
 import dynamicTests from './dynamicTests';
 import testParameters, { noGuideMode, acceptedCharInMask, escapedMaskChar } from './testParameters';
 import keepCharPositionsTests from './keepCharPositionsTests';
 import maskFunctionTests from './maskFunctionTests';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { convertMaskToPlaceholder } from '../utilities';
 
 const testInputs = ['rawValue', 'mask', 'previousConformedValue', 'currentCaretPosition'];
@@ -29,11 +28,11 @@ describe('conformToMask', () => {
   });
 
   it('calls the mask function', () => {
-    const maskSpy = sinon.spy(() => [/\d/, /\d/, /\d/, /\d/]);
+    const maskSpy = vi.fn(() => [/\d/, /\d/, /\d/, /\d/]);
     const result = conformToMask('2', maskSpy);
 
     expect(result.conformedValue).to.equal('2___');
-    expect(maskSpy.callCount).to.equal(1);
+    expect(maskSpy).toHaveBeenCalledTimes(1);
   });
 
   it('passes the rawValue to the mask function', () => {
@@ -196,11 +195,11 @@ describe('conformToMask', () => {
     });
 
     it('calls the mask function', () => {
-      const maskSpy = sinon.spy(() => [/\d/, /\d/, /\d/, /\d/]);
+      const maskSpy = vi.fn(() => [/\d/, /\d/, /\d/, /\d/]);
       const result = conformToMask('2', maskSpy);
 
       expect(result.conformedValue).to.equal('2___');
-      expect(maskSpy.callCount).to.equal(1);
+      expect(maskSpy).toHaveBeenCalledTimes(1);
     });
 
     it('passes the rawValue to the mask function', () => {

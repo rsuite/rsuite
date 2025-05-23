@@ -1,7 +1,6 @@
-import sinon from 'sinon';
 import GirdCell from '../Grid/GridCell';
 import React from 'react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
@@ -51,7 +50,7 @@ describe('Calendar-GirdHeaderRow', () => {
   });
 
   it('Should call `onMouseMove` callback', () => {
-    const onMouseMove = sinon.spy();
+    const onMouseMove = vi.fn();
     render(
       <CalendarProvider
         value={{
@@ -66,15 +65,15 @@ describe('Calendar-GirdHeaderRow', () => {
       </CalendarProvider>
     );
     fireEvent.mouseEnter(screen.getByRole('gridcell'));
-    expect(onMouseMove).to.have.been.calledOnce;
+    expect(onMouseMove).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<GirdCell date={new Date()} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('gridcell'));
 
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   describe('Accessibility', () => {

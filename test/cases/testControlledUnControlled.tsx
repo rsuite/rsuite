@@ -1,7 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 const majorVersion = parseInt(React.version);
@@ -123,7 +122,7 @@ export function testControlledUnControlled(
 
     if (simulateEvent) {
       it('Should be uncontrolled and render user-changed value', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         render(
           <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
         );
@@ -135,14 +134,14 @@ export function testControlledUnControlled(
         expectedValue(changedValue);
 
         if (typeof callCount === 'number') {
-          expect(onChange).to.have.callCount(callCount);
+          expect(onChange).toHaveBeenCalledTimes(callCount);
         }
       });
     }
 
     simulateChangeEvents.forEach(event => {
       it('Should be uncontrolled and render user-changed value', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         render(
           <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
         );
@@ -158,14 +157,14 @@ export function testControlledUnControlled(
         }
 
         if (event.callCount) {
-          expect(onChange).to.have.callCount(event.callCount);
+          expect(onChange).toHaveBeenCalledTimes(event.callCount);
         }
       });
     });
 
     if (simulateEvent) {
       it('Should call `onChange` and render the updated value', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         const TestApp = () => {
           const [controlledValue, setControlledValue] = React.useState(value);
           const handleChange = (nextValue, event) => {
@@ -184,16 +183,16 @@ export function testControlledUnControlled(
         const { changedValue, callCount } = simulateEvent.changeValue(value);
 
         expectedValue(changedValue);
-        expect(onChange).to.have.been.calledWithMatch(changedValue);
+        expect(onChange).toHaveBeenCalledWith(changedValue, expect.any(Object));
         if (typeof callCount === 'number') {
-          expect(onChange).to.have.callCount(callCount);
+          expect(onChange).toHaveBeenCalledTimes(callCount);
         }
       });
     }
 
     simulateChangeEvents.forEach(event => {
       it('Should call `onChange` and render the updated value', () => {
-        const onChange = sinon.spy();
+        const onChange = vi.fn();
         const TestApp = () => {
           const [controlledValue, setControlledValue] = React.useState(value);
           const handleChange = (nextValue, event) => {
@@ -218,7 +217,7 @@ export function testControlledUnControlled(
         }
 
         if (event.callCount) {
-          expect(onChange).to.have.callCount(event.callCount);
+          expect(onChange).toHaveBeenCalledTimes(event.callCount);
         }
       });
     });

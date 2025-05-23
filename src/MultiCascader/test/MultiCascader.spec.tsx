@@ -1,10 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 import CustomProvider from '@/CustomProvider';
 import type { PickerHandle } from '@/internals/Picker';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import {
@@ -212,31 +211,37 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<MultiCascader data={items} defaultOpen onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<MultiCascader data={items} defaultOpen onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
-    expect(onChange).to.have.been.calledWith(['1']);
+    expect(onChange).toHaveBeenCalledWith(
+      ['1'],
+      expect.objectContaining({
+        type: 'click',
+        target: expect.any(HTMLInputElement)
+      })
+    );
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<MultiCascader data={items} defaultValue={['1']} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     const ref = React.createRef<any>();
     render(<MultiCascader ref={ref} onOpen={onOpen} data={items} />);
 
@@ -244,11 +249,11 @@ describe('MultiCascader', () => {
       ref.current.open();
     });
 
-    expect(onOpen).to.be.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const ref = React.createRef<any>();
     render(<MultiCascader ref={ref} defaultOpen onClose={onClose} data={items} />);
 
@@ -257,7 +262,7 @@ describe('MultiCascader', () => {
     });
 
     await waitFor(() => {
-      expect(onClose).to.be.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -303,7 +308,7 @@ describe('MultiCascader', () => {
   });
 
   it('Should call onSelect callback with 3 params', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<MultiCascader defaultOpen data={items} onSelect={onSelect} />);
     const checkbox = screen.getByText((_content, element) => element?.textContent === '2', {
@@ -312,16 +317,16 @@ describe('MultiCascader', () => {
 
     fireEvent.click(checkbox);
 
-    expect(onSelect).to.have.been.calledWith(
+    expect(onSelect).toHaveBeenCalledWith(
       { label: '2', value: '2' },
       [{ label: '2', value: '2' }],
-      sinon.match({ target: checkbox })
+      expect.objectContaining({ target: expect.any(Element) })
     );
   });
 
   it('Should item able to stringfy', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(
       <MultiCascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
@@ -331,20 +336,28 @@ describe('MultiCascader', () => {
 
     fireEvent.click(checkbox);
 
-    expect(onSelect).to.called;
-    expect(renderTreeNode).to.called;
+    expect(onSelect).toHaveBeenCalled();
+    expect(renderTreeNode).toHaveBeenCalled();
     expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][1])).not.toThrow();
+    expect(() => JSON.stringify(renderTreeNode.mock.lastCall?.[1])).not.toThrow();
   });
 
   it('Should call onCheck callback', () => {
-    const onCheck = sinon.spy();
+    const onCheck = vi.fn();
     render(<MultiCascader data={items} defaultOpen onCheck={onCheck} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
-    expect(onCheck).to.have.been.calledWith(['1'], { label: '1', value: '1' }, true);
+    expect(onCheck).toHaveBeenCalledWith(
+      ['1'],
+      { label: '1', value: '1' },
+      true,
+      expect.objectContaining({
+        type: 'click',
+        target: expect.any(HTMLInputElement)
+      })
+    );
   });
 
   it('Should update columns', () => {
@@ -398,7 +411,7 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onSearch` callback ', () => {
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
     render(<MultiCascader data={items} defaultOpen onSearch={onSearch} />);
 
     const searchbox = screen.getByRole('searchbox');
@@ -406,7 +419,7 @@ describe('MultiCascader', () => {
     fireEvent.change(searchbox, { target: { value: '3' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.length(3);
-    expect(onSearch).to.have.been.calledOnce;
+    expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
   it('Should cascade update the parent node when search', () => {

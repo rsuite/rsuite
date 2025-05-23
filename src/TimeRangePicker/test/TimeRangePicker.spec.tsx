@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import TimeRangePicker from '../TimeRangePicker';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { format } from 'date-fns/format';
 import { startOfToday } from 'date-fns/startOfToday';
@@ -107,7 +106,7 @@ describe('TimeRangePicker', () => {
     });
 
     it('Should change AM/PM when click on AM/PM', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <TimeRangePicker
           defaultValue={[new Date('2024-10-01 13:00:00'), new Date('2024-10-01 13:00:00')]}
@@ -133,10 +132,10 @@ describe('TimeRangePicker', () => {
 
       expect(screen.getByRole('textbox')).to.have.value('01:00:00 AM ~ 01:00:00 AM');
 
-      expect(onChange).to.have.been.calledWith([
-        new Date('2024-10-01 01:00:00'),
-        new Date('2024-10-01 01:00:00')
-      ]);
+      expect(onChange).toHaveBeenCalledWith(
+        [new Date('2024-10-01 01:00:00'), new Date('2024-10-01 01:00:00')],
+        expect.any(Object)
+      );
     });
   });
 
@@ -153,7 +152,7 @@ describe('TimeRangePicker', () => {
   });
 
   it('Should change time to start of day', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TimeRangePicker defaultOpen onChange={onChange} />);
 
     expect(screen.getByRole('textbox')).to.have.attribute('placeholder', 'HH:mm ~ HH:mm');
@@ -162,11 +161,11 @@ describe('TimeRangePicker', () => {
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     expect(screen.getByRole('textbox')).to.have.value('00:00 ~ 00:00');
-    expect(onChange).to.have.been.calledWith([startOfToday(), startOfToday()]);
+    expect(onChange).toHaveBeenCalledWith([startOfToday(), startOfToday()], expect.any(Object));
   });
 
   it('Should not be able to click OK button when start time is greater than end time', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TimeRangePicker defaultOpen onChange={onChange} />);
 
     fireEvent.click(screen.getAllByRole('option', { name: '1 hours' })[0]);
@@ -178,9 +177,9 @@ describe('TimeRangePicker', () => {
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     expect(screen.getByRole('textbox')).to.have.value('01:00 ~ 01:00');
-    expect(onChange).to.have.been.calledWith([
-      addHours(startOfToday(), 1),
-      addHours(startOfToday(), 1)
-    ]);
+    expect(onChange).toHaveBeenCalledWith(
+      [addHours(startOfToday(), 1), addHours(startOfToday(), 1)],
+      expect.any(Object)
+    );
   });
 });

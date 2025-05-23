@@ -1,10 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import NavbarItem from '../NavbarItem';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -44,36 +43,36 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
 
   it('Should call onSelect callback with correct eventKey on click', () => {
     const eventKey = 'Test';
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<NavbarItem eventKey={eventKey} onSelect={onSelect} data-testid="navbar-item" />, {
       wrapper
     });
 
     fireEvent.click(screen.getByTestId('navbar-item'));
-    expect(onSelect).to.have.been.calledWith(eventKey);
+    expect(onSelect).toHaveBeenCalledWith(eventKey, expect.any(Object));
   });
 
   it('Should not call onSelect callback when disabled', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<NavbarItem disabled onSelect={onSelect} data-testid="navbar-item" />, {
       wrapper
     });
 
     userEvent.click(screen.getByTestId('navbar-item'));
-    expect(onSelect).not.to.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<NavbarItem disabled onClick={onClick} data-testid="navbar-item" />, {
       wrapper
     });
 
     userEvent.click(screen.getByTestId('navbar-item'));
-    expect(onClick).not.to.have.been.called;
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   it('Should have a custom className', () => {

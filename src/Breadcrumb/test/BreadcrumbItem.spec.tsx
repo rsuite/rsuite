@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -36,7 +35,7 @@ describe('Breadcrumb.Item', () => {
   });
 
   it('Should pass additional props to the inner element', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(
       <Breadcrumb.Item href="#" onClick={onClick}>
@@ -46,7 +45,7 @@ describe('Breadcrumb.Item', () => {
 
     fireEvent.click(screen.getByText('Crumb'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should apply `id` to the anchor element', () => {

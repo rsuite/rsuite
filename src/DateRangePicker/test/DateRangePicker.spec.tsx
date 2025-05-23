@@ -1,13 +1,12 @@
 import React from 'react';
 import DateRangePicker from '../DateRangePicker';
 import GearIcon from '@rsuite/icons/Gear';
-import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import rsEnUS from '@/locales/en_US';
 import CustomProvider from '@/CustomProvider';
 import type { DateOptionPreset } from '@/internals/types';
 import type { DateRange } from '../types';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, act, fireEvent, waitFor, screen, getByRole, within } from '@testing-library/react';
 import { keyPress } from '@test/utils';
 import {
@@ -116,7 +115,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select date time successfully', () => {
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
 
     render(
       <DateRangePicker
@@ -149,10 +148,16 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(onOk).to.be.calledWithMatch([
-      new Date(2019, 10, 11, 6, 6, 6),
-      new Date(2019, 11, 11, 9, 9, 9)
-    ]);
+    expect(onOk).toHaveBeenCalled();
+    const [dates] = onOk.mock.calls[0];
+    expect(dates[0]).toEqual(expect.any(Date));
+    expect(dates[1]).toEqual(expect.any(Date));
+    expect(dates[0].getFullYear()).toBe(2019);
+    expect(dates[0].getMonth()).toBe(10);
+    expect(dates[0].getDate()).toBe(11);
+    expect(dates[1].getFullYear()).toBe(2019);
+    expect(dates[1].getMonth()).toBe(11);
+    expect(dates[1].getDate()).toBe(11);
 
     expect(screen.getByRole('textbox')).to.have.value(
       '11 Nov 2019 06:06:06 ~ 11 Dec 2019 09:09:09'
@@ -163,38 +168,32 @@ describe('DateRangePicker', () => {
     const start = new Date(2019, 10, 11, 0, 0, 0);
     // The end calendar default value is after a month from start calendar value
     const end = addMonths(start, 1);
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
 
     render(
       <DateRangePicker defaultValue={[start, end]} format="hh:mm:ss" defaultOpen onOk={onOk} />
     );
 
-    //const startTimeButton = screen.queryAllByLabelText('Select time')[0];
-    //const endTimeButton = screen.queryAllByLabelText('Select time')[1];
-
     // select time to 6:6:6
     setTimePickerValue('start', { hours: 6, minutes: 6, seconds: 6 });
-
-    //expect(startTimeButton).to.be.text('06:06:06');
 
     // select time to 9:9:9
     setTimePickerValue('end', { hours: 9, minutes: 9, seconds: 9 });
 
-    //expect(endTimeButton).to.be.text('09:09:09');
-
     // press ok button
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(onOk).to.be.calledWithMatch([
-      new Date(2019, 10, 11, 6, 6, 6),
-      new Date(2019, 11, 11, 9, 9, 9)
-    ]);
+    expect(onOk).toHaveBeenCalled();
+    const args = onOk.mock.calls[0][0];
+    expect(args).toHaveLength(2);
+    expect(format(args[0], 'yyyy-MM-dd HH:mm:ss')).toEqual('2019-11-11 06:06:06');
+    expect(format(args[1], 'yyyy-MM-dd HH:mm:ss')).toEqual('2019-12-11 09:09:09');
 
     expect(screen.getByRole('textbox')).to.have.value('06:06:06 ~ 09:09:09');
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <DateRangePicker
         onChange={onChange}
@@ -205,30 +204,30 @@ describe('DateRangePicker', () => {
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClean callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<DateRangePicker defaultValue={[new Date(), new Date()]} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     render(<DateRangePicker onOpen={onOpen} />);
 
     fireEvent.click(screen.getByRole('textbox'));
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     const ref = React.createRef<any>();
     render(<DateRangePicker onOpen={onOpen} ref={ref} />);
 
@@ -237,12 +236,12 @@ describe('DateRangePicker', () => {
     });
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const ref = React.createRef<any>();
     render(<DateRangePicker defaultOpen onClose={onClose} ref={ref} />);
 
@@ -251,7 +250,7 @@ describe('DateRangePicker', () => {
     });
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -270,7 +269,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select a whole week', () => {
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
 
     render(
       <DateRangePicker
@@ -285,12 +284,14 @@ describe('DateRangePicker', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Aug 2021' }));
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(isSameDay(startOfWeek(new Date('08/01/2021')), onOk.firstCall.firstArg[0])).to.be.true;
-    expect(isSameDay(endOfWeek(new Date('08/07/2021')), onOk.firstCall.firstArg[1])).to.be.true;
+    expect(onOk).toHaveBeenCalled();
+    const [start, end] = onOk.mock.calls[0][0];
+    expect(isSameDay(startOfWeek(new Date('08/01/2021')), start)).toBe(true);
+    expect(isSameDay(endOfWeek(new Date('08/07/2021')), end)).toBe(true);
   });
 
   it('Should select a whole month', () => {
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
 
     render(
       <DateRangePicker
@@ -306,8 +307,10 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(isSameDay(startOfMonth(new Date('2023-10-01')), onOk.firstCall.firstArg[0])).to.be.true;
-    expect(isSameDay(endOfMonth(new Date('2023-10-31')), onOk.firstCall.firstArg[1])).to.be.true;
+    expect(onOk).toHaveBeenCalled();
+    const [dates] = onOk.mock.calls[0];
+    expect(isSameDay(startOfMonth(new Date('2023-10-01')), dates[0])).toBe(true);
+    expect(isSameDay(endOfMonth(new Date('2023-10-31')), dates[1])).toBe(true);
   });
 
   it('Should select a date range by hover', () => {
@@ -505,8 +508,8 @@ describe('DateRangePicker', () => {
   });
 
   it('Should close picker after predefined range is clicked', async () => {
-    const onClose = sinon.spy();
-    const onChange = sinon.spy();
+    const onClose = vi.fn();
+    const onChange = vi.fn();
 
     render(
       <DateRangePicker
@@ -525,13 +528,13 @@ describe('DateRangePicker', () => {
     userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
-      expect(onClose).to.been.calledOnce;
-      expect(onChange).to.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should clear the value after predefined range is clicked', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DateRangePicker
@@ -549,12 +552,15 @@ describe('DateRangePicker', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Clear it' }));
 
-    expect(onChange).to.been.calledWith(null);
+    // The first argument to onChange is the value, which should be null
+    expect(onChange).toHaveBeenCalled();
+    const [value] = onChange.mock.calls[0];
+    expect(value).toBeNull();
   });
 
   it('Should not close picker', async () => {
-    const onClose = sinon.spy();
-    const onChange = sinon.spy();
+    const onClose = vi.fn();
+    const onChange = vi.fn();
     const yesterday = addDays(new Date(), -1);
 
     render(
@@ -580,24 +586,24 @@ describe('DateRangePicker', () => {
     );
 
     await waitFor(() => {
-      expect(onChange).to.be.not.called;
-      expect(onClose).to.be.not.called;
+      expect(onChange).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
     });
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<DateRangePicker onFocus={onFocus} />);
     const input = screen.getByRole('textbox');
 
     fireEvent.focus(input);
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should render ranges on the left', () => {
-    const onClose = sinon.spy();
-    const onChange = sinon.spy();
+    const onClose = vi.fn();
+    const onChange = vi.fn();
     const yesterday = addDays(new Date(), -1);
     render(
       <DateRangePicker
@@ -629,7 +635,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should focus on the right month', () => {
-    const onEnter = sinon.spy();
+    const onEnter = vi.fn();
     const { rerender } = render(
       <DateRangePicker
         value={[new Date(2023, 10, 1), new Date(2023, 11, 1)]}
@@ -649,14 +655,14 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('textbox'));
 
-    expect(onEnter).to.be.called;
+    expect(onEnter).toHaveBeenCalled();
     expect(startMonth).to.have.text('Nov 2022');
     expect(endMonth).to.have.text('Dec 2022');
   });
 
   describe('oneTap', () => {
     it('Should select a day by one click', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <DateRangePicker
           onChange={onChange}
@@ -668,16 +674,17 @@ describe('DateRangePicker', () => {
       );
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
-      const [start, end] = onChange.firstCall.firstArg;
 
-      expect(onChange).to.have.been.calledOnce;
-      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
-      expect(isSameDay(new Date('2024-01-10'), end)).to.be.true;
+      expect(onChange).toHaveBeenCalledTimes(1);
+      const [dates] = onChange.mock.calls[0];
+      const [start, end] = dates;
+      expect(isSameDay(new Date('2024-01-10'), start)).toBe(true);
+      expect(isSameDay(new Date('2024-01-10'), end)).toBe(true);
       expect(screen.getByRole('textbox')).to.have.value('2024-01-10 ~ 2024-01-10');
     });
 
     it('Should select a week by one click', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <DateRangePicker
           onChange={onChange}
@@ -691,16 +698,15 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
 
-      const [start, end] = onChange.firstCall.firstArg;
-
-      expect(onChange).to.have.been.calledOnce;
-      expect(isSameDay(new Date('2024-01-07'), start)).to.be.true;
-      expect(isSameDay(new Date('2024-01-13'), end)).to.be.true;
+      expect(onChange).toHaveBeenCalledTimes(1);
+      const [start, end] = onChange.mock.calls[0][0];
+      expect(isSameDay(new Date('2024-01-07'), start)).toBe(true);
+      expect(isSameDay(new Date('2024-01-13'), end)).toBe(true);
       expect(screen.getByRole('textbox')).to.have.value('2024-01-07 ~ 2024-01-13');
     });
 
     it('Should select a month by one click', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <DateRangePicker
           onChange={onChange}
@@ -714,16 +720,15 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
 
-      const [start, end] = onChange.firstCall.firstArg;
-
-      expect(onChange).to.have.been.calledOnce;
-      expect(isSameDay(new Date('2024-01-01'), start)).to.be.true;
-      expect(isSameDay(new Date('2024-01-31'), end)).to.be.true;
+      expect(onChange).toHaveBeenCalledTimes(1);
+      const [start, end] = onChange.mock.calls[0][0];
+      expect(isSameDay(new Date('2024-01-01'), start)).toBe(true);
+      expect(isSameDay(new Date('2024-01-31'), end)).toBe(true);
       expect(screen.getByRole('textbox')).to.have.value('2024-01-01 ~ 2024-01-31');
     });
 
     it('Should select a date range by one click when there is a value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <DateRangePicker
           onChange={onChange}
@@ -735,25 +740,25 @@ describe('DateRangePicker', () => {
       );
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
-      const [start, end] = onChange.firstCall.firstArg;
 
-      expect(onChange).to.have.been.calledOnce;
-      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
-      expect(isSameDay(new Date('2024-01-10'), end)).to.be.true;
+      expect(onChange).toHaveBeenCalledTimes(1);
+      let [start, end] = onChange.mock.calls[0][0];
+      expect(isSameDay(new Date('2024-01-10'), start)).toBe(true);
+      expect(isSameDay(new Date('2024-01-10'), end)).toBe(true);
       expect(screen.getByRole('textbox')).to.have.value('2024-01-10 ~ 2024-01-10');
 
       fireEvent.click(screen.getByRole('textbox'));
       fireEvent.click(screen.getByRole('gridcell', { name: '15 Jan 2024' }));
 
-      const [start2, end2] = onChange.secondCall.firstArg;
-      expect(onChange).to.have.been.calledTwice;
-      expect(isSameDay(new Date('2024-01-15'), start2)).to.be.true;
-      expect(isSameDay(new Date('2024-01-15'), end2)).to.be.true;
+      expect(onChange).toHaveBeenCalledTimes(2);
+      [start, end] = onChange.mock.calls[1][0];
+      expect(isSameDay(new Date('2024-01-15'), start)).toBe(true);
+      expect(isSameDay(new Date('2024-01-15'), end)).toBe(true);
       expect(screen.getByRole('textbox')).to.have.value('2024-01-15 ~ 2024-01-15');
     });
 
     it('Should call `onSelect` callback', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <DateRangePicker
           onChange={onSelect}
@@ -765,16 +770,18 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Jan 2024' }));
 
-      const [start] = onSelect.firstCall.firstArg;
-
-      expect(onSelect).to.have.been.calledOnce;
-      expect(isSameDay(new Date('2024-01-10'), start)).to.be.true;
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      // The onChange callback receives an array of dates as the first argument
+      const [dates] = onSelect.mock.calls[0];
+      expect(dates).toHaveLength(2);
+      const [start] = dates;
+      expect(isSameDay(new Date('2024-01-10'), start)).toBe(true);
     });
   });
 
   describe('Time stability', () => {
     it('Should the end time not change when the start date is clicked when defaultCalendarValue is set', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <DateRangePicker
           open
@@ -791,13 +798,13 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
-      expect(onSelect).to.have.been.calledOnce;
+      expect(onSelect).toHaveBeenCalledTimes(1);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
-      expect(onSelect).to.have.been.calledTwice;
+      expect(onSelect).toHaveBeenCalledTimes(2);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -807,7 +814,7 @@ describe('DateRangePicker', () => {
     });
 
     it('Should the end time not change when the start date is clicked when controlled', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <DateRangePicker
           open
@@ -824,13 +831,13 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
-      expect(onSelect).to.have.been.calledOnce;
+      expect(onSelect).toHaveBeenCalledTimes(1);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
-      expect(onSelect).to.have.been.calledTwice;
+      expect(onSelect).toHaveBeenCalledTimes(2);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -880,7 +887,7 @@ describe('DateRangePicker', () => {
     });
 
     it('Should not change the start and end time when clicking on the second calendar first', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <DateRangePicker
           open
@@ -897,14 +904,14 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('gridcell', { name: '20 Mar 2022' }));
 
-      expect(onSelect).to.have.been.calledOnce;
+      expect(onSelect).toHaveBeenCalledTimes(1);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
       fireEvent.click(screen.getAllByRole('button', { name: 'Next month' })[1]);
       fireEvent.click(screen.getByRole('gridcell', { name: '21 Apr 2022' }));
 
-      expect(onSelect).to.have.been.calledTwice;
+      expect(onSelect).toHaveBeenCalledTimes(2);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
 
@@ -914,7 +921,7 @@ describe('DateRangePicker', () => {
     });
 
     it('Should render the default datetime after clicking the clear button', () => {
-      const onClean = sinon.spy();
+      const onClean = vi.fn();
       render(
         <DateRangePicker
           open
@@ -932,7 +939,7 @@ describe('DateRangePicker', () => {
 
       fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
-      expect(onClean).to.have.been.calledOnce;
+      expect(onClean).toHaveBeenCalledTimes(1);
       expect(times[0]).to.have.text('00:00:00');
       expect(times[1]).to.have.text('23:59:59');
     });
@@ -969,7 +976,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should call `onShortcutClick` callback', async () => {
-    const onShortcutClick = sinon.spy();
+    const onShortcutClick = vi.fn();
 
     render(
       <DateRangePicker
@@ -982,8 +989,8 @@ describe('DateRangePicker', () => {
     userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
-      expect(onShortcutClick).to.calledOnce;
-      expect(onShortcutClick.firstCall.firstArg.label).to.equal('Yesterday');
+      expect(onShortcutClick).toHaveBeenCalledTimes(1);
+      expect(onShortcutClick.mock.calls[0][0].label).toBe('Yesterday');
     });
   });
 

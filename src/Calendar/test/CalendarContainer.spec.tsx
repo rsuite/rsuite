@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import CalendarContainer from '../CalendarContainer';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/cases';
@@ -41,7 +40,7 @@ describe('CalendarContainer', () => {
   });
 
   it('Should call `onSelect` callback with the date being clicked', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <CalendarContainer
@@ -55,7 +54,8 @@ describe('CalendarContainer', () => {
       screen.getByRole('gridcell', { name: '24 Dec 2021' }).firstChild as HTMLElement
     );
 
-    expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect.mock.calls[0][0]).toEqual(new Date(2021, 11, 24));
   });
 
   it('Should render a button that can close the month view', () => {
@@ -127,7 +127,7 @@ describe('CalendarContainer', () => {
   });
 
   it('Should call `onToggleMonthDropdown` callback', () => {
-    const onToggleMonthDropdown = sinon.spy();
+    const onToggleMonthDropdown = vi.fn();
     render(
       <CalendarContainer
         locale={enUS.Calendar}
@@ -139,15 +139,15 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
-    expect(onToggleMonthDropdown).to.have.been.calledWith(true);
+    expect(onToggleMonthDropdown).toHaveBeenCalledWith(true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
-    expect(onToggleMonthDropdown).to.have.been.calledWith(false);
+    expect(onToggleMonthDropdown).toHaveBeenCalledWith(false);
   });
 
   it('Should call `onToggleMonthDropdown` callback when click collapse button', () => {
-    const onToggleMonthDropdown = sinon.spy();
+    const onToggleMonthDropdown = vi.fn();
     render(
       <CalendarContainer
         locale={enUS.Calendar}
@@ -159,15 +159,15 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
-    expect(onToggleMonthDropdown).to.have.been.calledWith(true);
+    expect(onToggleMonthDropdown).toHaveBeenCalledWith(true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Collapse month view' }));
 
-    expect(onToggleMonthDropdown).to.have.been.calledWith(false);
+    expect(onToggleMonthDropdown).toHaveBeenCalledWith(false);
   });
 
   it('Should call `onToggleTimeDropdown` callback', () => {
-    const onToggleTimeDropdown = sinon.spy();
+    const onToggleTimeDropdown = vi.fn();
     render(
       <CalendarContainer
         locale={enUS.Calendar}
@@ -179,15 +179,15 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
 
-    expect(onToggleTimeDropdown).to.have.been.calledWith(true);
+    expect(onToggleTimeDropdown).toHaveBeenCalledWith(true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
 
-    expect(onToggleTimeDropdown).to.have.been.calledWith(false);
+    expect(onToggleTimeDropdown).toHaveBeenCalledWith(false);
   });
 
   it('Should call `onToggleTimeDropdown` callback when click collapse button', () => {
-    const onToggleTimeDropdown = sinon.spy();
+    const onToggleTimeDropdown = vi.fn();
     render(
       <CalendarContainer
         locale={enUS.Calendar}
@@ -199,10 +199,10 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Select time' }));
 
-    expect(onToggleTimeDropdown).to.have.been.calledWith(true);
+    expect(onToggleTimeDropdown).toHaveBeenCalledWith(true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Collapse time view' }));
 
-    expect(onToggleTimeDropdown).to.have.been.calledWith(false);
+    expect(onToggleTimeDropdown).toHaveBeenCalledWith(false);
   });
 });

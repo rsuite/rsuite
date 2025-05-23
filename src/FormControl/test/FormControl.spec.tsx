@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import sinon from 'sinon';
 import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
@@ -7,7 +6,7 @@ import Schema from '../../Schema';
 import Toggle from '../../Toggle';
 import Button from '@/Button';
 import TagInput from '@/TagInput';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 
 describe('FormControl', () => {
@@ -53,7 +52,7 @@ describe('FormControl', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <Form formDefaultValue={{ username: '' }}>
         <FormControl name="username" onChange={onChange} />
@@ -64,7 +63,7 @@ describe('FormControl', () => {
       target: { value: '1' }
     });
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should be readOnly', () => {
@@ -78,7 +77,7 @@ describe('FormControl', () => {
   });
 
   it('Should be readOnly on accepter', () => {
-    const Input = sinon.spy(props => <input {...props} />);
+    const Input = vi.fn(props => <input {...props} />);
 
     render(
       <Form readOnly>
@@ -86,11 +85,12 @@ describe('FormControl', () => {
       </Form>
     );
 
-    expect(Input).to.have.been.calledWithMatch({ readOnly: true });
+    // In vitest, we need to check the first argument of the first call
+    expect(Input.mock.calls[0][0]).toEqual(expect.objectContaining({ readOnly: true }));
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(
       <Form>
         <FormControl name="username" onBlur={onBlur} />
@@ -99,7 +99,7 @@ describe('FormControl', () => {
 
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should apply custom className to accepter component', () => {
@@ -352,7 +352,7 @@ describe('FormControl', () => {
   describe('rule', () => {
     it("should check the field's rule", () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       render(
         <Form ref={formRef} onError={onError}>
@@ -361,13 +361,13 @@ describe('FormControl', () => {
       );
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWithMatch({ items: 'require' });
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ items: 'require' }));
     });
 
     it('Should not validate fields unmounted with rule', () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       function Wrapper() {
         const [show, setShow] = useState(true);
@@ -397,20 +397,22 @@ describe('FormControl', () => {
 
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWithMatch({ user: 'require', password: 'require' });
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith(
+        expect.objectContaining({ user: 'require', password: 'require' })
+      );
 
       fireEvent.click(screen.getByTestId('button'));
 
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledTwice;
-      expect(onError).to.be.calledWithMatch({ user: 'require' });
+      expect(onError).toHaveBeenCalledTimes(2);
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ user: 'require' }));
     });
 
     it("Should validate accurately,when field's rule is dynamic", () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       function Wrapper() {
         const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
@@ -435,19 +437,19 @@ describe('FormControl', () => {
 
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWithMatch({ user: 'require' });
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ user: 'require' }));
 
       fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledTwice;
-      expect(onError).to.be.calledWithMatch({ user: 'second require' });
+      expect(onError).toHaveBeenCalledTimes(2);
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ user: 'second require' }));
     });
 
     it("Should use the field's rule when both model and field have same name rule", () => {
       const formRef = React.createRef<FormInstance>();
-      const onError = sinon.spy();
+      const onError = vi.fn();
 
       function Wrapper() {
         const model = Schema.Model({
@@ -463,8 +465,8 @@ describe('FormControl', () => {
 
       (formRef.current as FormInstance).check();
 
-      expect(onError).to.be.calledOnce;
-      expect(onError).to.be.calledWithMatch({ user: 'field require' });
+      expect(onError).toHaveBeenCalledTimes(1);
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ user: 'field require' }));
     });
   });
 

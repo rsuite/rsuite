@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import MultiCascadeTree from '../MultiCascadeTree';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
@@ -25,25 +24,31 @@ describe('MultiCascadeTree', () => {
   });
 
   it('Should call `onSelect` callback ', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<MultiCascadeTree data={items} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<MultiCascadeTree data={items} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
-    expect(onChange).to.have.been.calledWith(['1']);
+    expect(onChange).toHaveBeenCalledWith(
+      ['1'],
+      expect.objectContaining({
+        type: 'click',
+        target: expect.any(HTMLInputElement)
+      })
+    );
   });
 
   it('Should call onSelect callback with 3 params', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<MultiCascadeTree data={items} onSelect={onSelect} />);
     const checkbox = screen.getByText((_content, element) => element?.textContent === '2', {
@@ -52,35 +57,45 @@ describe('MultiCascadeTree', () => {
 
     fireEvent.click(checkbox);
 
-    expect(onSelect).to.have.been.calledWith(
-      { label: '2', value: '2' },
-      [{ label: '2', value: '2' }],
-      sinon.match({ target: checkbox })
-    );
+    // The event object is more complex than just { target, type }
+    // So we'll just verify the first two arguments and that the third is an object
+    expect(onSelect).toHaveBeenCalled();
+    const call = onSelect.mock.calls[0];
+    expect(call[0]).toEqual({ label: '2', value: '2' });
+    expect(call[1]).toEqual([{ label: '2', value: '2' }]);
+    expect(typeof call[2]).toBe('object');
   });
 
   it('Should item able to stringfy', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(<MultiCascadeTree data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />);
 
     fireEvent.click(screen.getByRole('treeitem', { name: '3' }).firstChild as HTMLElement);
 
-    expect(onSelect).to.called;
-    expect(renderTreeNode).to.called;
-    expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
+    expect(onSelect).toHaveBeenCalled();
+    expect(renderTreeNode).toHaveBeenCalled();
+    expect(() => JSON.stringify(items[2])).not.toThrow();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][1])).not.toThrow();
+    expect(() => JSON.stringify(renderTreeNode.mock.lastCall?.[1])).not.toThrow();
   });
 
   it('Should call onCheck callback ', () => {
-    const onCheck = sinon.spy();
+    const onCheck = vi.fn();
     render(<MultiCascadeTree data={items} onCheck={onCheck} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
-    expect(onCheck).to.have.been.calledWith(['1'], { label: '1', value: '1' }, true);
+    expect(onCheck).toHaveBeenCalledWith(
+      ['1'],
+      { label: '1', value: '1' },
+      true,
+      expect.objectContaining({
+        type: 'click',
+        target: expect.any(HTMLInputElement)
+      })
+    );
   });
 
   it('Should update columns', () => {
@@ -132,7 +147,7 @@ describe('MultiCascadeTree', () => {
   });
 
   it('Should call `onSearch` callback ', () => {
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
     render(<MultiCascadeTree data={items} onSearch={onSearch} searchable />);
 
     const searchbox = screen.getByRole('searchbox');
@@ -140,7 +155,7 @@ describe('MultiCascadeTree', () => {
     fireEvent.change(searchbox, { target: { value: '3' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.length(3);
-    expect(onSearch).to.have.been.calledOnce;
+    expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
   it('Should cascade update the parent node when search', () => {

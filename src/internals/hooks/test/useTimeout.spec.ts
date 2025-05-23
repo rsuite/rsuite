@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import useTimeout from '../useTimeout';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 
 describe('internals/hooks/useTimeout', () => {
@@ -11,22 +10,32 @@ describe('internals/hooks/useTimeout', () => {
     expect(result.current.reset).to.be.a('function');
   });
 
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('Should call passed function after given amount of time', () => {
-    const clock = sinon.useFakeTimers();
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     renderHook(() => useTimeout(callback, 10));
 
-    clock.tick(5);
-    expect(callback).not.to.be.calledOnce;
+    act(() => {
+      vi.advanceTimersByTime(5);
+    });
+    expect(callback).not.toHaveBeenCalled();
 
-    clock.tick(5);
-    expect(callback).to.be.calledOnce;
+    act(() => {
+      vi.advanceTimersByTime(5);
+    });
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it('Should cancel timeout', () => {
-    const clock = sinon.useFakeTimers();
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     const { result } = renderHook(() => useTimeout(callback, 10));
 
@@ -34,13 +43,14 @@ describe('internals/hooks/useTimeout', () => {
       result.current.clear();
     });
 
-    clock.tick(10);
-    expect(callback).not.to.have.been.called;
+    act(() => {
+      vi.advanceTimersByTime(10);
+    });
+    expect(callback).not.toHaveBeenCalled();
   });
 
   it('Should reset timeout', () => {
-    const clock = sinon.useFakeTimers();
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     const { result } = renderHook(() => useTimeout(callback, 10));
 
@@ -48,20 +58,23 @@ describe('internals/hooks/useTimeout', () => {
       result.current.clear();
     });
 
-    clock.tick(10);
-    expect(callback).not.to.have.been.called;
+    act(() => {
+      vi.advanceTimersByTime(10);
+    });
+    expect(callback).not.toHaveBeenCalled();
 
     act(() => {
       result.current.reset();
     });
 
-    clock.tick(10);
-    expect(callback).to.have.been.calledOnce;
+    act(() => {
+      vi.advanceTimersByTime(10);
+    });
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 
   it('Should reset timeout on delay change', () => {
-    const clock = sinon.useFakeTimers();
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     const { rerender } = renderHook(({ delay, cb }) => useTimeout(cb, delay), {
       initialProps: { delay: 20, cb: callback }
@@ -69,8 +82,10 @@ describe('internals/hooks/useTimeout', () => {
 
     rerender({ delay: 5, cb: callback });
 
-    clock.tick(5);
+    act(() => {
+      vi.advanceTimersByTime(5);
+    });
 
-    expect(callback).to.have.been.calledOnce;
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 });

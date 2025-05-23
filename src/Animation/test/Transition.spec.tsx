@@ -1,7 +1,6 @@
 import React from 'react';
 import Transition from '../Transition';
-import sinon from 'sinon';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { act, render, waitFor } from '@testing-library/react';
 
 describe('Animation', () => {
@@ -32,7 +31,7 @@ describe('Animation', () => {
   });
 
   it('Should be transitionAppear', async () => {
-    const onEntered = sinon.spy();
+    const onEntered = vi.fn();
     const { container } = render(
       <Transition
         transitionAppear
@@ -50,7 +49,7 @@ describe('Animation', () => {
       </Transition>
     );
 
-    expect(onEntered).to.not.be.called;
+    expect(onEntered).not.toHaveBeenCalled();
 
     await waitFor(() => {
       expect(container.firstChild).to.have.class('class-in');
@@ -58,9 +57,9 @@ describe('Animation', () => {
   });
 
   it('Should call onEnter/onEntering/onEntered callback', async () => {
-    const onEnter = sinon.spy();
-    const onEntering = sinon.spy();
-    const onEntered = sinon.spy();
+    const onEnter = vi.fn();
+    const onEntering = vi.fn();
+    const onEntered = vi.fn();
 
     render(
       <Transition
@@ -82,16 +81,16 @@ describe('Animation', () => {
     );
 
     await waitFor(() => {
-      expect(onEnter).to.be.called;
-      expect(onEntering).to.be.called;
-      expect(onEntered).to.be.called;
+      expect(onEnter).toHaveBeenCalled();
+      expect(onEntering).toHaveBeenCalled();
+      expect(onEntered).toHaveBeenCalled();
     });
   });
 
   it('Should call onExit/onExiting/onExited callback', async () => {
-    const onExit = sinon.spy();
-    const onExiting = sinon.spy();
-    const onExited = sinon.spy();
+    const onExit = vi.fn();
+    const onExiting = vi.fn();
+    const onExited = vi.fn();
 
     const transitionRef = React.createRef<Transition>();
     render(
@@ -117,9 +116,9 @@ describe('Animation', () => {
     });
 
     await waitFor(() => {
-      expect(onExit).to.be.called;
-      expect(onExiting).to.be.called;
-      expect(onExited).to.be.called;
+      expect(onExit).toHaveBeenCalled();
+      expect(onExiting).toHaveBeenCalled();
+      expect(onExited).toHaveBeenCalled();
     });
   });
 });

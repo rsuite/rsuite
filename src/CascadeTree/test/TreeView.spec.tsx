@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import TreeView from '../TreeView';
 import CascadeTree from '../CascadeTree';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
@@ -44,22 +43,22 @@ describe('CascadeTree -  TreeView', () => {
   });
 
   it('Should call onSelect callback 2 count', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<CascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
     fireEvent.click(screen.getByRole('treeitem', { name: '3' }));
 
-    expect(onSelect).to.have.callCount(2);
+    expect(onSelect).toHaveBeenCalledTimes(2);
   });
 
   it('Should not call onSelect callback on disabled item', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<CascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    expect(onSelect).to.not.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should call renderTreeNode callback ', () => {

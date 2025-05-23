@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import previewFile from '../utils/previewFile';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { waitFor } from '@testing-library/react';
 
 describe('[utils] previewFile', () => {
@@ -9,12 +8,12 @@ describe('[utils] previewFile', () => {
       type: 'image/png'
     });
 
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     previewFile(file, callback);
 
     await waitFor(() => {
-      expect(callback).to.have.been.calledWith('data:image/png;base64,MTA=');
+      expect(callback).toHaveBeenCalledWith('data:image/png;base64,MTA=');
     });
   });
 
@@ -23,10 +22,10 @@ describe('[utils] previewFile', () => {
       type: 'text/plain'
     });
 
-    const callback = sinon.spy();
+    const callback = vi.fn();
 
     previewFile(file, callback);
 
-    expect(callback).to.have.been.calledWith(null);
+    expect(callback).toHaveBeenCalledWith(null);
   });
 });

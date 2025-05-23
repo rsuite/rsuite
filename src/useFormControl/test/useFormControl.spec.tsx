@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import sinon from 'sinon';
 import Toggle from '@/Toggle';
 import Schema from '@/Schema';
 import Form from '@/Form';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { FormProvider, FormValueProvider } from '@/Form/FormContext';
 import { useFormControl } from '../useFormControl';
@@ -112,12 +111,13 @@ function FormWrapper({ children, formValue = {}, ...contextProps }: FormWrapperP
 
 describe('useFormControl', () => {
   it('Should throw error when used outside Form context', () => {
-    sinon.spy(console, 'error');
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     render(<TestComponent name="name" />);
 
-    expect(console.error).to.have.been.calledWith(
+    expect(errorSpy).toHaveBeenCalledWith(
       '<useFormControl> must be used inside a component decorated with <Form>. And need to update React to 16.6.0 +.'
     );
+    errorSpy.mockRestore();
   });
 
   it('Should correctly use field value from context', () => {
@@ -145,7 +145,7 @@ describe('useFormControl', () => {
   });
 
   it('Should call onFieldChange when value changes', () => {
-    const onFieldChange = sinon.spy();
+    const onFieldChange = vi.fn();
 
     render(
       <FormWrapper onFieldChange={onFieldChange}>
@@ -155,11 +155,11 @@ describe('useFormControl', () => {
 
     fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
 
-    expect(onFieldChange).to.have.been.calledWith('name', 'new-value', sinon.match.any);
+    expect(onFieldChange).toHaveBeenCalledWith('name', 'new-value', expect.any(Object));
   });
 
   it('Should call checkFieldForNextValue when value changes and checkTrigger is change', () => {
-    const checkFieldForNextValue = sinon.spy();
+    const checkFieldForNextValue = vi.fn();
 
     render(
       <FormWrapper
@@ -173,11 +173,11 @@ describe('useFormControl', () => {
 
     fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
 
-    expect(checkFieldForNextValue).to.have.been.called;
+    expect(checkFieldForNextValue).toHaveBeenCalled();
   });
 
   it('Should call checkFieldForNextValue when blur occurs and checkTrigger is blur', () => {
-    const checkFieldForNextValue = sinon.spy();
+    const checkFieldForNextValue = vi.fn();
 
     render(
       <FormWrapper
@@ -191,11 +191,11 @@ describe('useFormControl', () => {
 
     fireEvent.blur(screen.getByTestId('test-input'));
 
-    expect(checkFieldForNextValue).to.have.been.called;
+    expect(checkFieldForNextValue).toHaveBeenCalled();
   });
 
   it('Should not call checkFieldForNextValue when checkTrigger is null', () => {
-    const checkFieldForNextValue = sinon.spy();
+    const checkFieldForNextValue = vi.fn();
 
     render(
       <FormWrapper
@@ -210,11 +210,11 @@ describe('useFormControl', () => {
     fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
     fireEvent.blur(screen.getByTestId('test-input'));
 
-    expect(checkFieldForNextValue).to.not.have.been.called;
+    expect(checkFieldForNextValue).not.toHaveBeenCalled();
   });
 
   it('Should call checkFieldAsyncForNextValue when checkAsync is true', () => {
-    const checkFieldAsyncForNextValue = sinon.spy();
+    const checkFieldAsyncForNextValue = vi.fn();
 
     render(
       <FormWrapper
@@ -228,7 +228,7 @@ describe('useFormControl', () => {
 
     fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
 
-    expect(checkFieldAsyncForNextValue).to.have.been.called;
+    expect(checkFieldAsyncForNextValue).toHaveBeenCalled();
   });
 
   it('Should correctly display error message', () => {
@@ -244,7 +244,7 @@ describe('useFormControl', () => {
   });
 
   it('Should call removeFieldValue when component unmounts and shouldResetWithUnmount is true', () => {
-    const removeFieldValue = sinon.spy();
+    const removeFieldValue = vi.fn();
     const { unmount } = render(
       <FormWrapper onFieldChange={() => {}} removeFieldValue={removeFieldValue}>
         <TestComponent name="name" shouldResetWithUnmount={true} />
@@ -253,11 +253,11 @@ describe('useFormControl', () => {
 
     unmount();
 
-    expect(removeFieldValue).to.have.been.calledWith('name');
+    expect(removeFieldValue).toHaveBeenCalledWith('name');
   });
 
   it('Should allow manually calling onCheck for form validation', () => {
-    const checkFieldForNextValue = sinon.spy();
+    const checkFieldForNextValue = vi.fn();
 
     render(
       <FormWrapper onFieldChange={() => {}} checkFieldForNextValue={checkFieldForNextValue}>
@@ -267,7 +267,7 @@ describe('useFormControl', () => {
 
     fireEvent.click(screen.getByTestId('check-button'));
 
-    expect(checkFieldForNextValue).to.have.been.called;
+    expect(checkFieldForNextValue).toHaveBeenCalled();
   });
 
   it('Should correctly access nested values when name contains dot notation path', () => {
@@ -298,7 +298,7 @@ describe('useFormControl', () => {
 
     it('Should override checked value when explicitly provided', () => {
       const formValue = { toggle: true };
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(
         <FormWrapper formValue={formValue} onFieldChange={onChange}>
@@ -310,7 +310,7 @@ describe('useFormControl', () => {
     });
 
     it('Should call onChange with boolean for Toggle', () => {
-      const onFieldChange = sinon.spy();
+      const onFieldChange = vi.fn();
 
       render(
         <FormWrapper onFieldChange={onFieldChange}>
@@ -320,7 +320,7 @@ describe('useFormControl', () => {
 
       fireEvent.click(screen.getByTestId('test-toggle'));
 
-      expect(onFieldChange).to.be.calledWith('toggle', true, sinon.match.any);
+      expect(onFieldChange).toHaveBeenCalledWith('toggle', true, expect.any(Object));
     });
   });
 
@@ -398,7 +398,7 @@ describe('useFormControl', () => {
   // Tests for checkTrigger=null
   describe('checkTrigger=null', () => {
     it('Should not call onCheck when checkTrigger is null', () => {
-      const checkFieldForNextValue = sinon.spy();
+      const checkFieldForNextValue = vi.fn();
 
       render(
         <FormWrapper
@@ -417,14 +417,14 @@ describe('useFormControl', () => {
       fireEvent.blur(screen.getByTestId('test-input'));
 
       // Check that validation was not triggered on change or blur
-      expect(checkFieldForNextValue).to.not.have.been.called;
+      expect(checkFieldForNextValue).not.toHaveBeenCalled();
     });
   });
 
   // Tests for setValue method
   describe('setValue method', () => {
     it('Should update field value and call onFieldChange when setValue is called', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       const App = () => {
         const [formValue, setFormValue] = useState<{ name?: string }>({ name: '' });
 
@@ -446,13 +446,13 @@ describe('useFormControl', () => {
       // Call setValue programmatically
       fireEvent.click(screen.getByTestId('set-value-button'));
 
-      expect(onChange).to.have.been.calledWith({ name: 'programmatic-value' });
+      expect(onChange).toHaveBeenCalledWith({ name: 'programmatic-value' });
       expect(screen.getByTestId('test-input')).to.have.value('programmatic-value');
     });
 
     it('Should trigger validation when setValue is called with shouldValidate=true', () => {
-      const checkFieldForNextValue = sinon.spy();
-      const onFieldChange = sinon.spy();
+      const checkFieldForNextValue = vi.fn();
+      const onFieldChange = vi.fn();
 
       render(
         <FormWrapper onFieldChange={onFieldChange} checkFieldForNextValue={checkFieldForNextValue}>
@@ -462,16 +462,15 @@ describe('useFormControl', () => {
 
       // Call setValue with validation
       fireEvent.click(screen.getByTestId('set-value-button'));
-
       // Check if onFieldChange was called
-      expect(onFieldChange).to.have.been.calledWith('name', 'programmatic-value');
+      expect(onFieldChange).toHaveBeenCalledWith('name', 'programmatic-value');
 
       // Check if validation was triggered
-      expect(checkFieldForNextValue).to.have.been.called;
+      expect(checkFieldForNextValue).toHaveBeenCalled();
     });
 
     it('Should not trigger validation when checkTrigger is null', () => {
-      const checkFieldForNextValue = sinon.spy();
+      const checkFieldForNextValue = vi.fn();
 
       render(
         <FormWrapper
@@ -487,7 +486,7 @@ describe('useFormControl', () => {
       fireEvent.click(screen.getByTestId('set-value-button'));
 
       // Check that validation was not triggered
-      expect(checkFieldForNextValue).to.not.have.been.called;
+      expect(checkFieldForNextValue).not.toHaveBeenCalled();
     });
   });
 
@@ -496,7 +495,7 @@ describe('useFormControl', () => {
     it('Should validate using rule', async () => {
       const { StringType } = Schema.Types;
       const rule = StringType().isRequired('Field is required');
-      const checkFieldForNextValue = sinon.spy();
+      const checkFieldForNextValue = vi.fn();
 
       render(
         <FormWrapper
@@ -511,7 +510,7 @@ describe('useFormControl', () => {
       // Trigger validation on blur
       fireEvent.blur(screen.getByTestId('test-input'));
 
-      expect(checkFieldForNextValue).to.have.been.called;
+      expect(checkFieldForNextValue).toHaveBeenCalled();
     });
 
     it('Should validate async rule', async () => {
@@ -520,7 +519,7 @@ describe('useFormControl', () => {
         () => new Promise(resolve => setTimeout(() => resolve(true), 100)) as any,
         'Error'
       );
-      const checkFieldAsyncForNextValue = sinon.spy();
+      const checkFieldAsyncForNextValue = vi.fn();
 
       render(
         <FormWrapper
@@ -534,12 +533,12 @@ describe('useFormControl', () => {
 
       fireEvent.blur(screen.getByTestId('test-input'));
 
-      expect(checkFieldAsyncForNextValue).to.have.been.called;
+      expect(checkFieldAsyncForNextValue).toHaveBeenCalled();
     });
 
     it('Should use checkFieldAsyncForNextValue when setValue is called with shouldValidate=true and checkAsync=true', () => {
-      const checkFieldAsyncForNextValue = sinon.spy();
-      const onFieldChange = sinon.spy();
+      const checkFieldAsyncForNextValue = vi.fn();
+      const onFieldChange = vi.fn();
 
       render(
         <FormWrapper
@@ -552,9 +551,8 @@ describe('useFormControl', () => {
 
       // Call setValue with validation
       fireEvent.click(screen.getByTestId('set-value-button'));
-
       // Check if validation was triggered with async method
-      expect(checkFieldAsyncForNextValue).to.have.been.called;
+      expect(checkFieldAsyncForNextValue).toHaveBeenCalled();
     });
   });
 });

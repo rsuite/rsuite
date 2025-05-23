@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -37,33 +36,31 @@ describe('Sidenav.Toggle', () => {
   });
 
   it('Should call onToggle callback', () => {
-    const onToggle = sinon.spy();
+    const onToggle = vi.fn();
     render(<SidenavToggle onToggle={onToggle} />, {
       wrapper: Sidenav
     });
 
     fireEvent.click(screen.getByRole('button', { name: 'Collapse' }));
 
-    expect(onToggle).to.have.been.calledWith(false);
+    expect(onToggle).toHaveBeenCalledWith(false, expect.any(Object));
   });
 
   describe('When rendered outside of Sidenav', () => {
-    let errorStub;
+    let errorSpy;
 
     beforeEach(() => {
-      errorStub = sinon.stub(console, 'error');
+      errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     });
 
     afterEach(() => {
-      errorStub.restore();
+      errorSpy.mockRestore();
     });
 
     it('Should throw error', () => {
       render(<SidenavToggle />);
 
-      expect(errorStub).to.have.been.calledWith(
-        '<Sidenav.Toggle> must be rendered within a <Sidenav>'
-      );
+      expect(errorSpy).toHaveBeenCalledWith('<Sidenav.Toggle> must be rendered within a <Sidenav>');
     });
   });
 });

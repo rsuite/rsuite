@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import InputAutosize from '../InputAutosize';
 import InputSearch from '../InputSearch';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -30,10 +29,10 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<InputSearch onChange={onChange} />);
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import CustomProvider from '@/CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { KEY_VALUES } from '@/internals/constants';
@@ -201,7 +200,7 @@ describe('TreePicker', () => {
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+    const onSelectItem = vi.fn();
 
     render(
       <TreePicker
@@ -214,48 +213,48 @@ describe('TreePicker', () => {
 
     userEvent.click(screen.getByRole('treeitem', { name: 'tester2' }));
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
+    expect(onSelectItem).toHaveBeenCalledWith(expect.objectContaining({ value: 'tester2' }), [
+      expect.objectContaining({ value: 'Master' }),
+      expect.objectContaining({ value: 'tester1' }),
+      expect.objectContaining({ value: 'tester2' })
     ]);
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<TreePicker open onChange={onChange} data={data} />);
 
     fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     render(<TreePicker onOpen={onOpen} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onOpen).to.have.been.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<TreePicker defaultOpen onClose={onClose} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -397,7 +396,7 @@ describe('TreePicker', () => {
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
-    const onScroll = sinon.spy();
+    const onScroll = vi.fn();
     const ref = React.createRef<PickerHandle>();
 
     render(
@@ -417,23 +416,23 @@ describe('TreePicker', () => {
       ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
     });
 
-    expect(onScroll).to.be.calledOnce;
+    expect(onScroll).toHaveBeenCalledTimes(1);
   });
 
   it('Should item able to stringfy', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(
       <TreePicker defaultOpen data={data} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
     fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
 
-    expect(onSelect).to.called;
-    expect(renderTreeNode).to.called;
-    expect(() => JSON.stringify(data[0])).not.to.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[0])).not.to.throw();
-    expect(() => JSON.stringify(renderTreeNode.firstCall.args[0])).not.to.throw();
+    expect(onSelect).toHaveBeenCalled();
+    expect(renderTreeNode).toHaveBeenCalled();
+    expect(() => JSON.stringify(data[0])).not.toThrow();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][0])).not.toThrow();
+    expect(() => JSON.stringify(renderTreeNode.mock.calls[0][0])).not.toThrow();
   });
 
   it('Should not clean values when setting disabled=true', () => {

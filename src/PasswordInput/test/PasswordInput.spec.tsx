@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import PasswordInput from '../PasswordInput';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -43,26 +42,26 @@ describe('PasswordInput', () => {
   });
 
   it('Should call onChange when input changes', () => {
-    const handleChange = sinon.spy();
+    const handleChange = vi.fn();
     render(<PasswordInput onChange={handleChange} placeholder="change-input" />);
 
     const input = screen.getByPlaceholderText('change-input');
 
     fireEvent.change(input, { target: { value: '123' } });
-    expect(handleChange).to.have.been.calledWith('123');
+    expect(handleChange).toHaveBeenCalledWith('123', expect.any(Object));
   });
 
   it('Should call onVisibleChange when toggled', () => {
-    const handleVisibleChange = sinon.spy();
+    const handleVisibleChange = vi.fn();
 
     render(<PasswordInput onVisibleChange={handleVisibleChange} />);
     const button = screen.getByRole('button');
 
     fireEvent.click(button);
-    expect(handleVisibleChange).to.have.been.calledWith(true);
+    expect(handleVisibleChange).toHaveBeenCalledWith(true);
 
     fireEvent.click(button);
-    expect(handleVisibleChange).to.have.been.calledWith(false);
+    expect(handleVisibleChange).toHaveBeenCalledWith(false);
   });
 
   it('Should render custom visibility icon', () => {

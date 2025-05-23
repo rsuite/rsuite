@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -47,15 +46,15 @@ describe('UploadFileItem', () => {
   });
 
   it('Should call `onCancel` callback', () => {
-    const onCancel = sinon.spy();
+    const onCancel = vi.fn();
     render(<UploadFileItem file={file} onCancel={onCancel} />);
 
     userEvent.click(screen.getByRole('button', { name: 'Remove file' }));
-    expect(onCancel).to.have.been.calledOnce;
+    expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call `onCancel` callback when `disabled=true`', () => {
-    const onCancel = sinon.spy();
+    const onCancel = vi.fn();
     render(<UploadFileItem file={file} onCancel={onCancel} disabled />);
 
     expect(screen.getByRole('button', { hidden: true })).to.have.class(
@@ -64,7 +63,7 @@ describe('UploadFileItem', () => {
 
     fireEvent.click(screen.getByRole('button', { hidden: true }));
 
-    expect(onCancel).to.have.not.been.called;
+    expect(onCancel).not.toHaveBeenCalled();
   });
 
   it('Should not render remove button', () => {
@@ -74,37 +73,37 @@ describe('UploadFileItem', () => {
   });
 
   it('Should call onPreview callback', () => {
-    const onPreview = sinon.spy();
+    const onPreview = vi.fn();
     render(<UploadFileItem file={file} onPreview={onPreview} listType="picture-text" />);
 
     fireEvent.click(screen.getByLabelText('Preview: file.txt'));
 
-    expect(onPreview).to.have.been.calledOnce;
+    expect(onPreview).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call onPreview callback if `disabled=true`', () => {
-    const onPreview = sinon.spy();
+    const onPreview = vi.fn();
     render(<UploadFileItem file={file} onPreview={onPreview} listType="picture-text" disabled />);
     fireEvent.click(screen.getByLabelText('Preview: file.txt'));
 
-    expect(onPreview).to.have.not.been.called;
+    expect(onPreview).not.toHaveBeenCalled();
   });
 
   it('Should call onReupload callback', () => {
-    const onReupload = sinon.spy();
+    const onReupload = vi.fn();
     render(<UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReupload} />);
 
     fireEvent.click(screen.getByLabelText('Retry'));
 
-    expect(onReupload).to.have.been.calledOnce;
+    expect(onReupload).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call onReupload callback', () => {
-    const onReupload = sinon.spy();
+    const onReupload = vi.fn();
     render(<UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReupload} disabled />);
     fireEvent.click(screen.getByLabelText('Retry'));
 
-    expect(onReupload).to.have.not.been.called;
+    expect(onReupload).not.toHaveBeenCalled();
   });
 
   it('Should output a custom file name', () => {

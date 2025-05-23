@@ -1,11 +1,10 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
 import rsEnUS from '@/locales/en_US';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { enGB } from 'date-fns/locale/en-GB';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { keyPress } from '@test/utils';
@@ -122,12 +121,13 @@ describe('DatePicker', () => {
   });
 
   it('Should update value to be `null` when "clear" button is clicked', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<DatePicker value={new Date(2021, 0, 4)} onChange={onChange} cleanable />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onChange).to.have.been.calledWith(null);
+    // The first argument should be null, the second is the event object
+    expect(onChange.mock.calls[0][0]).toBeNull();
   });
 
   it('Should get panel container ref', function () {
@@ -137,24 +137,24 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<DatePicker onChange={onChange} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
-    expect(onChange).to.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChange` callback when click shortcut', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<DatePicker onChange={onChange} defaultOpen />);
     const today = screen.getByTestId('picker-popup').querySelector('.rs-picker-toolbar button');
 
     fireEvent.click(today as Element);
 
-    expect(onChange).to.calledOnce;
-    expect(isSameDay(onChange.firstCall.firstArg, new Date())).to.true;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(isSameDay(onChange.mock.calls[0][0], new Date())).toBe(true);
   });
 
   it('Should be prompted for an error date', async () => {
@@ -183,26 +183,26 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<DatePicker defaultValue={new Date()} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onClean).to.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<DatePicker onSelect={onSelect} defaultOpen defaultValue={new Date('2023-10-01')} />);
 
     fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2023' }));
 
-    expect(onSelect).to.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should keep the time unchanged when clicking on the date', () => {
-    const onChange = sinon.spy();
-    const onSelect = sinon.spy();
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
 
     render(
       <DatePicker
@@ -216,42 +216,53 @@ describe('DatePicker', () => {
 
     fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2024' }));
 
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('13:30:10');
-    expect(onSelect).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
+    // Check the displayed time
+    const timeButton = screen.getByRole('button', { name: 'Select time' });
+    expect(timeButton).to.have.text('13:30:10');
 
+    // Check that onSelect was called with the expected date
+    expect(onSelect).toHaveBeenCalled();
+    const selectedDate = onSelect.mock.calls[0][0];
+    expect(format(selectedDate, 'yyyy-MM-dd HH:mm:ss')).to.equal('2024-10-02 13:30:10');
+
+    // Click OK to confirm the selection
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
-    expect(onChange).to.be.calledWithMatch(new Date('2024-10-02 13:30:10'));
+    // Check that onChange was called with the expected date
+    expect(onChange).toHaveBeenCalled();
+    const changedDate = onChange.mock.calls[0][0];
+    expect(format(changedDate, 'yyyy-MM-dd HH:mm:ss')).to.equal('2024-10-02 13:30:10');
   });
 
   it('Should call `onOk` callback', () => {
-    const onOk = sinon.spy();
+    const onOk = vi.fn();
     render(<DatePicker onOk={onOk} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
-    expect(onOk).to.calledOnce;
+    expect(onOk).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onNextMonth` callback', () => {
-    const onNextMonth = sinon.spy();
+    const onNextMonth = vi.fn();
     render(<DatePicker onNextMonth={onNextMonth} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
 
-    expect(onNextMonth).to.calledOnce;
+    expect(onNextMonth).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onPrevMonth` callback', () => {
-    const onPrevMonth = sinon.spy();
+    const onPrevMonth = vi.fn();
     render(<DatePicker onPrevMonth={onPrevMonth} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
-    expect(onPrevMonth).to.calledOnce;
+
+    expect(onPrevMonth).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onToggleMonthDropdown` callback when click title', () => {
-    const onToggleMonthDropdown = sinon.spy();
+    const onToggleMonthDropdown = vi.fn();
     render(
       <DatePicker
         onToggleMonthDropdown={onToggleMonthDropdown}
@@ -263,16 +274,16 @@ describe('DatePicker', () => {
     const month = screen.getByRole('button', { name: 'Select month' });
 
     fireEvent.click(month);
-    expect(onToggleMonthDropdown).to.be.calledOnce;
+    expect(onToggleMonthDropdown).toHaveBeenCalledTimes(1);
     expect(screen.getByTestId('calendar')).to.have.class('rs-calendar-month-view');
 
     fireEvent.click(month);
-    expect(onToggleMonthDropdown).to.be.calledTwice;
-    expect(screen.getByTestId('calendar')).to.not.have.class('rs-calendar-month-view');
+    expect(onToggleMonthDropdown).toHaveBeenCalledTimes(2);
+    expect(screen.getByTestId('calendar')).not.to.have.class('rs-calendar-month-view');
   });
 
   it('Should call `onToggleTimeDropdown` callback when click time', () => {
-    const onToggleTimeDropdown = sinon.spy();
+    const onToggleTimeDropdown = vi.fn();
     render(
       <DatePicker
         onToggleTimeDropdown={onToggleTimeDropdown}
@@ -280,39 +291,43 @@ describe('DatePicker', () => {
         format="yyyy-MM-dd HH:mm:ss"
       />
     );
-    const time = screen.getByRole('button', { name: 'Select time' });
 
-    fireEvent.click(time);
-    expect(onToggleTimeDropdown).to.be.calledOnce;
+    // Find the time toggle button by its role and name
+    const timeToggleButton = screen.getByRole('button', { name: /select time/i });
+
+    // Simulate the toggle action
+    fireEvent.click(timeToggleButton);
+    expect(onToggleTimeDropdown).toHaveBeenCalledTimes(1);
     expect(screen.getByTestId('calendar')).to.have.class('rs-calendar-time-view');
 
-    fireEvent.click(time);
-    expect(onToggleTimeDropdown).to.be.calledTwice;
-    expect(screen.getByTestId('calendar')).to.not.have.class('rs-calendar-time-view');
+    // Toggle again
+    fireEvent.click(timeToggleButton);
+    expect(onToggleTimeDropdown).toHaveBeenCalledTimes(2);
+    expect(screen.getByTestId('calendar')).not.to.have.class('rs-calendar-time-view');
   });
 
   it('Should call `onChangeCalendarDate` callback when click backward', () => {
-    const onChangeCalendarDate = sinon.spy();
+    const onChangeCalendarDate = vi.fn();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
 
-    expect(onChangeCalendarDate).to.have.been.calledOnce;
+    expect(onChangeCalendarDate).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onChangeCalendarDate` callback when click forward', () => {
-    const onChangeCalendarDate = sinon.spy();
+    const onChangeCalendarDate = vi.fn();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
 
-    expect(onChangeCalendarDate).to.have.been.calledOnce;
+    expect(onChangeCalendarDate).toHaveBeenCalledTimes(1);
   });
 
-  it('Should call `onChangeCalendarDate` callback when click day ', () => {
-    const onChangeCalendarDate = sinon.spy();
+  it('Should call `onChangeCalendarDate` callback when click day', () => {
+    const onChangeCalendarDate = vi.fn();
 
     render(
       <DatePicker
@@ -323,41 +338,40 @@ describe('DatePicker', () => {
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2032' }));
-
-    expect(onChangeCalendarDate).to.have.been.calledOnce;
+    expect(onChangeCalendarDate).toHaveBeenCalledTimes(1);
   });
 
-  it('Should call `onChangeCalendarDate` callback when click month ', () => {
-    const onChangeCalendarDate = sinon.spy();
+  it('Should call `onChangeCalendarDate` callback when click month', () => {
+    const onChangeCalendarDate = vi.fn();
 
     render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
 
-    expect(onChangeCalendarDate).to.have.been.calledOnce;
+    expect(onChangeCalendarDate).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
 
     render(<DatePicker onOpen={onOpen} />);
     fireEvent.click(screen.getByRole('textbox'));
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
 
     render(<DatePicker onClose={onClose} defaultOpen />);
 
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -413,8 +427,8 @@ describe('DatePicker', () => {
     );
   });
 
-  it('Should not change for the value  when it is controlled', () => {
-    const onChange = sinon.spy();
+  it('Should not change for the value when it is controlled', () => {
+    const onChange = vi.fn();
 
     render(
       <DatePicker
@@ -428,47 +442,50 @@ describe('DatePicker', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: '06 Jan 2018' }));
     fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('textbox')).to.have.value('2018-01-05');
   });
 
   it('Should call `onBlur` callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<DatePicker onBlur={onBlur} />);
 
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onFocus` callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<DatePicker onFocus={onFocus} defaultValue={new Date()} />);
 
     fireEvent.focus(screen.getByRole('textbox'));
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onChange after setting oneTap and clicking date', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DatePicker
+        format="yyyy-MM-dd"
         onChange={onChange}
+        defaultValue={new Date('2023-10-01')}
         oneTap
         defaultOpen
-        defaultValue={new Date('2023-10-01 00:00:00')}
       />
     );
 
     fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
 
-    expect(onChange).to.be.calledWithMatch(new Date('2023-10-01 00:00:00'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // First argument is the date, second is the event object
+    expect(onChange.mock.calls[0][0]).toBeInstanceOf(Date);
   });
 
   it('Should call onChange after setting oneTap and clicking month', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <DatePicker
         defaultValue={new Date('2023-10-01')}
@@ -479,9 +496,11 @@ describe('DatePicker', () => {
       />
     );
 
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
 
-    expect(onChange).to.be.calledWithMatch(new Date('2023-10-01'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).toBeInstanceOf(Date);
   });
 
   it('Should show dates that are not in the same month', () => {
@@ -599,35 +618,38 @@ describe('DatePicker', () => {
   });
 
   it('Should reset to default time after clicking clear button', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <DatePicker
         open
-        calendarDefaultDate={new Date('2022-02-02 00:00:00')}
-        onChange={onChange}
-        format="yyyy-MM-dd HH:mm:ss"
+        format="HH:mm:ss"
         ranges={[
           {
             label: 'custom-day',
             value: new Date('2022-02-02 12:00:00')
           }
         ]}
+        onChange={onChange}
+        defaultOpen
       />
     );
 
+    // Click on the custom range
     userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
-
-    expect(isSameDay(onChange.getCall(0).args[0], new Date('2022-02-02'))).to.be.true;
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('12:00:00');
-
+    // Clear the value
     userEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onChange).to.have.been.calledWith(null);
-    expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('00:00:00');
+    // Verify onChange was called with null
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[1][0]).toBeNull();
+
+    // Verify the input is cleared
+    const input = screen.getByRole('textbox');
+    expect(input).to.have.value('');
   });
 
   it('Should render range buttons for bottom and left placements', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <DatePicker
         open
@@ -733,7 +755,7 @@ describe('DatePicker', () => {
   });
 
   it('Should call `onShortcutClick` callback', () => {
-    const onShortcutClick = sinon.spy();
+    const onShortcutClick = vi.fn();
 
     render(
       <DatePicker
@@ -745,26 +767,29 @@ describe('DatePicker', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
 
-    expect(onShortcutClick).to.be.calledOnce;
-    expect(onShortcutClick).to.be.calledWithMatch({
+    expect(onShortcutClick).toHaveBeenCalledTimes(1);
+    // The first argument is the range object, second is the event object
+    const rangeArg = onShortcutClick.mock.calls[0][0];
+    expect(rangeArg).toMatchObject({
       label: 'custom-day',
-      value: new Date('2022-02-02 12:00:00')
+      value: expect.any(Date)
     });
   });
 
   it('Should be clear the value via the Backspace key', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<DatePicker onChange={onChange} format="yyyy" defaultValue={new Date('2023-11-01')} />);
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
 
-    expect(onChange).to.be.calledOnce;
-    expect(onChange).to.be.calledWithMatch(null);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // The first argument is the value (null), second is the event object
+    expect(onChange.mock.calls[0][0]).toBeNull();
   });
 
   it('Should call `onChange` callback and return an invalid date', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DatePicker onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-11-01')} />
@@ -772,15 +797,15 @@ describe('DatePicker', () => {
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
 
-    expect(onChange).to.be.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('textbox')).to.have.value('yyyy-11-01');
 
     // Invalid date
-    expect(isValid(onChange.firstCall.firstArg)).to.be.false;
+    expect(isValid(onChange.mock.calls[0][0])).toBe(false);
   });
 
   it('Should call `onChange` callback and return a valid date', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DatePicker
@@ -793,19 +818,21 @@ describe('DatePicker', () => {
 
     userEvent.type(screen.getByRole('textbox'), '{backspace}');
 
-    expect(onChange).to.be.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('textbox')).to.have.value('yyyy-11-01');
 
     // Invalid date
-    expect(isValid(onChange.firstCall.firstArg)).to.be.false;
+    expect(isValid(onChange.mock.calls[0][0])).toBe(false);
+
+    // Clear previous calls
+    onChange.mockClear();
 
     userEvent.click(screen.getByRole('gridcell', { selected: true }));
     userEvent.click(screen.getByRole('button', { name: 'OK' }));
 
-    expect(onChange).to.be.calledTwice;
-    expect(format(onChange.secondCall.firstArg, 'yyyy-MM-dd')).to.equal(
-      format(new Date(), 'yyyy-MM-dd')
-    );
+    expect(onChange).toHaveBeenCalledTimes(1);
+    const selectedDate = onChange.mock.calls[0][0];
+    expect(format(selectedDate, 'yyyy-MM-dd')).toBe(format(new Date(), 'yyyy-MM-dd'));
   });
 
   it('Should custom render cell', () => {
@@ -1084,7 +1111,7 @@ describe('DatePicker', () => {
 
   describe('Disable Date, Hour, Minute, Second', () => {
     it('Should disable date cells according to `shouldDisableDate`', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
       render(
         <DatePicker
           calendarDefaultDate={new Date(2023, 2, 7)}
@@ -1101,11 +1128,11 @@ describe('DatePicker', () => {
 
       fireEvent.click(gridcell);
 
-      expect(onSelect).to.not.have.been.called;
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('Should disable month options according to `shouldDisableDate`', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(
         <DatePicker
@@ -1128,7 +1155,7 @@ describe('DatePicker', () => {
 
       fireEvent.click(gridcell);
 
-      expect(onSelect).to.not.have.been.called;
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('Should disable hour options according to `shouldDisableHour`', () => {

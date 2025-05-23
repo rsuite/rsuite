@@ -1,7 +1,6 @@
 import React, { Ref } from 'react';
-import sinon from 'sinon';
 import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -42,34 +41,34 @@ describe('PaginationButton', () => {
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<PaginationButton onSelect={onSelect} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
-    expect(onSelect).to.have.been.calledWith(10);
+    expect(onSelect).toHaveBeenCalledWith(10, expect.any(Object));
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     render(<PaginationButton onClick={onClick} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should not call onSelect when disabled', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<PaginationButton onSelect={onSelect} eventKey={10} disabled />);
     fireEvent.click(screen.getByRole('button'));
-    expect(onSelect).to.not.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should not call onSelect when event is prevented', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     const onClick = (e: React.MouseEvent) => {
       e.preventDefault();
     };
     render(<PaginationButton onSelect={onSelect} onClick={onClick} eventKey={10} />);
     fireEvent.click(screen.getByRole('button'));
-    expect(onSelect).to.not.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Custom elements can get the active prop', () => {

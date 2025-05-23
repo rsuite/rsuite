@@ -1,10 +1,9 @@
 import React from 'react';
-import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
 import CustomProvider from '@/CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, waitFor, fireEvent, act, screen } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 import { mockTreeData } from '@test/mocks/data-mock';
@@ -105,11 +104,11 @@ describe('Cascader', () => {
   });
 
   it('Should call onSelect callback with correct node value', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Cascader data={items} defaultOpen onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    const args = onSelect.getCall(0).args;
+    const args = onSelect.mock.calls[0];
 
     expect(args[0]).to.deep.equal({ value: '2', label: '2' });
     expect(args[1]).to.deep.equal([{ value: '2', label: '2' }]);
@@ -117,52 +116,52 @@ describe('Cascader', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<Cascader data={items} defaultOpen onChange={onChange} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    expect(onChange).to.have.been.calledWith('2');
+    expect(onChange.mock.calls[0][0]).toBe('2');
   });
 
   it('Should call onChange callback by `parentSelectable`', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<Cascader data={items} defaultOpen parentSelectable onChange={onChange} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '3' }));
-    expect(onChange).to.have.been.calledWith('3');
+    expect(onChange.mock.calls[0][0]).toBe('3');
   });
 
   it('Should call onClean callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<Cascader data={items} defaultValue={'3-1'} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     const ref = React.createRef<any>();
     render(<Cascader ref={ref} onOpen={onOpen} data={items} />);
 
     ref.current.open();
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const ref = React.createRef<any>();
     render(<Cascader ref={ref} defaultOpen onClose={onClose} data={items} />);
 
     ref.current.close();
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -325,7 +324,7 @@ describe('Cascader', () => {
 
   it('Should call `onSearch` callback', () => {
     const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
 
     render(<Cascader defaultOpen data={data} onSearch={onSearch} />);
 
@@ -334,12 +333,12 @@ describe('Cascader', () => {
     fireEvent.focus(searchbox);
     fireEvent.change(searchbox, { target: { value: 'c' } });
 
-    expect(onSearch).to.be.calledOnce;
-    expect(onSearch).to.be.calledWith('c');
+    expect(onSearch).toHaveBeenCalledTimes(1);
+    expect(onSearch.mock.calls[0][0]).toBe('c');
   });
 
   it('Should close the search panel when clicking on the search option', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
 
     render(<Cascader defaultOpen searchable data={data} onClose={onClose} />);
@@ -356,7 +355,7 @@ describe('Cascader', () => {
     expect(screen.getByRole('combobox')).to.have.text('c / c-1');
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -442,8 +441,8 @@ describe('Cascader', () => {
   });
 
   it('Should item able to stringfy', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(
       <Cascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
@@ -452,11 +451,13 @@ describe('Cascader', () => {
 
     fireEvent.click(checkbox);
 
-    expect(onSelect).to.called;
-    expect(renderTreeNode).to.called;
-    expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
+    expect(onSelect).toHaveBeenCalled();
+    expect(renderTreeNode).toHaveBeenCalled();
+    expect(() => JSON.stringify(items[2])).not.toThrow();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][1])).not.toThrow();
+    expect(() =>
+      JSON.stringify(renderTreeNode.mock.calls[renderTreeNode.mock.calls.length - 1][1])
+    ).not.toThrow();
   });
 
   it("Should custom render the tree's node", () => {
@@ -504,16 +505,16 @@ describe('Cascader', () => {
   });
 
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {
-    const onChange = sinon.spy();
-    const onSelect = sinon.spy();
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
 
     render(<Cascader data={items} onChange={onChange} onSelect={onSelect} defaultOpen />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should custom column width', () => {
@@ -530,8 +531,8 @@ describe('Cascader', () => {
 
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
-      const onOpen = sinon.spy();
-      const onClose = sinon.spy();
+      const onOpen = vi.fn();
+      const onClose = vi.fn();
       const ref = React.createRef<any>();
 
       render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
@@ -539,13 +540,13 @@ describe('Cascader', () => {
       ref.current.open();
 
       await waitFor(() => {
-        expect(onOpen).to.be.calledOnce;
+        expect(onOpen).toHaveBeenCalledTimes(1);
       });
 
       ref.current.close();
 
       await waitFor(() => {
-        expect(onClose).to.be.calledOnce;
+        expect(onClose).toHaveBeenCalledTimes(1);
       });
     });
   });

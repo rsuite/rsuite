@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import SearchBox from '../SearchBox';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -14,10 +13,10 @@ describe('SearchBox', () => {
   });
 
   it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<SearchBox onChange={onChange} />);
     fireEvent.change(screen.getByRole('searchbox'), { target: { value: 'a' } });
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 });

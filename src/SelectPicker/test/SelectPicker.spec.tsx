@@ -1,8 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
+
 import SelectPicker from '../SelectPicker';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks';
 import { Button } from '../../Button';
@@ -210,21 +210,21 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onChange` callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<SelectPicker defaultOpen onChange={onChange} data={data} />);
 
     fireEvent.click(screen.getByRole('option', { name: 'Eugenia' }));
 
-    expect(onChange).to.have.been.calledWith('Eugenia');
+    expect(onChange).toHaveBeenCalledWith('Eugenia', expect.any(Object));
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<SelectPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onClean).to.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should not output a search bar', () => {
@@ -240,24 +240,24 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
     render(<SelectPicker defaultOpen onSearch={onSearch} data={data} />);
 
     const input = screen.getByRole('searchbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearch).to.have.been.calledWith('a');
+    expect(onSearch).toHaveBeenCalledWith('a', expect.any(Object));
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<SelectPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onSelect).to.have.been.calledWith('Louisa');
+    expect(onSelect).toHaveBeenCalledWith('Louisa', expect.any(Object), expect.any(Object));
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -279,34 +279,34 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<SelectPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChange).to.calledOnce;
+    expect(onChange).toHaveBeenCalledWith('Kariane', expect.any(Object));
   });
 
   it('Should call onBlur callback', async () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
 
     render(<SelectPicker defaultOpen data={data} onBlur={onBlur} />);
 
     fireEvent.blur(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onBlur).to.calledOnce;
+      expect(onBlur).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<SelectPicker defaultOpen data={data} onFocus={onFocus} />);
 
     fireEvent.focus(screen.getByRole('combobox'));
 
-    expect(onFocus).to.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -339,8 +339,8 @@ describe('SelectPicker', () => {
   });
 
   it('Should call onSearch when closed', async () => {
-    const onSearch = sinon.spy();
-    const handleClose = sinon.spy();
+    const onSearch = vi.fn();
+    const handleClose = vi.fn();
     render(
       <>
         <button data-testid="exit">exit</button>
@@ -353,8 +353,8 @@ describe('SelectPicker', () => {
     fireEvent.mouseDown(exit, { bubbles: true });
 
     await waitFor(() => {
-      expect(onSearch).to.calledOnce;
-      expect(onSearch.firstCall.firstArg).to.equal('');
+      expect(onSearch).toHaveBeenCalledTimes(1);
+      expect(onSearch.mock.calls[0][0]).toBe('');
     });
   });
 

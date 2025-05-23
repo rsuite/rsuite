@@ -1,10 +1,9 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import DateRangeInput from '../DateRangeInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
-import { describe, expect, it } from 'vitest';
+import { vi, describe, expect, it } from 'vitest';
 import { format } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -114,7 +113,7 @@ describe('DateRangeInput', () => {
   });
 
   it('Should get null value in onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DateRangeInput
@@ -131,12 +130,13 @@ describe('DateRangeInput', () => {
     fireEvent.blur(input);
 
     expect(input).to.value('');
-    expect(onChange).to.have.been.calledWith([null, null]);
-    expect(onChange).to.have.been.calledOnce;
+    // Check that the first argument of the first call is [null, null]
+    expect(onChange.mock.calls[0][0]).to.deep.equal([null, null]);
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should clear the value in the input box', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DateRangeInput
@@ -154,8 +154,9 @@ describe('DateRangeInput', () => {
     fireEvent.blur(input);
 
     expect(input).to.value('');
-    expect(onChange).to.have.been.calledWith(null);
-    expect(onChange).to.have.been.calledOnce;
+    // Check that the first argument of the first call is null
+    expect(onChange.mock.calls[0][0]).to.be.null;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should format dates according to locale configuration', () => {
@@ -567,7 +568,7 @@ describe('DateRangeInput', () => {
 
   describe('DateRangeInput - Paste', () => {
     it('Should call `onChange` with pasted value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<DateRangeInput format="yyyy-MM-dd" onChange={onChange} />);
 
@@ -577,12 +578,14 @@ describe('DateRangeInput', () => {
       fireEvent(input, event);
 
       expect(input).to.have.value('2024-07-21 ~ 2024-07-22');
-      expect(format(onChange.lastCall.firstArg[0], 'yyyy-MM-dd')).to.have.eql('2024-07-21');
-      expect(format(onChange.lastCall.firstArg[1], 'yyyy-MM-dd')).to.have.eql('2024-07-22');
+      // Check the first argument of the first call to onChange
+      const callArgs = onChange.mock.calls[0][0];
+      expect(format(callArgs[0], 'yyyy-MM-dd')).to.have.eql('2024-07-21');
+      expect(format(callArgs[1], 'yyyy-MM-dd')).to.have.eql('2024-07-22');
     });
 
     it('Should not call `onChange` with invalid pasted value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(
         <DateRangeInput
@@ -600,11 +603,11 @@ describe('DateRangeInput', () => {
       fireEvent(input, event);
 
       expect(input).to.have.value('2023-10-01 ~ 2023-10-02');
-      expect(onChange).to.not.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
     });
 
-    it('Should not call `onChange` with invalid pasted value', () => {
-      const onChange = sinon.spy();
+    it('Should not call `onChange` with invalid pasted value format', () => {
+      const onChange = vi.fn();
 
       render(
         <DateRangeInput
@@ -622,11 +625,11 @@ describe('DateRangeInput', () => {
       fireEvent(input, event);
 
       expect(input).to.have.value('10/01/2023 ~ 10/02/2023');
-      expect(onChange).to.not.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
     });
 
     it('Should call `onPaste` callback', () => {
-      const onPaste = sinon.spy();
+      const onPaste = vi.fn();
 
       render(<DateRangeInput onPaste={onPaste} />);
 
@@ -634,7 +637,7 @@ describe('DateRangeInput', () => {
       const event = mockClipboardEvent('2024-07-21 ~ 2024-07-22');
 
       fireEvent(input, event);
-      expect(onPaste).to.have.been.called;
+      expect(onPaste).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Message from '../Message';
 import ToastContext from '../../toaster/ToastContext';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -43,19 +42,19 @@ describe('Message', () => {
   it('Should have a type', () => {
     render(<Message type="info" />);
 
-    expect(screen.getByRole('alert').className).to.include('rs-message-info');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-info');
   });
 
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
-    expect(screen.getByRole('alert').querySelector('.rs-icon')).to.exist;
-    expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
+    expect(screen.getByRole('alert')).to.have.contain('.rs-message-icon');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-has-icon');
   });
 
   it('Should be full', () => {
     render(<Message full />);
-    expect(screen.getByRole('alert').className).to.include('rs-message-full');
+    expect(screen.getByRole('alert')).to.have.class('rs-message-full');
   });
 
   it('Should be closable', () => {
@@ -65,16 +64,16 @@ describe('Message', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Message closable onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback by usedToaster', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <ToastContext.Provider value={{ usedToaster: true }}>
         <Message duration={1} onClose={onClose} />
@@ -82,7 +81,7 @@ describe('Message', () => {
     );
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 });

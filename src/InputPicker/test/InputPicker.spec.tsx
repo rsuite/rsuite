@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
 import { PickerHandle } from '@/internals/Picker';
@@ -222,22 +221,33 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onChange` callback with correct value', () => {
-    const onChange = sinon.spy();
-    render(<InputPicker defaultOpen onChange={onChange} data={data} />);
+    const onChange = vi.fn();
+    render(<InputPicker defaultOpen data={data} onChange={onChange} />);
 
     fireEvent.click(screen.getByRole('option', { name: 'Eugenia' }));
 
-    expect(onChange).to.have.been.calledWith('Eugenia');
+    expect(onChange).toHaveBeenCalledWith(expect.any(String), expect.any(Object));
+    expect(onChange.mock.calls[0][0]).toBe('Eugenia');
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<InputPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
 
     fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
-    expect(onSelect).to.have.been.calledWith('Louisa');
+    // onSelect is called with (value, item, event)
+    expect(onSelect).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        label: expect.anything(),
+        value: 'Louisa',
+        role: 'Master'
+      }),
+      expect.any(Object)
+    );
+    expect(onSelect.mock.calls[0][0]).toBe('Louisa');
   });
 
   it('Should output a clean button', () => {
@@ -247,15 +257,16 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
-    const onSearch = sinon.spy();
+    const onSearch = vi.fn();
     render(<InputPicker data={[]} defaultOpen onSearch={onSearch} />);
 
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearch).to.have.been.calledOnce;
-    expect(onSearch).to.have.been.calledWith('a');
+    expect(onSearch).toHaveBeenCalledTimes(1);
+    // onSearch is called with (searchKeyword, event)
+    expect(onSearch.mock.calls[0][0]).toBe('a');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -277,28 +288,28 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<InputPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
 
     fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
 
-    expect(onChange).to.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<InputPicker data={[]} onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('textbox'));
 
-    expect(onBlur).to.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<InputPicker data={[]} onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('textbox'));
 
-    expect(onFocus).to.called;
+    expect(onFocus).toHaveBeenCalled();
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -325,34 +336,34 @@ describe('InputPicker', () => {
     });
 
     it('Should not call `onClean` callback when disabled', () => {
-      const onClean = sinon.spy();
+      const onClean = vi.fn();
       render(<InputPicker defaultOpen data={data} value="Eugenia" disabled onClean={onClean} />);
 
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
 
-      expect(onClean).to.not.have.been.called;
+      expect(onClean).not.toHaveBeenCalled();
     });
 
     it('Should call `onClean` callback', () => {
-      const onClean = sinon.spy();
+      const onClean = vi.fn();
       render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onClean} />);
       fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-      expect(onClean).to.calledOnce;
+      expect(onClean).toHaveBeenCalledTimes(1);
     });
 
     it('Should call `onClean` callback by keyDown', () => {
-      const onClean = sinon.spy();
+      const onClean = vi.fn();
       render(<InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onClean} />);
       fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
 
-      expect(onClean).to.have.been.calledOnce;
+      expect(onClean).toHaveBeenCalledTimes(1);
     });
 
     it('Should not trigger clean when clicking delete with search keyword', () => {
-      const onChange = sinon.spy();
-      const onSearch = sinon.spy();
-      const onClean = sinon.spy();
+      const onChange = vi.fn();
+      const onSearch = vi.fn();
+      const onClean = vi.fn();
       render(
         <InputPicker
           data={data}
@@ -368,23 +379,25 @@ describe('InputPicker', () => {
 
       fireEvent.change(input, { target: { value: 'a' } });
 
-      expect(onSearch).to.have.been.calledWith('a');
+      // onSearch is called with (searchKeyword, event)
+      expect(onSearch.mock.calls[0][0]).toBe('a');
 
       fireEvent.keyDown(input, { key: 'Backspace' });
 
-      expect(onChange).to.not.have.been.called;
-      expect(onClean).to.not.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
+      expect(onClean).not.toHaveBeenCalled();
     });
 
     it('Should trigger clean when clicking clean button normally', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(<InputPicker data={data} value="Eugenia" onChange={onChange} />);
 
       // Find and click the clean button
       const cleanButton = screen.getByLabelText('Clear');
       fireEvent.click(cleanButton);
 
-      expect(onChange).to.have.been.calledWith(null);
+      // onChange is called with (value, event)
+      expect(onChange.mock.calls[0][0]).toBe(null);
     });
   });
 
@@ -413,7 +426,7 @@ describe('InputPicker', () => {
   it('Should call `onCreate` callback with correct value', () => {
     const inputRef = React.createRef<PickerHandle>();
 
-    const onCreate = sinon.spy();
+    const onCreate = vi.fn();
     render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={onCreate} creatable />);
 
     fireEvent.focus((inputRef.current as PickerHandle).root as HTMLElement);
@@ -423,8 +436,9 @@ describe('InputPicker', () => {
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(onCreate).to.calledOnce;
-    expect(onCreate).to.calledWith('abc');
+    expect(onCreate).toHaveBeenCalledTimes(1);
+    // onCreate is called with (value, item, event)
+    expect(onCreate.mock.calls[0][0]).toBe('abc');
   });
 
   it('Should hide "Create option" action if `shouldDisplayCreateOption` returns false', () => {
@@ -434,7 +448,7 @@ describe('InputPicker', () => {
     ];
 
     // Display "Create option" action only when no item's `label` matches searchKeyword
-    const shouldDisplayCreateOption = sinon.spy((searchKeyword, filteredData) =>
+    const shouldDisplayCreateOption = vi.fn((searchKeyword, filteredData) =>
       filteredData.every(item => item.label !== searchKeyword)
     );
     render(
@@ -448,9 +462,7 @@ describe('InputPicker', () => {
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Alice' } });
 
-    expect(shouldDisplayCreateOption).to.have.been.calledWith('Alice', [
-      { label: 'Alice', value: 1 }
-    ]);
+    expect(shouldDisplayCreateOption).toHaveBeenCalledWith('Alice', [{ label: 'Alice', value: 1 }]);
     expect(screen.queryByText(/^Create option/)).to.not.exist;
   });
 

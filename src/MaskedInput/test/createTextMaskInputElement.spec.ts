@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import createTextMaskInputElement from '../createTextMaskInputElement';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
 const placeholderChar = '_';
 let inputElement;
@@ -206,7 +205,7 @@ describe('createTextMaskInputElement', () => {
     });
 
     it('calls the mask function before every update', () => {
-      const maskSpy = sinon.spy(() => [/\d/, /\d/, /\d/, /\d/]);
+      const maskSpy = vi.fn(() => [/\d/, /\d/, /\d/, /\d/]);
       const textMaskControl = createTextMaskInputElement({ inputElement, mask: maskSpy });
 
       inputElement.value = '2';
@@ -217,7 +216,7 @@ describe('createTextMaskInputElement', () => {
       textMaskControl.update();
       expect(inputElement.value).to.equal('24__');
 
-      expect(maskSpy.callCount).to.equal(2);
+      expect(maskSpy).toHaveBeenCalledTimes(2);
     });
 
     it('can be disabled with `false` mask', () => {

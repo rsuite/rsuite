@@ -2,8 +2,7 @@ import React from 'react';
 import SidenavItem from '../SidenavItem';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 describe('SidenavItem', () => {
@@ -122,8 +121,8 @@ describe('SidenavItem', () => {
   });
 
   it('Should not trigger click events when is panel', () => {
-    const onClick = sinon.spy();
-    const onSelect = sinon.spy();
+    const onClick = vi.fn();
+    const onSelect = vi.fn();
 
     render(
       <Sidenav>
@@ -138,13 +137,13 @@ describe('SidenavItem', () => {
     const panel = screen.getByTestId('panel');
     panel.click();
 
-    expect(onClick).to.not.have.been.called;
-    expect(onSelect).to.not.have.been.called;
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should not trigger click events when is divider', () => {
-    const onClick = sinon.spy();
-    const onSelect = sinon.spy();
+    const onClick = vi.fn();
+    const onSelect = vi.fn();
 
     render(
       <Sidenav>
@@ -157,7 +156,7 @@ describe('SidenavItem', () => {
     const divider = screen.getByTestId('divider');
     divider.click();
 
-    expect(onClick).to.not.have.been.called;
-    expect(onSelect).to.not.have.been.called;
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onSelect).not.toHaveBeenCalled();
   });
 });

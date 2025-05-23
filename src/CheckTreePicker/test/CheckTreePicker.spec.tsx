@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import CheckTreePicker from '../CheckTreePicker';
 import CustomProvider from '@/CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
 import { KEY_VALUES } from '@/internals/constants';
@@ -220,7 +219,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+    const onSelectItem = vi.fn();
 
     render(
       <CheckTreePicker
@@ -233,51 +232,53 @@ describe('CheckTreePicker', () => {
 
     userEvent.click(screen.getByRole('checkbox', { name: 'tester2' }));
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
+    expect(onSelectItem).toHaveBeenCalledWith(expect.objectContaining({ value: 'tester2' }), [
+      expect.objectContaining({ value: 'Master' }),
+      expect.objectContaining({ value: 'tester1' }),
+      expect.objectContaining({ value: 'tester2' })
     ]);
   });
 
   it('Should call `onChange` callback with 1 values', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<CheckTreePicker open onChange={onChange} data={data} />);
 
     fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
 
-    expect(onChange).to.have.been.calledWith(['Master']);
+    // First argument is the selected value, second is the event
+    expect(onChange.mock.calls[0][0]).toEqual(['Master']);
+    expect(onChange).toHaveBeenCalled();
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(
       <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onClean} />
     );
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }) as HTMLElement);
 
-    expect(onClean).to.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     render(<CheckTreePicker onOpen={onOpen} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
-    expect(onOpen).to.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<CheckTreePicker onClose={onClose} data={data} />);
 
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
     fireEvent.click(screen.getByRole('combobox') as HTMLElement);
 
     await waitFor(() => {
-      expect(onClose).to.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -288,7 +289,7 @@ describe('CheckTreePicker', () => {
     ]);
 
     const expectedValue = ['1', '2-1'];
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <CheckTreePicker
@@ -301,7 +302,9 @@ describe('CheckTreePicker', () => {
     );
 
     fireEvent.click(screen.getByLabelText('2-1', { selector: 'input' }));
-    expect(onChange).to.have.been.calledWith(expectedValue);
+    // First argument is the selected value, second is the event
+    expect(onChange.mock.calls[0][0]).toEqual(expectedValue);
+    expect(onChange).toHaveBeenCalled();
   });
 
   it('Should render empty tree when searchKeyword is `name`', () => {
@@ -454,8 +457,8 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should item able to stringify', () => {
-    const onSelect = sinon.spy();
-    const renderTreeNode = sinon.spy();
+    const onSelect = vi.fn();
+    const renderTreeNode = vi.fn();
 
     render(
       <CheckTreePicker
@@ -466,30 +469,30 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    expect(renderTreeNode).to.called;
+    expect(renderTreeNode).toHaveBeenCalled();
 
     fireEvent.click(screen.getAllByRole('checkbox')[0]);
 
-    expect(onSelect).to.called;
-    expect(() => JSON.stringify(data[0])).not.to.throw();
-    expect(() => JSON.stringify(onSelect.firstCall.args[0])).not.to.throw();
-    expect(() => JSON.stringify(renderTreeNode.firstCall.args[0])).not.to.throw();
+    expect(onSelect).toHaveBeenCalled();
+    expect(() => JSON.stringify(data[0])).not.toThrow();
+    expect(() => JSON.stringify(onSelect.mock.calls[0][0])).not.toThrow();
+    expect(() => JSON.stringify(renderTreeNode.mock.calls[0][0])).not.toThrow();
   });
 
   it('Should children can be removed', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<CheckTreePicker defaultOpen data={data} onChange={onChange} />);
 
     fireEvent.click(screen.getByText('Master'), { target: { checked: true } });
     fireEvent.click(screen.getByText('tester0'), { target: { checked: false } });
 
-    expect(onChange.callCount).to.equal(2);
-    expect(onChange.firstCall.args[0]).to.include('Master');
-    expect(onChange.secondCall.args[0]).to.include('tester1');
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[0][0]).toContain('Master');
+    expect(onChange.mock.calls[1][0]).toContain('tester1');
   });
 
   it('Should children can be removed when setting virtualized', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<CheckTreePicker open virtualized defaultExpandAll data={data} onChange={onChange} />);
 
     fireEvent.click(screen.getByText('Master'), {
@@ -504,9 +507,9 @@ describe('CheckTreePicker', () => {
       }
     });
 
-    expect(onChange.callCount).to.equal(2);
-    expect(onChange.firstCall.args[0]).to.include('Master');
-    expect(onChange.secondCall.args[0]).to.include('tester1');
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange.mock.calls[0][0]).toContain('Master');
+    expect(onChange.mock.calls[1][0]).toContain('tester1');
   });
 
   it('Should not clean values when setting disabled=true', () => {

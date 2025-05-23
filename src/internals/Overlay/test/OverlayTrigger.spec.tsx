@@ -1,9 +1,8 @@
 import React, { Ref } from 'react';
-import sinon from 'sinon';
 import Tooltip from '@/Tooltip';
 import OverlayTrigger from '../OverlayTrigger';
 import type { OverlayTriggerHandle } from '@/internals/Overlay';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('OverlayTrigger', () => {
@@ -118,7 +117,7 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(
       <OverlayTrigger onClick={onClick} trigger="click" speaker={<Tooltip />}>
@@ -128,11 +127,11 @@ describe('OverlayTrigger', () => {
 
     fireEvent.click(screen.getByText('button'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onContextMenu callback', () => {
-    const onContextMenu = sinon.spy();
+    const onContextMenu = vi.fn();
 
     render(
       <OverlayTrigger onContextMenu={onContextMenu} trigger="contextMenu" speaker={<Tooltip />}>
@@ -141,11 +140,11 @@ describe('OverlayTrigger', () => {
     );
 
     fireEvent.contextMenu(screen.getByText('button'));
-    expect(onContextMenu).to.have.been.calledOnce;
+    expect(onContextMenu).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(
       <OverlayTrigger onFocus={onFocus} trigger="focus" speaker={<Tooltip />}>
@@ -154,11 +153,11 @@ describe('OverlayTrigger', () => {
     );
 
     fireEvent.focus(screen.getByText('button'));
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onMouseOver callback', () => {
-    const onMouseOver = sinon.spy();
+    const onMouseOver = vi.fn();
 
     render(
       <OverlayTrigger onMouseOver={onMouseOver} trigger="hover" speaker={<Tooltip />}>
@@ -167,11 +166,11 @@ describe('OverlayTrigger', () => {
     );
 
     fireEvent.mouseOver(screen.getByText('button'));
-    expect(onMouseOver).to.have.been.calledOnce;
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onMouseOut callback', () => {
-    const onMouseOut = sinon.spy();
+    const onMouseOut = vi.fn();
 
     render(
       <OverlayTrigger onMouseOut={onMouseOut} trigger="hover" speaker={<Tooltip />}>
@@ -180,11 +179,11 @@ describe('OverlayTrigger', () => {
     );
 
     fireEvent.mouseOut(screen.getByText('button'));
-    expect(onMouseOut).to.have.been.calledOnce;
+    expect(onMouseOut).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onMouseMove callback', () => {
-    const onMouseMove = sinon.spy();
+    const onMouseMove = vi.fn();
 
     render(
       <OverlayTrigger onMouseMove={onMouseMove} speaker={<Tooltip />}>
@@ -193,11 +192,11 @@ describe('OverlayTrigger', () => {
     );
 
     fireEvent.mouseMove(screen.getByText('button'));
-    expect(onMouseMove).to.have.been.calledOnce;
+    expect(onMouseMove).toHaveBeenCalledTimes(1);
   });
 
   it('Should not be rendered repeatedly', () => {
-    const onMouseMove = sinon.spy();
+    const onMouseMove = vi.fn();
     let count = 0;
 
     const MyButton = React.forwardRef((props, ref) => {
@@ -223,7 +222,7 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should overlay follow the cursor', () => {
-    const onMouseMove = sinon.spy();
+    const onMouseMove = vi.fn();
 
     let count = 0;
 
@@ -267,8 +266,8 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should trigger onOpen & onClose with open props set', () => {
-    const onOpen = sinon.spy();
-    const onClose = sinon.spy();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
     const { rerender } = render(
       <OverlayTrigger
         speaker={<Tooltip>tooltip</Tooltip>}
@@ -283,7 +282,7 @@ describe('OverlayTrigger', () => {
 
     fireEvent.click(screen.getByText('button'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
 
     rerender(
       <OverlayTrigger
@@ -299,11 +298,11 @@ describe('OverlayTrigger', () => {
 
     fireEvent.click(screen.getByText('button'));
 
-    expect(onOpen).to.have.been.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should open the Overlay by default', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const ref = React.createRef<OverlayTriggerHandle>();
 
     render(
@@ -317,7 +316,7 @@ describe('OverlayTrigger', () => {
     ref.current?.close();
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });
@@ -349,8 +348,8 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should call `onEntered` and `onExited`', async () => {
-    const onEntered = sinon.spy();
-    const onExited = sinon.spy();
+    const onEntered = vi.fn();
+    const onExited = vi.fn();
 
     render(
       <OverlayTrigger
@@ -366,20 +365,20 @@ describe('OverlayTrigger', () => {
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onEntered).to.have.been.calledOnce;
+      expect(onEntered).toHaveBeenCalledTimes(1);
       expect(screen.getByRole('tooltip')).to.exist;
     });
 
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onExited).to.have.been.calledOnce;
+      expect(onExited).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });
 
   it('Should delayed to call `onEntered`', async () => {
-    const onEntered = sinon.spy();
+    const onEntered = vi.fn();
 
     render(
       <OverlayTrigger
@@ -395,13 +394,13 @@ describe('OverlayTrigger', () => {
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onEntered).to.have.been.calledOnce;
+      expect(onEntered).toHaveBeenCalledTimes(1);
       expect(screen.getByRole('tooltip')).to.exist;
     });
   });
 
   it('Should delayed to call `onExited`', async () => {
-    const onExited = sinon.spy();
+    const onExited = vi.fn();
 
     render(
       <OverlayTrigger
@@ -418,14 +417,14 @@ describe('OverlayTrigger', () => {
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onExited).to.have.been.calledOnce;
+      expect(onExited).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });
 
   it('Should delayed to call `onEntered` and `onExited`', async () => {
-    const onEntered = sinon.spy();
-    const onExited = sinon.spy();
+    const onEntered = vi.fn();
+    const onExited = vi.fn();
 
     render(
       <OverlayTrigger
@@ -442,14 +441,14 @@ describe('OverlayTrigger', () => {
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onEntered).to.have.been.calledOnce;
+      expect(onEntered).toHaveBeenCalledTimes(1);
       expect(screen.getByRole('tooltip')).to.exist;
     });
 
     fireEvent.click(screen.getByText('button'));
 
     await waitFor(() => {
-      expect(onExited).to.have.been.calledOnce;
+      expect(onExited).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });

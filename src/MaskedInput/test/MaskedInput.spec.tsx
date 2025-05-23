@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import MaskedInput from '../MaskedInput';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('MaskedInput', () => {
@@ -25,7 +24,7 @@ describe('MaskedInput', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <MaskedInput
         onChange={onChange}
@@ -34,7 +33,7 @@ describe('MaskedInput', () => {
     );
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '12345' } });
 
-    expect(onChange.calledOnce).to.true;
-    expect(onChange).to.be.calledWithMatch('(123) 45_-____');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).toBe('(123) 45_-____');
   });
 });

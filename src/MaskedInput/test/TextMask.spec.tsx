@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import TextMask, { TextMaskProps } from '../TextMask';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, act, screen, fireEvent } from '@testing-library/react';
 import { mergeRefs } from '@/internals/utils';
 
@@ -240,7 +239,7 @@ describe('TextMask', () => {
   });
 
   it('calls `onChange` when a change event is received', () => {
-    const onChange = sinon.spy(event => {
+    const onChange = vi.fn(event => {
       expect(event.target.value).to.equal('(123) ___-____');
     });
     render(
@@ -253,15 +252,13 @@ describe('TextMask', () => {
       />
     );
 
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: { value: '123' }
-    });
+    fireEvent.change(screen.getByTestId('test'), { target: { value: '123' } });
 
-    expect(onChange).to.be.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('calls props.onBlur when a change event is received', () => {
-    const onBlur = sinon.spy(event => {
+    const onBlur = vi.fn(event => {
       expect(event.target.value).to.equal('(123) ___-____');
     });
     render(
@@ -274,7 +271,7 @@ describe('TextMask', () => {
       />
     );
     fireEvent.blur(screen.getByTestId('test'));
-    expect(onBlur.callCount).to.equal(1);
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   // test fix for issues #230, #483, #778 etc.

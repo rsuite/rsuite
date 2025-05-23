@@ -1,8 +1,7 @@
 import React, { CSSProperties, Ref } from 'react';
-import sinon from 'sinon';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 describe('Whisper', () => {
@@ -53,7 +52,7 @@ describe('Whisper', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     render(
       <Whisper onClick={onClick} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
@@ -62,11 +61,11 @@ describe('Whisper', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onOpen callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     render(
       <Whisper onOpen={onOpen} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
@@ -76,12 +75,12 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByRole('button'));
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onOpen callback by open()', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     const ref = React.createRef<WhisperInstance>();
     render(
       <Whisper ref={ref} onOpen={onOpen} trigger="none" speaker={<Tooltip />}>
@@ -91,12 +90,12 @@ describe('Whisper', () => {
 
     ref.current?.open();
     await waitFor(() => {
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onEntered callback', async () => {
-    const onEntered = sinon.spy();
+    const onEntered = vi.fn();
 
     render(
       <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
@@ -106,12 +105,12 @@ describe('Whisper', () => {
 
     fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
-      expect(onEntered).to.have.been.calledOnce;
+      expect(onEntered).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onClose callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
 
     render(
       <Whisper onClose={onClose} trigger="click" speaker={<Tooltip />}>
@@ -122,12 +121,12 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByRole('button'));
     fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onExited callback', async () => {
-    const onExited = sinon.spy();
+    const onExited = vi.fn();
 
     render(
       <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
@@ -138,17 +137,17 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByRole('button'));
     fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
-      expect(onExited).to.have.been.calledOnce;
+      expect(onExited).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should pass transition callbacks to Transition', async () => {
-    const onExit = sinon.spy();
-    const onExiting = sinon.spy();
-    const onExited = sinon.spy();
-    const onEnter = sinon.spy();
-    const onEntering = sinon.spy();
-    const onEntered = sinon.spy();
+    const onExit = vi.fn();
+    const onExiting = vi.fn();
+    const onExited = vi.fn();
+    const onEnter = vi.fn();
+    const onEntering = vi.fn();
+    const onEntered = vi.fn();
 
     render(
       <Whisper
@@ -168,17 +167,17 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
-      expect(onEnter).to.called;
-      expect(onEntering).to.called;
-      expect(onEntered).to.called;
+      expect(onEnter).toHaveBeenCalled();
+      expect(onEntering).toHaveBeenCalled();
+      expect(onEntered).toHaveBeenCalled();
     });
 
     fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
-      expect(onExit).to.called;
-      expect(onExiting).to.called;
-      expect(onExited).to.called;
+      expect(onExit).toHaveBeenCalled();
+      expect(onExiting).toHaveBeenCalled();
+      expect(onExited).toHaveBeenCalled();
     });
   });
 
@@ -210,7 +209,7 @@ describe('Whisper', () => {
       }
     );
 
-    const onExited = sinon.spy();
+    const onExited = vi.fn();
 
     render(
       <Whisper
@@ -230,7 +229,7 @@ describe('Whisper', () => {
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     await waitFor(() => {
-      expect(onExited).to.called;
+      expect(onExited).toHaveBeenCalled();
     });
   });
 });

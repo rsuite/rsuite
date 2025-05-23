@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import RadioTileGroup from '../RadioTileGroup';
 import RadioTile from '../../RadioTile';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -79,8 +78,8 @@ describe('RadioTileGroup', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
-    const onGroupChange = sinon.spy();
+    const onChange = vi.fn();
+    const onGroupChange = vi.fn();
 
     render(
       <RadioTileGroup onChange={onGroupChange}>
@@ -95,13 +94,13 @@ describe('RadioTileGroup', () => {
 
     fireEvent.click(screen.getByText('Test3'));
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onGroupChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onGroupChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should return undefined when no value is set', () => {
-    const onChange = sinon.spy();
-    const onGroupChange = sinon.spy();
+    const onChange = vi.fn();
+    const onGroupChange = vi.fn();
 
     render(
       <RadioTileGroup onChange={onGroupChange}>
@@ -112,7 +111,7 @@ describe('RadioTileGroup', () => {
 
     fireEvent.click(screen.getByText('Test1'));
 
-    expect(onChange).to.have.been.calledWith(undefined);
-    expect(onGroupChange).to.have.been.calledWith(undefined);
+    expect(onChange).toHaveBeenCalledWith(undefined, expect.any(Object));
+    expect(onGroupChange).toHaveBeenCalledWith(undefined, expect.any(Object));
   });
 });

@@ -1,10 +1,15 @@
 import React from 'react';
-import sinon from 'sinon';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
-import AddOutline from '@rsuite/icons/AddOutline';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, beforeAll } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
+
+const AddOutline = vi.fn().mockImplementation(() => <span data-testid="icon" />);
+
+beforeAll(() => {
+  // Mock console.warn to avoid warnings in tests
+  vi.spyOn(console, 'warn').mockImplementation(() => {});
+});
 
 describe('<Dropdown.Item>', () => {
   it('Should render element with role="menuitem" and given content', () => {
@@ -95,7 +100,7 @@ describe('<Dropdown.Item>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(
       <Dropdown>
@@ -107,11 +112,17 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onSelect).to.have.been.calledWith('ABC');
+    // onSelect is called with (eventKey, event)
+    expect(onSelect).toHaveBeenCalledWith(
+      'ABC',
+      expect.objectContaining({
+        type: 'click'
+      })
+    );
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(
       <Dropdown>
@@ -123,7 +134,7 @@ describe('<Dropdown.Item>', () => {
 
     fireEvent.click(screen.getByTestId('item'));
 
-    expect(onClick).to.have.been.called;
+    expect(onClick).toHaveBeenCalled();
   });
 
   it('Should have a custom className', () => {

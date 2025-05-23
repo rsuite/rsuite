@@ -1,7 +1,6 @@
 import React from 'react';
 import Burger from '../Burger';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps, testColorStyle } from '@test/cases';
 
@@ -44,9 +43,9 @@ describe('Burger', () => {
   });
 
   it('Should call onClick when clicked', () => {
-    const handleClick = sinon.spy();
+    const handleClick = vi.fn();
     render(<Burger onClick={handleClick} />);
     fireEvent.click(screen.getByRole('button'));
-    expect(handleClick).to.have.been.calledOnce;
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

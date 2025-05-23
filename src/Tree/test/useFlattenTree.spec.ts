@@ -1,7 +1,6 @@
-import sinon from 'sinon';
 import useFlattenTree from '../hooks/useFlattenTree';
 import type { TreeNode } from '@/internals/Tree/types';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { formatNodeRefKey } from '../utils';
 
@@ -14,16 +13,16 @@ describe('useFlattenTree', () => {
   };
 
   describe('Error handling', () => {
-    let consoleErrorStub;
+    let consoleErrorSpy;
 
     beforeEach(() => {
-      consoleErrorStub = sinon.stub(console, 'error').callsFake(() => {
+      consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
         // do nothing
       });
     });
 
     afterEach(() => {
-      consoleErrorStub.restore();
+      consoleErrorSpy.mockRestore();
     });
 
     it('Should detect duplicate values', () => {
@@ -46,7 +45,7 @@ describe('useFlattenTree', () => {
 
       renderHook(() => useFlattenTree(duplicateData, defaultOptions));
 
-      expect(consoleErrorStub).to.have.been.calledWith(
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
         "[rsuite] The value '1' is duplicated. Each node in the tree data must have a unique value."
       );
     });
@@ -124,13 +123,13 @@ describe('useFlattenTree', () => {
 
   describe('Callback functionality', () => {
     it('Should call callback when nodes change', () => {
-      const callback = sinon.spy();
+      const callback = vi.fn();
       const data = [{ label: 'Node 1', value: '1' }];
 
       renderHook(() => useFlattenTree(data, { ...defaultOptions, callback }));
 
-      expect(callback).to.have.been.calledOnce;
-      expect(callback.firstCall.args[0]).to.have.property(formatNodeRefKey('1'));
+      expect(callback).toHaveBeenCalledTimes(1);
+      expect(callback.mock.calls[0][0]).toHaveProperty(formatNodeRefKey('1'));
     });
   });
 

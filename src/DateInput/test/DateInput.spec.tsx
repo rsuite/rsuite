@@ -1,10 +1,9 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import DateInput from '../DateInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { format, isValid } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -80,7 +79,7 @@ describe('DateInput', () => {
   });
 
   it('Should call `onChange` with the new value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<DateInput onChange={onChange} format="yyyy-MM-dd" data-test="true" />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
@@ -88,24 +87,24 @@ describe('DateInput', () => {
     userEvent.click(input);
     userEvent.type(input, '2024');
 
-    expect(isNaN(onChange.getCall(3).firstArg.getTime())).to.be.true;
+    expect(isNaN(onChange.mock.calls[3][0].getTime())).toBe(true);
     expect(input).to.value('2024-MM-dd');
 
     userEvent.type(input, '{arrowright}12');
 
-    expect(isNaN(onChange.getCall(5).firstArg.getTime())).to.be.true;
+    expect(isNaN(onChange.mock.calls[5][0].getTime())).toBe(true);
     expect(input).to.value('2024-12-dd');
 
     userEvent.type(input, '{arrowright}{arrowright}20');
 
-    expect(format(onChange.lastCall.firstArg, 'yyyy-MM-dd')).to.be.eql('2024-12-20');
+    expect(format(onChange.mock.lastCall?.[0], 'yyyy-MM-dd')).toBe('2024-12-20');
     expect(input).to.value('2024-12-20');
 
-    expect(onChange).to.be.callCount(8);
+    expect(onChange).toHaveBeenCalledTimes(8);
   });
 
   it('Should get null value in onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<DateInput onChange={onChange} format="yyyy" defaultValue={new Date('2023-10-01')} />);
 
@@ -116,13 +115,12 @@ describe('DateInput', () => {
     fireEvent.blur(input);
 
     expect(input).to.value('');
-    expect(onChange).to.have.been.calledWith(null);
-
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledWith(null, expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should clear the value in the input box', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <DateInput onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-10-01')} />
@@ -137,8 +135,8 @@ describe('DateInput', () => {
     fireEvent.blur(input);
 
     expect(input).to.value('');
-    expect(onChange).to.have.been.calledWith(null);
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledWith(null, expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should format dates according to locale configuration', () => {
@@ -161,7 +159,7 @@ describe('DateInput', () => {
 
   // fix: #3715
   it('Should return invalid value in `onChange` callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(<DateInput onChange={onChange} format="dd" />);
 
@@ -170,11 +168,11 @@ describe('DateInput', () => {
     userEvent.click(input);
     userEvent.keyboard('0');
 
-    expect(isValid(onChange.lastCall.firstArg)).to.be.false;
+    expect(isValid(onChange.mock.lastCall?.[0])).toBe(false);
 
     userEvent.keyboard('05');
 
-    expect(isValid(onChange.lastCall.firstArg)).to.be.true;
+    expect(isValid(onChange.mock.lastCall?.[0])).toBe(true);
   });
 
   describe('DateInput - KeyPress', () => {
@@ -573,7 +571,7 @@ describe('DateInput', () => {
 
   describe('DateInput - Paste', () => {
     it('Should call `onChange` with pasted value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(<DateInput onChange={onChange} format="yyyy-MM-dd" />);
 
@@ -583,11 +581,11 @@ describe('DateInput', () => {
       fireEvent(input, event);
 
       expect(input).to.have.value('2024-07-21');
-      expect(format(onChange.lastCall.firstArg, 'yyyy-MM-dd')).to.have.eql('2024-07-21');
+      expect(format(onChange.mock.lastCall?.[0], 'yyyy-MM-dd')).toBe('2024-07-21');
     });
 
     it('Should not call `onChange` with invalid pasted value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(
         <DateInput onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-10-01')} />
@@ -600,12 +598,12 @@ describe('DateInput', () => {
 
       fireEvent(input, event);
 
-      expect(onChange).to.not.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
       expect(input).to.have.value('2023-10-01');
     });
 
     it('Should not call `onChange` with invalid pasted value', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
 
       render(
         <DateInput onChange={onChange} format="MM/dd/yyyy" defaultValue={new Date('2023-10-01')} />
@@ -618,12 +616,12 @@ describe('DateInput', () => {
 
       fireEvent(input, event);
 
-      expect(onChange).to.not.have.been.called;
+      expect(onChange).not.toHaveBeenCalled();
       expect(input).to.have.value('10/01/2023');
     });
 
     it('Should call `onPaste` callback', () => {
-      const onPaste = sinon.spy();
+      const onPaste = vi.fn();
 
       render(<DateInput onPaste={onPaste} />);
 
@@ -632,7 +630,7 @@ describe('DateInput', () => {
 
       fireEvent(input, event);
 
-      expect(onPaste).to.have.been.called;
+      expect(onPaste).toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import UploadTrigger from '../UploadTrigger';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('UploadTrigger', () => {
@@ -33,12 +32,12 @@ describe('UploadTrigger', () => {
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     const { container } = render(<UploadTrigger onChange={onChange} />);
 
     fireEvent.change(container.querySelector('input') as HTMLElement);
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should have a name', () => {
@@ -64,29 +63,29 @@ describe('UploadTrigger', () => {
   });
 
   it('Should call `onDragEnter` callback', () => {
-    const onDragEnter = sinon.spy();
+    const onDragEnter = vi.fn();
     const { container } = render(<UploadTrigger draggable onDragEnter={onDragEnter} />);
     const button = container.querySelector('button') as HTMLElement;
 
     fireEvent.dragEnter(button);
-    expect(onDragEnter).to.have.been.calledOnce;
+    expect(onDragEnter).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onDragOver` callback', () => {
-    const onDragOver = sinon.spy();
+    const onDragOver = vi.fn();
     const { container } = render(<UploadTrigger draggable onDragOver={onDragOver} />);
     const button = container.querySelector('button') as HTMLElement;
 
     fireEvent.dragOver(button);
-    expect(onDragOver).to.have.been.calledOnce;
+    expect(onDragOver).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onDragLeave` callback', () => {
-    const onDragLeave = sinon.spy();
+    const onDragLeave = vi.fn();
     const { container } = render(<UploadTrigger draggable onDragLeave={onDragLeave} />);
     const button = container.querySelector('button') as HTMLElement;
 
     fireEvent.dragLeave(button);
-    expect(onDragLeave).to.have.been.calledOnce;
+    expect(onDragLeave).toHaveBeenCalledTimes(1);
   });
 });

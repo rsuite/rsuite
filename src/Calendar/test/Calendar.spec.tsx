@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import Calendar from '../Calendar';
 import CustomProvider from '@/CustomProvider';
 import enUS from '@/locales/en_US';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/cases';
@@ -53,12 +52,12 @@ describe('Calendar', () => {
   });
 
   it('Should call `onSelect` callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<Calendar format="yyyy-MM-dd" onSelect={onSelect} data-testid="calendar" />);
 
     fireEvent.click(screen.getByTitle(/today/i));
 
-    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should be a controlled value', async () => {
@@ -110,7 +109,7 @@ describe('Calendar', () => {
   });
 
   it('Should call `onMonthChange` callback when the display month changes', () => {
-    const onMonthChange = sinon.spy();
+    const onMonthChange = vi.fn();
 
     const { rerender } = render(
       <Calendar defaultValue={new Date(2023, 0, 1)} onMonthChange={onMonthChange} />
@@ -118,10 +117,10 @@ describe('Calendar', () => {
 
     // Change month with Next/Previous month button
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
-    expect(onMonthChange).to.have.been.calledOnce;
+    expect(onMonthChange).toHaveBeenCalledTimes(1);
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
-    expect(onMonthChange).to.have.been.calledTwice;
+    expect(onMonthChange).toHaveBeenCalledTimes(2);
 
     // Change month with Month dropdown
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
@@ -130,28 +129,28 @@ describe('Calendar', () => {
       screen.getByRole('gridcell', { name: 'Jan 2023' })?.nextElementSibling as HTMLDivElement
     );
 
-    expect(onMonthChange).to.have.been.calledThrice;
+    expect(onMonthChange).toHaveBeenCalledTimes(3);
 
     // Change month by clicking on a date in a different month
     rerender(<Calendar value={new Date(2023, 0, 1)} onMonthChange={onMonthChange} />);
     fireEvent.click(screen.getByTitle('01 Feb 2023')); // TODO-Doma Add accessible name to the button via aria-label
-    expect(onMonthChange).to.have.callCount(4);
-    expect((onMonthChange.getCall(3).args[0] as Date).getFullYear()).to.equal(2023);
-    expect((onMonthChange.getCall(3).args[0] as Date).getMonth()).to.equal(1);
+    expect(onMonthChange).toHaveBeenCalledTimes(4);
+    expect((onMonthChange.mock.calls[3][0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChange.mock.calls[3][0] as Date).getMonth()).to.equal(1);
 
     // Change month with "Today" button
-    const clock = sinon.useFakeTimers(new Date(2023, 0, 1));
+    vi.useFakeTimers({ now: new Date(2023, 0, 1) });
     rerender(<Calendar value={new Date(2023, 1, 1)} onMonthChange={onMonthChange} />);
     fireEvent.click(screen.getByRole('button', { name: 'Today' }));
-    expect(onMonthChange).to.have.callCount(5);
-    expect((onMonthChange.getCall(4).args[0] as Date).getFullYear()).to.equal(2023);
-    expect((onMonthChange.getCall(4).args[0] as Date).getMonth()).to.equal(0);
-    clock.restore();
+    expect(onMonthChange).toHaveBeenCalledTimes(5);
+    expect((onMonthChange.mock.calls[4][0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChange.mock.calls[4][0] as Date).getMonth()).to.equal(0);
+    vi.useRealTimers();
   });
 
   it('Should  not call `onMonthChange` callback when same month is clicked', () => {
-    const onMonthChange = sinon.spy();
-    const onToggleMonthDropdown = sinon.spy();
+    const onMonthChange = vi.fn();
+    const onToggleMonthDropdown = vi.fn();
 
     render(
       <Calendar
@@ -164,8 +163,8 @@ describe('Calendar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Jan 2023' }));
 
-    expect(onMonthChange).to.have.been.not.called;
-    expect(onToggleMonthDropdown).to.have.been.called;
+    expect(onMonthChange).not.toHaveBeenCalled();
+    expect(onToggleMonthDropdown).toHaveBeenCalled();
   });
 
   describe('Custom week ', () => {

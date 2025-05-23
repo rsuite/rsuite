@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import TimePicker from '../TimePicker';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { format } from 'date-fns';
 import {
@@ -88,7 +87,7 @@ describe('TimePicker', () => {
     });
 
     it('Should change AM PM', () => {
-      const onChange = sinon.spy();
+      const onChange = vi.fn();
       render(
         <TimePicker
           defaultValue={new Date('2017-08-14 13:00:00')}
@@ -105,11 +104,11 @@ describe('TimePicker', () => {
       fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
       expect(screen.getByRole('textbox')).to.have.value('01:00:00 AM');
-      expect(onChange).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
+      expect(onChange).toHaveBeenCalledWith(new Date('2017-08-14 01:00:00'), expect.any(Object));
     });
 
     it('Should call onSelect when meridiem is changed', () => {
-      const onSelect = sinon.spy();
+      const onSelect = vi.fn();
 
       render(
         <TimePicker
@@ -125,7 +124,7 @@ describe('TimePicker', () => {
 
       fireEvent.click(screen.getByRole('option', { name: 'AM' }));
 
-      expect(onSelect).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
+      expect(onSelect).toHaveBeenCalledWith(new Date('2017-08-14 01:00:00'), undefined);
     });
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import Notification from '../Notification';
 import ToastContext from '../../toaster/ToastContext';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { waitFor, render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -45,15 +44,15 @@ describe('Notification', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Notification closable onClose={onClose} />);
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onClose callback by usedToaster', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(
       <ToastContext.Provider value={{ usedToaster: true }}>
         <Notification duration={1} onClose={onClose} />
@@ -61,7 +60,7 @@ describe('Notification', () => {
     );
 
     await waitFor(() => {
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 });

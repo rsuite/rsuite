@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
 import {
@@ -181,28 +180,28 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onChange` callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <CheckPicker defaultOpen onChange={onChange} data={[{ label: 'Option 1', value: '1' }]} />
     );
 
     fireEvent.click(screen.getByText('Option 1'));
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onChange.getCall(0).args[0]).to.eql(['1']);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).toEqual(['1']);
   });
 
   it('Should call `onClean` callback', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<CheckPicker data={data} defaultValue={['Eugenia']} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onClean).to.have.been.calledOnce;
+    expect(onClean).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onClean` callback by key="Backspace" ', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
 
     render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
 
@@ -210,41 +209,41 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
 
-    expect(onClean).to.have.been.called;
+    expect(onClean).toHaveBeenCalled();
   });
 
   it('Should call `onClean` callback by key="Backspace" on overlay ', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Enter' });
     fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Backspace' });
 
-    expect(onClean).to.have.been.called;
+    expect(onClean).toHaveBeenCalled();
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpen = sinon.spy();
+    const onOpen = vi.fn();
     const ref = React.createRef<any>();
     render(<CheckPicker ref={ref} onOpen={onOpen} data={data} />);
 
     ref.current.open();
 
     await waitFor(() => {
-      expect(onOpen).to.have.been.called;
+      expect(onOpen).toHaveBeenCalled();
     });
   });
 
   it('Should call `onClose` callback', async () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     const ref = React.createRef<any>();
     render(<CheckPicker ref={ref} defaultOpen onClose={onClose} data={data} />);
 
     ref.current.close();
 
     await waitFor(() => {
-      expect(onClose).to.have.been.called;
+      expect(onClose).toHaveBeenCalled();
     });
   });
 
@@ -311,46 +310,46 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(<CheckPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call `onSelect` by key=Enter ', async () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<CheckPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onSelect).to.have.been.calledOnce;
-    expect(onSelect.firstCall.firstArg).to.eql(['Kariane', 'Louisa']);
-    expect(onSelect.firstCall.args[1].value).to.equal('Louisa');
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect.mock.calls[0][0]).toEqual(['Kariane', 'Louisa']);
+    expect(onSelect.mock.calls[0][1].value).toBe('Louisa');
   });
 
   it('Should call onBlur callback', async () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<CheckPicker data={data} onBlur={onBlur} />);
 
     fireEvent.blur(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onBlur).to.have.been.calledOnce;
+      expect(onBlur).toHaveBeenCalledTimes(1);
     });
   });
 
   it('Should call onFocus callback', async () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<CheckPicker data={data} onFocus={onFocus} />);
 
     fireEvent.focus(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onFocus).to.have.been.calledOnce;
+      expect(onFocus).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -413,19 +412,19 @@ describe('CheckPicker', () => {
   });
 
   it('Should trigger onOpen & onClose with open props set', () => {
-    const onOpen = sinon.spy();
-    const onClose = sinon.spy();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
     const { rerender } = render(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
 
     rerender(<CheckPicker data={data} onOpen={onOpen} onClose={onClose} open={false} />);
 
     fireEvent.click(screen.getByRole('combobox'));
 
-    expect(onOpen).to.have.been.calledOnce;
+    expect(onOpen).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -462,7 +461,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should not call `onClean` callback on Input ', () => {
-    const onClean = sinon.spy();
+    const onClean = vi.fn();
     render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
     const searchbox = screen.getByRole('searchbox');
 
@@ -470,11 +469,11 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
     fireEvent.keyDown(searchbox, { key: 'Backspace' });
 
-    expect(onClean).to.not.have.been.called;
+    expect(onClean).not.toHaveBeenCalled();
   });
 
   it('Should call onClose callback by key="Escape"', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<CheckPicker data={data} onClose={onClose} defaultOpen />);
 
     // Verify popup is open
@@ -484,21 +483,20 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Escape' });
 
     // Verify onClose was called
-    expect(onClose).to.have.been.called;
+    expect(onClose).toHaveBeenCalled();
   });
 
   it('Should call onClose callback by key="Tab"', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<CheckPicker data={data} onClose={onClose} defaultOpen />);
 
     // Verify popup is open
     expect(screen.getByRole('listbox')).to.exist;
-
     // Press Tab
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Tab' });
 
     // Verify onClose was called
-    expect(onClose).to.have.been.called;
+    expect(onClose).toHaveBeenCalled();
   });
 
   describe('With a label', () => {

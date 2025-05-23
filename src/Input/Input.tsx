@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
 import { forwardRef } from '@/internals/utils';
-import { InputGroupContext } from '../InputGroup/InputGroup';
+import { InputGroupContext } from '../InputGroup';
 import { useCustom } from '@/internals/hooks';
 import { PrependParameters } from '@/internals/types/utils';
 import type {

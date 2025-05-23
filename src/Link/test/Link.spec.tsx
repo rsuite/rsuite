@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Link from '../Link';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -18,13 +17,13 @@ describe('Link', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     render(<Link onClick={onClick}>Title</Link>);
 
     fireEvent.click(screen.getByRole('link'));
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should be disabled', () => {
@@ -33,7 +32,7 @@ describe('Link', () => {
     const link = screen.getByText('Title');
     expect(link).to.have.attr('data-disabled', 'true');
 
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
     rerender(
       <Link disabled onClick={onClick}>
         Title
@@ -41,7 +40,7 @@ describe('Link', () => {
     );
 
     fireEvent.click(screen.getByText('Title'));
-    expect(onClick).to.not.have.been.calledOnce;
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {

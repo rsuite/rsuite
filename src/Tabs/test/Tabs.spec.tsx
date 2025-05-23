@@ -1,9 +1,8 @@
 import React from 'react';
-import sinon from 'sinon';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Tabs from '../Tabs';
 import CustomProvider from '../../CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -102,7 +101,7 @@ describe('Tabs', () => {
   });
 
   it('Should call onSelect callback', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -115,11 +114,11 @@ describe('Tabs', () => {
     );
 
     fireEvent.click(screen.getByRole('tab', { name: 'tab 2' }));
-    expect(onSelect).to.have.been.calledWith('2');
+    expect(onSelect).toHaveBeenCalledWith('2', expect.any(Object));
   });
 
   it('Should call onSelect callback by keydown', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -134,15 +133,19 @@ describe('Tabs', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'tab 1' }));
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 1' }), { key: 'ArrowRight' });
 
-    expect(onSelect).to.have.been.calledWith('2');
+    expect(onSelect).toHaveBeenCalledWith('2', expect.any(Object));
+
+    // Reset mock to only track the next call
+    onSelect.mockClear();
 
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 2' }), { key: 'ArrowLeft' });
 
-    expect(onSelect).to.have.been.calledWith('1');
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   it('Should call onSelect callback when keydown Home or End', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Tabs onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -160,15 +163,21 @@ describe('Tabs', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'tab 1' }));
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 1' }), { key: 'End' });
 
-    expect(onSelect).to.have.been.calledWith('3');
+    // The first call is from the click event, the second is from the keydown
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onSelect).toHaveBeenLastCalledWith('3', expect.any(Object));
+
+    // Reset mock to only track the next calls
+    onSelect.mockClear();
 
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 2' }), { key: 'Home' });
 
-    expect(onSelect).to.have.been.calledWith('1');
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   it('Should call onSelect callback by keydown when vertical', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <Tabs vertical onSelect={onSelect}>
         <Tabs.Tab eventKey="1" title="tab 1">
@@ -183,15 +192,15 @@ describe('Tabs', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'tab 1' }));
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 1' }), { key: 'ArrowDown' });
 
-    expect(onSelect).to.have.been.calledWith('2');
+    expect(onSelect).toHaveBeenCalledWith('2', expect.any(Object));
 
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 2' }), { key: 'ArrowUp' });
 
-    expect(onSelect).to.have.been.calledWith('1');
+    expect(onSelect).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   it('Should call onSelect callback by keydown when rtl', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(
       <CustomProvider rtl>
         <Tabs onSelect={onSelect}>
@@ -208,11 +217,11 @@ describe('Tabs', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'tab 1' }));
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 1' }), { key: 'ArrowRight' });
 
-    expect(onSelect).to.have.been.calledWith('2');
+    expect(onSelect).toHaveBeenCalledWith('2', expect.any(Object));
 
     fireEvent.keyDown(screen.getByRole('tab', { name: 'tab 2' }), { key: 'ArrowLeft' });
 
-    expect(onSelect).to.have.been.calledWith('1');
+    expect(onSelect).toHaveBeenCalledWith('1', expect.any(Object));
   });
 
   describe('Content rendering', () => {

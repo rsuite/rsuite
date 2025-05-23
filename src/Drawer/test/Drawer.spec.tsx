@@ -1,8 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
+import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest';
 import Drawer from '../Drawer';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 describe('Drawer', () => {
@@ -72,22 +71,22 @@ describe('Drawer', () => {
   });
 
   it('Should close the drawer when the backdrop is clicked', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
 
     render(<Drawer open onClose={onClose} />);
 
     userEvent.click(screen.getByTestId('drawer-wrapper'));
 
-    expect(onClose).to.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
-    const onClose = sinon.spy();
+    const onClose = vi.fn();
     render(<Drawer open onClose={onClose} backdrop="static" />);
 
     userEvent.click(screen.getByTestId('drawer-wrapper'));
 
-    expect(onClose).to.not.have.been.calledOnce;
+    expect(onClose).toHaveBeenCalledTimes(0);
   });
 
   it('Should render backdrop', () => {
@@ -130,7 +129,7 @@ describe('Drawer', () => {
     });
 
     it('Should focus on the Drawer when it is opened', () => {
-      const onOpen = sinon.spy();
+      const onOpen = vi.fn();
 
       const { rerender } = render(
         <Drawer onOpen={onOpen} open={false}>
@@ -146,7 +145,7 @@ describe('Drawer', () => {
         </Drawer>
       );
 
-      expect(onOpen).to.have.been.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
       expect(screen.getByTestId('drawer-wrapper')).to.have.focus;
     });
 
@@ -187,10 +186,10 @@ describe('Drawer', () => {
     });
 
     it('Should only call onOpen once', () => {
-      const onOpen = sinon.spy();
+      const onOpen = vi.fn();
       render(<Drawer open onOpen={onOpen}></Drawer>);
 
-      expect(onOpen).to.be.calledOnce;
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 

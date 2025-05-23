@@ -1,7 +1,6 @@
 import React from 'react';
 import Radio from '../Radio';
-import sinon from 'sinon';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -67,17 +66,17 @@ describe('Radio', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = sinon.spy();
+    const onClick = vi.fn();
 
     const { container } = render(<Radio onClick={onClick}>Title</Radio>);
 
     fireEvent.click(container.firstChild as HTMLElement);
 
-    expect(onClick).to.have.been.calledOnce;
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
 
     render(
       <Radio onChange={onChange} value={'test'}>
@@ -86,27 +85,29 @@ describe('Radio', () => {
     );
     fireEvent.click(screen.getByRole('radio'));
 
-    expect(onChange).to.have.been.calledWith('test');
+    // The onChange handler is called with (value, checked, event)
+    expect(onChange).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.anything());
+    expect(onChange.mock.calls[0][0]).toBe('test');
   });
 
   it('Should call onBlur callback', () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
     render(<Radio onBlur={onBlur} />);
     fireEvent.blur(screen.getByRole('radio'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
     render(<Radio onFocus={onFocus} />);
     fireEvent.focus(screen.getByRole('radio'));
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should be checked with change', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <Radio onChange={onChange} value="100">
         Title
@@ -115,6 +116,8 @@ describe('Radio', () => {
 
     fireEvent.click(screen.getByRole('radio'));
 
-    expect(onChange).to.have.been.calledWith('100');
+    // The onChange handler is called with (value, checked, event)
+    expect(onChange).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.anything());
+    expect(onChange.mock.calls[0][0]).toBe('100');
   });
 });

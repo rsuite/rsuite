@@ -1,7 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
 import Calendar from '../Calendar';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/cases';
@@ -29,7 +28,7 @@ describe('DateRangePicker - Calendar', () => {
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonth = sinon.spy();
+    const onChangeCalendarMonth = vi.fn();
     render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
@@ -39,11 +38,11 @@ describe('DateRangePicker - Calendar', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
-    expect(onChangeCalendarMonth).to.have.been.called;
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonth = sinon.spy();
+    const onChangeCalendarMonth = vi.fn();
     render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
@@ -52,11 +51,11 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
-    expect(onChangeCalendarMonth).to.have.been.called;
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
-    const onChangeCalendarMonth = sinon.spy();
+    const onChangeCalendarMonth = vi.fn();
     const { container } = render(
       <Calendar
         calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
@@ -69,6 +68,6 @@ describe('DateRangePicker - Calendar', () => {
 
     fireEvent.click(container.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
-    expect(onChangeCalendarMonth).to.have.been.called;
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import TreeView from '../TreeView';
 import MultiCascadeTree from '../MultiCascadeTree';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { testStandardProps } from '@test/cases';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
@@ -66,31 +65,35 @@ describe('MultiCascadeTree -  TreeView', () => {
   });
 
   it('Should call onSelect callback with correct node value', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
 
     render(<MultiCascadeTree data={items} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
 
-    expect(onSelect).to.have.been.calledWith({ label: '2', value: '2' });
+    expect(onSelect).toHaveBeenCalledWith(
+      { label: '2', value: '2' },
+      expect.any(Array),
+      expect.any(Object)
+    );
   });
 
   it('Should call onSelect callback 2 count', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
     fireEvent.click(screen.getByRole('checkbox', { name: '3' }));
 
-    expect(onSelect).to.have.been.calledTwice;
+    expect(onSelect).toHaveBeenCalledTimes(2);
   });
 
   it('Should not call onSelect callback on disabled item', () => {
-    const onSelect = sinon.spy();
+    const onSelect = vi.fn();
     render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
-    expect(onSelect).not.to.have.been.called;
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it('Should call renderTreeNode callback ', () => {

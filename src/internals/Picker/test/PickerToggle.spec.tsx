@@ -1,9 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import Toggle from '../PickerToggle';
 import CustomProvider from '../../../CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -47,7 +46,7 @@ describe('<PickerToggle>', () => {
     });
 
     it('Should call `onClean` callback when clicking clear button', () => {
-      const onClean = sinon.spy();
+      const onClean = vi.fn();
 
       render(
         <Toggle cleanable hasValue onClean={onClean}>
@@ -57,7 +56,7 @@ describe('<PickerToggle>', () => {
 
       fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-      expect(onClean).to.have.been.called;
+      expect(onClean).toHaveBeenCalled();
     });
   });
 
@@ -76,23 +75,23 @@ describe('<PickerToggle>', () => {
   });
 
   it('Should call onBlur callback', async () => {
-    const onBlur = sinon.spy();
+    const onBlur = vi.fn();
 
     render(<Toggle onBlur={onBlur} />);
 
     fireEvent.blur(screen.getByRole('combobox'));
 
-    expect(onBlur).to.have.been.calledOnce;
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onFocus callback', async () => {
-    const onFocus = sinon.spy();
+    const onFocus = vi.fn();
 
     render(<Toggle onFocus={onFocus} />);
 
     fireEvent.focus(screen.getByRole('combobox'));
 
-    expect(onFocus).to.have.been.calledOnce;
+    expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('Should add value to input', async () => {

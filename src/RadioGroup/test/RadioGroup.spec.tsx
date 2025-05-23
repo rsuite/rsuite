@@ -1,8 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
@@ -94,7 +93,7 @@ describe('RadioGroup', () => {
   });
 
   it('Should call onChange callback with correct value', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <RadioGroup onChange={onChange}>
         <Radio value={1}>Test1</Radio>
@@ -105,12 +104,15 @@ describe('RadioGroup', () => {
     );
 
     fireEvent.click(screen.getByText('Test3'));
-    expect(onChange).to.have.been.calledWith(3);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // The event is passed as the second argument
+    expect(onChange.mock.calls[0][0]).toBe(3);
+    expect(onChange.mock.calls[0][1]).toBeInstanceOf(Object);
   });
 
   it('Should call onChange callback', () => {
-    const onChange = sinon.spy();
-    const onGroupChange = sinon.spy();
+    const onChange = vi.fn();
+    const onGroupChange = vi.fn();
 
     render(
       <RadioGroup onChange={onGroupChange}>
@@ -125,12 +127,12 @@ describe('RadioGroup', () => {
 
     fireEvent.click(screen.getByText('Test3'));
 
-    expect(onChange).to.have.been.calledOnce;
-    expect(onGroupChange).to.have.been.calledOnce;
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onGroupChange).toHaveBeenCalledTimes(1);
   });
 
   it('Should call onChange callback with correct event target', () => {
-    const onChange = sinon.spy();
+    const onChange = vi.fn();
     render(
       <RadioGroup name="test" onChange={onChange}>
         <Radio value={1}>Test1</Radio>
@@ -142,14 +144,14 @@ describe('RadioGroup', () => {
 
     fireEvent.click(screen.getByText('Test3'));
 
-    expect(onChange).to.have.been.calledWith(
-      3,
-      sinon.match({
-        target: {
-          name: 'test'
-        }
-      })
-    );
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // Check the first argument is the value
+    expect(onChange.mock.calls[0][0]).toBe(3);
+    // Check the second argument is the event object
+    const event = onChange.mock.calls[0][1];
+    expect(event).toBeDefined();
+    expect(event.target).toBeDefined();
+    expect(event.target.name).toBe('test');
   });
 
   it('Should be selected as false', () => {

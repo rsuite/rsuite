@@ -9,4 +9,5 @@ export type { InputGroupButtonProps } from './InputGroupButton';
 
 // export components
 export { InputGroup, InputGroupAddon, InputGroupButton };
+export { InputGroupContext } from './InputGroupContext';
 export default InputGroup;
