@@ -2,7 +2,6 @@ import React from 'react';
 import ToastContainer, {
   ToastContainerProps,
   ToastContainerInstance,
-  PlacementType,
   defaultToasterContainer,
   type GetInstancePropsType
 } from './ToastContainer';
