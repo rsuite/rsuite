@@ -7,9 +7,19 @@ import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
 import { renderHook } from '@test/utils';
 import Message from '../../Message';
+import Notification from '../../Notification'; // Added
+import { PlacementType } from '../../toaster/ToastContainer'; // Added
+import userEvent from '@testing-library/user-event'; // Added
 
 afterEach(() => {
   sinon.restore();
+  // Attempt to clear any remaining toasts to avoid interference between tests
+  // This might require a more robust solution if direct toaster access isn't available here
+  // or if CustomProvider instances don't clean up globally.
+  const clearButton = screen.queryByTestId('clear-button-global');
+  if (clearButton) {
+    fireEvent.click(clearButton);
+  }
 });
 
 describe('useToaster', () => {
@@ -183,5 +193,116 @@ describe('useToaster', () => {
     });
 
     await waitFor(() => expect(container.current).to.have.text('message'));
+  });
+
+  const TestAppForRapidPush = ({
+    messages,
+    placement
+  }: {
+    messages: string[];
+    placement: PlacementType;
+  }) => {
+    const toaster = useToaster();
+
+    const handlePushRapidly = async () => {
+      for (const msgContent of messages) {
+        toaster.push(
+          <Notification type="info" closable header="Test Context Notification">
+            {msgContent}
+          </Notification>,
+          { placement, duration: 0 }
+        );
+      }
+    };
+
+    const handleClear = () => {
+      toaster.clear();
+    };
+
+    return (
+      <>
+        <button onClick={handlePushRapidly} data-testid="push-button-rapid">
+          Push All Rapidly
+        </button>
+        <button onClick={handleClear} data-testid="clear-button-rapid">
+          Clear All Rapid
+        </button>
+      </>
+    );
+  };
+
+  it('should display all notifications in a single container via useToaster within CustomProvider when pushed rapidly', async () => {
+    const testMessages = ['Msg CP Rapid 1', 'Msg CP Rapid 2', 'Msg CP Rapid 3'];
+    const testPlacement: PlacementType = 'bottomEnd'; // Using a different placement to avoid potential conflicts
+
+    render(
+      <CustomProvider>
+        <TestAppForRapidPush messages={testMessages} placement={testPlacement} />
+      </CustomProvider>
+    );
+
+    await userEvent.click(screen.getByTestId('push-button-rapid'));
+
+    // The container for toasts pushed via useToaster within CustomProvider is usually directly in the body,
+    // and CustomProvider might add a wrapper like .rs-toast-provider if it's managing the context.
+    // For rsuite, the ToastContainer is typically appended to document.body directly or to a specified portalTarget.
+    // If CustomProvider itself renders a ToasterContainer, the selector needs to be specific to that.
+    // Based on the prior test "Should push a message to a custom container", it seems direct container management is possible.
+    // Let's assume CustomProvider might provide a context that influences where the default container is placed or how it's identified.
+    // The key is that useToaster().push should still work with the race condition fix.
+
+    // Default container is usually body, let's look for the specific placement class.
+    // If CustomProvider has its own portal/wrapper, this might need adjustment.
+    // The provided conceptual example uses `.rs-toast-provider .rs-toast-container...`
+    // Let's stick to that as per instructions.
+    const containerSelector = `.rs-toast-provider .rs-toast-container.rs-toast-container-${testPlacement}`;
+
+    await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
+      const containers = document.querySelectorAll(containerSelector);
+      expect(containers.length).to.equal(
+        1,
+        `Expected 1 container for placement ${testPlacement} within .rs-toast-provider, found ${containers.length}`
+      );
+
+      const host = containers[0];
+      // eslint-disable-next-line testing-library/no-node-access
+      const notifications = host.querySelectorAll('.rs-notification');
+      expect(notifications.length).to.equal(
+        testMessages.length,
+        `Expected ${testMessages.length} notifications, found ${notifications.length}`
+      );
+
+      // Verify content
+      testMessages.forEach(msg => {
+        let found = false;
+        notifications.forEach(n => {
+          // Check if the notification's text content includes the message
+          // This is more robust than exact match if there's other text (e.g. "Test Context Notification")
+          if (n.textContent?.includes(msg) && n.textContent?.includes('Test Context Notification')) {
+            found = true;
+          }
+        });
+        expect(found).to.be.true;
+      });
+    });
+
+    // Cleanup
+    await userEvent.click(screen.getByTestId('clear-button-rapid'));
+    await waitFor(
+      () => {
+        // eslint-disable-next-line testing-library/no-node-access
+        const host = document.querySelector(containerSelector);
+        if (host) {
+          // eslint-disable-next-line testing-library/no-node-access
+          expect(host.querySelectorAll('.rs-notification').length).to.equal(0);
+        } else {
+          // If the container itself is removed when empty, this is also fine.
+          // eslint-disable-next-line testing-library/no-node-access
+          expect(document.querySelectorAll(containerSelector).length).to.equal(0);
+        }
+      },
+      { timeout: 1000 } // Increased timeout for cleanup if animations are involved
+    );
   });
 });

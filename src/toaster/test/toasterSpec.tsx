@@ -136,4 +136,66 @@ describe('toaster', () => {
     expect(() => render(<MyComponent />)).not.to.throw();
     await waitFor(() => expect(screen.getByText('Hi toaster!')).to.exist);
   });
+
+  it('should display all notifications in a single container when pushed rapidly', async () => {
+    const messages = [
+      { id: 'msg-rapid-1', content: 'Rapid Message 1' },
+      { id: 'msg-rapid-2', content: 'Rapid Message 2' },
+      { id: 'msg-rapid-3', content: 'Rapid Message 3' }
+    ];
+    const placement = 'topStart'; // Use a specific placement for this test
+
+    // Act: Push messages in a loop
+    const pushPromises = messages.map(msg =>
+      toaster.push(
+        <div data-testid={msg.id} className="rs-notification">
+          {msg.content}
+        </div>,
+        { placement, duration: 0 } // duration 0 to prevent auto-close
+      )
+    );
+    await Promise.all(pushPromises);
+
+    // Assert: Single container for the specified placement
+    const containerSelector = `.rs-toast-container.rs-toast-container-${placement}`;
+    let host: Element | null = null;
+
+    await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
+      const containers = document.querySelectorAll(containerSelector);
+      expect(containers.length).to.equal(1, `Expected 1 container for placement ${placement}, found ${containers.length}`);
+      // eslint-disable-next-line testing-library/no-node-access
+      host = document.querySelector(containerSelector);
+      expect(host).to.exist;
+    });
+
+    // Ensure host is not null before proceeding, to satisfy TypeScript and prevent runtime errors
+    if (!host) {
+      throw new Error(`Container with selector ${containerSelector} not found after waitFor.`);
+    }
+
+    // Assert: All notifications within that single container
+    await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
+      const notificationElements = host!.querySelectorAll('.rs-notification');
+      expect(notificationElements.length).to.equal(
+        messages.length,
+        'Number of notifications does not match pushed messages'
+      );
+
+      // Check content of each notification
+      messages.forEach(msg => {
+        expect(screen.getByTestId(msg.id).textContent).to.equal(msg.content);
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(host!.contains(screen.getByTestId(msg.id))).to.be.true;
+      });
+    });
+
+    // Cleanup is handled by afterEach, but an explicit clear can be added if necessary.
+    // toaster.clear();
+    // await waitFor(() => {
+    //   // eslint-disable-next-line testing-library/no-node-access
+    //   expect(host!.querySelectorAll('.rs-notification').length).to.equal(0);
+    // });
+  });
 });

@@ -35,6 +35,7 @@ export interface Toaster {
 }
 
 const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
+const pendingContainers = new Map<string, Promise<React.RefObject<ToastContainerInstance>>>();
 
 /**
  * Create a container instance.
@@ -59,7 +60,7 @@ function getContainer(containerId: string, placement: PlacementType) {
 
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
-toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
+toaster.push = async (message: React.ReactNode, options: ToastContainerProps = {}) => {
   const { placement = 'topCenter', container = defaultToasterContainer, ...restOptions } = options;
 
   const containerElement = typeof container === 'function' ? container() : container;
@@ -68,16 +69,40 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
     ? containerElement[toasterKeyOfContainerElement]
     : null;
 
-  if (containerElementId) {
-    const existedContainer = getContainer(containerElementId, placement);
-    if (existedContainer) {
-      return existedContainer.current?.push(message, restOptions);
-    }
+  const containerKey = `${containerElementId || 'default'}_${placement}`;
+
+  const existingContainerRef = containers.get(containerKey);
+  if (existingContainerRef && existingContainerRef.current) {
+    return existingContainerRef.current.push(message, restOptions);
   }
-  const newOptions = { ...options, container: containerElement, placement };
-  return createContainer(placement, newOptions).then(ref => {
-    return ref.current?.push(message, restOptions);
-  });
+
+  if (pendingContainers.has(containerKey)) {
+    // Important: await the promise from pendingContainers
+    const pendingRef = await pendingContainers.get(containerKey);
+    return pendingRef?.current?.push(message, restOptions);
+  }
+
+  const creationPromise = (async () => {
+    const getInstanceProps: GetInstancePropsType = {
+      container: containerElement,
+      placement,
+      ...restOptions
+    };
+
+    const [newContainerRef, _resolvedContainerId] = await ToastContainer.getInstance(getInstanceProps);
+    
+    containers.set(containerKey, newContainerRef); // Store the resolved ref in the main containers map
+    return newContainerRef; // The promise resolves to the new container's ref
+  })();
+
+  pendingContainers.set(containerKey, creationPromise);
+
+  try {
+    const newResolvedRef = await creationPromise;
+    return newResolvedRef.current?.push(message, restOptions);
+  } finally {
+    pendingContainers.delete(containerKey); // Clean up after creation is done (success or fail)
+  }
 };
 
 toaster.remove = (key: string) => {
