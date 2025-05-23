@@ -37,27 +37,6 @@ export interface Toaster {
 const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
 const pendingContainers = new Map<string, Promise<React.RefObject<ToastContainerInstance>>>();
 
-/**
- * Create a container instance.
- * @param placement
- * @param props
- */
-async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
-  const [container, containerId] = await ToastContainer.getInstance(props);
-  containers.set(`${containerId}_${placement}`, container);
-
-  return container;
-}
-
-/**
- * Get the container by ID. Use default ID when ID is not available.
- * @param containerId
- * @param placement
- */
-function getContainer(containerId: string, placement: PlacementType) {
-  return containers.get(`${containerId}_${placement}`);
-}
-
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
 toaster.push = async (message: React.ReactNode, options: ToastContainerProps = {}) => {
