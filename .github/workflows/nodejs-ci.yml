@@ -86,10 +86,16 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        timeout-minutes: 30 # Set timeout to 30 minutes
+        run: |
+          echo "Running tests for ${{ matrix.browser }} with React ${{ matrix.react }}"
+          npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
         env:
+          DEBUG: 'pw:api,pw:browser*'
           CI: true
           BROWSER: ${{ matrix.browser }}
+          PLAYWRIGHT_BROWSERS_PATH: 0 # Avoid re-downloading browsers
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1 # Skip browser download
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
