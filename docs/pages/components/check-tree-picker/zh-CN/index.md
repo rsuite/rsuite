@@ -114,6 +114,7 @@
 | listProps               | [ListProps][listprops]                                                                         | 虚拟化长列表的相关属性                 |
 | loading                 | boolean `(false)`                                                                              | 是否显示一个加载中状态指示器           |
 | locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                    | 本地化配置                             |
+| onCascadeChange         | (values:string[], event:SyntheticEvent) => void                                                | 在级联情况下，叶子节点的值改变回调     |
 | onChange                | (values:string[]) => void                                                                      | 值改变的触发回调                       |
 | onClean                 | (event) => void                                                                                | 清空值时触发回调                       |
 | onClose                 | () => void                                                                                     | 关闭的回调函数                         |

@@ -261,6 +261,52 @@ describe('CheckTreePicker', () => {
     expect(onClean).toHaveBeenCalledTimes(1);
   });
 
+  it('Should call `onCascadeChange` with values of children', () => {
+    const onCascadeChange = vi.fn();
+    render(<CheckTreePicker open data={data} defaultExpandAll onCascadeChange={onCascadeChange} />);
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).toHaveBeenCalled();
+    expect(onCascadeChange.mock.calls[0][0]).toEqual(['tester0', 'tester2']);
+  });
+
+  it('Should call `onCascadeChange` without disabled values', () => {
+    const onCascadeChange = vi.fn();
+    render(
+      <CheckTreePicker
+        open
+        data={data}
+        disabledItemValues={['tester0']}
+        defaultExpandAll
+        onCascadeChange={onCascadeChange}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).toHaveBeenCalled();
+    expect(onCascadeChange.mock.calls[0][0]).toEqual(['tester2']);
+  });
+
+  it('Should call `onCascadeChange` without uncheckable values', () => {
+    const onCascadeChange = vi.fn();
+    render(
+      <CheckTreePicker
+        open
+        data={data}
+        uncheckableItemValues={['tester0']}
+        defaultExpandAll
+        onCascadeChange={onCascadeChange}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
+
+    expect(onCascadeChange).toHaveBeenCalled();
+    expect(onCascadeChange.mock.calls[0][0]).toEqual(['tester2']);
+  });
+
   it('Should call `onOpen` callback', () => {
     const onOpen = vi.fn();
     render(<CheckTreePicker onOpen={onOpen} data={data} />);

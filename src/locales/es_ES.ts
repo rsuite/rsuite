@@ -40,7 +40,7 @@ const CreatableComboBox = {
 };
 
 export default {
-  code: 'es-AR',
+  code: 'es-ES',
   common: {
     loading: 'Cargando...',
     emptyMessage: 'Sin datos',
