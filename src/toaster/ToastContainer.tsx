@@ -120,7 +120,7 @@ const useMessages = () => {
     // Remove all invisible messages after 400ms.
     // The delay removal here is to preserve the animation.
     setTimeout(() => {
-      setMessages([]);
+      setMessages(prevMessages => []);
     }, 400);
   }, [messages]);
 
@@ -138,7 +138,7 @@ const useMessages = () => {
 
       // Remove invisible messages after 400ms.
       setTimeout(() => {
-        setMessages(messages.filter(msg => msg.visible));
+        setMessages(prevMessages => prevMessages.filter(msg => msg.visible));
       }, 400);
     },
     [messages, getKey]
