@@ -1,3 +1,17 @@
+# [5.81.0](https://github.com/rsuite/rsuite/compare/v5.80.3...v5.81.0) (2025-05-23)
+
+
+### Bug Fixes
+
+* **toaster:** fix issue where delayed closing affects state ([#4294](https://github.com/rsuite/rsuite/issues/4294)) ([3279371](https://github.com/rsuite/rsuite/commit/32793717cd40f9c2e38d81d5830ffc438792b4f2))
+
+
+### Features
+
+* **CheckTreePicker:** support onCascadeChange prop ([#4287](https://github.com/rsuite/rsuite/issues/4287)) ([48c5a9b](https://github.com/rsuite/rsuite/commit/48c5a9bc5f5885d8a6cff0a825f1a5ba7e885823))
+
+
+
 ## [5.80.3](https://github.com/rsuite/rsuite/compare/v5.80.2...v5.80.3) (2025-05-17)
 
 
