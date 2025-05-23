@@ -94,8 +94,6 @@ jobs:
           DEBUG: 'pw:api,pw:browser*'
           CI: true
           BROWSER: ${{ matrix.browser }}
-          PLAYWRIGHT_BROWSERS_PATH: 0 # Avoid re-downloading browsers
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1 # Skip browser download
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
