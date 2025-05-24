@@ -10,17 +10,27 @@ Used for system notifications. Generally used to push messages.
 
 ### Basic
 
+Default notification style.
+
 <!--{include:`basic.md`}-->
 
 ### Types
+
+Set different notification types using the `type` prop: `info`, `success`, `warning`, and `error`.
 
 <!--{include:`type.md`}-->
 
 ### Closeable
 
+Add a close button with the `closable` prop and handle the close event with `onClose` callback.
+
 <!--{include:`close.md`}-->
 
 ### With toaster
+
+Demonstrates how to use the Notification component with `toaster` to display notification messages.
+
+> **Note**: `useToaster` must be used inside a `CustomProvider`. If your application is not wrapped with `CustomProvider`, make sure to wrap your app with `<CustomProvider>` before using `useToaster`.
 
 <!--{include:`with-toaster.md`}-->
 
