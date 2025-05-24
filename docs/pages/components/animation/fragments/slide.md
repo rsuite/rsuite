@@ -1,22 +1,24 @@
 <!--start-code-->
 
 ```js
-import { Animation, Button } from 'rsuite';
+import { Animation, Button, ButtonToolbar, Card } from 'rsuite';
 
-const Panel = React.forwardRef((props, ref) => (
-  <div
+const AnimatedPanel = React.forwardRef((props, ref) => (
+  <Card
     {...props}
     ref={ref}
-    style={{
-      background: '#000',
-      width: 100,
-      height: 160,
-      overflow: 'hidden'
-    }}
+    shaded
+    bordered={false}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
-    <p>Panel</p>
-    <p>Content Content Content</p>
-  </div>
+    <div>
+      <Card.Header>Slide Animation</Card.Header>
+      <Card.Body>This panel demonstrates sliding transitions from different directions.</Card.Body>
+    </div>
+  </Card>
 ));
 
 const App = () => {
@@ -29,17 +31,27 @@ const App = () => {
   };
 
   return (
-    <div className="row">
+    <div>
       <ButtonToolbar>
-        <Button onClick={() => onChange('left')}>Slide Left</Button>
-        <Button onClick={() => onChange('right')}>Slide Right</Button>
-        <Button onClick={() => onChange('top')}>Slide Top</Button>
-        <Button onClick={() => onChange('bottom')}>Slide Bottom</Button>
+        <Button appearance="primary" onClick={() => onChange('left')}>
+          Slide Left
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('right')}>
+          Slide Right
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('top')}>
+          Slide Top
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('bottom')}>
+          Slide Bottom
+        </Button>
       </ButtonToolbar>
       <hr />
-      <Animation.Slide in={show} placement={placement}>
-        {(props, ref) => <Panel {...props} ref={ref} />}
-      </Animation.Slide>
+      <div>
+        <Animation.Slide in={show} placement={placement}>
+          {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+        </Animation.Slide>
+      </div>
     </div>
   );
 };

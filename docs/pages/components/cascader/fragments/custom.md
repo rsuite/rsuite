@@ -35,7 +35,7 @@ const Column = ({ header, children }) => {
 const App = () => (
   <Cascader
     data={data}
-    style={{ width: 224 }}
+    w={224}
     columnWidth={160}
     renderTreeNode={(label, node) => {
       return (

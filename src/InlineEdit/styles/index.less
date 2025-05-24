@@ -1,13 +1,27 @@
-@import '../../styles/common';
-@import '../../Form/styles/mixin.less';
+@import '../../styles/common.less';
+@import '../../Input/styles/mixin.less';
 
 .rs-inline-edit {
+  @sizes: xs, sm, md, lg;
+
+  each(@sizes, .(@size) {
+    &.rs-inline-edit-@{size} {
+      --rs-inline-edit-font-size: var(~'--rs-input-font-size-@{size}');
+      --rs-inline-edit-line-height: var(~'--rs-input-line-height-@{size}');
+      --rs-inline-edit-padding-block: calc(var(~'--rs-input-padding-block-@{size}') + @input-border-width);
+      --rs-inline-edit-padding-inline: calc(var(~'--rs-input-padding-inline-@{size}') + @input-border-width);
+    }
+  });
+
   position: relative;
   display: inline-block;
 
   .rs-plaintext {
-    .input-md();
-    border-radius: 6px;
+    font-size: var(--rs-inline-edit-font-size);
+    line-height: var(--rs-inline-edit-line-height);
+    padding-block: var(--rs-inline-edit-padding-block);
+    padding-inline: var(--rs-inline-edit-padding-inline);
+    border-radius: var(--rs-radius-md);
 
     &:hover {
       background-color: var(--rs-inline-edit-hover-bg);
@@ -30,19 +44,7 @@
     z-index: 7;
 
     .rs-btn {
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--rs-shadow-sm);
     }
   }
-}
-
-.rs-inline-edit-xs .rs-plaintext {
-  .input-xs();
-}
-
-.rs-inline-edit-lg .rs-plaintext {
-  .input-lg();
-}
-
-.rs-inline-edit-sm .rs-plaintext {
-  .input-sm();
 }

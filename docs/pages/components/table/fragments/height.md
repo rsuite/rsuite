@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table, Toggle, TagPicker, HStack } from 'rsuite';
+import { Table, Toggle, TagPicker, HStack, Box } from 'rsuite';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -37,6 +37,8 @@ const columns = [
   }
 ];
 
+const Label = ({ children }) => <Box w={76}>{children}</Box>;
+
 const App = () => {
   const [autoHeight, setAutoHeight] = React.useState(true);
   const [size, setSize] = React.useState(20);
@@ -57,7 +59,7 @@ const App = () => {
           <HStack spacing={16}>
             <HStack>
               <Label>data:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setSize} value={size} />
                 <InputGroup.Addon>rows</InputGroup.Addon>
               </InputGroup>
@@ -65,7 +67,7 @@ const App = () => {
 
             <HStack>
               <Label>minHeight:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setMinHeight} value={minHeight} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>
@@ -75,7 +77,7 @@ const App = () => {
           <HStack spacing={16}>
             <HStack>
               <Label>height:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setHeight} value={height} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>
@@ -83,7 +85,7 @@ const App = () => {
 
             <HStack>
               <Label>maxHeight:</Label>
-              <InputGroup inside style={{ width: 130 }}>
+              <InputGroup inside w={130}>
                 <Input size="sm" onChange={setMaxHeight} value={maxHeight} />
                 <InputGroup.Addon>px</InputGroup.Addon>
               </InputGroup>
@@ -117,8 +119,6 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Label = ({ children }) => <div style={{ width: 76 }}>{children}</div>;
 ```
 
 <!--end-code-->

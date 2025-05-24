@@ -2,6 +2,7 @@
 
 ```js
 import { Dropdown } from 'rsuite';
+import { PlacementCornerGrid } from '@/components/PlacementGrid';
 
 const items = [
   <Dropdown.Item key={1}>New File</Dropdown.Item>,
@@ -14,66 +15,19 @@ const items = [
 ];
 
 const App = () => (
-  <table className="placement-table">
-    <tbody>
-      <tr>
-        <td></td>
-        <td>
-          <Dropdown title="topStart" placement="topStart">
-            {items}
-          </Dropdown>
-        </td>
-        <td>
-          <Dropdown title="topEnd" placement="topEnd">
-            {items}
-          </Dropdown>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <Dropdown title="leftStart" placement="leftStart">
-            {items}
-          </Dropdown>
-        </td>
-        <td></td>
-        <td></td>
-        <td>
-          <Dropdown title="rightStart" placement="rightStart">
-            {items}
-          </Dropdown>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <Dropdown title="leftEnd" placement="leftEnd">
-            {items}
-          </Dropdown>
-        </td>
-        <td></td>
-        <td></td>
-        <td>
-          <Dropdown title="rightEnd" placement="rightEnd">
-            {items}
-          </Dropdown>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <Dropdown title="bottomStart" placement="bottomStart">
-            {items}
-          </Dropdown>
-        </td>
-        <td>
-          <Dropdown title="bottomEnd" placement="bottomEnd">
-            {items}
-          </Dropdown>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+  <PlacementCornerGrid
+    renderCell={({ placement, button, icon, key }) => (
+      <Dropdown
+        key={key}
+        placement={placement}
+        noCaret
+        icon={icon}
+        aria-label={`Menu pops up from ${placement}`}
+      >
+        {items}
+      </Dropdown>
+    )}
+  />
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

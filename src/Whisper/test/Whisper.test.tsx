@@ -23,7 +23,7 @@ whisperRef.current?.updatePosition();
     expectType<number | undefined>(props.arrowOffsetLeft);
     expectType<((...args: any[]) => any) | undefined>(props.onMouseEnter);
     expectType<((...args: any[]) => any) | undefined>(props.onMouseLeave);
-    expectType<(...args: any[]) => any>(props.onClose);
+    expectType<((delay?: number) => void | NodeJS.Timeout) | undefined>(props.onClose);
 
     return <div ref={ref} {...props}></div>;
   }}

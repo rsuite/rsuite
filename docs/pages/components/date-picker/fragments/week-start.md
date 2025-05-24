@@ -15,7 +15,7 @@ const App = () => {
           setWeekStart(value);
         }}
       >
-        <RadioLabel>Week start</RadioLabel>
+        <label>Week start</label>
         <Radio value={0}>Sun</Radio>
         <Radio value={1}>Mon</Radio>
         <Radio value={2}>Tue</Radio>
@@ -25,12 +25,10 @@ const App = () => {
         <Radio value={6}>Sat</Radio>
       </RadioGroup>
       <hr />
-      <DatePicker weekStart={weekStart} style={{ width: 200 }} />
+      <DatePicker weekStart={weekStart} w={200} />
     </>
   );
 };
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

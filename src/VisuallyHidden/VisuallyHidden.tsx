@@ -1,4 +1,5 @@
 import { createComponent, ComponentProps } from '@/internals/utils';
+
 export type VisuallyHiddenProps = ComponentProps;
 
 /**
@@ -7,6 +8,9 @@ export type VisuallyHiddenProps = ComponentProps;
  * @version 5.52.0
  * @see https://rsuitejs.com/components/visually-hidden/
  */
-const VisuallyHidden = createComponent({ name: 'VisuallyHidden', componentAs: 'span' });
+const VisuallyHidden = createComponent<'span', VisuallyHiddenProps>({
+  name: 'VisuallyHidden',
+  componentAs: 'span'
+});
 
 export default VisuallyHidden;

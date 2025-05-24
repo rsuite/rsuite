@@ -1,19 +1,19 @@
 @import '../../styles/common';
 @import '../../styles/mixins/listbox';
-@import '../../internals/Picker/styles/index';
+@import '../../internals/Picker/styles/index.less';
 
 // Select Picker
 // ----------------------
 
 // Menu Items (the listbox)
 .rs-picker-select-menu-items {
-  .picker-menu-items-reset();
+  .picker-listbox-reset();
   .picker-menu-group-common(picker);
   .picker-menu-group-title(picker);
   .picker-menu-group-closed(picker);
 
   .rs-picker-menu-group ~ [role='option'] > .rs-picker-select-menu-item {
-    padding-left: 26px;
+    padding-inline-start: 26px;
   }
 }
 
@@ -42,6 +42,6 @@
 
   .grouped &,
   .rs-picker-select-menu-group-children & {
-    padding-left: @picker-group-children-padding-left;
+    padding-inline-start: @picker-group-children-padding-left;
   }
 }

@@ -3,6 +3,7 @@
 ```js
 import { CheckTreePicker } from 'rsuite';
 import { mockTreeData } from './mock';
+import PlacementContainer from '@/components/PlacementContainer';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -12,74 +13,21 @@ const data = mockTreeData({
   }
 });
 
-const CustomTreePicker = ({ placement, ...rest }) => (
-  <CheckTreePicker
-    style={{ width: 150 }}
-    defaultExpandAll
-    data={data}
-    placement={placement}
-    placeholder={placement}
-    height={320}
-    {...rest}
-  />
+const App = () => (
+  <PlacementContainer>
+    {({ container, placement, preventOverflow }) => (
+      <CheckTreePicker
+        w={224}
+        preventOverflow={preventOverflow}
+        data={data}
+        placement={placement}
+        container={preventOverflow ? container : undefined}
+        placeholder={`Will pop from ${placement}`}
+      />
+    )}
+  </PlacementContainer>
 );
 
-const App = () => (
-  <>
-    <table className="placement-table">
-      <tbody>
-        <tr>
-          <td />
-          <td>
-            <CustomTreePicker placement="topStart" />
-          </td>
-          <td>
-            <CustomTreePicker placement="topEnd" />
-          </td>
-          <td />
-        </tr>
-        <tr>
-          <td>
-            <CustomTreePicker placement="leftStart" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomTreePicker placement="rightStart" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <CustomTreePicker placement="leftEnd" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomTreePicker placement="rightEnd" />
-          </td>
-        </tr>
-        <tr>
-          <td />
-          <td>
-            <CustomTreePicker placement="bottomStart" />
-          </td>
-          <td>
-            <CustomTreePicker placement="bottomEnd" />
-          </td>
-          <td />
-        </tr>
-      </tbody>
-    </table>
-    <hr />
-    <CustomTreePicker placement="auto" />
-    <hr />
-    <CustomTreePicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
-    <CustomTreePicker placement="autoVerticalEnd" style={{ width: 200 }} />
-    <hr />
-    <CustomTreePicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
-    <CustomTreePicker placement="autoHorizontalEnd" style={{ width: 200 }} />
-  </>
-);
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

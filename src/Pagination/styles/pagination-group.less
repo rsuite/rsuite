@@ -1,21 +1,10 @@
 @import '../../styles/common';
 
 .rs-pagination-group {
+  --pagination-group-gap: calc(var(--rs-spacing) * 2.5);
   display: flex;
   align-items: center;
-
-  &-lg {
-    font-size: @font-size-large;
-  }
-
-  &-md,
-  &-sm {
-    font-size: @font-size-base;
-  }
-
-  &-xs {
-    font-size: @font-size-small;
-  }
+  gap: var(--pagination-group-gap);
 
   &-grow {
     flex-grow: 1;
@@ -29,15 +18,9 @@
     position: relative;
   }
 
-  // There is a gap between Length Menu and Page info.
-  &-limit + &-total {
-    margin-left: 18px;
-  }
-
   &-skip {
     vertical-align: middle;
     display: inline-block;
-    margin-left: 10px;
 
     .rs-input {
       width: 46px;

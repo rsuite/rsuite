@@ -1,4 +1,3 @@
-
 @keyframes progress-active {
   0% {
     opacity: 0.1;
@@ -6,7 +5,7 @@
   }
 
   20% {
-    opacity: 0.5;
+    opacity: 0.8;
     width: 0;
   }
 
@@ -23,12 +22,48 @@
   }
 
   20% {
-    opacity: 0.5;
+    opacity: 0.8;
     height: 0;
   }
 
   100% {
     opacity: 0;
     height: 100%;
+  }
+}
+
+@keyframes progress-stripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: var(--rs-progress-line-stripe-size) 0;
+  }
+}
+
+@keyframes progress-stripe-vertical {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 var(--rs-progress-line-stripe-size);
+  }
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes progress-indeterminate-vertical {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
   }
 }

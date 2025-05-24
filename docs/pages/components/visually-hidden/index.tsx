@@ -1,7 +1,7 @@
 import React from 'react';
 import { VisuallyHidden, Button } from 'rsuite';
 import { FaUniversalAccess } from 'react-icons/fa';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {

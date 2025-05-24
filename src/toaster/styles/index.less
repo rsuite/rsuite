@@ -6,6 +6,8 @@
 // --------------------------------------------------
 
 .rs-toast {
+  --rs-toast-shadow: var(--rs-shadow-md);
+
   // Reset pointer events ,to overwrite line:16
   pointer-events: auto;
 }
@@ -20,7 +22,7 @@
 
   // Notification has box-shadow on rs-notification-content
   .rs-toast:not(.rs-notification) {
-    box-shadow: var(--rs-shadow-overlay);
+    box-shadow: var(--rs-toast-shadow);
   }
 
   &-top-center,
@@ -36,7 +38,7 @@
   &-bottom-start,
   &-top-start {
     align-items: flex-start;
-    left: @toast-spacing;
+    inset-inline-start: @toast-spacing;
 
     .rs-toast-fade-entered {
       animation-name: notificationMoveInLeft;
@@ -46,10 +48,10 @@
   &-bottom-end,
   &-top-end {
     align-items: flex-end;
-    right: @toast-spacing;
+    inset-inline-end: @toast-spacing;
 
     .rs-toast-fade-entered {
-      margin-left: auto;
+      margin-inline-start: auto;
       animation-name: notificationMoveInRight;
     }
   }

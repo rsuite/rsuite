@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
-import { useEventCallback, useUpdateEffect, useIsMounted } from '@/internals/hooks';
-import { type ItemDataType } from '@/internals/types';
 import useFlattenData from './useFlattenData';
 import useColumnData from './useColumnData';
+import { useEventCallback, useUpdateEffect, useIsMounted } from '@/internals/hooks';
+import type { Option } from '@/internals/types';
 
 export interface UseSelectProps<T> {
-  data: ItemDataType<T>[];
+  data: Option<T>[];
   childrenKey: string;
   labelKey: string;
   valueKey: string;
-  onSelect?: (
-    node: ItemDataType<T>,
-    cascadePaths: ItemDataType<T>[],
-    event: React.SyntheticEvent
-  ) => void;
-  getChildren?: (node: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
+  onSelect?: (node: Option<T>, cascadePaths: Option<T>[], event: React.SyntheticEvent) => void;
+  getChildren?: (node: Option<T>) => Option<T>[] | Promise<Option<T>[]>;
 }
 
 const useSelect = <T>(props: UseSelectProps<T>) => {
   const { data, childrenKey, labelKey, valueKey, onSelect, getChildren } = props;
   const itemKeys = { childrenKey, labelKey, valueKey };
-  const { flattenData, addFlattenData } = useFlattenData<ItemDataType<T>>(data, itemKeys);
+  const { flattenData, addFlattenData } = useFlattenData<Option<T>>(data, itemKeys);
 
   // The columns displayed in the cascading panel.
   const { columnData, addColumn, setColumnData, removeColumnByIndex, enforceUpdateColumnData } =
@@ -33,10 +29,10 @@ const useSelect = <T>(props: UseSelectProps<T>) => {
   const isMounted = useIsMounted();
 
   // The path after cascading data selection.
-  const [selectedPaths, setSelectedPaths] = useState<ItemDataType<T>[]>();
+  const [selectedPaths, setSelectedPaths] = useState<Option<T>[]>();
 
   const handleSelect = useEventCallback(
-    (node: ItemDataType<T>, cascadePaths: ItemDataType<T>[], event: React.SyntheticEvent) => {
+    (node: Option<T>, cascadePaths: Option<T>[], event: React.SyntheticEvent) => {
       setSelectedPaths(cascadePaths);
 
       const columnIndex = cascadePaths.length;

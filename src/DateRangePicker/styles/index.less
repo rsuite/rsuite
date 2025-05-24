@@ -7,7 +7,7 @@
 @import '../../DatePicker/styles/index.less';
 @import '../../Stack/styles/index.less';
 
-.rs-picker-daterange {
+.rs-picker[data-picker='date-range'] {
   .rs-input-group-addon {
     color: var(--rs-text-secondary);
     cursor: pointer;
@@ -17,14 +17,14 @@
     }
   }
 
-  &.rs-picker-subtle {
+  &.rs-picker[data-variant='subtle'] {
     .rs-input-group {
       border-color: transparent;
     }
   }
 
   > .rs-input-group.rs-input-group-inside .rs-input {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 }
 
@@ -67,8 +67,14 @@
   }
 
   .rs-picker-daterange-panel-only-time {
+    height: 100%;
+
     .rs-picker-daterange-calendar-group {
       min-width: auto;
+    }
+
+    .rs-picker-daterange-content {
+      flex: 1;
     }
   }
 
@@ -85,7 +91,7 @@
 // Header
 .rs-picker-daterange-header {
   padding: @date-range-picker-header-padding-vertical @picker-menu-padding;
-  font-size: @date-range-picker-header-font-size;
+  font-size: var(--rs-font-size-sm);
   line-height: @date-range-picker-header-line-height;
   border-bottom: 1px solid var(--rs-border-primary);
 
@@ -106,14 +112,14 @@
       width: 50%;
       bottom: -1px;
       border-bottom: 2px solid #3498ff;
-      left: 0;
+      inset-inline-start: 0;
       transition: left 0.3s;
     }
   }
 
   &.rs-picker-tab-active-end {
     &::after {
-      left: 50%;
+      inset-inline-start: 50%;
     }
   }
 }

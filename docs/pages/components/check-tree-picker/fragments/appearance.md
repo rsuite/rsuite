@@ -19,7 +19,7 @@ const App = () => (
       data={data}
       appearance="default"
       placeholder="Default"
-      style={{ width: 280 }}
+      w={280}
     />
     <hr />
     <CheckTreePicker
@@ -27,7 +27,7 @@ const App = () => (
       data={data}
       appearance="subtle"
       placeholder="Subtle"
-      style={{ width: 280 }}
+      w={280}
     />
   </>
 );
