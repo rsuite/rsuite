@@ -5,6 +5,7 @@ import {
   HStack,
   VStack,
   Progress,
+  ProgressCircle,
   SelectPicker,
   useBreakpointValue
 } from 'rsuite';
@@ -27,6 +28,7 @@ export default function Page() {
         HStack,
         VStack,
         Progress,
+        ProgressCircle,
         Stat,
         StatGroup,
         SelectPicker,
