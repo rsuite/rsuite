@@ -10,39 +10,57 @@
 
 ### 默认
 
+默认的消息框样式。
+
 <!--{include:`basic.md`}-->
 
 ### 消息类型
+
+通过 `type` 属性设置不同的消息类型：`info`、`success`、`warning` 和 `error`。
 
 <!--{include:`types.md`}-->
 
 ### 带标题和操作
 
+通过 `header` 属性添加标题，并在消息内容中添加操作按钮。
+
 <!--{include:`header.md`}-->
 
 ### 显示图标
+
+使用 `showIcon` 属性显示与消息类型对应的图标。
 
 <!--{include:`icons.md`}-->
 
 ### 带边框
 
+使用 `bordered` 属性为消息框添加边框。
+
 <!--{include:`bordered.md`}-->
 
 ### 垂直居中
+
+使用 `centered` 属性使消息框在容器中垂直居中显示。
 
 <!--{include:`centered.md`}-->
 
 ### 可关闭的
 
+使用 `closable` 属性添加关闭按钮，并可通过 `onClose` 回调处理关闭事件。
+
 <!--{include:`close.md`}-->
 
 ### 消息框撑满容器
+
+使用 `full` 属性使消息框撑满其父容器。
 
 <!--{include:`full.md`}-->
 
 ### 与 toaster 组合
 
-一种包含 Alert 的消息类型
+展示如何与 `toaster` 组件结合使用，显示包含 `Alert` 组件的消息。
+
+> **注意**：`useToaster` 必须在 `CustomProvider` 内部使用。如果您的应用未使用 `CustomProvider` 包装，请确保在使用 `useToaster` 前添加 `<CustomProvider>` 包装您的应用，否则可能会收到警告提示。
 
 <!--{include:`with-toaster.md`}-->
 
