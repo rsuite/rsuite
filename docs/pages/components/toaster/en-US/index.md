@@ -10,17 +10,25 @@ Toaster display brief, temporary notifications of actions, errors, or other even
 
 ### With Message
 
+Demonstrates how to use Toaster with the `Message` component to display temporary message notifications.
+
 <!--{include:`with-message.md`}-->
 
 ### With Notification
+
+Shows how to integrate Toaster with the `Notification` component for more detailed notifications.
 
 <!--{include:`with-notification.md`}-->
 
 ### Custom Toast
 
+Illustrates how to create custom-styled Toast messages, including custom content and styling.
+
 <!--{include:`custom.md`}-->
 
 ### Custom Container
+
+Demonstrates how to render Toast messages to a specified DOM container instead of the default body.
 
 <!--{include:`custom-container.md`}-->
 

@@ -10,17 +10,23 @@ Toaster 用于在应用程序中显示简短的、临时的通知，用于表示
 
 ### 与 Message 组合
 
+展示如何将 Toaster 与 `Message` 组件结合使用，显示临时消息通知。
+
 <!--{include:`with-message.md`}-->
 
 ### 与 Notification 组合
 
-<!--{include:`with-notification.md`}-->
+展示如何将 Toaster 与 `Notification` 组件结合使用，显示更丰富的通知内容。
 
+<!--{include:`with-notification.md`}-->
 ### 自定义 Toast
 
-<!--{include:`custom.md`}-->
+展示如何创建自定义样式的 Toast 消息，包括自定义内容和样式。
 
+<!--{include:`custom.md`}-->
 ### 自定义容器
+
+演示如何将 Toast 消息渲染到指定的 DOM 容器中，而不是默认的 body。
 
 <!--{include:`custom-container.md`}-->
 

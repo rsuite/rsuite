@@ -10,17 +10,27 @@
 
 ### 默认
 
+默认的通知框样式。
+
 <!--{include:`basic.md`}-->
 
 ### 通知类型
+
+通过 `type` 属性设置不同的通知类型：`info`、`success`、`warning` 和 `error`。
 
 <!--{include:`type.md`}-->
 
 ### 可关闭的
 
+使用 `closable` 属性添加关闭按钮，并可通过 `onClose` 回调处理关闭事件。
+
 <!--{include:`close.md`}-->
 
 ### 与 toaster 组合
+
+展示如何与 `toaster` 组件结合使用，显示通知消息。
+
+> **注意**：`useToaster` 必须在 `CustomProvider` 内部使用。如果您的应用未使用 `CustomProvider` 包装，请确保在使用 `useToaster` 前添加 `<CustomProvider>` 包装您的应用。
 
 <!--{include:`with-toaster.md`}-->
 
