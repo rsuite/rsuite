@@ -9,7 +9,7 @@ import { canUseDOM } from '../DOMHelper';
  * It is often used with the Message and Notification components.
  * @returns toaster { push, remove, clear }
  *
- * @see https://rsuitejs.com/components/toaster/
+ * @see https://rsuitejs.com/components/use-toaster/
  */
 const useToaster = () => {
   const { toasters, toastContainer } = useContext(CustomContext);

@@ -1,8 +1,7 @@
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
-import { Modal, Button, Drawer, HStack } from 'rsuite';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { alert, confirm, prompt } from '@rsuite/interactions';
+import { Modal, Button, Drawer, HStack } from 'rsuite';
 
 const sandboxDependencies = {
   formik: '^2.4.5',
@@ -17,9 +16,6 @@ export default function Page() {
         Modal,
         Button,
         Drawer,
-        alert,
-        confirm,
-        prompt,
         NiceModal,
         useModal
       }}

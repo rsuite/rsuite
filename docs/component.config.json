@@ -136,13 +136,6 @@
         "title": "占位符",
         "components": ["Placeholder.Graph", "Placeholder.Grid", "Placeholder.Paragraph"],
         "keywords": ["skeleton"]
-      },
-      {
-        "id": "toaster",
-        "name": "Toaster",
-        "title": "轻量弹窗",
-        "hooks": ["useToaster"],
-        "keywords": ["toast", "alert"]
       }
     ]
   },
@@ -202,6 +195,11 @@
         "keywords": ["dialog"]
       },
       {
+        "id": "modal-integrations",
+        "name": "Modal Integrations",
+        "icon": "MdOutlineIntegrationInstructions"
+      },
+      {
         "id": "popover",
         "name": "Popover",
         "title": "弹出框",
@@ -218,12 +216,6 @@
         "name": "Whisper",
         "title": "弹窗触发器",
         "components": ["Whisper"]
-      },
-      {
-        "id": "modal-integrations",
-        "name": "Modal Integrations",
-        "title": "",
-        "icon": "MdOutlineIntegrationInstructions"
       }
     ]
   },
@@ -857,28 +849,27 @@
     "name": "Hooks",
     "children": [
       {
+        "id": "use-breakpoint-value",
+        "name": "useBreakpointValue",
+        "hooks": ["useBreakpointValue"],
+        "minVersion": "5.64.0"
+      },
+      {
         "id": "use-dialog",
         "name": "useDialog",
-        "title": "",
         "hooks": ["useDialog"],
-        "version": "6.0.0"
+        "minVersion": "6.0.0"
       },
       {
         "id": "use-media-query",
         "name": "useMediaQuery",
-        "title": "",
-        "hooks": ["useMediaQuery"],
-        "tag": "Unstable 🧪",
-        "tagColor": "orange"
+        "hooks": ["useMediaQuery"]
       },
       {
-        "id": "use-breakpoint-value",
-        "name": "useBreakpointValue",
-        "title": "",
-        "hooks": ["useBreakpointValue"],
-        "tag": "Unstable 🧪",
-        "tagColor": "orange",
-        "minVersion": "5.64.0"
+        "id": "use-toaster",
+        "name": "useToaster",
+        "hooks": ["useToaster"],
+        "updateVersion": "6.0.0"
       }
     ]
   }
