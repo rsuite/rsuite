@@ -61,7 +61,7 @@ export default {
     last: 'หน้าสุดท้าย',
     limit: '{0} / หน้า',
     total: 'รายการทั้งหมด: {0}',
-    skip: 'ไปที่{0}'
+    skip: 'ไปยัง {0}'
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
