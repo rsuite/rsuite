@@ -17,12 +17,12 @@ const DateTimeFormats = {
   seconds: 'วินาที',
 
   /**
-   * Reference from en_US without modifications.
+   * Reference from en_GB without modifications.
    **/
-  formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy',
-  shortDateFormat: 'MM/dd/yyyy',
-  shortTimeFormat: 'hh:mm aa',
+  formattedMonthPattern: 'MMM yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
 
   dateLocale: th as any
 };
