@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Acceso',
     off: 'Spento'
+  },
+  Dialog: {
+    alert: 'Avviso',
+    confirm: 'Conferma',
+    ok: 'OK',
+    cancel: 'Annulla'
   }
 };

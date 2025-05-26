@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Вкл',
     off: 'Выкл'
+  },
+  Dialog: {
+    alert: 'Предупреждение',
+    confirm: 'Подтвердить',
+    ok: 'OK',
+    cancel: 'Отмена'
   }
 };

@@ -87,5 +87,11 @@ export default {
   Toggle: {
     on: 'إيقاف',
     off: 'تشغيل'
+  },
+  Dialog: {
+    alert: 'تنبيه',
+    confirm: 'تأكيد',
+    ok: 'موافق',
+    cancel: 'إلغاء'
   }
 };

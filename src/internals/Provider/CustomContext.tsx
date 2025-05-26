@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ReactNode, RefObject } from 'react';
 import type { FormatDateOptions } from '@/internals/utils/date/types';
 import type { ReactSuiteComponents } from './types';
 import type { ToastContainerInstance } from '../../toaster/ToastContainer';
+import type { DialogContainerInstance } from '../../useDialog/DialogContainer';
 import type { Locale } from '../../locales';
 
 export interface CustomValue<T = Locale> {
@@ -119,6 +120,18 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
    * ```
    */
   components?: Partial<ReactSuiteComponents>;
+
+  /**
+   * Dialogs to be rendered in the provider
+   * @internal
+   */
+  dialogs?: ReactNode[] & { _?: never }; // Make it mutable with a type hack
+
+  /**
+   * Reference to the dialog container instance
+   * @internal
+   */
+  dialogContainer?: RefObject<DialogContainerInstance | null>;
 }
 
 export const CustomContext = React.createContext<CustomProviderProps>({});

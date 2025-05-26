@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Ligado',
     off: 'Desligado'
+  },
+  Dialog: {
+    alert: 'Alerta',
+    confirm: 'Confirmar',
+    ok: 'OK',
+    cancel: 'Cancelar'
   }
 };

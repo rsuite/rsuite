@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'खोल्नुहोस्',
     off: 'बन्द गर्नुहोस्'
+  },
+  Dialog: {
+    alert: 'सतर्कता',
+    confirm: 'पुष्टि गर्नुहोस्',
+    ok: 'ठिक छ',
+    cancel: 'रद्द गर्नुहोस्'
   }
 };

@@ -92,5 +92,11 @@ export default {
   Toggle: {
     on: 'Be',
     off: 'Ki'
+  },
+  Dialog: {
+    alert: 'Figyelmeztetés',
+    confirm: 'Megerősítés',
+    ok: 'OK',
+    cancel: 'Mégse'
   }
 };

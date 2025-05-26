@@ -857,6 +857,13 @@
     "name": "Hooks",
     "children": [
       {
+        "id": "use-dialog",
+        "name": "useDialog",
+        "title": "",
+        "hooks": ["useDialog"],
+        "version": "6.0.0"
+      },
+      {
         "id": "use-media-query",
         "name": "useMediaQuery",
         "title": "",
