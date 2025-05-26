@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: '開く',
     off: '閉じる'
+  },
+  Dialog: {
+    alert: '警告',
+    confirm: '確認',
+    ok: 'OK',
+    cancel: 'キャンセル'
   }
 };

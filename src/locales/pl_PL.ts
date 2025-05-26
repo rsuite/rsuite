@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Otwórz',
     off: 'Zamknij'
+  },
+  Dialog: {
+    alert: 'Ostrzeżenie',
+    confirm: 'Potwierdź',
+    ok: 'OK',
+    cancel: 'Anuluj'
   }
 };

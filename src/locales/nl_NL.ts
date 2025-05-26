@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Open',
     off: 'Sluit'
+  },
+  Dialog: {
+    alert: 'Waarschuwing',
+    confirm: 'Bevestigen',
+    ok: 'OK',
+    cancel: 'Annuleren'
   }
 };

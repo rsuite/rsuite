@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Päällä',
     off: 'Pois päältä'
+  },
+  Dialog: {
+    alert: 'Varoitus',
+    confirm: 'Vahvista',
+    ok: 'OK',
+    cancel: 'Peruuta'
   }
 };

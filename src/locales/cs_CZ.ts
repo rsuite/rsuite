@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Otevřít',
     off: 'Zavřít'
+  },
+  Dialog: {
+    alert: 'Upozornění',
+    confirm: 'Potvrdit',
+    ok: 'OK',
+    cancel: 'Zrušit'
   }
 };

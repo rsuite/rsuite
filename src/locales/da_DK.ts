@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'på',
     off: 'Av'
+  },
+  Dialog: {
+    alert: 'Advarsel',
+    confirm: 'Bekræft',
+    ok: 'OK',
+    cancel: 'Annuller'
   }
 };

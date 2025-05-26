@@ -114,6 +114,7 @@ import type { UploaderProps } from '../../Uploader';
 import type { VisuallyHiddenProps } from '../../VisuallyHidden';
 import type { WhisperProps } from '../../Whisper';
 import type { SafeAnchorProps } from '@/internals/SafeAnchor';
+import type { DialogProps } from '../../useDialog/Dialog';
 
 interface ComponentProps<T> {
   defaultProps: Partial<T>;
@@ -156,6 +157,7 @@ export interface ReactSuiteComponents {
   Divider: ComponentProps<DividerProps>;
   Drawer: ComponentProps<DrawerProps>;
   Dropdown: ComponentProps<DropdownProps>;
+  Dialog: ComponentProps<DialogProps>;
   FlexboxGrid: ComponentProps<FlexboxGridProps>;
   Footer: ComponentProps<FooterProps>;
   Form: ComponentProps<FormProps>;

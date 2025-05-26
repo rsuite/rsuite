@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Açık',
     off: 'Kapalı'
+  },
+  Dialog: {
+    alert: 'Uyarı',
+    confirm: 'Onayla',
+    ok: 'Tamam',
+    cancel: 'İptal'
   }
 };

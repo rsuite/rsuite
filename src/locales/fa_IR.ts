@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'باز کردن',
     off: 'بستن'
+  },
+  Dialog: {
+    alert: 'هشدار',
+    confirm: 'تایید',
+    ok: 'تایید',
+    cancel: 'انصراف'
   }
 };

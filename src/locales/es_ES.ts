@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Encender',
     off: 'Apagar'
+  },
+  Dialog: {
+    alert: 'Alerta',
+    confirm: 'Confirmar',
+    ok: 'Aceptar',
+    cancel: 'Cancelar'
   }
 };

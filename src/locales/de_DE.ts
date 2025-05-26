@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Öffnen',
     off: 'Schließen'
+  },
+  Dialog: {
+    alert: 'Warnung',
+    confirm: 'Bestätigen',
+    ok: 'OK',
+    cancel: 'Abbrechen'
   }
 };

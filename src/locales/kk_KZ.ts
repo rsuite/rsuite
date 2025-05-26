@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Қосу',
     off: 'Өшіру'
+  },
+  Dialog: {
+    alert: 'Ескерту',
+    confirm: 'Растау',
+    ok: 'OK',
+    cancel: 'Болдырмау'
   }
 };

@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: '开启',
     off: '关闭'
+  },
+  Dialog: {
+    alert: '提醒',
+    confirm: '确认',
+    ok: '确定',
+    cancel: '取消'
   }
 };
