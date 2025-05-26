@@ -12,7 +12,6 @@ describe('Dialog', () => {
         content="This is an alert"
         okText="OK"
         cancelText="Cancel"
-        showCancelButton={false}
         onClose={() => {}}
       />
     );
@@ -32,7 +31,6 @@ describe('Dialog', () => {
         content="Are you sure?"
         okText="Yes"
         cancelText="No"
-        showCancelButton
         onClose={() => {}}
       />
     );
@@ -52,7 +50,6 @@ describe('Dialog', () => {
         content="Enter your name:"
         okText="Submit"
         cancelText="Cancel"
-        showCancelButton
         defaultValue="John"
         onClose={() => {}}
       />
@@ -66,14 +63,7 @@ describe('Dialog', () => {
   it('Should call onClose with true when clicking OK button', async () => {
     const onClose = vi.fn();
     render(
-      <Dialog
-        type="confirm"
-        content="Test"
-        okText="OK"
-        cancelText="Cancel"
-        showCancelButton
-        onClose={onClose}
-      />
+      <Dialog type="confirm" content="Test" okText="OK" cancelText="Cancel" onClose={onClose} />
     );
 
     fireEvent.click(screen.getByText('OK'));
@@ -95,7 +85,6 @@ describe('Dialog', () => {
         onClose={onClose}
         okText="OK"
         cancelText="Cancel"
-        showCancelButton
       />
     );
 

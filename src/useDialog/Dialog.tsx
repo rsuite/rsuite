@@ -14,7 +14,6 @@ export interface DialogProps extends ModalProps {
   content?: React.ReactNode;
   okText?: string;
   cancelText?: string;
-  showCancelButton?: boolean;
   severity?: 'info' | 'success' | 'warning' | 'error';
   defaultValue?: string;
   validate?: (value: string) => [isValid: boolean, errorMessage?: string];
@@ -37,7 +36,6 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
     content,
     okText = locale.ok,
     cancelText = locale.cancel,
-    showCancelButton,
     severity,
     defaultValue = '',
     validate,
@@ -48,6 +46,7 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   const [validationError, setValidationError] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
   const inputValue = useRef(defaultValue);
+  const showCancelButton = type === 'confirm' || type === 'prompt';
 
   useEffect(() => {
     if (type === 'prompt' && inputRef.current) {
