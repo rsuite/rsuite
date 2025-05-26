@@ -1,8 +1,6 @@
-# useMediaQuery 🧪
+# useMediaQuery
 
 Use useMediaQuery to easily retrieve media dimensions, combined with the component's size property for responsive UI.
-
-> ⚠️ This API is still in the experimental stage and may be subject to change.
 
 ## Import
 
