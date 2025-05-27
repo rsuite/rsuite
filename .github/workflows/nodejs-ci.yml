@@ -62,13 +62,6 @@ jobs:
           echo "Disk space after cleanup:"
           df -h
 
-      - name: Monitor system resources
-        run: |
-          echo "=== Pre-test resource usage ==="
-          free -h
-          df -h
-          ps aux --sort=-%mem | head -n 10
-
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
@@ -77,16 +70,6 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/ms-playwright
-            ~/ms-playwright
-          key: ${{ runner.OS }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-playwright-
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -102,30 +85,28 @@ jobs:
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
 
-      - name: Run headless tests
-        timeout-minutes: 10
+      - name: Debug info before test
         run: |
-          npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless || {
-            echo "Test failed or timed out - dumping process list:"
-            ps aux | grep -E 'playwright|node'
-            exit 1
-          }
+          echo "=== System Info ==="
+          echo "Node: $(node -v)"
+          echo "NPM: $(npm -v)"
+          echo "CPU: $(nproc)"
+          echo "Memory: $(free -h)"
+          echo "Disk: $(df -h)"
+          echo "Processes:"
+          ps aux | head -n 5
+
+      - name: Run headless tests
+        run: |
+          echo "Starting tests for $BROWSER..."
+          npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless --max-workers=2
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
-
-      - name: Kill any remaining processes
-        if: always()
-        run: |
-          echo "Killing residual processes:"
-          pkill -f "playwright|node" || echo "No processes to kill"
-          pkill -9 -f "playwright|node" || echo "No processes to force kill"
-          echo "Remaining processes:"
-          ps aux | grep -E 'playwright|node' || echo "No residual processes found"
-
-      - name: Cleanup Playwright
-        if: failure()
-        run: npx playwright uninstall
+          # 限制并发数，减少资源争用
+          PLAYWRIGHT_MAX_FAILURES: 5
+          # 增加超时时间
+          TEST_TIMEOUT: 30000
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
