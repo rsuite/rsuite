@@ -50,6 +50,9 @@ async function createConfig() {
     test: {
       include: [testPatterns],
       setupFiles: ['vitest.setup.ts'],
+      testTimeout: 60000,
+      retry: process.env.CI ? 2 : 0,
+      watch: false, // Disable watch mode in CI
       coverage: {
         provider: 'istanbul',
         exclude: [
@@ -78,6 +81,18 @@ async function createConfig() {
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        headless: true,
+        providerOptions: {
+          launch: {
+            args: [
+              '--disable-dev-shm-usage',
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-gpu',
+              '--disable-software-rasterizer'
+            ]
+          }
+        },
         instances: [
           {
             browser: 'chromium',
