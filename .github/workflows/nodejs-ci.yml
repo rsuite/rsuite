@@ -25,12 +25,11 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
 
-  test:
-    name: 'Test'
+  test-chromium:
+    name: 'Test (Chromium)'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        browser: [chromium, firefox]
         react: ['React18', 'React19']
 
     steps:
@@ -38,21 +37,27 @@ jobs:
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: 20.10.0
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chromium
 
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
@@ -62,16 +67,52 @@ jobs:
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
 
-      - name: Run headless tests
-        timeout-minutes: 30 # Set timeout to 30 minutes
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+      - name: Run headless tests with Chromium
+        timeout-minutes: 30
+        run: npm run test:ci --browser.name=chromium --browser.headless
         env:
-          DEBUG: 'pw:api,pw:browser*'
           CI: true
-          BROWSER: ${{ matrix.browser }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ matrix.browser }}
+          flags: chromium
+
+  test-firefox:
+    name: 'Test (Firefox)'
+    needs: test-chromium
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install Playwright Firefox Only
+        run: npx playwright install firefox
+
+      - name: install react 18
+        run: npm run install:react-18
+
+      - name: Run headless tests with Firefox
+        timeout-minutes: 30
+        run: npm run test:ci --browser.name=firefox --browser.headless
+        env:
+          CI: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4.2.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: firefox
