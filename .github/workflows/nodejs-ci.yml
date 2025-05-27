@@ -84,18 +84,6 @@ jobs:
       - name: install react 19
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
-
-      - name: Debug info before test
-        run: |
-          echo "=== System Info ==="
-          echo "Node: $(node -v)"
-          echo "NPM: $(npm -v)"
-          echo "CPU: $(nproc)"
-          echo "Memory: $(free -h)"
-          echo "Disk: $(df -h)"
-          echo "Processes:"
-          ps aux | head -n 5
-
       - name: Run headless tests
         run: |
           echo "Starting tests for $BROWSER..."
@@ -103,9 +91,9 @@ jobs:
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
-          # 限制并发数，减少资源争用
+          # Limit concurrency to reduce resource contention
           PLAYWRIGHT_MAX_FAILURES: 5
-          # 增加超时时间
+          # Increase timeout duration
           TEST_TIMEOUT: 30000
 
       - name: Upload coverage to Codecov
