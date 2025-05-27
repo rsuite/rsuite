@@ -27,13 +27,12 @@ jobs:
 
   test:
     name: 'Test'
-
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         browser: [chromium, firefox]
         react: ['React18', 'React19']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v4
