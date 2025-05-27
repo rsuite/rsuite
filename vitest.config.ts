@@ -80,8 +80,9 @@ async function createConfig() {
     if (config.test) {
       config.test.browser = {
         enabled: true,
-        provider: 'playwright',
         headless: true,
+        name: process.env.BROWSER || 'chromium',
+        provider: 'playwright',
         providerOptions: {
           launch: {
             args: [
@@ -89,16 +90,13 @@ async function createConfig() {
               '--no-sandbox',
               '--disable-setuid-sandbox',
               '--disable-gpu',
-              '--disable-software-rasterizer'
+              '--disable-software-rasterizer',
+              '--disable-web-security',
+              '--disable-features=IsolateOrigins,site-per-process'
             ]
           }
         },
-        instances: [
-          {
-            browser: 'chromium',
-            viewport: { width: 1280, height: 800 }
-          }
-        ]
+        isolate: false
       };
     }
   }

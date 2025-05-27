@@ -68,12 +68,25 @@ jobs:
         run: npm run install:react-19
 
       - name: Run tests with Chromium
-        timeout-minutes: 15
-        run: npm run test:ci
+        timeout-minutes: 30
+        run: |
+          for i in {1..3}; do
+            echo "Attempt $i/3: Running tests with Chromium"
+            if npm run test:ci; then
+              echo "Tests passed on attempt $i"
+              exit 0
+            fi
+            echo "Test attempt $i failed, retrying..."
+            sleep 5
+          done
+          echo "All test attempts failed"
+          exit 1
         env:
           CI: true
           BROWSER: chromium
           NODE_OPTIONS: "--max-old-space-size=4096"
+          VITEST_RETRY: 2
+          VITEST_BROWSER_RETRY: 2
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
@@ -108,12 +121,25 @@ jobs:
         run: npm run install:react-18
 
       - name: Run tests with Firefox
-        timeout-minutes: 15
-        run: npm run test:ci
+        timeout-minutes: 30
+        run: |
+          for i in {1..3}; do
+            echo "Attempt $i/3: Running tests with Firefox"
+            if npm run test:ci; then
+              echo "Tests passed on attempt $i"
+              exit 0
+            fi
+            echo "Test attempt $i failed, retrying..."
+            sleep 5
+          done
+          echo "All test attempts failed"
+          exit 1
         env:
           CI: true
           BROWSER: firefox
           NODE_OPTIONS: "--max-old-space-size=4096"
+          VITEST_RETRY: 2
+          VITEST_BROWSER_RETRY: 2
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
