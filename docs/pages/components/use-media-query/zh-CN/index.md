@@ -1,8 +1,6 @@
-# useMediaQuery 🧪 媒体查询
+# useMediaQuery
 
 使用 useMediaQuery 轻松检索媒体尺寸，结合组件的大小属性可以实现响应式 UI 。
-
-> ⚠️ 此 API 仍处于实验阶段，可能会发生变化。
 
 ## 导入 Hook
 

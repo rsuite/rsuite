@@ -10,16 +10,10 @@ import {
   Divider
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
-import ImportGuide from '@/components/ImportGuide';
-
-const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['useToaster']} />
-};
 
 export default function Page() {
   return (
     <DefaultPage
-      inDocsComponents={inDocsComponents}
       dependencies={{
         Message,
         Notification,

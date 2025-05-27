@@ -1,35 +1,33 @@
 <!--start-code-->
 
 ```jsx
-import { Modal, Button } from 'rsuite';
+import { Drawer, Button } from 'rsuite';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
-const MyModal = NiceModal.create(({ id, name }) => {
+const MyDrawer = NiceModal.create(({ id, name }) => {
   const modal = useModal();
   return (
-    <Modal
+    <Drawer
       open={modal.visible}
       onClose={modal.hide}
       onExited={modal.remove}
       backdrop="static"
       size="xs"
     >
-      <Modal.Header>
-        <Modal.Title>Modal Example</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+      <Drawer.Header>
+        <Drawer.Title>Drawer Example</Drawer.Title>
+      </Drawer.Header>
+      <Drawer.Body>
         <p>ID: {id}</p>
         <p>Name: {name}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={modal.hide} appearance="subtle">
-          Cancel
-        </Button>
+        <p>This is an example drawer content. You can put any content here.</p>
+      </Drawer.Body>
+      <Drawer.Footer>
         <Button onClick={modal.hide} appearance="primary">
-          Confirm
+          Close
         </Button>
-      </Modal.Footer>
-    </Modal>
+      </Drawer.Footer>
+    </Drawer>
   );
 });
 
@@ -38,13 +36,13 @@ function App() {
     <NiceModal.Provider>
       <Button
         onClick={() => {
-          NiceModal.show(MyModal, {
-            id: 'modal-123',
+          NiceModal.show(MyDrawer, {
+            id: 'drawer-123',
             name: 'Example Content'
           });
         }}
       >
-        Show Modal
+        Show Drawer
       </Button>
     </NiceModal.Provider>
   );
