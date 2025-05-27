@@ -36,7 +36,7 @@
     "size": "npm run dist:pro && size-limit",
     "tdd": "cross-env RUN_ENV=test vitest",
     "test": "npm run test:component",
-    "test:ci": "cross-env RUN_ENV=ci vitest --run --coverage",
+    "test:ci": "cross-env RUN_ENV=ci vitest --run --coverage ${BROWSER:+--browser.name=$BROWSER --browser.headless}",
     "test:component": "cross-env RUN_ENV=test vitest --run",
     "test:coverage": "cross-env RUN_ENV=test vitest --run --coverage",
     "prepare": "husky install",

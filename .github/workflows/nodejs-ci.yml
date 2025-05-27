@@ -67,14 +67,12 @@ jobs:
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
 
-      - name: Run headless tests with Chromium
+      - name: Run tests with Chromium
         timeout-minutes: 15
-        run: |
-          echo "Running tests with single worker and increased timeout..."
-          npx vitest run --browser.name=chromium --browser.headless --threads=1 --single-thread --no-watch --timeout=60000
+        run: npm run test:ci
         env:
           CI: true
-          VITEST_UI: "false"
+          BROWSER: chromium
           NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Upload coverage to Codecov
@@ -109,14 +107,12 @@ jobs:
       - name: install react 18
         run: npm run install:react-18
 
-      - name: Run headless tests with Firefox
+      - name: Run tests with Firefox
         timeout-minutes: 15
-        run: |
-          echo "Running Firefox tests with single worker..."
-          npx vitest run --browser.name=firefox --browser.headless --threads=1 --single-thread --no-watch --timeout=60000
+        run: npm run test:ci
         env:
           CI: true
-          VITEST_UI: "false"
+          BROWSER: firefox
           NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Upload coverage to Codecov
