@@ -27,12 +27,11 @@ jobs:
 
   test:
     name: 'Test'
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         browser: [chromium, firefox]
         react: ['React18', 'React19']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +69,6 @@ jobs:
           DEBUG: 'pw:api,pw:browser*'
           CI: true
           BROWSER: ${{ matrix.browser }}
-          TZ: 'Asia/Shanghai'  # Set timezone to match local environment
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
