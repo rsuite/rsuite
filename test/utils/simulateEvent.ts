@@ -1,4 +1,3 @@
-import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 export async function keyPress(input: HTMLElement, keys: string | string[]) {
@@ -6,19 +5,14 @@ export async function keyPress(input: HTMLElement, keys: string | string[]) {
     keys = keys.split('');
   }
 
-  userEvent.click(input);
+  // Ensure the input is focused
+  await userEvent.click(input);
 
-  let timeout = 0;
-
-  const actions = keys.map(key => {
-    timeout += 100;
-    return new Promise<void>(resolve => {
-      setTimeout(() => {
-        fireEvent.keyDown(input, { key });
-        resolve();
-      }, timeout);
-    });
-  });
-
-  await Promise.all(actions);
+  // Process each key sequentially
+  for (const key of keys) {
+    // Use userEvent.keyboard to simulate real keyboard input
+    await userEvent.keyboard(key);
+    // Add a small delay to ensure the input is processed
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
 }
