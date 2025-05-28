@@ -51,6 +51,8 @@ node_modules
 # Editor
 .vscode
 .idea
+.windsurf
+.cursor
 
 # build
 lib/
