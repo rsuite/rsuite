@@ -9,7 +9,7 @@ import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
 
 function includes(str: string, keyword: string) {
-  return str.toLowerCase().includes(keyword.toLowerCase());
+  return str?.toLowerCase().includes(keyword?.toLowerCase());
 }
 
 const filterComponents = (item: MenuItem, search: string) => {
