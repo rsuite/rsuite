@@ -1,3 +1,13 @@
+# [5.82.0](https://github.com/rsuite/rsuite/compare/v5.81.0...v5.82.0) (2025-05-29)
+
+
+### Features
+
+* **locale:** add support for Thai (th_TH) ([#4299](https://github.com/rsuite/rsuite/issues/4299)) ([91a7a45](https://github.com/rsuite/rsuite/commit/91a7a45c26d3f13df161fa56ef212bf17f61e460))
+* **locales:** add Ukrainian (uk-UA) localization for DateRangePicker and other components ([#4288](https://github.com/rsuite/rsuite/issues/4288)) ([b8789ec](https://github.com/rsuite/rsuite/commit/b8789ec085fed00c5f4ddedf7f3ff82301c62b4b))
+
+
+
 # [5.81.0](https://github.com/rsuite/rsuite/compare/v5.80.3...v5.81.0) (2025-05-23)
 
 
