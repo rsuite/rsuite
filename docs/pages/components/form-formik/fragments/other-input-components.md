@@ -38,25 +38,27 @@ const App = () => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <Field
-        as={DatePicker}
-        name="date"
-        value={formik.values.date}
-        error={formik.errors.date}
-        onChange={value => formik.setFieldValue('date', value)}
-      />
+      <Form.Stack fluid>
+        <Field
+          as={DatePicker}
+          name="date"
+          value={formik.values.date}
+          error={formik.errors.date}
+          onChange={value => formik.setFieldValue('date', value)}
+        />
 
-      <Field
-        as={Rate}
-        name="rating"
-        color="yellow"
-        value={formik.values.rating}
-        error={formik.errors.rating}
-        onChange={value => formik.setFieldValue('rating', value)}
-      />
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Field
+          as={Rate}
+          name="rating"
+          color="yellow"
+          value={formik.values.rating}
+          error={formik.errors.rating}
+          onChange={value => formik.setFieldValue('rating', value)}
+        />
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };

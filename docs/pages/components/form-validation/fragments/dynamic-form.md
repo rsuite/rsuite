@@ -6,19 +6,21 @@ import {
   Button,
   ButtonGroup,
   ButtonToolbar,
-  Schema,
-  InputNumber,
+  NumberInput,
   Panel,
   Input,
-  FlexboxGrid,
-  IconButton
+  Row,
+  Col,
+  IconButton,
+  Box
 } from 'rsuite';
+import { SchemaModel, ArrayType, StringType, NumberType, ObjectType } from 'rsuite/Schema';
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
 import JSONTree from 'react-json-tree';
 
 const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
+  <Box mb={10}>
     <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
       <JSONTree data={formValue} />
     </Panel>
@@ -26,11 +28,10 @@ const JSONView = ({ formValue, formError }) => (
     <Panel className="json-tree-wrapper" header={<p>formError</p>}>
       <JSONTree data={formError} />
     </Panel>
-  </div>
+  </Box>
 );
 
-const { ArrayType, StringType, NumberType, ObjectType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   orderId: StringType().minLength(6, 'Minimum 6 characters required').isRequired('Required.'),
   products: ArrayType().of(
     ObjectType().shape({
@@ -40,11 +41,16 @@ const model = Schema.Model({
   )
 });
 
-const ErrorMessage = ({ children }) => <span style={{ color: 'red' }}>{children}</span>;
-const Cell = ({ children, style, ...rest }) => (
-  <td style={{ padding: '2px 4px 2px 0', verticalAlign: 'top', ...style }} {...rest}>
+const ErrorMessage = ({ children }) => (
+  <Box as="span" c="red">
     {children}
-  </td>
+  </Box>
+);
+
+const Cell = ({ children, style, ...rest }) => (
+  <Box as="td" p="2px 4px 2px 0" style={style} {...rest}>
+    {children}
+  </Box>
 );
 
 const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
@@ -58,16 +64,11 @@ const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
   return (
     <tr>
       <Cell>
-        <Input value={rowValue.name} onChange={handleChangeName} style={{ width: 196 }} />
+        <Input value={rowValue.name} onChange={handleChangeName} w={196} />
         {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
       </Cell>
       <Cell>
-        <InputNumber
-          min={0}
-          value={rowValue.quantity}
-          onChange={handleChangeAmount}
-          style={{ width: 100 }}
-        />
+        <NumberInput min={0} value={rowValue.quantity} onChange={handleChangeAmount} w={100} />
         {rowError ? <ErrorMessage>{rowError.quantity.errorMessage}</ErrorMessage> : null}
       </Cell>
     </tr>
@@ -135,8 +136,8 @@ const App = () => {
   });
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={form}
           checkTrigger="change"
@@ -145,15 +146,17 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <Form.Group controlId="orderId">
-            <Form.ControlLabel>Order ID</Form.ControlLabel>
-            <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
-          </Form.Group>
-          <Form.Control
-            name="products"
-            accepter={ProductInputControl}
-            fieldError={formError.products}
-          />
+          <Form.Stack>
+            <Form.Group controlId="orderId">
+              <Form.Label>Order ID</Form.Label>
+              <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
+            </Form.Group>
+            <Form.Control
+              name="products"
+              accepter={ProductInputControl}
+              fieldError={formError.products}
+            />
+          </Form.Stack>
 
           <hr />
           <ButtonToolbar>
@@ -174,12 +177,11 @@ const App = () => {
             </Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

@@ -3,7 +3,7 @@
 ```js
 import { Dropdown } from 'rsuite';
 import PageIcon from '@rsuite/icons/Page';
-import FolderFillIcon from '@rsuite/icons/FolderFill';
+import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 
@@ -12,7 +12,7 @@ const App = () => (
     <Dropdown.Item icon={<PageIcon />} shortcut="⌘ N">
       New File
     </Dropdown.Item>
-    <Dropdown.Item icon={<FolderFillIcon />} shortcut="⌘ ⇧ N">
+    <Dropdown.Item icon={<IdInfoIcon />} shortcut="⌘ ⇧ N">
       New File with Current Profile
     </Dropdown.Item>
     <Dropdown.Item icon={<FileDownloadIcon />} shortcut="⌘ ⇧ S">

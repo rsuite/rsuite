@@ -1,4 +1,4 @@
-import sv from 'date-fns/locale/sv';
+import { sv } from 'date-fns/locale/sv';
 
 const DateTimeFormats = {
   sunday: 'Sö',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'På',
     off: 'Av'
+  },
+  Dialog: {
+    alert: 'Varning',
+    confirm: 'Bekräfta',
+    ok: 'OK',
+    cancel: 'Avbryt'
   }
 };

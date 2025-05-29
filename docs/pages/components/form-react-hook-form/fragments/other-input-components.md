@@ -46,25 +46,27 @@ const App = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="date"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field as={DatePicker} field={field} error={errors[field.name]?.message} />
-        )}
-      />
+      <Form.Stack fluid>
+        <Controller
+          name="date"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field as={DatePicker} field={field} error={errors[field.name]?.message} />
+          )}
+        />
 
-      <Controller
-        name="rating"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field as={Rate} field={field} error={errors[field.name]?.message} color="yellow" />
-        )}
-      />
+        <Controller
+          name="rating"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field as={Rate} field={field} error={errors[field.name]?.message} color="yellow" />
+          )}
+        />
 
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };

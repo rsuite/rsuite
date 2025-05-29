@@ -1,32 +1,32 @@
-import React, { useMemo } from 'react';
-import usePages, { type MenuItem } from '@/utils/usePages';
-import DefaultPage from '@/components/Page';
-import { useApp } from '@/components/AppContext';
-import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
-import CategorizedList from '@/components/CategorizedList';
-import SortedList from '@/components/SortedList';
-
+import React, { useMemo, useState } from 'react';
+import usePages, { type MenuItem } from '@/hooks/usePages';
+import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
+import { CategorizedList } from '@/components/overview/CategorizedList';
+import { SortedList } from '@/components/overview/SortedList';
+import { useApp } from '@/hooks/useApp';
+import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
 
 function includes(str: string, keyword: string) {
-  return str.toLowerCase().includes(keyword.toLowerCase());
+  return str?.toLowerCase().includes(keyword?.toLowerCase());
 }
 
 const filterComponents = (item: MenuItem, search: string) => {
-  const { name, title, keywords, apis, components } = item;
+  const { name, title, keywords, apis, components, hooks } = item;
   return (
     includes(name, search) ||
     includes(title, search) ||
     keywords?.some(keyword => includes(keyword, search)) ||
     apis?.some(api => includes(api, search)) ||
+    hooks?.some(hook => includes(hook, search)) ||
     components?.some(component => includes(component, search))
   );
 };
 
 const useComponents = () => {
   const pages = usePages();
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useState('');
 
   const components = useMemo(() => {
     return pages?.[1]?.children
@@ -47,7 +47,7 @@ const useComponents = () => {
 
 export default function Page() {
   const { language, locales } = useApp();
-  const [type, setType] = React.useState<'category' | 'sorted'>('category');
+  const [type, setType] = useState<'category' | 'sorted'>('category');
   const { components, setSearch } = useComponents();
 
   return (

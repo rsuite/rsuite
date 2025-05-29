@@ -24,7 +24,7 @@ const App = () => (
     groupBy="firstLetter"
     labelKey="firstName"
     valueKey="name"
-    style={{ width: 200 }}
+    w={200}
   />
 );
 

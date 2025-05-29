@@ -1,8 +1,9 @@
-import Page from '@/components/Page';
+import React from 'react';
+import Page from '@/components/layout/Page';
 import Link from 'next/link';
 import { Stack, Panel } from 'rsuite';
 import { SiNextdotjs, SiCreatereactapp } from 'react-icons/si';
-import ViteIcon from '@/resources/images/vitejs.svg';
+import { Vite } from '@/components/icons';
 import InstallGuide from '@/components/InstallGuide';
 
 const frameworks = [
@@ -21,7 +22,7 @@ const frameworks = [
   },
   {
     name: 'Vite',
-    icon: ViteIcon,
+    icon: Vite,
     link: '/guide/use-vite/'
   },
   {
@@ -32,7 +33,7 @@ const frameworks = [
   }
 ];
 
-const FrameworkGuide = () => {
+function FrameworkGuide() {
   return (
     <Stack spacing={16} className="framework-guide" wrap>
       {frameworks.map((fw, index) => {
@@ -48,13 +49,13 @@ const FrameworkGuide = () => {
       })}
     </Stack>
   );
-};
+}
 
 const inDocsComponents = {
   'install-guide': () => <InstallGuide />,
   'framework-guide': () => <FrameworkGuide />
 };
 
-export default () => {
+export default function Index() {
   return <Page inDocsComponents={inDocsComponents} />;
-};
+}

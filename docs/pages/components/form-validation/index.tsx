@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import loadable from '@loadable/component';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import {
   Form,
   Button,
@@ -10,9 +11,12 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
-  InputNumber,
+  // @ts-ignore
+  useFormControl,
+  // @ts-ignore
+  NumberInput,
+  PasswordInput,
   Panel,
   SelectPicker,
   Slider,
@@ -21,10 +25,20 @@ import {
   Message,
   Uploader,
   toaster,
-  FlexboxGrid,
   IconButton,
-  Toggle
+  Toggle,
+  Box,
+  Row,
+  Col
 } from 'rsuite';
+import {
+  SchemaModel,
+  StringType,
+  ObjectType,
+  NumberType,
+  ArrayType,
+  BooleanType
+} from 'rsuite/Schema';
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
@@ -42,10 +56,15 @@ export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Schema,
+        SchemaModel,
+        StringType,
+        ObjectType,
+        NumberType,
+        ArrayType,
+        BooleanType,
         Form,
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -54,6 +73,7 @@ export default function Page() {
         SelectPicker,
         RadioGroup,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
         JSONTree,
@@ -63,11 +83,14 @@ export default function Page() {
         Message,
         toaster,
         Uploader,
-        FlexboxGrid,
+        Row,
+        Col,
         IconButton,
         PlusIcon,
         MinusIcon,
-        Toggle
+        Toggle,
+        Box,
+        useFormControl
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}

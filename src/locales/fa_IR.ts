@@ -1,4 +1,4 @@
-import faIR from 'date-fns/locale/fa-IR';
+import { faIR } from 'date-fns/locale/fa-IR';
 
 const DateTimeFormats = {
   sunday: 'ی',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'باز کردن',
     off: 'بستن'
+  },
+  Dialog: {
+    alert: 'هشدار',
+    confirm: 'تایید',
+    ok: 'تایید',
+    cancel: 'انصراف'
   }
 };

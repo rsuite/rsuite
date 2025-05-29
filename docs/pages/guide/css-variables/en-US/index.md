@@ -77,7 +77,7 @@ If you want to override styles under a `dark` or `high-contrast` theme, you only
   // ...
 }
 
-..rs-theme-high-contrast {
+.rs-theme-high-contrast {
   // high contrast mode
   // ...
 }

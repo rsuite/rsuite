@@ -15,7 +15,7 @@ const data = mockTreeData({
 const App = () => {
   const [value, setValue] = React.useState('1-2-2');
 
-  return <Cascader value={value} onChange={setValue} data={data} style={{ width: 224 }} />;
+  return <Cascader value={value} onChange={setValue} data={data} w={224} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -3,8 +3,6 @@
 ```js
 import { Modal, ButtonToolbar, Button, RadioGroup, Radio, Placeholder } from 'rsuite';
 
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
-
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [backdrop, setBackdrop] = React.useState('static');
@@ -20,7 +18,7 @@ const App = () => {
         value={backdrop}
         onChange={value => setBackdrop(value)}
       >
-        <RadioLabel>Backdrop: </RadioLabel>
+        <label>Backdrop: </label>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>
@@ -39,11 +37,11 @@ const App = () => {
           <Placeholder.Paragraph />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
           </Button>
         </Modal.Footer>
       </Modal>

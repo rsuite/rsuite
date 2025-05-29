@@ -1,40 +1,21 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { useFormGroup } from '../FormGroup';
-import { InputGroupContext } from '../InputGroup/InputGroup';
-import Plaintext from '@/internals/Plaintext';
-import { KEY_VALUES } from '@/internals/constants';
-import { useClassNames } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
-import {
-  WithAsProps,
-  RsRefForwardingComponent,
-  TypeAttributes,
+import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
+import { forwardRef } from '@/internals/utils';
+import { InputGroupContext } from '../InputGroup';
+import { useCustom } from '@/internals/hooks';
+import { PrependParameters } from '@/internals/types/utils';
+import type {
+  SanitizedInputProps,
+  PropsWithoutChange,
   FormControlBaseProps
 } from '@/internals/types';
-import { refType, oneOf } from '@/internals/propTypes';
-import { PrependParameters } from '@/internals/types/utils';
-import { useCustom } from '../CustomProvider';
-
-export interface LocaleType {
-  unfilled: string;
-}
 
 export interface InputProps
-  extends WithAsProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>,
-    Omit<FormControlBaseProps, 'onChange'> {
+  extends InputBaseCommonProps,
+    SanitizedInputProps,
+    PropsWithoutChange<FormControlBaseProps> {
   /** The HTML input type */
   type?: string;
-
-  /** The HTML input id */
-  id?: string;
-
-  /** A component can have different sizes */
-  size?: TypeAttributes.Size;
-
-  /** Ref of input element */
-  inputRef?: React.Ref<any>;
 
   /**
    * The htmlSize attribute defines the width of the <input> element.
@@ -58,103 +39,30 @@ export interface InputProps
  *
  * @see https://rsuitejs.com/components/input
  */
-const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
-  (props: InputProps, ref) => {
-    const { propsWithDefaults } = useCustom('Input', props);
-    const {
-      className,
-      classPrefix = 'input',
-      as: Component = 'input',
-      type = 'text',
-      disabled,
-      value,
-      defaultValue,
-      inputRef,
-      id,
-      size,
-      htmlSize,
-      plaintext,
-      placeholder,
-      readOnly,
-      onPressEnter,
-      onFocus,
-      onBlur,
-      onKeyDown,
-      onChange,
-      ...rest
-    } = propsWithDefaults;
+const Input = forwardRef<'input', InputProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Input', props);
+  const inputGroup = useContext(InputGroupContext);
+  const {
+    type = 'text',
+    htmlSize,
+    size = inputGroup?.size || 'md',
+    classPrefix = 'input',
+    ...rest
+  } = propsWithDefaults;
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === KEY_VALUES.ENTER) {
-        onPressEnter?.(event);
-      }
-      onKeyDown?.(event);
-    };
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(event.target?.value, event);
-    };
-
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size, { plaintext }));
-    const inputGroupContext = useContext(InputGroupContext);
-    const { controlId } = useFormGroup();
-
-    // Make the Input component display in plain text,
-    // and display default characters when there is no value.
-    if (plaintext) {
-      return (
-        <Plaintext ref={ref} localeKey="unfilled" placeholder={placeholder}>
-          {typeof value === 'undefined' ? defaultValue : value}
-        </Plaintext>
-      );
-    }
-
-    const inputable = !disabled && !readOnly;
-    const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
-
-    if (inputable) {
-      eventProps.onChange = handleChange;
-      eventProps.onKeyDown = handleKeyDown;
-      eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
-      eventProps.onBlur = createChainedFunction(onBlur, inputGroupContext?.onBlur);
-    }
-
-    return (
-      <Component
-        {...rest}
-        {...eventProps}
-        ref={mergeRefs(ref, inputRef)}
-        className={classes}
-        type={type}
-        id={id || controlId}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        readOnly={readOnly}
-        size={htmlSize}
-        placeholder={placeholder}
-      />
-    );
-  }
-);
+  return (
+    <InputBase
+      as="input"
+      ref={ref}
+      classPrefix={classPrefix}
+      size={size}
+      type={type}
+      inputProps={{ size: htmlSize }}
+      {...rest}
+    />
+  );
+});
 
 Input.displayName = 'Input';
-Input.propTypes = {
-  type: PropTypes.string,
-  as: PropTypes.elementType,
-  id: PropTypes.string,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  inputRef: refType,
-  onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onPressEnter: PropTypes.func
-};
+
 export default Input;

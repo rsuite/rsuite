@@ -2,12 +2,6 @@
 
 ```js
 import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const App = () => {
   const [size, setSize] = React.useState();
@@ -21,7 +15,7 @@ const App = () => {
   return (
     <>
       <RadioGroup inline appearance="picker" value={placement} onChange={setPlacement}>
-        <RadioLabel>Placement: </RadioLabel>
+        <label>Placement: </label>
         <Radio value="left">left</Radio>
         <Radio value="right">right</Radio>
         <Radio value="top">top</Radio>

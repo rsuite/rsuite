@@ -1,14 +1,15 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
-import { getClassNamePrefix, prefix } from '@/internals/utils/prefix';
+import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
-import { CustomContext, CustomProviderProps } from './CustomContext';
+import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
 import ToastContainer, {
   ToastContainerInstance,
   toastPlacements,
   defaultToasterContainer
 } from '../toaster/ToastContainer';
+import DialogContainer, { DialogContainerInstance } from '../useDialog/DialogContainer';
 
 const themes = ['light', 'dark', 'high-contrast'];
 
@@ -31,6 +32,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     ...rest
   } = props;
   const toasters = useRef(new Map<string, ToastContainerInstance>());
+  // This creates a ref that matches the expected type in CustomContext
+  const dialogContainerRef = useRef<DialogContainerInstance>(null);
   const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
   const value = useMemo(
@@ -56,8 +59,14 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     }
   }, [classPrefix, theme]);
 
+  // Create a context value with proper types
+  const contextValue = {
+    dialogContainer: dialogContainerRef,
+    ...value
+  };
+
   return (
-    <CustomContext.Provider value={value}>
+    <CustomContext.Provider value={contextValue}>
       <IconProvider value={iconContext}>
         {children}
         <Portal>
@@ -66,12 +75,14 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
               <ToastContainer
                 key={placement}
                 placement={placement}
-                ref={ref => {
-                  toasters.current.set(placement, ref as any);
+                ref={(ref: any) => {
+                  toasters.current.set(placement, ref);
                 }}
               />
             ))}
           </div>
+          {/* Dialog container for managing dialogs */}
+          <DialogContainer ref={dialogContainerRef} />
         </Portal>
       </IconProvider>
     </CustomContext.Provider>

@@ -37,7 +37,7 @@ function PreventOverflowContainer({ children, height = 500 }) {
 }
 
 const speaker = (
-  <Popover title="Title" style={{ width: 200 }}>
+  <Popover title="Title" w={200}>
     <p>This is a default Popover</p>
     <p>Content</p>
   </Popover>

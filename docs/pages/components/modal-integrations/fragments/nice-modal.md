@@ -1,59 +1,51 @@
 <!--start-code-->
 
-```js
-import { Modal, Drawer, Button, HStack } from 'rsuite';
+```jsx
+import { Modal, Button } from 'rsuite';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 const MyModal = NiceModal.create(({ id, name }) => {
   const modal = useModal();
   return (
-    <Modal open={modal.visible} onClose={modal.hide} onExited={modal.remove} backdrop="static">
+    <Modal
+      open={modal.visible}
+      onClose={modal.hide}
+      onExited={modal.remove}
+      backdrop="static"
+      size="xs"
+    >
       <Modal.Header>
-        <Modal.Title>Hello React Suite</Modal.Title>
+        <Modal.Title>Modal Example</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Greetings: {id},{name}!
+        <p>ID: {id}</p>
+        <p>Name: {name}</p>
       </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={modal.hide} appearance="subtle">
+          Cancel
+        </Button>
+        <Button onClick={modal.hide} appearance="primary">
+          Confirm
+        </Button>
+      </Modal.Footer>
     </Modal>
-  );
-});
-
-const MyDrawer = NiceModal.create(({ id, name }) => {
-  const modal = useModal();
-  return (
-    <Drawer open={modal.visible} onClose={modal.hide} onExited={modal.remove} backdrop="static">
-      <Drawer.Header>
-        <Drawer.Title>Hello React Suite</Drawer.Title>
-      </Drawer.Header>
-      <Drawer.Body>
-        Greetings: {id},{name}!
-      </Drawer.Body>
-    </Drawer>
   );
 });
 
 function App() {
   return (
     <NiceModal.Provider>
-      <HStack>
-        <Button
-          appearance="primary"
-          onClick={() => {
-            NiceModal.show(MyModal, { id: 'test', name: 'Nate' });
-          }}
-        >
-          Show Modal
-        </Button>
-
-        <Button
-          appearance="primary"
-          onClick={() => {
-            NiceModal.show(MyDrawer, { id: 'test', name: 'Nate' });
-          }}
-        >
-          Show Drawer
-        </Button>
-      </HStack>
+      <Button
+        onClick={() => {
+          NiceModal.show(MyModal, {
+            id: 'modal-123',
+            name: 'Example Content'
+          });
+        }}
+      >
+        Show Modal
+      </Button>
     </NiceModal.Provider>
   );
 }

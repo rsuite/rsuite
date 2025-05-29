@@ -1,4 +1,4 @@
-import ko from 'date-fns/locale/ko';
+import { ko } from 'date-fns/locale/ko';
 
 const DateTimeFormats = {
   sunday: '일',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: '켜기',
     off: '끄기'
+  },
+  Dialog: {
+    alert: '경고',
+    confirm: '확인',
+    ok: '확인',
+    cancel: '취소'
   }
 };

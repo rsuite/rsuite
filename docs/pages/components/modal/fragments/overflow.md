@@ -26,11 +26,11 @@ const App = () => {
           <Placeholder.Paragraph rows={80} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
           </Button>
         </Modal.Footer>
       </Modal>
