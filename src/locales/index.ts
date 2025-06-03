@@ -29,6 +29,7 @@ export { default as csCZ } from './cs_CZ';
 export { default as plPL } from './pl_PL';
 export { default as ukUA } from './uk_UA';
 export { default as thTH } from './th_TH';
+export { default as guIN } from './gu_IN';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
