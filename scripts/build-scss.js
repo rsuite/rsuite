@@ -19,7 +19,7 @@ async function compileScss(
 ) {
   const sassResult = sass.compile(input, {
     style: minify ? 'compressed' : 'expanded',
-    sourceMap: false, // Disable source map generation
+    sourceMap: false,
     loadPaths: ['node_modules'],
     ...sassOptions
   });
@@ -29,7 +29,7 @@ async function compileScss(
     autoprefixer(),
     postcssDiscardComments({ removeAll: true }) // Remove all comments for all files
   ];
-  
+
   // Add component-specific optimization plugins for component styles
   if (optimizeComponent) {
     postcssPlugins.push(
@@ -38,26 +38,10 @@ async function compileScss(
     );
   }
 
-  // Make source map paths relative to the output directory and point to lib
-  if (sassResult.sourceMap) {
-    const outputDir = path.dirname(path.resolve(output));
-    const relativeToLib = path.relative(outputDir, path.resolve(componentOutDir));
-
-    sassResult.sourceMap.sources = sassResult.sourceMap.sources.map(source => {
-      // For main source file, use the path in lib directory
-      if (source.endsWith(path.basename(input))) {
-        const relativePath = path.relative(path.resolve('src'), path.dirname(path.resolve(input)));
-        return path.join(relativeToLib, relativePath, path.basename(input));
-      }
-      // For partials, they should be in the same directory as the output
-      return path.basename(source);
-    });
-  }
-
   const postcssResult = await postcss(postcssPlugins).process(sassResult.css, {
     from: input,
     to: output,
-    map: false // Disable source map generation in PostCSS
+    map: false
   });
 
   await fs.ensureDir(path.dirname(output));

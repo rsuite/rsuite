@@ -20,7 +20,7 @@
     @content;
 
     @include color-modes.high-contrast-mode {
-      border-color: var(--rs-btn-default-disabled-boreder-color);
+      border-color: var(--rs-btn-default-disabled-border-color);
     }
   }
 }
