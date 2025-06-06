@@ -24,7 +24,7 @@
 
   &-disabled {
     opacity: 0.5;
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
 
     .rs-slider-bar,
     .rs-slider-handle::before {
@@ -34,7 +34,7 @@
 
   &-with-mark:not(&-vertical) {
     //White space for mark
-    margin-bottom: calc(@line-height-computed + var(--rs-slider-mark-mt));
+    margin-bottom: calc(var(--rs-line-height-base) + var(--rs-slider-mark-mt));
   }
 
   &:where([data-size='xs']) {

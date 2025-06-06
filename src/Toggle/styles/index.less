@@ -9,6 +9,7 @@
   // CSS Variables
   --rs-toggle-transition: 0.2s ease-in-out;
   --rs-toggle-gap: 10px;
+  --rs-toggle-active-scale: 1.2;
 
   // Extra small size
   --rs-toggle-font-size-xs: var(--rs-font-size-2xs);
@@ -71,7 +72,7 @@
       --rs-toggle-min-width: calc(var(~'--rs-toggle-size-@{size}') * 2 - var(--rs-toggle-handle-gap));
       --rs-toggle-size: var(~'--rs-toggle-size-@{size}');
       --rs-toggle-checked-margin-left: calc((var(--rs-toggle-size) - var(--rs-toggle-handle-gap)) * -1);
-      --rs-toggle-active-checked-margin-left: calc((var(--rs-toggle-size) * @toggle-active-scale - var(--rs-toggle-handle-gap)) * -1);
+      --rs-toggle-active-checked-margin-left: calc((var(--rs-toggle-size) * var(--rs-toggle-active-scale) - var(--rs-toggle-handle-gap)) * -1);
     }
   });
 
@@ -147,7 +148,7 @@
     }
 
     &:active::after {
-      width: calc(var(--rs-toggle-handle-size) * @toggle-active-scale);
+      width: calc(var(--rs-toggle-handle-size) * var(--rs-toggle-active-scale));
     }
 
     .high-contrast-mode({

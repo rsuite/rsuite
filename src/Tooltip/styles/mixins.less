@@ -47,7 +47,7 @@
 // @bg:        The arrow's background color, usually equal to tooltip's background
 // @border:    The arrow's border color, usually equal to tooltip's border (which only take effect
 //             in high-contrast theme)
-.with-tooltip-arrow(@direction, @size: @tooltip-arrow-width, @bg: var(--rs-tooltip-bg), @border: var(--rs-tooltip-border)) {
+.with-tooltip-arrow(@direction, @size: 6px, @bg: var(--rs-tooltip-bg), @border: var(--rs-tooltip-border)) {
   &::after {
     .tooltip-arrow(@direction, @size, @bg);
   }

@@ -13,7 +13,7 @@
 
 // Toolbar
 .rs-picker-toolbar {
-  padding: @calendar-picker-padding;
+  padding: var(--rs-calendar-base-spacing);
   border-top: 1px solid var(--rs-divider-border);
 }
 
@@ -71,6 +71,8 @@
   }
 
   .rs-calendar {
+    --rs-calendar-in-menu-content-side-length: 30px;
+
     min-width: @calendar-width;
     // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
     display: block;
@@ -116,8 +118,8 @@
     }
 
     .rs-calendar-table-cell-content {
-      width: @calendar-in-menu-content-side-length;
-      height: @calendar-in-menu-content-side-length;
+      width: var(--rs-calendar-in-menu-content-side-length);
+      height: var(--rs-calendar-in-menu-content-side-length);
     }
 
     .rs-calendar-month-dropdown-cell-content:hover {

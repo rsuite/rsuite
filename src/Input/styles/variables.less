@@ -1,22 +1,26 @@
 :root {
+  --rs-input-border-width: 1px;
+
   --rs-input-font-size-xs: var(--rs-font-size-xs);
   --rs-input-font-size-sm: var(--rs-font-size-sm);
   --rs-input-font-size-md: var(--rs-font-size-sm);
   --rs-input-font-size-lg: var(--rs-font-size-md);
 
-  --rs-input-line-height-xs: @line-height-extra-small;
-  --rs-input-line-height-sm: @line-height-base;
-  --rs-input-line-height-md: @line-height-base;
-  --rs-input-line-height-lg: @line-height-large;
+  --rs-input-line-height-xs: var(--rs-line-height-xs);
+  --rs-input-line-height-sm: var(--rs-line-height-md);
+  --rs-input-line-height-md: var(--rs-line-height-md);
+  --rs-input-line-height-lg: var(--rs-line-height-lg);
 
   --rs-input-border-radius: var(--rs-radius-md);
 
-  --rs-input-padding-block-xs: calc(@padding-y-xs - @input-border-width);
-  --rs-input-padding-block-sm: calc(@padding-y-sm - @input-border-width);
-  --rs-input-padding-block-md: calc(@padding-y - @input-border-width);
-  --rs-input-padding-block-lg: calc(@padding-y-lg - @input-border-width);
-  --rs-input-padding-inline-xs: calc(var(--rs-spacing) - @input-border-width);
-  --rs-input-padding-inline-sm: calc(calc(var(--rs-spacing) * 2) - @input-border-width);
-  --rs-input-padding-inline-md: calc(calc(var(--rs-spacing) * 2.5) - @input-border-width);
-  --rs-input-padding-inline-lg: calc(calc(var(--rs-spacing) * 3) - @input-border-width);
+  --rs-input-padding-block-xs: calc(var(--rs-spacing-block-xs) - var(--rs-input-border-width));
+  --rs-input-padding-block-sm: calc(var(--rs-spacing-block-sm) - var(--rs-input-border-width));
+  --rs-input-padding-block-md: calc(var(--rs-padding-block-md) - var(--rs-input-border-width));
+  --rs-input-padding-block-lg: calc(var(--rs-spacing-block-lg) - var(--rs-input-border-width));
+  --rs-input-padding-inline-xs: calc(var(--rs-spacing) - var(--rs-input-border-width));
+  --rs-input-padding-inline-sm: calc(calc(var(--rs-spacing) * 2) - var(--rs-input-border-width));
+  --rs-input-padding-inline-md: calc(calc(var(--rs-spacing) * 2.5) - var(--rs-input-border-width));
+  --rs-input-padding-inline-lg: calc(calc(var(--rs-spacing) * 3) - var(--rs-input-border-width));
+
+  --rs-input-transition: border-color ease-in-out 0.15s;
 }

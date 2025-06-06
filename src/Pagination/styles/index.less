@@ -20,11 +20,11 @@
       min-width: 42px;
 
       .rs-pagination-symbol {
-        height: @line-height-large-computed;
+        height: var(--rs-line-height-plus);
       }
 
       &-active {
-        .pagination-active-size(@padding-y-lg, @padding-x-lg);
+        .pagination-active-size(var(--rs-spacing-block-lg), var(--rs-spacing-inline-lg));
       }
     }
   }
@@ -44,7 +44,7 @@
       min-width: 30px;
 
       &-active {
-        .pagination-active-size(@padding-y-sm, @padding-x-sm);
+        .pagination-active-size(var(--rs-spacing-block-sm), var(--rs-spacing-inline-sm));
       }
     }
   }
@@ -54,7 +54,7 @@
       min-width: 24px;
 
       &-active {
-        .pagination-active-size(@padding-y-xs, @padding-x-xs);
+        .pagination-active-size(var(--rs-spacing-block-xs), var(--rs-spacing-inline-xs));
       }
     }
   }
@@ -77,7 +77,7 @@
   .rs-pagination-symbol {
     display: flex;
     align-items: center;
-    height: @line-height-computed;
+    height: var(--rs-line-height-base);
 
     [dir='rtl'] & {
       transform: rotate(180deg);

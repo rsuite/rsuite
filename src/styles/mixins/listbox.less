@@ -28,10 +28,11 @@
 .listbox-option() {
   display: flex;
   justify-content: space-between;
-  padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
+  padding-inline: var(--rs-picker-item-content-padding-horizontal);
+  padding-block: var(--rs-picker-item-content-padding-vertical);
   clear: both;
   font-weight: normal;
-  line-height: @line-height-base;
+  line-height: var(--rs-line-height-md);
   color: var(--rs-text-primary);
   cursor: pointer;
   text-decoration: none;

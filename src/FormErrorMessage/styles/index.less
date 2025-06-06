@@ -1,9 +1,6 @@
 @import '../../styles/common.less';
 @import './animation.less';
 
-@arrow-width: @form-err-msg-triangle-width;
-@arrow-gap: @form-err-msg-triangle-gap;
-
 // Mixins for common arrow styles
 .arrow-base() {
   &::before,
@@ -39,6 +36,9 @@
 .rs-form-error-message {
   --rs-form-errormessage-font-size: var(--rs-font-size-xs);
   --rs-form-errormessage-line-height: 1.25rem;
+  --rs-form-errormessage-triangle-vertical: 4px;
+  --rs-form-errormessage-triangle-gap: 10px;
+
 
   position: absolute;
   padding: 3px 7px;
@@ -46,7 +46,7 @@
   border: 1px solid var(--rs-form-errormessage-border);
   border-radius: var(--rs-radius-md);
   filter: ~'drop-shadow(0 0 6px rgba(0,0,0,.1))';
-  z-index: @zindex-form-error-message;
+  z-index: var(--rs-zindex-form-error-message);
   color: var(--rs-form-errormessage-text);
   font-size: var(--rs-form-errormessage-font-size);
   line-height: var(--rs-form-errormessage-line-height);
@@ -109,7 +109,7 @@
     }
 
     .rs-form-error-message-arrow {
-      .arrow-border(bottom, 0, @arrow-width, @arrow-width, top, @arrow-width);
+      .arrow-border(bottom, 0, 6px, 6px, top, 6px);
     }
   }
 
@@ -124,7 +124,7 @@
     }
 
     .rs-form-error-message-arrow {
-      .arrow-border(top, @arrow-width, @arrow-width, 0, bottom, @arrow-width);
+      .arrow-border(top, 6px, 6px, 0, bottom, 6px);
     }
   }
 
@@ -135,7 +135,7 @@
       inset-inline-start: 0;
     }
     .rs-form-error-message-arrow {
-      .arrow-position(inset-inline-start, @arrow-gap);
+      .arrow-position(inset-inline-start, var(--rs-form-errormessage-triangle-gap));
     }
   }
 
@@ -145,7 +145,7 @@
       inset-inline-end: 0;
     }
     .rs-form-error-message-arrow {
-      .arrow-position(inset-inline-end, @arrow-gap);
+      .arrow-position(inset-inline-end, var(--rs-form-errormessage-triangle-gap));
     }
   }
 
@@ -162,13 +162,13 @@
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        border-width: @arrow-width
-          if(@direction = left, 0 @arrow-width @arrow-width, @arrow-width @arrow-width 0);
+        border-width: 6px
+          if(@direction = left, 0 6px 6px, 6px 6px 0);
         border-@{direction}-color: var(--rs-form-errormessage-border);
-        @{opposite}: -1 * @arrow-width;
+        @{opposite}: -6px;
       }
       &::after {
-        @{opposite}: -1 * (@arrow-width - 1);
+        @{opposite}: -5px;
         border-@{direction}-color: var(--rs-form-errormessage-bg);
       }
     }
@@ -182,7 +182,7 @@
     .rs-form-error-message-arrow {
       &::before,
       &::after {
-        @{position}: @form-err-msg-triangle-vertical;
+        @{position}: var(--rs-form-errormessage-triangle-vertical);
       }
     }
   }

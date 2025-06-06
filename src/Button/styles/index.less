@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 0; // For input.btn
-  font-weight: @btn-font-weight;
+  font-weight: var(--rs-btn-font-weight);
   font-size: var(--rs-btn-font-size, var(--rs-font-size-sm));
   line-height: var(--rs-btn-line-height, 1.25rem);
   height: var(--rs-btn-size, 2.25rem);
@@ -21,7 +21,7 @@
   vertical-align: middle;
   cursor: pointer;
   white-space: nowrap;
-  transition: @btn-transition;
+  transition: var(--rs-btn-transition);
   // Reset border style in all browser
   border-width: 0;
   border-style: solid;
@@ -54,7 +54,7 @@
   });
 
   .button-disabled({
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
     color: var(--rs-btn-default-disabled-text);
     background-color: var(--rs-btn-default-disabled-bg);
   });
@@ -83,12 +83,12 @@
 
 .rs-btn-start-icon {
   line-height: 0; // Eliminate whitespace
-  margin-inline-end: @btn-icon-gap;
+  margin-inline-end: var(--rs-btn-icon-gap);
 }
 
 .rs-btn-end-icon {
   line-height: 0; // Eliminate whitespace
-  margin-inline-start: @btn-icon-gap;
+  margin-inline-start: var(--rs-btn-icon-gap);
 }
 
 // Appearance variants
@@ -146,7 +146,7 @@
   .button-activated({
     color: var(--rs-btn-link-hover-text);
     background-color: transparent;
-    text-decoration: @link-hover-decoration;
+    text-decoration: var(--rs-link-hover-decoration);
   });
 
   .button-pressed({
@@ -166,8 +166,8 @@
 .rs-btn-ghost {
   color: var(--rs-btn-ghost-text);
   background-color: transparent;
-  border: @btn-ghost-border-width solid var(--rs-btn-ghost-border);
-  padding-inline: calc(var(--rs-btn-padding-inline) - @btn-ghost-border-width);
+  border: var(--rs-btn-ghost-border-width) solid var(--rs-btn-ghost-border);
+  padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-btn-ghost-border-width));
 
   .button-activated({
     color: var(--rs-btn-ghost-hover-text);
@@ -293,8 +293,8 @@ each(@spectrum, .(@color) {
     &::after {
       content: '';
       position: absolute;
-      width: @btn-loading-spin-default-diameter;
-      height: @btn-loading-spin-default-diameter;
+      width: var(--rs-btn-loading-spin-default-diameter);
+      height: var(--rs-btn-loading-spin-default-diameter);
       margin: auto;
       top: 0;
       bottom: 0;
@@ -304,13 +304,13 @@ each(@spectrum, .(@color) {
       z-index: 1;
 
       .rs-btn-xs& {
-        width: @btn-loading-spin-xs-diameter;
-        height: @btn-loading-spin-xs-diameter;
+        width: var(--rs-btn-loading-spin-xs-diameter);
+        height: var(--rs-btn-loading-spin-xs-diameter);
       }
     }
 
     &::before {
-      border: @btn-loading-spin-ring-wide solid var(--rs-loader-ring);
+      border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
 
       .rs-btn-primary& {
         border-color: rgba(248, 247, 250, 0.3);
@@ -322,7 +322,7 @@ each(@spectrum, .(@color) {
     }
 
     &::after {
-      border-width: @btn-loading-spin-ring-wide;
+      border-width: var(--rs-btn-loading-spin-ring-wide);
       border-color: var(--rs-loader-rotor) transparent transparent;
       border-style: solid;
       animation: buttonSpin 0.6s infinite linear;

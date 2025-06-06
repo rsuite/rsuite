@@ -14,11 +14,15 @@
   --rs-popover-position-x: var(--rs-position-x);
   --rs-popover-position-y: var(--rs-position-y);
   --rs-popover-opacity: var(--rs-opacity, 0);
+  --rs-popover-arrow-gap: 4px;
+  --rs-popover-arrow-width: 6px;
+  --rs-popover-arrow-outer-width: 6px;
+  --rs-popover-translate-distance: 2px;
 
   position: absolute;
   top: var(--rs-popover-position-y);
   left: var(--rs-popover-position-x) /* rtl:ignore */;
-  z-index: @zindex-popover;
+  z-index: var(--rs-zindex-popover);
   display: block;
   padding: 12px;
   font-size: var(--rs-popover-font-size);
@@ -49,7 +53,7 @@
 
   // Arrow is outer, Arrow:after is inner
   > .rs-popover-arrow {
-    border-width: @popover-arrow-outer-width;
+    border-width: var(--rs-popover-arrow-outer-width);
 
     &,
     &::before,
@@ -64,7 +68,7 @@
 
     &::before,
     &::after {
-      border-width: @popover-arrow-width;
+      border-width: var(--rs-popover-arrow-width);
       content: '';
     }
 
@@ -100,24 +104,24 @@
 .rs-popover {
   // Vertical placement styles (top/bottom)
   &:where([data-placement*='top']) {
-    margin-top: -(@popover-arrow-width + 2px);
-    .set-translate-transition(0, -@popover-translate-distance);
+    margin-top: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+    .set-translate-transition(0, calc(var(--rs-popover-translate-distance) * -1));
 
     > .rs-popover-arrow {
-      margin-inline-start: -@popover-arrow-outer-width;
-      bottom: -@popover-arrow-outer-width;
+      margin-inline-start: calc(var(--rs-popover-arrow-outer-width) * -1);
+      bottom: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       .with-popover-arrow(bottom);
     }
   }
 
   &:where([data-placement*='bottom']) {
-    margin-top: (@popover-arrow-width + 2px);
-    .set-translate-transition(0, @popover-translate-distance);
+    margin-top: calc(var(--rs-popover-arrow-width) + 2px);
+    .set-translate-transition(0, var(--rs-popover-translate-distance));
 
     > .rs-popover-arrow {
-      margin-left: -@popover-arrow-outer-width;
-      top: -@popover-arrow-outer-width;
+      margin-left: calc(var(--rs-popover-arrow-outer-width) * -1);
+      top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       .with-popover-arrow(top);
     }
@@ -133,7 +137,7 @@
 
   &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     > .rs-popover-arrow {
-      right: @popover-arrow-gap;
+      right: var(--rs-popover-arrow-gap);
     }
   }
 
@@ -145,7 +149,7 @@
 
   &:where([data-placement='left-end'], [data-placement='right-end']) {
     > .rs-popover-arrow {
-      bottom: @popover-arrow-gap;
+      bottom: var(--rs-popover-arrow-gap);
     }
   }
 }
@@ -153,24 +157,24 @@
 /* rtl:begin:ignore */
 .rs-popover {
   &:where([data-placement*='right']) {
-    margin-left: (@popover-arrow-width + 2px);
-    .set-translate-transition(@popover-translate-distance, 0);
+    margin-left: calc(var(--rs-popover-arrow-width) + 2px);
+    .set-translate-transition(var(--rs-popover-translate-distance), 0);
 
     > .rs-popover-arrow {
-      left: -@popover-arrow-outer-width;
-      margin-top: -@popover-arrow-outer-width;
+      left: calc(var(--rs-popover-arrow-outer-width) * -1);
+      margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       .with-popover-arrow(left);
     }
   }
 
   &:where([data-placement*='left']) {
-    margin-left: -(@popover-arrow-width + 2px);
-    .set-translate-transition(-@popover-translate-distance, 0);
+    margin-left: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+    .set-translate-transition(calc(var(--rs-popover-translate-distance) * -1), 0);
 
     > .rs-popover-arrow {
-      right: -@popover-arrow-outer-width;
-      margin-top: -@popover-arrow-outer-width;
+      right: calc(var(--rs-popover-arrow-outer-width) * -1);
+      margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       .with-popover-arrow(right);
     }
@@ -190,13 +194,13 @@
 
   &:where([data-placement='top-start'], [data-placement='bottom-start']) {
     > .rs-popover-arrow {
-      margin-inline-start: @popover-arrow-outer-width;
+      margin-inline-start: var(--rs-popover-arrow-outer-width);
     }
   }
 
   &:where([data-placement='right-start'], [data-placement='left-start']) {
     > .rs-popover-arrow {
-      margin-top: @popover-arrow-outer-width;
+      margin-top: var(--rs-popover-arrow-outer-width);
     }
   }
 }

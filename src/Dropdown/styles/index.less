@@ -12,13 +12,16 @@
 .rs-dropdown {
   --rs-dropdown-divider-color: var(--rs-divider-border);
   --rs-dropdown-shadow: var(--rs-shadow-md);
+  --rs-dropdown-caret-icon-padding-horizontal: 9px;
+  --rs-dropdown-item-padding-y: 8px;
+  --rs-dropdown-item-padding-x: 12px;
 
   position: relative;
   display: inline-block;
   vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
 
   &-disabled &-toggle.rs-btn {
-    cursor: @cursor-disabled !important;
+    cursor: var(--rs-cursor-disabled) !important;
     box-shadow: none;
 
     &.rs-btn-subtle {
@@ -73,7 +76,7 @@
   }
 
   &.rs-dropdown-toggle-no-caret {
-    padding-inline-end: @padding-x;
+    padding-inline-end: var(--rs-padding-inline-md);
   }
 }
 
@@ -102,7 +105,7 @@
   .rs-dropdown & {
     position: absolute;
     // dropdown-menu zindex value is greater than dropdown-toggle
-    z-index: @zindex-dropdown + 1;
+    z-index: calc(var(--rs-zindex-dropdown) + 1);
     float: inline-start;
     box-shadow: var(--rs-dropdown-shadow);
     outline: none;
@@ -127,7 +130,7 @@
   padding-block: var(--rs-menuitem-padding-block);
   clear: both;
   font-weight: normal;
-  line-height: @line-height-base;
+  line-height: var(--rs-line-height-md);
   color: var(--rs-text-primary);
   border-radius: var(--rs-radius-sm);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
@@ -146,7 +149,7 @@
   }
 
   > .rs-icon {
-    width: @font-size-base;
+    width: var(--rs-font-size-base);
     text-align: center;
   }
 
@@ -180,7 +183,7 @@
   // Gray out text and ensure the hover/focus state remains gray
   &-disabled {
     color: var(--rs-text-disabled);
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
 
     .rs-text {
       color: var(--rs-text-disabled);
@@ -233,13 +236,11 @@
     padding: 0;
 
     .rs-dropdown-item-toggle {
-      padding: @dropdown-item-padding-y @dropdown-item-padding-x;
-      padding-inline-end: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
-        @dropdown-item-submenu-icon-angle-width;
+      padding-inline-end: 26px;
     }
 
     .rs-dropdown-menu-toggle-icon {
-      inset-inline-end: @dropdown-caret-icon-padding-horizontal;
+      inset-inline-end: var(--rs-dropdown-caret-icon-padding-horizontal);
     }
   }
 
@@ -319,8 +320,8 @@
 // Dropdown section headers
 .rs-dropdown-header {
   display: block;
-  padding: @dropdown-item-padding-y @dropdown-item-padding-x;
-  line-height: @line-height-base;
+  padding: var(--rs-dropdown-item-padding-y) var(--rs-dropdown-item-padding-x);
+  line-height: var(--rs-line-height-md);
   color: var(--rs-dropdown-header-text);
   border-bottom: 1px solid var(--rs-dropdown-divider-color);
   white-space: nowrap; // as with > li > a

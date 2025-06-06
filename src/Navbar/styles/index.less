@@ -11,6 +11,8 @@
   --rs-navbar-gap: calc(var(--rs-spacing) * 4);
   --rs-navbar-icon-font-size: var(--rs-font-size-md);
   --rs-navbar-caret-font-size: var(--rs-font-size-md);
+  --rs-navbar-item-padding-y: 8px;
+  --rs-navbar-item-padding-x: 12px;
 
   display: flex;
   align-items: center;
@@ -64,7 +66,8 @@
 // Nav item content
 .rs-navbar-item {
   // Reset padding
-  padding: @navbar-item-padding-y @navbar-item-padding-x;
+  padding-inline: var(--rs-navbar-item-padding-x);
+  padding-block: var(--rs-navbar-item-padding-y);
   border-radius: var(--rs-radius-md);
   color: inherit;
   background-color: transparent;
@@ -128,7 +131,7 @@
     &:extend(.rs-navbar-item:focus-visible);
   }
 
-  padding-inline-end: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
+  padding-inline-end: calc(var(--rs-navbar-item-padding-x) + 20px);
 
   .high-contrast-mode({
     border: none;
@@ -139,8 +142,8 @@
   });
 
   .rs-dropdown-toggle-caret {
-    top: @navbar-item-padding-y;
-    inset-inline-end: @navbar-item-padding-x;
+    top: var(--rs-navbar-item-padding-y);
+    inset-inline-end: var(--rs-navbar-item-padding-x);
   }
 }
 

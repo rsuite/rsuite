@@ -1,5 +1,9 @@
 @import '../../styles/common.less';
 
+.rs-form-control {
+  --rs-form-control-width: 300px;
+}
+
 // Full container.
 .rs-form-stack-fluid {
   .rs-form-control-wrapper {
@@ -25,7 +29,7 @@
 
   > .rs-number-input,
   > .rs-input {
-    width: @form-control-width;
+    width: var(--rs-form-control-width);
   }
 
   &.read-only {
@@ -37,7 +41,7 @@
 // Vertical forms
 .rs-form-stack-vertical .rs-form-group {
   .rs-input-group {
-    width: @form-control-width;
+    width: var(--rs-form-control-width);
   }
 
   .rs-form-control-wrapper {

@@ -4,6 +4,17 @@
 // ----------------------
 
 .rs-carousel {
+  --rs-carousel-bar-active-width: 28px;
+  --rs-carousel-bar-height: 4px;
+  --rs-carousel-bar-width: 18px;
+  --rs-carousel-dot-side-length: 10px;
+  --rs-carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
+  --rs-carousel-handler-margin: 3px;
+  --rs-carousel-dot-margin: calc(-1 * var(--rs-carousel-handler-margin));
+  --rs-carousel-animation-duration: 0.3s;
+  --rs-carousel-handler-transition: background var(--rs-carousel-animation-duration) linear;
+  --rs-carousel-toolbar-wrapper-margin: 17px;
+
   position: relative;
   height: 400px;
   overflow: hidden;
@@ -18,9 +29,9 @@
 
   &-slider {
     position: relative;
-    inset-inline-start:  0;
+    inset-inline-start: 0;
     height: 100%;
-    transition: transform @carousel-animation-duration ease;
+    transition: transform var(--rs-carousel-animation-duration) ease;
     will-change: transform;
 
     &-item {
@@ -33,15 +44,15 @@
 
   &-slider-after {
     position: absolute;
-    inset-inline-start:  0;
+    inset-inline-start: 0;
     height: 100%;
     width: 100%;
     background-color: var(--rs-carousel-bg);
     top: 0;
-    animation: moveLeftHalf @carousel-animation-duration ease forwards;
+    animation: moveLeftHalf var(--rs-carousel-animation-duration) ease forwards;
 
     &-vertical {
-      animation: moveLeftHalf-vertical @carousel-animation-duration ease forwards;
+      animation: moveLeftHalf-vertical var(--rs-carousel-animation-duration) ease forwards;
     }
   }
 
@@ -61,7 +72,7 @@
   }
 
   &-label-wrapper {
-    margin: @carousel-handler-margin;
+    margin: var(--rs-carousel-handler-margin);
 
     input {
       width: 0;
@@ -79,17 +90,17 @@
     cursor: pointer;
     display: block;
     background-color: var(--rs-carousel-indicator);
-    transition: @carousel-handler-transition;
+    transition: var(--rs-carousel-handler-transition);
     transition-property: background, width, height;
     position: relative;
 
     &::after {
       content: '';
       position: absolute;
-      top: -1 * @carousel-handler-sense-width;
-      bottom: -1 * @carousel-handler-sense-width;
-      inset-inline-end: -1 * @carousel-handler-sense-width;
-      inset-inline-start:  -1 * @carousel-handler-sense-width;
+      top: var(--rs-carousel-dot-margin);
+      bottom: var(--rs-carousel-dot-margin);
+      inset-inline-end: var(--rs-carousel-dot-margin);
+      inset-inline-start: var(--rs-carousel-dot-margin);
     }
 
     &:hover {
@@ -99,8 +110,8 @@
 
   // Handler Shape
   &-shape-dot &-label {
-    width: @carousel-dot-side-length;
-    height: @carousel-dot-side-length;
+    width: var(--rs-carousel-dot-side-length);
+    height: var(--rs-carousel-dot-side-length);
     border-radius: var(--rs-radius-full);
   }
 
@@ -110,21 +121,21 @@
 
   &-placement-top&-shape-bar &-label,
   &-placement-bottom&-shape-bar &-label {
-    width: @carousel-bar-width;
-    height: @carousel-bar-height;
+    width: var(--rs-carousel-bar-width);
+    height: var(--rs-carousel-bar-height);
 
     &-wrapper input:checked ~ label {
-      width: @carousel-bar-active-width;
+      width: var(--rs-carousel-bar-active-width);
     }
   }
 
   &-placement-left&-shape-bar &-label,
   &-placement-right&-shape-bar &-label {
-    width: @carousel-bar-height;
-    height: @carousel-bar-width;
+    width: var(--rs-carousel-bar-height);
+    height: var(--rs-carousel-bar-width);
 
     &-wrapper input:checked ~ label {
-      height: @carousel-bar-active-width;
+      height: var(--rs-carousel-bar-active-width);
     }
   }
 
@@ -132,7 +143,7 @@
 
   &-placement-top &-toolbar,
   &-placement-bottom &-toolbar {
-    inset-inline-start:  0;
+    inset-inline-start: 0;
     width: 100%;
 
     > ul {
@@ -142,17 +153,17 @@
   }
 
   &-placement-top &-toolbar {
-    top: @carousel-toolbar-wrapper-margin;
+    top: var(--rs-carousel-toolbar-wrapper-margin);
   }
 
   &-placement-bottom &-toolbar {
-    bottom: @carousel-toolbar-wrapper-margin;
+    bottom: var(--rs-carousel-toolbar-wrapper-margin);
   }
 
   &-placement-left &-toolbar,
   &-placement-right &-toolbar {
     top: 0;
-    width: @carousel-dot-wrapper-side-length;
+    width: var(--rs-carousel-dot-wrapper-side-length);
     height: 100%;
 
     > ul {
@@ -163,11 +174,11 @@
   }
 
   &-placement-left &-toolbar {
-    inset-inline-start:  @carousel-toolbar-wrapper-margin;
+    inset-inline-start: var(--rs-carousel-toolbar-wrapper-margin);
   }
 
   &-placement-right &-toolbar {
-    inset-inline-end: @carousel-toolbar-wrapper-margin;
+    inset-inline-end: var(--rs-carousel-toolbar-wrapper-margin);
   }
 
   @keyframes moveLeftHalf {

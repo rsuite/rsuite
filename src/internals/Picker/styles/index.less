@@ -9,6 +9,7 @@
 @import '../../../Highlight/styles/index.less';
 @import '../../CloseButton/styles/index.less';
 @import './mixin.less';
+@import './variables.less';
 
 //
 // Pickers
@@ -121,7 +122,7 @@
   --rs-picker-popup-none-padding: calc(var(--rs-spacing) * 3);
   --rs-picker-popup-border-radius: var(--rs-radius-md);
   --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
-  --rs-picker-popup-z-index: @zindex-picker-popup;
+  --rs-picker-popup-z-index: var(--rs-zindex-picker-popup);
   --rs-picker-popup-shadow: var(--rs-shadow-md);
   --rs-picker-popup-position-x: var(--rs-position-x);
   --rs-picker-popup-position-y: var(--rs-position-y);
@@ -148,12 +149,12 @@
 
   // Increase z-index when modal opened.
   .rs-modal-open & {
-    --rs-picker-popup-z-index: calc(@zindex-modal + @zindex-picker-toggle);
+    --rs-picker-popup-z-index: calc(var(--rs-zindex-modal) + var(--rs-zindex-picker-toggle));
   }
 
   // Increase z-index when drawer opened.
   .rs-drawer-open & {
-    --rs-picker-popup-z-index: calc(@zindex-drawer + @zindex-picker-toggle);
+    --rs-picker-popup-z-index: calc(var(--rs-zindex-drawer) + var(--rs-zindex-picker-toggle));
   }
 
   &.rs-picker-inline {
@@ -276,7 +277,7 @@
 
   .rs-picker[data-variant='default'],
   & {
-    transition: @picker-transition;
+    transition: var(--rs-picker-transition);
 
     .high-contrast-mode({
       transition: none;
@@ -432,21 +433,6 @@
 
       .rs-checkbox-disabled& {
         cursor: not-allowed;
-      }
-
-      .grouped &,
-      .@{ckpns}-menu-group-children & {
-        padding-inline-start: @picker-check-item-content-padding-left +
-          @picker-children-check-item-padding-left;
-      }
-    }
-
-    .rs-checkbox-control {
-      .grouped &,
-      .@{ckpns}-menu-group-children & {
-        inset-inline-start: (
-          @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
-        );
       }
     }
   }

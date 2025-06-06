@@ -1,5 +1,5 @@
 @import '../../styles/common.less';
-@import '../../Input/styles/mixin.less';
+@import '../../Input/styles/index.less';
 
 .rs-inline-edit {
   @sizes: xs, sm, md, lg;
@@ -8,8 +8,8 @@
     &.rs-inline-edit-@{size} {
       --rs-inline-edit-font-size: var(~'--rs-input-font-size-@{size}');
       --rs-inline-edit-line-height: var(~'--rs-input-line-height-@{size}');
-      --rs-inline-edit-padding-block: calc(var(~'--rs-input-padding-block-@{size}') + @input-border-width);
-      --rs-inline-edit-padding-inline: calc(var(~'--rs-input-padding-inline-@{size}') + @input-border-width);
+      --rs-inline-edit-padding-block: calc(var(~'--rs-input-padding-block-@{size}') + var(--rs-input-border-width));
+      --rs-inline-edit-padding-inline: calc(var(~'--rs-input-padding-inline-@{size}') + var(--rs-input-border-width));
     }
   });
 

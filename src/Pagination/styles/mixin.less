@@ -9,6 +9,7 @@
   });
 }
 
-.pagination-active-size(@padding-vertical:@padding-y, @padding-horizontal:@padding-x) {
-  padding: (@padding-vertical - 1) (@padding-horizontal - 1);
+.pagination-active-size(@padding-vertical: var(--rs-padding-block-md), @padding-horizontal: var(--rs-padding-inline-md)) {
+  padding-block: calc(@padding-vertical - 1px);
+  padding-inline: calc(@padding-horizontal - 1px);
 }

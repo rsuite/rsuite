@@ -10,7 +10,7 @@
   position: relative;
   border: 1px solid var(--rs-border-primary);
   border-radius: var(--rs-radius-md);
-  transition: @picker-transition;
+  transition: var(--rs-picker-transition);
   background-color: var(--rs-input-bg);
   overflow: hidden;
 
@@ -58,7 +58,7 @@
     padding-inline-end: 0;
 
     .rs-picker-focused & {
-      z-index: @zindex-picker-input;
+      z-index: var(--rs-zindex-picker-input);
     }
   }
 }

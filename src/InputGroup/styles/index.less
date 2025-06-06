@@ -9,18 +9,22 @@
 // inputs with addons, buttons, or other elements.
 
 .rs-input-group {
-  --rs-input-group-input-height-xs: calc(@input-height-extra-small - 2px);
-  --rs-input-group-input-height-sm: calc(@input-height-small - 2px);
-  --rs-input-group-input-height-md: calc(@input-height-base - 2px);
-  --rs-input-group-input-height-lg: calc(@input-height-large - 2px);
-  --rs-input-group-inside-btn-m-x-xs: calc(@padding-y-xs / 2);
-  --rs-input-group-inside-btn-m-x-sm: calc(@padding-y-sm / 2);
-  --rs-input-group-inside-btn-m-x-md: calc(@padding-y / 2);
-  --rs-input-group-inside-btn-m-x-lg: calc(@padding-y-lg / 2);
-  --rs-input-group-inside-btn-p-x-xs: calc(@padding-x-xs / 2);
-  --rs-input-group-inside-btn-p-x-sm: calc(@padding-x-sm / 2);
-  --rs-input-group-inside-btn-p-x-md: calc(@padding-x / 2);
-  --rs-input-group-inside-btn-p-x-lg: calc(@padding-x-lg / 2);
+  --rs-input-height-xs: calc(var(--rs-line-height-base) + (var(--rs-spacing-block-xs) * 2));
+  --rs-input-height-sm: calc(var(--rs-line-height-base) + (var(--rs-spacing-block-sm) * 2));
+  --rs-input-height-md: calc(var(--rs-line-height-base) + (var(--rs-padding-block-md) * 2));
+  --rs-input-height-lg: calc(var(--rs-line-height-plus) + (var(--rs-spacing-block-lg) * 2));
+  --rs-input-group-input-height-xs: calc(var(--rs-input-height-xs) - 2px);
+  --rs-input-group-input-height-sm: calc(var(--rs-input-height-sm) - 2px);
+  --rs-input-group-input-height-md: calc(var(--rs-input-height-md) - 2px);
+  --rs-input-group-input-height-lg: calc(var(--rs-input-height-lg) - 2px);
+  --rs-input-group-inside-btn-m-x-xs: calc(var(--rs-spacing-block-xs) / 2);
+  --rs-input-group-inside-btn-m-x-sm: calc(var(--rs-spacing-block-sm) / 2);
+  --rs-input-group-inside-btn-m-x-md: calc(var(--rs-padding-block-md) / 2);
+  --rs-input-group-inside-btn-m-x-lg: calc(var(--rs-spacing-block-lg) / 2);
+  --rs-input-group-inside-btn-p-x-xs: calc(var(--rs-spacing-inline-xs) / 2);
+  --rs-input-group-inside-btn-p-x-sm: calc(var(--rs-spacing-inline-sm) / 2);
+  --rs-input-group-inside-btn-p-x-md: calc(var(--rs-padding-inline-md) / 2);
+  --rs-input-group-inside-btn-p-x-lg: calc(var(--rs-spacing-inline-lg) / 2);
   --rs-input-group-border-radius: var(--rs-radius-md);
   --rs-input-group-font-size-xs: var(--rs-font-size-xs);
   --rs-input-group-font-size-sm: var(--rs-font-size-sm);
@@ -31,7 +35,7 @@
   position: relative;
   display: flex;
   border-radius: var(--rs-input-group-border-radius);
-  transition: @input-transition;
+  transition: var(--rs-input-transition);
   width: 100%;
   cursor: text;
   color: var(--rs-text-primary);
@@ -203,17 +207,19 @@
 
   // Sizing
   &.rs-input-sm {
-    padding: @padding-y-sm @padding-x-sm;
+    padding-block: var(--rs-spacing-block-sm);
+    padding-inline: var(--rs-spacing-inline-sm);
     font-size: var(--rs-font-size-sm);
   }
 
   &.rs-input-xs {
-    padding: @padding-x-xs @padding-x-xs;
+    padding: var(--rs-spacing-inline-xs);
     font-size: var(--rs-font-size-xs);
   }
 
   &.rs-input-lg {
-    padding: @padding-y-lg @padding-x-lg;
+    padding-block: var(--rs-spacing-block-lg);
+    padding-inline: var(--rs-spacing-inline-lg);
     font-size: var(--rs-font-size-md);
   }
 

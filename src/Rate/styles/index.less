@@ -53,7 +53,7 @@
     &-before,
     &-after {
       display: flex;
-      z-index: @zindex-rate-character-before;
+      z-index: var(--rs-zindex-rate-character-before);
 
       > .rs-icon {
         font-size: inherit;
@@ -107,7 +107,7 @@
   }
 
   &:where([data-disabled='true']) {
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
     opacity: 0.5;
     outline: none;
   }
