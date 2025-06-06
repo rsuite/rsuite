@@ -5,13 +5,15 @@
 // --------------------------------------------------
 
 .rs-list {
+  --rs-list-border-width: 1px;
+
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
 
   &-bordered {
     border-radius: var(--rs-radius-md);
-    border: @list-border-width solid var(--rs-list-border);
+    border: var(--rs-list-border-width) solid var(--rs-list-border);
   }
 
   &-hover .rs-list-item:hover {
@@ -72,18 +74,18 @@
     border-radius: var(--rs-radius-md);
     top: 0;
     inset-inline-start: 0;
-    z-index: @zindex-list-helper;
+    z-index: var(--rs-zindex-list-helper);
     border: none;
     cursor: move;
 
     // Increase z-index when modal opened.
     .rs-modal-open & {
-      z-index: (@zindex-modal + @zindex-list-helper);
+      z-index: calc(var(--rs-zindex-modal) + var(--rs-zindex-list-helper));
     }
 
     // Increase z-index when drawer opened.
     .rs-drawer-open & {
-      z-index: (@zindex-drawer + @zindex-list-helper);
+      z-index: calc(var(--rs-zindex-drawer) + var(--rs-zindex-list-helper));
     }
   }
 
@@ -95,18 +97,18 @@
       content: '';
       position: absolute;
       visibility: visible;
-      top: @list-border-width;
-      inset-inline-start: @list-border-width;
-      width: calc(100% - 2 * @list-border-width);
-      height: calc(100% - 2 * @list-border-width);
-      border: @list-border-width var(--rs-list-placeholder-border) dashed;
+      top: var(--rs-list-border-width);
+      inset-inline-start: var(--rs-list-border-width);
+      width: calc(100% - 2 * var(--rs-list-border-width));
+      height: calc(100% - 2 * var(--rs-list-border-width));
+      border: var(--rs-list-border-width) var(--rs-list-placeholder-border) dashed;
     }
   }
 }
 
 .rs-list-divider {
   .rs-list-item + .rs-list-item {
-    border-top: @list-border-width solid var(--rs-list-border);
+    border-top: var(--rs-list-border-width) solid var(--rs-list-border);
   }
 }
 

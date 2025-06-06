@@ -4,7 +4,9 @@
 @import './mixin.less';
 
 .rs-radio {
-  --rs-radio-size: @radio-width-height;
+  --rs-radio-size: 16px;
+  --rs-radio-inner-size: 6px;
+
 
   .radio-checkbox-common();
 
@@ -34,7 +36,7 @@
     height: var(--rs-radio-size);
 
     &:disabled {
-      cursor: @cursor-disabled;
+      cursor: var(--rs-cursor-disabled);
     }
   }
 
@@ -112,11 +114,11 @@
 
   // Solid circle.
   &::after {
-    width: @radio-inner-width-height;
-    height: @radio-inner-width-height;
+    width: var(--rs-radio-inner-size);
+    height: var(--rs-radio-inner-size);
     background-color: var(--rs-radio-marker);
-    margin-top: ((@radio-width-height - @radio-inner-width-height) / 2);
-    margin-inline-start: ((@radio-width-height - @radio-inner-width-height) / 2);
+    margin-top: calc((var(--rs-radio-size) - var(--rs-radio-inner-size)) / 2);
+    margin-inline-start: calc((var(--rs-radio-size) - var(--rs-radio-inner-size)) / 2);
     border-radius: var(--rs-radius-full);
     opacity: 0;
     transform: scale(0);

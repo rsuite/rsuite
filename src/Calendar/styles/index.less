@@ -8,12 +8,22 @@
 
 .rs-calendar {
   --rs-calendar-cell-font-size: var(--rs-font-size-sm);
-  --rs-calendar-cell-line-height: @calendar-table-cell-content-line-height;
-  --rs-calendar-cell-padding: @calendar-table-cell-content-padding;
+  --rs-calendar-cell-line-height: var(--rs-line-height-md);
+  --rs-calendar-cell-padding: 5px;
   --rs-calendar-border-radius: var(--rs-radius-md);
   --rs-calendar-table-width: 100%;
+  --rs-calendar-panel-today-active-side-length: var(--rs-line-height-base);
+  --rs-calendar-panel-compact-cell-height: 38px;
+  --rs-calendar-panel-cell-height: 100px;
+  --rs-calendar-dropdown-top: 44px;
+  --rs-calendar-table-cell-padding: 1px;
+  --rs-calendar-header-title-margin: 4px;
+  --rs-calendar-body-padding-top: 4px;
+  --rs-calendar-base-spacing: 10px;
+  --rs-calendar-header-width: 280px;
 
-  padding-top: @calendar-picker-padding;
+
+  padding-top: var(--rs-calendar-base-spacing);
   position: relative;
   min-height: 266px;
   overflow: hidden;
@@ -76,8 +86,8 @@
 
   &-panel &-table-cell-is-today &-table-cell-day {
     color: var(--rs-calendar-today-text);
-    width: @calendar-panel-today-active-side-length;
-    height: @calendar-panel-today-active-side-length;
+    width: var(--rs-calendar-panel-today-active-side-length);
+    height: var(--rs-calendar-panel-today-active-side-length);
     background-color: var(--rs-calendar-today-bg);
     border-radius: var(--rs-radius-full);
     margin-inline-start: auto;
@@ -108,7 +118,7 @@
 
   &-panel:not(&-compact) &-table-row:not(&-table-header-row) &-table-cell-content {
     width: 100%;
-    height: @calendar-panel-cell-height;
+    height: var(--rs-calendar-panel-cell-height);
     overflow: hidden;
   }
 
@@ -135,7 +145,7 @@
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
-    min-height: @calendar-panel-compact-cell-height;
+    min-height: var(--rs-calendar-panel-compact-cell-height);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,12 +238,12 @@
     margin-top: 4px;
     height: 24px;
     position: absolute;
-    z-index: @zindex-date-range-picker-table-cell-content - 1;
+    z-index: calc(var(--rs-zindex-date-range-picker-table-cell-content) - 1);
     top: 0;
   }
 
   .rs-calendar-table-cell-content {
-    z-index: @zindex-date-range-picker-table-cell-content;
+    z-index: var(--rs-zindex-date-range-picker-table-cell-content);
     position: relative;
   }
 }
@@ -252,9 +262,9 @@
 }
 
 .rs-calendar-header {
-  width: @calendar-header-width;
-  padding-inline-start: @calendar-picker-padding;
-  padding-inline-end: @calendar-picker-padding;
+  width: var(--rs-calendar-header-width);
+  padding-inline-start: var(--rs-calendar-base-spacing);
+  padding-inline-end: var(--rs-calendar-base-spacing);
   .clearfix();
 
   // Month toolbar && Time toolbar
@@ -272,7 +282,7 @@
   }
 
   &-title {
-    margin: 0 @calendar-header-title-margin;
+    margin: 0 var(--rs-calendar-header-title-margin);
   }
 
   &-meridiem {
@@ -302,8 +312,7 @@
   // Only Has month
   &-has-month:not(&-has-time) {
     margin: 0 auto;
-    padding-inline-start: @calendar-picker-padding;
-    padding-inline-end: @calendar-picker-padding;
+    padding-inline: var(--rs-calendar-base-spacing);
   }
 
   &-has-month:not(&-has-time) &-month-toolbar {
@@ -352,7 +361,8 @@
 /* rtl:end:ignore */
 
 .rs-calendar-body {
-  padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
+  padding: var(--rs-calendar-base-spacing);
+  padding-top: var(--rs-calendar-body-padding-top);
 }
 
 // Calendar Table
@@ -385,7 +395,7 @@
 .rs-calendar-table-header-cell {
   display: table-cell;
   width: 1%;
-  padding: @calendar-table-cell-padding 0;
+  padding: var(--rs-calendar-table-cell-padding) 0;
   text-align: center;
   vertical-align: middle;
 
@@ -434,7 +444,7 @@
   display: inline-block;
   color: var(--rs-text-secondary);
   font-size: var(--rs-font-size-xs);
-  line-height: @line-height-small;
+  line-height: var(--rs-line-height-sm);
   padding-top: 2px;
   padding-bottom: 2px;
 
@@ -450,7 +460,7 @@
 .rs-calendar-table-cell-week-number {
   display: table-cell;
   min-width: 30px;
-  padding: @calendar-table-cell-padding;
+  padding: var(--rs-calendar-table-cell-padding);
   text-align: center;
   vertical-align: middle;
   color: var(--rs-text-secondary);
@@ -462,13 +472,13 @@
 .rs-calendar-month-dropdown {
   display: none;
   position: absolute;
-  top: @calendar-dropdown-top;
+  top: var(--rs-calendar-dropdown-top);
   border-top: 1px solid var(--rs-border-primary);
   margin-top: 0;
   width: 100%;
   background-color: var(--rs-bg-overlay);
   overflow: hidden;
-  z-index: @zindex-date-range-picker-table-cell-content;
+  z-index: var(--rs-zindex-date-range-picker-table-cell-content);
   height: calc(100% - 48px);
 
   .rs-calendar-month-view & {
@@ -485,8 +495,8 @@
 
   &-row {
     position: relative;
-    padding-inline-start: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
-    padding-inline-end: @calendar-picker-padding;
+    padding-inline-start: calc(var(--rs-calendar-base-spacing) + 38px); // 30px for the year label + 8px gap
+    padding-inline-end: var(--rs-calendar-base-spacing);
     padding-top: 5px;
     padding-bottom: 5px;
 
@@ -498,7 +508,7 @@
   &-year {
     position: absolute;
     top: ~'calc(50% - 0.5em)';
-    inset-inline-start: @calendar-picker-padding;
+    inset-inline-start: var(--rs-calendar-base-spacing);
 
     &-active {
       color: var(--rs-text-active);
@@ -541,14 +551,13 @@
 .rs-calendar-time-dropdown {
   display: none;
   position: absolute;
-  top: @calendar-dropdown-top;
-  padding-inline-start: @calendar-picker-padding;
-  padding-inline-end: @calendar-picker-padding;
+  top: var(--rs-calendar-dropdown-top);
+  padding-inline: var(--rs-calendar-base-spacing);
   width: 100%;
   background-color: var(--rs-bg-overlay);
   color: var(--rs-text-primary);
   overflow: hidden;
-  z-index: @zindex-date-range-picker-table-cell-content;
+  z-index: var(--rs-zindex-date-range-picker-table-cell-content);
 
   .rs-calendar-time-view & {
     display: block;
@@ -593,7 +602,7 @@
     color: var(--rs-text-secondary);
     text-align: center;
     font-size: var(--rs-font-size-xs);
-    line-height: @line-height-small;
+    line-height: var(--rs-line-height-sm);
     padding-top: 2px;
     padding-bottom: 2px;
     margin-bottom: 2px;
@@ -605,7 +614,7 @@
 
   &-cell {
     font-size: var(--rs-font-size-sm);
-    line-height: @line-height-computed;
+    line-height: var(--rs-line-height-base);
     color: inherit;
     padding: 5px;
     display: block;
@@ -649,7 +658,7 @@
 }
 
 .rs-calendar-only-time {
-  padding-top: @calendar-picker-padding;
+  padding-top: var(--rs-calendar-base-spacing);
   display: block;
 
   .rs-calendar-time-dropdown {

@@ -1,6 +1,6 @@
 .checkbox-inner-wrap(@border-color) {
   border: 1px solid @border-color;
-  background-color: @checkbox-bg;
+  background-color: transparent;
   border-radius: var(--rs-radius-sm);
 }
 
@@ -13,7 +13,7 @@
   // These classes are used on elements with <label> descendants
   &-disabled {
     label {
-      cursor: @cursor-disabled;
+      cursor: var(--rs-cursor-disabled);
     }
   }
 
@@ -27,7 +27,7 @@
   }
 
   &&-disabled label {
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
   }
 
   // Disabled text styles.

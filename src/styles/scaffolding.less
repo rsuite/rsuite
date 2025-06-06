@@ -14,7 +14,7 @@ html {
 body {
   font-family: var(--rs-font-family-base);
   font-size: var(--rs-font-size-sm);
-  line-height: @line-height-base;
+  line-height: var(--rs-line-height-md);
   color: var(--rs-text-primary);
   background-color: var(--rs-body);
 }
@@ -27,12 +27,12 @@ a {
   &:hover,
   &:focus {
     color: var(--rs-text-link-hover);
-    text-decoration: @link-hover-decoration;
+    text-decoration: var(--rs-link-hover-decoration);
   }
 
   &:active {
     color: var(--rs-text-link-active);
-    text-decoration: @link-active-decoration;
+    text-decoration: var(--rs-link-active-decoration);
   }
 }
 
@@ -43,8 +43,7 @@ img {
 
 // Horizontal rules
 hr {
-  margin-top: @line-height-computed;
-  margin-bottom: @line-height-computed;
+  margin-block: var(--rs-line-height-base);
   border: 0;
   border-top: 1px solid var(--rs-divider-border);
 }

@@ -10,6 +10,12 @@
   --rs-uploader-file-item-icon-font-size: 1.375rem;
   --rs-uploader-file-item-icon-margin: 0.75rem;
   --rs-uploader-file-item-icon-margin-plus: 1.375rem;
+  --rs-uploader-picture-text-preview-side-length: 3.125rem;
+  --rs-uploader-picture-remove-button-radius: 1.5rem;
+  --rs-uploader-picture-item-gap: 0.625rem;
+  --rs-uploader-picture-side-length: 4.125rem;
+  --rs-uploader-base-padding: 0.5rem;
+  --rs-uploader-file-list-margin-top: 0.625rem;
 
   &-trigger {
     input[type='file'] {
@@ -54,11 +60,12 @@
 
 .rs-uploader-text {
   .rs-uploader-file-items {
-    margin-top: @uploader-file-list-margin-top;
+    margin-top: var(--rs-uploader-file-list-margin-top);
   }
 
   .rs-uploader-file-item {
-    padding: @padding-y 30px @padding-y 36px;
+    padding-block: var(--rs-padding-block-md);
+    padding-inline: 30px 36px;
     position: relative;
     transition: 0.3s linear background-color;
 
@@ -70,16 +77,16 @@
       position: absolute;
       display: inline-flex;
       align-items: center;
-      top: @padding-y;
-      inset-inline-start: @padding-x;
-      width: @line-height-computed;
-      height: @line-height-computed;
+      top: var(--rs-padding-block-md);
+      inset-inline-start: var(--rs-padding-inline-md);
+      width: var(--rs-line-height-base);
+      height: var(--rs-line-height-base);
       justify-content: center;
     }
 
     &-icon-loading {
       .rs-uploader-file-item-icon {
-        .loader-size(@loader-default-diameter);
+        .loader-size(var(--rs-loader-default-size));
         .loader-spin();
 
         > svg {
@@ -104,7 +111,7 @@
     &-size {
       flex: 0 0 auto;
       color: var(--rs-text-secondary);
-      padding: 0 @uploader-base-padding;
+      padding: 0 var(--rs-uploader-base-padding);
     }
 
     &-status {
@@ -119,7 +126,7 @@
       position: absolute;
       font-size: var(--rs-font-size-sm);
       top: 12px;
-      inset-inline-end: @padding-x;
+      inset-inline-end: var(--rs-padding-inline-md);
       color: var(--rs-text-secondary);
       cursor: pointer;
       padding: 0;
@@ -164,13 +171,13 @@
     .rs-btn();
     .rs-btn-subtle();
 
-    width: @uploader-picture-side-length;
-    height: @uploader-picture-side-length;
+    width: var(--rs-uploader-picture-side-length);
+    height: var(--rs-uploader-picture-side-length);
     margin: 0;
     padding: 0;
     border: 2px dotted var(--rs-border-primary);
     border-radius: var(--rs-radius-md);
-    margin-top: @uploader-picture-item-gap;
+    margin-top: var(--rs-uploader-picture-item-gap);
   }
 
   .rs-uploader-trigger.rs-uploader-trigger-disabled .rs-uploader-trigger-btn {
@@ -192,21 +199,21 @@
   }
 
   .rs-uploader-file-item {
-    width: @uploader-picture-side-length;
-    height: @uploader-picture-side-length;
+    width: var(--rs-uploader-picture-side-length);
+    height: var(--rs-uploader-picture-side-length);
     overflow: hidden;
     background-color: var(--rs-uploader-item-bg);
     border-radius: var(--rs-radius-md);
     position: relative;
-    margin-top: @uploader-picture-item-gap;
-    margin-inline-end: @uploader-picture-item-gap;
+    margin-top: var(--rs-uploader-picture-item-gap);
+    margin-inline-end: var(--rs-uploader-picture-item-gap);
 
     &-preview {
       position: relative;
-      height: @uploader-picture-side-length;
+      height: var(--rs-uploader-picture-side-length);
       vertical-align: middle;
       text-align: center;
-      z-index: @zindex-uploader-picture-preview;
+      z-index: var(--rs-zindex-uploader-picture-preview);
 
       > img {
         .img-cover();
@@ -222,10 +229,10 @@
       position: absolute;
       top: 0;
       inset-inline-start: 0;
-      width: @uploader-picture-side-length;
-      height: @uploader-picture-side-length;
+      width: var(--rs-uploader-picture-side-length);
+      height: var(--rs-uploader-picture-side-length);
       text-align: center;
-      z-index: @zindex-uploader-picture-error-wrapper;
+      z-index: var(--rs-zindex-uploader-picture-error-wrapper);
       background-color: var(--rs-uploader-overlay-bg);
       cursor: default;
       color: var(--rs-state-error);
@@ -253,16 +260,16 @@
       position: absolute;
       top: 3px;
       inset-inline-end: 3px;
-      width: @uploader-picture-remove-button-radius;
-      height: @uploader-picture-remove-button-radius;
-      line-height: @uploader-picture-remove-button-radius;
+      width: var(--rs-uploader-picture-remove-button-radius);
+      height: var(--rs-uploader-picture-remove-button-radius);
+      line-height: var(--rs-uploader-picture-remove-button-radius);
       text-align: center;
       background-color: var(--rs-uploader-overlay-bg);
       border-radius: var(--rs-radius-full);
       visibility: hidden;
       opacity: 0;
       transition: 0.2s opacity;
-      z-index: @zindex-uploader-picture-remove-button;
+      z-index: var(--rs-zindex-uploader-picture-remove-button);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -281,18 +288,18 @@
 
     &-icon-loading {
       display: block;
-      width: @uploader-picture-side-length;
-      height: @uploader-picture-side-length;
-      line-height: @uploader-picture-side-length;
+      width: var(--rs-uploader-picture-side-length);
+      height: var(--rs-uploader-picture-side-length);
+      line-height: var(--rs-uploader-picture-side-length);
       background-color: var(--rs-uploader-overlay-bg);
       position: absolute;
       top: 0;
       inset-inline-start: 0;
-      z-index: @zindex-uploader-picture-loading-wrapper;
+      z-index: var(--rs-zindex-uploader-picture-loading-wrapper);
       text-align: center;
 
       .rs-uploader-file-item-icon {
-        .loader-size(@loader-default-diameter);
+        .loader-size(var(--rs-loader-default-size));
         .loader-spin();
 
         display: inline-block;
@@ -315,9 +322,9 @@
 .rs-uploader-picture-text {
   .rs-uploader-file-item {
     position: relative;
-    height: @uploader-picture-text-preview-side-length;
-    padding-inline-start: @uploader-picture-text-preview-side-length;
-    margin-top: @uploader-picture-item-gap;
+    height: var(--rs-uploader-picture-text-preview-side-length);
+    padding-inline-start: var(--rs-uploader-picture-text-preview-side-length);
+    margin-top: var(--rs-uploader-picture-item-gap);
     padding-inline-end: 30px;
     border: 1px solid var(--rs-border-primary);
     border-radius: var(--rs-radius-md);
@@ -336,8 +343,8 @@
       position: absolute;
       inset-inline-start: 0;
       top: 0;
-      width: @uploader-picture-text-preview-side-length;
-      height: @uploader-picture-text-preview-side-length;
+      width: var(--rs-uploader-picture-text-preview-side-length);
+      height: var(--rs-uploader-picture-text-preview-side-length);
       vertical-align: middle;
       text-align: center;
       background-color: var(--rs-border-primary);
@@ -377,10 +384,10 @@
     &-btn-remove {
       position: absolute;
       top: 0;
-      inset-inline-end: @padding-x;
+      inset-inline-end: var(--rs-padding-inline-md);
       color: var(--rs-text-secondary);
       cursor: pointer;
-      height: @uploader-picture-text-preview-side-length;
+      height: var(--rs-uploader-picture-text-preview-side-length);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -397,7 +404,7 @@
       bottom: 0;
       width: 100%;
       inset-inline-start: 0;
-      padding-inline-start: @uploader-picture-text-preview-side-length;
+      padding-inline-start: var(--rs-uploader-picture-text-preview-side-length);
 
       &-bar {
         height: 2px;
@@ -411,15 +418,15 @@
       top: 0;
       inset-inline-start: 0;
       display: block;
-      width: @uploader-picture-text-preview-side-length;
-      height: @uploader-picture-text-preview-side-length;
+      width: var(--rs-uploader-picture-text-preview-side-length);
+      height: var(--rs-uploader-picture-text-preview-side-length);
       z-index: 1;
       background-color: var(--rs-border-primary);
       text-align: center;
-      line-height: 50px;
+      line-height: var(--rs-uploader-picture-text-preview-side-length);
 
       .rs-uploader-file-item-icon {
-        .loader-size(@loader-default-diameter);
+        .loader-size(var(--rs-loader-default-size));
         .loader-spin();
 
         display: inline-block;

@@ -10,8 +10,8 @@
 .rs-tree {
   --rs-tree-node-font-size: var(--rs-font-size-sm);
   --rs-tree-node-line-height: var(--rs-text-line-height-sm);
-  --rs-tree-node-padding-block: @padding-y;
-  --rs-tree-node-padding-inline: @padding-x;
+  --rs-tree-node-padding-block: var(--rs-padding-block-md);
+  --rs-tree-node-padding-inline: var(--rs-padding-inline-md);
   --rs-tree-node-label-padding: var(--rs-spacing);
   --rs-tree-node-label-border-radius: var(--rs-radius-md);
 
@@ -143,11 +143,11 @@
     .rs-tree-node-label {
       background: none;
       color: var(--rs-listbox-option-disabled-text);
-      cursor: @cursor-disabled;
+      cursor: var(--rs-cursor-disabled);
     }
 
     > .rs-tree-node-label {
-      cursor: @cursor-disabled;
+      cursor: var(--rs-cursor-disabled);
       color: var(--rs-listbox-option-disabled-text);
 
       &,

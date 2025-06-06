@@ -15,10 +15,10 @@
   --rs-modal-content-padding: calc(var(--rs-spacing) * 5);
   --rs-modal-btn-close-spacing: calc(var(--rs-spacing) * 5);
   --rs-modal-footer-gap: calc(var(--rs-spacing) * 2.5);
-  --rs-modal-size-xs: @modal-xs;
-  --rs-modal-size-sm: @modal-sm;
-  --rs-modal-size-md: @modal-md;
-  --rs-modal-size-lg: @modal-lg;
+  --rs-modal-size-xs: 400px;
+  --rs-modal-size-sm: 600px;
+  --rs-modal-size-md: 800px;
+  --rs-modal-size-lg: 968px;
   --rs-modal-max-width: 100%;
   --rs-modal-padding-inline: calc(var(--rs-spacing) * 5);
 
@@ -32,7 +32,7 @@
   width: var(--rs-modal-size, auto);
   max-width: var(--rs-modal-max-width);
   padding-inline: var(--rs-modal-padding-inline);
-  z-index: @zindex-modal;
+  z-index: var(--rs-zindex-modal);
 
   // Size variants
   @sizes: lg, md, sm, xs;
@@ -90,7 +90,7 @@
   .rs-modal-header {
     .clearfix();
 
-    padding-inline-end: @line-height-computed;
+    padding-inline-end: var(--rs-line-height-base);
 
     .rs-modal-header-close {
       position: absolute;
@@ -136,7 +136,7 @@
   inset-inline-start: 0;
   width: 100vw;
   height: 100vh;
-  z-index: @zindex-modal - 1;
+  z-index: calc(var(--rs-zindex-modal) - 1);
   background-color: var(--rs-bg-backdrop);
 
   // Fade for backdrop
@@ -158,7 +158,7 @@
 .rs-modal-wrapper {
   position: fixed;
   overflow: auto;
-  z-index: @zindex-modal;
+  z-index: var(--rs-zindex-modal);
   top: 0;
   inset-inline-start: 0;
   width: 100%;

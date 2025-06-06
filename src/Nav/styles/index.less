@@ -10,7 +10,9 @@
 // --------------------------------------------------
 .rs-nav {
   --rs-nav-caret-font-size: var(--rs-font-size-md);
-  --rs-navs-pills-item-shadow: var(--rs-shadow-sm);
+  --rs-nav-pills-item-shadow: var(--rs-shadow-sm);
+  --rs-nav-item-transition: color 0.15s ease-out, background-color 0.15s ease-out;
+
 
   position: relative;
   outline: 0;
@@ -26,7 +28,7 @@
   .rs-nav-tabs &-item {
     .with-ripple();
 
-    transition: @nav-item-transition;
+    transition: var(--rs-nav-item-transition);
   }
 }
 
@@ -37,7 +39,7 @@
   color: var(--rs-navs-text);
   font-size: var(--rs-font-size-sm);
   background: transparent;
-  transition: @nav-item-transition;
+  transition: var(--rs-nav-item-transition);
   .ellipsis-basic();
   .safari-border-radius-overflow-hidden();
 
@@ -331,7 +333,7 @@
     &-active {
       background-color: var(--rs-navs-pills-item-active-bg);
       color: var(--rs-navs-pills-item-active-color);
-      box-shadow: var(--rs-navs-pills-item-shadow);
+      box-shadow: var(--rs-nav-pills-item-shadow);
     }
 
     &-disabled {

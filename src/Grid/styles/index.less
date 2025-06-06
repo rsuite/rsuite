@@ -14,26 +14,33 @@
 // Set the container width, and override it for fixed navbars in media queries.
 
 .rs-grid-container {
+  --rs-grid-gutter-width: calc(var(--rs-spacing) * 3);
+  --rs-grid-container-sm: calc(540px + var(--rs-grid-gutter-width));
+  --rs-grid-container-md: calc(720px + var(--rs-grid-gutter-width));
+  --rs-grid-container-lg: calc(960px + var(--rs-grid-gutter-width));
+  --rs-grid-container-xl: calc(1140px + var(--rs-grid-gutter-width));
+  --rs-grid-container-xxl: calc(1320px + var(--rs-grid-gutter-width));
+
   .container-fixed();
 
   @media (min-width: @screen-sm) {
-    width: @container-sm;
+    width: var(--rs-grid-container-sm);
   }
 
   @media (min-width: @screen-md) {
-    width: @container-md;
+    width: var(--rs-grid-container-md);
   }
 
   @media (min-width: @screen-lg) {
-    width: @container-lg;
+    width: var(--rs-grid-container-lg);
   }
 
   @media (min-width: @screen-xl) {
-    width: @container-xl;
+    width: var(--rs-grid-container-xl);
   }
 
   @media (min-width: @screen-xxl) {
-    width: @container-xxl;
+    width: var(--rs-grid-container-xxl);
   }
 }
 

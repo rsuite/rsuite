@@ -16,6 +16,8 @@
   --rs-notify-title-font-size: var(--rs-font-size-md);
   --rs-notify-line-height: var(--rs-text-line-height-md);
   --rs-notify-icon-size: 24px;
+  --rs-notify-title-description-gap: 8px;
+
 
   // Recovery mouse event.
   pointer-events: auto;
@@ -38,7 +40,7 @@
 
   // Multiple notification should have spacing
   // Hiding notification haven't spacing.
-  &:not(.@{toast-ns}-fade-exited) ~ .rs-notification {
+  &:not(.rs-toast-fade-exited) ~ .rs-notification {
     margin-top: var(--rs-notify-spacing);
   }
 
@@ -88,7 +90,7 @@
 
   // Has header and description need to ajust distance
   &-header + &-description {
-    margin-top: @notify-title-description-gap;
+    margin-top: var(--rs-notify-title-description-gap);
   }
 
   &&-hiding {

@@ -42,7 +42,7 @@
 
   .rs-calendar {
     height: 274px;
-    padding-bottom: @calendar-picker-padding;
+    padding-bottom: var(--rs-calendar-base-spacing);
 
     &-header {
       width: 100%;
@@ -55,7 +55,7 @@
   }
 
   .rs-calendar-month-dropdown {
-    z-index: @zindex-date-range-picker-calendar-dropdown;
+    z-index: var(--rs-zindex-date-range-picker-calendar-dropdown);
   }
 
   .rs-picker-daterange-panel-show-one-calendar {
@@ -90,9 +90,14 @@
 
 // Header
 .rs-picker-daterange-header {
-  padding: @date-range-picker-header-padding-vertical @picker-menu-padding;
+  --rs-date-range-picker-header-line-height: var(--rs-line-height-md);
+  --rs-date-range-picker-header-padding-vertical: 8px;
+
+
+  padding-block: var(--rs-date-range-picker-header-padding-vertical);
+  padding-inline: var(--rs-picker-menu-padding);
   font-size: var(--rs-font-size-sm);
-  line-height: @date-range-picker-header-line-height;
+  line-height: var(--rs-date-range-picker-header-line-height);
   border-bottom: 1px solid var(--rs-border-primary);
 
   .rs-picker-header-date:focus {

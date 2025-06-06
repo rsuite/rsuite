@@ -47,7 +47,7 @@
 // @bg:        The arrow's background color, usually equal to popover's background
 // @border:    The arrow's border color, usually equal to popover's border (which only take effect
 //             in high-contrast theme)
-.with-popover-arrow(@direction, @size: @popover-arrow-width, @bg: var(--rs-bg-overlay), @border: var(--rs-border-primary)) {
+.with-popover-arrow(@direction, @size: 6px, @bg: var(--rs-bg-overlay), @border: var(--rs-border-primary)) {
   &::after {
     .popover-arrow(@direction, @size, @bg);
   }

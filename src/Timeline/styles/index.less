@@ -6,6 +6,19 @@
 // --------------------------------------------------
 
 .rs-timeline {
+  --rs-time-line-tail-min-height: 2.375rem; // 20px + 18px
+  --rs-time-line-item-content-margin-left: 12px;
+  --rs-time-line-dot-side-length: 10px;
+  --rs-time-line-alternate-time-offset: calc(
+    var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin-left)
+  ); // 5px + 12px
+  --rs-time-line-dot-center-gap: calc(var(--rs-time-line-dot-side-length) / 2);
+  --rs-time-line-item-content-padding-bottom: 18px;
+  --rs-time-line-tail-width: 2px;
+  --rs-time-line-item-padding-left: calc(
+    var(--rs-time-line-item-content-margin-left) + var(--rs-time-line-dot-side-length)
+  );
+
   list-style: none;
   padding: 0;
   margin-bottom: 0;
@@ -17,18 +30,18 @@
   }
 
   &-item:not(:last-child) &-item-content {
-    padding-bottom: @time-line-item-content-padding-bottom;
+    padding-bottom: var(--rs-time-line-item-content-padding-bottom);
   }
 
   &-item-dot {
     position: absolute;
-    top: @time-line-dot-center-gap;
+    top: var(--rs-time-line-dot-center-gap);
 
     &::before {
       content: '';
       display: block;
-      width: @time-line-dot-side-length;
-      height: @time-line-dot-side-length;
+      width: var(--rs-time-line-dot-side-length);
+      height: var(--rs-time-line-dot-side-length);
       background-color: var(--rs-timeline-indicator-bg);
       border-radius: var(--rs-radius-full);
     }
@@ -50,24 +63,24 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: @time-line-tail-width;
+    width: var(--rs-time-line-tail-width);
     background-color: var(--rs-timeline-indicator-bg);
   }
 
   // The first tail need reserved a space.
   &-item:first-child &-item-tail {
-    top: @time-line-dot-center-gap;
+    top: var(--rs-time-line-dot-center-gap);
   }
 
   // Last item tail need set height.
   &-item:last-child &-item-tail {
     bottom: auto;
-    height: (@time-line-dot-center-gap + @time-line-dot-side-length);
+    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
   }
 
   &-endless &-item:last-child &-item-tail {
     height: auto;
-    min-height: @time-line-tail-min-height;
+    min-height: var(--rs-time-line-tail-min-height);
   }
 
   &-item:only-child &-item-tail {
@@ -78,7 +91,7 @@
   .time-line-align(left);
 
   &-align-left &-item {
-    padding-inline-start: @time-line-item-padding-left;
+    padding-inline-start: var(--rs-time-line-item-padding-left);
   }
 
   // Align right
@@ -90,15 +103,11 @@
 
   // Align alternate
   &-align-alternate &-item-dot {
-    @dot-offset: (@time-line-dot-side-length / 2);
-
-    inset-inline-start: ~'calc(50% - @{dot-offset})';
+    inset-inline-start: calc(50% - var(--rs-time-line-dot-side-length) / 2);
   }
 
   &-align-alternate &-item-tail {
-    @tail-offset: (@time-line-tail-width / 2);
-
-    inset-inline-start: ~'calc(50% - @{tail-offset})';
+    inset-inline-start: calc(50% - var(--rs-time-line-tail-width) / 2);
   }
 
   &-align-alternate &-item-content {
@@ -125,15 +134,11 @@
   }
 
   &-with-time &-item-dot {
-    @dot-offset: (@time-line-dot-side-length / 2);
-
-    inset-inline-start: ~'calc(50% - @{dot-offset})';
+    inset-inline-start: calc(50% - var(--rs-time-line-dot-side-length) / 2);
   }
 
   &-with-time &-item-tail {
-    @tail-offset: (@time-line-tail-width / 2);
-
-    inset-inline-start: ~'calc(50% - @{tail-offset})';
+    inset-inline-start: calc(50% - var(--rs-time-line-tail-width) / 2);
   }
 
   &-with-time &-item-time,
@@ -162,13 +167,13 @@
   &-with-time&-align-right &-item-content,
   &-align-alternate &-item:nth-child(2n + 1) &-item-time,
   &-align-alternate &-item:nth-child(2n) &-item-content {
-    padding-inline-end: @time-line-alternate-time-offset;
+    padding-inline-end: var(--rs-time-line-alternate-time-offset);
   }
 
   &-with-time&-align-left &-item-content,
   &-with-time&-align-right &-item-time,
   &-align-alternate &-item:nth-child(2n + 1) &-item-content,
   &-align-alternate &-item:nth-child(2n) &-item-time {
-    padding-inline-start: @time-line-alternate-time-offset;
+    padding-inline-start: var(--rs-time-line-alternate-time-offset);
   }
 }

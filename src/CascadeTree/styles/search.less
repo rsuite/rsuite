@@ -1,6 +1,8 @@
 // Search panel
 .rs-cascade-search-view-panel {
-  max-height: @cascader-search-panel-max-height;
+  --rs-cascader-search-panel-max-height: 300px;
+
+  max-height: var(--rs-cascader-search-panel-max-height);
   margin-top: 6px;
   overflow: auto;
 }

@@ -50,7 +50,7 @@
   }
 
   > .rs-icon {
-    width: @font-size-base;
+    width: var(--rs-font-size-base);
     text-align: center;
   }
 
@@ -84,7 +84,7 @@
   // Gray out text and ensure the hover/focus state remains gray
   &-disabled {
     color: var(--rs-text-disabled);
-    cursor: @cursor-disabled;
+    cursor: var(--rs-cursor-disabled);
 
     .rs-text {
       color: var(--rs-text-disabled);

@@ -8,6 +8,20 @@
 
 // Table Content
 .rs-table {
+  --rs-loader-content-spin-spacing-horizontal: 12px;
+  --rs-table-scrollbar-width: 10px;
+  --rs-table-scrollbar-handle-width: 8px;
+  --rs-table-scrollbar-handle-gap: calc(
+    (var(--rs-table-scrollbar-width) - var(--rs-table-scrollbar-handle-width)) / 2
+  );
+  --rs-table-scrollbar-timing-duration: 0.1s;
+  --rs-table-cell-hover-color: var(--rs-primary-500);
+  --rs-table-cell-padding-y: 13px;
+  --rs-table-cell-padding-x: 10px;
+  --rs-table-header-padding: 10px;
+  --rs-table-header-line-height: var(--rs-line-height-sm);
+  --rs-table-header-sort-margin-start: 5px;
+
   position: relative;
   overflow: hidden;
 
@@ -56,7 +70,7 @@
   }
 
   &-row-header &-cell-group-shadow {
-    z-index: @zindex-table-row-cell-group-shadow;
+    z-index: var(--rs-zindex-table-row-cell-group-shadow);
     box-shadow: none;
   }
 
@@ -73,14 +87,14 @@
 
   // The thead
   &-header-row-wrapper {
-    z-index: @zindex-table-header-row-wrapper;
+    z-index: var(--rs-zindex-table-header-row-wrapper);
     position: relative;
     font-size: var(--rs-font-size-xs);
     color: var(--rs-text-secondary);
   }
 
   &-affix-header {
-    z-index: @zindex-table-header-row-wrapper+1;
+    z-index: calc(var(--rs-zindex-table-header-row-wrapper) + 1);
     visibility: hidden;
 
     &.fixed {
@@ -91,7 +105,7 @@
   &-body-row-wrapper {
     position: relative;
     overflow: hidden;
-    z-index: @zindex-table-body-row-wrapper;
+    z-index: var(--rs-zindex-table-body-row-wrapper);
   }
 
   &-body-info {
@@ -134,12 +148,12 @@
     line-height: 40px;
 
     &-icon {
-      .loader-size(@loader-default-diameter);
+      .loader-size(var(--rs-loader-default-size));
       .loader-spin();
 
       display: inline-block;
       position: relative;
-      margin-inline-end: @loader-content-spin-spacing-horizontal;
+      margin-inline-end: var(--rs-loader-content-spin-spacing-horizontal);
       // Make sure loader vertical-align center
       padding-top: 3px;
     }
@@ -180,26 +194,28 @@
     }
 
     &-content {
-      padding: @table-cell-padding-y @table-cell-padding-x;
+      padding-inline: var(--rs-table-cell-padding-x);
+      padding-block: var(--rs-table-cell-padding-y);
+
       .ellipsis();
     }
 
     &-header &-content {
-      padding: @table-header-padding-y @table-header-padding-x;
-      line-height: @table-header-line-height;
+      padding: var(--rs-table-header-padding);
+      line-height: var(--rs-table-header-line-height);
     }
 
     &-header {
       &-sort-wrapper {
         cursor: pointer;
-        margin-inline-start: @table-header-sort-wrapper-margin-left;
+        margin-inline-start: var(--rs-table-header-sort-margin-start);
         display: inline-block;
       }
 
       &-icon-sort {
         color: var(--rs-table-sort);
         font-size: var(--rs-font-size-md);
-        line-height: @table-header-line-height;
+        line-height: var(--rs-table-header-line-height);
       }
     }
 
@@ -212,7 +228,7 @@
     &:hover {
       z-index: 1 !important;
       width: auto !important;
-      box-shadow: inset @table-cell-hover-color 0px 0px 2px;
+      box-shadow: inset var(--rs-table-cell-hover-color) 0px 0px 2px;
 
       .rs-table-cell-content {
         width: auto !important;
@@ -244,14 +260,14 @@
     &::before {
       border-style: dashed solid dashed dashed;
       border-color: transparent var(--rs-table-resize) transparent transparent;
-      border-width: @table-column-resize-spanner-triangle-side-length;
+      border-width: 3px;
       inset-inline-end: 4px;
     }
 
     &::after {
       border-style: dashed dashed dashed solid;
       border-color: transparent transparent transparent var(--rs-table-resize);
-      border-width: @table-column-resize-spanner-triangle-side-length;
+      border-width: 3px;
       inset-inline-start: 4px;
     }
   }
@@ -271,7 +287,7 @@
     &-fixed-right,
     &-fixed-left {
       position: absolute;
-      z-index: @zindex-table-cell-group-fixed;
+      z-index: var(--rs-zindex-table-cell-group-fixed);
       background-color: var(--rs-bg-card);
     }
 
@@ -292,14 +308,14 @@
     top: 0;
     position: absolute;
     width: 1px;
-    z-index: @zindex-table-mouse-area;
+    z-index: var(--rs-zindex-table-mouse-area);
 
     > span {
       .column-resize-spanner();
 
       background-color: var(--rs-table-resize);
       position: absolute;
-      inset-inline-start: (-1 * (@table-column-resize-spanner-width / 2));
+      inset-inline-start: -1.5px;
     }
   }
 
@@ -363,8 +379,8 @@
   background-color: var(--rs-table-scrollbar-track);
   position: absolute;
   transition:
-    background @table-scrollbar-timing-duration linear,
-    transform @table-scrollbar-timing-duration linear;
+    background var(--rs-table-scrollbar-timing-duration) linear,
+    transform var(--rs-table-scrollbar-timing-duration) linear;
   opacity: 0.6;
   // Make sure Scrollbar on the loader.
   z-index: 1;
@@ -389,7 +405,7 @@
 
   &-horizontal {
     width: 100%;
-    height: @table-scrollbar-width;
+    height: var(--rs-table-scrollbar-width);
     bottom: 0;
 
     &.fixed {
@@ -398,9 +414,9 @@
   }
 
   &-horizontal &-handle {
-    height: @table-scrollbar-handle-width;
+    height: var(--rs-table-scrollbar-handle-width);
     left: 0 /* rtl:ignore */;
-    top: @table-scrollbar-handle-gap;
+    top: var(--rs-table-scrollbar-handle-gap);
   }
 
   &-pressed&-horizontal:hover,
@@ -412,17 +428,17 @@
   &-vertical {
     top: 0;
     inset-inline-end: 0;
-    width: @table-scrollbar-width;
+    width: var(--rs-table-scrollbar-width);
     // Reserve scroll bar position.
-    bottom: @table-scrollbar-width;
+    bottom: var(--rs-table-scrollbar-width);
     background-color: var(--rs-table-scrollbar-vertical-track);
   }
 
   &-vertical &-handle {
     min-height: 20px;
-    width: @table-scrollbar-handle-width;
+    width: var(--rs-table-scrollbar-handle-width);
     top: 0;
-    inset-inline-start: @table-scrollbar-handle-gap;
+    inset-inline-start: var(--rs-table-scrollbar-handle-gap);
   }
 
   &-pressed&-vertical:hover,

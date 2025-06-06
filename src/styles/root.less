@@ -1,25 +1,39 @@
 :root {
-
   // Font family
-  --rs-font-family-base: @font-family-base;
-  --rs-font-family-monospace: @font-family-monospace;
+  --rs-font-family-base: -apple-system, BlinkMacSystemFont, Arial, Helvetica, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
+  --rs-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 
   // Font size
   --rs-font-size-4xs: 0.375rem; // 6px
-  --rs-font-size-3xs: 0.5rem;   // 8px
+  --rs-font-size-3xs: 0.5rem; // 8px
   --rs-font-size-2xs: 0.625rem; // 10px
-  --rs-font-size-xs: 0.75rem;   // 12px
-  --rs-font-size-sm: 0.875rem;  // 14px
-  --rs-font-size-md: 1rem;      // 16px
-  --rs-font-size-lg: 1.125rem;  // 18px
-  --rs-font-size-xl: 1.25rem;   // 20px
-  --rs-font-size-2xl: 1.5rem;   // 24px
+  --rs-font-size-xs: 0.75rem; // 12px
+  --rs-font-size-sm: 0.875rem; // 14px
+  --rs-font-size-md: 1rem; // 16px
+  --rs-font-size-lg: 1.125rem; // 18px
+  --rs-font-size-xl: 1.25rem; // 20px
+  --rs-font-size-2xl: 1.5rem; // 24px
   --rs-font-size-3xl: 1.875rem; // 30px
-  --rs-font-size-4xl: 2.25rem;  // 36px
-  --rs-font-size-5xl: 3rem;     // 48px
-  --rs-font-size-6xl: 3.75rem;  // 60px
+  --rs-font-size-4xl: 2.25rem; // 36px
+  --rs-font-size-5xl: 3rem; // 48px
+  --rs-font-size-6xl: 3.75rem; // 60px
+  --rs-font-size-base: var(--rs-font-size-sm);
 
   // Line height
+  --rs-line-height-base: 20px;
+  --rs-line-height-plus: 22px;
+  //--rs-line-height-xs: calc(var(--rs-line-height-base) / var(--rs-font-size-xs));
+  //--rs-line-height-sm: calc(var(--rs-line-height-base) / var(--rs-font-size-xs));
+  //--rs-line-height-md: calc(var(--rs-line-height-base) / var(--rs-font-size-sm));
+  //--rs-line-height-lg: calc(var(--rs-line-height-plus) / var(--rs-font-size-md));
+  --rs-line-height-xs: calc(20 / 12);
+  --rs-line-height-sm: calc(20 / 12);
+  --rs-line-height-md: calc(20 / 14);
+  --rs-line-height-lg: calc(22 / 16);
+
+  // Text line height
   --rs-text-line-height-xs: calc(1 / 0.75);
   --rs-text-line-height-sm: calc(1.25 / 0.875);
   --rs-text-line-height-md: calc(1.5 / 1);
@@ -32,7 +46,15 @@
   --rs-text-line-height-6xl: 1;
 
   // Spacing
-  --rs-spacing: 0.25rem;    // 4px
+  --rs-spacing: 0.25rem; // 4px
+  --rs-spacing-inline-xs: 8px;
+  --rs-spacing-block-xs: 2px;
+  --rs-spacing-inline-sm: 10px;
+  --rs-spacing-block-sm: 5px;
+  --rs-spacing-inline-lg: 16px;
+  --rs-spacing-block-lg: 10px;
+  --rs-padding-inline-md: 12px;
+  --rs-padding-block-md: 8px;
 
   // Scale
   --rs-scale: 1;
@@ -40,13 +62,13 @@
   // Radius
   --rs-radius-none: 0;
   --rs-radius-xs: 0.125rem; // 2px
-  --rs-radius-sm: 0.25rem;  // 4px
+  --rs-radius-sm: 0.25rem; // 4px
   --rs-radius-md: 0.375rem; // 6px
-  --rs-radius-lg: 0.5rem;   // 8px
-  --rs-radius-xl: 0.75rem;  // 12px
-  --rs-radius-2xl: 1rem;    // 16px
-  --rs-radius-3xl: 1.5rem;  // 24px
-  --rs-radius-4xl: 2rem;    // 32px
+  --rs-radius-lg: 0.5rem; // 8px
+  --rs-radius-xl: 0.75rem; // 12px
+  --rs-radius-2xl: 1rem; // 16px
+  --rs-radius-3xl: 1.5rem; // 24px
+  --rs-radius-4xl: 2rem; // 32px
   --rs-radius-full: calc(infinity * 1px);
 
   // Shadow colors
@@ -62,6 +84,51 @@
   --rs-shadow-xl: 0 20px 25px -5px var(--rs-shadow-color), 0 8px 10px 0 var(--rs-shadow-color);
   --rs-shadow-2xl: 0 25px 50px -12px var(--rs-shadow-color-deep);
 
+  // Cursor
+  --rs-cursor-disabled: not-allowed;
+
+  // Link
+  --rs-link-hover-decoration: underline;
+  --rs-link-active-decoration: underline;
+
+  // Ripple
+  --rs-ripple-bg: rgb(0 0 0 / 20%);
+
+  // Loader
+  --rs-loader-default-size: 1.125rem;
+
+  //-- Z-index master list
+  // Keep this section at the bottom of this file for easier lookup
+  //
+  // Warning: Avoid customizing these values. They're used for a bird's eye view
+  // of components dependent on the z-axis and are designed to all work together.
+
+  --rs-zindex-date-range-picker-calendar-dropdown: 1;
+  --rs-zindex-date-range-picker-table-cell-content: 1;
+  --rs-zindex-badge-content: 1;
+  --rs-zindex-message-full: 3;
+  --rs-zindex-dropdown: 5;
+  --rs-zindex-picker-toggle: 5;
+  --rs-zindex-picker-input: calc(var(--rs-zindex-picker-toggle) + 1);
+  --rs-zindex-picker-popup: calc(var(--rs-zindex-picker-toggle) + 2);
+  --rs-zindex-list-helper: 99;
+  --rs-zindex-modal: 1050;
+  --rs-zindex-drawer: 1050;
+  --rs-zindex-popover: 1060;
+  --rs-zindex-tooltip: 1070;
+  --rs-zindex-notification: 1080;
+  --rs-zindex-uploader-picture-preview: 1;
+  --rs-zindex-uploader-picture-loading-wrapper: 2;
+  --rs-zindex-uploader-picture-error-wrapper: 3;
+  --rs-zindex-uploader-picture-remove-button: 4;
+  --rs-zindex-form-error-message: 5;
+  --rs-zindex-table-body-row-wrapper: 0;
+  --rs-zindex-table-header-row-wrapper: 2;
+  --rs-zindex-table-column-resize-spanner: 3;
+  --rs-zindex-table-cell-group-fixed: 4;
+  --rs-zindex-table-row-cell-group-shadow: 5;
+  --rs-zindex-table-mouse-area: 6;
+  --rs-zindex-rate-character-before: 1;
 }
 
 // Themes

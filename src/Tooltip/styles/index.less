@@ -10,12 +10,17 @@
   --rs-tooltip-border-radius: var(--rs-radius-sm);
   --rs-tooltip-padding-block: 4px;
   --rs-tooltip-padding-inline: 10px;
-  --rs-tooltip-z-index: @zindex-tooltip;
-  --rs-tooltip-max-width: @tooltip-max-width;
+  --rs-tooltip-z-index: var(--rs-zindex-tooltip);
+  --rs-tooltip-max-width: 250px;
   --rs-tooltip-line-height: var(--rs-text-line-height-xs);
   --rs-tooltip-position-x: var(--rs-position-x);
   --rs-tooltip-position-y: var(--rs-position-y);
   --rs-tooltip-opacity: var(--rs-opacity, 0);
+  --rs-tooltip-arrow-gap-sm: var(--rs-spacing);
+  --rs-tooltip-arrow-gap-lg: calc(var(--rs-spacing) * 2.5);
+  --rs-tooltip-translate-distance: 2px;
+  --rs-tooltip-arrow-width: 6px;
+
 
   position: absolute;
   top: var(--rs-tooltip-position-y);
@@ -73,16 +78,16 @@
 .rs-tooltip {
   // Common style for .placement-top*
   &:where([data-placement*='top']) {
-    margin-top: -(@tooltip-arrow-width + 2px);
-    .set-translate-transition(0, -@tooltip-translate-distance);
+    margin-top: calc((var(--rs-tooltip-arrow-width) + 2px) * -1);
+    .set-translate-transition(0, calc(var(--rs-tooltip-translate-distance) * -1));
 
     .with-tooltip-arrow(bottom);
   }
 
   // Common style for .placement-bottom*
   &:where([data-placement*='bottom']) {
-    margin-top: (@tooltip-arrow-width + 2px);
-    .set-translate-transition(0, @tooltip-translate-distance);
+    margin-top: calc(var(--rs-tooltip-arrow-width) + 2px);
+    .set-translate-transition(0, var(--rs-tooltip-translate-distance));
 
     .with-tooltip-arrow(top);
   }
@@ -99,17 +104,17 @@
   &:where([data-placement='bottom-start'], [data-placement='top-start']) {
     &::before,
     &::after {
-      left: @tooltip-arrow-gap-lg;
+      left: var(--rs-tooltip-arrow-gap-lg);
     }
   }
 
   &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     &::before {
-      right: @tooltip-arrow-gap-sm - 1px;
+      right: calc(var(--rs-tooltip-arrow-gap-sm) - 1px);
     }
 
     &::after {
-      right: @tooltip-arrow-gap-sm;
+      right: var(--rs-tooltip-arrow-gap-sm);
     }
   }
 
@@ -125,17 +130,17 @@
   &:where([data-placement='left-start'], [data-placement='right-start']) {
     &::before,
     &::after {
-      top: @tooltip-arrow-gap-lg;
+      top: var(--rs-tooltip-arrow-gap-lg);
     }
   }
 
   // Horizontal end arrow
   &:where([data-placement='left-end'], [data-placement='right-end']) {
     &::before {
-      bottom: @tooltip-arrow-gap-sm - 1px;
+      bottom: calc(var(--rs-tooltip-arrow-gap-sm) - 1px);
     }
     &::after {
-      bottom: @tooltip-arrow-gap-sm;
+      bottom: var(--rs-tooltip-arrow-gap-sm);
     }
   }
 }
@@ -144,16 +149,16 @@
 .rs-tooltip {
   // Common style for .placement-right*
   &:where([data-placement*='right']) {
-    margin-left: (@tooltip-arrow-width + 2px);
-    .set-translate-transition(@tooltip-translate-distance, 0);
+    margin-left: calc(var(--rs-tooltip-arrow-width) + 2px);
+    .set-translate-transition(var(--rs-tooltip-translate-distance), 0);
 
     .with-tooltip-arrow(left);
   }
 
   // Common style for .placement-lef*
   &:where([data-placement*='left']) {
-    margin-left: -(@tooltip-arrow-width + 2px);
-    .set-translate-transition(-@tooltip-translate-distance, 0);
+    margin-left: calc((var(--rs-tooltip-arrow-width) + 2px) * -1);
+    .set-translate-transition(calc(var(--rs-tooltip-translate-distance) * -1), 0);
 
     .with-tooltip-arrow(right);
   }

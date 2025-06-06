@@ -6,25 +6,23 @@
 .rs-steps {
   --rs-steps-icon-size: 1.875rem;
   --rs-steps-icon-font-size: var(--rs-font-size-md);
-  --rs-steps-icon-line-height: @steps-icon-line-height;
   --rs-steps-title-font-size: var(--rs-font-size-md);
-  --rs-steps-title-line-height: @steps-title-line-height;
+  --rs-steps-title-line-height: calc(30 / 16);
   --rs-steps-title-min-height: 1rem;
   --rs-steps-item-spacing: calc(var(--rs-spacing) * 10);
   --rs-steps-description-margin-top: calc(var(--rs-spacing) * 3);
   --rs-steps-description-font-size: var(--rs-font-size-sm);
-  --rs-steps-description-line-height: @line-height-base;
+  --rs-steps-description-line-height: var(--rs-line-height-md);
 
   // Small
   &.rs-steps-small {
     --rs-steps-icon-size: 1.5rem;
     --rs-steps-icon-font-size: var(--rs-font-size-sm);
-    --rs-steps-icon-line-height: @small-steps-icon-line-height;
     --rs-steps-item-spacing: calc(var(--rs-spacing) * 8.5);
     --rs-steps-title-font-size: var(--rs-font-size-sm);
-    --rs-steps-title-line-height: @small-steps-title-line-height;
+    --rs-steps-title-line-height: calc(24 / 14);
     --rs-steps-description-font-size: var(--rs-font-size-xs);
-    --rs-steps-description-line-height: @small-steps-description-line-height;
+    --rs-steps-description-line-height: var(--rs-line-height-sm);
   }
 
   min-height: var(--rs-steps-icon-size);
@@ -83,7 +81,6 @@
   width: var(--rs-steps-icon-size);
   height: var(--rs-steps-icon-size);
   font-size: var(--rs-steps-icon-font-size);
-  line-height: var(--rs-steps-icon-line-height);
   color: var(--rs-text-secondary);
   text-align: center;
   position: absolute;

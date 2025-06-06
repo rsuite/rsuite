@@ -10,19 +10,24 @@
 // Base class
 // --------------------------------------------------
 .rs-sidenav {
-  --rs-sidenav-width: @sidenav-default-width;
+  --rs-sidenav-width: 52px;
   --rs-sidenav-item-font-size: var(--rs-font-size-sm);
   --rs-sidenav-nav-rounded: 6px;
-  --rs-sidenav-nav-item-p-x: @sidenav-padding-horizontal;
-  --rs-sidenav-nav-item-p-y: @sidenav-padding-vertical;
+  --rs-sidenav-nav-item-p-x: 8px;
+  --rs-sidenav-nav-item-p-y: 8px;
   --rs-sidenav-subnav-p-x: 10px;
   --rs-sidenav-subnav-m-x: 16px;
   --rs-sidenav-p: calc(var(--rs-spacing) * 2);
   --rs-sidenav-header-p: var(--rs-sidenav-p);
   --rs-sidenav-footer-p: var(--rs-sidenav-p);
   --rs-sidenav-group-p: var(--rs-sidenav-p);
+  --rs-sidenav-collapse-transition: 0.15s ease-in;
+  --rs-sidenav-dropdown-toggle-caret-width: 20px;
+  --rs-sidenav-item-height: 36px;
+  --rs-sidenav-collapse-in-width: 100%;
+  --rs-sidenav-item-transition: color 0.15s ease-out, background-color 0.15s ease-out;
 
-  transition: width @sidenav-collapse-transition-config;
+  transition: width var(--rs-sidenav-collapse-transition);
   width: var(--rs-sidenav-width);
   display: flex;
   flex-direction: column;
@@ -47,7 +52,7 @@
   .rs-dropdown-item-toggle {
     padding-inline: var(--rs-sidenav-nav-item-p-x);
     padding-block: var(--rs-sidenav-nav-item-p-y);
-    transition: @nav-item-transition;
+    transition: var(--rs-sidenav-item-transition);
     border-radius: var(--rs-sidenav-nav-rounded);
     color: inherit;
 
@@ -78,13 +83,11 @@
       width: 100%;
       text-align: start;
       background: none;
-      padding-inline-end: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
+      padding-inline-end: calc(
+        var(--rs-sidenav-nav-item-p-x) + var(--rs-sidenav-dropdown-toggle-caret-width)
+      );
       position: relative;
       border-width: 0;
-
-      .rs-sidenav-collapse-in & {
-        padding-inline-start: @sidenav-level2-retract;
-      }
 
       &:focus {
         outline: 0;
@@ -147,7 +150,7 @@
   }
 
   > .rs-dropdown .rs-dropdown-menu {
-    transition: height @sidenav-collapse-transition-config;
+    transition: height var(--rs-sidenav-collapse-transition);
   }
 
   > .rs-dropdown .rs-sidenav-dropdown-toggle {
@@ -254,7 +257,7 @@
 
 // Expanded styles
 .rs-sidenav-collapse-in {
-  width: @sidenav-collapse-in-width;
+  width: var(--rs-sidenav-collapse-in-width);
 
   //Nav item
   .rs-sidenav-item {
@@ -366,8 +369,8 @@
 
   .rs-dropdown-item-submenu {
     > .rs-dropdown-item-menu-icon {
-      line-height: @line-height-base;
-      width: @font-size-base;
+      line-height: var(--rs-line-height-md);
+      width: var(--rs-font-size-base);
       z-index: 1;
     }
   }
@@ -378,7 +381,7 @@
   .rs-sidenav-item,
   .rs-dropdown .rs-sidenav-dropdown-toggle {
     justify-content: center;
-    height: @sidenav-item-height;
+    height: var(--rs-sidenav-item-height);
     gap: 0;
 
     &:focus-visible {
@@ -396,11 +399,7 @@
 
   // The same to the dropdown item
   .rs-dropdown-item {
-    @padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
-      @dropdown-item-submenu-icon-angle-width;
-
-    padding: @dropdown-item-padding-y @padding-right @dropdown-item-padding-y
-      @dropdown-item-padding-x;
+    padding: var(--rs-dropdown-item-padding-y) var(--rs-dropdown-item-padding-x);
   }
 
   .rs-dropdown-item-submenu {
@@ -414,7 +413,7 @@
   // Folded text animation setting
   .rs-sidenav-item-text,
   .rs-sidenav-dropdown-toggle > span {
-    animation: sideNavFoldedText @sidenav-collapse-transition-config forwards;
+    animation: sideNavFoldedText var(--rs-sidenav-collapse-transition) forwards;
   }
 }
 
@@ -440,12 +439,8 @@
 
   // Make sure icon text-align center
   &.rs-sidenav-collapse-out {
-    .rs-dropdown .rs-dropdown-menu {
-      padding-inline-start: @sidenav-default-width - @sidenav-level2-retract;
-    }
-
     .rs-dropdown-item {
-      animation: sideNavFoldedText @sidenav-collapse-transition-config;
+      animation: sideNavFoldedText var(--rs-sidenav-collapse-transition);
     }
   }
 }

@@ -1,14 +1,16 @@
 @import './mixins.less';
 
 .rs-progress-line {
+
   --rs-progress-line-color: var(--rs-progress-bar);
   --rs-progress-line-trail-color: var(--rs-progress-bg);
-  --rs-progress-line-size: @progress-bar-height;
+  --rs-progress-line-size: 10px;
   --rs-progress-line-trail-size: var(--rs-progress-line-size);
   --rs-progress-line-stroke: 0;
   --rs-progress-line-radius: var(--rs-radius-sm);
   --rs-progress-line-stripe-size: 16px;
   --rs-progress-line-section-gap: 0px;
+  --rs-progress-bg-transition: 0.2s ease-in-out;
 
   display: flex;
   align-items: center;
@@ -123,7 +125,7 @@
     align-items: center;
     background: var(--rs-progress-line-color);
     border-radius: var(--rs-progress-line-radius);
-    transition: @progress-bg-transition;
+    transition: var(--rs-progress-bg-transition);
     transition-property: width, height, background-color;
     width: var(--rs-progress-line-stroke);
     height: var(--rs-progress-line-size);
