@@ -1,3 +1,12 @@
+// Import color mode stylesheets with CSS custom properties
+@use 'color-modes/light' as light-theme;
+@use 'color-modes/dark' as dark-theme;
+@use 'color-modes/high-contrast' as high-contrast-theme;
+
+// Theme configuration variables
+$enable-dark-mode: true !default;
+$enable-high-contrast: true !default;
+
 :root {
   // Font family
   --rs-font-family-base: -apple-system, BlinkMacSystemFont, Arial, Helvetica, 'PingFang SC',
@@ -125,22 +134,4 @@
   --rs-zindex-table-row-cell-group-shadow: 5;
   --rs-zindex-table-mouse-area: 6;
   --rs-zindex-rate-character-before: 1;
-}
-
-// Themes
-:root,
-.rs-theme-light {
-  @import 'color-modes/light';
-}
-
-& when (@enable-dark-mode = true) {
-  .rs-theme-dark {
-    @import 'color-modes/dark';
-  }
-}
-
-& when (@enable-high-contrast = true) {
-  .rs-theme-high-contrast {
-    @import 'color-modes/high-contrast';
-  }
 }

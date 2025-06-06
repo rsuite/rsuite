@@ -82,7 +82,8 @@
     "postcss-rtl": "^1.7.3",
     "rimraf": "^3.0.2",
     "rtlcss": "^2.4.1",
-    "rtlcss-webpack-plugin": "^4.0.6"
+    "rtlcss-webpack-plugin": "^4.0.6",
+    "sass-loader": "^16.0.5"
   },
   "engines": {
     "node": "^18.17.0"

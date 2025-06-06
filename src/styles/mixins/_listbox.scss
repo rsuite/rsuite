@@ -1,0 +1,70 @@
+// ARIA Listboxes and Options
+// used in picker menus, e.g. SelectPicker, CheckPicker, Cascader etc
+//
+// Common usage: (note the orders of different states)
+//
+// .item {
+//   @include listbox-option;
+//
+//   &:hover,
+//   &:focus {
+//     @include listbox-option-active;
+//   }
+//
+//   &-selected {
+//     @include listbox-option-selected;
+//   }
+//
+//   &-disabled {
+//     @include listbox-options-disabled;
+//   }
+// }
+@use './color-modes' as color-modes;
+@use './utilities' as utils;
+
+@mixin listbox {
+  list-style: none;
+}
+
+@mixin listbox-option {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: var(--rs-picker-item-content-padding-horizontal);
+  padding-block: var(--rs-picker-item-content-padding-vertical);
+  clear: both;
+  font-weight: normal;
+  line-height: var(--rs-line-height-md);
+  color: var(--rs-text-primary);
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+}
+
+// "-active" for aria-activedescendant
+@mixin listbox-option-active {
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: var(--rs-listbox-option-hover-text);
+
+  @include color-modes.high-contrast-mode {
+    @include utils.focus-ring(slim-inset);
+
+    color: var(--rs-listbox-option-hover-text);
+    text-decoration: underline;
+  }
+}
+
+@mixin listbox-option-selected {
+  background-color: var(--rs-listbox-option-selected-bg);
+  font-weight: bold;
+  color: var(--rs-listbox-option-selected-text);
+
+  @include color-modes.high-contrast-mode {
+    text-decoration: underline;
+  }
+}
+
+@mixin listbox-options-disabled {
+  color: var(--rs-listbox-option-disabled-text);
+  background: none;
+  cursor: not-allowed;
+}

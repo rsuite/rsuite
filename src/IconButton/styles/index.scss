@@ -1,0 +1,90 @@
+@use '../../Button/styles/index' as button;
+@use '../../Button/styles/mixin' as button-mixin;
+
+//
+// IconButton
+// --------------------------------------------------
+.rs-btn-icon {
+  padding: calc((var(--rs-btn-size) - var(--rs-btn-icon-size)) / 2);
+  line-height: var(--rs-btn-icon-size);
+
+  > .rs-icon {
+    font-size: var(--rs-btn-icon-size);
+    vertical-align: bottom;
+  }
+
+  &:not(.rs-btn-icon-with-text) {
+    width: var(--rs-btn-size);
+  }
+
+  // Circle Button
+  &.rs-btn-icon-circle {
+    border-radius: var(--rs-radius-full);
+  }
+}
+
+// Icon Button with text
+@mixin btn-icon-with-text($bg) {
+  > .rs-icon {
+    background-color: $bg;
+  }
+}
+
+// Only support default/primary button
+.rs-btn-icon-with-text {
+  > .rs-icon {
+    position: absolute;
+    top: 0;
+    display: block;
+    background-color: var(--rs-iconbtn-addon);
+    transition: var(--rs-btn-transition);
+    width: var(--rs-btn-size);
+    height: var(--rs-btn-size);
+    padding: calc((var(--rs-btn-size) - var(--rs-btn-icon-size)) / 2);
+  }
+
+  &.rs-btn-icon-placement-left {
+    padding-inline-start: calc(var(--rs-btn-padding-inline) + var(--rs-btn-size));
+
+    > .rs-icon {
+      inset-inline-start: 0;
+      border-right-width: 1px;
+    }
+  }
+
+  &.rs-btn-icon-placement-right {
+    padding-inline-end: calc(var(--rs-btn-padding-inline) + var(--rs-btn-size));
+
+    > .rs-icon {
+      inset-inline-end: 0;
+    }
+  }
+
+  @include button-mixin.button-activated {
+    @include btn-icon-with-text(var(--rs-iconbtn-activated-addon));
+  }
+
+  @include button-mixin.button-pressed {
+    @include btn-icon-with-text(var(--rs-iconbtn-pressed-addon));
+  }
+
+  @include button-mixin.button-disabled {
+    @include btn-icon-with-text(var(--rs-iconbtn-addon));
+  }
+}
+
+.rs-btn-icon-with-text.rs-btn-primary {
+  @include btn-icon-with-text(var(--rs-iconbtn-primary-addon));
+
+  @include button-mixin.button-activated {
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-activated-addon));
+  }
+
+  @include button-mixin.button-pressed {
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-pressed-addon));
+  }
+
+  @include button-mixin.button-disabled {
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-addon));
+  }
+}

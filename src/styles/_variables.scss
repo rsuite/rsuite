@@ -1,0 +1,48 @@
+// Variables
+// All variables declared in this file is supposed to be customizable by the user
+// This file is ignored by prettier for better alignment
+// See .prettierignore
+
+// Import color base and themes - using @forward to make these variables available
+// to files that import this variables file
+@forward 'colors/colors-base';
+@forward 'colors/light';
+@forward 'colors/dark';
+@forward 'colors/high-contrast';
+
+// Controls
+
+// CSS Resets
+$enable-css-reset: true;
+
+// Global button ripple switch
+$enable-ripple-effect: true;
+
+// Whether include styles for dark mode
+$enable-dark-mode: true;
+
+// Whether include styles for high-contrast mode
+$enable-high-contrast: true;
+
+// Media queries breakpoints
+// Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Small screen / phone
+// $screen-sm
+$screen-sm: 576px;
+
+// Medium screen / desktop
+// $screen-md
+$screen-md: 768px;
+
+// Large screen / wide desktop
+// $screen-lg
+$screen-lg: 992px;
+
+// Extra large devices / extra wide desktop
+// $screen-xl
+$screen-xl: 1200px;
+
+// Extra extra large devices / ultra wide desktop
+// $screen-xxl
+$screen-xxl: 1400px;

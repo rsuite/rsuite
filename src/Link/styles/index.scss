@@ -1,0 +1,39 @@
+.rs-link {
+  --rs-link-disabled-opacity: 0.5;
+  --rs-link-spacing: var(--rs-spacing);
+
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+
+  &-icon {
+    margin-inline: var(--rs-link-spacing);
+  }
+
+  &:where([data-underline='always']) {
+    text-decoration: underline;
+  }
+
+  &:where([data-underline='hover']) {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &:where([data-underline='never']) {
+    text-decoration: none !important;
+  }
+
+  &:where([data-underline='not-hover']) {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:where([data-disabled='true']) {
+    pointer-events: none;
+    opacity: var(--rs-link-disabled-opacity);
+  }
+}

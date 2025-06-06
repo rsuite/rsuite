@@ -75,27 +75,33 @@ module.exports = {
       ]
     });
 
-    config.module.rules.push({
-      test: /\.(le|c)ss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader'
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-            postcssOptions: {
-              plugins: [
-                require('autoprefixer')
-                // Do not use postcss-rtl which generates a LTR+RTL css
-                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({})
-              ]
-            }
+    // Common CSS processing for both LESS and SCSS
+    const cssLoaders = [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader'
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          sourceMap: true,
+          postcssOptions: {
+            plugins: [
+              require('autoprefixer')
+              // Do not use postcss-rtl which generates a LTR+RTL css
+              // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
+              // require('postcss-rtl')({})
+            ]
           }
-        },
+        }
+      }
+    ];
+
+    // LESS loader configuration
+    config.module.rules.push({
+      test: /\.less$/,
+      use: [
+        ...cssLoaders,
         {
           loader: 'less-loader',
           options: {
@@ -105,6 +111,20 @@ module.exports = {
                 rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
               }
             }
+          }
+        }
+      ]
+    });
+
+    // SCSS loader configuration
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        ...cssLoaders,
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true
           }
         }
       ]
