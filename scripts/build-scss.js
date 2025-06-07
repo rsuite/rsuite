@@ -6,6 +6,7 @@ const postcss = require('postcss');
 const postcssPruneVar = require('postcss-prune-var');
 const postcssDiscardEmpty = require('postcss-discard-empty');
 const postcssDiscardComments = require('postcss-discard-comments');
+const postcssMergeRules = require('postcss-merge-rules');
 const autoprefixer = require('autoprefixer');
 
 const outDir = 'lib/dist';
@@ -27,7 +28,8 @@ async function compileScss(
   // Base plugins for all CSS files
   const postcssPlugins = [
     autoprefixer(),
-    postcssDiscardComments({ removeAll: true }) // Remove all comments for all files
+    postcssDiscardComments({ removeAll: true }), // Remove all comments for all files
+    postcssMergeRules()
   ];
 
   // Add component-specific optimization plugins for component styles

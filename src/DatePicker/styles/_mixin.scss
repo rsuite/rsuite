@@ -1,0 +1,10 @@
+@use '../../styles/mixins/color-modes' as color-modes;
+
+@mixin calendar-cell-selected-hover {
+  background-color: var(--rs-calendar-cell-selected-hover-bg);
+  color: var(--rs-calendar-date-selected-text);
+
+  @include color-modes.high-contrast-mode {
+    color: var(--rs-calendar-date-selected-text);
+  }
+}

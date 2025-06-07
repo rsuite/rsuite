@@ -3,27 +3,12 @@
 @use '../../Button/styles/index' as button;
 @use '../../internals/Picker/styles/mixin' as picker-mixin;
 @use '../../styles/mixins/utilities' as utils;
+@use 'variables';
 
 // Calendar panel
 // ----------------------
 
 .rs-calendar {
-  --rs-calendar-cell-font-size: var(--rs-font-size-sm);
-  --rs-calendar-cell-line-height: var(--rs-line-height-md);
-  --rs-calendar-cell-padding: 5px;
-  --rs-calendar-border-radius: var(--rs-radius-md);
-  --rs-calendar-table-width: 100%;
-  --rs-calendar-panel-today-active-side-length: var(--rs-line-height-base);
-  --rs-calendar-panel-compact-cell-height: 38px;
-  --rs-calendar-panel-cell-height: 100px;
-  --rs-calendar-dropdown-top: 44px;
-  --rs-calendar-table-cell-padding: 1px;
-  --rs-calendar-header-title-margin: 4px;
-  --rs-calendar-body-padding-top: 4px;
-  --rs-calendar-base-spacing: 10px;
-  --rs-calendar-header-width: 280px;
-
-
   padding-top: var(--rs-calendar-base-spacing);
   position: relative;
   min-height: 266px;
@@ -117,7 +102,9 @@
     width: calc(100% - 20px);
   }
 
-  &-panel:not(.rs-calendar-compact) &-table-row:not(.rs-calendar-table-header-row) &-table-cell-content {
+  &-panel:not(.rs-calendar-compact)
+    &-table-row:not(.rs-calendar-table-header-row)
+    &-table-cell-content {
     width: 100%;
     height: var(--rs-calendar-panel-cell-height);
     overflow: hidden;
@@ -200,7 +187,7 @@
 
   .rs-calendar-header-title-date {
     @include picker-mixin.picker-calendar-title-show;
-    
+
     &.rs-calendar-header-error {
       color: var(--rs-text-error);
 
@@ -496,7 +483,9 @@
 
   &-row {
     position: relative;
-    padding-inline-start: calc(var(--rs-calendar-base-spacing) + 38px); // 30px for the year label + 8px gap
+    padding-inline-start: calc(
+      var(--rs-calendar-base-spacing) + 38px
+    ); // 30px for the year label + 8px gap
     padding-inline-end: var(--rs-calendar-base-spacing);
     padding-top: 5px;
     padding-bottom: 5px;

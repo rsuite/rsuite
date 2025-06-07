@@ -1,0 +1,183 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/listbox' as listbox;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+@use './variables';
+@use './toggle';
+@use './indent-line';
+
+// Tree
+// ----------------------
+
+.rs-tree {
+  height: 100%;
+  flex: 1 1 auto;
+
+  &-drag-preview {
+    position: absolute;
+    top: 0;
+    color: var(--rs-text-primary);
+    background-color: var(--rs-bg-overlay);
+    display: inline-block;
+    margin: 0;
+    padding-inline: var(--rs-tree-node-padding-inline);
+    padding-block: var(--rs-tree-node-padding-block);
+    border-radius: var(--rs-radius-md);
+    box-shadow: var(--rs-shadow-sm);
+    z-index: -1;
+  }
+
+  .rs-search-box {
+    padding: 6px;
+  }
+
+  .rs-tree-empty {
+    padding: 6px 12px;
+    color: var(--rs-text-secondary);
+  }
+
+  &-view {
+    max-height: var(--rs-tree-view-height, 340px);
+    overflow-y: auto;
+  }
+
+  &.rs-tree-virtualized &-view {
+    overflow: hidden;
+  }
+
+  .rs-highlight-mark {
+    padding: 0;
+  }
+}
+
+.rs-tree-group {
+  padding-inline-start: 18px;
+}
+
+.rs-tree-node {
+  position: relative;
+  text-align: start;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+
+  &:focus-visible {
+    .rs-tree-node-label {
+      @include utils.focus-ring;
+    }
+  }
+
+  &-label {
+    position: relative;
+    margin: 1px;
+    cursor: pointer;
+    font-size: var(--rs-tree-node-font-size);
+    line-height: var(--rs-tree-node-line-height);
+    padding: var(--rs-tree-node-label-padding);
+    border-radius: var(--rs-tree-node-label-border-radius);
+
+    &:hover,
+    &:focus,
+    &.rs-tree-node-label-focus {
+      @include listbox.listbox-option-active;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      inset-inline-start: -8px;
+      border-left: 6px solid var(--rs-text-link);
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      display: none;
+    }
+  }
+
+  &-active &-label {
+    @include picker-mixin.picker-item-active;
+
+    color: var(--rs-text-link);
+    background-color: var(--rs-listbox-option-selected-bg);
+  }
+
+  &-drag-over {
+    background-color: var(--rs-listbox-option-hover-bg);
+  }
+
+  &-dragging {
+    outline: 1px dashed var(--rs-primary-500);
+  }
+
+  &-drag-over-top {
+    &.rs-tree-node-label {
+      border-top: 2px solid var(--rs-text-link) !important;
+      border-radius: var(--rs-radius-none);
+
+      &::after {
+        display: block;
+        top: -4px;
+      }
+    }
+  }
+
+  &-drag-over-bottom {
+    &.rs-tree-node-label {
+      border-bottom: 2px solid var(--rs-text-link) !important;
+      border-radius: var(--rs-radius-none);
+
+      &::after {
+        display: block;
+        bottom: -4px;
+      }
+    }
+  }
+
+  &-disabled {
+    .rs-tree-node-label {
+      background: none;
+      color: var(--rs-listbox-option-disabled-text);
+      cursor: var(--rs-cursor-disabled);
+    }
+
+    > .rs-tree-node-label {
+      cursor: var(--rs-cursor-disabled);
+      color: var(--rs-listbox-option-disabled-text);
+
+      &,
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &-disabled.rs-tree-node-active > .rs-tree-node-label {
+    &,
+    &:hover {
+      color: var(--rs-listbox-option-disabled-selected-text);
+    }
+  }
+
+  &:not(&-disabled):focus > .rs-tree-node-label {
+    background-color: var(--rs-listbox-option-selected-bg);
+  }
+
+  &:not(&-disabled) > .rs-tree-node-label:focus {
+    background-color: var(--rs-listbox-option-selected-bg);
+  }
+}
+
+// node children
+.rs-tree-node-children {
+  > .rs-tree-group {
+    position: relative;
+    display: none;
+  }
+
+  &.rs-tree-node-expanded > .rs-tree-group {
+    display: block;
+  }
+}

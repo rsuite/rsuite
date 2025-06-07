@@ -70,7 +70,7 @@
     @include utils.ellipsis-basic;
   }
 
-  &-value-count {
+  .rs-picker-value-count {
     margin-inline: var(--rs-picker-value-count-margin);
     background-color: var(--rs-picker-count-bg);
     color: var(--rs-picker-count-text);

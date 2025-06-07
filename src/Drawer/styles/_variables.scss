@@ -1,0 +1,18 @@
+:root {
+  --rs-drawer-shadow: var(--rs-shadow-lg);
+  --rs-drawer-title-font-size: var(--rs-font-size-lg);
+  --rs-drawer-title-line-height: 2.25rem;
+  --rs-drawer-body-padding: calc(var(--rs-spacing) * 7.5) calc(var(--rs-spacing) * 15);
+  --rs-drawer-footer-spacing: calc(var(--rs-spacing) * 5);
+
+  --rs-drawer-size-full: 100%;
+  --rs-drawer-inline-size-xs: 400px;
+  --rs-drawer-inline-size-sm: 600px;
+  --rs-drawer-inline-size-md: 800px;
+  --rs-drawer-inline-size-lg: 968px;
+
+  --rs-drawer-block-size-xs: 290px;
+  --rs-drawer-block-size-sm: 400px;
+  --rs-drawer-block-size-md: 480px;
+  --rs-drawer-block-size-lg: 568px;
+}

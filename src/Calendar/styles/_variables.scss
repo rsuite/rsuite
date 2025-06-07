@@ -1,0 +1,16 @@
+:root {
+  --rs-calendar-cell-font-size: var(--rs-font-size-sm);
+  --rs-calendar-cell-line-height: var(--rs-line-height-md);
+  --rs-calendar-cell-padding: 5px;
+  --rs-calendar-border-radius: var(--rs-radius-md);
+  --rs-calendar-table-width: 100%;
+  --rs-calendar-panel-today-active-side-length: var(--rs-line-height-base);
+  --rs-calendar-panel-compact-cell-height: 38px;
+  --rs-calendar-panel-cell-height: 100px;
+  --rs-calendar-dropdown-top: 44px;
+  --rs-calendar-table-cell-padding: 1px;
+  --rs-calendar-header-title-margin: 4px;
+  --rs-calendar-body-padding-top: 4px;
+  --rs-calendar-base-spacing: 10px;
+  --rs-calendar-header-width: 280px;
+}

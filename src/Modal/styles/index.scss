@@ -1,0 +1,177 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use './animation';
+@use './variables';
+
+//
+// Modals
+// Figma: https://www.figma.com/file/uEq9QBplcKUYZrcWWA3RK2/NXT-UI?node-id=0%3A1348&t=H5h3Dd3AnJVgbAbz-4
+// --------------------------------------------------
+
+// Container that the modal scrolls within
+.rs-modal {
+  display: none;
+  overflow: visible;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+  margin: var(--rs-modal-margin-top) auto 0 auto;
+  position: relative;
+  width: var(--rs-modal-size, auto);
+  max-width: var(--rs-modal-max-width);
+  padding-inline: var(--rs-modal-padding-inline);
+  z-index: var(--rs-zindex-modal);
+
+  // Size variants
+  $sizes: lg, md, sm, xs;
+
+  @each $size in $sizes {
+    &.rs-modal-#{$size} {
+      --rs-modal-size: var(--rs-modal-size-#{$size});
+    }
+  }
+
+  &.rs-modal-full {
+    --rs-modal-padding-inline: 0;
+
+    margin: 0;
+    height: 100%;
+
+    .rs-modal-dialog {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: var(--rs-radius-none);
+      display: flex;
+      flex-direction: column;
+
+      .rs-modal-header {
+        flex: 0 0 auto;
+      }
+
+      .rs-modal-body {
+        flex: 1 1 auto;
+        overflow: auto;
+      }
+
+      .rs-modal-footer {
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  // Actual modal
+  .rs-modal-dialog {
+    position: relative;
+    background-color: var(--rs-bg-overlay);
+    border: var(--rs-modal-border, none);
+    border-radius: var(--rs-radius-md);
+    // Remove focus outline from opened modal
+    outline: 0;
+    box-shadow: var(--rs-modal-shadow);
+    padding: var(--rs-modal-content-padding);
+    overflow: auto;
+  }
+
+  // Modal header
+  // Top section of the modal w/ title and dismiss
+  .rs-modal-header {
+    @include utils.clearfix;
+
+    padding-inline-end: var(--rs-line-height-base);
+
+    .rs-modal-header-close {
+      position: absolute;
+      padding: 0;
+      top: var(--rs-modal-btn-close-spacing);
+      inset-inline-end: var(--rs-modal-btn-close-spacing);
+    }
+  }
+
+  .rs-modal-title {
+    font-weight: normal;
+    font-size: var(--rs-modal-title-font-size);
+    line-height: var(--rs-modal-title-line-height);
+    width: 100%;
+    display: block;
+    color: var(--rs-text-heading);
+    margin: 0;
+    @include utils.ellipsis;
+  }
+
+  // Modal body
+  // Where all modal content resides (sibling of .modal-header and .modal-footer)
+  .rs-modal-body {
+    position: relative;
+
+    margin-top: var(--rs-modal-body-padding);
+    // Make sure input error message don't overflow.
+    padding-bottom: var(--rs-modal-body-padding);
+  }
+
+  // Footer (for actions)
+  .rs-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--rs-modal-footer-gap);
+  }
+}
+
+// Modal background
+.rs-modal-backdrop {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: calc(var(--rs-zindex-modal) - 1);
+  background-color: var(--rs-bg-backdrop);
+
+  // Fade for backdrop
+  &.rs-anim-fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+
+  &.rs-anim-in {
+    opacity: 1;
+  }
+}
+
+// Kill the scroll on the body
+.rs-modal-open {
+  overflow: hidden;
+}
+
+.rs-modal-wrapper {
+  position: fixed;
+  overflow: auto;
+  z-index: var(--rs-zindex-modal);
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 100%;
+
+  &.rs-modal-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .rs-modal {
+      margin: auto;
+    }
+  }
+}
+
+.rs-modal-shake .rs-modal-dialog {
+  animation: 0.3s linear shakeHead;
+}
+
+// Measure scrollbar width for padding body during modal show/hide
+.rs-modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}

@@ -1,0 +1,44 @@
+@use './mixin' as grid;
+
+// Row
+//
+// Rows contain and clear the floats of your columns.
+.rs-row {
+  display: flex;
+  flex-flow: row wrap;
+
+  // Base styles (xs breakpoint)
+  margin-inline: var(--rs-row-gutter);
+  row-gap: var(--rs-row-gap);
+
+  // Default alignment without breakpoint prefix
+  &-top {
+    align-items: flex-start;
+  }
+  &-middle {
+    align-items: center;
+  }
+  &-bottom {
+    align-items: flex-end;
+  }
+
+  // Default justify without breakpoint prefix
+  &-start {
+    justify-content: flex-start;
+  }
+  &-end {
+    justify-content: flex-end;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-space-between {
+    justify-content: space-between;
+  }
+  &-space-around {
+    justify-content: space-around;
+  }
+
+  @include grid.responsive-align(xs);
+  @include grid.responsive-justify(xs);
+}

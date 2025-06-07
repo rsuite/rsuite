@@ -1,0 +1,114 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/_variables' as vars;
+@use './variables';
+@use './mixin';
+@use './row';
+@use './columns';
+
+//
+// Grid system
+// --------------------------------------------------
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+.rs-grid-container {
+  --rs-grid-gutter-width: calc(var(--rs-spacing) * 3);
+  --rs-grid-container-sm: calc(540px + var(--rs-grid-gutter-width));
+  --rs-grid-container-md: calc(720px + var(--rs-grid-gutter-width));
+  --rs-grid-container-lg: calc(960px + var(--rs-grid-gutter-width));
+  --rs-grid-container-xl: calc(1140px + var(--rs-grid-gutter-width));
+  --rs-grid-container-xxl: calc(1320px + var(--rs-grid-gutter-width));
+
+  @include mixin.container-fixed;
+
+  @media (min-width: vars.$screen-sm) {
+    width: var(--rs-grid-container-sm);
+  }
+
+  @media (min-width: vars.$screen-md) {
+    width: var(--rs-grid-container-md);
+  }
+
+  @media (min-width: vars.$screen-lg) {
+    width: var(--rs-grid-container-lg);
+  }
+
+  @media (min-width: vars.$screen-xl) {
+    width: var(--rs-grid-container-xl);
+  }
+
+  @media (min-width: vars.$screen-xxl) {
+    width: var(--rs-grid-container-xxl);
+  }
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.rs-grid-container-fluid {
+  @include mixin.container-fixed;
+}
+
+// Extra small grid
+//
+// Columns, offsets, pushes, and pulls for extra small devices like
+// smartphones.
+
+@include mixin.make-grid(xs);
+
+// Small grid
+//
+// Columns, offsets, pushes, and pulls for the small device range, from phones
+// to tablets / phones.
+
+@media (min-width: vars.$screen-sm) {
+  @include mixin.make-grid(sm);
+}
+
+@media (min-width: vars.$screen-md) {
+  @include mixin.make-grid(md);
+}
+
+@media (min-width: vars.$screen-lg) {
+  @include mixin.make-grid(lg);
+}
+
+@media (min-width: vars.$screen-xl) {
+  @include mixin.make-grid(xl);
+}
+
+@media (min-width: vars.$screen-xxl) {
+  @include mixin.make-grid(xxl);
+}
+
+// Hiddens
+//
+// All hidden styles.
+
+@media (max-width: (vars.$screen-sm - 1)) {
+  @include mixin.hidden(xs);
+}
+
+@media (min-width: vars.$screen-sm) and (max-width: (vars.$screen-md - 1)) {
+  @include mixin.hidden(sm);
+}
+
+@media (min-width: vars.$screen-md) and (max-width: (vars.$screen-lg - 1)) {
+  @include mixin.hidden(md);
+}
+
+@media (min-width: vars.$screen-lg) and (max-width: (vars.$screen-xl - 1)) {
+  @include mixin.hidden(lg);
+}
+
+@media (min-width: vars.$screen-xl) and (max-width: (vars.$screen-xxl - 1)) {
+  @include mixin.hidden(xl);
+}
+
+@media (min-width: vars.$screen-xxl) {
+  @include mixin.hidden(xxl);
+}

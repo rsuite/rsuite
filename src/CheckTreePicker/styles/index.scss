@@ -1,6 +1,6 @@
-@import '../../styles/common.less';
-@import '../../internals/Picker/styles/index.less';
-@import '../../CheckTree/styles/index.less';
+@use '../../styles/colors/colors-base' as colors;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../CheckTree/styles/index' as check-tree;
 
 // Check Tree Picker
 // ----------------------
