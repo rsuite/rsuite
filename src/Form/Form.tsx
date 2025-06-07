@@ -17,7 +17,7 @@ import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 
-type FormValue = any
+type FormValue = any;
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
