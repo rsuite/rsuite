@@ -1,0 +1,18 @@
+@use '../variables' as vars;
+
+// Rules that take effect in dark mode.
+@mixin dark-mode {
+  @if (vars.$enable-dark-mode) {
+    .rs-theme-dark & {
+      @content;
+    }
+  }
+}
+
+@mixin high-contrast-mode {
+  @if (vars.$enable-high-contrast) {
+    .rs-theme-high-contrast & {
+      @content;
+    }
+  }
+}

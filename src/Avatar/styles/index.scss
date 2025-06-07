@@ -1,0 +1,48 @@
+@use '../../styles/themes';
+
+.rs-avatar {
+  --rs-avatar-size-xs: 1.25rem; // 20px
+  --rs-avatar-size-sm: 1.875rem; // 30px
+  --rs-avatar-size-md: 2.5rem; // 40px
+  --rs-avatar-size-lg: 3.75rem; // 60px
+  --rs-avatar-size-xl: 5.625rem; // 90px
+  --rs-avatar-size-2xl: 7.5rem; // 120px
+
+  --rs-avatar-border-radius: var(--rs-radius-sm);
+  --rs-avatar-ring-offset-shadow: var(--rs-avatar-offset-color) 0 0 0 2px;
+  --rs-avatar-ring-shadow: var(--rs-avatar-color) 0 0 0 4px;
+  --rs-avatar-color: var(--rs-avatar-bg);
+  --rs-avatar-size: var(--rs-avatar-size-md);
+
+  background-color: var(--rs-avatar-color);
+  color: var(--rs-avatar-text);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--rs-avatar-border-radius);
+  overflow: hidden;
+  position: relative;
+  width: var(--rs-avatar-size);
+  height: var(--rs-avatar-size);
+
+  &-image {
+    width: var(--rs-avatar-size);
+    height: var(--rs-avatar-size);
+    line-height: var(--rs-avatar-size);
+  }
+
+  &-icon {
+    position: absolute;
+  }
+
+  &-bordered {
+    box-shadow:
+      var(--rs-avatar-ring-offset-shadow),
+      var(--rs-avatar-ring-shadow),
+      0 0 #0000;
+  }
+
+  &-circle {
+    --rs-avatar-border-radius: var(--rs-radius-full);
+  }
+}

@@ -1,0 +1,170 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/listbox' as listbox;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../Button/styles/mixin' as button-mixin;
+@use '../../Input/styles/index' as input;
+@use '../../InputGroup/styles/index' as input-group;
+@use '../../Calendar/styles/index' as calendar;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../Stack/styles/index' as stack;
+@use './mixin' as date-picker-mixin;
+
+// DatePicker Picker
+// ----------------------
+
+// Toolbar
+.rs-picker-toolbar {
+  padding: var(--rs-calendar-base-spacing);
+  border-top: 1px solid var(--rs-divider-border);
+}
+
+// Picker date
+.rs-picker[data-picker='date'] {
+  .rs-input-group-addon {
+    color: var(--rs-text-secondary);
+    cursor: pointer;
+
+    .rs-btn-close {
+      padding: 0;
+    }
+  }
+
+  &.rs-picker[data-variant='subtle'] {
+    .rs-input-group {
+      border-color: transparent;
+    }
+  }
+
+  > .rs-input-group.rs-input-group-inside .rs-input {
+    padding-inline-end: 0;
+  }
+}
+
+// Predefined Ranges
+.rs-picker-date-predefined {
+  height: 325px;
+  border-right: 1px solid var(--rs-border-primary);
+  padding: 4px 0;
+
+  .rs-btn {
+    display: block;
+  }
+}
+
+// Calendar in DatePicker popup
+.rs-picker-popup {
+  $calendar-width: 264px; // This is a fixed value per design.
+  $calendar-padding-x: 15px;
+  // The padding used when show week numbers.
+  $calendar-padding-x-condensed: 12px;
+
+  &.rs-picker-popup-date {
+    padding: 0;
+  }
+
+  .rs-picker-toolbar {
+    max-width: 100%;
+
+    &-ranges {
+      max-width: 400px;
+    }
+  }
+
+  .rs-calendar {
+    --rs-calendar-in-menu-content-side-length: 30px;
+
+    min-width: $calendar-width;
+    // To make sure <Calendar/> horizontal align at center when toolbar width is so long.
+    display: block;
+    margin: 0 auto;
+
+    &-show-week-numbers {
+      $calendar-width: 278px; // This is a fixed value per design.
+
+      min-width: $calendar-width;
+
+      & .rs-calendar-body {
+        padding-inline-start: $calendar-padding-x-condensed;
+        padding-inline-end: $calendar-padding-x-condensed;
+      }
+    }
+
+    &-header {
+      width: 100%;
+    }
+
+    &-body {
+      padding-inline-start: $calendar-padding-x;
+      padding-inline-end: $calendar-padding-x;
+    }
+
+    &-table {
+      width: unset;
+    }
+
+    &-month-dropdown-cell:focus-visible {
+      .rs-calendar-month-dropdown-cell-content {
+        outline: 3px solid var(--rs-color-focus-ring);
+      }
+    }
+
+    &-table-cell {
+      &:focus-visible {
+        outline: none;
+        .rs-calendar-table-cell-content {
+          outline: 3px solid var(--rs-color-focus-ring);
+        }
+      }
+    }
+
+    .rs-calendar-table-cell-content {
+      width: var(--rs-calendar-in-menu-content-side-length);
+      height: var(--rs-calendar-in-menu-content-side-length);
+    }
+
+    .rs-calendar-month-dropdown-cell-content:hover {
+      @include listbox.listbox-option-active;
+    }
+
+    .rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content:hover {
+      @include date-picker-mixin.calendar-cell-selected-hover;
+    }
+
+    .rs-calendar-table-header-row .rs-calendar-table-cell-content {
+      height: 24px;
+      padding-top: 0;
+    }
+
+    .rs-calendar-table-cell-content {
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+      display: inline-block;
+    }
+
+    // There's a small gap between cell and cell-content (cell-content smaller than cell)
+    // So don't apply hover style directly on cell-content
+    .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
+      // borrowed from listbox option
+      @include listbox.listbox-option-active;
+    }
+
+    .rs-calendar-table-cell-selected:hover .rs-calendar-table-cell-content {
+      @include date-picker-mixin.calendar-cell-selected-hover;
+    }
+
+    .rs-calendar-time-dropdown-column > ul {
+      height: 198px;
+    }
+
+    &.rs-calendar-only-time {
+      min-width: auto;
+      width: 100%;
+      flex: 1;
+
+      .rs-calendar-time-dropdown-column > ul {
+        height: 100%;
+      }
+    }
+  }
+}

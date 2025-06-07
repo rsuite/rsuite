@@ -1,0 +1,81 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use './variables';
+
+// Full container.
+.rs-form-stack-fluid {
+  .rs-form-control-wrapper {
+    width: 100%;
+
+    > .rs-number-input,
+    > .rs-input {
+      width: 100%;
+    }
+  }
+
+  &.rs-form-stack-vertical .rs-form-group {
+    .rs-input-group {
+      width: 100%;
+    }
+  }
+}
+
+// Fixed width.
+.rs-form-control-wrapper {
+  // Used to provide relation for error message
+  position: relative;
+
+  > .rs-number-input,
+  > .rs-input {
+    width: var(--rs-form-control-width);
+  }
+
+  &.read-only {
+    pointer-events: none;
+    touch-action: none;
+  }
+}
+
+// Vertical forms
+.rs-form-stack-vertical .rs-form-group {
+  .rs-input-group {
+    width: var(--rs-form-control-width);
+  }
+
+  .rs-form-control-wrapper {
+    display: inline-block;
+  }
+}
+
+// Horizontal forms
+//
+// Horizontal forms are built on grid classes and allow you to create forms with
+// labels on the left and inputs on the right.
+
+.rs-form-stack-horizontal .rs-form-group {
+  .rs-form-control-wrapper {
+    float: inline-start;
+  }
+
+  .rs-form-control-wrapper + .rs-form-help-text {
+    clear: both;
+  }
+}
+
+// Inline
+.rs-form-stack-inline .rs-form-group {
+  .rs-form-control-wrapper {
+    display: inline-block;
+  }
+
+  // Form control wrapper behind Screen only dom no need margin left.
+  .rs-sr-only + .rs-form-control-wrapper {
+    margin-inline-start: 0;
+  }
+}
+
+.rs-input-group > .rs-form-control > .rs-input {
+  border-radius: var(--rs-radius-none);
+  border: none;
+  outline: none;
+}

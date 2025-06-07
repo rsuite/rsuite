@@ -1,0 +1,120 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+@use '../../Checkbox/styles/index' as checkbox;
+@use '../../Tree/styles/toggle' as tree-toggle;
+@use '../../Tree/styles/indent-line' as tree-indent-line;
+@use './variables';
+
+// Check Tree
+// ----------------------
+
+.rs-check-tree {
+  height: 100%;
+  flex: 1 1 auto;
+
+  .rs-check-tree-node-content {
+    .rs-check-item .rs-checkbox-checker {
+      .rs-checkbox-label {
+        padding: var(--rs-spacing);
+        width: auto;
+      }
+    }
+
+    &:focus-visible {
+      .rs-checkbox-label {
+        @include utils.focus-ring;
+      }
+    }
+  }
+
+  .rs-check-tree-empty {
+    padding-inline: calc(var(--rs-spacing) * 2);
+    padding-block: var(--rs-spacing);
+    color: var(--rs-text-secondary);
+  }
+
+  &-view {
+    max-height: var(--rs-tree-view-height, var(--rs-check-tree-view-max-height));
+    overflow-y: auto;
+  }
+
+  &.rs-tree-virtualized &-view {
+    overflow: hidden;
+  }
+
+  .rs-highlight-mark {
+    padding: 0;
+  }
+}
+
+// Only has the first level
+.rs-check-tree-without-children {
+  .rs-tree-node-toggle-placeholder {
+    display: none;
+  }
+}
+
+.rs-check-tree-group {
+  padding-inline-start: 20px;
+}
+
+.rs-check-tree-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .rs-check-item {
+    display: inline-block;
+
+    &:hover,
+    &:focus,
+    &.rs-check-item-focus {
+      background-color: transparent !important;
+
+      .rs-checkbox-label {
+        background-color: var(--rs-listbox-option-hover-bg);
+        color: var(--rs-listbox-option-hover-text);
+        border-radius: var(--rs-radius-md);
+      }
+    }
+
+    &.rs-checkbox-disabled {
+      .rs-checkbox-label {
+        color: var(--rs-text-disabled);
+        background: none;
+      }
+    }
+  }
+
+  &:focus .rs-check-item .rs-checkbox-checker > label {
+    @include picker-mixin.picker-item-hover;
+  }
+
+  .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
+    @include picker-mixin.picker-item-active;
+  }
+}
+
+// node children
+.rs-check-tree-node-children {
+  > .rs-check-tree-group {
+    position: relative;
+    display: none;
+  }
+
+  &.rs-check-tree-node-expanded > .rs-check-tree-group {
+    display: block;
+  }
+}
+
+.rs-check-tree {
+  &-node > .rs-check-tree-node-content .rs-checkbox-label {
+    @include utils.ellipsis;
+
+    display: inline-block;
+    vertical-align: top;
+  }
+}

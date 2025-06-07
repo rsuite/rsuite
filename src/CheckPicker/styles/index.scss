@@ -1,0 +1,22 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../Checkbox/styles/index' as checkbox;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+
+// Check Picker
+// ----------------------
+
+// Menu Items
+.rs-picker-check-menu-items {
+  --rs-check-item-padding-inline: calc(var(--rs-spacing) * 3);
+  --rs-check-item-padding-block: calc(var(--rs-spacing) * 2);
+
+  @include picker-mixin.picker-listbox-reset;
+  @include picker-mixin.picker-menu-group-common('picker');
+  @include picker-mixin.picker-menu-group-title('picker');
+  @include picker-mixin.picker-menu-group-closed('picker');
+
+  .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
+    @include picker-mixin.picker-item-active;
+  }
+}

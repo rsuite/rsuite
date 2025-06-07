@@ -1,0 +1,145 @@
+@use './animation';
+@use './variables';
+
+// Mixins for common arrow styles
+@mixin arrow-base {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+
+@mixin arrow-position($position, $offset) {
+  &::before,
+  &::after {
+    #{$position}: $offset;
+  }
+}
+
+@mixin arrow-border($direction, $w1, $w2, $w3, $position, $offset) {
+  &::before,
+  &::after {
+    border-width: $w1 $w2 $w3;
+    border-#{$direction}-color: var(--rs-form-errormessage-border);
+    #{$position}: -1 * $offset;
+  }
+
+  &::after {
+    #{$position}: -1 * ($offset - 1);
+    border-#{$direction}-color: var(--rs-form-errormessage-bg);
+  }
+}
+
+.rs-form-error-message {
+  position: absolute;
+  padding: 3px 7px;
+  background-color: var(--rs-form-errormessage-bg);
+  border: 1px solid var(--rs-form-errormessage-border);
+  border-radius: var(--rs-radius-md);
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.1));
+  z-index: var(--rs-zindex-form-error-message);
+  color: var(--rs-form-errormessage-text);
+  font-size: var(--rs-form-errormessage-font-size);
+  line-height: var(--rs-form-errormessage-line-height);
+  display: none;
+  white-space: nowrap;
+
+  &-show {
+    display: block;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+  }
+
+  &-arrow {
+    @include arrow-base;
+  }
+}
+
+.rs-form-error-message-wrapper {
+  position: absolute;
+
+  &[data-placement='static'] {
+    --rs-form-errormessage-text: var(--rs-color-red);
+    --rs-form-errormessage-bg: transparent;
+
+    position: static;
+    margin-top: var(--rs-spacing);
+    display: block;
+    width: 100%;
+
+    .rs-form-error-message {
+      position: static;
+      display: block;
+      width: 100%;
+      white-space: normal;
+      word-wrap: break-word;
+      padding: 0;
+      filter: none;
+      border: none;
+      border-radius: 0;
+
+      &-show {
+        animation: none;
+      }
+
+      &-arrow {
+        display: none;
+      }
+    }
+  }
+
+  // Vertical placements (top/bottom)
+  &:where([data-placement='bottom-start'], [data-placement='bottom-end']) {
+    bottom: 0;
+
+    .rs-form-error-message {
+      top: 0;
+      &-show {
+        animation-name: errorMessageSlideDownIn;
+      }
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-border(bottom, 0, 6px, 6px, top, 6px);
+    }
+  }
+
+  &:where([data-placement='top-start'], [data-placement='top-end']) {
+    top: 0;
+
+    .rs-form-error-message {
+      bottom: 0;
+      &-show {
+        animation-name: errorMessageSlideUpIn;
+      }
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-border(top, 6px, 6px, 0, bottom, 6px);
+    }
+  }
+
+  // Inline start/end positions
+  &:where([data-placement='bottom-start'], [data-placement='top-start']) {
+    inset-inline-start: 0;
+    .rs-form-error-message {
+      inset-inline-start: 0;
+    }
+    .rs-form-error-message-arrow {
+      @include arrow-position(inset-inline-start, var(--rs-form-errormessage-triangle-gap));
+    }
+  }
+
+  &:where([data-placement='bottom-end'], [data-placement='top-end']) {
+    inset-inline-end: 0;
+    .rs-form-error-message {
+      inset-inline-end: 0;
+    }
+    .rs-form-error-message-arrow {
+      @include arrow-position(inset-inline-end, var(--rs-form-errormessage-triangle-gap));
+    }
+  }
+}

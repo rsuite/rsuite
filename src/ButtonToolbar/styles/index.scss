@@ -1,0 +1,15 @@
+//
+// Button toolbar
+// --------------------------------------------------
+
+@use '../../Stack/styles/index' as stack;
+
+.rs-btn-toolbar {
+  // Clear whitespace
+  line-height: 0;
+
+  &.rs-stack {
+    --rs-stack-spacing: calc(var(--rs-spacing) * 2);
+    --rs-stack-wrap: wrap;
+  }
+}

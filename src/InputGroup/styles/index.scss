@@ -1,0 +1,263 @@
+@use '../../styles/themes';
+@use '../../styles/mixins/color-modes';
+@use '../../styles/mixins/utilities' as utils;
+@use '../../Button/styles/mixin' as button;
+@use '../../Input/styles/mixin' as input-mixin;
+
+//
+// Input Group Component Styles
+// --------------------------------------------------
+// The Input Group component allows you to create grouped form controls by combining
+// inputs with addons, buttons, or other elements.
+
+.rs-input-group {
+  --rs-input-height-xs: calc(var(--rs-line-height-base) + (var(--rs-spacing-block-xs) * 2));
+  --rs-input-height-sm: calc(var(--rs-line-height-base) + (var(--rs-spacing-block-sm) * 2));
+  --rs-input-height-md: calc(var(--rs-line-height-base) + (var(--rs-padding-block-md) * 2));
+  --rs-input-height-lg: calc(var(--rs-line-height-plus) + (var(--rs-spacing-block-lg) * 2));
+  --rs-input-group-input-height-xs: calc(var(--rs-input-height-xs) - 2px);
+  --rs-input-group-input-height-sm: calc(var(--rs-input-height-sm) - 2px);
+  --rs-input-group-input-height-md: calc(var(--rs-input-height-md) - 2px);
+  --rs-input-group-input-height-lg: calc(var(--rs-input-height-lg) - 2px);
+  --rs-input-group-inside-btn-m-x-xs: calc(var(--rs-spacing-block-xs) / 2);
+  --rs-input-group-inside-btn-m-x-sm: calc(var(--rs-spacing-block-sm) / 2);
+  --rs-input-group-inside-btn-m-x-md: calc(var(--rs-padding-block-md) / 2);
+  --rs-input-group-inside-btn-m-x-lg: calc(var(--rs-spacing-block-lg) / 2);
+  --rs-input-group-inside-btn-p-x-xs: calc(var(--rs-spacing-inline-xs) / 2);
+  --rs-input-group-inside-btn-p-x-sm: calc(var(--rs-spacing-inline-sm) / 2);
+  --rs-input-group-inside-btn-p-x-md: calc(var(--rs-padding-inline-md) / 2);
+  --rs-input-group-inside-btn-p-x-lg: calc(var(--rs-spacing-inline-lg) / 2);
+  --rs-input-group-border-radius: var(--rs-radius-md);
+  --rs-input-group-font-size-xs: var(--rs-font-size-xs);
+  --rs-input-group-font-size-sm: var(--rs-font-size-sm);
+  --rs-input-group-font-size-md: var(--rs-font-size-sm);
+  --rs-input-group-font-size-lg: var(--rs-font-size-md);
+
+  // Base styles for the input group container
+  position: relative;
+  display: flex;
+  border-radius: var(--rs-input-group-border-radius);
+  transition: var(--rs-input-transition);
+  width: 100%;
+  cursor: text;
+  color: var(--rs-text-primary);
+  border: 1px solid var(--rs-border-primary);
+  overflow: hidden;
+
+  // Size Variants Configuration
+  // Apply different sizes (xs, sm, md, lg) to input group
+  // Each size variant sets its own height, spacing, and font size variables
+  $sizes: (xs, sm, md, lg);
+
+  @each $size in $sizes {
+    &.rs-input-group-#{$size} {
+      --rs-input-group-input-height: var(--rs-input-group-input-height-#{$size});
+      --rs-input-group-inside-btn-spacing: var(--rs-input-group-inside-btn-m-x-#{$size});
+      --rs-input-group-inside-btn-padding: var(--rs-input-group-inside-btn-p-x-#{$size});
+      --rs-input-group-font-size: var(--rs-input-group-font-size-#{$size});
+    }
+  }
+
+  // High Contrast Mode Adjustments
+  @include color-modes.high-contrast-mode {
+    transition: none;
+  }
+
+  // Focus States
+  // Apply special styles when the input group is focused
+  &:not(.rs-input-group-disabled).rs-input-group-focus,
+  &:focus-within {
+    border-color: var(--rs-input-focus-border);
+  }
+
+  &:not(.rs-input-group-disabled).rs-input-group-focus,
+  &:focus-within {
+    @include utils.focus-ring;
+  }
+
+  // Nested Input Groups
+  // Remove outline and border when input groups are nested
+  & & {
+    outline: none !important;
+    border-color: transparent !important;
+  }
+
+  .rs-input-group-btn {
+    height: var(--rs-input-group-input-height);
+  }
+
+  // Child Component Styles
+  // Remove borders and border radius from child components
+  .rs-number-input,
+  .rs-input-group-addon,
+  .rs-input-group-btn,
+  .rs-picker[data-picker='date'] .rs-picker-toggle {
+    border: none;
+    border-radius: var(--rs-radius-none);
+    outline: none;
+  }
+
+  > .rs-input,
+  > .rs-form-control-wrapper {
+    flex: 1 1 auto;
+  }
+
+  .rs-form-control-wrapper > .rs-input {
+    width: 100%;
+  }
+
+  > .rs-input {
+    // Ensure that the input is always above the *appended* addon button for
+    // proper border colors.
+    position: relative;
+    height: var(--rs-input-group-input-height);
+    border: none;
+    border-radius: var(--rs-radius-none);
+    outline: none;
+  }
+
+  > .rs-input-group-addon > .rs-icon {
+    font-size: inherit;
+  }
+
+  // Inside Input Group Variant
+  // Special styling for input groups with internal buttons/addons
+  &.rs-input-group-inside {
+    width: 100%;
+    align-items: center;
+    background-color: var(--rs-input-bg);
+
+    .rs-input {
+      display: block;
+      width: 100%;
+      border: none;
+      outline: none;
+    }
+
+    .rs-input-group-btn,
+    .rs-input-group-addon {
+      flex: 0 0 auto;
+      width: auto;
+    }
+
+    .rs-input-group-btn {
+      border-radius: var(--rs-input-group-border-radius);
+      height: calc(
+        var(--rs-input-group-input-height) - var(--rs-input-group-inside-btn-spacing) * 2
+      );
+      margin-inline: var(--rs-input-group-inside-btn-spacing);
+      padding-inline: var(--rs-input-group-inside-btn-padding);
+      color: var(--rs-btn-subtle-text);
+      background-color: transparent;
+
+      &:hover {
+        color: var(--rs-btn-subtle-hover-text);
+        background-color: var(--rs-btn-subtle-hover-bg);
+      }
+
+      &:active,
+      &.rs-btn-active {
+        color: var(--rs-btn-subtle-active-text);
+        background-color: var(--rs-btn-subtle-active-bg);
+      }
+
+      &:disabled,
+      &.rs-btn-disabled {
+        color: var(--rs-btn-subtle-disabled-text);
+        background: none;
+      }
+
+      color: inherit;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .rs-input-group-addon {
+      background: none;
+      border: none;
+    }
+
+    // If the input has an element on the left, remove the left padding
+    .rs-input:not(:first-child),
+    .rs-auto-complete:not(:first-child) .rs-input {
+      padding-inline-start: 0;
+    }
+
+    // If the input has an element on the right, remove the right padding
+    .rs-input:not(:last-child),
+    .rs-auto-complete:not(:last-child) .rs-input {
+      padding-inline-end: 0;
+    }
+  }
+}
+
+// Disabled State
+// Styles applied when the input group is disabled
+.rs-input-group.rs-input-group-disabled {
+  background-color: var(--rs-input-disabled-bg);
+  color: var(--rs-text-disabled);
+  cursor: not-allowed;
+
+  .rs-input,
+  .rs-input-group-btn,
+  .rs-input-group-addon {
+    color: inherit;
+  }
+}
+
+// Addon Component Styles
+// Base styles for the addon component
+.rs-input-group-addon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: middle; // Match the inputs
+  color: var(--rs-text-primary);
+  font-size: var(--rs-input-group-font-size);
+  font-weight: normal;
+  line-height: 1;
+  text-align: center;
+  background-color: var(--rs-btn-default-bg);
+  padding-inline: var(--rs-spacing);
+  min-width: var(--rs-input-group-input-height);
+
+  // Sizing
+  &.rs-input-sm {
+    padding-block: var(--rs-spacing-block-sm);
+    padding-inline: var(--rs-spacing-inline-sm);
+    font-size: var(--rs-font-size-sm);
+  }
+
+  &.rs-input-xs {
+    padding: var(--rs-spacing-inline-xs);
+    font-size: var(--rs-font-size-xs);
+  }
+
+  &.rs-input-lg {
+    padding-block: var(--rs-spacing-block-lg);
+    padding-inline: var(--rs-spacing-inline-lg);
+    font-size: var(--rs-font-size-md);
+  }
+
+  // Nuke default margins from checkboxes and radios to vertically center within.
+  input[type='radio'],
+  input[type='checkbox'] {
+    margin-top: 0;
+  }
+}
+
+// Button Component Styles
+// Base styles for the button component
+.rs-input-group-btn {
+  display: flex;
+  align-items: center;
+  position: relative;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: var(--rs-radius-none);
+  font-size: var(--rs-input-group-font-size);
+}

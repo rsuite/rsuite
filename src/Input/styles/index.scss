@@ -1,0 +1,23 @@
+@use '../../styles/themes';
+@use './mixin';
+@use './variables';
+
+//
+// Forms
+// --------------------------------------------------
+
+// Common form controls
+.rs-input {
+  @include mixin.default-input;
+
+  $sizes: (xs, sm, md, lg);
+
+  @each $size in $sizes {
+    &.rs-input-#{$size} {
+      --rs-input-font-size: var(--rs-input-font-size-#{$size});
+      --rs-input-line-height: var(--rs-input-line-height-#{$size});
+      --rs-input-padding-block: var(--rs-input-padding-block-#{$size});
+      --rs-input-padding-inline: var(--rs-input-padding-inline-#{$size});
+    }
+  }
+}

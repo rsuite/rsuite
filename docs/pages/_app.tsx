@@ -21,6 +21,7 @@ import {
 } from '../utils/themeHelpers';
 import type { AppProps } from 'next/app';
 import '../less/index.less';
+import '../scss/main.scss';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();

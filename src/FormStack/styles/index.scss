@@ -1,0 +1,13 @@
+.rs-form-stack {
+  --rs-form-stack-dir: column;
+  --rs-form-stack-spacing: calc(var(--rs-spacing) * 4);
+
+  display: flex;
+  flex-direction: var(--rs-form-stack-dir);
+  gap: var(--rs-form-stack-spacing);
+  align-items: flex-start;
+}
+
+.rs-form-stack-inline {
+  --rs-form-stack-dir: row;
+}
