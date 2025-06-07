@@ -1,0 +1,50 @@
+@use '../../styles/themes';
+@use '../../styles/mixins/utilities' as utils;
+
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+.rs-breadcrumb {
+  --rs-breadcrumb-spacing: var(--rs-spacing);
+  --rs-breadcrumb-size-sm: var(--rs-font-size-xs);
+  --rs-breadcrumb-size-md: var(--rs-font-size-sm);
+  --rs-breadcrumb-size-lg: var(--rs-font-size-md);
+  --rs-breadcrumb-size: var(--rs-breadcrumb-size-sm);
+
+  font-size: var(--rs-breadcrumb-size);
+  color: var(--rs-text-secondary);
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: var(--rs-breadcrumb-spacing);
+  }
+
+  // If breadcrumbs has a ci
+  &-item {
+    transition: color 0.3s linear;
+    display: flex;
+    align-items: center;
+    gap: var(--rs-breadcrumb-spacing);
+
+    &:focus {
+      @include utils.tab-focus();
+    }
+
+    &-active {
+      color: var(--rs-breadcrumb-item-active-text);
+    }
+  }
+
+  // Separator has gap with text
+  &-separator {
+    margin: 0 var(--rs-breadcrumb-spacing);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

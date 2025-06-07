@@ -1,0 +1,14 @@
+@use '../../styles/themes';
+
+.rs-checkbox-group {
+  --rs-checkbox-group-gap: calc(var(--rs-spacing) * 3);
+  --rs-checkbox-group-direction: column;
+
+  display: flex;
+  flex-direction: var(--rs-checkbox-group-direction);
+  gap: var(--rs-checkbox-group-gap);
+
+  &.rs-checkbox-group-inline {
+    --rs-checkbox-group-direction: row;
+  }
+}

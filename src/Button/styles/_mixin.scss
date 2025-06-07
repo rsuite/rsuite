@@ -60,3 +60,24 @@
   --rs-btn-padding-block: var(--rs-btn-padding-block-xs);
   --rs-btn-icon-size: var(--rs-btn-icon-size-xs);
 }
+
+// Button Style Mixins
+@mixin btn-subtle {
+  color: var(--rs-btn-subtle-text);
+  background-color: transparent;
+
+  @include button-activated {
+    color: var(--rs-btn-subtle-hover-text);
+    background-color: var(--rs-btn-subtle-hover-bg);
+  }
+
+  @include button-pressed {
+    color: var(--rs-btn-subtle-active-text);
+    background-color: var(--rs-btn-subtle-active-bg);
+  }
+
+  @include button-disabled {
+    color: var(--rs-btn-subtle-disabled-text);
+    background: none;
+  }
+}

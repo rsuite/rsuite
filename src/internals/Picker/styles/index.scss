@@ -1,0 +1,483 @@
+@use '../../../styles/themes';
+@use '../../../Button/styles/mixin' as button;
+@use '../../../styles/mixins/listbox';
+@use '../../../styles/mixins/combobox';
+@use '../../../styles/mixins/utilities' as utils;
+@use '../../../styles/mixins/color-modes';
+@use '../../../Stack/styles/index' as stack;
+@use '../../../Loader/styles/index' as loader;
+@use '../../../Input/styles/index' as input;
+@use '../../../InputGroup/styles/index' as input-group;
+@use '../../../Highlight/styles/index' as highlight;
+@use '../../CloseButton/styles/index' as close-button;
+@use './mixin';
+@use './variables';
+
+//
+// Pickers
+// --------------------------------------------------
+
+// Common styles
+// ----------------------
+.rs-picker {
+  --rs-picker-value-count-border-radius: var(--rs-radius-full);
+  --rs-picker-value-count-padding: calc(var(--rs-spacing) * 1.5);
+  --rs-picker-value-count-margin: var(--rs-spacing);
+  --rs-picker-size: 0.875rem;
+  --rs-picker-loader-size: 20px;
+  --rs-picker-toggle-border-width: 1px;
+  --rs-picker-toggle-bg: var(--rs-input-bg);
+  --rs-picker-toggle-border-color: var(--rs-border-primary);
+
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+
+  &[data-block='true'] {
+    display: block;
+    width: 100%;
+  }
+
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+
+    .rs-picker-toggle-value,
+    .rs-picker-toggle-indicator,
+    .rs-picker-tag-list .rs-tag {
+      color: var(--rs-text-disabled) !important;
+    }
+
+    .rs-picker-value-count {
+      opacity: 0.5;
+    }
+
+    .rs-picker-toggle {
+      pointer-events: none;
+    }
+  }
+
+  &-toggle &-toggle-placeholder {
+    color: var(--rs-text-secondary);
+  }
+
+  &-has-value .rs-btn &-toggle-value,
+  &-has-value &-toggle &-toggle-value {
+    color: var(--rs-picker-value);
+  }
+
+  &-value-list {
+    flex: 0 1 auto;
+    @include utils.ellipsis-basic;
+  }
+
+  &-value-count {
+    margin-inline: var(--rs-picker-value-count-margin);
+    background-color: var(--rs-picker-count-bg);
+    color: var(--rs-picker-count-text);
+    flex-shrink: 0;
+  }
+
+  &-value-separator {
+    margin: 0 var(--rs-spacing) 0 0;
+  }
+
+  &.rs-picker-focused {
+    border-color: var(--rs-input-focus-border);
+  }
+
+  &-toggle-active,
+  &.rs-picker-focused {
+    --rs-picker-toggle-border-color: var(--rs-input-focus-border);
+    @include utils.focus-ring;
+  }
+
+  &-label.rs-input-group-addon {
+    color: var(--rs-text-primary);
+    padding-inline: calc(
+      var(--rs-input-group-inside-btn-padding) * 2 - var(--rs-picker-toggle-border-width)
+    );
+  }
+
+  &-loader {
+    width: var(--rs-picker-loader-size);
+    height: var(--rs-picker-loader-size);
+    display: flex;
+    align-items: center;
+  }
+
+  &-error > .rs-picker-input-group {
+    border-color: var(--rs-picker-state-error);
+
+    &:hover {
+      border-color: var(--rs-picker-state-error);
+    }
+
+    &:focus-within {
+      border-color: var(--rs-picker-state-error);
+      outline: var(--rs-picker-state-error-outline);
+    }
+  }
+}
+
+// Picker Menu
+.rs-picker-popup {
+  --rs-picker-popup-none-padding: calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-border-radius: var(--rs-radius-md);
+  --rs-picker-search-box-padding: calc(var(--rs-spacing) * 1.5) calc(var(--rs-spacing) * 3);
+  --rs-picker-popup-z-index: var(--rs-zindex-picker-popup);
+  --rs-picker-popup-shadow: var(--rs-shadow-md);
+  --rs-picker-popup-position-x: var(--rs-position-x);
+  --rs-picker-popup-position-y: var(--rs-position-y);
+  --rs-picker-min-width: 0;
+
+  position: absolute;
+  top: var(--rs-picker-popup-position-y);
+  left: var(--rs-picker-popup-position-x) /* rtl:ignore */;
+  text-align: start;
+  overflow: hidden;
+  transition: none;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--rs-picker-popup-z-index);
+  border-radius: var(--rs-picker-popup-border-radius);
+  background-color: var(--rs-bg-overlay);
+  box-shadow: var(--rs-picker-popup-shadow);
+  padding-block: var(--rs-picker-popup-border-radius);
+  min-width: var(--rs-picker-min-width);
+
+  @include color-modes.high-contrast-mode {
+    border: 1px solid var(--rs-border-primary);
+  }
+
+  // Increase z-index when modal opened.
+  .rs-modal-open & {
+    --rs-picker-popup-z-index: calc(var(--rs-zindex-modal) + var(--rs-zindex-picker-toggle));
+  }
+
+  // Increase z-index when drawer opened.
+  .rs-drawer-open & {
+    --rs-picker-popup-z-index: calc(var(--rs-zindex-drawer) + var(--rs-zindex-picker-toggle));
+  }
+
+  &.rs-picker-inline {
+    position: relative;
+    box-shadow: none;
+  }
+
+  .rs-search-box {
+    padding: var(--rs-picker-search-box-padding);
+  }
+
+  .rs-highlight .rs-highlight-mark {
+    padding: 0;
+  }
+
+  // Empty listbox
+  .rs-picker-none {
+    padding: var(--rs-picker-popup-none-padding);
+    color: var(--rs-text-secondary);
+    cursor: default;
+  }
+
+  .rs-picker-listbox {
+    max-height: var(--rs-picker-listbox-max-height);
+  }
+
+  // Responsive popup
+  &[data-breakpoint='xs'] {
+    min-width: unset;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .rs-picker-listbox {
+      height: unset;
+      max-height: unset;
+    }
+
+    .rs-tree,
+    .rs-check-tree {
+      display: flex;
+      flex-direction: column;
+      &-view {
+        max-height: unset;
+        flex: 1 1 auto;
+      }
+    }
+
+    .rs-calendar-table {
+      width: 100%;
+    }
+
+    .rs-picker-box {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &.rs-picker-popup-date,
+    .rs-picker-daterange-panel-only-time {
+      .rs-calendar {
+        height: 348px;
+      }
+    }
+  }
+}
+
+.rs-picker-toggle {
+  --rs-badge-one-char-size: 18px;
+
+  @include mixin.picker-default-toggle;
+  @include mixin.picker-subtle-toggle;
+
+  &-label {
+    color: var(--rs-text-secondary);
+  }
+
+  .rs-picker-toggle-stack {
+    flex: 1 1 auto;
+    gap: calc(var(--rs-spacing) * 2);
+    overflow: hidden;
+  }
+
+  &-value {
+    display: block;
+    @include utils.ellipsis;
+  }
+
+  &-textbox {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset-inline-start: 0;
+    top: 0;
+    border: 1px solid #0000;
+    padding-inline-start: 10px;
+    padding-inline-end: 32px;
+    color: var(--rs-text-primary);
+    background-color: var(--rs-input-bg);
+    outline: none;
+  }
+
+  &.rs-btn-lg &-textbox {
+    padding-inline-start: 14px;
+  }
+
+  &.rs-btn-sm &-textbox {
+    padding-inline-start: 8px;
+  }
+
+  &.rs-btn-xs &-textbox {
+    padding-inline-start: 6px;
+  }
+
+  &-read-only {
+    opacity: 0;
+  }
+
+  .rs-picker[data-variant='default'],
+  & {
+    transition: var(--rs-picker-transition);
+
+    @include color-modes.high-contrast-mode {
+      transition: none;
+    }
+  }
+
+  .rs-picker[data-variant='default'] {
+    &:focus {
+      border-color: var(--rs-input-focus-border);
+    }
+  }
+
+  .rs-picker[data-variant='subtle'] & {
+    color: var(--rs-btn-subtle-text);
+    background-color: transparent;
+
+    &:hover {
+      color: var(--rs-btn-subtle-hover-text);
+      background-color: var(--rs-btn-subtle-hover-bg);
+    }
+
+    &:active,
+    &.rs-btn-active {
+      color: var(--rs-btn-subtle-active-text);
+      background-color: var(--rs-btn-subtle-active-bg);
+    }
+
+    &:disabled,
+    &.rs-btn-disabled {
+      color: var(--rs-btn-subtle-disabled-text);
+      background: none;
+    }
+
+    transition: none;
+
+    &-active {
+      background-color: var(--rs-btn-subtle-hover-bg);
+      color: var(--rs-btn-subtle-hover-text);
+    }
+  }
+
+  &[data-size='lg'] {
+    --rs-badge-one-char-size: 20px;
+    .rs-picker-clean {
+      .rs-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &[data-size='md'] {
+    --rs-badge-one-char-size: 18px;
+  }
+
+  &[data-size='sm'] {
+    --rs-badge-one-char-size: 16px;
+    .rs-picker-clean {
+      height: 18px;
+    }
+  }
+
+  &[data-size='xs'] {
+    --rs-badge-one-char-size: 14px;
+    .rs-picker-clean {
+      height: 18px;
+      .rs-icon {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
+  &[data-countable='true'] &-value {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.rs-picker-toggle.rs-btn {
+  text-align: start;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-picker-toggle-border-width));
+}
+
+.rs-picker-toggle-indicator {
+  display: inline-flex;
+  align-items: center;
+
+  // Picker clear button
+  .rs-picker-clean {
+    color: var(--rs-text-secondary);
+    transition: 0.2s color linear;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--rs-text-primary);
+    }
+
+    &.rs-btn-close {
+      padding: 0;
+    }
+  }
+
+  // Picker toggle caret
+  .rs-picker-caret-icon {
+    // Extend Dropdown toggle caret style
+    @include combobox.combobox-indicator-icon;
+
+    font-size: var(--rs-font-size-md);
+    color: var(--rs-text-secondary);
+  }
+}
+
+// Make sure styles the same with <Input>
+.rs-picker[data-variant='default'],
+.rs-picker-input {
+  .rs-btn,
+  .rs-picker-toggle {
+    background-color: var(--rs-picker-toggle-bg);
+  }
+
+  &[data-disabled='true'] {
+    --rs-picker-toggle-bg: var(--rs-input-disabled-bg);
+
+    .rs-input-group {
+      pointer-events: none;
+    }
+  }
+}
+
+// Check Item
+.rs-check-item {
+  --rs-checkbox-display: block;
+
+  &:not(.rs-checkbox-disabled):hover,
+  &:focus,
+  &#{&}-focus {
+    @include listbox.listbox-option-active;
+
+    @include color-modes.high-contrast-mode {
+      .rs-check-tree-node-text-wrapper {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .rs-checkbox-checker {
+    display: flex;
+
+    > label {
+      cursor: pointer;
+      width: 100%;
+      padding-inline: var(--rs-check-item-padding-inline);
+      padding-block: var(--rs-check-item-padding-block);
+
+      @include color-modes.high-contrast-mode {
+        transition: none;
+      }
+
+      &::before {
+        background-color: var(--rs-bg-overlay);
+
+        @include color-modes.high-contrast-mode {
+          background: none;
+        }
+      }
+
+      &.rs-checkbox-disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.rs-picker-menu-group {
+  background-color: var(--rs-listbox-option-group-bg);
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+}
+
+.rs-virt-list {
+  // Use for single selection
+  .rs-picker-select-menu-item,
+
+  // Use for multiple selection with Checkbox
+  .rs-check-item label {
+    @include utils.ellipsis-basic;
+  }
+}
+
+.rs-tree-virt-list {
+  // Use for single selection
+  .rs-tree-node-label {
+    @include utils.ellipsis-basic;
+  }
+}

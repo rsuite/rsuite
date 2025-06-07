@@ -1,0 +1,82 @@
+// Define breakpoints map
+$breakpoints: (
+  xs: var(--screen-sm),
+  sm: var(--screen-md),
+  md: var(--screen-lg),
+  lg: var(--screen-xl),
+  xl: var(--screen-xxl)
+);
+
+// Define style property maps
+$style-maps: (
+  p: padding,
+  pt: padding-top,
+  pb: padding-bottom,
+  pl: padding-left,
+  pr: padding-right,
+  px: padding-inline,
+  py: padding-block,
+  m: margin,
+  mt: margin-top,
+  mb: margin-bottom,
+  ml: margin-left,
+  mr: margin-right,
+  mx: margin-inline,
+  my: margin-block,
+  w: width,
+  h: height,
+  maxw: max-width,
+  maxh: max-height,
+  minw: min-width,
+  minh: min-height,
+  c: color,
+  bd: border,
+  rounded: border-radius,
+  shadow: box-shadow,
+  bg: background,
+  display: display
+);
+
+// Box base selector
+[data-rs='box'] {
+  // Define radius variables
+  --rs-box-rounded-xs: var(--rs-radius-xs);
+  --rs-box-rounded-sm: var(--rs-radius-sm);
+  --rs-box-rounded-md: var(--rs-radius-md);
+  --rs-box-rounded-lg: var(--rs-radius-lg);
+  --rs-box-rounded-xl: var(--rs-radius-xl);
+  --rs-box-rounded-full: var(--rs-radius-full);
+
+  // Define shadow variables
+  --rs-box-shadow-xs: var(--rs-shadow-xs);
+  --rs-box-shadow-sm: var(--rs-shadow-sm);
+  --rs-box-shadow-md: var(--rs-shadow-md);
+  --rs-box-shadow-lg: var(--rs-shadow-lg);
+  --rs-box-shadow-xl: var(--rs-shadow-xl);
+
+  // Generate style properties from map
+  @each $key, $value in $style-maps {
+    &[style*='--rs-box-#{$key}'] {
+      #{$value}: var(--rs-box-#{$key});
+    }
+  }
+}
+
+// Generate responsive visibility styles
+@each $key, $value in $breakpoints {
+  $bp: calc(#{$value} - 1px);
+
+  // Visible from breakpoint
+  @media (max-width: $bp) {
+    [data-visible-from='#{$key}'] {
+      display: none !important;
+    }
+  }
+
+  // Hidden from breakpoint
+  @media (min-width: #{$value}) {
+    [data-hidden-from='#{$key}'] {
+      display: none !important;
+    }
+  }
+}

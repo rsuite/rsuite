@@ -1,0 +1,204 @@
+@use '../../styles/themes' as themes;
+@use '../../styles/mixins/utilities' as utils;
+
+// Carousel
+// ----------------------
+
+.rs-carousel {
+  --rs-carousel-bar-active-width: 28px;
+  --rs-carousel-bar-height: 4px;
+  --rs-carousel-bar-width: 18px;
+  --rs-carousel-dot-side-length: 10px;
+  --rs-carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
+  --rs-carousel-handler-margin: 3px;
+  --rs-carousel-dot-margin: calc(-1 * var(--rs-carousel-handler-margin));
+  --rs-carousel-animation-duration: 0.3s;
+  --rs-carousel-handler-transition: background var(--rs-carousel-animation-duration) linear;
+  --rs-carousel-toolbar-wrapper-margin: 17px;
+
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background-color: var(--rs-carousel-bg);
+
+  &-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &-slider {
+    position: relative;
+    inset-inline-start: 0;
+    height: 100%;
+    transition: transform var(--rs-carousel-animation-duration) ease;
+    will-change: transform;
+
+    &-item {
+      background-color: var(--rs-carousel-bg);
+      float: inline-start;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &-slider-after {
+    position: absolute;
+    inset-inline-start: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--rs-carousel-bg);
+    top: 0;
+    animation: moveLeftHalf var(--rs-carousel-animation-duration) ease forwards;
+
+    &-vertical {
+      animation: moveLeftHalf-vertical var(--rs-carousel-animation-duration) ease forwards;
+    }
+  }
+
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &-label-wrapper {
+    margin: var(--rs-carousel-handler-margin);
+
+    input {
+      width: 0;
+      height: 0;
+      position: absolute;
+      opacity: 0;
+    }
+
+    input:checked ~ label {
+      background-color: var(--rs-carousel-indicator-active);
+    }
+  }
+
+  &-label {
+    cursor: pointer;
+    display: block;
+    background-color: var(--rs-carousel-indicator);
+    transition: var(--rs-carousel-handler-transition);
+    transition-property: background, width, height;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: var(--rs-carousel-dot-margin);
+      bottom: var(--rs-carousel-dot-margin);
+      inset-inline-end: var(--rs-carousel-dot-margin);
+      inset-inline-start: var(--rs-carousel-dot-margin);
+    }
+
+    &:hover {
+      background-color: var(--rs-carousel-indicator-hover);
+    }
+  }
+
+  // Handler Shape
+  &-shape-dot &-label {
+    width: var(--rs-carousel-dot-side-length);
+    height: var(--rs-carousel-dot-side-length);
+    border-radius: var(--rs-radius-full);
+  }
+
+  &-shape-bar &-label {
+    border-radius: var(--rs-radius-xs);
+  }
+
+  &-placement-top.rs-carousel-shape-bar &-label,
+  &-placement-bottom.rs-carousel-shape-bar &-label {
+    width: var(--rs-carousel-bar-width);
+    height: var(--rs-carousel-bar-height);
+
+    &-wrapper input:checked ~ label {
+      width: var(--rs-carousel-bar-active-width);
+    }
+  }
+
+  &-placement-left.rs-carousel-shape-bar &-label,
+  &-placement-right.rs-carousel-shape-bar &-label {
+    width: var(--rs-carousel-bar-height);
+    height: var(--rs-carousel-bar-width);
+
+    &-wrapper input:checked ~ label {
+      height: var(--rs-carousel-bar-active-width);
+    }
+  }
+
+  // Placement
+
+  &-placement-top &-toolbar,
+  &-placement-bottom &-toolbar {
+    inset-inline-start: 0;
+    width: 100%;
+
+    > ul {
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &-placement-top &-toolbar {
+    top: var(--rs-carousel-toolbar-wrapper-margin);
+  }
+
+  &-placement-bottom &-toolbar {
+    bottom: var(--rs-carousel-toolbar-wrapper-margin);
+  }
+
+  &-placement-left &-toolbar,
+  &-placement-right &-toolbar {
+    top: 0;
+    width: var(--rs-carousel-dot-wrapper-side-length);
+    height: 100%;
+
+    > ul {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  &-placement-left &-toolbar {
+    inset-inline-start: var(--rs-carousel-toolbar-wrapper-margin);
+  }
+
+  &-placement-right &-toolbar {
+    inset-inline-end: var(--rs-carousel-toolbar-wrapper-margin);
+  }
+
+  @keyframes moveLeftHalf {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes moveLeftHalf-vertical {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+}

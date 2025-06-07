@@ -1,0 +1,219 @@
+@use 'sass:map';
+@use '../../../styles/mixins/color-modes';
+@use '../../../Dropdown/styles/mixin' as dropdown;
+
+// Picker Menu items common styles
+@mixin picker-listbox-reset {
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// Picker Menu group common styles
+@mixin picker-menu-group-common($prefix) {
+  // Set border & padding to menu group if it isn't the first.
+  .rs-#{$prefix}-menu-group:not(:first-child) {
+    margin-top: var(--rs-picker-group-select-menu-gap);
+    border-top: 1px solid var(--rs-divider-border);
+    padding-top: var(--rs-picker-group-select-menu-gap);
+  }
+}
+
+// Group title common styles
+@mixin picker-menu-group-title($prefix) {
+  .rs-#{$prefix}-menu-group-title {
+    padding-block: var(--rs-picker-item-content-padding-vertical);
+    padding-inline: var(--rs-picker-item-content-padding-horizontal);
+    padding-inline-end: calc(var(--rs-padding-inline-md) + 20px);
+    position: relative;
+    cursor: pointer;
+    color: var(--rs-text-heading);
+
+    .rs-#{$prefix}-menu-group-caret {
+      display: inline-block;
+      margin-inline-start: 2px;
+      position: absolute;
+      top: var(--rs-padding-block-md);
+      inset-inline-end: var(--rs-padding-inline-md);
+      color: var(--rs-text-secondary);
+    }
+  }
+}
+
+// Group closed common styles
+@mixin picker-menu-group-closed($prefix) {
+  .rs-#{$prefix}-menu-group.folded {
+    .rs-#{$prefix}-menu-group-caret {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+@mixin picker-item-hover {
+  color: var(--rs-text-primary);
+  background-color: var(--rs-state-hover-bg);
+}
+
+@mixin picker-item-active {
+  font-weight: var(--rs-picker-select-menu-item-selected-font-weight);
+}
+
+@mixin picker-calendar-cell-content {
+  display: inline-block;
+  cursor: pointer;
+  font-size: var(--rs-calendar-cell-font-size);
+  line-height: var(--rs-calendar-cell-line-height);
+  padding: var(--rs-calendar-cell-padding);
+  border-radius: var(--rs-calendar-border-radius);
+
+  &:hover {
+    background-color: var(--rs-state-hover-bg);
+  }
+}
+
+@mixin picker-calendar-cell-content-selected {
+  color: var(--rs-calendar-date-selected-text);
+  background-color: var(--rs-bg-active);
+  box-shadow: none;
+
+  @include color-modes.high-contrast-mode {
+    text-decoration: underline;
+  }
+}
+
+@mixin picker-calendar-title-show {
+  color: var(--rs-text-active);
+  background: transparent;
+}
+
+// Default picker toggle
+@mixin picker-default-toggle {
+  [data-variant='default'] & {
+    color: var(--rs-text-primary);
+    border-width: var(--rs-picker-toggle-border-width);
+    border-color: var(--rs-picker-toggle-border-color);
+    border-style: solid;
+  }
+
+  [data-disabled='true'] & {
+    cursor: var(--rs-cursor-disabled);
+  }
+
+  [data-variant='default']:not([data-disabled='true']) {
+    &:focus {
+      border-color: var(--rs-input-focus-border);
+    }
+  }
+}
+
+// Subtle picker toggle
+@mixin picker-subtle-toggle {
+  .rs-picker[data-variant='subtle'] & {
+    --rs-picker-toggle-border-width: 0px;
+    @include dropdown.dropdown-toggle;
+  }
+
+  .rs-picker[data-variant='subtle'][data-disabled='true'] & {
+    cursor: var(--rs-cursor-disabled);
+
+    &:focus,
+    &:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+// Group closed common styles
+@mixin picker-menu-group-closed($prefix) {
+  .rs-#{$prefix}-menu-group.folded {
+    .rs-#{$prefix}-menu-group-caret {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+@mixin picker-item-hover {
+  color: var(--rs-text-primary);
+  background-color: var(--rs-state-hover-bg);
+}
+
+@mixin picker-item-active {
+  font-weight: var(--rs-picker-select-menu-item-selected-font-weight);
+}
+
+@mixin picker-calendar-cell-content {
+  display: inline-block;
+  cursor: pointer;
+  font-size: var(--rs-calendar-cell-font-size);
+  line-height: var(--rs-calendar-cell-line-height);
+  padding: var(--rs-calendar-cell-padding);
+  border-radius: var(--rs-calendar-border-radius);
+
+  &:hover {
+    background-color: var(--rs-state-hover-bg);
+  }
+}
+
+@mixin picker-calendar-cell-content-selected {
+  color: var(--rs-calendar-date-selected-text);
+  background-color: var(--rs-bg-active);
+  box-shadow: none;
+
+  @include color-modes.high-contrast-mode {
+    text-decoration: underline;
+  }
+}
+
+@mixin picker-calendar-title-show {
+  color: var(--rs-text-active);
+  background: transparent;
+}
+
+// Default picker toggle
+@mixin picker-default-toggle {
+  [data-variant='default'] & {
+    color: var(--rs-text-primary);
+    border-width: var(--rs-picker-toggle-border-width);
+    border-color: var(--rs-picker-toggle-border-color);
+    border-style: solid;
+  }
+
+  [data-disabled='true'] & {
+    cursor: var(--rs-cursor-disabled);
+  }
+
+  [data-variant='default']:not([data-disabled='true']) {
+    &:focus {
+      border-color: var(--rs-input-focus-border);
+    }
+  }
+}
+
+// Subtle picker toggle
+@mixin picker-subtle-toggle {
+  .rs-picker[data-variant='subtle'] & {
+    --rs-picker-toggle-border-width: 0px;
+    @include dropdown.dropdown-toggle;
+  }
+
+  .rs-picker[data-variant='subtle'][data-disabled='true'] & {
+    cursor: var(--rs-cursor-disabled);
+
+    &:focus,
+    &:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

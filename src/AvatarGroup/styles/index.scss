@@ -1,0 +1,27 @@
+@use '../../styles/themes';
+@use '../../Stack/styles/index' as stack;
+
+.rs-avatar-group {
+  --rs-avatar-group-spacing: 0;
+
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--rs-avatar-group-spacing);
+
+  &-stack {
+    .rs-avatar {
+      box-sizing: content-box;
+      margin-inline-end: -10px;
+      transition: margin 0.15s;
+
+      &:last-child {
+        margin-inline-end: 0;
+      }
+
+      &:hover {
+        margin-inline-end: 0;
+      }
+    }
+  }
+}

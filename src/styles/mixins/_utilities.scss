@@ -113,3 +113,12 @@
 @mixin pointer-event-none {
   pointer-events: none;
 }
+
+// Clearfix
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}

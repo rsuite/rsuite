@@ -1,13 +1,17 @@
-@import '../../styles/common.less';
-@import './mixin.less';
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../styles/mixins/input' as input;
+@use './variables';
+@use './mixin';
 
 .rs-checkbox {
-  --rs-checkbox-size: @checkbox-width-height;
+  display: var(--rs-checkbox-display);
 
-  .radio-checkbox-common();
+  @include input.check-radio-base;
 
   [type='checkbox']:focus-visible ~ .rs-checkbox-inner::before {
-    .focus-ring();
+    @include utils.focus-ring;
   }
 }
 
@@ -41,9 +45,9 @@
       opacity 0.2s ease-in,
       transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
-    .high-contrast-mode({
+    @include color-modes.high-contrast-mode {
       transition: none;
-    });
+    }
 
     .rs-checkbox-checked &,
     .rs-checkbox-indeterminate & {
@@ -90,7 +94,7 @@
 
   // Ripple effect area
   &::before {
-    .checkbox-inner-wrap(var(--rs-checkbox-checked-bg));
+    @include mixin.checkbox-inner-wrap(var(--rs-checkbox-checked-bg));
 
     transform: scale(1);
     opacity: 0.7;
@@ -99,9 +103,9 @@
       transform 0.2s linear,
       opacity 0.2s linear;
 
-    .high-contrast-mode({
+    @include color-modes.high-contrast-mode {
       transition: none;
-    });
+    }
 
     .rs-checkbox-checked & {
       transform: scale(1.5);
@@ -112,16 +116,16 @@
 
   // Out border
   .rs-checkbox-inner::before {
-    .checkbox-inner-wrap(var(--rs-checkbox-border));
+    @include mixin.checkbox-inner-wrap(var(--rs-checkbox-border));
 
     transition:
       background 0.2s linear,
       border 0.2s linear,
       box-shadow 0.2s linear;
 
-    .high-contrast-mode({
+    @include color-modes.high-contrast-mode {
       transition: none;
-    });
+    }
 
     label:hover & {
       border-color: var(--rs-checkbox-checked-bg);
@@ -145,9 +149,9 @@
   }
 }
 
-each(@spectrum, .(@color) {
-  .rs-checkbox-@{color} {
-    --rs-checkbox-checked-bg: var(~'--rs-@{color}-500');
-    --rs-checkbox-border: var(~'--rs-@{color}-500');
+@each $color in colors.$spectrum {
+  .rs-checkbox-#{'' + $color} {
+    --rs-checkbox-checked-bg: var(--rs-#{'' + $color}-500);
+    --rs-checkbox-border: var(--rs-#{'' + $color}-500);
   }
-});
+}

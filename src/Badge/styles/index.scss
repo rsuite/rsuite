@@ -1,0 +1,103 @@
+@use '../../styles/themes';
+@use './variables' as *;
+
+.rs-badge-wrapper {
+  position: relative;
+}
+
+.rs-badge {
+  display: inline-flex;
+
+  &-circle {
+    --rs-badge-move: 30%;
+  }
+
+  &-independent,
+  &-content {
+    opacity: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--rs-badge-bg);
+    color: var(--rs-badge-text);
+    border-radius: var(--rs-radius-full);
+    font-size: var(--rs-font-size-xs);
+    line-height: 1rem;
+    padding-inline: 0.3125rem;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &-one-char .rs-badge-content,
+  &.rs-badge-one-char.rs-badge-independent {
+    width: var(--rs-badge-one-char-size);
+    height: var(--rs-badge-one-char-size);
+  }
+
+  &-content {
+    box-sizing: border-box;
+  }
+
+  &-hidden &-content,
+  &.rs-badge-hidden.rs-badge-independent {
+    opacity: 0;
+  }
+
+  &-compact &-content,
+  &.rs-badge-compact.rs-badge-independent {
+    padding: 0;
+  }
+
+  &:empty,
+  &-content:empty {
+    box-sizing: content-box;
+    width: var(--rs-badge-dot-size);
+    height: var(--rs-badge-dot-size);
+    border-radius: var(--rs-radius-full);
+    padding: 0;
+  }
+
+  &-wrapper &-content {
+    position: absolute;
+    z-index: var(--rs-zindex-badge-content);
+  }
+
+  &-outline &-content {
+    border: 2px solid var(--rs-badge-border);
+  }
+
+  &-top {
+    &-start .rs-badge-content {
+      transform: var(--rs-badge-transform-top-start);
+      top: var(--rs-badge-offset-y);
+      inset-inline-start: var(--rs-badge-offset-x);
+    }
+
+    &-end .rs-badge-content {
+      transform: var(--rs-badge-transform-top-end);
+      top: var(--rs-badge-offset-y);
+      inset-inline-end: var(--rs-badge-offset-x);
+    }
+  }
+
+  &-bottom {
+    &-start .rs-badge-content {
+      transform: var(--rs-badge-transform-bottom-start);
+      bottom: var(--rs-badge-offset-y);
+      inset-inline-start: var(--rs-badge-offset-x);
+    }
+
+    &-end .rs-badge-content {
+      transform: var(--rs-badge-transform-bottom-end);
+      bottom: var(--rs-badge-offset-y);
+      inset-inline-end: var(--rs-badge-offset-x);
+    }
+  }
+}
+
+// Spectrum color classes
+$badge-spectrum: "red", "orange", "yellow", "green", "cyan", "blue", "violet", "pink";
+@each $color in $badge-spectrum {
+  .rs-badge-#{$color} {
+    --rs-badge-bg: var(--rs-#{$color}-500);
+  }
+}

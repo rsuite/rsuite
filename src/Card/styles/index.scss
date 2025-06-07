@@ -1,0 +1,63 @@
+@use '../../styles/themes';
+
+//
+// Card
+// --------------------------------------------------
+
+.rs-card {
+  --rs-card-width: 100%;
+  --rs-card-padding: calc(var(--rs-spacing) * 4);
+  --rs-card-shadow: var(--rs-shadow-md);
+
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--rs-radius-md);
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  width: var(--rs-card-width);
+
+  &-bordered {
+    border: 1px solid var(--rs-border-primary);
+    background-color: var(--rs-card-bg);
+  }
+
+  &-shaded {
+    box-shadow: var(--rs-card-shadow);
+  }
+
+  &-shaded-hover:hover {
+    box-shadow: var(--rs-card-shadow);
+    cursor: pointer;
+  }
+
+  &-sm {
+    --rs-card-padding: calc(var(--rs-spacing) * 2);
+  }
+
+  &-md {
+    --rs-card-padding: calc(var(--rs-spacing) * 4);
+  }
+
+  &-lg {
+    --rs-card-padding: calc(var(--rs-spacing) * 6);
+  }
+
+  &-row {
+    flex-direction: row;
+  }
+
+  &-header {
+    padding: var(--rs-card-padding) var(--rs-card-padding) 0 var(--rs-card-padding);
+  }
+
+  &-body {
+    padding: var(--rs-card-padding);
+  }
+
+  &-footer {
+    display: flex;
+    gap: 8px;
+    padding: 0 var(--rs-card-padding) var(--rs-card-padding) var(--rs-card-padding);
+  }
+}

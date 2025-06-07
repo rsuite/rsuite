@@ -1,0 +1,42 @@
+@use '../../styles/themes';
+@use './variables';
+
+// Heading
+// -------------------------
+
+.rs-heading {
+  font-family: var(--rs-heading-font-family);
+  font-weight: var(--rs-heading-font-weight);
+  color: var(--rs-heading-color);
+  margin: 0;
+
+  &.h1 {
+    font-size: var(--rs-heading-h1-font-size);
+    line-height: var(--rs-heading-h1-line-height);
+  }
+
+  &.h2 {
+    font-size: var(--rs-heading-h2-font-size);
+    line-height: var(--rs-heading-h2-line-height);
+  }
+
+  &.h3 {
+    font-size: var(--rs-heading-h3-font-size);
+    line-height: var(--rs-heading-h3-line-height);
+  }
+
+  &.h4 {
+    font-size: var(--rs-heading-h4-font-size);
+    line-height: var(--rs-heading-h4-line-height);
+  }
+
+  &.h5 {
+    font-size: var(--rs-heading-h5-font-size);
+    line-height: var(--rs-heading-h5-line-height);
+  }
+
+  &.h6 {
+    font-size: var(--rs-heading-h6-font-size);
+    line-height: var(--rs-heading-h6-line-height);
+  }
+}

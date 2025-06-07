@@ -46,7 +46,7 @@
   color: var(--rs-listbox-option-hover-text);
 
   @include color-modes.high-contrast-mode {
-    @include utils.focus-ring(slim-inset);
+    @include utils.focus-ring-slim-inset;
 
     color: var(--rs-listbox-option-hover-text);
     text-decoration: underline;

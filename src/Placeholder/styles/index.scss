@@ -1,0 +1,155 @@
+@use '../../styles/themes';
+@use 'sass:list';
+@use './mixin' as m;
+
+//
+// Placeholder
+// --------------------------------------------------
+
+.rs-placeholder {
+  --rs-placeholder-row-height: 0.625rem;
+  --rs-placeholder-row-spacing: calc(var(--rs-spacing) * 4);
+  --rs-placeholder-paragraph-graph-width: 3.875rem;
+  --rs-placeholder-graph-width: 100%;
+  --rs-placeholder-graph-height: 12.5rem;
+  --rs-placeholder-bg-color: var(--rs-placeholder);
+  --rs-placeholder-bg-size: auto;
+  --rs-placeholder-img-color: var(--rs-bg-card);
+
+  display: flex;
+
+  &-paragraph {
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--rs-placeholder-row-spacing);
+
+    &-graph {
+      flex: 0 0 auto;
+      width: var(--rs-placeholder-paragraph-graph-width);
+      height: var(--rs-placeholder-paragraph-graph-width);
+      border-radius: var(--rs-radius-xs);
+      background: var(--rs-placeholder-bg-color);
+      background-size: var(--rs-placeholder-bg-size);
+
+      &-circle {
+        border-radius: var(--rs-radius-full);
+      }
+
+      &-image {
+        width: 80px;
+        height: var(--rs-placeholder-paragraph-graph-width);
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          inset-inline-start: 10px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 36px solid var(--rs-placeholder-img-color);
+          border-left: 20px solid transparent;
+          border-right: 30px solid transparent;
+        }
+
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+          inset-inline-start: 40px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 22px solid var(--rs-placeholder-img-color);
+          border-left: 16px solid transparent;
+          border-right: 16px solid transparent;
+        }
+      }
+
+      &-image &-inner {
+        width: 12px;
+        height: 12px;
+        inset-inline-end: 18px;
+        top: 10px;
+        border-radius: var(--rs-radius-full);
+        background: var(--rs-placeholder-img-color);
+        position: absolute;
+      }
+    }
+
+    &-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--rs-placeholder-row-spacing);
+    }
+
+    .rs-placeholder-row {
+      $widths: 100% 50% 80% 65% 90% 70% 85% 60% 75%;
+      @include m.generate-row-width($widths, list.length($widths));
+    }
+  }
+
+  &-row {
+    background: var(--rs-placeholder-bg-color);
+    background-size: var(--rs-placeholder-bg-size);
+    width: 100%;
+    height: var(--rs-placeholder-row-height);
+  }
+
+  &-grid {
+    &-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--rs-placeholder-row-spacing);
+
+      &:first-child {
+        align-items: flex-start; //first col align left
+      }
+
+      .rs-placeholder-row {
+        width: 30%;
+        $widths: 50% 25% 35%;
+        @include m.generate-row-width($widths, list.length($widths));
+      }
+    }
+  }
+
+  &-graph {
+    display: inline-block;
+    width: var(--rs-placeholder-graph-width);
+    height: var(--rs-placeholder-graph-height);
+    background: var(--rs-placeholder-bg-color);
+    background-size: var(--rs-placeholder-bg-size);
+  }
+
+  &-active {
+    --rs-placeholder-active-bg: linear-gradient(
+      -45deg,
+      var(--rs-placeholder) 25%,
+      var(--rs-placeholder-active) 37%,
+      var(--rs-placeholder) 63%
+    );
+    --rs-placeholder-active-bg-size: 400% 100%;
+    
+    &.rs-placeholder-graph,
+    .rs-placeholder-paragraph-graph,
+    .rs-placeholder-row {
+      background: var(--rs-placeholder-active-bg);
+      background-size: var(--rs-placeholder-active-bg-size) !important;
+      animation: placeholder-active 1.5s ease infinite;
+    }
+  }
+
+  @keyframes placeholder-active {
+    0% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0 50%;
+    }
+  }
+}

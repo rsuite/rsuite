@@ -1,9 +1,8 @@
-@import '../../styles/common';
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use './variables';
 
 .rs-radio-group {
-  --rs-radio-group-spacing: calc(var(--rs-spacing) * 3);
-  --rs-radio-group-direction: column;
-
   display: flex;
   flex-direction: var(--rs-radio-group-direction);
   gap: var(--rs-radio-group-spacing);
@@ -15,18 +14,12 @@
 
 // Radio Group - picker appearance
 .rs-radio-group-picker {
-  --rs-radio-checker-label-color: var(--rs-text-secondary);
-  --rs-radio-checker-border-color: transparent;
-  --rs-radio-group-picker-border-radius: var(--rs-radius-md);
-
-  @radio-group-border-width: 1px;
-  @radio-active-underline-width: 2px;
 
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   color: var(--rs-text-primary);
-  border: @radio-group-border-width solid var(--rs-border-primary);
+  border: var(--rs-radio-group-border-width) solid var(--rs-border-primary);
   border-radius: var(--rs-radio-group-picker-border-radius);
   padding-inline: calc(var(--rs-spacing) * 3);
 
@@ -50,18 +43,18 @@
     white-space: nowrap;
     font-size: var(--rs-font-size-sm);
     line-height: var(--rs-line-height-md);
-     border-radius: var(--rs-radius-none);
+    border-radius: var(--rs-radius-none);
     color: var(--rs-radio-checker-label-color);
     background: none;
     transition: color 0.3s linear;
     padding-inline: 0;
-    padding-block-start: calc(var(--rs-padding-block-md) - @radio-group-border-width);
-    padding-block-end: calc(var(--rs-padding-block-md) - @radio-group-border-width - @radio-active-underline-width);
-    border-bottom: @radio-active-underline-width solid var(--rs-radio-checker-border-color);
+    padding-block-start: calc(var(--rs-padding-block-md) - var(--rs-radio-group-border-width));
+    padding-block-end: calc(var(--rs-padding-block-md) - var(--rs-radio-group-border-width) - var(--rs-radio-active-underline-width));
+    border-bottom: var(--rs-radio-active-underline-width) solid var(--rs-radio-checker-border-color);
 
-    .high-contrast-mode({
+    @include color-modes.high-contrast-mode {
       transition: none;
-    });
+    }
 
     &:hover,
     &:active {

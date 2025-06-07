@@ -1,0 +1,9 @@
+// Picker variables
+:root {
+  --rs-picker-transition: var(--rs-input-transition);
+  --rs-picker-select-menu-item-selected-font-weight: bold;
+  --rs-picker-group-select-menu-gap: 6px;
+  --rs-picker-menu-padding: 12px;
+  --rs-picker-item-content-padding-vertical: 8px;
+  --rs-picker-item-content-padding-horizontal: var(--rs-picker-menu-padding);
+}

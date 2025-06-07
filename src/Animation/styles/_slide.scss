@@ -1,0 +1,26 @@
+@use './mixin' as m;
+
+// Slide
+.rs-anim-slide-out {
+  @include m.animation-common(cubic-bezier(0.4, 0, 1, 1)); // Fast out
+}
+
+.rs-anim-slide-in {
+  @include m.animation-common(ease-in-out);
+}
+
+.rs-anim-right {
+  @include m.slide-animation-setting(slideInRight, slideOutRight);
+}
+
+.rs-anim-left {
+  @include m.slide-animation-setting(slideInLeft, slideOutLeft);
+}
+
+.rs-anim-top {
+  @include m.slide-animation-setting(slideInTop, slideOutTop);
+}
+
+.rs-anim-bottom {
+  @include m.slide-animation-setting(slideInBottom, slideOutBottom);
+}

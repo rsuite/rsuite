@@ -1,0 +1,42 @@
+@use '../../styles/mixins/listbox';
+@use '../../styles/mixins/utilities' as utils;
+@use '../../Input/styles/index' as input;
+@use '../../InputGroup/styles/index' as input-group;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+
+.rs-auto-complete {
+  &-menu {
+    // Auto complete items style the same to Picker menu items
+    @include picker-mixin.picker-listbox-reset;
+  }
+
+  // The same to Picker select menu item
+  &-item {
+    @include listbox.listbox-option;
+
+    &:hover,
+    &:focus,
+    &-focus {
+      @include listbox.listbox-option-active;
+    }
+  }
+
+  .rs-input:focus::-webkit-textfield-decoration-container {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.rs-input-group > .rs-auto-complete {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+
+  > .rs-input {
+    border-radius: var(--rs-radius-none);
+    border: none;
+    outline: none;
+  }
+}
