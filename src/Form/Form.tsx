@@ -17,6 +17,8 @@ import useFormValue from './hooks/useFormValue';
 import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 
+type FormValue = any
+
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
     Omit<FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError' | 'onReset'> {
@@ -99,7 +101,7 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
   /**
    * Callback fired when data changing
    */
-  onChange?: (formValue: M, event?: React.SyntheticEvent) => void;
+  onChange?: (formValue: FormValue, event?: React.SyntheticEvent) => void;
 
   /**
    * Callback fired when error checking
