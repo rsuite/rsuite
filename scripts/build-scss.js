@@ -106,4 +106,11 @@ async function buildAll() {
   await buildComponentStyles();
 }
 
-buildAll();
+(async () => {
+  try {
+    await buildAll();
+  } catch (error) {
+    console.error('Error during build:', error);
+    process.exit(1);
+  }
+})();
