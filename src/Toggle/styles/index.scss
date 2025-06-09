@@ -253,8 +253,6 @@
       height: var(--rs-toggle-handle-size);
     }
 
-    // 注意：SCSS 不能直接在 @if 中使用 CSS 变量进行比较
-    // 这里我们使用一个通用样式，当尺寸较小时应用
     .rs-loader-spin::before,
     .rs-loader-spin::after {
       border-width: 2px;

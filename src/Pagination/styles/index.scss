@@ -1,6 +1,6 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../Button/styles/index' as button;
-@use '../../Button/styles/_mixin' as button-mixin;
+@use '../../Button/styles/mixin' as button-mixin;
 @use '../../Divider/styles/index' as divider;
 @use '../../SelectPicker/styles/index' as select-picker;
 @use './pagination-group';
@@ -62,9 +62,8 @@
 }
 
 .rs-pagination-btn {
-  // 注意：在 SCSS 中，我们直接使用 Button 组件中定义的 mixin
-  // 而不是使用 Less 中的 .rs-btn() 混合调用方式
-  @include button-mixin.btn-subtle;
+  @extend .rs-btn;
+  @extend .rs-btn-subtle;
   @include button-mixin.button-size-sm;
 
   margin: 0 2px;

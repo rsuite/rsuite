@@ -1,11 +1,13 @@
 @use 'sass:list';
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/colors/colors-base' as colors;
+@use '../../Button/styles/index' as button;
 @use '../../Input/styles/index' as input;
 @use '../../InputGroup/styles/index' as input-group;
 @use './mixin' as number-input-mixin;
 
 .rs-number-input {
+
   --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
   --rs-number-input-touchspin-height-xs: calc(calc(var(--rs-input-height-xs) - 2px) / 2);
   --rs-number-input-touchspin-height-sm: calc(calc(var(--rs-input-height-sm) - 2px) / 2);

@@ -1,6 +1,6 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../Dropdown/styles/index' as dropdown;
-@use '../../internals/Ripple/styles/mixins' as ripple;
+@use '../../internals/Ripple/styles/index' as ripple;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../styles/mixins/menu' as menu;

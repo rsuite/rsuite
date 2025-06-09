@@ -2,6 +2,7 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../Loader/styles/mixin' as loader;
+@use '../../Button/styles/index' as button;
 @use './mixin' as uploader-mixin;
 
 // Uploader
@@ -174,24 +175,16 @@
   gap: var(--rs-uploader-item-spacing);
 
   .rs-uploader-trigger-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0;
-    font-weight: var(--rs-btn-font-weight);
-    font-size: var(--rs-btn-font-size, var(--rs-font-size-sm));
-    line-height: var(--rs-btn-line-height, 1.25rem);
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: var(--rs-btn-transition);
-    border-width: 0;
-    border-style: solid;
-    user-select: none;
-    text-decoration: none;
-    color: var(--rs-btn-subtle-text);
-    background-color: transparent;
+    @extend .rs-btn;
+    @extend .rs-btn-subtle;
+
+    width: var(--rs-uploader-picture-side-length);
+    height: var(--rs-uploader-picture-side-length);
+    margin: 0;
+    padding: 0;
+    border: 2px dotted var(--rs-border-primary);
+    border-radius: var(--rs-radius-md);
+    margin-top: var(--rs-uploader-picture-item-gap);
 
     width: var(--rs-uploader-picture-side-length);
     height: var(--rs-uploader-picture-side-length);

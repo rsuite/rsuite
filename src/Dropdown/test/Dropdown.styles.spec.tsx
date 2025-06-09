@@ -3,7 +3,6 @@ import Dropdown from '../Dropdown';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getGrayScale } from '@test/utils';
-
 import '../styles/index.scss';
 
 describe('Dropdown styles', () => {

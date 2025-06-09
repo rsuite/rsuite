@@ -1,0 +1,41 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-password-strength-meter {
+  --rs-password-strength-meter-color-low: var(--rs-color-red);
+  --rs-password-strength-meter-color-medium: var(--rs-color-orange);
+  --rs-password-strength-meter-color-high: var(--rs-color-green);
+  --rs-password-strength-meter-bg: var(--rs-gray-200);
+
+  margin-top: calc(var(--rs-spacing) * 2);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &-bar {
+    display: flex;
+    gap: var(--rs-spacing);
+    margin-bottom: var(--rs-spacing);
+    width: 100%;
+  }
+
+  &-segment {
+    flex: 1;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--rs-password-strength-meter-bg);
+    transition: background 0.3s;
+
+    &:where([data-active='true']) {
+      background: var(--rs-password-strength-meter-color-medium);
+
+      &:first-child {
+        background: var(--rs-password-strength-meter-color-low);
+      }
+
+      &:last-child {
+        background: var(--rs-password-strength-meter-color-high);
+      }
+    }
+  }
+}

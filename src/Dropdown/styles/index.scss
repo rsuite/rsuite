@@ -3,21 +3,11 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../styles/mixins/menu' as menu;
+@use '../../Button/styles/index' as button;
 @use './mixin' as *;
+@use './variables' as *;
 
-// Dropdown variables
-:root {
-  --rs-dropdown-divider-color: var(--rs-divider-border);
-  --rs-dropdown-shadow: var(--rs-shadow-md);
-  --rs-dropdown-caret-icon-padding-horizontal: 9px;
-  --rs-dropdown-item-padding-y: 8px;
-  --rs-dropdown-item-padding-x: 12px;
-  --rs-menu-padding: calc(var(--rs-spacing) * 1.5);
-  --rs-menuitem-padding-inline: calc(var(--rs-spacing) * 3);
-  --rs-menuitem-padding-block: calc(var(--rs-spacing) * 2);
-  --rs-menuitem-divider-margin-block: calc(var(--rs-spacing) * 1.5);
-  --rs-menuitem-spacing: calc(var(--rs-spacing) * 2);
-}
+
 
 // The dropdown wrapper (div)
 .rs-dropdown {
@@ -229,7 +219,6 @@
       top: 0;
     }
   }
-
 
   // Set submenu icon
   &.rs-dropdown-item {

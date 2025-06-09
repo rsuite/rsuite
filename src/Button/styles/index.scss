@@ -2,7 +2,7 @@
 @use '../../internals/Box/styles/index';
 @use '../../styles/colors/colors-base' as c;
 @use '../../styles/mixins/utilities' as utils;
-@use '../../internals/Ripple/styles/mixins' as ripple;
+@use '../../internals/Ripple/styles/index' as ripple;
 @use '../../styles/mixins/color-modes';
 @use 'variables' as vars;
 @use 'mixin';

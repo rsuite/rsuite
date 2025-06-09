@@ -1,8 +1,5 @@
-// Import theme configuration and base design tokens
-@use 'themes' as themes;
-
-// Import normalize and reset styles (controlled by $enable-css-reset)
-@use 'normalize';
+// Import common styles
+@use 'common';
 
 // Import component styles
 @use '../Accordion/styles/index' as accordion;
@@ -70,6 +67,9 @@
 @use '../Pagination/styles/index' as pagination;
 @use '../Panel/styles/index' as panel;
 @use '../PanelGroup/styles/index' as panel-group;
+@use '../PasswordInput/styles/index' as password-input;
+@use '../PasswordStrengthMeter/styles/index' as password-strength-meter;
+@use '../PinInput/styles/index' as pin-input;
 @use '../Placeholder/styles/index' as placeholder;
 @use '../Popover/styles/index' as popover;
 @use '../Progress/styles/index' as progress;

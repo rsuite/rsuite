@@ -5,7 +5,6 @@ import { render, screen, within } from '@testing-library/react';
 import { toRGB } from '@test/utils';
 import { testPickerSize } from '@test/cases';
 import { mockGroupData } from '@test/mocks/data-mock';
-
 import '../styles/index.scss';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
