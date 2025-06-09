@@ -1,3 +1,4 @@
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../internals/CloseButton/styles/index' as close-button;
@@ -19,7 +20,7 @@
   --rs-tag-line-height-sm: var(--rs-line-height-sm);
   --rs-tag-line-height-md: var(--rs-line-height-sm);
   --rs-tag-line-height-lg: var(--rs-line-height-md);
-  
+
   // Base styles
   display: inline-flex;
   align-items: center;
@@ -30,7 +31,7 @@
   line-height: var(--rs-tag-line-height, var(--rs-tag-line-height-md));
   background-color: var(--rs-tag-bg);
   color: var(--rs-tag-text, var(--rs-text-primary));
-  
+
   // Close icon
   &-icon-close {
     padding: 0;
@@ -44,7 +45,7 @@
       --rs-tag-line-height: var(--rs-tag-line-height-#{$size});
     }
   }
-  
+
   // Colorful tags
   @each $color in ('primary', 'secondary', 'success', 'warning', 'error', 'info', 'dark', 'cyan', 'violet', 'orange', 'yellow', 'green', 'red', 'blue') {
     &-#{$color} {

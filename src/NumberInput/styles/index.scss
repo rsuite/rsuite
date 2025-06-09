@@ -1,4 +1,5 @@
 @use 'sass:list';
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/colors/colors-base' as colors;
 @use '../../Input/styles/index' as input;
 @use '../../InputGroup/styles/index' as input-group;

@@ -1,4 +1,4 @@
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 @use '../../Heading/styles/index' as heading;
 @use '../../internals/ScrollView/styles/index' as scroll-view;
 @use '../../Animation/styles/index' as animation;

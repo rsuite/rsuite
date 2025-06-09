@@ -1,4 +1,4 @@
-@use '../../Container/styles/index';
+@use '../../internals/Box/styles/index' as box;
 
 .rs-sidebar {
   --rs-sidebar-width: var(--rs-box-w, 260px);

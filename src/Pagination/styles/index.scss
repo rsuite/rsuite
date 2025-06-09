@@ -1,0 +1,103 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../Button/styles/index' as button;
+@use '../../Button/styles/_mixin' as button-mixin;
+@use '../../Divider/styles/index' as divider;
+@use '../../SelectPicker/styles/index' as select-picker;
+@use './pagination-group';
+@use './mixin';
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.rs-pagination {
+  display: inline-block;
+  padding-inline-start: 0;
+  margin-bottom: 0;
+  // Pagination Sizes
+  // --------------------------------------------------
+
+  &-lg {
+    .rs-pagination-btn {
+      min-width: 42px;
+
+      .rs-pagination-symbol {
+        height: var(--rs-line-height-plus);
+      }
+
+      &-active {
+        @include mixin.pagination-active-size(var(--rs-spacing-block-lg), var(--rs-spacing-inline-lg));
+      }
+    }
+  }
+
+  &-md {
+    .rs-pagination-btn {
+      min-width: 36px;
+
+      &-active {
+        @include mixin.pagination-active-size;
+      }
+    }
+  }
+
+  &-sm {
+    .rs-pagination-btn {
+      min-width: 30px;
+
+      &-active {
+        @include mixin.pagination-active-size(var(--rs-spacing-block-sm), var(--rs-spacing-inline-sm));
+      }
+    }
+  }
+
+  &-xs {
+    .rs-pagination-btn {
+      min-width: 24px;
+
+      &-active {
+        @include mixin.pagination-active-size(var(--rs-spacing-block-xs), var(--rs-spacing-inline-xs));
+      }
+    }
+  }
+}
+
+.rs-pagination-btn {
+  // 注意：在 SCSS 中，我们直接使用 Button 组件中定义的 mixin
+  // 而不是使用 Less 中的 .rs-btn() 混合调用方式
+  @include button-mixin.btn-subtle;
+  @include button-mixin.button-size-sm;
+
+  margin: 0 2px;
+  position: relative;
+  float: inline-start; // Collapse white-space
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+
+  .rs-pagination-symbol {
+    display: flex;
+    align-items: center;
+    height: var(--rs-line-height-base);
+
+    [dir='rtl'] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  @at-root .high-contrast-mode & {
+    transition: none;
+    color: var(--rs-pagination-item-text);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--rs-pagination-item-current-text);
+      text-decoration: underline;
+    }
+  }
+
+  &.rs-pagination-btn-active {
+    @include mixin.pagination-active;
+  }
+}

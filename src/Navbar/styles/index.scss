@@ -1,4 +1,4 @@
-@use '../../styles/themes' as themes;
+@use '../../internals/Box/styles/index' as box;
 @use '../../Dropdown/styles/index' as dropdown;
 @use '../../internals/Ripple/styles/mixins' as ripple;
 @use '../../styles/mixins/utilities' as utils;

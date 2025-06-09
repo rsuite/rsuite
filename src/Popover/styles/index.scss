@@ -1,7 +1,8 @@
+@use '../../internals/Box/styles/index' as box;
 @use '../../Heading/styles/index' as heading;
-@use './mixins';
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
+@use './mixins';
 
 //
 // Popovers

@@ -1,0 +1,116 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../toaster/styles/animation';
+
+//
+// Notifications
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+.rs-notification {
+  --rs-notify-padding: 1.25rem;
+  --rs-notify-max-width: 400px;
+  --rs-notify-spacing: calc(var(--rs-spacing) * 2.5);
+  --rs-notify-border-radius: var(--rs-radius-md);
+  --rs-notify-box-shadow: var(--rs-shadow-md);
+  --rs-notify-title-font-size: var(--rs-font-size-md);
+  --rs-notify-line-height: var(--rs-text-line-height-md);
+  --rs-notify-icon-size: 24px;
+  --rs-notify-title-description-gap: 8px;
+
+  // Recovery mouse event.
+  pointer-events: auto;
+  animation-fill-mode: forwards;
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rs-notify-spacing);
+
+  border-radius: var(--rs-notify-border-radius);
+  background: var(--rs-bg-overlay);
+  box-shadow: var(--rs-notify-box-shadow);
+  padding: var(--rs-notify-padding);
+  overflow: hidden;
+
+  &:has(.rs-notification-header) {
+    align-items: flex-start;
+  }
+
+  // Multiple notification should have spacing
+  // Hiding notification haven't spacing.
+  &:not(.rs-toast-fade-exited) ~ .rs-notification {
+    margin-top: var(--rs-notify-spacing);
+  }
+
+  @at-root .high-contrast-mode & {
+    border: 1px solid var(--rs-border-primary);
+  }
+
+  // Notification content
+  &-content {
+    max-width: var(--rs-notify-max-width);
+    flex: 1;
+  }
+
+  // Title
+  &-header {
+    @include utils.ellipsis;
+
+    color: var(--rs-text-heading);
+    font-size: var(--rs-notify-title-font-size);
+    line-height: var(--rs-notify-line-height);
+
+    > p {
+      margin: 0;
+    }
+  }
+
+  &-icon {
+    display: flex;
+    align-items: center;
+
+    .rs-icon {
+      font-size: var(--rs-notify-icon-size);
+      width: var(--rs-notify-icon-size);
+      line-height: 1;
+      color: var(--rs-notify-icon-color);
+
+      &::before {
+        vertical-align: middle;
+      }
+    }
+  }
+
+  // Description
+  &-description {
+    color: var(--rs-text-primary);
+  }
+
+  // Has header and description need to ajust distance
+  &-header + &-description {
+    margin-top: var(--rs-notify-title-description-gap);
+  }
+
+  &.rs-notification-hiding {
+    animation: notificationMoveOut 0.3s ease-in forwards;
+
+    & ~ .rs-notification {
+      margin-top: 0;
+    }
+  }
+
+  .rs-btn-close {
+    padding: 0;
+  }
+}
+
+// Types
+$types: success, info, warning, error;
+
+@each $type in $types {
+  .rs-notification-#{$type} {
+    --rs-notify-icon-color: var(--rs-state-#{$type});
+  }
+}

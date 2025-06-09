@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-stat-group {
   --rs-stat-group-columns: 4;
   --rs-stat-group-spacing: 6px;

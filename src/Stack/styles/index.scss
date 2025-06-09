@@ -1,3 +1,4 @@
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/variables' as vars;
 
 // Mixin for generating responsive direction classes
@@ -45,7 +46,7 @@
   &-row-reverse {
     flex-direction: row-reverse;
   }
-  
+
   @include responsive-direction(xs);
 
   // Small grid

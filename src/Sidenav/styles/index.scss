@@ -1,9 +1,9 @@
-@use '../../Container/styles/index' as container;
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/menu' as menu;
 @use '../../internals/Ripple/styles/mixins' as ripple;
-@use './mixin';
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
+@use './mixin';
 
 //
 // Sidenavs

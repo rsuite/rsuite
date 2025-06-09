@@ -1,3 +1,4 @@
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../Tooltip/styles/index' as tooltip;
 @use '../../styles/mixins/color-modes' as color-modes;

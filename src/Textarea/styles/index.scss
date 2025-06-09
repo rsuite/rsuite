@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-textarea {
   --rs-textarea-resize: none;
 

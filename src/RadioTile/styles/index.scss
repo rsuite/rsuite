@@ -1,4 +1,4 @@
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 
 .rs-radio-tile {
   --rs-radio-tile-border-radius: var(--rs-radius-md);
@@ -51,7 +51,7 @@
   &-checked#{&}-disabled {
     border-color: var(--rs-radio-tile-checked-disabled-color);
   }
-  
+
   &-checked#{&}-disabled &-mark {
     background-color: var(--rs-radio-tile-checked-disabled-color);
   }
