@@ -4,8 +4,8 @@ import HStack from '../../Stack/HStack';
 import Stat, { StatProps } from '../Stat';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Stat);
 

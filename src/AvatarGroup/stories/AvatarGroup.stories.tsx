@@ -4,8 +4,8 @@ import { createMeta } from '@/storybook/utils';
 
 import Avatar from '../../Avatar';
 import AvatarGroup from '../AvatarGroup';
-import '../styles/index.less';
-import '../../Avatar/styles/index.less';
+import '../styles/index.scss';
+import '../../Avatar/styles/index.scss';
 
 const meta = createMeta(AvatarGroup);
 

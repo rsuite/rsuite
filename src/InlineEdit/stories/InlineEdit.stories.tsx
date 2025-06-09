@@ -4,7 +4,7 @@ import InlineEdit from '../InlineEdit';
 import Input from '../../Input';
 import DatePicker from '../../DatePicker';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(InlineEdit);
 

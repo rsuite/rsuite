@@ -1,7 +1,7 @@
 import type { StoryObj } from '@storybook/react';
 import Badge from '../Badge';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Badge);
 

@@ -7,8 +7,8 @@ import { createMeta } from '@/storybook/utils';
 import { mockUsers } from '@/storybook/mocks';
 import type { StoryObj } from '@storybook/react';
 
-import '../styles/index.less';
-import '../../IconButton/styles/index.less';
+import '../styles/index.scss';
+import '../../IconButton/styles/index.scss';
 
 const { Column, ColumnGroup, Cell, HeaderCell } = Table;
 const CompactCell = props => <Table.Cell {...props} style={{ padding: 4 }} />;

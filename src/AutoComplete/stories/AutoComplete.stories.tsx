@@ -1,7 +1,7 @@
 import type { StoryObj } from '@storybook/react';
 import AutoComplete from '../AutoComplete';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = [
   'Eugenia',

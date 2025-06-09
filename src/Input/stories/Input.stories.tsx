@@ -5,9 +5,9 @@ import Input from '../Input';
 import InputGroup from '../../InputGroup';
 import Stack from '../../Stack';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../InputGroup/styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../InputGroup/styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Input);
 

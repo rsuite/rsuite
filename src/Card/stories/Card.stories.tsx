@@ -8,12 +8,12 @@ import Text from '../../Text';
 import Card, { CardProps } from '../Card';
 import Avatar from '../../Avatar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Stack/styles/index.less';
-import '../../Tag/styles/index.less';
-import '../../TagGroup/styles/index.less';
-import '../../Text/styles/index.less';
-import '../../Avatar/styles/index.less';
+import '../styles/index.scss';
+import '../../Stack/styles/index.scss';
+import '../../Tag/styles/index.scss';
+import '../../TagGroup/styles/index.scss';
+import '../../Text/styles/index.scss';
+import '../../Avatar/styles/index.scss';
 
 const meta = createMeta(Card);
 

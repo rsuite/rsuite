@@ -7,11 +7,11 @@ import Avatar from '../../Avatar';
 import Text from '../../Text';
 import VStack from '../../Stack/VStack';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Card/styles/index.less';
-import '../../Stack/styles/index.less';
-import '../../Avatar/styles/index.less';
-import '../../Text/styles/index.less';
+import '../styles/index.scss';
+import '../../Card/styles/index.scss';
+import '../../Stack/styles/index.scss';
+import '../../Avatar/styles/index.scss';
+import '../../Text/styles/index.scss';
 
 const meta = createMeta(CardGroup);
 

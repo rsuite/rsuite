@@ -4,9 +4,9 @@ import Col from '../../Col';
 import Row from '../../Row';
 import { createMeta } from '@/storybook/utils';
 import type { StoryObj } from '@storybook/react';
-import '../styles/index.less';
-import '../../Col/styles/index.less';
-import '../../Row/styles/index.less';
+import '../styles/index.scss';
+import '../../Col/styles/index.scss';
+import '../../Row/styles/index.scss';
 
 const meta = createMeta(Grid);
 

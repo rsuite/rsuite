@@ -36,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-storybook": "^0.6.15",
+    "sass": "^1.89.1",
     "storybook": "^7.6.10",
     "storybook-dark-mode": "^3.0.3",
     "typescript": "^5.2.2",

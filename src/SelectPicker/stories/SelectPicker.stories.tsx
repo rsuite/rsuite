@@ -2,7 +2,7 @@ import type { StoryObj } from '@storybook/react';
 import SelectPicker from '../SelectPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockArrayData();
 const meta = createMeta(SelectPicker);

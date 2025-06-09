@@ -2,7 +2,7 @@ import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import FlexboxGrid from '../FlexboxGrid';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(FlexboxGrid);
 
