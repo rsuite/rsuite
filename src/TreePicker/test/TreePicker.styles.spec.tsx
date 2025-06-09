@@ -6,7 +6,7 @@ import { render, screen } from '@testing-library/react';
 import { testPickerSize } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData(['Node1', 'Node2']);
 

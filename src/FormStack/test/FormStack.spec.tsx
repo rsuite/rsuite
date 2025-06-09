@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('FormStack', () => {
   testStandardProps(<FormStack />);

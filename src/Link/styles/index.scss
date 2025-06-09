@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-link {
   --rs-link-disabled-opacity: 0.5;
   --rs-link-spacing: var(--rs-spacing);

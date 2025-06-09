@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-form-stack {
   --rs-form-stack-dir: column;
   --rs-form-stack-spacing: calc(var(--rs-spacing) * 4);

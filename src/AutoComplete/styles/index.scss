@@ -1,9 +1,10 @@
+@use '../../internals/Box/styles/index';
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
 @use '../../styles/mixins/listbox';
 @use '../../styles/mixins/utilities' as utils;
 @use '../../Input/styles/index' as input;
 @use '../../InputGroup/styles/index' as input-group;
-@use '../../internals/Picker/styles/index' as picker;
-@use '../../internals/Picker/styles/mixin' as picker-mixin;
 
 .rs-auto-complete {
   &-menu {

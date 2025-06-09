@@ -1,4 +1,4 @@
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/listbox';
 @use '../../Button/styles/index' as button;
 @use '../../internals/Picker/styles/mixin' as picker-mixin;

@@ -1,4 +1,4 @@
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/combobox';
 @use '../../styles/mixins/listbox';
 @use '../../CascadeTree/styles/index' as cascade-tree;

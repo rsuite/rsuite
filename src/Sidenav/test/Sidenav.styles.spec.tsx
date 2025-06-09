@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getDefaultPalette } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Sidenav styles', () => {
   it('Should be collapsed', () => {

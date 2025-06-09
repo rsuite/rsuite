@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 // FormControlLabel
 
 [data-rs='form'][data-plaintext='true'] .rs-form-control-label {

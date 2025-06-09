@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getGrayScale } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Dropdown styles', () => {
   it('Should render the correct styles', () => {

@@ -1,4 +1,4 @@
-@use '../../styles/themes' as themes;
+@use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/listbox' as listbox;
 @use '../../styles/mixins/combobox' as combobox;
 @use './search';

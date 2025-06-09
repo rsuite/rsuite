@@ -3,7 +3,7 @@ import Content from '../index';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Content styles', () => {
   it('Should render the correct styles', () => {

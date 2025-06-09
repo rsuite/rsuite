@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getDefaultPalette, toRGB } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const { H500, H700, H900 } = getDefaultPalette();
 

@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../internals/Picker/styles/index' as picker;
 @use '../../styles/colors/colors-base' as colors;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/listbox' as listbox;
@@ -6,7 +8,6 @@
 @use '../../Input/styles/index' as input;
 @use '../../InputGroup/styles/index' as input-group;
 @use '../../Calendar/styles/index' as calendar;
-@use '../../internals/Picker/styles/index' as picker;
 @use '../../Stack/styles/index' as stack;
 @use './mixin' as date-picker-mixin;
 

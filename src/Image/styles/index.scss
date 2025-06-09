@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-image {
   --rs-object-fit: cover;
   --rs-object-position: initial;

@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 // Highlight component styles
 .rs-highlight-mark {
   background-color: var(--rs-text-highlight-bg);

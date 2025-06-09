@@ -1,5 +1,4 @@
-// Import common styles
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 
 .rs-divider {
   --rs-divider-size-xs: calc(0.0625rem * var(--rs-scale));

@@ -14,7 +14,7 @@ import {
   testFormControl,
   testPickers
 } from '@test/cases';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 

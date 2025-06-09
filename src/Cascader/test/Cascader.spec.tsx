@@ -14,7 +14,7 @@ import {
   testPickers
 } from '@test/cases';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 

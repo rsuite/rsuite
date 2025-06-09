@@ -1,3 +1,5 @@
+@use '../../internals/Box/styles/index' as box;
+
 .rs-card-group {
   --rs-card-group-columns: 4;
   --rs-card-group-spacing: 20px;

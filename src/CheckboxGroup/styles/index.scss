@@ -1,4 +1,4 @@
-@use '../../styles/themes';
+@use '../../internals/Box/styles/index' as box;
 
 .rs-checkbox-group {
   --rs-checkbox-group-gap: calc(var(--rs-spacing) * 3);

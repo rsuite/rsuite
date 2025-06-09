@@ -1,5 +1,6 @@
-@use '../../styles/colors/colors-base' as colors;
+@use '../../internals/Box/styles/index' as box;
 @use '../../internals/Picker/styles/index' as picker;
+@use '../../styles/colors/colors-base' as colors;
 @use '../../CheckTree/styles/index' as check-tree;
 
 // Check Tree Picker

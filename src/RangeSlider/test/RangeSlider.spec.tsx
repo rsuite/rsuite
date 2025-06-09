@@ -6,7 +6,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { addStyle } from 'dom-lib';
 import { testStandardProps } from '@test/cases';
 
-import '../../Slider/styles/index.less';
+import '../../Slider/styles/index.scss';
 
 describe('RangeSlider', () => {
   testStandardProps(<RangeSlider />);
