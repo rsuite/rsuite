@@ -1,0 +1,55 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../internals/CloseButton/styles/index' as close-button;
+
+//
+// Tags
+// --------------------------------------------------
+
+.rs-tag {
+  // CSS Variables
+  --rs-tag-border-radius: var(--rs-radius-md);
+  --rs-tag-spacing: 0.25rem;
+  --rs-tag-font-size-sm: var(--rs-font-size-xs);
+  --rs-tag-font-size-md: var(--rs-font-size-xs);
+  --rs-tag-font-size-lg: var(--rs-font-size-sm);
+  --rs-tag-padding-sm: 0 8px;
+  --rs-tag-padding-md: 2px 8px;
+  --rs-tag-padding-lg: 5px 10px;
+  --rs-tag-line-height-sm: var(--rs-line-height-sm);
+  --rs-tag-line-height-md: var(--rs-line-height-sm);
+  --rs-tag-line-height-lg: var(--rs-line-height-md);
+  
+  // Base styles
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rs-tag-spacing);
+  border-radius: var(--rs-tag-border-radius);
+  padding: var(--rs-tag-padding, var(--rs-tag-padding-md));
+  font-size: var(--rs-tag-font-size, var(--rs-tag-font-size-md));
+  line-height: var(--rs-tag-line-height, var(--rs-tag-line-height-md));
+  background-color: var(--rs-tag-bg);
+  color: var(--rs-tag-text, var(--rs-text-primary));
+  
+  // Close icon
+  &-icon-close {
+    padding: 0;
+  }
+
+  // Size variants
+  @each $size in (lg, md, sm) {
+    &-#{$size} {
+      --rs-tag-padding: var(--rs-tag-padding-#{$size});
+      --rs-tag-font-size: var(--rs-tag-font-size-#{$size});
+      --rs-tag-line-height: var(--rs-tag-line-height-#{$size});
+    }
+  }
+  
+  // Colorful tags
+  @each $color in ('primary', 'secondary', 'success', 'warning', 'error', 'info', 'dark', 'cyan', 'violet', 'orange', 'yellow', 'green', 'red', 'blue') {
+    &-#{$color} {
+      --rs-tag-bg: var(--rs-#{$color}-500);
+      --rs-tag-text: #fff;
+    }
+  }
+}

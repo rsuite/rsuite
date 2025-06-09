@@ -1,0 +1,13 @@
+@use '../../styles/themes';
+//
+// Tag Group
+// --------------------------------------------------
+
+.rs-tag-group {
+  --rs-tag-group-gap: 0.625rem; // 10px
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--rs-tag-group-gap);
+}

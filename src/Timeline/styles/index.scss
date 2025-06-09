@@ -1,0 +1,182 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use './mixin';
+
+//
+// Time lines
+// --------------------------------------------------
+
+.rs-timeline {
+  // CSS Variables
+  --rs-time-line-tail-min-height: 2.375rem; // 20px + 18px
+  --rs-time-line-item-content-margin-left: 12px;
+  --rs-time-line-dot-side-length: 10px;
+  --rs-time-line-alternate-time-offset: calc(
+    var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin-left)
+  ); // 5px + 12px
+  --rs-time-line-dot-center-gap: calc(var(--rs-time-line-dot-side-length) / 2);
+  --rs-time-line-item-content-padding-bottom: 18px;
+  --rs-time-line-tail-width: 2px;
+  --rs-time-line-item-padding-left: calc(
+    var(--rs-time-line-item-content-margin-left) + var(--rs-time-line-dot-side-length)
+  );
+
+  // Base styles
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+  direction: ltr;
+
+  &-item {
+    position: relative;
+    text-align: start;
+  }
+
+  &-item:not(:last-child) &-item-content {
+    padding-bottom: var(--rs-time-line-item-content-padding-bottom);
+  }
+
+  &-item-dot {
+    position: absolute;
+    top: var(--rs-time-line-dot-center-gap);
+
+    &::before {
+      content: '';
+      display: block;
+      width: var(--rs-time-line-dot-side-length);
+      height: var(--rs-time-line-dot-side-length);
+      background-color: var(--rs-timeline-indicator-bg);
+      border-radius: var(--rs-radius-full);
+    }
+  }
+
+  &-item-custom-dot {
+    text-align: center;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &-item-active &-item-dot::before {
+    background-color: var(--rs-timeline-indicator-active-bg);
+  }
+
+  &-item-tail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--rs-time-line-tail-width);
+    background-color: var(--rs-timeline-indicator-bg);
+  }
+
+  // The first tail need reserved a space.
+  &-item:first-child &-item-tail {
+    top: var(--rs-time-line-dot-center-gap);
+  }
+
+  // Last item tail need set height.
+  &-item:last-child &-item-tail {
+    bottom: auto;
+    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
+  }
+
+  &-endless &-item:last-child &-item-tail {
+    height: auto;
+    min-height: var(--rs-time-line-tail-min-height);
+  }
+
+  &-item:only-child &-item-tail {
+    display: none;
+  }
+
+  // Align left
+  @include mixin.time-line-align(left);
+
+  &-align-left &-item {
+    padding-inline-start: var(--rs-time-line-item-padding-left);
+  }
+
+  // Align right
+  @include mixin.time-line-align(right);
+
+  &-align-right &-item-content {
+    text-align: end;
+  }
+
+  // Align alternate
+  &-align-alternate &-item-dot {
+    inset-inline-start: calc(50% - var(--rs-time-line-dot-side-length) / 2);
+  }
+
+  &-align-alternate &-item-tail {
+    inset-inline-start: calc(50% - var(--rs-time-line-tail-width) / 2);
+  }
+
+  &-align-alternate &-item-content {
+    width: 50%;
+  }
+
+  &-align-alternate &-item:nth-child(even) &-item-content {
+    text-align: end;
+  }
+
+  &-align-alternate &-item:nth-child(odd) {
+    text-align: end;
+  }
+
+  &-align-alternate &-item:nth-child(odd) &-item-content {
+    display: inline-block;
+    text-align: start;
+  }
+
+  // With time
+  &-with-time &-item {
+    display: flex;
+    padding-inline-start: 0;
+  }
+
+  &-with-time &-item-dot {
+    inset-inline-start: calc(50% - var(--rs-time-line-dot-side-length) / 2);
+  }
+
+  &-with-time &-item-tail {
+    inset-inline-start: calc(50% - var(--rs-time-line-tail-width) / 2);
+  }
+
+  &-with-time &-item-time,
+  &-with-time &-item-content {
+    flex: 1 0 50%;
+  }
+
+  &-align-alternate &-item:nth-child(2n),
+  &-with-time.rs-timeline-align-right &-item {
+    flex-direction: row-reverse;
+  }
+
+  &-with-time.rs-timeline-align-right &-item {
+    padding-inline-end: 0;
+  }
+
+  &-with-time.rs-timeline-align-left &-item-time {
+    text-align: end;
+  }
+
+  &-with-time.rs-timeline-align-right &-item-time {
+    text-align: start;
+  }
+
+  &-with-time.rs-timeline-align-left &-item-time,
+  &-with-time.rs-timeline-align-right &-item-content,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-time,
+  &-align-alternate &-item:nth-child(2n) &-item-content {
+    padding-inline-end: var(--rs-time-line-alternate-time-offset);
+  }
+
+  &-with-time.rs-timeline-align-left &-item-content,
+  &-with-time.rs-timeline-align-right &-item-time,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-content,
+  &-align-alternate &-item:nth-child(2n) &-item-time {
+    padding-inline-start: var(--rs-time-line-alternate-time-offset);
+  }
+}

@@ -1,0 +1,141 @@
+@use '../../styles/themes';
+
+// Rate
+// ----------------------
+
+.rs-rate {
+  --rs-rate-size-xs: var(--rs-font-size-lg);
+  --rs-rate-size-sm: var(--rs-font-size-2xl);
+  --rs-rate-size-md: var(--rs-font-size-3xl);
+  --rs-rate-size-lg: var(--rs-font-size-4xl);
+  --rs-rate-size-xl: var(--rs-font-size-5xl);
+  --rs-rate-size: var(--rs-rate-size-md);
+  --rs-rate-before-size: 50%;
+
+  position: relative;
+  display: inline-flex;
+  color: var(--rs-rate-color);
+  font-size: var(--rs-rate-size);
+  list-style: none;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  gap: calc(var(--rs-spacing) * 2);
+
+  &-character {
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    width: max-content;
+    height: max-content;
+
+    &-before {
+      position: absolute;
+      width: var(--rs-rate-before-size);
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    &-after {
+      color: var(--rs-rate-symbol);
+      filter: grayscale(1);
+
+      @at-root .high-contrast-mode & {
+        > .rs-icon {
+          fill: none;
+          stroke: currentColor;
+        }
+      }
+    }
+
+    &-before,
+    &-after {
+      display: flex;
+      z-index: var(--rs-zindex-rate-character-before);
+
+      > .rs-icon {
+        font-size: inherit;
+      }
+    }
+
+    &:where([data-status='half']) &-before,
+    &:where([data-status='frac']) &-before {
+      opacity: 1;
+      filter: none;
+    }
+
+    &:where([data-status='full']) &-after {
+      color: inherit;
+      filter: none;
+
+      > .rs-icon {
+        fill: currentColor;
+      }
+    }
+
+    &-vertical {
+      width: 100%;
+      height: var(--rs-rate-before-size);
+      flex-direction: column-reverse;
+      bottom: 0;
+    }
+
+    .rs-icon,
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+
+    &-before {
+      .rs-icon,
+      svg {
+        position: absolute;
+      }
+    }
+  }
+
+  &-character {
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+  }
+
+  &:where([data-disabled='true']) {
+    cursor: var(--rs-cursor-disabled);
+    opacity: 0.5;
+    outline: none;
+  }
+
+  &:where([data-disabled='true']) &-character {
+    pointer-events: none;
+  }
+
+  &:where([data-readonly='true']) &-character {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  // Size variants
+  $sizes: xl, lg, md, sm, xs;
+
+  @each $size in $sizes {
+    &.rs-rate-#{$size} {
+      --rs-rate-size: var(--rs-rate-size-#{$size});
+    }
+  }
+
+  // Color variants
+  $spectrum: primary, secondary, success, warning, error, info;
+
+  @each $color in $spectrum {
+    &.rs-rate-#{$color} {
+      --rs-rate-color: var(--rs-#{$color}-500);
+    }
+  }
+}

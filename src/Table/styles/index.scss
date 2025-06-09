@@ -1,0 +1,451 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../Loader/styles/_mixin' as loader-mixins;
+@use 'mixin' as table-mixin;
+
+//
+// Table
+// --------------------------------------------------
+
+// Table Content
+.rs-table {
+  --rs-loader-content-spin-spacing-horizontal: 12px;
+  --rs-table-scrollbar-width: 10px;
+  --rs-table-scrollbar-handle-width: 8px;
+  --rs-table-scrollbar-handle-gap: calc(
+    (var(--rs-table-scrollbar-width) - var(--rs-table-scrollbar-handle-width)) / 2
+  );
+  --rs-table-scrollbar-timing-duration: 0.1s;
+  --rs-table-cell-hover-color: var(--rs-primary-500);
+  --rs-table-cell-padding-y: 13px;
+  --rs-table-cell-padding-x: 10px;
+  --rs-table-header-padding: 10px;
+  --rs-table-header-line-height: var(--rs-line-height-sm);
+  --rs-table-header-sort-margin-start: 5px;
+
+  position: relative;
+  overflow: hidden;
+
+  &-column-resizing {
+    cursor: ew-resize;
+    user-select: none;
+  }
+
+  &-row {
+    overflow: hidden;
+    position: absolute;
+    height: 36px;
+    width: 100%;
+    top: 0;
+
+    &.virtualized {
+      @include utils.pointer-event-none;
+    }
+  }
+
+  &-row-expanded {
+    position: absolute;
+    height: 46px;
+    bottom: 0;
+    width: 100%;
+    z-index: 4;
+    border-top: 1px solid var(--rs-table-border-color);
+    padding: 10px;
+    background-color: var(--rs-bg-card);
+  }
+
+  &-hover &-row:hover &-cell-group {
+    background-color: var(--rs-bg-card);
+  }
+
+  &-hover &-row:hover &-cell {
+    background-color: var(--rs-bg-card);
+  }
+
+  &-row-header {
+    background-color: var(--rs-bg-card);
+  }
+
+  &-row-header &-cell {
+    background-color: var(--rs-bg-card);
+  }
+
+  &-row-header &-cell-group-shadow {
+    z-index: var(--rs-zindex-table-row-cell-group-shadow);
+    box-shadow: none;
+  }
+
+  &-hover &-row:not(&-row-header):hover,
+  &-hover &-row:hover &-cell-group,
+  &-hover &-row:hover &-cell {
+    background-color: var(--rs-state-hover-bg);
+  }
+
+  &-hover &-row-header:hover &-cell-group,
+  &-hover &-row-header:hover &-cell {
+    background-color: var(--rs-bg-card);
+  }
+
+  // The thead
+  &-header-row-wrapper {
+    z-index: var(--rs-zindex-table-header-row-wrapper);
+    position: relative;
+    font-size: var(--rs-font-size-xs);
+    color: var(--rs-text-secondary);
+  }
+
+  &-affix-header {
+    z-index: calc(var(--rs-zindex-table-header-row-wrapper) + 1);
+    visibility: hidden;
+
+    &.fixed {
+      visibility: visible;
+    }
+  }
+
+  &-body-row-wrapper {
+    position: relative;
+    overflow: hidden;
+    z-index: var(--rs-zindex-table-body-row-wrapper);
+  }
+
+  &-body-info {
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+    margin-top: -20px;
+    line-height: 40px;
+
+    .icon {
+      margin: 0 10px;
+    }
+
+    &-wheel-area {
+      width: 100%;
+    }
+  }
+
+  &-body-wheel-area {
+    width: 100%;
+  }
+
+  &-loader-wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: var(--rs-loader-backdrop);
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+    @include utils.pointer-event-none;
+  }
+
+  &-loader {
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+    margin-top: -20px;
+    line-height: 40px;
+
+    &-icon {
+      @include loader-mixins.loader-size(var(--rs-loader-default-size));
+      @include loader-mixins.loader-spin;
+
+      display: inline-block;
+      position: relative;
+      margin-inline-end: var(--rs-loader-content-spin-spacing-horizontal);
+      // Make sure loader vertical-align center
+      padding-top: 3px;
+    }
+  }
+
+  &-loading &-loader-wrapper {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    // When loading cover scrollbar.
+    z-index: 1;
+  }
+
+  &-cell {
+    height: 36px;
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    white-space: normal;
+    background-color: var(--rs-bg-card);
+    border-bottom: 1px solid var(--rs-table-border-color);
+
+    &.first {
+      border-left-width: 0;
+    }
+
+    &-wrap1 {
+      display: table;
+    }
+
+    &-wrap2 {
+      display: table-row;
+    }
+
+    &-wrap3 {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    &-content {
+      padding-inline: var(--rs-table-cell-padding-x);
+      padding-block: var(--rs-table-cell-padding-y);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+    }
+
+    // Cell header
+    &-header {
+      background-color: var(--rs-table-header-bg);
+      color: var(--rs-text-secondary);
+      font-size: var(--rs-font-size-xs);
+      line-height: var(--rs-table-header-line-height);
+    }
+
+    &-header &-content {
+      padding: var(--rs-table-header-padding);
+    }
+
+    &-header &-sort-wrapper {
+      cursor: pointer;
+      margin-inline-end: var(--rs-table-header-sort-margin-start);
+    }
+
+    &-header-sort-asc,
+    &-header-sort-desc {
+      color: var(--rs-text-primary);
+    }
+  }
+
+  &-cell-full-text {
+    &:hover {
+      z-index: 1 !important;
+      width: auto !important;
+      box-shadow: inset var(--rs-table-cell-hover-color) 0px 0px 2px;
+
+      .rs-table-cell-content {
+        width: auto !important;
+      }
+    }
+  }
+
+  &-cell-header-sortable &-cell-content {
+    cursor: pointer;
+  }
+
+  &-column-resize-spanner {
+    @include table-mixin.column-resize-spanner;
+
+    box-sizing: content-box;
+
+    &::after,
+    &::before {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      display: none;
+      top: 50%;
+      margin-top: -3px;
+    }
+
+    &::before {
+      border-style: dashed solid dashed dashed;
+      border-color: transparent var(--rs-table-resize) transparent transparent;
+      border-width: 3px;
+      inset-inline-end: 4px;
+    }
+
+    &::after {
+      border-style: dashed dashed dashed solid;
+      border-color: transparent transparent transparent var(--rs-table-resize);
+      border-width: 3px;
+      inset-inline-start: 4px;
+    }
+  }
+
+  // Table not resizing , header should show resize-spanner .
+  &:not(&-column-resizing) &-cell-header &-cell:hover ~ &-column-resize-spanner,
+  &:not(&-column-resizing) &-column-resize-spanner:hover {
+    background-color: var(--rs-table-resize);
+
+    &::before,
+    &::after {
+      display: block;
+    }
+  }
+
+  &-cell-group {
+    &-fixed-right,
+    &-fixed-left {
+      position: absolute;
+      z-index: var(--rs-zindex-table-cell-group-fixed);
+      background-color: var(--rs-bg-card);
+    }
+
+    &-shadow,
+    &-left-shadow {
+      box-shadow: 3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
+    }
+
+    &-right-shadow {
+      box-shadow: -3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
+    }
+  }
+
+  &-mouse-area {
+    display: none;
+    background-color: var(--rs-table-resize);
+    inset-inline-start: -1px;
+    top: 0;
+    position: absolute;
+    width: 1px;
+    z-index: var(--rs-zindex-table-mouse-area);
+
+    > span {
+      @include table-mixin.column-resize-spanner;
+
+      background-color: var(--rs-table-resize);
+      position: absolute;
+      inset-inline-start: -1.5px;
+    }
+  }
+
+  &-word-wrap &-cell-content {
+    white-space: normal;
+  }
+
+  &-bordered {
+    border: 1px solid var(--rs-table-border-color);
+  }
+
+  &-cell-bordered &-cell {
+    border-right: 1px solid var(--rs-table-border-color);
+  }
+
+  &-column-group {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    top: 0;
+    width: 100%;
+
+    &-header {
+      border-bottom: 1px solid var(--rs-table-border-color);
+      position: absolute;
+      width: 100%;
+
+      &-content {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+
+    &-cell {
+      position: absolute;
+      border-right: 1px solid var(--rs-table-border-color);
+    }
+  }
+}
+
+.rs-table:not(.rs-table-has-rowspan) .rs-table-row {
+  border-bottom: 1px solid var(--rs-table-border-color);
+}
+
+// Tree Table
+
+.rs-table-cell-expand-wrapper {
+  margin-inline-end: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.rs-table-cell-expand-icon {
+  cursor: pointer;
+  outline: none;
+  font-size: var(--rs-font-size-md);
+}
+
+// Scrollbar
+.rs-table-scrollbar {
+  background-color: var(--rs-table-scrollbar-track);
+  position: absolute;
+  transition:
+    background var(--rs-table-scrollbar-timing-duration) linear,
+    transform var(--rs-table-scrollbar-timing-duration) linear;
+  opacity: 0.6;
+  // Make sure Scrollbar on the loader.
+  z-index: 1;
+
+  &-hide {
+    display: none;
+  }
+
+  &-handle {
+    position: absolute;
+    background-color: var(--rs-table-scrollbar-thumb);
+    border-radius: var(--rs-radius-sm);
+  }
+
+  &-pressed {
+    z-index: 1;
+  }
+
+  &-pressed &-handle {
+    background-color: var(--rs-table-scrollbar-thumb-active);
+  }
+
+  &-horizontal {
+    width: 100%;
+    height: var(--rs-table-scrollbar-width);
+    bottom: 0;
+
+    &.fixed {
+      position: fixed;
+    }
+  }
+
+  &-horizontal &-handle {
+    height: var(--rs-table-scrollbar-handle-width);
+    left: 0 /* rtl:ignore */;
+    top: var(--rs-table-scrollbar-handle-gap);
+  }
+
+  &-pressed.rs-table-scrollbar-horizontal:hover,
+  &-horizontal:hover {
+    transform-origin: center bottom;
+    transform: scaleY(1.3);
+  }
+
+  &-vertical {
+    top: 0;
+    inset-inline-end: 0;
+    width: var(--rs-table-scrollbar-width);
+    // Reserve scroll bar position.
+    bottom: var(--rs-table-scrollbar-width);
+    background-color: var(--rs-table-scrollbar-vertical-track);
+  }
+
+  &-vertical &-handle {
+    min-height: 20px;
+    width: var(--rs-table-scrollbar-handle-width);
+    top: 0;
+    inset-inline-start: var(--rs-table-scrollbar-handle-gap);
+  }
+
+  &-pressed.rs-table-scrollbar-vertical:hover,
+  &-vertical:hover {
+    transform-origin: right center;
+    transform: scaleX(1.3);
+  }
+}

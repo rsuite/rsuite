@@ -1,0 +1,76 @@
+@use 'sass:list';
+@use '../../styles/colors/colors-base' as colors;
+@use '../../Input/styles/index' as input;
+@use '../../InputGroup/styles/index' as input-group;
+@use './mixin' as number-input-mixin;
+
+.rs-number-input {
+  --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
+  --rs-number-input-touchspin-height-xs: calc(calc(var(--rs-input-height-xs) - 2px) / 2);
+  --rs-number-input-touchspin-height-sm: calc(calc(var(--rs-input-height-sm) - 2px) / 2);
+  --rs-number-input-touchspin-height-md: calc(calc(var(--rs-input-height-md) - 2px) / 2);
+  --rs-number-input-touchspin-height-lg: calc(calc(var(--rs-input-height-lg) - 2px) / 2);
+
+  &.rs-input-group {
+    width: auto;
+  }
+
+  $sizes: xs, sm, md, lg;
+
+  @each $size in $sizes {
+    $index: list.index($sizes, $size);
+    $offset: ($index - 1) * 2px;
+
+    &.rs-input-group-#{$size} {
+      --rs-number-input-touchspin-height: var(--rs-number-input-touchspin-height-#{$size});
+      --rs-number-input-icon-height: calc(var(--rs-number-input-touchspin-height) - #{$offset});
+    }
+  }
+
+  &-btn-group-vertical {
+    border-left: 1px solid var(--rs-border-secondary);
+    position: relative;
+    width: 20px;
+    flex: 0 0 20px;
+    display: block;
+
+    & > .rs-btn {
+      display: block;
+      float: none;
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      border: none;
+    }
+  }
+
+  .rs-number-input-touchspin-up,
+  .rs-number-input-touchspin-down {
+    position: relative;
+    border-radius: var(--rs-radius-none);
+    padding: 0;
+    box-shadow: none !important;
+    height: var(--rs-number-input-touchspin-height);
+
+    > .rs-icon {
+      width: 100%;
+      font-size: var(--rs-number-input-touchspin-font-size);
+      color: var(--rs-text-secondary);
+      height: var(--rs-number-input-icon-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // Reset Input Number styling
+  // Reference https://stackoverflow.com/questions/26024771/styling-a-input-type-number#answer-40189766
+  input[type='number'] {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button {
+      /* stylelint-disable */
+      -webkit-appearance: none;
+    }
+  }
+}

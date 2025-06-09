@@ -1,0 +1,17 @@
+@use '../../Container/styles/index';
+
+.rs-sidebar {
+  --rs-sidebar-width: var(--rs-box-w, 260px);
+  --rs-sidebar-collapse-transition: 0.15s ease-in;
+
+  flex: 0 0 var(--rs-sidebar-width);
+}
+
+.rs-sidebar-collapse {
+  transition:
+    flex var(--rs-sidebar-collapse-transition),
+    width var(--rs-sidebar-collapse-transition);
+  // Fixed firefox doesn't apply flex-basis if children width is so large.
+  // https://github.com/philipwalton/flexbugs/issues/41#issuecomment-111590394
+  min-width: 0;
+}

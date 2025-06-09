@@ -1,0 +1,80 @@
+@use '../../styles/themes';
+
+.rs-radio-tile {
+  --rs-radio-tile-border-radius: var(--rs-radius-md);
+  --rs-radio-tile-padding: calc(var(--rs-spacing) * 2.5);
+  --rs-radio-tile-mark-size: 48px;
+  --rs-radio-tile-spacing: calc(var(--rs-spacing) * 1.5);
+
+  border-radius: var(--rs-radio-tile-border-radius);
+  overflow: hidden;
+  border: 2px solid var(--rs-radio-tile-border);
+  padding: var(--rs-radio-tile-padding);
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  gap: var(--rs-radio-tile-spacing);
+  align-items: center;
+
+  &-label {
+    font-weight: bold;
+  }
+
+  &-content {
+    color: var(--rs-text-secondary);
+  }
+
+  &-mark {
+    background: var(--rs-radio-tile-checked-color);
+    border-bottom-left-radius: 50%;
+    height: var(--rs-radio-tile-mark-size);
+    width: var(--rs-radio-tile-mark-size);
+    position: absolute;
+    inset-inline-end: calc(var(--rs-radio-tile-mark-size) / -2);
+    top: calc(var(--rs-radio-tile-mark-size) / -2);
+    z-index: 3;
+    opacity: 0;
+
+    &-icon {
+      position: absolute;
+      font-size: var(--rs-font-size-md);
+      top: 25px;
+      inset-inline-start: 7px;
+      color: var(--rs-radio-tile-checked-mark-color);
+    }
+  }
+
+  &-checked &-mark {
+    opacity: 1;
+  }
+
+  &-checked#{&}-disabled {
+    border-color: var(--rs-radio-tile-checked-disabled-color);
+  }
+  
+  &-checked#{&}-disabled &-mark {
+    background-color: var(--rs-radio-tile-checked-disabled-color);
+  }
+
+  &-checked,
+  &:hover:not(#{&}-disabled) {
+    border: 2px solid var(--rs-radio-tile-checked-color);
+  }
+
+  &-disabled,
+  &-disabled &-content {
+    color: var(--rs-text-disabled);
+    cursor: var(--rs-cursor-disabled);
+  }
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  &-icon {
+    font-size: var(--rs-radio-tile-icon-size);
+  }
+}

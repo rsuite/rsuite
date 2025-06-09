@@ -35,7 +35,7 @@ const Field = ({ label, as: Component, defaultValue, ...rest }) => {
 const App = () => (
   <Stack direction="column" alignItems="flex-start" spacing={10}>
     <Field label="Name" as={Input} defaultValue="Foobar" />
-    <Field label="Bio" as={TextArea} defaultValue="I'm a software engineer." row={5} />
+    <Field label="Bio" as={Textarea} defaultValue="I'm a software engineer." row={5} />
     <Field
       label="Date of Birth"
       as={DatePicker}

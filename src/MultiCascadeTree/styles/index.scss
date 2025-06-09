@@ -1,0 +1,45 @@
+@use '../../CascadeTree/styles/index' as cascade-tree;
+@use '../../Checkbox/styles/index' as checkbox;
+@use '../../internals/Picker/styles/index' as picker;
+
+// MultiCascadeTree
+// ----------------------
+
+.rs-cascade-tree {
+  &-items {
+    --rs-check-item-padding-inline: calc(var(--rs-spacing) * 3);
+    --rs-check-item-padding-block: calc(var(--rs-spacing) * 2);
+  }
+
+  &-items .rs-checkbox-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--rs-spacing);
+    flex: 1 1 auto;
+  }
+
+  &-items .rs-check-item.rs-check-item-focus,
+  &-items .rs-check-item.rs-checkbox-checked {
+    .rs-checkbox-checker > label {
+      font-weight: bold;
+    }
+  }
+
+  &-column.rs-cascade-tree-column-uncheckable {
+    .rs-check-item .rs-checkbox-checker > label {
+      padding-inline-start: var(--rs-picker-item-content-padding-horizontal);
+    }
+  }
+}
+.rs-cascade-tree-multi {
+  .rs-cascade-search-view-row {
+    padding-inline-start: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .rs-cascade-search-view-col {
+    padding: 0;
+  }
+}

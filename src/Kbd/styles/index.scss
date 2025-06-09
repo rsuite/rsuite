@@ -1,0 +1,21 @@
+@use 'sass:list';
+@use '../../styles/themes';
+@use './variables';
+@use './mixin' as kbd-mixin;
+
+// Kbd
+// -------------------------
+
+.rs-kbd {
+  @include kbd-mixin.kbd();
+
+  // Size variants
+  $sizes: lg, md, sm, xs;
+
+  @each $size in $sizes {
+    &-#{$size} {
+      --rs-kbd-font-size: var(--rs-kbd-font-size-#{$size});
+      --rs-kbd-letter-spacing: var(--rs-kbd-letter-spacing-#{$size});
+    }
+  }
+}

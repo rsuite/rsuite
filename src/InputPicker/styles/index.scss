@@ -1,0 +1,60 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../Input/styles/index' as input;
+@use '../../SelectPicker/styles/index' as select-picker;
+@use '../../internals/Picker/styles/index' as picker;
+@use './mixin' as input-picker-mixin;
+
+.rs-picker[data-picker='input'] {
+  --rs-picker-textbox-margin-inline: var(--rs-picker-input-height);
+
+  position: relative;
+  border: 1px solid var(--rs-border-primary);
+  border-radius: var(--rs-radius-md);
+  transition: var(--rs-picker-transition);
+  background-color: var(--rs-input-bg);
+  overflow: hidden;
+
+  .rs-picker-toggle {
+    border: none !important;
+    height: var(--rs-picker-input-height);
+    cursor: text;
+  }
+
+  &:not([data-disabled='true']) .rs-picker-toggle {
+    position: absolute !important;
+  }
+
+  $sizes: xs, sm, md, lg;
+  @each $size in $sizes {
+    &[data-size='#{$size}'] {
+      --rs-picker-input-height: calc(var(--rs-btn-size-#{$size}) - 2px);
+      --rs-picker-search-input-font-size: var(--rs-input-font-size-#{$size});
+      --rs-picker-search-input-line-height: var(--rs-input-line-height-#{$size});
+      --rs-picker-search-input-padding-block: var(--rs-input-padding-block-#{$size});
+      --rs-picker-search-input-padding-inline: var(--rs-input-padding-inline-#{$size});
+    }
+  }
+
+  .rs-picker-textbox {
+    margin-inline-end: var(--rs-picker-textbox-margin-inline);
+    height: var(--rs-picker-input-height);
+  }
+}
+
+.rs-picker-search {
+  border: none;
+  width: 100%;
+
+  &-input {
+    font-size: var(--rs-picker-search-input-font-size);
+    line-height: var(--rs-picker-search-input-line-height);
+    padding-block: var(--rs-picker-search-input-padding-block);
+    padding-inline: var(--rs-picker-search-input-padding-inline);
+    background: none;
+    outline: none;
+    border: none;
+    width: 100%;
+    position: relative;
+    padding-inline-end: 0;
+  }
+}

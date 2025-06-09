@@ -1,10 +1,12 @@
+@use '../../../styles/variables' as vars;
+
 // Define breakpoints map
 $breakpoints: (
-  xs: var(--screen-sm),
-  sm: var(--screen-md),
-  md: var(--screen-lg),
-  lg: var(--screen-xl),
-  xl: var(--screen-xxl)
+  xs: vars.$screen-sm,
+  sm: vars.$screen-md,
+  md: vars.$screen-lg,
+  lg: vars.$screen-xl,
+  xl: vars.$screen-xxl
 );
 
 // Define style property maps

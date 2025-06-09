@@ -1,0 +1,373 @@
+@use '../../styles/mixins/utilities' as utilities;
+@use '../../styles/mixins/hacks' as hacks;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../internals/Ripple/styles/mixins' as ripple;
+@use '../../Dropdown/styles/index' as dropdown;
+
+//
+// Navs
+// --------------------------------------------------
+
+// Base class
+// --------------------------------------------------
+.rs-nav {
+  --rs-nav-caret-font-size: var(--rs-font-size-md);
+  --rs-nav-pills-item-shadow: var(--rs-shadow-sm);
+  --rs-nav-item-transition: color 0.15s ease-out, background-color 0.15s ease-out;
+
+
+  position: relative;
+  outline: 0;
+
+  // Rest dropdown height
+  .rs-dropdown > .rs-dropdown-toggle {
+    height: 36px;
+    vertical-align: bottom;
+  }
+
+  // Ripple
+  .rs-nav-default &-item,
+  .rs-nav-tabs &-item {
+    @include ripple.with-ripple;
+
+    & {
+      transition: var(--rs-nav-item-transition);
+    }
+  }
+}
+
+// Nav item
+.rs-nav-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--rs-navs-text);
+  font-size: var(--rs-font-size-sm);
+  background: transparent;
+  transition: var(--rs-nav-item-transition);
+  @include utilities.ellipsis-basic;
+  @include hacks.safari-border-radius-overflow-hidden;
+
+  & {
+    outline: none;
+  }
+  @include utilities.reset-link-text-decoration(none);
+
+  @include color-modes.high-contrast-mode {
+    transition: none;
+  }
+
+  &:hover,
+  &:focus,
+  &.rs-nav-item-focus {
+    color: var(--rs-navs-text-hover);
+
+    @include color-modes.high-contrast-mode {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    @include utilities.focus-ring-slim;
+    z-index: 2;
+  }
+
+  &:active {
+    color: var(--rs-navs-text-active);
+
+    @include color-modes.high-contrast-mode {
+      text-decoration: underline;
+    }
+  }
+
+  &.rs-nav-item-disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: var(--rs-text-disabled);
+  }
+
+  &.rs-nav-item-active {
+    position: relative;
+    color: var(--rs-navs-selected);
+    z-index: 1;
+
+    @include color-modes.high-contrast-mode {
+      text-decoration: underline;
+    }
+  }
+
+  &-icon {
+    margin-inline-end: 6px;
+  }
+
+  &-caret {
+    font-size: var(--rs-nav-caret-font-size);
+    vertical-align: text-bottom;
+    margin-inline-start: 6px;
+  }
+}
+
+// Orientations
+.rs-nav-horizontal {
+  white-space: nowrap;
+
+  > .rs-nav-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+  }
+
+  // Waterline
+  .rs-nav-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    // ** Reversed
+    .rs-nav-reversed & {
+      bottom: auto;
+      top: 0;
+    }
+  }
+}
+
+.rs-nav-vertical {
+  > .rs-nav-item {
+    display: flex;
+    align-items: center;
+  }
+
+  > .rs-dropdown {
+    width: 100%;
+
+    > .rs-dropdown-toggle {
+      width: 100%;
+      text-align: start;
+      z-index: 0;
+    }
+  }
+
+  // Waterline
+  .rs-nav-bar {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-end: 0;
+
+    .rs-nav-reversed & {
+      inset-inline-end: auto;
+    }
+  }
+}
+
+// Alternate Navs
+// --------------------------------------------------
+
+// Default Nav
+.rs-nav-default {
+  .rs-nav-item {
+    border-radius: var(--rs-radius-md);
+
+    &:hover {
+      background: var(--rs-navs-bg-hover);
+    }
+  }
+}
+
+// Tab Nav
+.rs-nav-tabs {
+  .rs-nav-item {
+    &:hover,
+    &:focus {
+      background: var(--rs-navs-bg-hover);
+    }
+
+    &.rs-nav-item-active {
+      border: 1px solid var(--rs-navs-tab-border);
+      background-color: var(--rs-bg-card);
+      z-index: 1;
+    }
+  }
+
+  // Horizontal
+  &.rs-nav-horizontal {
+    //Nav content
+    > .rs-nav-item,
+    > .rs-dropdown .rs-dropdown-toggle {
+      border-top-left-radius: var(--rs-radius-md);
+      border-top-right-radius: var(--rs-radius-md);
+
+      .rs-nav-reversed & {
+        border-top-left-radius: var(--rs-radius-none);
+        border-top-right-radius: var(--rs-radius-none);
+        border-bottom-left-radius: var(--rs-radius-md);
+        border-bottom-right-radius: var(--rs-radius-md);
+      }
+    }
+
+    // ** Waterline
+    .rs-nav-bar {
+      border-top: 1px solid var(--rs-navs-tab-border);
+    }
+
+    // ** Active
+    .rs-nav-item.rs-nav-item-active {
+      border-bottom-width: 0;
+
+      // Reversed
+      .rs-nav-reversed & {
+        border-bottom-width: 1px;
+        border-top-width: 0;
+      }
+    }
+  }
+
+  // Vertical
+  &.rs-nav-vertical {
+    //Nav content
+    > .rs-nav-item,
+    > .rs-dropdown .rs-dropdown-toggle {
+      border-top-left-radius: var(--rs-radius-md);
+      border-bottom-left-radius: var(--rs-radius-md);
+
+      .rs-nav-reversed & {
+        border-top-left-radius: var(--rs-radius-none);
+        border-bottom-left-radius: var(--rs-radius-none);
+        border-top-right-radius: var(--rs-radius-md);
+        border-bottom-right-radius: var(--rs-radius-md);
+      }
+    }
+
+    // ** Waterline
+    .rs-nav-bar {
+      width: 1px;
+      background: var(--rs-navs-tab-border);
+    }
+
+    // ** Active
+    .rs-nav-item.rs-nav-item-active {
+      border-right-width: 0;
+
+      // Reversed
+      .rs-nav-reversed & {
+        border-right-width: 1px;
+        border-left-width: 0;
+      }
+    }
+  }
+}
+
+// Subtle Nav
+.rs-nav-subtle {
+  .rs-nav-item {
+    position: relative;
+
+    &:hover,
+    &:focus {
+      color: var(--rs-navs-selected);
+    }
+
+    &.rs-nav-item-active::before {
+      content: '';
+      position: absolute;
+      background-color: var(--rs-navs-selected);
+      display: block;
+      z-index: 1;
+    }
+  }
+
+  // Horizontal
+  &.rs-nav-horizontal {
+    //Waterline
+    .rs-nav-bar {
+      border-top: 2px solid var(--rs-navs-subtle-border);
+    }
+
+    // Active item
+    .rs-nav-item.rs-nav-item-active::before {
+      bottom: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      height: 2px;
+      // Reversed
+      .rs-nav-reversed & {
+        bottom: auto;
+        top: 0;
+      }
+    }
+  }
+
+  // Vertical
+  &.rs-nav-vertical {
+    // Waterline
+    .rs-nav-bar {
+      width: 2px;
+      background: var(--rs-navs-subtle-border);
+    }
+
+    // Active item
+    .rs-nav-item.rs-nav-item-active::before {
+      inset-inline-end: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      // Reversed
+      .rs-nav-reversed & {
+        inset-inline-end: auto;
+        inset-inline-start: 0;
+      }
+    }
+  }
+}
+
+// Pills Nav
+.rs-nav-pills {
+  display: inline-flex;
+  background-color: var(--rs-navs-pills-bg);
+  border-radius: var(--rs-radius-md);
+  padding: 4px;
+  width: max-content;
+
+  .rs-nav-item {
+    border-radius: var(--rs-radius-md);
+    position: relative;
+    padding: 4px 12px;
+    color: var(--rs-navs-pills-item-color);
+
+    &-active {
+      background-color: var(--rs-navs-pills-item-active-bg);
+      color: var(--rs-navs-pills-item-active-color);
+      box-shadow: var(--rs-nav-pills-item-shadow);
+    }
+
+    &-disabled {
+      color: var(--rs-navs-pills-item-disabled-color);
+    }
+  }
+
+  &.rs-nav-vertical {
+    flex-direction: column;
+
+    .rs-nav-item {
+      padding: 6px 12px;
+      justify-content: center;
+    }
+  }
+}
+
+// Justified
+.rs-nav-justified {
+  display: flex;
+  width: 100%;
+
+  > .rs-nav-item,
+  > .rs-dropdown {
+    flex: 1 1 1%;
+  }
+
+  > .rs-dropdown .rs-dropdown-toggle {
+    width: 100%;
+    text-align: start;
+  }
+}

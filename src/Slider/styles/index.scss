@@ -1,0 +1,297 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../Tooltip/styles/index' as tooltip;
+@use '../../styles/mixins/color-modes' as color-modes;
+
+//
+// Slider
+// --------------------------------------------------
+.rs-slider {
+  --rs-slider-size: 6px;
+  --rs-slider-mark-mt: 9px;
+  --rs-slider-handle-size: 12px;
+  --rs-slider-handle-bw: 2px;
+  --rs-slider-calibration-size: 4px;
+  --rs-slider-calibration-bw: 2px;
+  --rs-slider-handle-ratio: 2;
+  --rs-slider-transition: 0.15s ease-in-out;
+  --rs-tooltip-offset: 0;
+
+  position: relative;
+
+  .rs-tooltip {
+    left: var(--rs-tooltip-offset);
+    display: none;
+  }
+
+  &-disabled {
+    opacity: 0.5;
+    cursor: var(--rs-cursor-disabled);
+
+    .rs-slider-bar,
+    .rs-slider-handle::before {
+      pointer-events: none;
+    }
+  }
+
+  &-with-mark:not(&-vertical) {
+    //White space for mark
+    margin-bottom: calc(var(--rs-line-height-base) + var(--rs-slider-mark-mt));
+  }
+
+  &:where([data-size='xs']) {
+    --rs-slider-size: 4px;
+    --rs-slider-handle-size: 8px;
+    --rs-slider-calibration-size: 0;
+  }
+
+  &:where([data-size='md']) {
+    --rs-slider-size: 8px;
+    --rs-slider-handle-size: 16px;
+    --rs-slider-calibration-size: 6px;
+  }
+
+  &:where([data-size='lg']) {
+    --rs-slider-size: 10px;
+    --rs-slider-handle-size: 20px;
+    --rs-slider-calibration-size: 8px;
+  }
+
+  &:where([data-size='xl']) {
+    --rs-slider-size: 12px;
+    --rs-slider-handle-size: 24px;
+    --rs-slider-calibration-size: 10px;
+  }
+}
+
+// Bar
+.rs-slider-bar {
+  height: var(--rs-slider-size);
+  border-radius: var(--rs-radius-sm);
+  background-color: var(--rs-slider-bar);
+  transition: background-color ease-in-out 0.3s;
+  cursor: pointer;
+
+  .rs-slider:hover & {
+    background-color: var(--rs-slider-hover-bar);
+  }
+
+  .rs-slider-vertical & {
+    height: 100%;
+    width: var(--rs-slider-size);
+  }
+}
+
+// Handle
+.rs-slider-handle {
+  position: absolute;
+  top: -50%;
+  outline: none;
+  left: var(--rs-slider-offset);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: var(--rs-slider-handle-size);
+    height: var(--rs-slider-handle-size);
+    border-radius: var(--rs-radius-full);
+    border-width: var(--rs-slider-handle-bw);
+    border-style: solid;
+    border-color: var(--rs-slider-thumb-border);
+    background-color: var(--rs-slider-thumb-bg);
+    margin-inline-start: calc(var(--rs-slider-handle-size) / -2);
+    cursor: pointer;
+    transition:
+      box-shadow var(--rs-slider-transition),
+      background-color var(--rs-slider-transition),
+      transform var(--rs-slider-transition);
+  }
+
+  &:hover::before,
+  &:focus::before {
+    box-shadow: var(--rs-slider-thumb-hover-shadow);
+  }
+
+  &:active,
+  &.active {
+    &::before {
+      transform: scale(1.2);
+    }
+  }
+
+  .rs-slider-vertical & {
+    left: unset;
+    top: unset;
+    bottom: var(--rs-slider-offset);
+
+    &::before {
+      inset-inline-start: calc((var(--rs-slider-handle-size) - var(--rs-slider-size)) / 2);
+      margin-top: calc(var(--rs-slider-handle-size) / -2);
+    }
+  }
+}
+
+.rs-slider-handle:hover .rs-tooltip,
+.rs-slider-handle.active .rs-tooltip {
+  display: block;
+  opacity: 1;
+  top: -30px;
+
+  .rs-slider-vertical & {
+    top: -12px;
+    margin-inline-start: -36px;
+  }
+}
+
+// Mark
+.rs-slider-mark {
+  position: absolute;
+  top: calc(var(--rs-slider-size) + var(--rs-slider-mark-mt));
+  white-space: nowrap;
+
+  &-content {
+    margin-inline-start: calc(-50% + 2px);
+  }
+}
+
+.rs-slider-mark-last {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+
+  .rs-slider-mark-content {
+    margin-inline-start: calc(50% - 2px);
+  }
+}
+
+// Graduator
+.rs-slider-graduator {
+  --rs-slider-tick-offset: 0;
+  width: 100%;
+
+  .rs-slider-tick {
+    &[data-active='true']::before {
+      visibility: hidden;
+    }
+  }
+  &[data-with-marks='true'] {
+    .rs-slider-tick {
+      position: absolute;
+      left: var(--rs-slider-tick-offset);
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+
+  ol,
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  > ol {
+    display: flex;
+    padding-inline-start: 0;
+    width: 100%;
+
+    > li {
+      flex: 1 1 1%;
+      position: relative;
+
+      &:last-child::after,
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: var(--rs-slider-calibration-size);
+        height: var(--rs-slider-calibration-size);
+        border-radius: var(--rs-radius-full);
+        background-color: var(--rs-slider-thumb-bg);
+        box-sizing: border-box;
+        margin-inline: 2px;
+        top: 1px;
+
+        // Vertical styles
+        .rs-slider-vertical & {
+          top: unset;
+          bottom: 2px;
+          margin-inline-start: 1px;
+        }
+      }
+
+      &:last-child::after {
+        inset-inline-end: 0;
+
+        // Vertical styles
+        .rs-slider-vertical & {
+          inset-inline-start: 0;
+          bottom: unset;
+          top: 2px;
+        }
+      }
+    }
+  }
+
+  // Vertical styles
+  .rs-slider-vertical & {
+    display: block;
+    height: 100%;
+
+    &[data-with-marks='true'] {
+      .rs-slider-tick {
+        left: unset;
+        bottom: var(--rs-slider-tick-offset);
+      }
+    }
+
+    > ol {
+      width: var(--rs-slider-size);
+      display: flex;
+      flex-direction: column-reverse;
+      height: 100%;
+      padding: 0;
+
+      & > li {
+        display: block;
+        padding: 0;
+      }
+    }
+  }
+}
+
+// Progress bar
+.rs-slider-progress-bar {
+  position: absolute;
+  height: var(--rs-slider-size);
+  border-top-left-radius: var(--rs-radius-sm);
+  border-bottom-left-radius: var(--rs-radius-sm);
+  background-color: var(--rs-slider-progress);
+
+  .rs-slider-vertical & {
+    width: var(--rs-slider-size);
+    border-bottom-left-radius: var(--rs-radius-sm);
+    border-bottom-right-radius: var(--rs-radius-sm);
+  }
+}
+
+// Vertical
+.rs-slider-vertical {
+  height: 100%;
+
+  // Reset all setting
+  .rs-slider-mark {
+    top: unset;
+    bottom: -8px;
+    inset-inline-start: calc(var(--rs-slider-size) + var(--rs-slider-mark-mt));
+
+    &-content {
+      margin-inline-start: auto;
+    }
+  }
+
+  .rs-slider-mark-last {
+    bottom: unset;
+    top: -8px;
+  }
+}

@@ -1,0 +1,137 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../InputPicker/styles/index' as input-picker;
+@use '../../CheckPicker/styles/index' as check-picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+
+.rs-picker[data-picker='tag'] {
+  --rs-tag-picker-input-font-size-xs: var(--rs-font-size-xs);
+  --rs-tag-picker-input-font-size-sm: var(--rs-font-size-sm);
+  --rs-tag-picker-input-font-size-md: var(--rs-font-size-sm);
+  --rs-tag-picker-input-font-size-lg: var(--rs-font-size-md);
+  --rs-tag-border-radius: var(--rs-radius-sm);
+  --rs-tag-picker-padding-block: calc(var(--rs-padding-block-md) - 1px);
+
+  position: relative;
+  border: 1px solid var(--rs-border-primary);
+  border-radius: var(--rs-radius-md);
+  transition: var(--rs-picker-transition);
+  background-color: var(--rs-input-bg);
+  overflow: hidden;
+
+  .rs-picker-toggle {
+    position: absolute;
+    height: 100%;
+    border: none !important;
+    height: var(--rs-picker-input-height, 100%);
+    inset-inline-start: 0;
+    cursor: text;
+    box-shadow: none;
+    padding-block: var(--rs-tag-picker-padding-block);
+  }
+
+  .rs-picker-textbox {
+    // Set the minimum width of the text box according to the default 20 characters in the browser
+    // Consistent with InputPicker
+    min-width: calc(20 * 0.5875rem);
+    margin-inline-end: var(--rs-picker-textbox-min-height);
+  }
+
+  .rs-tag {
+    vertical-align: top;
+    @include utils.ellipsis-basic();
+  }
+
+  .rs-picker-search {
+    > input {
+      background: none;
+      outline: none;
+      border: none;
+      width: 100%;
+    }
+
+    &,
+    &-input,
+    &-input > input {
+      display: inline-block;
+      width: auto;
+      min-width: 14px;
+    }
+
+    &-input > input {
+      padding: 0;
+      border: transparent;
+      background: transparent;
+    }
+  }
+
+  .rs-picker-textbox {
+    min-height: var(--rs-picker-textbox-min-height, 34px);
+    position: relative;
+    // make sure tag in front of toggle
+    z-index: calc(var(--rs-zindex-picker-toggle) + 1);
+
+    .rs-picker-search-input {
+      font-size: var(--rs-tag-picker-input-font-size, 0.875rem);
+      padding: var(--rs-tag-picker-input-padding, 2px 4px);
+    }
+  }
+
+  .rs-picker-tag-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--rs-tag-spacing, 4px);
+    padding: var(--rs-tag-list-padding, 4px);
+    padding-inline-end: 0;
+
+    .rs-tag {
+      border-radius: var(--rs-tag-border-radius);
+    }
+  }
+}
+
+.rs-plaintext .rs-tag {
+  margin: 0;
+}
+
+// Tag Picker Size
+// --------------------------------------------------
+.rs-picker[data-picker='tag'] {
+  &[data-size='lg'] {
+    --rs-tag-spacing: 5px;
+    --rs-tag-list-padding: 5px;
+    --rs-picker-textbox-min-height: 40px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-lg);
+    --rs-tag-picker-input-padding: 3px 5px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-lg);
+  }
+
+  // Default size
+  &[data-size='md'] {
+    --rs-tag-spacing: 5px;
+    --rs-tag-list-padding: 5px;
+    --rs-picker-textbox-min-height: 34px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-md);
+    --rs-tag-picker-input-padding: 2px 4px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-md);
+  }
+
+  &[data-size='sm'] {
+    --rs-tag-spacing: 4px;
+    --rs-tag-list-padding: 4px;
+    --rs-picker-textbox-min-height: 28px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-sm);
+    --rs-tag-picker-input-padding: 0 2px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-sm);
+  }
+
+  &[data-size='xs'] {
+    --rs-tag-spacing: 2px;
+    --rs-tag-list-padding: 1px;
+    --rs-picker-textbox-min-height: 22px;
+    --rs-tag-picker-input-font-size: var(--rs-tag-picker-input-font-size-xs);
+    --rs-tag-picker-input-padding: 0 1px;
+    --rs-tag-picker-padding-block: var(--rs-btn-padding-block-xs);
+  }
+}

@@ -1,0 +1,188 @@
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../styles/mixins/utilities' as utils;
+
+//
+// Messages
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+
+.rs-message {
+  --rs-message-font-size: var(--rs-font-size-sm);
+  --rs-message-line-height: var(--rs-text-line-height-sm);
+  --rs-message-border-radius: var(--rs-radius-md);
+  --rs-message-icon-size: var(--rs-font-size-md);
+  --rs-message-padding: calc(var(--rs-spacing) * 4);
+  --rs-message-header-color: var(--rs-text-heading);
+  --rs-message-body-color: var(--rs-text-primary);
+  --rs-message-icon-color: var(--rs-text-secondary);
+  --rs-message-spacing: calc(var(--rs-spacing) * 2);
+
+  border-radius: var(--rs-message-border-radius);
+  font-size: var(--rs-message-font-size);
+  line-height: var(--rs-message-line-height);
+  position: relative;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  background: #fff;
+
+  // Alternate styles
+  // -------------------------
+  // Generate contextual modifier classes for colorizing the message.
+  $types: success, info, warning, error;
+  @each $type in $types {
+    &.rs-message-#{$type} {
+      --rs-message-bg-color: var(--rs-message-#{$type}-bg);
+      --rs-message-header-color: var(--rs-message-#{$type}-header);
+      --rs-message-body-color: var(--rs-message-#{$type}-text);
+      --rs-message-icon-color: var(--rs-message-#{$type}-icon);
+      --rs-message-border-color: var(--rs-message-#{$type}-border);
+      --rs-message-icon-border-color: var(--rs-message-#{$type}-icon-border);
+    }
+  }
+
+  @include color-modes.high-contrast-mode {
+    border: 1px solid var(--rs-message-border-color);
+  }
+
+  &-container {
+    background-color: var(--rs-message-bg-color);
+    padding: var(--rs-message-padding);
+    display: flex;
+    align-items: baseline;
+    gap: var(--rs-message-spacing);
+  }
+
+  // Message with a title
+  &.rs-message-has-title {
+    --rs-message-icon-size: var(--rs-font-size-2xl);
+
+    // Bigger icon
+    .rs-message-icon {
+      align-self: flex-start;
+
+      .rs-icon {
+        line-height: 1;
+      }
+    }
+  }
+
+  &-bordered {
+    border: 1px solid var(--rs-message-border-color);
+    border-left-width: 4px;
+
+    .rs-message-icon {
+      box-sizing: content-box;
+      border: 4px solid var(--rs-message-icon-border-color);
+      border-radius: 50%;
+    }
+  }
+
+  &.rs-message-centered {
+    --rs-message-icon-size: var(--rs-font-size-5xl);
+
+    .rs-message-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: calc(var(--rs-spacing) * 4);
+    }
+
+    .rs-message-icon {
+      align-self: center;
+    }
+
+    &.rs-message-bordered {
+      border-style: solid;
+      border-width: 4px 1px 1px 1px;
+      border-color: var(--rs-message-border-color);
+
+      .rs-message-icon {
+        box-sizing: content-box;
+        border: 4px solid var(--rs-message-icon-border-color);
+        border-radius: var(--rs-radius-full);
+      }
+    }
+  }
+
+  // Message icon
+  &-icon {
+    align-self: center;
+    font-size: 0; // remove whitespace before svg
+
+    // Icon
+    .rs-icon {
+      font-size: var(--rs-message-icon-size);
+      align-items: center;
+    }
+  }
+
+  &-content {
+    flex-grow: 1;
+  }
+
+  // Header
+  &-header {
+    color: var(--rs-message-header-color);
+    line-height: var(--rs-text-line-height-md);
+    font-weight: bold;
+    @include utils.ellipsis;
+
+    & + .rs-message-body {
+      margin-top: 4px;
+    }
+  }
+
+  // Description
+  &-body {
+    color: var(--rs-message-body-color);
+    ul,
+    ol {
+      margin: 0;
+      padding: 0;
+      padding-inline-start: 16px;
+    }
+  }
+
+  .rs-message-icon > .rs-icon,
+  .rs-btn-close {
+    color: var(--rs-message-icon-color);
+  }
+
+  // Multiple messages should have spacing
+  // Hiding Message haven't spacing.
+  &:not(.rs-message-hiding) + & {
+    margin-top: 10px;
+
+    //The last message hiding haven't clearance.
+    &.rs-message-hiding:last-child {
+      transition: margin-top 0.1s linear 0.3s;
+      margin-top: 0;
+    }
+  }
+
+  &.rs-message-hiding {
+    // The same with notification
+    animation: notificationMoveOut 0.3s ease-in forwards;
+  }
+
+  // In dark mode, links inside Message body shows underline by default
+  @include color-modes.dark-mode {
+    .rs-btn-link,
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Full the containers
+.rs-message-full {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  border-radius: var(--rs-radius-none);
+  z-index: var(--rs-zindex-message-full);
+}

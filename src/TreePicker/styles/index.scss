@@ -1,0 +1,16 @@
+@use '../../Tree/styles/index';
+
+.rs-picker-popup {
+  .rs-tree {
+    &.rs-tree-virtualized {
+      padding: 0;
+    }
+
+    &-node {
+      margin: 0;
+    }
+  }
+  .rs-tree-view {
+    padding: 2px 4px;
+  }
+}

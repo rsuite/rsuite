@@ -1,0 +1,8 @@
+.rs-stat-group {
+  --rs-stat-group-columns: 4;
+  --rs-stat-group-spacing: 6px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--rs-stat-group-columns), 1fr);
+  grid-gap: var(--rs-stat-group-spacing);
+}

@@ -1,0 +1,113 @@
+@use '../../styles/mixins/utilities' as utils;
+@use '../../IconButton/styles/index' as icon-button;
+@use '../../Tooltip/styles/index' as tooltip;
+
+.rs-stat {
+  --rs-stat-icon-size: 50px;
+  --rs-stat-border-radius: var(--rs-radius-md);
+  --rs-stat-spacing: calc(var(--rs-spacing) * 2.5);
+  --rs-stat-value-font-size: var(--rs-font-size-2xl);
+  --rs-stat-value-unit-font-size: var(--rs-font-size-xs);
+  --rs-stat-trend-font-size: var(--rs-font-size-xs);
+
+  display: flex;
+  gap: var(--rs-stat-spacing);
+  align-items: center;
+
+  &-icon {
+    width: var(--rs-stat-icon-size);
+    height: var(--rs-stat-icon-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rs-stat-border-radius);
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--rs-spacing) * 2);
+    width: 100%;
+    margin: 0;
+  }
+
+  &-bordered {
+    border: 1px solid var(--rs-border-primary);
+    background-color: var(--rs-stat-body-bg);
+    border-radius: var(--rs-stat-border-radius);
+    padding: 16px;
+  }
+
+  &-label {
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    color: var(--rs-text-secondary);
+    gap: calc(var(--rs-spacing) * 1.5);
+
+    &-uppercase {
+      text-transform: uppercase;
+    }
+  }
+
+  &-value {
+    display: flex;
+    gap: var(--rs-spacing);
+    align-items: baseline;
+    font-size: var(--rs-stat-value-font-size);
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+  }
+
+  &-value-unit {
+    font-size: var(--rs-stat-value-unit-font-size);
+    font-weight: 400;
+  }
+
+  &-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--rs-spacing) / 2);
+    border-radius: var(--rs-radius-sm);
+    font-weight: 600;
+    font-size: var(--rs-stat-trend-font-size);
+    line-height: 1;
+
+    &-up {
+      color: var(--rs-green-900);
+    }
+
+    &-down {
+      color: var(--rs-red-900);
+    }
+
+    &-default {
+      padding: 2px 6px;
+    }
+
+    &-default.rs-stat-trend-up {
+      background-color: var(--rs-green-100);
+    }
+
+    &-default.rs-stat-trend-down {
+      background-color: var(--rs-red-100);
+    }
+
+    &-subtle.rs-stat-trend-up {
+      color: var(--rs-green-600);
+    }
+
+    &-subtle.rs-stat-trend-down {
+      color: var(--rs-red-600);
+    }
+  }
+
+  &-help-text {
+    color: var(--rs-text-secondary);
+  }
+
+  .rs-progress-line {
+    padding: 0;
+  }
+}

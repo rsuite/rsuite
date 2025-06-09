@@ -1,0 +1,56 @@
+@use '../../styles/mixins/hacks' as hacks;
+@use '../../styles/mixins/color-modes' as color-modes;
+
+// Draw a triangle towards given direction
+// @mixin tooltip-arrow($direction, $size, $color)
+//
+// $direction: top | right | bottom | left
+// $size:      Size (height) of the triangle
+// $color:     Filling color of the triangle
+
+@mixin tooltip-arrow($direction, $size, $color) {
+  @if $direction == top {
+    top: -$size;
+    margin-left: -$size;
+    border-width: 0 $size $size;
+    border-bottom-color: $color;
+  } @else if $direction == bottom {
+    bottom: -$size;
+    margin-left: -$size;
+    border-width: $size $size 0;
+    border-top-color: $color;
+  } @else if $direction == right {
+    right: -$size;
+    margin-top: -$size;
+    border-width: $size 0 $size $size;
+    border-left-color: $color;
+  } @else if $direction == left {
+    left: -$size;
+    margin-top: -$size;
+    border-width: $size $size $size 0;
+    border-right-color: $color;
+  }
+}
+
+// Append tooltip's arrow to tooltip
+// $direction: The arrow's pointing direction. It's usually opposite of tooltip's placement
+//             e.g. tooltip[placement="top"] has an arrow[direction="bottom"]
+// $size:      The arrow's size (height)
+// $bg:        The arrow's background color, usually equal to tooltip's background
+// $border:    The arrow's border color, usually equal to tooltip's border (which only take effect
+//             in high-contrast theme)
+@mixin with-tooltip-arrow($direction, $size: 6px, $bg: var(--rs-tooltip-bg), $border: var(--rs-tooltip-border)) {
+  &::after {
+    @include tooltip-arrow($direction, $size, $bg);
+  }
+
+  @include color-modes.high-contrast-mode {
+    &::before {
+      @include tooltip-arrow($direction, $size + 1px, $border);
+    }
+  }
+}
+
+@mixin set-translate-transition($x, $y) {
+  transform: translate($x, $y);
+}

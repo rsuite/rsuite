@@ -1,0 +1,43 @@
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/listbox' as listbox;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../internals/Picker/styles/mixin' as picker-mixin;
+
+// Select Picker
+// ----------------------
+
+// Menu Items (the listbox)
+.rs-picker-select-menu-items {
+  @include listbox.listbox();
+  @include picker-mixin.picker-menu-group-common(picker);
+  @include picker-mixin.picker-menu-group-title(picker);
+  @include picker-mixin.picker-menu-group-closed(picker);
+
+  .rs-picker-menu-group ~ [role='option'] > .rs-picker-select-menu-item {
+    padding-inline-start: 26px;
+  }
+}
+
+// Menu item (the option)
+.rs-picker-select-menu-item {
+  @include listbox.listbox-option();
+
+  &:hover,
+  &:focus,
+  &.rs-picker-select-menu-item-focus {
+    @include listbox.listbox-option-active();
+  }
+
+  &.rs-picker-select-menu-item-active {
+    @include picker-mixin.picker-item-active();
+
+    color: var(--rs-listbox-option-selected-text);
+    background-color: var(--rs-listbox-option-selected-bg);
+  }
+
+  &.rs-picker-select-menu-item-disabled {
+    color: var(--rs-listbox-option-disabled-text);
+    background: none;
+    cursor: var(--rs-cursor-disabled);
+  }
+}
