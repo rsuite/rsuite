@@ -1,3 +1,26 @@
+@keyframes move {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes pathDraw {
+  0% {
+    stroke-dashoffset: 500;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.2;
+  }
+}
+
 @mixin run-offset($path) {
   offset-path: path($path);
 }
@@ -6,6 +29,7 @@
   width: 500px;
   height: 500px;
   opacity: 0.5;
+
   path.bg {
     opacity: 0.2;
     stroke-dasharray: 500;
@@ -40,28 +64,5 @@
     animation-play-state: running;
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes move {
-  0% {
-    offset-distance: 0%;
-  }
-  100% {
-    offset-distance: 100%;
-  }
-}
-
-@keyframes pathDraw {
-  0% {
-    stroke-dashoffset: 500;
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.2;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0.2;
   }
 }

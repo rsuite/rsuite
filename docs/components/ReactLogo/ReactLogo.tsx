@@ -1,13 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './ReactLogo.module.scss';
 
-interface ReactLogoProps {
+interface ReactLogoProps extends React.HTMLAttributes<HTMLDivElement> {
   pathFillColor?: string;
   pathStrokeColor?: string;
   pathStrokeWidth?: string;
   running?: boolean;
-  className?: string;
 }
 
 export default function ReactLogo(props: ReactLogoProps) {
@@ -16,23 +14,15 @@ export default function ReactLogo(props: ReactLogoProps) {
     pathStrokeColor = '#555',
     pathStrokeWidth = 4,
     running,
-    className,
+    className = '',
     ...rest
   } = props;
   const runningClassName = running ? 'running' : '';
   return (
-    <div
-      {...rest}
-      className={classNames(
-        styles['react-logo'],
-        styles['logo-animated'],
-        styles['zoomIn'],
-        className
-      )}
-    >
+    <div {...rest} className={classNames('react-logo logo-animated zoomIn', className)}>
       <svg viewBox="100 100 200 200">
         <path
-          className={styles['bg']}
+          className="bg"
           fill={pathFillColor}
           stroke={pathStrokeColor}
           strokeWidth={pathStrokeWidth}
@@ -41,7 +31,7 @@ export default function ReactLogo(props: ReactLogoProps) {
           }
         />
         <path
-          className={styles['bg']}
+          className="bg"
           fill={pathFillColor}
           stroke={pathStrokeColor}
           strokeWidth={pathStrokeWidth}
@@ -50,7 +40,7 @@ export default function ReactLogo(props: ReactLogoProps) {
           }
         />
         <path
-          className={styles['bg']}
+          className="bg"
           fill={pathFillColor}
           stroke={pathStrokeColor}
           strokeWidth={pathStrokeWidth}
@@ -59,14 +49,14 @@ export default function ReactLogo(props: ReactLogoProps) {
           }
         />
         <circle
-          className={classNames(styles['react-logo-run'], runningClassName)}
+          className={`react-logo-run ${runningClassName}`}
           fill="#638cc8"
           cx="0"
           cy="0"
           r="4"
         />
         <circle
-          className={classNames(styles['react-logo-run-2'], runningClassName)}
+          className={`react-logo-run-2 ${runningClassName}`}
           fill="#638cc8"
           cx="0"
           cy="0"
