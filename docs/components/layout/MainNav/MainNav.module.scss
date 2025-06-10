@@ -1,0 +1,160 @@
+@use '../../../styles/variables' as vars;
+
+.main-nav {
+  background: var(--rs-gray-900);
+  position: absolute;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  text-align: center;
+  box-sizing: border-box;
+
+  @media (max-width: vars.$screen-md) {
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  @media (min-width: vars.$screen-md) {
+    position: fixed;
+    padding: 10px 0;
+    width: 64px;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  &-header {
+    //display: inline-block;
+    float: right;
+
+    @media (min-width: vars.$screen-md) {
+      float: none;
+      margin-top: 20px;
+    }
+
+    .btn {
+      &:active,
+      &:focus {
+        color: white;
+        background: inherit;
+      }
+    }
+  }
+  &-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    text-align: center;
+    display: none;
+
+    @media (min-width: vars.$screen-md) {
+      display: block;
+    }
+  }
+  &-footer,
+  &-header {
+    :global(.rs-icon) {
+      color: #fff;
+    }
+    :global(.rs-btn svg) {
+      fill: #fff;
+    }
+  }
+
+  .logo-sm {
+    margin-top: 9px;
+
+    @media (min-width: vars.$screen-md) {
+      margin-top: 5px;
+    }
+  }
+
+  :global(.rs-btn) {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-gray-800);
+    }
+  }
+
+  .icon-btn-circle {
+    background: none;
+    border: none;
+    padding: 13px;
+    border-radius: 24px;
+    color: #fff;
+    width: 42px;
+    height: 42px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+
+    @media (min-width: vars.$screen-md) {
+      margin-top: 0px;
+      margin-bottom: 6px;
+    }
+
+    &.visible-xs {
+      display: none;
+
+      @media (min-width: vars.$screen-md) {
+        display: inline-block;
+      }
+    }
+
+    &.hidden-xs {
+      display: inline-block;
+
+      @media (min-width: vars.$screen-md) {
+        display: none;
+      }
+    }
+
+    :global(.rs-icon) {
+      line-height: 18px;
+      vertical-align: top;
+    }
+
+    &.active {
+      color: var(--rs-primary-500);
+    }
+
+    &:focus {
+      color: var(--rs-primary-400);
+    }
+
+    &:hover:focus {
+      color: var(--rs-primary-600);
+      background: transparent;
+    }
+  }
+
+  .btn-nav-toggle {
+    position: fixed !important;
+    left: 310px;
+    top: 10px;
+    z-index: 6;
+    box-shadow:
+      rgba(9, 30, 66, 0.08) 0px 0px 0px 1px,
+      rgba(9, 30, 66, 0.08) 0px 2px 4px 1px;
+    transition: all 0.3s ease-in-out;
+    i {
+      transition: none;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      color: #fff !important;
+    }
+    @media (max-width: vars.$screen-md) {
+      display: none;
+    }
+  }
+}
+
+.DocSearch {
+  --docsearch-primary-color: var(--rs-primary-500);
+  --docsearch-text-color: var(--rs-text-primary);
+  --docsearch-muted-color: var(--rs-text-secondary);
+  --docsearch-container-background: var(--rs-bg-backdrop);
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--rs-primary-500);
+}

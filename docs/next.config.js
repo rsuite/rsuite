@@ -75,7 +75,6 @@ module.exports = {
       ]
     });
 
-    // Common CSS processing for both LESS and SCSS
     const cssLoaders = [
       MiniCssExtractPlugin.loader,
       {
@@ -86,42 +85,42 @@ module.exports = {
         options: {
           sourceMap: true,
           postcssOptions: {
-            plugins: [
-              require('autoprefixer'),
-              require('postcss-merge-rules'),
-              // Do not use postcss-rtl which generates a LTR+RTL css
-              // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-              // require('postcss-rtl')({})
-            ]
+            plugins: [require('autoprefixer'), require('postcss-merge-rules')]
           }
         }
       }
     ];
 
-    // LESS loader configuration
+    // SCSS loader configuration
     config.module.rules.push({
-      test: /\.less$/,
+      test: /\.scss$/,
+      exclude: /\.module\.scss$/,
       use: [
         ...cssLoaders,
         {
-          loader: 'less-loader',
+          loader: 'sass-loader',
           options: {
-            sourceMap: true,
-            lessOptions: {
-              globalVars: {
-                rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
-              }
-            }
+            sourceMap: true
           }
         }
       ]
     });
 
-    // SCSS loader configuration
+    // SCSS modules configuration
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.module\.scss$/,
       use: [
-        ...cssLoaders,
+        ...cssLoaders.slice(0, 1),
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+            modules: {
+              localIdentName: '[local]___[hash:base64:5]'
+            }
+          }
+        },
+        ...cssLoaders.slice(2),
         {
           loader: 'sass-loader',
           options: {
@@ -147,7 +146,6 @@ module.exports = {
                 'bash',
                 'xml',
                 'css',
-                'less',
                 'json',
                 'diff',
                 'typescript'
@@ -202,8 +200,14 @@ module.exports = {
         ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
         rsuite: path.resolve(__dirname, '../src'),
+        '@rsuite-styles': path.resolve(__dirname, '../src/styles'),
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom')
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@rsuite-styles': 'rsuite/styles'
       };
     }
 
@@ -227,7 +231,7 @@ module.exports = {
     tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
-  pageExtensions: ['tsx'],
+  pageExtensions: ['tsx', 'ts'],
   redirects() {
     return [
       {

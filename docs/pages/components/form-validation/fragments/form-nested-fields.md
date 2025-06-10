@@ -1,21 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Panel, Box, Row, Col } from 'rsuite';
+import { Form, Button, ButtonToolbar, Row, Col } from 'rsuite';
 import { SchemaModel, StringType, ObjectType, NumberType, ArrayType } from 'rsuite/Schema';
-import JSONTree from 'react-json-tree';
-
-const JSONView = ({ formValue, formError }) => (
-  <Box mb={10}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </Box>
-);
 
 const model = SchemaModel({
   name: StringType().isRequired('Name is required.'),

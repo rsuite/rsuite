@@ -5,6 +5,7 @@ import PageToolbar from '../PageToolbar';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { Row, Col, Box } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
+import styles from './PageContainer.module.scss';
 
 interface ContainerProps {
   hidePageNav?: boolean;
@@ -30,14 +31,14 @@ export default function PageContainer(props: ContainerProps) {
   const designHash = designHashConfig[themeName];
   const rtl = direction === 'rtl';
 
-  const classes = classNames('page-context-wrapper', {
-    'hide-page-nav': hidePageNav
+  const classes = classNames(styles['page-context-wrapper'], {
+    [styles['hide-page-nav']]: hidePageNav
   });
 
   return (
     <>
       <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
-        <Col span={24} className="main-container">
+        <Col span={24} className={styles['main-container']}>
           <PageContent>{children}</PageContent>
         </Col>
       </Row>

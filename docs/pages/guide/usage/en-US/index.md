@@ -14,7 +14,7 @@ The following is a simple example of using a default button component.
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/dist/rsuite.min.css';
+import 'rsuite/dist/rsuite.css';
 
 function App() {
   return <Button>Hello World</Button>;
@@ -23,11 +23,11 @@ function App() {
 
 ### 2.1. Without CSS Reset (Optional)
 
-`rsuite.min.css` includes a [CSS reset](/guide/css-reset/). If you want to use your own CSS reset, you can import the `rsuite-no-reset.min.css` file instead.
+`rsuite.css` includes a [CSS reset](/guide/css-reset/). If you want to use your own CSS reset, you can import the `rsuite-no-reset.css` file instead.
 
 ```diff
-- import 'rsuite/dist/rsuite.min.css';
-+ import 'rsuite/dist/rsuite-no-reset.min.css';
+- import 'rsuite/dist/rsuite.css';
++ import 'rsuite/dist/rsuite-no-reset.css';
 ```
 
 ### 2.2. Importing Component Styles on Demand (Optional)
@@ -35,7 +35,6 @@ function App() {
 If you only need the styles of some components, you can import the styles of the components on demand.
 
 ```jsx
-// If you are using Less, import the `index.less` file.
 import 'rsuite/Button/styles/index.css';
 ```
 

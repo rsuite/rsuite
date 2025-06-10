@@ -26,7 +26,6 @@ export default {
     officialThemes: 'Themes',
     cssVariables: 'CSS Variables',
     cssReset: 'CSS Reset',
-    customizationLess: 'Less Customization',
     i18n: 'Localization',
     rtl: 'Right to left',
     changeLog: 'Change log',

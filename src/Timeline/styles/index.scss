@@ -10,16 +10,16 @@
 .rs-timeline {
   // CSS Variables
   --rs-time-line-tail-min-height: 2.375rem; // 20px + 18px
-  --rs-time-line-item-content-margin-left: 12px;
+  --rs-time-line-item-content-margin: 12px;
   --rs-time-line-dot-side-length: 10px;
   --rs-time-line-alternate-time-offset: calc(
-    var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin-left)
+    var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin)
   ); // 5px + 12px
   --rs-time-line-dot-center-gap: calc(var(--rs-time-line-dot-side-length) / 2);
   --rs-time-line-item-content-padding-bottom: 18px;
   --rs-time-line-tail-width: 2px;
-  --rs-time-line-item-padding-left: calc(
-    var(--rs-time-line-item-content-margin-left) + var(--rs-time-line-dot-side-length)
+  --rs-time-line-item-padding: calc(
+    var(--rs-time-line-item-content-margin) + var(--rs-time-line-dot-side-length)
   );
 
   // Base styles
@@ -95,11 +95,15 @@
   @include mixin.time-line-align(left);
 
   &-align-left &-item {
-    padding-inline-start: var(--rs-time-line-item-padding-left);
+    padding-inline-start: var(--rs-time-line-item-padding);
   }
 
   // Align right
   @include mixin.time-line-align(right);
+
+  &-align-right &-item {
+    padding-inline-end: var(--rs-time-line-item-padding);
+  }
 
   &-align-right &-item-content {
     text-align: end;

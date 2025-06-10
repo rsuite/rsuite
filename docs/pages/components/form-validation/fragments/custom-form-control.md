@@ -10,30 +10,15 @@ import {
   Radio,
   CheckPicker,
   NumberInput,
-  Panel,
   Slider,
   DatePicker,
   Message,
   toaster,
-  Box,
   Row,
   Col,
   Toggle
 } from 'rsuite';
 import { SchemaModel, StringType, ArrayType } from 'rsuite/Schema';
-import JSONTree from 'react-json-tree';
-
-const JSONView = ({ formValue, formError }) => (
-  <Box mb={10}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </Box>
-);
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;

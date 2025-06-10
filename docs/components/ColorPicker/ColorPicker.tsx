@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, InputGroup } from 'rsuite';
 import loadable from '@loadable/component';
+import styles from './ColorPicker.module.scss';
 
 const Sketch = loadable(() => import('react-color/lib/components/sketch/Sketch'));
 
@@ -41,7 +42,7 @@ function ColorPicker(props: ColorPickerProps) {
   const { color, presetColors = defaultColors } = props;
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   return (
-    <div className="rs-color-picker">
+    <div className={styles['rs-color-picker']}>
       <InputGroup
         inside
         onClick={() => {
@@ -49,16 +50,16 @@ function ColorPicker(props: ColorPickerProps) {
         }}
       >
         <InputGroup.Addon>
-          <div className="sketch-color-review">
-            <div style={{ background: color }} className="sketch-color-value" />
+          <div className={styles['sketch-color-review']}>
+            <div style={{ background: color }} className={styles['sketch-color-value']} />
           </div>
         </InputGroup.Addon>
         <Input value={color} readOnly />
       </InputGroup>
       {displayColorPicker ? (
-        <div className="sketch-picker-overlay">
+        <div className={styles['sketch-picker-overlay']}>
           <div
-            className="sketch-picker-backdrop"
+            className={styles['sketch-picker-backdrop']}
             onClick={() => {
               setDisplayColorPicker(false);
             }}

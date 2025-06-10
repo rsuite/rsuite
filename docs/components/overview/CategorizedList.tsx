@@ -3,6 +3,7 @@ import Link from '@/components/Link';
 import { Image, Heading, VStack, Tag, Text } from 'rsuite';
 import { ComponentThumbnail } from './ComponentThumbnail';
 import { isUpdatedComponent } from '@/utils/version';
+import styles from './CategorzedList.module.scss';
 
 interface CategorizedListProps {
   components: any[];
@@ -31,50 +32,54 @@ export const CategorizedList = React.forwardRef(function CategorizedList(
             0
           );
           return (
-            <VStack key={item.id} className="rs-co-group">
-              <Heading level={4} className="rs-co-title" key={item.id} id={item.name}>
+            <VStack key={item.id} className={styles['rs-co-group']}>
+              <Heading level={4} className={styles['rs-co-title']} key={item.id} id={item.name}>
                 {item.name}
               </Heading>
               {componentsCount ? (
-                <Text muted className="rs-co-subtitle">
+                <Text muted className={styles['rs-co-subtitle']}>
                   {componentsCount} components
                 </Text>
               ) : null}
-              <div className="rs-co-boxes">
+              <div className={styles['rs-co-boxes']}>
                 {item.children?.map(item => {
                   return (
-                    <Link key={item.id} href={`/components/${item.id}`} className="rs-co-box-link">
-                      <div className="rs-co-box">
-                        <div className="rs-co-thumbnail">
+                    <Link
+                      key={item.id}
+                      href={`/components/${item.id}`}
+                      className={styles['rs-co-box-link']}
+                    >
+                      <div className={styles['rs-co-box']}>
+                        <div className={styles['rs-co-thumbnail']}>
                           <ComponentThumbnail componentId={item.id} />
                           {(item.components || item.apis || item.hooks) && (
-                            <div className="rs-co-hover-content">
+                            <div className={styles['rs-co-hover-content']}>
                               {item.components?.length && (
-                                <div className="rs-co-list">
-                                  <Text className="rs-co-list-title">Components</Text>
+                                <div className={styles['rs-co-list']}>
+                                  <Text className={styles['rs-co-list-title']}>Components</Text>
                                   {item.components.map(component => (
                                     <div
                                       key={component}
-                                      className="rs-co-list-item"
+                                      className={styles['rs-co-list-item']}
                                     >{`<${component}>`}</div>
                                   ))}
                                 </div>
                               )}
                               {item.hooks?.length && (
-                                <div className="rs-co-list">
-                                  <Text className="rs-co-list-title">Hooks</Text>
+                                <div className={styles['rs-co-list']}>
+                                  <Text className={styles['rs-co-list-title']}>Hooks</Text>
                                   {item.hooks.map(hook => (
-                                    <div key={hook} className="rs-co-list-item">
+                                    <div key={hook} className={styles['rs-co-list-item']}>
                                       {hook}
                                     </div>
                                   ))}
                                 </div>
                               )}
                               {item.apis?.length && (
-                                <div className="rs-co-list">
-                                  <Text className="rs-co-list-title">APIs</Text>
+                                <div className={styles['rs-co-list']}>
+                                  <Text className={styles['rs-co-list-title']}>APIs</Text>
                                   {item.apis.map(api => (
-                                    <div key={api} className="rs-co-list-item">
+                                    <div key={api} className={styles['rs-co-list-item']}>
                                       {api}
                                     </div>
                                   ))}
@@ -83,17 +88,17 @@ export const CategorizedList = React.forwardRef(function CategorizedList(
                             </div>
                           )}
                         </div>
-                        <div className="rs-co-content">
-                          <Text className="rs-co-header">
+                        <div className={styles['rs-co-content']}>
+                          <Text className={styles['rs-co-header']}>
                             {item.name}
                             {language === 'zh' ? (
-                              <span className="rs-co-subtitle">
+                              <span className={styles['rs-co-subtitle']}>
                                 {item.title ? item.title : null}
                               </span>
                             ) : null}
                           </Text>
 
-                          <div className="rs-co-description">
+                          <div className={styles['rs-co-description']}>
                             {item.tag && (
                               <Tag size="sm" color="orange">
                                 {item.tag}

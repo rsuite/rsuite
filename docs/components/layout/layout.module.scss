@@ -1,0 +1,25 @@
+@use '../../styles/variables' as vars;
+
+// App container and page context
+.app-container {
+  padding: 0 !important;
+
+  .page-context {
+    transition: all 0.3s ease-in-out;
+
+    @media (max-width: vars.$screen-md) {
+      margin-left: 0 !important;
+      padding: 15px;
+    }
+
+    @media (min-width: vars.$screen-md) {
+      margin-inline-start: var(--page-context-margin-inline-start);
+    }
+  }
+
+  .submenu-close {
+    :global(.rs-nav) {
+      display: none;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import {
   Modal,
   Heading,
@@ -13,6 +14,7 @@ import {
   VStack
 } from 'rsuite';
 import * as Icons from '@rsuite/icons';
+import styles from './IconList.module.scss';
 
 export interface IconMeta {
   iconName: string;
@@ -57,25 +59,25 @@ function IcomModal(props: IcomModalProps) {
         </div>
         {Icon ? (
           <>
-            <HStack justifyContent="space-between">
-              <div className="icon-bg-transparent icon-box">
+            <HStack justify="space-between">
+              <div className={classnames(styles['icon-bg-transparent'], styles['icon-box'])}>
                 <Icon style={{ fontSize: 200 }} />
               </div>
               <VStack spacing={20}>
-                <div className="icon-example-list">
+                <div className={styles['icon-example-list']}>
                   <Icon style={{ fontSize: '2em' }} />
                   <Icon style={{ fontSize: '3em' }} />
                   <Icon style={{ fontSize: '4em' }} />
                   <Icon style={{ fontSize: '5em' }} />
                 </div>
-                <div className="icon-example-list">
-                  <Icon className="icon-item-box" style={{ color: '#1675e0' }} />
+                <div className={styles['icon-example-list']}>
+                  <Icon className={styles['icon-item-box']} style={{ color: '#1675e0' }} />
                   <Icon
-                    className="icon-item-box"
+                    className={styles['icon-item-box']}
                     style={{ background: '#1675e0', color: '#fff' }}
                   />
-                  <Icon className="icon-item-box" style={{ color: '#000' }} />
-                  <Icon className="icon-item-box" style={{ background: '#000', color: '#fff' }} />
+                  <Icon className={styles['icon-item-box']} style={{ color: '#000' }} />
+                  <Icon className={styles['icon-item-box']} style={{ background: '#000', color: '#fff' }} />
                 </div>
               </VStack>
             </HStack>

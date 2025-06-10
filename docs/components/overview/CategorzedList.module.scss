@@ -1,0 +1,180 @@
+@use '../../styles/variables' as vars;
+
+.rs-co-boxes {
+  --rs-box-cols: 1;
+  --rs-box-spacing: calc(var(--rs-spacing) * 2);
+
+  display: grid;
+  grid-template-columns: repeat(var(--rs-box-cols), minmax(0, 1fr));
+  gap: var(--rs-box-spacing) var(--rs-box-spacing);
+  width: 100%;
+  margin-top: var(--rs-spacing);
+
+  @media (min-width: vars.$screen-sm) {
+    --rs-box-cols: 1;
+    --rs-box-spacing: calc(var(--rs-spacing) * 3);
+  }
+  @media (min-width: vars.$screen-lg) {
+    --rs-box-cols: 2;
+    --rs-box-spacing: calc(var(--rs-spacing) * 4);
+  }
+  @media (min-width: vars.$screen-xl) {
+    --rs-box-cols: 3;
+    --rs-box-spacing: calc(var(--rs-spacing) * 5);
+  }
+  @media (min-width: vars.$screen-xxl) {
+    --rs-box-cols: 4;
+    --rs-box-spacing: calc(var(--rs-spacing) * 6);
+  }
+}
+
+.rs-co-group {
+  margin-top: 30px;
+}
+.rs-co-title {
+  clear: both;
+  width: 100%;
+  font-size: 20px;
+  color: var(--rs-text-heading);
+  position: relative;
+}
+
+.rs-co-box-link {
+  text-decoration: none !important;
+  display: block;
+}
+
+.rs-co-box {
+  background: var(--rs-bg-card);
+  padding: 0;
+  width: 100%;
+  border-radius: 8px;
+  color: var(--rs-text-secondary);
+  height: 100%;
+  transition: all 0.2s ease;
+  border: 1px solid var(--rs-border-secondary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+
+    .rs-co-hover-content {
+      transform: translateX(0) !important;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1) !important;
+    }
+  }
+
+  .rs-co-header {
+    margin: 0 0 4px 0;
+    display: block;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--rs-text-primary);
+    line-height: 1.4;
+  }
+
+  .rs-co-content {
+    padding: 16px;
+  }
+
+  .rs-co-subtitle {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--rs-text-secondary);
+    margin-top: 2px;
+  }
+
+  .rs-co-description {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .rs-co-thumbnail {
+    --rs-thumbnail-bg: linear-gradient(45deg, var(--rs-gray-50), var(--rs-bg-card));
+    width: 100%;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--rs-thumbnail-bg);
+    border-bottom: 1px solid var(--rs-border-secondary);
+    position: relative;
+    overflow: hidden;
+
+    svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    .rs-co-hover-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--rs-thumbnail-bg);
+      padding: 12px;
+      transform: translateX(100%);
+      transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1);
+      overflow-y: auto;
+      max-height: 140px;
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.08);
+      z-index: 2;
+    }
+
+    .rs-co-list {
+      margin-bottom: 8px;
+    }
+
+    .rs-co-list-title {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--rs-text-primary);
+    }
+
+    .rs-co-list-item {
+      color: var(--rs-text-secondary);
+      font-size: 14px;
+      margin: 2px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+:global(:root) {
+  --rs-thumbnail-color-primary: var(--rs-gray-500);
+  --rs-thumbnail-color-high: var(--rs-gray-700);
+  --rs-thumbnail-bg: var(--rs-gray-100);
+  --rs-thumbnail-bg-secondary: var(--rs-gray-200);
+}
+
+
+:global(.rs-theme-dark),
+:global(.rs-theme-high-contrast) {
+  --rs-thumbnail-color-primary: var(--rs-primary-800);
+  --rs-thumbnail-color-high: var(--rs-primary-500);
+  --rs-thumbnail-bg: transparent;
+  --rs-thumbnail-bg-secondary: transparent;
+
+  .rs-co-boxes .rs-co-thumbnail {
+    --rs-thumbnail-bg: linear-gradient(45deg, rgba(var(--rs-primary-500), 0.15), var(--rs-bg-card));
+
+    .rs-co-hover-content {
+      background-color: var(--rs-bg-card);
+    }
+  }
+}

@@ -1,0 +1,169 @@
+@use '../../styles/variables' as vars;
+@use 'codemirror/lib/codemirror.css';
+@use 'codemirror/theme/base16-light.css';
+@use 'codemirror/theme/base16-dark.css';
+
+.rcv-highlight {
+  direction: ltr /*rtl:ignore*/;
+  position: relative;
+  background-color: vars.$doc-highlight-bg;
+  padding: 10px;
+  margin: 1em 0;
+  border-radius: 6px;
+  pre {
+    margin: 0;
+  }
+  code,
+  .hljs-title {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
+    background-color: vars.$doc-highlight-bg;
+  }
+
+  .copy-code-button {
+    right: 8px /*rtl:ignore*/;
+    top: 8px;
+  }
+}
+
+code.bash {
+  background-color: vars.$doc-highlight-bg;
+  color: #eee;
+}
+
+a code {
+  background: none !important;
+}
+
+.rcv-render .rs-btn-toolbar + .rs-btn-toolbar {
+  margin-top: 10px;
+}
+
+.rcv-render > div > .tree-view {
+  border: 1px solid #eee;
+}
+
+.rcv-render .field p {
+  line-height: 32px;
+}
+
+.rcv-container {
+  transition: 0.3s linear border-color;
+  margin: 18px 0;
+  padding: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: vars.$code-view-wrapper-border-color;
+  background-color: vars.$code-view-wrapper-bg;
+  border-radius: 6px;
+
+  .CodeMirror {
+    direction: ltr /*rtl:ignore*/;
+    padding: 10px;
+    margin: 0;
+    background-color: vars.$doc-highlight-bg;
+    height: auto !important;
+  }
+  .CodeMirror-gutters {
+    background-color: vars.$doc-highlight-bg;
+  }
+
+  hr {
+    border-top-color: var(--rs-border-primary);
+  }
+
+  .rcv-toolbar {
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    padding: 8px;
+    border-color: vars.$code-view-wrapper-border-color;
+
+    .rs-btn {
+      font-size: 0;
+      line-height: 16px;
+      margin: 0 2px;
+
+      .rs-icon {
+        font-size: 16px;
+      }
+    }
+  }
+  .rcv-render-error {
+    max-height: 200px;
+  }
+
+  .rcv-render {
+    padding: 18px;
+    position: relative;
+
+    .notification-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
+    border-color: #1a1d24;
+
+    .rcv-toolbar {
+      border-color: #1a1d24;
+    }
+  }
+}
+
+.rcv-editor {
+  direction: ltr /*rtl:ignore*/;
+  border-radius: 0 0 6px 6px;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+
+  &-loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-code-button {
+    right: 8px /*rtl:ignore*/;
+    top: 8px;
+    z-index: 1;
+  }
+}
+
+.copy-code-button {
+  position: absolute !important;
+  color: #858b94 !important;
+}
+
+.rs-code-transparent .rcv-render {
+  background-image: linear-gradient(45deg, rgb(249, 249, 250) 25%, transparent 25%),
+    linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
+    linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
+  background-size: 20px 20px;
+  background-position:
+    0px 0px,
+    10px 0px,
+    10px -10px,
+    0px 10px;
+}
+
+.rs-theme-dark,
+.rs-theme-high-contrast {
+  .rcv-container .rcv-render {
+    background: transparent;
+  }
+}

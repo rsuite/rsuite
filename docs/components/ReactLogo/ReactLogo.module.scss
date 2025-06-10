@@ -1,0 +1,67 @@
+@mixin run-offset($path) {
+  offset-path: path($path);
+}
+
+.react-logo {
+  width: 500px;
+  height: 500px;
+  opacity: 0.5;
+  path.bg {
+    opacity: 0.2;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: pathDraw 2s ease-out forwards;
+  }
+}
+
+.react-logo-run {
+  animation: move 5s ease-in-out infinite;
+  @include run-offset(
+    'M231.7,200c0,17.4-1.7,88-31.7,88s-31.7-70.6-31.7-88s1.7-88,31.7-88S231.7,182.6,231.7,200z'
+  );
+}
+
+.react-logo-run-2 {
+  animation: move 7s ease-out infinite;
+  @include run-offset(
+    'M216.1,227.7c-15,8.9-76.6,43.4-91.9,17.6s44.6-63.2,59.6-72.1s76.6-43.4,91.9-17.6S231.1,218.8,216.1,227.7z'
+  );
+}
+
+.react-logo-run,
+.react-logo-run-2 {
+  animation-play-state: paused;
+  animation-delay: 2s;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  &.running {
+    animation-play-state: running;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes move {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes pathDraw {
+  0% {
+    stroke-dashoffset: 500;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.2;
+  }
+}

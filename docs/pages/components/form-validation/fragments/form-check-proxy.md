@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, PasswordInput, Panel } from 'rsuite';
+import { Form, Button, ButtonToolbar, PasswordInput } from 'rsuite';
 import { SchemaModel, StringType } from 'rsuite/Schema';
 
 const model = SchemaModel({

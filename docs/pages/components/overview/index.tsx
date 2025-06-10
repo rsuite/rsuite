@@ -7,6 +7,7 @@ import { SortedList } from '@/components/overview/SortedList';
 import { useApp } from '@/hooks/useApp';
 import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
+import styles from './index.module.scss';
 
 function includes(str: string, keyword: string) {
   return str?.toLowerCase().includes(keyword?.toLowerCase());
@@ -52,9 +53,9 @@ export default function Page() {
 
   return (
     <DefaultPage>
-      <div className="component-overview">
-        <HStack className="toolbar" spacing={10}>
-          <ButtonGroup className="group" size="lg">
+      <div className={styles['component-overview']}>
+        <HStack className={styles['toolbar']} spacing={10}>
+          <ButtonGroup className={styles['group']} size="lg">
             <IconButton
               icon={<FaList />}
               active={type === 'category'}
@@ -66,7 +67,7 @@ export default function Page() {
               onClick={() => setType('sorted')}
             />
           </ButtonGroup>
-          <InputGroup inside className="component-search-input" size="lg">
+          <InputGroup inside className={styles['component-search-input']} size="lg">
             <Input
               placeholder={locales.common.searchComponents}
               onChange={value => setSearch(value)}

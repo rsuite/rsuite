@@ -7,8 +7,6 @@
 @use './mixin' as *;
 @use './variables' as *;
 
-
-
 // The dropdown wrapper (div)
 .rs-dropdown {
   position: relative;
@@ -125,6 +123,11 @@
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   cursor: pointer; //fixed link has not [href] style
   text-decoration: none;
+
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
 
   &-content {
     flex: 1;

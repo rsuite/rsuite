@@ -1,6 +1,7 @@
 import React from 'react';
 import SideNavbar from './SideNavbar';
 import MainNav from './MainNav';
+import styles from './layout.module.scss';
 
 export interface FrameProps {
   submenu?: boolean;
@@ -24,10 +25,10 @@ export default function Frame(props: FrameProps) {
   } as React.CSSProperties;
 
   return (
-    <div className={submenu ? '' : 'submenu-close'}>
+    <div className={submenu ? null : styles['submenu-close']}>
       <MainNav showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
       <SideNavbar style={menuStyles} showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
-      <div className="page-context" style={contextStyle}>
+      <div className={styles['page-context']} style={contextStyle}>
         {props.children}
       </div>
     </div>

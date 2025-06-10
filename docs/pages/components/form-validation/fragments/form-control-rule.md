@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Panel } from 'rsuite';
-import { SchemaModel, StringType } from 'rsuite/Schema';
+import { Form, Button } from 'rsuite';
+import { StringType } from 'rsuite/Schema';
 
 const nameRule = StringType().isRequired('This field is required.');
 const emailRule = StringType().isEmail('Please enter a valid email address.');

@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import styles from './Logo.module.scss';
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: number;
@@ -7,7 +9,7 @@ interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function Logo({ width, height, className = '', style }: LogoProps) {
-  const styles = {
+  const logoStyles = {
     ...style,
     width,
     height,
@@ -15,8 +17,14 @@ export default function Logo({ width, height, className = '', style }: LogoProps
   };
   return (
     <div
-      style={styles}
-      className={`rsuite-logo logo-animated logo-animated-delay-half-seconds bounce-in ${className} `}
+      style={logoStyles}
+      className={classNames(
+        styles['rsuite-logo'],
+        styles['logo-animated'],
+        styles['logo-animated-delay-half-seconds'],
+        styles['bounce-in'],
+        className
+      )}
     >
       <svg
         viewBox="0 0 120 138"
@@ -50,7 +58,7 @@ export default function Logo({ width, height, className = '', style }: LogoProps
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g id="Group-22" transform="translate(3.000000, 6.000000)">
             <polyline
-              className="polyline-axis"
+              className={styles['polyline-axis']}
               stroke="url(#linearGradient-1)"
               strokeWidth="12"
               strokeLinecap="round"
@@ -58,8 +66,7 @@ export default function Logo({ width, height, className = '', style }: LogoProps
               points="111 31 57 0 19 22 95 104 57 126 3 95"
             />
             <polyline
-              className="polyline-limb"
-              id="Path-5-Copy-7"
+              className={styles['polyline-limb']}
               stroke="url(#linearGradient-2)"
               strokeWidth="12"
               strokeLinecap="round"
@@ -68,14 +75,14 @@ export default function Logo({ width, height, className = '', style }: LogoProps
               points="41 31 3 54 41 95 41 52"
             />
             <polyline
-              className="polyline-limb"
+              className={styles['polyline-limb']}
               stroke="url(#linearGradient-3)"
               strokeWidth="12"
               strokeLinecap="round"
               strokeLinejoin="round"
               points="111 31 73 54 111 95 111 52"
             />
-            <circle className="circle" fill="#6594ED" cx="3" cy="95" r="3" />
+            <circle className={styles['circle']} fill="#6594ED" cx="3" cy="95" r="3" />
             <circle fill="#6594ED" cx="111" cy="31" r="3" />
           </g>
         </g>

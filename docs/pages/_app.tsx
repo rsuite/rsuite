@@ -8,8 +8,9 @@ import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
 import Router, { useRouter } from 'next/router';
 import AppProvider from '@/components/AppProvider';
-import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
+import { CustomProvider, CustomProviderProps } from 'rsuite';
 import { Analytics } from '@vercel/analytics/react';
+import { Container } from '@/components/layout/Container';
 import { getMessages } from '../locales';
 import {
   DirectionType,
@@ -20,8 +21,7 @@ import {
   writeTheme
 } from '../utils/themeHelpers';
 import type { AppProps } from 'next/app';
-import '../less/index.less';
-import '../scss/main.scss';
+import '../styles/index.scss';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -131,7 +131,7 @@ function App({ Component, pageProps }: AppProps) {
         rtl={direction === 'rtl'}
         theme={themeName}
       >
-        <Grid fluid className="app-container">
+        <Container>
           <AppProvider
             value={{
               locales,
@@ -146,7 +146,7 @@ function App({ Component, pageProps }: AppProps) {
             <StyleHead onLoaded={handleStyleHeadLoaded} />
             <Component {...pageProps} />
           </AppProvider>
-        </Grid>
+        </Container>
         <TypedPrompt />
       </CustomProvider>
       <Analytics />

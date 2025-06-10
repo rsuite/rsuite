@@ -54,10 +54,6 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.accessibility
             },
             {
-              id: 'v5-features',
-              name: locales?.common?.v5Features
-            },
-            {
               id: 'logs',
               name: locales?.common?.changeLog,
               target: '_blank',
@@ -98,11 +94,6 @@ export default function usePages(): MenuItem[] {
             {
               id: 'official-themes',
               name: locales?.common?.officialThemes
-            },
-
-            {
-              id: 'customization-less',
-              name: locales?.common?.customizationLess
             },
             {
               id: 'css-variables',

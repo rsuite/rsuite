@@ -12,6 +12,8 @@ import {
   IoLogoGithub
 } from 'react-icons/io5';
 
+import styles from './Simulation.module.scss';
+
 type Device = 'desktop' | 'tablet' | 'mobile';
 
 interface SimulationProps {
@@ -21,7 +23,7 @@ interface SimulationProps {
 }
 
 const DeviceFrame = ({ style, children }) => (
-  <FakeBrowser className="rs-device-frame" style={style}>
+  <FakeBrowser className={styles['rs-device-frame']} style={style}>
     {children}
   </FakeBrowser>
 );
@@ -96,7 +98,7 @@ const Simulation: React.FC<SimulationProps> = ({
   }
 
   return (
-    <div className="rs-simulation">
+    <div className={styles['rs-simulation']}>
       <HStack justify="space-between" align="flex-start">
         <Tabs appearance="pills" activeKey={device} onSelect={handleChangeDevice}>
           <Tabs.Tab

@@ -38,10 +38,11 @@ import { VscLock, VscWorkspaceTrusted, VscRepo } from 'react-icons/vsc';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import Header from '../Header';
+import styles from './AdminFrame.module.scss';
 
 const Brand = ({ expand, ...rest }) => {
   return (
-    <Stack className="brand" {...rest}>
+    <Stack className={styles['brand']} {...rest}>
       <Logo height={26} style={{ marginTop: 6 }} />
       {expand && (
         <Link href="/">
@@ -54,7 +55,7 @@ const Brand = ({ expand, ...rest }) => {
 
 const NavToggle = ({ expand, onChange }) => {
   return (
-    <Stack className="nav-toggle" justifyContent={expand ? 'flex-end' : 'center'}>
+    <Stack className={styles['nav-toggle']} justify={expand ? 'flex-end' : 'center'}>
       <IconButton
         onClick={onChange}
         appearance="subtle"
@@ -74,12 +75,12 @@ function AdminFrame(props: AdminFrameProps) {
   const [expand, setExpand] = useState(false);
   const rootRef = useRef();
 
-  const containerClasses = classNames('page-container', {
-    'container-full': !expand
+  const containerClasses = classNames(styles['page-container'], {
+    [styles['container-full']]: !expand
   });
 
   return (
-    <Container className="rs-admin-frame" ref={rootRef}>
+    <Container className={styles['rs-admin-frame']} ref={rootRef}>
       <Sidebar
         style={{ display: 'flex', flexDirection: 'column' }}
         width={expand ? 260 : 56}
@@ -120,9 +121,9 @@ function AdminFrame(props: AdminFrameProps) {
         <Header />
         <Content>
           <Panel header="Overview">
-            {loading && <Loader content="Downloading Less.js" />}
+            {loading && <Loader center content="loading" />}
 
-            <Panel className="rs-card">
+            <Panel className={styles['rs-card']}>
               <Steps current={0}>
                 <Steps.Item title="Project Type" />
                 <Steps.Item title="Project Info" />
@@ -149,7 +150,6 @@ function AdminFrame(props: AdminFrameProps) {
               </HStack>
               <Divider />
 
-              <Divider />
               <Slider progress defaultValue={50} />
               <Divider />
               <RadioTileGroup defaultValue="private" aria-label="Visibility Level">

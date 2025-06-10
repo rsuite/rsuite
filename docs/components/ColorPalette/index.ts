@@ -1,2 +1,2 @@
-export { Box, ColorGroup, ColorModal } from './ColorPalette';
+export { ColorBox, ColorGroup, ColorModal } from './ColorPalette';
 export type { ColorMeta } from './ColorPalette';

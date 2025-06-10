@@ -1,22 +1,9 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Panel, Message, toaster, Box, Row, Col } from 'rsuite';
+import { Form, Button, Message, toaster, Row, Col } from 'rsuite';
 import { SchemaModel, StringType } from 'rsuite/Schema';
-import JSONTree from 'react-json-tree';
 import Select from 'react-select';
-
-const JSONView = ({ formValue, formError }) => (
-  <Box mb={10}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </Box>
-);
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;

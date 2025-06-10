@@ -1,0 +1,17 @@
+.palette-preview {
+  margin-top: 20px;
+
+  :global(.rs-panel) {
+    position: relative;
+  }
+  .color-box-row {
+    margin-bottom: 20px;
+  }
+  .color-box {
+    aspect-ratio: 2 / 1;
+  }
+
+  .fake-browser {
+    margin-top: 40px;
+  }
+}

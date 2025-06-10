@@ -126,7 +126,7 @@ const PageContent = (props: PageContentProps) => {
 
       {children}
 
-      <Divider />
+      <Divider style={{ marginBlock: '1.25rem' }} />
 
       <Footer>
         <VercelBanner />

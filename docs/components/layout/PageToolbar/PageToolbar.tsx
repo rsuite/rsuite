@@ -6,6 +6,7 @@ import packageJson from '../../../package.json';
 import { ButtonToolbar, Tooltip, Whisper, Menu, IconButton, Button, Popover } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import { MoreActions } from './MoreActions';
+import styles from './PageToolbar.module.scss';
 
 interface PageToolbarProps {
   designHash?: any;
@@ -35,7 +36,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
   }, []);
 
   return show ? (
-    <ButtonToolbar className="page-toolbar">
+    <ButtonToolbar className={styles['page-toolbar']}>
       <IconButton
         size="sm"
         icon={<HeartIcon color="red" />}
