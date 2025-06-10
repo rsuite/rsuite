@@ -165,7 +165,8 @@ module.exports = {
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
         filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
+        chunkFilename: 'static/css/[contenthash].css',
+        ignoreOrder: true // Ignore CSS order warnings
       }),
       new RtlCssPlugin('static/css/[name]-rtl.css')
     );
@@ -191,6 +192,20 @@ module.exports = {
         }
       })
     );
+
+    // Fix chunk ordering issues with CSS modules
+    config.optimization.splitChunks = {
+      ...config.optimization.splitChunks,
+      cacheGroups: {
+        ...config.optimization.splitChunks.cacheGroups,
+        styles: {
+          name: 'styles',
+          test: /\.module\.(scss|css)$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    };
 
     // If we are building docs with local rsuite from src (local development and review builds),
     // we should stick `react` and `react-dom` imports to docs/node_modules

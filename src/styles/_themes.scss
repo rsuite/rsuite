@@ -74,7 +74,7 @@ $enable-high-contrast: true !default;
   --rs-radius-2xl: 1rem; // 16px
   --rs-radius-3xl: 1.5rem; // 24px
   --rs-radius-4xl: 2rem; // 32px
-  --rs-radius-full: calc(infinity * 1px);
+  --rs-radius-full: 62.5rem; // 1000px
 
   // Shadow colors
   --rs-shadow-color: rgb(0 0 0 / 10%);

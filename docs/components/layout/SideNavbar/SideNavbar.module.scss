@@ -79,7 +79,7 @@
 
 .media-toggle-side-bar:global(.rs-btn.rs-btn-icon) {
   position: fixed;
-  top: (vars.$main-nav-height + 10px);
+  top: calc(vars.$main-nav-height + 10px);
   z-index: 1;
   box-shadow: var(--rs-shadow-md);
 
@@ -125,13 +125,13 @@
 
   // Scrollbar
   &::-webkit-scrollbar {
-    border-radius: (vars.$scrollbar-width / 2);
+    border-radius: calc(vars.$scrollbar-width / 2);
     width: vars.$scrollbar-width;
   }
 
   // Handle
   &::-webkit-scrollbar-thumb {
-    border-radius: (vars.$scrollbar-width / 2);
+    border-radius: calc(vars.$scrollbar-width / 2);
     background-color: rgba(141, 141, 141, 0.3);
     &:hover {
       background-color: rgba(141, 141, 141, 0.9);
@@ -140,7 +140,7 @@
 
   // Track
   &::-webkit-scrollbar-track {
-    border-radius: (vars.$scrollbar-width / 2);
+    border-radius: calc(vars.$scrollbar-width / 2);
     background: transparent;
   }
 }

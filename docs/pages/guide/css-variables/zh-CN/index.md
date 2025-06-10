@@ -64,7 +64,7 @@
 --rs-btn-link-active-text: var(--rs-primary-900);
 
 // Other Components
-// See: https://github.com/rsuite/rsuite/blob/main/src/styles/color-modes/_light.scss
+// See: https://github.com/rsuite/rsuite/blob/main/src/styles/_themes.scss
 ```
 
 ## 其他主题下的变量

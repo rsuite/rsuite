@@ -64,7 +64,7 @@ The variable value of the component inherits the global variable by default, and
 --rs-btn-link-active-text: var(--rs-primary-900);
 
 // Other Components
-// See: https://github.com/rsuite/rsuite/blob/main/src/styles/color-modes/_light.scss
+// See: https://github.com/rsuite/rsuite/blob/main/src/styles/_themes.scss
 ```
 
 ## Variables in other themes
