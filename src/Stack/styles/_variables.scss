@@ -1,0 +1,11 @@
+:root {
+  --rs-stack-spacing: calc(var(--rs-spacing) * 1.5);
+  --rs-stack-wrap: nowrap;
+  --rs-stack-direction: row;
+  --rs-stack-align: center;
+  --rs-stack-justify: flex-start;
+
+  --rs-stack-item-grow: 0;
+  --rs-stack-item-shrink: 1;
+  --rs-stack-item-basis: auto;
+}

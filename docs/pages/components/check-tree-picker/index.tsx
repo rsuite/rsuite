@@ -5,7 +5,17 @@ import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementContainer from '@/components/PlacementContainer';
 import Simulation from '@/components/Simulation';
-import { CheckTreePicker, Button, Toggle, Checkbox, VStack, HStack, Loader, Box } from 'rsuite';
+import {
+  CheckTreePicker,
+  Button,
+  Toggle,
+  Checkbox,
+  VStack,
+  HStack,
+  Loader,
+  Box,
+  Text
+} from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -44,6 +54,7 @@ export default function Page() {
         HStack,
         Loader,
         Box,
+        Text,
         mockTreeData,
         mockAsyncData,
         PlacementContainer

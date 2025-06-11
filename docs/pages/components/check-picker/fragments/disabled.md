@@ -1,35 +1,38 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker, VStack, HStack, Box } from 'rsuite';
+import { CheckPicker, VStack, HStack, Divider, Text } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
+
+const Field = ({ label, children, ...rest }) => (
+  <HStack>
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <CheckPicker {...rest} w={180} />
+  </HStack>
+);
+
 const App = () => (
-  <VStack spacing={16}>
-    <Select label="Disabled" disabled data={data} defaultValue={['Bryan']} />
-    <Select
-      label="Disabled option"
-      data={data}
-      defaultValue={['Bryan']}
-      disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-    />
-    <Select label="Read only" readOnly data={data} defaultValue={['Bryan']} />
-    <Select label="Plaintext" plaintext data={data} defaultValue={['Bryan']} />
+  <VStack divider={<Divider />}>
+    <VStack>
+      <Field label="Disabled" disabled data={data} defaultValue={['Bryan']} />
+      <Field
+        label="Disabled option"
+        data={data}
+        defaultValue={['Bryan']}
+        disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
+      />
+    </VStack>
+    <Field label="ReadOnly" readOnly data={data} defaultValue={['Bryan']} />
+    <Field label="Plaintext" plaintext data={data} defaultValue={['Bryan']} />
   </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Select = ({ label, children, ...rest }) => (
-  <HStack>
-    <Box as="label" w={120}>
-      {label}:
-    </Box>
-    <CheckPicker {...rest} w={180} />
-  </HStack>
-);
 ```
 
 <!--end-code-->

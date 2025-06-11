@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimePicker, Stack, Box } from 'rsuite';
+import { TimePicker, Stack, Box, HStack, VStack, Text, Divider, Button } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
@@ -16,7 +16,12 @@ export default function Page() {
       dependencies={{
         TimePicker,
         Stack,
-        Box
+        Box,
+        HStack,
+        VStack,
+        Text,
+        Divider,
+        Button
       }}
       sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />

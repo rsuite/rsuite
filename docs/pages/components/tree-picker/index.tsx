@@ -7,7 +7,7 @@ import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import Simulation from '@/components/Simulation';
 import PlacementContainer from '@/components/PlacementContainer';
-import { TreePicker, Button, VStack, HStack, Loader, Box } from 'rsuite';
+import { TreePicker, Button, VStack, HStack, Loader, Box, Text, Divider } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -46,6 +46,8 @@ export default function Page() {
         PageIcon,
         Loader,
         Box,
+        Text,
+        Divider,
         PlacementContainer,
         mockTreeData,
         mockAsyncData

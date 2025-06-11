@@ -3,7 +3,18 @@ import DefaultPage from '@/components/layout/Page';
 import Simulation from '@/components/Simulation';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementContainer from '@/components/PlacementContainer';
-import { SelectPicker, Button, RadioGroup, Radio, Loader, VStack, HStack, Box } from 'rsuite';
+import {
+  SelectPicker,
+  Button,
+  RadioGroup,
+  Radio,
+  Loader,
+  VStack,
+  HStack,
+  Box,
+  Text,
+  Divider
+} from 'rsuite';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
@@ -37,6 +48,8 @@ export default function Page() {
         VStack,
         HStack,
         Box,
+        Text,
+        Divider,
         PlacementContainer,
         FaUserGroup,
         FaUser

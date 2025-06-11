@@ -1,5 +1,6 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/variables' as vars;
+@use 'variables';
 
 // Mixin for generating responsive direction classes
 @mixin responsive-direction($size) {
@@ -18,12 +19,6 @@
 }
 
 .rs-stack {
-  --rs-stack-spacing: calc(var(--rs-spacing) * 1.5);
-  --rs-stack-wrap: nowrap;
-  --rs-stack-direction: row;
-  --rs-stack-align: center;
-  --rs-stack-justify: flex-start;
-
   display: flex;
   gap: var(--rs-stack-spacing);
   flex-wrap: var(--rs-stack-wrap);
@@ -78,8 +73,8 @@
 .rs-stack-item {
   align-self: var(--rs-stack-item-align-self);
   order: var(--rs-stack-item-order);
-  flex: var(--rs-stack-item-flex);
-  flex-grow: var(--rs-stack-item-grow);
-  flex-shrink: var(--rs-stack-item-shrink);
-  flex-basis: var(--rs-stack-item-flex-basis);
+  flex: var(
+    --rs-stack-item-flex,
+    var(--rs-stack-item-grow) var(--rs-stack-item-shrink) var(--rs-stack-item-basis)
+  );
 }

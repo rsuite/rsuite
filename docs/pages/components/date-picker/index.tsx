@@ -13,7 +13,9 @@ import {
   Radio,
   Box,
   VStack,
-  Text
+  HStack,
+  Text,
+  Divider
 } from 'rsuite';
 import { format, addDays, subDays, isBefore } from 'date-fns';
 import {
@@ -43,8 +45,10 @@ export default function Page() {
         Input,
         Box,
         VStack,
+        HStack,
         Stack,
         Text,
+        Divider,
         format,
         addDays,
         subDays,

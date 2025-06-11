@@ -1,20 +1,29 @@
 <!--start-code-->
 
 ```js
-import { TagInput } from 'rsuite';
+import { TagInput, VStack, HStack, Text, Divider } from 'rsuite';
 
 const App = () => (
-  <>
-    <label>Disabled: </label>
-    <TagInput disabled defaultValue={['Julius']} w={300} />
-
-    <hr />
-    <label>Read only: </label>
-    <TagInput readOnly defaultValue={['Julius']} w={300} />
-    <hr />
-    <label>Plaintext: </label>
-    <TagInput plaintext defaultValue={['Julius']} w={300} />
-  </>
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <TagInput disabled defaultValue={['Julius']} w={300} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <TagInput readOnly defaultValue={['Julius']} w={300} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <TagInput plaintext defaultValue={['Julius']} w={300} />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Textarea, Divider, Text, VStack, SelectPicker } from 'rsuite';
+import { Textarea, Divider, Text, VStack, HStack, SelectPicker } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -16,6 +16,7 @@ export default function Page() {
         Text,
         Divider,
         VStack,
+        HStack,
         SelectPicker
       }}
     />

@@ -3,7 +3,7 @@ import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
-import { InputPicker, Button, VStack, HStack, Loader, Box } from 'rsuite';
+import { InputPicker, Button, VStack, HStack, Loader, Box, Text, Divider } from 'rsuite';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 const mockfile = {
   name: 'mock.js',
@@ -32,6 +32,8 @@ export default function Page() {
         HStack,
         Loader,
         Box,
+        Text,
+        Divider,
         mockUsers,
         FaUserGroup,
         FaUser

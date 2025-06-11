@@ -60,7 +60,7 @@ $style-maps: (
   // Generate style properties from map
   @each $key, $value in $style-maps {
     &[style*='--rs-box-#{$key}'] {
-      #{$value}: var(--rs-box-#{$key});
+      #{$value}: var(--rs-box-#{$key}) !important;
     }
   }
 }

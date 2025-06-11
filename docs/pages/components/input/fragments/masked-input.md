@@ -1,16 +1,7 @@
 <!--start-code-->
 
 ```js
-import {
-  FlexboxGrid,
-  SelectPicker,
-  Toggle,
-  MaskedInput,
-  HStack,
-  VStack,
-  Divider,
-  Box
-} from 'rsuite';
+import { SelectPicker, Toggle, MaskedInput, HStack, VStack, Divider, Box } from 'rsuite';
 
 const options = [
   {

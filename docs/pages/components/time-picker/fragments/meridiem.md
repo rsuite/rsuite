@@ -1,29 +1,24 @@
 <!--start-code-->
 
 ```js
-import { TimePicker, Box } from 'rsuite';
-
-const Row = ({ children, title }) => {
-  return (
-    <Box>
-      <Box as="label" w={120} display="inline-block" mt={10}>
-        {title}
-      </Box>
-      {children}
-    </Box>
-  );
-};
+import { TimePicker, HStack, VStack, Text } from 'rsuite';
 
 const App = () => (
-  <>
-    <Row title="24 hours">
+  <VStack>
+    <HStack>
+      <Text muted w={80}>
+        24 hours
+      </Text>
       <TimePicker format="HH:mm" />
-    </Row>
+    </HStack>
 
-    <Row title="12 hours">
+    <HStack>
+      <Text muted w={80}>
+        12 hours
+      </Text>
       <TimePicker format="hh:mm aa" showMeridiem />
-    </Row>
-  </>
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

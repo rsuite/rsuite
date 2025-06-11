@@ -1,21 +1,31 @@
 <!--start-code-->
 
 ```js
-import { AutoComplete } from 'rsuite';
+import { AutoComplete, VStack, HStack, Text, Divider } from 'rsuite';
 
 const data = [];
 
 const App = () => (
-  <div>
-    <label>Disabled:</label>
-    <AutoComplete data={data} disabled defaultValue="Eugenia" w={224} />
-    <hr />
-    <label>Read only:</label>
-    <AutoComplete data={data} readOnly defaultValue="Eugenia" w={224} />
-    <hr />
-    <label>Plaintext:</label>
-    <AutoComplete data={data} plaintext defaultValue="Eugenia" w={224} />
-  </div>
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <AutoComplete data={data} disabled defaultValue="Eugenia" w={200} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <AutoComplete data={data} readOnly defaultValue="Eugenia" w={200} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <AutoComplete data={data} plaintext defaultValue="Eugenia" w={200} />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
