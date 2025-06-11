@@ -240,6 +240,7 @@
     flex: 1 1 auto;
     gap: calc(var(--rs-spacing) * 2);
     overflow: hidden;
+    align-items: center;
   }
 
   &-value {
@@ -362,10 +363,13 @@
 .rs-picker-toggle.rs-btn {
   text-align: start;
   display: inline-flex;
-  width: 100%;
   align-items: center;
   justify-content: flex-start;
   padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-picker-toggle-border-width));
+
+  [data-block='true'] & {
+    display: flex;
+  }
 }
 
 .rs-picker-toggle-indicator {
