@@ -27,18 +27,22 @@
   justify-content: var(--rs-stack-justify);
 
   &-column {
+    --rs-stack-align: flex-start;
     flex-direction: column;
   }
 
   &-row {
+    --rs-stack-align: center;
     flex-direction: row;
   }
 
   &-column-reverse {
+    --rs-stack-align: flex-start;
     flex-direction: column-reverse;
   }
 
   &-row-reverse {
+    --rs-stack-align: center;
     flex-direction: row-reverse;
   }
 

@@ -15,7 +15,7 @@ const VStack = forwardRef<'div', VStackProps, typeof Subcomponents>((props, ref)
 
   const direction = reverse ? 'column-reverse' : 'column';
 
-  return <Stack align="flex-start" {...rest} direction={direction} ref={ref} />;
+  return <Stack {...rest} direction={direction} ref={ref} />;
 }, Subcomponents);
 
 VStack.displayName = 'VStack';

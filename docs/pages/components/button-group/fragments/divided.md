@@ -3,26 +3,26 @@
 ```js
 import { Button, ButtonGroup, VStack, HStack } from 'rsuite';
 
-const CustomButtonGroup = ({ appearance, vertical }) => (
+const ButtonGroupWithAppearance = ({ appearance, vertical }) => (
   <ButtonGroup divided vertical={vertical}>
-    <Button appearance={appearance}>Left</Button>
-    <Button appearance={appearance}>Center</Button>
-    <Button appearance={appearance}>Right</Button>
+    <Button appearance={appearance}>Bold</Button>
+    <Button appearance={appearance}>Italic</Button>
+    <Button appearance={appearance}>Underline</Button>
   </ButtonGroup>
 );
 
 const App = () => (
-  <>
-    <VStack>
-      <CustomButtonGroup appearance="default" />
-      <CustomButtonGroup appearance="primary" />
-    </VStack>
-    <hr />
+  <VStack spacing={12}>
     <HStack>
-      <CustomButtonGroup appearance="default" vertical />
-      <CustomButtonGroup appearance="primary" vertical />
+      <ButtonGroupWithAppearance appearance="default" />
+      <ButtonGroupWithAppearance appearance="primary" />
     </HStack>
-  </>
+
+    <HStack>
+      <ButtonGroupWithAppearance appearance="default" vertical />
+      <ButtonGroupWithAppearance appearance="primary" vertical />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

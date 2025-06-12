@@ -1,30 +1,31 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonGroup, VStack, HStack, Text } from 'rsuite';
+import { Button, ButtonToolbar, ButtonGroup, VStack, HStack, Text } from 'rsuite';
 
 const ButtonGroupWithAppearance = ({ appearance }) => (
-  <VStack align="center" spacing={12}>
-    <Text w={80} muted align="center">
+  <HStack>
+    <Text w={80} muted>
       {appearance}
     </Text>
-    <ButtonGroup vertical>
-      <Button appearance={appearance}>Export</Button>
-      <Button appearance={appearance}>Print</Button>
-      <Button appearance={appearance}>Duplicate</Button>
+    <ButtonGroup>
+      <Button appearance={appearance}>Bold</Button>
+      <Button appearance={appearance}>Italic</Button>
+      <Button appearance={appearance}>Underline</Button>
     </ButtonGroup>
-  </VStack>
+  </HStack>
 );
 
 const App = () => (
-  <HStack>
+  <VStack>
     <ButtonGroupWithAppearance appearance="default" />
     <ButtonGroupWithAppearance appearance="primary" />
     <ButtonGroupWithAppearance appearance="link" />
     <ButtonGroupWithAppearance appearance="subtle" />
     <ButtonGroupWithAppearance appearance="ghost" />
-  </HStack>
+  </VStack>
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

@@ -11,23 +11,45 @@ A button group gives users access to frequently performed, related actions.
 
 ## Examples
 
-### Button group
+### Group
+
+Group related buttons together for better visual organization.
 
 <!--{include:`group.md`}-->
 
-### Vertical group
+### Sizes
+
+Set the size for all buttons in the group with the `size` prop.
+
+<!--{include:`size.md`}-->
+
+### Appearance
+
+Customize the button style using the `appearance` prop.
+
+<!--{include:`appearance.md`}-->
+
+### Vertical
+
+Stack buttons vertically using the `vertical` prop.
 
 <!--{include:`vertical.md`}-->
 
-### Divided button
+### Divided
+
+Add dividers between buttons with the `divided` prop.
 
 <!--{include:`divided.md`}-->
 
-### Split button
+### Split Button
+
+Create a split button dropdown by combining Button and Menu components.
 
 <!--{include:`split-button.md`}-->
 
-### Button toolbar
+### Button Toolbar
+
+Group multiple button groups together using the `ButtonToolbar` component.
 
 <!--{include:`toolbar.md`}-->
 
@@ -38,6 +60,8 @@ The buttons are laid out horizontally in the button set and are equally wide.
 <!--{include:`justified.md`}-->
 
 ### Icons
+
+Use icons within button groups for better visual hierarchy and recognition.
 
 <!--{include:`icon-group.md`}-->
 
