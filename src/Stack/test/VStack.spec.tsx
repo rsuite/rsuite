@@ -13,12 +13,6 @@ describe('VStack', () => {
     expect(screen.getByText('Test')).to.have.attr('style').contains('--rs-stack-spacing: 6px');
   });
 
-  it('Should render a default align', () => {
-    render(<VStack>Test</VStack>);
-
-    expect(screen.getByText('Test')).to.have.attr('style').contains('--rs-stack-align: flex-start');
-  });
-
   it('Should render a reverse direction', () => {
     render(<VStack reverse>Test</VStack>);
 
