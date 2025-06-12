@@ -2,14 +2,14 @@
 
 .rs-sidebar-wrapper {
   overflow-x: hidden;
-  transition: all 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
 }
 
 .rs-sidebar-wrapper.fixed {
   position: fixed;
   background-color: #f4f5f7;
   width: 260px;
-  left: 64px;
+  inset-inline-start: 64px;
   top: 0;
   bottom: 0;
   z-index: 5;
@@ -23,7 +23,7 @@
       visibility: visible;
       pointer-events: all;
       animation: slide-in-left 0.3s ease-in-out;
-      left: 0;
+      inset-inline-start: 0;
       z-index: 999;
     }
   }
@@ -34,7 +34,7 @@
     @media (max-width: vars.$screen-md) {
       display: block;
       position: absolute;
-      right: 10px;
+      inset-inline-end: 10px;
       top: 16px;
     }
   }
@@ -49,7 +49,7 @@
     svg {
       vertical-align: middle;
       margin-top: -2px;
-      margin-right: 4px;
+      margin-inline-end: 4px;
       fill: currentColor;
     }
   }
@@ -92,10 +92,10 @@
   overflow: auto;
   position: absolute;
   bottom: 20px;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   top: 60px;
-  padding: 0 10px 100px 10px;
+  padding-block: 0 100px;
+  padding-inline: 10px;
 
   :global(.rs-nav-item) {
     font-weight: 400;

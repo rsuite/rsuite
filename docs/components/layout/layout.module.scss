@@ -5,10 +5,10 @@
   padding: 0 !important;
 
   .page-context {
-    transition: all 0.3s ease-in-out;
+    transition: margin 0.3s ease-in-out;
 
     @media (max-width: vars.$screen-md) {
-      margin-left: 0 !important;
+      margin-inline-start: 0 !important;
       padding: 15px;
     }
 

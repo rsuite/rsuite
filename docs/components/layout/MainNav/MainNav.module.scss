@@ -4,28 +4,27 @@
   background: var(--rs-gray-900);
   position: absolute;
   width: 100vw;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   text-align: center;
   box-sizing: border-box;
 
   @media (max-width: vars.$screen-md) {
-    text-align: left;
-    padding-left: 10px;
+    text-align: start;
+    padding-inline-start: 10px;
   }
 
   @media (min-width: vars.$screen-md) {
     position: fixed;
     padding: 10px 0;
     width: 64px;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 0;
     z-index: 10;
   }
 
   &-header {
-    //display: inline-block;
-    float: right;
+    float: start;
 
     @media (min-width: vars.$screen-md) {
       float: none;
@@ -43,9 +42,9 @@
   &-footer {
     position: absolute;
     bottom: 0;
-    left: 0;
+    inset-inline-start: 0;
     padding: 10px;
-    text-align: center;
+    text-align: start;
     display: none;
 
     @media (min-width: vars.$screen-md) {
@@ -130,7 +129,7 @@
 
   .btn-nav-toggle {
     position: fixed !important;
-    left: 310px;
+    inset-inline-start: 310px;
     top: 10px;
     z-index: 6;
     box-shadow:

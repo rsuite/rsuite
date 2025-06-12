@@ -41,14 +41,14 @@
       }
 
       &:not(:last-child) {
-        margin-right: 8px;
+        margin-inline-end: 8px;
       }
 
       &-icon {
         width: 12px;
         height: 12px;
         position: absolute;
-        left: -1px;
+        inset-inline-start: -1px;
         top: -1px;
         transform: rotate(315deg);
         opacity: 0;

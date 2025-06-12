@@ -2,7 +2,7 @@
 
 .page-toolbar {
   position: fixed;
-  right: 10px;
+  inset-inline-end: 10px;
   top: 10px;
   z-index: 6;
 
@@ -15,7 +15,7 @@
   .page-toolbar {
     position: static;
     margin-top: 60px;
-    text-align: right;
+    text-align: end;
     justify-content: flex-end !important;
   }
 }
@@ -26,7 +26,7 @@
   .rs-icon {
     width: 14px;
     text-align: center;
-    margin-right: 6px;
+    margin-inline-end: 6px;
   }
 
   .theme-item,

@@ -16,7 +16,7 @@
   > img {
     vertical-align: middle;
     width: 20px;
-    margin-right: 0.5rem;
+    margin-inline-end: 0.5rem;
     border-radius: 6px;
     padding: 4px;
   }
@@ -24,7 +24,7 @@
   .carbon-ad-badge {
     color: #999;
     position: absolute;
-    right: 16px;
+    inset-inline-end: 16px;
     top: 16px;
   }
 }

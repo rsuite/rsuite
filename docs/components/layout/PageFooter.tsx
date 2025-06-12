@@ -109,17 +109,17 @@ export const PageFooter = () => {
   return (
     <Footer className={styles.footer}>
       <Divider className={styles.divider} />
-      <HStack justify="space-between" align="start">
+      <HStack justify="space-between" align="start" wrap spacing={32}>
         <VStack spacing={10}>
           <img
             src="/images/react-suite.png"
             alt="React Suite"
-            height={60}
+            height={32}
             className={styles.logo}
           />
           <Text className={styles.description}>{locales?.common?.bio}</Text>
         </VStack>
-        <HStack spacing={32}>
+        <HStack spacing={60} wrap>
           {linkGroups.map(group => (
             <VStack spacing={8} key={group.title}>
               <h4 className={styles['section-title']}>{group.title}</h4>

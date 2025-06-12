@@ -3,14 +3,15 @@
 .page-context-wrapper {
   $context-padding: 20px;
 
-  margin-left: 0;
-  margin-right: 0;
+  margin-inline: 0;
 
   @media (min-width: vars.$screen-md) {
-    padding: $context-padding 210px $context-padding $context-padding;
+    padding-block: $context-padding;
+    padding-inline-start: $context-padding;
+    padding-inline-end: 210px;
 
     &.hide-page-nav {
-      padding-right: $context-padding !important;
+      padding-inline-end: $context-padding !important;
     }
   }
 }
@@ -65,11 +66,11 @@
     }
 
     &:global(.scroll-bar-left)::before {
-      left: 0;
+      inset-inline-start: 0;
     }
 
     &:global(.scroll-bar-right)::before {
-      right: 0;
+      inset-inline-end: 0;
     }
 
     &:global(.active) {

@@ -109,7 +109,7 @@
     padding: 0.75rem;
     margin: 1.5rem 0;
     font-size: 14px;
-    border-left: 5px solid var(--rs-state-warning);
+    border-inline-start: 5px solid var(--rs-state-warning);
     background-color: var(--rs-bg-warning);
     border-radius: 4px;
   }
@@ -182,7 +182,7 @@ code:not(.rcv-highlight) {
   &::before {
     content: '';
     position: absolute;
-    left: 1rem;
+    inset-inline-start: 1rem;
     top: 1rem;
     bottom: 1rem;
     width: 2px;
@@ -194,7 +194,7 @@ code:not(.rcv-highlight) {
   .rs-doc-step-header {
     position: relative;
     margin: 0.5rem 0;
-    padding-left: 2.5rem;
+    padding-inline-start: 2.5rem;
     font-size: 18px;
     font-weight: 600;
     color: var(--rs-text-primary);
@@ -206,7 +206,7 @@ code:not(.rcv-highlight) {
       content: counter(step-counter);
       counter-increment: step-counter;
       position: absolute;
-      left: 0;
+      inset-inline-start: 0;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
@@ -224,7 +224,7 @@ code:not(.rcv-highlight) {
   }
 
   .rs-doc-step-body {
-    padding-left: 2.5rem;
+    padding-inline-start: 2.5rem;
   }
 
   // Code blocks within steps
@@ -303,7 +303,7 @@ code:not(.rcv-highlight) {
         &:before {
           content: attr(data-label);
           font-weight: bold;
-          margin-right: 8px;
+          margin-inline-end: 8px;
           min-width: 120px;
           display: none; /* Hidden by default, can be enabled with JS */
         }
@@ -317,9 +317,9 @@ code:not(.rcv-highlight) {
         }
 
         &:not(:first-child) {
-          padding-left: 12px;
-          border-left: 2px solid var(--rs-state-info);
-          margin-left: 4px;
+          padding-inline-start: 12px;
+          border-inline-start: 2px solid var(--rs-state-info);
+          margin-inline-start: 4px;
         }
       }
     }

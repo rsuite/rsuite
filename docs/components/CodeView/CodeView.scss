@@ -2,9 +2,9 @@
 @use 'codemirror/lib/codemirror.css';
 @use 'codemirror/theme/base16-light.css';
 @use 'codemirror/theme/base16-dark.css';
-
+/* rtl:begin:ignore */
 .rcv-highlight {
-  direction: ltr /*rtl:ignore*/;
+  direction: ltr;
   position: relative;
   background-color: vars.$doc-highlight-bg;
   padding: 10px;
@@ -25,10 +25,11 @@
   }
 
   .copy-code-button {
-    right: 8px /*rtl:ignore*/;
+    right: 8px;
     top: 8px;
   }
 }
+/* rtl:end:ignore */
 
 code.bash {
   background-color: vars.$doc-highlight-bg;
@@ -61,13 +62,16 @@ a code {
   background-color: vars.$code-view-wrapper-bg;
   border-radius: 6px;
 
+  /* rtl:begin:ignore */
   .CodeMirror {
-    direction: ltr /*rtl:ignore*/;
+    direction: ltr;
     padding: 10px;
     margin: 0;
     background-color: vars.$doc-highlight-bg;
     height: auto !important;
   }
+  /* rtl:end:ignore */
+
   .CodeMirror-gutters {
     background-color: vars.$doc-highlight-bg;
   }
@@ -118,8 +122,9 @@ a code {
   }
 }
 
+/* rtl:begin:ignore */
 .rcv-editor {
-  direction: ltr /*rtl:ignore*/;
+  direction: ltr;
   border-radius: 0 0 6px 6px;
   height: auto;
   overflow: hidden;
@@ -136,12 +141,17 @@ a code {
     justify-content: center;
   }
 
+  .CodeMirror {
+    direction: ltr;
+  }
+
   .copy-code-button {
-    right: 8px /*rtl:ignore*/;
+    right: 8px;
     top: 8px;
     z-index: 1;
   }
 }
+/* rtl:end:ignore */
 
 .copy-code-button {
   position: absolute !important;

@@ -21,9 +21,7 @@
   }
   .sketch-picker-backdrop {
     position: fixed;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    inset-block: 0px;
+    inset-inline: 0px;
   }
 }
