@@ -5,6 +5,7 @@ export default {
     search: 'Search',
     resume:
       'Free enterprise React UI suite. A unified design system and a rich component library enhance developer productivity.',
+    bio: 'A suite of React components, designed for enterprise system products',
     advanced: 'Advanced',
     guide: 'Guide',
     gettingStarted: 'Getting started',
@@ -69,7 +70,10 @@ export default {
     tablet: 'Tablet',
     desktop: 'Desktop',
     code: 'Code',
-    openInNewTab: 'Open in New Tab'
+    openInNewTab: 'Open in New Tab',
+    about: 'About',
+    community: 'Community',
+    help: 'Help'
   },
   components: {
     noComponent: "Can't find the component you want? ",

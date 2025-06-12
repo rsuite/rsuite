@@ -7,11 +7,10 @@ import scrollIntoView from '@/utils/scrollIntoView';
 import CustomCodeView, { CustomCodeViewProps } from '@/components/CodeView';
 import InstallGuide from '@/components/InstallGuide';
 import { useRouter } from 'next/router';
-import { Divider, Footer } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
 import { useApp } from '@/hooks/useApp';
 import { getTitle, getDescription } from '@/utils/parseHTML';
-import { VercelBanner } from '@/components/VercelBanner';
+import { PageFooter } from './PageFooter';
 import { installCarbon, installBadges } from '@/components/scripts';
 import type { MenuItem } from '@/hooks/usePages';
 
@@ -126,11 +125,7 @@ const PageContent = (props: PageContentProps) => {
 
       {children}
 
-      <Divider style={{ marginBlock: '1.25rem' }} />
-
-      <Footer>
-        <VercelBanner />
-      </Footer>
+      <PageFooter />
     </PageContainer>
   );
 };

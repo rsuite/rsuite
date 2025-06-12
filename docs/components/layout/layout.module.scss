@@ -22,4 +22,37 @@
       display: none;
     }
   }
+
+  .footer {
+    margin-top: 3.5rem;
+
+    .link {
+      color: var(--rs-gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: block;
+      margin-bottom: 8px;
+
+      &:hover {
+        color: var(--rs-primary-color);
+        text-decoration: none;
+      }
+    }
+
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .description {
+      color: var(--rs-gray-600);
+      max-width: 400px;
+    }
+
+    .divider {
+      margin-block: 1.25rem;
+    }
+  }
 }

@@ -4,6 +4,7 @@ export default {
     home: '首页',
     search: '搜索',
     resume: '免费的企业级 React UI 套件。统一的设计系统和丰富的组件库提升开发者的生产力。',
+    bio: '一套 React 组件库，专为企业级产品设计',
     advanced: '高级功能',
     guide: '新手指南',
     gettingStarted: '开始使用',
@@ -68,7 +69,10 @@ export default {
     tablet: '平板端',
     desktop: '桌面端',
     code: '代码',
-    openInNewTab: '在新的 Tab 中打开'
+    openInNewTab: '在新的 Tab 中打开',
+    about: '关于',
+    community: '社区',
+    help: '帮助'
   },
   components: {
     noComponent: '没有找到想要的组件？',
