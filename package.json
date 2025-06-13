@@ -27,7 +27,7 @@
     "build:types": "npm run build:types-cjs && npm run build:types-esm",
     "postbuild": "VITEST_RUNNING_POSTBUILD=true vitest run --environment=node test/validateBuilds.spec.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "bump-docs": "node scripts/bumpDocsVersion.js",
+    "bump-docs": "node scripts/bump-docs-version.js",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "lint": "npm run lint:ts && npm run lint:style",

@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 import flatten from 'lodash/flatten';
-import { findResources } from '../scripts/proxyDirectories.js';
+import { findResources } from '../scripts/proxy-directories.js';
 
 interface BuildJson {
   components?: Record<string, string>;
