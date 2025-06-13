@@ -102,9 +102,8 @@ $enable-high-contrast: true !default;
   // Loader
   --rs-loader-default-size: 1.125rem;
 
-  //-- Z-index master list
+  // -- Z-index master list
   // Keep this section at the bottom of this file for easier lookup
-  //
   // Warning: Avoid customizing these values. They're used for a bird's eye view
   // of components dependent on the z-axis and are designed to all work together.
 
