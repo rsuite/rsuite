@@ -97,10 +97,6 @@ const filesToEnsureExistence: string[] = [
   'lib/dist/rsuite.min.css',
   'lib/dist/rsuite-no-reset.css',
   'lib/dist/rsuite-no-reset.min.css',
-  'lib/dist/rsuite-rtl.css',
-  'lib/dist/rsuite-rtl.min.css',
-  'lib/dist/rsuite-no-reset-rtl.css',
-  'lib/dist/rsuite-no-reset-rtl.min.css',
 
   // Validate docs
   'lib/CHANGELOG.md',
