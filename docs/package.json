@@ -12,7 +12,6 @@
     "build": "npm run generate-examples && next build",
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "start": "next start",
-    "parsing-design-docs": "node ./scripts/parsingDesignDocs.js",
     "algolia": "node ./scripts/algolia-indices.js",
     "generate-examples": "node ./scripts/generate-examples.js"
   },

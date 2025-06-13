@@ -22,14 +22,14 @@ const tsSvg =
 
 module.exports = function renderer(languages) {
   const renderer = markdownRenderer(languages);
-  
+
   // Replace version badge references with shield.io badges that link to GitHub releases
   renderer.text = function(text) {
     return text.replace(versionBadgeRegex, (match, version) => {
-      return `<a href="https://github.com/rsuite/rsuite/releases/tag/v${version}" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/>=-v${version}-blue" alt="Version ${version} or above" /></a>`;    
+      return `<a href="https://github.com/rsuite/rsuite/releases/tag/v${version}" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/>=-v${version}-blue" alt="Version ${version} or above" /></a>`;
     });
   };
-  
+
   // Rewrite heading parsing for PageNav navigation
   renderer.heading = function (htmlString, level) {
     var id = getId(htmlString);

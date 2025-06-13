@@ -4,7 +4,7 @@ const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
-const markdownRenderer = require('./scripts/markdownRenderer');
+const markdownRenderer = require('./scripts/markdown-renderer');
 const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
