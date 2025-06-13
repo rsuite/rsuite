@@ -25,9 +25,7 @@
 
   position: absolute;
   top: var(--rs-tooltip-position-y);
-  /* rtl:begin:ignore */
   left: var(--rs-tooltip-position-x);
-  /* rtl:end:ignore */
   z-index: var(--rs-tooltip-z-index);
   display: block;
   font-size: var(--rs-font-size-xs);
@@ -98,24 +96,24 @@
   &:where([data-placement='bottom'], [data-placement='top']) {
     &::before,
     &::after {
-      left: 50%;
+      inset-inline-start: 50%;
     }
   }
 
   &:where([data-placement='bottom-start'], [data-placement='top-start']) {
     &::before,
     &::after {
-      left: var(--rs-tooltip-arrow-gap-lg);
+      inset-inline-start: var(--rs-tooltip-arrow-gap-lg);
     }
   }
 
   &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     &::before {
-      right: calc(var(--rs-tooltip-arrow-gap-sm) - 1px);
+      inset-inline-end: calc(var(--rs-tooltip-arrow-gap-sm) - 1px);
     }
 
     &::after {
-      right: var(--rs-tooltip-arrow-gap-sm);
+      inset-inline-end: var(--rs-tooltip-arrow-gap-sm);
     }
   }
 
@@ -145,7 +143,6 @@
     }
   }
 
-  /* rtl:begin:ignore */
   // Common style for .placement-right*
   &:where([data-placement*='right']) {
     margin-left: calc(var(--rs-tooltip-arrow-width) + 2px);
@@ -158,8 +155,6 @@
   &:where([data-placement*='left']) {
     margin-left: calc((var(--rs-tooltip-arrow-width) + 2px) * -1);
     @include tooltip-mixins.set-translate-transition(calc(var(--rs-tooltip-translate-distance) * -1), 0);
-
     @include tooltip-mixins.with-tooltip-arrow(right);
   }
-  /* rtl:end:ignore */
 }

@@ -13,12 +13,12 @@
 @mixin popover-arrow($direction, $size, $color) {
   @if $direction == top {
     top: -$size;
-    margin-left: -$size;
+    margin-inline-start: -$size;
     border-width: 0 $size $size;
     border-bottom-color: $color;
   } @else if $direction == bottom {
     bottom: -$size;
-    margin-left: -$size;
+    margin-inline-start: -$size;
     border-width: $size $size 0;
     border-top-color: $color;
   } @else if $direction == right {

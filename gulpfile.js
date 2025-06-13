@@ -9,7 +9,6 @@ const postcssDiscardEmpty = require('postcss-discard-empty');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
-const rtlcss = require('gulp-rtlcss');
 const insert = require('gulp-insert');
 const gulp = require('gulp');
 const babelrc = require('./babel.config');
@@ -47,12 +46,8 @@ function clean(done) {
 // Final outputs:
 // - dist/rsuite.css
 // - dist/rsuite.min.css
-// - dist/rsuite-rtl.css
-// - dist/rsuite-rtl.min.css
 // - dist/rsuite-no-reset.css
 // - dist/rsuite-no-reset.min.css
-// - dist/rsuite-no-reset-rtl.css
-// - dist/rsuite-no-reset-rtl.min.css
 // - less/**/*.less
 exports.buildStyles = gulp.series(
   gulp.parallel(
@@ -66,7 +61,6 @@ exports.buildStyles = gulp.series(
       outputFileName: 'rsuite-no-reset.css'
     })
   ),
-  buildRTLCSS,
   minifyCSS
 );
 
@@ -124,14 +118,6 @@ function buildLess({
       .pipe(postcss([require('autoprefixer'), ...postcssPlugins]))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(dist));
-}
-
-function buildRTLCSS() {
-  return gulp
-    .src(`${distRoot}/rsuite*.css`)
-    .pipe(rtlcss()) // Convert to RTL.
-    .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
-    .pipe(gulp.dest(`${distRoot}`));
 }
 
 /**

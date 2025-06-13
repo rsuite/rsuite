@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import StyleHead from '../components/StyleHead';
 import canUseDOM from 'dom-lib/canUseDOM';
-import loadCssFile from '@/utils/loadCssFile';
 import TypedPrompt from '@/components/TypedPrompt';
 import NProgress from 'nprogress';
 import zhCN from 'rsuite/locales/zh_CN';
@@ -15,7 +14,6 @@ import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
-  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
@@ -86,29 +84,9 @@ function App({ Component, pageProps }: AppProps) {
 
   const loadStylesheetForDirection = useCallback(
     async (direction: DirectionType) => {
-      console.group(`Changing direction: ${direction}`);
-
-      NProgress.start();
-
-      const id = `stylesheet-${direction}`;
-      const stylesheetPath = getStylesheetPath(direction);
-
-      console.log('Loading stylesheet: ', stylesheetPath);
-      const loaded = await loadCssFile(stylesheetPath, id);
-      console.log(loaded.target);
-
       const html = document.querySelector('html');
       html.setAttribute('dir', direction);
       writeTheme(themeName, direction);
-      NProgress.done();
-
-      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
-        if (/_app(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
-          console.log('Removing stylesheet: ', css);
-          css.remove();
-        }
-      }
-      console.groupEnd();
     },
     [themeName]
   );

@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
@@ -167,8 +166,7 @@ module.exports = {
         filename: 'static/css/[name].css',
         chunkFilename: 'static/css/[contenthash].css',
         ignoreOrder: true // Ignore CSS order warnings
-      }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+      })
     );
 
     if (__DEV__) {

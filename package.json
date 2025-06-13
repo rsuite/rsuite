@@ -149,7 +149,6 @@
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^10.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-rtlcss": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "husky": "^7.0.2",
     "inquirer": "^9.2.7",

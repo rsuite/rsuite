@@ -2,7 +2,7 @@
 @use 'codemirror/lib/codemirror.css';
 @use 'codemirror/theme/base16-light.css';
 @use 'codemirror/theme/base16-dark.css';
-/* rtl:begin:ignore */
+
 .rcv-highlight {
   direction: ltr;
   position: relative;
@@ -29,8 +29,6 @@
     top: 8px;
   }
 }
-/* rtl:end:ignore */
-
 code.bash {
   background-color: vars.$doc-highlight-bg;
   color: #eee;
@@ -62,7 +60,6 @@ a code {
   background-color: vars.$code-view-wrapper-bg;
   border-radius: 6px;
 
-  /* rtl:begin:ignore */
   .CodeMirror {
     direction: ltr;
     padding: 10px;
@@ -70,7 +67,6 @@ a code {
     background-color: vars.$doc-highlight-bg;
     height: auto !important;
   }
-  /* rtl:end:ignore */
 
   .CodeMirror-gutters {
     background-color: vars.$doc-highlight-bg;
@@ -122,7 +118,6 @@ a code {
   }
 }
 
-/* rtl:begin:ignore */
 .rcv-editor {
   direction: ltr;
   border-radius: 0 0 6px 6px;
@@ -151,7 +146,6 @@ a code {
     z-index: 1;
   }
 }
-/* rtl:end:ignore */
 
 .copy-code-button {
   position: absolute !important;

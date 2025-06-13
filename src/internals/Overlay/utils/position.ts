@@ -7,25 +7,42 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
-import type { Offset } from '@/internals/types';
-import type { CursorPosition, Dimensions, UtilProps, PositionType } from './types';
+import type { Offset, Placement } from '@/internals/types';
+import type { CursorPosition, Dimensions, PositionOptions, PositionType } from '../types';
 
 export const AutoPlacement = {
   left: 'Start',
   right: 'End',
   top: 'Start',
   bottom: 'End'
-};
+} as const;
+
+// Cache for memoization
+const dimensionsCache = new Map<HTMLElement, { dimensions: Dimensions; timestamp: number }>();
+
+// Cache expiry time (milliseconds)
+const CACHE_EXPIRY = 100;
 
 /**
- * Get the external dimensions of the container
- * @param containerNode
+ * Get the external dimensions of the container with memoization for performance
+ * @param containerNode Container element
+ * @returns Container dimensions information
  */
 function getContainerDimensions(containerNode: HTMLElement): Dimensions {
-  let width;
-  let height;
-  let scrollX;
-  let scrollY;
+  // Check cache
+  const cached = dimensionsCache.get(containerNode);
+  const now = Date.now();
+
+  if (cached && now - cached.timestamp < CACHE_EXPIRY) {
+    return cached.dimensions;
+  }
+
+  // Calculate new dimensions
+  let width: number;
+  let height: number;
+  let scrollX: number;
+  let scrollY: number;
+
   if (containerNode.tagName === 'BODY') {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -36,13 +53,21 @@ function getContainerDimensions(containerNode: HTMLElement): Dimensions {
     scrollY = scrollTop(containerNode);
     scrollX = scrollLeft(containerNode);
   }
-  return { width, height, scrollX, scrollY };
+
+  const dimensions = { width, height, scrollX, scrollY };
+
+  // Update cache
+  dimensionsCache.set(containerNode, { dimensions, timestamp: now });
+
+  return dimensions;
 }
 
-export default (props: UtilProps) => {
-  const { placement, preventOverflow, padding } = props;
+export function calcPosition(options: PositionOptions) {
+  const { placement, preventOverflow, padding } = options;
+  // Ensure placement is a valid type
+  const currentPlacement = placement as Placement;
 
-  function getTopDelta(top, overlayHeight, container) {
+  function getTopDelta(top: number, overlayHeight: number, container: HTMLElement) {
     if (!preventOverflow) {
       return 0;
     }
@@ -61,7 +86,7 @@ export default (props: UtilProps) => {
     return 0;
   }
 
-  function getLeftDelta(left, overlayWidth, container) {
+  function getLeftDelta(left: number, overlayWidth: number, container: HTMLElement) {
     if (!preventOverflow) {
       return 0;
     }
@@ -80,22 +105,22 @@ export default (props: UtilProps) => {
     return 0;
   }
 
-  function getPositionTop(container, overlayHeight, top) {
+  function getPositionTop(container: HTMLElement, overlayHeight: number, top: number) {
     if (!preventOverflow) {
       return top;
     }
     const { scrollY, height: containerHeight } = getContainerDimensions(container);
 
-    // 判断 overlay 底部是否溢出，设置 top
+    // Check if the bottom of the overlay overflows, set top
     if (overlayHeight + top > containerHeight + scrollY) {
       return containerHeight - overlayHeight + scrollY;
     }
 
-    // top 的最小值不能少于纵向滚动条 y 的值
+    // The minimum value of top should not be less than the vertical scroll bar y value
     return Math.max(scrollY, top);
   }
 
-  function getPositionLeft(container, overlayWidth, left) {
+  function getPositionLeft(container: HTMLElement, overlayWidth: number, left: number) {
     if (!preventOverflow) {
       return left;
     }
@@ -106,7 +131,7 @@ export default (props: UtilProps) => {
       return containerWidth - overlayWidth + scrollX;
     }
 
-    // left 的最小值不能少于横向滚动条 x 的值
+    // The minimum value of left should not be less than the horizontal scroll bar x value
     return Math.max(scrollX, left);
   }
 
@@ -166,48 +191,80 @@ export default (props: UtilProps) => {
       return offset;
     },
 
-    calcAutoPlacement(targetOffset, container, overlay) {
+    /**
+     * Calculate the optimal auto placement position
+     * @param targetOffset Target element offset
+     * @param container Container element
+     * @param overlay Overlay dimensions
+     * @returns Calculated optimal placement position
+     */
+    calcAutoPlacement(
+      targetOffset: Offset,
+      container: HTMLElement,
+      overlay: { width: number; height: number }
+    ): Placement {
+      // Get container dimensions and scroll position
       const { width, height, scrollX, scrollY } = getContainerDimensions(container);
-      const left = targetOffset.left - scrollX - overlay.width;
-      const top = targetOffset.top - scrollY - overlay.height;
-      const right = width - targetOffset.left - targetOffset.width + scrollX - overlay.width;
-      const bottom = height - targetOffset.top - targetOffset.height + scrollY - overlay.height;
 
+      // Calculate available space in each direction
+      const availableSpace = {
+        left: targetOffset.left - scrollX - overlay.width,
+        top: targetOffset.top - scrollY - overlay.height,
+        right: width - targetOffset.left - targetOffset.width + scrollX - overlay.width,
+        bottom: height - targetOffset.top - targetOffset.height + scrollY - overlay.height
+      };
+
+      // Group available space into horizontal and vertical directions
       const horizontal = [
-        { key: 'left', value: left },
-        { key: 'right', value: right }
+        { key: 'left' as const, value: availableSpace.left },
+        { key: 'right' as const, value: availableSpace.right }
       ];
       const vertical = [
-        { key: 'top', value: top },
-        { key: 'bottom', value: bottom }
+        { key: 'top' as const, value: availableSpace.top },
+        { key: 'bottom' as const, value: availableSpace.bottom }
       ];
+
+      // Constants for auto placement
       const AV = 'autoVertical';
       const AH = 'autoHorizontal';
 
-      let direction;
-      let align;
-
-      if (placement.indexOf(AV) !== -1) {
-        direction = maxBy(vertical, o => o.value);
-        return placement === AV ? direction.key : `${direction.key}${placement.replace(AV, '')}`;
-      } else if (placement.indexOf(AH) !== -1) {
-        direction = maxBy(horizontal, o => o.value);
-        return placement === AH ? direction.key : `${direction.key}${placement.replace(AH, '')}`;
+      // Handle specific auto vertical placement
+      if (currentPlacement.indexOf(AV) !== -1) {
+        const bestDirection = maxBy(vertical, o => o.value);
+        if (!bestDirection) return 'bottom'; // Default value
+        return (
+          currentPlacement === AV
+            ? bestDirection.key
+            : `${bestDirection.key}${currentPlacement.replace(AV, '')}`
+        ) as Placement;
       }
 
-      /**
-       * Precedence Vertical
-       * [...vertical, ...horizontal]
-       */
-      direction = maxBy([...vertical, ...horizontal], o => o.value);
-
-      if (direction.key === 'left' || direction.key === 'right') {
-        align = minBy(vertical, o => o.value);
-      } else {
-        align = minBy(horizontal, o => o.value);
+      // Handle specific auto horizontal placement
+      if (currentPlacement.indexOf(AH) !== -1) {
+        const bestDirection = maxBy(horizontal, o => o.value);
+        if (!bestDirection) return 'right'; // Default value
+        return (
+          currentPlacement === AH
+            ? bestDirection.key
+            : `${bestDirection.key}${currentPlacement.replace(AH, '')}`
+        ) as Placement;
       }
 
-      return `${direction.key}${AutoPlacement[align.key]}`;
+      // By default, vertical direction takes precedence
+      // Find the direction with the most space to use as main direction
+      const bestDirection = maxBy([...vertical, ...horizontal], o => o.value);
+      if (!bestDirection) return 'bottom'; // 默认值
+
+      // Determine alignment based on main direction
+      const isHorizontal = bestDirection.key === 'left' || bestDirection.key === 'right';
+      const bestAlign = isHorizontal
+        ? minBy(vertical, o => o.value) // If main direction is horizontal, align vertically
+        : minBy(horizontal, o => o.value); // If main direction is vertical, align horizontally
+
+      if (!bestAlign) return bestDirection.key as Placement; // If no alignment, return main direction
+
+      // Return final placement position
+      return `${bestDirection.key}${AutoPlacement[bestAlign.key]}` as Placement;
     },
 
     // Calculate the position of the overlay
@@ -217,53 +274,68 @@ export default (props: UtilProps) => {
       container: HTMLElement,
       cursorPosition?: CursorPosition | null
     ): PositionType {
+      // Cache commonly used values to avoid repeated calculations
+      const ARROW_OFFSET_FACTOR = 50; // Arrow offset calculation factor
+      const isRTL = document.dir === 'rtl';
+
+      // Get target element offset
       const childOffset: Offset = cursorPosition
         ? this.getCursorOffsetPosition(target, container, cursorPosition)
         : (this.getPosition(target, container) as Offset);
       const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode) as Offset;
       const { top, left } = childOffset;
 
-      let nextPlacement = placement;
+      // Determine placement position
+      let nextPlacement = currentPlacement;
 
-      if (placement && placement.indexOf('auto') >= 0) {
+      if (currentPlacement && currentPlacement.indexOf('auto') >= 0) {
         nextPlacement = this.calcAutoPlacement(childOffset, container, {
           height: overlayHeight,
           width: overlayWidth
         });
       }
 
+      // Initialize position and arrow offset values
       let positionLeft;
       let positionTop;
       let arrowOffsetLeft;
       let arrowOffsetTop;
 
+      // Handle basic left/right positions
       if (nextPlacement === 'left' || nextPlacement === 'right') {
+        // Vertical centering
         positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
-
         const topDelta = getTopDelta(positionTop, overlayHeight, container);
-
         positionTop += topDelta;
-        arrowOffsetTop = `${50 * (1 - (2 * topDelta) / overlayHeight)}%`;
+        arrowOffsetTop = `${ARROW_OFFSET_FACTOR * (1 - (2 * topDelta) / overlayHeight)}%`;
         arrowOffsetLeft = undefined;
-      } else if (nextPlacement === 'top' || nextPlacement === 'bottom') {
+      }
+      // Handle basic top/bottom positions
+      else if (nextPlacement === 'top' || nextPlacement === 'bottom') {
+        // Horizontal centering
         positionLeft = left + (childOffset.width - overlayWidth) / 2;
-
         const leftDelta = getLeftDelta(positionLeft, overlayWidth, container);
         positionLeft += leftDelta;
-
-        arrowOffsetLeft = `${50 * (1 - (2 * leftDelta) / overlayWidth)}%`;
+        arrowOffsetLeft = `${ARROW_OFFSET_FACTOR * (1 - (2 * leftDelta) / overlayWidth)}%`;
         arrowOffsetTop = undefined;
       }
 
-      if (nextPlacement === 'top' || nextPlacement === 'topStart' || nextPlacement === 'topEnd') {
+      // Helper function: Check if placement matches specified prefix
+      const matchesPlacement = (prefix: string) => {
+        return (
+          nextPlacement === prefix ||
+          nextPlacement === `${prefix}Start` ||
+          nextPlacement === `${prefix}End`
+        );
+      };
+
+      // Handle top position series
+      if (matchesPlacement('top')) {
         positionTop = getPositionTop(container, overlayHeight, childOffset.top - overlayHeight);
       }
 
-      if (
-        nextPlacement === 'bottom' ||
-        nextPlacement === 'bottomStart' ||
-        nextPlacement === 'bottomEnd'
-      ) {
+      // Handle bottom position series
+      if (matchesPlacement('bottom')) {
         positionTop = getPositionTop(
           container,
           overlayHeight,
@@ -271,19 +343,13 @@ export default (props: UtilProps) => {
         );
       }
 
-      if (
-        nextPlacement === 'left' ||
-        nextPlacement === 'leftStart' ||
-        nextPlacement === 'leftEnd'
-      ) {
+      // Handle left position series
+      if (matchesPlacement('left')) {
         positionLeft = getPositionLeft(container, overlayWidth, childOffset.left - overlayWidth);
       }
 
-      if (
-        nextPlacement === 'right' ||
-        nextPlacement === 'rightStart' ||
-        nextPlacement === 'rightEnd'
-      ) {
+      // Handle right position series
+      if (matchesPlacement('right')) {
         positionLeft = getPositionLeft(
           container,
           overlayWidth,
@@ -291,17 +357,10 @@ export default (props: UtilProps) => {
         );
       }
 
-      if (
-        document.dir === 'rtl' &&
-        (nextPlacement === 'left' ||
-          nextPlacement === 'leftStart' ||
-          nextPlacement === 'leftEnd' ||
-          nextPlacement === 'right' ||
-          nextPlacement === 'rightStart' ||
-          nextPlacement === 'rightEnd')
-      ) {
+      // Handle horizontal position adjustment in RTL mode
+      if (isRTL && (matchesPlacement('left') || matchesPlacement('right'))) {
         /**
-         * When laying out in rtl, if the width of the container
+         * When laying out in RTL, if the width of the container
          * is less than the width of the container scrolling,
          * you need to recalculate the left value.
          */
@@ -311,8 +370,9 @@ export default (props: UtilProps) => {
         }
       }
 
+      // Handle Start variant positions
       if (nextPlacement === 'topStart' || nextPlacement === 'bottomStart') {
-        if (document.dir === 'rtl') {
+        if (isRTL) {
           const nextLeft = left + (childOffset.width - overlayWidth);
           positionLeft = nextLeft + getLeftDelta(nextLeft, overlayWidth, container);
         } else {
@@ -320,8 +380,9 @@ export default (props: UtilProps) => {
         }
       }
 
+      // Handle End variant positions
       if (nextPlacement === 'topEnd' || nextPlacement === 'bottomEnd') {
-        if (document.dir === 'rtl') {
+        if (isRTL) {
           positionLeft = left + getLeftDelta(left, overlayWidth, container);
         } else {
           const nextLeft = left + (childOffset.width - overlayWidth);
@@ -329,10 +390,12 @@ export default (props: UtilProps) => {
         }
       }
 
+      // Handle leftStart and rightStart
       if (nextPlacement === 'leftStart' || nextPlacement === 'rightStart') {
         positionTop = top + getTopDelta(top, overlayHeight, container);
       }
 
+      // Handle leftEnd and rightEnd
       if (nextPlacement === 'leftEnd' || nextPlacement === 'rightEnd') {
         const nextTop = top + (childOffset.height - overlayHeight);
         positionTop = nextTop + getTopDelta(nextTop, overlayHeight, container);
@@ -347,4 +410,4 @@ export default (props: UtilProps) => {
       };
     }
   };
-};
+}

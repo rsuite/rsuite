@@ -335,8 +335,6 @@
   }
 }
 
-/* rtl:begin:ignore */
-/* stylelint-disable-next-line */
 [dir='rtl'] .rs-calendar-header {
   &-backward,
   &-forward {
@@ -345,8 +343,6 @@
     }
   }
 }
-
-/* rtl:end:ignore */
 
 .rs-calendar-body {
   padding: var(--rs-calendar-base-spacing);

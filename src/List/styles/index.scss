@@ -61,8 +61,6 @@
   }
 }
 
-/* rtl:begin:ignore */
-/* stylelint-disable-next-line */ // For RTL Scope
 .rs-list-item {
   background-color: var(--rs-list-bg);
 
@@ -111,5 +109,3 @@
     border-top: var(--rs-list-border-width) solid var(--rs-list-border);
   }
 }
-
-/* rtl:end:ignore */

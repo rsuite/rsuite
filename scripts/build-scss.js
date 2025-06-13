@@ -56,12 +56,8 @@ async function compileScss(
 // Build styles
 // - dist/rsuite.css
 // - dist/rsuite.min.css
-// - dist/rsuite-rtl.css
-// - dist/rsuite-rtl.min.css
 // - dist/rsuite-no-reset.css
 // - dist/rsuite-no-reset.min.css
-// - dist/rsuite-no-reset-rtl.css
-// - dist/rsuite-no-reset-rtl.min.css
 async function buildMainStyles() {
   const variants = [
     // Standard versions

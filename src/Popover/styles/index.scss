@@ -23,9 +23,7 @@
 
   position: absolute;
   top: var(--rs-popover-position-y);
-  /* rtl:begin:ignore */
   left: var(--rs-popover-position-x);
-  /* rtl:end:ignore */
   z-index: var(--rs-zindex-popover);
   display: block;
   padding: 12px;
@@ -124,7 +122,7 @@
     @include utils.set-translate-transition(0, var(--rs-popover-translate-distance));
 
     > .rs-popover-arrow {
-      margin-left: calc(var(--rs-popover-arrow-outer-width) * -1);
+      inset-inline-start: calc(var(--rs-popover-arrow-outer-width) * -1);
       top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(top);
@@ -141,7 +139,7 @@
 
   &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     > .rs-popover-arrow {
-      right: var(--rs-popover-arrow-gap);
+      inset-inline-end: var(--rs-popover-arrow-gap);
     }
   }
 
@@ -158,14 +156,15 @@
   }
 }
 
-/* rtl:begin:ignore */
 .rs-popover {
+  --rs-popover-arrow-offset: calc(var(--rs-popover-arrow-outer-width) * -1);
+
   &:where([data-placement*='right']) {
-    margin-left: calc(var(--rs-popover-arrow-width) + 2px);
+    margin-inline-start: calc(var(--rs-popover-arrow-width) + 2px);
     @include utils.set-translate-transition(var(--rs-popover-translate-distance), 0);
 
     > .rs-popover-arrow {
-      left: calc(var(--rs-popover-arrow-outer-width) * -1);
+      inset-inline-start: var(--rs-popover-arrow-offset);
       margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(left);
@@ -173,18 +172,17 @@
   }
 
   &:where([data-placement*='left']) {
-    margin-left: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+    margin-inline-start: calc((var(--rs-popover-arrow-width) + 2px) * -1);
     @include utils.set-translate-transition(calc(var(--rs-popover-translate-distance) * -1), 0);
 
     > .rs-popover-arrow {
-      right: calc(var(--rs-popover-arrow-outer-width) * -1);
+      inset-inline-end: var(--rs-popover-arrow-offset);
       margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(right);
     }
   }
 }
-/* rtl:end:ignore */
 
 // Adjust full popover arrow postion
 .rs-popover-full {

@@ -42,15 +42,6 @@ export const DIRECTION_KEY = 'direction';
 /** Default text direction for the application */
 export const DIRECTION_DEFAULT = 'ltr';
 
-/**
- * Generates the path to the appropriate stylesheet based on text direction
- *
- * @param {DirectionType} dir - The text direction ('ltr' or 'rtl')
- * @returns {string} The path to the stylesheet
- */
-export function getStylesheetPath(dir: DirectionType): string {
-  return `/_next/static/css/pages/_app${dir === 'rtl' ? '-rtl' : ''}.css`;
-}
 
 /**
  * Reads the current theme from localStorage or returns the default theme

@@ -51,9 +51,7 @@ $doc-nav-line-color: #e5e5e5;
   }
 }
 
-/* rtl:begin:ignore */
 html[dir='rtl'] .document-nav {
   inset-inline-start: auto !important;
   inset-inline-end: 10px !important;
 }
-/* rtl:end:ignore */
