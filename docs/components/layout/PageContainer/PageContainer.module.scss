@@ -1,14 +1,18 @@
 @use '../../../styles/variables' as vars;
 
+.page-main {
+  display: grid;
+  grid-template-columns: 10fr 210px;
+}
+
 .page-context-wrapper {
-  $context-padding: 20px;
+  $context-padding: 2rem;
 
   margin-inline: 0;
 
   @media (min-width: vars.$screen-md) {
     padding-block: $context-padding;
-    padding-inline-start: $context-padding;
-    padding-inline-end: 210px;
+    padding-inline: 3.125rem;
 
     &.hide-page-nav {
       padding-inline-end: $context-padding !important;

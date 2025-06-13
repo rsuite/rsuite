@@ -296,11 +296,15 @@
 
     &-shadow,
     &-left-shadow {
-      box-shadow: 3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
+      /* rtl:begin:ignore */
+      box-shadow: 3px 0 5px var(--rs-table-shadow);
+      /* rtl:end:ignore */
     }
 
     &-right-shadow {
-      box-shadow: -3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
+      /* rtl:begin:ignore */
+      box-shadow: -3px 0 5px var(--rs-table-shadow);
+      /* rtl:end:ignore */
     }
   }
 
@@ -418,7 +422,9 @@
 
   &-horizontal &-handle {
     height: var(--rs-table-scrollbar-handle-width);
-    left: 0 /* rtl:ignore */;
+    /* rtl:begin:ignore */
+    left: 0;
+    /* rtl:end:ignore */
     top: var(--rs-table-scrollbar-handle-gap);
   }
 

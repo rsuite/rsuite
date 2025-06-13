@@ -23,7 +23,9 @@
 
   position: absolute;
   top: var(--rs-popover-position-y);
-  left: var(--rs-popover-position-x) /* rtl:ignore */;
+  /* rtl:begin:ignore */
+  left: var(--rs-popover-position-x);
+  /* rtl:end:ignore */
   z-index: var(--rs-zindex-popover);
   display: block;
   padding: 12px;

@@ -140,7 +140,7 @@ export default function SideNavbar(props: SideNavbarProps) {
     <>
       {showMediaToggleButton && (
         <IconButton
-          className={styles['media-toggle-side-bar']}
+          className={styles['toggle-side-bar']}
           icon={<MenuIcon />}
           onClick={handleOpenMediaSidebar}
         />
@@ -166,7 +166,7 @@ export default function SideNavbar(props: SideNavbarProps) {
         </Sidebar>
       </div>
       <div
-        className={classNames(styles['rs-sidebar-media-backdrop'], {
+        className={classNames(styles['rs-sidebar-backdrop'], {
           [styles['sidebar-show']]: showSubmenu
         })}
         onClick={handleCloseMediaSidebar}

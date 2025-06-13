@@ -25,7 +25,9 @@
 
   position: absolute;
   top: var(--rs-tooltip-position-y);
-  left: var(--rs-tooltip-position-x) /* rtl:ignore */;
+  /* rtl:begin:ignore */
+  left: var(--rs-tooltip-position-x);
+  /* rtl:end:ignore */
   z-index: var(--rs-tooltip-z-index);
   display: block;
   font-size: var(--rs-font-size-xs);

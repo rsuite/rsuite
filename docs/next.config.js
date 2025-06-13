@@ -168,7 +168,12 @@ module.exports = {
         chunkFilename: 'static/css/[contenthash].css',
         ignoreOrder: true // Ignore CSS order warnings
       }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+      new RtlCssPlugin({
+        filename: 'static/css/[name]-rtl.css',
+        options: {
+          processKeyframes: true
+        }
+      })
     );
 
     if (__DEV__) {

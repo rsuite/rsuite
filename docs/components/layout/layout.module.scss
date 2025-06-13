@@ -24,7 +24,12 @@
   }
 
   .footer {
-    margin-top: 3.5rem;
+    padding-block: 2rem;
+    padding-inline: 3.125rem;
+
+    .logo {
+      margin-inline-start: -10px;
+    }
 
     .link {
       color: var(--rs-gray-600);

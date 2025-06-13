@@ -37,30 +37,33 @@ export default function PageContainer(props: ContainerProps) {
 
   return (
     <>
-      <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
-        <Col span={24} className={styles['main-container']}>
-          <PageContent>{children}</PageContent>
-        </Col>
-      </Row>
-
       <PageToolbar designHash={designHash} routerId={routerId} />
-      {hidePageNav ? null : (
-        <Box showFrom="sm">
-          <PageNav
-            as={Col}
-            showOrderNumber={false}
-            width={150}
-            scrollBar="left"
-            rtl={rtl}
-            once={false}
-            deep={4}
-            offset={{
-              top: 80,
-              [rtl ? 'left' : 'right']: 10
-            }}
-          />
-        </Box>
-      )}
+      <div className={styles['page-main']}>
+        <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
+          <Col span={24} className={styles['main-container']}>
+            <PageContent>{children}</PageContent>
+          </Col>
+        </Row>
+
+        {hidePageNav ? null : (
+          <Box showFrom="sm" w={210}>
+            <PageNav
+              as={Col}
+              showOrderNumber={false}
+              width={180}
+              scrollBar="left"
+              rtl={rtl}
+              once={false}
+              deep={4}
+              offset={{
+                top: 80,
+                position: 'sticky',
+                insetInlineStart: 10,
+              }}
+            />
+          </Box>
+        )}
+      </div>
     </>
   );
 }

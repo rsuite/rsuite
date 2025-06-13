@@ -23,22 +23,24 @@
   border-top-color: @color;
 }
 
-/* rtl:begin:ignore */
+
 .tooltip-arrow(right, @size, @color) {
+  /* rtl:begin:ignore */
   right: -@size;
+  /* rtl:end:ignore */
   margin-top: -@size;
   border-width: @size 0 @size @size;
   border-left-color: @color;
 }
 
 .tooltip-arrow(left, @size, @color) {
+  /* rtl:begin:ignore */
   left: -@size;
+  /* rtl:end:ignore */
   margin-top: -@size;
   border-width: @size @size @size 0;
   border-right-color: @color;
 }
-
-/* rtl:end:ignore */
 
 // Append tooltip's arrow to tooltip
 // @direction: The arrow's pointing direction. It's usually opposite of tooltip's placement

@@ -132,7 +132,9 @@
 
   position: absolute;
   top: var(--rs-picker-popup-position-y);
-  left: var(--rs-picker-popup-position-x) /* rtl:ignore */;
+  /* rtl:begin:ignore */
+  left: var(--rs-picker-popup-position-x);
+  /* rtl:end:ignore */
   text-align: start;
   overflow: hidden;
   transition: none;

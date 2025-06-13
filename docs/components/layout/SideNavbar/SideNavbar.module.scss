@@ -62,7 +62,7 @@
   }
 }
 
-.rs-sidebar-media-backdrop {
+.rs-sidebar-backdrop {
   @media (max-width: vars.$screen-md) {
     background-color: var(--rs-bg-backdrop);
     position: fixed;
@@ -77,7 +77,7 @@
   }
 }
 
-.media-toggle-side-bar:global(.rs-btn.rs-btn-icon) {
+.toggle-side-bar:global(.rs-btn.rs-btn-icon) {
   position: fixed;
   top: calc(vars.$main-nav-height + 10px);
   z-index: 1;

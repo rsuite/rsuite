@@ -10,7 +10,7 @@ import Router, { useRouter } from 'next/router';
 import AppProvider from '@/components/AppProvider';
 import { CustomProvider, CustomProviderProps } from 'rsuite';
 import { Analytics } from '@vercel/analytics/react';
-import { Container } from '@/components/layout/Container';
+import { AppContainer } from '@/components/layout/AppContainer';
 import { getMessages } from '../locales';
 import {
   DirectionType,
@@ -131,7 +131,7 @@ function App({ Component, pageProps }: AppProps) {
         rtl={direction === 'rtl'}
         theme={themeName}
       >
-        <Container>
+        <AppContainer>
           <AppProvider
             value={{
               locales,
@@ -146,7 +146,7 @@ function App({ Component, pageProps }: AppProps) {
             <StyleHead onLoaded={handleStyleHeadLoaded} />
             <Component {...pageProps} />
           </AppProvider>
-        </Container>
+        </AppContainer>
         <TypedPrompt />
       </CustomProvider>
       <Analytics />
