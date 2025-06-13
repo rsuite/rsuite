@@ -23,7 +23,8 @@
 .rs-navbar-brand {
   &:extend(.rs-navbar-header); // TODO deprecate .rs-navbar-header
 
-  padding: 18px 20px;
+  //padding: 18px 20px;
+   padding: @navbar-item-padding-y @navbar-item-padding-x; //fixed values ​​instead of using variables @navbar-item-padding-y @navbar-item-padding-x prevents these variables from working as expected
 }
 
 // Common
