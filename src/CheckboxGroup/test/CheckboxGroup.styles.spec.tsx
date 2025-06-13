@@ -4,7 +4,7 @@ import Checkbox from '../../Checkbox';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('CheckboxGroup styles', () => {
   it('Should render the correct margin', () => {

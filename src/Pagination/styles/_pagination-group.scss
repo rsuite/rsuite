@@ -1,0 +1,31 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-pagination-group {
+  --pagination-group-gap: calc(var(--rs-spacing) * 2.5);
+  display: flex;
+  align-items: center;
+  gap: var(--pagination-group-gap);
+
+  &-grow {
+    flex-grow: 1;
+  }
+
+  .rs-pagination {
+    vertical-align: middle;
+  }
+
+  &-limit {
+    position: relative;
+  }
+
+  &-skip {
+    vertical-align: middle;
+    display: inline-block;
+
+    .rs-input {
+      width: 46px;
+      margin: 0 5px;
+      display: inline-block;
+    }
+  }
+}

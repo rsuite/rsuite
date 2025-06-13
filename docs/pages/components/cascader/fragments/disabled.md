@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader, VStack, HStack, Box } from 'rsuite';
+import { Cascader, VStack, HStack, Divider, Text } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,30 +12,32 @@ const data = mockTreeData({
   }
 });
 
+const Field = ({ label, children, ...rest }) => (
+  <HStack align="start">
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <Cascader {...rest} w={180} />
+  </HStack>
+);
+
 const App = () => (
-  <VStack spacing={16}>
-    <Select label="Disabled" disabled defaultValue="1-1" data={data} />
-    <Select
-      label="Disabled option"
-      data={data}
-      defaultValue="1-1"
-      disabledItemValues={['2', '1-1']}
-    />
-    <Select label="Read only" readOnly defaultValue="1-1" data={data} />
-    <Select label="Plaintext" plaintext defaultValue="1-1" data={data} />
+  <VStack divider={<Divider />}>
+    <VStack>
+      <Field label="Disabled" disabled defaultValue="1-1" data={data} />
+      <Field
+        label="Disabled option"
+        data={data}
+        defaultValue="1-1"
+        disabledItemValues={['2', '1-1']}
+      />
+    </VStack>
+    <Field label="ReadOnly" readOnly defaultValue="1-1" data={data} />
+    <Field label="Plaintext" plaintext defaultValue="1-1" data={data} />
   </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Select = ({ label, children, ...rest }) => (
-  <HStack>
-    <Box as="label" w={120}>
-      {label}:
-    </Box>
-    <Cascader {...rest} w={180} />
-  </HStack>
-);
 ```
 
 <!--end-code-->

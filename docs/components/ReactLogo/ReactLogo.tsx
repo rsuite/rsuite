@@ -1,6 +1,7 @@
 import React from 'react';
+import classNames from 'classnames';
 
-interface ReactLogoProps {
+interface ReactLogoProps extends React.HTMLAttributes<HTMLDivElement> {
   pathFillColor?: string;
   pathStrokeColor?: string;
   pathStrokeWidth?: string;
@@ -13,11 +14,12 @@ export default function ReactLogo(props: ReactLogoProps) {
     pathStrokeColor = '#555',
     pathStrokeWidth = 4,
     running,
+    className = '',
     ...rest
   } = props;
   const runningClassName = running ? 'running' : '';
   return (
-    <div {...rest} className="react-logo logo-animated zoomIn">
+    <div {...rest} className={classNames('react-logo logo-animated zoomIn', className)}>
       <svg viewBox="100 100 200 200">
         <path
           className="bg"

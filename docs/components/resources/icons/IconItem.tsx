@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import classnames from 'classnames';
 import { IconProps } from '@rsuite/icons/Icon';
+import styles from './IconList.module.scss';
 
 export interface IconItemProps {
   onSelect: (name: string, event: React.MouseEvent) => void;
@@ -21,11 +22,11 @@ const IconItem = (props: IconItemProps) => {
 
   return (
     <div
-      className={classnames('icon-item', { 'new-icon': newIcon })}
+      className={classnames(styles['icon-item'], { [styles['new-icon']]: newIcon })}
       tabIndex={0}
       onClick={handleSelect}
     >
-      <IconComponent className="icon-svg" {...rest} />
+      <IconComponent className={styles['icon-svg']} {...rest} />
     </div>
   );
 };

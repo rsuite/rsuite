@@ -7,6 +7,7 @@ import IcomModal, { IconMeta } from './IconModal';
 import * as Icons from '@rsuite/icons';
 import { Input, InputGroup } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
+import styles from './IconList.module.scss';
 
 function searchFilter(keyword: string) {
   return iconList.filter(({ categoryName, iconName }: IconMeta) => {
@@ -42,11 +43,13 @@ function IconList() {
     if (filteredIcons.length === 0) {
       return (
         <div>
-          <p className="icon-list-no-results-title">
+          <p className={styles['icon-list-no-results-title']}>
             {locales?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
           </p>
           <hr />
-          <p className="icon-list-no-results-help">{locales?.resourcesIcons.tryOther}</p>
+          <p className={styles['icon-list-no-results-help']}>
+            {locales?.resourcesIcons.tryOther}
+          </p>
           <ul>
             <li>
               <Link href="/components/icon/#font-awesome-icons">Font awesome icons</Link>
@@ -63,7 +66,7 @@ function IconList() {
     }
 
     return (
-      <div className="row icon-item-list">
+      <div className={styles['icon-item-list']}>
         {filteredIcons.map(({ iconName }, j) => {
           return (
             <IconItem
@@ -79,8 +82,8 @@ function IconList() {
   }, [filteredIcons, handleSelect, keyword, locales]);
 
   return (
-    <div className="icon-list-wrap">
-      <InputGroup inside size="lg" className="icon-search-input">
+    <div className={styles['icon-list-wrap']}>
+      <InputGroup inside size="lg" className={styles['icon-search-input']}>
         <Input
           type="text"
           placeholder={`Search ${iconList.length} icons ...`}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TimeRangePicker, Stack, Box } from 'rsuite';
+import { TimeRangePicker, Stack, HStack, VStack, Text, Divider, Button } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
@@ -16,7 +16,11 @@ export default function Page() {
       dependencies={{
         TimeRangePicker,
         Stack,
-        Box
+        HStack,
+        VStack,
+        Text,
+        Divider,
+        Button
       }}
     />
   );

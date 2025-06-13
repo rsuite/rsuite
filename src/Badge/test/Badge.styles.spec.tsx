@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getStyle, toRGB } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Badge styles', () => {
   it('Should render independent badge with fixed height and width', () => {

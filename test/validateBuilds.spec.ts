@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 import flatten from 'lodash/flatten';
-import { findResources } from '../scripts/proxyDirectories.js';
+import { findResources } from '../scripts/proxy-directories.js';
 
 interface BuildJson {
   components?: Record<string, string>;
@@ -97,10 +97,6 @@ const filesToEnsureExistence: string[] = [
   'lib/dist/rsuite.min.css',
   'lib/dist/rsuite-no-reset.css',
   'lib/dist/rsuite-no-reset.min.css',
-  'lib/dist/rsuite-rtl.css',
-  'lib/dist/rsuite-rtl.min.css',
-  'lib/dist/rsuite-no-reset-rtl.css',
-  'lib/dist/rsuite-no-reset-rtl.min.css',
 
   // Validate docs
   'lib/CHANGELOG.md',
@@ -108,10 +104,8 @@ const filesToEnsureExistence: string[] = [
   'lib/LICENSE',
   'lib/package.json',
 
-  // Validate less
-  'lib/styles/index.less',
-  'lib/styles/plugins/palette.js',
-  ...styledComponents.map(i => `lib/${i}/styles/index.less`),
+  // Validate css
+  ...styledComponents.map(i => `lib/${i}/styles/index.css`),
 
   // Validate components
   ...flattenProxyResources({ resources: components }),

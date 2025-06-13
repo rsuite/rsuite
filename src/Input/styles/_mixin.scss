@@ -1,0 +1,39 @@
+@use '../../styles/mixins/color-modes' as cm;
+@use '../../styles/mixins/utilities' as utils;
+
+@mixin default-input {
+  display: block;
+  width: 100%;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-input-bg);
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid var(--rs-border-primary);
+  transition: var(--rs-input-transition);
+  border-radius: var(--rs-input-border-radius);
+  font-size: var(--rs-input-font-size);
+  line-height: var(--rs-input-line-height);
+  padding-block: var(--rs-input-padding-block);
+  padding-inline: var(--rs-input-padding-inline);
+
+  @include cm.high-contrast-mode {
+    transition: none;
+  }
+
+  // Placeholder
+  &::placeholder {
+    color: var(--rs-text-secondary);
+  }
+
+  &:focus {
+    border-color: var(--rs-input-focus-border);
+  }
+
+  &:focus-visible {
+    @include utils.focus-ring;
+  }
+
+  &:disabled {
+    background-color: var(--rs-input-disabled-bg);
+    color: var(--rs-text-disabled);
+  }
+}

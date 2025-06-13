@@ -1,14 +1,10 @@
 import React from 'react';
-import { Timeline, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-import CreditCardIcon from '@rsuite/icons/legacy/CreditCard';
-import PlaneIcon from '@rsuite/icons/legacy/Plane';
-import TruckIcon from '@rsuite/icons/legacy/Truck';
-import UserIcon from '@rsuite/icons/legacy/User';
-import CheckIcon from '@rsuite/icons/legacy/Check';
+import Icon from '@rsuite/icons/Icon';
+import { Timeline, Grid, Row, Col, Text } from 'rsuite';
+import { FaPlane, FaTruck, FaUser, FaCheck, FaCreditCard } from 'react-icons/fa';
 
-import files from './files';
 
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Timeline']} />
@@ -20,16 +16,17 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         Timeline,
+        Text,
         Grid,
         Row,
         Col,
-        CreditCardIcon,
-        PlaneIcon,
-        TruckIcon,
-        UserIcon,
-        CheckIcon
+        Icon,
+        FaCreditCard,
+        FaPlane,
+        FaTruck,
+        FaUser,
+        FaCheck
       }}
-      sandboxFiles={files}
     />
   );
 }

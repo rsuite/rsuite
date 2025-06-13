@@ -5,7 +5,7 @@ import SelectPicker from '../../SelectPicker/SelectPicker';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('InputGroup', () => {
   testStandardProps(<InputGroup />);

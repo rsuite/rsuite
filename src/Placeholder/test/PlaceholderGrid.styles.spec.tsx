@@ -2,7 +2,7 @@ import React from 'react';
 import PlaceholderGrid from '../PlaceholderGrid';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Placeholder.Grid styles', () => {
   it('Should render the correct styles', () => {

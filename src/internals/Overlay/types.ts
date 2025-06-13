@@ -15,7 +15,7 @@ export interface PositionType {
   arrowOffsetTop?: number;
 }
 
-export interface UtilProps {
+export interface PositionOptions {
   placement: Placement;
   preventOverflow: boolean;
   padding: number;
