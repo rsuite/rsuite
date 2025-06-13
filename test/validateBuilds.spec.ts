@@ -104,10 +104,8 @@ const filesToEnsureExistence: string[] = [
   'lib/LICENSE',
   'lib/package.json',
 
-  // Validate less
-  'lib/styles/index.less',
-  'lib/styles/plugins/palette.js',
-  ...styledComponents.map(i => `lib/${i}/styles/index.less`),
+  // Validate css
+  ...styledComponents.map(i => `lib/${i}/styles/index.css`),
 
   // Validate components
   ...flattenProxyResources({ resources: components }),

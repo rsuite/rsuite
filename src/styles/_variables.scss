@@ -13,36 +13,36 @@
 // Controls
 
 // CSS Resets
-$enable-css-reset: true;
+$enable-css-reset: true !default;
 
 // Global button ripple switch
-$enable-ripple-effect: true;
+$enable-ripple-effect: true !default;
 
 // Whether include styles for dark mode
-$enable-dark-mode: true;
+$enable-dark-mode: true !default;
 
 // Whether include styles for high-contrast mode
-$enable-high-contrast: true;
+$enable-high-contrast: true !default;
 
 // Media queries breakpoints
 // Define the breakpoints at which your layout will change, adapting to different screen sizes.
 
 // Small screen / phone
 // $screen-sm
-$screen-sm: 576px;
+$screen-sm: 576px !default;
 
 // Medium screen / desktop
 // $screen-md
-$screen-md: 768px;
+$screen-md: 768px !default;
 
 // Large screen / wide desktop
 // $screen-lg
-$screen-lg: 992px;
+$screen-lg: 992px !default;
 
 // Extra large devices / extra wide desktop
 // $screen-xl
-$screen-xl: 1200px;
+$screen-xl: 1200px !default;
 
 // Extra extra large devices / ultra wide desktop
 // $screen-xxl
-$screen-xxl: 1400px;
+$screen-xxl: 1400px !default;

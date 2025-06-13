@@ -86,18 +86,17 @@ const buildComponentStyles = async () => {
     const outputFile = file.replace('src/', `${componentOutDir}/`).replace(/\.scss$/, '.css');
     await compileScss(file, outputFile, {
       minify: false,
-      optimizeComponent: true // Enable optimization for component styles
+      optimizeComponent: true, // Enable optimization for component styles,
+      sassOptions: {
+        variables: {
+          '$enable-css-reset': false
+        }
+      }
     });
   }
 };
 
-const clean = async () => {
-  await fs.remove(outDir);
-  await fs.remove(componentOutDir);
-};
-
 async function buildAll() {
-  await clean();
   await buildMainStyles();
   await buildComponentStyles();
 }

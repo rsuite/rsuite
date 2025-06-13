@@ -2,12 +2,6 @@ const fs = require('fs');
 const util = require('util');
 const del = require('del');
 const path = require('path');
-const less = require('gulp-less');
-const postcss = require('gulp-postcss');
-const postcssPruneVar = require('postcss-prune-var');
-const postcssDiscardEmpty = require('postcss-discard-empty');
-const sourcemaps = require('gulp-sourcemaps');
-const rename = require('gulp-rename');
 const babel = require('gulp-babel');
 const insert = require('gulp-insert');
 const gulp = require('gulp');
@@ -21,8 +15,6 @@ const libRoot = path.join(__dirname, './lib');
 
 const esmRoot = path.join(libRoot, 'esm');
 const cjsRoot = path.join(libRoot, 'cjs');
-const distRoot = path.join(libRoot, 'dist');
-const styleRoot = path.join(srcRoot, 'styles');
 const tsSources = [
   `${srcRoot}/**/*.tsx`,
   `${srcRoot}/**/*.ts`,
@@ -34,103 +26,6 @@ const tsSources = [
 function clean(done) {
   del.sync([libRoot], { force: true });
   done();
-}
-
-// Build styles
-// - Build LESS into CSS under dist/
-//   - With/Without reset styles
-// - RTL/Non-RTL
-// - Minify CSS files in dist/
-// - Copy LESS into less/
-//
-// Final outputs:
-// - dist/rsuite.css
-// - dist/rsuite.min.css
-// - dist/rsuite-no-reset.css
-// - dist/rsuite-no-reset.min.css
-// - less/**/*.less
-exports.buildStyles = gulp.series(
-  gulp.parallel(
-    buildLess({ outputFileName: 'rsuite.css' }),
-    buildLess({
-      lessOptions: {
-        modifyVars: {
-          '@enable-css-reset': false
-        }
-      },
-      outputFileName: 'rsuite-no-reset.css'
-    })
-  ),
-  minifyCSS
-);
-
-// Build component styles
-// Final outputs:
-// - lib/Button/styles/index.css
-// - lib/IconButton/styles/index.css
-// - ...
-async function buildComponentCSS(done) {
-  const buildList = [];
-
-  fs.readdirSync(srcRoot).forEach(item => {
-    const itemPath = path.resolve(srcRoot, item);
-    const componentName = itemPath.split('/').pop();
-
-    const lessFile = itemPath + '/styles/index.less';
-
-    if (fs.existsSync(lessFile)) {
-      buildList.push({
-        src: lessFile,
-        dist: `${libRoot}/${componentName}/styles`,
-        lessOptions: { modifyVars: { '@enable-css-reset': false } },
-        outputFileName: 'index.css'
-      });
-    }
-  });
-
-  Promise.all(
-    buildList.map(item => {
-      return new Promise((resolve, reject) => {
-        return buildLess({ ...item, postcssPlugins: [postcssPruneVar(), postcssDiscardEmpty()] })()
-          .on('end', resolve)
-          .on('error', reject);
-      });
-    })
-  ).then(() => {
-    console.log('Build component CSS done.');
-    done();
-  });
-}
-
-exports.buildComponentCSS = buildComponentCSS;
-
-function buildLess({
-  lessOptions,
-  outputFileName,
-  src = `${styleRoot}/index.less`,
-  dist = distRoot,
-  postcssPlugins = []
-}) {
-  return () =>
-    gulp
-      .src(src)
-      .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), ...postcssPlugins]))
-      .pipe(rename(outputFileName))
-      .pipe(gulp.dest(dist));
-}
-
-/**
- * Minify built css files
- */
-function minifyCSS() {
-  return gulp
-    .src(`${distRoot}/rsuite*.css`)
-    .pipe(sourcemaps.init())
-    .pipe(postcss()) // uses postcss.config.js where cssnano is configured
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${distRoot}`));
 }
 
 function buildCjs() {
@@ -163,14 +58,6 @@ function buildEsm() {
 
 function copyTypescriptDeclarationFiles() {
   return gulp.src(`${srcRoot}/**/*.d.ts`).pipe(gulp.dest(cjsRoot)).pipe(gulp.dest(esmRoot));
-}
-
-function copyLessStylesheets() {
-  return gulp.src(`${srcRoot}/**/*.less`).pipe(gulp.dest(libRoot));
-}
-
-function copyLessPlugins() {
-  return gulp.src(`${srcRoot}/styles/plugins/*.js`).pipe(gulp.dest(`${libRoot}/styles/plugins`));
 }
 
 function watch() {
@@ -216,14 +103,7 @@ function createPkgFile(done) {
 exports.dev = gulp.series(clean, buildCjs, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildCjs, buildEsm, exports.buildStyles),
-  gulp.parallel(
-    copyTypescriptDeclarationFiles,
-    copyLessStylesheets,
-    copyLessPlugins,
-    copyDocs,
-    createPkgFile
-  ),
-  buildComponentCSS,
+  gulp.parallel(buildCjs, buildEsm),
+  gulp.parallel(copyTypescriptDeclarationFiles, copyDocs, createPkgFile),
   buildDirectories
 );
