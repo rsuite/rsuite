@@ -168,12 +168,7 @@ module.exports = {
         chunkFilename: 'static/css/[contenthash].css',
         ignoreOrder: true // Ignore CSS order warnings
       }),
-      new RtlCssPlugin({
-        filename: 'static/css/[name]-rtl.css',
-        options: {
-          processKeyframes: true
-        }
-      })
+      new RtlCssPlugin('static/css/[name]-rtl.css')
     );
 
     if (__DEV__) {
@@ -198,16 +193,15 @@ module.exports = {
       })
     );
 
-    // Fix chunk ordering issues with CSS modules
     config.optimization.splitChunks = {
       ...config.optimization.splitChunks,
       cacheGroups: {
         ...config.optimization.splitChunks.cacheGroups,
         styles: {
-          name: 'styles',
           test: /\.module\.(scss|css)$/,
           chunks: 'all',
-          enforce: true
+          enforce: true,
+          name: `styles-${BUILD_ID}`
         }
       }
     };
@@ -219,10 +213,10 @@ module.exports = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
-        rsuite: path.resolve(__dirname, '../src'),
         '@rsuite-styles': path.resolve(__dirname, '../src/styles'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
         react: path.resolve(__dirname, './node_modules/react'),
-        'react-dom': path.resolve(__dirname, './node_modules/react-dom')
+        rsuite: path.resolve(__dirname, '../src')
       };
     } else {
       config.resolve.alias = {
