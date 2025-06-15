@@ -64,8 +64,8 @@ async function buildMainStyles() {
     ['index.scss', 'rsuite.css'],
     ['index.scss', 'rsuite.min.css', true],
     // Versions without reset styles
-    ['index.scss', 'rsuite-no-reset.css', false, { '$enable-css-reset': false }],
-    ['index.scss', 'rsuite-no-reset.min.css', true, { '$enable-css-reset': false }]
+    ['components.scss', 'rsuite-no-reset.css', false],
+    ['components.scss', 'rsuite-no-reset.min.css', true]
   ];
 
   for (const [src, out, minify = false, variables = {}] of variants) {
@@ -86,12 +86,7 @@ const buildComponentStyles = async () => {
     const outputFile = file.replace('src/', `${componentOutDir}/`).replace(/\.scss$/, '.css');
     await compileScss(file, outputFile, {
       minify: false,
-      optimizeComponent: true, // Enable optimization for component styles,
-      sassOptions: {
-        variables: {
-          '$enable-css-reset': false
-        }
-      }
+      optimizeComponent: true // Enable optimization for component styles,
     });
   }
 };
