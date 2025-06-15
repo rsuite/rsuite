@@ -3,7 +3,7 @@ import PanelGroup from '../index';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('PanelGroup styles', () => {
   it('Should render the correct styles', () => {

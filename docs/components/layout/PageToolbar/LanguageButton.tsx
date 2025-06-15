@@ -1,9 +1,10 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import Icon from '@rsuite/icons/Icon';
 import { useRouter } from 'next/router';
 import { Button } from 'rsuite';
 import { Language } from '@/components/icons';
+import styles from './PageToolbar.module.scss';
 
 interface ButtonProps {
   className?: string;
@@ -38,7 +39,7 @@ const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTML
       {...rest}
       ref={ref}
       size="sm"
-      className={classnames('btn-switch-language', className)}
+      className={classNames(styles['btn-switch-language'], className)}
       startIcon={<Icon as={Language} />}
       onClick={handleChangeLanguage}
     >

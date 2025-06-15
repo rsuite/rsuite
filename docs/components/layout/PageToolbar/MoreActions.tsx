@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
@@ -10,6 +11,7 @@ import { Ltr, Rtl } from '@/components/icons';
 import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import { SwitchTheme } from './SwitchTheme';
+import styles from './PageToolbar.module.scss';
 
 interface MoreActionsProps {
   designHash?: any;
@@ -36,13 +38,13 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
       speaker={({ onClose, left, top, className }, ref) => (
         <Popover ref={ref} className={className} style={{ left, top, width: '200px' }} full>
           <Dropdown.Menu>
-            <Dropdown.Item panel className="more-actions-panel theme-panel">
+            <Dropdown.Item panel className={classNames(styles['more-actions-panel'], styles['theme-panel'])}>
               <SwitchTheme onClose={onClose} />
             </Dropdown.Item>
             <Dropdown.Separator />
-            <Dropdown.Item panel className="more-actions-panel">
-              <div className="rtl-item">
-                <div className="item-name">
+            <Dropdown.Item panel className={styles['more-actions-panel']}>
+              <div className={styles['rtl-item']}>
+                <div className={styles['item-name']}>
                   <Icon as={DirectionIcon} />
                   RTL
                 </div>

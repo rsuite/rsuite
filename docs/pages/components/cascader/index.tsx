@@ -5,7 +5,7 @@ import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementContainer from '@/components/PlacementContainer';
-import { Cascader, Button, RadioGroup, Radio, VStack, HStack, Box } from 'rsuite';
+import { Cascader, Button, RadioGroup, Radio, VStack, HStack, Box, Divider, Text } from 'rsuite';
 import Simulation from '@/components/Simulation';
 import {
   importFakerString,
@@ -46,6 +46,8 @@ export default function Page() {
         PageIcon,
         VStack,
         HStack,
+        Divider,
+        Text,
         mockAsyncData,
         mockTreeData
       }}

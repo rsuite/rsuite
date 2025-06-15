@@ -11,7 +11,7 @@ import ownerDocument from 'dom-lib/ownerDocument';
 import on from 'dom-lib/on';
 import addStyle from 'dom-lib/addStyle';
 import isElement from '../../DOMHelper/isElement';
-import positionUtils from './positionUtils';
+import { calcPosition } from './utils/position';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { getDOMNode, kebabPlace } from '../utils';
 import { useUpdateEffect } from '../hooks';
@@ -70,7 +70,7 @@ const usePosition = (
   const [position, setPosition] = useState<PositionType>(defaultPosition);
   const utils = useMemo(
     () =>
-      positionUtils({
+      calcPosition({
         placement,
         preventOverflow,
         padding: containerPadding

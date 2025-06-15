@@ -2,6 +2,7 @@ import React from 'react';
 import ThemeIcon from '@/components/ThemeIcon';
 import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
+import styles from './PageToolbar.module.scss';
 
 interface SwitchThemeProps {
   onClose: () => void;
@@ -37,14 +38,14 @@ export function SwitchTheme({ onClose }: SwitchThemeProps) {
   };
 
   return (
-    <RadioGroup className="theme-switch" value={themeName} onChange={handleChangeTheme}>
+    <RadioGroup className={styles['theme-switch']} value={themeName} onChange={handleChangeTheme}>
       <p>{locales.common.theme}</p>
 
       {themesConfig.map(item => {
         return (
-          <div className="theme-item" key={item.value}>
+          <div className={styles['theme-item']} key={item.value}>
             <div
-              className="item-name"
+              className={styles['item-name']}
               tabIndex={-1}
               role="button"
               onClick={() => handleChangeTheme(item.value as Theme)}

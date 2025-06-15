@@ -1,0 +1,13 @@
+@mixin time-line-align($align: left) {
+  &-align-#{$align} &-item-dot {
+    #{$align}: 0;
+  }
+
+  &-align-#{$align} &-item-tail {
+    #{$align}: calc(var(--rs-time-line-dot-side-length) / 2 - var(--rs-time-line-tail-width) / 2);
+  }
+
+  &-align-#{$align} &-item {
+    padding-#{$align}: var(--rs-time-line-item-content-margin-left);
+  }
+}

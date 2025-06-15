@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getStyle } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('InputGroup styles', () => {
   it('Should be set to a larger height', () => {

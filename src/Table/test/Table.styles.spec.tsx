@@ -3,7 +3,7 @@ import Table from '../index';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = [
   {

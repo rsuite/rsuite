@@ -7,7 +7,7 @@ import CascadeTree from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
 import type { Option } from '@/internals/types';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],

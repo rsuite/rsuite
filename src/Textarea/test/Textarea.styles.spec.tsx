@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { getHeight } from 'dom-lib';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import '../styles/index.less';
-import '../../Input/styles/index.less';
+import '../styles/index.scss';
+import '../../Input/styles/index.scss';
 
 describe('Textarea', () => {
   it('Should update style.height when value changes (autosize)', () => {

@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(RadioGroup);
 

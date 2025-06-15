@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testPickerSize } from '@test/cases';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('DateRangePicker styles', () => {
   testPickerSize(DateRangePicker, { role: 'textbox', maxHeight: 40 });

@@ -11,7 +11,6 @@ import {
   SelectPicker,
   ButtonToolbar,
   Toggle,
-  FlexboxGrid,
   Stack,
   VStack,
   HStack,
@@ -20,7 +19,8 @@ import {
   Popover,
   Divider,
   Kbd,
-  Box
+  Box,
+  Text
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -57,7 +57,6 @@ export default function Page() {
         SelectPicker,
         ButtonToolbar,
         Toggle,
-        FlexboxGrid,
         Stack,
         VStack,
         HStack,
@@ -67,6 +66,7 @@ export default function Page() {
         Divider,
         Kbd,
         Box,
+        Text,
         SearchIcon,
         InfoRoundIcon,
         EyeCloseIcon,

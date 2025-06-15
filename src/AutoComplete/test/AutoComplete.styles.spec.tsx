@@ -3,8 +3,7 @@ import AutoComplete from '../index';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { toRGB, inChrome } from '@test/utils';
-
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('AutoComplete styles', () => {
   it('Should render the correct styles', () => {

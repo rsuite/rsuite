@@ -1,10 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
-const markdownRenderer = require('./scripts/markdownRenderer');
+const markdownRenderer = require('./scripts/markdown-renderer');
 const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
@@ -75,36 +74,56 @@ module.exports = {
       ]
     });
 
+    const cssLoaders = [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader'
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          sourceMap: true,
+          postcssOptions: {
+            plugins: [require('autoprefixer'), require('postcss-merge-rules')]
+          }
+        }
+      }
+    ];
+
+    // SCSS loader configuration
     config.module.rules.push({
-      test: /\.(le|c)ss$/,
+      test: /\.scss$/,
+      exclude: /\.module\.scss$/,
       use: [
-        MiniCssExtractPlugin.loader,
+        ...cssLoaders,
         {
-          loader: 'css-loader'
-        },
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true
+          }
+        }
+      ]
+    });
+
+    // SCSS modules configuration
+    config.module.rules.push({
+      test: /\.module\.scss$/,
+      use: [
+        ...cssLoaders.slice(0, 1),
         {
-          loader: 'postcss-loader',
+          loader: 'css-loader',
           options: {
             sourceMap: true,
-            postcssOptions: {
-              plugins: [
-                require('autoprefixer')
-                // Do not use postcss-rtl which generates a LTR+RTL css
-                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({})
-              ]
+            modules: {
+              localIdentName: '[local]___[hash:base64:5]'
             }
           }
         },
+        ...cssLoaders.slice(2),
         {
-          loader: 'less-loader',
+          loader: 'sass-loader',
           options: {
-            sourceMap: true,
-            lessOptions: {
-              globalVars: {
-                rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
-              }
-            }
+            sourceMap: true
           }
         }
       ]
@@ -126,7 +145,6 @@ module.exports = {
                 'bash',
                 'xml',
                 'css',
-                'less',
                 'json',
                 'diff',
                 'typescript'
@@ -146,9 +164,9 @@ module.exports = {
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
         filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
-      }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+        chunkFilename: 'static/css/[contenthash].css',
+        ignoreOrder: true // Ignore CSS order warnings
+      })
     );
 
     if (__DEV__) {
@@ -173,6 +191,19 @@ module.exports = {
       })
     );
 
+    config.optimization.splitChunks = {
+      ...config.optimization.splitChunks,
+      cacheGroups: {
+        ...config.optimization.splitChunks.cacheGroups,
+        styles: {
+          test: /\.module\.(scss|css)$/,
+          chunks: 'all',
+          enforce: true,
+          name: `styles-${BUILD_ID}`
+        }
+      }
+    };
+
     // If we are building docs with local rsuite from src (local development and review builds),
     // we should stick `react` and `react-dom` imports to docs/node_modules
     // preventing "more than one copy of React" error
@@ -180,9 +211,15 @@ module.exports = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
-        rsuite: path.resolve(__dirname, '../src'),
+        '@rsuite-styles': path.resolve(__dirname, '../src/styles'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
         react: path.resolve(__dirname, './node_modules/react'),
-        'react-dom': path.resolve(__dirname, './node_modules/react-dom')
+        rsuite: path.resolve(__dirname, '../src')
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@rsuite-styles': 'rsuite/styles'
       };
     }
 
@@ -206,7 +243,7 @@ module.exports = {
     tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
-  pageExtensions: ['tsx'],
+  pageExtensions: ['tsx', 'ts'],
   redirects() {
     return [
       {

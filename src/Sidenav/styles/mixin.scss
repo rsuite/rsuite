@@ -1,0 +1,23 @@
+@mixin reset-sidenav-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: static;
+  float: none;
+  box-shadow: none;
+  animation-name: none;
+  background-color: transparent;
+  border-radius: var(--rs-radius-none);
+}
+
+@mixin dropdown-menu-icon-left-position($left) {
+  &.rs-dropdown-item-with-icon > .rs-dropdown-item-content {
+    > .rs-dropdown-item-menu-icon {
+      inset-inline-start: $left;
+    }
+
+    > .rs-dropdown-menu-toggle {
+      padding-inline-start: ($left + 20px);
+    }
+  }
+}

@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import HeartIcon from '@rsuite/icons/Heart';
 import Rate, { RateProps } from '../Rate';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Rate);
 

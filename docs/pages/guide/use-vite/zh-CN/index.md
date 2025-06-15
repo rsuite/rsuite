@@ -18,7 +18,7 @@ Vite 是一个由原生 ESM 驱动的 Web 开发构建工具。以下将介绍�
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-+ import 'rsuite/dist/rsuite.min.css';  // or 'rsuite/styles/index.less';
++ import 'rsuite/dist/rsuite.css';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -27,8 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 ```
-
-如果您使用了 Less 作为 CSS 预处理，您可以通过 `rsuite/styles/index.less` 来引入样式。
 
 ## 3、设置 Provider
 
@@ -39,7 +37,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 + import { CustomProvider } from 'rsuite';
 import App from './App.tsx';
-import 'rsuite/styles/index.less';
+import 'rsuite/styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

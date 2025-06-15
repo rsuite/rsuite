@@ -31,19 +31,12 @@ const craTsCommands = {
   bun: 'bun create react-app my-app --template @rsuite/typescript'
 };
 
-const cracoCommands = {
-  npm: 'npm i -D @craco/craco craco-less',
-  yarn: 'yarn add -D @craco/craco craco-less',
-  pnpm: 'pnpm add -D @craco/craco craco-less',
-  bun: 'bun add -D @craco/craco craco-less'
-};
 
 const inDocsComponents = {
   'install-guide': () => <InstallGuide />,
   'install-cra': () => <InstallGuide commands={craCommands} />,
   'install-cra-js': () => <InstallGuide commands={craJsCommands} />,
   'install-cra-ts': () => <InstallGuide commands={craTsCommands} />,
-  'install-craco': () => <InstallGuide commands={cracoCommands} />
 };
 
 const PageComponent = () => {

@@ -98,7 +98,7 @@ const useSortHelper = (config: SortConfig) => {
         position: 'fixed',
         width: `${activeNodeBoundingClientRect.width}px`,
         height: `${activeNodeBoundingClientRect.height}px`,
-        left: `${activeNodeBoundingClientRect.left - parseFloat(activeNodeStyle.marginLeft)}px`,
+        insetInlineStart: `${activeNodeBoundingClientRect.left - parseFloat(activeNodeStyle.marginInlineStart)}px`,
         top: `${activeNodeBoundingClientRect.top - parseFloat(activeNodeStyle.marginTop)}px`
       });
       activeNode.classList.add(holderElementClass);
