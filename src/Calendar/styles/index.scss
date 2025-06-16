@@ -562,7 +562,7 @@
     display: table-cell;
     width: 1%;
 
-    &::after {
+    .rs-scroll-view::after {
       content: '';
       display: block;
       height: calc(100% - 30px);
