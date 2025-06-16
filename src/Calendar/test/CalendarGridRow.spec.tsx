@@ -1,11 +1,10 @@
 import React from 'react';
 import GridRow from '../Grid/GridRow';
 import { describe, expect, it, vi } from 'vitest';
-import { getDate, format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
-import { isToday } from 'date-fns';
 
 describe('Calendar-GridRow', () => {
   testStandardProps(<GridRow />);
@@ -16,78 +15,67 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should be active today', () => {
-    // FIXME-Doma
-    // GridRow should always require dates specified
-    render(<GridRow />);
+    const thisDate = new Date();
+    render(<GridRow weekendDate={thisDate} />);
 
-    expect(screen.getByTitle(/today/i)).to.have.text(getDate(new Date()) + '');
+    expect(screen.getByTitle(`${format(thisDate, 'dd MMM yyyy')} (Today)`)).to.have.class(
+      'rs-calendar-table-cell-is-today'
+    );
   });
 
   it('Should call `onSelect` callback', () => {
     const onSelect = vi.fn();
-    const ref = React.createRef<HTMLDivElement>();
+    const thisDate = new Date(2025, 5, 16);
     render(
       <CalendarProvider
-        value={{ onSelect, date: new Date(2022, 10, 2), locale: {}, isoWeek: false, weekStart: 0 }}
+        value={{ onSelect, date: thisDate, locale: {}, isoWeek: false, weekStart: 0 }}
       >
-        <GridRow ref={ref} />
+        <GridRow weekendDate={thisDate} />
       </CalendarProvider>
     );
-    fireEvent.click(
-      (ref.current as HTMLDivElement).querySelector(
-        '.rs-calendar-table-cell .rs-calendar-table-cell-content'
-      ) as HTMLElement
-    );
+
+    fireEvent.click(screen.getByRole('gridcell', { name: '16 Jun 2025' }));
 
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
   it('Should render a week number', () => {
-    const ref = React.createRef<HTMLDivElement>();
+    const thisDate = new Date(2022, 10, 2);
     render(
       <CalendarProvider
         value={{
           showWeekNumbers: true,
-          date: new Date(2022, 10, 2),
           locale: {},
           isoWeek: false,
           weekStart: 0
         }}
       >
-        <GridRow ref={ref} />
+        <GridRow weekendDate={thisDate} />
       </CalendarProvider>
     );
-    expect(
-      (ref.current as HTMLDivElement).querySelector(
-        '.rs-calendar-table-cell-week-number'
-      ) as HTMLElement
-    ).to.have.text(format(new Date(), 'w'));
+    expect(screen.getByRole('rowheader')).to.have.text(format(thisDate, 'w'));
   });
 
   it('Should render a ISO week number', () => {
-    const ref = React.createRef<HTMLDivElement>();
+    const thisDate = new Date(2022, 10, 2);
     render(
       <CalendarProvider
         value={{
           showWeekNumbers: true,
           isoWeek: true,
-          date: new Date(2022, 10, 2),
           weekStart: 0,
           locale: {}
         }}
       >
-        <GridRow ref={ref} />
+        <GridRow weekendDate={thisDate} />
       </CalendarProvider>
     );
-    expect(
-      (ref.current as HTMLDivElement).querySelector(
-        '.rs-calendar-table-cell-week-number'
-      ) as HTMLElement
-    ).to.have.text(format(new Date(), 'I'));
+
+    expect(screen.getByRole('rowheader')).to.have.text('44');
   });
 
   it('Should have a additional className', () => {
-    const ref = React.createRef<HTMLDivElement>();
+    const thisDate = new Date();
     render(
       <CalendarProvider
         value={{
@@ -103,15 +91,13 @@ describe('Calendar-GridRow', () => {
           }
         }}
       >
-        <GridRow ref={ref} />
+        <GridRow />
       </CalendarProvider>
     );
 
-    expect(
-      (ref.current as HTMLDivElement).querySelector(
-        '.rs-calendar-table-cell-is-today'
-      ) as HTMLElement
-    ).to.have.class('custom-cell');
+    expect(screen.getByTitle(`${format(thisDate, 'dd MMM yyyy')} (Today)`)).to.have.class(
+      'custom-cell'
+    );
   });
 
   describe('Accessibility', () => {
