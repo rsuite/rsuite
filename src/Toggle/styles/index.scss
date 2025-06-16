@@ -185,8 +185,8 @@
       position: absolute;
       background-color: currentColor;
       transition:
-        left var(--rs-toggle-transition),
-        margin-left var(--rs-toggle-transition),
+        inset-inline-start var(--rs-toggle-transition),
+        margin-inline-start var(--rs-toggle-transition),
         width var(--rs-toggle-transition);
     }
 
