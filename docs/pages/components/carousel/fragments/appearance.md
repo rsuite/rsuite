@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Carousel, RadioGroup, Radio, Divider } from 'rsuite';
+import { Carousel, RadioGroup, Radio, Divider, Text } from 'rsuite';
 
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
@@ -16,7 +16,7 @@ function App() {
         defaultValue={placement}
         onChange={setPlacement}
       >
-        <label>Placement: </label>
+        <Text muted>Placement: </Text>
         <Radio value="top">Top</Radio>
         <Radio value="bottom">Bottom</Radio>
         <Radio value="left">Left</Radio>
@@ -30,7 +30,7 @@ function App() {
         defaultValue={shape}
         onChange={setShape}
       >
-        <label>Shape: </label>
+        <Text muted>Shape: </Text>
         <Radio value="dot">Dot</Radio>
         <Radio value="bar">Bar</Radio>
       </RadioGroup>
