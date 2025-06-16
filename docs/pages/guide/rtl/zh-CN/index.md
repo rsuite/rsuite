@@ -4,7 +4,9 @@
 
 ## 使用步骤
 
-### 1.HTML 设置
+<div class="rs-doc-steps">
+<h3 class="rs-doc-step-header">HTML 设置</h3>
+<div class="rs-doc-step-body">
 
 确保在 html 上设置了 dir 属性：
 
@@ -12,20 +14,20 @@
 <html dir="rtl"></html>
 ```
 
-### 2.配置 CustomProvider
+</div>
 
-在 CustomProvider 组件上设置 rtl 属性，及所有组件根据 RTL 布局渲染。
+<h3 class="rs-doc-step-header">配置 CustomProvider (可选)</h3>
+<div class="rs-doc-step-body">
+
+这一步是可以选的, 默认情况下组件会根据 html 上的 dir 属性来判断是否启用 RTL 布局。如果需要自定义区域启用 RTL 布局，可以在 CustomProvider 组件上设置 `rtl` 属性，启用组件根据 RTL 布局渲染。
 
 ```jsx
-function RTL(props) {
-  return <CustomProvider rtl>{props.children}</CustomProvider>;
+import { CustomProvider } from 'rsuite';
+
+function App({ children }) {
+  return <CustomProvider rtl>{children}</CustomProvider>;
 }
 ```
 
-### 3.引入 RTL 样式文件
-
-- 使用已编译的 RTL 版本的 CSS 文件
-
-```css
-@import '~rsuite/dist/rsuite-rtl.css';
-```
+</div>
+</div>

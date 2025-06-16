@@ -59,6 +59,7 @@ export default function PageContainer(props: ContainerProps) {
                 top: 80,
                 position: 'sticky',
                 insetInlineStart: 10,
+                maxHeight: 'max-content'
               }}
             />
           </Box>
