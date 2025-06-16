@@ -32,13 +32,14 @@
   --rs-input-group-font-size-sm: var(--rs-font-size-sm);
   --rs-input-group-font-size-md: var(--rs-font-size-sm);
   --rs-input-group-font-size-lg: var(--rs-font-size-md);
+  --rs-input-group-width: var(--rs-box-w, 100%);
 
   // Base styles for the input group container
   position: relative;
   display: flex;
   border-radius: var(--rs-input-group-border-radius);
   transition: var(--rs-input-transition);
-  width: 100%;
+  width: var(--rs-input-group-width);
   cursor: text;
   color: var(--rs-text-primary);
   border: 1px solid var(--rs-border-primary);
@@ -123,7 +124,7 @@
   // Inside Input Group Variant
   // Special styling for input groups with internal buttons/addons
   &.rs-input-group-inside {
-    width: 100%;
+    width: var(--rs-input-group-width);
     align-items: center;
     background-color: var(--rs-input-bg);
 
