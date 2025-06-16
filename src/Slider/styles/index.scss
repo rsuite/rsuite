@@ -87,7 +87,7 @@
   position: absolute;
   top: -50%;
   outline: none;
-  left: var(--rs-slider-offset);
+  inset-inline-start: var(--rs-slider-offset);
 
   &::before {
     content: '';

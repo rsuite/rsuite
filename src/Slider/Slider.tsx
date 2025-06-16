@@ -206,10 +206,21 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     (event: React.MouseEvent | React.TouchEvent) => {
       const barOffset = getOffset(barRef.current) as Offset;
       const { pageX, pageY } = getPosition(event);
-      const offset = vertical ? barOffset.top + barOffset.height - pageY : pageX - barOffset.left;
-      const offsetValue = rtl && !vertical ? barOffset.width - offset : offset;
 
-      return getValueByOffset(offsetValue) + min;
+      let offset;
+      if (vertical) {
+        // For vertical sliders, top is 0% and bottom is 100% in both LTR and RTL
+        offset = barOffset.top + barOffset.height - pageY;
+      } else {
+        // For horizontal sliders, handle RTL direction
+        offset = pageX - barOffset.left;
+        if (rtl) {
+          // In RTL, invert the offset so that dragging right decreases the value
+          offset = barOffset.width - offset;
+        }
+      }
+
+      return getValueByOffset(offset) + min;
     },
     [getValueByOffset, min, rtl, vertical]
   );
@@ -295,12 +306,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
         data-testid="slider-bar"
       >
         {progress && (
-          <ProgressBar
-            rtl={rtl}
-            vertical={vertical}
-            start={0}
-            end={((value - min) / (max - min)) * 100}
-          />
+          <ProgressBar vertical={vertical} start={0} end={((value - min) / (max - min)) * 100} />
         )}
         {graduated && (
           <Graduated
