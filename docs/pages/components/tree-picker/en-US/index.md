@@ -8,7 +8,7 @@
 
 ## Examples
 
-### Basic
+### Default
 
 <!--{include:`basic.md`}-->
 
@@ -18,33 +18,49 @@
 
 ### Size
 
+Supports four sizes: `lg`, `md`, `sm`, and `xs`.
+
 <!--{include:`size.md`}-->
 
-### Show Indent Lines
+### Show Indent Line
+
+Use `showIndentLine` to display tree indentation lines.
 
 <!--{include:`show-indent-line.md`}-->
 
-### Placement and Prevent overflow
+### Placement and Prevent Overflow
+
+Set the position with `placement` and prevent overflow with `preventOverflow`.
 
 <!--{include:`placement.md`}-->
 
-### Disabled and Read only
+### Disabled and Read Only
+
+Supports `disabled` to disable the entire picker, `disabledItemValues` to disable specific options, `readOnly` for read-only state, and `plaintext` mode.
 
 <!--{include:`disabled.md`}-->
 
-### Disable Search
+### Disable Search Box
+
+Use `searchable` to control the search functionality.
 
 <!--{include:`searchable.md`}-->
 
-### Custom options
+### Custom Options
+
+Customize node rendering through `renderTreeNode`.
 
 <!--{include:`custom.md`}-->
 
-### Async
+### Async Loading
+
+Use `getChildren` to implement async loading of child nodes.
 
 <!--{include:`async.md`}-->
 
-### Extra footer
+### Custom Footer
+
+Add content to the footer through `renderExtraFooter`.
 
 <!--{include:`extra-footer.md`}-->
 

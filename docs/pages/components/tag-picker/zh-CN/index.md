@@ -14,29 +14,43 @@
 
 ### 尺寸
 
+支持 `lg`、`md`、`sm` 和 `xs` 四种尺寸。
+
 <!--{include:`size.md`}-->
 
 ### 撑满
 
+设置 `block` 属性可以让选择器撑满其父容器。
+
 <!--{include:`block.md`}-->
 
-### 分支
+### 分组
+
+通过 `groupBy` 属性对选项进行分组显示。
 
 <!--{include:`group.md`}-->
 
 ### 可新建
 
+设置 `creatable` 属性可以创建新的选项。
+
 <!--{include:`creatable.md`}-->
 
 ### 自定义
+
+通过 `renderValue`、`renderOption` 等属性可以自定义标签和选项的渲染。
 
 <!--{include:`custom.md`}-->
 
 ### 禁用与只读
 
+支持 `disabled` 禁用整个选择器，`readOnly` 只读状态，以及 `disabledItemValues` 禁用特定选项。
+
 <!--{include:`disabled.md`}-->
 
-### 异步
+### 异步加载
+
+通过 `onSearch` 回调实现异步搜索和加载选项。
 
 <!--{include:`async.md`}-->
 
