@@ -1,15 +1,15 @@
 <!--start-code-->
 
 ```js
-import { TimePicker, Stack } from 'rsuite';
+import { TimePicker, VStack } from 'rsuite';
 
 const App = () => (
-  <Stack direction="column" spacing={8} alignItems="flex-start">
+  <VStack spacing={8}>
     <TimePicker size="lg" placeholder="Large" />
     <TimePicker size="md" placeholder="Medium" />
     <TimePicker size="sm" placeholder="Small" />
     <TimePicker size="xs" placeholder="Xsmall" />
-  </Stack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
