@@ -9,7 +9,9 @@
   --rs-picker-textbox-margin-inline: var(--rs-picker-input-height);
 
   position: relative;
-  border: 1px solid var(--rs-border-primary);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--rs-picker-toggle-border-color, var(--rs-border-primary));
   border-radius: var(--rs-radius-md);
   transition: var(--rs-picker-transition);
   background-color: var(--rs-input-bg);
