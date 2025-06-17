@@ -16,7 +16,6 @@
   --rs-nav-pills-item-shadow: var(--rs-shadow-sm);
   --rs-nav-item-transition: color 0.15s ease-out, background-color 0.15s ease-out;
 
-
   position: relative;
   outline: 0;
 
@@ -123,12 +122,12 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+  }
 
-    // ** Reversed
-    .rs-nav-reversed & {
-      bottom: auto;
-      top: 0;
-    }
+  // ** Reversed
+  &.rs-nav-reversed .rs-nav-bar {
+    bottom: auto;
+    top: 0;
   }
 }
 
@@ -155,10 +154,11 @@
     top: 0;
     bottom: 0;
     inset-inline-end: 0;
+  }
 
-    .rs-nav-reversed & {
-      inset-inline-end: auto;
-    }
+  // ** Reversed
+  &.rs-nav-reversed .rs-nav-bar {
+    inset-inline-end: auto;
   }
 }
 
@@ -198,13 +198,6 @@
     > .rs-dropdown .rs-dropdown-toggle {
       border-top-left-radius: var(--rs-radius-md);
       border-top-right-radius: var(--rs-radius-md);
-
-      .rs-nav-reversed & {
-        border-top-left-radius: var(--rs-radius-none);
-        border-top-right-radius: var(--rs-radius-none);
-        border-bottom-left-radius: var(--rs-radius-md);
-        border-bottom-right-radius: var(--rs-radius-md);
-      }
     }
 
     // ** Waterline
@@ -215,9 +208,18 @@
     // ** Active
     .rs-nav-item.rs-nav-item-active {
       border-bottom-width: 0;
+    }
 
-      // Reversed
-      .rs-nav-reversed & {
+    // Reversed
+    &.rs-nav-reversed {
+      > .rs-nav-item,
+      > .rs-dropdown .rs-dropdown-toggle {
+        border-top-left-radius: var(--rs-radius-none);
+        border-top-right-radius: var(--rs-radius-none);
+        border-bottom-left-radius: var(--rs-radius-md);
+        border-bottom-right-radius: var(--rs-radius-md);
+      }
+      .rs-nav-item.rs-nav-item-active {
         border-bottom-width: 1px;
         border-top-width: 0;
       }
@@ -229,15 +231,8 @@
     //Nav content
     > .rs-nav-item,
     > .rs-dropdown .rs-dropdown-toggle {
-      border-top-left-radius: var(--rs-radius-md);
-      border-bottom-left-radius: var(--rs-radius-md);
-
-      .rs-nav-reversed & {
-        border-top-left-radius: var(--rs-radius-none);
-        border-bottom-left-radius: var(--rs-radius-none);
-        border-top-right-radius: var(--rs-radius-md);
-        border-bottom-right-radius: var(--rs-radius-md);
-      }
+      border-end-start-radius: var(--rs-radius-md);
+      border-start-start-radius: var(--rs-radius-md);
     }
 
     // ** Waterline
@@ -248,12 +243,21 @@
 
     // ** Active
     .rs-nav-item.rs-nav-item-active {
-      border-right-width: 0;
+      border-inline-end-width: 0;
+    }
 
-      // Reversed
-      .rs-nav-reversed & {
-        border-right-width: 1px;
-        border-left-width: 0;
+    // Reversed active item
+    &.rs-nav-reversed {
+      > .rs-nav-item,
+      > .rs-dropdown .rs-dropdown-toggle {
+        border-start-start-radius: var(--rs-radius-none);
+        border-end-start-radius: var(--rs-radius-none);
+        border-start-end-radius: var(--rs-radius-md);
+        border-end-end-radius: var(--rs-radius-md);
+      }
+      .rs-nav-item.rs-nav-item-active {
+        border-inline-start-width: 0;
+        border-inline-end-width: 1px;
       }
     }
   }
@@ -291,11 +295,12 @@
       inset-inline-start: 0;
       inset-inline-end: 0;
       height: 2px;
-      // Reversed
-      .rs-nav-reversed & {
-        bottom: auto;
-        top: 0;
-      }
+    }
+
+    // Reversed
+    &.rs-nav-reversed .rs-nav-item.rs-nav-item-active::before {
+      bottom: auto;
+      top: 0;
     }
   }
 
@@ -313,11 +318,12 @@
       top: 0;
       bottom: 0;
       width: 2px;
-      // Reversed
-      .rs-nav-reversed & {
-        inset-inline-end: auto;
-        inset-inline-start: 0;
-      }
+    }
+
+    // Reversed
+    &.rs-nav-reversed .rs-nav-item.rs-nav-item-active::before {
+      inset-inline-end: auto;
+      inset-inline-start: 0;
     }
   }
 }
