@@ -122,7 +122,7 @@
     @include utils.set-translate-transition(0, var(--rs-popover-translate-distance));
 
     > .rs-popover-arrow {
-      inset-inline-start: calc(var(--rs-popover-arrow-outer-width) * -1);
+      margin-inline-start: calc(var(--rs-popover-arrow-outer-width) * -1);
       top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(top);
@@ -169,6 +169,14 @@
 
       @include mixins.with-popover-arrow(left);
     }
+
+    [dir='rtl'] & {
+      margin-inline-end: calc(var(--rs-popover-arrow-width) + 2px);
+      > .rs-popover-arrow {
+        inset-inline-start: auto;
+        inset-inline-end: var(--rs-popover-arrow-offset);
+      }
+    }
   }
 
   &:where([data-placement*='left']) {
@@ -180,6 +188,14 @@
       margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(right);
+    }
+
+    [dir='rtl'] & {
+      margin-inline-end: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+      > .rs-popover-arrow {
+        inset-inline-start: var(--rs-popover-arrow-offset);
+        inset-inline-end: auto;
+      }
     }
   }
 }
