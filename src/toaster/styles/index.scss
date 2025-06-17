@@ -43,6 +43,10 @@
 
     .rs-toast-fade-entered {
       animation-name: notificationMoveInLeft;
+
+      [dir='rtl'] & {
+        animation-name: notificationMoveInRight;
+      }
     }
   }
 
@@ -54,6 +58,10 @@
     .rs-toast-fade-entered {
       margin-inline-start: auto;
       animation-name: notificationMoveInRight;
+
+      [dir='rtl'] & {
+        animation-name: notificationMoveInLeft;
+      }
     }
   }
 
