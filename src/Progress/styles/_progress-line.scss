@@ -34,7 +34,7 @@
       }
     }
   }
-  
+
   &:where([data-status='success']) {
     color: var(--rs-progress-bar-success);
 
@@ -141,14 +141,14 @@
 
       // First section in horizontal layout
       &:where(:first-of-type) {
-        border-top-left-radius: var(--rs-progress-line-radius);
-        border-bottom-left-radius: var(--rs-progress-line-radius);
+        border-start-start-radius: var(--rs-progress-line-radius);
+        border-end-start-radius: var(--rs-progress-line-radius);
       }
 
       // Last section in horizontal layout
       &:where(:last-of-type) {
-        border-top-right-radius: var(--rs-progress-line-radius);
-        border-bottom-right-radius: var(--rs-progress-line-radius);
+        border-start-end-radius: var(--rs-progress-line-radius);
+        border-end-end-radius: var(--rs-progress-line-radius);
       }
     }
   }
@@ -181,11 +181,11 @@
     &:where([data-placement='insideStart']) .rs-progress-line-stroke {
       align-items: flex-start;
     }
-    
+
     &:where([data-placement='insideEnd']) .rs-progress-line-stroke {
       align-items: flex-end;
     }
-    
+
     &:where([data-placement='insideCenter']) .rs-progress-line-stroke {
       align-items: center;
     }
@@ -229,7 +229,7 @@
 
     &.rs-progress-line-section {
       @include progress-mixins.vertical-text;
-      
+
       // First section in vertical layout
       &:where(:first-of-type) {
         border-top-left-radius: var(--rs-progress-line-radius);
@@ -293,7 +293,8 @@
     );
   }
 
-  &.rs-progress-line-vertical.rs-progress-line-striped:where([data-status='active']) .rs-progress-line-stroke::after {
+  &.rs-progress-line-vertical.rs-progress-line-striped:where([data-status='active'])
+    .rs-progress-line-stroke::after {
     animation: progress-stripe-vertical 1s linear infinite;
   }
 

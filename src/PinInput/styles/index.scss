@@ -45,15 +45,42 @@
   // Attached segments
   &-attached {
     .rs-pin-input-segment {
-      &:not(:first-child) {
-        margin-left: -1px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+      border-radius: 0;
+
+      &:not(:first-of-type) {
+        margin-inline-start: -1px;
       }
 
-      &:not(:last-child) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+      &:where(:first-of-type) {
+        border-start-start-radius: var(--rs-input-border-radius);
+        border-end-start-radius: var(--rs-input-border-radius);
+      }
+
+      &:where(:last-of-type) {
+        border-start-end-radius: var(--rs-input-border-radius);
+        border-end-end-radius: var(--rs-input-border-radius);
+      }
+
+      // Hack: Browser compatibility
+      // In RTL mode, Chrome requires border-radius to be reversed.
+      [dir='rtl'] & {
+        &:not(:last-of-type) {
+          margin-inline-start: -1px;
+        }
+
+        &:where(:first-of-type) {
+          border-start-start-radius: 0;
+          border-end-start-radius: 0;
+          border-start-end-radius: var(--rs-input-border-radius);
+          border-end-end-radius: var(--rs-input-border-radius);
+        }
+
+        &:where(:last-of-type) {
+          border-start-end-radius: 0;
+          border-end-end-radius: 0;
+          border-start-start-radius: var(--rs-input-border-radius);
+          border-end-start-radius: var(--rs-input-border-radius);
+        }
       }
 
       // Focus state for attached inputs
