@@ -16,17 +16,6 @@
   line-height: var(--rs-text-line-height, var(--rs-line-height-md));
   line-clamp: var(--rs-text-max-lines);
 
-  // 修复父选择器引用语法
-  &blockquote {
-    font-style: italic;
-    padding-inline-start: 1.5rem;
-    border-left: 2px solid var(--rs-gray-200);
-  }
-
-  &kbd {
-    @include kbd.kbd();
-  }
-
   &.rs-text-muted {
     color: var(--rs-text-secondary);
   }
@@ -110,7 +99,24 @@
   }
 
   // Colorful tags
-  @each $color in ('primary', 'secondary', 'success', 'warning', 'error', 'info', 'dark', 'cyan', 'violet', 'orange', 'yellow', 'green', 'red', 'blue') {
+  @each $color
+    in (
+      'primary',
+      'secondary',
+      'success',
+      'warning',
+      'error',
+      'info',
+      'dark',
+      'cyan',
+      'violet',
+      'orange',
+      'yellow',
+      'green',
+      'red',
+      'blue'
+    )
+  {
     &-#{$color} {
       --rs-text-color: var(--rs-#{$color}-500);
     }
@@ -123,4 +129,14 @@
       --rs-text-line-height: var(--rs-text-line-height-#{$size});
     }
   }
+}
+
+kbd.rs-text {
+  @include kbd.kbd();
+}
+
+blockquote.rs-text {
+  font-style: italic;
+  padding-inline-start: 1.5rem;
+  border-left: 2px solid var(--rs-gray-200);
 }
