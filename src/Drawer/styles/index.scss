@@ -135,7 +135,8 @@
   @include utils.clearfix;
 
   position: relative;
-  padding: 20px 40px 20px 60px;
+  padding-block: 20px;
+  padding-inline: 60px 40px;
   border-bottom: 1px solid var(--rs-border-primary);
   display: flex;
 
