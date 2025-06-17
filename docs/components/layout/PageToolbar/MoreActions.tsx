@@ -8,7 +8,7 @@ import MenuIcon from '@rsuite/icons/Menu';
 import Diamond from '@rsuite/icons/legacy/Diamond';
 import Icon from '@rsuite/icons/Icon';
 import { Ltr, Rtl } from '@/components/icons';
-import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
+import { Box, Whisper, Popover, Menu, IconButton, Toggle, HStack } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import { SwitchTheme } from './SwitchTheme';
 import styles from './PageToolbar.module.scss';
@@ -37,50 +37,51 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
       trigger="click"
       speaker={({ onClose, left, top, className }, ref) => (
         <Popover ref={ref} className={className} style={{ left, top, width: '200px' }} full>
-          <Dropdown.Menu>
-            <Dropdown.Item panel className={classNames(styles['more-actions-panel'], styles['theme-panel'])}>
+          <Menu>
+            <Box className={classNames(styles['more-actions-panel'], styles['theme-panel'])}>
               <SwitchTheme onClose={onClose} />
-            </Dropdown.Item>
-            <Dropdown.Separator />
-            <Dropdown.Item panel className={styles['more-actions-panel']}>
+            </Box>
+            <Menu.Separator />
+            <Box className={styles['more-actions-panel']}>
               <div className={styles['rtl-item']}>
-                <div className={styles['item-name']}>
+                <HStack>
                   <Icon as={DirectionIcon} />
                   RTL
-                </div>
+                </HStack>
                 <Toggle
                   size="sm"
+                  checked={isRtl}
+                  tabIndex={0}
                   onChange={() => {
                     onChangeDirection();
                     onClose();
                   }}
-                  checked={isRtl}
                 />
               </div>
-            </Dropdown.Item>
-            <Dropdown.Separator />
+            </Box>
+            <Menu.Separator />
             {designHash && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Diamond />}
                 target="_blank"
                 href={`/design/${themeName}/#s${designHash}`}
               >
                 {locales?.common?.design}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
             {routerId && language && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Edit2 />}
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/main/docs/pages${routerId}${localePath}/index.md`}
               >
                 {locales?.common?.edit}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
 
-            <Dropdown.Item
+            <Menu.Item
               icon={<Bug />}
               as="a"
               target="_blank"
@@ -89,18 +90,18 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
               }
             >
               {locales?.common?.newIssues}
-            </Dropdown.Item>
+            </Menu.Item>
             {canUseDOM && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Twitter />}
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
               >
                 {locales.common.shareTwitter}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
-          </Dropdown.Menu>
+          </Menu>
         </Popover>
       )}
     >

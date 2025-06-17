@@ -10,6 +10,7 @@ import {
   Slider,
   SelectPicker,
   Box,
+  Text,
   useMediaQuery
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
@@ -37,6 +38,7 @@ export default function Page() {
         RadioGroup,
         Slider,
         Box,
+        Text,
         SelectPicker,
         useMediaQuery
       }}

@@ -29,23 +29,22 @@
     margin-inline-end: 6px;
   }
 
-  .theme-item,
+  .theme-switch {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--rs-spacing) * 2);
+
+    .theme-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--rs-spacing);
+    }
+  }
+
   .rtl-item {
     display: flex;
     align-items: center;
-    .item-name {
-      cursor: pointer;
-      flex: auto;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .rs-radio {
-      margin-inline: calc(var(--rs-spacing) * 2);
-    }
+    justify-content: space-between;
   }
-}
-
-.theme-panel {
-  padding: 8px 0 8px 12px;
 }

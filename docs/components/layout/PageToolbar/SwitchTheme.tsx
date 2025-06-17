@@ -1,7 +1,8 @@
 import React from 'react';
 import ThemeIcon from '@/components/ThemeIcon';
-import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
+import { CustomProviderProps, Box, HStack } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
+import { FaCheck } from 'react-icons/fa';
 import styles from './PageToolbar.module.scss';
 
 interface SwitchThemeProps {
@@ -38,25 +39,26 @@ export function SwitchTheme({ onClose }: SwitchThemeProps) {
   };
 
   return (
-    <RadioGroup className={styles['theme-switch']} value={themeName} onChange={handleChangeTheme}>
+    <Box className={styles['theme-switch']}>
       <p>{locales.common.theme}</p>
 
       {themesConfig.map(item => {
         return (
-          <div className={styles['theme-item']} key={item.value}>
-            <div
-              className={styles['item-name']}
-              tabIndex={-1}
-              role="button"
-              onClick={() => handleChangeTheme(item.value as Theme)}
-            >
+          <div
+            className={styles['theme-item']}
+            key={item.value}
+            tabIndex={0}
+            role="button"
+            onClick={() => handleChangeTheme(item.value as Theme)}
+          >
+            <HStack>
               <ThemeIcon theme={item.value as Theme} />
               {item.name}
-            </div>
-            <Radio value={item.value} />
+            </HStack>
+            {themeName === item.value && <FaCheck />}
           </div>
         );
       })}
-    </RadioGroup>
+    </Box>
   );
 }
