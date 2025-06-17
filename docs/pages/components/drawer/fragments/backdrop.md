@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
+import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
@@ -15,7 +15,7 @@ const App = () => {
         value={backdrop}
         onChange={setBackdrop}
       >
-        <label>Backdrop: </label>
+        <Text muted>Backdrop:</Text>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>

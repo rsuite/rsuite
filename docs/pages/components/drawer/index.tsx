@@ -16,7 +16,8 @@ import {
   Input,
   PasswordInput,
   PasswordStrengthMeter,
-  Form
+  Form,
+  Text
 } from 'rsuite';
 
 const inDocsComponents = {
@@ -42,6 +43,7 @@ export default function Page() {
         PasswordStrengthMeter,
         Form,
         Textarea,
+        Text,
         RxArrowUp,
         RxArrowDown,
         RxArrowLeft,

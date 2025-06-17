@@ -11,10 +11,18 @@
 
 .rs-anim-right {
   @include m.slide-animation-setting(slideInRight, slideOutRight);
+
+  [dir='rtl'] & {
+    @include m.slide-animation-setting(slideInLeft, slideOutLeft);
+  }
 }
 
 .rs-anim-left {
   @include m.slide-animation-setting(slideInLeft, slideOutLeft);
+
+  [dir='rtl'] & {
+    @include m.slide-animation-setting(slideInRight, slideOutRight);
+  }
 }
 
 .rs-anim-top {
