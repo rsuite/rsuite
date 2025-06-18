@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
+import { MultiCascader, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -11,15 +11,14 @@ const data = mockTreeData({
     return faker.person[methodName[layer]]();
   }
 });
-const styles = { width: 224, display: 'block', marginBottom: 10 };
 
 const App = () => (
-  <>
-    <MultiCascader size="lg" placeholder="Large" data={data} style={styles} />
-    <MultiCascader size="md" placeholder="Medium" data={data} style={styles} />
-    <MultiCascader size="sm" placeholder="Small" data={data} style={styles} />
-    <MultiCascader size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </>
+  <VStack>
+    <MultiCascader size="lg" placeholder="Large" data={data} w={224} />
+    <MultiCascader size="md" placeholder="Medium" data={data} w={224} />
+    <MultiCascader size="sm" placeholder="Small" data={data} w={224} />
+    <MultiCascader size="xs" placeholder="Xsmall" data={data} w={224} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
