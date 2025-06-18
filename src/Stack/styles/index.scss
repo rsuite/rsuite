@@ -46,6 +46,10 @@
     flex-direction: row-reverse;
   }
 
+  &-wrap {
+    flex-wrap: wrap;
+  }
+
   @include responsive-direction(xs);
 
   // Small grid

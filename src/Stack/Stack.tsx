@@ -68,14 +68,13 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   } = propsWithDefaults;
 
   const { withPrefix, merge, cssVar, responsive } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(), ...responsive(direction));
+  const classes = merge(className, withPrefix({ wrap }), ...responsive(direction));
 
   const styles = mergeStyles(
     style,
     cssVar('spacing', spacing, getCssValue),
     cssVar('align', align),
-    cssVar('justify', justify),
-    cssVar('wrap', wrap ? 'wrap' : undefined)
+    cssVar('justify', justify)
   );
 
   const filteredChildren = React.Children.toArray(children);

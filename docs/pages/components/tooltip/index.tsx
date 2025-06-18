@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementGrid from '@/components/PlacementGrid';
+import PlacementContainer from '@/components/PlacementContainer';
 import { Tooltip, Whisper, Button, ButtonToolbar, Text, Loader, HStack } from 'rsuite';
 
 const inDocsComponents = {
@@ -22,7 +23,8 @@ export default function Page() {
         Loader,
         HStack,
         Button,
-        PlacementGrid
+        PlacementGrid,
+        PlacementContainer
       }}
     />
   );
