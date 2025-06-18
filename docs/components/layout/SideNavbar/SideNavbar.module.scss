@@ -14,7 +14,6 @@
   bottom: 0;
   z-index: 5;
 
-
   @media (max-width: vars.$screen-md) {
     visibility: hidden;
     pointer-events: none;
@@ -74,17 +73,6 @@
     &.sidebar-show {
       display: block;
     }
-  }
-}
-
-.toggle-side-bar:global(.rs-btn.rs-btn-icon) {
-  position: fixed;
-  top: calc(vars.$main-nav-height + 10px);
-  z-index: 1;
-  box-shadow: var(--rs-shadow-md);
-
-  @media (min-width: vars.$screen-md) {
-    display: none;
   }
 }
 

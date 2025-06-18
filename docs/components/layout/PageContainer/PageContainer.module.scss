@@ -3,6 +3,10 @@
 .page-main {
   display: grid;
   grid-template-columns: 10fr 210px;
+
+  @media (max-width: vars.$screen-md) {
+    display: block;
+  }
 }
 
 .page-context-wrapper {
@@ -23,7 +27,7 @@
 // Main container responsive adjustments
 .main-container {
   @media (max-width: vars.$screen-md) {
-    margin-top: (vars.$main-nav-height + 28px);
+    margin-top: vars.$main-nav-height;
   }
 }
 

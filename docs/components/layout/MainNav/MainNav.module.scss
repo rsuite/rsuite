@@ -10,8 +10,14 @@
   box-sizing: border-box;
 
   @media (max-width: vars.$screen-md) {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: calc(var(--rs-spacing) * 2);
+    align-items: center;
     text-align: start;
-    padding-inline-start: 10px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
   }
 
   @media (min-width: vars.$screen-md) {
@@ -24,10 +30,12 @@
   }
 
   &-header {
-    float: start;
+    @media (max-width: vars.$screen-md) {
+      display: flex;
+      align-items: center;
+    }
 
     @media (min-width: vars.$screen-md) {
-      float: none;
       margin-top: 20px;
     }
 
@@ -146,6 +154,14 @@
     }
     @media (max-width: vars.$screen-md) {
       display: none;
+    }
+  }
+
+  .btn-menu-toggle {
+    display: none;
+    color: #fff;
+    @media (max-width: vars.$screen-md) {
+      display: block;
     }
   }
 }

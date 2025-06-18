@@ -13,10 +13,7 @@
 
 @media (max-width: vars.$screen-md) {
   .page-toolbar {
-    position: static;
-    margin-top: 60px;
-    text-align: end;
-    justify-content: flex-end !important;
+    display: none !important;
   }
 }
 

@@ -4,7 +4,7 @@ import canUseDOM from 'dom-lib/canUseDOM';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Twitter from '@rsuite/icons/legacy/Twitter';
-import MenuIcon from '@rsuite/icons/Menu';
+import SettingIcon from '@rsuite/icons/Setting';
 import Diamond from '@rsuite/icons/legacy/Diamond';
 import Icon from '@rsuite/icons/Icon';
 import { Ltr, Rtl } from '@/components/icons';
@@ -105,7 +105,7 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
         </Popover>
       )}
     >
-      <IconButton size="sm" icon={<MenuIcon />} />
+      <IconButton size="sm" icon={<SettingIcon />} />
     </Whisper>
   );
 }

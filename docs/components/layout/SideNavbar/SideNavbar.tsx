@@ -1,14 +1,13 @@
 import React, { useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import NavGroup from './NavGroup';
-import MenuIcon from '@rsuite/icons/Menu';
 import Link from '@/components/Link';
 import usePages, { type MenuItem } from '@/hooks/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import { useApp } from '@/hooks/useApp';
 import { useRouter } from 'next/router';
-import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
+import { Sidebar, Nav, Badge } from 'rsuite';
 import { MdOutlineIntegrationInstructions, MdOutlineOpenInNew } from 'react-icons/md';
 import { isNewComponent, isUpdatedComponent } from '@/utils/version';
 import type { Color } from 'rsuite/esm/internals/types';
@@ -41,17 +40,12 @@ export default function SideNavbar(props: SideNavbarProps) {
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
   const { language } = useApp();
-  const showMediaToggleButton = style.width !== 0;
 
   const navItems = [];
   const menuList = usePages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
-
-  const handleOpenMediaSidebar = useCallback(() => {
-    onToggleMenu(true);
-  }, [onToggleMenu]);
 
   const handleCloseMediaSidebar = useCallback(() => {
     onToggleMenu(false);
@@ -138,14 +132,8 @@ export default function SideNavbar(props: SideNavbarProps) {
 
   return (
     <>
-      {showMediaToggleButton && (
-        <IconButton
-          className={styles['toggle-side-bar']}
-          icon={<MenuIcon />}
-          onClick={handleOpenMediaSidebar}
-        />
-      )}
       <div
+        id="sidebar-drawer"
         className={classNames(styles['rs-sidebar-wrapper'], styles['fixed'], {
           [styles['sidebar-show']]: showSubmenu
         })}
