@@ -16,7 +16,8 @@ type OmitCalendarCoreTypes =
   | 'onMouseMove'
   | 'calendarDate'
   | 'format'
-  | 'locale';
+  | 'locale'
+  | 'renderTitle';
 
 export interface CalendarProps
   extends WithAsProps,
@@ -37,6 +38,7 @@ export interface CalendarProps
   locale?: Partial<DateRangePickerLocale>;
   showWeekNumbers?: boolean;
   value?: [] | [Date] | [Date, Date];
+  renderTitle?: (date: Date, calendarKey: 'start' | 'end') => React.ReactNode;
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
   onSelect?: (index: number, date: Date, event: React.SyntheticEvent) => void;
@@ -55,10 +57,12 @@ const Calendar = forwardRef<'div', CalendarProps>((props: CalendarProps, ref) =>
     onChangeCalendarMonth,
     onChangeCalendarTime,
     onSelect,
+    renderTitle,
     value = [],
     ...rest
   } = props;
 
+  const calendarKey = index === 0 ? 'start' : 'end';
   const calendarHandlers = useCalendarHandlers({
     index,
     calendarDateRange,
@@ -74,9 +78,16 @@ const Calendar = forwardRef<'div', CalendarProps>((props: CalendarProps, ref) =>
     [disabledDate, value]
   );
 
+  const handleRenderTitle = useCallback(
+    (date: Date) => {
+      return renderTitle?.(date, calendarKey);
+    },
+    [renderTitle, calendarKey]
+  );
+
   return (
     <Component
-      data-testid={`calendar-${index === 0 ? 'start' : 'end'}`}
+      data-testid={`calendar-${calendarKey}`}
       {...rest}
       {...calendarHandlers}
       index={index}
@@ -85,6 +96,7 @@ const Calendar = forwardRef<'div', CalendarProps>((props: CalendarProps, ref) =>
       disabledDate={disableCalendarDate}
       limitEndYear={limitEndYear}
       limitStartYear={limitStartYear}
+      renderTitle={handleRenderTitle}
       ref={ref}
     />
   );

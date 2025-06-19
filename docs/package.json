@@ -51,7 +51,11 @@
     "react-icons": "^5.0.1",
     "react-json-tree": "^0.18.0",
     "react-select": "^5.5.9",
+<<<<<<< HEAD
     "rsuite": "^6.0.0-canary-20250416",
+=======
+    "rsuite": "^5.83.0",
+>>>>>>> origin/main
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^2.3.1",
     "svgo-loader": "^3.0.3",

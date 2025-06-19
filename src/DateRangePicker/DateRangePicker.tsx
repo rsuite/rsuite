@@ -254,8 +254,10 @@ export interface DateRangePickerProps
 
   /**
    * Custom render for calendar title
+   *
+   * - calendarKey is added in v5.83.0
    */
-  renderTitle?: (date: Date) => React.ReactNode;
+  renderTitle?: (date: Date, calendarKey: 'start' | 'end') => React.ReactNode;
 
   /**
    * Custom rendering calendar cell content.

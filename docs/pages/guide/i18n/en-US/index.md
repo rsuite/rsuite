@@ -19,34 +19,36 @@ return (
 
 ## Supported locales
 
-| Locale                                           | BCP 47 language tag | Import name |
-| ------------------------------------------------ | ------------------- | ----------- |
-| Arabic (Egypt)                                   | ar-EG               | `arEG`      |
-| Catalan                                          | ca-ES               | `caES`      |
-| Czech                                            | cs-CZ               | `csCZ`      |
-| Polish (Poland)                                  | pl-PL               | `plPL`      |
-| Danish                                           | da-DK               | `daDK`      |
-| German                                           | de-DE               | `deDE`      |
-| British English                                  | en-GB               | `enGB`      |
-| American English                                 | en-US               | `enUS`      |
-| Spanish (Argentina)                              | es-AR               | `esAR`      |
-| Spanish (Spain)                                  | es-ES               | `esES`      |
-| Persian (Iran)                                   | fa-IR               | `faIR`      |
-| Finnish                                          | fi-FI               | `fiFI`      |
-| French                                           | fr-FR               | `frFR`      |
-| Hungarian                                        | hu-HU               | `huHU`      |
-| Italian                                          | it-IT               | `itIT`      |
-| Japanese                                         | ja-JP               | `jaJP`      |
-| Kazakh                                           | kk-KZ               | `kkKZ`      |
-| Korean                                           | ko-KR               | `koKR`      |
-| Nepali                                           | ne-NP               | `neNP`      |
-| Dutch                                            | nl-NL               | `nlNL`      |
-| Portuguese (Brazil)                              | pt-BR               | `ptBR`      |
-| Russian                                          | ru-RU               | `ruRU`      |
-| Swedish                                          | sv-SE               | `svSE`      |
-| Turkish                                          | tr-TR               | `trTR`      |
-| Simplified Chinese                               | zh-CN               | `zhCN`      |
-| Traditional Chinese（Taiwan, Province of China） | zh-TW               | `zhTW`      |
+| BCP 47 language tag | Locale                                           | Import name |
+| ------------------- | ------------------------------------------------ | ----------- |
+| ar-EG               | Arabic (Egypt)                                   | `arEG`      |
+| ca-ES               | Catalan                                          | `caES`      |
+| cs-CZ               | Czech                                            | `csCZ`      |
+| da-DK               | Danish                                           | `daDK`      |
+| de-DE               | German                                           | `deDE`      |
+| en-GB               | British English                                  | `enGB`      |
+| en-US               | American English                                 | `enUS`      |
+| es-AR               | Spanish (Argentina)                              | `esAR`      |
+| es-ES               | Spanish (Spain)                                  | `esES`      |
+| fa-IR               | Persian (Iran)                                   | `faIR`      |
+| fi-FI               | Finnish                                          | `fiFI`      |
+| fr-FR               | French                                           | `frFR`      |
+| hu-HU               | Hungarian                                        | `huHU`      |
+| it-IT               | Italian                                          | `itIT`      |
+| ja-JP               | Japanese                                         | `jaJP`      |
+| kk-KZ               | Kazakh                                           | `kkKZ`      |
+| ko-KR               | Korean                                           | `koKR`      |
+| ne-NP               | Nepali                                           | `neNP`      |
+| nl-NL               | Dutch                                            | `nlNL`      |
+| pl-PL               | Polish (Poland)                                  | `plPL`      |
+| pt-BR               | Portuguese (Brazil)                              | `ptBR`      |
+| ru-RU               | Russian                                          | `ruRU`      |
+| sv-SE               | Swedish                                          | `svSE`      |
+| th-TH               | Thai                                             | `thTH`      |
+| tr-TR               | Turkish                                          | `trTR`      |
+| uk-UA               | Ukrainian                                        | `ukUA`      |
+| zh-CN               | Simplified Chinese                               | `zhCN`      |
+| zh-TW               | Traditional Chinese（Taiwan, Province of China） | `zhTW`      |
 
 > [How to add new language to rsuite?](https://github.com/rsuite/rsuite/discussions/2927)
 
