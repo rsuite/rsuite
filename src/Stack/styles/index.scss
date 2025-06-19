@@ -1,0 +1,88 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../styles/variables' as vars;
+@use 'variables';
+
+// Mixin for generating responsive direction classes
+@mixin responsive-direction($size) {
+  &-#{$size}-column {
+    flex-direction: column;
+  }
+  &-#{$size}-row {
+    flex-direction: row;
+  }
+  &-#{$size}-column-reverse {
+    flex-direction: column-reverse;
+  }
+  &-#{$size}-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.rs-stack {
+  display: flex;
+  gap: var(--rs-stack-spacing);
+  flex-wrap: var(--rs-stack-wrap);
+  flex-direction: var(--rs-stack-direction);
+  align-items: var(--rs-stack-align);
+  justify-content: var(--rs-stack-justify);
+
+  &-column {
+    --rs-stack-align: flex-start;
+    flex-direction: column;
+  }
+
+  &-row {
+    --rs-stack-align: center;
+    flex-direction: row;
+  }
+
+  &-column-reverse {
+    --rs-stack-align: flex-start;
+    flex-direction: column-reverse;
+  }
+
+  &-row-reverse {
+    --rs-stack-align: center;
+    flex-direction: row-reverse;
+  }
+
+  &-wrap {
+    flex-wrap: wrap;
+  }
+
+  @include responsive-direction(xs);
+
+  // Small grid
+  //
+  // Columns, offsets, pushes, and pulls for the small device range, from phones
+  // to tablets / phones.
+
+  @media (min-width: vars.$screen-sm) {
+    @include responsive-direction(sm);
+  }
+
+  @media (min-width: vars.$screen-md) {
+    @include responsive-direction(md);
+  }
+
+  @media (min-width: vars.$screen-lg) {
+    @include responsive-direction(lg);
+  }
+
+  @media (min-width: vars.$screen-xl) {
+    @include responsive-direction(xl);
+  }
+
+  @media (min-width: vars.$screen-xxl) {
+    @include responsive-direction(xxl);
+  }
+}
+
+.rs-stack-item {
+  align-self: var(--rs-stack-item-align-self);
+  order: var(--rs-stack-item-order);
+  flex: var(
+    --rs-stack-item-flex,
+    var(--rs-stack-item-grow) var(--rs-stack-item-shrink) var(--rs-stack-item-basis)
+  );
+}

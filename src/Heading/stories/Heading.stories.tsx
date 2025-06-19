@@ -4,8 +4,8 @@ import Heading, { HeadingProps } from '../Heading';
 import HeadingGroup from '../../HeadingGroup';
 import Text from '../../Text';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Text/styles/index.less';
+import '../styles/index.scss';
+import '../../Text/styles/index.scss';
 
 const meta = createMeta(Heading);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateRangeInput, Stack, InputGroup, Button } from 'rsuite';
+import { DateRangeInput, Stack, InputGroup, Button, HStack, VStack, Text, Divider } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -17,7 +17,11 @@ export default function Page() {
         DateRangeInput,
         InputGroup,
         Button,
-        Stack
+        Stack,
+        HStack,
+        VStack,
+        Text,
+        Divider
       }}
     />
   );

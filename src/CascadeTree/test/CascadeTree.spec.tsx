@@ -5,7 +5,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 

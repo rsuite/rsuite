@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../index';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Footer styles', () => {
   it('Should render the correct styles', () => {

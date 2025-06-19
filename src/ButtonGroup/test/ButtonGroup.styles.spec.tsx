@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getStyle } from '@test/utils';
 
-import '../../Button/styles/index.less';
-import '../styles/index.less';
+import '../../Button/styles/index.scss';
+import '../styles/index.scss';
 
 describe('Button Group styles', () => {
   it('Should render the correct width', () => {

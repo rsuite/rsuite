@@ -1,0 +1,6 @@
+@use '../../internals/Box/styles/index' as box;
+
+// Full container
+.rs-content {
+  flex: 1 1 auto;
+}

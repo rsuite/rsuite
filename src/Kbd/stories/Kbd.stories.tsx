@@ -1,8 +1,8 @@
 import type { StoryObj } from '@storybook/react';
 import Kbd from '../Kbd';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Text/styles/index.less';
+import '../styles/index.scss';
+import '../../Text/styles/index.scss';
 
 const meta = createMeta(Kbd);
 

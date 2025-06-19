@@ -1,17 +1,17 @@
 import React, { useEffect, useCallback } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import NavGroup from './NavGroup';
-import BarsIcon from '@rsuite/icons/legacy/Bars';
 import Link from '@/components/Link';
 import usePages, { type MenuItem } from '@/hooks/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import { useApp } from '@/hooks/useApp';
 import { useRouter } from 'next/router';
-import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
+import { Sidebar, Nav, Badge } from 'rsuite';
 import { MdOutlineIntegrationInstructions, MdOutlineOpenInNew } from 'react-icons/md';
 import { isNewComponent, isUpdatedComponent } from '@/utils/version';
 import type { Color } from 'rsuite/esm/internals/types';
+import styles from './SideNavbar.module.scss';
 
 const icons = { MdOutlineIntegrationInstructions };
 interface SideNavbarProps {
@@ -40,17 +40,12 @@ export default function SideNavbar(props: SideNavbarProps) {
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
   const { language } = useApp();
-  const showMediaToggleButton = style.width !== 0;
 
   const navItems = [];
   const menuList = usePages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
-
-  const handleOpenMediaSidebar = useCallback(() => {
-    onToggleMenu(true);
-  }, [onToggleMenu]);
 
   const handleCloseMediaSidebar = useCallback(() => {
     onToggleMenu(false);
@@ -95,7 +90,9 @@ export default function SideNavbar(props: SideNavbarProps) {
     const active = router.pathname === pathname;
 
     const title =
-      language === 'en' || !child.title ? null : <span className="title-zh">{child.title}</span>;
+      language === 'en' || !child.title ? null : (
+        <span className={styles['title-zh']}>{child.title}</span>
+      );
 
     if (child.target === '_blank' && child.url) {
       return (
@@ -135,26 +132,20 @@ export default function SideNavbar(props: SideNavbarProps) {
 
   return (
     <>
-      {showMediaToggleButton && (
-        <IconButton
-          className="media-toggle-side-bar"
-          icon={<BarsIcon />}
-          onClick={handleOpenMediaSidebar}
-        />
-      )}
       <div
-        className={classnames('rs-sidebar-wrapper fixed', {
-          'media-sidebar-show': showSubmenu
+        id="sidebar-drawer"
+        className={classNames(styles['rs-sidebar-wrapper'], styles['fixed'], {
+          [styles['sidebar-show']]: showSubmenu
         })}
         style={style}
       >
         <Sidebar>
-          <div className="title-wrapper">
+          <div className={styles['title-wrapper']}>
             {icon} {activeTitle}
           </div>
           <Nav
             id="sidebar"
-            className="nav-docs"
+            className={styles['nav-docs']}
             vertical
             onScroll={debounce(setSidebarScrollTop, 500)}
           >
@@ -163,8 +154,8 @@ export default function SideNavbar(props: SideNavbarProps) {
         </Sidebar>
       </div>
       <div
-        className={classnames('rs-sidebar-media-backdrop', {
-          'media-sidebar-show': showSubmenu
+        className={classNames(styles['rs-sidebar-backdrop'], {
+          [styles['sidebar-show']]: showSubmenu
         })}
         onClick={handleCloseMediaSidebar}
       />

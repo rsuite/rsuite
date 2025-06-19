@@ -1,0 +1,30 @@
+// Radio and Checkbox common styles
+@mixin check-radio-base {
+  position: relative;
+  align-items: center;
+
+  // These classes are used on elements with <label> descendants
+  &-disabled {
+    label {
+      cursor: var(--rs-cursor-disabled);
+    }
+  }
+
+  label {
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  &-inner::before {
+    border-color: var(--rs-checkbox-checked-bg);
+  }
+
+  &-disabled label {
+    cursor: var(--rs-cursor-disabled);
+  }
+
+  // Disabled text styles.
+  &-disabled > &-checker > label {
+    color: var(--rs-text-disabled);
+  }
+}

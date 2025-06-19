@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Stack', () => {
   testStandardProps(<Stack />);
@@ -19,6 +19,7 @@ describe('Stack', () => {
   it('Should be wrap', () => {
     render(<Stack data-testid="test" wrap></Stack>);
 
+    expect(screen.getByTestId('test')).to.have.class('rs-stack-wrap');
     expect(screen.getByTestId('test')).to.have.style('flex-wrap', 'wrap');
   });
 

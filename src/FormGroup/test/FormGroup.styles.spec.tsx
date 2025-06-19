@@ -5,8 +5,8 @@ import Form from '../../Form/index';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import '../../FormControl/styles/index.less';
-import '../styles/index.less';
+import '../../FormControl/styles/index.scss';
+import '../styles/index.scss';
 
 describe('FormGroup styles', () => {
   it('Form layout horizontal Should render the correct styles', () => {

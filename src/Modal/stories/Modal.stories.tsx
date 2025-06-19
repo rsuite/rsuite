@@ -3,8 +3,8 @@ import type { StoryObj } from '@storybook/react';
 import Modal from '../Modal';
 import Button from '../../Button';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Button/styles/index.less';
+import '../styles/index.scss';
+import '../../Button/styles/index.scss';
 
 const meta = createMeta(Modal);
 

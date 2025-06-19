@@ -1,25 +1,32 @@
 <!--start-code-->
 
 ```js
-import { Input, InputGroup, VStack } from 'rsuite';
+import { Input, InputGroup, VStack, HStack, Text, Divider } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 
 const App = () => (
-  <VStack w={300}>
-    <label>Disabled:</label>
-    <Input disabled value="Disabled input" />
-    <InputGroup disabled>
-      <Input value="Disabled input group" />
-      <InputGroup.Addon>
-        <SearchIcon />
-      </InputGroup.Addon>
-    </InputGroup>
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>Disabled</Text>
+      <Input disabled value="Disabled input" w={200} />
 
-    <label>Read only:</label>
-    <Input readOnly value="Read only input" />
+      <InputGroup disabled w={200}>
+        <Input value="Disabled input group" />
+        <InputGroup.Addon>
+          <SearchIcon />
+        </InputGroup.Addon>
+      </InputGroup>
+    </HStack>
 
-    <label>Plaintext:</label>
-    <Input plaintext value="Plaintext input" />
+    <HStack>
+      <Text muted w={80}>ReadOnly</Text>
+      <Input readOnly value="Read only input" w={200} />
+    </HStack>
+
+    <HStack>
+      <Text muted w={80}>Plaintext</Text>
+      <Input plaintext value="Plaintext input" w={200} />
+    </HStack>
   </VStack>
 );
 

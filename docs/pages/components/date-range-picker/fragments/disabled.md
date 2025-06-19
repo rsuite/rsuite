@@ -1,60 +1,51 @@
 <!--start-code-->
 
 ```js
-import { DateRangePicker } from 'rsuite';
+import { DateRangePicker, HStack, VStack, Divider, Text } from 'rsuite';
 import { isAfter } from 'date-fns/isAfter';
 
 const { allowedMaxDays, allowedDays, allowedRange, beforeToday, afterToday, combine } =
   DateRangePicker;
 
-const Label = props => {
-  return <label style={{ display: 'block', marginTop: 10 }} {...props} />;
-};
+const Field = ({ label, description, children, ...rest }) => (
+  <HStack>
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <VStack>
+      <Text muted>{description}</Text>
+      <DateRangePicker {...rest} w={240} />
+    </VStack>
+  </HStack>
+);
 
 const App = () => (
-  <div className="field">
-    <Label>Disabled: </Label>
-    <DateRangePicker disabled />
-
-    <br />
-    <Label>Custom disabled </Label>
-    <DateRangePicker shouldDisableDate={date => isAfter(date, new Date())} />
-
-    <br />
-    <Label>Allow maximum selection for 7 days, other dates are disabled.</Label>
-    <DateRangePicker shouldDisableDate={allowedMaxDays(7)} />
-
-    <br />
-    <Label>Only 7 days allowed, other dates are disabled</Label>
-    <DateRangePicker shouldDisableDate={allowedDays(7)} />
-
-    <br />
-    <Label>Only one date range is allowed, other dates are disabled</Label>
-    <DateRangePicker shouldDisableDate={allowedRange('2020-10-01', '2021-10-01')} />
-
-    <br />
-    <Label>Disable dates before today</Label>
-    <DateRangePicker shouldDisableDate={beforeToday()} />
-
-    <br />
-    <Label>Disable dates after today</Label>
-    <DateRangePicker shouldDisableDate={afterToday()} />
-
-    <br />
-    <Label>
-      Combination: Allow maximum selection for 7 days, while disabling dates before today, other
-      dates are disabled
-    </Label>
-    <DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />
-
-    <hr />
-    <Label>Read only: </Label>
-    <DateRangePicker readOnly defaultValue={[new Date(), new Date()]} />
-
-    <hr />
-    <Label>Plaintext: </Label>
-    <DateRangePicker plaintext defaultValue={[new Date(), new Date()]} />
-  </div>
+  <VStack divider={<Divider />}>
+    <VStack spacing={12}>
+      <Field label="Disabled" disabled />
+      <Field description="Custom disabled" shouldDisableDate={date => isAfter(date, new Date())} />
+      <Field
+        description="Allow maximum selection for 7 days, other dates are disabled."
+        shouldDisableDate={allowedMaxDays(7)}
+      />
+      <Field
+        description="Only 7 days allowed, other dates are disabled"
+        shouldDisableDate={allowedDays(7)}
+      />
+      <Field
+        description="Only one date range is allowed, other dates are disabled"
+        shouldDisableDate={allowedRange('2020-10-01', '2021-10-01')}
+      />
+      <Field description="Disable dates before today" shouldDisableDate={beforeToday()} />
+      <Field description="Disable dates after today" shouldDisableDate={afterToday()} />
+      <Field
+        description="Combination: Allow maximum selection for 7 days, while disabling dates before today, other dates are disabled"
+        shouldDisableDate={combine(allowedMaxDays(7), beforeToday())}
+      />
+    </VStack>
+    <Field label="Read only" readOnly defaultValue={[new Date(), new Date()]} />
+    <Field label="Plaintext" plaintext defaultValue={[new Date(), new Date()]} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -6,7 +6,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { addStyle } from 'dom-lib';
 import { testStandardProps } from '@test/cases';
 
-import '../../Slider/styles/index.less';
+import '../../Slider/styles/index.scss';
 
 describe('RangeSlider', () => {
   testStandardProps(<RangeSlider />);
@@ -17,15 +17,10 @@ describe('RangeSlider', () => {
   });
 
   it('Should have a progress ', () => {
-    const { container } = render(<RangeSlider defaultValue={[10, 50]} />);
+    render(<RangeSlider defaultValue={[10, 50]} />);
 
-    expect(
-      (container.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width
-    ).to.equal('40%');
-
-    expect((container.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left).to.equal(
-      '10%'
-    );
+    expect(screen.getByTestId('slider-progress-bar').style.width).to.equal('40%');
+    expect(screen.getByTestId('slider-progress-bar').style.insetInlineStart).to.equal('10%');
   });
 
   it('Should render 2 handles ', () => {

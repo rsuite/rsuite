@@ -1,26 +1,30 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonToolbar, ButtonGroup } from 'rsuite';
+import { Button, ButtonGroup, VStack, HStack, Text } from 'rsuite';
 
-const CustomButtonGroup = ({ appearance }) => (
-  <ButtonGroup vertical>
-    <Button appearance={appearance}>Top</Button>
-    <Button appearance={appearance}>Middle</Button>
-    <Button appearance={appearance}>Bottom</Button>
-  </ButtonGroup>
+const ButtonGroupWithAppearance = ({ appearance }) => (
+  <VStack align="center" spacing={12}>
+    <Text w={80} muted align="center">
+      {appearance}
+    </Text>
+    <ButtonGroup vertical>
+      <Button appearance={appearance}>Export</Button>
+      <Button appearance={appearance}>Print</Button>
+      <Button appearance={appearance}>Duplicate</Button>
+    </ButtonGroup>
+  </VStack>
 );
 
 const App = () => (
-  <ButtonToolbar>
-    <CustomButtonGroup />
-    <CustomButtonGroup appearance="primary" />
-    <CustomButtonGroup appearance="link" />
-    <CustomButtonGroup appearance="subtle" />
-    <CustomButtonGroup appearance="ghost" />
-  </ButtonToolbar>
+  <HStack>
+    <ButtonGroupWithAppearance appearance="default" />
+    <ButtonGroupWithAppearance appearance="primary" />
+    <ButtonGroupWithAppearance appearance="link" />
+    <ButtonGroupWithAppearance appearance="subtle" />
+    <ButtonGroupWithAppearance appearance="ghost" />
+  </HStack>
 );
-
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

@@ -5,6 +5,7 @@ export default {
     search: 'Search',
     resume:
       'Free enterprise React UI suite. A unified design system and a rich component library enhance developer productivity.',
+    bio: 'A suite of React components, designed for enterprise system products',
     advanced: 'Advanced',
     guide: 'Guide',
     gettingStarted: 'Getting started',
@@ -26,7 +27,6 @@ export default {
     officialThemes: 'Themes',
     cssVariables: 'CSS Variables',
     cssReset: 'CSS Reset',
-    customizationLess: 'Less Customization',
     i18n: 'Localization',
     rtl: 'Right to left',
     changeLog: 'Change log',
@@ -42,9 +42,9 @@ export default {
     extension: 'Extension Components',
     htmlElements: 'Supported HTML Elements',
     modularized: 'Minimizing bundle size',
-    v2: 'Version 2.*',
-    v3: 'Version 3.*',
-    v4: 'Version 4.*',
+    v2: '2.x',
+    v3: '3.x',
+    v4: '4.x',
     v5Features: 'Upgrade to v5',
     notFount: 'Page not found',
     goHomePage: 'Return to homepage.',
@@ -70,7 +70,10 @@ export default {
     tablet: 'Tablet',
     desktop: 'Desktop',
     code: 'Code',
-    openInNewTab: 'Open in New Tab'
+    openInNewTab: 'Open in New Tab',
+    about: 'About',
+    community: 'Community',
+    help: 'Help'
   },
   components: {
     noComponent: "Can't find the component you want? ",

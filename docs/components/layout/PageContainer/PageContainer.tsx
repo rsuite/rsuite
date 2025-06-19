@@ -5,6 +5,7 @@ import PageToolbar from '../PageToolbar';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { Row, Col, Box } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
+import styles from './PageContainer.module.scss';
 
 interface ContainerProps {
   hidePageNav?: boolean;
@@ -30,36 +31,40 @@ export default function PageContainer(props: ContainerProps) {
   const designHash = designHashConfig[themeName];
   const rtl = direction === 'rtl';
 
-  const classes = classNames('page-context-wrapper', {
-    'hide-page-nav': hidePageNav
+  const classes = classNames(styles['page-context-wrapper'], {
+    [styles['hide-page-nav']]: hidePageNav
   });
 
   return (
     <>
-      <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
-        <Col span={24} className="main-container">
-          <PageContent>{children}</PageContent>
-        </Col>
-      </Row>
-
       <PageToolbar designHash={designHash} routerId={routerId} />
-      {hidePageNav ? null : (
-        <Box showFrom="sm">
-          <PageNav
-            as={Col}
-            showOrderNumber={false}
-            width={150}
-            scrollBar="left"
-            rtl={rtl}
-            once={false}
-            deep={4}
-            offset={{
-              top: 80,
-              [rtl ? 'left' : 'right']: 10
-            }}
-          />
-        </Box>
-      )}
+      <div className={styles['page-main']}>
+        <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
+          <Col span={24} className={styles['main-container']}>
+            <PageContent>{children}</PageContent>
+          </Col>
+        </Row>
+
+        {hidePageNav ? null : (
+          <Box showFrom="sm" w={210}>
+            <PageNav
+              as={Col}
+              showOrderNumber={false}
+              width={180}
+              scrollBar="left"
+              rtl={rtl}
+              once={false}
+              deep={4}
+              offset={{
+                top: 80,
+                position: 'sticky',
+                insetInlineStart: 10,
+                maxHeight: 'max-content'
+              }}
+            />
+          </Box>
+        )}
+      </div>
     </>
   );
 }

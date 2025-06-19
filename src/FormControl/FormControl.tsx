@@ -99,7 +99,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     defaultValue,
     checkTrigger,
     errorMessage,
-    errorPlacement,
+    errorPlacement = 'bottomStart',
     checkAsync,
     shouldResetWithUnmount,
     rule,

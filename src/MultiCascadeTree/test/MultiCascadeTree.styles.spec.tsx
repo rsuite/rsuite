@@ -3,7 +3,7 @@ import MultiCascadeTree from '../MultiCascadeTree';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { mockTreeData } from '@test/mocks/data-mock';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData([['1', ['2', '2-1']]]);
 

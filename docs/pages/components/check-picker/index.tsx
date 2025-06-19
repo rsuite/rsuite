@@ -15,7 +15,8 @@ import {
   Loader,
   Toggle,
   Divider,
-  Box
+  Box,
+  Text
 } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
@@ -56,6 +57,7 @@ export default function Page() {
         Radio,
         Loader,
         Divider,
+        Text,
         FaUserGroup,
         FaUser
       }}

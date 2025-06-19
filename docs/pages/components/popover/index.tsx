@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PlacementGrid from '@/components/PlacementGrid';
+import PlacementContainer from '@/components/PlacementContainer';
 import {
   Menu,
   ButtonToolbar,
@@ -36,6 +37,7 @@ export default function Page() {
         Toggle,
         Text,
         PlacementGrid,
+        PlacementContainer,
         HStack
       }}
     />

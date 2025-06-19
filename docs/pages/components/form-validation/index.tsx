@@ -42,8 +42,7 @@ import {
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
-import files from './files';
-import { JSONTree } from 'react-json-tree';
+import { JSONView } from '@/components/JSONView';
 
 const Select = loadable(() => import('react-select'));
 
@@ -62,6 +61,7 @@ export default function Page() {
         NumberType,
         ArrayType,
         BooleanType,
+        JSONView,
         Form,
         Input,
         NumberInput,
@@ -76,7 +76,6 @@ export default function Page() {
         PasswordInput,
         Panel,
         Radio,
-        JSONTree,
         Select,
         Slider,
         DatePicker,
@@ -93,7 +92,6 @@ export default function Page() {
         useFormControl
       }}
       sandboxDependencies={sandboxDependencies}
-      sandboxFiles={files}
     />
   );
 }

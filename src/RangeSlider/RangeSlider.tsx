@@ -359,7 +359,6 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar
-            rtl={rtl}
             vertical={vertical}
             start={((value[0] - min) / (max - min)) * 100}
             end={((value[1] - min) / (max - min)) * 100}

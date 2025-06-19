@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Modal, ButtonToolbar, Button, RadioGroup, Radio, Placeholder } from 'rsuite';
+import { Modal, ButtonToolbar, Button, RadioGroup, Radio, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +18,7 @@ const App = () => {
         value={backdrop}
         onChange={value => setBackdrop(value)}
       >
-        <label>Backdrop: </label>
+        <Text muted>Backdrop:</Text>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>

@@ -1,15 +1,17 @@
 import React from 'react';
+import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Twitter from '@rsuite/icons/legacy/Twitter';
-import MenuIcon from '@rsuite/icons/Menu';
+import SettingIcon from '@rsuite/icons/Setting';
 import Diamond from '@rsuite/icons/legacy/Diamond';
 import Icon from '@rsuite/icons/Icon';
 import { Ltr, Rtl } from '@/components/icons';
-import { Whisper, Popover, Dropdown, IconButton, Toggle } from 'rsuite';
+import { Box, Whisper, Popover, Menu, IconButton, Toggle, HStack } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import { SwitchTheme } from './SwitchTheme';
+import styles from './PageToolbar.module.scss';
 
 interface MoreActionsProps {
   designHash?: any;
@@ -35,50 +37,51 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
       trigger="click"
       speaker={({ onClose, left, top, className }, ref) => (
         <Popover ref={ref} className={className} style={{ left, top, width: '200px' }} full>
-          <Dropdown.Menu>
-            <Dropdown.Item panel className="more-actions-panel theme-panel">
+          <Menu>
+            <Box className={classNames(styles['more-actions-panel'], styles['theme-panel'])}>
               <SwitchTheme onClose={onClose} />
-            </Dropdown.Item>
-            <Dropdown.Separator />
-            <Dropdown.Item panel className="more-actions-panel">
-              <div className="rtl-item">
-                <div className="item-name">
+            </Box>
+            <Menu.Separator />
+            <Box className={styles['more-actions-panel']}>
+              <div className={styles['rtl-item']}>
+                <HStack>
                   <Icon as={DirectionIcon} />
                   RTL
-                </div>
+                </HStack>
                 <Toggle
                   size="sm"
+                  checked={isRtl}
+                  tabIndex={0}
                   onChange={() => {
                     onChangeDirection();
                     onClose();
                   }}
-                  checked={isRtl}
                 />
               </div>
-            </Dropdown.Item>
-            <Dropdown.Separator />
+            </Box>
+            <Menu.Separator />
             {designHash && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Diamond />}
                 target="_blank"
                 href={`/design/${themeName}/#s${designHash}`}
               >
                 {locales?.common?.design}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
             {routerId && language && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Edit2 />}
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/main/docs/pages${routerId}${localePath}/index.md`}
               >
                 {locales?.common?.edit}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
 
-            <Dropdown.Item
+            <Menu.Item
               icon={<Bug />}
               as="a"
               target="_blank"
@@ -87,22 +90,22 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
               }
             >
               {locales?.common?.newIssues}
-            </Dropdown.Item>
+            </Menu.Item>
             {canUseDOM && (
-              <Dropdown.Item
+              <Menu.Item
                 as="a"
                 icon={<Twitter />}
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
               >
                 {locales.common.shareTwitter}
-              </Dropdown.Item>
+              </Menu.Item>
             )}
-          </Dropdown.Menu>
+          </Menu>
         </Popover>
       )}
     >
-      <IconButton size="sm" icon={<MenuIcon />} />
+      <IconButton size="sm" icon={<SettingIcon />} />
     </Whisper>
   );
 }

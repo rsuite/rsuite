@@ -1,0 +1,9 @@
+@use 'sass:list';
+
+@mixin generate-row-width($widths, $n) {
+  @for $i from 1 through $n {
+    &:nth-child(#{$i}) {
+      width: list.nth($widths, $i);
+    }
+  }
+}

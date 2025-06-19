@@ -1,0 +1,6 @@
+@mixin vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding-block: var(--rs-spacing);
+  height: auto;
+}

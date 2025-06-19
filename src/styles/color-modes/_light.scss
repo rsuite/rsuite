@@ -1,0 +1,466 @@
+// SCSS implementation of light color mode
+// see https://rsuitejs.com/design/default
+
+@use '../colors/light' as light;
+@use '../colors/colors-base' as c;
+@use '../colors/palette' as p;
+
+// Light theme CSS custom properties
+:root {
+  // Gray levels
+  --rs-gray-0: #{light.$B000};
+  --rs-gray-50: #{light.$B050};
+  --rs-gray-100: #{light.$B100};
+  --rs-gray-200: #{light.$B200};
+  --rs-gray-300: #{light.$B300};
+  --rs-gray-400: #{light.$B400};
+  --rs-gray-500: #{light.$B500};
+  --rs-gray-600: #{light.$B600};
+  --rs-gray-700: #{light.$B700};
+  --rs-gray-800: #{light.$B800};
+  --rs-gray-900: #{light.$B900};
+
+  // Highlight levels
+  --rs-primary-50: #{light.$H050};
+  --rs-primary-100: #{light.$H100};
+  --rs-primary-200: #{light.$H200};
+  --rs-primary-300: #{light.$H300};
+  --rs-primary-400: #{light.$H400};
+  --rs-primary-500: #{light.$H500};
+  --rs-primary-600: #{light.$H600};
+  --rs-primary-700: #{light.$H700};
+  --rs-primary-800: #{light.$H800};
+  --rs-primary-900: #{light.$H900};
+
+  // Spectrum colors
+  --rs-color-red: #{c.$red};
+  --rs-color-orange: #{c.$orange};
+  --rs-color-yellow: #{c.$yellow};
+  --rs-color-green: #{c.$green};
+  --rs-color-cyan: #{c.$cyan};
+  --rs-color-blue: #{c.$blue};
+  --rs-color-violet: #{c.$violet};
+
+  @include p.generate-palette-vars('red', c.$red);
+  @include p.generate-palette-vars('orange', c.$orange);
+  @include p.generate-palette-vars('yellow', c.$yellow);
+  @include p.generate-palette-vars('green', c.$green);
+  @include p.generate-palette-vars('cyan', c.$cyan);
+  @include p.generate-palette-vars('blue', c.$blue);
+  @include p.generate-palette-vars('violet', c.$violet);
+
+  // Stateful colors
+  --rs-state-success: var(--rs-color-green);
+  --rs-state-info: var(--rs-color-blue);
+  --rs-state-warning: var(--rs-color-yellow);
+  --rs-state-error: var(--rs-color-red);
+
+  // Reset
+  --rs-body: var(--rs-gray-0);
+
+  // States
+  --rs-bg-success: #edfae1;
+  --rs-bg-info: #e9f5fe;
+  --rs-bg-warning: #fff9e6;
+  --rs-bg-error: #fde9ef;
+
+  // Misc
+  --rs-text-link: var(--rs-primary-700);
+  --rs-text-link-hover: var(--rs-primary-800);
+  --rs-text-link-active: var(--rs-primary-900);
+  --rs-text-primary: var(--rs-gray-800);
+  --rs-text-secondary: var(--rs-gray-600);
+  --rs-text-tertiary: var(--rs-gray-500);
+  --rs-text-heading: var(--rs-gray-900);
+  --rs-text-inverse: var(--rs-gray-50);
+  --rs-text-heading-inverse: var(--rs-gray-0);
+  --rs-text-active: var(--rs-primary-700);
+  --rs-text-disabled: var(--rs-gray-600);
+  --rs-text-error: var(--rs-color-red);
+  --rs-text-highlight-bg: #fff6c9;
+  --rs-border-primary: var(--rs-gray-200);
+  --rs-border-secondary: var(--rs-gray-100);
+  --rs-bg-card: var(--rs-gray-0);
+  --rs-bg-overlay: var(--rs-gray-0);
+  --rs-bg-well: var(--rs-gray-50);
+  --rs-bg-active: var(--rs-primary-500);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
+  --rs-state-hover-bg: var(--rs-primary-50);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-shadow: 0 0 0 2px rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-outline: 2px solid rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-error-outline: 2px solid rgb(from var(--rs-color-red) r g b / 25%);
+
+  // Kbd
+  --rs-kbd-bg: var(--rs-gray-50);
+  --rs-kbd-text: var(--rs-gray-800);
+  --rs-kbd-border: var(--rs-gray-200);
+
+  // Scrollbar
+  --rs-scrollbar-bg: transparent;
+  --rs-scrollbar-thumb-bg: var(--rs-gray-500);
+  --rs-scrollbar-thumb-hover-bg: var(--rs-gray-400);
+
+  // Button
+  --rs-btn-default-bg: var(--rs-gray-50);
+  --rs-btn-default-text: var(--rs-gray-800);
+  --rs-btn-default-border-color: var(--rs-gray-200);
+  --rs-btn-default-hover-bg: var(--rs-gray-200);
+  --rs-btn-default-active-bg: var(--rs-gray-300);
+  --rs-btn-default-active-text: var(--rs-gray-900);
+  --rs-btn-default-disabled-bg: var(--rs-gray-50);
+  --rs-btn-default-disabled-text: var(--rs-gray-600);
+  --rs-btn-primary-bg: var(--rs-primary-500);
+  --rs-btn-primary-text: var(--rs-gray-0);
+  --rs-btn-primary-border-color: var(--rs-primary-600);
+  --rs-btn-primary-hover-bg: var(--rs-primary-600);
+  --rs-btn-primary-active-bg: var(--rs-primary-700);
+  --rs-btn-subtle-text: var(--rs-gray-800);
+  --rs-btn-subtle-hover-bg: var(--rs-gray-200);
+  --rs-btn-subtle-hover-text: var(--rs-gray-800);
+  --rs-btn-subtle-active-bg: var(--rs-gray-200);
+  --rs-btn-subtle-active-text: var(--rs-gray-900);
+  --rs-btn-subtle-disabled-text: var(--rs-gray-400);
+  --rs-btn-ghost-border: var(--rs-primary-700);
+  --rs-btn-ghost-text: var(--rs-primary-700);
+  --rs-btn-ghost-hover-border: var(--rs-primary-800);
+  --rs-btn-ghost-hover-text: var(--rs-primary-800);
+  --rs-btn-ghost-active-border: var(--rs-primary-900);
+  --rs-btn-ghost-active-text: var(--rs-primary-900);
+  --rs-btn-link-text: var(--rs-primary-700);
+  --rs-btn-link-hover-text: var(--rs-primary-800);
+  --rs-btn-link-active-text: var(--rs-primary-900);
+
+  // Icon Button
+  --rs-iconbtn-addon: var(--rs-gray-100);
+  --rs-iconbtn-activated-addon: var(--rs-gray-300);
+  --rs-iconbtn-pressed-addon: var(--rs-gray-400);
+  --rs-iconbtn-primary-addon: var(--rs-primary-600);
+  --rs-iconbtn-primary-activated-addon: var(--rs-primary-700);
+  --rs-iconbtn-primary-pressed-addon: var(--rs-primary-800);
+
+  // Divider
+  --rs-divider-border: var(--rs-gray-200);
+
+  // Loader
+  --rs-loader-ring: rgb(from var(--rs-gray-50) r g b / 80%);
+  --rs-loader-rotor: var(--rs-gray-500);
+  --rs-loader-backdrop: rgb(from var(--rs-gray-0) r g b / 90%);
+  --rs-loader-ring-inverse: rgb(from var(--rs-gray-50) r g b / 30%);
+  --rs-loader-rotor-inverse: var(--rs-gray-0);
+  --rs-loader-backdrop-inverse: rgb(from var(--rs-gray-900) r g b / 83%);
+
+  // Message
+  --rs-message-success-header: var(--rs-text-heading);
+  --rs-message-success-text: var(--rs-text-primary);
+  --rs-message-success-icon: var(--rs-color-green);
+  --rs-message-success-icon-border: var(--rs-green-200);
+  --rs-message-success-bg: rgb(from var(--rs-green-100) r g b / 60%);
+  --rs-message-success-border: var(--rs-color-green);
+  --rs-message-info-header: var(--rs-text-heading);
+  --rs-message-info-text: var(--rs-text-primary);
+  --rs-message-info-icon: var(--rs-color-blue);
+  --rs-message-info-icon-border: var(--rs-blue-200);
+  --rs-message-info-bg: rgb(from var(--rs-blue-100) r g b / 60%);
+  --rs-message-info-border: var(--rs-color-blue);
+  --rs-message-warning-header: var(--rs-text-heading);
+  --rs-message-warning-text: var(--rs-text-primary);
+  --rs-message-warning-icon: var(--rs-color-yellow);
+  --rs-message-warning-icon-border: var(--rs-yellow-200);
+  --rs-message-warning-bg: rgb(from var(--rs-yellow-100) r g b / 60%);
+  --rs-message-warning-border: var(--rs-color-yellow);
+  --rs-message-error-header: var(--rs-text-heading);
+  --rs-message-error-text: var(--rs-text-primary);
+  --rs-message-error-icon: var(--rs-color-red);
+  --rs-message-error-icon-border: var(--rs-red-200);
+  --rs-message-error-bg: rgb(from var(--rs-red-100) r g b / 60%);
+  --rs-message-error-border: var(--rs-color-red);
+
+  // Tooltip
+  --rs-tooltip-bg: var(--rs-gray-900);
+  --rs-tooltip-text: var(--rs-gray-0);
+
+  // Progress
+  --rs-progress-bg: var(--rs-gray-200);
+  --rs-progress-bar: var(--rs-primary-500);
+  --rs-progress-bar-success: var(--rs-color-green);
+  --rs-progress-bar-fail: var(--rs-color-red);
+
+  // Placeholder
+  --rs-placeholder: var(--rs-gray-100);
+  --rs-placeholder-active: var(--rs-gray-200);
+
+  // Breadcrumb
+  --rs-breadcrumb-item-active-text: var(--rs-gray-900);
+
+  // Dropdown
+  --rs-menuitem-bg-active: var(--rs-primary-50);
+  --rs-dropdown-header-text: var(--rs-gray-500);
+
+  // ARIA menu
+  --rs-menuitem-text-active: var(--rs-primary-700);
+  --rs-menuitem-active-bg: var(--rs-gray-100);
+  --rs-menuitem-active-text: var(--rs-primary-700);
+
+  // Steps
+  --rs-steps-border: var(--rs-gray-600);
+  --rs-steps-state-finish: var(--rs-primary-500);
+  --rs-steps-border-state-finish: var(--rs-primary-500);
+  --rs-steps-state-wait: var(--rs-gray-600);
+  --rs-steps-state-process: var(--rs-primary-500);
+  --rs-steps-state-error: var(--rs-color-red);
+  --rs-steps-border-state-error: var(--rs-color-red);
+  --rs-steps-icon-state-process: var(--rs-primary-500);
+  --rs-steps-icon-state-error: var(--rs-color-red);
+
+  // Nav
+  --rs-navs-text: var(--rs-gray-800);
+  --rs-navs-text-hover: var(--rs-gray-800);
+  --rs-navs-bg-hover: var(--rs-gray-200);
+  --rs-navs-text-active: var(--rs-gray-900);
+  --rs-navs-bg-active: var(--rs-gray-200);
+  --rs-navs-tab-border: var(--rs-gray-300);
+  --rs-navs-subtle-border: var(--rs-gray-50);
+  --rs-navs-selected: var(--rs-primary-700);
+
+  // Nav Pills
+  --rs-navs-pills-bg: var(--rs-gray-100);
+  --rs-navs-pills-item-color: var(--rs-text-secondary);
+  --rs-navs-pills-item-active-bg: var(--rs-gray-0);
+  --rs-navs-pills-item-active-color: var(--rs-gray-900);
+  --rs-navs-pills-item-disabled-color: var(--rs-gray-400);
+
+  // Navbar
+  --rs-navbar-default-bg: var(--rs-gray-50);
+  --rs-navbar-default-text: var(--rs-gray-800);
+  --rs-navbar-default-selected-text: var(--rs-primary-700);
+  --rs-navbar-default-hover-bg: var(--rs-gray-200);
+  --rs-navbar-default-hover-text: var(--rs-gray-800);
+  --rs-navbar-inverse-bg: var(--rs-primary-500);
+  --rs-navbar-inverse-text: #fff;
+  --rs-navbar-inverse-selected-bg: var(--rs-primary-700);
+  --rs-navbar-inverse-hover-bg: var(--rs-primary-600);
+  --rs-navbar-inverse-hover-text: #fff;
+  --rs-navbar-subtle-bg: #fff;
+  --rs-navbar-subtle-text: var(--rs-gray-800);
+  --rs-navbar-subtle-selected-text: var(--rs-primary-700);
+  --rs-navbar-subtle-hover-bg: var(--rs-gray-50);
+  --rs-navbar-subtle-hover-text: var(--rs-gray-800);
+
+  // Sidenav
+  --rs-sidenav-default-bg: var(--rs-gray-50);
+  --rs-sidenav-default-text: var(--rs-gray-800);
+  --rs-sidenav-default-selected-text: var(--rs-primary-700);
+  --rs-sidenav-default-selected-bg: var(--rs-gray-200);
+  --rs-sidenav-default-hover-bg: var(--rs-gray-200);
+  --rs-sidenav-default-hover-text: var(--rs-gray-900);
+  --rs-sidenav-default-footer-border: var(--rs-gray-200);
+  --rs-sidenav-default-subnav-border-color: var(--rs-gray-200);
+  --rs-sidenav-inverse-bg: var(--rs-primary-500);
+  --rs-sidenav-inverse-text: #fff;
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-700);
+  --rs-sidenav-inverse-hover-bg: var(--rs-primary-600);
+  --rs-sidenav-inverse-footer-border: var(--rs-primary-600);
+  --rs-sidenav-inverse-subnav-border-color: var(--rs-primary-600);
+  --rs-sidenav-subtle-bg: #fff;
+  --rs-sidenav-subtle-text: var(--rs-gray-800);
+  --rs-sidenav-subtle-selected-text: var(--rs-primary-700);
+  --rs-sidenav-subtle-selected-bg: var(--rs-gray-50);
+  --rs-sidenav-subtle-hover-bg: var(--rs-gray-50);
+  --rs-sidenav-subtle-hover-text: var(--rs-gray-800);
+  --rs-sidenav-subtle-footer-border: var(--rs-gray-200);
+  --rs-sidenav-subtle-subnav-border-color: var(--rs-gray-200);
+
+  // Input
+  --rs-input-bg: var(--rs-gray-0);
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-input-disabled-bg: var(--rs-gray-50);
+
+  // InlineEdit
+  --rs-inline-edit-hover-bg: var(--rs-gray-200);
+
+  // ARIA Listboxes
+  --rs-listbox-option-group-bg: var(--rs-gray-0);
+  --rs-listbox-option-hover-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-listbox-option-hover-text: var(--rs-primary-700);
+  --rs-listbox-option-selected-text: var(--rs-primary-700);
+  --rs-listbox-option-selected-bg: var(--rs-primary-50);
+  --rs-listbox-option-disabled-text: var(--rs-gray-400);
+  --rs-listbox-option-disabled-selected-text: var(--rs-primary-200);
+
+  // Checkbox
+  --rs-checkbox-icon: #fff;
+  --rs-checkbox-border: var(--rs-gray-300);
+  --rs-checkbox-checked-bg: var(--rs-primary-500);
+  --rs-checkbox-disabled-bg: var(--rs-gray-50);
+
+  // Radio
+  --rs-radio-marker: #fff;
+  --rs-radio-border: var(--rs-gray-300);
+  --rs-radio-checked-bg: var(--rs-primary-500);
+  --rs-radio-disabled-bg: var(--rs-gray-50);
+
+  // RadioTile
+  --rs-radio-tile-border: var(--rs-gray-300);
+  --rs-radio-tile-bg: var(--rs-gray-0);
+  --rs-radio-tile-checked-color: var(--rs-primary-500);
+  --rs-radio-tile-checked-mark-color: #fff;
+  --rs-radio-tile-checked-disabled-color: var(--rs-primary-200);
+  --rs-radio-tile-icon-size: 32px;
+
+  // Rate
+  --rs-rate-symbol: var(--rs-gray-600);
+  --rs-rate-color: var(--rs-blue-500);
+
+  // Toggle
+  --rs-toggle-bg: var(--rs-gray-500);
+  --rs-toggle-thumb: #fff;
+  --rs-toggle-loader-ring: rgb(from var(--rs-gray-50) r g b / 30%);
+  --rs-toggle-loader-rotor: var(--rs-gray-0);
+  --rs-toggle-hover-bg: var(--rs-gray-500);
+  --rs-toggle-disabled-bg: var(--rs-gray-200);
+  --rs-toggle-disabled-thumb: #fff;
+  --rs-toggle-checked-bg: var(--rs-primary-500);
+  --rs-toggle-checked-thumb: #fff;
+  --rs-toggle-checked-hover-bg: var(--rs-primary-600);
+  --rs-toggle-checked-disabled-bg: var(--rs-primary-200);
+  --rs-toggle-checked-disabled-thumb: #fff;
+
+  // Slider
+  --rs-slider-bar: var(--rs-gray-100);
+  --rs-slider-hover-bar: var(--rs-gray-200);
+  --rs-slider-thumb-border: var(--rs-primary-500);
+  --rs-slider-thumb-bg: #fff;
+  --rs-slider-thumb-hover-shadow: 0 0 0 8px rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-slider-progress: var(--rs-primary-500);
+
+  // Uploader
+  --rs-uploader-item-bg: var(--rs-gray-300);
+  --rs-uploader-item-hover-bg: var(--rs-gray-50);
+  --rs-uploader-overlay-bg: rgb(from #fff r g b / 80%);
+  --rs-uploader-dnd-bg: var(--rs-gray-0);
+  --rs-uploader-dnd-border: var(--rs-gray-200);
+  --rs-uploader-dnd-hover-border: var(--rs-primary-500);
+
+  // Avatar
+  --rs-avatar-bg: var(--rs-gray-300);
+  --rs-avatar-text: var(--rs-gray-0);
+  --rs-avatar-offset-color: var(--rs-gray-0);
+  --rs-avatar-ring-color: var(--rs-avatar-bg);
+
+  // Badge
+  --rs-badge-bg: var(--rs-color-red);
+  --rs-badge-text: var(--rs-gray-0);
+  --rs-badge-border: var(--rs-gray-0);
+
+  // Tag
+  --rs-tag-bg: var(--rs-gray-50);
+
+  // Card
+  --rs-card-bg: var(--rs-gray-0);
+
+  // Carousel
+  --rs-carousel-bg: var(--rs-gray-600);
+  --rs-carousel-indicator: rgb(from var(--rs-gray-0) r g b / 40%);
+  --rs-carousel-indicator-hover: var(--rs-gray-0);
+  --rs-carousel-indicator-active: var(--rs-primary-500);
+
+  // List
+  --rs-list-bg: var(--rs-gray-0);
+  --rs-list-border: var(--rs-gray-200);
+  --rs-list-hover-bg: var(--rs-primary-50);
+  --rs-list-placeholder-bg: rgb(from var(--rs-primary-50) r g b / 50%);
+  --rs-list-placeholder-border: var(--rs-primary-500);
+
+  // Timeline
+  --rs-timeline-indicator-bg: var(--rs-gray-300);
+  --rs-timeline-indicator-active-bg: var(--rs-primary-500);
+
+  // Table
+  --rs-table-border-color: var(--rs-border-secondary);
+  --rs-table-shadow: rgba(9, 9, 9, 0.08);
+  --rs-table-sort: var(--rs-primary-500);
+  --rs-table-resize: var(--rs-primary-500);
+  --rs-table-scrollbar-track: var(--rs-gray-200);
+  --rs-table-scrollbar-thumb: var(--rs-gray-800);
+  --rs-table-scrollbar-thumb-active: var(--rs-gray-900);
+  --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-200) r g b / 40%);
+
+  // Form
+  --rs-form-errormessage-text: var(--rs-color-red);
+  --rs-form-errormessage-bg: #fff;
+  --rs-form-errormessage-border: var(--rs-gray-200);
+
+  // Picker
+  --rs-picker-value: var(--rs-primary-700);
+  --rs-picker-count-bg: var(--rs-primary-500);
+  --rs-picker-count-text: #fff;
+  --rs-picker-state-error: var(--rs-state-error);
+  --rs-picker-state-error-outline: var(--rs-state-error-outline);
+
+  // Calendar
+  --rs-calendar-today-bg: var(--rs-primary-500);
+  --rs-calendar-today-text: #fff;
+  --rs-calendar-range-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-calendar-time-unit-bg: var(--rs-gray-50);
+  --rs-calendar-date-selected-text: #fff;
+  --rs-calendar-cell-selected-hover-bg: var(--rs-primary-700);
+
+  // Popover
+  --rs-popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+
+  // Tree
+  --rs-tree-indent-line-color: rgba(0, 0, 0, 0.1);
+
+  // ScrollView
+  --rs-scroll-view-shadow-color: rgba(9, 9, 9, 0.2);
+
+  // Stat
+  --rs-stat-body-bg: var(--rs-gray-0);
+
+  // CSS relative color syntax is not supported
+  // https://developer.chrome.com/blog/css-relative-color-syntax/
+  @supports not (color: rgb(from white r g b)) {
+    // Misc
+    --rs-bg-backdrop: #{p.fade(light.$B900, 30)};
+    --rs-color-focus-ring: #{p.fade(light.$H500, 25)};
+    --rs-state-focus-shadow: 0 0 0 2px #{p.fade(light.$H500, 25)};
+    --rs-state-focus-outline: 2px solid #{p.fade(light.$H500, 25)};
+
+    // Loader
+    --rs-loader-ring: #{p.fade(light.$B050, 80)};
+    --rs-loader-backdrop: #{p.fade(light.$B000, 90)};
+    --rs-loader-ring-inverse: #{p.fade(light.$B050, 30)};
+    --rs-loader-backdrop-inverse: #{p.fade(light.$B900, 83)};
+
+    // Message
+    --rs-message-success-bg: #{p.fade(light.$green-100, 60)};
+    --rs-message-info-bg: #{p.fade(light.$blue-100, 60)};
+    --rs-message-warning-bg: #{p.fade(light.$yellow-100, 60)};
+    --rs-message-error-bg: #{p.fade(light.$red-100, 60)};
+
+    // ARIA Listboxes
+    --rs-listbox-option-hover-bg: #{p.fade(light.$H100, 50)};
+
+    // Toggle
+    --rs-toggle-loader-ring: #{p.fade(light.$B050, 30)};
+
+    // Slider
+    --rs-slider-thumb-hover-shadow: 0 0 0 8px #{p.fade(light.$H500, 25)};
+
+    // Uploader
+    --rs-uploader-overlay-bg: #{p.fade(#fff, 80)};
+
+    // Carousel
+    --rs-carousel-indicator: #{p.fade(light.$B000, 40)};
+
+    // List
+    --rs-list-placeholder-bg: #{p.fade(light.$H050, 50)};
+
+    // Table
+    --rs-table-scrollbar-vertical-track: #{p.fade(light.$B200, 40)};
+
+    // Calendar
+    --rs-calendar-range-bg: #{p.fade(light.$H100, 50)};
+  }
+}

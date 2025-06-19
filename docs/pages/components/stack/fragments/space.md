@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { VStack, HStack, Slider, Button } from 'rsuite';
+import { VStack, HStack, Slider, Button, Text } from 'rsuite';
 
 const App = () => {
   const [spacing, setSpacing] = React.useState(6);
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <VStack spacing={20}>
       <HStack wrap>
-        <label>Spacing:</label>
+        <Text muted>Spacing</Text>
         <Slider value={spacing} w={300} onChange={setSpacing} keepTooltipOpen />
       </HStack>
       <Stack spacing={spacing}>

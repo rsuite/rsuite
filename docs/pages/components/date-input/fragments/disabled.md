@@ -1,26 +1,38 @@
 <!--start-code-->
 
 ```js
-import { DateInput, InputGroup, Stack } from 'rsuite';
+import { DateInput, InputGroup, HStack, VStack, Text, Divider } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
 
 const App = () => (
-  <Stack spacing={10} direction="column" align="flex-start" w={220}>
-    <label>Disabled:</label>
-    <DateInput disabled value={new Date()} />
-    <InputGroup disabled>
-      <DateInput value={new Date()} />
-      <InputGroup.Addon>
-        <CalendarIcon />
-      </InputGroup.Addon>
-    </InputGroup>
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <DateInput disabled value={new Date()} w={200} />
+      <InputGroup disabled  w={200} >
+        <DateInput value={new Date()}/>
+        <InputGroup.Addon>
+          <CalendarIcon />
+        </InputGroup.Addon>
+      </InputGroup>
+    </HStack>
 
-    <label>Read only:</label>
-    <DateInput readOnly value={new Date()} />
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <DateInput readOnly value={new Date()} w={200} />
+    </HStack>
 
-    <label>Plaintext:</label>
-    <DateInput plaintext value={new Date()} />
-  </Stack>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <DateInput plaintext value={new Date()} w={200} />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

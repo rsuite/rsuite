@@ -1,0 +1,39 @@
+// Base colors for all themes
+// These are the core color definitions used across all themes
+
+// Primary palette
+$primary-color: #3498ff;
+
+// Secondary palette
+$red: #f44336;
+$orange: #fa8900;
+$yellow: #ffb300;
+$green: #4caf50;
+$cyan: #00bcd4;
+$blue: #2196f3;
+$violet: #673ab7;
+
+// Dark mode
+$primary-color-dark: #34c3ff;
+
+$red-dark: #f04f43;
+$orange-dark: #ff9800;
+$yellow-dark: #ffc757;
+$green-dark: #58b15b;
+$cyan-dark: #00bcd4;
+$blue-dark: #1499ef;
+$violet-dark: #673ab7;
+
+// High-contrast mode
+$primary-color-high-contrast: #ffff00;
+
+$red-high-contrast: #bd1732;
+$orange-high-contrast: $orange-dark;
+$yellow-high-contrast: #ffc757;
+$green-high-contrast: #0d822c;
+$cyan-high-contrast: $cyan-dark;
+$blue-high-contrast: #1499ef;
+$violet-high-contrast: $violet-dark;
+
+// List for looping
+$spectrum: red, orange, yellow, green, cyan, blue, violet;

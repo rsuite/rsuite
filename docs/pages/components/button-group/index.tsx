@@ -6,9 +6,10 @@ import {
   IconButton,
   Whisper,
   Popover,
-  Dropdown,
+  Menu,
   VStack,
-  HStack
+  HStack,
+  Text
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -41,9 +42,10 @@ export default function Page() {
         IconButton,
         Whisper,
         Popover,
-        Dropdown,
+        Menu,
         VStack,
         HStack,
+        Text,
         ArrowDownIcon,
         PagePreviousIcon,
         PageNextIcon,

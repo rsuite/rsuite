@@ -1,6 +1,6 @@
 module.exports = {
-  extends: ['stylelint-config-standard-less'],
-  customSyntax: 'postcss-less',
+  extends: ['stylelint-config-standard-scss'],
+  customSyntax: 'postcss-scss',
   rules: {
     'value-keyword-case': [
       'lower',

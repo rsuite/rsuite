@@ -1,0 +1,80 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../styles/colors/colors-base' as colors;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use './variables';
+
+.rs-radio-group {
+  display: flex;
+  flex-direction: var(--rs-radio-group-direction);
+  gap: var(--rs-radio-group-spacing);
+
+  &.rs-radio-group-inline {
+    --rs-radio-group-direction: row;
+  }
+}
+
+// Radio Group - picker appearance
+.rs-radio-group-picker {
+
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--rs-text-primary);
+  border: var(--rs-radio-group-border-width) solid var(--rs-border-primary);
+  border-radius: var(--rs-radio-group-picker-border-radius);
+  padding-inline: calc(var(--rs-spacing) * 3);
+
+  .rs-radio-inline {
+    padding-inline: var(--rs-spacing);
+    margin: 0;
+  }
+
+  .rs-radio-checker {
+    padding: 0;
+    min-height: auto;
+  }
+
+  // Picker Radio group hidden radio.
+  .rs-radio-control {
+    display: none;
+  }
+
+  .rs-radio-checker > label {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: var(--rs-font-size-sm);
+    line-height: var(--rs-line-height-md);
+    border-radius: var(--rs-radius-none);
+    color: var(--rs-radio-checker-label-color);
+    background: none;
+    transition: color 0.3s linear;
+    padding-inline: 0;
+    padding-block-start: calc(var(--rs-padding-block-md) - var(--rs-radio-group-border-width));
+    padding-block-end: calc(var(--rs-padding-block-md) - var(--rs-radio-group-border-width) - var(--rs-radio-active-underline-width));
+    border-bottom: var(--rs-radio-active-underline-width) solid var(--rs-radio-checker-border-color);
+
+    @include color-modes.high-contrast-mode {
+      transition: none;
+    }
+
+    &:hover,
+    &:active {
+      color: var(--rs-text-active);
+      background: none;
+    }
+  }
+
+  .rs-radio-checked .rs-radio-checker > label {
+    --rs-radio-checker-label-color: var(--rs-text-active);
+    --rs-radio-checker-border-color: var(--rs-text-active);
+  }
+
+  .rs-radio-disabled .rs-radio-checker {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .rs-radio-disabled:not(.rs-radio-checked) .rs-radio-checker > label {
+    color: var(--rs-text-secondary);
+  }
+}

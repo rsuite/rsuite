@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import Logo from '@/components/Logo';
@@ -8,11 +9,12 @@ import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
 import { Search, Guide, Component, Ecology } from '@/components/icons';
 import { FaGithub } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
-import { Whisper, WhisperInstance, Tooltip, Button, IconButton } from 'rsuite';
+import { Whisper, WhisperInstance, Tooltip, Button, IconButton, NavbarToggle } from 'rsuite';
 import { isMobile } from 'react-device-detect';
 import { useApp } from '@/hooks/useApp';
 import { useRouter } from 'next/router';
 import { DocSearchModal, useDocSearchKeyboardEvents } from '@docsearch/react';
+import styles from './MainNav.module.scss';
 
 interface ButtonWithTooltipProps {
   children: React.ReactNode;
@@ -27,7 +29,12 @@ const ButtonWithTooltip = React.forwardRef(function ButtonWithTooltip(
   ref: React.Ref<WhisperInstance>
 ) {
   const btn = (
-    <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
+    <Button
+      {...props}
+      size="lg"
+      className={classNames(styles['icon-btn-circle'], className)}
+      as={as}
+    >
       {children}
     </Button>
   );
@@ -143,11 +150,11 @@ const MainNav = React.forwardRef(function MainNav(
   const arrow = useMemo(() => (rtl ? !showSubmenu : showSubmenu), [showSubmenu, rtl]);
 
   return (
-    <div className="main-nav" ref={ref}>
+    <div className={styles['main-nav']} ref={ref}>
       {!hideToggle && (
         <IconButton
           circle
-          className="btn-nav-toggle"
+          className={styles['btn-nav-toggle']}
           appearance="default"
           icon={arrow ? <ArrowLeftLineIcon /> : <ArrowRightLineIcon />}
           size="xs"
@@ -158,16 +165,10 @@ const MainNav = React.forwardRef(function MainNav(
       )}
 
       <Link href="/">
-        <Logo width={26} height={30} className="logo-sm" />
+        <Logo width={26} height={30} className={styles['logo-sm']} />
       </Link>
-
-      <div className="main-nav-header">
-        <SearchButton
-          className="visible-xs"
-          tip={locales?.common?.search}
-          ref={searchButtonRef}
-          onClick={onOpen}
-        />
+      <div className={styles['main-nav-header']}>
+        <SearchButton tip={locales?.common?.search} ref={searchButtonRef} onClick={onOpen} />
         {navItems.map(item => (
           <ButtonWithTooltip
             tip={item.tip}
@@ -197,12 +198,20 @@ const MainNav = React.forwardRef(function MainNav(
           style={{ padding: 11 }}
           as="a"
           target="_blank"
+          className={styles['visible-xs']}
         >
           <FaGithub size={16} />
         </ButtonWithTooltip>
-        <SearchButton className="hidden-xs" tip={locales?.common?.search} onClick={onOpen} />
+
+        <NavbarToggle
+          // @ts-ignore
+          open={showSubmenu}
+          className={styles['btn-menu-toggle']}
+          onClick={onToggleMenu}
+          aria-controls="sidebar-drawer"
+        />
       </div>
-      <div className="main-nav-footer"></div>
+      <div className={styles['main-nav-footer']}></div>
       {children}
 
       {searchModalOpen &&

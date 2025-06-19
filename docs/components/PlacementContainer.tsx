@@ -10,13 +10,14 @@ interface ChildrenProps {
 }
 
 interface PlacementContainerProps extends Omit<HStackProps, 'children'> {
+  placement?: string;
   children: (props: ChildrenProps) => React.ReactNode;
 }
 
 export const PlacementContainer = (props: PlacementContainerProps) => {
-  const { children, h = 400, ...rest } = props;
+  const { children, placement: placementProp = 'bottomStart', h = 400, ...rest } = props;
   const [isMobile] = useMediaQuery('xs');
-  const [placement, setPlacement] = useState('bottomStart');
+  const [placement, setPlacement] = useState(placementProp);
   const [preventOverflow, setPreventOverflow] = useState(true);
 
   return (

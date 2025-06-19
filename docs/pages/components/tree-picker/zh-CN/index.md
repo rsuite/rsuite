@@ -14,37 +14,55 @@
 
 ### 外观
 
+提供 `default` 和 `subtle` 两种外观。
+
 <!--{include:`appearance.md`}-->
 
 ### 尺寸
+
+支持 `lg`、`md`、`sm` 和 `xs` 四种尺寸。
 
 <!--{include:`size.md`}-->
 
 ### 显示缩进线
 
+使用 `showIndentLine` 显示树形缩进线。
+
 <!--{include:`show-indent-line.md`}-->
 
 ### 位置与防止溢出
+
+通过 `placement` 设置位置，`preventOverflow` 防止溢出。
 
 <!--{include:`placement.md`}-->
 
 ### 禁用与只读
 
+支持 `disabled` 禁用整个选择器，`disabledItemValues` 禁用特定选项，`readOnly` 只读状态，以及 `plaintext` 纯文本模式。
+
 <!--{include:`disabled.md`}-->
 
 ### 禁用搜索框
+
+使用 `searchable` 控制搜索功能。
 
 <!--{include:`searchable.md`}-->
 
 ### 自定义选项
 
+通过 `renderTreeNode` 自定义节点渲染。
+
 <!--{include:`custom.md`}-->
 
-### 异步
+### 异步加载
+
+使用 `getChildren` 实现子节点异步加载。
 
 <!--{include:`async.md`}-->
 
 ### 自定义页脚
+
+通过 `renderExtraFooter` 添加底部内容。
 
 <!--{include:`extra-footer.md`}-->
 

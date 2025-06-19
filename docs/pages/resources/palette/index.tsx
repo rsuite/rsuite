@@ -2,17 +2,15 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ColorPicker from '@/components/ColorPicker';
 import ThemeGroup from '@/components/ThemeGroup';
 import AdminFrame from '@/components/resources/palette/AdminFrame/AdminFrame';
-import NextHead from 'next/head';
 import DefaultPage from '@/components/layout/Page';
 import FakeBrowser from '@/components/FakeBrowser';
-import palette from 'rsuite/styles/plugins/palette';
 import useClipboard from '@/hooks/useClipboard';
 import { readThemeName } from '@/utils/themeHelpers';
 import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
-import { useLess } from '@/hooks/useLess';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
-import { generatePalette } from 'rsuite/styles/plugins/palette';
+import { getPalette } from '@/utils/palette';
 import { useApp } from '@/hooks/useApp';
+import styles from './index.module.scss';
 
 const colors: ColorMeta[] = [
   '50',
@@ -30,7 +28,6 @@ const colors: ColorMeta[] = [
   cssVar: `--rs-primary-${level}`
 }));
 
-const lessUrl = 'https://cdn.bootcss.com/less.js/3.9.0/less.min.js';
 const getThemeIsDefault = () => ['light', null].includes(readThemeName());
 
 interface PreviewProps {
@@ -45,6 +42,8 @@ function ColorCards(props: { container: ModalProps['container'] }) {
       <ColorGroup
         colors={colors}
         useCssVar
+        className={styles['color-box-row']}
+        colorboxClassName={styles['color-box']}
         onShowColor={(color, event) => {
           const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
 
@@ -73,36 +72,66 @@ function colorLog(key: string, value: string) {
 function Preview({ themeColor }: PreviewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const { theme } = useApp();
-  const less = useLess(lessUrl, {
-    async: true,
-    logLevel: 0,
-    globalVars: {
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    },
-    plugins: [palette]
-  });
+  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+  const styleId = 'dynamic-palette-styles';
 
-  const updateLessVars = useCallback(() => {
-    less?.modifyVars({
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    });
+  // Function to update SCSS styles
+  const updateScssStyles = useCallback(() => {
+    const themeIsDefault = getThemeIsDefault();
 
-    colorLog('Current theme color', themeColor);
-  }, [less, themeColor]);
+    // Create or update style element
+    let styleElement = document.getElementById(styleId) as HTMLStyleElement;
 
-  useEffect(updateLessVars, [updateLessVars, theme]);
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = styleId;
+      document.head.appendChild(styleElement);
+    }
+
+    // Fetch dynamically generated SCSS
+    const fetchDynamicStyles = async () => {
+      try {
+        setIsStyleLoaded(false);
+        const response = await fetch(
+          `/api/palette?color=${encodeURIComponent(themeColor)}&theme=${themeIsDefault ? 'light' : theme}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to load dynamic styles');
+        }
+
+        const cssContent = await response.text();
+        styleElement.textContent = `#palettePreview {
+        ${cssContent}
+        }`;
+        setIsStyleLoaded(true);
+
+        colorLog('Current theme color', themeColor);
+      } catch (error) {
+        console.error('Error loading dynamic styles:', error);
+      }
+    };
+
+    fetchDynamicStyles();
+  }, [themeColor, theme]);
+
+  useEffect(() => {
+    updateScssStyles();
+
+    // Cleanup on unmount
+    return () => {
+      const styleElement = document.getElementById(styleId);
+      if (styleElement) {
+        styleElement.remove();
+      }
+    };
+  }, [updateScssStyles]);
 
   return (
-    <div className="palette-preview" id="palettePreview" ref={rootRef}>
-      <NextHead>
-        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
-      </NextHead>
-
+    <div className={styles['palette-preview']} id="palettePreview" ref={rootRef}>
       <ColorCards container={() => rootRef.current} />
-      <FakeBrowser>
-        <AdminFrame loading={!less} />
+      <FakeBrowser className={styles['fake-browser']}>
+        <AdminFrame loading={!isStyleLoaded} />
       </FakeBrowser>
     </div>
   );
@@ -113,15 +142,13 @@ function CopyButton({ color }: { color: string }) {
 
   const handleCopy = useCallback(
     (eventKey: string) => {
-      const colors = generatePalette(color, 'primary');
+      const colors = getPalette(color);
 
       if (eventKey === 'css') {
-        const text = colors.map(item => `${item.cssVar}: ${item.hex};`).join('\n');
+        const text = colors.map(item => `${item.cssName}: ${item.hex};`).join('\n');
         copyToClipboard(text);
-      } else if (eventKey === 'less') {
-        const text = colors
-          .map((item, index) => `@H${index === 0 ? '0' : ''}${item.level}: ${item.hex};`)
-          .join('\n');
+      } else if (eventKey === 'scss') {
+        const text = colors.map(item => `${item.scssName}: ${item.hex};`).join('\n');
 
         copyToClipboard(text);
       }
@@ -132,7 +159,7 @@ function CopyButton({ color }: { color: string }) {
   return (
     <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
       <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
-      <Dropdown.Item eventKey="less">Copy Less Variable</Dropdown.Item>
+      <Dropdown.Item eventKey="scss">Copy SCSS Variable</Dropdown.Item>
     </Dropdown>
   );
 }

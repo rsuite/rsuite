@@ -32,7 +32,7 @@ function individualCode(components: string[], hasCssComponents: string[], name =
 
   if (hasCssComponents.length > 0) {
     individual +=
-      '\r\n\r\n// (Optional) Import component styles. If you are using Less, import the `index.less` file. \r\n' +
+      '\r\n\r\n// (Optional) Import component styles. \r\n' +
       hasCssComponents
         .map(component => `import '${name}/${component}/styles/index.css';`)
         .join('\r\n');

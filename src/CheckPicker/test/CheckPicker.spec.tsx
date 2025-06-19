@@ -12,7 +12,7 @@ import {
   testPickers
 } from '@test/cases';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 

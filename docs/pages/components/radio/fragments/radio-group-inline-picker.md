@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Radio, RadioGroup } from 'rsuite';
+import { Radio, RadioGroup, Text } from 'rsuite';
 
 const App = () => (
   <>
@@ -14,7 +14,7 @@ const App = () => (
 
     <hr />
     <RadioGroup name="radio-group-inline-picker-label" inline appearance="picker" defaultValue="A">
-      <label>Label: </label>
+      <Text muted>Label: </Text>
       <Radio value="A">Radio A</Radio>
       <Radio value="B">Radio B</Radio>
       <Radio value="C">Radio C</Radio>

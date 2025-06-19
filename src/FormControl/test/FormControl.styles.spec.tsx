@@ -4,8 +4,8 @@ import Form from '../../Form';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { toRGB } from '@test/utils';
-import '../../Input/styles/index.less';
-import '../styles/index.less';
+import '../../Input/styles/index.scss';
+import '../styles/index.scss';
 
 describe('Form control styles', () => {
   it('Should render the correct styles', () => {

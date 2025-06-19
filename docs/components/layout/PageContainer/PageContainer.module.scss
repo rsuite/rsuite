@@ -1,0 +1,93 @@
+@use '../../../styles/variables' as vars;
+
+.page-main {
+  display: grid;
+  grid-template-columns: 10fr 210px;
+
+  @media (max-width: vars.$screen-md) {
+    display: block;
+  }
+}
+
+.page-context-wrapper {
+  $context-padding: 2rem;
+
+  margin-inline: 0;
+
+  @media (min-width: vars.$screen-md) {
+    padding-block: $context-padding;
+    padding-inline: 3.125rem;
+
+    &.hide-page-nav {
+      padding-inline-end: $context-padding !important;
+    }
+  }
+}
+
+// Main container responsive adjustments
+.main-container {
+  @media (max-width: vars.$screen-md) {
+    margin-top: vars.$main-nav-height;
+  }
+}
+
+.hide-page-nav {
+  :global(.document-nav) {
+    display: none;
+  }
+}
+
+:global(.document-nav) {
+  overflow: auto;
+  z-index: 5;
+
+  :global(.nav-item) {
+    position: relative;
+  }
+
+  :global(.nav-link) {
+    display: block;
+    text-decoration: none;
+    color: var(--rs-text-primary);
+    font-size: 12px;
+    position: relative;
+    padding: 6px 0;
+    box-sizing: border-box;
+    height: auto;
+    line-height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      top: 0;
+      background-color: var(--rs-border-primary);
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:global(.scroll-bar-left)::before {
+      inset-inline-start: 0;
+    }
+
+    &:global(.scroll-bar-right)::before {
+      inset-inline-end: 0;
+    }
+
+    &:global(.active) {
+      color: var(--rs-text-active);
+
+      &::before {
+        width: 2px;
+        background-color: var(--rs-text-active);
+      }
+    }
+  }
+}

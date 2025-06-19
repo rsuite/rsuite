@@ -2,10 +2,11 @@ import React from 'react';
 import NoticeIcon from '@rsuite/icons/Notice';
 import GearIcon from '@rsuite/icons/Gear';
 import { Stack, Badge, Avatar, IconButton } from 'rsuite';
+import styles from './Header.module.scss';
 
 const Header = () => {
   return (
-    <Stack className="header" spacing={8}>
+    <Stack className={styles['header']} spacing={8}>
       <IconButton
         icon={
           <Badge content={5}>

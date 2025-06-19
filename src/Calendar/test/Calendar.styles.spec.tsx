@@ -5,7 +5,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { getDefaultPalette, toRGB } from '@test/utils';
 import { CalendarState } from '../hooks';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const { H500, H700 } = getDefaultPalette();
 

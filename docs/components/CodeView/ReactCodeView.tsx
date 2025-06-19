@@ -13,6 +13,13 @@ const afterCompile = (code: string) => {
 
 export default React.forwardRef(function ReactCodeView(props: any, ref) {
   return (
-    <CodeView {...props} ref={ref} theme="dark" editor={editorProps} afterCompile={afterCompile} />
+    <CodeView
+      {...props}
+      direction="ltr"
+      ref={ref}
+      theme="dark"
+      editor={editorProps}
+      afterCompile={afterCompile}
+    />
   );
 });

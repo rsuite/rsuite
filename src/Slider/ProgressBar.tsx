@@ -5,7 +5,6 @@ import { forwardRef, mergeStyles } from '@/internals/utils';
 
 interface ProgressBarProps extends BoxProps {
   vertical?: boolean;
-  rtl?: boolean;
   start?: number;
   end?: number;
 }
@@ -15,7 +14,6 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
     as,
     classPrefix = 'slider-progress-bar',
     vertical,
-    rtl,
     end = 0,
     start = 0,
     style,
@@ -26,8 +24,7 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
   const { merge, withPrefix } = useStyles(classPrefix);
 
   const sizeKey = vertical ? 'height' : 'width';
-  const dirKey = rtl ? 'right' : 'left';
-  const startKey = vertical ? 'bottom' : dirKey;
+  const startKey = vertical ? 'bottom' : 'inset-inline-start';
 
   const styles = mergeStyles(style, { [startKey]: `${start}%`, [sizeKey]: `${end - start}%` });
   const classes = merge(className, withPrefix());

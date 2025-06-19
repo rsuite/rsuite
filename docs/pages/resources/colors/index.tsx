@@ -10,6 +10,7 @@ import { MdPalette } from 'react-icons/md';
 import Icon from '@rsuite/icons/Icon';
 import grayLight from './color-light-gray.json';
 import grayDark from './color-dark-gray.json';
+import styles from './index.module.scss';
 
 const lightColorMap = {
   blue: '#59afff',
@@ -94,7 +95,7 @@ export default function Page() {
 
   return (
     <DefaultPage hidePageNav>
-      <HStack justifyContent="center" className="color-header" spacing={10}>
+      <HStack justify="center" className={styles['color-header']} spacing={10}>
         <ThemeGroup />
         <Button
           startIcon={<Icon as={MdPalette} />}

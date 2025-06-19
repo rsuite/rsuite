@@ -7,21 +7,16 @@ import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import PlusIcon from '@rsuite/icons/Plus';
 
 ReactDOM.render(
-  <>
-    <ButtonToolbar>
-      <IconButton icon={<SearchIcon />}>Search</IconButton>
-      <IconButton appearance="primary" color="green" icon={<SearchIcon />}>
-        Search
-      </IconButton>
-    </ButtonToolbar>
-
-    <ButtonToolbar>
-      <IconButton icon={<AddOutlineIcon />}>Create</IconButton>
-      <IconButton icon={<PlusIcon />} placement="right">
-        Add
-      </IconButton>
-    </ButtonToolbar>
-  </>,
+  <ButtonToolbar>
+    <IconButton icon={<SearchIcon />}>Search</IconButton>
+    <IconButton appearance="primary" color="green" icon={<SearchIcon />}>
+      Search
+    </IconButton>
+    <IconButton icon={<AddOutlineIcon />}>Create</IconButton>
+    <IconButton icon={<PlusIcon />} placement="right">
+      Add
+    </IconButton>
+  </ButtonToolbar>,
   document.getElementById('root')
 );
 ```

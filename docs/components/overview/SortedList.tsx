@@ -3,6 +3,7 @@ import sortBy from 'lodash/sortBy';
 import kebabCase from 'lodash/kebabCase';
 import Link from '@/components/Link';
 import { List } from 'rsuite';
+import styles from './SortedList.module.scss';
 
 interface ItemType {
   category: string;
@@ -60,8 +61,8 @@ export const SortedList = React.forwardRef(function SortedList(
     <div {...rest} ref={ref}>
       {Object.entries(sortedList).map(([category, items]) => {
         return (
-          <div key={category} className="rs-sorted-list">
-            <h3 className="rs-sorted-title">{category}</h3>
+          <div key={category} className={styles['rs-sorted-list']}>
+            <h3 className={styles['rs-sorted-title']}>{category}</h3>
             <List>
               {items.map((item, index) => (
                 <List.Item key={index} index={index}>

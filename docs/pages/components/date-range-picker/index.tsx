@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import Simulation from '@/components/Simulation';
-import { DateRangePicker, Button, Divider, Stack } from 'rsuite';
+import { DateRangePicker, Button, Divider, Stack, HStack, VStack, Text } from 'rsuite';
 import {
   startOfWeek,
   endOfWeek,
@@ -34,6 +34,9 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         Stack,
+        HStack,
+        VStack,
+        Text,
         DateRangePicker,
         Button,
         Divider,

@@ -1,37 +1,33 @@
-# Right to left
+# Right-to-Left (RTL)
 
-In order to support the habits of languages ​​such as Arabic and Hebrew, the UI of the language read from right to left (RTL).
+UI support for right-to-left (RTL) languages such as Arabic and Hebrew.
 
-## Steps
+## Usage
 
-### 1.HTML
+<div class="rs-doc-steps">
+<h3 class="rs-doc-step-header">HTML Setup</h3>
+<div class="rs-doc-step-body">
 
-Make sure the `dir` attribute is set on the html:
+Make sure the `dir` attribute is set on the html element:
 
 ```html
 <html dir="rtl"></html>
 ```
 
-### 2.CustomProvider
+</div>
 
-Set the rtl property on the CustomProvider component, and all components are rendered according to the RTL layout.
+<h3 class="rs-doc-step-header">Configure CustomProvider (Optional)</h3>
+<div class="rs-doc-step-body">
+
+This step is optional. By default, components will determine whether to enable RTL layout based on the `dir` attribute on the html element. If you need to enable RTL layout for a specific area, you can set the `rtl` prop on the CustomProvider component to render components with RTL layout.
 
 ```jsx
-function RTL(props) {
-  return <CustomProvider rtl>{props.children}</CustomProvider>;
+import { CustomProvider } from 'rsuite';
+
+function App({ children }) {
+  return <CustomProvider rtl>{children}</CustomProvider>;
 }
 ```
 
-### 3.Import RTL style files
-
-- Including the RTL version when using the compiled React Suite CSS
-
-```less
-@import '~rsuite/dist/rsuite-rtl.min.css';
-```
-
-- Processing the final CSS via [rtlcss](https://rtlcss.com/) in case of using the Less version
-
-```less
-@import '~rsuite/styles/index.less';
-```
+</div>
+</div>

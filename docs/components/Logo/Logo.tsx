@@ -1,9 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: number;
   height?: number;
-  className?: string;
 }
 
 export default function Logo({ width, height, className = '', style }: LogoProps) {
@@ -16,7 +16,10 @@ export default function Logo({ width, height, className = '', style }: LogoProps
   return (
     <div
       style={styles}
-      className={`rsuite-logo logo-animated logo-animated-delay-half-seconds bounce-in ${className} `}
+      className={classNames(
+        'rsuite-logo logo-animated logo-animated-delay-half-seconds bounce-in',
+        className
+      )}
     >
       <svg
         viewBox="0 0 120 138"

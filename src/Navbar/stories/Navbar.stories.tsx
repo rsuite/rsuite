@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import Nav from '../../Nav';
 import Navbar from '../Navbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Navbar);
 

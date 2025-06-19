@@ -5,9 +5,9 @@ import toaster from '../../toaster';
 import Button from '../../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Button/styles/index.less';
-import '../../toaster/styles/index.less';
+import '../styles/index.scss';
+import '../../Button/styles/index.scss';
+import '../../toaster/styles/index.scss';
 
 const meta = createMeta(Notification);
 

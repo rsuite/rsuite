@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { toRGB } from '@test/utils';
 import { UploaderInstance } from '../Uploader';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Uploader styles', () => {
   it('Should render the correct styles', () => {

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import { toRGB, inChrome } from '@test/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 describe('Input styles', () => {
   it('Input should render the correct styles', () => {

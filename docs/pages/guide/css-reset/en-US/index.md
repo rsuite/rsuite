@@ -2,8 +2,6 @@
 
 With regard to typography, after using the React Suite style, you can use the HTML elements to typeset directly for displaying titles, paragraphs, lists, links, and more.
 
-> If you don't need these styles , you can [disable import it][config-reset-import].
-
 <div id="ad-view"></div>
 
 ### `<a>`: The Anchor element
@@ -43,5 +41,3 @@ The HTML `<ol>` element represents an ordered list of items, typically rendered 
 The HTML `<dl>` element represents a description list. The element encloses a list of groups of terms (specified using the `<dt>` element) and descriptions (provided by `<dd>` elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs).
 
 <!--{include:`list-dl.md`}-->
-
-[config-reset-import]: /guide/customization-less/#disable-html-styles-reset

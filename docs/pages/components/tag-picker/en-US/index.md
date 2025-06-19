@@ -14,29 +14,43 @@ Multi-select by tag and support new options
 
 ### Size
 
+Supports four sizes: `lg`, `md`, `sm`, and `xs`.
+
 <!--{include:`size.md`}-->
 
 ### Block
+
+Set the `block` property to make the picker fill its parent container.
 
 <!--{include:`block.md`}-->
 
 ### Group
 
+Use the `groupBy` property to display options in groups.
+
 <!--{include:`group.md`}-->
 
 ### Creatable
+
+Enable the `creatable` property to allow creating new options.
 
 <!--{include:`creatable.md`}-->
 
 ### Custom
 
+Customize tag and option rendering using `renderValue`, `renderOption`, and other render props.
+
 <!--{include:`custom.md`}-->
 
-### Disabled and read only
+### Disabled and Read Only
+
+Supports `disabled` to disable the entire picker, `readOnly` for read-only state, and `disabledItemValues` to disable specific options.
 
 <!--{include:`disabled.md`}-->
 
-### Async
+### Async Loading
+
+Implement async search and loading of options using the `onSearch` callback.
 
 <!--{include:`async.md`}-->
 

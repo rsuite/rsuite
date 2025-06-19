@@ -1,0 +1,35 @@
+@use '../../styles/mixins/color-modes' as color-modes;
+@use '../../Button/styles/_mixin' as button-mixin;
+
+@mixin pagination-active {
+  // 实现类似 Button ghost 样式的效果
+  color: var(--rs-btn-ghost-text);
+  background-color: transparent;
+  border: var(--rs-btn-ghost-border-width, 1px) solid var(--rs-btn-ghost-border);
+  padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-btn-ghost-border-width, 1px));
+  padding-block: calc(var(--rs-btn-padding-block) - var(--rs-btn-ghost-border-width, 1px));
+
+  &:hover {
+    color: var(--rs-btn-ghost-hover-text);
+    background-color: transparent;
+    border-color: var(--rs-btn-ghost-hover-border);
+    box-shadow: 0 0 0 1px var(--rs-btn-ghost-hover-border);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    color: var(--rs-btn-ghost-active-text);
+    background-color: transparent;
+    border-color: var(--rs-btn-ghost-active-border);
+  }
+
+  @at-root .high-contrast-mode & {
+    color: var(--rs-pagination-item-current-text);
+    text-decoration: underline;
+  }
+}
+
+@mixin pagination-active-size($padding-vertical: var(--rs-padding-block-md), $padding-horizontal: var(--rs-padding-inline-md)) {
+  padding-block: calc(#{$padding-vertical} - 1px);
+  padding-inline: calc(#{$padding-horizontal} - 1px);
+}
