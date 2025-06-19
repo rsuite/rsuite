@@ -1,3 +1,13 @@
+# [5.83.0](https://github.com/rsuite/rsuite/compare/v5.82.0...v5.83.0) (2025-06-19)
+
+
+### Features
+
+* **DateRangePicker:** add calendarKey parameter to renderTitle function ([#4318](https://github.com/rsuite/rsuite/issues/4318)) ([5b8c198](https://github.com/rsuite/rsuite/commit/5b8c19891945c2416475d493daef0aabf7e0f214))
+* **locale:** add Gujarati [gu_IN] locale ([#4309](https://github.com/rsuite/rsuite/issues/4309)) ([9715633](https://github.com/rsuite/rsuite/commit/9715633f72bdbb9b141380d9ad134d619d65e2fb))
+
+
+
 # [5.82.0](https://github.com/rsuite/rsuite/compare/v5.81.0...v5.82.0) (2025-05-29)
 
 
