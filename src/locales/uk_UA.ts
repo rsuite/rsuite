@@ -1,4 +1,4 @@
-import uk from 'date-fns/locale/uk';
+import { uk } from 'date-fns/locale/uk';
 
 const DateTimeFormats = {
   sunday: 'Нд',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Увімкнено',
     off: 'Вимкнено'
+  },
+  Dialog: {
+    alert: 'Попередження',
+    confirm: 'Підтвердити',
+    ok: 'Добре',
+    cancel: 'Скасувати'
   }
 };
