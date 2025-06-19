@@ -475,6 +475,21 @@ describe('DateRangePicker', () => {
     expect(secondTitle).to.have.text('2 - 2022');
   });
 
+  it('Should render calendar titles with start and end calendarKey', () => {
+    render(
+      <DateRangePicker
+        value={[new Date(2022, 1, 1), new Date(2022, 2, 2)]}
+        open
+        renderTitle={(date, calendarKey) => (
+          <span data-testid={`calendar-title-${calendarKey}`}>{format(date, 'yyyy-MM-dd')}</span>
+        )}
+      />
+    );
+
+    expect(screen.getByTestId('calendar-title-start')).to.have.text('2022-02-01');
+    expect(screen.getByTestId('calendar-title-end')).to.have.text('2022-03-02');
+  });
+
   it('Should custom render cell', () => {
     render(
       <DateRangePicker
