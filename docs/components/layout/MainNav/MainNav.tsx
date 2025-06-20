@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import Logo from '@/components/Logo';
@@ -204,9 +203,8 @@ const MainNav = React.forwardRef(function MainNav(
         </ButtonWithTooltip>
 
         <NavbarToggle
-          // @ts-ignore
           open={showSubmenu}
-          className={styles['btn-menu-toggle']}
+          className={classNames(styles['btn-menu-toggle'], 'btn-menu-burger')}
           onClick={onToggleMenu}
           aria-controls="sidebar-drawer"
         />

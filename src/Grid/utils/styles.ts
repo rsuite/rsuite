@@ -13,7 +13,7 @@ export const getResponsiveGutterStyles = (gutter?: GutterType | ResponsiveValue<
   }
 
   // Helper function to process gutter values and generate CSS variables
-  const processGutterValue = (value: any, prefix = ''): Record<string, string> => {
+  const processGutterValue = (value: any, prefix = ''): Record<string, string | undefined> => {
     const [h, v] = Array.isArray(value) ? value : [value, value];
     return {
       [`--rs-grid-gutter${prefix}`]: getCssValue(h),

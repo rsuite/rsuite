@@ -138,6 +138,10 @@
       color: #aaa;
     }
   }
+
+  :global(.btn-menu-burger) {
+    display: none;
+  }
 }
 
 :global(.page-heading) {

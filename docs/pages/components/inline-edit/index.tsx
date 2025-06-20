@@ -9,8 +9,6 @@ import {
   Slider,
   RangeSlider,
   Textarea,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   NumberInput,
   Cascader,
   Panel,

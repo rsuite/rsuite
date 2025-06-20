@@ -6,7 +6,7 @@ import type { StyleProperties } from '@/internals/types';
  */
 export function getCssValue(value?: number | string | null, unit = 'px') {
   if (value === undefined || value === null || value === '') {
-    return '';
+    return undefined;
   }
 
   // If the value is 0, return it as a string without unit

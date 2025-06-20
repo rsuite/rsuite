@@ -16,8 +16,6 @@ import {
   Radio,
   CheckPicker,
   InputGroup,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   NumberInput,
   PasswordInput,
   Toggle,

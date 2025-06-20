@@ -4,8 +4,6 @@ import {
   Button,
   Input,
   IconButton,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   NumberInput,
   DatePicker,
   DateInput,

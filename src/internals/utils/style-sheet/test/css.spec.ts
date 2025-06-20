@@ -16,9 +16,9 @@ describe('css utils', () => {
     });
 
     it('Should handle undefined, null and empty string', () => {
-      expect(getCssValue(undefined)).to.equal('');
-      expect(getCssValue(null)).to.equal('');
-      expect(getCssValue('')).to.equal('');
+      expect(getCssValue(undefined)).to.equal(undefined);
+      expect(getCssValue(null)).to.equal(undefined);
+      expect(getCssValue('')).to.equal(undefined);
     });
 
     it('Should handle custom units', () => {
