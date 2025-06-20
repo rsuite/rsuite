@@ -22,7 +22,6 @@ const App = () => {
       <Navbar active={active} onSelect={setActive} />
       <Navbar appearance="tabs" active={active} onSelect={setActive} />
       <Navbar appearance="subtle" active={active} onSelect={setActive} />
-      <Navbar appearance="pills" active={active} onSelect={setActive} />
     </VStack>
   );
 };

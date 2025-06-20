@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Carousel, RadioGroup, Radio, Divider, Text } from 'rsuite';
+import { Carousel, SegmentedControl, Divider, Text } from 'rsuite';
 
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
@@ -9,31 +9,25 @@ function App() {
 
   return (
     <>
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={placement}
+      <SegmentedControl
+        data={[
+          { value: 'top', label: 'Top' },
+          { value: 'bottom', label: 'Bottom' },
+          { value: 'left', label: 'Left' },
+          { value: 'right', label: 'Right' }
+        ]}
+        value={placement}
         onChange={setPlacement}
-      >
-        <Text muted>Placement: </Text>
-        <Radio value="top">Top</Radio>
-        <Radio value="bottom">Bottom</Radio>
-        <Radio value="left">Left</Radio>
-        <Radio value="right">Right</Radio>
-      </RadioGroup>
+      />
       <Divider vertical />
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={shape}
+      <SegmentedControl
+        data={[
+          { value: 'dot', label: 'Dot' },
+          { value: 'bar', label: 'Bar' }
+        ]}
+        value={shape}
         onChange={setShape}
-      >
-        <Text muted>Shape: </Text>
-        <Radio value="dot">Dot</Radio>
-        <Radio value="bar">Bar</Radio>
-      </RadioGroup>
+      />
       <hr />
       <Carousel key={`${placement}.${shape}`} placement={placement} shape={shape} w={600} h={250}>
         <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=1" height="250" />

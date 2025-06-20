@@ -10,8 +10,7 @@ import {
   HStack,
   VStack,
   Text,
-  Radio,
-  RadioGroup
+  SegmentedControl
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -35,8 +34,7 @@ export default function Page() {
         HStack,
         VStack,
         Text,
-        Radio,
-        RadioGroup
+        SegmentedControl
       }}
     />
   );

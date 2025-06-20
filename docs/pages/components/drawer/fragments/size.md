@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
+import { Drawer, SegmentedControl, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
 
 const App = () => {
   const [size, setSize] = React.useState();
@@ -14,15 +14,17 @@ const App = () => {
   };
   return (
     <>
-      <RadioGroup inline appearance="picker" value={placement} onChange={setPlacement}>
-        <label>Placement: </label>
-        <Radio value="left">left</Radio>
-        <Radio value="right">right</Radio>
-        <Radio value="top">top</Radio>
-        <Radio value="bottom">bottom</Radio>
-      </RadioGroup>
+      <SegmentedControl
+        data={[
+          { value: 'left', label: 'left' },
+          { value: 'right', label: 'right' },
+          { value: 'top', label: 'top' },
+          { value: 'bottom', label: 'bottom' }
+        ]}
+        value={placement}
+        onChange={setPlacement}
+      />
       <hr />
-
       <ButtonToolbar>
         <Button size="xs" onClick={() => handleOpen('xs')}>
           Xsmall

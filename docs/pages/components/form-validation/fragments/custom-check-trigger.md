@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, RadioGroup, Radio, Row, Col } from 'rsuite';
+import { Form, Button, SegmentedControl, Row, Col } from 'rsuite';
 import { SchemaModel, StringType } from 'rsuite/Schema';
 
 const Field = React.forwardRef((props, ref) => {
@@ -38,20 +38,18 @@ const App = () => {
   return (
     <Row>
       <Col span={{ xs: 24, md: 12 }}>
-        <RadioGroup
-          inline
-          appearance="picker"
+        <SegmentedControl
+          data={[
+            { value: 'blur', label: 'blur' },
+            { value: 'change', label: 'change' },
+            { value: 'none', label: 'none' }
+          ]}
           value={checkTrigger}
           onChange={value => {
             setCheckTrigger(value);
             setFormError({});
           }}
-        >
-          <label>checkTrigger: </label>
-          <Radio value="blur">blur</Radio>
-          <Radio value="change">change</Radio>
-          <Radio value="none">none</Radio>
-        </RadioGroup>
+        />
         <hr />
         <Form
           ref={formRef}

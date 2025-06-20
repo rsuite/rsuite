@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Modal, ButtonToolbar, Button, RadioGroup, Radio, Placeholder, Text } from 'rsuite';
+import { Modal, ButtonToolbar, Button, SegmentedControl, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -11,18 +11,15 @@ const App = () => {
 
   return (
     <>
-      <RadioGroup
-        name="radioList"
-        appearance="picker"
-        inline
+      <SegmentedControl
+        data={[
+          { value: 'static', label: 'static' },
+          { value: true, label: 'true' },
+          { value: false, label: 'false' }
+        ]}
         value={backdrop}
-        onChange={value => setBackdrop(value)}
-      >
-        <Text muted>Backdrop:</Text>
-        <Radio value="static">static</Radio>
-        <Radio value={true}>true</Radio>
-        <Radio value={false}>false</Radio>
-      </RadioGroup>
+        onChange={setBackdrop}
+      />
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}> Open</Button>

@@ -12,10 +12,6 @@ Tabs are a set of layered sections of content, known as tab panels, that display
 
 <!--{include:`basic.md`}-->
 
-### Pills
-
-<!--{include:`pills.md`}-->
-
 ### Subtle
 
 <!--{include:`subtle.md`}-->
@@ -71,16 +67,16 @@ Tabs are a set of layered sections of content, known as tab panels, that display
 
 ### `<Tabs>`
 
-| Property         | Type `(Default)`                         | Description                                  |
-| ---------------- | ---------------------------------------- | -------------------------------------------- |
-| activeKey        | string                                   | The `eventKey` of the active tab.            |
-| appearance       | 'tabs' \| 'subtle' \| 'pills' `('tabs')` | The tabs appearance style.                   |
-| children         | ChildrenArray&lt;Tabs.Tab&gt;            | The contents of the component.               |
-| classPrefix      | string `('tabs')`                        | The prefix of the component CSS class.       |
-| defaultActiveKey | string                                   | The `eventKey` of the active tab by default. |
-| onSelect         | (eventKey: string, event) => void        | Callback function triggered after selection. |
-| reversed         | boolean                                  | Reversed display.                            |
-| vertical         | boolean                                  | Whether to display the component vertically. |
+| Property         | Type `(Default)`                  | Description                                  |
+| ---------------- | --------------------------------- | -------------------------------------------- |
+| activeKey        | string                            | The `eventKey` of the active tab.            |
+| appearance       | 'tabs' \| 'subtle' `('tabs')`     | The tabs appearance style.                   |
+| children         | ChildrenArray&lt;Tabs.Tab&gt;     | The contents of the component.               |
+| classPrefix      | string `('tabs')`                 | The prefix of the component CSS class.       |
+| defaultActiveKey | string                            | The `eventKey` of the active tab by default. |
+| onSelect         | (eventKey: string, event) => void | Callback function triggered after selection. |
+| reversed         | boolean                           | Reversed display.                            |
+| vertical         | boolean                           | Whether to display the component vertically. |
 
 ### `<Tabs.Tab>`
 

@@ -17,11 +17,10 @@ import type { HTMLPropsWithoutSelect } from '@/internals/types';
 export interface NavProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /**
    * The appearance style of the Nav component.
-   *
+   * - 'pills' appearance is deprecated. Use `SegmentedControl` component instead.
    * @default 'default'
-   * @version 'pills' is supported in version 5.68.0
    */
-  appearance?: 'default' | 'subtle' | 'tabs' | 'pills';
+  appearance?: 'default' | 'subtle' | 'tabs';
 
   /**
    * Whether the Nav component is reversed.

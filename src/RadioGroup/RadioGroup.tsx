@@ -20,7 +20,10 @@ export interface RadioContextProps {
 }
 
 export interface RadioGroupProps<T = string | number> extends BoxProps, FormControlBaseProps<T> {
-  /** A radio group can have different appearances */
+  /**
+   * A radio group can have different appearances
+   * @deprecated Use `<SegmentedControl indicator="underline" />` instead
+   */
   appearance?: 'default' | 'picker';
 
   /** Name to use for form */

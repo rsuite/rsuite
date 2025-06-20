@@ -91,6 +91,8 @@
     .rs-segmented-control-label {
       font-size: var(--rs-font-size-sm);
       line-height: var(--rs-line-height-sm);
+      display: flex;
+      align-items: center;
     }
   }
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import ThemeIcon from '@/components/ThemeIcon';
-import { Nav, NavProps } from 'rsuite';
+import { SegmentedControl, SegmentedControlProps, HStack } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 import type { Theme } from '@/components/AppProvider';
 
-function ThemeGroup(props: NavProps) {
+function ThemeGroup(props: SegmentedControlProps) {
   const { theme, onChangeTheme, locales } = useApp();
   const [themeName] = theme;
 
@@ -27,22 +27,17 @@ function ThemeGroup(props: NavProps) {
     }
   ];
 
-  return (
-    <Nav appearance="pills" {...props}>
-      {themesConfig.map(item => (
-        <Nav.Item
-          key={item.value}
-          active={themeName === item.value}
-          onClick={() => onChangeTheme(item.value as Theme)}
-          icon={
-            <ThemeIcon theme={item.value as Theme} className="rs-icon" width={22} height={21} />
-          }
-        >
-          {item.name}
-        </Nav.Item>
-      ))}
-    </Nav>
-  );
+  const options = themesConfig.map(item => ({
+    value: item.value,
+    label: (
+      <HStack>
+        <ThemeIcon theme={item.value as Theme} className="rs-icon" width={22} height={21} />
+        <span>{item.name}</span>
+      </HStack>
+    )
+  }));
+
+  return <SegmentedControl data={options} value={themeName} onChange={onChangeTheme} {...props} />;
 }
 
 export default ThemeGroup;
