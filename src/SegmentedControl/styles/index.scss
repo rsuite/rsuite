@@ -18,19 +18,19 @@
   font-size: var(--rs-segmented-control-font-size);
 
   // Size variants
-  &.rs-segmented-control-xs {
+  &:where([data-size='xs']) {
     @include mixin.segmented-control-size('xs');
   }
 
-  &.rs-segmented-control-sm {
+  &:where([data-size='sm']) {
     @include mixin.segmented-control-size('sm');
   }
 
-  &.rs-segmented-control-lg {
+  &:where([data-size='lg']) {
     @include mixin.segmented-control-size('lg');
   }
 
-  &.rs-segmented-control-xl {
+  &:where([data-size='xl']) {
     @include mixin.segmented-control-size('xl');
   }
 

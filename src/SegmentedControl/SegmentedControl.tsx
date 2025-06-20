@@ -62,7 +62,7 @@ const SegmentedControl = forwardRef<'div', SegmentedControlProps>((props, ref) =
   } = propsWithDefaults;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size));
+  const classes = merge(className, withPrefix());
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const id = useUniqueId('segmented', name);
 
@@ -92,6 +92,7 @@ const SegmentedControl = forwardRef<'div', SegmentedControlProps>((props, ref) =
       role="radiogroup"
       ref={mergeRefs(ref, containerRef)}
       className={classes}
+      data-size={size}
       data-block={block || undefined}
       data-indicator={indicator}
       {...rest}
