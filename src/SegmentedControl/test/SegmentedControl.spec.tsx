@@ -3,6 +3,7 @@ import SegmentedControl from '../SegmentedControl';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+import { Size } from '@/internals/types';
 
 const testItems = [
   { label: 'React', value: 'react' },
@@ -14,14 +15,17 @@ const testItems = [
 describe('SegmentedControl', () => {
   testStandardProps(<SegmentedControl data={testItems} />);
 
+  const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+  sizes.forEach(size => {
+    it(`Should render ${size} size`, () => {
+      render(<SegmentedControl data={testItems} size={size as Size} />);
+      expect(screen.getByRole('radiogroup')).to.have.attr('data-size', size);
+    });
+  });
+
   it('Should render block style when block is true', () => {
     const { container } = render(<SegmentedControl data={testItems} block />);
     expect(container.querySelector('[data-block]')).to.exist;
-  });
-
-  it('Should render different size classes', () => {
-    render(<SegmentedControl data={testItems} size="lg" />);
-    expect(screen.getByRole('radiogroup')).to.have.class('rs-segmented-control-lg');
   });
 
   it('Should render as custom element', () => {
