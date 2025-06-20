@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-// @ts-ignore
 import { PinInput, VStack, HStack, Text } from 'rsuite';
 
 const inDocsComponents = {

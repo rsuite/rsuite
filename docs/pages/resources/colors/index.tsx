@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { VStack, HStack, Button } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/layout/Page';
-import { generatePalette } from 'rsuite/styles/plugins/palette';
+import { getPalette } from '@/utils/palette';
 import { useApp } from '@/hooks/useApp';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
 import ThemeGroup from '@/components/ThemeGroup';
@@ -49,20 +49,20 @@ function getColourful(theme: string) {
   if (theme === 'dark') {
     return Object.entries(darkColorMap).map(([name, value]) => ({
       name,
-      colors: generatePalette(value, name)
+      colors: getPalette(value)
     }));
   }
 
   if (theme === 'high-contrast') {
     return Object.entries(highContrastColorMap).map(([name, value]) => ({
       name,
-      colors: generatePalette(value, name)
+      colors: getPalette(value)
     }));
   }
 
   return Object.entries(lightColorMap).map(([name, value]) => ({
     name,
-    colors: generatePalette(value, name)
+    colors: getPalette(value)
   }));
 }
 

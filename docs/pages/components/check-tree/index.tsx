@@ -3,8 +3,6 @@ import DefaultPage from '@/components/layout/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { CheckTree, Panel, Button, Toggle, NumberInput, Stack } from 'rsuite';
 import {
   MdOutlineKeyboardArrowDown,

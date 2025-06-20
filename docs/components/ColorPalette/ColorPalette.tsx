@@ -1,15 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import useClipboard from '@/hooks/useClipboard';
+import tinycolor from 'tinycolor2';
 import { VStack, HStack, Text, Modal, ModalProps, Button, Tooltip, Whisper, Divider } from 'rsuite';
-import { tinycolor } from 'rsuite/styles/plugins/palette';
 import styles from './ColorPalette.module.scss';
 
 export interface ColorMeta {
   hex?: string;
   rgb?: string;
   hls?: string;
-  level: string;
+  level: string | number;
   cssVar: string;
 }
 

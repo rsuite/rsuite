@@ -1,7 +1,5 @@
 import React from 'react';
 import DefaultPage from '@/components/layout/Page';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { Button, NumberInput, Input, Form, DatePicker, Rate } from 'rsuite';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';

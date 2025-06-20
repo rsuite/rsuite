@@ -69,7 +69,7 @@ function calculateBrightness(originalBrightness, index) {
   );
 }
 
-export function getPalette(primaryColor) {
+export function getPalette(primaryColor: string) {
   const colors = Array.from(new Array(10), (_color, index) => {
     const { h, s, v } = tinycolor(primaryColor).toHsv();
     const key = index === 0 ? '50' : index * 100;
@@ -77,6 +77,8 @@ export function getPalette(primaryColor) {
     return {
       key,
       name: `@H${lessKey}`,
+      level: key,
+      cssVar: `--rs-primary-${key}`,
       cssName: `--rs-primary-${key}`,
       scssName: `$H${lessKey}`,
       hex:

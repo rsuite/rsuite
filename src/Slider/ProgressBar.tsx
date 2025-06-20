@@ -24,7 +24,7 @@ const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
   const { merge, withPrefix } = useStyles(classPrefix);
 
   const sizeKey = vertical ? 'height' : 'width';
-  const startKey = vertical ? 'bottom' : 'inset-inline-start';
+  const startKey = vertical ? 'bottom' : 'insetInlineStart';
 
   const styles = mergeStyles(style, { [startKey]: `${start}%`, [sizeKey]: `${end - start}%` });
   const classes = merge(className, withPrefix());
