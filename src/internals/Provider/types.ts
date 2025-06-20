@@ -88,6 +88,7 @@ import type { RangeSliderProps } from '../../RangeSlider';
 import type { RateProps } from '../../Rate';
 import type { RowProps } from '../../Row';
 import type { SelectPickerProps } from '../../SelectPicker';
+import type { SegmentedControlProps } from '../../SegmentedControl';
 import type { SidebarProps } from '../../Sidebar';
 import type { SidenavProps } from '../../Sidenav';
 import type { SliderProps } from '../../Slider';
@@ -212,6 +213,7 @@ export interface ReactSuiteComponents {
   Rate: ComponentProps<RateProps>;
   Row: ComponentProps<RowProps>;
   SelectPicker: ComponentProps<SelectPickerProps>;
+  SegmentedControl: ComponentProps<SegmentedControlProps>;
   Sidebar: ComponentProps<SidebarProps>;
   Sidenav: ComponentProps<SidenavProps>;
   Slider: ComponentProps<SliderProps>;
