@@ -1,0 +1,145 @@
+@use '../../styles/mixins/color-modes' as color-modes;
+@use './variables';
+@use './mixin';
+
+.rs-segmented-control {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  height: var(--rs-segmented-control-height);
+  border-style: solid;
+  border-width: var(--rs-segmented-control-border-width);
+  border-color: var(--rs-segmented-control-border-color);
+  border-radius: var(--rs-segmented-control-border-radius);
+  padding: var(--rs-segmented-control-padding);
+  gap: var(--rs-segmented-control-spacing);
+  background-color: var(--rs-segmented-control-bg);
+  box-sizing: border-box;
+  font-size: var(--rs-segmented-control-font-size);
+
+  // Size variants
+  &:where([data-size='xs']) {
+    @include mixin.segmented-control-size('xs');
+  }
+
+  &:where([data-size='sm']) {
+    @include mixin.segmented-control-size('sm');
+  }
+
+  &:where([data-size='lg']) {
+    @include mixin.segmented-control-size('lg');
+  }
+
+  &:where([data-size='xl']) {
+    @include mixin.segmented-control-size('xl');
+  }
+
+  &[data-block='true'] {
+    display: flex;
+    width: 100%;
+
+    .rs-segmented-control-item {
+      flex: 1 1 0%;
+      min-width: 0;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // Hide the indicator when no item is active
+  &:empty {
+    display: none;
+  }
+
+  // Default segmented control item
+  .rs-segmented-control-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding-inline: var(--rs-segmented-control-item-padding-x);
+    padding-block: var(--rs-segmented-control-item-padding-y);
+    border-radius: var(--rs-segmented-control-indicator-border-radius);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+    color: var(--rs-segmented-control-item-color);
+
+    &[data-active] {
+      color: var(--rs-segmented-control-item-active-color);
+    }
+
+    &[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // Hide the radio input
+    .rs-segmented-control-radio {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rs-segmented-control-label {
+      font-size: var(--rs-font-size-sm);
+      line-height: var(--rs-line-height-sm);
+    }
+  }
+
+  // Animated indicator - base styles
+  .rs-segmented-control-indicator {
+    position: absolute;
+    z-index: 0;
+    transition: var(--rs-segmented-control-indicator-transition);
+    box-shadow: var(--rs-segmented-control-indicator-shadow);
+  }
+
+  // High contrast mode adjustments
+  @include color-modes.high-contrast-mode {
+    .rs-segmented-control-indicator {
+      transition: none;
+    }
+  }
+
+  // Pill indicator style
+  &:where([data-indicator='pill']) {
+    .rs-segmented-control-indicator {
+      background-color: var(--rs-segmented-control-pill-indicator-bg);
+      border-radius: var(--rs-segmented-control-pill-indicator-border-radius);
+      box-shadow: var(--rs-segmented-control-pill-indicator-shadow);
+      height: var(--rs-segmented-control-pill-indicator-height);
+    }
+  }
+
+  // Underline indicator style
+  &:where([data-indicator='underline']) {
+    padding-block: 0;
+    padding-inline: var(--rs-segmented-control-border-radius);
+    background-color: transparent;
+
+    .rs-segmented-control-item {
+      padding-bottom: calc(
+        var(--rs-segmented-control-item-padding-y) + var(--rs-segmented-control-underline-height)
+      );
+      border-radius: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .rs-segmented-control-indicator {
+      bottom: -1px;
+      height: var(--rs-segmented-control-underline-height);
+      background-color: var(--rs-segmented-control-underline-color);
+      border-radius: var(--rs-radius-none);
+      box-shadow: none;
+    }
+  }
+}

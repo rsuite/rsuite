@@ -482,6 +482,13 @@
         "keywords": ["star", "number", "rating"]
       },
       {
+        "id": "segmented-control",
+        "name": "SegmentedControl",
+        "title": "分段器",
+        "components": ["SegmentedControl"],
+        "minVersion": "6.0.0"
+      },
+      {
         "id": "slider",
         "name": "Slider",
         "title": "滑动输入控件",

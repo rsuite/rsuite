@@ -80,6 +80,7 @@ export * from './RadioGroup';
 export * from './RadioTile';
 export * from './RadioTileGroup';
 export * from './SelectPicker';
+export * from './SegmentedControl';
 export * from './CheckPicker';
 export * from './InputPicker';
 export * from './TagPicker';

@@ -1,0 +1,43 @@
+:root {
+  // Layout
+  --rs-segmented-control-spacing: calc(var(--rs-spacing) * 1);
+  --rs-segmented-control-border-radius: var(--rs-radius-md);
+  --rs-segmented-control-border-width: 1px;
+  --rs-segmented-control-padding: calc(var(--rs-spacing) * 0.5);
+
+  // Size
+  --rs-segmented-control-height: 36px;
+  --rs-segmented-control-height-xs: 24px;
+  --rs-segmented-control-height-sm: 30px;
+  --rs-segmented-control-height-lg: 42px;
+  --rs-segmented-control-height-xl: 48px;
+  --rs-segmented-control-item-padding-y: calc(var(--rs-spacing) * 1);
+  --rs-segmented-control-item-padding-y-xs: calc(var(--rs-spacing) * 0.5);
+  --rs-segmented-control-item-padding-y-sm: calc(var(--rs-spacing) * 0.75);
+  --rs-segmented-control-item-padding-y-lg: calc(var(--rs-spacing) * 1.25);
+  --rs-segmented-control-item-padding-y-xl: calc(var(--rs-spacing) * 1.5);
+  --rs-segmented-control-item-padding-x: calc(var(--rs-spacing) * 2);
+  --rs-segmented-control-item-padding-x-xs: calc(var(--rs-spacing) * 1.5);
+  --rs-segmented-control-item-padding-x-sm: calc(var(--rs-spacing) * 1.75);
+  --rs-segmented-control-item-padding-x-lg: calc(var(--rs-spacing) * 2.25);
+  --rs-segmented-control-item-padding-x-xl: calc(var(--rs-spacing) * 2.5);
+  --rs-segmented-control-font-size: var(--rs-font-size-sm);
+  --rs-segmented-control-font-size-xs: var(--rs-font-size-extra-small);
+  --rs-segmented-control-font-size-sm: var(--rs-font-size-sm);
+  --rs-segmented-control-font-size-lg: var(--rs-font-size-base);
+  --rs-segmented-control-font-size-xl: var(--rs-font-size-large);
+
+  /* Indicator */
+  --rs-segmented-control-indicator-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --rs-segmented-control-indicator-border-radius: calc(var(--rs-radius-md) - 2px);
+  --rs-segmented-control-indicator-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  /* Underline variant */
+  --rs-segmented-control-underline-height: 2px;
+
+  /* Pill variant */
+  --rs-segmented-control-pill-indicator-height: calc(var(--rs-segmented-control-height) - 8px);
+  --rs-segmented-control-pill-indicator-border-radius: var(--rs-radius-md);
+  --rs-segmented-control-pill-indicator-shadow: var(--rs-shadow-sm);
+}
