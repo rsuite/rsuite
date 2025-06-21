@@ -12,6 +12,8 @@ const propertyMap: Record<string, string> = {
   pr: 'padding-right',
   pb: 'padding-bottom',
   pl: 'padding-left',
+  px: 'padding-inline',
+  py: 'padding-block',
 
   // Margin
   m: 'margin',
@@ -19,6 +21,8 @@ const propertyMap: Record<string, string> = {
   mr: 'margin-right',
   mb: 'margin-bottom',
   ml: 'margin-left',
+  mx: 'margin-inline',
+  my: 'margin-block',
 
   // Size
   w: 'width',

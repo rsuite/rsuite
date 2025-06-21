@@ -28,7 +28,7 @@ describe('useStyled', () => {
     className,
     style,
     enabled = true,
-    prefix = 'test'
+    prefix = 'box'
   }: any) => {
     const styled = useStyled({
       cssVars,
@@ -51,20 +51,20 @@ describe('useStyled', () => {
   };
 
   it('should generate a unique class name', () => {
-    const { getByTestId } = render(<TestComponent cssVars={{ '--test-var': 'value' }} />);
+    const { getByTestId } = render(<TestComponent cssVars={{ '--box-var': 'value' }} />);
     const element = getByTestId('styled-element');
 
-    expect(element.className).toMatch(/^test-/);
+    expect(element.className).toMatch(/^box-/);
   });
 
   it('should combine with existing class name', () => {
     const { getByTestId } = render(
-      <TestComponent className="existing-class" cssVars={{ '--test-var': 'value' }} />
+      <TestComponent className="existing-class" cssVars={{ '--box-var': 'value' }} />
     );
     const element = getByTestId('styled-element');
 
     expect(element.className).toContain('existing-class');
-    expect(element.className).toMatch(/existing-class test-/);
+    expect(element.className).toMatch(/existing-class box-/);
   });
 
   it('should apply style prop', () => {
@@ -83,10 +83,10 @@ describe('useStyled', () => {
 
     render(<TestComponent cssVars={cssVars} />);
 
-    expect(StyleManager.addRule).toHaveBeenCalledTimes(2);
+    expect(StyleManager.addRule).toHaveBeenCalledTimes(1);
 
     const [selector, cssRules] = (StyleManager.addRule as any).mock.calls[0];
-    expect(selector).toMatch(/^\.test-/);
+    expect(selector).toMatch(/^\.box-/);
 
     expect(cssRules).toContain('--rs-box-p: 10px');
     expect(cssRules).toContain('--rs-box-m: 20px');
@@ -108,8 +108,8 @@ describe('useStyled', () => {
     const { unmount } = render(<TestComponent cssVars={cssVars} />);
     unmount();
 
-    expect(StyleManager.removeRule).toHaveBeenCalledTimes(2); // Once for main rule, once for reset rule
-    expect((StyleManager.removeRule as any).mock.calls[0][0]).toMatch(/^\.test-/);
+    expect(StyleManager.removeRule).toHaveBeenCalledTimes(1); // Only for main rule
+    expect((StyleManager.removeRule as any).mock.calls[0][0]).toMatch(/^\.box-/);
   });
 
   it('should pass CSP nonce to StyleManager', () => {
@@ -145,6 +145,17 @@ describe('useStyled', () => {
 
     const [, cssRules] = (StyleManager.addRule as any).mock.calls[0];
 
+    // Check that CSS variables are defined
+    expect(cssRules).toContain('--rs-box-p: 10px');
+    expect(cssRules).toContain('--rs-box-w: 100px');
+    expect(cssRules).toContain('--rs-box-h: 50px');
+    expect(cssRules).toContain('--rs-box-c: red');
+    expect(cssRules).toContain('--rs-box-bg: blue');
+    expect(cssRules).toContain('--rs-box-rounded: 5px');
+    expect(cssRules).toContain('--rs-box-shadow: 0 2px 4px rgba(0,0,0,0.2)');
+    expect(cssRules).toContain('--rs-box-bd: 1px solid black');
+
+    // Check that CSS properties are mapped correctly
     expect(cssRules).toContain('padding: var(--rs-box-p)');
     expect(cssRules).toContain('width: var(--rs-box-w)');
     expect(cssRules).toContain('height: var(--rs-box-h)');

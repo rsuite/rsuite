@@ -47,7 +47,7 @@ describe('StyleManager', () => {
     vi.clearAllMocks();
   });
 
-  it('should initialize style element when init is called', () => {
+  it('Should initialize style element when init is called', () => {
     const result = StyleManager.init();
 
     expect(document.createElement).toHaveBeenCalledWith('style');
@@ -57,7 +57,7 @@ describe('StyleManager', () => {
     expect(StyleManager.styleElement).toBe(mockStyleElement);
   });
 
-  it('should apply nonce when provided', () => {
+  it('Should apply nonce when provided', () => {
     const nonce = 'test-nonce';
     StyleManager.init({ nonce });
 
@@ -65,7 +65,7 @@ describe('StyleManager', () => {
     expect(StyleManager.nonce).toBe(nonce);
   });
 
-  it('should set nonce and apply to existing style element', () => {
+  it('Should set nonce and apply to existing style element', () => {
     // Initialize first
     StyleManager.init();
 
@@ -76,7 +76,7 @@ describe('StyleManager', () => {
     expect(StyleManager.nonce).toBe('new-nonce');
   });
 
-  it('should add CSS rule to style sheet', () => {
+  it('Should add CSS rule to style sheet', () => {
     StyleManager.addRule('.test-selector', 'color: red;');
 
     expect(StyleManager.styleMap.has('.test-selector')).toBe(true);
@@ -84,7 +84,7 @@ describe('StyleManager', () => {
     expect(mockStyleElement.textContent).toContain('.test-selector { color: red; }');
   });
 
-  it('should update existing CSS rule', () => {
+  it('Should update existing CSS rule', () => {
     // Add initial rule
     StyleManager.addRule('.test-selector', 'color: red;');
 
@@ -96,7 +96,7 @@ describe('StyleManager', () => {
     expect(mockStyleElement.textContent).not.toContain('color: red;');
   });
 
-  it('should not update if rule content is the same', () => {
+  it('Should not update if rule content is the same', () => {
     // Add initial rule
     StyleManager.addRule('.test-selector', 'color: red;');
 
@@ -109,7 +109,7 @@ describe('StyleManager', () => {
     expect(updateStylesSpy).not.toHaveBeenCalled();
   });
 
-  it('should remove CSS rule from style sheet', () => {
+  it('Should remove CSS rule from style sheet', () => {
     // Add rule
     StyleManager.addRule('.test-selector', 'color: red;');
 
@@ -120,7 +120,7 @@ describe('StyleManager', () => {
     expect(mockStyleElement.textContent).not.toContain('.test-selector');
   });
 
-  it('should clear all rules', () => {
+  it('Should clear all rules', () => {
     // Add multiple rules
     StyleManager.addRule('.selector1', 'color: red;');
     StyleManager.addRule('.selector2', 'color: blue;');
@@ -132,7 +132,7 @@ describe('StyleManager', () => {
     expect(mockStyleElement.textContent).toBe('');
   });
 
-  it('should handle multiple rules correctly', () => {
+  it('Should handle multiple rules correctly', () => {
     StyleManager.addRule('.selector1', 'color: red;');
     StyleManager.addRule('.selector2', 'background: blue;');
 

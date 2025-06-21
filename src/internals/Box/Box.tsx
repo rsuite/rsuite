@@ -2,8 +2,8 @@ import React, { CSSProperties as CSS } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { forwardRef } from '@/internals/utils/react/forwardRef';
 import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
+import { useStyled } from '@/internals/hooks/useStyled';
 import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
-import useStyled from '@/internals/hooks/useStyled';
 
 export interface BoxProps extends WithAsProps {
   /** Breakpoint below which the component is shown with `display: block` */

@@ -1,9 +1,10 @@
 import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, getCssValue } from '@/internals/utils';
+import { useStyled } from '@/internals/hooks/useStyled';
+import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
-import useStyled from '@/internals/hooks/useStyled';
+import { generateStackCssVars } from './utils';
 import type { ResponsiveValue } from '@/internals/types';
 
 interface DeprecatedStackProps {
@@ -71,28 +72,8 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   const { withPrefix, merge, responsive } = useStyles(classPrefix);
   const baseClasses = merge(className, withPrefix({ wrap }), ...responsive(direction));
 
-  // Create CSS variables map for useStyled
-  const cssVars: Record<string, string | number | undefined> = {};
-
-  // Add spacing CSS variable
-  if (spacing !== undefined) {
-    // Handle array or single value for spacing
-    if (Array.isArray(spacing)) {
-      cssVars['--rs-stack-spacing'] = spacing.map(s => getCssValue(s)).join(' ');
-    } else {
-      cssVars['--rs-stack-spacing'] = getCssValue(spacing);
-    }
-  }
-
-  // Add align CSS variable
-  if (align !== undefined) {
-    cssVars['--rs-stack-align'] = align;
-  }
-
-  // Add justify CSS variable
-  if (justify !== undefined) {
-    cssVars['--rs-stack-justify'] = justify;
-  }
+  // Generate CSS variables for Stack
+  const cssVars = generateStackCssVars({ spacing, align, justify });
 
   // Use the useStyled hook to manage CSS variables
   const styled = useStyled({
