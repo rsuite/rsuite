@@ -29,7 +29,7 @@ const ButtonToolbar = forwardRef<typeof Stack, ButtonToolbarProps>(
 
     const { withPrefix, merge } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
-    return <Stack as={as} role={role} ref={ref} className={classes} {...rest} />;
+    return <Stack wrap spacing={8} as={as} role={role} ref={ref} className={classes} {...rest} />;
   }
 );
 

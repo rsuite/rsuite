@@ -90,42 +90,43 @@ export const getBoxCSSVariables = (
   props: Record<string, any>
 ): Record<string, string | number | undefined> => {
   const cssVars: Record<string, string | number | undefined> = {};
+  const prefix = `--rs-box-`;
 
   // Process padding properties
   Object.keys(paddingStyleMap).forEach(propKey => {
     if (props[propKey] !== undefined) {
-      cssVars[`--rs-box-${propKey}`] = getCssValue(props[propKey]);
+      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
     }
   });
 
   // Process margin properties
   Object.keys(marginStyleMap).forEach(propKey => {
     if (props[propKey] !== undefined) {
-      cssVars[`--rs-box-${propKey}`] = getCssValue(props[propKey]);
+      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
     }
   });
 
   // Process size properties
   Object.keys(sizeStyleMap).forEach(propKey => {
     if (props[propKey] !== undefined) {
-      cssVars[`--rs-box-${propKey}`] = getCssValue(props[propKey]);
+      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
     }
   });
 
   if (props.bd !== undefined) {
-    cssVars['--rs-box-bd'] = getCssValue(props.bd);
+    cssVars[`${prefix}bd`] = getCssValue(props.bd);
   }
 
   if (props.display !== undefined) {
-    cssVars['--rs-box-display'] = props.display;
+    cssVars[`${prefix}display`] = props.display;
   }
 
   if (props.c !== undefined) {
-    cssVars['--rs-box-c'] = getColorVar(props.c);
+    cssVars[`${prefix}c`] = getColorVar(props.c);
   }
 
   if (props.bg !== undefined) {
-    cssVars['--rs-box-bg'] = getColorVar(props.bg);
+    cssVars[`${prefix}bg`] = getColorVar(props.bg);
   }
 
   return {

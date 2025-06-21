@@ -1,8 +1,9 @@
 import React from 'react';
 import Text, { TextProps } from '../Text';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+import StyleManager from '@/internals/utils/style-sheet/style-manager';
 
 describe('Text', () => {
   testStandardProps(<Text />);
@@ -57,49 +58,91 @@ describe('Text', () => {
   });
 
   describe('Custom colors', () => {
+    beforeEach(() => {
+      vi.spyOn(StyleManager, 'addRule');
+    });
+
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
     it('Should render with hex color', () => {
-      const { container } = render(<Text color="#FF5733">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: #FF5733');
+      render(<Text color="#FF5733">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: #FF5733');
     });
 
     it('Should render with rgb color', () => {
-      const { container } = render(<Text color="rgb(255, 87, 51)">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: rgb(255, 87, 51)');
+      render(<Text color="rgb(255, 87, 51)">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: rgb(255, 87, 51)');
     });
 
     it('Should render with rgba color', () => {
-      const { container } = render(<Text color="rgba(255, 87, 51, 0.5)">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: rgba(255, 87, 51, 0.5)');
+      render(<Text color="rgba(255, 87, 51, 0.5)">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: rgba(255, 87, 51, 0.5)');
     });
 
     it('Should render with hsl color', () => {
-      const { container } = render(<Text color="hsl(9, 100%, 60%)">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: hsl(9, 100%, 60%)');
+      render(<Text color="hsl(9, 100%, 60%)">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: hsl(9, 100%, 60%)');
     });
 
     it('Should render with hsla color', () => {
-      const { container } = render(<Text color="hsla(9, 100%, 60%, 0.5)">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: hsla(9, 100%, 60%, 0.5)');
+      render(<Text color="hsla(9, 100%, 60%, 0.5)">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: hsla(9, 100%, 60%, 0.5)');
     });
 
     it('Should render with named color', () => {
-      const { container } = render(<Text color="tomato">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: tomato');
+      render(<Text color="tomato">Text</Text>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: tomato');
     });
 
     it('Should update color when prop changes', () => {
-      const { container, rerender } = render(<Text color="#FF5733">Text</Text>);
-      const element = container.firstChild as HTMLElement;
-      expect(element).to.have.attr('style').contains('--rs-box-c: #FF5733');
+      const { rerender } = render(<Text color="#FF5733">Text</Text>);
 
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      let addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      let cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: #FF5733');
+
+      vi.clearAllMocks();
       rerender(<Text color="rgb(51, 255, 87)">Text</Text>);
-      expect(element).to.have.attr('style').contains('--rs-box-c: rgb(51, 255, 87)');
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-c: rgb(51, 255, 87)');
     });
   });
 });

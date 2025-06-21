@@ -11,36 +11,6 @@ $breakpoints: (
   xl: vars.$screen-xxl
 );
 
-// Define style property maps
-$style-maps: (
-  p: padding,
-  pt: padding-top,
-  pb: padding-bottom,
-  pl: padding-left,
-  pr: padding-right,
-  px: padding-inline,
-  py: padding-block,
-  m: margin,
-  mt: margin-top,
-  mb: margin-bottom,
-  ml: margin-left,
-  mr: margin-right,
-  mx: margin-inline,
-  my: margin-block,
-  w: width,
-  h: height,
-  maxw: max-width,
-  maxh: max-height,
-  minw: min-width,
-  minh: min-height,
-  c: color,
-  bd: border,
-  rounded: border-radius,
-  shadow: box-shadow,
-  bg: background,
-  display: display
-);
-
 // Box base selector
 [data-rs='box'] {
   // Define radius variables
@@ -57,13 +27,6 @@ $style-maps: (
   --rs-box-shadow-md: var(--rs-shadow-md);
   --rs-box-shadow-lg: var(--rs-shadow-lg);
   --rs-box-shadow-xl: var(--rs-shadow-xl);
-
-  // Generate style properties from map
-  @each $key, $value in $style-maps {
-    &[style*='--rs-box-#{$key}'] {
-      #{$value}: var(--rs-box-#{$key});
-    }
-  }
 }
 
 // Generate responsive visibility styles
