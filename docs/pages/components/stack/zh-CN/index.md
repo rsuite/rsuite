@@ -36,6 +36,14 @@
 
 <!--{include:`interactive.md`}-->
 
+### 子项对齐
+
+<!--{include:`align-self.md`}-->
+
+### 子项拉伸
+
+<!--{include:`grow.md`}-->
+
 ## 响应式
 
 <!--{include:<example-responsive>}-->

@@ -1,9 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Stack, Center } from 'rsuite';
+import { HStack, Center } from 'rsuite';
 
-const items = Array.from({ length: 23 }, (_, index) => index + 1);
 const DecorativeBox = ({ children, ...rest }) => (
   <Center bg="var(--rs-placeholder)" p={20} rounded="lg" {...rest}>
     {children}
@@ -12,11 +11,14 @@ const DecorativeBox = ({ children, ...rest }) => (
 
 const App = () => {
   return (
-    <Stack wrap spacing={6}>
-      {items.map(item => (
-        <DecorativeBox key={item} />
-      ))}
-    </Stack>
+    <HStack align="start" spacing={20}>
+      <DecorativeBox w={80} h={80} />
+      <DecorativeBox w={80} h={80} />
+      <DecorativeBox w={80} h={80} />
+      <Stack.Item grow={1}>
+        <DecorativeBox h={80} />
+      </Stack.Item>
+    </HStack>
   );
 };
 
