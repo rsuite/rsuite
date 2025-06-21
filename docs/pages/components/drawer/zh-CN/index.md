@@ -20,17 +20,29 @@
 
 ### 背景板
 
+控制抽屉背景板的行为：
+
+- `true`：显示背景，点击背景会关闭抽屉
+- `false`：不显示背景
+- `'static'`：显示背景，但点击背景不会关闭抽屉
+
 <!--{include:`backdrop.md`}-->
 
 ### 显示位置
+
+抽屉可以从屏幕的四个方向滑出：`top`、`right`、`bottom`、`left`。
 
 <!--{include:`placement.md`}-->
 
 ### 尺寸
 
+通过 `size` 属性可以设置抽屉的宽度（或高度，取决于 `placement` 属性）。
+
 <!--{include:`size.md`}-->
 
 ### 带表单的抽屉
+
+在抽屉中放置表单，适合需要用户输入的场景。
 
 <!--{include:`form.md`}-->
 

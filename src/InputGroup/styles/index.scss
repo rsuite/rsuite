@@ -32,7 +32,7 @@
   --rs-input-group-font-size-sm: var(--rs-font-size-sm);
   --rs-input-group-font-size-md: var(--rs-font-size-sm);
   --rs-input-group-font-size-lg: var(--rs-font-size-md);
-  --rs-input-group-width: var(--rs-box-w, 100%);
+  --rs-input-group-width: 100%;
 
   // Base styles for the input group container
   position: relative;

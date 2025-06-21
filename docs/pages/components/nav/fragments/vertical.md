@@ -16,8 +16,7 @@ const App = () => {
         data={[
           { value: 'default', label: 'Default' },
           { value: 'tabs', label: 'Tabs' },
-          { value: 'subtle', label: 'Subtle' },
-          { value: 'pills', label: 'Pills' }
+          { value: 'subtle', label: 'Subtle' }
         ]}
         value={appearance}
         onChange={setAppearance}

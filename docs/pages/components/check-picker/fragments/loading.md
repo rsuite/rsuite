@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker, VStack, RadioGroup, Radio } from 'rsuite';
+import { CheckPicker, VStack, SegmentedControl } from 'rsuite';
 
 const data = [];
 const sizes = ['xs', 'sm', 'md', 'lg'];
@@ -11,20 +11,12 @@ const App = () => {
 
   return (
     <>
-      <RadioGroup
-        inline
-        name="radioList"
-        appearance="picker"
+      <SegmentedControl
+        data={sizes.map(item => ({ value: item, label: item }))}
         value={size}
         onChange={size => setSize(size)}
-      >
-        <label>Size:</label>
-        {sizes.map(item => (
-          <Radio value={item} key={item}>
-            {item}
-          </Radio>
-        ))}
-      </RadioGroup>
+      />
+
       <hr />
       <VStack>
         <CheckPicker data={data} loading size={size} />

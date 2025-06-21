@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Panel, HStack, VStack, Text, Avatar, RadioGroup, Radio } from 'rsuite';
+import { List, Panel, HStack, VStack, Text, Avatar, SegmentedControl } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
@@ -22,8 +22,7 @@ export default function Page() {
         HStack,
         Text,
         Avatar,
-        RadioGroup,
-        Radio,
+        SegmentedControl,
         PeoplesIcon,
         LocationIcon,
         EmailIcon,

@@ -31,10 +31,6 @@ Radios are used when only one choice may be selected in a series of options.
 
 <!--{include:`radio-group-inline.md`}-->
 
-### Radio Group - Picker
-
-<!--{include:`radio-group-inline-picker.md`}-->
-
 ### Controlled Radio Group
 
 <!--{include:`radio-group-controlled.md`}-->
@@ -73,13 +69,12 @@ Radios are used when only one choice may be selected in a series of options.
 
 ### `<RadioGroup>`
 
-| Property     | Type `(Default)`              | Description                                  |
-| ------------ | ----------------------------- | -------------------------------------------- |
-| appearance   | 'default' \| 'picker'         | A radio group can have different appearances |
-| defaultValue | string                        | The default value (uncontrolled)             |
-| inline       | boolean                       | Inline layout                                |
-| name         | string                        | Name to use for form                         |
-| onChange     | (value:string, event) => void | Callback function with value changed         |
-| value        | string                        | The current value (controlled)               |
+| Property     | Type `(Default)`              | Description                          |
+| ------------ | ----------------------------- | ------------------------------------ |
+| defaultValue | string                        | The default value (uncontrolled)     |
+| inline       | boolean                       | Inline layout                        |
+| name         | string                        | Name to use for form                 |
+| onChange     | (value:string, event) => void | Callback function with value changed |
+| value        | string                        | The current value (controlled)       |
 
 <!--{include:(_common/types/color.md)}-->

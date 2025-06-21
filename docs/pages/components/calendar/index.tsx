@@ -4,14 +4,13 @@ import {
   Button,
   Tag,
   Badge,
-  RadioGroup,
-  Radio,
   Toggle,
   VStack,
   HStack,
   Divider,
   List,
-  Text
+  Text,
+  SegmentedControl
 } from 'rsuite';
 import { HolidayUtil, Lunar, Solar } from 'lunar-typescript';
 import DefaultPage from '@/components/layout/Page';
@@ -36,8 +35,7 @@ export default function Page() {
         Divider,
         Tag,
         Badge,
-        RadioGroup,
-        Radio,
+        SegmentedControl,
         Toggle,
         Text,
         List

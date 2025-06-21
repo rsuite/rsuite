@@ -19,10 +19,12 @@ import type { ReactElement } from '@/internals/types';
 export interface TabsProps extends BoxProps {
   /**
    * The appearance of the tabs.
+   * - 'pills' appearance is deprecated. Use `SegmentedControl` component instead.
+   *
    * @default 'tabs'
-   * @version 'pills' is supported in version 5.68.0
+   *
    */
-  appearance?: 'tabs' | 'subtle' | 'pills';
+  appearance?: 'tabs' | 'subtle';
 
   /**
    * The key of the active tab.

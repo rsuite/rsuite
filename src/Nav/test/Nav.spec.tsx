@@ -27,12 +27,6 @@ describe('<Nav>', () => {
     expect(screen.getByText('Nav')).to.have.class('rs-nav-subtle');
   });
 
-  it('Should be pills appearance', () => {
-    render(<Nav appearance="pills">Nav</Nav>);
-
-    expect(screen.getByText('Nav')).to.have.class('rs-nav-pills');
-  });
-
   it('Should be justified', () => {
     render(<Nav justified>Nav</Nav>);
     expect(screen.getByText('Nav')).to.have.class('rs-nav-justified');

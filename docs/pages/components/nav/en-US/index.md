@@ -19,7 +19,6 @@ Provides a list of various forms of navigation menus, which can be landscape and
 - `default` - default navigation.
 - `tabs` - Tabbed navigation.
 - `subtle` - Subtle navigation.
-- `pills` - Pill navigation.
 
 <!--{include:`appearance.md`}-->
 
@@ -57,15 +56,15 @@ The `Nav.Item` component can be used with other routing libraries (such as Next.
 
 ### `<Nav>`
 
-| Property    | Type `(Default)`                                         | Description                                                |
-| ----------- | -------------------------------------------------------- | ---------------------------------------------------------- |
-| activeKey   | string                                                   | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
-| appearance  | 'default' \| 'tabs' \| 'subtle' \| 'pills' `('default')` | A navigation can have different appearances                |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                 | The contents of the component.                             |
-| classPrefix | string `('nav')`                                         | The prefix of the component CSS class                      |
-| justified   | boolean                                                  | Justified navigation                                       |
-| onSelect    | (eventKey: string, event) => void                        | Callback function triggered after selection                |
-| vertical    | boolean                                                  | Stacked navigation                                         |
+| Property    | Type `(Default)`                              | Description                                                |
+| ----------- | --------------------------------------------- | ---------------------------------------------------------- |
+| activeKey   | string                                        | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
+| appearance  | 'default' \| 'tabs' \| 'subtle' `('default')` | A navigation can have different appearances                |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;      | The contents of the component.                             |
+| classPrefix | string `('nav')`                              | The prefix of the component CSS class                      |
+| justified   | boolean                                       | Justified navigation                                       |
+| onSelect    | (eventKey: string, event) => void             | Callback function triggered after selection                |
+| vertical    | boolean                                       | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 
@@ -106,5 +105,3 @@ The `Nav.Item` component can be used with other routing libraries (such as Next.
 [NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
 
 <!--{include:(_common/types/placement-all.md)}-->
-
-

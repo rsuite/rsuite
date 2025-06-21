@@ -20,17 +20,29 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 ### Backdrop
 
+Control the behavior of the Drawer's backdrop:
+
+- `true`: Show backdrop, and clicking it will close the Drawer
+- `false`: Do not show backdrop
+- `'static'`: Show backdrop, but clicking it will not close the Drawer
+
 <!--{include:`backdrop.md`}-->
 
 ### Placement
+
+The Drawer can slide out from four directions: `top`, `right`, `bottom`, `left`.
 
 <!--{include:`placement.md`}-->
 
 ### Size
 
+Set the width (or height, depending on the `placement` prop) of the Drawer using the `size` prop.
+
 <!--{include:`size.md`}-->
 
 ### With Form
+
+Place a form inside the Drawer, suitable for scenarios requiring user input.
 
 <!--{include:`form.md`}-->
 
