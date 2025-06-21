@@ -36,9 +36,13 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 <!--{include:`interactive.md`}-->
 
-### Adjust Single Item
+### Align Self
 
-<!--{include:`adjust-single-item.md`}-->
+<!--{include:`align-self.md`}-->
+
+### Grow
+
+<!--{include:`grow.md`}-->
 
 ## Responsive
 

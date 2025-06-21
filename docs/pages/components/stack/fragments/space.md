@@ -1,7 +1,13 @@
 <!--start-code-->
 
 ```js
-import { VStack, HStack, Slider, Button, Text } from 'rsuite';
+import { VStack, HStack, Slider, Text, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={40} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => {
   const [spacing, setSpacing] = React.useState(6);
@@ -13,10 +19,10 @@ const App = () => {
         <Slider value={spacing} w={300} onChange={setSpacing} keepTooltipOpen />
       </HStack>
       <Stack spacing={spacing}>
-        <Button>Item 1</Button>
-        <Button>Item 2</Button>
-        <Button>Item 3</Button>
-        <Button>Item 4</Button>
+        <DecorativeBox />
+        <DecorativeBox />
+        <DecorativeBox />
+        <DecorativeBox />
       </Stack>
     </VStack>
   );
