@@ -40,11 +40,13 @@ const propertyMap: Record<string, string> = {
   rounded: 'border-radius',
 
   // Shadow
-  shadow: 'box-shadow'
-};
+  shadow: 'box-shadow',
 
-// CSS Variable Prefix
-const CSS_VAR_PREFIX = '--rs-box-';
+  // Stack
+  spacing: 'gap',
+  align: 'align-items',
+  justify: 'justify-content'
+};
 
 /**
  * Options for the useStyled hook
@@ -110,9 +112,11 @@ interface UseStyledResult {
  * @returns Styling properties to apply to the component
  */
 export function useStyled(options: UseStyledOptions): UseStyledResult {
-  const { cssVars = {}, className, style, enabled = true, prefix = 'rs' } = options;
+  const { cssVars = {}, className, style, enabled = true, prefix = 'box' } = options;
 
-  // 获取 CustomContext 中的 CSP nonce
+  // CSS Variable Prefix, e.g. --rs-box-
+  const cssVarPrefix = `--rs-${prefix}-`;
+
   const { csp } = useContext(CustomContext);
 
   // Generate a unique ID for this component instance
@@ -141,8 +145,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
       // Iterate over all CSS variables and add corresponding CSS properties
       Object.keys(cssVars).forEach(varName => {
         // Extract property name from variable name (remove prefix)
-        const propName = varName.startsWith(CSS_VAR_PREFIX)
-          ? varName.substring(CSS_VAR_PREFIX.length)
+        const propName = varName.startsWith(cssVarPrefix)
+          ? varName.substring(cssVarPrefix.length)
           : varName;
 
         // Check if the property has a corresponding CSS property mapping
@@ -156,21 +160,9 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
     // Add the rule to the style manager with CSP nonce
     StyleManager.addRule(`.${componentId}`, cssRules, { nonce: csp?.nonce });
 
-    // Create reset rules for child elements
-    let resetRules = '';
-    Object.keys(cssVars).forEach(key => {
-      resetRules += `${key}: initial; `;
-    });
-
-    // Add reset rules for direct children with the same data attribute
-    if (resetRules) {
-      StyleManager.addRule(`.${componentId} > [data-rs="box"]`, resetRules, { nonce: csp?.nonce });
-    }
-
     return () => {
       // Clean up rules when component unmounts
       StyleManager.removeRule(`.${componentId}`);
-      StyleManager.removeRule(`.${componentId} > [data-rs="box"]`);
     };
   }, [componentId, cssVars, shouldApplyStyles]);
 

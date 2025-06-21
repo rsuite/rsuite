@@ -10,7 +10,7 @@ describe('VStack', () => {
   it('Should render a default gap', () => {
     render(<VStack spacing={6}>Test</VStack>);
 
-    expect(screen.getByText('Test')).to.have.attr('style').contains('--rs-stack-spacing: 6px');
+    expect(screen.getByText('Test')).to.have.style('gap', '6px');
   });
 
   it('Should render a reverse direction', () => {

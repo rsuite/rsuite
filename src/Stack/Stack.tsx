@@ -1,8 +1,9 @@
 import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import { forwardRef, getCssValue } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
+import useStyled from '@/internals/hooks/useStyled';
 import type { ResponsiveValue } from '@/internals/types';
 
 interface DeprecatedStackProps {
@@ -67,21 +68,45 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { withPrefix, merge, cssVar, responsive } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix({ wrap }), ...responsive(direction));
+  const { withPrefix, merge, responsive } = useStyles(classPrefix);
+  const baseClasses = merge(className, withPrefix({ wrap }), ...responsive(direction));
 
-  const styles = mergeStyles(
+  // Create CSS variables map for useStyled
+  const cssVars: Record<string, string | number | undefined> = {};
+
+  // Add spacing CSS variable
+  if (spacing !== undefined) {
+    // Handle array or single value for spacing
+    if (Array.isArray(spacing)) {
+      cssVars['--rs-stack-spacing'] = spacing.map(s => getCssValue(s)).join(' ');
+    } else {
+      cssVars['--rs-stack-spacing'] = getCssValue(spacing);
+    }
+  }
+
+  // Add align CSS variable
+  if (align !== undefined) {
+    cssVars['--rs-stack-align'] = align;
+  }
+
+  // Add justify CSS variable
+  if (justify !== undefined) {
+    cssVars['--rs-stack-justify'] = justify;
+  }
+
+  // Use the useStyled hook to manage CSS variables
+  const styled = useStyled({
+    cssVars,
+    className: baseClasses,
     style,
-    cssVar('spacing', spacing, getCssValue),
-    cssVar('align', align),
-    cssVar('justify', justify)
-  );
+    prefix: classPrefix
+  });
 
   const filteredChildren = React.Children.toArray(children);
   const childCount = filteredChildren.length;
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={styled.className} style={styled.style} {...rest}>
       {filteredChildren.map((child, index) => (
         <React.Fragment key={index}>
           {child}

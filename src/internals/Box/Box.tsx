@@ -75,8 +75,7 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
     cssVars: boxCSSVars,
     className,
     style,
-    enabled: isBox,
-    prefix: 'rs-box'
+    enabled: isBox
   });
 
   return (
