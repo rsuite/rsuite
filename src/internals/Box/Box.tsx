@@ -1,9 +1,9 @@
 import React, { CSSProperties as CSS } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { mergeStyles } from '@/internals/utils';
 import { forwardRef } from '@/internals/utils/react/forwardRef';
 import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
 import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
+import useStyled from '@/internals/hooks/useStyled';
 
 export interface BoxProps extends WithAsProps {
   /** Breakpoint below which the component is shown with `display: block` */
@@ -69,8 +69,15 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
   const boxProps = extractBoxProps(rest);
   const domProps = omitBoxProps(rest);
   const boxCSSVars = getBoxCSSVariables(boxProps);
-  const boxStyle = mergeStyles(style, boxCSSVars);
   const isBox = !isEmpty(boxCSSVars) || showFrom || hideFrom;
+
+  const styled = useStyled({
+    cssVars: boxCSSVars,
+    className,
+    style,
+    enabled: isBox,
+    prefix: 'rs-box'
+  });
 
   return (
     <Component
@@ -78,8 +85,8 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
       data-rs={isBox ? 'box' : undefined}
       data-visible-from={showFrom}
       data-hidden-from={hideFrom}
-      className={className}
-      style={boxStyle}
+      className={styled.className}
+      style={styled.style}
       {...domProps}
     >
       {children}
