@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Slider, Box, RadioGroup, Radio, HStack, VStack } from 'rsuite';
+import { Slider, Box, SegmentedControl, HStack, VStack } from 'rsuite';
 
 const App = () => {
   const [direction, setDirection] = React.useState('horizontal');
@@ -19,22 +19,19 @@ const App = () => {
   };
 
   const v = vertical ? 40 : 20;
-
   const Stack = vertical ? HStack : VStack;
 
   return (
     <Box p={20}>
-      <RadioGroup
+      <SegmentedControl
         inline
-        name="direction"
-        appearance="picker"
+        data={[
+          { value: 'horizontal', label: 'Horizontal' },
+          { value: 'vertical', label: 'Vertical' }
+        ]}
         onChange={setDirection}
         value={direction}
-      >
-        Direction
-        <Radio value="horizontal">Horizontal</Radio>
-        <Radio value="vertical">Vertical</Radio>
-      </RadioGroup>
+      />
 
       <hr />
       <Stack spacing={vertical ? 40 : 20}>

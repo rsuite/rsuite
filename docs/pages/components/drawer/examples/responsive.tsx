@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder, Box } from 'rsuite';
+import { Drawer, SegmentedControl, ButtonToolbar, Button, Placeholder, Box } from 'rsuite';
 
 const App = () => {
   const [size, setSize] = React.useState();
@@ -14,20 +14,16 @@ const App = () => {
   };
   return (
     <Box p={20}>
-      <RadioGroup
-        inline
-        appearance="picker"
+      <SegmentedControl
+        data={[
+          { value: 'left', label: 'left' },
+          { value: 'right', label: 'right' },
+          { value: 'top', label: 'top' },
+          { value: 'bottom', label: 'bottom' }
+        ]}
         value={placement}
-        onChange={(value: string) => {
-          setPlacement(value);
-        }}
-      >
-        <label>Placement: </label>
-        <Radio value="left">left</Radio>
-        <Radio value="right">right</Radio>
-        <Radio value="top">top</Radio>
-        <Radio value="bottom">bottom</Radio>
-      </RadioGroup>
+        onChange={setPlacement}
+      />
       <hr />
 
       <ButtonToolbar>

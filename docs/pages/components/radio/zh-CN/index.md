@@ -31,10 +31,6 @@
 
 <!--{include:`radio-group-inline.md`}-->
 
-### 单选按钮组 - Picker
-
-<!--{include:`radio-group-inline-picker.md`}-->
-
 ### 受控的单选按钮组
 
 <!--{include:`radio-group-controlled.md`}-->
@@ -75,7 +71,6 @@
 
 | 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
-| appearance   | 'default' \| 'picker'         | 设置外观           |
 | defaultValue | string                        | 默认值（非受控）   |
 | inline       | boolean                       | 内联布局           |
 | name         | string                        | 用于表单对应的名称 |

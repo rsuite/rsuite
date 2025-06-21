@@ -2,7 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import FakeBrowser from '../FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
 import hljs from 'highlight.js';
-import { Tabs, HStack, IconButton, Loader, Divider, Message, useMediaQuery } from 'rsuite';
+import {
+  HStack,
+  IconButton,
+  Loader,
+  Divider,
+  Message,
+  useMediaQuery,
+  SegmentedControl
+} from 'rsuite';
 import { useApp } from '@/hooks/useApp';
 import {
   IoDesktopOutline,
@@ -15,6 +23,7 @@ import {
 import styles from './Simulation.module.scss';
 
 type Device = 'desktop' | 'tablet' | 'mobile';
+type Type = 'preview' | 'code';
 
 interface SimulationProps {
   componentName: string;
@@ -34,13 +43,31 @@ const Simulation: React.FC<SimulationProps> = ({
   defaultDevice = 'mobile'
 }) => {
   const [device, setDevice] = useState(defaultDevice);
-  const [type, setType] = useState<'preview' | 'code'>('preview');
+  const [type, setType] = useState<Type>('preview');
   const [sourceCode, setSourceCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { locales } = useApp();
   const codeRef = useRef<HTMLElement>(null);
   const exampleUrl = `/components/${componentName}/examples?example=${example}`;
   const [isMobile] = useMediaQuery('xs');
+
+  const typeOptions = [
+    { value: 'preview', label: 'Preview' },
+    { value: 'code', label: 'Code' }
+  ];
+
+  const deviceOptions = [
+    { value: 'desktop', label: <IoDesktopOutline title={locales?.common.desktop} size={20} /> },
+    {
+      value: 'tablet',
+      label: <IoTabletPortraitOutline title={locales?.common.tablet} size={20} />
+    },
+    { value: 'mobile', label: <IoPhonePortraitOutline title={locales?.common.mobile} size={20} /> },
+    {
+      value: 'openInNewTab',
+      label: <IoExpandOutline title={locales?.common.openInNewTab} size={20} />
+    }
+  ];
 
   const getDeviceDimensions = () => {
     switch (device) {
@@ -100,34 +127,14 @@ const Simulation: React.FC<SimulationProps> = ({
   return (
     <div className={styles['rs-simulation']}>
       <HStack justify="space-between" align="flex-start">
-        <Tabs appearance="pills" activeKey={device} onSelect={handleChangeDevice}>
-          <Tabs.Tab
-            eventKey="desktop"
-            title={<IoDesktopOutline title={locales?.common.desktop} size={20} />}
-          />
-          <Tabs.Tab
-            eventKey="tablet"
-            title={<IoTabletPortraitOutline title={locales?.common.tablet} size={20} />}
-          />
-          <Tabs.Tab
-            eventKey="mobile"
-            title={<IoPhonePortraitOutline title={locales?.common.mobile} size={20} />}
-          />
-          <Tabs.Tab
-            eventKey="openInNewTab"
-            title={<IoExpandOutline title={locales?.common.openInNewTab} size={20} />}
-          />
-        </Tabs>
+        <SegmentedControl data={deviceOptions} value={device} onChange={handleChangeDevice} />
 
         <HStack spacing={8}>
-          <Tabs
-            appearance="pills"
-            activeKey={type}
-            onSelect={(key: 'preview' | 'code') => setType(key)}
-          >
-            <Tabs.Tab eventKey="preview" title="Preview" />
-            <Tabs.Tab eventKey="code" title="Code" />
-          </Tabs>
+          <SegmentedControl
+            data={typeOptions}
+            value={type}
+            onChange={value => setType(value as Type)}
+          />
           <IconButton
             icon={<Icon as={IoLogoGithub} style={{ fontSize: 16 }} />}
             target="_blank"

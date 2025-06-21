@@ -19,7 +19,6 @@
 - 'default' (默认值) 默认导航。
 - 'tabs' 标签式的导航。
 - 'subtle' 弱化的导航。
-- 'pills' 胶囊式的导航。
 
 <!--{include:`appearance.md`}-->
 
@@ -57,15 +56,15 @@
 
 ### `<Nav>`
 
-| 属性名称    | 类型`(默认值)`                                           | 描述                                          |
-| ----------- | -------------------------------------------------------- | --------------------------------------------- |
-| activeKey   | string                                                   | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
-| appearance  | 'default' \| 'tabs' \| 'subtle' \| 'pills' `('default')` | 设置外观                                      |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;                 | 组件内容                                      |
-| classPrefix | string `('nav')`                                         | 组件 CSS 类的前缀                             |
-| justified   | boolean                                                  | 宽度自适应                                    |
-| onSelect    | (eventKey: string, event) => void                        | 选择事件触发的回调函数                        |
-| vertical    | boolean                                                  | 垂直导航                                      |
+| 属性名称    | 类型`(默认值)`                                | 描述                                          |
+| ----------- | --------------------------------------------- | --------------------------------------------- |
+| activeKey   | string                                        | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
+| appearance  | 'default' \| 'tabs' \| 'subtle' `('default')` | 设置外观                                      |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;      | 组件内容                                      |
+| classPrefix | string `('nav')`                              | 组件 CSS 类的前缀                             |
+| justified   | boolean                                       | 宽度自适应                                    |
+| onSelect    | (eventKey: string, event) => void             | 选择事件触发的回调函数                        |
+| vertical    | boolean                                       | 垂直导航                                      |
 
 ### `<Nav.Item>`
 
@@ -106,5 +105,3 @@
 [NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
 
 <!--{include:(_common/types/placement-all.md)}-->
-
-

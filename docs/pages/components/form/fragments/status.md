@@ -9,6 +9,7 @@ import {
   Radio,
   Checkbox,
   CheckboxGroup,
+  SegmentedControl,
   Slider,
   DatePicker,
   DateRangePicker,
@@ -83,14 +84,16 @@ const App = () => {
   return (
     <Panel>
       <HStack spacing={20}>
-        <RadioGroup appearance="picker" inline value={status} onChange={setStatus}>
-          <label>Change status</label>
-          <Radio value="normal">normal</Radio>
-          <Radio value="readonly">readonly</Radio>
-          <Radio value="disabled">disabled</Radio>
-          <Radio value="plaintext">plaintext</Radio>
-        </RadioGroup>
-
+        <SegmentedControl
+          data={[
+            { value: 'normal', label: 'normal' },
+            { value: 'readonly', label: 'readonly' },
+            { value: 'disabled', label: 'disabled' },
+            { value: 'plaintext', label: 'plaintext' }
+          ]}
+          value={status}
+          onChange={setStatus}
+        />
         <ButtonToolbar>
           <Button onClick={() => setFormValue(defaultFormValue)}>Clear form data</Button>
           <Button onClick={() => setFormValue(initFormValue)}>Reset</Button>

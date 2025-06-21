@@ -20,7 +20,10 @@
 
 ### 背景板
 
-当设置为 `true`，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static'
+控制 Modal 背景板的行为：
+- `true`：显示背景，点击背景会关闭 Modal
+- `false`：不显示背景
+- `'static'`：显示背景，但点击背景不会关闭 Modal
 
 <!--{include:`backdrop.md`}-->
 

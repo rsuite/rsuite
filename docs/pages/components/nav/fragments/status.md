@@ -15,7 +15,6 @@ const App = () => {
           { value: 'default', label: 'Default' },
           { value: 'tabs', label: 'Tabs' },
           { value: 'subtle', label: 'Subtle' },
-          { value: 'pills', label: 'Pills' }
         ]}
         value={appearance}
         onChange={setAppearance}

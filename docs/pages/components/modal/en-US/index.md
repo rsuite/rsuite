@@ -20,7 +20,10 @@ A modal dialog box component for message prompts, acknowledgement messages, and 
 
 ### Backdrop
 
-When set to `true`, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'.
+Control the behavior of the Modal's backdrop:
+- `true`: Show backdrop, and clicking it will close the Modal
+- `false`: Do not show backdrop
+- `'static'`: Show backdrop, but clicking it will not close the Modal
 
 <!--{include:`backdrop.md`}-->
 
