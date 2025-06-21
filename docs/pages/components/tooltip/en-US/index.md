@@ -6,8 +6,8 @@ A text tip for secondary, which replaces the default title property of an HTML e
 
 <!--{include:<import-guide>}-->
 
-- `<Tooltip>` Text tip.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
+- `Tooltip` Text tip.
+- `Whisper` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Examples
 

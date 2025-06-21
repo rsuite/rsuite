@@ -7,9 +7,9 @@ import Avatar from '../../Avatar';
 import Stack from '../../Stack';
 import Accordion from '../';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Avatar/styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Avatar/styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Accordion);
 

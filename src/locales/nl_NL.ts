@@ -1,4 +1,4 @@
-import nl from 'date-fns/locale/nl';
+import { nl } from 'date-fns/locale/nl';
 
 const DateTimeFormats = {
   sunday: 'Zo',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Open',
     off: 'Sluit'
+  },
+  Dialog: {
+    alert: 'Waarschuwing',
+    confirm: 'Bevestigen',
+    ok: 'OK',
+    cancel: 'Annuleren'
   }
 };

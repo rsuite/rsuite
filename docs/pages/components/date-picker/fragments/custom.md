@@ -2,8 +2,8 @@
 
 ```js
 import { DatePicker, Stack } from 'rsuite';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
+import { addDays } from 'date-fns/addDays';
+import { subDays } from 'date-fns/subDays';
 
 const predefinedBottomRanges = [
   {
@@ -44,7 +44,7 @@ const App = () => (
     <DatePicker
       ranges={predefinedBottomRanges}
       placeholder="Placement defaults to bottom"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}
@@ -52,7 +52,7 @@ const App = () => (
     <DatePicker
       ranges={predefinedRanges}
       placeholder="Placement mixed"
-      style={{ width: 300 }}
+      w={300}
       onShortcutClick={(shortcut, event) => {
         console.log(shortcut);
       }}

@@ -9,15 +9,19 @@ import {
   RadioGroup,
   Slider,
   SelectPicker,
+  Box,
+  Text,
   useMediaQuery
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 const inDocsComponents = {
   'import-guide': () => (
     <ImportGuide components={['Stack', 'HStack', 'VStack']} hasCssComponents={['Stack']} />
-  )
+  ),
+  'example-responsive': () => <Simulation example="responsive" componentName="stack" />
 };
 
 export default function Page() {
@@ -33,6 +37,8 @@ export default function Page() {
         Radio,
         RadioGroup,
         Slider,
+        Box,
+        Text,
         SelectPicker,
         useMediaQuery
       }}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { RadioGroup, Button, Radio } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { RadioGroup, Button, Radio, HStack, VStack, Text, Divider } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -9,6 +9,9 @@ const inDocsComponents = {
 
 export default function Page() {
   return (
-    <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ RadioGroup, Button, Radio }} />
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{ RadioGroup, Button, Radio, HStack, VStack, Text, Divider }}
+    />
   );
 }

@@ -3,8 +3,8 @@ import Icon from '@rsuite/icons/Icon';
 import InputGroup from '../../InputGroup';
 import CloseButton from '../CloseButton';
 import Loader from '../../Loader';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../../CustomProvider';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { Size } from '@/internals/types';
 
 interface PickerIndicatorProps {
   loading?: boolean;
@@ -12,6 +12,7 @@ interface PickerIndicatorProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
   showCleanButton?: boolean;
   disabled?: boolean;
+  size?: Size;
   as?: React.ElementType;
 }
 
@@ -21,15 +22,22 @@ const PickerIndicator = ({
   onClose,
   showCleanButton,
   as: Component = InputGroup.Addon,
-  disabled
+  disabled,
+  size
 }: PickerIndicatorProps) => {
   const { getLocale } = useCustom();
   const { clear } = getLocale('common');
-  const { prefix } = useClassNames('picker');
+  const { prefix } = useStyles('picker');
 
   const addon = () => {
     if (loading) {
-      return <Loader className={prefix('loader')} data-testid="spinner" />;
+      return (
+        <Loader
+          className={prefix('loader')}
+          data-testid="spinner"
+          size={size === 'xs' ? 'xs' : 'sm'}
+        />
+      );
     }
     if (showCleanButton && !disabled) {
       return (

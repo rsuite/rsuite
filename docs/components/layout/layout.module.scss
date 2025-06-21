@@ -1,0 +1,67 @@
+@use '../../styles/variables' as vars;
+
+// App container and page context
+.app-container {
+  padding: 0 !important;
+
+  .page-context {
+    transition: margin 0.3s ease-in-out;
+
+    @media (max-width: vars.$screen-md) {
+      margin-inline-start: 0 !important;
+      padding: 15px;
+    }
+
+    @media (min-width: vars.$screen-md) {
+      margin-inline-start: var(--page-context-margin-inline-start);
+    }
+  }
+
+  .submenu-close {
+    :global(.rs-nav) {
+      display: none;
+    }
+  }
+
+  .footer {
+    padding-block: 2rem;
+    padding-inline: 3.125rem;
+
+    @media (max-width: vars.$screen-md) {
+      padding-inline: var(--rs-spacing);
+    }
+
+    .logo {
+      margin-inline-start: -10px;
+    }
+
+    .link {
+      color: var(--rs-gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: block;
+      margin-bottom: 8px;
+
+      &:hover {
+        color: var(--rs-primary-color);
+        text-decoration: none;
+      }
+    }
+
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .description {
+      color: var(--rs-gray-600);
+      max-width: 400px;
+    }
+
+    .divider {
+      margin-block: 1.25rem;
+    }
+  }
+}

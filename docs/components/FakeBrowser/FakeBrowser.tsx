@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { TiArrowUnsorted } from 'react-icons/ti';
+import styles from './FakeBrowser.module.scss';
 
 interface FakeBrowserProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -27,20 +28,23 @@ function FakeBrowser(props: FakeBrowserProps) {
 
   return (
     <div
-      className={classNames('fake-browser', className)}
+      className={classNames(styles['fake-browser'], className)}
       style={{ width, height, ...style }}
       ref={browserRef}
       {...rest}
     >
-      <div className="fake-browser-header">
-        <button className="fake-browser-header-button red" />
-        <button className="fake-browser-header-button yellow" />
-        <button className="fake-browser-header-button green" onClick={toggleFullscreen}>
-          <TiArrowUnsorted className="fake-browser-header-button-icon" />
+      <div className={styles['fake-browser-header']}>
+        <button className={classNames(styles['fake-browser-header-button'], styles['red'])} />
+        <button className={classNames(styles['fake-browser-header-button'], styles['yellow'])} />
+        <button
+          className={classNames(styles['fake-browser-header-button'], styles['green'])}
+          onClick={toggleFullscreen}
+        >
+          <TiArrowUnsorted className={styles['fake-browser-header-button-icon']} />
         </button>
       </div>
 
-      <div className="fake-browser-content">{children}</div>
+      <div className={styles['fake-browser-content']}>{children}</div>
     </div>
   );
 }

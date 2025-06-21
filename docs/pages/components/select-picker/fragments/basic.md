@@ -9,13 +9,8 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <VStack>
-    <SelectPicker data={data} style={{ width: 224 }} />
-    <SelectPicker
-      data={data}
-      searchable={false}
-      style={{ width: 224 }}
-      placeholder="Select without search"
-    />
+    <SelectPicker data={data} w={224} />
+    <SelectPicker data={data} searchable={false} w={224} placeholder="Select without search" />
   </VStack>
 );
 

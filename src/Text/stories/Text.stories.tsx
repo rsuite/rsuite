@@ -3,8 +3,8 @@ import type { StoryObj } from '@storybook/react';
 import Text, { TextProps } from '../Text';
 import Stack from '../../Stack';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Text);
 

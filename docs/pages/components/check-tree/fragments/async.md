@@ -24,7 +24,7 @@ const App = () => {
     <CheckTree
       data={data}
       value={value}
-      style={{ width: 280 }}
+      w={280}
       onChange={value => setValue(value)}
       getChildren={fetchNodes}
       renderTreeNode={node => {

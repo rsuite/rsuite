@@ -39,7 +39,7 @@
 | activePage \* | number `(1)`                                            | 当前页码                                             |
 | boundaryLinks | boolean                                                 | 显示边界分页按钮 1 和 pages                          |
 | classPrefix   | string `('pagination-group')`                           | 组件 CSS 类的前缀                                    |
-| disabled      | boolean &#124; (eventKey: number) => boolean            | 禁用分页                                             |
+| disabled      | boolean \| (eventKey: number) => boolean                | 禁用分页                                             |
 | ellipsis      | boolean                                                 | 显示省略符                                           |
 | first         | boolean                                                 | 显示第一页                                           |
 | last          | boolean                                                 | 显示最后一页                                         |
@@ -54,6 +54,7 @@
 | onChangeLimit | (limit:number) => void;                                 | 每页显示的条数改变的回调                             |
 | onChangePage  | (page:number) => void;                                  | 页码改变的回调                                       |
 | prev          | boolean                                                 | 显示上一页                                           |
+| size          | 'lg' \| 'md' \| 'sm' \| 'xs' `('sm')`                   | 分页组件的尺寸                                       |
 | total \*      | number                                                  | 数据总数。一般通过服务端得到                         |
 
 ### `ts:LayoutType`

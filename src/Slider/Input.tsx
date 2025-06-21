@@ -1,4 +1,5 @@
 import React from 'react';
+import { mergeStyles } from '@/internals/utils';
 
 const rangeStyles: React.CSSProperties = {
   position: 'absolute',
@@ -11,7 +12,9 @@ const rangeStyles: React.CSSProperties = {
 const Input = React.forwardRef(
   (props: React.InputHTMLAttributes<HTMLInputElement>, ref: React.Ref<HTMLInputElement>) => {
     const { style, ...rest } = props;
-    return <input type="range" readOnly ref={ref} style={{ ...rangeStyles, ...style }} {...rest} />;
+    return (
+      <input type="range" readOnly ref={ref} style={mergeStyles(rangeStyles, style)} {...rest} />
+    );
   }
 );
 

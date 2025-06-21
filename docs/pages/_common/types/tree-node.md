@@ -6,7 +6,7 @@ interface TreeNode {
   value: string | number;
 
   /** The content displayed by the option corresponds to the `labelKey` in the data. **/
-  label: React.ReactNode;
+  label: ReactNode;
 
   /** The data of the child option corresponds to the `childrenKey` in the data. */
   children?: TreeNode[];

@@ -1,0 +1,11 @@
+@mixin input-touchspin($size) {
+  $size-name: 'input-height-#{$size}';
+  $height: ((var(--rs-#{$size-name}) - 2px) / 2);
+
+  height: $height;
+
+  > .rs-icon {
+    height: $height;
+    color: var(--rs-text-secondary);
+  }
+}

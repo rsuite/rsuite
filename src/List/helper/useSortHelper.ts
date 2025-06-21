@@ -53,7 +53,7 @@ const useSortHelper = (config: SortConfig) => {
     config;
   const [sorting, setSorting] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pressTimer = useRef<any>();
+  const pressTimer = useRef<any>(null);
   const { listItemRegister, getManagedItem, getOrderedItems } = useManager();
   const isMounted = useIsMounted();
 
@@ -98,7 +98,7 @@ const useSortHelper = (config: SortConfig) => {
         position: 'fixed',
         width: `${activeNodeBoundingClientRect.width}px`,
         height: `${activeNodeBoundingClientRect.height}px`,
-        left: `${activeNodeBoundingClientRect.left - parseFloat(activeNodeStyle.marginLeft)}px`,
+        insetInlineStart: `${activeNodeBoundingClientRect.left - parseFloat(activeNodeStyle.marginInlineStart)}px`,
         top: `${activeNodeBoundingClientRect.top - parseFloat(activeNodeStyle.marginTop)}px`
       });
       activeNode.classList.add(holderElementClass);

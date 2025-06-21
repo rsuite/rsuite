@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(PanelGroup);
 

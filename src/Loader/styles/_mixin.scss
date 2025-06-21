@@ -1,0 +1,37 @@
+@use 'sass:map';
+
+// Loader size mixin
+@mixin loader-size($side) {
+  width: $side;
+  height: $side;
+
+  &::before,
+  &::after {
+    width: $side;
+    height: $side;
+  }
+}
+
+// Loader spin animation mixin
+@mixin loader-spin {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    display: block;
+    border-radius: var(--rs-radius-full);
+  }
+
+  &::before {
+    border: var(--rs-loader-spin-ring-width) solid var(--rs-loader-ring);
+  }
+
+  &::after {
+    border-width: var(--rs-loader-spin-ring-width);
+    border-style: solid;
+    border-color: var(--rs-loader-rotor) transparent transparent;
+    animation: loaderSpin var(--rs-loader-duration-normal) infinite linear;
+  }
+}

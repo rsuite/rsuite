@@ -1,7 +1,7 @@
 import React from 'react';
-import { expectType } from 'ts-expect';
-import { PickerHandle } from '@/internals/Picker';
 import SelectPicker from '../SelectPicker';
+import { expectType } from 'ts-expect';
+import type { PickerHandle } from '@/internals/Picker';
 
 // Infer value and onChange types from data
 const numberValuedData = [{ label: 'One', value: 1 }];
@@ -58,11 +58,16 @@ type SortDirection = 'asc' | 'desc';
 // Override the default value of listProps.
 <SelectPicker data={[]} virtualized listProps={{ rowHeight: 70 }} />;
 
+// Check ref type
+const ref = React.useRef<PickerHandle>(null);
+<SelectPicker data={[]} ref={ref} />;
+ref.current?.open?.();
 interface Item<T> {
   label?: React.ReactNode;
   value?: T;
 }
 
+// Check renderValue
 <SelectPicker
   data={[]}
   renderValue={(value: string, item: Item<string>) => {

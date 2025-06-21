@@ -1,15 +1,12 @@
 <!--start-code-->
 
 ```js
-import { Slider } from 'rsuite';
+import { Slider, Box } from 'rsuite';
 
 const App = () => (
-  <div style={{ padding: 20 }}>
-    <Slider defaultValue={50} min={10} step={10} max={100} graduated />
-
-    <br />
+  <Box p={20}>
     <Slider defaultValue={50} min={10} step={10} max={100} graduated progress />
-    <br />
+    <hr />
     <Slider
       defaultValue={50}
       min={10}
@@ -21,23 +18,7 @@ const App = () => (
         return mark;
       }}
     />
-    <br />
-
-    <Slider
-      defaultValue={50}
-      step={64}
-      graduated
-      progress
-      min={64}
-      max={1024}
-      renderMark={mark => {
-        if ([64, 128, 256, 512, 1024].includes(mark)) {
-          return <span>{mark} GB</span>;
-        }
-        return null;
-      }}
-    />
-  </div>
+  </Box>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

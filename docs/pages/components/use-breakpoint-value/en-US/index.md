@@ -1,8 +1,6 @@
-# useBreakpointValue 🧪
+# useBreakpointValue
 
 A React Hook that returns different values based on different screen sizes in responsive design.
-
-> ⚠️ This API is still in the experimental stage and may be subject to change.
 
 ## Import
 
@@ -12,11 +10,11 @@ A React Hook that returns different values based on different screen sizes in re
 
 ### Responsive avatar size
 
-<!--{include:`basic.md`}-->
+<!--{include:<responsive-avatar>}-->
 
 ### Responsive stack direction
 
-<!--{include:`stack.md`}-->
+<!--{include:<responsive-stack>}-->
 
 ## API
 

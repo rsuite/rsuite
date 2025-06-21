@@ -45,10 +45,10 @@ const App = () => {
     }
   };
 
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     return (
       <>
-        {menu}
+        {listbox}
         {loading && <FixedLoader />}
       </>
     );
@@ -57,9 +57,9 @@ const App = () => {
   return (
     <SelectPicker
       data={data}
-      style={{ width: 224 }}
+      w={224}
       virtualized
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
       listProps={{
         onItemsRendered
       }}

@@ -18,11 +18,11 @@ const App = () => (
       virtualized
       defaultExpandAll
       data={data}
-      style={{ width: 246 }}
+      w={246}
       renderExtraFooter={() => (
         <div
           style={{
-            padding: 10,
+            padding: 12,
             borderTop: '1px solid #e5e5e5'
           }}
         >

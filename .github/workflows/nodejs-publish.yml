@@ -21,7 +21,7 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: npm install
+        run: npm i --legacy-peer-deps
       - name: Build
         run: npm run build
       - name: Publish

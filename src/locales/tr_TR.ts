@@ -1,4 +1,4 @@
-import tr from 'date-fns/locale/tr';
+import { tr } from 'date-fns/locale/tr';
 
 const DateTimeFormats = {
   sunday: 'Pz',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Açık',
     off: 'Kapalı'
+  },
+  Dialog: {
+    alert: 'Uyarı',
+    confirm: 'Onayla',
+    ok: 'Tamam',
+    cancel: 'İptal'
   }
 };

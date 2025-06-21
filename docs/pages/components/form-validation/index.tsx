@@ -1,6 +1,6 @@
 import React from 'react';
 import loadable from '@loadable/component';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import {
   Form,
   Button,
@@ -10,9 +10,11 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
+  SegmentedControl,
   CheckPicker,
-  InputNumber,
+  useFormControl,
+  NumberInput,
+  PasswordInput,
   Panel,
   SelectPicker,
   Slider,
@@ -21,15 +23,24 @@ import {
   Message,
   Uploader,
   toaster,
-  FlexboxGrid,
   IconButton,
-  Toggle
+  Toggle,
+  Box,
+  Row,
+  Col
 } from 'rsuite';
+import {
+  SchemaModel,
+  StringType,
+  ObjectType,
+  NumberType,
+  ArrayType,
+  BooleanType
+} from 'rsuite/Schema';
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
-import files from './files';
-import { JSONTree } from 'react-json-tree';
+import { JSONView } from '@/components/JSONView';
 
 const Select = loadable(() => import('react-select'));
 
@@ -42,10 +53,16 @@ export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Schema,
+        SchemaModel,
+        StringType,
+        ObjectType,
+        NumberType,
+        ArrayType,
+        BooleanType,
+        JSONView,
         Form,
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -53,24 +70,27 @@ export default function Page() {
         CheckPicker,
         SelectPicker,
         RadioGroup,
+        SegmentedControl,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
-        JSONTree,
         Select,
         Slider,
         DatePicker,
         Message,
         toaster,
         Uploader,
-        FlexboxGrid,
+        Row,
+        Col,
         IconButton,
         PlusIcon,
         MinusIcon,
-        Toggle
+        Toggle,
+        Box,
+        useFormControl
       }}
       sandboxDependencies={sandboxDependencies}
-      sandboxFiles={files}
     />
   );
 }

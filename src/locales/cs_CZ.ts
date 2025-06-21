@@ -1,4 +1,4 @@
-import cs from 'date-fns/locale/cs';
+import { cs } from 'date-fns/locale/cs';
 
 const DateTimeFormats = {
   sunday: 'Ne',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Otevřít',
     off: 'Zavřít'
+  },
+  Dialog: {
+    alert: 'Upozornění',
+    confirm: 'Potvrdit',
+    ok: 'OK',
+    cancel: 'Zrušit'
   }
 };

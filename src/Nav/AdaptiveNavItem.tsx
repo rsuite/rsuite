@@ -1,22 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import NavItem, { NavItemProps } from './NavItem';
-import { useInternalId } from '@/internals/hooks';
-import { NavbarContext } from '../Navbar/Navbar';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import NavContext from './NavContext';
-import { NavMenuActionType, NavMenuContext } from './NavMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
-import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import NavbarItem from '../Navbar/NavbarItem';
+import NavContext from './NavContext';
+import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import SidenavItem from '../Sidenav/SidenavItem';
+import { forwardRef } from '@/internals/utils';
+import { useInternalId } from '@/internals/hooks';
+import { NavbarContext } from '../Navbar/NavbarContext';
+import { SidenavContext } from '../Sidenav/SidenavContext';
+import { NavMenuActionType, NavMenuContext } from './NavMenu';
 
 /**
  * The <Nav.Item> API
  * When used as direct child of <Nav>, render the NavItem
  * When used within a <Nav.Menu>, render the NavDropdownItem
  */
-const AdaptiveNavItem = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
+const AdaptiveNavItem = forwardRef<'a', NavItemProps>((props, ref) => {
   const nav = useContext(NavContext);
 
   if (!nav) {
@@ -53,23 +54,23 @@ const AdaptiveNavItem = React.forwardRef((props: NavItemProps, ref: React.Ref<an
   }, [dispatch, _id, props.eventKey, props.active]);
 
   if (parentNavMenu) {
-    if (navbar) {
-      return <NavbarDropdownItem ref={ref} {...props} />;
-    }
-
     if (sidenav) {
       return <SidenavDropdownItem ref={ref} {...props} />;
+    }
+
+    if (navbar) {
+      return <NavbarDropdownItem ref={ref} {...props} />;
     }
 
     return <NavDropdownItem ref={ref} {...props} />;
   }
 
-  if (navbar) {
-    return <NavbarItem ref={ref} {...props} />;
-  }
-
   if (sidenav) {
     return <SidenavItem ref={ref} {...props} />;
+  }
+
+  if (navbar) {
+    return <NavbarItem ref={ref} {...props} />;
   }
 
   return <NavItem ref={ref} {...props} />;

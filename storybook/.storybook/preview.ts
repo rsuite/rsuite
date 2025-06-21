@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
-import './preview.less';
+import './preview.scss';
 
 const brand = {
   brandTitle: 'React Suite',

@@ -1,0 +1,39 @@
+// Small screen / phone
+// $screen-sm
+$screen-sm: 576px;
+
+// Medium screen / desktop
+// $screen-md
+$screen-md: 768px;
+
+// Large screen / wide desktop
+// $screen-lg
+$screen-lg: 992px;
+
+// Extra large devices / extra wide desktop
+// $screen-xl
+$screen-xl: 1200px;
+
+// Extra extra large devices / ultra wide desktop
+// $screen-xxl
+$screen-xxl: 1400px;
+
+
+// Layout dimensions
+$scrollbar-width: 10px;
+$main-nav-height: 48px;
+
+
+$doc-highlight-bg: #282c34;
+$code-view-wrapper-border-color: #f1f1f1;
+$code-view-wrapper-bg: var(--rs-bg-card);
+
+
+// Root variables
+:root {
+  --font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    monospace;
+  --page-context-margin-inline-start: 324px;
+}
+
+

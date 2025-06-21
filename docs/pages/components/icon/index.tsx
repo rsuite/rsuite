@@ -1,5 +1,5 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import { IconButton, HStack } from 'rsuite';
 import Icon from '@rsuite/icons/Icon';
 import createIconFont from '@rsuite/icons/createIconFont';
@@ -24,7 +24,8 @@ const sandboxDependencies = {
 const installCommands = {
   npm: 'npm i @rsuite/icons',
   yarn: 'yarn add @rsuite/icons',
-  pnpm: 'pnpm add @rsuite/icons'
+  pnpm: 'pnpm add @rsuite/icons',
+  bun: 'bun add @rsuite/icons'
 };
 
 const inDocsComponents = {

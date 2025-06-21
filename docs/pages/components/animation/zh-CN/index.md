@@ -6,11 +6,11 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Animation.Fade>` 淡入淡出过渡效果。
-- `<Animation.Collapse>` 折叠过渡效果。
-- `<Animation.Bounce>`弹入弹出过渡效果。
-- `<Animation.Slide>` 滑入滑出过渡效果。
-- `<Animation.Transition>` 自定义一个过渡效果。
+- `Animation.Fade` 淡入淡出过渡效果。
+- `Animation.Collapse` 折叠过渡效果。
+- `Animation.Bounce`弹入弹出过渡效果。
+- `Animation.Slide` 滑入滑出过渡效果。
+- `Animation.Transition` 自定义一个过渡效果。
 
 ## 演示
 
@@ -44,8 +44,6 @@ enteringClassName="custom-entering"
 <!--{include:`transition.md`}-->
 
 ## Props
-
-<!--{include:(_common/types/placement4.md)}-->
 
 ### `<Animation.Fade>`
 
@@ -145,3 +143,5 @@ enteringClassName="custom-entering"
 | timeout           | number `(1000)`                      | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |
+
+<!--{include:(_common/types/placement4.md)}-->

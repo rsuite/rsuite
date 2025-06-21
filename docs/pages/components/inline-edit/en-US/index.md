@@ -65,7 +65,7 @@ InlineEdit can wrap any data input component, including custom input components.
 | size         | `'lg'` \| `'md'` \| `'sm'` \| `'xs'`                            | The size of the InlineEdit.                                                       |
 | stateOnBlur  | `'save'` \| `'cancel'`                                          | The state of the InlineEdit when it is blurred.                                   |
 | onChange     | (value: any, event: ChangeEvent) => void                        | The callback function that is called when the value of the InlineEdit is changed. |
-| onCancel     | (event?: SyntheticEvent) => void                                | The callback function that is called when the InlineEdit is canceled.             |
-| onSave       | (event?: SyntheticEvent) => void                                | The callback function that is called when the InlineEdit is saved.                |
-| onEdit       | (event: SyntheticEvent) => void                                 | The callback function that is called when the InlineEdit is clicked.              |
+| onCancel     | (event) => void                                                 | The callback function that is called when the InlineEdit is canceled.             |
+| onSave       | (event) => void                                                 | The callback function that is called when the InlineEdit is saved.                |
+| onEdit       | (event) => void                                                 | The callback function that is called when the InlineEdit is clicked.              |
 | children     | ReactNode \| (props: ChildrenProps, ref: Ref<any>) => ReactNode | The render function of the InlineEdit.                                            |

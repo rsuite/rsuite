@@ -1,21 +1,31 @@
 import React, { useRef } from 'react';
 import SelectPicker, { type SelectPickerProps } from '../SelectPicker';
+import { forwardRef, mergeRefs, tplTransform } from '@/internals/utils';
 import { PaginationLocale } from '../locales';
-import { tplTransform } from '@/internals/utils';
-import { OnChangeCallback, TypeAttributes } from '@/internals/types';
+import type { OnChangeCallback, BasicSize } from '@/internals/types';
 
 interface LimitPickerProps extends Omit<SelectPickerProps<any>, 'locale' | 'disabled' | 'data'> {
   disabled?: boolean | ((eventKey: number | string) => boolean);
   limitOptions: number[];
   locale: PaginationLocale;
   limit: number;
-  size?: TypeAttributes.Size;
+  size?: BasicSize;
   prefix: (input: string) => string;
   onChangeLimit: OnChangeCallback<any>;
 }
 
-const LimitPicker = (props: LimitPickerProps) => {
-  const { disabled, limitOptions, locale, limit, onChangeLimit, size, prefix, ...rest } = props;
+const LimitPicker = forwardRef<'div', LimitPickerProps>((props, ref) => {
+  const {
+    as: Component = 'div',
+    disabled,
+    limitOptions,
+    locale,
+    limit,
+    onChangeLimit,
+    size,
+    prefix,
+    ...rest
+  } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const disabledPicker = typeof disabled === 'function' ? disabled('picker') : Boolean(disabled);
   const formatlimitOptions = limitOptions.map(item => {
@@ -26,7 +36,7 @@ const LimitPicker = (props: LimitPickerProps) => {
   });
 
   return (
-    <div className={prefix('limit')} ref={containerRef}>
+    <Component className={prefix('limit')} ref={mergeRefs(containerRef, ref)}>
       <SelectPicker
         {...rest}
         size={size}
@@ -36,12 +46,12 @@ const LimitPicker = (props: LimitPickerProps) => {
         data={formatlimitOptions}
         value={limit}
         onChange={onChangeLimit}
-        menuStyle={{ minWidth: 'auto' }}
+        popupStyle={{ minWidth: 'auto' }}
         disabled={disabledPicker}
         container={() => containerRef.current as HTMLDivElement}
       />
-    </div>
+    </Component>
   );
-};
+});
 
 export default LimitPicker;

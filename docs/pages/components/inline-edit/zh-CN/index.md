@@ -61,7 +61,7 @@ InlineEdit 可以包裹任何数据输入组件，包括自定义输入组件。
 | size         | `'lg'` \| `'md'` \| `'sm'` \| `'xs'`                            | `InlineEdit` 的大小。                     |
 | stateOnBlur  | `'save'` \| `'cancel'`                                          | 当失焦时，`InlineEdit` 的状态。           |
 | onChange     | (value: any, event: ChangeEvent) => void                        | `InlineEdit` 的值发生变化时的回调函数。   |
-| onCancel     | (event?: SyntheticEvent) => void                                | 当 `InlineEdit` 被取消时的回调函数。      |
-| onSave       | (event?: SyntheticEvent) => void                                | 当 `InlineEdit` 被保存时的回调函数。      |
-| onEdit       | (event: SyntheticEvent) => void                                 | 当 `InlineEdit` 被点击时的回调函数。      |
+| onCancel     | (event) => void                                                 | 当 `InlineEdit` 被取消时的回调函数。      |
+| onSave       | (event) => void                                                 | 当 `InlineEdit` 被保存时的回调函数。      |
+| onEdit       | (event) => void                                                 | 当 `InlineEdit` 被点击时的回调函数。      |
 | children     | ReactNode \| (props: ChildrenProps, ref: Ref<any>) => ReactNode | `InlineEdit` 的渲染函数。                 |

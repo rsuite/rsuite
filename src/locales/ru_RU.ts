@@ -1,4 +1,4 @@
-import ru from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale/ru';
 
 const DateTimeFormats = {
   sunday: 'Вс',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Вкл',
     off: 'Выкл'
+  },
+  Dialog: {
+    alert: 'Предупреждение',
+    confirm: 'Подтвердить',
+    ok: 'OK',
+    cancel: 'Отмена'
   }
 };

@@ -10,12 +10,12 @@ const App = () => (
       console.log('call onExpand');
     }}
   >
-    <Breadcrumb.Item>Item A</Breadcrumb.Item>
-    <Breadcrumb.Item>Item B</Breadcrumb.Item>
-    <Breadcrumb.Item>Item C</Breadcrumb.Item>
-    <Breadcrumb.Item>Item D</Breadcrumb.Item>
-    <Breadcrumb.Item>Item E</Breadcrumb.Item>
-    <Breadcrumb.Item>Item F</Breadcrumb.Item>
+    <Breadcrumb.Item>Home</Breadcrumb.Item>
+    <Breadcrumb.Item>Library</Breadcrumb.Item>
+    <Breadcrumb.Item>Data</Breadcrumb.Item>
+    <Breadcrumb.Item>Computer Science</Breadcrumb.Item>
+    <Breadcrumb.Item>Programming Languages</Breadcrumb.Item>
+    <Breadcrumb.Item>JavaScript</Breadcrumb.Item>
   </Breadcrumb>
 );
 
