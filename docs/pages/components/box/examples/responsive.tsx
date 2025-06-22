@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client';
 
 import React from 'react';
@@ -8,23 +7,18 @@ const App = () => {
   return (
     <Box p={20}>
       <Box
-        // @ts-ignore
         rounded={{
           xs: 2,
           md: 4,
           lg: 6
         }}
-        // @ts-ignore
         bg={{
           xs: 'linear-gradient(45deg, #4CAF50, #2196F3)',
           md: '#4CAF50',
           lg: '#2196F3'
         }}
-        // @ts-ignore
         w={{ xs: '100%', md: '80%', lg: '60%' }}
-        // @ts-ignore
         p={{ xs: '10px', md: '20px' }}
-        // @ts-ignore
         display={{ xs: 'flex', md: 'block' }}
       >
         <Text align="center" color="white">
