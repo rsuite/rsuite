@@ -3,12 +3,12 @@ import Box from '../Box';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-import StyleManager from '@/internals/utils/style-sheet/style-manager';
+import { StyleManager } from '@/internals/utils/style-sheet/style-manager';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 
 // Mock StyleManager
 vi.mock('@/internals/utils/style-sheet/style-manager', () => ({
-  default: {
+  StyleManager: {
     addRule: vi.fn(),
     removeRule: vi.fn()
   }
