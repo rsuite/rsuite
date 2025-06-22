@@ -26,6 +26,18 @@ Box component is the base component for all components, providing shorthand for 
 
 ## Responsive
 
+Box component supports responsive values for all shorthand CSS properties. This allows you to define different styles for different breakpoints.
+
+```jsx
+<Box
+  w={{ xs: '100%', md: '80%', lg: '60%' }}
+  p={{ xs: '10px', md: '20px' }}
+  display={{ xs: 'block', md: 'flex' }}
+>
+  This box has responsive width, padding and display
+</Box>
+```
+
 <!--{include:<example-responsive>}-->
 
 ## Props
@@ -45,33 +57,38 @@ Box component is the base component for all components, providing shorthand for 
 
 ### `Style Shorthand`
 
-| Property | Type`(default)`                                            | Description                                                           |
-| -------- | ---------------------------------------------------------- | --------------------------------------------------------------------- |
-| bd       | CSSProperties['border']                                    | CSS border property for the box                                       |
-| bg       | [ColorScheme][color-scheme] \| CSSProperties['background'] | Background color of the box. Supports theme colors (e.g., 'blue.600') |
-| c        | [ColorScheme][color-scheme] \| CSSProperties['color']      | Text color of the box. Supports theme colors (e.g., 'blue.600')       |
-| h        | CSSProperties['height']                                    | Height of the box                                                     |
-| m        | CSSProperties['margin']                                    | Margin on all sides                                                   |
-| maxh     | CSSProperties['maxHeight']                                 | Maximum height of the box                                             |
-| maxw     | CSSProperties['maxWidth']                                  | Maximum width of the box                                              |
-| mb       | CSSProperties['marginBottom']                              | Margin bottom                                                         |
-| minh     | CSSProperties['minHeight']                                 | Minimum height of the box                                             |
-| minw     | CSSProperties['minWidth']                                  | Minimum width of the box                                              |
-| ml       | CSSProperties['marginLeft']                                | Margin left                                                           |
-| mr       | CSSProperties['marginRight']                               | Margin right                                                          |
-| mt       | CSSProperties['marginTop']                                 | Margin top                                                            |
-| mx       | CSSProperties['marginInline']                              | Margin on left and right sides                                        |
-| my       | CSSProperties['marginBlock']                               | Margin on top and bottom sides                                        |
-| p        | CSSProperties['padding']                                   | Padding on all sides                                                  |
-| pb       | CSSProperties['paddingBottom']                             | Padding bottom                                                        |
-| pl       | CSSProperties['paddingLeft']                               | Padding left                                                          |
-| pr       | CSSProperties['paddingRight']                              | Padding right                                                         |
-| pt       | CSSProperties['paddingTop']                                | Padding top                                                           |
-| px       | CSSProperties['paddingInline']                             | Padding on left and right sides                                       |
-| py       | CSSProperties['paddingBlock']                              | Padding on top and bottom sides                                       |
-| rounded  | [Size][size] \| CSSProperties['borderRadius']              | Border radius of the box                                              |
-| shadow   | [Size][size] \| CSSProperties['boxShadow']                 | Box shadow                                                            |
-| w        | CSSProperties['width']                                     | Width of the box                                                      |
+The Box component provides a series of shorthand properties for more concise style settings. These properties directly map to their corresponding CSS properties.
+
+- **Theme Values**: Provided theme presets, such as `bg='blue.600'`, `rounded='lg'`, etc.
+- **Responsive Values**: Provided responsive values, such as `w={{ xs: '100%', md: '80%', lg: '60%' }}`, etc.
+
+| Property | CSS Property  | Theme Values                |
+| -------- | ------------- | --------------------------- |
+| bd       | border        | -                           |
+| bg       | background    | [ColorScheme][color-scheme] |
+| c        | color         | [ColorScheme][color-scheme] |
+| h        | height        | -                           |
+| m        | margin        | -                           |
+| maxh     | maxHeight     | -                           |
+| maxw     | maxWidth      | -                           |
+| mb       | marginBottom  | -                           |
+| minh     | minHeight     | -                           |
+| minw     | minWidth      | -                           |
+| ml       | marginLeft    | -                           |
+| mr       | marginRight   | -                           |
+| mt       | marginTop     | -                           |
+| mx       | marginInline  | -                           |
+| my       | marginBlock   | -                           |
+| p        | padding       | -                           |
+| pb       | paddingBottom | -                           |
+| pl       | paddingLeft   | -                           |
+| pr       | paddingRight  | -                           |
+| pt       | paddingTop    | -                           |
+| px       | paddingInline | -                           |
+| py       | paddingBlock  | -                           |
+| rounded  | borderRadius  | [Size][size]                |
+| shadow   | boxShadow     | [Size][size]                |
+| w        | width         | -                           |
 
 <!--{include:(_common/types/breakpoints.md)}-->
 

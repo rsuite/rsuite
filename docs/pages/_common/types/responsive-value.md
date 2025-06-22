@@ -1,4 +1,4 @@
-### `ts:ResponsiveValue`
+#### `ts:ResponsiveValue`
 
 ```ts
 type ResponsiveValue<T> = {

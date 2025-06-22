@@ -24,6 +24,22 @@ Box 组件是所有组件的基础组件，为样式属性提供了简写方式�
 
 <!--{include:`shadow.md`}-->
 
+## 响应式
+
+Box 组件支持所有简写 CSS 属性的响应式值。这允许你为不同的断点定义不同的样式。
+
+```jsx
+<Box
+  w={{ xs: '100%', md: '80%', lg: '60%' }}
+  p={{ xs: '10px', md: '20px' }}
+  display={{ xs: 'block', md: 'flex' }}
+>
+  这个 Box 组件有响应式宽度、内边距和显示
+</Box>
+```
+
+<!--{include:<example-responsive>}-->
+
 ## Props
 
 ### `<Box>`
@@ -41,33 +57,40 @@ Box 组件是所有组件的基础组件，为样式属性提供了简写方式�
 
 ### `Style Shorthand`
 
-| 属性    | 类型                                                       | 描述                                             |
-| ------- | ---------------------------------------------------------- | ------------------------------------------------ |
-| bd      | CSSProperties['border']                                    | 盒子的 CSS 边框属性                              |
-| bg      | [ColorScheme][color-scheme] \| CSSProperties['background'] | 盒子的背景颜色。支持主题颜色（例如：'blue.600'） |
-| c       | [ColorScheme][color-scheme] \| CSSProperties['color']      | 文本颜色。支持主题颜色（例如：'blue.600'）       |
-| h       | CSSProperties['height']                                    | 盒子的高度                                       |
-| m       | CSSProperties['margin']                                    | 四周外边距                                       |
-| maxh    | CSSProperties['maxHeight']                                 | 盒子的最大高度                                   |
-| maxw    | CSSProperties['maxWidth']                                  | 盒子的最大宽度                                   |
-| mb      | CSSProperties['marginBottom']                              | 底部外边距                                       |
-| minh    | CSSProperties['minHeight']                                 | 盒子的最小高度                                   |
-| minw    | CSSProperties['minWidth']                                  | 盒子的最小宽度                                   |
-| ml      | CSSProperties['marginLeft']                                | 左侧外边距                                       |
-| mr      | CSSProperties['marginRight']                               | 右侧外边距                                       |
-| mt      | CSSProperties['marginTop']                                 | 顶部外边距                                       |
-| mx      | CSSProperties['marginInline']                              | 左右两侧外边距                                   |
-| my      | CSSProperties['marginBlock']                               | 上下两侧外边距                                   |
-| p       | CSSProperties['padding']                                   | 四周内边距                                       |
-| pb      | CSSProperties['paddingBottom']                             | 底部内边距                                       |
-| pl      | CSSProperties['paddingLeft']                               | 左侧内边距                                       |
-| pr      | CSSProperties['paddingRight']                              | 右侧内边距                                       |
-| pt      | CSSProperties['paddingTop']                                | 顶部内边距                                       |
-| px      | CSSProperties['paddingInline']                             | 左右两侧内边距                                   |
-| py      | CSSProperties['paddingBlock']                              | 上下两侧内边距                                   |
-| rounded | [Size][size] \| CSSProperties['borderRadius']              | 盒子的边框圆角                                   |
-| shadow  | [Size][size] \| CSSProperties['boxShadow']                 | 盒子阴影                                         |
-| w       | CSSProperties['width']                                     | 盒子的宽度                                       |
+Box 组件提供了一系列简写属性，可以更简洁地设置常用样式。这些属性直接映射到对应的 CSS 属性。
+
+- **主题值**：提供的主题预设值, 例如 `bg='blue.600'`, `rounded='lg'` 等。
+- **响应式值**：提供的响应式值, 例如 `w={{ xs: '100%', md: '80%', lg: '60%' }}` 等。
+
+| 属性    | CSS 属性      | 主题值                      |
+| ------- | ------------- | --------------------------- |
+| bd      | border        | -                           |
+| bg      | background    | [ColorScheme][color-scheme] |
+| c       | color         | [ColorScheme][color-scheme] |
+| h       | height        | -                           |
+| m       | margin        | -                           |
+| maxh    | maxHeight     | -                           |
+| maxw    | maxWidth      | -                           |
+| mb      | marginBottom  | -                           |
+| minh    | minHeight     | -                           |
+| minw    | minWidth      | -                           |
+| ml      | marginLeft    | -                           |
+| mr      | marginRight   | -                           |
+| mt      | marginTop     | -                           |
+| mx      | marginInline  | -                           |
+| my      | marginBlock   | -                           |
+| p       | padding       | -                           |
+| pb      | paddingBottom | -                           |
+| pl      | paddingLeft   | -                           |
+| pr      | paddingRight  | -                           |
+| pt      | paddingTop    | -                           |
+| px      | paddingInline | -                           |
+| py      | paddingBlock  | -                           |
+| rounded | borderRadius  | [Size][size]                |
+| shadow  | boxShadow     | [Size][size]                |
+| w       | width         | -                           |
+
+### 类型定义
 
 <!--{include:(_common/types/breakpoints.md)}-->
 <!--{include:(_common/types/size.md)}-->

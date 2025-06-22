@@ -1,5 +1,5 @@
-export const SIZE = ['lg', 'md', 'sm', 'xs'];
-export const BREAKPOINTS = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
+export const SIZE = ['xs', 'sm', 'md', 'lg'];
+export const BREAKPOINTS = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 export const STATUS = ['success', 'warning', 'error', 'info'];
 export const COLOR = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 

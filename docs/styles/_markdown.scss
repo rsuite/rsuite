@@ -25,14 +25,13 @@
 
   h2 {
     font-size: 24px;
-    padding: 10px 0;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: calc(var(--rs-spacing) * 8);
   }
 
   h3 {
     font-size: 18px;
-    margin-top: 10px;
+    margin-top: calc(var(--rs-spacing) * 6);
 
     code {
       font-size: 18px !important;
@@ -41,12 +40,12 @@
 
   h4 {
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: calc(var(--rs-spacing) * 4);
   }
 
   // Page heading styles
   .page-heading {
-    margin-bottom: 10px;
+    margin-bottom: calc(var(--rs-spacing) * 4);
     line-height: 1.2;
     display: flex;
     align-items: center;
@@ -80,7 +79,7 @@
   /* ===== Tables ===== */
   table {
     width: 100%;
-    margin-top: 10px;
+    margin-top: calc(var(--rs-spacing) * 4);
 
     td,
     th {
