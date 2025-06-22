@@ -1,16 +1,22 @@
 <!--start-code-->
 
 ```js
-import { HStack, VStack, Button, Divider } from 'rsuite';
+import { HStack, VStack, Center, Divider } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={40} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => {
   return (
     <VStack divider={<Divider />}>
-      <Button>Item 1</Button>
-      <HStack divider={<Divider vertical />} style={{ height: 40 }}>
-        <Button>Item 2</Button>
-        <Button>Item 3</Button>
-        <Button>Item 4</Button>
+      <DecorativeBox />
+      <HStack divider={<Divider vertical />} h={80}>
+        <DecorativeBox />
+        <DecorativeBox />
+        <DecorativeBox />
       </HStack>
     </VStack>
   );

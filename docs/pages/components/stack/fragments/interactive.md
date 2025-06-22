@@ -1,7 +1,13 @@
 <!--start-code-->
 
 ```js
-import { Stack, HStack, VStack, Button, RadioGroup, Radio, SelectPicker } from 'rsuite';
+import { Stack, HStack, VStack, Center, SelectPicker } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 // 6, 12, 18, 24, 30
 const spacingArray = Array.from({ length: 5 }, (_, i) => {
@@ -22,24 +28,17 @@ const App = () => {
         direction={direction}
         align={align}
         justify={justify}
-        bg="var(--rs-placeholder)"
         p={20}
         rounded="lg"
         w={400}
         h={300}
+        bd="1px solid var(--rs-border-primary)"
+        rounded="md"
       >
-        <Button size="lg" appearance="ghost">
-          Large
-        </Button>
-        <Button size="md" appearance="ghost">
-          Medium
-        </Button>
-        <Button size="sm" appearance="ghost">
-          Small
-        </Button>
-        <Button size="xs" appearance="ghost">
-          Xsmall
-        </Button>
+        <DecorativeBox w={80} h={80} />
+        <DecorativeBox w={70} h={70} />
+        <DecorativeBox w={60} h={60} />
+        <DecorativeBox w={50} h={50} />
       </Stack>
 
       <VStack spacing={12}>

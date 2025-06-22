@@ -3,14 +3,11 @@ import {
   Stack,
   HStack,
   VStack,
-  Button,
   Divider,
-  Radio,
-  RadioGroup,
   Slider,
   SelectPicker,
-  Box,
   Text,
+  Center,
   useMediaQuery
 } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
@@ -32,13 +29,10 @@ export default function Page() {
         Stack,
         HStack,
         VStack,
-        Button,
         Divider,
-        Radio,
-        RadioGroup,
         Slider,
-        Box,
         Text,
+        Center,
         SelectPicker,
         useMediaQuery
       }}
