@@ -18,7 +18,7 @@ export const getColorVar = (color: Color | string | undefined): string | undefin
 
   // Check if color is a color with shade (e.g., 'red.50', 'gray.900')
   const colorWithShadeRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)\.([1-9]00|50)$/;
-  const match = (color as string).match(colorWithShadeRegex);
+  const match = color?.match(colorWithShadeRegex);
   if (match) {
     const [, colorName, shade] = match;
     return `var(--rs-${colorName}-${shade})`;
