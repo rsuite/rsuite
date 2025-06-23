@@ -1,10 +1,8 @@
 import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyled } from '@/internals/styled-system';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { generateStackCssVars } from './utils';
 import type { WithResponsive } from '@/internals/types';
 
 interface DeprecatedStackProps {
@@ -30,9 +28,6 @@ export interface StackProps extends BoxProps, DeprecatedStackProps {
   /** Define the alignment of the children in the stack on the inline axis */
   justify?: CSSProperties['justifyContent'];
 
-  /** Define the spacing between immediate children */
-  spacing?: number | string | (number | string)[];
-
   /** Add an element between each child */
   divider?: React.ReactNode;
 
@@ -54,17 +49,11 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   const { propsWithDefaults } = useCustom('Stack', props);
   const {
     as,
-    alignItems,
-    align = alignItems,
     classPrefix = 'stack',
     className,
     children,
     direction,
-    justifyContent,
-    justify = justifyContent,
-    spacing,
     divider,
-    style,
     wrap,
     ...rest
   } = propsWithDefaults;
@@ -72,22 +61,11 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   const { withPrefix, merge, responsive } = useStyles(classPrefix);
   const baseClasses = merge(className, withPrefix({ wrap }), ...responsive(direction));
 
-  // Generate CSS variables for Stack
-  const cssVars = generateStackCssVars({ spacing, align, justify });
-
-  // Use the useStyled hook to manage CSS variables
-  const styled = useStyled({
-    cssVars,
-    className: baseClasses,
-    style,
-    prefix: classPrefix
-  });
-
   const filteredChildren = React.Children.toArray(children);
   const childCount = filteredChildren.length;
 
   return (
-    <Box as={as} ref={ref} className={styled.className} style={styled.style} {...rest}>
+    <Box as={as} ref={ref} className={baseClasses} {...rest}>
       {filteredChildren.map((child, index) => (
         <React.Fragment key={index}>
           {child}

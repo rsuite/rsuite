@@ -4,7 +4,6 @@ import FormGroup from '../../FormGroup';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-
 import '../styles/index.scss';
 
 describe('FormStack', () => {
@@ -27,17 +26,18 @@ describe('FormStack', () => {
       </FormGroup>
     );
 
-    expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '10px');
+    expect(screen.getByText('Stack Content')).to.have.style('gap', '10px');
   });
 
   it('Should support string spacing', () => {
     render(<FormStack spacing="1rem">Stack Content</FormStack>);
-    expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '1rem');
+    expect(screen.getByText('Stack Content')).to.have.style('gap', '16px'); // 1rem = 16px
   });
 
   it('Should support responsive spacing', () => {
-    render(<FormStack spacing={[10, 20]}>Stack Content</FormStack>);
-    expect(screen.getByText('Stack Content')).to.have.style('--rs-form-stack-spacing', '10px 20px');
+    // Current browser window size set to: 1280x800
+    render(<FormStack spacing={{ xs: 10, md: 20, lg: 30 }}>Stack Content</FormStack>);
+    expect(screen.getByText('Stack Content')).to.have.style('gap', '30px');
   });
 
   it('Should render with different layouts', () => {

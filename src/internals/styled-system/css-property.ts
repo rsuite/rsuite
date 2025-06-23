@@ -33,93 +33,6 @@ type CSSProperty = {
 };
 
 /**
- * CSS Properties type for Box component
- * This type maps all the CSS properties defined in cssPropertyMap to their corresponding React CSS types
- */
-export type CSSSystemProps = {
-  // Spacing
-  p?: WithResponsive<CSS['padding']>;
-  pt?: WithResponsive<CSS['paddingTop']>;
-  pr?: WithResponsive<CSS['paddingRight']>;
-  pb?: WithResponsive<CSS['paddingBottom']>;
-  pl?: WithResponsive<CSS['paddingLeft']>;
-  px?: WithResponsive<CSS['paddingInline']>;
-  py?: WithResponsive<CSS['paddingBlock']>;
-  ps?: WithResponsive<CSS['paddingInlineStart']>;
-  pe?: WithResponsive<CSS['paddingInlineEnd']>;
-
-  // Margin
-  m?: WithResponsive<CSS['margin']>;
-  mt?: WithResponsive<CSS['marginTop']>;
-  mr?: WithResponsive<CSS['marginRight']>;
-  mb?: WithResponsive<CSS['marginBottom']>;
-  ml?: WithResponsive<CSS['marginLeft']>;
-  mx?: WithResponsive<CSS['marginInline']>;
-  my?: WithResponsive<CSS['marginBlock']>;
-  ms?: WithResponsive<CSS['marginInlineStart']>;
-  me?: WithResponsive<CSS['marginInlineEnd']>;
-
-  // Sizing
-  w?: WithResponsive<CSS['width']>;
-  h?: WithResponsive<CSS['height']>;
-  minw?: WithResponsive<CSS['minWidth']>;
-  maxw?: WithResponsive<CSS['maxWidth']>;
-  minh?: WithResponsive<CSS['minHeight']>;
-  maxh?: WithResponsive<CSS['maxHeight']>;
-
-  // Layout & Position
-  display?: WithResponsive<CSS['display']>;
-  pos?: WithResponsive<CSS['position']>;
-  position?: WithResponsive<CSS['position']>;
-  left?: WithResponsive<CSS['left']>;
-  top?: WithResponsive<CSS['top']>;
-  right?: WithResponsive<CSS['right']>;
-  bottom?: WithResponsive<CSS['bottom']>;
-  inset?: WithResponsive<CSS['inset']>;
-  insetX?: WithResponsive<CSS['insetInline']>;
-  insetY?: WithResponsive<CSS['insetBlock']>;
-
-  // Background
-  bg?: WithResponsive<ColorScheme | CSS['background']>;
-  bgc?: WithResponsive<ColorScheme | CSS['backgroundColor']>;
-  bgi?: WithResponsive<CSS['backgroundImage']>;
-  bga?: WithResponsive<CSS['backgroundAttachment']>;
-  bgp?: WithResponsive<CSS['backgroundPosition']>;
-  bgsz?: WithResponsive<CSS['backgroundSize']>;
-  bgr?: WithResponsive<CSS['backgroundRepeat']>;
-
-  // Typography
-  c?: WithResponsive<ColorScheme | CSS['color']>;
-  ff?: WithResponsive<CSS['fontFamily']>;
-  fs?: WithResponsive<CSS['fontSize']>;
-  fw?: WithResponsive<CSS['fontWeight']>;
-  ta?: WithResponsive<CSS['textAlign']>;
-  tt?: WithResponsive<CSS['textTransform']>;
-  td?: WithResponsive<CSS['textDecoration']>;
-  lts?: WithResponsive<CSS['letterSpacing']>;
-  lh?: WithResponsive<CSS['lineHeight']>;
-
-  // Border
-  bd?: WithResponsive<CSS['border']>;
-  bs?: WithResponsive<CSS['borderStyle']>;
-  bc?: WithResponsive<ColorScheme | CSS['borderColor']>;
-  bw?: WithResponsive<CSS['borderWidth']>;
-
-  // Radius
-  rounded?: WithResponsive<Size | CSS['borderRadius'] | 'full'>;
-
-  // Shadow & Effects
-  shadow?: WithResponsive<Size | CSS['boxShadow']>;
-  opacity?: WithResponsive<CSS['opacity']>;
-
-  // Flex
-  spacing?: WithResponsive<CSS['gap']>;
-  gap?: WithResponsive<CSS['gap']>;
-  align?: WithResponsive<CSS['alignItems']>;
-  justify?: WithResponsive<CSS['justifyContent']>;
-};
-
-/**
  * CSS Property Map
  * Maps shorthand property names to their corresponding CSS properties
  */
@@ -210,4 +123,92 @@ export const cssPropertyMap: Record<string, CSSProperty> = {
   gap: { type: 'flex', property: 'gap' },
   align: { type: 'flex', property: 'align-items' },
   justify: { type: 'flex', property: 'justify-content' }
+};
+
+/**
+ * CSS Properties type for Box component
+ * This type maps all the CSS properties defined in cssPropertyMap to their corresponding React CSS types
+ */
+export type CSSSystemProps = {
+  // Spacing
+  p?: WithResponsive<CSS['padding']>;
+  pt?: WithResponsive<CSS['paddingTop']>;
+  pr?: WithResponsive<CSS['paddingRight']>;
+  pb?: WithResponsive<CSS['paddingBottom']>;
+  pl?: WithResponsive<CSS['paddingLeft']>;
+  px?: WithResponsive<CSS['paddingInline']>;
+  py?: WithResponsive<CSS['paddingBlock']>;
+  ps?: WithResponsive<CSS['paddingInlineStart']>;
+  pe?: WithResponsive<CSS['paddingInlineEnd']>;
+
+  // Margin
+  m?: WithResponsive<CSS['margin']>;
+  mt?: WithResponsive<CSS['marginTop']>;
+  mr?: WithResponsive<CSS['marginRight']>;
+  mb?: WithResponsive<CSS['marginBottom']>;
+  ml?: WithResponsive<CSS['marginLeft']>;
+  mx?: WithResponsive<CSS['marginInline']>;
+  my?: WithResponsive<CSS['marginBlock']>;
+  ms?: WithResponsive<CSS['marginInlineStart']>;
+  me?: WithResponsive<CSS['marginInlineEnd']>;
+
+  // Sizing
+  w?: WithResponsive<CSS['width']>;
+  h?: WithResponsive<CSS['height']>;
+  minw?: WithResponsive<CSS['minWidth']>;
+  maxw?: WithResponsive<CSS['maxWidth']>;
+  minh?: WithResponsive<CSS['minHeight']>;
+  maxh?: WithResponsive<CSS['maxHeight']>;
+
+  // Layout & Position
+  display?: WithResponsive<CSS['display']>;
+  pos?: WithResponsive<CSS['position']>;
+  left?: WithResponsive<CSS['left']>;
+  top?: WithResponsive<CSS['top']>;
+  right?: WithResponsive<CSS['right']>;
+  bottom?: WithResponsive<CSS['bottom']>;
+  inset?: WithResponsive<CSS['inset']>;
+  insetX?: WithResponsive<CSS['insetInline']>;
+  insetY?: WithResponsive<CSS['insetBlock']>;
+
+  // Background
+  bg?: WithResponsive<ColorScheme | CSS['background']>;
+  bgc?: WithResponsive<ColorScheme | CSS['backgroundColor']>;
+  bgi?: WithResponsive<CSS['backgroundImage']>;
+  bga?: WithResponsive<CSS['backgroundAttachment']>;
+  bgp?: WithResponsive<CSS['backgroundPosition']>;
+  bgsz?: WithResponsive<CSS['backgroundSize']>;
+  bgr?: WithResponsive<CSS['backgroundRepeat']>;
+
+  // Typography
+  c?: WithResponsive<ColorScheme | CSS['color']>;
+  ff?: WithResponsive<CSS['fontFamily']>;
+  fs?: WithResponsive<CSS['fontSize']>;
+  fw?: WithResponsive<CSS['fontWeight']>;
+  ta?: WithResponsive<CSS['textAlign']>;
+  tt?: WithResponsive<CSS['textTransform']>;
+  td?: WithResponsive<CSS['textDecoration']>;
+  lts?: WithResponsive<CSS['letterSpacing']>;
+  lh?: WithResponsive<CSS['lineHeight']>;
+
+  // Border
+  bd?: WithResponsive<CSS['border']>;
+  bs?: WithResponsive<CSS['borderStyle']>;
+  bc?: WithResponsive<ColorScheme | CSS['borderColor']>;
+  bw?: WithResponsive<CSS['borderWidth']>;
+
+  // Radius
+  rounded?: WithResponsive<Size | CSS['borderRadius'] | 'full'>;
+
+  // Shadow & Effects
+  shadow?: WithResponsive<Size | CSS['boxShadow']>;
+  opacity?: WithResponsive<CSS['opacity']>;
+
+  // Flex
+  spacing?: WithResponsive<CSS['gap']>;
+  gap?: WithResponsive<CSS['gap']>;
+  rowGap?: WithResponsive<CSS['rowGap']>;
+  columnGap?: WithResponsive<CSS['columnGap']>;
+  align?: WithResponsive<CSS['alignItems']>;
+  justify?: WithResponsive<CSS['justifyContent']>;
 };
