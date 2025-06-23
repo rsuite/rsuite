@@ -23,5 +23,6 @@ export type Size = `${SizeEnum}`;
 /** Basic size type (xs, sm, md, lg) */
 export type BasicSize = Exclude<Size, 'xl'>;
 export type TextSize = `${TypographySizeEnum}`;
-export type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | '2xl';
 export type ResponsiveValue<T> = { [key in Breakpoints]?: T };
+export type WithResponsive<T> = T | ResponsiveValue<T>;

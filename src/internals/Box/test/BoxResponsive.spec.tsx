@@ -2,10 +2,10 @@ import React from 'react';
 import Box from '../Box';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { render } from '@testing-library/react';
-import { StyleManager } from '@/internals/utils/style-sheet/style-manager';
+import { StyleManager } from '@/internals/styled-system/style-manager';
 
 // Mock StyleManager
-vi.mock('@/internals/utils/style-sheet/style-manager', () => ({
+vi.mock('@/internals/styled-system/style-manager', () => ({
   StyleManager: {
     addRule: vi.fn(),
     removeRule: vi.fn(),

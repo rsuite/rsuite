@@ -3,11 +3,11 @@ import Box from '../Box';
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-import { StyleManager } from '@/internals/utils/style-sheet/style-manager';
+import { StyleManager } from '@/internals/styled-system/style-manager';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 
 // Mock StyleManager
-vi.mock('@/internals/utils/style-sheet/style-manager', () => ({
+vi.mock('@/internals/styled-system/style-manager', () => ({
   StyleManager: {
     addRule: vi.fn(),
     removeRule: vi.fn()
@@ -256,8 +256,8 @@ describe('Box', () => {
     const addRuleCalls = (StyleManager.addRule as any).mock.calls;
     const cssRules = addRuleCalls[0][1];
 
-    expect(cssRules).toContain('--rs-box-rounded: var(--rs-box-rounded-md)');
-    expect(cssRules).toContain('--rs-box-rounded: var(--rs-box-rounded-md)');
+    expect(cssRules).toContain('--rs-box-rounded: var(--rs-radius-md)');
+    expect(cssRules).toContain('--rs-box-rounded: var(--rs-radius-md)');
 
     expect(cssRules).toContain('border-radius: var(--rs-box-rounded)');
   });
@@ -269,7 +269,7 @@ describe('Box', () => {
     const addRuleCalls = (StyleManager.addRule as any).mock.calls;
     const cssRules = addRuleCalls[0][1];
 
-    expect(cssRules).toContain('--rs-box-rounded: var(--rs-box-rounded-full)');
+    expect(cssRules).toContain('--rs-box-rounded: var(--rs-radius-full)');
 
     expect(cssRules).toContain('border-radius: var(--rs-box-rounded)');
   });
@@ -305,7 +305,7 @@ describe('Box', () => {
     const addRuleCalls = (StyleManager.addRule as any).mock.calls;
     const cssRules = addRuleCalls[0][1];
 
-    expect(cssRules).toContain('--rs-box-shadow: var(--rs-box-shadow-lg)');
+    expect(cssRules).toContain('--rs-box-shadow: var(--rs-shadow-lg)');
 
     expect(cssRules).toContain('box-shadow: var(--rs-box-shadow)');
   });
@@ -340,8 +340,8 @@ describe('Box', () => {
     expect(cssRules).toContain('--rs-box-h: 200px');
     expect(cssRules).toContain('--rs-box-c: var(--rs-blue-100)');
     expect(cssRules).toContain('--rs-box-bg: var(--rs-red-100)');
-    expect(cssRules).toContain('--rs-box-rounded: var(--rs-box-rounded-md)');
-    expect(cssRules).toContain('--rs-box-shadow: var(--rs-box-shadow-lg)');
+    expect(cssRules).toContain('--rs-box-rounded: var(--rs-radius-md)');
+    expect(cssRules).toContain('--rs-box-shadow: var(--rs-shadow-lg)');
     expect(cssRules).toContain('--rs-box-bd: 1px solid black');
 
     expect(cssRules).toContain('padding: var(--rs-box-p)');

@@ -1,8 +1,8 @@
 /**
- * Breakpoint map with breakpoint names as keys and size values as values
+ * Breakpoint map with breakpoint names as keys and numeric size values (without 'px' suffix) as values
  */
 export interface BreakpointMap {
-  [key: string]: string;
+  [key: string]: number;
 }
 
 /**

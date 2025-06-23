@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { StyleManager } from '@/internals/utils/style-sheet/style-manager';
+import { StyleManager } from '../style-manager';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import useStyled from '../useStyled';
 
 // Mock StyleManager
-vi.mock('@/internals/utils/style-sheet/style-manager', () => ({
+vi.mock('../style-manager', () => ({
   StyleManager: {
     addRule: vi.fn(),
     removeRule: vi.fn()

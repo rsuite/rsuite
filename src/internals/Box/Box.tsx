@@ -2,11 +2,11 @@ import React, { CSSProperties as CSS } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { forwardRef } from '@/internals/utils/react/forwardRef';
 import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
-import { useStyled } from '@/internals/hooks/useStyled';
+import { useStyled } from '@/internals/styled-system';
 import type {
   WithAsProps,
   Breakpoints,
-  ResponsiveValue,
+  WithResponsive,
   ColorScheme,
   Size
 } from '@/internals/types';
@@ -19,52 +19,48 @@ export interface BoxProps extends WithAsProps {
   hideFrom?: Breakpoints;
 
   /** Display property */
-  display?: CSS['display'] | ResponsiveValue<CSS['display']>;
+  display?: WithResponsive<CSS['display']>;
 
   /** Padding */
-  p?: CSS['padding'] | ResponsiveValue<CSS['padding']>;
-  pt?: CSS['paddingTop'] | ResponsiveValue<CSS['paddingTop']>;
-  pb?: CSS['paddingBottom'] | ResponsiveValue<CSS['paddingBottom']>;
-  pl?: CSS['paddingLeft'] | ResponsiveValue<CSS['paddingLeft']>;
-  pr?: CSS['paddingRight'] | ResponsiveValue<CSS['paddingRight']>;
-  px?: CSS['paddingInline'] | ResponsiveValue<CSS['paddingInline']>;
-  py?: CSS['paddingBlock'] | ResponsiveValue<CSS['paddingBlock']>;
+  p?: WithResponsive<CSS['padding']>;
+  pt?: WithResponsive<CSS['paddingTop']>;
+  pb?: WithResponsive<CSS['paddingBottom']>;
+  pl?: WithResponsive<CSS['paddingLeft']>;
+  pr?: WithResponsive<CSS['paddingRight']>;
+  px?: WithResponsive<CSS['paddingInline']>;
+  py?: WithResponsive<CSS['paddingBlock']>;
 
   /** Margin */
-  m?: CSS['margin'] | ResponsiveValue<CSS['margin']>;
-  mt?: CSS['marginTop'] | ResponsiveValue<CSS['marginTop']>;
-  mb?: CSS['marginBottom'] | ResponsiveValue<CSS['marginBottom']>;
-  ml?: CSS['marginLeft'] | ResponsiveValue<CSS['marginLeft']>;
-  mr?: CSS['marginRight'] | ResponsiveValue<CSS['marginRight']>;
-  mx?: CSS['marginInline'] | ResponsiveValue<CSS['marginInline']>;
-  my?: CSS['marginBlock'] | ResponsiveValue<CSS['marginBlock']>;
+  m?: WithResponsive<CSS['margin']>;
+  mt?: WithResponsive<CSS['marginTop']>;
+  mb?: WithResponsive<CSS['marginBottom']>;
+  ml?: WithResponsive<CSS['marginLeft']>;
+  mr?: WithResponsive<CSS['marginRight']>;
+  mx?: WithResponsive<CSS['marginInline']>;
+  my?: WithResponsive<CSS['marginBlock']>;
 
   /** Box size */
-  w?: CSS['width'] | ResponsiveValue<CSS['width']>;
-  h?: CSS['height'] | ResponsiveValue<CSS['height']>;
-  minw?: CSS['minWidth'] | ResponsiveValue<CSS['minWidth']>;
-  maxw?: CSS['maxWidth'] | ResponsiveValue<CSS['maxWidth']>;
-  minh?: CSS['minHeight'] | ResponsiveValue<CSS['minHeight']>;
-  maxh?: CSS['maxHeight'] | ResponsiveValue<CSS['maxHeight']>;
+  w?: WithResponsive<CSS['width']>;
+  h?: WithResponsive<CSS['height']>;
+  minw?: WithResponsive<CSS['minWidth']>;
+  maxw?: WithResponsive<CSS['maxWidth']>;
+  minh?: WithResponsive<CSS['minHeight']>;
+  maxh?: WithResponsive<CSS['maxHeight']>;
 
   /** Box Color */
-  c?: ColorScheme | CSS['color'] | ResponsiveValue<ColorScheme | CSS['color']>;
+  c?: WithResponsive<ColorScheme | CSS['color']>;
 
   /** Box Border */
-  bd?: CSS['border'] | ResponsiveValue<CSS['border']>;
+  bd?: WithResponsive<CSS['border']>;
 
   /** Box Background */
-  bg?: ColorScheme | CSS['backgroundColor'] | ResponsiveValue<ColorScheme | CSS['backgroundColor']>;
+  bg?: WithResponsive<ColorScheme | CSS['backgroundColor']>;
 
   /** Box Border Radius */
-  rounded?:
-    | Size
-    | CSS['borderRadius']
-    | 'full'
-    | ResponsiveValue<Size | CSS['borderRadius'] | 'full'>;
+  rounded?: WithResponsive<Size | CSS['borderRadius'] | 'full'>;
 
   /** Box Shadow */
-  shadow?: Size | CSS['boxShadow'] | ResponsiveValue<Size | CSS['boxShadow']>;
+  shadow?: WithResponsive<Size | CSS['boxShadow']>;
 }
 
 /**

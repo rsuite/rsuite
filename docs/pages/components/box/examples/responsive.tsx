@@ -8,18 +8,20 @@ const App = () => {
     <Box p={20}>
       <Box
         rounded={{
-          xs: 2,
-          md: 4,
-          lg: 6
+          xs: 4,
+          sm: 8,
+          md: 16,
+          lg: 'full'
         }}
         bg={{
           xs: 'linear-gradient(45deg, #4CAF50, #2196F3)',
-          md: '#4CAF50',
-          lg: '#2196F3'
+          sm: 'linear-gradient(45deg, #2196F3, #4CAF50)',
+          md: 'blue.600'
         }}
-        w={{ xs: '100%', md: '80%', lg: '60%' }}
-        p={{ xs: '10px', md: '20px' }}
+        w={{ xs: '100%', sm: '80%', md: '60%', lg: '60%' }}
+        p={{ xs: '10px', sm: '20px', md: '30px', lg: '40px' }}
         display={{ xs: 'flex', md: 'block' }}
+        shadow={{ xs: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
       >
         <Text align="center" color="white">
           This box has responsive width, padding and display

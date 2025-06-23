@@ -1,11 +1,11 @@
 import React, { CSSProperties } from 'react';
 import StackItem from './StackItem';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyled } from '@/internals/hooks/useStyled';
+import { useStyled } from '@/internals/styled-system';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { generateStackCssVars } from './utils';
-import type { ResponsiveValue } from '@/internals/types';
+import type { WithResponsive } from '@/internals/types';
 
 interface DeprecatedStackProps {
   /**
@@ -25,7 +25,7 @@ export interface StackProps extends BoxProps, DeprecatedStackProps {
   align?: CSSProperties['alignItems'];
 
   /** The direction of the children in the stack */
-  direction?: CSSProperties['flexDirection'] | ResponsiveValue<CSSProperties['flexDirection']>;
+  direction?: WithResponsive<CSSProperties['flexDirection']>;
 
   /** Define the alignment of the children in the stack on the inline axis */
   justify?: CSSProperties['justifyContent'];

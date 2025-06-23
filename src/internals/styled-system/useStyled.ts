@@ -1,76 +1,17 @@
-import { CSSProperties, useId, useLayoutEffect, useContext } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { StyleManager } from '@/internals/utils/style-sheet/style-manager';
-import { BREAKPOINTS } from '@/internals/constants';
+import { CSSProperties, useId, useContext } from 'react';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { CustomContext } from '@/internals/Provider/CustomContext';
-import type { Breakpoints, ResponsiveValue } from '../types';
+import { breakpointValues, isResponsiveValue } from './responsive';
+import { cssPropertyMap } from './css-property';
+import { StyleManager } from './style-manager';
+import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
 
-// CSS Property Map
-const propertyMap: Record<string, string> = {
-  // Padding
-  p: 'padding',
-  pt: 'padding-top',
-  pr: 'padding-right',
-  pb: 'padding-bottom',
-  pl: 'padding-left',
-  px: 'padding-inline',
-  py: 'padding-block',
-
-  // Margin
-  m: 'margin',
-  mt: 'margin-top',
-  mr: 'margin-right',
-  mb: 'margin-bottom',
-  ml: 'margin-left',
-  mx: 'margin-inline',
-  my: 'margin-block',
-
-  // Size
-  w: 'width',
-  h: 'height',
-  minw: 'min-width',
-  maxw: 'max-width',
-  minh: 'min-height',
-  maxh: 'max-height',
-
-  // Display
-  display: 'display',
-
-  // Color and Background
-  c: 'color',
-  bg: 'background',
-
-  // Border
-  bd: 'border',
-  rounded: 'border-radius',
-
-  // Shadow
-  shadow: 'box-shadow',
-
-  // Stack
-  spacing: 'gap',
-  align: 'align-items',
-  justify: 'justify-content'
-};
-
-// Breakpoint values in pixels - matching SCSS variables
-const breakpointValues: Record<Breakpoints, number> = {
-  xs: 0, // Base mobile first
-  sm: 576, // $screen-sm
-  md: 768, // $screen-md
-  lg: 992, // $screen-lg
-  xl: 1200, // $screen-xl
-  xxl: 1400 // $screen-xxl
-};
-
-/**
- * Options for the useStyled hook
- */
 interface UseStyledOptions {
   /**
    * CSS variables to apply
    */
-  cssVars?: Record<string, string | number | undefined | ResponsiveValue<string | number>>;
+  cssVars?: Record<string, WithResponsive<string | number | undefined>>;
 
   /**
    * Base class name to include
@@ -90,7 +31,6 @@ interface UseStyledOptions {
 
   /**
    * Prefix for the generated class name
-   * @default 'rs'
    */
   prefix?: string;
 }
@@ -113,20 +53,6 @@ interface UseStyledResult {
    * Unique identifier for this styled element
    */
   id: string;
-}
-
-/**
- * Checks if a value is a responsive value object
- * @param value - Value to check
- * @returns True if the value is a responsive value object
- */
-function isResponsiveValue(value: any): value is ResponsiveValue<any> {
-  return (
-    value !== null &&
-    typeof value === 'object' &&
-    !Array.isArray(value) &&
-    Object.keys(value).some(key => BREAKPOINTS.includes(key))
-  );
 }
 
 /**
@@ -157,7 +83,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
   const shouldApplyStyles = enabled && !isEmpty(cssVars);
 
   // Apply CSS variables through StyleManager
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!shouldApplyStyles) return;
 
     // Create base CSS rules for the variables
@@ -165,7 +91,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
     let basePropRules = '';
 
     // Track responsive variables to handle separately
-    const responsiveVars: Record<string, ResponsiveValue<string | number>> = {};
+    const responsiveVars: Record<string, ResponsiveValue<string | number | undefined>> = {};
 
     // Process CSS variables, separating responsive from non-responsive
     Object.entries(cssVars).forEach(([key, value]) => {
@@ -201,9 +127,9 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         : varName;
 
       // Check if the property has a corresponding CSS property mapping
-      const cssProperty = propertyMap[propName];
+      const cssProperty = cssPropertyMap[propName];
       if (cssProperty) {
-        basePropRules += `${cssProperty}: var(${varName}); `;
+        basePropRules += `${cssProperty.property}: var(${varName}); `;
       }
     });
 
@@ -222,7 +148,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         md: '',
         lg: '',
         xl: '',
-        xxl: ''
+        xxl: '',
+        '2xl': ''
       };
 
       const breakpointPropRules: Record<Breakpoints, string> = {
@@ -231,7 +158,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         md: '',
         lg: '',
         xl: '',
-        xxl: ''
+        xxl: '',
+        '2xl': ''
       };
 
       // Group styles by breakpoint
@@ -239,7 +167,6 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         Object.entries(responsiveValue).forEach(([breakpoint, value]) => {
           const bp = breakpoint as Breakpoints;
           if (value !== undefined && bp !== 'xs') {
-            // Skip xs as it's already in base styles
             // Add the CSS variable definition for this breakpoint
             breakpointVarRules[bp] += `${varName}: ${value}; `;
 
@@ -249,7 +176,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
               : varName;
 
             // Check if the property has a corresponding CSS property mapping
-            const cssProperty = propertyMap[propName];
+            const cssProperty = cssPropertyMap[propName];
             if (cssProperty) {
               breakpointPropRules[bp] += `${cssProperty}: var(${varName}); `;
             }
@@ -264,7 +191,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         md: breakpointVarRules.md + breakpointPropRules.md,
         lg: breakpointVarRules.lg + breakpointPropRules.lg,
         xl: breakpointVarRules.xl + breakpointPropRules.xl,
-        xxl: breakpointVarRules.xxl + breakpointPropRules.xxl
+        xxl: breakpointVarRules.xxl + breakpointPropRules.xxl,
+        '2xl': breakpointVarRules['2xl'] + breakpointPropRules['2xl']
       };
 
       // Add media queries for each breakpoint with rules (skip xs)

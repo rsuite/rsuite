@@ -17,6 +17,14 @@ const sizeConfig = {
   valueTransformer: getCssValue
 };
 
+export const getSizeValue = (type: string, size: SizeEnum | number | string | null) => {
+  if (isPresetSize(size)) {
+    return `var(--rs-${type}-${size})`;
+  }
+
+  return getCssValue(size);
+};
+
 export const getSizeStyle = createStyleGetter<SizeEnum | number | string>(sizeConfig);
 
 const lineHeightConfig = {

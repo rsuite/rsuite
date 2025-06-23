@@ -7,7 +7,7 @@ import { createStyleGetter } from './style-sheet';
  * @param color The color value to check
  * @returns The CSS variable if it's a valid color type, or the original value
  */
-export const getColorVar = (color: Color | string | undefined): string | undefined => {
+export const getColorValue = (color: Color | string | undefined): string | undefined => {
   if (!color) return undefined;
 
   // Check if color is a base color (e.g., 'red', 'blue')
@@ -44,7 +44,7 @@ const colorConfig = {
   prop: 'color',
   useGlobalVar: true,
   presetChecker: isPresetColor,
-  valueTransformer: getColorVar
+  valueTransformer: getColorValue
 };
 
 export const getColorStyle = createStyleGetter<Color | React.CSSProperties['color']>(colorConfig);
