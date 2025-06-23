@@ -2,15 +2,13 @@ import { getCssValue, getColorValue } from '@/internals/utils';
 import { processResponsiveValue, cssPropertyMap } from '@/internals/styled-system';
 import type { WithResponsive } from '@/internals/types';
 
-// Derive box property keys from style mappings
-const boxPropKeys = Object.keys(cssPropertyMap);
-
 /**
  * Extract box properties from props
  * @param props Original props object
  * @returns Object containing only box properties
  */
 export const extractBoxProps = (props: Record<string, any>): Record<string, any> => {
+  const boxPropKeys = Object.keys(cssPropertyMap);
   const boxProps: Record<string, any> = {};
 
   // Extract only box related properties
@@ -29,6 +27,7 @@ export const extractBoxProps = (props: Record<string, any>): Record<string, any>
  * @returns New object without layout properties
  */
 export const omitBoxProps = (props: Record<string, any>): Record<string, any> => {
+  const boxPropKeys = Object.keys(cssPropertyMap);
   const filteredProps: Record<string, any> = {};
 
   // Copy all properties except box related ones
