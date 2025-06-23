@@ -1,5 +1,8 @@
+import camelCase from 'lodash/camelCase';
+import { getCssValue } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
-import type { Breakpoints, ResponsiveValue } from '@/internals/types';
+import { cssPropertyMap } from './css-property';
+import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
 
 /**
  * Breakpoint values in pixels - matching SCSS variables
@@ -59,3 +62,38 @@ export function processResponsiveValue<T, R extends string | number | undefined>
 
   return processor(value as T);
 }
+
+// Type for CSS variable values that can be string, number, or responsive values
+type CSSVarValue = WithResponsive<string | number | undefined>;
+
+/**
+ * Converts layout properties to CSS variables with abbreviated names
+ */
+export const getCSSVariables = (
+  props: Record<string, any>,
+  prefix: string = `--rs-`
+): Record<string, CSSVarValue> => {
+  const cssVars: Record<string, CSSVarValue> = {};
+  const cssVar = (name: keyof typeof cssPropertyMap) => `${prefix}${name}`;
+
+  // Process padding, margin, size properties
+  Object.entries(cssPropertyMap).forEach(([name, prop]) => {
+    const { transformer, property } = prop;
+    const propName = camelCase(property);
+
+    if (typeof props[name] === 'undefined' && typeof props[propName] === 'undefined') {
+      return;
+    }
+
+    const varName = cssVar(name || propName);
+    const value = props[name] || props[propName];
+
+    if (transformer) {
+      cssVars[varName] = processResponsiveValue(value, val => transformer(val));
+    } else {
+      cssVars[varName] = processResponsiveValue(value, val => getCssValue(val));
+    }
+  });
+
+  return cssVars;
+};
