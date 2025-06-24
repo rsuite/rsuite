@@ -1,4 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
+import camelCase from 'lodash/camelCase';
+import canUseDOM from 'dom-lib/canUseDOM';
 import type { StyleProperties } from '@/internals/types';
 
 /**
@@ -51,4 +53,38 @@ export function createOffsetStyles(
     [`${prefix}-x`]: getCssValue(x),
     [`${prefix}-y`]: getCssValue(y)
   };
+}
+
+/**
+ * Check if a string is a valid CSS property name
+ * @param prop - The property name to check
+ * @returns True if the property is a valid CSS property
+ */
+export function isCSSProperty(prop: string): prop is Extract<keyof CSSStyleDeclaration, string> {
+  if (!canUseDOM || typeof prop !== 'string' || !prop) {
+    return false;
+  }
+
+  try {
+    // Handle standard properties
+    const style = document.documentElement.style;
+
+    // Check standard property
+    if (prop in style) {
+      return true;
+    } else if (camelCase(prop) in style) {
+      return true;
+    }
+
+    // Handle vendor-prefixed properties (e.g., Webkit, Moz, ms, O)
+    const prefixes = ['Webkit', 'Moz', 'ms', 'O'];
+    const propName = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+    return prefixes.some(prefix => `${prefix}${propName}` in style);
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`Failed to check CSS property: ${prop}`, e);
+    }
+    return false;
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "6.0.0-canary-20250622",
+  "version": "6.0.0-canary-20250624",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",

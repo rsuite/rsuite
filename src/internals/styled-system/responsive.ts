@@ -1,8 +1,10 @@
 import camelCase from 'lodash/camelCase';
-import { getCssValue } from '@/internals/utils';
+import kebabCase from 'lodash/kebabCase';
+import { getCssValue, isCSSProperty } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import { cssPropertyMap } from './css-property';
 import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
+import type { CSSSystemProps, CSSProperty } from './types';
 
 /**
  * Breakpoint values in pixels - matching SCSS variables
@@ -69,12 +71,12 @@ type CSSVarValue = WithResponsive<string | number | undefined>;
 /**
  * Converts layout properties to CSS variables with abbreviated names
  */
-export const getCSSVariables = (
+export const getCSSVariables2 = (
   props: Record<string, any>,
   prefix: string = `--rs-`
 ): Record<string, CSSVarValue> => {
   const cssVars: Record<string, CSSVarValue> = {};
-  const cssVar = (name: keyof typeof cssPropertyMap) => `${prefix}${name}`;
+  const cssVar = (name: keyof CSSSystemProps) => `${prefix}${name}`;
 
   // Process padding, margin, size properties
   Object.entries(cssPropertyMap).forEach(([name, prop]) => {
@@ -85,12 +87,60 @@ export const getCSSVariables = (
       return;
     }
 
-    const varName = cssVar(name || propName);
+    const varName = cssVar((name || propName) as keyof CSSSystemProps);
     const value = props[name] || props[propName];
 
     if (transformer) {
       cssVars[varName] = processResponsiveValue(value, val => transformer(val));
     } else {
+      cssVars[varName] = processResponsiveValue(value, val => getCssValue(val));
+    }
+  });
+
+  return cssVars;
+};
+
+/**
+ * Converts layout properties to CSS variables with abbreviated names
+ */
+export const getCSSVariables = (
+  props: Record<string, any>,
+  prefix: string = `--rs-`
+): Record<string, CSSVarValue> => {
+  const cssVars: Record<string, CSSVarValue> = {};
+  const cssVar = (name: string) => `${prefix}${kebabCase(name)}`;
+
+  const getCSSProperty = (name: string): [string, CSSProperty | undefined] => {
+    let cssName = name;
+    let cssProp = cssPropertyMap[name];
+
+    if (!cssProp) {
+      Object.entries(cssPropertyMap).forEach(([key, prop]) => {
+        if (camelCase(prop.property) === name) {
+          cssProp = prop;
+          cssName = key;
+        }
+      });
+    }
+
+    return [cssName, cssProp];
+  };
+
+  Object.entries(props).forEach(([name, value]) => {
+    if (typeof value === 'undefined') {
+      return;
+    }
+
+    const [cssName, cssProp] = getCSSProperty(name);
+    const varName = cssVar(cssName);
+
+    if (cssProp) {
+      const { transformer } = cssProp;
+      cssVars[varName] = processResponsiveValue(value, val => {
+        return transformer ? transformer(val) : getCssValue(val);
+      });
+    } else if (isCSSProperty(cssName)) {
+      // For non-predefined CSS properties, directly process with getCssValue
       cssVars[varName] = processResponsiveValue(value, val => getCssValue(val));
     }
   });

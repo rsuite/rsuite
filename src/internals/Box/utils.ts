@@ -1,6 +1,7 @@
 import camelCase from 'lodash/camelCase';
 import flatten from 'lodash/flatten';
 import { cssPropertyMap } from '@/internals/styled-system';
+import { isCSSProperty } from '@/internals/utils';
 
 const getUsedPropKeys = () => {
   const boxPropKeys = Object.entries(cssPropertyMap).map(([key, prop]) => {
@@ -23,8 +24,10 @@ export const extractBoxProps = (props: Record<string, any>): Record<string, any>
   const boxProps: Record<string, any> = {};
 
   // Extract only box related properties
-  boxPropKeys.forEach(key => {
-    if (key in props && props[key] !== undefined) {
+  Object.keys(props).forEach(key => {
+    if (boxPropKeys.includes(key) && props[key] !== undefined) {
+      boxProps[key] = props[key];
+    } else if (isCSSProperty(key)) {
       boxProps[key] = props[key];
     }
   });

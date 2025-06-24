@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import { CSSProperties, useId, useContext } from 'react';
 import { useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { isCSSProperty } from '@/internals/utils';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import { breakpointValues, isResponsiveValue } from './responsive';
 import { cssPropertyMap } from './css-property';
@@ -130,6 +131,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
       const cssProperty = cssPropertyMap[propName];
       if (cssProperty) {
         basePropRules += `${cssProperty.property}: var(${varName}); `;
+      } else if (isCSSProperty(propName)) {
+        basePropRules += `${propName}: var(${varName}); `;
       }
     });
 
@@ -179,6 +182,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
             const cssProperty = cssPropertyMap[propName];
             if (cssProperty) {
               breakpointPropRules[bp] += `${cssProperty}: var(${varName}); `;
+            } else if (isCSSProperty(propName)) {
+              breakpointPropRules[bp] += `${propName}: var(${varName}); `;
             }
           }
         });

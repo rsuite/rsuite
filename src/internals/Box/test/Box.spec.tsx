@@ -286,6 +286,139 @@ describe('Box', () => {
     expect(cssRules).toContain('border: var(--rs-box-bd)');
   });
 
+  it('Should render with position props', () => {
+    render(
+      <Box
+        pos="absolute"
+        top="10px"
+        left="20px"
+        right="30px"
+        bottom="40px"
+        insetx="50px"
+        insety="60px"
+      >
+        Content
+      </Box>
+    );
+
+    expect(StyleManager.addRule).toHaveBeenCalled();
+    const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+    const cssRules = addRuleCalls[0][1];
+
+    expect(cssRules).toContain('--rs-box-pos: absolute');
+    expect(cssRules).toContain('--rs-box-top: 10px');
+    expect(cssRules).toContain('--rs-box-left: 20px');
+    expect(cssRules).toContain('--rs-box-right: 30px');
+    expect(cssRules).toContain('--rs-box-bottom: 40px');
+    expect(cssRules).toContain('--rs-box-insetx: 50px');
+    expect(cssRules).toContain('--rs-box-insety: 60px');
+
+    expect(cssRules).toContain('position: var(--rs-box-pos)');
+    expect(cssRules).toContain('top: var(--rs-box-top)');
+    expect(cssRules).toContain('left: var(--rs-box-left)');
+    expect(cssRules).toContain('right: var(--rs-box-right)');
+    expect(cssRules).toContain('bottom: var(--rs-box-bottom)');
+  });
+
+  it('Should render with background props', () => {
+    render(
+      <Box
+        bg="blue.500"
+        bgc="red.500"
+        bgi="url('image.jpg')"
+        bga="fixed"
+        bgr="no-repeat"
+        bgsz="cover"
+        bgp="center"
+      >
+        Content
+      </Box>
+    );
+
+    expect(StyleManager.addRule).toHaveBeenCalled();
+    const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+    const cssRules = addRuleCalls[0][1];
+
+    expect(cssRules).toContain('--rs-box-bg: var(--rs-blue-500)');
+    expect(cssRules).toContain('--rs-box-bgc: var(--rs-red-500)');
+    expect(cssRules).toContain("--rs-box-bgi: url('image.jpg')");
+    expect(cssRules).toContain('--rs-box-bga: fixed');
+    expect(cssRules).toContain('--rs-box-bgr: no-repeat');
+    expect(cssRules).toContain('--rs-box-bgsz: cover');
+    expect(cssRules).toContain('--rs-box-bgp: center');
+
+    expect(cssRules).toContain('background: var(--rs-box-bg)');
+    expect(cssRules).toContain('background-color: var(--rs-box-bgc)');
+    expect(cssRules).toContain('background-image: var(--rs-box-bgi)');
+    expect(cssRules).toContain('background-attachment: var(--rs-box-bga)');
+    expect(cssRules).toContain('background-repeat: var(--rs-box-bgr)');
+    expect(cssRules).toContain('background-size: var(--rs-box-bgsz)');
+    expect(cssRules).toContain('background-position: var(--rs-box-bgp)');
+  });
+
+  it('Should render with typography props', () => {
+    render(
+      <Box
+        ff="Arial, sans-serif"
+        fs="16px"
+        fw="bold"
+        ta="center"
+        tt="uppercase"
+        td="underline"
+        lts="1px"
+        lh="1.5"
+      >
+        Content
+      </Box>
+    );
+
+    expect(StyleManager.addRule).toHaveBeenCalled();
+    const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+    const cssRules = addRuleCalls[0][1];
+
+    expect(cssRules).toContain('--rs-box-ff: Arial, sans-serif');
+    expect(cssRules).toContain('--rs-box-fs: 16px');
+    expect(cssRules).toContain('--rs-box-fw: bold');
+    expect(cssRules).toContain('--rs-box-ta: center');
+    expect(cssRules).toContain('--rs-box-tt: uppercase');
+    expect(cssRules).toContain('--rs-box-td: underline');
+    expect(cssRules).toContain('--rs-box-lts: 1px');
+    expect(cssRules).toContain('--rs-box-lh: 1.5');
+
+    expect(cssRules).toContain('font-family: var(--rs-box-ff)');
+    expect(cssRules).toContain('font-size: var(--rs-box-fs)');
+    expect(cssRules).toContain('font-weight: var(--rs-box-fw)');
+    expect(cssRules).toContain('text-align: var(--rs-box-ta)');
+    expect(cssRules).toContain('text-transform: var(--rs-box-tt)');
+    expect(cssRules).toContain('text-decoration: var(--rs-box-td)');
+    expect(cssRules).toContain('letter-spacing: var(--rs-box-lts)');
+    expect(cssRules).toContain('line-height: var(--rs-box-lh)');
+  });
+
+  it('Should render with flex props', () => {
+    render(
+      <Box gap="10px" rowgap="15px" colgap="20px" align="center" justify="space-between">
+        Content
+      </Box>
+    );
+
+    expect(StyleManager.addRule).toHaveBeenCalled();
+    const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+    const cssRules = addRuleCalls[0][1];
+
+    expect(cssRules).toContain('--rs-box-gap: 10px');
+    expect(cssRules).toContain('--rs-box-rowgap: 15px');
+    expect(cssRules).toContain('--rs-box-colgap: 20px');
+    expect(cssRules).toContain('--rs-box-align: center');
+    expect(cssRules).toContain('--rs-box-justify: space-between');
+
+    expect(cssRules).toContain('gap: var(--rs-box-gap)');
+    expect(cssRules).toContain('row-gap: var(--rs-box-rowgap)');
+    expect(cssRules).toContain('column-gap: var(--rs-box-colgap)');
+    expect(cssRules).toContain('align-items: var(--rs-box-align)');
+    expect(cssRules).toContain('justify-content: var(--rs-box-justify)');
+  });
+
   it('Should render with shadow prop', () => {
     render(<Box shadow="0 2px 4px rgba(0,0,0,0.2)">Content</Box>);
 
@@ -377,6 +510,45 @@ describe('Box', () => {
 
     expect(StyleManager.addRule).toHaveBeenCalledWith(expect.any(String), expect.any(String), {
       nonce
+    });
+  });
+
+  describe('Native CSS properties', () => {
+    it('Should handle standard CSS properties but not defined in cssPropertyMap', () => {
+      render(
+        <Box
+          {...({
+            textDecoration: 'underline',
+            textDecorationStyle: 'dotted',
+            textDecorationColor: 'red'
+          } as any)}
+        >
+          Content
+        </Box>
+      );
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-td: underline');
+      expect(cssRules).toContain('--rs-box-tds: dotted');
+      expect(cssRules).toContain('--rs-box-tdc: var(--rs-color-red)');
+
+      expect(cssRules).toContain('text-decoration: var(--rs-box-td)');
+      expect(cssRules).toContain('text-decoration-style: var(--rs-box-tds)');
+      expect(cssRules).toContain('text-decoration-color: var(--rs-box-tdc)');
+    });
+
+    it('Should handle standard CSS properties not defined', () => {
+      render(<Box {...({ flexBasis: '25%' } as any)}>Content</Box>);
+
+      expect(StyleManager.addRule).toHaveBeenCalled();
+      const addRuleCalls = (StyleManager.addRule as any).mock.calls;
+      const cssRules = addRuleCalls[0][1];
+
+      expect(cssRules).toContain('--rs-box-flex-basis: 25%');
+      expect(cssRules).toContain('flex-basis: var(--rs-box-flex-basis)');
     });
   });
 });
