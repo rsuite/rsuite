@@ -514,7 +514,7 @@ describe('Box', () => {
   });
 
   describe('Native CSS properties', () => {
-    it('Should handle standard CSS properties but not defined in cssPropertyMap', () => {
+    it('Should handle standard CSS properties but not defined in cssSystemPropAlias', () => {
       render(
         <Box
           {...({
@@ -547,8 +547,8 @@ describe('Box', () => {
       const addRuleCalls = (StyleManager.addRule as any).mock.calls;
       const cssRules = addRuleCalls[0][1];
 
-      expect(cssRules).toContain('--rs-box-flex-basis: 25%');
-      expect(cssRules).toContain('flex-basis: var(--rs-box-flex-basis)');
+      expect(cssRules).toContain('--rs-box-basis: 25%');
+      expect(cssRules).toContain('flex-basis: var(--rs-box-basis)');
     });
   });
 });

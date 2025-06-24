@@ -1,11 +1,11 @@
 import camelCase from 'lodash/camelCase';
-import { cssPropertyMap } from '@/internals/styled-system';
+import { cssSystemPropAlias } from '@/internals/styled-system';
 import { isCSSProperty } from '@/internals/utils';
 
 const getUsedPropKeys = () => {
   const propSet = new Set<string>();
 
-  Object.entries(cssPropertyMap).forEach(([key, prop]) => {
+  Object.entries(cssSystemPropAlias).forEach(([key, prop]) => {
     const { property } = prop;
     const propName = camelCase(property);
 

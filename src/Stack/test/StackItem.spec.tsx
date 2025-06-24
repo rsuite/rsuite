@@ -4,7 +4,7 @@ import StackItem from '../StackItem';
 import Button from '../../Button';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { getCssVarValue } from '@test/utils';
+import '../styles/index.scss';
 
 describe('StackItem', () => {
   it('renders a StackItem', () => {
@@ -14,14 +14,13 @@ describe('StackItem', () => {
       </Stack>
     );
     expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
-
     expect(screen.getByText('stack item').parentNode).to.have.class('rs-stack');
   });
 
   it('renders a StackItem with flex props', () => {
     render(
       <Stack>
-        <StackItem flex="auto" grow={2} alignSelf="flex-end" order={1}>
+        <StackItem flex="auto" grow="2" self="flex-end" order="1">
           stack item
         </StackItem>
       </Stack>
@@ -29,10 +28,10 @@ describe('StackItem', () => {
 
     const item = screen.getByText('stack item');
 
-    expect(getCssVarValue(item, '--rs-stack-item-flex')).to.equal('auto');
-    expect(getCssVarValue(item, '--rs-stack-item-align-self')).to.equal('flex-end');
-    expect(getCssVarValue(item, '--rs-stack-item-grow')).to.equal('2');
-    expect(getCssVarValue(item, '--rs-stack-item-order')).to.equal('1');
+    expect(item).to.have.style('flex', '2 1 auto');
+    expect(item).to.have.style('align-self', 'flex-end');
+    expect(item).to.have.style('flex-grow', '2');
+    expect(item).to.have.style('order', '1');
   });
 
   it('Should render a stackitem with custom class name', () => {

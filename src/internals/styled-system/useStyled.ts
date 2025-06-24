@@ -4,7 +4,7 @@ import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { isCSSProperty } from '@/internals/utils';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import { breakpointValues, isResponsiveValue } from './responsive';
-import { cssPropertyMap } from './css-property';
+import { cssSystemPropAlias } from './css-property';
 import { StyleManager } from './style-manager';
 import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
 
@@ -128,7 +128,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         : varName;
 
       // Check if the property has a corresponding CSS property mapping
-      const cssProperty = cssPropertyMap[propName];
+      const cssProperty = cssSystemPropAlias[propName];
       if (cssProperty) {
         basePropRules += `${cssProperty.property}: var(${varName}); `;
       } else if (isCSSProperty(propName)) {
@@ -179,7 +179,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
               : varName;
 
             // Check if the property has a corresponding CSS property mapping
-            const cssProperty = cssPropertyMap[propName];
+            const cssProperty = cssSystemPropAlias[propName];
             if (cssProperty) {
               breakpointPropRules[bp] += `${cssProperty}: var(${varName}); `;
             } else if (isCSSProperty(propName)) {

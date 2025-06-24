@@ -2,9 +2,9 @@ import camelCase from 'lodash/camelCase';
 import kebabCase from 'lodash/kebabCase';
 import { getCssValue, isCSSProperty } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
-import { cssPropertyMap } from './css-property';
+import { cssSystemPropAlias } from './css-property';
 import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
-import type { CSSSystemProps, CSSProperty } from './types';
+import type { CSSProperty, CSSPropertyValueType } from './types';
 
 /**
  * Breakpoint values in pixels - matching SCSS variables
@@ -68,36 +68,12 @@ export function processResponsiveValue<T, R extends string | number | undefined>
 // Type for CSS variable values that can be string, number, or responsive values
 type CSSVarValue = WithResponsive<string | number | undefined>;
 
-/**
- * Converts layout properties to CSS variables with abbreviated names
- */
-export const getCSSVariables2 = (
-  props: Record<string, any>,
-  prefix: string = `--rs-`
-): Record<string, CSSVarValue> => {
-  const cssVars: Record<string, CSSVarValue> = {};
-  const cssVar = (name: keyof CSSSystemProps) => `${prefix}${name}`;
+const transformCSSValue = (value: any, type: CSSPropertyValueType) => {
+  if (type === 'number') {
+    return value;
+  }
 
-  // Process padding, margin, size properties
-  Object.entries(cssPropertyMap).forEach(([name, prop]) => {
-    const { transformer, property } = prop;
-    const propName = camelCase(property);
-
-    if (typeof props[name] === 'undefined' && typeof props[propName] === 'undefined') {
-      return;
-    }
-
-    const varName = cssVar((name || propName) as keyof CSSSystemProps);
-    const value = props[name] || props[propName];
-
-    if (transformer) {
-      cssVars[varName] = processResponsiveValue(value, val => transformer(val));
-    } else {
-      cssVars[varName] = processResponsiveValue(value, val => getCssValue(val));
-    }
-  });
-
-  return cssVars;
+  return getCssValue(value);
 };
 
 /**
@@ -112,10 +88,10 @@ export const getCSSVariables = (
 
   const getCSSProperty = (name: string): [string, CSSProperty | undefined] => {
     let cssName = name;
-    let cssProp = cssPropertyMap[name];
+    let cssProp = cssSystemPropAlias[name];
 
     if (!cssProp) {
-      Object.entries(cssPropertyMap).forEach(([key, prop]) => {
+      Object.entries(cssSystemPropAlias).forEach(([key, prop]) => {
         if (camelCase(prop.property) === name) {
           cssProp = prop;
           cssName = key;
@@ -135,9 +111,9 @@ export const getCSSVariables = (
     const varName = cssVar(cssName);
 
     if (cssProp) {
-      const { transformer } = cssProp;
+      const { transformer, type } = cssProp;
       cssVars[varName] = processResponsiveValue(value, val => {
-        return transformer ? transformer(val) : getCssValue(val);
+        return transformer ? transformer(val) : transformCSSValue(val, type);
       });
     } else if (isCSSProperty(cssName)) {
       // For non-predefined CSS properties, directly process with getCssValue

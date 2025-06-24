@@ -738,30 +738,27 @@ describe('Box Responsive Props', () => {
       // Check base styles (xs)
       const baseStylesCall = addRuleCalls.find(call => call[0].startsWith('.'));
       expect(baseStylesCall).toBeDefined();
-      expect(baseStylesCall?.[1]).toContain('--rs-box-flex-basis: 100%');
-      expect(baseStylesCall?.[1]).toContain('--rs-box-flex-grow: 0');
+      expect(baseStylesCall?.[1]).toContain('--rs-box-basis: 100%');
+      expect(baseStylesCall?.[1]).toContain('--rs-box-grow: 0');
 
       // Check responsive breakpoints
       const smMediaQuery = addRuleCalls.find(
-        call =>
-          call[0] === '@media (min-width: 576px)' && call[1].includes('--rs-box-flex-basis: 80%')
+        call => call[0] === '@media (min-width: 576px)' && call[1].includes('--rs-box-basis: 80%')
       );
 
       const mdMediaQuery = addRuleCalls.find(
         call =>
           call[0] === '@media (min-width: 768px)' &&
-          call[1].includes('--rs-box-flex-basis: 60%') &&
-          call[1].includes('--rs-box-flex-grow: 1')
+          call[1].includes('--rs-box-basis: 60%') &&
+          call[1].includes('--rs-box-grow: 1')
       );
 
       const lgMediaQuery = addRuleCalls.find(
-        call =>
-          call[0] === '@media (min-width: 992px)' && call[1].includes('--rs-box-flex-basis: 40%')
+        call => call[0] === '@media (min-width: 992px)' && call[1].includes('--rs-box-basis: 40%')
       );
 
       const xlMediaQuery = addRuleCalls.find(
-        call =>
-          call[0] === '@media (min-width: 1200px)' && call[1].includes('--rs-box-flex-basis: 20%')
+        call => call[0] === '@media (min-width: 1200px)' && call[1].includes('--rs-box-basis: 20%')
       );
 
       expect(smMediaQuery).toBeDefined();

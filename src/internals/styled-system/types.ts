@@ -1,24 +1,13 @@
 import { CSSProperties as CSS } from 'react';
 import type { WithResponsive, ColorScheme, Size } from '@/internals/types';
 
-type CSSPropertyGroup =
-  | 'spacing'
-  | 'sizing'
-  | 'layout'
-  | 'color'
-  | 'border'
-  | 'effect'
-  | 'flex'
-  | 'radius'
-  | 'typography'
-  | 'position'
-  | 'background';
+export type CSSPropertyValueType = 'string' | 'number' | 'any';
 
 export type CSSProperty = {
   /**
    * CSS Property Type
    */
-  type: CSSPropertyGroup;
+  type: CSSPropertyValueType;
 
   /**
    * CSS Property
@@ -33,7 +22,7 @@ export type CSSProperty = {
 
 /**
  * CSS Properties type for Box component
- * This type maps all the CSS properties defined in cssPropertyMap to their corresponding React CSS types
+ * This type maps all the CSS properties defined in cssSystemPropAlias to their corresponding React CSS types
  */
 export interface CSSSystemProps {
   /** Shorthand for CSS property `padding` */
@@ -109,7 +98,9 @@ export interface CSSSystemProps {
   /** Shorthand for CSS property `insetBlock` */
   insety?: WithResponsive<CSS['insetBlock']>;
   /** Shorthand for CSS property `boxSizing` */
-  boxsizing?: WithResponsive<CSS['boxSizing']>;
+  bsz?: WithResponsive<CSS['boxSizing']>;
+  /** Shorthand for CSS property `zIndex` */
+  z?: WithResponsive<CSS['zIndex']>;
 
   // Background
   /** Shorthand for CSS property `background` */
@@ -184,4 +175,16 @@ export interface CSSSystemProps {
   align?: WithResponsive<CSS['alignItems']>;
   /** Shorthand for CSS property `justifyContent` */
   justify?: WithResponsive<CSS['justifyContent']>;
+  /** Shorthand for CSS property `alignSelf` */
+  self?: WithResponsive<CSS['alignSelf']>;
+  /** Shorthand for CSS property `flexBasis` */
+  basis?: WithResponsive<CSS['flexBasis']>;
+  /** Shorthand for CSS property `flex` */
+  flex?: WithResponsive<CSS['flex']>;
+  /** Shorthand for CSS property `flexGrow` */
+  grow?: WithResponsive<CSS['flexGrow']>;
+  /** Shorthand for CSS property `order` */
+  order?: WithResponsive<CSS['order']>;
+  /** Shorthand for CSS property `flexShrink` */
+  shrink?: WithResponsive<CSS['flexShrink']>;
 }
