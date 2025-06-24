@@ -52,54 +52,42 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 ### `<Stack>`
 
-| Property    | Type`(default)`                                                 | Description                                                                                       |
-| ----------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| align       | [ResponsiveCSSProperty<'alignItems'>][rcp]                     | Define the alignment of the children in the stack on the cross axis                               |
-| as          | React.ElementType                                               | Custom component for the root element                                                             |
-| classPrefix | string `('stack')`                                              | The prefix of the component CSS class                                                             |
-| direction   | [ResponsiveCSSProperty<'flexDirection'>][rcp]                   | The direction of the children in the stack, support responsive value                              |
-| divider     | ReactNode                                                       | Add an element between each child                                                                 |
-| justify     | [ResponsiveCSSProperty<'justifyContent'>][rcp]                  | Define the alignment of the children in the stack on the inline axis                              |
-| spacing     | [ResponsiveCSSProperty<'gap'>][rcp]                             | Define the spacing between immediate children                                                     |
-| wrap        | boolean                                                         | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
+Extends the [`Box`][boxprops] component.
+
+| Property    | Type`(default)`                               | Description                                               |
+| ----------- | --------------------------------------------- | --------------------------------------------------------- |
+| as          | React.ElementType                              | Custom component for the root element                     |
+| classPrefix | string `('stack')`                            | The prefix of the component CSS class                     |
+| direction   | [ResponsiveCSSProperty<'flexDirection'>][rcp] | The direction of the children in the stack                |
+| divider     | ReactNode                                     | Add an element between each child                         |
+| wrap        | boolean                                       | Define whether the children are forced onto a single line |
 
 ### `<HStack>`
 
-| Property    | Type`(default)`                                | Description                                                                                       |
-| ----------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| align       | [ResponsiveCSSProperty<'alignItems'>][rcp] `('flex-start')` | Define the alignment of the children in the stack on the cross axis                |
-| classPrefix | string `('stack')`                             | The prefix of the component CSS class                                                             |
-| divider     | ReactNode                                      | Add an element between each child                                                                 |
-| justify     | [ResponsiveCSSProperty<'justifyContent'>][rcp] | Define the alignment of the children in the stack on the inline axis                              |
-| reverse     | boolean                                        | Reverse the order of the children in the stack                                                    |
-| spacing     | [ResponsiveCSSProperty<'gap'>][rcp]            | Define the spacing between immediate children                                                     |
-| wrap        | boolean                                        | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
+Extends the `Stack` component.
+
+| Property | Type`(default)`                                   | Description                          |
+| -------- | ------------------------------------------------- | ------------------------------------- |
+| align    | [ResponsiveCSSProperty<'alignItems'>][rcp] `('center')` | Align items on the cross axis |
+| reverse  | boolean                                           | Reverse the order of children        |
 
 ### `<VStack>`
 
-| Property    | Type`(default)`                                | Description                                                                                       |
-| ----------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| align       | [ResponsiveCSSProperty<'alignItems'>][rcp] `('flex-start')` | Define the alignment of the children in the stack on the cross axis                |
-| classPrefix | string `('stack')`                             | The prefix of the component CSS class                                                             |
-| divider     | ReactNode                                      | Add an element between each child                                                                 |
-| justify     | [ResponsiveCSSProperty<'justifyContent'>][rcp] | Define the alignment of the children in the stack on the inline axis                              |
-| reverse     | boolean                                        | Reverse the order of the children in the stack                                                    |
-| spacing     | [ResponsiveCSSProperty<'gap'>][rcp]            | Define the spacing between immediate children                                                     |
-| wrap        | boolean                                        | Define whether the children in the stack are forced onto one line or can wrap onto multiple lines |
+Extends the `Stack` component.
+
+| Property | Type`(default)`                                   | Description                          |
+| -------- | ------------------------------------------------- | ------------------------------------- |
+| align    | [ResponsiveCSSProperty<'alignItems'>][rcp] `('flex-start')` | Align items on the cross axis |
+| divider  | ReactNode                                        | Add an element between each child    |
+| reverse  | boolean                                           | Reverse the order of children        |
 
 ### `<Stack.Item>`
 
-| Property | Type`(default)`                           | Description                                                                          |
-| -------- | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| self     | [ResponsiveCSSProperty<'alignSelf'>][rcp] | Define the alignment of the Item in the stack                                        |
-| basis    | [ResponsiveCSSProperty<'flexBasis'>][rcp] | Define the initial main size of the item                                             |
-| flex     | [ResponsiveCSSProperty<'flex'>][rcp]      | Define the item will grow or shrink to fit the space available in its flex container |
-| grow     | [ResponsiveCSSProperty<'flexGrow'>][rcp]  | Define the item grow factor of a flex item main size                                 |
-| order    | [ResponsiveCSSProperty<'order'>][rcp]     | Define the order of the item in the stack                                            |
-| shrink   | [ResponsiveCSSProperty<'flexShrink'>][rcp]| Define the item shrink factor of a flex item                                         |
+Extends the [`Box`][boxprops] component.
 
 ### Type Definitions
 
 <!--{include:(_common/types/responsive-css-property.md)}-->
 
 [rcp]: #code-ts-responsive-css-property-code
+[boxprops]: /components/box/#props
