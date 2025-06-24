@@ -107,12 +107,14 @@ Grid 组件提供了一个灵活的系统，用于使用 24 列栅格创建响�
 | push        | number \| [ResponsiveValue][responsive]           | 栅格向右移动格数                                     | ![][6.0.0] |
 | span        | number \| 'auto' \| [ResponsiveValue][responsive] | 栅格占位格数，设置为 'auto' 时宽度会根据内容自动调整 | ![][6.0.0] |
 
+### 类型定义
+
 <!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code
 [gutter]: #code-ts-gutter-type-code
 
-### `ts:GutterType`
+#### `ts:GutterType`
 
 ```ts
 type GutterType = number | string | [number | string, number | string];

@@ -19,14 +19,8 @@ interface DeprecatedStackProps {
 }
 
 export interface StackProps extends BoxProps, DeprecatedStackProps {
-  /** Define the alignment of the children in the stack on the cross axis */
-  align?: CSSProperties['alignItems'];
-
   /** The direction of the children in the stack */
   direction?: WithResponsive<CSSProperties['flexDirection']>;
-
-  /** Define the alignment of the children in the stack on the inline axis */
-  justify?: CSSProperties['justifyContent'];
 
   /** Add an element between each child */
   divider?: React.ReactNode;

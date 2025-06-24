@@ -24,7 +24,10 @@ Center is a layout component that centers its child elements within itself.
 
 ### `<Center>`
 
-| Property | Type`(default)` | Description                            |
-| -------- | --------------- | -------------------------------------- |
-| inline   | boolean         | Inline mode                            |
-| ...      | BoxProps        | Extends all props from `Box` component |
+Extends the [`Box`][boxprops] component.
+
+| Property | Type`(default)` | Description |
+| -------- | --------------- | ----------- |
+| inline   | boolean         | Inline mode |
+
+[boxprops]: /components/box/#props
