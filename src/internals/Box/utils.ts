@@ -1,17 +1,19 @@
 import camelCase from 'lodash/camelCase';
-import flatten from 'lodash/flatten';
 import { cssPropertyMap } from '@/internals/styled-system';
 import { isCSSProperty } from '@/internals/utils';
 
 const getUsedPropKeys = () => {
-  const boxPropKeys = Object.entries(cssPropertyMap).map(([key, prop]) => {
+  const propSet = new Set<string>();
+
+  Object.entries(cssPropertyMap).forEach(([key, prop]) => {
     const { property } = prop;
     const propName = camelCase(property);
 
-    return [key, propName];
+    propSet.add(key);
+    propSet.add(propName);
   });
 
-  return flatten(boxPropKeys);
+  return Array.from(propSet);
 };
 
 /**
