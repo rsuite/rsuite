@@ -143,6 +143,12 @@
       color: var(--rs-text-primary);
     }
   }
+
+  .grid-cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
 }
 
 /* ===== Code Blocks ===== */
@@ -321,6 +327,10 @@ code:not(.rcv-highlight) {
           margin-inline-start: 4px;
         }
       }
+    }
+
+    .grid-cols-3 {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

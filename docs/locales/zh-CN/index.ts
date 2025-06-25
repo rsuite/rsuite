@@ -26,6 +26,8 @@ export default {
     officialThemes: '主题',
     cssVariables: 'CSS 变量',
     cssReset: 'CSS 重置',
+    styleProps: 'Style 属性',
+    defaultProps: '组件默认属性',
     i18n: '语言本地化',
     rtl: '从右到左 (RTL)',
     changeLog: '更新日志',

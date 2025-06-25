@@ -96,6 +96,14 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.officialThemes
             },
             {
+              id: 'default-props',
+              name: locales?.common?.defaultProps
+            },
+            {
+              id: 'style-props',
+              name: locales?.common?.styleProps
+            },
+            {
               id: 'css-variables',
               name: locales?.common?.cssVariables
             },
