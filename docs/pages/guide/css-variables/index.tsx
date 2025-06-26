@@ -177,7 +177,7 @@ export default function Page() {
       {sortedCategories.map(category => (
         <div key={category} className={classNames(styles.groupSection, 'rcv-markdown')}>
           <Heading level={2} my="2rem" className={styles.categoryHeading}>
-            {startCase(category)}
+            {startCase(category)} variables
           </Heading>
 
           {Object.entries(groupedVariables[category]).map(([type, variables]) => {
