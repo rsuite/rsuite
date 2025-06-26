@@ -2,7 +2,7 @@
 // see https://rsuitejs.com/design/default
 
 @use '../colors/light' as light;
-@use '../colors/colors-base' as c;
+@use '../colors/colors-base' as colors;
 @use '../colors/palette' as p;
 
 // Light theme CSS custom properties
@@ -33,21 +33,21 @@
   --rs-primary-900: #{light.$H900};
 
   // Spectrum colors
-  --rs-color-red: #{c.$red};
-  --rs-color-orange: #{c.$orange};
-  --rs-color-yellow: #{c.$yellow};
-  --rs-color-green: #{c.$green};
-  --rs-color-cyan: #{c.$cyan};
-  --rs-color-blue: #{c.$blue};
-  --rs-color-violet: #{c.$violet};
+  --rs-color-red: #{colors.$red};
+  --rs-color-orange: #{colors.$orange};
+  --rs-color-yellow: #{colors.$yellow};
+  --rs-color-green: #{colors.$green};
+  --rs-color-cyan: #{colors.$cyan};
+  --rs-color-blue: #{colors.$blue};
+  --rs-color-violet: #{colors.$violet};
 
-  @include p.generate-palette-vars('red', c.$red);
-  @include p.generate-palette-vars('orange', c.$orange);
-  @include p.generate-palette-vars('yellow', c.$yellow);
-  @include p.generate-palette-vars('green', c.$green);
-  @include p.generate-palette-vars('cyan', c.$cyan);
-  @include p.generate-palette-vars('blue', c.$blue);
-  @include p.generate-palette-vars('violet', c.$violet);
+  @include p.generate-palette-vars('red', colors.$red);
+  @include p.generate-palette-vars('orange', colors.$orange);
+  @include p.generate-palette-vars('yellow', colors.$yellow);
+  @include p.generate-palette-vars('green', colors.$green);
+  @include p.generate-palette-vars('cyan', colors.$cyan);
+  @include p.generate-palette-vars('blue', colors.$blue);
+  @include p.generate-palette-vars('violet', colors.$violet);
 
   // Stateful colors
   --rs-state-success: var(--rs-color-green);

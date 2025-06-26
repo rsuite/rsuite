@@ -190,65 +190,65 @@
   },
   {
     "name": "--rs-color-red",
-    "value": "#{c.$red-dark}",
+    "value": "#{colors.$red-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$red-dark}",
+    "scssValue": "#{colors.$red-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-orange",
-    "value": "#{c.$orange-dark}",
+    "value": "#{colors.$orange-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$orange-dark}",
+    "scssValue": "#{colors.$orange-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-yellow",
-    "value": "#{c.$yellow-dark}",
+    "value": "#{colors.$yellow-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$yellow-dark}",
+    "scssValue": "#{colors.$yellow-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-green",
-    "value": "#{c.$green-dark}",
+    "value": "#{colors.$green-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$green-dark}",
+    "scssValue": "#{colors.$green-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-cyan",
-    "value": "#{c.$cyan-dark}",
+    "value": "#{colors.$cyan-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$cyan-dark}",
+    "scssValue": "#{colors.$cyan-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-blue",
-    "value": "#{c.$blue-dark}",
+    "value": "#{colors.$blue-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$blue-dark}",
+    "scssValue": "#{colors.$blue-dark}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-violet",
-    "value": "#{c.$violet-dark}",
+    "value": "#{colors.$violet-dark}",
     "type": "palette",
     "category": "colors",
     "theme": "dark",
-    "scssValue": "#{c.$violet-dark}",
+    "scssValue": "#{colors.$violet-dark}",
     "needsCompilation": true
   },
   {

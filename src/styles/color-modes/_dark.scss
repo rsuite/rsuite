@@ -3,7 +3,7 @@
 
 @use '../variables' as vars;
 @use '../colors/dark' as dark;
-@use '../colors/colors-base' as c;
+@use '../colors/colors-base' as colors;
 @use '../colors/palette' as p;
 @use 'sass:color';
 
@@ -38,21 +38,21 @@
     --rs-primary-900: #{dark.$H900-dark};
 
     // Spectrum
-    --rs-color-red: #{c.$red-dark};
-    --rs-color-orange: #{c.$orange-dark};
-    --rs-color-yellow: #{c.$yellow-dark};
-    --rs-color-green: #{c.$green-dark};
-    --rs-color-cyan: #{c.$cyan-dark};
-    --rs-color-blue: #{c.$blue-dark};
-    --rs-color-violet: #{c.$violet-dark};
+    --rs-color-red: #{colors.$red-dark};
+    --rs-color-orange: #{colors.$orange-dark};
+    --rs-color-yellow: #{colors.$yellow-dark};
+    --rs-color-green: #{colors.$green-dark};
+    --rs-color-cyan: #{colors.$cyan-dark};
+    --rs-color-blue: #{colors.$blue-dark};
+    --rs-color-violet: #{colors.$violet-dark};
 
-    @include p.generate-palette-vars('red', c.$red-dark);
-    @include p.generate-palette-vars('orange', c.$orange-dark);
-    @include p.generate-palette-vars('yellow', c.$yellow-dark);
-    @include p.generate-palette-vars('green', c.$green-dark);
-    @include p.generate-palette-vars('cyan', c.$cyan-dark);
-    @include p.generate-palette-vars('blue', c.$blue-dark);
-    @include p.generate-palette-vars('violet', c.$violet-dark);
+    @include p.generate-palette-vars('red', colors.$red-dark);
+    @include p.generate-palette-vars('orange', colors.$orange-dark);
+    @include p.generate-palette-vars('yellow', colors.$yellow-dark);
+    @include p.generate-palette-vars('green', colors.$green-dark);
+    @include p.generate-palette-vars('cyan', colors.$cyan-dark);
+    @include p.generate-palette-vars('blue', colors.$blue-dark);
+    @include p.generate-palette-vars('violet', colors.$violet-dark);
 
     // Stateful colors
     --rs-state-success: var(--rs-color-green);

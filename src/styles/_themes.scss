@@ -109,8 +109,8 @@
   --rs-zindex-message-full: 3;
   --rs-zindex-dropdown: 5;
   --rs-zindex-picker-toggle: 5;
-  --rs-zindex-picker-input: calc(var(--rs-zindex-picker-toggle) + 1);
-  --rs-zindex-picker-popup: calc(var(--rs-zindex-picker-toggle) + 2);
+  --rs-zindex-picker-input: 6; // picker-toggle + 1
+  --rs-zindex-picker-popup: 7; // picker-toggle + 2
   --rs-zindex-list-helper: 99;
   --rs-zindex-modal: 1050;
   --rs-zindex-drawer: 1050;

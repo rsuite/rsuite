@@ -433,13 +433,13 @@
   },
   {
     "name": "--rs-zindex-picker-input",
-    "value": "calc(var(--rs-zindex-picker-toggle) + 1)",
+    "value": "6",
     "type": "z-index",
     "category": "z-index"
   },
   {
     "name": "--rs-zindex-picker-popup",
-    "value": "calc(var(--rs-zindex-picker-toggle) + 2)",
+    "value": "7",
     "type": "z-index",
     "category": "z-index"
   },

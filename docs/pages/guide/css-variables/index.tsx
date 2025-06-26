@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import startCase from 'lodash/startCase';
 import ThemeGroup from '@/components/ThemeGroup';
 import DefaultPage from '@/components/layout/Page';
+import ColorPreview from '@/components/ColorPreview';
 import themeVariables from './themes.json';
 import themeLightVariables from './theme-light.json';
 import themeDarkVariables from './theme-dark.json';
@@ -38,7 +39,7 @@ const isColorValue = (value: string, visited = new Set<string>()): boolean => {
     value.includes('hsla(') ||
     value.includes('--rs-primary') ||
     value.includes('--rs-gray') ||
-    value.includes('--rs-color')
+    value.includes('--rs-color');
 
   if (isColor) {
     return true;
@@ -213,12 +214,7 @@ export default function Page() {
                             </td>
                             <td className={styles.variableValue}>
                               {hasColorPreview && (
-                                <span
-                                  className={styles.colorPreview}
-                                  style={{
-                                    background: `var(${variable.name})`
-                                  }}
-                                />
+                                <ColorPreview colorValue={`var(${variable.name})`} shape="square" />
                               )}
                               {variable.value}
                             </td>

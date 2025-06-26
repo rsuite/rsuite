@@ -190,65 +190,65 @@
   },
   {
     "name": "--rs-color-red",
-    "value": "#{c.$red-high-contrast}",
+    "value": "#{colors.$red-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$red-high-contrast}",
+    "scssValue": "#{colors.$red-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-orange",
-    "value": "#{c.$orange-high-contrast}",
+    "value": "#{colors.$orange-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$orange-high-contrast}",
+    "scssValue": "#{colors.$orange-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-yellow",
-    "value": "#{c.$yellow-high-contrast}",
+    "value": "#{colors.$yellow-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$yellow-high-contrast}",
+    "scssValue": "#{colors.$yellow-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-green",
-    "value": "#{c.$green-high-contrast}",
+    "value": "#{colors.$green-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$green-high-contrast}",
+    "scssValue": "#{colors.$green-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-cyan",
-    "value": "#{c.$cyan-high-contrast}",
+    "value": "#{colors.$cyan-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$cyan-high-contrast}",
+    "scssValue": "#{colors.$cyan-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-blue",
-    "value": "#{c.$blue-high-contrast}",
+    "value": "#{colors.$blue-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$blue-high-contrast}",
+    "scssValue": "#{colors.$blue-high-contrast}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-violet",
-    "value": "#{c.$violet-high-contrast}",
+    "value": "#{colors.$violet-high-contrast}",
     "type": "palette",
     "category": "colors",
     "theme": "high-contrast",
-    "scssValue": "#{c.$violet-high-contrast}",
+    "scssValue": "#{colors.$violet-high-contrast}",
     "needsCompilation": true
   },
   {

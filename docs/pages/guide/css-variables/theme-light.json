@@ -190,65 +190,65 @@
   },
   {
     "name": "--rs-color-red",
-    "value": "#{c.$red}",
+    "value": "#{colors.$red}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$red}",
+    "scssValue": "#{colors.$red}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-orange",
-    "value": "#{c.$orange}",
+    "value": "#{colors.$orange}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$orange}",
+    "scssValue": "#{colors.$orange}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-yellow",
-    "value": "#{c.$yellow}",
+    "value": "#{colors.$yellow}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$yellow}",
+    "scssValue": "#{colors.$yellow}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-green",
-    "value": "#{c.$green}",
+    "value": "#{colors.$green}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$green}",
+    "scssValue": "#{colors.$green}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-cyan",
-    "value": "#{c.$cyan}",
+    "value": "#{colors.$cyan}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$cyan}",
+    "scssValue": "#{colors.$cyan}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-blue",
-    "value": "#{c.$blue}",
+    "value": "#{colors.$blue}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$blue}",
+    "scssValue": "#{colors.$blue}",
     "needsCompilation": true
   },
   {
     "name": "--rs-color-violet",
-    "value": "#{c.$violet}",
+    "value": "#{colors.$violet}",
     "type": "palette",
     "category": "colors",
     "theme": "light",
-    "scssValue": "#{c.$violet}",
+    "scssValue": "#{colors.$violet}",
     "needsCompilation": true
   },
   {
