@@ -133,4 +133,24 @@ describe('TimePicker', () => {
       expect(onSelect).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
     });
   });
+
+  it('Should render custom locale', () => {
+    render(
+      <TimePicker
+        locale={{
+          hours: '时',
+          minutes: '分',
+          seconds: '秒',
+          now: '现在'
+        }}
+        format="hh:mm:ss"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByText('时')).to.have.class('rs-calendar-time-dropdown-column-title');
+    expect(screen.getByText('分')).to.have.class('rs-calendar-time-dropdown-column-title');
+    expect(screen.getByText('秒')).to.have.class('rs-calendar-time-dropdown-column-title');
+    expect(screen.getByText('现在')).to.exist;
+  });
 });

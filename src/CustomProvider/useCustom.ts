@@ -27,6 +27,10 @@ function toLocaleKey(componentName: string): LocaleKey {
 
   if (Picker.includes(componentName)) {
     return 'Combobox';
+  } else if (componentName === 'TimePicker') {
+    return 'DatePicker';
+  } else if (componentName === 'TimeRangePicker') {
+    return 'DateRangePicker';
   }
 
   return componentName as LocaleKey;
