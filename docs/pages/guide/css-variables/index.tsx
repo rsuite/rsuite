@@ -18,7 +18,13 @@ type ThemeVariable = {
 };
 
 // Check if a variable is a color value
-const isColorValue = (value: string): boolean => {
+const isColorValue = (value: string, visited = new Set<string>()): boolean => {
+  // Skip if we've already checked this value to prevent infinite recursion
+  if (visited.has(value)) {
+    return false;
+  }
+  visited.add(value);
+
   // Check for hex colors, rgb, rgba, hsl, or hsla values
   const isColor =
     /^#([0-9A-F]{3}){1,2}$/i.test(value) ||
@@ -32,16 +38,54 @@ const isColorValue = (value: string): boolean => {
     value.includes('hsla(') ||
     value.includes('--rs-primary') ||
     value.includes('--rs-gray') ||
-    value.includes('--rs-color');
+    value.includes('--rs-color')
 
-  if (!isColor) {
-    const item = themeVariables.find(v => v.value === value);
+  if (isColor) {
+    return true;
+  }
+
+  // Check if this is a CSS variable reference
+  const varMatch = value.match(/var\((--[^,)]+)(?:,\s*([^)]+))?\)/);
+  if (varMatch) {
+    const varName = varMatch[1];
+    const fallback = varMatch[2];
+
+    // First check the fallback value if it exists
+    if (fallback && isColorValue(fallback, new Set(visited))) {
+      return true;
+    }
+
+    // Then look up the variable in our theme
+    const item = [
+      ...themeVariables,
+      ...themeLightVariables,
+      ...themeDarkVariables,
+      ...themeHighContrastVariables
+    ].find(v => v.name === varName);
+
+    if (item) {
+      // Recursively check the variable's value
+      if (isColorValue(item.value, new Set(visited))) {
+        return true;
+      }
+    }
+  }
+
+  // Check if this is a direct reference to a color variable
+  if (value.startsWith('--rs-')) {
+    const item = [
+      ...themeVariables,
+      ...themeLightVariables,
+      ...themeDarkVariables,
+      ...themeHighContrastVariables
+    ].find(v => value.includes(v.value) || value.includes(v.name));
+
     if (item?.category === 'colors') {
       return true;
     }
   }
 
-  return isColor;
+  return false;
 };
 
 // Check if a variable is a color reference (var(--rs-*))
@@ -57,7 +101,7 @@ const isColorReference = (name: string, item: ThemeVariable): boolean => {
 };
 
 export default function Page() {
-  const [activeTheme, setActiveTheme] = useState<string>('base');
+  const [activeTheme, setActiveTheme] = useState<string>('light');
 
   // Group variables by category and type
   const groupedVariables = useMemo(() => {
@@ -130,17 +174,12 @@ export default function Page() {
         }}
       />
       {sortedCategories.map(category => (
-        <div key={category} className={styles.groupSection}>
+        <div key={category} className={classNames(styles.groupSection, 'rcv-markdown')}>
           <Heading level={2} my="2rem" className={styles.categoryHeading}>
             {startCase(category)}
           </Heading>
 
           {Object.entries(groupedVariables[category]).map(([type, variables]) => {
-            const showColorPreview =
-              category === 'colors' ||
-              (Array.isArray(variables) &&
-                variables.some(v => isColorValue(v.value) || isColorReference(v.name, v)));
-
             // Check if this category has only one type
             const hasOnlyOneType = Object.keys(groupedVariables[category]).length === 1;
 
@@ -157,33 +196,32 @@ export default function Page() {
                     <tr>
                       <th style={{ width: '300px' }}>Variable</th>
                       <th>Value</th>
-                      {showColorPreview && <th style={{ width: '60px', textAlign: 'right' }}></th>}
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(variables) &&
                       variables.map(variable => {
                         const hasColorPreview =
-                          isColorValue(variable.value) || isColorReference(variable.name, variable);
+                          isColorValue(variable.value) ||
+                          isColorReference(variable.name, variable) ||
+                          category === 'colors';
 
                         return (
                           <tr key={variable.name}>
                             <td className={styles.variableName}>
                               <Text as="code">{variable.name}</Text>
                             </td>
-                            <td className={styles.variableValue}>{variable.value}</td>
-                            {showColorPreview && (
-                              <td>
-                                {hasColorPreview && (
-                                  <span
-                                    className={styles.colorPreview}
-                                    style={{
-                                      background: `var(${variable.name})`
-                                    }}
-                                  />
-                                )}
-                              </td>
-                            )}
+                            <td className={styles.variableValue}>
+                              {hasColorPreview && (
+                                <span
+                                  className={styles.colorPreview}
+                                  style={{
+                                    background: `var(${variable.name})`
+                                  }}
+                                />
+                              )}
+                              {variable.value}
+                            </td>
                           </tr>
                         );
                       })}

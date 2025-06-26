@@ -6,7 +6,7 @@ import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 import type { Theme } from '@/components/AppProvider';
 
 interface ThemeGroupProps extends SegmentedControlProps {
-  onChange: (theme: Theme) => void;
+  onChange?: (theme: Theme) => void;
 }
 
 function ThemeGroup(props: ThemeGroupProps) {
@@ -43,7 +43,7 @@ function ThemeGroup(props: ThemeGroupProps) {
   }));
 
   const handleChange = (value: string) => {
-    onChange(value as Theme);
+    onChange?.(value as Theme);
     onChangeTheme(value as Theme);
   };
 
