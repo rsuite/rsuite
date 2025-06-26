@@ -106,7 +106,7 @@
 
     &-month-dropdown-cell:focus-visible {
       .rs-calendar-month-dropdown-cell-content {
-        outline: 3px solid var(--rs-color-focus-ring);
+        outline: 3px solid var(--rs-focus-ring-color);
       }
     }
 
@@ -114,7 +114,7 @@
       &:focus-visible {
         outline: none;
         .rs-calendar-table-cell-content {
-          outline: 3px solid var(--rs-color-focus-ring);
+          outline: 3px solid var(--rs-focus-ring-color);
         }
       }
     }

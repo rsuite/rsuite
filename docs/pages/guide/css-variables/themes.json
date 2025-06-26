@@ -1,0 +1,554 @@
+[
+  {
+    "name": "--rs-font-family-base",
+    "value": "-apple-system, BlinkMacSystemFont, Arial, Helvetica, 'PingFang SC',\n    'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif",
+    "type": "font-family",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-family-monospace",
+    "value": "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',\n    'Courier New', monospace",
+    "type": "font-family",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-4xs",
+    "value": "0.375rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-3xs",
+    "value": "0.5rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-2xs",
+    "value": "0.625rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-xs",
+    "value": "0.75rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-sm",
+    "value": "0.875rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-md",
+    "value": "1rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-lg",
+    "value": "1.125rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-xl",
+    "value": "1.25rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-2xl",
+    "value": "1.5rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-3xl",
+    "value": "1.875rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-4xl",
+    "value": "2.25rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-5xl",
+    "value": "3rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-6xl",
+    "value": "3.75rem",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-font-size-base",
+    "value": "var(--rs-font-size-sm)",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-base",
+    "value": "20px",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-plus",
+    "value": "22px",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-xs",
+    "value": "calc(20 / 12)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-sm",
+    "value": "calc(20 / 12)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-md",
+    "value": "calc(20 / 14)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-line-height-lg",
+    "value": "calc(22 / 16)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-xs",
+    "value": "calc(1 / 0.75)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-sm",
+    "value": "calc(1.25 / 0.875)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-md",
+    "value": "calc(1.5 / 1)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-lg",
+    "value": "calc(1.75 / 1.125)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-xl",
+    "value": "calc(1.75 / 1.25)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-2xl",
+    "value": "calc(2 / 1.5)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-3xl",
+    "value": "calc(2.25 / 1.875)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-4xl",
+    "value": "calc(2.5 / 2.25)",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-5xl",
+    "value": "1",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-text-line-height-6xl",
+    "value": "1",
+    "type": "line-height",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-spacing",
+    "value": "0.25rem",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-inline-xs",
+    "value": "8px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-block-xs",
+    "value": "2px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-inline-sm",
+    "value": "10px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-block-sm",
+    "value": "5px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-inline-lg",
+    "value": "16px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-spacing-block-lg",
+    "value": "10px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-padding-inline-md",
+    "value": "12px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-padding-block-md",
+    "value": "8px",
+    "type": "spacing",
+    "category": "spacing"
+  },
+  {
+    "name": "--rs-scale",
+    "value": "1",
+    "type": "misc",
+    "category": "misc"
+  },
+  {
+    "name": "--rs-radius-none",
+    "value": "0",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-xs",
+    "value": "0.125rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-sm",
+    "value": "0.25rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-md",
+    "value": "0.375rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-lg",
+    "value": "0.5rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-xl",
+    "value": "0.75rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-2xl",
+    "value": "1rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-3xl",
+    "value": "1.5rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-4xl",
+    "value": "2rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-radius-full",
+    "value": "62.5rem",
+    "type": "radius",
+    "category": "radius"
+  },
+  {
+    "name": "--rs-shadow-color",
+    "value": "rgb(0 0 0 / 10%)",
+    "type": "shadow-color",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-color-deep",
+    "value": "rgb(0 0 0 / 25%)",
+    "type": "shadow-color",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-none",
+    "value": "0 0 #0000",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-xs",
+    "value": "0 1px 2px 0 var(--rs-shadow-color)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-sm",
+    "value": "0 1px 3px 0 var(--rs-shadow-color), 0 1px 2px 0 var(--rs-shadow-color)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-md",
+    "value": "0 4px 6px -1px var(--rs-shadow-color), 0 2px 4px 0 var(--rs-shadow-color)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-lg",
+    "value": "0 10px 15px -3px var(--rs-shadow-color), 0 4px 6px 0 var(--rs-shadow-color)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-xl",
+    "value": "0 20px 25px -5px var(--rs-shadow-color), 0 8px 10px 0 var(--rs-shadow-color)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-shadow-2xl",
+    "value": "0 25px 50px -12px var(--rs-shadow-color-deep)",
+    "type": "shadow",
+    "category": "shadow"
+  },
+  {
+    "name": "--rs-cursor-disabled",
+    "value": "not-allowed",
+    "type": "misc",
+    "category": "misc"
+  },
+  {
+    "name": "--rs-link-hover-decoration",
+    "value": "underline",
+    "type": "link",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-link-active-decoration",
+    "value": "underline",
+    "type": "link",
+    "category": "typography"
+  },
+  {
+    "name": "--rs-ripple-bg",
+    "value": "rgb(0 0 0 / 20%)",
+    "type": "misc",
+    "category": "misc"
+  },
+  {
+    "name": "--rs-loader-default-size",
+    "value": "1.125rem",
+    "type": "misc",
+    "category": "misc"
+  },
+  {
+    "name": "--rs-zindex-date-range-picker-calendar-dropdown",
+    "value": "1",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-date-range-picker-table-cell-content",
+    "value": "1",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-badge-content",
+    "value": "1",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-message-full",
+    "value": "3",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-dropdown",
+    "value": "5",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-picker-toggle",
+    "value": "5",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-picker-input",
+    "value": "calc(var(--rs-zindex-picker-toggle) + 1)",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-picker-popup",
+    "value": "calc(var(--rs-zindex-picker-toggle) + 2)",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-list-helper",
+    "value": "99",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-modal",
+    "value": "1050",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-drawer",
+    "value": "1050",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-popover",
+    "value": "1060",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-tooltip",
+    "value": "1070",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-notification",
+    "value": "1080",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-uploader-picture-preview",
+    "value": "1",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-uploader-picture-loading-wrapper",
+    "value": "2",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-uploader-picture-error-wrapper",
+    "value": "3",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-uploader-picture-remove-button",
+    "value": "4",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-form-error-message",
+    "value": "5",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-body-row-wrapper",
+    "value": "0",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-header-row-wrapper",
+    "value": "2",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-column-resize-spanner",
+    "value": "3",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-cell-group-fixed",
+    "value": "4",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-row-cell-group-shadow",
+    "value": "5",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-table-mouse-area",
+    "value": "6",
+    "type": "z-index",
+    "category": "z-index"
+  },
+  {
+    "name": "--rs-zindex-rate-character-before",
+    "value": "1",
+    "type": "z-index",
+    "category": "z-index"
+  }
+]
