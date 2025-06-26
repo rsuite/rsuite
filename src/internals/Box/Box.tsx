@@ -1,60 +1,16 @@
-import React, { CSSProperties as CSS } from 'react';
+import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { forwardRef } from '@/internals/utils/react/forwardRef';
-import { getBoxCSSVariables, extractBoxProps, omitBoxProps } from './utils';
-import { useStyled } from '@/internals/hooks/useStyled';
-import type { WithAsProps, Breakpoints, ColorScheme, Size } from '@/internals/types';
+import { extractBoxProps, omitBoxProps } from './utils';
+import { useStyled, getCSSVariables, CSSSystemProps } from '@/internals/styled-system';
+import type { WithAsProps, Breakpoints } from '@/internals/types';
 
-export interface BoxProps extends WithAsProps {
+export interface BoxProps extends WithAsProps, CSSSystemProps {
   /** Breakpoint below which the component is shown with `display: block` */
   showFrom?: Breakpoints;
 
   /** Breakpoint above which the component is hidden with `display: none` */
   hideFrom?: Breakpoints;
-
-  /** Display property */
-  display?: CSS['display'];
-
-  /** Padding */
-  p?: CSS['padding'];
-  pt?: CSS['paddingTop'];
-  pb?: CSS['paddingBottom'];
-  pl?: CSS['paddingLeft'];
-  pr?: CSS['paddingRight'];
-  px?: CSS['paddingInline'];
-  py?: CSS['paddingBlock'];
-
-  /** Margin */
-  m?: CSS['margin'];
-  mt?: CSS['marginTop'];
-  mb?: CSS['marginBottom'];
-  ml?: CSS['marginLeft'];
-  mr?: CSS['marginRight'];
-  mx?: CSS['marginInline'];
-  my?: CSS['marginBlock'];
-
-  /** Box size */
-  w?: CSS['width'];
-  h?: CSS['height'];
-  minw?: CSS['minWidth'];
-  maxw?: CSS['maxWidth'];
-  minh?: CSS['minHeight'];
-  maxh?: CSS['maxHeight'];
-
-  /** Box Color */
-  c?: ColorScheme | CSS['color'];
-
-  /** Box Border */
-  bd?: CSS['border'];
-
-  /** Box Background */
-  bg?: ColorScheme | CSS['backgroundColor'];
-
-  /** Box Border Radius */
-  rounded?: Size | CSS['borderRadius'] | 'full';
-
-  /** Box Shadow */
-  shadow?: Size | CSS['boxShadow'];
 }
 
 /**
@@ -68,7 +24,7 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
 
   const boxProps = extractBoxProps(rest);
   const domProps = omitBoxProps(rest);
-  const boxCSSVars = getBoxCSSVariables(boxProps);
+  const boxCSSVars = getCSSVariables(boxProps, '--rs-box-');
   const isBox = !isEmpty(boxCSSVars) || showFrom || hideFrom;
 
   const styled = useStyled({

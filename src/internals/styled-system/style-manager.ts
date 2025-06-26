@@ -7,7 +7,7 @@
  */
 
 // Global style sheet manager
-const StyleManager = {
+export const StyleManager = {
   styleElement: null as HTMLStyleElement | null,
   styleMap: new Map<string, string>(),
   nonce: undefined as string | undefined,

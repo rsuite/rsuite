@@ -1,6 +1,6 @@
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 
 export interface FormStackProps extends BoxProps {
@@ -17,12 +17,6 @@ export interface FormStackProps extends BoxProps {
    * Only valid in vertical layouts.
    */
   fluid?: boolean;
-
-  /**
-   * Define the spacing between immediate children.
-   * Can be a number, string, or an array of numbers/strings for responsive spacing.
-   */
-  spacing?: number | string | (number | string)[];
 }
 
 /**
@@ -39,17 +33,14 @@ const FormStack = forwardRef<'span', FormStackProps>((props, ref) => {
     children,
     layout = 'vertical',
     fluid,
-    spacing,
-    style,
     ...rest
   } = propsWithDefaults;
 
-  const { withPrefix, merge, cssVar } = useStyles(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix(layout, { fluid }));
-  const styles = mergeStyles(style, cssVar('spacing', spacing, getCssValue));
 
   return (
-    <Box as={as} ref={ref} style={styles} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} {...rest}>
       {children}
     </Box>
   );

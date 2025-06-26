@@ -27,6 +27,8 @@ export default {
     officialThemes: 'Themes',
     cssVariables: 'CSS Variables',
     cssReset: 'CSS Reset',
+    styleProps: 'Style Props',
+    defaultProps: 'Default Props',
     i18n: 'Localization',
     rtl: 'Right to left',
     changeLog: 'Change log',

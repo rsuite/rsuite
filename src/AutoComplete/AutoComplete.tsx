@@ -35,10 +35,10 @@ import type {
 import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
-  extends BoxProps,
-    FormControlPickerProps<T, any, Option | string>,
+  extends FormControlPickerProps<T, any, Option | string>,
     ListboxProps,
-    PopupProps {
+    PopupProps,
+    BoxProps {
   /** The placement of component */
   placement?: Placement;
 
@@ -89,7 +89,8 @@ export interface AutoCompleteProps<T = string>
  * TODO: Remove unnecessary .rs-auto-complete element
  * TODO: role=combobox and aria-autocomplete on input element
  */
-const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: AutoCompleteProps, ref) => {
+// Use type assertion to avoid type error with required properties
+const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   const { propsWithDefaults } = useCustom('AutoComplete', props);
   const {
     as,

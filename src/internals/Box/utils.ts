@@ -1,49 +1,20 @@
-import { getCssValue, getSizeStyle, getColorVar } from '@/internals/utils';
+import camelCase from 'lodash/camelCase';
+import { cssSystemPropAlias } from '@/internals/styled-system';
+import { isCSSProperty } from '@/internals/utils';
 
-// Mapping for padding properties to their CSS style equivalents
-const paddingStyleMap: Record<string, string> = {
-  p: 'padding',
-  pt: 'paddingTop',
-  pb: 'paddingBottom',
-  pl: 'paddingLeft',
-  pr: 'paddingRight',
-  px: 'paddingInline',
-  py: 'paddingBlock'
+const getUsedPropKeys = () => {
+  const propSet = new Set<string>();
+
+  Object.entries(cssSystemPropAlias).forEach(([key, prop]) => {
+    const { property } = prop;
+    const propName = camelCase(property);
+
+    propSet.add(key);
+    propSet.add(propName);
+  });
+
+  return Array.from(propSet);
 };
-
-// Mapping for margin properties to their CSS style equivalents
-const marginStyleMap: Record<string, string> = {
-  m: 'margin',
-  mt: 'marginTop',
-  mb: 'marginBottom',
-  ml: 'marginLeft',
-  mr: 'marginRight',
-  mx: 'marginInline',
-  my: 'marginBlock'
-};
-
-// Mapping for size properties to their CSS style equivalents
-const sizeStyleMap: Record<string, string> = {
-  w: 'width',
-  h: 'height',
-  minw: 'minWidth',
-  maxw: 'maxWidth',
-  minh: 'minHeight',
-  maxh: 'maxHeight'
-};
-
-// Derive box property keys from style mappings
-const boxPropKeys = [
-  ...Object.keys(paddingStyleMap),
-  ...Object.keys(marginStyleMap),
-  ...Object.keys(sizeStyleMap),
-  'bd',
-  'bg',
-  'c',
-  'display',
-  'rounded',
-  'shadow'
-];
 
 /**
  * Extract box properties from props
@@ -51,11 +22,14 @@ const boxPropKeys = [
  * @returns Object containing only box properties
  */
 export const extractBoxProps = (props: Record<string, any>): Record<string, any> => {
+  const boxPropKeys = getUsedPropKeys();
   const boxProps: Record<string, any> = {};
 
   // Extract only box related properties
-  boxPropKeys.forEach(key => {
-    if (key in props && props[key] !== undefined) {
+  Object.keys(props).forEach(key => {
+    if (boxPropKeys.includes(key) && props[key] !== undefined) {
+      boxProps[key] = props[key];
+    } else if (isCSSProperty(key)) {
       boxProps[key] = props[key];
     }
   });
@@ -69,6 +43,7 @@ export const extractBoxProps = (props: Record<string, any>): Record<string, any>
  * @returns New object without layout properties
  */
 export const omitBoxProps = (props: Record<string, any>): Record<string, any> => {
+  const boxPropKeys = getUsedPropKeys();
   const filteredProps: Record<string, any> = {};
 
   // Copy all properties except box related ones
@@ -79,59 +54,4 @@ export const omitBoxProps = (props: Record<string, any>): Record<string, any> =>
   });
 
   return filteredProps;
-};
-
-/**
- * Converts layout properties to CSS variables with abbreviated names
- * @param props Object containing layout properties
- * @returns Object with CSS variables
- */
-export const getBoxCSSVariables = (
-  props: Record<string, any>
-): Record<string, string | number | undefined> => {
-  const cssVars: Record<string, string | number | undefined> = {};
-  const prefix = `--rs-box-`;
-
-  // Process padding properties
-  Object.keys(paddingStyleMap).forEach(propKey => {
-    if (props[propKey] !== undefined) {
-      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
-    }
-  });
-
-  // Process margin properties
-  Object.keys(marginStyleMap).forEach(propKey => {
-    if (props[propKey] !== undefined) {
-      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
-    }
-  });
-
-  // Process size properties
-  Object.keys(sizeStyleMap).forEach(propKey => {
-    if (props[propKey] !== undefined) {
-      cssVars[`${prefix}${propKey}`] = getCssValue(props[propKey]);
-    }
-  });
-
-  if (props.bd !== undefined) {
-    cssVars[`${prefix}bd`] = getCssValue(props.bd);
-  }
-
-  if (props.display !== undefined) {
-    cssVars[`${prefix}display`] = props.display;
-  }
-
-  if (props.c !== undefined) {
-    cssVars[`${prefix}c`] = getColorVar(props.c);
-  }
-
-  if (props.bg !== undefined) {
-    cssVars[`${prefix}bg`] = getColorVar(props.bg);
-  }
-
-  return {
-    ...cssVars,
-    ...getSizeStyle(props.rounded, 'box', 'rounded'),
-    ...getSizeStyle(props.shadow, 'box', 'shadow')
-  };
 };

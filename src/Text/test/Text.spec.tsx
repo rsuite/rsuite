@@ -3,7 +3,7 @@ import Text, { TextProps } from '../Text';
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
-import StyleManager from '@/internals/utils/style-sheet/style-manager';
+import { StyleManager } from '@/internals/styled-system';
 
 describe('Text', () => {
   testStandardProps(<Text />);

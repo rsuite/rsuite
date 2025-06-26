@@ -186,9 +186,9 @@ export interface PickerBaseProps<L = any> extends PopupProps, BoxProps, Animatio
 }
 
 export interface FormControlPickerProps<T = any, L = any, D = Record<string, any>, I = T>
-  extends PickerBaseProps<L>,
-    FormControlBaseProps<T>,
-    DataProps<D> {
+  extends DataProps<D>,
+    PickerBaseProps<L>,
+    FormControlBaseProps<T> {
   /**
    * Disabled items
    */

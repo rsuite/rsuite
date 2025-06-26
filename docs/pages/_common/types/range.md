@@ -1,4 +1,4 @@
-### `ts:Range`
+#### `ts:Range`
 
 ```ts
 interface Range {

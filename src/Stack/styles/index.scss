@@ -77,12 +77,3 @@
     @include responsive-direction(xxl);
   }
 }
-
-.rs-stack-item {
-  align-self: var(--rs-stack-item-align-self);
-  order: var(--rs-stack-item-order);
-  flex: var(
-    --rs-stack-item-flex,
-    var(--rs-stack-item-grow) var(--rs-stack-item-shrink) var(--rs-stack-item-basis)
-  );
-}

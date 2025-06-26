@@ -11,24 +11,6 @@ $breakpoints: (
   xl: vars.$screen-xxl
 );
 
-// Box base selector
-[data-rs='box'] {
-  // Define radius variables
-  --rs-box-rounded-xs: var(--rs-radius-xs);
-  --rs-box-rounded-sm: var(--rs-radius-sm);
-  --rs-box-rounded-md: var(--rs-radius-md);
-  --rs-box-rounded-lg: var(--rs-radius-lg);
-  --rs-box-rounded-xl: var(--rs-radius-xl);
-  --rs-box-rounded-full: var(--rs-radius-full);
-
-  // Define shadow variables
-  --rs-box-shadow-xs: var(--rs-shadow-xs);
-  --rs-box-shadow-sm: var(--rs-shadow-sm);
-  --rs-box-shadow-md: var(--rs-shadow-md);
-  --rs-box-shadow-lg: var(--rs-shadow-lg);
-  --rs-box-shadow-xl: var(--rs-shadow-xl);
-}
-
 // Generate responsive visibility styles
 @each $key, $value in $breakpoints {
   $bp: calc(#{$value} - 1px);

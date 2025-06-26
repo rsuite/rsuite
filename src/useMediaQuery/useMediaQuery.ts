@@ -1,20 +1,10 @@
 import canUseDOM from 'dom-lib/canUseDOM';
+import { breakpointValues } from '@/internals/styled-system';
 import { useSyncExternalStore, useCallback, useRef, useMemo } from 'react';
 import { createBreakpoints } from './breakpoints';
-import type { BreakpointMap, Query } from './types';
+import type { Query } from './types';
 
-// Basic breakpoint values definition
-const breakpointValues: BreakpointMap = {
-  xs: '0px',
-  sm: '576px',
-  md: '768px',
-  lg: '992px',
-  xl: '1200px',
-  xxl: '1400px',
-  '2xl': '1400px'
-};
-
-// Create enhanced breakpoint system
+// Create enhanced breakpoint system using shared breakpoint values
 const breakpointSystem = createBreakpoints(breakpointValues);
 
 // Create media query map that combines legacy breakpoints with enhanced conditions

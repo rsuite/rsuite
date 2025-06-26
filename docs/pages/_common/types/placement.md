@@ -1,4 +1,4 @@
-### `ts:Placement`
+#### `ts:Placement`
 
 ```ts
 type Placement =

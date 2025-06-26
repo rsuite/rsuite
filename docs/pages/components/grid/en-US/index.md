@@ -106,12 +106,14 @@ Use the `order` property to control the visual order of columns regardless of th
 | push        | number \| [ResponsiveValue][responsive]           | Number of grids to move right                                                             | ![][6.0.0] |
 | span        | number \| 'auto' \| [ResponsiveValue][responsive] | Number of grids. When set to 'auto', the width will adjust automatically based on content | ![][6.0.0] |
 
+### Type Definitions
+
 <!--{include:(_common/types/responsive-value.md)}-->
 
 [responsive]: #code-ts-responsive-value-code
 [gutter]: #code-ts-gutter-type-code
 
-### `ts:GutterType`
+#### `ts:GutterType`
 
 ```ts
 type GutterType = number | string | [number | string, number | string];

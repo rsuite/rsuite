@@ -1,4 +1,4 @@
-### `ts:ListProps`
+#### `ts:ListProps`
 
 ```ts
 interface ListProps {
