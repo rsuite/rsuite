@@ -1,3 +1,12 @@
+## [5.83.1](https://github.com/rsuite/rsuite/compare/v5.83.0...v5.83.1) (2025-06-27)
+
+
+### Bug Fixes
+
+* allow TimePicker and TimeRangePicker locale prop to override global locale ([#4333](https://github.com/rsuite/rsuite/issues/4333)) ([6f66dfd](https://github.com/rsuite/rsuite/commit/6f66dfdc570c930b99e2954bc339446707947b92))
+
+
+
 # [5.83.0](https://github.com/rsuite/rsuite/compare/v5.82.0...v5.83.0) (2025-06-19)
 
 
