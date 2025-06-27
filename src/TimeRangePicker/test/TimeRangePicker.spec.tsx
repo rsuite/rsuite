@@ -182,4 +182,22 @@ describe('TimeRangePicker', () => {
       expect.any(Object)
     );
   });
+
+  it('Should render custom locale', () => {
+    render(
+      <TimeRangePicker
+        locale={{
+          hours: '时',
+          minutes: '分',
+          seconds: '秒'
+        }}
+        format="hh:mm:ss"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getAllByText('时')[0]).to.have.class('rs-calendar-time-dropdown-column-title');
+    expect(screen.getAllByText('分')[0]).to.have.class('rs-calendar-time-dropdown-column-title');
+    expect(screen.getAllByText('秒')[0]).to.have.class('rs-calendar-time-dropdown-column-title');
+  });
 });
