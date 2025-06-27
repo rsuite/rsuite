@@ -14,22 +14,28 @@ function getDefaultRTL() {
   );
 }
 
-function toLocaleKey(componentName: string): LocaleKey {
-  const Picker = [
-    'Cascader',
-    'CheckTreePicker',
-    'MultiCascader',
-    'SelectPicker',
-    'TreePicker',
-    'CheckPicker',
-    'CheckTreePicker'
-  ];
+/**
+ * Maps a component name to its corresponding locale key
+ * @param componentName - The name of the component
+ * @returns The locale key for the component
+ */
+function getComponentLocaleKey(componentName: string): LocaleKey {
+  // Define mappings for components that share locale keys
+  const localeKeyMappings: Record<string, LocaleKey> = {
+    // All picker components use the Combobox locale
+    Cascader: 'Combobox',
+    CheckTreePicker: 'Combobox',
+    MultiCascader: 'Combobox',
+    SelectPicker: 'Combobox',
+    TreePicker: 'Combobox',
+    CheckPicker: 'Combobox',
+    // Time components use date components locales
+    TimePicker: 'DatePicker',
+    TimeRangePicker: 'DateRangePicker'
+  };
 
-  if (Picker.includes(componentName)) {
-    return 'Combobox';
-  }
-
-  return componentName as LocaleKey;
+  // Return the mapped locale key or the component name itself if no mapping exists
+  return localeKeyMappings[componentName] || (componentName as LocaleKey);
 }
 
 /**
@@ -80,7 +86,7 @@ export function useCustom<P = any>(componentName?: keyof ReactSuiteComponents, c
     //Memoize the global default props based on component name
     const globalDefaultProps = components[componentName]?.defaultProps || {};
     const mergedProps = assign({}, globalDefaultProps, restProps);
-    const localeKey = toLocaleKey(componentName);
+    const localeKey = getComponentLocaleKey(componentName);
 
     // If the default locale has the component name, then merge the locale.
     if (Object.keys(enGB).includes(localeKey)) {
