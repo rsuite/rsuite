@@ -1,41 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { FormattedNumber } from '../CustomProvider';
-
-interface StatValueProps extends WithAsProps {
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { FormattedNumber } from '@/internals/intl/FormattedNumber';
+export interface StatValueProps extends BoxProps {
   value?: number;
   formatOptions?: Intl.NumberFormatOptions;
 }
 
-const StatValue: RsRefForwardingComponent<'dd', StatValueProps> = React.forwardRef(
-  (props: StatValueProps, ref) => {
-    const {
-      as: Component = 'dd',
-      classPrefix = 'stat-value',
-      className,
-      children,
-      value,
-      formatOptions,
-      ...rest
-    } = props;
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
+  const {
+    as = 'dd',
+    classPrefix = 'stat-value',
+    className,
+    children,
+    value,
+    formatOptions,
+    ...rest
+  } = props;
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    return (
-      <Component ref={ref} className={classes} {...rest}>
-        {value && <FormattedNumber value={value} formatOptions={formatOptions} />}
-        {children}
-      </Component>
-    );
-  }
-);
+  return (
+    <Box as={as} ref={ref} className={classes} {...rest}>
+      {value && <FormattedNumber value={value} formatOptions={formatOptions} />}
+      {children}
+    </Box>
+  );
+});
 
 StatValue.displayName = 'StatValue';
-StatValue.propTypes = {
-  value: PropTypes.number,
-  formatOptions: PropTypes.object
-};
 
 export default StatValue;

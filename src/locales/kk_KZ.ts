@@ -1,4 +1,4 @@
-import kk from 'date-fns/locale/kk';
+import { kk } from 'date-fns/locale/kk';
 
 const DateTimeFormats = {
   sunday: 'Жк',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Қосу',
     off: 'Өшіру'
+  },
+  Dialog: {
+    alert: 'Ескерту',
+    confirm: 'Растау',
+    ok: 'OK',
+    cancel: 'Болдырмау'
   }
 };

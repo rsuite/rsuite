@@ -1,18 +1,9 @@
 <!--start-code-->
 
 ```js
-import { Progress } from 'rsuite';
+import { Progress, VStack } from 'rsuite';
 
-const App = () => (
-  <>
-    <Progress.Line />
-    <Progress.Line percent={30} strokeColor="#ffc107" />
-    <Progress.Line percent={30} status="active" />
-    <Progress.Line percent={50} status="fail" />
-    <Progress.Line percent={100} status="success" />
-    <Progress.Line percent={80} showInfo={false} />
-  </>
-);
+const App = () => <Progress percent={20} />;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

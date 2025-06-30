@@ -1,4 +1,5 @@
-export { useClassNames } from './useClassNames';
+export { useCustom } from './useCustom';
+export { useStyles } from './useStyles';
 export { useClickOutside } from './useClickOutside';
 export { useControlled } from './useControlled';
 export { useElementResize } from './useElementResize';

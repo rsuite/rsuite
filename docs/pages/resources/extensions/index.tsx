@@ -1,7 +1,7 @@
 import React from 'react';
 import { Panel, Row, Col, Stack, IconButton } from 'rsuite';
-import Page from '@/components/Page';
-import { useApp } from '@/components/AppContext';
+import Page from '@/components/layout/Page';
+import { useApp } from '@/hooks/useApp';
 import GitHubIcon from '@rsuite/icons/legacy/Github';
 
 interface CardProps {
@@ -46,7 +46,7 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default () => {
+export default function Index() {
   const { locales } = useApp();
 
   const resources = [
@@ -131,4 +131,4 @@ export default () => {
       </Row>
     </Page>
   );
-};
+}

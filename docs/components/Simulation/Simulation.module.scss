@@ -1,0 +1,13 @@
+.rs-simulation {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid var(--rs-border-secondary);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .rs-device-frame {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

@@ -1,4 +1,4 @@
-import arSA from 'date-fns/locale/ar-SA';
+import { arSA } from 'date-fns/locale/ar-SA';
 
 const DateTimeFormats = {
   sunday: 'ح',
@@ -87,5 +87,11 @@ export default {
   Toggle: {
     on: 'إيقاف',
     off: 'تشغيل'
+  },
+  Dialog: {
+    alert: 'تنبيه',
+    confirm: 'تأكيد',
+    ok: 'موافق',
+    cancel: 'إلغاء'
   }
 };

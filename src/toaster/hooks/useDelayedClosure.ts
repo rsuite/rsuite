@@ -17,7 +17,7 @@ interface UseDelayedClosureProps {
   /**
    * Optional reference to the target element.
    */
-  targetRef?: React.RefObject<HTMLElement>;
+  targetRef?: React.RefObject<HTMLElement | null>;
 
   /**
    * Reset the hide timer if the mouse moves over the target element.
@@ -31,8 +31,8 @@ interface UseDelayedClosureProps {
 function useDelayedClosure(props: UseDelayedClosureProps) {
   const { onClose, duration: durationProp, targetRef } = props;
   const { usedToaster, duration = durationProp, mouseReset } = useContext(ToastContext);
-  const mouseEnterRef = useRef<ReturnType<typeof on>>();
-  const mouseLeaveRef = useRef<ReturnType<typeof on>>();
+  const mouseEnterRef = useRef<ReturnType<typeof on>>(null);
+  const mouseLeaveRef = useRef<ReturnType<typeof on>>(null);
 
   const { clear, reset } = useTimeout(onClose, duration, usedToaster && duration > 0);
 

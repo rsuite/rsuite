@@ -1,82 +1,69 @@
-import React from 'react';
-import * as ReactDOM from 'react-dom';
-import { unmountComponentAtNode } from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
+import { afterEach } from 'vitest';
 
-// https://github.com/testing-library/react-hooks-testing-library#a-note-about-react-18-support
-import * as testLibrary from '@testing-library/react';
-
-const majorVersion = parseInt(React.version);
-
-// Record every container created for rendering
-// Useful for doing a cleanup after each test case
-// Ref: https://github.com/testing-library/react-testing-library/blob/main/src/pure.js
-const mountedContainers = new Set();
-const mountedRoots = new Set();
+const mountedContainers = new Set<HTMLDivElement>();
+const mountedRoots = new Set<Root>();
 
 /**
- * @return {HTMLDivElement}
+ * Creates a new test container and appends it to the document body.
+ * The container is tracked for automatic cleanup after each test.
+ *
+ * @returns {HTMLDivElement} The newly created container element.
  */
-export function createTestContainer() {
+export function createTestContainer(): HTMLDivElement {
   const container = document.createElement('div');
   document.body.appendChild(container);
 
-  // we'll add it to the mounted containers regardless of whether it's actually
-  // added to document.body so the cleanup method works regardless of whether
-  // they're passing us a custom container or not.
+  // Track the container for cleanup
   mountedContainers.add(container);
 
   return container;
 }
 
-// maybe one day we'll expose this (perhaps even as a utility returned by render).
-// but let's wait until someone asks for it.
-function cleanupAtContainer(container) {
-  testLibrary['act'](() => {
-    if (majorVersion < 18) {
-      unmountComponentAtNode(container);
-    }
-  });
+/**
+ * Cleans up a single container by removing it from the DOM and the tracked set.
+ *
+ * @param {HTMLDivElement} container - The container to clean up.
+ */
+function cleanupContainer(container: HTMLDivElement): void {
   if (container.parentNode === document.body) {
     document.body.removeChild(container);
   }
   mountedContainers.delete(container);
 }
 
-function cleanup() {
-  mountedContainers.forEach(cleanupAtContainer);
-  mountedRoots.forEach((root: any) => {
-    testLibrary['act'](() => {
-      root['unmount']?.();
-    });
+/**
+ * Cleans up all tracked containers and roots.
+ * This function is automatically called after each test.
+ */
+function cleanup(): void {
+  mountedContainers.forEach(cleanupContainer);
+  mountedRoots.forEach(root => {
+    root.unmount();
   });
+  mountedContainers.clear();
+  mountedRoots.clear();
 }
 
-afterEach(() => {
-  cleanup();
-});
+// Automatically cleanup after each test
+afterEach(cleanup);
 
 /**
- * @todo Deprecate and remove usage of this util, use `render` from `@testing-library/react`
+ * Renders a React component into a test container.
+ * The container and its associated root are tracked for cleanup.
+ *
+ * @param {React.ReactNode} children - The React component to render.
+ * @returns {Promise<HTMLDivElement>} The container where the component was rendered.
  */
-export function render(children) {
+export async function render(children: React.ReactNode): Promise<HTMLDivElement> {
   const container = createTestContainer();
+  const root = createRoot(container);
 
-  if (majorVersion >= 18) {
-    /**
-     * Fix react 18 warnings
-     * Error: Warning: You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".
-     */
-    ReactDOM['__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'].usingClientEntryPoint = true;
+  // Render the React component
+  root.render(children);
 
-    const root = ReactDOM['createRoot']?.(container);
-    root.render(children);
-
-    mountedRoots.add(root);
-
-    return container;
-  }
-
-  ReactDOM.render(children, container);
+  // Track the root for cleanup
+  mountedRoots.add(root);
 
   return container;
 }

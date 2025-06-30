@@ -6,12 +6,12 @@ import Footer from '../../Footer';
 import Content from '../../Content';
 import Sidebar from '../../Sidebar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Header/styles/index.less';
-import '../../Footer/styles/index.less';
-import '../../Content/styles/index.less';
-import '../../Sidebar/styles/index.less';
-import './styles.less';
+import '../styles/index.scss';
+import '../../Header/styles/index.scss';
+import '../../Footer/styles/index.scss';
+import '../../Content/styles/index.scss';
+import '../../Sidebar/styles/index.scss';
+import './styles.scss';
 
 const meta = createMeta(Container);
 

@@ -10,7 +10,7 @@ const App = () => (
     valueKey="abbr"
     style={{ minWidth: 300 }}
     placeholder="Choose a Country"
-    renderMenuItem={(label, item) => (
+    renderOption={(label, item) => (
       <div>
         {item.icon} {label} ({item.abbr}) +{item.code}
       </div>

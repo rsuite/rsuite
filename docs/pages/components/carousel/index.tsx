@@ -1,6 +1,6 @@
 import React from 'react';
-import { Carousel, Radio, RadioGroup, Divider } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { Carousel, SegmentedControl, Divider, Text } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Carousel, Radio, RadioGroup, Divider }}
+      dependencies={{ Carousel, SegmentedControl, Divider, Text }}
     />
   );
 }

@@ -1,7 +1,13 @@
 <!--start-code-->
 
 ```js
-import { Stack, HStack, VStack, Button, RadioGroup, Radio, SelectPicker } from 'rsuite';
+import { Stack, HStack, VStack, Center, SelectPicker } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 // 6, 12, 18, 24, 30
 const spacingArray = Array.from({ length: 5 }, (_, i) => {
@@ -11,26 +17,31 @@ const spacingArray = Array.from({ length: 5 }, (_, i) => {
 
 const App = () => {
   const [direction, setDirection] = React.useState('row');
-  const [justifyContent, setJustifyContent] = React.useState('flex-start');
-  const [alignItems, setAlignItems] = React.useState('flex-start');
+  const [justify, setJustify] = React.useState('flex-start');
+  const [align, setAlign] = React.useState('flex-start');
   const [spacing, setSpacing] = React.useState(6);
 
   return (
-    <HStack wrap spacing={20}>
+    <HStack wrap spacing={20} align="start">
       <Stack
         spacing={spacing}
         direction={direction}
-        alignItems={alignItems}
-        justifyContent={justifyContent}
-        as={Box}
+        align={align}
+        justify={justify}
+        p={20}
+        rounded="lg"
+        w={400}
+        h={300}
+        bd="1px solid var(--rs-border-primary)"
+        rounded="md"
       >
-        <Button size="lg" appearance="ghost">Large</Button>
-        <Button size="md" appearance="ghost">Medium</Button>
-        <Button size="sm" appearance="ghost">Small</Button>
-        <Button size="xs" appearance="ghost">Xsmall</Button>
+        <DecorativeBox w={80} h={80} />
+        <DecorativeBox w={70} h={70} />
+        <DecorativeBox w={60} h={60} />
+        <DecorativeBox w={50} h={50} />
       </Stack>
 
-      <VStack spacing={12} >
+      <VStack spacing={12}>
         <SelectPicker
           label="spacing"
           searchable={false}
@@ -40,57 +51,55 @@ const App = () => {
           onChange={setSpacing}
         />
 
-        <RadioGroup inline value={direction} onChange={setDirection} appearance="picker">
-          <RadioLabel>direction:</RadioLabel>
-          <Radio value="row">row</Radio>
-          <Radio value="row-reverse">row-reverse</Radio>
-          <Radio value="column">column</Radio>
-          <Radio value="column-reverse">column-reverse</Radio>
-        </RadioGroup>
+        <SelectPicker
+          label="direction"
+          searchable={false}
+          cleanable={false}
+          value={direction}
+          data={[
+            { value: 'row', label: 'row' },
+            { value: 'row-reverse', label: 'row-reverse' },
+            { value: 'column', label: 'column' },
+            { value: 'column-reverse', label: 'column-reverse' }
+          ]}
+          onChange={setDirection}
+        />
 
-        <RadioGroup inline value={alignItems} onChange={setAlignItems} appearance="picker">
-          <RadioLabel>alignItems:</RadioLabel>
-          <Radio value="flex-start">flex-start</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="flex-end">flex-end</Radio>
-          <Radio value="stretch">stretch</Radio>
-          <Radio value="baseline">baseline</Radio>
-        </RadioGroup>
+        <SelectPicker
+          label="align"
+          searchable={false}
+          cleanable={false}
+          value={align}
+          data={[
+            { value: 'flex-start', label: 'flex-start' },
+            { value: 'center', label: 'center' },
+            { value: 'flex-end', label: 'flex-end' },
+            { value: 'stretch', label: 'stretch' },
+            { value: 'baseline', label: 'baseline' }
+          ]}
+          onChange={setAlign}
+        />
 
-        <RadioGroup inline value={justifyContent} onChange={setJustifyContent} appearance="picker">
-          <RadioLabel>justifyContent:</RadioLabel>
-          <Radio value="flex-start">flex-start</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="flex-end">flex-end</Radio>
-          <Radio value="space-between">space-between</Radio>
-          <Radio value="space-around">space-around</Radio>
-        </RadioGroup>
-      </Stack>
+        <SelectPicker
+          label="justify"
+          searchable={false}
+          cleanable={false}
+          value={justify}
+          data={[
+            { value: 'flex-start', label: 'flex-start' },
+            { value: 'center', label: 'center' },
+            { value: 'flex-end', label: 'flex-end' },
+            { value: 'space-between', label: 'space-between' },
+            { value: 'space-around', label: 'space-around' }
+          ]}
+          onChange={setJustify}
+        />
+      </VStack>
     </HStack>
   );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
-
-const Box = React.forwardRef((props, ref) => {
-  const { style, ...rest } = props;
-  return (
-    <div
-      {...rest}
-      ref={ref}
-      style={{
-        padding: 10,
-        background: '#f5f5f5',
-        width: 400,
-        height: 300,
-        borderRadius: 6,
-        ...style
-      }}
-    />
-  );
-});
 ```
 
 <!--end-code-->

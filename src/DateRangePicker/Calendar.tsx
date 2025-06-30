@@ -2,10 +2,11 @@ import React, { useCallback } from 'react';
 import CalendarContainer, {
   CalendarProps as CalendarContainerProps
 } from '../Calendar/CalendarContainer';
+import { forwardRef } from '@/internals/utils';
 import { addMonths, startOfToday } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { DateRange } from './types';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import { WithAsProps } from '@/internals/types';
 import { DateRangePickerLocale } from '../locales';
 import { useCalendarHandlers } from './hooks';
 
@@ -44,65 +45,62 @@ export interface CalendarProps
   onMouseMove?: (date: Date) => void;
 }
 
-const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
-  (props: CalendarProps, ref) => {
-    const {
-      as: Component = CalendarContainer,
-      calendarDateRange = [startOfToday(), addMonths(startOfToday(), 1)],
-      format = 'yyyy-MM-dd',
-      disabledDate,
-      index = 0,
-      limitEndYear,
-      limitStartYear,
-      onChangeCalendarMonth,
-      onChangeCalendarTime,
-      onSelect,
-      renderTitle,
-      value = [],
-      ...rest
-    } = props;
+const Calendar = forwardRef<'div', CalendarProps>((props: CalendarProps, ref) => {
+  const {
+    as: Component = CalendarContainer,
+    calendarDateRange = [startOfToday(), addMonths(startOfToday(), 1)],
+    format = 'yyyy-MM-dd',
+    disabledDate,
+    index = 0,
+    limitEndYear,
+    limitStartYear,
+    onChangeCalendarMonth,
+    onChangeCalendarTime,
+    onSelect,
+    renderTitle,
+    value = [],
+    ...rest
+  } = props;
 
-    const calendarKey = index === 0 ? 'start' : 'end';
+  const calendarKey = index === 0 ? 'start' : 'end';
+  const calendarHandlers = useCalendarHandlers({
+    index,
+    calendarDateRange,
+    onChangeCalendarMonth,
+    onChangeCalendarTime,
+    onSelect
+  });
 
-    const calendarHandlers = useCalendarHandlers({
-      index,
-      calendarDateRange,
-      onChangeCalendarMonth,
-      onChangeCalendarTime,
-      onSelect
-    });
+  const disableCalendarDate = useCallback(
+    (date: Date) => {
+      return disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
+    },
+    [disabledDate, value]
+  );
 
-    const disableCalendarDate = useCallback(
-      (date: Date) => {
-        return disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR);
-      },
-      [disabledDate, value]
-    );
+  const handleRenderTitle = useCallback(
+    (date: Date) => {
+      return renderTitle?.(date, calendarKey);
+    },
+    [renderTitle, calendarKey]
+  );
 
-    const handleRenderTitle = useCallback(
-      (date: Date) => {
-        return renderTitle?.(date, calendarKey);
-      },
-      [renderTitle, calendarKey]
-    );
-
-    return (
-      <Component
-        data-testid={`calendar-${calendarKey}`}
-        {...rest}
-        {...calendarHandlers}
-        index={index}
-        format={format}
-        dateRange={value}
-        disabledDate={disableCalendarDate}
-        limitEndYear={limitEndYear}
-        limitStartYear={limitStartYear}
-        ref={ref}
-        renderTitle={handleRenderTitle}
-      />
-    );
-  }
-);
+  return (
+    <Component
+      data-testid={`calendar-${calendarKey}`}
+      {...rest}
+      {...calendarHandlers}
+      index={index}
+      format={format}
+      dateRange={value}
+      disabledDate={disableCalendarDate}
+      limitEndYear={limitEndYear}
+      limitStartYear={limitStartYear}
+      renderTitle={handleRenderTitle}
+      ref={ref}
+    />
+  );
+});
 
 Calendar.displayName = 'DateRangePicker.Calendar';
 

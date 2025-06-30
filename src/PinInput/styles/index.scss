@@ -1,0 +1,93 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../Input/styles/index' as input;
+
+.rs-pin-input {
+  --rs-pin-input-size-lg: 42px;
+  --rs-pin-input-size-md: 36px;
+  --rs-pin-input-size-sm: 30px;
+  --rs-pin-input-size-xs: 24px;
+
+  --rs-pin-input-size: var(--rs-pin-input-size-md);
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  // Individual segment styling
+  &-segment {
+    text-align: center;
+    width: var(--rs-pin-input-size);
+    caret-color: transparent;
+
+    // Size variants
+    &.rs-input-lg {
+      --rs-pin-input-size: var(--rs-pin-input-size-lg);
+    }
+
+    &.rs-input-md {
+      --rs-pin-input-size: var(--rs-pin-input-size-md);
+    }
+
+    &.rs-input-sm {
+      --rs-pin-input-size: var(--rs-pin-input-size-sm);
+    }
+
+    &.rs-input-xs {
+      --rs-pin-input-size: var(--rs-pin-input-size-xs);
+    }
+  }
+
+  // Masked input styling
+  &-masked {
+    font-family: monospace;
+  }
+
+  // Attached segments
+  &-attached {
+    .rs-pin-input-segment {
+      border-radius: 0;
+
+      &:not(:first-of-type) {
+        margin-inline-start: -1px;
+      }
+
+      &:where(:first-of-type) {
+        border-start-start-radius: var(--rs-input-border-radius);
+        border-end-start-radius: var(--rs-input-border-radius);
+      }
+
+      &:where(:last-of-type) {
+        border-start-end-radius: var(--rs-input-border-radius);
+        border-end-end-radius: var(--rs-input-border-radius);
+      }
+
+      // Hack: Browser compatibility
+      // In RTL mode, Chrome requires border-radius to be reversed.
+      [dir='rtl'] & {
+        &:not(:last-of-type) {
+          margin-inline-start: -1px;
+        }
+
+        &:where(:first-of-type) {
+          border-start-start-radius: 0;
+          border-end-start-radius: 0;
+          border-start-end-radius: var(--rs-input-border-radius);
+          border-end-end-radius: var(--rs-input-border-radius);
+        }
+
+        &:where(:last-of-type) {
+          border-start-end-radius: 0;
+          border-end-end-radius: 0;
+          border-start-start-radius: var(--rs-input-border-radius);
+          border-end-start-radius: var(--rs-input-border-radius);
+        }
+      }
+
+      // Focus state for attached inputs
+      &:focus {
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+}

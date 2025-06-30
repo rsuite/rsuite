@@ -1,0 +1,31 @@
+@use '../../../styles/base' as base;
+@use '../../../styles/themes' as themes;
+@use '../../../styles/variables' as vars;
+
+// Define breakpoints map
+$breakpoints: (
+  xs: vars.$screen-sm,
+  sm: vars.$screen-md,
+  md: vars.$screen-lg,
+  lg: vars.$screen-xl,
+  xl: vars.$screen-xxl
+);
+
+// Generate responsive visibility styles
+@each $key, $value in $breakpoints {
+  $bp: calc(#{$value} - 1px);
+
+  // Visible from breakpoint
+  @media (max-width: $bp) {
+    [data-visible-from='#{$key}'] {
+      display: none !important;
+    }
+  }
+
+  // Hidden from breakpoint
+  @media (min-width: #{$value}) {
+    [data-hidden-from='#{$key}'] {
+      display: none !important;
+    }
+  }
+}

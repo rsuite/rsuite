@@ -1,4 +1,4 @@
-import th from 'date-fns/locale/th';
+import { th } from 'date-fns/locale/th';
 
 const DateTimeFormats = {
   sunday: 'อา.',
@@ -91,5 +91,11 @@ export default {
   Toggle: {
     on: 'เปิด',
     off: 'ปิด'
+  },
+  Dialog: {
+    alert: 'แจ้งเตือน',
+    confirm: 'ยืนยัน',
+    ok: 'ตกลง',
+    cancel: 'ยกเลิก'
   }
 };

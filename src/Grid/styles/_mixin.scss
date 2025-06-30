@@ -1,0 +1,110 @@
+@use '../../styles/mixins/utilities' as utils;
+@use 'sass:math';
+
+// Grid system
+//
+// Generate semantic grid columns with these mixins.
+
+// Centered container element
+@mixin container-fixed {
+  margin-inline-end: auto;
+  margin-inline-start: auto;
+  padding-inline-start: calc(var(--rs-grid-gutter) / 2);
+  padding-inline-end: calc(var(--rs-grid-gutter) / 2);
+  @include utils.clearfix;
+}
+
+// Auto column styles
+@mixin rs-col-auto-styles {
+  --rs-col-auto-flex-grow: 1;
+  --rs-col-auto-flex-basis: 0;
+  --rs-col-auto-max-width: 100%;
+}
+
+// Mixin for responsive alignment
+@mixin responsive-align($size) {
+  &-#{$size}-top {
+    align-items: flex-start;
+  }
+  &-#{$size}-middle {
+    align-items: center;
+  }
+  &-#{$size}-bottom {
+    align-items: flex-end;
+  }
+}
+
+// Mixin for responsive justify
+@mixin responsive-justify($size) {
+  &-#{$size}-start {
+    justify-content: flex-start;
+  }
+  &-#{$size}-end {
+    justify-content: flex-end;
+  }
+  &-#{$size}-center {
+    justify-content: center;
+  }
+  &-#{$size}-space-between {
+    justify-content: space-between;
+  }
+  &-#{$size}-space-around {
+    justify-content: space-around;
+  }
+}
+
+// Create grid for specific class
+@mixin make-grid($size) {
+  @for $value from 1 through 24 {
+    .rs-col-#{$size}-#{$value} {
+      width: math.percentage(math.div($value, 24));
+    }
+
+    .rs-col-#{$size}-pull-#{$value} {
+      inset-inline-end: math.percentage(math.div($value, 24));
+    }
+
+    .rs-col-#{$size}-push-#{$value} {
+      inset-inline-start: math.percentage(math.div($value, 24));
+    }
+
+    .rs-col-#{$size}-offset-#{$value} {
+      margin-inline-start: math.percentage(math.div($value, 24));
+    }
+
+    .rs-col-#{$size}-order-#{$value} {
+      order: $value;
+    }
+  }
+
+  .rs-col-#{$size}-pull-0 {
+    inset-inline-end: auto;
+  }
+
+  .rs-col-#{$size}-push-0 {
+    inset-inline-start: auto;
+  }
+
+  .rs-col-auto-#{$size} {
+    @include rs-col-auto-styles;
+  }
+
+  .rs-col {
+    --rs-col-gutter: calc(var(--rs-grid-gutter-#{$size}, var(--rs-grid-gutter)) / 2);
+  }
+  
+  .rs-row {
+    --rs-row-gutter: calc(var(--rs-grid-gutter-#{$size}, var(--rs-grid-gutter)) / -2);
+    --rs-row-gap: var(--rs-grid-row-gutter-#{$size}, var(--rs-grid-row-gutter));
+
+    @include responsive-align($size);
+    @include responsive-justify($size);
+  }
+}
+
+// Hidden styles
+@mixin hidden($size) {
+  .rs-hidden-#{$size} {
+    display: none;
+  }
+}

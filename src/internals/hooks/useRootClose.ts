@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import contains from 'dom-lib/contains';
 import ownerDocument from 'dom-lib/ownerDocument';
 import on from 'dom-lib/on';
-import getDOMNode from '../utils/getDOMNode';
+import { getDOMNode } from '@/internals/utils';
 import { KEY_VALUES } from '../constants';
 
 function isLeftClickEvent(event: React.MouseEvent) {
@@ -13,7 +13,7 @@ function isModifiedEvent(event: React.MouseEvent) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event?.shiftKey);
 }
 
-type TargetType = React.RefObject<Element> | Element | null | undefined;
+type TargetType = React.RefObject<Element | null> | Element | null | undefined;
 
 interface Options {
   disabled: boolean;

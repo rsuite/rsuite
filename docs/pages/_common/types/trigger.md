@@ -1,4 +1,4 @@
-### `ts:Trigger`
+#### `ts:Trigger`
 
 ```ts
 type Trigger = 'click' | 'hover' | 'contextMenu' | Array<'click' | 'hover' | 'contextMenu'>;

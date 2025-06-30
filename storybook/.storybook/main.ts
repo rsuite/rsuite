@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
 import path from 'path';
+import * as sass from 'sass';
 
 const Component = process.env.M;
 
@@ -26,7 +27,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag'
   },
-  async viteFinal(config, { configType }) {
+  async viteFinal(config) {
     return mergeConfig(config, {
       resolve: {
         alias: [
@@ -35,7 +36,19 @@ const config: StorybookConfig = {
             find: '@/internals/',
             replacement: path.resolve(__dirname, '../../src/internals') + '/'
           }
-        ]
+        ],
+        extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.scss']
+      },
+      css: {
+        preprocessorOptions: {
+          scss: {
+            // Use the new API instead of the old JS API
+            implementation: sass
+          }
+        }
+      },
+      optimizeDeps: {
+        exclude: ['chunk-NRQQNQ7F']
       }
     });
   }

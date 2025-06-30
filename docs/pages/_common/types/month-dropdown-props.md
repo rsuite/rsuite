@@ -1,4 +1,4 @@
-### `ts:MonthDropdownProps`
+#### `ts:MonthDropdownProps`
 
 ```ts
 import type { FixedSizeListProps } from 'react-window';

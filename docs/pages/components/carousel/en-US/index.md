@@ -10,17 +10,25 @@ Display a set of elements in a carousel
 
 ### Basic
 
+A basic carousel containing 5 images that can be navigated using the bottom indicators.
+
 <!--{include:`basic.md`}-->
 
-### Controlled index
+### Controlled slides
+
+Control the current slide programmatically using the `activeIndex` and `onSelect` props for a fully controlled carousel.
 
 <!--{include:`position.md`}-->
 
 ### Appearance
 
+Customize the carousel's indicator position (top, bottom, left, right) and shape (dots or bars).
+
 <!--{include:`appearance.md`}-->
 
 ### Autoplay
+
+Enable automatic slide transitions without user interaction by setting the `autoplay` prop.
 
 <!--{include:`autoplay.md`}-->
 

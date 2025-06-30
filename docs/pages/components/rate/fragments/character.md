@@ -1,28 +1,32 @@
 <!--start-code-->
 
 ```js
-import { Rate } from 'rsuite';
-import { Icon } from '@rsuite/icons';
-import HeartIcon from '@rsuite/icons/legacy/Heart';
+import { Rate, VStack, Divider } from 'rsuite';
+import { FaHeart, FaRegStar, FaStar } from 'react-icons/fa';
 
 const App = () => {
   const [value, setValue] = React.useState(2.5);
-
   return (
-    <>
-      <div>
-        <Rate allowHalf value={value} character={<HeartIcon />} color="red" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="鼎" color="blue" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="A" onChange={setValue} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="👍" onChange={setValue} />
-      </div>
-    </>
+    <VStack spacing={10}>
+      <Divider label="Svg icon" labelPlacement="start" />
+      <Rate allowHalf value={value} character={<FaHeart />} color="red" onChange={setValue} />
+      <Rate
+        allowHalf
+        value={value}
+        onChange={setValue}
+        color="yellow"
+        renderCharacter={(value, index) => {
+          if (value >= index + 1) {
+            return <FaStar />;
+          }
+          return <FaRegStar />;
+        }}
+      />
+      <Divider label="Emoji" labelPlacement="start" />
+      <Rate allowHalf value={value} character="❤️" onChange={setValue} />
+      <Rate allowHalf value={value} character="👍" onChange={setValue} />
+      <Rate allowHalf value={value} character="⭐️" onChange={setValue} />
+    </VStack>
   );
 };
 

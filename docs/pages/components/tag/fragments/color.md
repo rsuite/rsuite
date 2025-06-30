@@ -12,6 +12,8 @@ const App = () => (
     <Tag color="cyan">Cyan</Tag>
     <Tag color="blue">Blue</Tag>
     <Tag color="violet">Violet</Tag>
+    <Tag color="#000">Custom Color</Tag>
+    <Tag color="#c5e7fc">Custom Color</Tag>
   </TagGroup>
 );
 

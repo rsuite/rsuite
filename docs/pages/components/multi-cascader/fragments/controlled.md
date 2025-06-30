@@ -15,7 +15,7 @@ const data = mockTreeData({
 const App = () => {
   const [value, setValue] = React.useState(['1-1', '1-2']);
 
-  return <MultiCascader value={value} onChange={setValue} data={data} />;
+  return <MultiCascader value={value} onChange={setValue} data={data} minw={224} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

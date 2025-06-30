@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker, Checkbox } from 'rsuite';
+import { CheckTreePicker, Checkbox, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -30,20 +30,16 @@ const App = () => {
       data={data}
       value={value}
       onChange={setValue}
-      style={{ width: 280 }}
+      w={280}
       renderExtraFooter={() => (
-        <ExtraFooter>
+        <HStack px={12} py={8} bdt="1px solid var(--rs-border-primary)">
           <Checkbox inline onChange={handleCheckAll}>
             Check all
           </Checkbox>
-        </ExtraFooter>
+        </HStack>
       )}
     />
   );
-};
-
-const ExtraFooter = ({ children }) => {
-  return <div style={{ borderTop: '1px solid #e5e5e5', padding: '10px 2px' }}>{children}</div>;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

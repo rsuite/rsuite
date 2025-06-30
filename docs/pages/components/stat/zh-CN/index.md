@@ -10,45 +10,69 @@
 
 ### 默认
 
+展示一个简单的统计数值，包括标签和数值。
+
 <!--{include:`basic.md`}-->
 
 ### 值格式化
+
+通过 `formatOptions` 属性自定义数值的本地化格式显示。
 
 <!--{include:`format-options.md`}-->
 
 ### 趋势
 
+在数值旁显示趋势指示（上升/下降），体现变化情况。
+
 <!--{include:`trend.md`}-->
 
 ### 边框
+
+为统计数值添加边框以突出显示。
 
 <!--{include:`bordered.md`}-->
 
 ### 带进度条
 
+结合进度条，展示统计数值的进度情况。
+
 <!--{include:`progress-bar.md`}-->
 
 ### 带环形进度条
 
+以环形进度条的形式展示数值进度。
+
+<!--{include:`ring-progress.md`}-->
+
 ### 图标
+
+为统计数值添加图标，增强视觉表现。
 
 <!--{include:`icon.md`}-->
 
 ### 信息提示
 
+在标签上显示额外的信息提示。
+
 <!--{include:`info-tip.md`}-->
 
 ### 值单位
+
+在数值旁显示单位（如 %, 元），增强数据表达。
 
 <!--{include:`value-unit.md`}-->
 
 ### 统计数值组
 
+将多个统计数值以网格形式组合展示。
+
 <!--{include:`group.md`}-->
 
 ### 响应式的统计数值组
 
-<!--{include:`responsive-group.md`}-->
+统计数值组可根据屏幕尺寸自适应布局。
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 

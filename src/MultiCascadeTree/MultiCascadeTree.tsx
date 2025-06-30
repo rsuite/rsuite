@@ -1,10 +1,11 @@
 import React from 'react';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
+import Box from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
 import { useCascadeValue, useSelect, useSearch } from './hooks';
-import { useClassNames, useControlled } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import type { DataItemValue } from '@/internals/types';
+import { useStyles, useCustom, useControlled } from '@/internals/hooks';
+import type { OptionValue } from '@/internals/types';
 import type { MultiCascadeTreeProps } from './types';
 
 const emptyArray = [];
@@ -13,11 +14,11 @@ const emptyArray = [];
  * The `MultiCascadeTree` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascade-tree/
  */
-const MultiCascadeTree = React.forwardRef(
-  <T extends DataItemValue>(props: MultiCascadeTreeProps<T>, ref) => {
+const MultiCascadeTree = forwardRef<'div', MultiCascadeTreeProps>(
+  <T extends OptionValue>(props: MultiCascadeTreeProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('MultiCascadeTree', props);
     const {
-      as: Component = 'div',
+      as,
       data = emptyArray,
       defaultValue,
       className,
@@ -74,11 +75,11 @@ const MultiCascadeTree = React.forwardRef(
       onSearch
     });
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('multi'));
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix('multi'));
 
     return (
-      <Component ref={ref} className={classes} {...rest}>
+      <Box as={as} ref={ref} className={classes} {...rest}>
         {searchable && (
           <SearchView
             cascade={cascade}
@@ -114,7 +115,7 @@ const MultiCascadeTree = React.forwardRef(
             renderTreeNode={renderTreeNode}
           />
         )}
-      </Component>
+      </Box>
     );
   }
 );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 
 interface FocusStateProps {
-  target: React.RefObject<HTMLElement>;
+  target: React.RefObject<HTMLElement | null>;
   onEnter?: (node: HTMLElement) => void;
   onExit?: (node: HTMLElement) => void;
 }
