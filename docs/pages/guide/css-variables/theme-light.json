@@ -1085,7 +1085,7 @@
   },
   {
     "name": "--rs-menuitem-active-text",
-    "value": "var(--rs-primary-700)",
+    "value": "var(--rs-text-primary)",
     "type": "menuitem",
     "category": "components",
     "theme": "light"

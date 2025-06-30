@@ -13,7 +13,10 @@
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "start": "next start",
     "algolia": "node ./scripts/algolia-indices.js",
-    "generate-examples": "node ./scripts/generate-examples.js"
+    "pregenerate": "npm run generate-examples && npm run generate-base-css-vars && npm run generate-theme-css-vars",
+    "generate-examples": "node ./scripts/generate-examples.js",
+    "generate-base-css-vars": "node ./scripts/generate-base-css-vars.js",
+    "generate-theme-css-vars": "node ./scripts/generate-theme-css-vars.js"
   },
   "dependencies": {
     "@docsearch/react": "^3.2.1",

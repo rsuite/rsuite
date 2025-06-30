@@ -1054,7 +1054,7 @@
   },
   {
     "name": "--rs-menuitem-active-text",
-    "value": "var(--rs-primary-500)",
+    "value": "var(--rs-text-primary)",
     "type": "menuitem",
     "category": "components",
     "theme": "high-contrast"

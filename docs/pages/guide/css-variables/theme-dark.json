@@ -420,9 +420,9 @@
     "theme": "dark"
   },
   {
-    "name": "--rs-focus-ring-color",
-    "value": "0 0 0 2px rgb(from var(--rs-gray-500) r g b / 25%)",
-    "type": "misc",
+    "name": "--rs-color-focus-ring",
+    "value": "rgb(from var(--rs-gray-500) r g b / 80%)",
+    "type": "palette",
     "category": "colors",
     "theme": "dark"
   },
