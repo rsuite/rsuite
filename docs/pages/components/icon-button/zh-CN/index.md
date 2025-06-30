@@ -76,9 +76,11 @@
 | icon        | Element&lt;typeof Icon&gt;                           | 设置图标               |            |
 | loading     | boolean                                              | 按钮可以显示加载指示器 |            |
 | onToggle    | (event: React.MouseEvent, active: boolean) => void   | 切换状态时的回调       | ![][6.0.0] |
-| placement   | 'left' \| 'right' `('left')`                         | icon 的位置            |            |
+| placement   | 'left' \| 'right' \| 'start' \| 'end' `('start')`    | icon 的位置            |            |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置按钮尺寸           |            |
 | toggleable  | boolean                                              | 可切换状态             | ![][6.0.0] |
+
+### 类型定义
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

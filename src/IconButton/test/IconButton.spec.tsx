@@ -24,4 +24,51 @@ describe('IconButton', () => {
 
     expect(icon).to.exist;
   });
+
+  it('Should apply circle class when circle prop is true', () => {
+    render(<IconButton circle />);
+    expect(screen.getByRole('button')).to.have.attr('data-shape', 'circle');
+  });
+
+  it('Should not apply circle class when circle prop is false', () => {
+    render(<IconButton circle={false} />);
+    expect(screen.getByRole('button')).not.to.have.attr('data-shape', 'circle');
+  });
+
+  it('Should add circle class to className when circle prop is true', () => {
+    render(<IconButton circle />);
+    expect(screen.getByRole('button')).to.have.attr('data-shape', 'circle');
+  });
+
+  it('Should apply default placement when not specified', () => {
+    render(<IconButton />);
+    expect(screen.getByRole('button')).to.have.attr('data-placement', 'start');
+  });
+
+  it('Should apply correct placement prop', () => {
+    const placements = ['left', 'right', 'start', 'end'] as const;
+
+    render(
+      <>
+        {placements.map(placement => (
+          <IconButton key={placement} placement={placement} data-testid={`btn-${placement}`} />
+        ))}
+      </>
+    );
+
+    placements.forEach(placement => {
+      const button = screen.getByTestId(`btn-${placement}`);
+      expect(button).to.have.attr('data-placement', placement);
+    });
+  });
+
+  it('Should add data-with-text attribute when children is provided', () => {
+    render(<IconButton>Text</IconButton>);
+    expect(screen.getByRole('button')).to.have.attr('data-with-text', 'true');
+  });
+
+  it('Should not add data-with-text attribute when no children', () => {
+    render(<IconButton />);
+    expect(screen.getByRole('button')).not.to.have.attr('data-with-text');
+  });
 });

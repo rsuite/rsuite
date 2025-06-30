@@ -12,7 +12,7 @@ export interface IconButtonProps extends ButtonProps {
   circle?: boolean;
 
   /** The placement of icon */
-  placement?: 'left' | 'right';
+  placement?: 'left' | 'right' | 'start' | 'end';
 }
 
 /**
@@ -22,26 +22,27 @@ export interface IconButtonProps extends ButtonProps {
 const IconButton = forwardRef<typeof Button, IconButtonProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('IconButton', props);
   const {
-    icon,
-    placement = 'left',
-    children,
     circle,
-    classPrefix = 'btn-icon',
+    children,
     className,
+    classPrefix = 'btn-icon',
+    placement = 'start',
+    icon,
     ...rest
   } = propsWithDefaults;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(`placement-${placement}`, {
-      circle,
-      'with-text': typeof children !== 'undefined'
-    })
-  );
+  const classes = merge(className, withPrefix());
 
   return (
-    <Button {...rest} ref={ref} className={classes}>
+    <Button
+      {...rest}
+      ref={ref}
+      className={classes}
+      data-shape={circle ? 'circle' : undefined}
+      data-placement={placement}
+      data-with-text={typeof children !== 'undefined' || undefined}
+    >
       {icon}
       {children}
     </Button>
