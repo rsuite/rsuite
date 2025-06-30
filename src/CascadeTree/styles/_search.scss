@@ -10,7 +10,7 @@
 }
 
 .rs-cascade-search-view-row {
-  @include listbox.listbox-option;
+  @include listbox.listbox-option(flex-start);
 
   &:hover {
     @include listbox.listbox-option-active;

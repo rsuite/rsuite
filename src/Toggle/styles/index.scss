@@ -194,7 +194,6 @@
     .rs-toggle-disabled & {
       background-color: var(--rs-toggle-disabled-bg);
       color: var(--rs-toggle-disabled-thumb);
-      box-shadow: inset 0 0 0 1px var(--rs-toggle-disabled-thumb);
       pointer-events: none;
     }
 

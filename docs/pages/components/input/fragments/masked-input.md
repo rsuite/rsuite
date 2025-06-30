@@ -100,7 +100,7 @@ const App = () => {
   const [showMask, setShowMask] = React.useState(false);
 
   return (
-    <HStack wrap divider={<Divider vertical />} spacing={10} style={{ height: 200 }}>
+    <HStack wrap divider={<Divider vertical />} spacing={10} h={200}>
       <MaskedInput
         value={value}
         mask={option.mask}
@@ -109,7 +109,7 @@ const App = () => {
         keepCharPositions={keepCharPositions}
         placeholder={option.placeholder}
         placeholderChar={placeholderChar}
-        w={300}
+        w={280}
         onChange={setValue}
       />
       <VStack spacing={10}>
@@ -128,7 +128,7 @@ const App = () => {
                 setOption(item);
                 setValue('');
               }}
-              w={180}
+              w={160}
             />
           }
         />
@@ -142,7 +142,7 @@ const App = () => {
               size="sm"
               data={placeholderChars}
               onChange={setPlaceholderChar}
-              w={180}
+              w={160}
             />
           }
         />

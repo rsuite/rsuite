@@ -20,7 +20,7 @@ const FixedLoader = () => (
       justifyContent: 'center',
       position: 'absolute',
       bottom: '0',
-      background: '#fff',
+      background: 'var(--rs-body)',
       width: '100%',
       padding: '4px 0'
     }}

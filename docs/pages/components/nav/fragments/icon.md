@@ -13,12 +13,22 @@ import {
 
 const App = () => (
   <Nav>
-    <Nav.Item icon={<MdHome />}>Home</Nav.Item>
-    <Nav.Item icon={<MdMessage />}>Messages</Nav.Item>
+    <Nav.Item icon={<MdHome />} eventKey="home">
+      Home
+    </Nav.Item>
+    <Nav.Item icon={<MdMessage />} eventKey="messages">
+      Messages
+    </Nav.Item>
     <Nav.Menu title="Settings" icon={<MdSettings />}>
-      <Nav.Item icon={<MdHelp />}>Help Center</Nav.Item>
-      <Nav.Item icon={<MdNotifications />}>Notifications</Nav.Item>
-      <Nav.Item icon={<MdExitToApp />}>Logout</Nav.Item>
+      <Nav.Item icon={<MdHelp />} eventKey="help-center">
+        Help Center
+      </Nav.Item>
+      <Nav.Item icon={<MdNotifications />} eventKey="notifications">
+        Notifications
+      </Nav.Item>
+      <Nav.Item icon={<MdExitToApp />} eventKey="logout">
+        Logout
+      </Nav.Item>
     </Nav.Menu>
   </Nav>
 );

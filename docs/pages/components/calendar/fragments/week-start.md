@@ -18,7 +18,7 @@ const App = () => {
   const [isoWeek, setIsoWeek] = React.useState(false);
   const [showWeekNumbers, setShowWeekNumbers] = React.useState(true);
   return (
-    <HStack wrap divider={<Divider vertical />} spacing={10} h={320}>
+    <HStack wrap divider={<Divider vertical h={320} />} spacing={10}>
       <Calendar
         compact
         weekStart={weekStart}
