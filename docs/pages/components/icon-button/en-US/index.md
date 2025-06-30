@@ -76,9 +76,11 @@ Icon button renders an icon within in a button.
 | icon        | Element&lt;typeof Icon&gt;                           | Set the icon of button                                                 |            |
 | loading     | boolean                                              | A button can show a loading indicator                                  |            |
 | onToggle    | (active: boolean, event: MouseEvent) => void         | Callback when the button is toggled between active and inactive states | ![][6.0.0] |
-| placement   | 'left' \| 'right' `('left')`                         | The placement of icon                                                  |            |
+| placement   | 'left' \| 'right' \| 'start' \| 'end' `('start')`    | The placement of icon                                                  |            |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                                      |            |
 | toggleable  | boolean                                              | A button can switch between active and inactive states                 | ![][6.0.0] |
+
+### Type Definitions
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->
