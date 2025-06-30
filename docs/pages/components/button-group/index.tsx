@@ -1,11 +1,21 @@
 import React from 'react';
-import { Button, ButtonGroup, ButtonToolbar, IconButton, Whisper, Popover, Dropdown } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  IconButton,
+  Whisper,
+  Popover,
+  Menu,
+  VStack,
+  HStack,
+  Text
+} from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import PageNextIcon from '@rsuite/icons/PageNext';
-
 import {
   FaItalic,
   FaBold,
@@ -30,14 +40,15 @@ export default function Page() {
         ButtonGroup,
         ButtonToolbar,
         IconButton,
-
         Whisper,
         Popover,
-        Dropdown,
+        Menu,
+        VStack,
+        HStack,
+        Text,
         ArrowDownIcon,
         PagePreviousIcon,
         PageNextIcon,
-
         FaAlignLeft,
         FaAlignRight,
         FaAlignCenter,

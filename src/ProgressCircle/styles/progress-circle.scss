@@ -1,0 +1,49 @@
+.rs-progress-circle {
+  --rs-progress-font-size: var(--rs-font-size-md);
+  --rs-progress-line-font-size: 0.875rem; // 14px
+  --rs-progress-circle-font-size: 2.25rem; // 36px
+
+  position: relative;
+  line-height: 0;
+  width: 100%;
+
+  &-info {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: var(--rs-progress-font-size);
+    color: var(--rs-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-trail {
+    stroke: var(--rs-progress-bg);
+  }
+
+  &-stroke {
+    stroke: var(--rs-progress-bar);
+    transition:
+      stroke-dashoffset 0.3s ease,
+      stroke-dasharray 0.2s ease-in-out,
+      stroke 0.3s;
+  }
+
+  // Setting status color
+  &-success &-info {
+    color: var(--rs-progress-bar-success);
+  }
+
+  &-success &-stroke {
+    stroke: var(--rs-progress-bar-success);
+  }
+
+  &-fail &-info {
+    color: var(--rs-progress-bar-fail);
+  }
+
+  &-fail &-stroke {
+    stroke: var(--rs-progress-bar-fail);
+  }
+}

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { Cascader, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -11,15 +11,14 @@ const data = mockTreeData({
     return faker.person[methodName[layer]]();
   }
 });
-const styles = { width: 224, display: 'block', marginBottom: 10 };
 
 const App = () => (
-  <>
-    <Cascader size="lg" placeholder="Large" data={data} style={styles} />
-    <Cascader size="md" placeholder="Medium" data={data} style={styles} />
-    <Cascader size="sm" placeholder="Small" data={data} style={styles} />
-    <Cascader size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </>
+  <VStack>
+    <Cascader size="lg" placeholder="Large" data={data} w={224} />
+    <Cascader size="md" placeholder="Medium" data={data} w={224} />
+    <Cascader size="sm" placeholder="Small" data={data} w={224} />
+    <Cascader size="xs" placeholder="Xsmall" data={data} w={224} />
+  </VStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

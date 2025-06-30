@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TimePicker, Stack } from 'rsuite';
+import { TimePicker, HStack, VStack, Text, Divider, Button } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(new Date());
@@ -12,13 +12,22 @@ const App = () => {
   };
 
   return (
-    <Stack spacing={10} direction="column" alignItems="flex-start">
-      <label>Controlled Value:</label>
-      <TimePicker value={value} onChange={handleChange} />
+    <VStack divider={<Divider />}>
+      <HStack>
+        <Text muted w={140}>
+          Controlled Value:
+        </Text>
+        <TimePicker value={value} onChange={handleChange} />
+        <Button onClick={() => setValue(null)}>Reset</Button>
+      </HStack>
 
-      <label>Uncontrolled Value:</label>
-      <TimePicker defaultValue={new Date()} />
-    </Stack>
+      <HStack>
+        <Text muted w={140}>
+          Uncontrolled Value:
+        </Text>
+        <TimePicker defaultValue={new Date()} />
+      </HStack>
+    </VStack>
   );
 };
 

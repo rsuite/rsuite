@@ -10,36 +10,35 @@ const fileList = [
 
 const App = () => (
   <>
-    <label>Disabled: </label>
     <Uploader
       disabled
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
     >
-      <Button>Select files...</Button>
+      <Button>Disabled</Button>
     </Uploader>
 
     <hr />
-    <label>Read only: </label>
+
     <Uploader
       readOnly
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
     >
-      <Button>Select files...</Button>
+      <Button>Read only</Button>
     </Uploader>
 
     <hr />
-    <label>Plaintext: </label>
+
     <Uploader
       plaintext
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
     >
-      <Button>Select files...</Button>
+      <Button>Plaintext</Button>
     </Uploader>
   </>
 );

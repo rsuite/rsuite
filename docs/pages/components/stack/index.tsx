@@ -3,21 +3,22 @@ import {
   Stack,
   HStack,
   VStack,
-  Button,
   Divider,
-  Radio,
-  RadioGroup,
   Slider,
   SelectPicker,
+  Text,
+  Center,
   useMediaQuery
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
 
 const inDocsComponents = {
   'import-guide': () => (
     <ImportGuide components={['Stack', 'HStack', 'VStack']} hasCssComponents={['Stack']} />
-  )
+  ),
+  'example-responsive': () => <Simulation example="responsive" componentName="stack" />
 };
 
 export default function Page() {
@@ -28,11 +29,10 @@ export default function Page() {
         Stack,
         HStack,
         VStack,
-        Button,
         Divider,
-        Radio,
-        RadioGroup,
         Slider,
+        Text,
+        Center,
         SelectPicker,
         useMediaQuery
       }}

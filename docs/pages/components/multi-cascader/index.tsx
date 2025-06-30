@@ -1,9 +1,11 @@
 import React from 'react';
-import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box, Text, Divider } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
+import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
 import {
   importFakerString,
   mockAsyncData,
@@ -23,7 +25,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['MultiCascader']} />
+  'import-guide': () => <ImportGuide components={['MultiCascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="multi-cascader" />
 };
 
 export default function Page() {
@@ -40,6 +43,10 @@ export default function Page() {
         AdminIcon,
         HStack,
         VStack,
+        Box,
+        Text,
+        Divider,
+        PlacementContainer,
         mockAsyncData,
         mockTreeData
       }}

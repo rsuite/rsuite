@@ -9,9 +9,9 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <>
-    <SelectPicker data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
+    <SelectPicker data={data} appearance="default" placeholder="Default" w={224} />
     <hr />
-    <SelectPicker data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
+    <SelectPicker data={data} appearance="subtle" placeholder="Subtle" w={224} />
   </>
 );
 

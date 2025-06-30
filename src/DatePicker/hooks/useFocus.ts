@@ -1,14 +1,13 @@
-import { RefObject } from 'react';
 import delay from 'lodash/delay';
-import addMonths from 'date-fns/addMonths';
-import addDays from 'date-fns/addDays';
-import { useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../../CustomProvider';
+import { RefObject } from 'react';
+import { addMonths } from 'date-fns/addMonths';
+import { addDays } from 'date-fns/addDays';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { getAriaLabel } from '../../Calendar/utils';
 import { onMenuKeyDown } from '@/internals/Picker/utils';
 
 interface UseFocusProps {
-  target: RefObject<HTMLElement>;
+  target: RefObject<HTMLElement | null>;
   showMonth: boolean;
   id: string;
   locale: any;

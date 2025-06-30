@@ -43,25 +43,27 @@ const App = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="name"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field field={field} error={errors[field.name]?.message} placeholder="Name" />
-        )}
-      />
+      <Form.Stack fluid>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field field={field} error={errors[field.name]?.message} placeholder="Name" />
+          )}
+        />
 
-      <Controller
-        name="email"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field field={field} error={errors[field.name]?.message} placeholder="Email" />
-        )}
-      />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field field={field} error={errors[field.name]?.message} placeholder="Email" />
+          )}
+        />
 
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };

@@ -27,13 +27,7 @@ const App = () => {
         Cascade
       </Toggle>
       <hr />
-      <MultiCascader
-        style={{ width: 280 }}
-        data={data}
-        value={value}
-        cascade={cascade}
-        onChange={setValue}
-      />
+      <MultiCascader w={280} data={data} value={value} cascade={cascade} onChange={setValue} />
     </div>
   );
 };

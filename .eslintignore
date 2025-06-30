@@ -1,8 +1,0 @@
-bin
-build
-lib
-tools
-node_modules
-coverage
-/.git
-src/styles/plugins

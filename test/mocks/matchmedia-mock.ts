@@ -17,7 +17,7 @@ interface MediaQueryList {
 }
 type MediaQueriesType = { [key: string]: MediaQueryListener[] };
 
-export default class MatchMedia {
+export class MatchMedia {
   private mediaQueries: MediaQueriesType = {};
   private prevMatchMap = new Map<string, boolean>();
 
@@ -58,7 +58,6 @@ export default class MatchMedia {
     window.addEventListener('resize', () => this.handleResize());
   }
 
-  // eslint-disable-next-line class-methods-use-this
   private compileQuery(query: string) {
     type UnitsReplaceType = ($0: string, $1: string, $2: UnitType) => string;
 
@@ -144,8 +143,7 @@ export default class MatchMedia {
         };
 
         listeners.forEach(listener => {
-          // eslint-disable-next-line @typescript-eslint/ban-types
-          (listener as Function)?.call(this.mediaQueryList, mqListEvent as MediaQueryListEvent);
+          (listener as any)?.call(this.mediaQueryList, mqListEvent as MediaQueryListEvent);
         });
       }
     }
@@ -220,3 +218,5 @@ export default class MatchMedia {
     delete window.matchMedia;
   }
 }
+
+export default MatchMedia;

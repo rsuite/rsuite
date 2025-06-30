@@ -1,4 +1,4 @@
-import guIn from 'date-fns/locale/gu';
+import { gu } from 'date-fns/locale/gu';
 
 const DateTimeFormats = {
   sunday: 'રવિ',
@@ -19,7 +19,7 @@ const DateTimeFormats = {
   formattedDayPattern: 'MMM dd, yyyy',
   shortDateFormat: 'MM/dd/yyyy',
   shortTimeFormat: 'hh:mm aa',
-  dateLocale: guIn as any
+  dateLocale: gu as any
 };
 
 const Combobox = {
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'શરૂ',
     off: 'બંધ'
+  },
+  Dialog: {
+    alert: 'ચેતવણી',
+    confirm: 'પુષ્ટિ',
+    ok: 'બરાબર',
+    cancel: 'રદ કરો'
   }
 };

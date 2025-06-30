@@ -1,8 +1,9 @@
 import React from 'react';
-import { WithAsProps } from '@/internals/types';
-import { useClassNames } from '@/internals/hooks';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 
-interface TabPanelProps extends WithAsProps {
+export interface TabPanelProps extends BoxProps {
   /** The active state of the tab. */
   active?: boolean;
 
@@ -10,29 +11,23 @@ interface TabPanelProps extends WithAsProps {
   id?: string;
 }
 
-const TabPanel = React.forwardRef((props: TabPanelProps, ref: React.Ref<HTMLDivElement>) => {
-  const {
-    as: Component = 'div',
-    classPrefix = 'tab-panel',
-    children,
-    active,
-    className,
-    ...rest
-  } = props;
+const TabPanel = forwardRef<'div', TabPanelProps>((props, ref) => {
+  const { as, classPrefix = 'tab-panel', children, active, className, ...rest } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
 
   return (
-    <Component
+    <Box
+      as={as}
       role="tabpanel"
       ref={ref}
       tabIndex={0}
       hidden={!active}
-      className={merge(className, withClassPrefix())}
+      className={merge(className, withPrefix())}
       {...rest}
     >
       {children}
-    </Component>
+    </Box>
   );
 });
 

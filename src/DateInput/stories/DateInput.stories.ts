@@ -2,7 +2,7 @@ import type { StoryObj } from '@storybook/react';
 import DateInput from '../DateInput';
 import { createMeta } from '@/storybook/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(DateInput);
 

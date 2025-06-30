@@ -1,0 +1,14 @@
+@use '../../../IconButton/styles/index' as icon-button;
+
+// Close button
+.rs-btn-close {
+  border: none;
+  outline: none !important;
+  background: transparent;
+  line-height: 1;
+  cursor: pointer;
+
+  .rs-icon {
+    vertical-align: bottom;
+  }
+}

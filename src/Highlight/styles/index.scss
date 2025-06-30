@@ -1,0 +1,9 @@
+@use '../../internals/Box/styles/index' as box;
+
+// Highlight component styles
+.rs-highlight-mark {
+  background-color: var(--rs-text-highlight-bg);
+  padding: 0 0.2em;
+  font-weight: bolder;
+  border-radius: var(--rs-radius-sm);
+}

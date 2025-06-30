@@ -1,7 +1,7 @@
 import pick from 'lodash/pick';
-import getHours from 'date-fns/getHours';
-import getMinutes from 'date-fns/getMinutes';
-import getSeconds from 'date-fns/getSeconds';
+import { getHours } from 'date-fns/getHours';
+import { getMinutes } from 'date-fns/getMinutes';
+import { getSeconds } from 'date-fns/getSeconds';
 import { TimeProp } from './types';
 
 interface CalendarProps {

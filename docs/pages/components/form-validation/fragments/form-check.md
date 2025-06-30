@@ -1,24 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, FlexboxGrid } from 'rsuite';
-import JSONTree from 'react-json-tree';
+import { Form, Button, ButtonToolbar, PasswordInput, Row, Col } from 'rsuite';
+import { SchemaModel, StringType, NumberType } from 'rsuite/Schema';
 
-const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </div>
-);
-
-const { StringType, NumberType } = Schema.Types;
-
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired(),
   email: StringType().isEmail().isRequired(),
   age: NumberType().range(18, 30),
@@ -30,7 +16,7 @@ const TextField = React.forwardRef((props, ref) => {
   const { name, label, accepter, ...rest } = props;
   return (
     <Form.Group ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );
@@ -62,8 +48,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row gutter={[16, 24]}>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -71,18 +57,15 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Username" />
-          <TextField name="email" label="Email" />
-          <TextField name="age" label="Age" />
-          <TextField name="password" label="Password" type="password" autoComplete="off" />
-          <TextField
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            autoComplete="off"
-          />
+          <Form.Stack>
+            <TextField name="name" label="Username" />
+            <TextField name="email" label="Email" />
+            <TextField name="age" label="Age" />
+            <TextField name="password" label="Password" accepter={PasswordInput} />
+            <TextField name="confirmPassword" label="Confirm Password" accepter={PasswordInput} />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
@@ -90,11 +73,11 @@ const App = () => {
             <Button onClick={handleCheckEmail}>Check Email</Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

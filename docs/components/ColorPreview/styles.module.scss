@@ -1,0 +1,82 @@
+.colorPreviewContainer {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rs-border-secondary);
+
+  // Checkered background for transparent colors
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 8px 8px;
+    background-position:
+      0 0,
+      0 4px,
+      4px -4px,
+      -4px 0;
+    z-index: 0;
+  }
+
+  // Dark mode support for the checkered pattern
+  :global(.rs-theme-dark) &,
+  :global(.rs-theme-high-contrast) & {
+    &::before {
+      background-image: linear-gradient(45deg, #444 25%, transparent 25%),
+        linear-gradient(-45deg, #444 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #444 75%),
+        linear-gradient(-45deg, transparent 75%, #444 75%);
+    }
+  }
+}
+
+.colorPreview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+// Size variants
+.small {
+  width: 16px;
+  height: 16px;
+}
+
+.medium {
+  width: 20px;
+  height: 20px;
+}
+
+.large {
+  width: 24px;
+  height: 24px;
+}
+
+// Shape variants
+.square {
+  border-radius: 4px;
+
+  &.small {
+    border-radius: 3px;
+  }
+
+  &.large {
+    border-radius: 5px;
+  }
+}
+
+.circle {
+  border-radius: 50%;
+}

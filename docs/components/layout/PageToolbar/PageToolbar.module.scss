@@ -1,0 +1,47 @@
+@use '../../../styles/variables' as vars;
+
+.page-toolbar {
+  position: fixed;
+  inset-inline-end: 10px;
+  top: 10px;
+  z-index: 6;
+
+  :global(.rs-btn-subtle .rs-icon) {
+    fill: currentColor;
+  }
+}
+
+@media (max-width: vars.$screen-md) {
+  .page-toolbar {
+    display: none !important;
+  }
+}
+
+.more-actions-panel {
+  padding: 8px 12px;
+
+  .rs-icon {
+    width: 14px;
+    text-align: center;
+    margin-inline-end: 6px;
+  }
+
+  .theme-switch {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--rs-spacing) * 2);
+
+    .theme-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--rs-spacing);
+    }
+  }
+
+  .rtl-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

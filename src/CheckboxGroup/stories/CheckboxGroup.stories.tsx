@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(CheckboxGroup);
 

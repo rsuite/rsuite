@@ -1,19 +1,27 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useMemo, useContext, useEffect } from 'react';
 import toaster from '../toaster';
-// From CustomProvider/CustomProvider.tsx import CustomContext instead of directly from 'CustomProvider/index.ts'
-// because babel compiles commonjs, which causes CustomContext to be undefined
-import { CustomContext } from '../CustomProvider/CustomContext';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { ToastContainerProps } from '../toaster/ToastContainer';
+import { canUseDOM } from '../DOMHelper';
 
 /**
  * Toaster display brief, temporary notifications of actions, errors, or other events in an application.
  * It is often used with the Message and Notification components.
  * @returns toaster { push, remove, clear }
  *
- * @see https://rsuitejs.com/components/toaster/
+ * @see https://rsuitejs.com/components/use-toaster/
  */
 const useToaster = () => {
   const { toasters, toastContainer } = useContext(CustomContext);
+
+  useEffect(() => {
+    if (canUseDOM && !toasters) {
+      console.warn(
+        'Warning: useToaster is being used outside of a CustomProvider. ' +
+          'Please wrap your application with <CustomProvider> to ensure proper functionality.'
+      );
+    }
+  }, [toasters]);
 
   return useMemo(
     () => ({

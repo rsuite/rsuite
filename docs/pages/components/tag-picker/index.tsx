@@ -1,8 +1,8 @@
 import React from 'react';
-import { TagPicker, Button, Tag, Checkbox, VStack, HStack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import Simulation from '@/components/Simulation';
+import { TagPicker, Button, Tag, Checkbox, VStack, HStack, Loader, Box, Text, Divider } from 'rsuite';
 import { FaUserGroup, FaUser } from 'react-icons/fa6';
 
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
@@ -17,7 +17,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TagPicker']} />
+  'import-guide': () => <ImportGuide components={['TagPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="tag-picker" />
 };
 
 export default function Page() {
@@ -34,7 +35,10 @@ export default function Page() {
         Button,
         VStack,
         HStack,
-        SpinnerIcon,
+        Loader,
+        Box,
+        Text,
+        Divider,
         FaUserGroup,
         FaUser
       }}
