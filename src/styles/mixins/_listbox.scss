@@ -26,9 +26,9 @@
   list-style: none;
 }
 
-@mixin listbox-option {
+@mixin listbox-option($justify: space-between) {
   display: flex;
-  justify-content: space-between;
+  justify-content: $justify;
   padding-inline: var(--rs-picker-item-content-padding-horizontal);
   padding-block: var(--rs-picker-item-content-padding-vertical);
   clear: both;

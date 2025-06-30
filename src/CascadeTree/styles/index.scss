@@ -29,6 +29,7 @@
 // Column
 .rs-cascade-tree-column {
   overflow-y: auto;
+  overflow-x: hidden;
 
   &-loading {
     padding: 4px;

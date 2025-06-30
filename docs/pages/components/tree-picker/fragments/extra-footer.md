@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
+import { TreePicker, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -20,14 +20,9 @@ const App = () => (
       data={data}
       w={246}
       renderExtraFooter={() => (
-        <div
-          style={{
-            padding: 12,
-            borderTop: '1px solid #e5e5e5'
-          }}
-        >
+        <HStack px={12} py={8} bdt="1px solid var(--rs-border-primary)">
           Extra footer
-        </div>
+        </HStack>
       )}
     />
   </>

@@ -151,8 +151,38 @@ export interface CSSSystemProps {
   bc?: WithResponsive<ColorScheme | CSS['borderColor']>;
   /** Shorthand for CSS property `borderWidth` */
   bw?: WithResponsive<CSS['borderWidth']>;
-
-  // Radius
+  /** Shorthand for CSS property `borderTop` */
+  bdt?: WithResponsive<CSS['borderTop']>;
+  /** Shorthand for CSS property `borderBottom` */
+  bdb?: WithResponsive<CSS['borderBottom']>;
+  /** Shorthand for CSS property `borderLeft` */
+  bdl?: WithResponsive<CSS['borderLeft']>;
+  /** Shorthand for CSS property `borderRight` */
+  bdr?: WithResponsive<CSS['borderRight']>;
+  /** Shorthand for CSS property `borderTopStyle` */
+  bdts?: WithResponsive<CSS['borderTopStyle']>;
+  /** Shorthand for CSS property `borderBottomStyle` */
+  bdbs?: WithResponsive<CSS['borderBottomStyle']>;
+  /** Shorthand for CSS property `borderLeftStyle` */
+  bdls?: WithResponsive<CSS['borderLeftStyle']>;
+  /** Shorthand for CSS property `borderRightStyle` */
+  bdrs?: WithResponsive<CSS['borderRightStyle']>;
+  /** Shorthand for CSS property `borderTopColor` */
+  bdtc?: WithResponsive<ColorScheme | CSS['borderTopColor']>;
+  /** Shorthand for CSS property `borderBottomColor` */
+  bdbc?: WithResponsive<ColorScheme | CSS['borderBottomColor']>;
+  /** Shorthand for CSS property `borderLeftColor` */
+  bdlc?: WithResponsive<ColorScheme | CSS['borderLeftColor']>;
+  /** Shorthand for CSS property `borderRightColor` */
+  bdrc?: WithResponsive<ColorScheme | CSS['borderRightColor']>;
+  /** Shorthand for CSS property `borderTopWidth` */
+  bdtw?: WithResponsive<CSS['borderTopWidth']>;
+  /** Shorthand for CSS property `borderBottomWidth` */
+  bdbw?: WithResponsive<CSS['borderBottomWidth']>;
+  /** Shorthand for CSS property `borderLeftWidth` */
+  bdlw?: WithResponsive<CSS['borderLeftWidth']>;
+  /** Shorthand for CSS property `borderRightWidth` */
+  bdrw?: WithResponsive<CSS['borderRightWidth']>;
   /** Shorthand for CSS property `borderRadius` */
   rounded?: WithResponsive<Size | CSS['borderRadius'] | 'full'>;
 

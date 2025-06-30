@@ -37,14 +37,14 @@
     // Change static to relative, Make `z-index` more than Tail line
     position: relative;
     width: 100%;
+  }
 
-    .rs-steps-item-status-process & {
-      color: var(--rs-text-primary);
-    }
+  .rs-steps-item-status-process .rs-steps-item-content {
+    color: var(--rs-text-primary);
+  }
 
-    .rs-steps-item-status-error & {
-      color: var(--rs-text-error);
-    }
+  .rs-steps-item-status-error .rs-steps-item-content {
+    color: var(--rs-text-error);
   }
 
   // Item title

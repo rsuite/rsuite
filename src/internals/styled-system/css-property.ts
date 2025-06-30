@@ -1,6 +1,9 @@
 import { getSizeValue, getColorValue } from '@/internals/utils';
 import type { CSSSystemProps, CSSProperty } from './types';
 
+const transformRadiusValue = (value: string) => getSizeValue('radius', value);
+const transformShadowValue = (value: string) => getSizeValue('shadow', value);
+
 /**
  * CSS Property Alias
  * This type maps all the CSS properties defined in cssSystemPropAlias to their corresponding React CSS types
@@ -74,20 +77,26 @@ export const cssSystemPropAlias: Record<keyof CSSSystemProps, CSSProperty> = {
   bs: { type: 'string', property: 'border-style' },
   bc: { type: 'string', property: 'border-color', transformer: getColorValue },
   bw: { type: 'any', property: 'border-width' },
-
-  // — Radius ————————————————————
-  rounded: {
-    type: 'any',
-    property: 'border-radius',
-    transformer: (value: string) => getSizeValue('radius', value)
-  },
+  bdt: { type: 'string', property: 'border-top' },
+  bdb: { type: 'string', property: 'border-bottom' },
+  bdl: { type: 'string', property: 'border-left' },
+  bdr: { type: 'string', property: 'border-right' },
+  bdts: { type: 'string', property: 'border-top-style' },
+  bdbs: { type: 'string', property: 'border-bottom-style' },
+  bdls: { type: 'string', property: 'border-left-style' },
+  bdrs: { type: 'string', property: 'border-right-style' },
+  bdtc: { type: 'string', property: 'border-top-color', transformer: getColorValue },
+  bdbc: { type: 'string', property: 'border-bottom-color', transformer: getColorValue },
+  bdlc: { type: 'string', property: 'border-left-color', transformer: getColorValue },
+  bdrc: { type: 'string', property: 'border-right-color', transformer: getColorValue },
+  bdtw: { type: 'any', property: 'border-top-width' },
+  bdbw: { type: 'any', property: 'border-bottom-width' },
+  bdlw: { type: 'any', property: 'border-left-width' },
+  bdrw: { type: 'any', property: 'border-right-width' },
+  rounded: { type: 'any', property: 'border-radius', transformer: transformRadiusValue },
 
   // — Shadow & Effects ————————————————————
-  shadow: {
-    type: 'any',
-    property: 'box-shadow',
-    transformer: (value: string) => getSizeValue('shadow', value)
-  },
+  shadow: { type: 'any', property: 'box-shadow', transformer: transformShadowValue },
   opacity: { type: 'any', property: 'opacity' },
 
   // — Flex ————————————————————

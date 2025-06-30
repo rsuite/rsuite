@@ -33,9 +33,9 @@ const App = () => {
         renderExtraFooter={() => (
           <HStack
             justifyContent="space-between"
-            style={{
-              padding: '4px 12px'
-            }}
+            px={12}
+            py={4}
+            bdt="1px solid var(--rs-border-primary)"
           >
             <Checkbox
               indeterminate={value.length > 0 && value.length < allValue.length}

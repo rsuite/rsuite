@@ -4,9 +4,24 @@
 import { Loader } from 'rsuite';
 
 const App = () => (
-  <div style={{ height: 200, background: '#000' }}>
-    <Loader inverse center content="loading..." />
-  </div>
+  <>
+    <div className="loader-container">
+      <Loader inverse center content="loading..." />
+    </div>
+    <style>
+      {`
+    .loader-container {
+      height: 200px;
+      background-color: #000;
+    }
+    .rs-theme-dark,.rs-theme-high-contrast {
+      .loader-container {
+        background-color: #fff;
+      }
+    }
+    `}
+    </style>
+  </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

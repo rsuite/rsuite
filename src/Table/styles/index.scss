@@ -222,6 +222,15 @@
       margin-inline-end: var(--rs-table-header-sort-margin-start);
     }
 
+    &-header-icon-sort {
+      font-size: var(--rs-font-size-base);
+      line-height: var(--rs-table-header-line-height);
+    }
+
+    &:where([aria-sort]) &-header-icon-sort {
+      color: var(--rs-table-sort);
+    }
+
     &-header-sort-asc,
     &-header-sort-desc {
       color: var(--rs-text-primary);
