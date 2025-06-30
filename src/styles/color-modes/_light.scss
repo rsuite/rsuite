@@ -2,7 +2,7 @@
 // see https://rsuitejs.com/design/default
 
 @use '../colors/light' as light;
-@use '../colors/colors-base' as c;
+@use '../colors/colors-base' as colors;
 @use '../colors/palette' as p;
 
 // Light theme CSS custom properties
@@ -33,21 +33,21 @@
   --rs-primary-900: #{light.$H900};
 
   // Spectrum colors
-  --rs-color-red: #{c.$red};
-  --rs-color-orange: #{c.$orange};
-  --rs-color-yellow: #{c.$yellow};
-  --rs-color-green: #{c.$green};
-  --rs-color-cyan: #{c.$cyan};
-  --rs-color-blue: #{c.$blue};
-  --rs-color-violet: #{c.$violet};
+  --rs-color-red: #{colors.$red};
+  --rs-color-orange: #{colors.$orange};
+  --rs-color-yellow: #{colors.$yellow};
+  --rs-color-green: #{colors.$green};
+  --rs-color-cyan: #{colors.$cyan};
+  --rs-color-blue: #{colors.$blue};
+  --rs-color-violet: #{colors.$violet};
 
-  @include p.generate-palette-vars('red', c.$red);
-  @include p.generate-palette-vars('orange', c.$orange);
-  @include p.generate-palette-vars('yellow', c.$yellow);
-  @include p.generate-palette-vars('green', c.$green);
-  @include p.generate-palette-vars('cyan', c.$cyan);
-  @include p.generate-palette-vars('blue', c.$blue);
-  @include p.generate-palette-vars('violet', c.$violet);
+  @include p.generate-palette-vars('red', colors.$red);
+  @include p.generate-palette-vars('orange', colors.$orange);
+  @include p.generate-palette-vars('yellow', colors.$yellow);
+  @include p.generate-palette-vars('green', colors.$green);
+  @include p.generate-palette-vars('cyan', colors.$cyan);
+  @include p.generate-palette-vars('blue', colors.$blue);
+  @include p.generate-palette-vars('violet', colors.$violet);
 
   // Stateful colors
   --rs-state-success: var(--rs-color-green);
@@ -86,7 +86,7 @@
   --rs-bg-active: var(--rs-primary-500);
   --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
   --rs-state-hover-bg: var(--rs-primary-50);
-  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-focus-ring-color: rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-focus-shadow: 0 0 0 2px rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-focus-outline: 2px solid rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-state-error-outline: 2px solid rgb(from var(--rs-color-red) r g b / 25%);
@@ -432,7 +432,7 @@
   @supports not (color: rgb(from white r g b)) {
     // Misc
     --rs-bg-backdrop: #{p.fade(light.$B900, 30)};
-    --rs-color-focus-ring: #{p.fade(light.$H500, 25)};
+    --rs-focus-ring-color: #{p.fade(light.$H500, 25)};
     --rs-state-focus-shadow: 0 0 0 2px #{p.fade(light.$H500, 25)};
     --rs-state-focus-outline: 2px solid #{p.fade(light.$H500, 25)};
 

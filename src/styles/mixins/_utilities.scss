@@ -66,7 +66,7 @@
 
 // Useful when appending the ring into an existing :focus rule
 @mixin focus-ring {
-  outline: 2px solid var(--rs-color-focus-ring);
+  outline: 2px solid var(--rs-focus-ring-color);
   outline-offset: -1px;
 }
 

@@ -2,7 +2,7 @@
 
 @use '../variables' as vars;
 @use '../colors/high-contrast' as hc;
-@use '../colors/colors-base' as c;
+@use '../colors/colors-base' as colors;
 @use '../colors/palette' as p;
 @use 'sass:color';
 
@@ -37,22 +37,22 @@
     --rs-primary-900: #{hc.$H900-high-contrast};
 
     // Spectrum
-    --rs-color-red: #{c.$red-high-contrast};
-    --rs-color-orange: #{c.$orange-high-contrast};
-    --rs-color-yellow: #{c.$yellow-high-contrast};
-    --rs-color-green: #{c.$green-high-contrast};
-    --rs-color-cyan: #{c.$cyan-high-contrast};
-    --rs-color-blue: #{c.$blue-high-contrast};
-    --rs-color-violet: #{c.$violet-high-contrast};
+    --rs-color-red: #{colors.$red-high-contrast};
+    --rs-color-orange: #{colors.$orange-high-contrast};
+    --rs-color-yellow: #{colors.$yellow-high-contrast};
+    --rs-color-green: #{colors.$green-high-contrast};
+    --rs-color-cyan: #{colors.$cyan-high-contrast};
+    --rs-color-blue: #{colors.$blue-high-contrast};
+    --rs-color-violet: #{colors.$violet-high-contrast};
 
     // 使用generate-palette-vars mixin为每个光谱颜色生成调色板
-    @include p.generate-palette-vars('red', c.$red-high-contrast);
-    @include p.generate-palette-vars('orange', c.$orange-high-contrast);
-    @include p.generate-palette-vars('yellow', c.$yellow-high-contrast);
-    @include p.generate-palette-vars('green', c.$green-high-contrast);
-    @include p.generate-palette-vars('cyan', c.$cyan-high-contrast);
-    @include p.generate-palette-vars('blue', c.$blue-high-contrast);
-    @include p.generate-palette-vars('violet', c.$violet-high-contrast);
+    @include p.generate-palette-vars('red', colors.$red-high-contrast);
+    @include p.generate-palette-vars('orange', colors.$orange-high-contrast);
+    @include p.generate-palette-vars('yellow', colors.$yellow-high-contrast);
+    @include p.generate-palette-vars('green', colors.$green-high-contrast);
+    @include p.generate-palette-vars('cyan', colors.$cyan-high-contrast);
+    @include p.generate-palette-vars('blue', colors.$blue-high-contrast);
+    @include p.generate-palette-vars('violet', colors.$violet-high-contrast);
 
     // Stateful colors
     --rs-state-success: var(--rs-color-green);
@@ -84,7 +84,7 @@
     --rs-bg-active: var(--rs-primary-500);
     --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 80%);
     --rs-state-hover-bg: var(--rs-gray-600);
-    --rs-color-focus-ring: var(--rs-gray-0);
+    --rs-focus-ring-color: var(--rs-gray-0);
     --rs-state-focus-shadow: 0 0 0 2px var(--rs-gray-900), 0 0 0 5px var(--rs-gray-0);
     --rs-state-focus-shadow-slim: 0 0 0 2px var(--rs-gray-0);
     --rs-state-focus-outline: 2px solid rgb(from var(--rs-primary-500) r g b / 25%);

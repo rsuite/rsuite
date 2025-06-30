@@ -5,7 +5,12 @@ import { useApp } from '@/hooks/useApp';
 import { MdContrast, MdLightMode, MdDarkMode } from 'react-icons/md';
 import type { Theme } from '@/components/AppProvider';
 
-function ThemeGroup(props: SegmentedControlProps) {
+interface ThemeGroupProps extends SegmentedControlProps {
+  onChange?: (theme: Theme) => void;
+}
+
+function ThemeGroup(props: ThemeGroupProps) {
+  const { onChange, ...rest } = props;
   const { theme, onChangeTheme, locales } = useApp();
   const [themeName] = theme;
 
@@ -37,7 +42,12 @@ function ThemeGroup(props: SegmentedControlProps) {
     )
   }));
 
-  return <SegmentedControl data={options} value={themeName} onChange={onChangeTheme} {...props} />;
+  const handleChange = (value: string) => {
+    onChange?.(value as Theme);
+    onChangeTheme(value as Theme);
+  };
+
+  return <SegmentedControl data={options} value={themeName} onChange={handleChange} {...rest} />;
 }
 
 export default ThemeGroup;
