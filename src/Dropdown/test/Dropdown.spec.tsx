@@ -168,8 +168,8 @@ describe('<Dropdown>', () => {
 
     const toggle = screen.getByRole('button');
 
-    expect(toggle).to.have.class('rs-btn-link');
-    expect(toggle).to.have.class('rs-btn-xs');
+    expect(toggle).to.have.attr('data-appearance', 'link');
+    expect(toggle).to.have.attr('data-size', 'xs');
     expect(toggle).to.have.tagName('BUTTON');
   });
 

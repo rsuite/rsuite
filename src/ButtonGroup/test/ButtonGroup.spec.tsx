@@ -19,7 +19,7 @@ describe('ButtonGroup', () => {
     it('Should add size', () => {
       render(<ButtonGroup size="lg" />);
 
-      expect(screen.getByRole('group')).to.have.class('rs-btn-group-lg');
+      expect(screen.getByRole('group')).to.have.attr('data-size', 'lg');
     });
 
     (['lg', 'md', 'sm', 'xs'] as const).forEach(size => {
@@ -30,7 +30,7 @@ describe('ButtonGroup', () => {
           </ButtonGroup>
         );
 
-        expect(screen.getByTestId('button')).to.have.class(`rs-btn-${size}`);
+        expect(screen.getByTestId('button')).to.have.attr('data-size', size);
       });
     });
   });
@@ -38,23 +38,19 @@ describe('ButtonGroup', () => {
   it('Should add vertical variation', () => {
     render(<ButtonGroup vertical />);
 
-    expect(screen.getByRole('group')).to.have.class('rs-btn-group-vertical');
+    expect(screen.getByRole('group')).to.have.attr('data-vertical', 'true');
   });
 
   it('Should add block variation', () => {
     render(<ButtonGroup vertical block />);
 
-    expect(screen.getByRole('group')).to.have.class('rs-btn-group-block');
-  });
-
-  it('Should warn about block without vertical', () => {
-    render(<ButtonGroup block />);
+    expect(screen.getByRole('group')).to.have.attr('data-block', 'true');
   });
 
   it('Should add justified variation', () => {
     render(<ButtonGroup justified />);
 
-    expect(screen.getByRole('group')).to.have.class('rs-btn-group-justified');
+    expect(screen.getByRole('group')).to.have.attr('data-justified', 'true');
   });
 
   it('Should render 2 <button>', () => {
@@ -77,7 +73,7 @@ describe('ButtonGroup', () => {
     );
 
     screen.getAllByRole('button').forEach(button => {
-      expect(button).to.have.class('rs-btn-disabled');
+      expect(button).to.have.attr('data-disabled', 'true');
       expect(button).to.have.attribute('disabled');
     });
   });
@@ -85,6 +81,6 @@ describe('ButtonGroup', () => {
   it('Should add divided variation', () => {
     render(<ButtonGroup divided />);
 
-    expect(screen.getByRole('group')).to.have.class('rs-btn-group-divided');
+    expect(screen.getByRole('group')).to.have.attr('data-divided', 'true');
   });
 });

@@ -5,7 +5,7 @@ import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
-export interface ListItemProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
+export interface ListItemProps extends Omit<BoxProps, 'color'>, React.HTMLAttributes<HTMLElement> {
   /* Index of list item, for sort */
   index?: number;
 
@@ -52,13 +52,16 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
     }
   }, [collection, disabled, index, register]);
 
-  const classes = merge(className, withPrefix(size, { disabled, bordered }));
+  const classes = merge(className, withPrefix());
 
   return (
     <Box
       as={as}
       role="listitem"
       aria-disabled={disabled}
+      data-size={size}
+      data-disabled={disabled}
+      data-bordered={bordered}
       ref={mergeRefs(listItemRef as any, ref)}
       className={classes}
       {...rest}

@@ -174,7 +174,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   }, [checkboxGroupContext, selfChecked, value]);
 
   const { merge, prefix, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(color, { inline, indeterminate, disabled, checked }));
+  const classes = merge(className, withPrefix());
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   // If <Checkbox> is within a <CheckboxGroup>, it's bound to be controlled
@@ -240,7 +240,17 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   );
 
   return (
-    <Box as={as} {...restProps} ref={ref} onClick={onClick} className={classes}>
+    <Box
+      as={as}
+      {...restProps}
+      ref={ref}
+      onClick={onClick}
+      className={classes}
+      data-color={color}
+      data-checked={indeterminate ? 'mixed' : checked}
+      data-disabled={disabled}
+      data-inline={inline}
+    >
       <div className={prefix`checker`}>
         <label title={title} onClick={handleLabelClick}>
           {checkable ? control : null}

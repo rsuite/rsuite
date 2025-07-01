@@ -21,16 +21,16 @@ describe('Checkbox', () => {
     expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 
-  it('Should have checkbox-inline class', () => {
+  it('Should have data-inline attribute', () => {
     const { container } = render(<Checkbox inline>Test</Checkbox>);
 
-    expect(container.firstChild).to.have.class('rs-checkbox-inline');
+    expect(container.firstChild).to.have.attr('data-inline', 'true');
   });
 
   it('Should be disabled', () => {
     const { container } = render(<Checkbox disabled>Test</Checkbox>);
     expect(screen.getByRole('checkbox')).to.have.property('disabled', true);
-    expect(container.firstChild).to.have.class('rs-checkbox-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be readOnly', () => {
@@ -41,7 +41,7 @@ describe('Checkbox', () => {
   it('Should be checked', () => {
     const { container } = render(<Checkbox checked>Test</Checkbox>);
 
-    expect(container.firstChild).to.have.class('rs-checkbox-checked');
+    expect(container.firstChild).to.have.attr('data-checked', 'true');
     expect(screen.getByRole('checkbox')).to.be.checked;
   });
 
@@ -85,14 +85,14 @@ describe('Checkbox', () => {
   it('Should be checked by default', () => {
     const { container } = render(<Checkbox defaultChecked>Test</Checkbox>);
 
-    expect(container.firstChild).to.have.class('rs-checkbox-checked');
+    expect(container.firstChild).to.have.attr('data-checked', 'true');
     expect(screen.getByRole('checkbox')).to.be.checked;
   });
 
   it('Should be indeterminate', () => {
     const { container } = render(<Checkbox indeterminate>Test</Checkbox>);
 
-    expect(container.firstChild).to.have.class('rs-checkbox-indeterminate');
+    expect(container.firstChild).to.have.attr('data-checked', 'mixed');
     expect(screen.getByRole('checkbox')).to.be.not.checked;
     expect(screen.getByRole('checkbox')).to.have.attribute('aria-checked', 'mixed');
   });

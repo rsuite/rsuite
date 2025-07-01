@@ -113,10 +113,11 @@ const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, r
       as={as}
       ref={mergeRefs(root, ref)}
       tabIndex={0}
-      className={merge(className, withPrefix(size, { disabled }))}
+      className={merge(className, withPrefix({ disabled }))}
       onClick={onClick}
       onKeyDown={onKeyDown}
       onFocus={onFocus}
+      data-size={size}
       {...htmlProps}
     >
       {renderChildren(children, childrenProps, target)}

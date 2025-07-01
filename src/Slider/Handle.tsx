@@ -6,7 +6,9 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, mergeStyles } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 
-export interface HandleProps extends BoxProps, React.HTMLAttributes<HTMLDivElement> {
+export interface HandleProps
+  extends Omit<BoxProps, 'color' | 'position' | 'height' | 'width'>,
+    React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   vertical?: boolean;
   tooltip?: boolean;

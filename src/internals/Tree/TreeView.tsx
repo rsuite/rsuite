@@ -5,7 +5,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { useTreeContextProps } from './TreeProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 
-interface TreeViewProps extends BoxProps, React.HTMLAttributes<HTMLDivElement> {
+interface TreeViewProps extends Omit<BoxProps, 'color'>, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
   multiselectable?: boolean;
   height?: number;

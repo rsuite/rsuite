@@ -16,7 +16,7 @@ describe('Button', () => {
     const button = screen.getByRole('button');
     expect(button).to.have.text('Title');
     expect(button).to.have.tagName('BUTTON');
-    expect(button).to.have.class('rs-btn-default');
+    expect(button).to.have.attr('data-appearance', 'default');
   });
 
   it('Should show the submit type', () => {
@@ -57,7 +57,7 @@ describe('Button', () => {
   it('Should be loading', () => {
     render(<Button loading>Title</Button>);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-loading');
+    expect(screen.getByRole('button')).to.have.attr('data-loading', 'true');
     expect(screen.getByRole('button')).to.contain('.rs-btn-spin');
   });
 
@@ -78,13 +78,22 @@ describe('Button', () => {
   it('Should have block class', () => {
     render(<Button block>Title</Button>);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-block');
+    expect(screen.getByRole('button')).to.have.attr('data-block', 'true');
   });
 
   it('Should apply appearance', () => {
-    render(<Button appearance="ghost">Title</Button>);
+    const { rerender } = render(<Button appearance="ghost">Title</Button>);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-ghost');
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'ghost');
+
+    rerender(<Button appearance="primary">Title</Button>);
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'primary');
+
+    rerender(<Button appearance="subtle">Title</Button>);
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'subtle');
+
+    rerender(<Button appearance="link">Title</Button>);
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'link');
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {
@@ -95,13 +104,13 @@ describe('Button', () => {
     );
 
     expect(screen.getByRole('button')).to.have.class('bob');
-    expect(screen.getByRole('button')).to.have.class('rs-btn-ghost');
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'ghost');
   });
 
   it('Should be active', () => {
     render(<Button active>Title</Button>);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-active');
+    expect(screen.getByRole('button')).to.have.attr('data-active', 'true');
   });
 
   it('Should have a correct role', () => {
@@ -138,13 +147,13 @@ describe('Button', () => {
   it('Should be toggleable', () => {
     render(<Button toggleable>button</Button>);
 
-    expect(screen.getByRole('button')).to.not.have.class('rs-btn-active');
+    expect(screen.getByRole('button')).to.not.have.attr('data-active', 'true');
 
     fireEvent.click(screen.getByRole('button'));
-    expect(screen.getByRole('button')).to.have.class('rs-btn-active');
+    expect(screen.getByRole('button')).to.have.attr('data-active', 'true');
 
     fireEvent.click(screen.getByRole('button'));
-    expect(screen.getByRole('button')).to.not.have.class('rs-btn-active');
+    expect(screen.getByRole('button')).to.not.have.attr('data-active', 'true');
   });
 
   it('Should call onToggle callback', () => {

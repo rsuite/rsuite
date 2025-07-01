@@ -260,22 +260,22 @@
     color: var(--rs-text-primary);
     background-color: var(--rs-input-bg);
     outline: none;
+
+    &:where([readonly]) {
+      opacity: 0;
+    }
   }
 
-  &.rs-btn-lg &-textbox {
+  &:where([data-size='lg']) &-textbox {
     padding-inline-start: 14px;
   }
 
-  &.rs-btn-sm &-textbox {
+  &:where([data-size='sm']) &-textbox {
     padding-inline-start: 8px;
   }
 
-  &.rs-btn-xs &-textbox {
+  &:where([data-size='xs']) &-textbox {
     padding-inline-start: 6px;
-  }
-
-  &-read-only {
-    opacity: 0;
   }
 
   .rs-picker[data-variant='default'],

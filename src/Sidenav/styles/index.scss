@@ -445,7 +445,7 @@
 // --------------------------------------------------
 
 // Default Sidenav
-.rs-sidenav-default {
+.rs-sidenav[data-appearance='default'] {
   background-color: var(--rs-sidenav-default-bg);
   color: var(--rs-sidenav-default-text);
 
@@ -487,8 +487,8 @@
   }
 }
 
-.rs-sidenav-default.rs-sidenav-collapse-in,
-.rs-sidenav-default.rs-sidenav-collapsing {
+.rs-sidenav[data-appearance='default'].rs-sidenav-collapse-in,
+.rs-sidenav[data-appearance='default'].rs-sidenav-collapsing {
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-default-text);
@@ -513,7 +513,7 @@
 }
 
 // Inverse Sidenav
-.rs-sidenav-inverse {
+.rs-sidenav[data-appearance='inverse'] {
   background-color: var(--rs-sidenav-inverse-bg);
   color: var(--rs-sidenav-inverse-text);
 
@@ -572,7 +572,7 @@
 }
 
 // Subtle Sidenav
-.rs-sidenav-subtle {
+.rs-sidenav[data-appearance='subtle'] {
   background-color: transparent;
 
   .rs-sidenav-item,
@@ -614,8 +614,8 @@
   }
 }
 
-.rs-sidenav-subtle.rs-sidenav-collapse-in,
-.rs-sidenav-subtle.rs-sidenav-collapsing {
+.rs-sidenav[data-appearance='subtle'].rs-sidenav-collapse-in,
+.rs-sidenav[data-appearance='subtle'].rs-sidenav-collapsing {
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-subtle-text);

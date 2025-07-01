@@ -11,7 +11,9 @@ import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
 import type { AnimationEventProps } from '@/internals/types';
 
-export interface BaseModalProps extends Omit<BoxProps, 'children'>, AnimationEventProps {
+export interface BaseModalProps
+  extends Omit<BoxProps, 'children' | 'transition' | 'color' | 'overflow'>,
+    AnimationEventProps {
   /** Animation-related properties */
   animationProps?: any;
 

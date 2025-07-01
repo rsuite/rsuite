@@ -14,9 +14,14 @@ describe('<Sidenav>', () => {
     expect(container.firstChild).to.have.class('rs-sidenav');
   });
 
-  it('Should apply appearance', () => {
+  it('Should render a navigation with subtle appearance', () => {
     const { container } = render(<Sidenav appearance="subtle" />);
-    expect(container.firstChild).to.have.class('rs-sidenav-subtle');
+    expect(container.firstChild).to.have.attr('data-appearance', 'subtle');
+  });
+
+  it('Should render a navigation with inverse appearance', () => {
+    const { container } = render(<Sidenav appearance="inverse" />);
+    expect(container.firstChild).to.have.attr('data-appearance', 'inverse');
   });
 
   it('Should be expanded', () => {

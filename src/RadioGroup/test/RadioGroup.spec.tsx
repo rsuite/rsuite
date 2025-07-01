@@ -32,17 +32,19 @@ describe('RadioGroup', () => {
     }
   });
 
-  it('Should have `radio-inline` className in radio', () => {
-    const { container } = render(
+  it('Should have `data-inline` attribute in radio', () => {
+    render(
       <RadioGroup inline>
         <Radio>Test1</Radio>
         <Radio>Test2</Radio>
       </RadioGroup>
     );
 
-    expect(container.firstChild).to.have.class('rs-radio-group-inline');
+    expect(screen.getByRole('radiogroup')).to.have.attr('data-inline', 'true');
 
-    expect(container.querySelectorAll('.rs-radio-inline')).to.have.lengthOf(2);
+    screen.getByRole('radiogroup').childNodes.forEach(radio => {
+      expect(radio).to.have.attr('data-inline', 'true');
+    });
   });
 
   it('Should output a h1', () => {
@@ -71,7 +73,7 @@ describe('RadioGroup', () => {
       screen.getByText((_content, element) => element?.textContent === 'Test2', {
         selector: '.rs-radio'
       })
-    ).to.have.class('rs-radio-checked');
+    ).to.have.attr('data-checked', 'true');
   });
 
   it('Should be checked when set defaultValue', () => {
@@ -89,7 +91,7 @@ describe('RadioGroup', () => {
       screen.getByText((_content, element) => element?.textContent === 'Test2', {
         selector: '.rs-radio'
       })
-    ).to.have.class('rs-radio-checked');
+    ).to.have.attr('data-checked', 'true');
   });
 
   it('Should call onChange callback with correct value', () => {
@@ -175,9 +177,9 @@ describe('RadioGroup', () => {
   });
 
   it('Should apply appearance', () => {
-    const { container } = render(<RadioGroup appearance="picker" />);
+    render(<RadioGroup appearance="picker" />);
 
-    expect(container.firstChild).to.have.class('rs-radio-group-picker');
+    expect(screen.getByRole('radiogroup')).to.have.attr('data-appearance', 'picker');
   });
 
   describe('Plain text', () => {

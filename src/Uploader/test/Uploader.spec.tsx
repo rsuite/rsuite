@@ -47,7 +47,7 @@ describe('Uploader', () => {
   it('Should render custom component', () => {
     render(<Uploader action="" toggleAs={Button} appearance="link" />);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-link');
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'link');
   });
 
   it('Should have draggable className', () => {
@@ -141,8 +141,8 @@ describe('Uploader', () => {
   it('Should apply appearance', () => {
     render(<Uploader action="" appearance="primary" color="red" />);
 
-    expect(screen.getByRole('button')).to.have.class('rs-btn-primary');
-    expect(screen.getByRole('button')).to.have.class('rs-btn-red');
+    expect(screen.getByRole('button')).to.have.attr('data-appearance', 'primary');
+    expect(screen.getByRole('button')).to.have.attr('data-color', 'red');
   });
 
   it('Should apply custom button className', () => {

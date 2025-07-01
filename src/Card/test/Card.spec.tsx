@@ -12,12 +12,12 @@ describe('Card', () => {
 
   it('Should hava a border', () => {
     const { container } = render(<Card bordered />);
-    expect(container.firstChild).to.have.class('rs-card-bordered');
+    expect(container.firstChild).to.have.attr('data-bordered', 'true');
   });
 
   it('Should have a shadow', () => {
     const { container } = render(<Card shaded />);
-    expect(container.firstChild).to.have.class('rs-card-shaded');
+    expect(container.firstChild).to.have.attr('data-shaded', 'true');
   });
 
   it('Should have a shadow on hover', () => {
@@ -25,12 +25,12 @@ describe('Card', () => {
 
     userEvent.hover(screen.getByText('Card'));
 
-    expect(screen.getByText('Card')).to.have.class('rs-card-shaded-hover');
+    expect(screen.getByText('Card')).to.have.attr('data-shaded', 'hover');
   });
 
   it('Should have a direction', () => {
     const { container } = render(<Card direction="row" />);
-    expect(container.firstChild).to.have.class('rs-card-row');
+    expect(container.firstChild).to.have.attr('data-direction', 'row');
   });
 
   it('Should have a width', () => {

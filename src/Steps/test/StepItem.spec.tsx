@@ -22,13 +22,13 @@ describe('StepItem', () => {
 
   it('Should have a status', () => {
     render(<StepItem data-testid="step_item" status="process" />);
-    expect(screen.getByTestId('step_item')).to.have.class('rs-steps-item-status-process');
+    expect(screen.getByTestId('step_item')).to.have.attr('data-status', 'process');
   });
 
   it('Should render custom icon', () => {
     const { container } = render(<StepItem icon={<AddOutline data-testid="custom-icon" />} />);
 
-    expect(container.firstChild).to.have.class('rs-steps-item-custom');
+    expect(container.firstChild).to.have.attr('data-custom-icon', 'true');
     expect(screen.getByTestId('custom-icon')).to.exist;
   });
 

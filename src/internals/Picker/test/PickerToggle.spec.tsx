@@ -182,10 +182,10 @@ describe('<PickerToggle>', () => {
   it('Should render status icon with correct size', () => {
     const { rerender } = render(<Toggle size="xs" loading />);
 
-    expect(screen.getByRole('status')).to.have.class('rs-loader-xs');
+    expect(screen.getByRole('status')).to.have.attr('data-size', 'xs');
 
     rerender(<Toggle size="md" loading />);
 
-    expect(screen.getByRole('status')).to.have.class('rs-loader-sm');
+    expect(screen.getByRole('status')).to.have.attr('data-size', 'sm');
   });
 });

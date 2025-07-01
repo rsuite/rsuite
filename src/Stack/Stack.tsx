@@ -5,20 +5,7 @@ import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import type { WithResponsive } from '@/internals/types';
 
-interface DeprecatedStackProps {
-  /**
-   * Define the alignment of the children in the stack on the inline axis
-   * @deprecated  Use `justify` instead
-   */
-  justifyContent?: CSSProperties['justifyContent'];
-  /**
-   * Define the alignment of the children in the stack on the cross axis
-   * @deprecated  Use `align` instead
-   */
-  alignItems?: CSSProperties['alignItems'];
-}
-
-export interface StackProps extends BoxProps, DeprecatedStackProps {
+export interface StackProps extends BoxProps {
   /** The direction of the children in the stack */
   direction?: WithResponsive<CSSProperties['flexDirection']>;
 
@@ -53,13 +40,13 @@ const Stack = forwardRef<'div', StackProps, typeof Subcomponents>((props, ref) =
   } = propsWithDefaults;
 
   const { withPrefix, merge, responsive } = useStyles(classPrefix);
-  const baseClasses = merge(className, withPrefix({ wrap }), ...responsive(direction));
+  const baseClasses = merge(className, withPrefix(), ...responsive(direction));
 
   const filteredChildren = React.Children.toArray(children);
   const childCount = filteredChildren.length;
 
   return (
-    <Box as={as} ref={ref} className={baseClasses} {...rest}>
+    <Box as={as} ref={ref} className={baseClasses} data-wrap={wrap} {...rest}>
       {filteredChildren.map((child, index) => (
         <React.Fragment key={index}>
           {child}

@@ -26,7 +26,7 @@ export interface NumberInputProps<T = number | string | null>
       // RDFa attributes
       | 'prefix'
     >,
-    BoxProps,
+    Omit<BoxProps, 'height' | 'width'>,
     FormControlBaseProps<T> {
   /**
    * Button can have different appearances

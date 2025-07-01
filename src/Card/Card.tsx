@@ -56,18 +56,21 @@ const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProp
   } = propsWithDefaults;
 
   const { merge, withPrefix, cssVar } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(direction, size, {
-      bordered,
-      shaded: shaded === true,
-      ['shaded-hover']: shaded === 'hover'
-    })
-  );
+  const classes = merge(className, withPrefix());
   const styles = mergeStyles(style, cssVar('width', width, getCssValue));
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-size={size}
+      data-direction={direction}
+      data-bordered={bordered}
+      data-shaded={shaded}
+      {...rest}
+    >
       {children}
     </Box>
   );

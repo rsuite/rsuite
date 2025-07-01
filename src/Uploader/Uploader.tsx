@@ -35,7 +35,7 @@ export interface UploaderInstance {
 }
 
 export interface UploaderProps
-  extends BoxProps,
+  extends Omit<BoxProps, 'color'>,
     Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
   /**
    * Custom ref for Uploader

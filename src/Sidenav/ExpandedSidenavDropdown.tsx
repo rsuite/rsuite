@@ -14,7 +14,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface SidenavDropdownProps<T = any>
   extends BoxProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle' | 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onToggle' | 'title' | 'color'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 

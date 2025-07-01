@@ -6,7 +6,7 @@ import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 
 export interface ImageProps
-  extends Omit<BoxProps, 'rounded'>,
+  extends Omit<BoxProps, 'rounded' | 'color' | 'height' | 'width' | 'position'>,
     Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder'> {
   /**
    * An image may appear with border.

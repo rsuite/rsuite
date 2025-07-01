@@ -87,9 +87,6 @@ Use icons within button groups for better visual hierarchy and recognition.
 
 ### `<ButtonToolbar>`
 
-| Property | Type `(Default)`          | Description                                           |
-| -------- | ------------------------- | ----------------------------------------------------- |
-| ...      | [StackProps][stack-props] | Inherit all properties from [Stack][stack] component. |
+Extends the [`Stack`][stack] component.
 
-[stack-props]: https://rsuitejs.com/components/stack/#code-lt-stack-gt-code
-[stack]: https://rsuitejs.com/components/stack
+[stack]: /components/stack

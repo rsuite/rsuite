@@ -2,7 +2,7 @@ import camelCase from 'lodash/camelCase';
 import kebabCase from 'lodash/kebabCase';
 import { getCssValue, isCSSProperty } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
-import { cssSystemPropAlias } from './css-property';
+import { cssSystemPropAlias } from './css-alias';
 import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
 import type { CSSProperty, CSSPropertyValueType } from './types';
 

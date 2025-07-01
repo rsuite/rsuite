@@ -11,24 +11,33 @@ describe('ListItem', () => {
   });
 
   it('Should render a ListItem', () => {
-    const { container } = render(
+    render(
       <List>
         <List.Item index={1} />
       </List>
     );
 
-    expect(container.firstChild?.firstChild).to.have.class('rs-list-item');
+    expect(screen.getByRole('listitem')).to.have.class('rs-list-item');
   });
 
   it('Should be disabled', () => {
-    const { container } = render(
+    render(
       <List>
         <List.Item index={1} disabled>
           Disabled
         </List.Item>
       </List>
     );
-    expect(container.firstChild?.firstChild).to.have.class('rs-list-item-disabled');
+    expect(screen.getByRole('listitem')).to.have.attr('data-disabled', 'true');
+  });
+
+  it('Should be bordered', () => {
+    render(
+      <List bordered>
+        <List.Item index={1}>Bordered</List.Item>
+      </List>
+    );
+    expect(screen.getByRole('listitem')).to.have.attr('data-bordered', 'true');
   });
 
   it('Should be different size', async () => {
@@ -42,7 +51,7 @@ describe('ListItem', () => {
     );
 
     const items = await screen.findAllByRole('listitem');
-    expect(items[0]).to.have.class('rs-list-item-sm');
-    expect(items[1]).to.have.class('rs-list-item-lg');
+    expect(items[0]).to.have.attr('data-size', 'sm');
+    expect(items[1]).to.have.attr('data-size', 'lg');
   });
 });

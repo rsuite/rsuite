@@ -25,7 +25,10 @@
       }
 
       &-active {
-        @include mixin.pagination-active-size(var(--rs-spacing-block-lg), var(--rs-spacing-inline-lg));
+        @include mixin.pagination-active-size(
+          var(--rs-spacing-block-lg),
+          var(--rs-spacing-inline-lg)
+        );
       }
     }
   }
@@ -45,7 +48,10 @@
       min-width: 30px;
 
       &-active {
-        @include mixin.pagination-active-size(var(--rs-spacing-block-sm), var(--rs-spacing-inline-sm));
+        @include mixin.pagination-active-size(
+          var(--rs-spacing-block-sm),
+          var(--rs-spacing-inline-sm)
+        );
       }
     }
   }
@@ -55,17 +61,16 @@
       min-width: 24px;
 
       &-active {
-        @include mixin.pagination-active-size(var(--rs-spacing-block-xs), var(--rs-spacing-inline-xs));
+        @include mixin.pagination-active-size(
+          var(--rs-spacing-block-xs),
+          var(--rs-spacing-inline-xs)
+        );
       }
     }
   }
 }
 
 .rs-pagination-btn {
-  @extend .rs-btn;
-  @extend .rs-btn-subtle;
-  @include button-mixin.button-size-sm;
-
   margin: 0 2px;
   position: relative;
   float: inline-start; // Collapse white-space

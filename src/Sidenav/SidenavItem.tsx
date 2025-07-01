@@ -17,7 +17,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 /**
  * Props of SidenavItem component
  */
-export interface SidenavItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
+export interface SidenavItemProps<T = any> extends Omit<BoxProps, 'color'>, HTMLPropsWithoutSelect {
   /**
    * Whether the item is activated
    */

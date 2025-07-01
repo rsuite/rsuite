@@ -167,7 +167,7 @@
 }
 
 // Default Navbar
-.rs-navbar-default {
+.rs-navbar[data-appearance='default'] {
   background-color: var(--rs-navbar-default-bg);
   color: var(--rs-navbar-default-text);
 
@@ -185,7 +185,7 @@
 }
 
 // Inverse Navbar
-.rs-navbar-inverse {
+.rs-navbar[data-appearance='inverse'] {
   background-color: var(--rs-navbar-inverse-bg);
   color: var(--rs-navbar-inverse-text);
 
@@ -215,7 +215,7 @@
 }
 
 // Subtle Navbar
-.rs-navbar-subtle {
+.rs-navbar[data-appearance='subtle'] {
   background-color: transparent;
   color: var(--rs-navbar-subtle-text);
 

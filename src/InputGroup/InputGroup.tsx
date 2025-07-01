@@ -53,15 +53,13 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
   }, []);
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, { inside, focus, disabled }));
+  const classes = merge(className, withPrefix());
 
-  const renderChildren = useCallback(() => {
+  const inputGroupChildren = useMemo(() => {
     return React.Children.map(children, item => {
       if (React.isValidElement(item)) {
-        if (React.isValidElement(item)) {
-          // Fix: Add type assertion to pass the disabled prop to the child element
-          return disabled ? React.cloneElement(item, { disabled } as { disabled?: boolean }) : item;
-        }
+        // Fix: Add type assertion to pass the disabled prop to the child element
+        return disabled ? React.cloneElement(item, { disabled } as { disabled?: boolean }) : item;
       }
       return item;
     });
@@ -74,8 +72,17 @@ const InputGroup = forwardRef<'div', InputGroupProps, typeof Subcomponents>((pro
 
   return (
     <InputGroupContext.Provider value={contextValue}>
-      <Box as={as} {...rest} ref={ref} className={classes}>
-        {renderChildren()}
+      <Box
+        as={as}
+        {...rest}
+        ref={ref}
+        className={classes}
+        data-size={size}
+        data-inside={inside}
+        data-disabled={disabled}
+        data-focus={focus}
+      >
+        {inputGroupChildren}
       </Box>
     </InputGroupContext.Provider>
   );

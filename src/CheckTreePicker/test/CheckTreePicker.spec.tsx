@@ -479,7 +479,9 @@ describe('CheckTreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('tester2', { selector: 'input' }));
 
-    expect(screen.getByRole('tree').querySelectorAll('.rs-checkbox-indeterminate')).to.length(1);
+    expect(
+      screen.getByRole('tree').querySelectorAll('.rs-checkbox[data-checked="mixed"]')
+    ).to.length(1);
   });
 
   it('Should not has duplicated key when data changed', () => {

@@ -6,7 +6,7 @@ import { useFormGroup } from '../FormGroup';
 
 export interface FormControlLabelProps
   extends BoxProps,
-    React.LabelHTMLAttributes<HTMLLabelElement> {
+    Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'color'> {
   /** Attribute of the html label tag, defaults to the controlId of the FormGroup */
   htmlFor?: string;
 }

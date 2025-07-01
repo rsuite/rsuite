@@ -293,7 +293,7 @@ describe('useFormControl', () => {
         </FormWrapper>
       );
 
-      expect(screen.getByTestId('test-toggle')).to.have.class('rs-toggle-checked');
+      expect(screen.getByTestId('test-toggle')).to.have.attr('data-checked', 'true');
     });
 
     it('Should override checked value when explicitly provided', () => {
@@ -306,7 +306,7 @@ describe('useFormControl', () => {
         </FormWrapper>
       );
 
-      expect(screen.getByTestId('test-toggle')).to.not.have.class('rs-toggle-checked');
+      expect(screen.getByTestId('test-toggle')).to.have.attr('data-checked', 'false');
     });
 
     it('Should call onChange with boolean for Toggle', () => {

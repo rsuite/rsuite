@@ -137,7 +137,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
             </PickerLabel>
           </Stack.Item>
         )}
-        <Stack.Item grow={1} style={{ overflow: 'hidden' }}>
+        <Stack.Item grow={1} overflow="hidden">
           <input
             readOnly
             aria-hidden={true}
@@ -145,7 +145,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
             data-testid="picker-toggle-input"
             name={name}
             value={inputValue}
-            className={prefix('textbox', 'read-only')}
+            className={prefix('textbox')}
             style={{ pointerEvents: 'none' }}
           />
           {children ? (

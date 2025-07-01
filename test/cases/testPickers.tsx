@@ -36,7 +36,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should have a subtle appearance', () => {
         render(<TestComponent data={data} appearance="subtle" />);
 
-        expect(screen.getByRole(role)).to.have.class('rs-btn-subtle');
+        expect(screen.getByRole(role)).to.have.attr('data-appearance', 'subtle');
       });
     }
 

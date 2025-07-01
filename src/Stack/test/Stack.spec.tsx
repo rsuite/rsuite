@@ -19,7 +19,7 @@ describe('Stack', () => {
   it('Should be wrap', () => {
     render(<Stack data-testid="test" wrap></Stack>);
 
-    expect(screen.getByTestId('test')).to.have.class('rs-stack-wrap');
+    expect(screen.getByTestId('test')).to.have.attr('data-wrap', 'true');
     expect(screen.getByTestId('test')).to.have.style('flex-wrap', 'wrap');
   });
 

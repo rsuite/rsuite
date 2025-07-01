@@ -50,7 +50,7 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
 
   const { remove } = getLocale('common', overrideLocale);
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, isPresetColor(color) && color));
+  const classes = merge(className, withPrefix());
 
   const styles = useMemo(
     () => mergeStyles(style, createColorVariables(color, '--rs-tag-bg', '--rs-tag-text')),
@@ -58,7 +58,15 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
   );
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      {...rest}
+      data-size={size}
+      data-color={isPresetColor(color) ? color : undefined}
+    >
       <span className={prefix`text`}>{children}</span>
       {closable && (
         <CloseButton

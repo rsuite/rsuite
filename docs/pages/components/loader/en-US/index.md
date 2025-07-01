@@ -12,7 +12,7 @@ A component that provides state during data loading.
 
 <!--{include:`basic.md`}-->
 
-### Custom description
+### With Content
 
 <!--{include:`content.md`}-->
 
@@ -51,7 +51,7 @@ A component that provides state during data loading.
 | ----------- | ---------------------------------------------------- | ----------------------------------------------- |
 | backdrop    | boolean                                              | Whether the background is displayed             |
 | center      | boolean                                              | Centered in the container                       |
-| classPrefix | string                                               | The prefix of the component CSS class           |
+| classPrefix | string `('loader')`                                  | The prefix of the component CSS class           |
 | content     | ReactNode                                            | Custom descriptive text                         |
 | inverse     | boolean                                              | An alternative dark visual style for the Loader |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs'`('md')`                 | Sets the loader dimensions                      |

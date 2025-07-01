@@ -1,6 +1,7 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
+@use '../../styles/colors/colors-base' as colors;
 @use '../../Button/styles/mixin' as button-mixin;
 
 //
@@ -68,7 +69,7 @@
   $sizes: xs, sm, md, lg, xl;
 
   @each $size in $sizes {
-    &-#{$size} {
+    &[data-size='#{$size}'] {
       --rs-toggle-font-size: var(--rs-toggle-font-size-#{$size});
       --rs-toggle-inner-font-size: var(--rs-toggle-inner-font-size-#{$size});
       --rs-toggle-line-height: var(--rs-toggle-line-height-#{$size});
@@ -90,10 +91,8 @@
   }
 
   // Colorful
-  $spectrum: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet';
-
-  @each $color in $spectrum {
-    &-#{$color} {
+  @each $color in colors.$spectrum {
+    &[data-color='#{$color}'] {
       --rs-toggle-checked-bg: var(--rs-#{$color}-500);
       --rs-toggle-checked-hover-bg: var(--rs-#{$color}-600);
     }
@@ -191,14 +190,14 @@
     }
 
     // Disabled state
-    .rs-toggle-disabled & {
+    .rs-toggle[data-disabled='true'] & {
       background-color: var(--rs-toggle-disabled-bg);
       color: var(--rs-toggle-disabled-thumb);
       pointer-events: none;
     }
 
     // Checked state
-    .rs-toggle-checked & {
+    .rs-toggle[data-checked='true'] & {
       background-color: var(--rs-toggle-checked-bg);
       color: var(--rs-toggle-checked-thumb);
       box-shadow: none;
@@ -222,12 +221,12 @@
       }
     }
 
-    .rs-toggle-disabled.rs-toggle-checked & {
+    .rs-toggle[data-checked='true'][data-disabled='true'] & {
       background-color: var(--rs-toggle-checked-disabled-bg);
       color: var(--rs-toggle-checked-disabled-thumb);
     }
 
-    .rs-toggle-loading & {
+    .rs-toggle[data-loading='true'] & {
       &::after {
         display: none;
       }
@@ -257,7 +256,7 @@
       border-width: 2px;
     }
 
-    .rs-toggle-checked & {
+    .rs-toggle[data-checked='true'] & {
       inset-inline-start: 100%;
       margin-inline-start: var(--rs-toggle-checked-margin-left);
     }
@@ -270,7 +269,7 @@
         border-top-color: var(--rs-toggle-loader-rotor);
       }
 
-      .rs-toggle-checked & {
+      .rs-toggle[data-checked='true'] & {
         @include color-modes.high-contrast-mode {
           &::before {
             border-color: var(--rs-gray-200);

@@ -4,10 +4,10 @@ import React from 'react';
 export type ReactElement<P = any> = React.ReactElement<P & React.HTMLAttributes<any>>;
 
 /** Removes 'onSelect' property from the given type. */
-export type PropsWithoutSelect<T> = Omit<T, 'onSelect'>;
+export type PropsWithoutSelect<T> = Omit<T, 'onSelect' | 'color'>;
 
 /** Removes 'onChange' property from the given type. */
-export type PropsWithoutChange<T> = Omit<T, 'onChange'>;
+export type PropsWithoutChange<T> = Omit<T, 'onChange' | 'color'>;
 
 export type PropsWithout<T, K extends keyof T> = Omit<T, K>;
 
@@ -26,22 +26,22 @@ export type HTMLPropsWithoutChange<
 /** Input props with 'onChange' and 'size' attributes removed. */
 export type SanitizedInputProps = PropsWithout<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'onChange' | 'size'
+  'onChange' | 'size' | 'color'
 >;
 
 /** Textarea props with 'onChange' attribute removed. */
 export type SanitizedTextareaProps = PropsWithout<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  'onChange'
+  'onChange' | 'color'
 >;
 
 /** HTML props excluding 'title', 'onToggle', and 'onSelect' attributes. */
 export type SanitizedHTMListProps<
   T extends HTMLElement = HTMLElement,
   P extends Record<string, any> = React.HTMLAttributes<T>
-> = PropsWithout<P, 'title' | 'onToggle' | 'onSelect'>;
+> = PropsWithout<P, 'title' | 'onToggle' | 'onSelect' | 'color'>;
 
-export type WithoutChildren<T> = Omit<T, 'children'>;
+export type WithoutChildren<T> = Omit<T, 'children' | 'color'>;
 
 export type CSSVariables = Partial<Record<`--${string}`, string | number | undefined>>;
 export type StyleProperties = React.CSSProperties | CSSVariables;

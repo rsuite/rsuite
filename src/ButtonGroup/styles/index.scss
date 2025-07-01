@@ -23,7 +23,7 @@
 }
 
 // Horizontal Button remove border radius
-.rs-btn-group:not(.rs-btn-group-vertical) {
+.rs-btn-group:not([data-vertical='true']) {
   > .rs-btn {
     float: inline-start;
 
@@ -37,11 +37,11 @@
   }
 
   // collapse border
-  > .rs-btn-ghost + .rs-btn-ghost {
+  > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
     margin-inline-start: -1px;
   }
 
-  &.rs-btn-group-divided > .rs-btn {
+  &[data-divided='true'] > .rs-btn {
     &:not(:last-child) {
       border-right-width: 1px;
     }
@@ -51,7 +51,7 @@
 // Vertical button groups
 // ----------------------
 
-.rs-btn-group-vertical {
+.rs-btn-group[data-vertical='true'] {
   > .rs-btn {
     display: block;
     width: 100%;
@@ -67,21 +67,25 @@
   }
 
   // collapse border
-  > .rs-btn-ghost + .rs-btn-ghost {
+  > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
     margin-top: -1px;
   }
 
-  &.rs-btn-group-divided > .rs-btn {
+  &[data-divided='true'] > .rs-btn {
     &:not(:last-child) {
       border-bottom-width: 1px;
     }
+  }
+
+  &[data-block='true'] {
+    width: 100%;
   }
 }
 
 // Justified button groups
 // ----------------------
 
-.rs-btn-group-justified {
+.rs-btn-group[data-justified='true'] {
   display: flex;
   width: 100%;
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import kebabCase from 'lodash/kebabCase';
 import Badge from '../Badge';
 import { describe, expect, it } from 'vitest';
 import { testStandardProps } from '@test/cases';
@@ -12,7 +11,7 @@ describe('Badge', () => {
 
   it('Should render independent', () => {
     const { container } = render(<Badge />);
-    expect(container.firstChild).to.have.class('rs-badge-independent');
+    expect(container.firstChild).to.have.attr('data-independent', 'true');
   });
 
   it('Should render content', () => {
@@ -24,12 +23,12 @@ describe('Badge', () => {
 
   it('Should be invisible', () => {
     const { container } = render(<Badge invisible />);
-    expect(container.firstChild).to.have.class('rs-badge-hidden');
+    expect(container.firstChild).to.have.attr('data-hidden', 'true');
   });
 
   it('Should be outline', () => {
     const { container } = render(<Badge outline />);
-    expect(container.firstChild).to.have.class('rs-badge-outline');
+    expect(container.firstChild).to.have.attr('data-outline', 'true');
   });
 
   it('Should render number content', () => {
@@ -83,7 +82,7 @@ describe('Badge', () => {
       </Badge>
     );
 
-    expect(container.firstChild).to.have.class('rs-badge-circle');
+    expect(container.firstChild).to.have.attr('data-shape', 'circle');
 
     rerender(
       <Badge shape="rectangle">
@@ -91,12 +90,12 @@ describe('Badge', () => {
       </Badge>
     );
 
-    expect(container.firstChild).to.have.class('rs-badge-rectangle');
+    expect(container.firstChild).to.have.attr('data-shape', 'rectangle');
   });
 
   it('Should render compact', () => {
     const { container } = render(<Badge compact />);
-    expect(container.firstChild).to.have.class('rs-badge-compact');
+    expect(container.firstChild).to.have.attr('data-compact', 'true');
   });
 
   it('Should render placement', () => {
@@ -108,7 +107,7 @@ describe('Badge', () => {
           <button>Test</button>
         </Badge>
       );
-      expect(container.firstChild).to.have.class(`rs-badge-${kebabCase(placement)}`);
+      expect(container.firstChild).to.have.attr('data-placement', placement);
     });
   });
 });

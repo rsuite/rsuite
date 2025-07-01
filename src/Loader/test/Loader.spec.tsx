@@ -11,22 +11,22 @@ describe('Loader', () => {
 
   it('Should render a Loader', () => {
     render(<Loader />);
-    expect(screen.getByRole('status').firstChild).to.have.class('rs-loader');
+    expect(screen.getByRole('status')).to.have.class('rs-loader');
   });
 
   it('Should be center', () => {
     render(<Loader center />);
-    expect(screen.getByRole('status')).to.have.class('rs-loader-center');
+    expect(screen.getByRole('status')).to.have.attr('data-center', 'true');
   });
 
   it('Should be inverse', () => {
     render(<Loader inverse />);
-    expect(screen.getByRole('status')).to.have.class('rs-loader-inverse');
+    expect(screen.getByRole('status')).to.have.attr('data-inverse', 'true');
   });
 
   it('Should have a backdrop', () => {
     render(<Loader backdrop />);
-    expect(screen.getByRole('status').firstChild).to.have.class('rs-loader-backdrop');
+    expect(screen.getByRole('status')).to.have.contain('.rs-loader-backdrop');
   });
 
   it('Should have content', () => {
@@ -34,14 +34,18 @@ describe('Loader', () => {
     expect(screen.getByRole('status')).to.have.text('content');
   });
 
-  it('Should have a speed', () => {
-    render(<Loader speed="fast" />);
-    expect(screen.getByRole('status')).to.have.class('rs-loader-speed-fast');
-  });
+  it('Should render speed', () => {
+    const { rerender } = render(<Loader speed="fast" />);
+    expect(screen.getByRole('status')).to.have.attr('data-speed', 'fast');
 
-  it('Should be paused', () => {
-    render(<Loader speed="paused" />);
-    expect(screen.getByRole('status')).to.have.class('rs-loader-speed-paused');
+    rerender(<Loader speed="normal" />);
+    expect(screen.getByRole('status')).to.have.attr('data-speed', 'normal');
+
+    rerender(<Loader speed="slow" />);
+    expect(screen.getByRole('status')).to.have.attr('data-speed', 'slow');
+
+    rerender(<Loader speed="paused" />);
+    expect(screen.getByRole('status')).to.have.attr('data-speed', 'paused');
   });
 
   describe('Accessibility', () => {

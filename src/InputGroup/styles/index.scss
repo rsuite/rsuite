@@ -51,7 +51,7 @@
   $sizes: (xs, sm, md, lg);
 
   @each $size in $sizes {
-    &.rs-input-group-#{$size} {
+    &[data-size='#{$size}'] {
       --rs-input-group-input-height: var(--rs-input-group-input-height-#{$size});
       --rs-input-group-inside-btn-spacing: var(--rs-input-group-inside-btn-m-x-#{$size});
       --rs-input-group-inside-btn-padding: var(--rs-input-group-inside-btn-p-x-#{$size});
@@ -123,7 +123,7 @@
 
   // Inside Input Group Variant
   // Special styling for input groups with internal buttons/addons
-  &.rs-input-group-inside {
+  &[data-inside='true'] {
     width: var(--rs-input-group-width);
     align-items: center;
     background-color: var(--rs-input-bg);

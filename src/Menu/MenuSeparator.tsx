@@ -3,7 +3,9 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 
-export interface MenuSeparatorProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
+export interface MenuSeparatorProps
+  extends Omit<BoxProps, 'color'>,
+    React.HTMLAttributes<HTMLElement> {
   /** You can use a custom element for this component */
   as?: React.ElementType;
 }

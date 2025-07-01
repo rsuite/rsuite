@@ -5,7 +5,9 @@ import AccordionButton from './AccordionButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 
-export interface PanelHeaderProps extends BoxProps, React.HTMLAttributes<HTMLHeadingElement> {
+export interface PanelHeaderProps
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLHeadingElement>, 'color'> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;

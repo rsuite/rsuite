@@ -94,7 +94,8 @@ export type WithTreeDragProps<P> = P & TreeDragProps;
 /**
  * Represents the props for the Tree component.
  */
-export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends BoxProps {
+export interface TreeViewBaseProps<V = string | number, T = TreeNode>
+  extends Omit<BoxProps, 'color'> {
   /**
    * The height of the tree.
    */

@@ -8,7 +8,7 @@ const transformShadowValue = (value: string) => getSizeValue('shadow', value);
  * CSS Property Alias
  * This type maps all the CSS properties defined in cssSystemPropAlias to their corresponding React CSS types
  */
-export const cssSystemPropAlias: Record<keyof CSSSystemProps, CSSProperty> = {
+export const cssSystemPropAlias: Partial<Record<keyof CSSSystemProps, CSSProperty>> = {
   // — Spacing ————————————————————
   p: { type: 'any', property: 'padding' },
   pt: { type: 'any', property: 'padding-top' },
@@ -111,7 +111,8 @@ export const cssSystemPropAlias: Record<keyof CSSSystemProps, CSSProperty> = {
   flex: { type: 'string', property: 'flex' },
   grow: { type: 'number', property: 'flex-grow' },
   order: { type: 'number', property: 'order' },
-  shrink: { type: 'number', property: 'flex-shrink' }
+  shrink: { type: 'number', property: 'flex-shrink' },
+  direction: { type: 'string', property: 'flex-direction' }
 };
 
 export type CSSSystemPropKey = keyof typeof cssSystemPropAlias;
