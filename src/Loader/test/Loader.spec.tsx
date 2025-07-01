@@ -26,7 +26,7 @@ describe('Loader', () => {
 
   it('Should have a backdrop', () => {
     render(<Loader backdrop />);
-    expect(screen.getByRole('status')).to.have.contain('.rs-loader-backdrop');
+    expect(screen.getByRole('status')).to.have.descendant('.rs-loader-backdrop');
   });
 
   it('Should have content', () => {
