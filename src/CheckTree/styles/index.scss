@@ -82,7 +82,7 @@
       }
     }
 
-    &.rs-checkbox-disabled {
+    &[data-disabled='true'] {
       .rs-checkbox-label {
         color: var(--rs-text-disabled);
         background: none;

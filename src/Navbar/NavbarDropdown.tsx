@@ -121,13 +121,15 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
         }}
       >
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
-          const classes = merge(className, withPrefix({ disabled, open }));
+          const classes = merge(className, withPrefix());
           return (
             <Box
               as={as}
               ref={mergeRefs(ref, containerRef)}
               className={classes}
               style={style}
+              data-open={open}
+              data-disabled={disabled}
               data-placement={kebabPlace(placement)}
               {...props}
             >

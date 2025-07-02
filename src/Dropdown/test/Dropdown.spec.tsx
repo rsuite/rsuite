@@ -123,7 +123,7 @@ describe('<Dropdown>', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    expect(container.firstChild).to.have.class('rs-dropdown-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should have a custom className in toggle', () => {

@@ -13,7 +13,7 @@
   display: inline-block;
   vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
 
-  &-disabled &-toggle.rs-btn {
+  &[data-disabled='true'] &-toggle.rs-btn {
     cursor: var(--rs-cursor-disabled) !important;
     box-shadow: none;
 
@@ -145,7 +145,7 @@
     text-align: center;
   }
 
-  &.rs-dropdown-item-active {
+  &[data-active='true'] {
     outline: 0;
     font-weight: bold;
 
@@ -163,7 +163,7 @@
 
   // Hover/Focus state
   &:focus-visible,
-  &.rs-dropdown-item-focus {
+  &[data-focus='true'] {
     @include menu.menuitem-active;
   }
 
@@ -172,7 +172,7 @@
   }
 
   // Disabled state
-  &-disabled {
+  &[data-disabled='true'] {
     color: var(--rs-text-disabled);
     cursor: var(--rs-cursor-disabled);
 
@@ -246,7 +246,7 @@
   }
 
   // Open
-  &.rs-dropdown-item-open > .rs-dropdown-menu {
+  &[data-open='true'] > .rs-dropdown-menu {
     //use display table to fix-content
     display: table;
     animation-name: slideUpIn;
@@ -255,7 +255,7 @@
 }
 
 // Active state
-.rs-dropdown-menu > .rs-dropdown-menu-item-focus {
+.rs-dropdown-menu > .rs-dropdown-menu-item[data-focus='true'] {
   outline: 0;
   background-color: var(--rs-menuitem-bg-active);
 
@@ -266,7 +266,7 @@
 }
 
 // Open state for the dropdown
-.rs-dropdown-open {
+.rs-dropdown:where([data-open='true']) {
   > .rs-dropdown-menu {
     animation-play-state: running;
   }

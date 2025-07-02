@@ -107,19 +107,18 @@ const SidenavDropdownMenu = React.forwardRef<
             const classes = mergeItemClassNames(
               className,
               prefixItemClassName`toggle`,
-              withItemClassPrefix({
-                'with-icon': icon,
-                open,
-                active: selected,
-                disabled,
-                focus: active
-              })
+              withItemClassPrefix()
             );
 
             return (
               <div
                 ref={mergeRefs(buttonRef, menuitemRef as any)}
                 className={classes}
+                data-open={open}
+                data-disabled={disabled}
+                data-active={selected}
+                data-focus={active}
+                data-with-icon={icon}
                 data-event-key={eventKey}
                 data-event-key-type={typeof eventKey}
                 {...(menuitem as any)}
@@ -151,18 +150,13 @@ const SidenavDropdownMenu = React.forwardRef<
       onToggleMenu={handleToggleSubmenu}
     >
       {({ open, ...menuContainer }, menuContainerRef) => {
-        const classes = mergeItemClassNames(
-          className,
-          withItemClassPrefix({
-            disabled,
-            open,
-            submenu: true
-          })
-        );
+        const classes = mergeItemClassNames(className, withItemClassPrefix('submenu'));
         return (
           <li
             ref={mergeRefs(ref, menuContainerRef as any)}
             className={classes}
+            data-open={open}
+            data-disabled={disabled}
             {...(menuContainer as any)}
           />
         );

@@ -313,7 +313,7 @@
       border-radius: var(--rs-radius-full);
       z-index: 1;
 
-      .rs-btn-xs & {
+      .rs-btn[data-size='xs'] & {
         width: var(--rs-btn-loading-spin-xs-diameter);
         height: var(--rs-btn-loading-spin-xs-diameter);
       }

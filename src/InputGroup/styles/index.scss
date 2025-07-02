@@ -66,12 +66,12 @@
 
   // Focus States
   // Apply special styles when the input group is focused
-  &:not(.rs-input-group-disabled).rs-input-group-focus,
+  &:not([data-disabled='true']).rs-input-group-focus,
   &:focus-within {
     border-color: var(--rs-input-focus-border);
   }
 
-  &:not(.rs-input-group-disabled).rs-input-group-focus,
+  &:not([data-disabled='true']).rs-input-group-focus,
   &:focus-within {
     @include utils.focus-ring;
   }
@@ -157,13 +157,13 @@
       }
 
       &:active,
-      &.rs-btn-active {
+      &[data-active='true'] {
         color: var(--rs-btn-subtle-active-text);
         background-color: var(--rs-btn-subtle-active-bg);
       }
 
       &:disabled,
-      &.rs-btn-disabled {
+      &[data-disabled='true'] {
         color: var(--rs-btn-subtle-disabled-text);
         background: none;
       }
@@ -196,7 +196,7 @@
 
 // Disabled State
 // Styles applied when the input group is disabled
-.rs-input-group.rs-input-group-disabled {
+.rs-input-group[data-disabled='true'] {
   background-color: var(--rs-input-disabled-bg);
   color: var(--rs-text-disabled);
   cursor: not-allowed;

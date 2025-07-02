@@ -11,7 +11,7 @@
 }
 
 @mixin dropdown-menu-icon-left-position($left) {
-  &.rs-dropdown-item-with-icon > .rs-dropdown-item-content {
+  &[data-with-icon='true'] > .rs-dropdown-item-content {
     > .rs-dropdown-item-menu-icon {
       inset-inline-start: $left;
     }

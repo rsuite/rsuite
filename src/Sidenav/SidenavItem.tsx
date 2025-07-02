@@ -129,10 +129,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
         {(triggerProps, triggerRef) => (
           <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
             {({ selected, active, ...menuitem }, menuitemRef) => {
-              const classes = merge(
-                className,
-                withPrefix({ focus: active, active: selected, disabled })
-              );
+              const classes = merge(className, withPrefix());
 
               // Show tooltip when inside a collapse <Sidenav>
               return (
@@ -141,6 +138,9 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
                   ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
                   disabled={as === SafeAnchor ? disabled : undefined}
                   className={classes}
+                  data-active={selected}
+                  data-disabled={disabled}
+                  data-focus={active}
                   data-event-key={eventKey}
                   {...omit(rest, ['divider', 'panel'])}
                   {...triggerProps}

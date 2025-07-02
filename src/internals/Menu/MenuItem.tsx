@@ -111,7 +111,7 @@ function MenuItem(props: MenuItemProps) {
     role: 'menuitem',
     // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
     'aria-checked': selected || undefined,
-    'aria-disabled': disabled,
+    'aria-disabled': disabled || undefined,
     tabIndex: -1,
     onClick: handleClick,
     // render props
