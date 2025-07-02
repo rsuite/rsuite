@@ -3,7 +3,7 @@ import CodeView from 'react-code-view';
 
 const editorProps = {
   classPrefix: 'rs',
-  buttonClassName: 'rs-btn rs-btn-sm rs-btn-subtle rs-btn-icon-circle rs-btn-icon'
+  buttonClassName: 'rs-btn rs-btn-icon'
 };
 
 const afterCompile = (code: string) => {
