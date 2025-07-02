@@ -20,19 +20,19 @@
     caret-color: transparent;
 
     // Size variants
-    &.rs-input-lg {
+    &[data-size='lg'] {
       --rs-pin-input-size: var(--rs-pin-input-size-lg);
     }
 
-    &.rs-input-md {
+    &[data-size='md'] {
       --rs-pin-input-size: var(--rs-pin-input-size-md);
     }
 
-    &.rs-input-sm {
+    &[data-size='sm'] {
       --rs-pin-input-size: var(--rs-pin-input-size-sm);
     }
 
-    &.rs-input-xs {
+    &[data-size='xs'] {
       --rs-pin-input-size: var(--rs-pin-input-size-xs);
     }
   }

@@ -227,18 +227,18 @@
   min-width: var(--rs-input-group-input-height);
 
   // Sizing
-  &.rs-input-sm {
+  &[data-size='sm'] {
     padding-block: var(--rs-spacing-block-sm);
     padding-inline: var(--rs-spacing-inline-sm);
     font-size: var(--rs-font-size-sm);
   }
 
-  &.rs-input-xs {
+  &[data-size='xs'] {
     padding: var(--rs-spacing-inline-xs);
     font-size: var(--rs-font-size-xs);
   }
 
-  &.rs-input-lg {
+  &[data-size='lg'] {
     padding-block: var(--rs-spacing-block-lg);
     padding-inline: var(--rs-spacing-inline-lg);
     font-size: var(--rs-font-size-md);

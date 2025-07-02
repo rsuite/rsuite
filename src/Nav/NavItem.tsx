@@ -4,15 +4,13 @@ import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext from './NavContext';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface NavItemProps<T = string | number>
-  extends Omit<BoxProps, 'color'>,
-    HTMLPropsWithoutSelect {
+export interface NavItemProps<T = string | number> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 

@@ -30,6 +30,7 @@ describe('Stack', () => {
       </Stack>
     );
 
+    console.log(screen.getByTestId('test').style.gap);
     expect(screen.getByTestId('test')).to.style('gap', '10px');
     expect((screen.getByTestId('test').firstChild as HTMLElement).style.marginRight).to.be.empty;
     expect((screen.getByTestId('test').firstChild as HTMLElement).style.marginBottom).to.be.empty;

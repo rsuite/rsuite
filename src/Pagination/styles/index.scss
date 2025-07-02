@@ -16,7 +16,7 @@
   // Pagination Sizes
   // --------------------------------------------------
 
-  &-lg {
+  &[data-size='lg'] {
     .rs-pagination-btn {
       min-width: 42px;
 
@@ -33,7 +33,7 @@
     }
   }
 
-  &-md {
+  &[data-size='md'] {
     .rs-pagination-btn {
       min-width: 36px;
 
@@ -43,7 +43,7 @@
     }
   }
 
-  &-sm {
+  &[data-size='sm'] {
     .rs-pagination-btn {
       min-width: 30px;
 
@@ -56,7 +56,7 @@
     }
   }
 
-  &-xs {
+  &[data-size='xs'] {
     .rs-pagination-btn {
       min-width: 24px;
 

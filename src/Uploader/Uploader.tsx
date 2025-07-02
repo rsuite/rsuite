@@ -4,7 +4,7 @@ import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
 import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import type { UploaderLocale } from '../locales';
@@ -35,7 +35,7 @@ export interface UploaderInstance {
 }
 
 export interface UploaderProps
-  extends Omit<BoxProps, 'color'>,
+  extends BaseBoxProps,
     Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
   /**
    * Custom ref for Uploader

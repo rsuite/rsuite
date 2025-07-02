@@ -322,7 +322,7 @@
     &::before {
       border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
 
-      .rs-btn-primary & {
+      .rs-btn[data-appearance='primary'] & {
         border-color: rgba(248, 247, 250, 0.3);
 
         @include color-modes.high-contrast-mode {
@@ -337,7 +337,7 @@
       border-style: solid;
       animation: buttonSpin 0.6s infinite linear;
 
-      .rs-btn-primary & {
+      .rs-btn[data-appearance='primary'] & {
         border-top-color: #fff;
 
         @include color-modes.high-contrast-mode {

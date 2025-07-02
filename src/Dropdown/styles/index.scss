@@ -17,7 +17,7 @@
     cursor: var(--rs-cursor-disabled) !important;
     box-shadow: none;
 
-    &.rs-btn-subtle {
+    &.rs-btn[data-appearance='subtle'] {
       &,
       &:focus,
       &:active {
@@ -26,7 +26,7 @@
       }
     }
 
-    &.rs-btn-primary {
+    &.rs-btn[data-appearance='primary'] {
       &,
       &:focus,
       &:active {
@@ -35,7 +35,7 @@
       }
     }
 
-    &.rs-btn-link {
+    &.rs-btn[data-appearance='link'] {
       &,
       &:focus,
       &:active {
@@ -44,7 +44,7 @@
       }
     }
 
-    &.rs-btn-ghost {
+    &.rs-btn[data-appearance='ghost'] {
       &,
       &:focus,
       &:active {

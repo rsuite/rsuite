@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import ListContext from './ListContext';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
-export interface ListItemProps extends Omit<BoxProps, 'color'>, React.HTMLAttributes<HTMLElement> {
+export interface ListItemProps extends BaseBoxProps, React.HTMLAttributes<HTMLElement> {
   /* Index of list item, for sort */
   index?: number;
 

@@ -1,11 +1,9 @@
 import React from 'react';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 
-export interface InputGroupAddonProps
-  extends Omit<BoxProps, 'color'>,
-    React.HTMLAttributes<HTMLSpanElement> {
+export interface InputGroupAddonProps extends BaseBoxProps, React.HTMLAttributes<HTMLSpanElement> {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }

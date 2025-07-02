@@ -7,7 +7,7 @@ import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './SidenavContext';
@@ -17,7 +17,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 /**
  * Props of SidenavItem component
  */
-export interface SidenavItemProps<T = any> extends Omit<BoxProps, 'color'>, HTMLPropsWithoutSelect {
+export interface SidenavItemProps<T = any> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /**
    * Whether the item is activated
    */

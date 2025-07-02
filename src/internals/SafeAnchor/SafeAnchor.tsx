@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 
-export interface SafeAnchorProps
-  extends Omit<BoxProps, 'color'>,
-    React.HTMLAttributes<HTMLElement> {
+export interface SafeAnchorProps extends BaseBoxProps, React.HTMLAttributes<HTMLElement> {
   /** Link specified url */
   href?: string;
 
