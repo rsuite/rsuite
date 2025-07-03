@@ -72,18 +72,18 @@ const MenuItem = forwardRef<'li', MenuItemProps>((props: MenuItemProps, ref: Rea
   return (
     <MenuItemBase selected={selected} disabled={disabled} onActivate={handleSelectItem}>
       {({ selected, active, ...menuitem }, menuitemRef) => {
-        const classes = merge(
-          className,
-          withPrefix({
-            active: selected,
-            disabled,
-            focus: active
-          })
-        );
+        const classes = merge(className, withPrefix());
+
+        const dataAttributes = {
+          'data-active': selected,
+          'data-disabled': disabled,
+          'data-focus': active
+        };
 
         return renderMenuItem({
           ref: mergeRefs(ref, menuitemRef),
           className: classes,
+          ...dataAttributes,
           ...menuitem,
           ...rest,
           children: (

@@ -20,7 +20,24 @@ describe('Menu', () => {
     expect(screen.getAllByRole('menuitem')).to.have.lengthOf(2);
   });
 
-  describe('activeKey', () => {
+  describe('Disabled State', () => {
+    it('Should disable menu item when disabled is true', () => {
+      render(
+        <Menu>
+          <Menu.Item disabled>Item 1</Menu.Item>
+          <Menu.Item>Item 2</Menu.Item>
+        </Menu>
+      );
+
+      const disabledItem = screen.getByText('Item 1').closest('.rs-menu-item');
+      const enabledItem = screen.getByText('Item 2').closest('.rs-menu-item');
+
+      expect(disabledItem).to.have.attr('data-disabled', 'true');
+      expect(enabledItem).to.not.have.attr('data-disabled', 'true');
+    });
+  });
+
+  describe('Active State', () => {
     it('Should activate menu item when activeKey matches', () => {
       render(
         <Menu activeKey="2">
@@ -34,9 +51,9 @@ describe('Menu', () => {
       const inactiveItem1 = screen.getByText('Item 1').closest('.rs-menu-item');
       const inactiveItem2 = screen.getByText('Item 3').closest('.rs-menu-item');
 
-      expect(activeItem).to.have.class('rs-menu-item-active');
-      expect(inactiveItem1).to.not.have.class('rs-menu-item-active');
-      expect(inactiveItem2).to.not.have.class('rs-menu-item-active');
+      expect(activeItem).to.have.attr('data-active', 'true');
+      expect(inactiveItem1).to.have.attr('data-active', 'false');
+      expect(inactiveItem2).to.have.attr('data-active', 'false');
     });
 
     it('Should not activate any item when activeKey does not match', () => {
@@ -54,7 +71,7 @@ describe('Menu', () => {
     });
   });
 
-  describe('onSelect', () => {
+  describe('Select Event', () => {
     it('Should call onSelect with eventKey when item is clicked', () => {
       const onSelect = vi.fn();
 
