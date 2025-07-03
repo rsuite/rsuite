@@ -62,7 +62,7 @@ const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
   );
 
   const { prefix, withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix({ active, disabled }));
+  const classes = merge(className, withPrefix());
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -79,6 +79,8 @@ const NavbarItem = forwardRef<'a', NavbarItemProps>((props, ref) => {
       as={as}
       ref={ref}
       aria-selected={active || undefined}
+      data-active={active}
+      data-disabled={disabled}
       {...rest}
       className={classes}
       onClick={handleClick}
