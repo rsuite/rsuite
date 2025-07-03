@@ -30,7 +30,7 @@
     }
   }
 
-  &-file-item-disabled {
+  &-file-item[data-disabled='true'] {
     opacity: 0.3;
     cursor: not-allowed;
 
@@ -64,11 +64,10 @@
   }
 }
 
-.rs-uploader-text {
-
+.rs-uploader[data-list-type='text'] {
   .rs-uploader-file-item {
     padding-block: var(--rs-padding-block-md);
-    padding-inline: 30px 36px;
+    padding-inline: 36px 30px;
     position: relative;
     transition: 0.3s linear background-color;
     border-radius: var(--rs-radius-md);
@@ -159,7 +158,7 @@
     }
   }
 
-  .rs-uploader-file-item-has-error {
+  .rs-uploader-file-item[data-has-error='true'] {
     .rs-uploader-file-item-content,
     .rs-uploader-file-item-title {
       color: var(--rs-state-error);
@@ -167,7 +166,7 @@
   }
 }
 
-.rs-uploader-picture {
+.rs-uploader[data-list-type='picture'] {
   @include utils.clearfix;
 
   display: inline-flex;
@@ -200,7 +199,7 @@
     }
   }
 
-  .rs-uploader-trigger.rs-uploader-trigger-disabled .rs-uploader-trigger-btn {
+  .rs-uploader-trigger[data-disabled='true'] .rs-uploader-trigger-btn {
     color: var(--rs-btn-subtle-text) !important;
     background-color: transparent !important;
 
@@ -248,12 +247,11 @@
     &-status {
       position: absolute;
       bottom: 0;
-      inset-inline-start: 0;
-      right: 0;
+      top: 0;
+      inset-inline: 0;
       background-color: var(--rs-uploader-item-hover-bg);
       color: var(--rs-text-primary);
-      height: 20px;
-      line-height: 20px;
+      height: 100%;
       padding: 0 5px;
       width: 100%;
       text-align: center;
@@ -336,7 +334,7 @@
   }
 }
 
-.rs-uploader-picture-text {
+.rs-uploader[data-list-type='picture-text'] {
   .rs-uploader-file-items {
     display: flex;
     flex-direction: column;
@@ -459,7 +457,7 @@
     }
   }
 
-  .rs-uploader-file-item-has-error {
+  .rs-uploader-file-item[data-has-error='true'] {
     .rs-uploader-file-item-size {
       display: none;
     }
@@ -472,24 +470,24 @@
   }
 }
 
-.rs-uploader-draggable {
+.rs-uploader[data-draggable='true'] {
   .rs-uploader-trigger-customize .rs-uploader-trigger-btn {
     display: block;
     background: var(--rs-uploader-dnd-bg);
     border: 1px dashed var(--rs-uploader-dnd-border);
   }
 
-  .rs-uploader-trigger.rs-uploader-trigger-customize:not(.rs-uploader-trigger-disabled)
+  .rs-uploader-trigger.rs-uploader-trigger-customize:not([data-disabled='true'])
     .rs-uploader-trigger-btn:hover,
   .rs-uploader-trigger-drag-over .rs-uploader-trigger-btn.rs-uploader-trigger-customize {
     border-color: var(--rs-uploader-dnd-hover-border);
   }
 
-  .rs-uploader-trigger-disabled {
+  .rs-uploader-trigger[data-disabled='true'] {
     cursor: not-allowed;
   }
 
-  .rs-uploader-trigger-disabled .rs-uploader-trigger-btn {
+  .rs-uploader-trigger[data-disabled='true'] .rs-uploader-trigger-btn {
     pointer-events: none;
   }
 }

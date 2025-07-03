@@ -11,7 +11,7 @@ describe('UploadTrigger', () => {
 
   it('Should be disabled', () => {
     const { container } = render(<UploadTrigger disabled />);
-    expect(container.firstChild).to.have.class('rs-uploader-trigger-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be multipled', () => {

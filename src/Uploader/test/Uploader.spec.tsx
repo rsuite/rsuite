@@ -26,7 +26,7 @@ describe('Uploader', () => {
 
   it('Should render picture type', () => {
     const { container } = render(<Uploader action="" listType="picture" />);
-    expect(container.firstChild).to.have.class('rs-uploader-picture');
+    expect(container.firstChild).to.have.attr('data-list-type', 'picture');
   });
 
   it('Should not render the file list', () => {
@@ -52,7 +52,7 @@ describe('Uploader', () => {
 
   it('Should have draggable className', () => {
     const { container } = render(<Uploader action="" draggable />);
-    expect(container.firstChild).to.have.class('rs-uploader-draggable');
+    expect(container.firstChild).to.have.attr('data-draggable', 'true');
   });
 
   it('Should call `onUpload` callback', () => {
