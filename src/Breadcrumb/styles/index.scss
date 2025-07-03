@@ -35,7 +35,7 @@
       @include utils.tab-focus();
     }
 
-    &-active {
+    &[data-active='true'] {
       color: var(--rs-breadcrumb-item-active-text);
     }
   }
