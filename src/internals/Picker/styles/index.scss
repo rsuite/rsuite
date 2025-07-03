@@ -81,12 +81,13 @@
     margin: 0 var(--rs-spacing) 0 0;
   }
 
-  &.rs-picker-focused {
+  // Focus state for input/tag picker
+  &[data-focus='true'] {
     border-color: var(--rs-input-focus-border);
   }
 
-  &-toggle-active,
-  &.rs-picker-focused {
+  &-toggle[data-active='true'],
+  &[data-focus='true'] {
     --rs-picker-toggle-border-color: var(--rs-input-focus-border);
     @include utils.focus-ring;
   }
@@ -304,7 +305,7 @@
 
     transition: none;
 
-    &-active {
+    &[data-active='true'] {
       background-color: var(--rs-btn-subtle-hover-bg);
       color: var(--rs-btn-subtle-hover-text);
     }

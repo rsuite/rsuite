@@ -60,6 +60,12 @@ describe('<PickerToggle>', () => {
     });
   });
 
+  it('Should apply active state when active=true', () => {
+    render(<Toggle active />);
+
+    expect(screen.getByRole('combobox')).to.have.attr('data-active', 'true');
+  });
+
   describe('Loading state', () => {
     it('Should not apply active state on clicking when loading=true', () => {
       render(
@@ -70,7 +76,7 @@ describe('<PickerToggle>', () => {
 
       userEvent.click(screen.getByTestId('toggle'));
 
-      expect(screen.getByTestId('toggle')).not.to.have.class('rs-picker-toggle-active');
+      expect(screen.getByTestId('toggle')).not.to.have.attr('data-active', 'true');
     });
   });
 

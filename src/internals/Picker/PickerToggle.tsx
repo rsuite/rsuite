@@ -85,7 +85,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     return '';
   }, [inputValueProp]);
 
-  const classes = merge(className, withPrefix({ active }));
+  const classes = merge(className, withPrefix());
 
   const handleClean = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -123,6 +123,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       data-countable={countable}
       data-size={size}
       data-readonly={readOnly}
+      data-active={active}
       ref={mergeRefs(combobox, ref)}
       disabled={disabled}
       tabIndex={disabled ? undefined : tabIndex}
