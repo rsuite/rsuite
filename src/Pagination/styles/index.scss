@@ -4,7 +4,6 @@
 @use '../../Divider/styles/index' as divider;
 @use '../../SelectPicker/styles/index' as select-picker;
 @use './pagination-group';
-@use './mixin';
 
 //
 // Pagination (multiple pages)
@@ -23,49 +22,24 @@
       .rs-pagination-symbol {
         height: var(--rs-line-height-plus);
       }
-
-      &-active {
-        @include mixin.pagination-active-size(
-          var(--rs-spacing-block-lg),
-          var(--rs-spacing-inline-lg)
-        );
-      }
     }
   }
 
   &[data-size='md'] {
     .rs-pagination-btn {
       min-width: 36px;
-
-      &-active {
-        @include mixin.pagination-active-size;
-      }
     }
   }
 
   &[data-size='sm'] {
     .rs-pagination-btn {
       min-width: 30px;
-
-      &-active {
-        @include mixin.pagination-active-size(
-          var(--rs-spacing-block-sm),
-          var(--rs-spacing-inline-sm)
-        );
-      }
     }
   }
 
   &[data-size='xs'] {
     .rs-pagination-btn {
       min-width: 24px;
-
-      &-active {
-        @include mixin.pagination-active-size(
-          var(--rs-spacing-block-xs),
-          var(--rs-spacing-inline-xs)
-        );
-      }
     }
   }
 }
@@ -99,9 +73,5 @@
       color: var(--rs-pagination-item-current-text);
       text-decoration: underline;
     }
-  }
-
-  &.rs-pagination-btn-active {
-    @include mixin.pagination-active;
   }
 }
