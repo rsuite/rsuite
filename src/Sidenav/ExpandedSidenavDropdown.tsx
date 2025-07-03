@@ -136,13 +136,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
   return (
     <Disclosure open={open} onToggle={handleToggleDisclosure}>
       {({ open }, containerRef) => {
-        const classes = merge(
-          className,
-          withPrefix({
-            [open ? 'expand' : 'collapse']: true,
-            disabled
-          })
-        );
+        const classes = merge(className, withPrefix());
 
         return (
           <Box
@@ -151,6 +145,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
             style={style}
             className={classes}
             data-event-key={eventKey}
+            data-expanded={open}
             data-placement={kebabPlace(placement)}
             data-active-descendant={hasSelectedItems}
             {...rest}
@@ -163,6 +158,7 @@ const ExpandedSidenavDropdown = forwardRef<'li', SidenavDropdownProps>((props, r
                   noCaret={noCaret}
                   className={toggleClassName}
                   renderToggle={renderToggle}
+                  disabled={disabled}
                   icon={icon}
                   placement={placement}
                   {...omit(buttonProps, ['open'])}

@@ -146,9 +146,6 @@ describe('<Sidenav>', () => {
             </Dropdown>
             <Dropdown eventKey="2" title="2" data-testid="menu-2">
               <Dropdown.Item eventKey="2-1">2-1</Dropdown.Item>
-              <Dropdown.Menu eventKey="2-2" title="2-2" data-testid="m-2-2">
-                <Dropdown.Item eventKey="2-2-1">2-2-1</Dropdown.Item>
-              </Dropdown.Menu>
             </Dropdown>
           </Nav>
         </Sidenav.Body>
@@ -160,11 +157,6 @@ describe('<Sidenav>', () => {
       const dropdownMenu = within(menuElement).getAllByRole('group')[0];
       expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-in');
     });
-
-    expect(screen.getByTestId('m-2-2')).not.to.have.attr('aria-expanded', 'true');
-    expect(within(screen.getByTestId('m-2-2')).getByRole('group', { hidden: true })).to.have.class(
-      'rs-dropdown-menu-collapse-out'
-    );
   });
 
   it('<Dropdown> inside collapsed <Sidenav> should contain a header in its menu', () => {
@@ -213,9 +205,8 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    expect(screen.getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
-    // The accent style
-    expect(screen.getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
+    expect(screen.getByTestId('dropdown-item')).to.have.attr('aria-current', 'true');
+    expect(screen.getByTestId('dropdown-item')).to.have.attr('data-active', 'true');
   });
 
   it('Should call <Nav onSelect> with correct eventKey', () => {
@@ -336,37 +327,6 @@ describe('<Sidenav>', () => {
       await waitFor(() => {
         expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
       });
-    });
-  });
-
-  describe('Expanded', () => {
-    it('Should add collapsed or expanded className on multilevel <Nav.Menu> when click on it', async () => {
-      render(
-        <Sidenav defaultOpenKeys={['1', '1-1']}>
-          <Sidenav.Body>
-            <Nav>
-              <Nav.Menu eventKey="1" title="menu1">
-                <Nav.Menu eventKey="1-1" title="menu2">
-                  <Nav.Menu eventKey="1-1-1" title="menu3" />
-                </Nav.Menu>
-              </Nav.Menu>
-            </Nav>
-          </Sidenav.Body>
-        </Sidenav>
-      );
-
-      const menu = screen.getByText('menu3');
-
-      expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
-        'rs-dropdown-item-collapse-icon'
-      );
-
-      // opens the menu
-      fireEvent.click(menu);
-
-      expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
-        'rs-dropdown-item-expand-icon'
-      );
     });
   });
 });

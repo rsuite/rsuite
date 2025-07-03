@@ -192,10 +192,12 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
     <Box
       as={as}
       ref={ref as any}
-      className={merge(className, withPrefix({ active: selected, disabled }))}
+      className={merge(className, withPrefix())}
       onClick={handleClick}
       style={style}
       aria-selected={selected || undefined}
+      data-active={selected}
+      data-disabled={disabled}
       data-event-key={eventKey}
       {...rest}
     >

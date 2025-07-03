@@ -80,14 +80,13 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
     (!isNil(eventKey) &&
       (shallowEqual(eventKey, sidenav.activeKey) || shallowEqual(nav.activeKey, eventKey)));
 
-  const classes = merge(
-    className,
-    withPrefix({
-      'with-icon': icon,
-      active: selected,
-      disabled
-    })
-  );
+  const classes = merge(className, withPrefix());
+
+  const dataAttributes = {
+    'data-active': selected,
+    'data-disabled': disabled,
+    'data-with-icon': !!icon
+  };
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLLIElement>) => {
@@ -134,6 +133,7 @@ const ExpandedSidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((
       style,
       className: classes,
       'aria-current': selected || undefined,
+      ...dataAttributes,
       ...menuitemEventHandlers,
       children: (
         <>

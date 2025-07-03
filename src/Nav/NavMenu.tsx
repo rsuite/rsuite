@@ -4,7 +4,6 @@ import NavDropdownMenu, { NavDropdownMenuProps } from './NavDropdownMenu';
 import NavbarDropdown from '../Navbar/NavbarDropdown';
 import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
-import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
 import { NavbarContext } from '../Navbar';
 import { SidenavContext } from '../Sidenav/SidenavContext';
 
@@ -98,10 +97,6 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
 
   if (navbar) {
     return <NavbarDropdownMenu ref={ref} {...props} />;
-  }
-
-  if (sidenav) {
-    return <SidenavDropdownMenu ref={ref} {...props} />;
   }
 
   return <NavDropdownMenu ref={ref} {...props} />;

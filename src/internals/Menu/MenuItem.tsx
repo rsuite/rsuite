@@ -38,7 +38,9 @@ function MenuItem(props: MenuItemProps) {
   const menu = useContext(MenuContext);
 
   if (!menu) {
-    throw new Error('<MenuItem> must be rendered within a <Menu>');
+    throw new Error(
+      '<Menu.Item> must be rendered within a <Menu>, and <Menu> does not support nested <Menu>'
+    );
   }
 
   const [menuState, dispatch] = menu;
