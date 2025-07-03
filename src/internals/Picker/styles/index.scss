@@ -279,7 +279,7 @@
     padding-inline-start: 6px;
   }
 
-  .rs-picker[data-variant='default'],
+  .rs-picker[data-appearance='default'],
   & {
     transition: var(--rs-picker-transition);
 
@@ -288,13 +288,13 @@
     }
   }
 
-  .rs-picker[data-variant='default'] {
+  .rs-picker[data-appearance='default'] {
     &:focus {
       border-color: var(--rs-input-focus-border);
     }
   }
 
-  .rs-picker[data-variant='subtle'] & {
+  .rs-picker[data-appearance='subtle'] & {
     color: var(--rs-btn-subtle-text);
     background-color: transparent;
 
@@ -391,7 +391,7 @@
 }
 
 // Make sure styles the same with <Input>
-.rs-picker[data-variant='default'],
+.rs-picker[data-appearance='default'],
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {

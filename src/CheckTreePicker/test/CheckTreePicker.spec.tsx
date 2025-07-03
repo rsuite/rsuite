@@ -72,7 +72,7 @@ describe('CheckTreePicker', () => {
   it('Should render with "default" appearance by default', () => {
     render(<CheckTreePicker data={[]} />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
     expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'check-tree');
   });
 

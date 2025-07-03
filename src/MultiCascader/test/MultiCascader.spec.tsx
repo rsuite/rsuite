@@ -60,7 +60,7 @@ describe('MultiCascader', () => {
   it('Should have "default" appearance by default', () => {
     render(<MultiCascader data={[]} />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
   });
 
   it('Should display number of selected values', () => {

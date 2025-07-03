@@ -63,7 +63,7 @@ describe('TreePicker', () => {
     render(<TreePicker data={[]} />);
 
     expect(screen.getByTestId('picker')).to.have.class('rs-picker');
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
   });
 
   it('Should set a height for the Tree', () => {

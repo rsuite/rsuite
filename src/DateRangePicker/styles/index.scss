@@ -19,7 +19,7 @@
     }
   }
 
-  &.rs-picker[data-variant='subtle'] {
+  &[data-appearance='subtle'] {
     .rs-input-group {
       border-color: transparent;
     }

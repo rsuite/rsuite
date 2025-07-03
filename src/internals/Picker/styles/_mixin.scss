@@ -92,7 +92,7 @@
 
 // Default picker toggle
 @mixin picker-default-toggle {
-  [data-variant='default'] & {
+  [data-appearance='default'] & {
     color: var(--rs-text-primary);
     border-width: var(--rs-picker-toggle-border-width);
     border-color: var(--rs-picker-toggle-border-color);
@@ -103,7 +103,7 @@
     cursor: var(--rs-cursor-disabled);
   }
 
-  [data-variant='default']:not([data-disabled='true']) {
+  [data-appearance='default']:not([data-disabled='true']) {
     &:focus {
       border-color: var(--rs-input-focus-border);
     }
@@ -112,12 +112,12 @@
 
 // Subtle picker toggle
 @mixin picker-subtle-toggle {
-  .rs-picker[data-variant='subtle'] & {
+  .rs-picker[data-appearance='subtle'] & {
     --rs-picker-toggle-border-width: 0px;
     @include dropdown.dropdown-toggle;
   }
 
-  .rs-picker[data-variant='subtle'][data-disabled='true'] & {
+  .rs-picker[data-appearance='subtle'][data-disabled='true'] & {
     cursor: var(--rs-cursor-disabled);
 
     &:focus,
@@ -179,7 +179,7 @@
 
 // Default picker toggle
 @mixin picker-default-toggle {
-  [data-variant='default'] & {
+  [data-appearance='default'] & {
     color: var(--rs-text-primary);
     border-width: var(--rs-picker-toggle-border-width);
     border-color: var(--rs-picker-toggle-border-color);
@@ -190,7 +190,7 @@
     cursor: var(--rs-cursor-disabled);
   }
 
-  [data-variant='default']:not([data-disabled='true']) {
+  [data-appearance='default']:not([data-disabled='true']) {
     &:focus {
       border-color: var(--rs-input-focus-border);
     }
@@ -199,12 +199,12 @@
 
 // Subtle picker toggle
 @mixin picker-subtle-toggle {
-  .rs-picker[data-variant='subtle'] & {
+  .rs-picker[data-appearance='subtle'] & {
     --rs-picker-toggle-border-width: 0px;
     @include dropdown.dropdown-toggle;
   }
 
-  .rs-picker[data-variant='subtle'][data-disabled='true'] & {
+  .rs-picker[data-appearance='subtle'][data-disabled='true'] & {
     cursor: var(--rs-cursor-disabled);
 
     &:focus,
