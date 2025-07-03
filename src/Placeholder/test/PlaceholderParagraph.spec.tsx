@@ -35,30 +35,24 @@ describe('Placeholder.Paragraph', () => {
   it('Should render graph', () => {
     render(<PlaceholderParagraph graph data-testid="p" />);
 
-    expect(screen.getByTestId('p').firstElementChild).to.have.class(
-      'rs-placeholder-paragraph-graph'
-    );
+    expect(screen.getByTestId('p').firstElementChild).to.have.attr('data-shape', 'square');
   });
 
   it('Should render circle graph', () => {
     render(<PlaceholderParagraph graph="circle" data-testid="p" />);
 
-    expect(screen.getByTestId('p').firstElementChild).to.have.class(
-      'rs-placeholder-paragraph-graph-circle'
-    );
+    expect(screen.getByTestId('p').firstElementChild).to.have.attr('data-shape', 'circle');
   });
 
   it('Should render image graph', () => {
     render(<PlaceholderParagraph graph="image" data-testid="p" />);
 
-    expect(screen.getByTestId('p').firstElementChild).to.have.class(
-      'rs-placeholder-paragraph-graph-image'
-    );
+    expect(screen.getByTestId('p').firstElementChild).to.have.attr('data-shape', 'image');
   });
 
   it('Should be active', () => {
     render(<PlaceholderParagraph active data-testid="p" />);
 
-    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.attr('data-active', 'true');
   });
 });

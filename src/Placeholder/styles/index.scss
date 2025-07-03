@@ -31,11 +31,11 @@
       background: var(--rs-placeholder-bg-color);
       background-size: var(--rs-placeholder-bg-size);
 
-      &-circle {
+      &[data-shape='circle'] {
         border-radius: var(--rs-radius-full);
       }
 
-      &-image {
+      &[data-shape='image'] {
         width: 80px;
         height: var(--rs-placeholder-paragraph-graph-width);
         position: relative;
@@ -125,7 +125,7 @@
     background-size: var(--rs-placeholder-bg-size);
   }
 
-  &-active {
+  &[data-active='true'] {
     --rs-placeholder-active-bg: linear-gradient(
       -45deg,
       var(--rs-placeholder) 25%,

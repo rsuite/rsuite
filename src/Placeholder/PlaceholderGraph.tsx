@@ -43,14 +43,16 @@ const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) =
 
   const { merge, cssVar, withPrefix } = useStyles(classPrefix);
 
-  const classes = merge(className, withPrefix('graph', { active }));
+  const classes = merge(className, withPrefix('graph'));
   const styles = mergeStyles(
     style,
     cssVar('graph-width', width, getCssValue),
     cssVar('graph-height', height, getCssValue)
   );
 
-  return <Box as={as} ref={ref} className={classes} style={styles} {...rest} />;
+  return (
+    <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest} />
+  );
 });
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';
