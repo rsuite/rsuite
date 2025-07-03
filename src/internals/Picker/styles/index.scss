@@ -444,7 +444,7 @@
         }
       }
 
-      &.rs-checkbox-disabled {
+      &[data-disabled='true'] {
         cursor: not-allowed;
       }
     }

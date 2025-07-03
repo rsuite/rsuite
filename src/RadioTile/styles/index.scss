@@ -44,25 +44,25 @@
     }
   }
 
-  &-checked &-mark {
+  &[data-checked='true'] &-mark {
     opacity: 1;
   }
 
-  &-checked#{&}-disabled {
+  &[data-checked='true'][data-disabled='true'] {
     border-color: var(--rs-radio-tile-checked-disabled-color);
   }
 
-  &-checked#{&}-disabled &-mark {
+  &[data-checked='true'][data-disabled='true'] &-mark {
     background-color: var(--rs-radio-tile-checked-disabled-color);
   }
 
-  &-checked,
-  &:hover:not(#{&}-disabled) {
+  &[data-checked='true'],
+  &:hover:not([data-disabled='true']) {
     border: 2px solid var(--rs-radio-tile-checked-color);
   }
 
-  &-disabled,
-  &-disabled &-content {
+  &[data-disabled='true'],
+  &[data-disabled='true'] &-content {
     color: var(--rs-text-disabled);
     cursor: var(--rs-cursor-disabled);
   }
