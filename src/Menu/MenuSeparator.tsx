@@ -1,9 +1,9 @@
 import React from 'react';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 
-export interface MenuSeparatorProps extends BoxProps, React.HTMLAttributes<HTMLElement> {
+export interface MenuSeparatorProps extends BaseBoxProps, React.HTMLAttributes<HTMLElement> {
   /** You can use a custom element for this component */
   as?: React.ElementType;
 }

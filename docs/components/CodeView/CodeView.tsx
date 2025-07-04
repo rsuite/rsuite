@@ -167,7 +167,14 @@ const CodeView = (props: CustomCodeViewProps) => {
             if (children) {
               return children;
             } else if (index === 0) {
-              return withWhisper({ children: showCodeButton, i18nKey });
+              return withWhisper({
+                children: React.cloneElement(showCodeButton, {
+                  'data-size': 'sm',
+                  'data-appearance': 'subtle',
+                  'data-shape': 'circle'
+                }),
+                i18nKey
+              });
             }
             return withWhisper({
               children: <IconButton appearance="subtle" circle size="sm" {...rest} />,

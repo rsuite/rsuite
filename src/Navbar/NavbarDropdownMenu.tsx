@@ -122,29 +122,27 @@ const NavbarDropdownMenu = React.forwardRef<
       onToggle={(open, event) => onToggle?.(open, undefined, event)}
     >
       {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
-        const classes = mergeItemClassNames(
-          className,
-          withItemClassPrefix({
-            disabled,
-            open,
-            submenu: true
-          })
-        );
+        const classes = mergeItemClassNames(className, withItemClassPrefix('submenu'));
         return (
-          <li ref={mergeRefs(ref, containerRef)} className={classes} {...props}>
+          <li
+            ref={mergeRefs(ref, containerRef)}
+            className={classes}
+            data-open={open}
+            data-disabled={disabled}
+            {...props}
+          >
             <Disclosure.Button>
               {({ open, ...buttonProps }, buttonRef: React.Ref<HTMLElement>) => {
                 const classes = mergeItemClassNames(
                   className,
                   prefixItemClassName`toggle`,
-                  withItemClassPrefix({
-                    'with-icon': icon,
-                    open,
-                    disabled
-                  })
+                  withItemClassPrefix()
                 );
 
                 const dataAttributes: { [key: string]: any } = {
+                  'data-open': open,
+                  'data-disabled': disabled,
+                  'data-with-icon': !!icon,
                   'data-event-key': eventKey
                 };
 

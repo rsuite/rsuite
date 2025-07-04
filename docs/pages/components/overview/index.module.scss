@@ -18,7 +18,7 @@
 
     .group {
       display: flex;
-      :global(.rs-btn-lg) {
+      :global(.rs-btn[data-size='lg']) {
         padding: 13px;
         color: var(--rs-text-secondary);
       }

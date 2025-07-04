@@ -10,45 +10,67 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 
 ### Basic
 
+The most basic file upload functionality, automatically uploads after selecting a file by clicking the button.
+
 <!--{include:`basic.md`}-->
 
 ### Picture
+
+Display uploaded image files as thumbnails with preview capability.
 
 <!--{include:`picture.md`}-->
 
 ### Picture & text
 
+Display both image thumbnails and file information in the upload list.
+
 <!--{include:`picture-text.md`}-->
 
 ### Avatar
+
+Specifically designed for uploading a single file, such as an avatar.
 
 <!--{include:`avatar.md`}-->
 
 ### Drag and drop
 
+Supports drag-and-drop interaction for uploading files by dropping them into the specified area.
+
 <!--{include:`drag-and-drop.md`}-->
 
 ### Initial file list
+
+Display a list of already uploaded files with support for file preview and delete operations.
 
 <!--{include:`file-list.md`}-->
 
 ### Custom file description
 
+Customize the display content of file list items to show additional file information as needed.
+
 <!--{include:`file-list-custom.md`}-->
 
 ### Disabled and read only
+
+Show the uploader component in disabled and read-only states.
 
 <!--{include:`disabled.md`}-->
 
 ### Manually
 
+Manually trigger the upload after selecting files, suitable for scenarios requiring user confirmation.
+
 <!--{include:`manually.md`}-->
 
 ### Controlled
 
+Control the file list of the uploader component through external state, implementing a fully controlled upload flow.
+
 <!--{include:`controlled.md`}-->
 
 ### File check
+
+Demonstrates how to validate uploaded files for format, size, etc., to ensure they meet requirements.
 
 <!--{include:`check.md`}-->
 

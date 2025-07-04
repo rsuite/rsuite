@@ -9,14 +9,14 @@
 
 @mixin button-pressed {
   &:active,
-  &.rs-btn-active {
+  &.rs-btn[data-active='true'] {
     @content;
   }
 }
 
 @mixin button-disabled {
   &:disabled,
-  &.rs-btn-disabled {
+  &.rs-btn[data-disabled='true'] {
     @content;
 
     @include color-modes.high-contrast-mode {

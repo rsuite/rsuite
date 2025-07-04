@@ -37,7 +37,7 @@ describe('Pagination Group', () => {
     expect(screen.getByLabelText('page end')).to.exist;
   });
 
-  it('Should render 10  buttons', () => {
+  it('Should render 10 page number buttons when maxButtons is greater than total pages', () => {
     render(
       <PaginationGroup
         total={100}
@@ -83,10 +83,10 @@ describe('Pagination Group', () => {
       />
     );
 
-    expect(screen.getByText('2')).to.have.class('rs-pagination-btn-active');
+    expect(screen.getByText('2')).to.have.attr('data-active', 'true');
   });
 
-  it('Should show total', () => {
+  it('Should display total row count when layout includes "total"', () => {
     const { container } = render(<PaginationGroup layout={['total']} total={100} />);
 
     expect(container.firstChild).to.have.text('Total Rows: 100');
@@ -168,7 +168,7 @@ describe('Pagination Group', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: '2' })).to.have.class('rs-pagination-btn-disabled');
+    expect(screen.getByRole('button', { name: '2' })).to.have.attr('data-disabled', 'true');
   });
 
   it('Should render the maximum', () => {
@@ -191,7 +191,7 @@ describe('Pagination Group', () => {
     expect(screen.getAllByRole('button')[4]).to.have.text('10');
   });
 
-  it('Should render a `more` icon', () => {
+  it('Should render and allow clicking the more icon when ellipsis is enabled', () => {
     render(
       <PaginationGroup
         total={100}
@@ -348,7 +348,7 @@ describe('Pagination Group', () => {
       <PaginationGroup layout={['limit', 'pager', 'skip']} total={100} size="lg" />
     );
 
-    expect(container.firstChild).to.have.class('rs-pagination-group-lg');
+    expect(container.firstChild).to.have.attr('data-size', 'lg');
   });
 
   it('Should disable all interactive elements when disabled', () => {

@@ -70,10 +70,12 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   } = props;
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(listType, { disabled, 'has-error': file.status === 'error' })
-  );
+  const classes = merge(className, withPrefix());
+  const dataAttributes = {
+    'data-type': listType,
+    'data-disabled': disabled,
+    'data-has-error': file.status === 'error'
+  };
 
   const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
 
@@ -279,9 +281,17 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
     );
   };
 
+  const boxProps = {
+    as,
+    ref,
+    className: classes,
+    ...dataAttributes,
+    ...rest
+  };
+
   if (listType === 'picture') {
     return (
-      <Box as={as} {...rest} ref={ref} className={classes}>
+      <Box {...boxProps}>
         {renderIcon()}
         {renderPreview()}
         {renderErrorStatus()}
@@ -292,7 +302,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
 
   if (listType === 'picture-text') {
     return (
-      <Box as={as} {...rest} ref={ref} className={classes}>
+      <Box {...boxProps}>
         {renderIcon()}
         {renderPreview()}
         {renderFilePanel()}
@@ -303,7 +313,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} {...rest} ref={ref} className={classes}>
+    <Box {...boxProps}>
       {renderIcon()}
       {renderFilePanel()}
       {renderProgressBar()}

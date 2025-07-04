@@ -26,7 +26,7 @@ describe('UploadFileItem', () => {
 
     const fileRow = screen.getByTestId('upload-file-row');
 
-    expect(fileRow).to.have.class('rs-uploader-file-item-picture-text');
+    expect(fileRow).to.have.attr('data-type', 'picture-text');
     expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.exist;
     expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.exist;
   });
@@ -35,14 +35,14 @@ describe('UploadFileItem', () => {
     render(<UploadFileItem listType="picture" file={file} data-testid="upload-file-row" />);
 
     const fileRow = screen.getByTestId('upload-file-row');
-    expect(fileRow).to.have.class('rs-uploader-file-item-picture');
+    expect(fileRow).to.have.attr('data-type', 'picture');
     expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.not.exist;
     expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.not.exist;
   });
 
   it('Should be disabled', () => {
     render(<UploadFileItem file={file} disabled data-testid="upload-file-row" />);
-    expect(screen.getByTestId('upload-file-row')).to.have.class('rs-uploader-file-item-disabled');
+    expect(screen.getByTestId('upload-file-row')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should call `onCancel` callback', () => {

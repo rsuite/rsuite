@@ -58,7 +58,7 @@ describe('Cascader', () => {
   it('Should render with "default" appearance by default', () => {
     render(<Cascader data={[]} />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
   });
 
   it('Should output a placeholder', () => {

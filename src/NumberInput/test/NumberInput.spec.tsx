@@ -39,7 +39,10 @@ describe('NumberInput', () => {
 
   it('Should output a subtle button', () => {
     render(<NumberInput />);
-    expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-subtle');
+    expect(screen.getByRole('button', { name: /increment/i })).to.have.attr(
+      'data-appearance',
+      'subtle'
+    );
   });
 
   it('Should render placeholder in input', () => {
@@ -50,7 +53,10 @@ describe('NumberInput', () => {
 
   it('Should output a link button', () => {
     render(<NumberInput buttonAppearance="link" />);
-    expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-link');
+    expect(screen.getByRole('button', { name: /increment/i })).to.have.attr(
+      'data-appearance',
+      'link'
+    );
   });
 
   it('Should be disabled of down button', () => {

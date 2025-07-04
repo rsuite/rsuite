@@ -41,7 +41,7 @@ describe('RangeSlider', () => {
   it('Should be displayed vertically', () => {
     const { container } = render(<RangeSlider vertical />);
 
-    expect(container.firstChild).to.have.class('rs-slider-vertical');
+    expect(container.firstChild).to.have.attr('data-direction', 'vertical');
 
     screen.getAllByRole('slider').forEach(slider => {
       expect(slider).to.have.attr('aria-orientation', 'vertical');
@@ -55,7 +55,7 @@ describe('RangeSlider', () => {
     const { container } = render(
       <RangeSlider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
-    expect(container.firstChild).to.have.class('rs-slider-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
     expect(screen.queryAllByRole('slider')[0]).to.have.attr('aria-disabled', 'true');
     expect(screen.queryAllByRole('slider')[1]).to.have.attr('aria-disabled', 'true');
 

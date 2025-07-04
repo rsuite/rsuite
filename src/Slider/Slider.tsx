@@ -147,10 +147,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('Slider');
 
-  const classes = merge(
-    className,
-    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
-  );
+  const classes = merge(className, withPrefix());
 
   const max = useMemo(
     () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
@@ -298,7 +295,19 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={ref} role="presentation" className={classes} data-size={size} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      role="presentation"
+      className={classes}
+      data-size={size}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-graduated={graduated}
+      data-with-mark={renderMark ? 'true' : undefined}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      {...rest}
+    >
       <div
         ref={barRef}
         className={merge(barClassName, prefix('bar'))}

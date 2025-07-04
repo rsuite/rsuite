@@ -15,7 +15,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>
   extends BoxProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title'> {
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title' | 'color'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -121,13 +121,15 @@ const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponen
         }}
       >
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
-          const classes = merge(className, withPrefix({ disabled, open }));
+          const classes = merge(className, withPrefix());
           return (
             <Box
               as={as}
               ref={mergeRefs(ref, containerRef)}
               className={classes}
               style={style}
+              data-open={open}
+              data-disabled={disabled}
               data-placement={kebabPlace(placement)}
               {...props}
             >

@@ -61,7 +61,7 @@ describe('DatePicker', () => {
   it('Should have "default" appearance by default', () => {
     render(<DatePicker />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
   });
 
   it('Should be cleanable by default', () => {

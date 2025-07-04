@@ -21,7 +21,7 @@ function CopyCodeButton(props: CopyCodeButtonProps) {
       appearance="subtle"
       circle
       size="xs"
-      className="copy-code-button"
+      data-type="copy"
       onClick={handleClick}
       icon={copied ? <FaCheck /> : <FaCopy />}
     />

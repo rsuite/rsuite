@@ -2,7 +2,21 @@
 
 ```js
 import { Navbar, Nav, Avatar } from 'rsuite';
-import { IoLogoReact, IoLanguage } from 'react-icons/io5';
+import {
+  IoLogoReact,
+  IoLanguage,
+  IoRocketOutline,
+  IoBookOutline,
+  IoDocumentTextOutline,
+  IoGridOutline,
+  IoCubeOutline,
+  IoCodeSlashOutline,
+  IoHammerOutline,
+  IoExtensionPuzzleOutline,
+  IoTerminalOutline,
+  IoGlobeOutline,
+  IoLanguageOutline
+} from 'react-icons/io5';
 
 const Brand = () => (
   <Navbar.Brand href="#">
@@ -16,19 +30,19 @@ const App = () => (
       <Brand />
       <Nav>
         <Nav.Menu title="Docs">
-          <Nav.Item>Quick Start</Nav.Item>
-          <Nav.Item>Guides</Nav.Item>
-          <Nav.Item>API Reference</Nav.Item>
+          <Nav.Item icon={<IoRocketOutline />}>Quick Start</Nav.Item>
+          <Nav.Item icon={<IoBookOutline />}>Guides</Nav.Item>
+          <Nav.Item icon={<IoDocumentTextOutline />}>API Reference</Nav.Item>
         </Nav.Menu>
         <Nav.Menu title="Components">
-          <Nav.Item>Grid</Nav.Item>
-          <Nav.Item>Button</Nav.Item>
-          <Nav.Item>Icon</Nav.Item>
+          <Nav.Item icon={<IoGridOutline />}>Layout Components</Nav.Item>
+          <Nav.Item icon={<IoExtensionPuzzleOutline />}>UI Elements</Nav.Item>
+          <Nav.Item icon={<IoCodeSlashOutline />}>Icons & Graphics</Nav.Item>
         </Nav.Menu>
         <Nav.Menu title="Tools">
-          <Nav.Item>Codemods</Nav.Item>
-          <Nav.Item>Sketch Plugin</Nav.Item>
-          <Nav.Item>CLI</Nav.Item>
+          <Nav.Item icon={<IoHammerOutline />}>Codemods</Nav.Item>
+          <Nav.Item icon={<IoCubeOutline />}>Sketch Plugin</Nav.Item>
+          <Nav.Item icon={<IoTerminalOutline />}>CLI</Nav.Item>
         </Nav.Menu>
       </Nav>
     </Navbar.Content>
@@ -41,8 +55,8 @@ const App = () => (
     <Navbar.Content>
       <Nav showFrom="xs">
         <Nav.Menu title="Languages" icon={<IoLanguage size="16" />}>
-          <Nav.Item>English</Nav.Item>
-          <Nav.Item>简体中文</Nav.Item>
+          <Nav.Item icon={<IoGlobeOutline />}>English</Nav.Item>
+          <Nav.Item icon={<IoLanguageOutline />}>简体中文</Nav.Item>
         </Nav.Menu>
       </Nav>
       <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />

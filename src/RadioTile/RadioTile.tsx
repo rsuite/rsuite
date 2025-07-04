@@ -83,11 +83,18 @@ const RadioTile = forwardRef<'label', RadioTileProps>((props, ref) => {
     [onChange, onGroupChange, setChecked, value]
   );
 
-  const classes = merge(className, withPrefix({ checked, disabled }));
+  const classes = merge(className, withPrefix());
   const radioId = useUniqueId('radio-');
 
   return (
-    <Box as={as} ref={ref} className={classes} {...restProps}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-disabled={disabled}
+      data-checked={checked}
+      {...restProps}
+    >
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
         <input

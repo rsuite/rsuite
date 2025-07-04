@@ -53,10 +53,13 @@ describe('Badge styles', () => {
   });
 
   it('Should render circle badge with correct translate variable', () => {
-    const { container } = render(<Badge className="rs-badge-circle" />);
-    const badgeElement = container.querySelector('.rs-badge-circle') as HTMLElement;
+    const { container } = render(
+      <Badge shape="circle">
+        <button>Test</button>
+      </Badge>
+    );
 
-    expect(getStyle(badgeElement, '--rs-badge-move')).to.equal('30%');
+    expect(getStyle(container.firstChild as HTMLElement, '--rs-badge-move')).to.equal('30%');
   });
 
   it('Should render independent badge with inline-flex display', () => {
@@ -73,7 +76,7 @@ describe('Badge styles', () => {
       </Badge>
     );
 
-    expect(container.firstChild).to.have.class('rs-badge-one-char');
+    expect(container.firstChild).to.have.attr('data-one-char', 'true');
     expect(screen.getByText('9')).to.have.style('width', '20px');
     expect(screen.getByText('9')).to.have.style('height', '20px');
   });

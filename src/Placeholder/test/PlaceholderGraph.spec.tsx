@@ -33,6 +33,6 @@ describe('Placeholder.Graph', () => {
   it('Should be active', () => {
     render(<PlaceholderGraph active data-testid="p" />);
 
-    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.attr('data-active', 'true');
   });
 });

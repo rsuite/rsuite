@@ -5,9 +5,9 @@ import { Loader } from 'rsuite';
 
 const App = () => (
   <>
-    <Loader content="Loading..." />
+    <Loader content="Horizontal Loading..." />
     <hr />
-    <Loader content="vertical Loading..." vertical />
+    <Loader content="Vertical Loading..." vertical />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

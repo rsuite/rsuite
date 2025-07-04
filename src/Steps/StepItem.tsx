@@ -56,7 +56,7 @@ const StepItem = forwardRef<'div', StepItemProps>((props, ref) => {
   } = props;
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix({ custom: icon, [`status-${status}`]: status }));
+  const classes = merge(className, withPrefix());
 
   const iconNode = icon ? (
     <span className={prefix('icon')}>{icon}</span>
@@ -68,13 +68,15 @@ const StepItem = forwardRef<'div', StepItemProps>((props, ref) => {
 
   return (
     <Component
-      {...rest}
       ref={ref}
       className={classes}
       style={mergeStyles({ width: itemWidth }, style)}
+      data-status={status}
+      data-custom-icon={!!icon}
+      {...rest}
     >
       <div className={prefix('tail')} />
-      <div className={prefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
+      <div className={prefix('icon-wrapper')}>{iconNode}</div>
       <div className={prefix('content')}>
         {<div className={prefix('title')}>{title}</div>}
         {description && <div className={prefix('description')}>{description}</div>}

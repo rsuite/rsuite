@@ -87,10 +87,7 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   const [active, setActive] = useControlled(activeProp, false);
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
-  const classes = merge(
-    className,
-    withPrefix(appearance, color, size, { active, disabled, loading, block })
-  );
+  const classes = merge(className, withPrefix());
 
   const buttonContent = useMemo(() => {
     const spin = <span className={prefix`spin`} />;
@@ -133,6 +130,13 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
       ref={ref}
       className={classes}
       onClick={handleClick}
+      data-appearance={appearance}
+      data-color={color}
+      data-size={size}
+      data-block={block}
+      data-active={active || undefined}
+      data-disabled={disabled}
+      data-loading={loading}
       {...uncertainProps}
       {...rest}
     >

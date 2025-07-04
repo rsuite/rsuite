@@ -77,13 +77,13 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
       return rowArr;
     }, [prefix, rows]);
 
-    const classes = merge(className, withPrefix('paragraph', { active }));
-    const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
+    const classes = merge(className, withPrefix('paragraph'));
+    const graphClasses = prefix('paragraph-graph');
 
     return (
-      <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+      <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest}>
         {graphShape && (
-          <div className={graphClasses}>
+          <div className={graphClasses} data-shape={graphShape}>
             <span className={prefix('paragraph-graph-inner')} />
           </div>
         )}

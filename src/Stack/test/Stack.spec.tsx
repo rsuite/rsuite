@@ -19,7 +19,7 @@ describe('Stack', () => {
   it('Should be wrap', () => {
     render(<Stack data-testid="test" wrap></Stack>);
 
-    expect(screen.getByTestId('test')).to.have.class('rs-stack-wrap');
+    expect(screen.getByTestId('test')).to.have.attr('data-wrap', 'true');
     expect(screen.getByTestId('test')).to.have.style('flex-wrap', 'wrap');
   });
 
@@ -30,6 +30,7 @@ describe('Stack', () => {
       </Stack>
     );
 
+    console.log(screen.getByTestId('test').style.gap);
     expect(screen.getByTestId('test')).to.style('gap', '10px');
     expect((screen.getByTestId('test').firstChild as HTMLElement).style.marginRight).to.be.empty;
     expect((screen.getByTestId('test').firstChild as HTMLElement).style.marginBottom).to.be.empty;

@@ -12,7 +12,7 @@
 
 <!--{include:`basic.md`}-->
 
-### 自定义描述
+### 包含内容
 
 <!--{include:`content.md`}-->
 
@@ -32,7 +32,7 @@
 
 <!--{include:`backdrop.md`}-->
 
-### Inverse
+### 颜色翻转
 
 <!--{include:`inverse.md`}-->
 
@@ -51,7 +51,7 @@
 | ----------- | ---------------------------------------------------- | ------------------ |
 | backdrop    | boolean                                              | 显示背景           |
 | center      | boolean                                              | 在容器中居中显示   |
-| classPrefix | string                                               | 组件 CSS 类的前缀  |
+| classPrefix | string `('loader')`                                  | 组件 CSS 类的前缀  |
 | content     | ReactNode                                            | 自定义描述文本     |
 | inverse     | boolean                                              | 翻转加载器颜色     |
 | size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置加载器尺寸     |

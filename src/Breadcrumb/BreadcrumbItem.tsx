@@ -64,10 +64,17 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
     } = props;
 
     const { merge, withPrefix } = useStyles(classPrefix);
-    const classes = merge(className, withPrefix({ active }));
+    const classes = merge(className, withPrefix());
 
     return (
-      <Box as={wrapperAs} style={style} className={classes} ref={ref} {...rest}>
+      <Box
+        as={wrapperAs}
+        style={style}
+        className={classes}
+        ref={ref}
+        data-active={active}
+        {...rest}
+      >
         {icon}
         {active ? (
           <span>{children}</span>

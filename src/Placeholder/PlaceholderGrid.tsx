@@ -64,7 +64,7 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
 
   const { merge, prefix, cssVar, withPrefix } = useStyles(classPrefix);
 
-  const classes = merge(className, withPrefix('grid', { active }));
+  const classes = merge(className, withPrefix('grid'));
   const styles = mergeStyles(
     style,
     cssVar('row-height', rowHeight, getCssValue),
@@ -92,7 +92,7 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
   }, [columns, prefix, rowHeight, rowSpacing, rows]);
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest}>
       {items}
     </Box>
   );

@@ -139,19 +139,18 @@ const DropdownMenu = React.forwardRef<HTMLElement, DropdownMenuProps & Sanitized
               const classes = mergeItemClassNames(
                 className,
                 prefixItemClassName`toggle`,
-                withItemClassPrefix({
-                  'with-icon': icon,
-                  open,
-                  active: selected,
-                  disabled,
-                  focus: active
-                })
+                withItemClassPrefix()
               );
 
               return (
                 <div
                   ref={mergeRefs(buttonRef, menuitemRef as any)}
                   className={classes}
+                  data-open={open}
+                  data-disabled={disabled}
+                  data-focus={active}
+                  data-active={selected}
+                  data-with-icon={icon}
                   data-event-key={eventKey}
                   data-event-key-type={typeof eventKey}
                   {...(menuitem as any)}
@@ -183,18 +182,13 @@ const DropdownMenu = React.forwardRef<HTMLElement, DropdownMenuProps & Sanitized
         onToggleMenu={handleToggleSubmenu}
       >
         {({ open, ...menuContainer }, menuContainerRef) => {
-          const classes = mergeItemClassNames(
-            className,
-            withItemClassPrefix({
-              disabled,
-              open,
-              submenu: true
-            })
-          );
+          const classes = mergeItemClassNames(className, withItemClassPrefix({ submenu: true }));
           return (
             <li
               ref={mergeRefs(ref, menuContainerRef as any)}
               className={classes}
+              data-open={open}
+              data-disabled={disabled}
               {...(menuContainer as any)}
             />
           );

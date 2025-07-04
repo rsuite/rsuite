@@ -265,7 +265,7 @@ describe('useDialog', () => {
     });
 
     const okButton = screen.getByRole('button', { name: 'OK' });
-    expect(okButton).to.have.class('rs-btn-orange');
+    expect(okButton).to.have.attr('data-color', 'orange');
   });
 
   it('Should use custom okText and cancelText', async () => {

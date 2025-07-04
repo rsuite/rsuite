@@ -1,4 +1,3 @@
-
 @use '../../internals/Box/styles/index';
 @use '../../styles/colors/colors-base' as c;
 @use '../../styles/mixins/utilities' as utils;
@@ -68,19 +67,23 @@
   // Button Sizes
   // --------------------------------------------------
 
-  &.rs-btn-lg {
-    @include mixin.button-size-lg;
-  }
-
-  &.rs-btn-md {
+  & {
     @include mixin.button-size-md;
   }
 
-  &.rs-btn-sm {
+  &[data-size='lg'] {
+    @include mixin.button-size-lg;
+  }
+
+  &[data-size='md'] {
+    @include mixin.button-size-md;
+  }
+
+  &[data-size='sm'] {
     @include mixin.button-size-sm;
   }
 
-  &.rs-btn-xs {
+  &[data-size='xs'] {
     @include mixin.button-size-xs;
   }
 }
@@ -99,7 +102,7 @@
 // --------------------------------------------------
 
 // Primary Button
-.rs-btn-primary {
+.rs-btn[data-appearance='primary'] {
   color: var(--rs-btn-primary-text);
   background-color: var(--rs-btn-primary-bg);
   border-color: var(--rs-btn-primary-border-color);
@@ -122,6 +125,7 @@
 }
 
 // Subtle Button
+.rs-btn[data-appearance='subtle'],
 .rs-btn-subtle {
   color: var(--rs-btn-subtle-text);
   background-color: transparent;
@@ -143,7 +147,7 @@
 }
 
 // Link buttons
-.rs-btn-link {
+.rs-btn[data-appearance='link'] {
   color: var(--rs-btn-link-text);
   background-color: transparent;
 
@@ -167,7 +171,7 @@
 }
 
 // Ghost Button
-.rs-btn-ghost {
+.rs-btn[data-appearance='ghost'] {
   color: var(--rs-btn-ghost-text);
   background-color: transparent;
   border: var(--rs-btn-ghost-border-width) solid var(--rs-btn-ghost-border);
@@ -198,7 +202,7 @@
 // Spectrum buttons
 @each $color in c.$spectrum {
   // 将颜色名称作为字符串处理
-  $color-str: "#{$color}";
+  $color-str: '#{$color}';
   $C200: var(--rs-#{$color-str}-200);
   $C300: var(--rs-#{$color-str}-300);
   $C400: var(--rs-#{$color-str}-400);
@@ -208,7 +212,7 @@
   $C800: var(--rs-#{$color-str}-800);
   $C900: var(--rs-#{$color-str}-900);
 
-  .rs-btn-#{$color-str} {
+  .rs-btn[data-color='#{$color-str}'] {
     --rs-btn-primary-bg: #{$C500};
     --rs-btn-primary-hover-bg: #{$C700};
     --rs-btn-primary-active-bg: #{$C800};
@@ -277,7 +281,7 @@
 // Block button
 // --------------------------------------------------
 
-.rs-btn-block {
+.rs-btn[data-block='true'] {
   width: 100%;
 
   // Vertically space out multiple block buttons
@@ -287,7 +291,7 @@
 }
 
 // Button Loading state
-.rs-btn-loading {
+.rs-btn[data-loading='true'] {
   color: transparent !important;
   position: relative;
   cursor: default;
@@ -309,7 +313,7 @@
       border-radius: var(--rs-radius-full);
       z-index: 1;
 
-      .rs-btn-xs & {
+      .rs-btn[data-size='xs'] & {
         width: var(--rs-btn-loading-spin-xs-diameter);
         height: var(--rs-btn-loading-spin-xs-diameter);
       }
@@ -318,7 +322,7 @@
     &::before {
       border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
 
-      .rs-btn-primary & {
+      .rs-btn[data-appearance='primary'] & {
         border-color: rgba(248, 247, 250, 0.3);
 
         @include color-modes.high-contrast-mode {
@@ -333,7 +337,7 @@
       border-style: solid;
       animation: buttonSpin 0.6s infinite linear;
 
-      .rs-btn-primary & {
+      .rs-btn[data-appearance='primary'] & {
         border-top-color: #fff;
 
         @include color-modes.high-contrast-mode {

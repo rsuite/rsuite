@@ -33,7 +33,7 @@ describe('CheckboxGroup', () => {
     }
   });
 
-  it('Should have `checkbox-inline` className in checkbox', () => {
+  it('Should have data-inline attribute in checkbox', () => {
     render(
       <CheckboxGroup inline>
         <Checkbox>Test1</Checkbox>
@@ -42,7 +42,7 @@ describe('CheckboxGroup', () => {
     );
 
     for (const checkbox of screen.getByRole('group').childNodes) {
-      expect(checkbox).to.have.class('rs-checkbox-inline');
+      expect(checkbox).to.have.attr('data-inline', 'true');
     }
   });
 

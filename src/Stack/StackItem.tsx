@@ -22,7 +22,7 @@ const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
 
-  return <Box as={as} ref={ref} className={classes} self={self} {...rest} />;
+  return <Box as={as} ref={ref} className={classes} self={self} paddingTop={0} {...rest} />;
 });
 
 StackItem.displayName = 'StackItem';

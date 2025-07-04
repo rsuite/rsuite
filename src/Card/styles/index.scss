@@ -17,33 +17,33 @@
   position: relative;
   width: var(--rs-card-width);
 
-  &-bordered {
+  &[data-bordered='true'] {
     border: 1px solid var(--rs-border-primary);
     background-color: var(--rs-card-bg);
   }
 
-  &-shaded {
+  &[data-shaded='true'] {
     box-shadow: var(--rs-card-shadow);
   }
 
-  &-shaded-hover:hover {
+  &[data-shaded='hover']:hover {
     box-shadow: var(--rs-card-shadow);
     cursor: pointer;
   }
 
-  &-sm {
+  &[data-size='sm'] {
     --rs-card-padding: calc(var(--rs-spacing) * 2);
   }
 
-  &-md {
+  &[data-size='md'] {
     --rs-card-padding: calc(var(--rs-spacing) * 4);
   }
 
-  &-lg {
+  &[data-size='lg'] {
     --rs-card-padding: calc(var(--rs-spacing) * 6);
   }
 
-  &-row {
+  &[data-direction='row'] {
     flex-direction: row;
   }
 

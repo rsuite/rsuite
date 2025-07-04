@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import kebabCase from 'lodash/kebabCase';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
 import {
@@ -91,18 +90,7 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
   const text = typeof content === 'number' && content > maxCount ? `${maxCount}+` : content;
   const isOneChar = useMemo(() => String(content)?.length === 1, [content]);
 
-  const classes = merge(
-    className,
-    withPrefix(isPresetColor(color) && color, shape, {
-      compact,
-      outline,
-      'one-char': isOneChar,
-      hidden: invisible,
-      wrapper: children,
-      independent: !children,
-      [kebabCase(placement)]: children
-    })
-  );
+  const classes = merge(className, withPrefix({ wrapper: children }));
 
   const styles = useMemo(
     () =>
@@ -114,15 +102,28 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
     [style, offset, color]
   );
 
+  const dataAttributes = useMemo(() => {
+    return {
+      ['data-color']: isPresetColor(color) ? color : undefined,
+      ['data-shape']: shape,
+      ['data-compact']: compact,
+      ['data-one-char']: isOneChar,
+      ['data-outline']: outline,
+      ['data-hidden']: invisible,
+      ['data-independent']: !children,
+      ['data-placement']: children ? placement : undefined
+    };
+  }, [color, shape, compact, isOneChar, outline, invisible, children, placement]);
+
   if (!children) {
     return (
-      <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+      <Box as={as} ref={ref} className={classes} style={styles} {...dataAttributes} {...rest}>
         {text}
       </Box>
     );
   }
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...rest}>
+    <Box as={as} ref={ref} className={classes} style={styles} {...dataAttributes} {...rest}>
       {children}
       <div className={prefix('content')}>{text}</div>
     </Box>

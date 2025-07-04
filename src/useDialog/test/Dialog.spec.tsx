@@ -144,6 +144,6 @@ describe('Dialog', () => {
 
     const okButton = screen.getByRole('button', { name: 'OK' });
 
-    expect(okButton).to.have.class('rs-btn-red');
+    expect(okButton).to.have.attr('data-color', 'red');
   });
 });

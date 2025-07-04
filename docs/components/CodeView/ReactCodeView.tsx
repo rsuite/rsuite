@@ -1,9 +1,10 @@
 import React from 'react';
 import CodeView from 'react-code-view';
+import { copyButtonProps } from './HTMLRenderer';
 
 const editorProps = {
   classPrefix: 'rs',
-  buttonClassName: 'rs-btn rs-btn-sm rs-btn-subtle rs-btn-icon-circle rs-btn-icon'
+  buttonClassName: 'rs-btn rs-btn-icon'
 };
 
 const afterCompile = (code: string) => {
@@ -20,6 +21,7 @@ export default React.forwardRef(function ReactCodeView(props: any, ref) {
       theme="dark"
       editor={editorProps}
       afterCompile={afterCompile}
+      copyButtonProps={copyButtonProps}
     />
   );
 });
