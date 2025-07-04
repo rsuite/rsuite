@@ -167,8 +167,6 @@
 }
 
 .rs-uploader[data-list-type='picture'] {
-  @include utils.clearfix;
-
   display: inline-flex;
   flex-direction: row;
   gap: var(--rs-uploader-item-spacing);
