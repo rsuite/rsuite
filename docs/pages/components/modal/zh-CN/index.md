@@ -1,16 +1,16 @@
 # Modal 模态框
 
-一套模态对话框组件，用于消息提示、确认消息和提交内容。 如果需要放置更多内容可以使用 Drawer。
+一套模态对话框组件，用于消息提示、确认消息和提交内容。
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
-- `<Modal>` 模态框容器。
-- `<Modal.Header>` 模态框头部，包含关闭按钮。
-- `<Modal.Title>` 模态框标题，放置在模态框头部。
-- `<Modal.Body>` 模态框内容。
-- `<Modal.Footer>` 模态框底部，一般放置按钮。
+- `Modal` 模态框容器。
+- `Modal.Header` 模态框头部，包含关闭按钮。
+- `Modal.Title` 模态框标题，放置在模态框头部。
+- `Modal.Body` 模态框内容。
+- `Modal.Footer` 模态框底部，一般放置按钮。
 
 ## 演示
 
@@ -21,6 +21,7 @@
 ### 背景板
 
 控制 Modal 背景板的行为：
+
 - `true`：显示背景，点击背景会关闭 Modal
 - `false`：不显示背景
 - `'static'`：显示背景，但点击背景不会关闭 Modal
@@ -29,27 +30,43 @@
 
 ### 垂直居中
 
+使用 `centered` 属性将 Modal 在页面垂直方向上居中对齐。
+
 <!--{include:`centered.md`}-->
 
 ### 尺寸
+
+通过 `size` 属性设置 Modal 的不同尺寸，可选值包括：`'xs'`、`'sm'`、`'md'`、`'lg'`、`'full'` 或自定义宽度。
 
 <!--{include:`size.md`}-->
 
 ### 内容溢出
 
+当 Modal 内容过长时，内容区域会自动显示滚动条。
+
 <!--{include:`overflow.md`}-->
 
 ### 动态加载的内容
+
+展示如何在 Modal 中动态加载内容，适合处理异步数据加载场景。
 
 <!--{include:`dynamic.md`}-->
 
 ### 警报对话框
 
+使用 `role="alertdialog"` 创建警报对话框，适用于需要用户立即注意的重要信息。
+
 <!--{include:`alert-dialog.md`}-->
 
 ### 表单
 
+在 Modal 中嵌入表单，适合数据收集和提交操作。
+
 <!--{include:`form.md`}-->
+
+### 使用 useDialog
+
+对于常见的对话框场景，可以使用 [useDialog](/zh/components/use-dialog) 来简化对话框的使用。
 
 ## 响应式
 
