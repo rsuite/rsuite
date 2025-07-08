@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonToolbar, Button, Whisper } from 'rsuite';
+import { ButtonToolbar, Button, Whisper, Tooltip, Popover, Box } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ ButtonToolbar, Button, Whisper }}
+      dependencies={{ ButtonToolbar, Button, Whisper, Tooltip, Popover, Box }}
     />
   );
 }

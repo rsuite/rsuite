@@ -8,7 +8,15 @@ The `Whisper` component is a trigger for displaying overlay elements. It's prima
 
 ## Examples
 
-### Overlay
+### Basic Usage
+
+The default supported speaker components are `Tooltip` and `Popover`.
+
+<!--{include:`basic.md`}-->
+
+### Custom Overlay
+
+You can customize the overlay content using the `speaker` prop. The following example demonstrates how to create a custom overlay component with delay support.
 
 <!--{include:`overlay.md`}-->
 

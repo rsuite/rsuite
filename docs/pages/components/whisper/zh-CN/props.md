@@ -1,71 +1,76 @@
 ### `<Whisper>`
 
-| 属性名称        | 类型 `(默认值)`                                        | 描述                                                                      |
-| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| container       | HTMLElement \| (() => HTMLElement)                     | 设置渲染的容器                                                            |
-| controlId       | string                                                 | 设置 `id` 到 `<Overlay>`上，并且设置 `aria-describedby` 到 `<Whisper>` 上 |
-| defaultOpen     | boolean                                                | 默认是否显示                                                              |
-| delay           | number                                                 | 延迟时间 (ms)                                                             |
-| delayClose      | number                                                 | 延迟关闭时间 (ms)                                                         |
-| delayOpen       | number                                                 | 延迟打开时间 (ms)                                                         |
-| enterable       | boolean                                                | 当 `trigger` 值为 `hover`时候，鼠标是否可进入提示框浮层中                 |
-| followCursor    | boolean                                                | 是否启用光标跟随                                                          |
-| onBlur          | () => void                                             | 失去焦点回调函数                                                          |
-| onClick         | () => void                                             | 点击的回调函数                                                            |
-| onClose         | () => void                                             | 关闭回调函数                                                              |
-| onEnter         | () => void                                             | 显示前动画过渡的回调函数                                                  |
-| onEntered       | () => void                                             | 显示后动画过渡的回调函数                                                  |
-| onEntering      | () => void                                             | 显示中动画过渡的回调函数                                                  |
-| onExit          | () => void                                             | 退出前动画过渡的回调函数                                                  |
-| onExited        | () => void                                             | 退出后动画过渡的回调函数                                                  |
-| onExiting       | () => void                                             | 退出中动画过渡的回调函数                                                  |
-| onFocus         | () => void                                             | 获取焦点的回调函数                                                        |
-| onOpen          | () => void                                             | 打开回调函数                                                              |
-| open            | boolean                                                | 手动控制是否显示                                                          |
-| placement       | [Placement](#code-ts-placement-code) `('right')`       | 显示位置                                                                  |
-| preventOverflow | boolean                                                | 防止浮动元素溢出                                                          |
-| speaker \*      | Tooltip \| Popover \| ReactElement                     | 展示的元素                                                                |
-| trigger         | [Trigger](#code-ts-trigger-code) `(['hover','focus'])` | 触发事件,可以通过数组配置多事件                                           |
+| 属性名称        | 类型 `(默认值)`                                        | 描述                                                                       |
+| --------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| container       | HTMLElement \| (() => HTMLElement)                     | 设置渲染的容器                                                             |
+| controlId       | string                                                 | 设置 `id` 到 `<Overlay>` 上，并且设置 `aria-describedby` 到 `<Whisper>` 上 |
+| defaultOpen     | boolean                                                | 默认是否显示浮层                                                           |
+| delay           | number                                                 | 交互延迟时间 (毫秒)                                                        |
+| delayClose      | number                                                 | 关闭延迟时间 (毫秒)                                                        |
+| delayOpen       | number                                                 | 打开延迟时间 (毫秒)                                                        |
+| enterable       | boolean                                                | 当 `trigger` 为 `hover` 时，鼠标是否可以进入浮层内部                       |
+| followCursor    | boolean                                                | 是否启用浮层跟随光标                                                       |
+| onBlur          | () => void                                             | 失去焦点时的回调函数                                                       |
+| onClick         | () => void                                             | 点击时的回调函数                                                           |
+| onClose         | () => void                                             | 浮层关闭时的回调函数                                                       |
+| onEnter         | () => void                                             | 浮层显示前过渡动画的回调函数                                               |
+| onEntered       | () => void                                             | 浮层显示后过渡动画完成的回调函数                                           |
+| onEntering      | () => void                                             | 浮层显示中过渡动画的回调函数                                               |
+| onExit          | () => void                                             | 浮层退出前过渡动画的回调函数                                               |
+| onExited        | () => void                                             | 浮层退出后过渡动画完成的回调函数                                           |
+| onExiting       | () => void                                             | 浮层退出中过渡动画的回调函数                                               |
+| onFocus         | () => void                                             | 获取焦点时的回调函数                                                       |
+| onOpen          | () => void                                             | 浮层打开时的回调函数                                                       |
+| open            | boolean                                                | 手动控制浮层是否显示                                                       |
+| placement       | [Placement](#code-ts-placement-code) `('right')`       | 浮层显示位置                                                               |
+| preventOverflow | boolean                                                | 防止浮层溢出容器边界                                                       |
+| speaker \*      | Tooltip \| Popover \| ReactElement                     | 要显示的浮层组件                                                           |
+| trigger         | [Trigger](#code-ts-trigger-code) `(['hover','focus'])` | 触发浮层显示的事件，支持数组配置多个事件                                   |
 
-### Whisper methods
+### Whisper 方法
 
-Whisper 上的方法可以通过 `ref` 获得。
+Whisper 提供了几个可以通过 `ref` 调用的方法，用于以编程方式控制浮层的显示和位置。这些方法在需要手动触发浮层操作时非常有用，例如：
+
+- 根据业务逻辑显示/隐藏提示
+- 在内容变化后更新浮层位置
+- 创建自定义的交互逻辑
+
+通过 `ref` 获取组件实例：
 
 ```jsx
 const whisperRef = useRef();
 
 <Whisper ref={whisperRef} {...}>
-  ...
+  <Button>悬停查看</Button>
 </Whisper>
 ```
 
-可用的方法包括
+| 方法名         | 类型定义                   | 说明                                                  |
+| -------------- | -------------------------- | ----------------------------------------------------- |
+| open           | `(delay?: number) => void` | 手动打开浮层，可选的 `delay` 参数指定延迟时间（毫秒） |
+| close          | `(delay?: number) => void` | 手动关闭浮层，可选的 `delay` 参数指定延迟时间（毫秒） |
+| updatePosition | `() => void`               | 当内容变化导致布局改变时，手动更新浮层位置            |
 
-- open
+```jsx
+// 在按钮点击时打开浮层
+<Button onClick={() => whisperRef.current?.open()}>显示提示</Button>;
 
-打开一个浮层
+// 在数据加载完成后显示浮层
+useEffect(() => {
+  if (dataLoaded) {
+    whisperRef.current?.open(300); // 300ms 后显示
+  }
+}, [dataLoaded]);
 
-```ts
-open: (delay?: number) => void
+// 内容变化后更新浮层位置
+const handleResize = useCallback(() => {
+  whisperRef.current?.updatePosition();
+}, []);
 ```
 
-- close
+### 类型定义
 
-关闭一个浮层
-
-```ts
-close: (delay?: number) => void
-```
-
-- updatePosition
-
-更新浮层位置
-
-```ts
-updatePosition: () => void
-```
-
-### `ts:Trigger`
+#### `ts:Trigger`
 
 ```ts
 type Trigger =
