@@ -1,7 +1,15 @@
 import React, { useCallback } from 'react';
 import GridCell from './GridCell';
 import { forwardRef } from '@/internals/utils';
-import { isSameDay, addDays, isBefore, isAfter, format } from '@/internals/utils/date';
+import {
+  isSameDay,
+  addDays,
+  isBefore,
+  isAfter,
+  format,
+  toPlainDate,
+  PlainDate
+} from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
 import { useStyles } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
@@ -40,11 +48,11 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
   const { prefix, merge } = useStyles(classPrefix);
 
   const handleSelect = useCallback(
-    (date: Date, disabled: boolean | void, event: React.MouseEvent) => {
+    (date: PlainDate, disabled: boolean | void, event: React.MouseEvent) => {
       if (disabled) {
         return;
       }
-      onSelect?.(date, event);
+      onSelect?.(new Date(date.year, date.month - 1, date.day), event);
     },
     [onSelect]
   );
@@ -93,7 +101,7 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
       days.push(
         <GridCell
           key={format(thisDate, 'yyyy-MM-dd')}
-          date={thisDate}
+          date={toPlainDate(thisDate)}
           disabled={disabled}
           selected={isSelected}
           onSelect={handleSelect}
