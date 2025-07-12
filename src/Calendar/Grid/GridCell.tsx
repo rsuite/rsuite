@@ -1,21 +1,22 @@
 import React from 'react';
 import partial from 'lodash/partial';
 import { forwardRef } from '@/internals/utils';
-import { isSameDay, getDate } from '@/internals/utils/date';
+import type { PlainDate } from '@/internals/utils/date';
+import { isSameDay } from '@/internals/utils/date/plainDate';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
 
 export interface GridCellProps extends WithAsProps {
-  date: Date;
+  date: PlainDate;
   disabled?: boolean;
   selected?: boolean;
   unSameMonth?: boolean;
   rangeStart?: boolean;
   rangeEnd?: boolean;
   inRange?: boolean;
-  onSelect?: (date: Date, disabled: boolean | void, event: React.MouseEvent) => void;
+  onSelect?: (date: PlainDate, disabled: boolean | void, event: React.MouseEvent) => void;
 }
 
 const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) => {
@@ -32,6 +33,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
     inRange,
     ...rest
   } = props;
+  const jsDate = new Date(date.year, date.month - 1, date.day);
 
   const {
     onMouseMove,
@@ -45,9 +47,8 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
   const { formattedDayPattern, today } = getLocale('Calendar', overrideLocale);
 
   const formatStr = formattedDayPattern;
-  const ariaLabel = getAriaLabel(date, formatStr, formatDate);
-  const todayDate = new Date();
-  const isToday = isSameDay(date, todayDate);
+  const ariaLabel = getAriaLabel(jsDate, formatStr, formatDate);
+  const isToday = isSameDay(date, new Date());
 
   const classes = merge(
     prefix('cell', {
@@ -59,7 +60,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
       'cell-in-range': !unSameMonth && inRange,
       'cell-disabled': disabled
     }),
-    cellClassName?.(date)
+    cellClassName?.(jsDate)
   );
 
   return (
@@ -72,17 +73,17 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
       tabIndex={selected ? 0 : -1}
       title={isToday ? `${ariaLabel} (${today})` : ariaLabel}
       className={classes}
-      onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, date) : undefined}
+      onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, jsDate) : undefined}
       onClick={onSelect ? partial(onSelect, date, disabled) : undefined}
       {...rest}
     >
       <div className={prefix('cell-content')}>
         {renderCellOnPicker ? (
-          renderCellOnPicker(date)
+          renderCellOnPicker(jsDate)
         ) : (
-          <span className={prefix('cell-day')}>{getDate(date)}</span>
+          <span className={prefix('cell-day')}>{date.day}</span>
         )}
-        {renderCell?.(date)}
+        {renderCell?.(jsDate)}
       </div>
     </Component>
   );
