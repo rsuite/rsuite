@@ -56,7 +56,8 @@ export { disableTime } from './disableTime';
 export { useDateMode, DateMode } from './useDateMode';
 export { extractTimeFormat } from './extractTimeFormat';
 export * from './formatCheck';
+export * from './plainDate';
 
 // Export types
-export type { TimeProp, CalendarOnlyPropsType } from './types';
+export type { TimeProp, CalendarOnlyPropsType, PlainDate } from './types';
 export { calendarOnlyProps } from './types';
