@@ -84,12 +84,12 @@
 
 ### `<Stat.Trend>`
 
-| 属性        | 类型 `(默认值)`         | 描述                |
-| ----------- | ----------------------- | ------------------- |
-| as          | elementType `('span')`  | 组件的 HTML 标签    |
-| children    | ReactNode               | 组件的子元素        |
-| classPrefix | string `('stat-trend')` | 组件 CSS 类名的前缀 |
-| indicator   | 'up' \| 'down'          | 组件的趋势指示器    |
+| 属性        | 类型 `(默认值)`           | 描述                |
+| ----------- | ------------------------- | ------------------- |
+| as          | elementType `('span')`    | 组件的 HTML 标签    |
+| children    | ReactNode                 | 组件的子元素        |
+| classPrefix | string `('stat-trend')`   | 组件 CSS 类名的前缀 |
+| indicator   | 'up' \| 'down' \| 'equal' | 组件的趋势指示器    |
 
 ### `<Stat.HelpText>`
 
