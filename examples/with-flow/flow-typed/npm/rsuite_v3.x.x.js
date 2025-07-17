@@ -1005,6 +1005,7 @@ declare module "rsuite" {
     percent?: number,
     strokeWidth?: number,
     trailWidth?: number,
+    width?: number,
     gapDegree?: number,
     gapPosition?: "top" | "bottom" | "left" | "right",
     showInfo?: boolean,
@@ -1020,6 +1021,7 @@ declare module "rsuite" {
     strokeWidth?: number,
     trailColor?: string,
     trailWidth?: number,
+    width?: number,
     showInfo?: boolean,
     status?: "success" | "fail" | "active"
   }> {}

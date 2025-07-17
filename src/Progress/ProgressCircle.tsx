@@ -25,6 +25,9 @@ export interface ProgressCircleProps extends WithAsProps {
   /** Tail width */
   trailWidth?: number;
 
+  /** Diameter of the circle */
+  width?: number;
+
   /** Circular progress bar degree */
   gapDegree?: number;
 
@@ -49,6 +52,7 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
       as: Component = 'div',
       strokeWidth = 6,
       trailWidth = 6,
+      width = 50,
       percent = 0,
       strokeLinecap = 'round',
       className,
@@ -140,7 +144,7 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
       >
         {showInfo ? <span className={prefix('circle-info')}>{info}</span> : null}
 
-        <svg className={prefix('svg')} viewBox="0 0 100 100" {...rest}>
+        <svg className={prefix('svg')} viewBox="0 0 100 100" width={width} {...rest}>
           <path
             className={prefix('trail')}
             d={pathString}
@@ -171,6 +175,7 @@ ProgressCircle.propTypes = {
   percent: PropTypes.number,
   strokeWidth: PropTypes.number,
   trailWidth: PropTypes.number,
+  width: PropTypes.number,
   gapDegree: PropTypes.number,
   gapPosition: oneOf(['top', 'bottom', 'left', 'right']),
   showInfo: PropTypes.bool,
