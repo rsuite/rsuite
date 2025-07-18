@@ -90,8 +90,16 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
     [handleConfirm]
   );
 
+  const handlePromptInputChange = useCallback(
+    (value: string) => {
+      inputValue.current = value;
+      if (validationError) setValidationError(undefined);
+    },
+    [validationError]
+  );
+
   return (
-    <Modal ref={ref} open={isOpen} size="xs" centered backdrop="static" {...rest}>
+    <Modal ref={ref} open={isOpen} size="xs" backdrop="static" {...rest}>
       <Modal.Header closeButton={false}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
@@ -106,10 +114,7 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
                 ref={inputRef}
                 id="rs-prompt-input"
                 defaultValue={defaultValue}
-                onChange={value => {
-                  inputValue.current = value;
-                  if (validationError) setValidationError(undefined);
-                }}
+                onChange={handlePromptInputChange}
                 onKeyDown={handleInputKeyDown}
               />
               {validationError && <Text color="red">{validationError}</Text>}

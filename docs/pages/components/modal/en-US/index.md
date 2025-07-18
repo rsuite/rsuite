@@ -1,6 +1,6 @@
 # Modal
 
-A modal dialog box component for message prompts, acknowledgement messages, and submissions. You can use Drawer if you need to place more content.
+A modal dialog box component for message prompts, confirmation messages, and content submission.
 
 ## Import
 
@@ -21,6 +21,7 @@ A modal dialog box component for message prompts, acknowledgement messages, and 
 ### Backdrop
 
 Control the behavior of the Modal's backdrop:
+
 - `true`: Show backdrop, and clicking it will close the Modal
 - `false`: Do not show backdrop
 - `'static'`: Show backdrop, but clicking it will not close the Modal
@@ -29,27 +30,43 @@ Control the behavior of the Modal's backdrop:
 
 ### Vertical center
 
+Use the `centered` prop to vertically center the Modal on the page.
+
 <!--{include:`centered.md`}-->
 
 ### Size
+
+Set different sizes for the Modal using the `size` prop. Available options include: `'xs'`, `'sm'`, `'md'`, `'lg'`, `'full'`, or a custom width.
 
 <!--{include:`size.md`}-->
 
 ### Content overflow
 
+When the Modal content is too long, the content area will automatically display a scrollbar.
+
 <!--{include:`overflow.md`}-->
 
 ### Dynamic content
+
+Demonstrates how to dynamically load content within a Modal, suitable for asynchronous data loading scenarios.
 
 <!--{include:`dynamic.md`}-->
 
 ### Alert dialogs
 
+Use `role="alertdialog"` to create an alert dialog, suitable for important information that requires immediate user attention.
+
 <!--{include:`alert-dialog.md`}-->
 
-### With form
+### Form
+
+Embed forms within a Modal, suitable for data collection and submission operations.
 
 <!--{include:`form.md`}-->
+
+### useDialog
+
+For common dialog scenarios, you can use [useDialog](/components/use-dialog) to simplify dialog usage.
 
 ## Responsive
 

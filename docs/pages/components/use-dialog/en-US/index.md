@@ -1,6 +1,6 @@
 # useDialog
 
-`useDialog` is a React Hook that provides a declarative way to display different types of dialogs (alert, confirm, prompt) and custom dialogs.
+Provides imperative APIs to open different types of dialogs (alert, confirm, prompt) or custom dialogs.
 
 ## Usage
 
@@ -91,8 +91,8 @@ Displays a custom dialog component.
 
 Returns an object containing the following methods:
 
-| Property | Type                                                                                                               | Description                 |
-| -------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| Property | Type                                                                                                             | Description                 |
+| -------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | alert    | (message: ReactNode, options?: [AlertOptions](#code-ts-alert-options-code)) => Promise&lt;void&gt;               | Shows an alert dialog       |
 | confirm  | (message: ReactNode, options?: [ConfirmOptions](#code-ts-confirm-options-code)) => Promise&lt;boolean&gt;        | Shows a confirmation dialog |
 | prompt   | (message: ReactNode, options?: [PromptOptions](#code-ts-prompt-options-code)) => Promise&lt;string&gt;           | Shows a prompt dialog       |
