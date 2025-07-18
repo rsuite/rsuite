@@ -85,7 +85,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     return '';
   }, [inputValueProp]);
 
-  const classes = merge(className, withPrefix({ active }));
+  const classes = merge(className, withPrefix());
 
   const handleClean = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -123,6 +123,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       data-countable={countable}
       data-size={size}
       data-readonly={readOnly}
+      data-active={active}
       ref={mergeRefs(combobox, ref)}
       disabled={disabled}
       tabIndex={disabled ? undefined : tabIndex}
@@ -137,7 +138,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
             </PickerLabel>
           </Stack.Item>
         )}
-        <Stack.Item grow={1} style={{ overflow: 'hidden' }}>
+        <Stack.Item grow={1} overflow="hidden">
           <input
             readOnly
             aria-hidden={true}
@@ -145,7 +146,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
             data-testid="picker-toggle-input"
             name={name}
             value={inputValue}
-            className={prefix('textbox', 'read-only')}
+            className={prefix('textbox')}
             style={{ pointerEvents: 'none' }}
           />
           {children ? (

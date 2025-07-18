@@ -19,27 +19,27 @@ describe('List', () => {
 
   it('Should be bordered', () => {
     render(<List bordered />);
-    expect(screen.getByRole('list')).to.have.class('rs-list-bordered');
+    expect(screen.getByRole('list')).to.have.attr('data-bordered', 'true');
   });
 
   it('Should have divider', () => {
     const { rerender } = render(<List />);
 
-    expect(screen.getByRole('list')).to.have.class('rs-list-divider');
+    expect(screen.getByRole('list')).to.have.attr('data-divider', 'true');
 
     rerender(<List divider={false} />);
 
-    expect(screen.getByRole('list')).not.to.have.class('rs-list-divider');
+    expect(screen.getByRole('list')).not.to.have.attr('data-divider', 'true');
   });
 
   it('Should have hover animation', () => {
     render(<List hover />);
-    expect(screen.getByRole('list')).to.have.class('rs-list-hover');
+    expect(screen.getByRole('list')).to.have.attr('data-hover', 'true');
   });
 
   it('Should be sortable', () => {
     render(<List sortable />);
-    expect(screen.getByRole('list')).to.have.class('rs-list-sortable');
+    expect(screen.getByRole('list')).to.have.attr('data-sortable', 'true');
   });
 
   it('Should render different size', () => {
@@ -67,11 +67,11 @@ describe('List', () => {
       </>
     );
 
-    expect(screen.queryAllByRole('listitem')[0]).to.have.class('rs-list-item-md');
-    expect(screen.queryAllByRole('listitem')[1]).to.have.class('rs-list-item-sm');
-    expect(screen.queryAllByRole('listitem')[2]).to.have.class('rs-list-item-md');
-    expect(screen.queryAllByRole('listitem')[3]).to.have.class('rs-list-item-lg');
-    expect(screen.queryAllByRole('listitem')[4]).to.have.class('rs-list-item-xs');
+    expect(screen.queryAllByRole('listitem')[0]).to.have.attr('data-size', 'md');
+    expect(screen.queryAllByRole('listitem')[1]).to.have.attr('data-size', 'sm');
+    expect(screen.queryAllByRole('listitem')[2]).to.have.attr('data-size', 'md');
+    expect(screen.queryAllByRole('listitem')[3]).to.have.attr('data-size', 'lg');
+    expect(screen.queryAllByRole('listitem')[4]).to.have.attr('data-size', 'xs');
   });
 
   // Simulating DOM events requires special handling in tests

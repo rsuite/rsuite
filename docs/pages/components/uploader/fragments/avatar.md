@@ -41,7 +41,11 @@ const App = () => {
     >
       <Box as="button" w={150} h={150}>
         {uploading && <Loader backdrop center />}
-        {fileInfo ? <img src={fileInfo} width="100%" height="100%" /> : <RxAvatar size={80} />}
+        {fileInfo ? (
+          <img src={fileInfo} width="100%" height="100%" />
+        ) : (
+          <RxAvatar size={40} color="var(--rs-gray-500)" />
+        )}
       </Box>
     </Uploader>
   );

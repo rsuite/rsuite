@@ -24,7 +24,7 @@
     background-color: vars.$doc-highlight-bg;
   }
 
-  .copy-code-button {
+  button[data-type='copy'] {
     right: 8px;
     top: 8px;
   }
@@ -140,14 +140,14 @@ a code {
     direction: ltr;
   }
 
-  .copy-code-button {
+  button[data-type='copy'] {
     right: 8px;
     top: 8px;
     z-index: 1;
   }
 }
 
-.copy-code-button {
+button[data-type='copy'] {
   position: absolute !important;
   color: #858b94 !important;
 }

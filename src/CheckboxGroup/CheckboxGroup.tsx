@@ -44,7 +44,7 @@ const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGrou
   } = propsWithDefaults;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix({ inline }));
+  const classes = merge(className, withPrefix());
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
   const handleChange = useCallback(
@@ -84,7 +84,7 @@ const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGrou
           {value?.length ? children : null}
         </Plaintext>
       ) : (
-        <Box as={as} {...rest} ref={ref} role="group" className={classes}>
+        <Box as={as} {...rest} ref={ref} role="group" className={classes} data-inline={inline}>
           {children}
         </Box>
       )}

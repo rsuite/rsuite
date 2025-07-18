@@ -14,13 +14,19 @@ Tag for categorizing or markup.
 
 ### Size
 
+Adjust tag size with the `size` prop (options: 'sm', 'md', 'lg').
+
 <!--{include:`size.md`}-->
 
 ### Colorful Tags
 
+Customize tag colors using the `color` property. Supports preset theme colors or custom CSS colors. When setting custom colors, the text color is automatically calculated based on contrast.
+
 <!--{include:`color.md`}-->
 
 ### Dynamically tagging
+
+Create an interactive interface for adding and removing tags with the `closable` property and `onClose` callback.
 
 <!--{include:`dynamic.md`}-->
 
@@ -45,5 +51,7 @@ Tag for categorizing or markup.
 | as          | ElementType `('div')`  | You can use a custom element type for this component |
 | children \* | ReactNode              | The content of the component.                        |
 | classPrefix | string `('tag-group')` | The prefix of the component CSS class                |
+
+### Type definitions
 
 <!--{include:(_common/types/color.md)}-->

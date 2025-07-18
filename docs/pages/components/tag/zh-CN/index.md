@@ -14,13 +14,19 @@
 
 ### 尺寸
 
+通过 `size` 属性调整标签大小（可选值：'sm'、'md'、'lg'）。
+
 <!--{include:`size.md`}-->
 
 ### 多彩标签
 
+使用 `color` 属性自定义标签颜色。支持预设主题颜色或自定义 CSS 颜色。当设置自定义颜色时，基于对比度自动计算出合适的文本颜色。
+
 <!--{include:`color.md`}-->
 
 ### 动态添加标签
+
+使用 `closable` 属性和 `onClose` 回调创建可交互的标签添加和删除。
 
 <!--{include:`dynamic.md`}-->
 
@@ -45,5 +51,7 @@
 | as          | ElementType `('div')`  | 为组件自定义元素类型 |
 | children \* | ReactNode              | 组件的内容           |
 | classPrefix | string `('tag-group')` | 组件 CSS 类的前缀    |
+
+### 类型定义
 
 <!--{include:(_common/types/color.md)}-->

@@ -83,6 +83,6 @@ describe('DatePicker - Toolbar', () => {
   it('Should be wrap in ranges', () => {
     render(<Toolbar calendarDate={new Date()} locale={{}} />);
 
-    expect(screen.getByTestId('daterange-predefined-bottom')).to.have.class('rs-stack-wrap');
+    expect(screen.getByTestId('daterange-predefined-bottom')).to.have.attr('data-wrap', 'true');
   });
 });

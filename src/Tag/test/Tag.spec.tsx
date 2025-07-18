@@ -14,7 +14,7 @@ describe('Tag', () => {
     render(<Tag data-testid="tag" />);
 
     expect(screen.getByTestId('tag')).to.have.class('rs-tag');
-    expect(screen.getByTestId('tag')).to.have.class('rs-tag-md');
+    expect(screen.getByTestId('tag')).to.have.attr('data-size', 'md');
   });
 
   it('Should call onClose callback', () => {
@@ -62,7 +62,7 @@ describe('Tag', () => {
     const { container } = render(<Tag color="red" />);
     const tagElement = container.firstChild as HTMLElement;
 
-    expect(tagElement).to.have.class('rs-tag-red');
+    expect(tagElement).to.have.attr('data-color', 'red');
     expect(tagElement.style.getPropertyValue('--rs-tag-bg')).to.equal('');
     expect(tagElement.style.getPropertyValue('--rs-tag-text')).to.equal('');
   });

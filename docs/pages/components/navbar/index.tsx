@@ -50,7 +50,13 @@ import {
   IoShapesOutline,
   IoBookOutline,
   IoChatbubblesOutline,
-  IoCodeSlashOutline
+  IoCodeSlashOutline,
+  IoRocketOutline,
+  IoCubeOutline,
+  IoHammerOutline,
+  IoExtensionPuzzleOutline,
+  IoGlobeOutline,
+  IoLanguageOutline
 } from 'react-icons/io5';
 
 const inDocsComponents = {
@@ -107,7 +113,13 @@ export default function Page() {
         IoShapesOutline,
         IoBookOutline,
         IoChatbubblesOutline,
-        IoCodeSlashOutline
+        IoCodeSlashOutline,
+        IoRocketOutline,
+        IoCubeOutline,
+        IoHammerOutline,
+        IoExtensionPuzzleOutline,
+        IoGlobeOutline,
+        IoLanguageOutline
       }}
     />
   );

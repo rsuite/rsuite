@@ -65,6 +65,6 @@ describe('Placeholder.Grid', () => {
   it('Should be active', () => {
     render(<PlaceholderGrid active data-testid="p" />);
 
-    expect(screen.getByTestId('p')).to.have.class('rs-placeholder-active');
+    expect(screen.getByTestId('p')).to.have.attr('data-active', 'true');
   });
 });

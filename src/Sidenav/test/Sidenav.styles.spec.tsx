@@ -20,9 +20,7 @@ describe('Sidenav styles', () => {
       <Sidenav>
         <Nav>
           <Nav.Menu title="Menu">
-            <Nav.Menu title="Menu">
-              <Nav.Item>Child Item</Nav.Item>
-            </Nav.Menu>
+            <Nav.Item>Child Item</Nav.Item>
           </Nav.Menu>
         </Nav>
       </Sidenav>

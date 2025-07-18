@@ -50,8 +50,8 @@
       transition: none;
     }
 
-    .rs-checkbox-checked &,
-    .rs-checkbox-indeterminate & {
+    .rs-checkbox[data-checked='true'] &,
+    .rs-checkbox[data-checked='mixed'] & {
       border: solid var(--rs-checkbox-icon);
       width: 6px;
       height: 9px;
@@ -60,12 +60,12 @@
       opacity: 1;
     }
 
-    .rs-checkbox-checked & {
+    .rs-checkbox[data-checked='true'] & {
       border-width: 0 2px 2px 0;
       transform: rotate(45deg) scale(1);
     }
 
-    .rs-checkbox-indeterminate & {
+    .rs-checkbox[data-checked='mixed'] & {
       border-width: 0 0 2px;
       transform: rotate(0deg) scale(1);
       width: 10px;
@@ -108,7 +108,7 @@
       transition: none;
     }
 
-    .rs-checkbox-checked & {
+    .rs-checkbox[data-checked='true'] & {
       transform: scale(1.5);
       opacity: 0;
       visibility: visible;
@@ -132,26 +132,26 @@
       border-color: var(--rs-checkbox-checked-bg);
     }
 
-    .rs-checkbox-disabled:not(.rs-checkbox-checked):not(.rs-checkbox-indeterminate) & {
+    .rs-checkbox[data-disabled='true'][data-checked='false'] & {
       border-color: var(--rs-checkbox-disabled-bg);
       background-color: var(--rs-checkbox-disabled-bg);
     }
 
-    .rs-checkbox-checked &,
-    .rs-checkbox-indeterminate & {
+    .rs-checkbox[data-checked='true'] &,
+    .rs-checkbox[data-checked='mixed'] & {
       border-color: var(--rs-checkbox-checked-bg);
       background-color: var(--rs-checkbox-checked-bg);
     }
 
-    .rs-checkbox-disabled.rs-checkbox-checked &,
-    .rs-checkbox-disabled.rs-checkbox-indeterminate & {
+    .rs-checkbox[data-disabled='true'][data-checked='true'] &,
+    .rs-checkbox[data-disabled='true'][data-checked='mixed'] & {
       opacity: 0.5;
     }
   }
 }
 
 @each $color in colors.$spectrum {
-  .rs-checkbox-#{'' + $color} {
+  .rs-checkbox[data-color='#{$color}'] {
     --rs-checkbox-checked-bg: var(--rs-#{'' + $color}-500);
     --rs-checkbox-border: var(--rs-#{'' + $color}-500);
   }

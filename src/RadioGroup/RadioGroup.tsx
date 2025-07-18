@@ -62,7 +62,7 @@ const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
   } = propsWithDefaults;
 
   const { merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(appearance, { inline }));
+  const classes = merge(className, withPrefix());
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
   const handleChange = useEventCallback(
@@ -93,7 +93,15 @@ const RadioGroup = forwardRef<'div', RadioGroupProps>((props, ref) => {
           {value ? children : null}
         </Plaintext>
       ) : (
-        <Box as={as} role="radiogroup" {...rest} ref={ref} className={classes}>
+        <Box
+          as={as}
+          role="radiogroup"
+          {...rest}
+          ref={ref}
+          className={classes}
+          data-inline={inline}
+          data-appearance={appearance}
+        >
           {children}
         </Box>
       )}

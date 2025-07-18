@@ -46,7 +46,7 @@
     flex-direction: row-reverse;
   }
 
-  &-wrap {
+  &[data-wrap="true"] {
     flex-wrap: wrap;
   }
 

@@ -110,11 +110,13 @@ describe('MultiCascadeTree -  TreeView', () => {
   it('Should be disabled item ', () => {
     render(<MultiCascadeTree data={items} disabledItemValues={['2', '3']} />);
 
-    expect(screen.getByRole('treeitem', { name: '2' }).firstChild as HTMLElement).to.have.class(
-      'rs-checkbox-disabled'
+    expect(screen.getByRole('treeitem', { name: '2' }).firstChild as HTMLElement).to.have.attr(
+      'data-disabled',
+      'true'
     );
-    expect(screen.getByRole('treeitem', { name: '3' }).firstChild as HTMLElement).to.have.class(
-      'rs-checkbox-disabled'
+    expect(screen.getByRole('treeitem', { name: '3' }).firstChild as HTMLElement).to.have.attr(
+      'data-disabled',
+      'true'
     );
   });
 

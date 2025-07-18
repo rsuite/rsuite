@@ -51,10 +51,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { withPrefix, prefix } = useStyles(classPrefix);
-  const classes = classNames(
-    className,
-    withPrefix({ disabled, customize: children, 'drag-over': dragOver })
-  );
+  const classes = classNames(className, withPrefix({ customize: children, 'drag-over': dragOver }));
 
   const handleClick = useEventCallback(() => {
     inputRef.current?.click();
@@ -127,7 +124,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   );
 
   return (
-    <div ref={rootRef} className={classes}>
+    <div ref={rootRef} className={classes} data-disabled={disabled}>
       <input
         type="file"
         name={name}

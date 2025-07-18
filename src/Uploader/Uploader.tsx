@@ -4,7 +4,7 @@ import FileItem from './UploadFileItem';
 import Plaintext from '@/internals/Plaintext';
 import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
 import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import type { UploaderLocale } from '../locales';
@@ -35,7 +35,7 @@ export interface UploaderInstance {
 }
 
 export interface UploaderProps
-  extends BoxProps,
+  extends BaseBoxProps,
     Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
   /**
    * Custom ref for Uploader
@@ -309,7 +309,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   } = propsWithDefaults;
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(listType, { draggable }));
+  const classes = merge(className, withPrefix());
 
   const rootRef = useRef<HTMLDivElement>(null);
   const xhrs = useRef({});
@@ -573,9 +573,14 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     );
   }
 
+  const dataAttributes = {
+    'data-list-type': listType,
+    'data-draggable': draggable
+  };
+
   if (plaintext) {
     return (
-      <Plaintext localeKey="notUploaded" className={withPrefix(listType)}>
+      <Plaintext localeKey="notUploaded" className={classes} {...dataAttributes}>
         {fileList.current.length ? renderList[1] : null}
       </Plaintext>
     );
@@ -586,7 +591,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={rootRef} className={classes} style={style}>
+    <Box as={as} ref={rootRef} className={classes} style={style} {...dataAttributes}>
       {renderList}
     </Box>
   );

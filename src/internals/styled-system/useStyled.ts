@@ -4,7 +4,7 @@ import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { isCSSProperty } from '@/internals/utils';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import { breakpointValues, isResponsiveValue } from './responsive';
-import { cssSystemPropAlias } from './css-property';
+import { cssSystemPropAlias } from './css-alias';
 import { StyleManager } from './style-manager';
 import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
 

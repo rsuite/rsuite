@@ -79,7 +79,7 @@ export function testSizeProp(
         renderOptions
       );
 
-      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z-]+-' + size));
+      expect(getUIElement(view)).to.have.attr('data-size', size);
     });
   });
 }
@@ -97,7 +97,7 @@ export function testColorProp(
         renderOptions
       );
 
-      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z-]+-' + color));
+      expect(getUIElement(view)).to.have.attr('data-color', color);
     });
   });
 }

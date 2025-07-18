@@ -1,7 +1,7 @@
-:root {
+.rs-badge {
   --rs-badge-offset-x: 5%;
   --rs-badge-offset-y: 5%;
-  --rs-badge-move: 40%;
+  --rs-badge-move: var(--rs-badge-offset, 40%);
   --rs-badge-one-char-size: 20px;
   --rs-badge-dot-size: 10px;
 

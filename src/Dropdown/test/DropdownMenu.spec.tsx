@@ -214,11 +214,11 @@ describe('<Dropdown.Menu>', () => {
 
     fireEvent.mouseOver(menuItem);
 
-    expect(menuItem).to.have.class('rs-dropdown-item-focus');
+    expect(menuItem).to.have.attr('data-focus', 'true');
 
     fireEvent.mouseOut(menuItem);
 
-    expect(menuItem).not.to.have.class('rs-dropdown-item-focus');
+    expect(menuItem).not.to.have.attr('data-focus', 'true');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {

@@ -8,7 +8,7 @@
   flex-direction: var(--rs-checkbox-group-direction);
   gap: var(--rs-checkbox-group-gap);
 
-  &.rs-checkbox-group-inline {
+  &[data-inline='true'] {
     --rs-checkbox-group-direction: row;
   }
 }

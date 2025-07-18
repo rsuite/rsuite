@@ -8,26 +8,23 @@ import { testStandardProps } from '@test/cases';
 import '../styles/index.scss';
 
 describe('InputGroup', () => {
-  testStandardProps(<InputGroup />);
+  testStandardProps(<InputGroup />, {
+    sizes: ['xs', 'sm', 'md', 'lg']
+  });
 
   it('Should render a container', () => {
     render(<InputGroup>title</InputGroup>);
     expect(screen.getByText('title')).to.have.class('rs-input-group');
   });
 
-  it('Should have a `input-group-inside` className', () => {
+  it('Should have a `data-inside` attribute', () => {
     render(<InputGroup inside data-testid="group" />);
-    expect(screen.getByTestId('group')).to.have.class('rs-input-group-inside');
-  });
-
-  it('Should add size', () => {
-    render(<InputGroup size="lg" data-testid="group" />);
-    expect(screen.getByTestId('group')).to.have.class('rs-input-group-lg');
+    expect(screen.getByTestId('group')).to.have.attr('data-inside', 'true');
   });
 
   it('Should be disabled', () => {
     render(<InputGroup disabled data-testid="group" />);
-    expect(screen.getByTestId('group')).to.have.class('rs-input-group-disabled');
+    expect(screen.getByTestId('group')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be disabled for children', () => {

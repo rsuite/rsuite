@@ -13,7 +13,7 @@ import { forwardRef, partitionHTMLProps } from '@/internals/utils';
 import type { SanitizedInputProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
-export interface ToggleProps extends BoxProps, SanitizedInputProps {
+export interface ToggleProps extends Omit<BoxProps, 'height' | 'width'>, SanitizedInputProps {
   /**
    * The color of the toggle.
    */
@@ -119,7 +119,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, color, { checked, disabled, loading }));
+  const classes = merge(className, withPrefix({}));
   const inner = checked ? checkedChildren : unCheckedChildren;
   const innerLabel = checked ? locale?.on : locale?.off;
 
@@ -144,7 +144,18 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={ref} className={classes} data-placement={labelPlacement} {...restProps}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-placement={labelPlacement}
+      data-color={color}
+      data-size={size}
+      data-checked={checked}
+      data-loading={loading}
+      data-disabled={disabled}
+      {...restProps}
+    >
       <input
         {...htmlInputProps}
         ref={inputRef}

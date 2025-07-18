@@ -90,7 +90,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
   const [activePage, setActivePage] = useControlled(activePageProp, 1);
 
   const pages = Math.floor(total / limit) + (total % limit ? 1 : 0);
-  const classes = merge(className, withPrefix(size));
+  const classes = merge(className, withPrefix());
 
   const { getLocale } = useCustom();
   const locale = getLocale('Pagination', localeProp);
@@ -114,7 +114,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
   });
 
   return (
-    <Box as={as} ref={ref} className={classes} style={style}>
+    <Box as={as} ref={ref} className={classes} data-size={size} style={style}>
       {layout.map((key, index) => {
         const onlyKey = `${key}${index}`;
 

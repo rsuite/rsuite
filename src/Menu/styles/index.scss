@@ -55,7 +55,7 @@
     text-align: center;
   }
 
-  &.rs-menu-item-active {
+  &[data-active="true"] {
     outline: 0;
     font-weight: bold;
 
@@ -73,7 +73,7 @@
 
   // Hover/Focus state
   &:focus-visible,
-  &.rs-menu-item-focus {
+  &[data-focus="true"] {
     @include menu.menuitem-active;
   }
   &:focus {
@@ -83,7 +83,7 @@
   // Disabled state
   //
   // Gray out text and ensure the hover/focus state remains gray
-  &-disabled {
+  &[data-disabled="true"] {
     color: var(--rs-text-disabled);
     cursor: var(--rs-cursor-disabled);
 

@@ -8,11 +8,11 @@
 .rs-badge {
   display: inline-flex;
 
-  &-circle {
-    --rs-badge-move: 30%;
+  &[data-shape='circle'] {
+    --rs-badge-offset: 30%;
   }
 
-  &-independent,
+  &:where([data-independent='true']),
   &-content {
     opacity: 1;
     display: inline-flex;
@@ -27,8 +27,8 @@
     transition: opacity 0.3s ease-in-out;
   }
 
-  &-one-char .rs-badge-content,
-  &.rs-badge-one-char.rs-badge-independent {
+  &[data-one-char='true'] .rs-badge-content,
+  &[data-one-char='true'][data-independent='true'] {
     width: var(--rs-badge-one-char-size);
     height: var(--rs-badge-one-char-size);
   }
@@ -37,13 +37,13 @@
     box-sizing: border-box;
   }
 
-  &-hidden &-content,
-  &.rs-badge-hidden.rs-badge-independent {
+  &[data-hidden='true'] &-content,
+  &[data-hidden='true'][data-independent='true'] {
     opacity: 0;
   }
 
-  &-compact &-content,
-  &.rs-badge-compact.rs-badge-independent {
+  &[data-compact='true'] &-content,
+  &[data-compact='true'][data-independent='true'] {
     padding: 0;
   }
 
@@ -61,43 +61,39 @@
     z-index: var(--rs-zindex-badge-content);
   }
 
-  &-outline &-content {
+  &[data-outline='true'] &-content {
     border: 2px solid var(--rs-badge-border);
   }
 
-  &-top {
-    &-start .rs-badge-content {
-      transform: var(--rs-badge-transform-top-start);
-      top: var(--rs-badge-offset-y);
-      inset-inline-start: var(--rs-badge-offset-x);
-    }
-
-    &-end .rs-badge-content {
-      transform: var(--rs-badge-transform-top-end);
-      top: var(--rs-badge-offset-y);
-      inset-inline-end: var(--rs-badge-offset-x);
-    }
+  &[data-placement='topStart'] .rs-badge-content {
+    transform: var(--rs-badge-transform-top-start);
+    top: var(--rs-badge-offset-y);
+    inset-inline-start: var(--rs-badge-offset-x);
   }
 
-  &-bottom {
-    &-start .rs-badge-content {
-      transform: var(--rs-badge-transform-bottom-start);
-      bottom: var(--rs-badge-offset-y);
-      inset-inline-start: var(--rs-badge-offset-x);
-    }
+  &[data-placement='topEnd'] .rs-badge-content {
+    transform: var(--rs-badge-transform-top-end);
+    top: var(--rs-badge-offset-y);
+    inset-inline-end: var(--rs-badge-offset-x);
+  }
 
-    &-end .rs-badge-content {
-      transform: var(--rs-badge-transform-bottom-end);
-      bottom: var(--rs-badge-offset-y);
-      inset-inline-end: var(--rs-badge-offset-x);
-    }
+  &[data-placement='bottomStart'] .rs-badge-content {
+    transform: var(--rs-badge-transform-bottom-start);
+    bottom: var(--rs-badge-offset-y);
+    inset-inline-start: var(--rs-badge-offset-x);
+  }
+
+  &[data-placement='bottomEnd'] .rs-badge-content {
+    transform: var(--rs-badge-transform-bottom-end);
+    bottom: var(--rs-badge-offset-y);
+    inset-inline-end: var(--rs-badge-offset-x);
   }
 }
 
 // Spectrum color classes
-$badge-spectrum: "red", "orange", "yellow", "green", "cyan", "blue", "violet", "pink";
+$badge-spectrum: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet', 'pink';
 @each $color in $badge-spectrum {
-  .rs-badge-#{$color} {
+  .rs-badge[data-color='#{$color}'] {
     --rs-badge-bg: var(--rs-#{$color}-500);
   }
 }

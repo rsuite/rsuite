@@ -31,7 +31,7 @@ describe('Slider', () => {
 
   it('Should be displayed vertically', () => {
     const { container } = render(<Slider vertical />);
-    expect(container.firstChild).to.have.class('rs-slider-vertical');
+    expect(container.firstChild).to.have.attr('data-direction', 'vertical');
     expect(screen.getByRole('slider')).to.have.attr('aria-orientation', 'vertical');
   });
 
@@ -42,7 +42,7 @@ describe('Slider', () => {
       <Slider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
 
-    expect(container.firstChild).to.have.class('rs-slider-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
     expect(screen.getByRole('slider')).to.have.attr('aria-disabled', 'true');
 
     fireEvent.click(screen.getByTestId('slider-bar'));
@@ -58,7 +58,7 @@ describe('Slider', () => {
       <Slider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
 
-    expect(container.firstChild).to.have.class('rs-slider-readonly');
+    expect(container.firstChild).to.have.attr('data-readonly', 'true');
     expect(screen.getByRole('slider')).to.have.attr('readonly');
 
     fireEvent.click(screen.getByTestId('slider-bar'));

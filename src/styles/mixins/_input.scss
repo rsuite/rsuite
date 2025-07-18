@@ -4,7 +4,7 @@
   align-items: center;
 
   // These classes are used on elements with <label> descendants
-  &-disabled {
+  &[data-disabled='true'] {
     label {
       cursor: var(--rs-cursor-disabled);
     }
@@ -19,12 +19,12 @@
     border-color: var(--rs-checkbox-checked-bg);
   }
 
-  &-disabled label {
+  &[data-disabled='true'] label {
     cursor: var(--rs-cursor-disabled);
   }
 
   // Disabled text styles.
-  &-disabled > &-checker > label {
+  &[data-disabled='true'] > &-checker > label {
     color: var(--rs-text-disabled);
   }
 }

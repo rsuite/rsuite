@@ -112,18 +112,12 @@ const NavbarDropdownItem = forwardRef<'li', NavbarDropdownItemProps>((props, ref
     });
   }
 
-  const classes = merge(
-    className,
-    withPrefix({
-      'with-icon': icon,
-      disabled,
-      divider,
-      panel,
-      active: selected
-    })
-  );
+  const classes = merge(className, withPrefix({ divider, panel }));
 
   const dataAttributes: { [key: string]: any } = {
+    'data-active': selected,
+    'data-with-icon': !!icon,
+    'data-disabled': disabled,
     'data-event-key': eventKey
   };
 

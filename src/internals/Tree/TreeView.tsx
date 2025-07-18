@@ -1,11 +1,11 @@
 import React from 'react';
 import useCombobox from '../Picker/hooks/useCombobox';
 import ScrollView, { ScrollViewProps } from '../ScrollView';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useTreeContextProps } from './TreeProvider';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 
-interface TreeViewProps extends BoxProps, React.HTMLAttributes<HTMLDivElement> {
+interface TreeViewProps extends BaseBoxProps, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
   multiselectable?: boolean;
   height?: number;

@@ -115,7 +115,10 @@ export interface DataProps<TData> {
   childrenKey?: string;
 }
 
-export interface PickerBaseProps<L = any> extends PopupProps, BoxProps, AnimationEventProps {
+export interface PickerBaseProps<L = any>
+  extends PopupProps,
+    Omit<BoxProps, 'height'>,
+    AnimationEventProps {
   id?: string;
 
   /**

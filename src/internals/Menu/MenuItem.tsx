@@ -38,7 +38,9 @@ function MenuItem(props: MenuItemProps) {
   const menu = useContext(MenuContext);
 
   if (!menu) {
-    throw new Error('<MenuItem> must be rendered within a <Menu>');
+    throw new Error(
+      '<Menu.Item> must be rendered within a <Menu>, and <Menu> does not support nested <Menu>'
+    );
   }
 
   const [menuState, dispatch] = menu;
@@ -111,7 +113,7 @@ function MenuItem(props: MenuItemProps) {
     role: 'menuitem',
     // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
     'aria-checked': selected || undefined,
-    'aria-disabled': disabled,
+    'aria-disabled': disabled || undefined,
     tabIndex: -1,
     onClick: handleClick,
     // render props

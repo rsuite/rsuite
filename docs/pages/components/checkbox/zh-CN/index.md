@@ -14,6 +14,8 @@
 
 ### 禁用与只读
 
+使用 `disabled` 属性禁用复选框或使用 `readOnly` 使其为只读状态，防止用户交互。
+
 <!--{include:`disabled.md`}-->
 
 ### 不确定状态
@@ -24,17 +26,25 @@
 
 ### 颜色
 
+使用 `color` 属性自定义复选框颜色。支持预设主题颜色。
+
 <!--{include:`colors.md`}-->
 
 ### 复选框分组
 
+使用 `<CheckboxGroup>` 管理一组复选框。`value` 属性控制哪些选项被选中。
+
 <!--{include:`checkbox-group.md`}-->
 
-### 复选框组水平布局
+### 水平布局
+
+向 `<CheckboxGroup>` 添加 `inline` 属性，使复选框水平排列而非垂直排列。
 
 <!--{include:`checkbox-groupinline.md`}-->
 
 ### 受控的复选框组
+
+使用 `value` 和 `onChange` 属性管理复选框组状态，实现受控组件行为。
 
 <!--{include:`checkbox-group-controlled.md`}-->
 
@@ -80,5 +90,8 @@
 | name         | string                                      | 用于表单对应的名称 |
 | onChange     | (value:string[] \| number[], event) => void | 值改变后的回调函数 |
 | value        | string[] \| number[]                        | 当前值(受控)       |
+
+
+### 类型定义
 
 <!--{include:(_common/types/color.md)}-->

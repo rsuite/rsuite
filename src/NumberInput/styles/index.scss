@@ -7,7 +7,6 @@
 @use './mixin' as number-input-mixin;
 
 .rs-number-input {
-
   --rs-number-input-touchspin-font-size: var(--rs-font-size-xs);
   --rs-number-input-touchspin-height-xs: calc(calc(var(--rs-input-height-xs) - 2px) / 2);
   --rs-number-input-touchspin-height-sm: calc(calc(var(--rs-input-height-sm) - 2px) / 2);
@@ -24,7 +23,7 @@
     $index: list.index($sizes, $size);
     $offset: ($index - 1) * 2px;
 
-    &.rs-input-group-#{$size} {
+    &[data-size='#{$size}'] {
       --rs-number-input-touchspin-height: var(--rs-number-input-touchspin-height-#{$size});
       --rs-number-input-icon-height: calc(var(--rs-number-input-touchspin-height) - #{$offset});
     }

@@ -60,7 +60,7 @@ describe('InputPicker', () => {
   it('Should render with "default" appearance by default', () => {
     render(<InputPicker data={[]} />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
     expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'input');
   });
 

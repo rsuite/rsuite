@@ -13,6 +13,8 @@ export interface BoxProps extends WithAsProps, CSSSystemProps {
   hideFrom?: Breakpoints;
 }
 
+export type BaseBoxProps = Omit<BoxProps, 'color'>;
+
 /**
  * Box component is the base component for all components,
  * providing shorthand for style properties.

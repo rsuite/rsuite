@@ -159,19 +159,13 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
     return (
       <MenuItem selected={selected} disabled={disabled} onActivate={handleSelectItem}>
         {({ selected, active, ...menuitem }, menuitemRef) => {
-          const classes = merge(
-            className,
-            withPrefix({
-              'with-icon': icon,
-              active: selected,
-              disabled,
-              focus: active,
-              divider,
-              panel
-            })
-          );
+          const classes = merge(className, withPrefix({ divider, panel }));
 
           const dataAttributes: { [key: string]: any } = {
+            'data-disabled': disabled,
+            'data-focus': active,
+            'data-active': selected,
+            'data-with-icon': !!icon,
             'data-event-key': eventKey
           };
 

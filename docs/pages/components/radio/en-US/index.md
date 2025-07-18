@@ -17,21 +17,31 @@ Radios are used when only one choice may be selected in a series of options.
 
 ### Disabled and read only
 
+Use the `disabled` property to disable radio buttons, or the `readOnly` property to set them to read-only state.
+
 <!--{include:`disabled.md`}-->
 
 ### Colors
+
+Set radio button colors using the `color` property.
 
 <!--{include:`colors.md`}-->
 
 ### Radio Group
 
+Use the `<RadioGroup>` component to group multiple radio buttons together and set a group name with the `name` property.
+
 <!--{include:`radio-group.md`}-->
 
-### Radio Group - Inline layout
+### Inline layout
+
+Use the `inline` property to arrange radio buttons horizontally within a group.
 
 <!--{include:`radio-group-inline.md`}-->
 
 ### Controlled Radio Group
+
+Implement controlled usage of radio groups with the `value` and `onChange` properties.
 
 <!--{include:`radio-group-controlled.md`}-->
 
@@ -76,5 +86,7 @@ Radios are used when only one choice may be selected in a series of options.
 | name         | string                        | Name to use for form                 |
 | onChange     | (value:string, event) => void | Callback function with value changed |
 | value        | string                        | The current value (controlled)       |
+
+### Type definitions
 
 <!--{include:(_common/types/color.md)}-->

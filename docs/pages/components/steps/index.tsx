@@ -1,10 +1,7 @@
 import React from 'react';
-import { Steps, ButtonGroup, Button, Panel, Placeholder } from 'rsuite';
+import { Steps, ButtonGroup,  Button, Panel,Tag,Box, Placeholder } from 'rsuite';
+import { FaShoppingCart, FaTruck, FaCheckCircle, FaBoxOpen } from 'react-icons/fa';
 import DefaultPage from '@/components/layout/Page';
-import PencilSquareIcon from '@rsuite/icons/legacy/PencilSquare';
-import BookIcon from '@rsuite/icons/legacy/Book';
-import WechatIcon from '@rsuite/icons/Wechat';
-import SteamSquareIcon from '@rsuite/icons/legacy/SteamSquare';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -20,11 +17,13 @@ export default function Page() {
         ButtonGroup,
         Button,
         Panel,
-        PencilSquareIcon,
-        BookIcon,
-        WechatIcon,
-        SteamSquareIcon,
-        Placeholder
+        Tag,
+        Box,
+        Placeholder,
+        FaShoppingCart,
+        FaTruck,
+        FaCheckCircle,
+        FaBoxOpen
       }}
     />
   );

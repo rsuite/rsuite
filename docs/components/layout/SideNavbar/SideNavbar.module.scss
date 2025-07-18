@@ -94,7 +94,7 @@
     align-items: center;
     gap: 4px;
   }
-  :global(.rs-nav-item-active) {
+  :global(.rs-nav-item[data-active='true']) {
     color: var(--rs-navs-selected);
     font-weight: bold;
   }

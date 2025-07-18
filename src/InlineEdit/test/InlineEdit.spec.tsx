@@ -173,11 +173,11 @@ describe('InlineEdit', () => {
   it('Should have a custom size', () => {
     const { container } = render(<InlineEdit size="lg" defaultValue="input something" />);
 
-    expect(container.firstChild).to.have.class('rs-inline-edit-lg');
+    expect(container.firstChild).to.have.attr('data-size', 'lg');
 
     fireEvent.click(screen.getByText('input something'));
 
-    expect(screen.getByRole('textbox')).to.have.class('rs-input-lg');
+    expect(screen.getByRole('textbox')).to.have.attr('data-size', 'lg');
   });
 
   it('Should custom render a input element', () => {

@@ -238,9 +238,9 @@ const Pagination = forwardRef<'div', PaginationProps>((props, ref) => {
     });
   };
 
-  const classes = merge(className, withPrefix(size));
+  const classes = merge(className, withPrefix());
   return (
-    <Box as={as} ref={ref} className={classes} {...rest}>
+    <Box as={as} ref={ref} className={classes} data-size={size} {...rest}>
       {renderFirst()}
       {renderPrev()}
       {renderPageButtons()}

@@ -72,7 +72,7 @@ describe('CheckTreePicker', () => {
   it('Should render with "default" appearance by default', () => {
     render(<CheckTreePicker data={[]} />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
     expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'check-tree');
   });
 
@@ -479,7 +479,9 @@ describe('CheckTreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('tester2', { selector: 'input' }));
 
-    expect(screen.getByRole('tree').querySelectorAll('.rs-checkbox-indeterminate')).to.length(1);
+    expect(
+      screen.getByRole('tree').querySelectorAll('.rs-checkbox[data-checked="mixed"]')
+    ).to.length(1);
   });
 
   it('Should not has duplicated key when data changed', () => {

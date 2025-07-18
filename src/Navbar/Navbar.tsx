@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import NavbarBrand from './NavbarBrand';
 import NavbarContent from './NavbarContent';
 import NavbarToggle from './NavbarToggle';
@@ -43,8 +43,8 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(appearance));
-  const [open, setOpen] = React.useState(false);
+  const classes = merge(className, withPrefix());
+  const [open, setOpen] = useState(false);
 
   const handleToggle = useEventCallback((nextOpen: boolean) => {
     setOpen(nextOpen);
@@ -59,7 +59,7 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
 
   return (
     <NavbarContext.Provider value={context}>
-      <Box as={as} {...rest} ref={ref} className={classes} />
+      <Box as={as} ref={ref} className={classes} data-appearance={appearance} {...rest} />
     </NavbarContext.Provider>
   );
 }, Subcomponents);
