@@ -33,8 +33,17 @@ const ArrowDown = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
+const ArrowEqual = (props: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M7 9l10 0"></path>
+      <path d="M7 15l10 0"></path>
+    </svg>
+  );
+};
+
 interface StatTrendProps extends WithAsProps {
-  indicator?: 'up' | 'down';
+  indicator?: 'up' | 'down' | 'equal';
   appearance?: 'default' | 'subtle';
 }
 
@@ -52,7 +61,8 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(appearance, indicator));
-    const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
+    const IndicatorIcon =
+      indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
 
     return (
       <Component ref={ref} className={classes} {...rest}>
@@ -65,7 +75,7 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
 
 StatTrend.displayName = 'StatTrend';
 StatTrend.propTypes = {
-  indicator: oneOf(['up', 'down']),
+  indicator: oneOf(['up', 'down', 'equal']),
   appearance: oneOf(['default', 'subtle'])
 };
 

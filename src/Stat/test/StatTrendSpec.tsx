@@ -6,10 +6,16 @@ import StatTrend from '../StatTrend';
 describe('StatTrend', () => {
   testStandardProps(<StatTrend />);
 
-  it('Should render a trend indicator', () => {
+  it('Should render a up trend indicator', () => {
     render(<StatTrend indicator="up">100</StatTrend>);
 
     expect(screen.getByText('100')).to.have.class('rs-stat-trend-up');
+  });
+
+  it('Should render a equal trend indicator', () => {
+    render(<StatTrend indicator="equal">100</StatTrend>);
+
+    expect(screen.getByText('100')).to.have.class('rs-stat-trend-equal');
   });
 
   it('Should render as subtle appearance', () => {
