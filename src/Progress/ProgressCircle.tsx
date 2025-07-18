@@ -52,7 +52,7 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
       as: Component = 'div',
       strokeWidth = 6,
       trailWidth = 6,
-      width = 50,
+      width,
       percent = 0,
       strokeLinecap = 'round',
       className,

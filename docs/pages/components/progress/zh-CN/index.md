@@ -56,4 +56,4 @@
 | strokeWidth   | number `(6)`                                                 | 线条宽度                           |
 | trailColor    | string                                                       | 背景颜色                           |
 | trailWidth    | number `(6)`                                                 | 背景宽度                           |
-| width         | number `(50)`                                                | 圆直径                             |
+| width         | number                                                       | 圆直径                             |
