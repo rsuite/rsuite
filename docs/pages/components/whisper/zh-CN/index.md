@@ -8,7 +8,15 @@
 
 ## 演示
 
+### 基本用法
+
+默认支持的 speaker 组件为 `Tooltip` 和 `Popover`。
+
+<!--{include:`basic.md`}-->
+
 ### 自定义浮层
+
+通过 `speaker` 属性可以自定义浮层内容。以下示例展示了如何创建一个自定义的浮层组件，并支持延迟显示。
 
 <!--{include:`overlay.md`}-->
 
