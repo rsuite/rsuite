@@ -43,7 +43,7 @@ const ArrowEqual = (props: React.SVGProps<SVGSVGElement>) => {
 };
 
 interface StatTrendProps extends WithAsProps {
-  indicator?: 'up' | 'down' | 'equal';
+  indicator?: 'up' | 'down' | 'equal' | number;
   appearance?: 'default' | 'subtle';
 }
 
@@ -58,11 +58,20 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
       children,
       ...rest
     } = props;
+    
+    let indicatorResolved = indicator;
+    if (typeof indicatorResolved === 'number') {
+      if (indicatorResolved > 0) {
+        indicatorResolved = 'up';
+      } else if (indicatorResolved < 0) {
+        indicatorResolved = 'down';
+      }
+    }
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(appearance, indicator));
+    const classes = merge(className, withClassPrefix(appearance, indicatorResolved));
     const IndicatorIcon =
-      indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
+      indicatorResolved === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
 
     return (
       <Component ref={ref} className={classes} {...rest}>
