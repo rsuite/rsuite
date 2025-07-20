@@ -1,3 +1,17 @@
+## [5.83.2](https://github.com/rsuite/rsuite/compare/v5.83.1...v5.83.2) (2025-07-20)
+
+
+### Bug Fixes
+
+* Progress.Circle properties do not include width ([#4352](https://github.com/rsuite/rsuite/issues/4352)) ([#4353](https://github.com/rsuite/rsuite/issues/4353)) ([4bdef97](https://github.com/rsuite/rsuite/commit/4bdef977c96d76695a4b8504808bdfaaf83a79cd))
+
+
+### Features
+
+* **Stat/StatTrend:** add 'equal' trend indicator ([#4351](https://github.com/rsuite/rsuite/issues/4351)) ([38f95a1](https://github.com/rsuite/rsuite/commit/38f95a1b1cc74adb993bb76899e56ef954014ecd))
+
+
+
 ## [5.83.1](https://github.com/rsuite/rsuite/compare/v5.83.0...v5.83.1) (2025-06-27)
 
 
