@@ -56,3 +56,4 @@ Display the current progress of an operation flow.
 | strokeWidth   | number `(6)`                                                 | Line width                               |
 | trailColor    | string                                                       | Trail color                              |
 | trailWidth    | number `(6)`                                                 | Trail width                              |
+| width         | number                                                       | Circle diameter                          |
