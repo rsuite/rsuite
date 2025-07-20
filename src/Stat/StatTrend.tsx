@@ -58,7 +58,7 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
       children,
       ...rest
     } = props;
-    
+
     let indicatorResolved = indicator;
     if (typeof indicatorResolved === 'number') {
       if (indicatorResolved > 0) {
@@ -71,7 +71,7 @@ const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardR
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(appearance, indicatorResolved));
     const IndicatorIcon =
-      indicatorResolved === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
+      indicatorResolved === 'up' ? ArrowUp : indicatorResolved === 'down' ? ArrowDown : ArrowEqual;
 
     return (
       <Component ref={ref} className={classes} {...rest}>
