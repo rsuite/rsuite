@@ -58,5 +58,5 @@ export { extractTimeFormat } from './extractTimeFormat';
 export * from './formatCheck';
 
 // Export types
-export type { TimeProp, CalendarOnlyPropsType } from './types';
+export type { TimeProp, CalendarOnlyPropsType, PlainDate } from './types';
 export { calendarOnlyProps } from './types';

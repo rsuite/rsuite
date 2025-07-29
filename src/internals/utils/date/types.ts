@@ -82,3 +82,15 @@ export interface FormatDateOptions {
    */
   useAdditionalDayOfYearTokens?: boolean;
 }
+
+/**
+ * Represents a date on the calendar.
+ *
+ * Resembles Temporal.PlainDate
+ * @see https://tc39.es/proposal-temporal/docs/plaindate.html
+ */
+export type PlainDate = {
+  readonly year: number;
+  readonly month: number;
+  readonly day: number;
+};
