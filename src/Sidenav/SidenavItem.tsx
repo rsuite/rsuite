@@ -7,7 +7,7 @@ import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { SidenavContext } from './SidenavContext';
@@ -17,7 +17,7 @@ import type { IconProps } from '@rsuite/icons/Icon';
 /**
  * Props of SidenavItem component
  */
-export interface SidenavItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
+export interface SidenavItemProps<T = any> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /**
    * Whether the item is activated
    */
@@ -129,10 +129,7 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
         {(triggerProps, triggerRef) => (
           <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
             {({ selected, active, ...menuitem }, menuitemRef) => {
-              const classes = merge(
-                className,
-                withPrefix({ focus: active, active: selected, disabled })
-              );
+              const classes = merge(className, withPrefix());
 
               // Show tooltip when inside a collapse <Sidenav>
               return (
@@ -141,6 +138,9 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
                   ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
                   disabled={as === SafeAnchor ? disabled : undefined}
                   className={classes}
+                  data-active={selected}
+                  data-disabled={disabled}
+                  data-focus={active}
                   data-event-key={eventKey}
                   {...omit(rest, ['divider', 'panel'])}
                   {...triggerProps}
@@ -192,10 +192,12 @@ const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
     <Box
       as={as}
       ref={ref as any}
-      className={merge(className, withPrefix({ active: selected, disabled }))}
+      className={merge(className, withPrefix())}
       onClick={handleClick}
       style={style}
       aria-selected={selected || undefined}
+      data-active={selected}
+      data-disabled={disabled}
       data-event-key={eventKey}
       {...rest}
     >

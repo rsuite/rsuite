@@ -18,18 +18,18 @@ describe('<Nav>', () => {
   it('Should be tabs appearance', () => {
     render(<Nav appearance="tabs">Nav</Nav>);
 
-    expect(screen.getByText('Nav')).to.have.class('rs-nav-tabs');
+    expect(screen.getByText('Nav')).to.have.attr('data-appearance', 'tabs');
   });
 
   it('Should be subtle appearance', () => {
     render(<Nav appearance="subtle">Nav</Nav>);
 
-    expect(screen.getByText('Nav')).to.have.class('rs-nav-subtle');
+    expect(screen.getByText('Nav')).to.have.attr('data-appearance', 'subtle');
   });
 
   it('Should be justified', () => {
     render(<Nav justified>Nav</Nav>);
-    expect(screen.getByText('Nav')).to.have.class('rs-nav-justified');
+    expect(screen.getByText('Nav')).to.have.attr('data-justified', 'true');
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
@@ -40,7 +40,7 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
+    expect(screen.getByText('2', { selector: 'a' })).to.have.attr('data-active', 'true');
   });
 
   it('Should be selected second option when activeKey is an object', () => {
@@ -51,7 +51,7 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
+    expect(screen.getByText('2', { selector: 'a' })).to.have.attr('data-active', 'true');
   });
 
   it('Should call onSelect callback with correct arguments', async () => {

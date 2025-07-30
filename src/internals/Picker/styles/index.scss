@@ -81,12 +81,13 @@
     margin: 0 var(--rs-spacing) 0 0;
   }
 
-  &.rs-picker-focused {
+  // Focus state for input/tag picker
+  &[data-focus='true'] {
     border-color: var(--rs-input-focus-border);
   }
 
-  &-toggle-active,
-  &.rs-picker-focused {
+  &-toggle[data-active='true'],
+  &[data-focus='true'] {
     --rs-picker-toggle-border-color: var(--rs-input-focus-border);
     @include utils.focus-ring;
   }
@@ -260,25 +261,25 @@
     color: var(--rs-text-primary);
     background-color: var(--rs-input-bg);
     outline: none;
+
+    &:where([readonly]) {
+      opacity: 0;
+    }
   }
 
-  &.rs-btn-lg &-textbox {
+  &:where([data-size='lg']) &-textbox {
     padding-inline-start: 14px;
   }
 
-  &.rs-btn-sm &-textbox {
+  &:where([data-size='sm']) &-textbox {
     padding-inline-start: 8px;
   }
 
-  &.rs-btn-xs &-textbox {
+  &:where([data-size='xs']) &-textbox {
     padding-inline-start: 6px;
   }
 
-  &-read-only {
-    opacity: 0;
-  }
-
-  .rs-picker[data-variant='default'],
+  .rs-picker[data-appearance='default'],
   & {
     transition: var(--rs-picker-transition);
 
@@ -287,13 +288,13 @@
     }
   }
 
-  .rs-picker[data-variant='default'] {
+  .rs-picker[data-appearance='default'] {
     &:focus {
       border-color: var(--rs-input-focus-border);
     }
   }
 
-  .rs-picker[data-variant='subtle'] & {
+  .rs-picker[data-appearance='subtle'] & {
     color: var(--rs-btn-subtle-text);
     background-color: transparent;
 
@@ -302,21 +303,9 @@
       background-color: var(--rs-btn-subtle-hover-bg);
     }
 
-    &:active,
-    &.rs-btn-active {
-      color: var(--rs-btn-subtle-active-text);
-      background-color: var(--rs-btn-subtle-active-bg);
-    }
-
-    &:disabled,
-    &.rs-btn-disabled {
-      color: var(--rs-btn-subtle-disabled-text);
-      background: none;
-    }
-
     transition: none;
 
-    &-active {
+    &[data-active='true'] {
       background-color: var(--rs-btn-subtle-hover-bg);
       color: var(--rs-btn-subtle-hover-text);
     }
@@ -402,7 +391,7 @@
 }
 
 // Make sure styles the same with <Input>
-.rs-picker[data-variant='default'],
+.rs-picker[data-appearance='default'],
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {
@@ -455,7 +444,7 @@
         }
       }
 
-      &.rs-checkbox-disabled {
+      &[data-disabled='true'] {
         cursor: not-allowed;
       }
     }

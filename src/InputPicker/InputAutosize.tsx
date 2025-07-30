@@ -1,4 +1,5 @@
 import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
+import Box from '@/internals/Box';
 import { partitionHTMLProps, isIE, guid } from '@/internals/utils';
 
 const sizerStyle: React.CSSProperties = {
@@ -113,7 +114,6 @@ const InputAutosize = React.forwardRef(
     });
 
     const inputWidth = useInputWidth(props, sizerRef, placeholderRef);
-    const wrapperStyle: React.CSSProperties = { display: 'inline-block', ...style };
     const nextInputStyle: React.CSSProperties = {
       boxSizing: 'content-box',
       width: `${inputWidth}px`,
@@ -153,7 +153,7 @@ const InputAutosize = React.forwardRef(
     }
 
     return (
-      <div ref={rootRef} className={className} style={wrapperStyle}>
+      <Box ref={rootRef} className={className} style={style} display="inline-block">
         {isIE() ? (
           <style
             dangerouslySetInnerHTML={{ __html: `input#${inputId}::-ms-clear {display: none;}` }}
@@ -168,7 +168,7 @@ const InputAutosize = React.forwardRef(
             {placeholder}
           </div>
         ) : null}
-      </div>
+      </Box>
     );
   }
 );

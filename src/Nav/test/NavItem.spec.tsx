@@ -54,13 +54,13 @@ describe('<Nav.Item>', () => {
   it('Should be active', () => {
     render(<Nav.Item active data-testid="item" />, { wrapper: Nav });
 
-    expect(screen.getByTestId('item')).to.have.class('rs-nav-item-active');
+    expect(screen.getByTestId('item')).to.have.attr('data-active', 'true');
   });
 
   it('Should be disabled', () => {
     render(<Nav.Item disabled data-testid="item" />, { wrapper: Nav });
 
-    expect(screen.getByTestId('item')).to.have.class('rs-nav-item-disabled');
+    expect(screen.getByTestId('item')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should not call onSelect callback when the `NavItem` is disabled', () => {

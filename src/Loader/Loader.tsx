@@ -49,15 +49,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const labelId = useUniqueId('loader-label-');
-
-  const classes = merge(
-    className,
-    prefix(`speed-${speed}`, size, {
-      center: backdrop || center,
-      vertical,
-      inverse
-    })
-  );
+  const classes = merge(className, withPrefix());
 
   return (
     <Box
@@ -66,10 +58,15 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
       aria-labelledby={content ? labelId : undefined}
       ref={ref}
       className={classes}
+      data-size={size}
+      data-speed={speed}
+      data-center={backdrop || center}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      data-inverse={inverse}
       {...rest}
     >
       {backdrop && <div className={prefix('backdrop')} />}
-      <div className={withPrefix()}>
+      <div className={prefix('box')}>
         <span className={prefix('spin')} />
         {content && (
           <span id={labelId} className={prefix('content')}>

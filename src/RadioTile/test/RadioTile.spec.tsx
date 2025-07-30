@@ -33,7 +33,7 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('disabled');
-    expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-disabled');
+    expect(screen.getByTestId('radio')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be checked', () => {
@@ -44,7 +44,7 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('checked');
-    expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-checked');
+    expect(screen.getByTestId('radio')).to.have.attr('data-checked', 'true');
   });
 
   it('Should be defaultChecked', () => {
@@ -55,7 +55,7 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('checked');
-    expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-checked');
+    expect(screen.getByTestId('radio')).to.have.attr('data-checked', 'true');
   });
 
   it('Should have a `Test` value', () => {

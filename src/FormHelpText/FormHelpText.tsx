@@ -7,7 +7,9 @@ import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 
-export interface FormHelpTextProps extends BoxProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface FormHelpTextProps
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'> {
   /** Whether to show through the Tooltip component */
   tooltip?: boolean;
 }

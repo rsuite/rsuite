@@ -7,14 +7,14 @@ import NavMegaMenu from './NavMegaMenu';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
 import AdaptiveNavItem from './AdaptiveNavItem';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, deprecateComponent } from '@/internals/utils';
 import { useStyles, useCustom, useEnsuredRef, useControlled } from '@/internals/hooks';
 import { NavbarContext } from '../Navbar/NavbarContext';
 import { SidenavContext } from '../Sidenav/SidenavContext';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 
-export interface NavProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
+export interface NavProps<T = any> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /**
    * The appearance style of the Nav component.
    * - 'pills' appearance is deprecated. Use `SegmentedControl` component instead.
@@ -115,17 +115,16 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
 
   const classes = merge(
     className,
-    rootPrefix({
-      'navbar-nav': navbar,
-      'sidenav-nav': sidenav
-    }),
-    withPrefix(appearance, {
-      horizontal: (navbar || !sidenav) && !vertical,
-      vertical: vertical || sidenav,
-      justified,
-      reversed
-    })
+    rootPrefix({ 'navbar-nav': navbar, 'sidenav-nav': sidenav }),
+    withPrefix()
   );
+
+  const dataAttributes = {
+    'data-appearance': appearance,
+    'data-reversed': reversed,
+    'data-justified': justified,
+    'data-direction': vertical || sidenav ? 'vertical' : 'horizontal'
+  };
 
   const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav } = sidenav || {};
 
@@ -148,7 +147,7 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
   if (sidenav?.expanded) {
     return (
       <NavContext.Provider value={contextValue}>
-        <ul ref={ref as any} className={classes} {...rest}>
+        <ul ref={ref as any} className={classes} {...dataAttributes} {...rest}>
           {children}
         </ul>
       </NavContext.Provider>
@@ -163,7 +162,7 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
       <NavContext.Provider value={contextValue}>
         <Menubar vertical={!!sidenav}>
           {(menubar, ref) => (
-            <Box as={as} ref={ref} {...rest} className={classes} {...menubar}>
+            <Box as={as} ref={ref} className={classes} {...dataAttributes} {...menubar} {...rest}>
               {children}
             </Box>
           )}
@@ -173,7 +172,7 @@ const Nav = forwardRef<'div', NavProps, typeof Subcomponents>((props, ref) => {
   }
   return (
     <NavContext.Provider value={contextValue}>
-      <Box as={as} {...rest} ref={menubarRef} className={classes}>
+      <Box as={as} ref={menubarRef} className={classes} {...dataAttributes} {...rest}>
         {children}
         {hasWaterline && <div className={prefix('bar')} />}
       </Box>

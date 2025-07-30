@@ -648,11 +648,6 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const hasMultiValue =
     isArray(value) && value.length > 0 && isFunction(renderValue) && !isNil(tagElements);
   const hasValue = multi ? !!tagElements?.length || hasMultiValue : isValid || hasSingleValue;
-
-  const classes = merge(className, {
-    [prefix`focused`]: open
-  });
-
   const searching = !!searchKeyword && open;
   const editable = searchable && !disabled && !loading;
 
@@ -700,10 +695,11 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       style={style}
       size={size}
       classPrefix={classPrefix}
-      className={classes}
+      className={className}
       responsive={searchable === false}
       onClick={focus}
       onKeyDown={onPickerKeyDown}
+      data-focus={open}
       data-disabled-options={disabledOptions}
       {...rest}
     >

@@ -39,7 +39,7 @@ describe('Pagination', () => {
   it('Should be disabled', () => {
     render(<Pagination pages={2} disabled first last prev next />);
     screen.getAllByRole('button').forEach(button => {
-      expect(button).to.have.class('rs-pagination-btn-disabled');
+      expect(button).to.have.attr('data-disabled', 'true');
       expect(button).to.have.attribute('disabled');
     });
   });
@@ -56,7 +56,7 @@ describe('Pagination', () => {
         }}
       />
     );
-    expect(screen.getByRole('button', { name: '2' })).to.have.class('rs-pagination-btn-disabled');
+    expect(screen.getByRole('button', { name: '2' })).to.have.attr('data-disabled', 'true');
   });
 
   it('Should render `first` button', () => {
@@ -104,9 +104,9 @@ describe('Pagination', () => {
     expect(screen.getAllByRole('button')).to.have.length(4);
     expect(screen.getAllByRole('button')[3]).to.have.text('20');
   });
-  it('Should active page 5', () => {
+  it('Should render active page', () => {
     render(<Pagination pages={20} activePage={5} />);
-    expect(screen.getByRole('button', { name: '5' })).to.have.class('rs-pagination-btn-active');
+    expect(screen.getByRole('button', { name: '5' })).to.have.attr('data-active', 'true');
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
@@ -169,9 +169,11 @@ describe('Pagination', () => {
   });
 
   it('Should handle custom element type correctly', () => {
-    const { container } = render(<Pagination pages={5} linkAs="span" />);
+    render(<Pagination pages={5} linkAs="span" />);
 
-    expect(container.querySelectorAll('span')).to.have.length(5);
+    screen.getAllByRole('button').forEach(button => {
+      expect(button.tagName).to.equal('SPAN');
+    });
   });
 
   it('Should pass custom props to buttons', () => {

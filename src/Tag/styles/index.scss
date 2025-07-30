@@ -28,7 +28,7 @@
 
   // Size variants
   @each $size in (lg, md, sm) {
-    &-#{$size} {
+    &[data-size='#{$size}'] {
       --rs-tag-padding: var(--rs-tag-padding-#{$size});
       --rs-tag-font-size: var(--rs-tag-font-size-#{$size});
       --rs-tag-line-height: var(--rs-tag-line-height-#{$size});
@@ -54,7 +54,7 @@
       'blue'
     )
   {
-    &-#{$color} {
+    &[data-color='#{$color}'] {
       --rs-tag-bg: var(--rs-#{$color}-500);
       --rs-tag-text: #fff;
     }

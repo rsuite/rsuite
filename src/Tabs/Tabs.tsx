@@ -69,7 +69,7 @@ function getFocusableTabs(tablist?: HTMLElement | null) {
 
 function getFocusedTab(tablist: HTMLElement) {
   const tabs = getFocusableTabs(tablist);
-  return tabs.find(tab => tab.getAttribute('aria-selected'));
+  return tabs.find(tab => tab.getAttribute('aria-selected') === 'true');
 }
 
 function nextItem(tablist: HTMLDivElement | null) {

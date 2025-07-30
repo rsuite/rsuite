@@ -54,12 +54,23 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(size, { block, divided, vertical, justified }));
+  const classes = merge(className, withPrefix());
   const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
 
   return (
     <ButtonGroupContext.Provider value={contextValue}>
-      <Box as={as} {...rest} role={role} ref={ref} className={classes}>
+      <Box
+        as={as}
+        {...rest}
+        role={role}
+        ref={ref}
+        className={classes}
+        data-size={size}
+        data-block={block}
+        data-vertical={vertical}
+        data-justified={justified}
+        data-divided={divided}
+      >
         {children}
       </Box>
     </ButtonGroupContext.Provider>

@@ -4,13 +4,13 @@ import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
 import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext from './NavContext';
-import Box, { BoxProps } from '@/internals/Box';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
 import { forwardRef, shallowEqual } from '@/internals/utils';
 import type { HTMLPropsWithoutSelect } from '@/internals/types';
 import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface NavItemProps<T = string | number> extends BoxProps, HTMLPropsWithoutSelect {
+export interface NavItemProps<T = string | number> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 
@@ -81,7 +81,7 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
   );
 
   const { withPrefix, merge, prefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix({ active, disabled }));
+  const classes = merge(className, withPrefix());
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -118,11 +118,13 @@ const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
       as={as}
       ref={ref}
       tabIndex={disabled ? -1 : undefined}
-      {...rest}
       className={classes}
       onClick={handleClick}
       style={style}
       aria-selected={active || undefined}
+      data-active={active || undefined}
+      data-disabled={disabled}
+      {...rest}
     >
       {icon &&
         React.cloneElement(icon, {

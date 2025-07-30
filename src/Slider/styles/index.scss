@@ -24,7 +24,7 @@
     display: none;
   }
 
-  &-disabled {
+  &[data-disabled='true'] {
     opacity: 0.5;
     cursor: var(--rs-cursor-disabled);
 
@@ -34,7 +34,7 @@
     }
   }
 
-  &-with-mark:not(&-vertical) {
+  &[data-with-mark='true']:not([data-direction='vertical']) {
     //White space for mark
     margin-bottom: calc(var(--rs-line-height-base) + var(--rs-slider-mark-mt));
   }
@@ -76,7 +76,7 @@
     background-color: var(--rs-slider-hover-bar);
   }
 
-  .rs-slider-vertical & {
+  .rs-slider:where([data-direction='vertical']) & {
     height: 100%;
     width: var(--rs-slider-size);
   }
@@ -119,7 +119,7 @@
     }
   }
 
-  .rs-slider-vertical & {
+  .rs-slider[data-direction='vertical'] & {
     left: unset;
     top: unset;
     bottom: var(--rs-slider-offset);
@@ -137,7 +137,7 @@
   opacity: 1;
   top: -30px;
 
-  .rs-slider-vertical & {
+  .rs-slider[data-direction='vertical'] & {
     top: -12px;
     margin-inline-start: -36px;
   }
@@ -214,7 +214,7 @@
         top: 1px;
 
         // Vertical styles
-        .rs-slider-vertical & {
+        .rs-slider[data-direction='vertical'] & {
           top: unset;
           bottom: 2px;
           margin-inline-start: 1px;
@@ -225,7 +225,7 @@
         inset-inline-end: 0;
 
         // Vertical styles
-        .rs-slider-vertical & {
+        .rs-slider[data-direction='vertical'] & {
           inset-inline-start: 0;
           bottom: unset;
           top: 2px;
@@ -235,7 +235,7 @@
   }
 
   // Vertical styles
-  .rs-slider-vertical & {
+  .rs-slider[data-direction='vertical'] & {
     display: block;
     height: 100%;
 
@@ -269,7 +269,7 @@
   border-bottom-left-radius: var(--rs-radius-sm);
   background-color: var(--rs-slider-progress);
 
-  .rs-slider-vertical & {
+  .rs-slider[data-direction='vertical'] & {
     width: var(--rs-slider-size);
     border-bottom-left-radius: var(--rs-radius-sm);
     border-bottom-right-radius: var(--rs-radius-sm);
@@ -277,7 +277,7 @@
 }
 
 // Vertical
-.rs-slider-vertical {
+.rs-slider:where([data-direction='vertical']) {
   height: 100%;
 
   // Reset all setting

@@ -17,6 +17,21 @@ describe('Navbar', () => {
     expect(container.firstChild).to.have.class('rs-navbar');
   });
 
+  it('Should render a navbar with default appearance', () => {
+    const { container } = render(<Navbar appearance="default" />);
+    expect(container.firstChild).to.have.attr('data-appearance', 'default');
+  });
+
+  it('Should render a navbar with inverse appearance', () => {
+    const { container } = render(<Navbar appearance="inverse" />);
+    expect(container.firstChild).to.have.attr('data-appearance', 'inverse');
+  });
+
+  it('Should render a navbar with subtle appearance', () => {
+    const { container } = render(<Navbar appearance="subtle" />);
+    expect(container.firstChild).to.have.attr('data-appearance', 'subtle');
+  });
+
   it('Should have a `navbar-nav` className in `nav`', () => {
     render(
       <Navbar>

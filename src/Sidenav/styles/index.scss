@@ -144,7 +144,7 @@
   }
 
   > .rs-dropdown .rs-dropdown-menu-item-focus,
-  > .rs-dropdown .rs-dropdown-item-active {
+  > .rs-dropdown .rs-dropdown-item[data-active='true'] {
     font-weight: normal;
     background: transparent;
   }
@@ -209,6 +209,11 @@
   &:focus-visible {
     @include utils.focus-ring-slim-inset;
     z-index: 2;
+  }
+
+  &[data-disabled='true'] {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 
@@ -299,7 +304,7 @@
     }
 
     // Remove the ripple effect of disabled items.
-    &-item-disabled &-item::after {
+    &-item[data-disabled='true']::after {
       display: none;
     }
 
@@ -317,7 +322,7 @@
     }
 
     // Expand
-    &.rs-dropdown-expand .rs-sidenav-dropdown-toggle-caret {
+    &[data-expanded='true'] .rs-sidenav-dropdown-toggle-caret {
       transform: rotate(90deg);
     }
 
@@ -348,20 +353,6 @@
   .rs-dropdown-menu {
     overflow: hidden;
   }
-
-  .rs-dropdown.rs-dropdown-collapse > .rs-dropdown-menu.rs-dropdown-menu-collapse-out,
-  .rs-dropdown-item-submenu.rs-dropdown-item-collapse
-    > .rs-dropdown-menu.rs-dropdown-menu-collapse-out {
-    display: none;
-  }
-
-  .rs-dropdown.rs-dropdown-menu-collapse-in > .rs-dropdown-menu.dropdown-menu-collapse-in,
-  .rs-dropdown-item-submenu.rs-dropdown-menu-collapse-in
-    > .rs-dropdown-menu.rs-dropdown-menu-collapse-in {
-    display: block;
-  }
-
-  // @warn Here we can only use absolute positioning because of the limitations of using <Dropdown/> component.
 
   .rs-dropdown-item-submenu {
     > .rs-dropdown-item-menu-icon {
@@ -445,7 +436,7 @@
 // --------------------------------------------------
 
 // Default Sidenav
-.rs-sidenav-default {
+.rs-sidenav[data-appearance='default'] {
   background-color: var(--rs-sidenav-default-bg);
   color: var(--rs-sidenav-default-text);
 
@@ -458,15 +449,14 @@
   .rs-sidenav-item:hover,
   .rs-sidenav-dropdown-toggle:hover,
   .rs-sidenav-toggle:hover,
-  .rs-dropdown-item:hover,
-  .rs-dropdown.rs-dropdown-open .rs-sidenav-dropdown-toggle {
+  .rs-dropdown-item:hover {
     background-color: var(--rs-sidenav-default-hover-bg);
     color: var(--rs-sidenav-default-hover-text);
   }
 
   // Active
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active {
+  .rs-sidenav-item[data-active='true'],
+  .rs-dropdown-item[data-active='true'] {
     color: var(--rs-sidenav-default-selected-text);
     background-color: var(--rs-sidenav-default-selected-bg);
   }
@@ -481,14 +471,14 @@
 
   // Collapsed
   &.rs-sidenav-collapse-out {
-    .rs-dropdown-item.rs-dropdown-item-active {
+    .rs-dropdown-item[data-active='true'] {
       @include menu.menuitem-active;
     }
   }
 }
 
-.rs-sidenav-default.rs-sidenav-collapse-in,
-.rs-sidenav-default.rs-sidenav-collapsing {
+.rs-sidenav[data-appearance='default'].rs-sidenav-collapse-in,
+.rs-sidenav[data-appearance='default'].rs-sidenav-collapsing {
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-default-text);
@@ -502,8 +492,8 @@
   }
 
   // Reset active dropdown-item style
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-menu > .rs-dropdown-item.rs-dropdown-item-active {
+  .rs-sidenav-item[data-active='true'],
+  .rs-dropdown-menu > .rs-dropdown-item[data-active='true'] {
     color: var(--rs-sidenav-default-selected-text);
 
     @include color-modes.high-contrast-mode {
@@ -513,7 +503,7 @@
 }
 
 // Inverse Sidenav
-.rs-sidenav-inverse {
+.rs-sidenav[data-appearance='inverse'] {
   background-color: var(--rs-sidenav-inverse-bg);
   color: var(--rs-sidenav-inverse-text);
 
@@ -556,8 +546,8 @@
     }
   }
 
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active {
+  .rs-sidenav-item[data-active='true'],
+  .rs-dropdown-item[data-active='true'] {
     color: var(--rs-sidenav-inverse-selected-text);
     background-color: var(--rs-sidenav-inverse-selected-bg);
   }
@@ -572,7 +562,7 @@
 }
 
 // Subtle Sidenav
-.rs-sidenav-subtle {
+.rs-sidenav[data-appearance='subtle'] {
   background-color: transparent;
 
   .rs-sidenav-item,
@@ -590,19 +580,10 @@
   }
 
   // Active
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active {
+  .rs-sidenav-item[data-active='true'],
+  .rs-dropdown-item[data-active='true'] {
     color: var(--rs-sidenav-subtle-selected-text);
     background-color: var(--rs-sidenav-subtle-selected-bg);
-  }
-
-  .rs-dropdown-open > .rs-sidenav-dropdown-toggle.btn {
-    background-color: transparent;
-
-    &:hover,
-    &:focus {
-      background-color: var(--rs-sidenav-subtle-hover-bg);
-    }
   }
 
   .rs-sidenav-footer {
@@ -614,8 +595,8 @@
   }
 }
 
-.rs-sidenav-subtle.rs-sidenav-collapse-in,
-.rs-sidenav-subtle.rs-sidenav-collapsing {
+.rs-sidenav[data-appearance='subtle'].rs-sidenav-collapse-in,
+.rs-sidenav[data-appearance='subtle'].rs-sidenav-collapsing {
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-subtle-text);
@@ -628,7 +609,7 @@
   }
 
   // Reset active dropdown-item style
-  .rs-dropdown-menu > .rs-dropdown-item.rs-dropdown-item-active {
+  .rs-dropdown-menu > .rs-dropdown-item[data-active='true'] {
     color: var(--rs-sidenav-subtle-selected-text);
   }
 }

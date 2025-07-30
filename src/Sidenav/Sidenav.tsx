@@ -71,7 +71,7 @@ const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, re
 
   const [openKeys, setOpenKeys] = useControlled(openKeysProp, defaultOpenKeys);
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(appearance));
+  const classes = merge(className, withPrefix());
 
   const handleOpenChange = useCallback(
     (eventKey: any, event: React.SyntheticEvent) => {
@@ -121,6 +121,7 @@ const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, re
               {...transitionRest}
               ref={mergeRefs(ref, transitionRef)}
               className={merge(classes, className)}
+              data-appearance={appearance}
             />
           );
         }}

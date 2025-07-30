@@ -10,12 +10,12 @@ describe('Steps', () => {
   it('Should render a Steps', () => {
     render(<Steps data-testid="steps" />);
     expect(screen.getByTestId('steps')).to.have.class('rs-steps');
-    expect(screen.getByTestId('steps')).to.have.class('rs-steps-horizontal');
+    expect(screen.getByTestId('steps')).to.have.attr('data-direction', 'horizontal');
   });
 
   it('Should be displayed vertically', () => {
     render(<Steps data-testid="steps" vertical />);
-    expect(screen.getByTestId('steps')).to.have.class('rs-steps-vertical');
+    expect(screen.getByTestId('steps')).to.have.attr('data-direction', 'vertical');
   });
 
   it('Should activate the current step', () => {
@@ -28,7 +28,7 @@ describe('Steps', () => {
       </Steps>
     );
 
-    expect(screen.getByText('C').closest('.rs-steps-item')).to.have.class('rs-steps-item-active');
+    expect(screen.getByText('C').closest('.rs-steps-item')).to.have.attr('data-status', 'process');
   });
 
   it('Should activate the current error step ', () => {
@@ -41,13 +41,11 @@ describe('Steps', () => {
       </Steps>
     );
 
-    expect(screen.getByText('B').closest('.rs-steps-item')).to.have.class(
-      'rs-steps-item-status-error'
-    );
+    expect(screen.getByText('B').closest('.rs-steps-item')).to.have.attr('data-status', 'error');
   });
 
   it('Should be small', () => {
     render(<Steps data-testid="steps" small />);
-    expect(screen.getByTestId('steps')).to.have.class('rs-steps-small');
+    expect(screen.getByTestId('steps')).to.have.attr('data-size', 'small');
   });
 });

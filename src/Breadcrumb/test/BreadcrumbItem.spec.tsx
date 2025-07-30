@@ -11,14 +11,14 @@ describe('Breadcrumb.Item', () => {
   it('Should render an anchor element when `href` is provided and `active` is false', () => {
     const { container } = render(<Breadcrumb.Item href="#">Crumb</Breadcrumb.Item>);
 
-    expect(container.firstChild).to.not.have.class('rs-breadcrumb-item-active');
+    expect(container.firstChild).to.not.have.attr('data-active', 'true');
     expect(screen.getByText('Crumb')).to.have.tagName('A');
   });
 
   it('Should render a span element with `active` class when `active` is true', () => {
     const { container } = render(<Breadcrumb.Item active>Crumb</Breadcrumb.Item>);
 
-    expect(container.firstChild).to.have.class('rs-breadcrumb-item-active');
+    expect(container.firstChild).to.have.attr('data-active', 'true');
     expect(screen.getByText('Crumb')).to.have.tagName('SPAN');
   });
 
@@ -29,7 +29,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    expect(container.firstChild).to.have.class('rs-breadcrumb-item-active');
+    expect(container.firstChild).to.have.attr('data-active', 'true');
     expect(screen.getByText('Crumb')).to.have.tagName('SPAN');
     expect(screen.getByText('Crumb')).to.not.have.attribute('href');
   });

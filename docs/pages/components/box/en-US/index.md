@@ -61,6 +61,8 @@ The Box component provides a series of shorthand properties for more concise sty
 See the [Style Props](/guide/style-props) documentation for a complete reference of style properties.
 
 - **Theme Values**: Provided theme presets, such as `<Box bg='blue.600' />`, `<Box rounded='lg' />`, etc.
+- **Responsive Values**: Provided responsive values, such as `<Box w={{ xs: '100%', md: '80%', lg: '60%' }} />`, etc.
+- **CSS Native Properties**: Provided CSS native properties, such as `<Box aspectRatio='9/16' />`, `<Box borderRadius='6px' />`, etc.
 
 ### Type Definitions
 

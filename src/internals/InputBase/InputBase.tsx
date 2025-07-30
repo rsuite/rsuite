@@ -13,7 +13,9 @@ export interface InputBaseLocaleType {
   unfilled: string;
 }
 
-export interface InputBaseCommonProps extends BoxProps, PropsWithoutChange<FormControlBaseProps> {
+export interface InputBaseCommonProps
+  extends Omit<BoxProps, 'height' | 'width'>,
+    PropsWithoutChange<FormControlBaseProps> {
   /** A component can have different sizes */
   size?: Size;
 
@@ -101,7 +103,7 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
   };
 
   const { withPrefix, merge } = useStyles(classPrefix || 'input');
-  const classes = merge(className, withPrefix(size, { plaintext }));
+  const classes = merge(className, withPrefix({ plaintext }));
 
   // Make the component display in plain text,
   // and display default characters when there is no value.
@@ -134,6 +136,7 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
       disabled={disabled}
       readOnly={readOnly}
       placeholder={placeholder}
+      data-size={size}
       {...inputProps}
       {...eventProps}
       {...rest}

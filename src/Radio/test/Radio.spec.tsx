@@ -20,17 +20,17 @@ describe('Radio', () => {
     expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 
-  it('Should have radio-inline class', () => {
+  it('Should have data-inline attribute', () => {
     const { container } = render(<Radio inline>Test</Radio>);
 
-    expect(container.firstChild).to.have.class('rs-radio-inline');
+    expect(container.firstChild).to.have.attr('data-inline', 'true');
   });
 
   it('Should be disabled', () => {
     const { container } = render(<Radio disabled>Test</Radio>);
 
     expect(screen.getByRole('radio')).to.have.property('disabled', true);
-    expect(container.firstChild).to.have.class('rs-radio-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be readOnly', () => {
@@ -41,14 +41,14 @@ describe('Radio', () => {
   it('Should be checked', () => {
     const { container } = render(<Radio checked>Test</Radio>);
 
-    expect(container.firstChild).to.have.class('rs-radio-checked');
+    expect(container.firstChild).to.have.attr('data-checked', 'true');
     expect(screen.getByRole('radio')).to.be.checked;
   });
 
   it('Should be checked with defaultChecked', () => {
     const { container } = render(<Radio defaultChecked>Test</Radio>);
 
-    expect(container.firstChild).to.have.class('rs-radio-checked');
+    expect(container.firstChild).to.have.attr('data-checked', 'true');
     expect(screen.getByRole('radio')).to.be.checked;
   });
 

@@ -68,7 +68,7 @@ describe('<Dropdown.Item>', () => {
       </Dropdown>
     );
 
-    expect(screen.getByTestId('item')).to.have.class('rs-dropdown-item-active');
+    expect(screen.getByTestId('item')).to.have.attr('data-active', 'true');
   });
 
   it('Should be disabled', () => {
@@ -78,7 +78,7 @@ describe('<Dropdown.Item>', () => {
       </Dropdown>
     );
 
-    expect(screen.getByTestId('item')).to.have.class('rs-dropdown-item-disabled');
+    expect(screen.getByTestId('item')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should render a icon', () => {

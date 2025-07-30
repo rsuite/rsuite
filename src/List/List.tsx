@@ -6,7 +6,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 
-export interface ListProps extends BoxProps, SortConfig {
+export interface ListProps extends Omit<BoxProps, 'transitionDuration'>, SortConfig {
   /**
    * Size of list item.
    */
@@ -85,11 +85,13 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
     transitionDuration
   });
 
-  const classes = merge(className, withPrefix({ bordered, sortable, sorting, hover, divider }));
+  const classes = merge(className, withPrefix());
+
   const contextValue = useMemo<ListContextType>(
     () => ({ bordered, size, register }),
     [bordered, register, size]
   );
+
   return (
     <Box
       as={as}
@@ -100,6 +102,11 @@ const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => 
       onMouseUp={sortable ? handleEnd : undefined}
       onTouchStart={sortable ? handleTouchStart : undefined}
       onTouchEnd={sortable ? handleTouchEnd : undefined}
+      data-bordered={bordered}
+      data-hover={hover}
+      data-sortable={sortable}
+      data-sorting={sorting}
+      data-divider={divider}
       {...rest}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>

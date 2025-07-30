@@ -1,5 +1,5 @@
-import React from 'react';
-import StepItem from './StepItem';
+import React, { useMemo } from 'react';
+import StepItem, { StepItemProps } from './StepItem';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, rch } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
@@ -44,42 +44,49 @@ const Steps = forwardRef<'div', StepsProps, typeof Subcomponents>((props, ref) =
     ...rest
   } = propsWithDefaults;
 
-  const { merge, prefix, withPrefix } = useStyles(classPrefix);
-  const horizontal = !vertical;
-  const classes = merge(className, withPrefix({ small, vertical, horizontal: !vertical }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-  const count = rch.count(children);
-  const items = rch.mapCloneElement(children, (item, index) => {
-    const itemStyles = {
-      flexBasis: index < count - 1 ? `${100 / (count - 1)}%` : undefined,
-      maxWidth: index === count - 1 ? `${100 / count}%` : undefined
-    };
-    const itemProps = {
-      stepNumber: index + 1,
-      status: 'wait',
-      style: horizontal ? itemStyles : undefined,
-      ...item.props
-    };
+  const items = useMemo(() => {
+    const count = rch.count(children);
+    return rch.mapCloneElement(children, (item, index) => {
+      const itemStyles = {
+        flexBasis: index < count - 1 ? `${100 / (count - 1)}%` : undefined,
+        maxWidth: index === count - 1 ? `${100 / count}%` : undefined
+      };
+      const itemProps: StepItemProps = {
+        stepNumber: index + 1,
+        status: 'wait',
+        style: !vertical ? itemStyles : undefined,
+        ...item.props
+      };
 
-    // fix tail color
-    if (currentStatus === 'error' && index === current - 1) {
-      itemProps.className = prefix('next-error');
-    }
-
-    if (!item.props.status) {
-      if (index === current) {
-        itemProps.status = currentStatus;
-        itemProps.className = merge(itemProps.className, prefix('item-active'));
-      } else if (index < current) {
-        itemProps.status = 'finish';
+      // fix tail color
+      if (currentStatus === 'error' && index === current - 1) {
+        itemProps['data-next-error'] = true;
       }
-    }
 
-    return itemProps;
-  });
+      if (!item.props.status) {
+        if (index === current) {
+          itemProps.status = currentStatus;
+        } else if (index < current) {
+          itemProps.status = 'finish';
+        }
+      }
+
+      return itemProps;
+    });
+  }, [children, current, currentStatus, vertical]);
 
   return (
-    <Box as={as} ref={ref} className={classes} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-size={small ? 'small' : undefined}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      {...rest}
+    >
       {items}
     </Box>
   );

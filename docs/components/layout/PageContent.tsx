@@ -7,7 +7,7 @@ import scrollIntoView from '@/utils/scrollIntoView';
 import CustomCodeView, { CustomCodeViewProps } from '@/components/CodeView';
 import InstallGuide from '@/components/InstallGuide';
 import { useRouter } from 'next/router';
-import { MarkdownRenderer } from 'react-code-view';
+import { HTMLRenderer } from '@/components/CodeView/HTMLRenderer';
 import { useApp } from '@/hooks/useApp';
 import { getTitle, getDescription } from '@/utils/parseHTML';
 import { installCarbon, installBadges } from '@/components/scripts';
@@ -102,9 +102,9 @@ const PageContent = (props: PageContentProps) => {
 
         if (markdownFile) {
           return (
-            <MarkdownRenderer key={index}>
+            <HTMLRenderer key={index}>
               {require(`../../pages/${markdownFile}`)?.default}
-            </MarkdownRenderer>
+            </HTMLRenderer>
           );
         }
 
@@ -119,11 +119,10 @@ const PageContent = (props: PageContentProps) => {
           }
         }
 
-        return <MarkdownRenderer key={index}>{item}</MarkdownRenderer>;
+        return <HTMLRenderer key={index}>{item}</HTMLRenderer>;
       })}
 
       {children}
-
     </PageContainer>
   );
 };

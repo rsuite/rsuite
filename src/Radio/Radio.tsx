@@ -127,7 +127,7 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   );
 
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(color, { inline, disabled, checked }));
+  const classes = merge(className, withPrefix());
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,7 +179,17 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   );
 
   return (
-    <Box as={as} ref={ref} onClick={onClick} className={classes} {...restProps}>
+    <Box
+      as={as}
+      ref={ref}
+      onClick={onClick}
+      className={classes}
+      data-color={color}
+      data-checked={checked}
+      data-disabled={disabled}
+      data-inline={inline}
+      {...restProps}
+    >
       <div className={prefix`checker`}>
         {children ? (
           <label title={title}>

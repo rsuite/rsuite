@@ -14,6 +14,8 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 ### Disabled and read only
 
+Use the `disabled` prop to disable a checkbox or `readOnly` to make it read-only, preventing user interaction.
+
 <!--{include:`disabled.md`}-->
 
 ### Indeterminate
@@ -24,17 +26,25 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 
 ### Colors
 
+Customize checkbox colors using the `color` property. Supports preset theme colors.
+
 <!--{include:`colors.md`}-->
 
 ### Checkbox Group
 
+Use `<CheckboxGroup>` to manage a group of checkboxes. The `value` prop controls which options are selected.
+
 <!--{include:`checkbox-group.md`}-->
 
-### Checkbox Group With Horizontal Layout
+### Inline Layout
+
+Add the `inline` prop to `<CheckboxGroup>` to arrange checkboxes horizontally instead of vertically.
 
 <!--{include:`checkbox-groupinline.md`}-->
 
 ### Checkbox Group (Controlled)
+
+Manage checkbox group state with the `value` and `onChange` props for controlled component behavior.
 
 <!--{include:`checkbox-group-controlled.md`}-->
 
@@ -80,5 +90,7 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 | name         | string                                      | Used for the name of the form                               |
 | onChange     | (value:string[] \| number[], event) => void | Callback fired when checkbox is triggered and state changes |
 | value        | string[] \| number[]                        | Value of checked box (Controlled)                           |
+
+### Type Definitions
 
 <!--{include:(_common/types/color.md)}-->

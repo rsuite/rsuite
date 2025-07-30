@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
-import StyledBox from '@/internals/StyledBox';
+import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { forwardRef, rch, createComponent } from '@/internals/utils';
-import type { BoxProps } from '@/internals/Box';
 import type { BreadcrumbLocale } from '../locales';
 
-export interface BreadcrumbProps extends BoxProps {
+export interface BreadcrumbProps extends Omit<StyledBoxProps, 'name'> {
   /**
    * The separator between each breadcrumb item.
    */

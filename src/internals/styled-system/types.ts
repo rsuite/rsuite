@@ -1,4 +1,5 @@
 import { CSSProperties as CSS } from 'react';
+import { supportedCSSProperties } from './css-properties';
 import type { WithResponsive, ColorScheme, Size } from '@/internals/types';
 
 export type CSSPropertyValueType = 'string' | 'number' | 'any';
@@ -20,11 +21,21 @@ export type CSSProperty = {
   transformer?: (value: any) => any;
 };
 
+export type SupportedCSSProperty = (typeof supportedCSSProperties)[number];
+
+// Make all CSS properties support both direct and responsive values
+type MakeResponsive<T> = {
+  [K in keyof T]?: T[K] | WithResponsive<T[K]>;
+};
+
+// Standard CSS props with responsive support
+export type StandardCSSProps = MakeResponsive<Pick<CSS, SupportedCSSProperty>>;
+
 /**
  * CSS Properties type for Box component
  * This type maps all the CSS properties defined in cssSystemPropAlias to their corresponding React CSS types
  */
-export interface CSSSystemProps {
+export interface CSSSystemProps extends StandardCSSProps {
   /** Shorthand for CSS property `padding` */
   p?: WithResponsive<CSS['padding']>;
   /** Shorthand for CSS property `paddingTop` */
@@ -217,4 +228,6 @@ export interface CSSSystemProps {
   order?: WithResponsive<CSS['order']>;
   /** Shorthand for CSS property `flexShrink` */
   shrink?: WithResponsive<CSS['flexShrink']>;
+  /** Shorthand for CSS property `flexDirection` */
+  direction?: WithResponsive<CSS['flexDirection']>;
 }

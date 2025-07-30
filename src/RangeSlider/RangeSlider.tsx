@@ -78,10 +78,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   const handleIndexs = useRef([0, 1]);
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
-  const classes = merge(
-    className,
-    withPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
-  );
+  const classes = merge(className, withPrefix());
 
   const max = useMemo(
     () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
@@ -355,7 +352,18 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={ref} className={classes} data-size={size} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-size={size}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-graduated={graduated}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      data-with-mark={renderMark ? 'true' : undefined}
+      {...rest}
+    >
       <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar

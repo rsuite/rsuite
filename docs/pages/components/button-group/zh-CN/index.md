@@ -87,9 +87,6 @@
 
 ### `<ButtonToolbar>`
 
-| 属性名称 | 类型`(默认值)`          | 描述                                           |
-| -------- | ------------------------- | ----------------------------------------------------- |
-| ...      | [StackProps][stack-props] | 继承 [Stack][stack] 组件的所有属性。 |
+继承 [Stack][stack] 组件的所有属性
 
-[stack-props]: https://rsuitejs.com/zh/components/stack/#code-lt-stack-gt-code
-[stack]: https://rsuitejs.com/zh/components/stack
+[stack]: /zh/components/stack

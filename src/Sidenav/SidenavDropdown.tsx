@@ -212,20 +212,15 @@ const SidenavDropdown = forwardRef<'div', SidenavDropdownProps, typeof Subcompon
         }}
       >
         {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
-          const classes = merge(
-            className,
-            withPrefix({
-              disabled,
-              open,
-              submenu: true
-            })
-          );
+          const classes = merge(className, withPrefix('submenu'));
           return (
             <Box
               as={as}
               ref={mergeRefs(ref, menuContainerRef)}
               className={classes}
               style={style}
+              data-open={open}
+              data-disabled={disabled}
               data-placement={kebabPlace(placement)}
               data-active-descendant={hasSelectedItems}
               {...menuContainer}

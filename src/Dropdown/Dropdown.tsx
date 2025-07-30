@@ -235,13 +235,15 @@ const Dropdown: DropdownComponent = forwardRef<'div', DropdownProps, typeof Subc
           }}
         >
           {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
-            const classes = merge(className, withPrefix({ disabled, open }));
+            const classes = merge(className, withPrefix());
             return (
               <Component
                 ref={mergeRefs(ref, menuContainerRef)}
                 className={classes}
                 style={style}
                 data-placement={kebabPlace(placement)}
+                data-disabled={disabled}
+                data-open={open}
                 data-active-descendant={hasSelectedItem}
                 {...menuContainer}
                 {...pick(toggleProps, ['data-testid'])}

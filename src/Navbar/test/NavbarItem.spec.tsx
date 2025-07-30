@@ -29,7 +29,7 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
       wrapper
     });
 
-    expect(screen.getByTestId('navbar-item')).to.have.class('rs-navbar-item-active');
+    expect(screen.getByTestId('navbar-item')).to.have.attr('data-active', 'true');
     expect(screen.getByTestId('navbar-item')).to.have.attribute('aria-selected', 'true');
   });
 
@@ -38,7 +38,7 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
       wrapper
     });
 
-    expect(screen.getByTestId('navbar-item')).to.have.class('rs-navbar-item-disabled');
+    expect(screen.getByTestId('navbar-item')).to.have.attr('data-disabled', 'true');
   });
 
   it('Should call onSelect callback with correct eventKey on click', () => {

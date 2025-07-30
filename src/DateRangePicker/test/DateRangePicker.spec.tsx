@@ -91,10 +91,10 @@ describe('DateRangePicker', () => {
     expect(screen.getByTestId('picker')).to.have.attr('data-picker', 'date-range');
   });
 
-  it('Should have data-variant attribute set to "default" by default', () => {
+  it('Should have data-appearance attribute set to "default" by default', () => {
     render(<DateRangePicker />);
 
-    expect(screen.getByTestId('picker')).to.have.attr('data-variant', 'default');
+    expect(screen.getByTestId('picker')).to.have.attr('data-appearance', 'default');
   });
 
   it('Should be cleanable by default', () => {

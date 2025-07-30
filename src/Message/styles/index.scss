@@ -170,7 +170,7 @@
 
   // In dark mode, links inside Message body shows underline by default
   @include color-modes.dark-mode {
-    .rs-btn-link,
+    .rs-btn[data-appearance='link'],
     a {
       color: inherit;
       text-decoration: underline;

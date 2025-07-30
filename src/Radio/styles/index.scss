@@ -14,6 +14,10 @@
   [type='radio']:focus ~ .rs-radio-inner::before {
     @include utils.focus-ring;
   }
+
+  &[data-disabled='true'] {
+    cursor: var(--rs-cursor-disabled);
+  }
 }
 
 .rs-radio-checker {
@@ -35,10 +39,6 @@
     opacity: 0;
     width: var(--rs-radio-size);
     height: var(--rs-radio-size);
-
-    &:disabled {
-      cursor: var(--rs-cursor-disabled);
-    }
   }
 
   &::before,
@@ -72,7 +72,7 @@
       transition: none;
     }
 
-    .rs-radio-checked & {
+    .rs-radio[data-checked='true'] & {
       transform: scale(1.5);
       opacity: 0;
       visibility: visible;
@@ -98,17 +98,17 @@
       border-color: var(--rs-radio-checked-bg);
     }
 
-    .rs-radio.rs-radio-disabled & {
+    .rs-radio[data-disabled='true'] & {
       border-color: var(--rs-radio-disabled-bg);
       background-color: var(--rs-radio-disabled-bg);
     }
 
-    .rs-radio.rs-radio-checked & {
+    .rs-radio[data-checked='true'] & {
       border-color: var(--rs-radio-checked-bg);
       background-color: var(--rs-radio-checked-bg);
     }
 
-    .rs-radio.rs-radio-disabled.rs-radio-checked & {
+    .rs-radio[data-disabled='true'][data-checked='true'] & {
       opacity: 0.5;
     }
   }
@@ -131,7 +131,7 @@
       transition: none;
     }
 
-    .rs-radio-checked & {
+    .rs-radio[data-checked='true'] & {
       transform: scale(1);
       opacity: 1;
     }
@@ -140,7 +140,7 @@
 
 // Colorful radios
 @each $color in colors.$spectrum {
-  .rs-radio-#{'' + $color} {
+  .rs-radio[data-color='#{$color}'] {
     --rs-radio-checked-bg: var(--rs-#{'' + $color}-500);
     --rs-radio-border: var(--rs-#{'' + $color}-500);
   }

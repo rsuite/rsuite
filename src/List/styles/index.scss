@@ -11,16 +11,16 @@
   overflow-x: hidden;
   overflow-y: auto;
 
-  &-bordered {
+  &[data-bordered='true'] {
     border-radius: var(--rs-radius-md);
     border: var(--rs-list-border-width) solid var(--rs-list-border);
   }
 
-  &-hover .rs-list-item:hover {
+  &[data-hover='true'] .rs-list-item:hover {
     background-color: var(--rs-list-hover-bg);
   }
 
-  &-sortable .rs-list-item {
+  &[data-sortable='true'] .rs-list-item {
     cursor: move; // fallback on IE 11
     cursor: grab;
 
@@ -35,27 +35,27 @@
 .rs-list-item {
   position: relative;
 
-  &-bordered {
+  &[data-bordered='true'] {
     padding-inline-start: 20px;
     padding-inline-end: 20px;
   }
 
-  &-lg {
+  &[data-size='lg'] {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 
-  &-md {
+  &[data-size='md'] {
     padding-top: 13px;
     padding-bottom: 13px;
   }
 
-  &-sm {
+  &[data-size='sm'] {
     padding-top: 8px;
     padding-bottom: 8px;
   }
 
-  &-xs {
+  &[data-size='xs'] {
     padding-top: 2px;
     padding-bottom: 2px;
   }
@@ -104,7 +104,7 @@
   }
 }
 
-.rs-list-divider {
+.rs-list[data-divider='true'] {
   .rs-list-item + .rs-list-item {
     border-top: var(--rs-list-border-width) solid var(--rs-list-border);
   }

@@ -7,10 +7,12 @@
 // --------------------------------------------------
 
 .rs-loader {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(var(--rs-spacing) * 3);
+  &-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--rs-spacing) * 3);
+  }
 
   // Loader spin
   &-spin {
@@ -35,14 +37,14 @@
   }
 
   // Vertical
-  &-vertical {
-    .rs-loader {
+  &[data-direction="vertical"] {
+    .rs-loader-box {
       flex-direction: column;
     }
   }
 
   // inverse
-  &-inverse {
+  &[data-inverse="true"] {
     .rs-loader-content {
       color: var(--rs-text-inverse);
     }
@@ -61,24 +63,24 @@
   }
 
   // Loader speeds
-  &-speed-fast &-spin::after {
+  &[data-speed="fast"] &-spin::after {
     animation-duration: var(--rs-loader-duration-fast);
   }
 
-  &-speed-normal &-spin::after {
+  &[data-speed="normal"] &-spin::after {
     animation-duration: var(--rs-loader-duration-normal);
   }
 
-  &-speed-slow &-spin::after {
+  &[data-speed="slow"] &-spin::after {
     animation-duration: var(--rs-loader-duration-slow);
   }
 
-  &-speed-paused &-spin::after {
+  &[data-speed="paused"] &-spin::after {
     animation-play-state: var(--rs-loader-duration-paused);
   }
 
   // Position center
-  &-center {
+  &[data-center="true"] {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -101,7 +103,7 @@
 $sizes: (xs, sm, md, lg);
 
 @each $size in $sizes {
-  .rs-loader-#{$size} {
+  .rs-loader[data-size='#{$size}'] {
     --rs-loader-size: var(--rs-loader-size-#{$size});
     --rs-loader-font-size: var(--rs-loader-font-size-#{$size});
   }

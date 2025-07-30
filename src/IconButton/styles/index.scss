@@ -73,7 +73,7 @@
   }
 }
 
-.rs-btn-icon[data-with-text].rs-btn-primary {
+.rs-btn-icon[data-with-text][data-appearance='primary'] {
   @include btn-icon-with-text(var(--rs-iconbtn-primary-addon));
 
   @include btn-mixin.button-activated {

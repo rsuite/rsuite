@@ -17,7 +17,7 @@
   --rs-steps-description-line-height: var(--rs-line-height-md);
 
   // Small
-  &.rs-steps-small {
+  &[data-size='small'] {
     --rs-steps-icon-size: 1.5rem;
     --rs-steps-icon-font-size: var(--rs-font-size-sm);
     --rs-steps-item-spacing: calc(var(--rs-spacing) * 8.5);
@@ -39,11 +39,11 @@
     width: 100%;
   }
 
-  .rs-steps-item-status-process .rs-steps-item-content {
+  .rs-steps-item[data-status='process'] .rs-steps-item-content {
     color: var(--rs-text-primary);
   }
 
-  .rs-steps-item-status-error .rs-steps-item-content {
+  .rs-steps-item[data-status='error'] .rs-steps-item-content {
     color: var(--rs-text-error);
   }
 
@@ -94,28 +94,29 @@
   border-radius: var(--rs-radius-full);
 
   // Finish status show check mark.
-  .rs-steps-item-status-finish & {
+  .rs-steps-item:where([data-status='finish']) & {
     border-color: var(--rs-steps-state-finish);
     color: var(--rs-steps-state-finish);
   }
 
   // Error status show X mark.
-  .rs-steps-item-status-error & {
+  .rs-steps-item:where([data-status='error']) & {
     border-color: var(--rs-steps-state-error);
     color: var(--rs-steps-state-error);
   }
 
-  .rs-steps-item-status-process & {
+  .rs-steps-item:where([data-status='process']) & {
     border-color: var(--rs-steps-state-process);
     background-color: var(--rs-steps-state-process);
     color: var(--rs-text-inverse);
 
-    .rs-icon {
+    .rs-icon,
+    svg {
       color: var(--rs-steps-icon-state-process);
     }
   }
 
-  &.rs-steps-item-custom-icon {
+  .rs-steps-item[data-custom-icon='true'] & {
     border: none;
     background: none;
   }
@@ -140,21 +141,21 @@
   position: absolute;
   border-color: var(--rs-steps-border);
 
-  .rs-steps-item-status-process & {
+  .rs-steps-item:where([data-status='process']) & {
     border-color: var(--rs-steps-border);
   }
 
-  .rs-steps-item-status-finish & {
+  .rs-steps-item:where([data-status='finish']) & {
     border-color: var(--rs-steps-state-finish);
   }
 
-  .rs-steps-next-error & {
+  .rs-steps-item[data-next-error='true'] & {
     border-color: var(--rs-steps-border-state-error);
   }
 }
 
 // Horizontal
-.rs-steps-horizontal {
+.rs-steps[data-direction='horizontal'] {
   display: flex;
   justify-content: space-between;
 
@@ -197,7 +198,7 @@
 }
 
 // Vertical
-.rs-steps-vertical {
+.rs-steps[data-direction='vertical'] {
   .rs-steps-item {
     padding-bottom: calc(var(--rs-spacing) * 5);
 

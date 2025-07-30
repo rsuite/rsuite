@@ -5,23 +5,21 @@ import { Pagination } from 'rsuite';
 import Link from 'next/link';
 
 const NavLink = React.forwardRef((props, ref) => {
-  const { href, active, eventKey, as, ...rest } = props;
-  return (
-    <Link
-      ref={ref}
-      href={`${location.pathname}?page=${eventKey}`}
-      className={active ? 'active' : null}
-      as={as}
-      {...rest}
-    />
-  );
+  return <Link ref={ref} href={`?page=${props['data-event-key']}`} {...props} />;
 });
 
-const App = () => {
+const getActivePage = () => {
   const search = location.search.match(/\?page=(\d+)/);
   const activePage = search ? parseInt(search[1]) : 1;
+  return activePage;
+};
 
-  return <Pagination linkAs={NavLink} total={100} limit={10} activePage={activePage} />;
+const App = () => {
+  const [page, setPage] = React.useState(getActivePage());
+
+  return (
+    <Pagination linkAs={NavLink} total={100} limit={10} activePage={page} onChangePage={setPage} />
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -123,7 +123,7 @@ describe('<Dropdown>', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    expect(container.firstChild).to.have.class('rs-dropdown-disabled');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should have a custom className in toggle', () => {
@@ -168,8 +168,8 @@ describe('<Dropdown>', () => {
 
     const toggle = screen.getByRole('button');
 
-    expect(toggle).to.have.class('rs-btn-link');
-    expect(toggle).to.have.class('rs-btn-xs');
+    expect(toggle).to.have.attr('data-appearance', 'link');
+    expect(toggle).to.have.attr('data-size', 'xs');
     expect(toggle).to.have.tagName('BUTTON');
   });
 

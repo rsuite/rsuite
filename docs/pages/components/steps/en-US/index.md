@@ -14,29 +14,43 @@ Steps is a navigation bar that guides users through the steps of a task.
 
 ### Title
 
+Display step title for better navigation.
+
 <!--{include:`title.md`}-->
 
 ### Description
 
+Add descriptions to provide more context for each step.
+
 <!--{include:`description.md`}-->
 
-### Vertical
-
-<!--{include:`vertical.md`}-->
-
 ### Error Status
+
+Indicate error state in the step flow to highlight issues.
 
 <!--{include:`status.md`}-->
 
 ### Small
 
+Use smaller steps for more compact interfaces.
+
 <!--{include:`size.md`}-->
 
+### Vertical
+
+Display steps in a vertical layout, suitable for limited horizontal space.
+
+<!--{include:`vertical.md`}-->
+
 ### Custom Icon
+
+Replace default step icons with custom ones for better visual representation.
 
 <!--{include:`icon.md`}-->
 
 ### Dynamic
+
+Control steps dynamically with action buttons.
 
 <!--{include:`dynamic.md`}-->
 

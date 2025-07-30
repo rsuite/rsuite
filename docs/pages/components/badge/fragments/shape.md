@@ -18,11 +18,11 @@ const App = () => (
     <hr />
     <HStack spacing={10}>
       <Badge content={6} shape="rectangle">
-        <IconButton icon={<MdNotifications size={20} />} size="sm" />
+        <IconButton icon={<MdNotifications size={20} />} size="sm" appearance="primary" />
       </Badge>
 
       <Badge content={6} shape="circle">
-        <IconButton icon={<MdNotifications size={20} />} circle size="sm" />
+        <IconButton icon={<MdNotifications size={20} />} circle size="sm" appearance="primary" />
       </Badge>
     </HStack>
   </>

@@ -19,15 +19,17 @@ describe('Toggle', () => {
   });
 
   it('Should be disabled', () => {
-    render(<Toggle disabled />);
+    const { container } = render(<Toggle disabled />);
     expect(screen.getByRole('switch')).to.have.attribute('disabled');
     expect(screen.getByRole('switch')).to.have.attr('aria-disabled', 'true');
+    expect(container.firstChild).to.have.attr('data-disabled', 'true');
   });
 
   it('Should be checked', () => {
-    render(<Toggle checked />);
+    const { container } = render(<Toggle checked />);
     expect(screen.getByRole('switch')).to.be.checked;
     expect(screen.getByRole('switch')).to.have.attr('aria-checked', 'true');
+    expect(container.firstChild).to.have.attr('data-checked', 'true');
   });
 
   it('Should render checkedChildren', () => {
@@ -150,10 +152,11 @@ describe('Toggle', () => {
   });
 
   describe('Loading', () => {
-    it('Should have "rs-toggle-loading" className', () => {
+    it('Should have "data-loading" attribute set to "true"', () => {
       render(<Toggle loading data-testid="toggle" />);
-      expect(screen.getByTestId('toggle')).to.have.class('rs-toggle-loading');
+      expect(screen.getByTestId('toggle')).to.have.attr('data-loading', 'true');
     });
+
     it('Should have `aria-busy` attribute set to `true`', () => {
       render(<Toggle loading />);
       expect(screen.getByRole('switch')).to.have.attr('aria-busy', 'true');

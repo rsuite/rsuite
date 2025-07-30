@@ -18,20 +18,20 @@ describe('Tabs', () => {
   it('Should be tabs appearance', () => {
     render(<Tabs appearance="subtle" />);
 
-    expect(screen.getByRole('tablist')).to.have.class('rs-nav-subtle');
+    expect(screen.getByRole('tablist')).to.have.attr('data-appearance', 'subtle');
   });
 
   it('Should be vertical', () => {
     render(<Tabs vertical />);
 
-    expect(screen.getByRole('tablist')).to.have.class('rs-nav-vertical');
-    expect(screen.getByRole('tablist')).to.have.attribute('aria-orientation', 'vertical');
+    expect(screen.getByRole('tablist')).to.have.attr('data-direction', 'vertical');
+    expect(screen.getByRole('tablist')).to.have.attr('aria-orientation', 'vertical');
   });
 
   it('Should be reversed', () => {
     render(<Tabs reversed />);
 
-    expect(screen.getByRole('tablist')).to.have.class('rs-nav-reversed');
+    expect(screen.getByRole('tablist')).to.have.attr('data-reversed', 'true');
   });
 
   it('Should render a Tabs with 2 Tab', () => {
@@ -75,7 +75,7 @@ describe('Tabs', () => {
     );
 
     expect(screen.getByRole('tab', { name: 'tab 2' })).to.have.attr('aria-disabled', 'true');
-    expect(screen.getByRole('tab', { name: 'tab 2' })).to.have.class('rs-nav-item-disabled');
+    expect(screen.getByRole('tab', { name: 'tab 2' })).to.have.attr('data-disabled', 'true');
   });
 
   it('Should with icon', () => {
