@@ -1,3 +1,12 @@
+## [5.83.3](https://github.com/rsuite/rsuite/compare/v5.83.2...v5.83.3) (2025-08-04)
+
+
+### Bug Fixes
+
+* **Table:** improve header alignment and expand/collapse animations ([#4360](https://github.com/rsuite/rsuite/issues/4360)) ([3acd117](https://github.com/rsuite/rsuite/commit/3acd11703222a381685f8ba0ffad9a1283abf421))
+
+
+
 ## [5.83.2](https://github.com/rsuite/rsuite/compare/v5.83.1...v5.83.2) (2025-07-20)
 
 
