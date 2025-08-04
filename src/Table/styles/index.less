@@ -187,6 +187,8 @@
     &-header &-content {
       padding: @table-header-padding-y @table-header-padding-x;
       line-height: @table-header-line-height;
+      display: flex;
+      align-items: center;
     }
 
     &-header {
@@ -200,6 +202,10 @@
         color: var(--rs-table-sort);
         font-size: 16px;
         line-height: @table-header-line-height;
+        display: flex;
+        &:where([data-sort='asc']) {
+          transform: rotate(180deg);
+        }
       }
     }
 
@@ -356,6 +362,11 @@
   cursor: pointer;
   outline: none;
   font-size: 16px;
+  transition: transform 0.3s ease;
+
+  &:where([data-expanded='true']) {
+    transform: rotate(90deg);
+  }
 }
 
 // Scrollbar
