@@ -6,24 +6,50 @@ A button group gives users access to frequently performed, related actions.
 
 <!--{include:<import-guide>}-->
 
-- `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
-- `<ButtonToolbar>` Button Toolbar Controls.
+- `ButtonGroup` Button group control can put a group of buttons together and control the layout.
+- `ButtonToolbar` Button Toolbar Controls.
 
 ## Examples
 
-### Button group
+### Group
+
+Group related buttons together for better visual organization.
 
 <!--{include:`group.md`}-->
 
-### Vertical group
+### Sizes
+
+Set the size for all buttons in the group with the `size` prop.
+
+<!--{include:`size.md`}-->
+
+### Appearance
+
+Customize the button style using the `appearance` prop.
+
+<!--{include:`appearance.md`}-->
+
+### Vertical
+
+Stack buttons vertically using the `vertical` prop.
 
 <!--{include:`vertical.md`}-->
 
-### Split button
+### Divided
+
+Add dividers between buttons with the `divided` prop.
+
+<!--{include:`divided.md`}-->
+
+### Split Button
+
+Create a split button dropdown by combining Button and Menu components.
 
 <!--{include:`split-button.md`}-->
 
-### Button toolbar
+### Button Toolbar
+
+Group multiple button groups together using the `ButtonToolbar` component.
 
 <!--{include:`toolbar.md`}-->
 
@@ -34,6 +60,8 @@ The buttons are laid out horizontally in the button set and are equally wide.
 <!--{include:`justified.md`}-->
 
 ### Icons
+
+Use icons within button groups for better visual hierarchy and recognition.
 
 <!--{include:`icon-group.md`}-->
 
@@ -47,10 +75,18 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 ### `<ButtonGroup>`
 
-| Property    | Type `(Default)`                      | Description                           |
-| ----------- | ------------------------------------- | ------------------------------------- |
-| block       | boolean                               | Display block buttongroups            |
-| classPrefix | string `('btn-group')`                | The prefix of the component CSS class |
-| justified   | boolean                               | Horizontal constant width layout      |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Set button size                       |
-| vertical    | boolean                               | Vertical layouts of button            |
+| Property    | Type `(Default)`                      | Description                                                                                |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------ |
+| block       | boolean                               | Display the button group as a full-width block element spanning the entire container width |
+| classPrefix | string `('btn-group')`                | Custom CSS class prefix for styling flexibility and theme customization                    |
+| disabled    | boolean                               | Disable all buttons within the group                                                       |
+| divided     | boolean                               | Display buttons in a divided layout                                                        |
+| justified   | boolean                               | Distribute buttons evenly with equal width in horizontal layout                            |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Uniform size for all buttons in the group (large/medium/small/extra-small)                 |
+| vertical    | boolean                               | Display buttons in a vertical stacked layout                                               |
+
+### `<ButtonToolbar>`
+
+Extends the [`Stack`][stack] component.
+
+[stack]: /components/stack

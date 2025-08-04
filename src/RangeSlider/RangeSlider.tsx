@@ -1,17 +1,16 @@
 import React, { useMemo, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { sliderPropTypes } from '../Slider/Slider';
+import Plaintext from '@/internals/Plaintext';
+import Box from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { precisionMath, checkValue, getPosition } from '../Slider/utils';
-import { SliderProps } from '../Slider';
-import { tupleType } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
+import type { SliderProps } from '../Slider';
 import type { Offset } from '@/internals/types';
 
 export type Range = [number, number];
@@ -35,13 +34,13 @@ const defaultDefaultValue: Range = [0, 0];
  * The `RangeSlider` component is used to select a range from a given numerical range.
  * @see https://rsuitejs.com/components/slider/
  */
-const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
+const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('RangeSlider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Component = 'div',
+    as,
     barClassName,
     className,
     classPrefix = 'slider',
@@ -56,11 +55,15 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     min = 0,
     max: maxProp = 100,
     step = 1,
+    size = 'sm',
     value: valueProp,
     handleClassName,
     handleStyle,
     handleTitle,
     tooltip = true,
+    marks,
+    plaintext,
+    placeholder,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -73,12 +76,9 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   // Define the parameter position of the handle
   const handleIndexs = useRef([0, 1]);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
-  const classes = merge(
-    className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
-  );
+  const classes = merge(className, withPrefix());
 
   const max = useMemo(
     () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
@@ -103,7 +103,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
 
-  // The count of values ​​that can be entered.
+  // The count of values that can be entered.
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -236,7 +236,8 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    const { key } = event.target?.['dataset'];
+    const target = event.target as HTMLElement;
+    const { key } = target?.dataset || {};
     const nextValue: Range = [...value];
     const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
     const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
@@ -286,7 +287,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     let [start, end] = value;
     const v = getValueByPosition(event);
 
-    //  Judging that the current click value is closer to the values ​​of `start` and` end`.
+    // Judging that the current click value is closer to the values of `start` and `end`.
     if (Math.abs(start - v) < Math.abs(end - v)) {
       start = v;
     } else {
@@ -323,7 +324,6 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const handleCommonProps: HandleProps = {
-    rtl,
     disabled,
     vertical,
     tooltip,
@@ -343,12 +343,30 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     keepTooltipOpen
   };
 
+  if (plaintext) {
+    return (
+      <Plaintext localeKey="notSelected" ref={ref} placeholder={placeholder}>
+        {value && (value[0] || value[1]) ? value.join('~') : null}
+      </Plaintext>
+    );
+  }
+
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-size={size}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-graduated={graduated}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      data-with-mark={renderMark ? 'true' : undefined}
+      {...rest}
+    >
       <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar
-            rtl={rtl}
             vertical={vertical}
             start={((value[0] - min) / (max - min)) * 100}
             end={((value[1] - min) / (max - min)) * 100}
@@ -361,6 +379,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}
@@ -372,15 +391,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
       <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
         {handleTitle}
       </Handle>
-    </Component>
+    </Box>
   );
 });
 
 RangeSlider.displayName = 'RangeSlider';
-RangeSlider.propTypes = {
-  ...sliderPropTypes,
-  value: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired),
-  defaultValue: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired)
-};
 
 export default RangeSlider;

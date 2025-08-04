@@ -1,11 +1,7 @@
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
-import type { RangeType as DatePickerRangeType } from '../DatePicker/types';
 
 export type ValueType = [Date?, Date?] | null;
-
 export type DateRange = [Date, Date];
-
-export type RangeType<T = DateRange> = DatePickerRangeType<T>;
 
 export type DisabledDateFunction = (
   /**

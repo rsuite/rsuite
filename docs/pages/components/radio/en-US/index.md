@@ -6,8 +6,8 @@ Radios are used when only one choice may be selected in a series of options.
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
-- `<RadioGroup>` Radio Group allow users to select a single option from a list of mutually exclusive options.
+- `Radio` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
+- `RadioGroup` Radio Group allow users to select a single option from a list of mutually exclusive options.
 
 ## Examples
 
@@ -17,25 +17,31 @@ Radios are used when only one choice may be selected in a series of options.
 
 ### Disabled and read only
 
+Use the `disabled` property to disable radio buttons, or the `readOnly` property to set them to read-only state.
+
 <!--{include:`disabled.md`}-->
 
 ### Colors
+
+Set radio button colors using the `color` property.
 
 <!--{include:`colors.md`}-->
 
 ### Radio Group
 
+Use the `<RadioGroup>` component to group multiple radio buttons together and set a group name with the `name` property.
+
 <!--{include:`radio-group.md`}-->
 
-### Radio Group - Inline layout
+### Inline layout
+
+Use the `inline` property to arrange radio buttons horizontally within a group.
 
 <!--{include:`radio-group-inline.md`}-->
 
-### Radio Group - Picker
-
-<!--{include:`radio-group-inline-picker.md`}-->
-
 ### Controlled Radio Group
+
+Implement controlled usage of radio groups with the `value` and `onChange` properties.
 
 <!--{include:`radio-group-controlled.md`}-->
 
@@ -57,31 +63,30 @@ Radios are used when only one choice may be selected in a series of options.
 
 ### `<Radio>`
 
-| Property       | Type `(Default)`                                 | Description                                                                   |
-| -------------- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
-| as             | ElementType`(div)`                               | Custom element type for the component                                         |
-| checked        | boolean                                          | Specifies whether the radio is selected                                       |
-| color          | [Color](#code-ts-color-code)                     | The color of the radio when checked <br/>![][5.56.0]                          |
-| defaultChecked | boolean                                          | Specifies the initial state: whether or not the radio is selected             |
-| disabled       | boolean                                          | The disable of component                                                      |
-| inline         | boolean                                          | Inline layout                                                                 |
-| inputProps     | object                                           | Attributes applied to the input element                                       |
-| inputRef       | ref                                              | Pass a ref to the input element.                                              |
-| name           | string                                           | Name to use for form                                                          |
-| onChange       | (value: string, checked: boolean, event) => void | callback function that has been checked for changes in state                  |
-| value          | string                                           | Value, corresponding to the value of the Radiogroup, to determine whether the |
+| Property       | Type `(Default)`                                 | Description                                                                   | Version     |
+| -------------- | ------------------------------------------------ | ----------------------------------------------------------------------------- | ----------- |
+| as             | ElementType`(div)`                               | Custom element type for the component                                         |             |
+| checked        | boolean                                          | Specifies whether the radio is selected                                       |             |
+| color          | [Color](#code-ts-color-code)                     | The color of the radio when checked                                           | ![][5.56.0] |
+| defaultChecked | boolean                                          | Specifies the initial state: whether or not the radio is selected             |             |
+| disabled       | boolean                                          | The disable of component                                                      |             |
+| inline         | boolean                                          | Inline layout                                                                 |             |
+| inputProps     | object                                           | Attributes applied to the input element                                       |             |
+| inputRef       | ref                                              | Pass a ref to the input element.                                              |             |
+| name           | string                                           | Name to use for form                                                          |             |
+| onChange       | (value: string, checked: boolean, event) => void | Callback function that has been checked for changes in state                  |             |
+| value          | string                                           | Value, corresponding to the value of the Radiogroup, to determine whether the |             |
 
 ### `<RadioGroup>`
 
-| Property     | Type `(Default)`              | Description                                  |
-| ------------ | ----------------------------- | -------------------------------------------- |
-| appearance   | 'default' &#124; 'picker'     | A radio group can have different appearances |
-| defaultValue | string                        | The default value (uncontrolled)                                |
-| inline       | boolean                       | Inline layout                                |
-| name         | string                        | Name to use for form                         |
-| onChange     | (value:string, event) => void | Callback function with value changed         |
-| value        | string                        | The current value (controlled)                           |
+| Property     | Type `(Default)`              | Description                          |
+| ------------ | ----------------------------- | ------------------------------------ |
+| defaultValue | string                        | The default value (uncontrolled)     |
+| inline       | boolean                       | Inline layout                        |
+| name         | string                        | Name to use for form                 |
+| onChange     | (value:string, event) => void | Callback function with value changed |
+| value        | string                        | The current value (controlled)       |
+
+### Type definitions
 
 <!--{include:(_common/types/color.md)}-->
-
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue

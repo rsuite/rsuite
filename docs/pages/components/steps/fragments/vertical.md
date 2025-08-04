@@ -1,33 +1,29 @@
 <!--start-code-->
 
 ```js
-import { Steps } from 'rsuite';
+import { Steps, ButtonGroup, Button } from 'rsuite';
 
-const styles = {
-  width: '200px',
-  display: 'inline-table',
-  verticalAlign: 'top'
+const OrderStatus = () => {
+  const [current, setCurrent] = React.useState(1);
+
+  return (
+    <div>
+      <Steps current={current} vertical>
+        <Steps.Item title="Order Placed" description="June 28, 10:00 AM" />
+        <Steps.Item title="Processing" description="Preparing your order" />
+        <Steps.Item title="Shipped" description="On the way" />
+        <Steps.Item title="Delivered" description="Estimated: July 1 - July 3" />
+      </Steps>
+      <hr />
+      <ButtonGroup>
+        <Button onClick={() => setCurrent(p => Math.max(0, p - 1))}>Previous</Button>
+        <Button onClick={() => setCurrent(p => Math.min(3, p + 1))}>Next</Button>
+      </ButtonGroup>
+    </div>
+  );
 };
 
-const App = () => (
-  <>
-    <Steps current={1} vertical style={styles}>
-      <Steps.Item title="Finished" />
-      <Steps.Item title="In progress" />
-      <Steps.Item title="Waiting" />
-      <Steps.Item title="Waiting" />
-    </Steps>
-
-    <Steps current={1} vertical style={styles}>
-      <Steps.Item title="Finished" description="Description" />
-      <Steps.Item title="In Progress" description="Description" />
-      <Steps.Item title="Waiting" description="Description" />
-      <Steps.Item title="Waiting" description="Description" />
-    </Steps>
-  </>
-);
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<OrderStatus />, document.getElementById('root'));
 ```
 
 <!--end-code-->

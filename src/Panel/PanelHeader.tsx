@@ -2,10 +2,12 @@ import React, { isValidElement, cloneElement } from 'react';
 import get from 'lodash/get';
 import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
 
-interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
+export interface PanelHeaderProps
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLHeadingElement>, 'color'> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;
@@ -18,7 +20,7 @@ interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeading
 
 const PanelHeader = (props: PanelHeaderProps) => {
   const {
-    as: Component = Heading,
+    as = Heading,
     classPrefix = 'panel',
     className,
     children,
@@ -33,7 +35,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
     ...rest
   } = props;
 
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
 
   let headerElement: React.ReactNode;
 
@@ -45,7 +47,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
   }
 
   return (
-    <Component level={2} className={merge(className, prefix('header'))} {...rest}>
+    <Box as={as} level={2} className={merge(className, prefix('header'))} {...rest}>
       {collapsible ? (
         <AccordionButton
           id={buttonId}
@@ -61,7 +63,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
       ) : (
         headerElement
       )}
-    </Component>
+    </Box>
   );
 };
 

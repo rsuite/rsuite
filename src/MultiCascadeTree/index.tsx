@@ -1,5 +1,9 @@
 import MultiCascadeTree from './MultiCascadeTree';
-export type { ItemDataType } from '@/internals/types';
+
+// export types
+export type { Option } from '@/internals/types';
 export type { MultiCascadeTreeProps } from './types';
 
+// export components
+export { MultiCascadeTree };
 export default MultiCascadeTree;

@@ -1,4 +1,4 @@
-import da from 'date-fns/locale/da';
+import { da } from 'date-fns/locale/da';
 
 const DateTimeFormats = {
   sunday: 'Sø',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'på',
     off: 'Av'
+  },
+  Dialog: {
+    alert: 'Advarsel',
+    confirm: 'Bekræft',
+    ok: 'OK',
+    cancel: 'Annuller'
   }
 };

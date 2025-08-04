@@ -14,9 +14,9 @@ const data = mockTreeData({
 
 const App = () => (
   <>
-    <MultiCascader data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
+    <MultiCascader data={data} appearance="default" placeholder="Default" w={224} />
     <hr />
-    <MultiCascader data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
+    <MultiCascader data={data} appearance="subtle" placeholder="Subtle" w={224} />
   </>
 );
 

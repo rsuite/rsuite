@@ -15,10 +15,10 @@ const data = mockTreeData({
 const App = () => (
   <div>
     <p>Cascade:</p>
-    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} minw={224} />
     <hr />
     <p>Not cascaded:</p>
-    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} minw={224} />
   </div>
 );
 

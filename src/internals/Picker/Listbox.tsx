@@ -9,6 +9,9 @@ import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
+import ListItemGroup from './ListItemGroup';
+import useCombobox from './hooks/useCombobox';
+import Highlight from '../../Highlight';
 import {
   List,
   AutoSizer,
@@ -18,15 +21,17 @@ import {
   ListChildComponentProps
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
-import { useClassNames, useMount, useEventCallback } from '@/internals/hooks';
-import { shallowEqual, mergeRefs } from '@/internals/utils';
+import { useStyles, useMount, useEventCallback } from '@/internals/hooks';
+import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
-import ListItemGroup from './ListItemGroup';
-import { StandardProps, ItemDataType, Offset, DataProps } from '@/internals/types';
-import useCombobox from './hooks/useCombobox';
-import Highlight from '../../Highlight';
-
-interface InnerItemDataType extends ItemDataType {
+import type {
+  StandardProps,
+  Option,
+  Offset,
+  DataProps,
+  HTMLPropsWithoutSelect
+} from '@/internals/types';
+interface InnerOption extends Option {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
 
@@ -39,8 +44,8 @@ interface InnerItemDataType extends ItemDataType {
  */
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
-    Partial<DataProps<InnerItemDataType>>,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+    Partial<DataProps<InnerOption>>,
+    HTMLPropsWithoutSelect {
   groupBy?: string;
   disabledItemValues?: any[];
   activeItemValues?: any[];
@@ -71,7 +76,7 @@ export interface ListboxProps<Multiple = false>
    * @param item - The selected item.
    * @returns The rendered React node.
    */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+  renderOption?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
 
   /**
    * Custom function to render a menu group.
@@ -79,7 +84,7 @@ export interface ListboxProps<Multiple = false>
    * @param item - The group item.
    * @returns The rendered React node.
    */
-  renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
+  renderOptionGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
 
   /**
    * Event handler for selecting an option.
@@ -91,8 +96,8 @@ export interface ListboxProps<Multiple = false>
   onSelect?: Multiple extends true
     ? (value: any, item: any, event: React.MouseEvent, checked: boolean) => void
     : Multiple extends false
-    ? (value: any, item: any, event: React.MouseEvent) => void
-    : any;
+      ? (value: any, item: any, event: React.MouseEvent) => void
+      : any;
 
   /**
    * Event handler for clicking on a group title.
@@ -102,7 +107,7 @@ export interface ListboxProps<Multiple = false>
 }
 
 export type ListboxComponent = React.ForwardRefExoticComponent<ListboxProps> & {
-  <Multiple = false>(props: ListboxProps<Multiple>): React.ReactElement | null;
+  <Multiple = false>(props: ListboxProps<Multiple>): any;
 };
 
 const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<any>>(
@@ -128,16 +133,20 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       rowHeight = 36,
       rowGroupHeight = 48,
       query,
-      renderMenuGroup,
-      renderMenuItem,
+      renderOptionGroup,
+      renderOption,
       onGroupTitleClick,
       onSelect,
       ...rest
     } = props;
 
-    const { withClassPrefix, prefix, merge, rootPrefix } = useClassNames(classPrefix);
+    const { prefix, merge, rootPrefix } = useStyles(classPrefix);
     const groupable = typeof groupBy !== 'undefined';
-    const classes = merge(className, withClassPrefix('items', { grouped: groupable }));
+    const classes = merge(
+      className,
+      rootPrefix('picker-listbox'),
+      prefix('items', { grouped: groupable })
+    );
     const { id, labelId, popupType, multiple } = useCombobox();
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
@@ -215,7 +224,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       : data;
     const rowCount = filteredItems.length;
 
-    const renderItem = ({
+    const renderItem: any = ({
       index = 0,
       style,
       data,
@@ -252,7 +261,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
             key={`group-${groupValue}`}
             onClick={handleGroupTitleClick.bind(null, groupValue)}
           >
-            {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
+            {renderOptionGroup ? renderOptionGroup(groupValue, item) : groupValue}
           </ListItemGroup>
         );
       } else if (isUndefined(value) && !isUndefined(item[RSUITE_PICKER_GROUP_KEY])) {
@@ -279,7 +288,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           onSelect={handleSelect.bind(null, item)}
           {...pickBy(listItemProps, v => v !== undefined)}
         >
-          {renderMenuItem ? renderMenuItem(label, item) : label}
+          {renderOption ? renderOption(label, item) : label}
         </ListItem>
       );
     };
@@ -289,16 +298,18 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       listRef.current?.scrollToItem?.(itemIndex);
     });
 
+    const styles = mergeStyles(style, { '--rs-picker-listbox-max-height': getCssValue(maxHeight) });
+
     return (
       <div
         role="listbox"
         id={`${id}-${popupType}`}
         aria-labelledby={labelId}
         aria-multiselectable={multiple}
-        {...rest}
         className={classes}
         ref={mergeRefs(menuBodyContainerRef, ref)}
-        style={{ ...style, maxHeight }}
+        style={styles}
+        {...rest}
       >
         {virtualized ? (
           <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>

@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Uploader, Message, Loader, useToaster } from 'rsuite';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import { Uploader, Message, Loader, Box, useToaster } from 'rsuite';
+import { RxAvatar } from 'react-icons/rx';
 
 function previewFile(file, callback) {
   const reader = new FileReader();
@@ -39,14 +39,14 @@ const App = () => {
         toaster.push(<Message type="error">Upload failed</Message>);
       }}
     >
-      <button style={{ width: 150, height: 150 }}>
+      <Box as="button" w={150} h={150}>
         {uploading && <Loader backdrop center />}
         {fileInfo ? (
           <img src={fileInfo} width="100%" height="100%" />
         ) : (
-          <AvatarIcon style={{ fontSize: 80 }} />
+          <RxAvatar size={40} color="var(--rs-gray-500)" />
         )}
-      </button>
+      </Box>
     </Uploader>
   );
 };

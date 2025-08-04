@@ -1,15 +1,12 @@
-import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
-import { useClassNames } from '@/internals/hooks';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
 
-export interface ListProps extends WithAsProps, SortConfig {
+export interface ListProps extends Omit<BoxProps, 'transitionDuration'>, SortConfig {
   /**
    * Size of list item.
    */
@@ -39,18 +36,18 @@ export interface ListProps extends WithAsProps, SortConfig {
   divider?: boolean;
 }
 
-export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
-  Item: typeof ListItem;
-}
+const Subcomponents = {
+  Item: ListItem
+};
 
 /**
  * The `List` component is used to specify the layout of the list.
  * @see https://rsuitejs.com/components/list
  */
-const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
+const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('List', props);
   const {
-    as: Component = 'div',
+    as,
     autoScroll = true,
     bordered,
     classPrefix = 'list',
@@ -69,7 +66,7 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     ...rest
   } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, merge } = useStyles(classPrefix);
   const {
     containerRef,
     register,
@@ -88,48 +85,35 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     transitionDuration
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({ bordered, sortable, sorting, hover, divider })
-  );
+  const classes = merge(className, withPrefix());
+
   const contextValue = useMemo<ListContextType>(
     () => ({ bordered, size, register }),
     [bordered, register, size]
   );
+
   return (
-    <Component
+    <Box
+      as={as}
       role="list"
-      {...rest}
       ref={mergeRefs(containerRef, ref)}
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
       onTouchStart={sortable ? handleTouchStart : undefined}
       onTouchEnd={sortable ? handleTouchEnd : undefined}
+      data-bordered={bordered}
+      data-hover={hover}
+      data-sortable={sortable}
+      data-sorting={sorting}
+      data-divider={divider}
+      {...rest}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
-    </Component>
+    </Box>
   );
-}) as unknown as ListComponent;
-
-List.Item = ListItem;
+}, Subcomponents);
 
 List.displayName = 'List';
-List.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  bordered: PropTypes.bool,
-  divider: PropTypes.bool,
-  hover: PropTypes.bool,
-  sortable: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  autoScroll: PropTypes.bool,
-  pressDelay: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  onSortStart: PropTypes.func,
-  onSortMove: PropTypes.func,
-  onSortEnd: PropTypes.func,
-  onSort: PropTypes.func
-};
 
 export default List;

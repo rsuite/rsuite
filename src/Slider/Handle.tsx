@@ -1,121 +1,100 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
-import { useClassNames } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import Input from './Input';
 import useDrag from './useDrag';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, mergeRefs, mergeStyles } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 
-export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
+export interface HandleProps
+  extends Omit<BoxProps, 'color' | 'position' | 'height' | 'width'>,
+    React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   vertical?: boolean;
   tooltip?: boolean;
-  rtl?: boolean;
   position?: number;
   value?: number;
+  keepTooltipOpen?: boolean;
   renderTooltip?: (value: number | undefined) => React.ReactNode;
   onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
   'data-range'?: number[];
   'data-key'?: string;
-  keepTooltipOpen?: boolean;
 }
 
-const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
-  (props: HandleProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'slider',
-      className,
-      disabled,
-      style,
-      children,
-      position,
-      vertical,
-      tooltip,
-      rtl,
-      value,
-      role,
-      tabIndex,
-      renderTooltip,
-      onDragStart,
-      onDragMove,
-      onDragEnd,
-      onKeyDown,
-      'data-range': dataRange,
-      'data-key': dateKey,
-      keepTooltipOpen,
-      ...rest
-    } = props;
+const Handle = forwardRef<'div', HandleProps>((props, ref) => {
+  const {
+    as,
+    classPrefix = 'slider',
+    className,
+    disabled,
+    style,
+    children,
+    position,
+    vertical,
+    tooltip,
+    value,
+    role,
+    tabIndex,
+    keepTooltipOpen,
+    renderTooltip,
+    onDragStart,
+    onDragMove,
+    onDragEnd,
+    onKeyDown,
+    'data-range': dataRange,
+    'data-key': dateKey,
+    ...rest
+  } = props;
 
-    const actualTooltip = tooltip || keepTooltipOpen;
+  const actualTooltip = tooltip || keepTooltipOpen;
+  const { merge, prefix, cssVar } = useStyles(classPrefix);
+  const styles = mergeStyles(style, cssVar('offset', `${position}%`));
 
-    const horizontalKey = rtl ? 'right' : 'left';
-    const direction = vertical ? 'bottom' : horizontalKey;
-    const styles = { ...style, [direction]: `${position}%` };
-    const { merge, prefix } = useClassNames(classPrefix);
+  const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
+    tooltip: actualTooltip,
+    disabled,
+    onDragStart,
+    onDragMove,
+    onDragEnd,
+    keepTooltipOpen
+  });
 
-    const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
-      tooltip: actualTooltip,
-      disabled,
-      onDragStart,
-      onDragMove,
-      onDragEnd,
-      keepTooltipOpen
-    });
+  const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
 
-    const handleClasses = merge(className, prefix('handle'), { active: active || keepTooltipOpen });
-
-    return (
-      <Component
-        role={role}
-        tabIndex={tabIndex}
-        ref={mergeRefs(ref, rootRef)}
-        className={handleClasses}
-        onMouseDown={onMoveStart}
-        onMouseEnter={onMouseEnter}
-        onTouchStart={onMoveStart}
-        onKeyDown={onKeyDown}
-        style={styles}
-        data-range={dataRange}
-        data-key={dateKey}
-        data-testid="slider-handle"
-      >
-        {actualTooltip && (
-          <Tooltip
-            aria-hidden="true"
-            ref={tooltipRef}
-            className={merge(prefix('tooltip'), 'placement-top')}
-          >
-            {renderTooltip ? renderTooltip(value) : value}
-          </Tooltip>
-        )}
-        <Input tabIndex={-1} value={value} {...rest} />
-        {children}
-      </Component>
-    );
-  }
-);
+  return (
+    <Box
+      as={as}
+      role={role}
+      tabIndex={tabIndex}
+      ref={mergeRefs(ref, rootRef)}
+      className={handleClasses}
+      onMouseDown={onMoveStart}
+      onMouseEnter={onMouseEnter}
+      onTouchStart={onMoveStart}
+      onKeyDown={onKeyDown}
+      style={styles}
+      data-range={dataRange}
+      data-key={dateKey}
+      data-testid="slider-handle"
+    >
+      {actualTooltip && (
+        <Tooltip
+          aria-hidden="true"
+          ref={tooltipRef}
+          className={prefix('tooltip')}
+          data-placement={vertical ? 'left' : 'top'}
+        >
+          {renderTooltip ? renderTooltip(value) : value}
+        </Tooltip>
+      )}
+      <Input tabIndex={-1} value={value} {...rest} />
+      {children}
+    </Box>
+  );
+});
 
 Handle.displayName = 'Handle';
-Handle.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  vertical: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  rtl: PropTypes.bool,
-  position: PropTypes.number,
-  value: PropTypes.number,
-  renderTooltip: PropTypes.func,
-  style: PropTypes.object,
-  onDragMove: PropTypes.func,
-  onDragStart: PropTypes.func,
-  onDragEnd: PropTypes.func
-};
 
 export default Handle;

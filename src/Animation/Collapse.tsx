@@ -1,13 +1,11 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import getStyle from 'dom-lib/getStyle';
 import addStyle from 'dom-lib/addStyle';
 import get from 'lodash/get';
 import capitalize from 'lodash/capitalize';
-import Transition, { transitionPropTypes, TransitionProps } from './Transition';
-import { useClassNames } from '@/internals/hooks';
+import Transition, { TransitionProps } from './Transition';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
 export enum DIMENSION {
   HEIGHT = 'height',
@@ -68,7 +66,7 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
     ...rest
   } = propsWithDefaults;
 
-  const { prefix, merge } = useClassNames('anim');
+  const { prefix, merge } = useStyles('anim');
   const dimension = typeof dimensionProp === 'function' ? dimensionProp() : dimensionProp;
 
   const handleEnter = useCallback(
@@ -128,11 +126,5 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
 });
 
 Collapse.displayName = 'Collapse';
-
-Collapse.propTypes = {
-  ...transitionPropTypes,
-  dimension: PropTypes.any,
-  getDimensionValue: PropTypes.func
-};
 
 export default Collapse;

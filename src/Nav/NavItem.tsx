@@ -1,18 +1,16 @@
 import React, { useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import isNil from 'lodash/isNil';
 import Ripple from '@/internals/Ripple';
-import SafeAnchor from '../SafeAnchor';
-import { useClassNames } from '@/internals/hooks';
-import { shallowEqual } from '@/internals/utils';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
+import SafeAnchor from '@/internals/SafeAnchor';
 import NavContext from './NavContext';
-import classNames from 'classnames';
+import Box, { BaseBoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, shallowEqual } from '@/internals/utils';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface NavItemProps<T = string | number>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface NavItemProps<T = string | number> extends BaseBoxProps, HTMLPropsWithoutSelect {
   /** Activation status */
   active?: boolean;
 
@@ -46,112 +44,98 @@ export interface NavItemProps<T = string | number>
  * @see https://rsuitejs.com/components/nav
  *
  */
-const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
-  (props: NavItemProps, ref: React.Ref<any>) => {
-    const nav = useContext(NavContext);
+const NavItem = forwardRef<'a', NavItemProps>((props, ref) => {
+  const nav = useContext(NavContext);
 
-    if (!nav) {
-      throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
-    }
+  if (!nav) {
+    throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+  }
 
-    const {
-      as: Component = SafeAnchor,
-      active: activeProp,
-      disabled,
-      eventKey,
-      className,
-      classPrefix = 'nav-item',
-      style,
-      children,
-      icon,
-      divider,
-      panel,
-      onClick,
-      onSelect: onSelectProp,
-      ...rest
-    } = props;
+  const {
+    as = SafeAnchor,
+    active: activeProp,
+    disabled,
+    eventKey,
+    className,
+    classPrefix = 'nav-item',
+    style,
+    children,
+    icon,
+    divider,
+    panel,
+    onClick,
+    onSelect: onSelectProp,
+    ...rest
+  } = props;
 
-    const { activeKey, onSelect: onSelectFromNav } = nav;
+  const { activeKey, onSelect: onSelectFromNav } = nav;
 
-    const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
+  const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 
-    const emitSelect = useCallback(
-      (event: React.SyntheticEvent) => {
-        onSelectProp?.(eventKey, event);
-        onSelectFromNav?.(eventKey, event);
-      },
-      [eventKey, onSelectProp, onSelectFromNav]
-    );
+  const emitSelect = useCallback(
+    (event: React.SyntheticEvent) => {
+      onSelectProp?.(eventKey, event);
+      onSelectFromNav?.(eventKey, event);
+    },
+    [eventKey, onSelectProp, onSelectFromNav]
+  );
 
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLElement>) => {
-        if (!disabled) {
-          emitSelect(event);
-          onClick?.(event);
-        }
-      },
-      [disabled, emitSelect, onClick]
-    );
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (!disabled) {
+        emitSelect(event);
+        onClick?.(event);
+      }
+    },
+    [disabled, emitSelect, onClick]
+  );
 
-    if (divider) {
-      return (
-        <div
-          ref={ref}
-          role="separator"
-          style={style}
-          className={merge(className, prefix('divider'))}
-          {...rest}
-        />
-      );
-    }
-
-    if (panel) {
-      return (
-        <div ref={ref} style={style} className={merge(className, prefix('panel'))} {...rest}>
-          {children}
-        </div>
-      );
-    }
-
+  if (divider) {
     return (
-      <Component
+      <div
         ref={ref}
-        tabIndex={disabled ? -1 : undefined}
-        {...rest}
-        className={classes}
-        onClick={handleClick}
+        role="separator"
         style={style}
-        aria-selected={active || undefined}
-      >
-        {icon &&
-          React.cloneElement(icon, {
-            className: classNames(prefix('icon'), icon.props.className)
-          })}
-        {children}
-        <Ripple />
-      </Component>
+        className={merge(className, prefix('divider'))}
+        {...rest}
+      />
     );
   }
-);
+
+  if (panel) {
+    return (
+      <div ref={ref} style={style} className={merge(className, prefix('panel'))} {...rest}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <Box
+      as={as}
+      ref={ref}
+      tabIndex={disabled ? -1 : undefined}
+      className={classes}
+      onClick={handleClick}
+      style={style}
+      aria-selected={active || undefined}
+      data-active={active || undefined}
+      data-disabled={disabled}
+      {...rest}
+    >
+      {icon &&
+        React.cloneElement(icon, {
+          className: classNames(prefix('icon'), icon.props.className)
+        })}
+      {children}
+      <Ripple />
+    </Box>
+  );
+});
 
 NavItem.displayName = 'Nav.Item';
-NavItem.propTypes = {
-  as: PropTypes.elementType,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  onClick: PropTypes.func,
-  style: PropTypes.object,
-  icon: PropTypes.node,
-  onSelect: PropTypes.func,
-  children: PropTypes.node,
-  eventKey: PropTypes.any
-};
 
 export default NavItem;

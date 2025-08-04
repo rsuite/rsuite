@@ -1,6 +1,7 @@
+import React from 'react';
 import { FaCheck, FaCopy } from 'react-icons/fa';
 import { IconButton, IconButtonProps } from 'rsuite';
-import useClipboard from '@/utils/useClipboard';
+import useClipboard from '@/hooks/useClipboard';
 
 interface CopyCodeButtonProps extends IconButtonProps {
   code: string;
@@ -20,7 +21,7 @@ function CopyCodeButton(props: CopyCodeButtonProps) {
       appearance="subtle"
       circle
       size="xs"
-      className="copy-code-button"
+      data-type="copy"
       onClick={handleClick}
       icon={copied ? <FaCheck /> : <FaCopy />}
     />

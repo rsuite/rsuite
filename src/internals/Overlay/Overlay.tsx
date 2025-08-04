@@ -1,12 +1,12 @@
-import React, { useState, useRef, useCallback, useContext } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import Position, { PositionChildProps, PositionProps } from './Position';
-import { useRootClose } from '../hooks';
-import { TypeAttributes, AnimationEventProps, CursorPosition } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
 import Fade from '../../Animation/Fade';
-import OverlayContext from './OverlayContext';
+import Position, { PositionProps, getPositionStyle } from './Position';
+import { useOverlay } from './OverlayProvider';
+import { useRootClose } from '../hooks';
+import { mergeRefs, mergeStyles } from '@/internals/utils';
+import type { Placement, AnimationEventProps, ReactElement } from '@/internals/types';
+import type { CursorPosition, PositionChildProps } from './types';
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement | null) | null;
@@ -18,45 +18,24 @@ export interface OverlayProps extends AnimationEventProps {
       ) => React.ReactElement);
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
-  containerPadding?: number;
-  placement?: TypeAttributes.Placement;
-  preventOverflow?: boolean;
-  open?: boolean;
-  rootClose?: boolean;
-  transition?: React.ElementType;
-  triggerTarget?: React.RefObject<any>;
-  onClose?: React.ReactEventHandler;
-  followCursor?: boolean;
   cursorPosition?: CursorPosition | null;
+  containerPadding?: number;
+  followCursor?: boolean;
+  open?: boolean;
+  placement?: Placement;
+  preventOverflow?: boolean;
+  rootClose?: boolean;
+  triggerTarget?: React.RefObject<any>;
+  transition?: React.ElementType;
+  onClose?: React.ReactEventHandler;
 }
-
-export const overlayPropTypes = {
-  container: PropTypes.any,
-  children: PropTypes.any,
-  childrenProps: PropTypes.object,
-  className: PropTypes.string,
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  open: PropTypes.bool,
-  rootClose: PropTypes.bool,
-  transition: PropTypes.any,
-  triggerTarget: PropTypes.any,
-  onClose: PropTypes.func,
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
-};
 
 /**
  * Overlay is a powerful component that helps you create floating components.
  * @private
  */
 const Overlay = React.forwardRef((props: OverlayProps, ref) => {
-  const { overlayContainer } = useContext(OverlayContext);
+  const { overlayContainer } = useOverlay();
   const {
     container = overlayContainer,
     containerPadding,
@@ -115,24 +94,34 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
   };
 
   const renderChildWithPosition = (transitionProps?, transitionRef?: React.RefObject<any>) => {
+    const { className } = transitionProps || {};
     return (
       <Position {...positionProps} {...transitionProps} ref={mergeRefs(ref, transitionRef)}>
-        {(childProps, childRef) => {
-          // overlayTarget is the ref on the DOM of the Overlay.
+        {(positionChildProps, childRef) => {
+          // Position will return coordinates and className
+          const { left, top } = positionChildProps;
+
+          // Components returned by function children need to control their own positioning information. For example: Picker
           if (typeof children === 'function') {
             return children(
-              Object.assign(childProps, childrenProps),
+              {
+                className,
+                //dataAttributes,
+                ...positionChildProps,
+                ...childrenProps
+              },
               mergeRefs(childRef, overlayTarget)
             );
           }
 
-          // Position will return coordinates and className
-          const { left, top, className } = childProps;
-          return React.cloneElement(children, {
+          const childElement = children as ReactElement;
+          const childStyles = mergeStyles(getPositionStyle(left, top), childElement.props.style);
+
+          return React.cloneElement(childElement, {
             ...childrenProps,
-            ...children.props,
-            className: classNames(className, children.props.className),
-            style: { left, top, ...children.props.style },
+            ...childElement.props,
+            className: classNames(childElement.props.className, className),
+            style: childStyles,
             ref: mergeRefs(childRef, overlayTarget)
           });
         }}
@@ -161,6 +150,5 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 });
 
 Overlay.displayName = 'Overlay';
-Overlay.propTypes = overlayPropTypes;
 
 export default Overlay;

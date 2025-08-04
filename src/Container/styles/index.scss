@@ -1,0 +1,16 @@
+@use '../../internals/Box/styles/index' as box;
+
+// Container styles
+// contains: <Container/> <Header/> <Content/> <Footer/> <Sidebar/>
+
+.rs-container {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+
+  // The sidebar only are combined and containers.
+  // When they combined , change flex-direction value to row.
+  &-has-sidebar {
+    flex-direction: row;
+  }
+}

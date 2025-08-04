@@ -5,7 +5,7 @@ import ImageIcon from '@rsuite/icons/Image';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import SpeakerIcon from '@rsuite/icons/Speaker';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Tabs);
 

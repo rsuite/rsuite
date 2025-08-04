@@ -1,23 +1,24 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
-import { KEY_VALUES } from '@/internals/constants';
-import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { mergeRefs, createChainedFunction } from '@/internals/utils';
-import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '@/internals/types';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../../Animation/Fade';
-import { animationPropTypes } from '../../Animation/utils';
-import OverlayContext from './OverlayContext';
+import Box, { BoxProps } from '@/internals/Box';
+import { OverlayProvider } from './OverlayProvider';
+import { KEY_VALUES } from '@/internals/constants';
+import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
+import type { AnimationEventProps } from '@/internals/types';
 
-export interface BaseModalProps extends WithAsProps, AnimationEventProps {
+export interface BaseModalProps
+  extends Omit<BoxProps, 'children' | 'transition' | 'color' | 'overflow'>,
+    AnimationEventProps {
   /** Animation-related properties */
   animationProps?: any;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: any;
 
   /**
    * Add an optional extra class name to .modal-backdrop
@@ -57,13 +58,15 @@ export interface BaseModalProps extends WithAsProps, AnimationEventProps {
   onOpen?: () => void;
 
   /** Called when Modal is closed */
-  onClose?: (event: React.SyntheticEvent) => void;
+  onClose?: (event?: React.SyntheticEvent) => void;
   container?: HTMLElement | (() => HTMLElement);
   containerClassName?: string;
   backdropTransitionTimeout?: number;
   dialogTransitionTimeout?: number;
   transition?: React.ElementType;
   onEsc?: React.KeyboardEventHandler;
+  onClick?: React.MouseEventHandler;
+  onMouseDown?: React.MouseEventHandler;
 
   // @deprecated
   onBackdropClick?: React.MouseEventHandler;
@@ -97,12 +100,9 @@ const useModalManager = () => {
   };
 };
 
-const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
-  HTMLDivElement,
-  BaseModalProps
->((props, ref) => {
+const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     children,
     transition: Transition,
     dialogTransitionTimeout,
@@ -182,8 +182,8 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
     handleFocusDialog();
   });
 
-  const documentKeyDownListener = useRef<{ off: () => void } | null>();
-  const documentFocusListener = useRef<{ off: () => void } | null>();
+  const documentKeyDownListener = useRef<{ off: () => void } | null>(null);
+  const documentFocusListener = useRef<{ off: () => void } | null>(null);
 
   const handleOpen = useEventCallback(() => {
     if (containerElement) {
@@ -239,14 +239,9 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
     setExited(true);
   }, []);
 
-  const contextValue = useMemo(
-    () => ({
-      overlayContainer: () => {
-        return modal.dialog;
-      }
-    }),
-    [modal.dialog]
-  );
+  const overlayContainer = useCallback(() => {
+    return modal.dialog;
+  }, [modal.dialog]);
 
   if (!mountModal) {
     return null;
@@ -297,10 +292,11 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
   );
 
   return (
-    <OverlayContext.Provider value={contextValue}>
+    <OverlayProvider overlayContainer={overlayContainer}>
       <Portal>
         {backdrop && renderBackdrop()}
-        <Component
+        <Box
+          as={as}
           {...rest}
           ref={mergeRefs(modal.setDialogRef, ref as any)}
           style={style}
@@ -308,39 +304,12 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
           tabIndex={-1}
         >
           {dialogElement}
-        </Component>
+        </Box>
       </Portal>
-    </OverlayContext.Provider>
+    </OverlayProvider>
   );
 });
 
-export const modalPropTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  backdropClassName: PropTypes.string,
-  style: PropTypes.object,
-  backdropStyle: PropTypes.object,
-  open: PropTypes.bool,
-  backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  keyboard: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  enforceFocus: PropTypes.bool,
-  animationProps: PropTypes.object,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func
-};
-
 Modal.displayName = 'OverlayModal';
-Modal.propTypes = {
-  ...animationPropTypes,
-  ...modalPropTypes,
-  children: PropTypes.func,
-  container: PropTypes.any,
-  containerClassName: PropTypes.string,
-  dialogTransitionTimeout: PropTypes.number,
-  backdropTransitionTimeout: PropTypes.number,
-  transition: PropTypes.any,
-  onEsc: PropTypes.func
-};
 
 export default Modal;

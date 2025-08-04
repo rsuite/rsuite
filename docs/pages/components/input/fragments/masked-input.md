@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { FlexboxGrid, SelectPicker, Toggle, MaskedInput } from 'rsuite';
+import { SelectPicker, Toggle, MaskedInput, HStack, VStack, Divider, Box } from 'rsuite';
 
 const options = [
   {
@@ -83,10 +83,12 @@ const placeholderChars = [
 ];
 
 const ControlRow = ({ label, control, ...rest }) => (
-  <FlexboxGrid {...rest} style={{ marginBottom: 10 }} align="middle">
-    <FlexboxGrid.Item colspan={6}>{label}: </FlexboxGrid.Item>
-    <FlexboxGrid.Item colspan={18}>{control}</FlexboxGrid.Item>
-  </FlexboxGrid>
+  <HStack {...rest} alignItems="center">
+    <Box as="span" w={180}>
+      {label}:
+    </Box>
+    {control}
+  </HStack>
 );
 
 const App = () => {
@@ -98,64 +100,7 @@ const App = () => {
   const [showMask, setShowMask] = React.useState(false);
 
   return (
-    <>
-      <ControlRow
-        label="Mask"
-        control={
-          <SelectPicker
-            defaultValue={option.name}
-            cleanable={false}
-            searchable={false}
-            data={options}
-            labelKey="name"
-            valueKey="name"
-            onSelect={(_v, item) => {
-              setOption(item);
-              setValue('');
-            }}
-            style={{ width: 200 }}
-          />
-        }
-      />
-      <ControlRow
-        label="Placeholder character"
-        control={
-          <SelectPicker
-            value={placeholderChar}
-            cleanable={false}
-            searchable={false}
-            data={placeholderChars}
-            onChange={setPlaceholderChar}
-            style={{ width: 200 }}
-          />
-        }
-      />
-
-      <ControlRow label="Guide" control={<Toggle checked={guide} onChange={setGuide} />} />
-
-      <ControlRow
-        label="Keep character positions"
-        control={<Toggle checked={keepCharPositions} onChange={setKeepCharPositions} />}
-      />
-
-      <ControlRow
-        label="Show mask"
-        control={
-          <Toggle
-            checked={showMask}
-            onChange={() => {
-              setShowMask(!showMask);
-              setValue('');
-            }}
-          />
-        }
-      />
-
-      <hr />
-      <div style={{ marginBottom: 10 }}>
-        <code>[{option.mask.toString()}]</code>
-      </div>
-
+    <HStack wrap divider={<Divider vertical />} spacing={10} h={200}>
       <MaskedInput
         value={value}
         mask={option.mask}
@@ -164,10 +109,65 @@ const App = () => {
         keepCharPositions={keepCharPositions}
         placeholder={option.placeholder}
         placeholderChar={placeholderChar}
-        style={{ width: 300 }}
+        w={280}
         onChange={setValue}
       />
-    </>
+      <VStack spacing={10}>
+        <ControlRow
+          label="Mask"
+          control={
+            <SelectPicker
+              defaultValue={option.name}
+              cleanable={false}
+              searchable={false}
+              data={options}
+              labelKey="name"
+              valueKey="name"
+              size="sm"
+              onSelect={(_v, item) => {
+                setOption(item);
+                setValue('');
+              }}
+              w={160}
+            />
+          }
+        />
+        <ControlRow
+          label="Placeholder character"
+          control={
+            <SelectPicker
+              value={placeholderChar}
+              cleanable={false}
+              searchable={false}
+              size="sm"
+              data={placeholderChars}
+              onChange={setPlaceholderChar}
+              w={160}
+            />
+          }
+        />
+
+        <ControlRow label="Guide" control={<Toggle checked={guide} onChange={setGuide} />} />
+
+        <ControlRow
+          label="Keep character positions"
+          control={<Toggle checked={keepCharPositions} onChange={setKeepCharPositions} />}
+        />
+
+        <ControlRow
+          label="Show mask"
+          control={
+            <Toggle
+              checked={showMask}
+              onChange={() => {
+                setShowMask(!showMask);
+                setValue('');
+              }}
+            />
+          }
+        />
+      </VStack>
+    </HStack>
   );
 };
 

@@ -1,4 +1,4 @@
-import { type Locale } from 'date-fns';
+import type { Locale, Month } from 'date-fns';
 import {
   setYear,
   setMonth,
@@ -89,7 +89,9 @@ export function getSelectIndexGap(options: SelectIndexGapOptions) {
       month = 12;
     }
 
-    const monthStr = localize?.month(month - 1, { width: monthIsFull ? 'wide' : 'abbreviated' });
+    const monthStr = localize?.month((month - 1) as Month, {
+      width: monthIsFull ? 'wide' : 'abbreviated'
+    });
     gap = monthStr.length - (monthIsFull ? 4 : 3);
   }
 

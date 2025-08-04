@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarGroup, Badge } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { FaUserLarge } from 'react-icons/fa6';
 import { FcBusinessman, FcCustomerSupport } from 'react-icons/fc';

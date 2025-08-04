@@ -1,26 +1,23 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonToolbar, ButtonGroup } from 'rsuite';
-
-const CustomButtonGroup = ({ appearance }) => (
-  <ButtonToolbar>
-    <ButtonGroup>
-      <Button appearance={appearance}>Left</Button>
-      <Button appearance={appearance}>Center</Button>
-      <Button appearance={appearance}>Right</Button>
-    </ButtonGroup>
-  </ButtonToolbar>
-);
+import { Button, IconButton, ButtonGroup, VStack } from 'rsuite';
+import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa6';
 
 const App = () => (
-  <>
-    <CustomButtonGroup />
-    <CustomButtonGroup appearance="primary" />
-    <CustomButtonGroup appearance="link" />
-    <CustomButtonGroup appearance="subtle" />
-    <CustomButtonGroup appearance="ghost" />
-  </>
+  <VStack spacing={12}>
+    <ButtonGroup>
+      <Button>Bold</Button>
+      <Button>Italic</Button>
+      <Button>Underline</Button>
+    </ButtonGroup>
+
+    <ButtonGroup>
+      <IconButton icon={<FaBold />} />
+      <IconButton icon={<FaItalic />} />
+      <IconButton icon={<FaUnderline />} />
+    </ButtonGroup>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Carousel, RadioGroup, Radio, Divider } from 'rsuite';
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
+import { Carousel, SegmentedControl, Divider, Text } from 'rsuite';
 
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
@@ -11,42 +9,32 @@ function App() {
 
   return (
     <>
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={placement}
+      <SegmentedControl
+        data={[
+          { value: 'top', label: 'Top' },
+          { value: 'bottom', label: 'Bottom' },
+          { value: 'left', label: 'Left' },
+          { value: 'right', label: 'Right' }
+        ]}
+        value={placement}
         onChange={setPlacement}
-      >
-        <RadioLabel>Placement: </RadioLabel>
-        <Radio value="top">Top</Radio>
-        <Radio value="bottom">Bottom</Radio>
-        <Radio value="left">Left</Radio>
-        <Radio value="right">Right</Radio>
-      </RadioGroup>
+      />
       <Divider vertical />
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={shape}
+      <SegmentedControl
+        data={[
+          { value: 'dot', label: 'Dot' },
+          { value: 'bar', label: 'Bar' }
+        ]}
+        value={shape}
         onChange={setShape}
-      >
-        <RadioLabel>Shape: </RadioLabel>
-        <Radio value="dot">Dot</Radio>
-        <Radio value="bar">Bar</Radio>
-      </RadioGroup>
-      <Carousel
-        key={`${placement}.${shape}`}
-        placement={placement}
-        shape={shape}
-        className="custom-slider"
-      >
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=3" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=4" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=5" height="250" />
+      />
+      <hr />
+      <Carousel key={`${placement}.${shape}`} placement={placement} shape={shape} w={600} h={250}>
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=1" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=2" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=3" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=4" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=5" height="250" />
       </Carousel>
     </>
   );

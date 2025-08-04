@@ -1,23 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Nav from '../Nav';
 import Tab from './Tab';
 import TabPanel from './TabPanel';
-import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import { ReactChildren } from '@/internals/utils';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, rch } from '@/internals/utils';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useEventCallback,
+  useUniqueId
+} from '@/internals/hooks';
+import type { ReactElement } from '@/internals/types';
 
 /**
  * Props for the Tabs component.
  */
-export interface TabsProps extends WithAsProps {
+export interface TabsProps extends BoxProps {
   /**
    * The appearance of the tabs.
+   * - 'pills' appearance is deprecated. Use `SegmentedControl` component instead.
+   *
    * @default 'tabs'
-   * @version 'pills' is supported in version 5.68.0
+   *
    */
-  appearance?: 'tabs' | 'subtle' | 'pills';
+  appearance?: 'tabs' | 'subtle';
 
   /**
    * The key of the active tab.
@@ -54,10 +61,6 @@ export interface TabsProps extends WithAsProps {
   onSelect?: (eventKey: string | number | undefined, event: React.SyntheticEvent) => void;
 }
 
-interface TabsComponent extends RsRefForwardingComponent<'div', TabsProps> {
-  Tab: typeof Tab;
-}
-
 function getFocusableTabs(tablist?: HTMLElement | null) {
   const tabs = tablist?.querySelectorAll('[role=tab]') as NodeListOf<HTMLElement>;
 
@@ -66,7 +69,7 @@ function getFocusableTabs(tablist?: HTMLElement | null) {
 
 function getFocusedTab(tablist: HTMLElement) {
   const tabs = getFocusableTabs(tablist);
-  return tabs.find(tab => tab.getAttribute('aria-selected'));
+  return tabs.find(tab => tab.getAttribute('aria-selected') === 'true');
 }
 
 function nextItem(tablist: HTMLDivElement | null) {
@@ -116,7 +119,7 @@ const renderPanels = (
   tabProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabProps;
-  return ReactChildren.map(children, (child: React.ReactElement) => {
+  return rch.map(children, (child: ReactElement) => {
     const { eventKey, children } = child.props;
     const selected = eventKey === activeKey;
     return (
@@ -137,7 +140,7 @@ const renderTabs = (
   tabPanelProps: { id: string; activeKey?: string | number }
 ) => {
   const { id, activeKey } = tabPanelProps;
-  return ReactChildren.map(children, (child: React.ReactElement) => {
+  return rch.map(children, (child: ReactElement) => {
     const { eventKey, title, disabled, icon } = child.props;
     const selected = eventKey === activeKey;
     return (
@@ -161,16 +164,20 @@ const renderTabs = (
   });
 };
 
+const Subcomponents = {
+  Tab
+};
+
 /**
  * Tabs are a set of layered sections of content, known as tab panels, that display one panel of content at a time.
  *
  * @version 5.53.0
  * @see https://rsuitejs.com/components/tabs
  */
-const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
+const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults, rtl } = useCustom('Tabs', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'tabs',
     appearance = 'tabs',
     className,
@@ -186,7 +193,7 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
 
   const id = useUniqueId('tab-', idProp);
   const [activeKey, setActiveKey] = useControlled(activeKeyProp, defaultActiveKey);
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const tablistRef = React.useRef<HTMLDivElement>(null);
 
   const handleSelect = useEventCallback(
@@ -226,23 +233,29 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
         item = getFocusableTabs(tablistRef.current)?.[0];
         event.preventDefault();
         break;
-      case 'End':
+      case 'End': {
         const tabs = getFocusableTabs(tablistRef.current);
         item = tabs[tabs.length - 1];
         event.preventDefault();
         break;
+      }
     }
 
     if (item) {
-      const { eventKey } = item?.dataset;
+      const eventKey = item ? item.dataset.eventKey : undefined;
       handleSelect(eventKey, event);
       item.focus();
     }
   });
 
+  const hasChildren = React.Children.toArray(children).some(
+    child => React.isValidElement(child) && (child.props as any).children
+  );
+
   return (
-    <Component
-      className={merge(className, withClassPrefix({ reversed, vertical }))}
+    <Box
+      as={as}
+      className={merge(className, withPrefix({ reversed, vertical }))}
       {...rest}
       ref={ref}
     >
@@ -259,24 +272,13 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
       >
         {renderTabs(children, { id, activeKey })}
       </Nav>
-      <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
-    </Component>
+      {hasChildren && (
+        <div className={prefix`content`}>{renderPanels(children, { id, activeKey })}</div>
+      )}
+    </Box>
   );
-}) as unknown as TabsComponent;
+}, Subcomponents);
 
-Tabs.Tab = Tab;
 Tabs.displayName = 'Tabs';
-Tabs.propTypes = {
-  appearance: PropTypes.oneOf(['tabs', 'subtle', 'pills']),
-  activeKey: PropTypes.any,
-  defaultActiveKey: PropTypes.any,
-  reversed: PropTypes.bool,
-  vertical: PropTypes.bool,
-  id: PropTypes.string,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onSelect: PropTypes.func
-};
 
 export default Tabs;

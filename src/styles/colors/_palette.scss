@@ -1,0 +1,413 @@
+// SCSS implementation of color palette generator
+// Based on the original palette.js functionality, optimized with SCSS built-in color functions
+
+@use 'sass:math';
+@use 'sass:color';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+@use 'sass:map';
+
+/**
+ * Helper function to convert a decimal number to a two-digit hex string
+ */
+@function decimal-to-hex($value) {
+  // Convert to integer first
+  $int-value: math.round($value);
+
+  // Ensure the value is within range
+  $int-value: math.min(math.max($int-value, 0), 255);
+
+  $hex-digits: '0123456789ABCDEF';
+  $result: '';
+
+  // First hex digit (divide by 16)
+  $digit1: math.floor(math.div($int-value, 16));
+  $result: $result + string.slice($hex-digits, $digit1 + 1, $digit1 + 1);
+
+  // Second hex digit (remainder of division by 16)
+  $digit2: $int-value % 16;
+  $result: $result + string.slice($hex-digits, $digit2 + 1, $digit2 + 1);
+
+  @return $result;
+}
+
+/**
+ * Convert color to hex format for consistent output
+ */
+@function color-to-hex($color) {
+  @return if(
+    color.alpha($color) < 1,
+    string.unquote(
+      '#' + decimal-to-hex(color.channel($color, 'red')) +
+        decimal-to-hex(color.channel($color, 'green')) +
+        decimal-to-hex(color.channel($color, 'blue')) +
+        decimal-to-hex(math.round(color.alpha($color) * 255))
+    ),
+    string.unquote(
+      '#' + decimal-to-hex(color.channel($color, 'red')) +
+        decimal-to-hex(color.channel($color, 'green')) +
+        decimal-to-hex(color.channel($color, 'blue'))
+    )
+  );
+}
+
+/**
+ * Convert RGB color to HSV (Hue, Saturation, Value/Brightness)
+ * This function ensures exact parity with tinycolor's toHsv() method
+ * @param {Color} $color - The color to convert to HSV
+ * @return {Map} - A map with h, s, v keys representing HSV values
+ */
+@function rgb-to-hsv($color) {
+  $r: math.div(color.channel($color, 'red'), 255);
+  $g: math.div(color.channel($color, 'green'), 255);
+  $b: math.div(color.channel($color, 'blue'), 255);
+
+  $max: max($r, $g, $b);
+  $min: min($r, $g, $b);
+  $delta: $max - $min;
+
+  // Initialize HSV values
+  $h: 0; // hue
+  $s: if($max == 0, 0, math.div($delta, $max)); // saturation
+  $v: $max; // value/brightness
+
+  // Calculate hue
+  @if $delta != 0 {
+    @if $max == $r {
+      $h: math.div(($g - $b), $delta);
+      $h: if($h < 0, $h + 6, $h);
+    } @else if $max == $g {
+      $h: math.div(($b - $r), $delta) + 2;
+    } @else if $max == $b {
+      $h: math.div(($r - $g), $delta) + 4;
+    }
+
+    $h: $h * 60; // Convert to degrees
+    $h: math.round($h); // Match JS implementation which rounds hue
+  }
+
+  // Return HSV map
+  @return (h: $h, s: $s, v: $v);
+}
+
+/**
+ * Convert HSV values to RGB color
+ * This function ensures exact parity with tinycolor's HSV conversion
+ * @param {Number} $h - Hue (0-360)
+ * @param {Number} $s - Saturation (0-1)
+ * @param {Number} $v - Value/Brightness (0-1)
+ * @return {Color} - RGB color
+ */
+@function hsv-to-rgb($h, $s, $v) {
+  // Ensure hue is between 0 and 360
+  $h: $h % 360;
+
+  $c: $v * $s; // Chroma
+  $x: $c * (1 - math.abs(math.div($h, 60) % 2 - 1));
+  $m: $v - $c;
+
+  $r-temp: 0;
+  $g-temp: 0;
+  $b-temp: 0;
+
+  @if $h >= 0 and $h < 60 {
+    $r-temp: $c;
+    $g-temp: $x;
+    $b-temp: 0;
+  } @else if $h >= 60 and $h < 120 {
+    $r-temp: $x;
+    $g-temp: $c;
+    $b-temp: 0;
+  } @else if $h >= 120 and $h < 180 {
+    $r-temp: 0;
+    $g-temp: $c;
+    $b-temp: $x;
+  } @else if $h >= 180 and $h < 240 {
+    $r-temp: 0;
+    $g-temp: $x;
+    $b-temp: $c;
+  } @else if $h >= 240 and $h < 300 {
+    $r-temp: $x;
+    $g-temp: 0;
+    $b-temp: $c;
+  } @else {
+    $r-temp: $c;
+    $g-temp: 0;
+    $b-temp: $x;
+  }
+
+  $r: math.round(($r-temp + $m) * 255);
+  $g: math.round(($g-temp + $m) * 255);
+  $b: math.round(($b-temp + $m) * 255);
+
+  @return rgb($r, $g, $b);
+}
+
+/**
+ * A simpler fade function to mimic Less's fade() function
+ * Since we can't reliably detect if a color is a valid color due to string format issues,
+ * we'll just use a direct rgba call with string interpolation for guaranteed compatibility
+ * @param {Color|String} $color - The color to adjust alpha for
+ * @param {Number} $alpha-percent - Alpha value as a percentage (0-100)
+ * @return {String} - rgba() function with the appropriate alpha value
+ */
+@function fade($color, $alpha-percent) {
+  // Convert percentage to decimal
+  $alpha: math.div($alpha-percent, 100);
+
+  @if meta.type-of($color) == 'color' {
+    // If it's a valid CSS color, use color functions
+    $r: color.channel($color, 'red');
+    $g: color.channel($color, 'green');
+    $b: color.channel($color, 'blue');
+    @return string.unquote('rgba(#{$r}, #{$g}, #{$b}, #{$alpha})');
+  } @else {
+    // Otherwise treat it as a string (e.g., a CSS variable)
+    @return string.unquote('rgba(#{$color}, #{$alpha})');
+  }
+}
+
+/**
+ * Convert color to hex format for consistent output
+ */
+@function color-to-hex($color) {
+  @return if(
+    color.alpha($color) < 1,
+    string.unquote(
+      '#' + decimal-to-hex(color.channel($color, 'red')) +
+        decimal-to-hex(color.channel($color, 'green')) +
+        decimal-to-hex(color.channel($color, 'blue')) +
+        decimal-to-hex(math.round(color.alpha($color) * 255))
+    ),
+    string.unquote(
+      '#' + decimal-to-hex(color.channel($color, 'red')) +
+        decimal-to-hex(color.channel($color, 'green')) +
+        decimal-to-hex(color.channel($color, 'blue'))
+    )
+  );
+}
+
+/**
+ * Constants matching the JavaScript implementation
+ */
+$primary-index: 5;
+$hue-max: 360;
+$saturation-min: 5;
+$saturation-max: 100;
+$brightness-min: 20;
+$brightness-max: 100;
+$color-number-set: '50', '100', '200', '300', '400', '500', '600', '700', '800', '900';
+
+/**
+ * Calculate hue adjustment based on index
+ * Matches the JavaScript calculateHue function
+ * @param {Number} $original-hue - Original hue value (0-360)
+ * @param {Number} $index - Color level index in the palette
+ * @return {Number} - Adjusted hue value
+ */
+@function calculate-hue($original-hue, $index) {
+  // Use 360 if original-hue is 0 or undefined (matches JS || operator)
+  $original-hue: math.round($original-hue);
+  @if $original-hue == 0 {
+    $original-hue: 360;
+  }
+
+  // Dark color increase, light color reduction
+  $step: $index - $primary-index;
+  $gap: 1; // Fixed gap for hue adjustment
+  $hue: $original-hue + $step * $gap;
+
+  // The value of hue is [0,360)
+  // If it is greater than 360, the absolute value of the difference is taken
+  @if $hue >= $hue-max {
+    @return math.abs($hue - $hue-max);
+  }
+
+  @return $hue;
+}
+
+/**
+ * Calculate saturation adjustment based on index
+ * Matches the JavaScript calculateSaturation function
+ * @param {Number} $original-saturation - Original saturation value (0-1)
+ * @param {Number} $index - Color level index in the palette
+ * @return {Number} - Adjusted saturation value (0-1)
+ */
+@function calculate-saturation($original-saturation, $index) {
+  // Convert to percentage scale (0-100) for calculations
+  $original-saturation: math.round($original-saturation * 100);
+
+  // Dark color increase, light color reduction
+  $step: $index - $primary-index;
+
+  // Calculate gap based on conditions exactly as in JS implementation
+  $gap: 1; // Default gap
+
+  @if $step > 0 and $original-saturation < 100 {
+    // For lighter colors (indexes > 5), increase saturation proportional to how far from 100% we are
+    $gap: math.round(math.div(100 - $original-saturation, 4));
+  } @else if $original-saturation > $saturation-min {
+    // For darker colors, decrease saturation proportional to current value
+    $gap: math.round(math.div($original-saturation - 5, 5));
+  }
+
+  // Apply the calculated gap
+  $saturation: $original-saturation + $step * $gap;
+
+  // Ensure saturation stays within bounds [5,100]
+  @if $saturation < $saturation-min {
+    $saturation: $saturation-min;
+  } @else if $saturation > $saturation-max {
+    $saturation: $saturation-max;
+  }
+
+  // Convert back to 0-1 scale
+  @return math.div($saturation, 100);
+}
+
+/**
+ * Calculate brightness adjust value
+ * Helper function for brightness calculation that precisely matches the JS implementation
+ * @param {Number} $original-brightness - Original brightness as percentage (0-100)
+ * @param {Number} $step - Step value (positive for lighter, negative for darker)
+ * @return {Number} - Brightness adjustment value
+ */
+@function calculate-brightness-adjust-value($original-brightness, $step) {
+  @if $step < 0 {
+    // For darker colors (lower index, steps < 0)
+    @if $original-brightness > 40 {
+      // For colors with brightness > 40%, apply non-linear reduction
+      // Calculating a progressively larger gap as we move further from primary
+      $basic-gap: math.ceil(math.div(math.div($original-brightness - 40, 4), 4));
+      $levels: math.abs($step);
+      $n: math.div(($levels + 1) * $levels, 2); // Sum of arithmetic progression
+      @return -1 * $basic-gap * $n; // Negative adjustment to reduce brightness
+    } @else {
+      // For colors already dark (brightness <= 40%), use a simpler reduction
+      @return math.round($step * math.div($original-brightness - 20, 4));
+    }
+  } @else {
+    // For lighter colors (higher index, steps > 0)
+    @return math.round($step * math.div(100 - $original-brightness, 5));
+  }
+}
+
+/**
+ * Calculate brightness adjustment based on index
+ * Matches the JavaScript calculateBrightness function
+ * @param {Number} $original-brightness - Original brightness value (0-1)
+ * @param {Number} $index - Color level index in the palette
+ * @return {Number} - Adjusted brightness value (0-1)
+ */
+@function calculate-brightness($original-brightness, $index) {
+  // Convert to percentage scale (0-100) for calculations
+  $original-brightness: math.round($original-brightness * 100);
+
+  // Calculate step based on primary index and target index
+  $step: $primary-index - $index;
+
+  // Special case: When brightness is already low and we want to go lighter (400 level),
+  // return the original brightness without adjustment
+  @if $step < 0 and $original-brightness < $brightness-min {
+    @return math.div($original-brightness, 100);
+  }
+
+  // Calculate adjustment value based on current brightness and step
+  $adjust-value: calculate-brightness-adjust-value($original-brightness, $step);
+  $brightness: $original-brightness + $adjust-value;
+
+  // Ensure brightness stays within bounds [20,100]
+  @if $brightness < $brightness-min {
+    $brightness: $brightness-min;
+  } @else if $brightness > $brightness-max {
+    $brightness: $brightness-max;
+  }
+
+  // Convert back to 0-1 scale
+  @return math.div($brightness, 100);
+}
+
+/**
+ * Standard color levels in the design system
+ */
+$color-levels: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+
+/**
+ * Generate color palette based on level
+ * @param {Color} $base-color - The base color to generate palette from
+ * @param {Number|String} $level - The color level (50, 100, 200, ..., 900)
+ * @return {Color} - The generated color for the specified level
+ */
+@function palette($base-color, $level) {
+  // For consistency with JS, the base color is exactly level 500
+  @if $level == 500 {
+    @return $base-color;
+  }
+
+  // Find the index of the level in the color set
+  $index: -1;
+
+  // Convert $level to string for comparison if it's a number
+  $level-str: $level;
+  @if meta.type-of($level) == 'number' {
+    $level-str: '#{$level}';
+  }
+
+  // Match index with JavaScript implementation - use loop to find exact position
+  $found: false;
+  @for $i from 1 through list.length($color-number-set) {
+    @if not $found and list.nth($color-number-set, $i) == $level-str {
+      $index: $i - 1; // Convert to 0-based index
+      $found: true;
+    }
+  }
+
+  // If level not found, return the original color
+  @if $index == -1 {
+    @return $base-color;
+  }
+
+  // For level 500 (primary index), return the original color
+  @if $index == $primary-index {
+    @return $base-color;
+  }
+
+  // Convert RGB to HSV (matching the JS implementation)
+  $hsv: rgb-to-hsv($base-color);
+
+  // Get the HSV components
+  $h: map.get($hsv, 'h');
+  $s: map.get($hsv, 's');
+  $v: map.get($hsv, 'v');
+
+  // Calculate new HSV values using the JS-equivalent helper functions
+  $new-h: calculate-hue($h, $index);
+  $new-s: calculate-saturation($s, $index);
+  $new-v: calculate-brightness($v, $index);
+
+  // Convert the adjusted HSV values back to RGB
+  $adjusted-color: hsv-to-rgb($new-h, $new-s, $new-v);
+
+  // Force hex format for consistency with the original JS implementation
+  @return color-to-hex($adjusted-color);
+}
+
+/**
+ * Generate CSS custom properties for an entire color palette
+ * @param {String} $name - The base name for the color variables
+ * @param {Color} $base-color - The base color (level 500) to generate palette from
+ */
+@mixin generate-palette-vars($name, $base-color) {
+  @each $level in $color-levels {
+    @if $level == 500 {
+      // Level 500 is the base color (reference color)
+      --rs-#{$name}-#{$level}: #{color-to-hex($base-color)};
+    } @else {
+      // Generate palette color for all other levels including 400
+      $palette-color: palette($base-color, $level);
+
+      --rs-#{$name}-#{$level}: #{$palette-color};
+    }
+  }
+}

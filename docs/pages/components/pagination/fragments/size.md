@@ -5,56 +5,26 @@ import { Pagination } from 'rsuite';
 
 const App = () => {
   const [activePage, setActivePage] = React.useState(5);
+  const pageProps = {
+    prev: true,
+    last: true,
+    next: true,
+    first: true,
+    total: 100,
+    limit: 10,
+    activePage,
+    onChangePage: setActivePage
+  };
 
   return (
     <>
-      <Pagination
-        prev
-        last
-        next
-        first
-        size="lg"
-        total={100}
-        limit={10}
-        activePage={activePage}
-        onChangePage={setActivePage}
-      />
+      <Pagination {...pageProps} size="xs" />
       <Divider />
-      <Pagination
-        prev
-        last
-        next
-        first
-        size="md"
-        total={100}
-        limit={10}
-        activePage={activePage}
-        onChangePage={setActivePage}
-      />
+      <Pagination {...pageProps} size="sm" />
       <Divider />
-      <Pagination
-        prev
-        last
-        next
-        first
-        size="sm"
-        total={100}
-        limit={10}
-        activePage={activePage}
-        onChangePage={setActivePage}
-      />
+      <Pagination {...pageProps} size="md" />
       <Divider />
-      <Pagination
-        prev
-        last
-        next
-        first
-        size="xs"
-        total={100}
-        limit={10}
-        activePage={activePage}
-        onChangePage={setActivePage}
-      />
+      <Pagination {...pageProps} size="lg" />
     </>
   );
 };

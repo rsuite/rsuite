@@ -1,4 +1,4 @@
-import it from 'date-fns/locale/it';
+import { it } from 'date-fns/locale/it';
 
 const DateTimeFormats = {
   sunday: 'Do',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Acceso',
     off: 'Spento'
+  },
+  Dialog: {
+    alert: 'Avviso',
+    confirm: 'Conferma',
+    ok: 'OK',
+    cancel: 'Annulla'
   }
 };

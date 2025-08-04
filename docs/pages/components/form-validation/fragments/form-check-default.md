@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel } from 'rsuite';
+import { Form, Button, ButtonToolbar } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 
-const { StringType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired('This field is required.'),
   email: StringType()
     .isEmail('Please enter a valid email address.')
@@ -15,7 +15,7 @@ function TextField(props) {
   const { name, label, accepter, ...rest } = props;
   return (
     <Form.Group controlId={`${name}-3`}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );
@@ -23,9 +23,11 @@ function TextField(props) {
 function App() {
   return (
     <Form model={model}>
-      <TextField name="name" label="Username" />
-      <TextField name="email" label="Email" />
-      <ButtonToolbar>
+      <Form.Stack>
+        <TextField name="name" label="Username" />
+        <TextField name="email" label="Email" />
+      </Form.Stack>
+      <ButtonToolbar mt={20}>
         <Button appearance="primary" type="submit">
           Submit
         </Button>

@@ -6,7 +6,7 @@ import ToastContainer, {
   defaultToasterContainer,
   type GetInstancePropsType
 } from './ToastContainer';
-import { toasterKeyOfContainerElement } from './render';
+import { RSUITE_TOASTER_ID } from '@/internals/symbols';
 
 export interface Toaster {
   /**
@@ -34,7 +34,7 @@ export interface Toaster {
   clear(): void;
 }
 
-const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
+const containers = new Map<string, React.RefObject<ToastContainerInstance | null>>();
 
 /**
  * Create a container instance.
@@ -43,6 +43,7 @@ const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
  */
 async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
   const [container, containerId] = await ToastContainer.getInstance(props);
+
   containers.set(`${containerId}_${placement}`, container);
 
   return container;
@@ -64,9 +65,7 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
 
   const containerElement = typeof container === 'function' ? container() : container;
 
-  const containerElementId = containerElement
-    ? containerElement[toasterKeyOfContainerElement]
-    : null;
+  const containerElementId = containerElement ? containerElement[RSUITE_TOASTER_ID] : null;
 
   if (containerElementId) {
     const existedContainer = getContainer(containerElementId, placement);
@@ -74,7 +73,9 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
       return existedContainer.current?.push(message, restOptions);
     }
   }
+
   const newOptions = { ...options, container: containerElement, placement };
+
   return createContainer(placement, newOptions).then(ref => {
     return ref.current?.push(message, restOptions);
   });

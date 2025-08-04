@@ -14,7 +14,7 @@ const data = mockTreeData({
 
 const App = () => (
   <>
-    <Cascader data={data} parentSelectable style={{ width: 224 }} />
+    <Cascader data={data} parentSelectable w={224} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

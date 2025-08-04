@@ -1,8 +1,6 @@
-# useBreakpointValue 🧪
+# useBreakpointValue
 
 一个 React Hook，根据响应式设计中不同的屏幕尺寸返回不同的值。
-
-> ⚠️ 此 API 仍处于实验阶段，可能会发生变化。
 
 ## 导入 Hook
 
@@ -12,11 +10,11 @@
 
 ### 响应式的改变头像大小
 
-<!--{include:`basic.md`}-->
+<!--{include:<responsive-avatar>}-->
 
 ### 响应式的改变堆栈方向
 
-<!--{include:`stack.md`}-->
+<!--{include:<responsive-stack>}-->
 
 ## API
 

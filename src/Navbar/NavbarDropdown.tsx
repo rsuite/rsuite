@@ -1,25 +1,21 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import omit from 'lodash/omit';
-import { useClassNames } from '@/internals/hooks';
-import { PLACEMENT_8 } from '@/internals/constants';
-import { mergeRefs, placementPolyfill } from '@/internals/utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { IconProps } from '@rsuite/icons/Icon';
-import { deprecatePropType, oneOf } from '@/internals/propTypes';
-import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '.';
 import Disclosure, { DisclosureTrigger } from '@/internals/Disclosure/Disclosure';
-import Button from '../Button';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 import NavbarDropdownToggle from './NavbarDropdownToggle';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeRefs, kebabPlace } from '@/internals/utils';
+import { NavbarContext } from './NavbarContext';
+import type { PlacementCorners, WithAsProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'title'> {
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'onToggle' | 'title' | 'color'> {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -30,7 +26,7 @@ export interface NavbarDropdownProps<T = any>
   trigger?: NavbarDropdownTrigger | readonly NavbarDropdownTrigger[];
 
   /** The placement of Menu */
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 
   /** Whether or not component is disabled */
   disabled?: boolean;
@@ -71,26 +67,16 @@ export interface NavbarDropdownProps<T = any>
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
-export interface NavbarDropdownComponent
-  extends RsRefForwardingComponent<'div', NavbarDropdownProps> {
-  // Infer toggleAs props
-  <ToggleAs extends React.ElementType = typeof Button>(
-    props: NavbarDropdownProps & {
-      ref?: React.Ref<any>;
-      toggleAs?: ToggleAs;
-    } & React.ComponentProps<ToggleAs>,
-    context: any
-  ): JSX.Element | null;
-
-  Item: typeof NavDropdownItem;
-  Menu: typeof NavDropdownMenu;
-}
+const Subcomponents = {
+  Item: NavDropdownItem,
+  Menu: NavDropdownMenu
+};
 
 /**
  * @private
  */
-const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
-  (props: NavbarDropdownProps, ref) => {
+const NavbarDropdown = forwardRef<'div', NavbarDropdownProps, typeof Subcomponents>(
+  (props, ref) => {
     const navbar = useContext(NavbarContext);
 
     if (!navbar) {
@@ -98,7 +84,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
     }
 
     const {
-      as: Component = 'div',
+      as,
       title,
       onClose,
       onOpen,
@@ -116,10 +102,10 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
       ...toggleProps
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withPrefix } = useStyles(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
 
     return (
       <Disclosure
@@ -135,19 +121,16 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
         }}
       >
         {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
-          const classes = merge(
-            className,
-            withClassPrefix({
-              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-              disabled,
-              open
-            })
-          );
+          const classes = merge(className, withPrefix());
           return (
-            <Component
+            <Box
+              as={as}
               ref={mergeRefs(ref, containerRef)}
               className={classes}
               style={style}
+              data-open={open}
+              data-disabled={disabled}
+              data-placement={kebabPlace(placement)}
               {...props}
             >
               <Disclosure.Button>
@@ -180,43 +163,15 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
                   );
                 }}
               </Disclosure.Content>
-            </Component>
+            </Box>
           );
         }}
       </Disclosure>
     );
-  }
-) as unknown as NavbarDropdownComponent;
-
-NavbarDropdown.Item = NavDropdownItem;
-NavbarDropdown.Menu = NavDropdownMenu;
+  },
+  Subcomponents
+);
 
 NavbarDropdown.displayName = 'Navbar.Dropdown';
-NavbarDropdown.propTypes = {
-  classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
-  placement: oneOf(PLACEMENT_8),
-  title: PropTypes.node,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  menuStyle: PropTypes.object,
-  className: PropTypes.string,
-  toggleClassName: PropTypes.string,
-  children: PropTypes.node,
-  open: deprecatePropType(PropTypes.bool),
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  toggleAs: PropTypes.elementType,
-  noCaret: PropTypes.bool,
-  style: PropTypes.object,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  onToggle: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func,
-  renderToggle: PropTypes.func
-};
 
 export default NavbarDropdown;

@@ -1,18 +1,17 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
-import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
 import GithubIcon from '@rsuite/icons/legacy/Github';
 import Icon from '@rsuite/icons/Icon';
 import stackBlitzSDK, { Project } from '@stackblitz/sdk';
-
-import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '../SvgIcons';
-import { useApp } from '../AppContext';
-import Paragraph from '../Paragraph';
+import Paragraph from './Paragraph';
 import ReactCodeView from './ReactCodeView';
 import CodeSandbox from './CodeSandbox';
 import AdCarbonInline from '../AdCarbon/AdCarbonInline';
+import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '@/components/icons';
+import { useApp } from '@/hooks/useApp';
 import { html, css, dependencies as codeDependencies } from './utils';
 
 export interface CustomCodeViewProps {
@@ -32,11 +31,13 @@ const CircleIconButton = React.forwardRef(({ icon, ...rest }: any, ref: React.Re
     ref={ref}
     appearance="subtle"
     circle
-    size="xs"
+    size="sm"
     type="submit"
     icon={<Icon as={icon} />}
   />
 ));
+
+CircleIconButton.displayName = 'CircleIconButton';
 
 const CodeView = (props: CustomCodeViewProps) => {
   const {
@@ -166,10 +167,17 @@ const CodeView = (props: CustomCodeViewProps) => {
             if (children) {
               return children;
             } else if (index === 0) {
-              return withWhisper({ children: showCodeButton, i18nKey });
+              return withWhisper({
+                children: React.cloneElement(showCodeButton, {
+                  'data-size': 'sm',
+                  'data-appearance': 'subtle',
+                  'data-shape': 'circle'
+                }),
+                i18nKey
+              });
             }
             return withWhisper({
-              children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
+              children: <IconButton appearance="subtle" circle size="sm" {...rest} />,
               i18nKey
             });
           })}
@@ -201,5 +209,7 @@ const CodeView = (props: CustomCodeViewProps) => {
   }
   return renderPlaceholder();
 };
+
+CodeView.displayName = 'CodeView';
 
 export default CodeView;

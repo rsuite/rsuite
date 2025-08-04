@@ -1,0 +1,10 @@
+@use '../../../styles/mixins/hacks';
+
+@mixin with-ripple {
+  & {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  @include hacks.safari-border-radius-overflow-hidden;
+}

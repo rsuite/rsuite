@@ -16,7 +16,7 @@ const App = () => {
         value={value}
         onChange={setValue}
         placeholder="Select"
-        style={{ width: 224 }}
+        w={224}
         data={initialData}
         getChildren={fetchNodes}
       />

@@ -1,0 +1,7 @@
+// Size variants
+@mixin segmented-control-size($size) {
+  --rs-segmented-control-height: var(--rs-segmented-control-height-#{$size});
+  --rs-segmented-control-item-padding-y: var(--rs-segmented-control-item-padding-y-#{$size});
+  --rs-segmented-control-item-padding-x: var(--rs-segmented-control-item-padding-x-#{$size});
+  --rs-segmented-control-font-size: var(--rs-segmented-control-font-size-#{$size});
+}

@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { WithAsProps } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 
-export interface StackItemProps extends WithAsProps {
-  alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-  flex?: React.CSSProperties['flex'];
-  grow?: React.CSSProperties['flexGrow'];
-  shrink?: React.CSSProperties['flexShrink'];
-  basis?: React.CSSProperties['flexBasis'];
-  order?: React.CSSProperties['order'];
+export interface StackItemProps extends BoxProps {
+  /**
+   * Define the alignment of the children in the stack on the cross axis
+   * @deprecated Use `self` instead
+   */
+  alignSelf?: React.CSSProperties['alignSelf'];
 }
 
 /**
@@ -17,42 +16,15 @@ export interface StackItemProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/stack
  */
-export default function StackItem(props: StackItemProps) {
-  const {
-    as: Component = 'div',
-    style,
-    className,
-    alignSelf,
-    flex,
-    grow,
-    shrink,
-    order,
-    basis,
-    ...rest
-  } = props;
+const StackItem = forwardRef<'div', StackItemProps>((props, ref) => {
+  const { as, classPrefix = 'stack-item', className, alignSelf, self = alignSelf, ...rest } = props;
 
-  return (
-    <Component
-      className={className}
-      style={{
-        alignSelf,
-        order,
-        ...(flex ? { flex } : { flexGrow: grow, flexShrink: shrink, flexBasis: basis }),
-        ...style
-      }}
-      {...rest}
-    />
-  );
-}
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+
+  return <Box as={as} ref={ref} className={classes} self={self} paddingTop={0} {...rest} />;
+});
 
 StackItem.displayName = 'StackItem';
-StackItem.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  alignSelf: oneOf(['flex-start', 'flex-end', 'center', 'baseline', 'stretch']),
-  flex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  grow: PropTypes.number,
-  shrink: PropTypes.number,
-  order: PropTypes.number,
-  basis: PropTypes.string
-};
+
+export default StackItem;

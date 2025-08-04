@@ -1,22 +1,21 @@
 import React from 'react';
 import useCombobox from '../Picker/hooks/useCombobox';
 import ScrollView, { ScrollViewProps } from '../ScrollView';
+import Box, { BaseBoxProps } from '@/internals/Box';
 import { useTreeContextProps } from './TreeProvider';
-import type { WithAsProps } from '@/internals/types';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 
-interface TreeViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
+interface TreeViewProps extends BaseBoxProps, React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;
   multiselectable?: boolean;
   height?: number;
 }
 
-const ScrollShadowView = React.forwardRef(
-  (props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
-    return <ScrollView scrollShadow ref={ref} {...props} />;
-  }
-);
+const ScrollShadowView = forwardRef<'div', ScrollViewProps>((props, ref) => {
+  return <ScrollView scrollShadow ref={ref} {...props} />;
+});
 
-const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivElement>) => {
+const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   const {
     as = 'div',
     children,
@@ -30,13 +29,16 @@ const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivE
   const { id, labelId, popupType } = useCombobox();
 
   // If the tree is virtualized, the scroll shadow is not needed.
-  const Component = scrollShadow && !virtualized ? ScrollShadowView : as;
+  const treeAs = scrollShadow && !virtualized ? ScrollShadowView : as;
 
   // If the tree is virtualized, the height is not needed.
-  const viewStyles = { height: virtualized ? undefined : height, ...style };
+  const viewStyles = mergeStyles(style, {
+    '--rs-tree-view-height': virtualized ? undefined : getCssValue(height)
+  });
 
   return (
-    <Component
+    <Box
+      as={treeAs}
       role="tree"
       style={viewStyles}
       id={id ? `${id}-${popupType}` : undefined}
@@ -46,8 +48,10 @@ const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivE
       {...rest}
     >
       <div className={treeRootClassName}>{children}</div>
-    </Component>
+    </Box>
   );
 });
+
+TreeView.displayName = 'TreeView';
 
 export default TreeView;
