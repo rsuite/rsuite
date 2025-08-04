@@ -38,6 +38,9 @@ export interface ProgressCircleProps extends BoxProps {
   /** Tail width */
   trailWidth?: number;
 
+  /** Diameter of the circle */
+  width?: number;
+
   /** Multiple sections with different colors */
   sections?: Pick<ProgressSection, 'percent' | 'color'>[];
 
@@ -67,6 +70,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
     style,
     trailColor,
     trailWidth = strokeWidth,
+    width,
     sections,
     ...rest
   } = propsWithDefaults;
@@ -112,7 +116,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
           classPrefix={classPrefix}
         />
       )}
-      <svg className={prefix('svg')} viewBox="0 0 100 100">
+      <svg className={prefix('svg')} viewBox="0 0 100 100" width={width}>
         <path
           className={prefix('trail')}
           d={pathString}

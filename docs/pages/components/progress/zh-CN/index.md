@@ -89,6 +89,7 @@
 | trailColor       | string                                                                       | 背景颜色                 |            |
 | trailWidth       | number                                                                       | 背景宽度                 |            |
 | vertical         | boolean                                                                      | 垂直显示进度条           |            |
+| width            | number                                                                       | 圆直径                   |
 
 ### `ts:ProgressSection`
 

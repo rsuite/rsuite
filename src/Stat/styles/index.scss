@@ -83,6 +83,10 @@
       color: var(--rs-red-900);
     }
 
+    &-equal {
+      color: var(--rs-primary-900);
+    }
+
     &-default {
       padding: 2px 6px;
     }
@@ -95,12 +99,20 @@
       background-color: var(--rs-red-100);
     }
 
+    &-default.rs-stat-trend-equal {
+      background-color: var(--rs-primary-100);
+    }
+
     &-subtle.rs-stat-trend-up {
       color: var(--rs-green-600);
     }
 
     &-subtle.rs-stat-trend-down {
       color: var(--rs-red-600);
+    }
+
+    &-subtle.rs-stat-trend-equal {
+      color: var(--rs-primary-600);
     }
   }
 

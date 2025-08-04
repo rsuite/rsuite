@@ -215,6 +215,8 @@
 
     &-header &-content {
       padding: var(--rs-table-header-padding);
+      display: flex;
+      align-items: center;
     }
 
     &-header &-sort-wrapper {
@@ -225,6 +227,11 @@
     &-header-icon-sort {
       font-size: var(--rs-font-size-base);
       line-height: var(--rs-table-header-line-height);
+      display: flex;
+
+      &:where([data-sort='asc']) {
+        transform: rotate(180deg);
+      }
     }
 
     &:where([aria-sort]) &-header-icon-sort {
@@ -384,6 +391,11 @@
   cursor: pointer;
   outline: none;
   font-size: var(--rs-font-size-md);
+  transition: transform 0.3s ease;
+
+  &:where([data-expanded='true']) {
+    transform: rotate(90deg);
+  }
 }
 
 // Scrollbar

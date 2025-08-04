@@ -108,12 +108,12 @@ Make the stat group responsive to different screen sizes.
 
 ### `<Stat.Trend>`
 
-| Property    | Type `(Default)`        | Description                           |
-| ----------- | ----------------------- | ------------------------------------- |
-| as          | elementType `('span')`  | HTML tag of the component             |
-| children    | ReactNode               | The children of the component         |
-| classPrefix | string `('stat-trend')` | The prefix of the component CSS class |
-| indicator   | 'up' \| 'down'          | The trend indicator of the component  |
+| Property    | Type `(Default)`          | Description                           |
+| ----------- | ------------------------- | ------------------------------------- |
+| as          | elementType `('span')`    | HTML tag of the component             |
+| children    | ReactNode                 | The children of the component         |
+| classPrefix | string `('stat-trend')`   | The prefix of the component CSS class |
+| indicator   | 'up' \| 'down' \| 'equal' | The trend indicator of the component  |
 
 ### `<Stat.HelpText>`
 

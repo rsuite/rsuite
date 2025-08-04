@@ -33,8 +33,17 @@ const ArrowDown = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
+const ArrowEqual = (props: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M7 9l10 0"></path>
+      <path d="M7 15l10 0"></path>
+    </svg>
+  );
+};
+
 export interface StatTrendProps extends BoxProps {
-  indicator?: 'up' | 'down';
+  indicator?: 'up' | 'down' | 'equal';
   appearance?: 'default' | 'subtle';
 }
 
@@ -51,7 +60,8 @@ const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
 
   const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix(appearance, indicator));
-  const IndicatorIcon = indicator === 'up' ? ArrowUp : ArrowDown;
+  const IndicatorIcon =
+    indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
 
   return (
     <Box as={as} ref={ref} className={classes} {...rest}>

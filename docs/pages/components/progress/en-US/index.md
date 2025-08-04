@@ -89,6 +89,7 @@ Display a vertical progress bar with the `vertical` prop. All other properties l
 | trailColor       | string                                                                       | Trail color                              |            |
 | trailWidth       | number                                                                       | Trail width                              |            |
 | vertical         | boolean                                                                      | The progress bar is displayed vertically |            |
+| width            | number                                                                       | Circle diameter                          |
 
 ### `ts:ProgressSection`
 
