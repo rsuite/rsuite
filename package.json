@@ -152,7 +152,7 @@
     "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "husky": "^7.0.2",
-    "inquirer": "^9.2.7",
+    "inquirer": "^12.9.0",
     "karma": "^6.3.14",
     "karma-chai-dom": "^1.1.0",
     "karma-chrome-launcher": "^3.1.0",
