@@ -22,10 +22,13 @@ const CalendarBody = forwardRef<'div', CalendarBodyProps>((props, ref) => {
   return (
     <Component {...rest} ref={ref} className={classes}>
       <Grid
-        rows={getWeekStartDates(thisMonthDate, {
-          weekStart,
-          locale: locale?.dateLocale
-        })}
+        rows={getWeekStartDates(
+          { year: date.getFullYear(), month: date.getMonth() + 1 },
+          {
+            weekStart,
+            locale: locale?.dateLocale
+          }
+        )}
         aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
       />
     </Component>

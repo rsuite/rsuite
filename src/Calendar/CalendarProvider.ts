@@ -68,13 +68,6 @@ export interface CalendarInnerContextValue {
   disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
 
   /**
-   * A function that determines if a date is in the same month as the current date in the calendar.
-   * @param date - The date to check.
-   * @returns True if the date is in the same month, false otherwise.
-   */
-  inSameMonth?: (date: Date) => boolean;
-
-  /**
    * A callback function that is called when the month is changed in the calendar.
    * @param nextPageDate - The next page date.
    * @param event - The mouse event.

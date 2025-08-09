@@ -4,10 +4,11 @@ import GridHeaderRow from './GridHeaderRow';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
+import type { PlainDate } from '@/internals/utils/date';
 import { useCalendar } from '../hooks';
 
 export interface GridProps extends WithAsProps {
-  rows: any[];
+  rows: readonly PlainDate[];
 }
 
 const Grid = forwardRef<'div', GridProps>((props: GridProps, ref) => {
@@ -32,8 +33,8 @@ const Grid = forwardRef<'div', GridProps>((props: GridProps, ref) => {
       className={classes}
     >
       <GridHeaderRow />
-      {rows.map((week, index) => (
-        <GridRow key={index} weekendDate={week} rowIndex={index + 1} />
+      {rows.map((rowStartingDate, index) => (
+        <GridRow key={index} startingDate={rowStartingDate} rowIndex={index + 1} />
       ))}
     </Component>
   );

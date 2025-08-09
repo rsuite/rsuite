@@ -1,85 +1,60 @@
 import getWeekStartDates from '../getWeekStartDates';
 import { describe, expect, it } from 'vitest';
-import { parseISO, format } from 'date-fns';
 
 describe('internals/utils/date/getWeekStartDates', () => {
   it('Sunday is the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 0 });
+    const weeks = getWeekStartDates({ year: 2017, month: 12 }, { weekStart: 0 });
     const dates = [
-      '2017-11-26',
-      '2017-12-03',
-      '2017-12-10',
-      '2017-12-17',
-      '2017-12-24',
-      '2017-12-31'
+      { year: 2017, month: 11, day: 26 },
+      { year: 2017, month: 12, day: 3 },
+      { year: 2017, month: 12, day: 10 },
+      { year: 2017, month: 12, day: 17 },
+      { year: 2017, month: 12, day: 24 },
+      { year: 2017, month: 12, day: 31 }
     ];
 
-    weeks.forEach((week, index) => {
-      expect(format(week, 'yyyy-MM-dd')).to.be.equal(dates[index]);
-    });
+    expect(weeks).to.deep.equal(dates);
   });
 
   it('Monday is the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 1 });
+    const weeks = getWeekStartDates({ year: 2017, month: 12 }, { weekStart: 1 });
     const dates = [
-      '2017-11-27',
-      '2017-12-04',
-      '2017-12-11',
-      '2017-12-18',
-      '2017-12-25',
-      '2018-01-01'
+      { year: 2017, month: 11, day: 27 },
+      { year: 2017, month: 12, day: 4 },
+      { year: 2017, month: 12, day: 11 },
+      { year: 2017, month: 12, day: 18 },
+      { year: 2017, month: 12, day: 25 },
+      { year: 2018, month: 1, day: 1 }
     ];
 
-    weeks.forEach((week, index) => {
-      expect(format(week, 'yyyy-MM-dd')).to.be.equal(dates[index]);
-    });
-  });
-
-  it('Should be monday as the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 1 });
-    const dates = [
-      '2017-11-27',
-      '2017-12-04',
-      '2017-12-11',
-      '2017-12-18',
-      '2017-12-25',
-      '2018-01-01'
-    ];
-
-    weeks.forEach((week, index) => {
-      expect(format(week, 'yyyy-MM-dd')).to.be.equal(dates[index]);
-    });
+    expect(weeks).to.deep.equal(dates);
   });
 
   it('Should be tuesday as the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 2 });
+    const weeks = getWeekStartDates({ year: 2017, month: 12 }, { weekStart: 2 });
     const dates = [
-      '2017-11-28',
-      '2017-12-05',
-      '2017-12-12',
-      '2017-12-19',
-      '2017-12-26',
-      '2018-01-02'
+      { year: 2017, month: 11, day: 28 },
+      { year: 2017, month: 12, day: 5 },
+      { year: 2017, month: 12, day: 12 },
+      { year: 2017, month: 12, day: 19 },
+      { year: 2017, month: 12, day: 26 },
+      { year: 2018, month: 1, day: 2 }
     ];
 
-    weeks.forEach((week, index) => {
-      expect(format(week, 'yyyy-MM-dd')).to.be.equal(dates[index]);
-    });
+    expect(weeks).to.deep.equal(dates);
   });
 
   it('Should be saturday as the first day of the week.', () => {
-    const weeks = getWeekStartDates(parseISO('2017-11-30'), { weekStart: 6 });
+    const weeks = getWeekStartDates({ year: 2017, month: 12 }, { weekStart: 6 });
     const dates = [
-      '2017-11-25',
-      '2017-12-02',
-      '2017-12-09',
-      '2017-12-16',
-      '2017-12-23',
-      '2017-12-30'
+      { year: 2017, month: 11, day: 25 },
+      { year: 2017, month: 12, day: 2 },
+      { year: 2017, month: 12, day: 9 },
+      { year: 2017, month: 12, day: 16 },
+      { year: 2017, month: 12, day: 23 },
+      { year: 2017, month: 12, day: 30 }
     ];
 
-    weeks.forEach((week, index) => {
-      expect(format(week, 'yyyy-MM-dd')).to.be.equal(dates[index]);
-    });
+    expect(weeks).to.deep.equal(dates);
   });
 });

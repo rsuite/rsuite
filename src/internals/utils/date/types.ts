@@ -94,3 +94,13 @@ export type PlainDate = {
   readonly month: number;
   readonly day: number;
 };
+
+/**
+ * Resembles Temporal.PlainYearMonth
+ *
+ * @see https://tc39.es/proposal-temporal/docs/plainyearmonth.html
+ */
+export type PlainYearMonth = {
+  readonly year: number;
+  readonly month: number;
+};

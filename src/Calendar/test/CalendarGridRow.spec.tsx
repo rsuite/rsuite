@@ -7,16 +7,24 @@ import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
 
 describe('Calendar-GridRow', () => {
-  testStandardProps(<GridRow />);
+  testStandardProps(<GridRow startingDate={{ year: 2025, month: 8, day: 4 }} />);
 
   it('Should render a div with `table-row` class', () => {
-    render(<GridRow />);
+    render(<GridRow startingDate={{ year: 2025, month: 8, day: 4 }} />);
     expect(screen.getByRole('row')).to.have.class('rs-calendar-table-row');
   });
 
   it('Should be active today', () => {
     const thisDate = new Date();
-    render(<GridRow weekendDate={thisDate} />);
+    render(
+      <GridRow
+        startingDate={{
+          year: thisDate.getFullYear(),
+          month: thisDate.getMonth() + 1,
+          day: thisDate.getDate()
+        }}
+      />
+    );
 
     expect(screen.getByTitle(`${format(thisDate, 'dd MMM yyyy')} (Today)`)).to.have.class(
       'rs-calendar-table-cell-is-today'
@@ -30,7 +38,7 @@ describe('Calendar-GridRow', () => {
       <CalendarProvider
         value={{ onSelect, date: thisDate, locale: {}, isoWeek: false, weekStart: 0 }}
       >
-        <GridRow weekendDate={thisDate} />
+        <GridRow startingDate={{ year: 2025, month: 6, day: 16 }} />
       </CalendarProvider>
     );
 
@@ -50,14 +58,13 @@ describe('Calendar-GridRow', () => {
           weekStart: 0
         }}
       >
-        <GridRow weekendDate={thisDate} />
+        <GridRow startingDate={{ year: 2022, month: 11, day: 2 }} />
       </CalendarProvider>
     );
     expect(screen.getByRole('rowheader')).to.have.text(format(thisDate, 'w'));
   });
 
   it('Should render a ISO week number', () => {
-    const thisDate = new Date(2022, 10, 2);
     render(
       <CalendarProvider
         value={{
@@ -67,7 +74,7 @@ describe('Calendar-GridRow', () => {
           locale: {}
         }}
       >
-        <GridRow weekendDate={thisDate} />
+        <GridRow startingDate={{ year: 2022, month: 11, day: 2 }} />
       </CalendarProvider>
     );
 
@@ -91,7 +98,13 @@ describe('Calendar-GridRow', () => {
           }
         }}
       >
-        <GridRow />
+        <GridRow
+          startingDate={{
+            year: thisDate.getFullYear(),
+            month: thisDate.getMonth() + 1,
+            day: thisDate.getDate()
+          }}
+        />
       </CalendarProvider>
     );
 
@@ -102,7 +115,7 @@ describe('Calendar-GridRow', () => {
 
   describe('Accessibility', () => {
     it('Should have a role attribute', () => {
-      render(<GridRow />);
+      render(<GridRow startingDate={{ year: 2025, month: 8, day: 4 }} />);
       expect(screen.getByRole('row')).to.have.attribute('role', 'row');
     });
   });
