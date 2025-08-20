@@ -53,6 +53,13 @@ export interface TreePickerProps<V = number | string | null>
    * @default true
    */
   popupAutoWidth?: boolean;
+
+  /**
+   * Whether only leaf nodes can be selected
+   *
+   * @default false
+   */
+  onlyLeafSelectable?: boolean;
 }
 
 /**
@@ -93,6 +100,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     valueKey = 'value',
     virtualized = false,
     value: controlledValue,
+    onlyLeafSelectable = false,
     listProps,
     toggleAs,
     searchBy,
@@ -134,6 +142,13 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const { prefix, merge } = useStyles(classPrefix);
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
+  // Check if a node is a leaf node (has no children)
+  const isLeafNode = (node: TreeNode) => {
+    return (
+      !node[childrenKey] || (Array.isArray(node[childrenKey]) && node[childrenKey].length === 0)
+    );
+  };
+
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
   const { active, focusItemValue, setFocusItemValue, triggerProps } = useFocusState({
     focusActiveNode,
@@ -146,6 +161,11 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const handleSelect = useEventCallback(
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
+      // If onlyLeafSelectable is enabled, only allow selection of leaf nodes
+      if (onlyLeafSelectable && !isLeafNode(treeNode)) {
+        return;
+      }
+
       setFocusItemValue(value);
       onSelect?.(treeNode, value, event);
 

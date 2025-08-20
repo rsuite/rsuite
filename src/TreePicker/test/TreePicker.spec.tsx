@@ -680,4 +680,85 @@ describe('TreePicker', () => {
       expect(screen.getByText('Custom No Results Message')).to.exist;
     });
   });
+
+  describe('onlyLeafSelectable', () => {
+    it('Should allow selection of leaf nodes when onlyLeafSelectable is true', () => {
+      const onSelectSpy = vi.fn();
+      const onChangeSpy = vi.fn();
+
+      render(
+        <TreePicker
+          defaultOpen
+          data={data}
+          onlyLeafSelectable
+          onSelect={onSelectSpy}
+          onChange={onChangeSpy}
+        />
+      );
+
+      // Expand the Master node to access leaf nodes
+      fireEvent.click(screen.getByRole('button', { name: 'Expand Master' }));
+
+      // Click on a leaf node (tester0)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'tester0' }));
+
+      expect(onSelectSpy).toHaveBeenCalledTimes(1);
+      expect(onChangeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should prevent selection of non-leaf nodes when onlyLeafSelectable is true', () => {
+      const onSelectSpy = vi.fn();
+      const onChangeSpy = vi.fn();
+
+      render(
+        <TreePicker
+          defaultOpen
+          data={data}
+          onlyLeafSelectable
+          onSelect={onSelectSpy}
+          onChange={onChangeSpy}
+        />
+      );
+
+      // Click on a non-leaf node (Master)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+      expect(onSelectSpy).toHaveBeenCalledTimes(0);
+      expect(onChangeSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('Should allow selection of all nodes when onlyLeafSelectable is false', () => {
+      const onSelectSpy = vi.fn();
+      const onChangeSpy = vi.fn();
+
+      render(
+        <TreePicker
+          defaultOpen
+          data={data}
+          onlyLeafSelectable={false}
+          onSelect={onSelectSpy}
+          onChange={onChangeSpy}
+        />
+      );
+
+      // Click on a non-leaf node (Master)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+      expect(onSelectSpy).toHaveBeenCalledTimes(1);
+      expect(onChangeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should allow selection of all nodes when onlyLeafSelectable is not provided (default behavior)', () => {
+      const onSelectSpy = vi.fn();
+      const onChangeSpy = vi.fn();
+
+      render(<TreePicker defaultOpen data={data} onSelect={onSelectSpy} onChange={onChangeSpy} />);
+
+      // Click on a non-leaf node (Master)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+      expect(onSelectSpy).toHaveBeenCalledTimes(1);
+      expect(onChangeSpy).toHaveBeenCalledTimes(1);
+    });
+  });
 });
