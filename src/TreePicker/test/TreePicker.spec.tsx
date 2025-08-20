@@ -760,5 +760,27 @@ describe('TreePicker', () => {
       expect(onSelectSpy).toHaveBeenCalledTimes(1);
       expect(onChangeSpy).toHaveBeenCalledTimes(1);
     });
+
+    it('Should prevent keyboard selection of non-leaf nodes when onlyLeafSelectable is true', () => {
+      const onSelectSpy = vi.fn();
+      const onChangeSpy = vi.fn();
+
+      render(
+        <TreePicker
+          defaultOpen
+          data={data}
+          onlyLeafSelectable
+          onSelect={onSelectSpy}
+          onChange={onChangeSpy}
+        />
+      );
+
+      // Focus on a non-leaf node (Master) and press Enter
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+      fireEvent.keyDown(screen.getByRole('tree'), { key: 'Enter' });
+
+      expect(onSelectSpy).toHaveBeenCalledTimes(0);
+      expect(onChangeSpy).toHaveBeenCalledTimes(0);
+    });
   });
 });
