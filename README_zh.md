@@ -14,6 +14,7 @@
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rsuite/rsuite)
 
 React Suite 是一套 React 组件库。致力于提供高质量并且全面的 React 组件，以帮助开发者快速构建 Web 应用。
 
