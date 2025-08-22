@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-less": "^2.7.0",
-    "parcel": "^2.7.0",
+    "parcel": "^2.15.4",
     "process": "^0.11.10"
   },
   "dependencies": {
