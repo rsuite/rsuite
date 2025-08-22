@@ -20,6 +20,13 @@ export interface TreeProps<T = string | number | null>
    * The shadow of the content when scrolling
    */
   scrollShadow?: boolean;
+
+  /**
+   * Callback function called after the value has been changed.
+   * @param value - The new value.
+   * @param event - The event object.
+   */
+  onChange?: (value: T, event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -46,6 +53,7 @@ const Tree = forwardRef<'div', TreeProps>((props, ref) => {
     getChildren,
     onChange,
     onExpand,
+    onSelect,
     ...rest
   } = propsWithDefaults;
 
@@ -67,9 +75,10 @@ const Tree = forwardRef<'div', TreeProps>((props, ref) => {
     appendChild
   });
 
-  const handleChange = useEventCallback(
-    (nextValue: string | number, event: React.SyntheticEvent) => {
+  const handleSelect = useEventCallback(
+    (nodeData: any, nextValue: string | number, event: React.SyntheticEvent) => {
       setValue(nextValue);
+      onSelect?.(nodeData, nextValue, event);
       onChange?.(nextValue, event);
     }
   );
@@ -99,7 +108,7 @@ const Tree = forwardRef<'div', TreeProps>((props, ref) => {
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
         expandItemValues={expandItemValues}
-        onChange={handleChange}
+        onSelect={handleSelect}
         onExpand={handleExpandTreeNode}
       />
     </TreeProvider>
