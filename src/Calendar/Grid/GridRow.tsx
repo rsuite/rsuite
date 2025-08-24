@@ -57,6 +57,10 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
 
   const renderDays = () => {
     const days: React.ReactElement[] = [];
+    // The start and end dates of the range selection
+    // Note that they can be
+    // - Invalid date - when the user is inputting the date with text input
+    // - undefined - when the range selection isn't completed
     const [selectedStartDateJS, selectedEndDateJS] = dateRange || [];
     const [hoverStartDateJS, hoverEndDateJS] = hoverRangeValue ?? [];
     const isRangeSelectionMode = typeof dateRange !== 'undefined';
@@ -66,14 +70,23 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
       const thisDateJS = new Date(thisDate.year, thisDate.month - 1, thisDate.day);
       const disabled = disabledDate?.(thisDateJS, dateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
 
-      const unSameMonth =
-        selected.getFullYear() !== thisDate.year || selected.getMonth() + 1 !== thisDate.month;
+      // Whether this date is in a different month from the selected date
+      const isSameMonth =
+        selected.getFullYear() === thisDate.year && selected.getMonth() + 1 === thisDate.month;
 
-      const rangeStart =
-        !unSameMonth && selectedStartDateJS && isSameDay(thisDate, selectedStartDateJS);
-      const rangeEnd = !unSameMonth && selectedEndDateJS && isSameDay(thisDate, selectedEndDateJS);
+      // Whether this date is the range start date and is in the same month with the selected date
+      const isRangeStart =
+        isSameMonth && selectedStartDateJS && isSameDay(thisDate, selectedStartDateJS);
+
+      // Whether this date is the range end date and is in the same month with the selected date
+      const isRangeEnd = isSameMonth && selectedEndDateJS && isSameDay(thisDate, selectedEndDateJS);
+
+      // Whether this date should be displayed in the "selected" state
+      // Either
+      // - In range selection mode, it's either the range start or end date
+      // - Otherwise, it's the selected date itself
       const isSelected = isRangeSelectionMode
-        ? rangeStart || rangeEnd
+        ? isRangeStart || isRangeEnd
         : isSameDay(thisDate, selected);
 
       // TODO-Doma Move those logic that's for DatePicker/DateRangePicker to a separate component
@@ -126,9 +139,9 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
           disabled={disabled}
           selected={isSelected}
           onSelect={handleSelect}
-          unSameMonth={unSameMonth}
-          rangeStart={rangeStart}
-          rangeEnd={rangeEnd}
+          unSameMonth={!isSameMonth}
+          rangeStart={isRangeStart}
+          rangeEnd={isRangeEnd}
           inRange={inRange}
         />
       );

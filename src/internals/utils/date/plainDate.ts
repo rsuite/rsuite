@@ -33,6 +33,9 @@ function equals(date1: PlainDate, date2: PlainDate): boolean {
 }
 
 export function isSameDay(date: PlainDate, jsDate: Date): boolean {
+  // If jsDate is an invalid date, always return false
+  if (Number.isNaN(jsDate.valueOf())) return false;
+
   return equals(date, toPlainDate(jsDate));
 }
 
