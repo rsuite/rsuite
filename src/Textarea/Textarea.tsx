@@ -4,6 +4,7 @@ import InputBase, { InputBaseCommonProps } from '@/internals/InputBase';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import type {
+  PrependParameters,
   SanitizedTextareaProps,
   PropsWithoutChange,
   FormControlBaseProps,
@@ -44,6 +45,11 @@ export interface TextareaProps
    * Called when Enter key is pressed
    */
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+
+  /**
+   * The callback function in which value is changed.
+   */
+  onChange?: PrependParameters<React.ChangeEventHandler<HTMLTextAreaElement>, [value: string]>;
 }
 
 const Textarea = forwardRef<'textarea', TextareaProps>((props, ref) => {
