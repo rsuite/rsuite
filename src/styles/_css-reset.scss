@@ -252,7 +252,6 @@ h6 {
   font-family: var(--rs-heading-font-family);
   font-weight: var(--rs-heading-font-weight);
   color: var(--rs-heading-color);
-  margin: 0;
 }
 
 h1 {
@@ -283,18 +282,6 @@ h5 {
 h6 {
   font-size: var(--rs-heading-h6-font-size);
   line-height: var(--rs-heading-h6-line-height);
-}
-
-// Body text
-// -------------------------
-
-p {
-  margin: 0;
-
-  // Multiple <p/> need set margin
-  & + p {
-    margin-top: var(--rs-padding-block-md);
-  }
 }
 
 // Emphasis & misc
