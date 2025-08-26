@@ -10,7 +10,6 @@ import { forwardRef } from '@/internals/utils';
 import {
   startOfToday,
   disableTime,
-  isSameMonth,
   calendarOnlyProps,
   omitHideDisabledProps,
   DateMode,
@@ -267,7 +266,6 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   const { mode, has } = useDateMode(format);
   const timeMode = calendarState === CalendarState.TIME || mode === DateMode.Time;
   const monthMode = calendarState === CalendarState.MONTH || mode === DateMode.Month;
-  const inSameThisMonthDate = (date: Date) => isSameMonth(calendarDate, date);
 
   const calendarClasses = merge(
     className,
@@ -299,7 +297,6 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     monthDropdownProps,
     cellClassName,
     disabledDate: isDateDisabled,
-    inSameMonth: inSameThisMonthDate,
     onChangeMonth: handleChangeMonth,
     onChangeTime,
     onMouseMove,
