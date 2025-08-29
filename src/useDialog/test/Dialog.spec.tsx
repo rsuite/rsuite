@@ -74,7 +74,7 @@ describe('Dialog', () => {
     expect(onClose).toHaveBeenCalledWith(true);
   });
 
-  it('Should call onClose when clicking Cancel button', async () => {
+  it('Should call onClose with false when clicking Cancel button', async () => {
     const onClose = vi.fn();
     render(
       <Dialog
@@ -101,7 +101,7 @@ describe('Dialog', () => {
     // Wait for any state updates and animations
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    expect(onClose).toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalledWith(false);
   });
 
   it('Should call onClose with input value when pressing Enter in prompt', async () => {
