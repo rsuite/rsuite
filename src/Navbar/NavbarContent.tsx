@@ -18,6 +18,8 @@ const NavbarContent = React.forwardRef((props: NavbarContentProps, ref: React.Re
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
 
+  const onClose = useCallback(() => {
+    onToggle?.(false);
   }, [onToggle]);
 
   return (
