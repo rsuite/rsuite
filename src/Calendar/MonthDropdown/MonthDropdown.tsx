@@ -7,6 +7,7 @@ import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { isEveryDateInMonth } from '../utils';
+import { plainYearMonthToString } from '@/internals/utils/date/plainDate';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -89,14 +90,14 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
             {year}
           </div>
           <div className={prefix('list')}>
-            {MONTHS_INDEX.map((item, month) => {
+            {MONTHS_INDEX.map(month => {
+              const yearMonth = { year, month: month + 1 }; // TODO: Doma - Should we make a constant pool for optimization?
               return (
                 <MonthDropdownItem
+                  key={plainYearMonthToString(yearMonth)}
+                  yearMonth={yearMonth}
                   disabled={isMonthDisabled(year, month)}
                   active={isSelectedYear && month === selectedMonth}
-                  key={`${month}_${item}`}
-                  month={month + 1}
-                  year={year}
                 />
               );
             })}

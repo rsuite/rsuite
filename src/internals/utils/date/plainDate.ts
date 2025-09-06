@@ -1,4 +1,4 @@
-import type { PlainDate } from './types';
+import type { PlainDate, PlainYearMonth } from './types';
 
 function toPlainDate(date: Date): PlainDate {
   return {
@@ -43,4 +43,16 @@ export function addDays(date: PlainDate, days: number): PlainDate {
   const jsDate = new Date(date.year, date.month - 1, date.day);
   jsDate.setDate(jsDate.getDate() + days);
   return toPlainDate(jsDate);
+}
+
+/**
+ * Resembles the behavior of `Temporal.PlainYearMonth.prototype.toString`.
+ *
+ * @example
+ * plainYearMonthToString({ year: 2025, month: 9 }); // => '2025-09'
+ *
+ * @see https://tc39.es/proposal-temporal/docs/plainyearmonth.html#toString
+ */
+export function plainYearMonthToString(yearMonth: PlainYearMonth): string {
+  return `${yearMonth.year}-${String(yearMonth.month).padStart(2, '0')}`;
 }

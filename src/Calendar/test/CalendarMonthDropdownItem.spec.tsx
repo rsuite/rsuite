@@ -7,12 +7,12 @@ import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
 
 describe('Calendar-MonthDropdownItem', () => {
-  testStandardProps(<MonthDropdownItem />);
+  testStandardProps(<MonthDropdownItem yearMonth={{ year: 2025, month: 9 }} />);
 
   it('Should output specified month', () => {
     render(
       <CalendarProvider value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}>
-        <MonthDropdownItem year={2024} month={1} />
+        <MonthDropdownItem yearMonth={{ year: 2024, month: 1 }} />
       </CalendarProvider>
     );
 
@@ -26,7 +26,7 @@ describe('Calendar-MonthDropdownItem', () => {
       <CalendarProvider
         value={{ date: new Date(), onChangeMonth, locale: {}, isoWeek: false, weekStart: 0 }}
       >
-        <MonthDropdownItem month={1} year={2017} />
+        <MonthDropdownItem yearMonth={{ year: 2017, month: 1 }} />
       </CalendarProvider>
     );
 
@@ -38,13 +38,13 @@ describe('Calendar-MonthDropdownItem', () => {
 
   describe('Accessibility', () => {
     it('Should have a aria-disabled attribute', () => {
-      render(<MonthDropdownItem disabled />);
+      render(<MonthDropdownItem yearMonth={{ year: 2025, month: 9 }} disabled />);
 
       expect(screen.getByRole('gridcell')).to.have.attribute('aria-disabled');
     });
 
     it('Should have a aria-selected attribute', () => {
-      render(<MonthDropdownItem active />);
+      render(<MonthDropdownItem yearMonth={{ year: 2025, month: 9 }} active />);
 
       expect(screen.getByRole('gridcell')).to.have.attribute('aria-selected');
     });
@@ -52,18 +52,18 @@ describe('Calendar-MonthDropdownItem', () => {
     it('Should have a aria-label attribute', () => {
       render(
         <CalendarProvider value={{ date: new Date(), locale: {}, isoWeek: false, weekStart: 0 }}>
-          <MonthDropdownItem month={1} year={2023} />
+          <MonthDropdownItem yearMonth={{ year: 2023, month: 1 }} />
         </CalendarProvider>
       );
       expect(screen.getByRole('gridcell')).to.have.attribute('aria-label', 'Jan 2023');
     });
 
     it('Should have a tabIndex attribute', () => {
-      const { rerender } = render(<MonthDropdownItem />);
+      const { rerender } = render(<MonthDropdownItem yearMonth={{ year: 2025, month: 9 }} />);
 
       expect(screen.getByRole('gridcell')).to.have.attribute('tabindex', '-1');
 
-      rerender(<MonthDropdownItem active />);
+      rerender(<MonthDropdownItem yearMonth={{ year: 2025, month: 9 }} active />);
 
       expect(screen.getByRole('gridcell')).to.have.attribute('tabindex', '0');
     });
