@@ -6,8 +6,8 @@ import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/W
 import { useStyles } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
-import { isEveryDateInMonth } from '../utils';
 import { plainYearMonthToString } from '@/internals/utils/date/plainDate';
+import type { PlainYearMonth } from '@/internals/utils/date/types';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -15,7 +15,7 @@ export interface MonthDropdownProps extends WithAsProps {
   limitEndYear?: number;
   height?: number;
   width?: number;
-  disabledMonth?: (date: Date) => boolean;
+  isMonthDisabled?: (yearMonth: PlainYearMonth) => boolean;
 }
 
 // Array representing the index of each month
@@ -34,7 +34,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
     show,
     height: defaultHeight = 221,
     width: defaultWidth = 256,
-    disabledMonth,
+    isMonthDisabled,
     ...rest
   } = props;
 
@@ -48,17 +48,6 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
 
     return endYear - startYear;
   }, [limitEndYear, startYear, thisYear]);
-
-  const isMonthDisabled = useCallback(
-    (year, month) => {
-      if (disabledMonth) {
-        return isEveryDateInMonth(year, month, disabledMonth);
-      }
-
-      return false;
-    },
-    [disabledMonth]
-  );
 
   const {
     className: listClassName,
@@ -96,7 +85,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
                 <MonthDropdownItem
                   key={plainYearMonthToString(yearMonth)}
                   yearMonth={yearMonth}
-                  disabled={isMonthDisabled(year, month)}
+                  disabled={isMonthDisabled?.(yearMonth)}
                   active={isSelectedYear && month === selectedMonth}
                 />
               );

@@ -130,10 +130,10 @@ describe('Calendar-MonthDropdown', () => {
       >
         <MonthDropdown
           show
-          disabledMonth={d => {
-            const today = new Date(2019, 8, 6);
-            const d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
-            return d.getTime() > today.getTime() || d.getTime() < d2.getTime();
+          // Disabled months > 2019-09 or < 2019-08
+          // i.e. Only enable 2019-08 and 2019-09
+          isMonthDisabled={({ year, month }) => {
+            return year !== 2019 || month < 8 || month > 9;
           }}
         />
       </CalendarProvider>

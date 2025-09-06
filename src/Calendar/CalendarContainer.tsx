@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useMemo } from 'react';
+import React, { HTMLAttributes, useCallback, useMemo } from 'react';
 import pick from 'lodash/pick';
 import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 import MonthDropdown from './MonthDropdown';
@@ -21,6 +21,8 @@ import { CalendarLocale } from '../locales';
 import { CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
+import { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
+import { isEveryDayInMonth } from '@/internals/utils/date/plainDate';
 
 export interface CalendarProps
   extends WithAsProps,
@@ -258,8 +260,22 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onToggleMonthDropdown
   });
 
-  const isDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
+  const isJsDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
   const isTimeDisabled = (date: Date) => disableTime(props, date);
+
+  const isDateDisabled = useCallback(
+    (date: PlainDate) => {
+      return isJsDateDisabled(new Date(date.year, date.month - 1, date.day));
+    },
+    [isJsDateDisabled]
+  );
+
+  const isMonthDisabled = useCallback(
+    (yearMonth: PlainYearMonth) => {
+      return isEveryDayInMonth(yearMonth, isDateDisabled);
+    },
+    [isDateDisabled]
+  );
 
   const handleCloseDropdown = useEventCallback(() => reset());
 
@@ -296,7 +312,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     showWeekNumbers,
     monthDropdownProps,
     cellClassName,
-    disabledDate: isDateDisabled,
+    disabledDate: isJsDateDisabled,
     onChangeMonth: handleChangeMonth,
     onChangeTime,
     onMouseMove,
@@ -332,7 +348,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
             show={monthMode}
             limitEndYear={limitEndYear}
             limitStartYear={limitStartYear}
-            disabledMonth={isDateDisabled}
+            isMonthDisabled={isMonthDisabled}
           />
         )}
         {has('time') && (
