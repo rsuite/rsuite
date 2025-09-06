@@ -2,7 +2,6 @@ import React from 'react';
 import MonthDropdownItem from '../MonthDropdown/MonthDropdownItem';
 import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { format } from 'date-fns';
 import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
 
@@ -19,7 +18,7 @@ describe('Calendar-MonthDropdownItem', () => {
     expect(screen.getByRole('gridcell')).to.have.text('Jan');
   });
 
-  it('Should call `onSelect` callback with correct date', () => {
+  it('Should call `onChangeMonth` callback with correct date', () => {
     const onChangeMonth = vi.fn();
 
     render(
@@ -33,7 +32,7 @@ describe('Calendar-MonthDropdownItem', () => {
     fireEvent.click(screen.getByRole('gridcell'));
 
     expect(onChangeMonth).toHaveBeenCalledTimes(1);
-    expect(format(onChangeMonth.mock.calls[0][0], 'yyyy-MM')).toBe('2017-01');
+    expect(onChangeMonth.mock.calls[0][0]).toEqual({ year: 2017, month: 1 });
   });
 
   describe('Accessibility', () => {

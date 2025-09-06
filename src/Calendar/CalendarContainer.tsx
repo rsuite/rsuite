@@ -18,7 +18,7 @@ import {
 } from '@/internals/utils/date';
 import { WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
-import { CalendarProvider } from './CalendarProvider';
+import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
 import { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
@@ -294,10 +294,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   );
   const timeDropdownProps = pick(rest, calendarOnlyProps);
 
-  const handleChangeMonth = useEventCallback((date: Date, event: React.MouseEvent) => {
-    reset();
-    onChangeMonth?.(date, event);
-  });
+  const handleChangeMonth = useEventCallback(
+    (yearMonth: PlainYearMonth, event: React.MouseEvent) => {
+      reset();
+      // Call `onChangeMonth` with the first day in the month
+      onChangeMonth?.(new Date(yearMonth.year, yearMonth.month - 1, 1), event);
+    }
+  );
 
   const contextValue = {
     date: calendarDate,
@@ -319,7 +322,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onSelect,
     renderCell,
     renderCellOnPicker
-  };
+  } satisfies CalendarContextValue;
 
   return (
     <CalendarProvider value={contextValue}>

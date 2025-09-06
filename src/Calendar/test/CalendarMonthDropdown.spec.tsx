@@ -104,7 +104,7 @@ describe('Calendar-MonthDropdown', () => {
       <CalendarProvider
         value={{
           onChangeMonth: onChangeMonth,
-          date: new Date(),
+          date: new Date(2025, 8, 6),
           locale: {},
           isoWeek: false,
           weekStart: 0
@@ -121,6 +121,7 @@ describe('Calendar-MonthDropdown', () => {
     );
 
     expect(onChangeMonth).toHaveBeenCalledTimes(1);
+    expect(onChangeMonth).toHaveBeenCalledWith({ year: 2023, month: 1 }, expect.anything());
   });
 
   it('Should disable month', () => {

@@ -23,7 +23,7 @@ const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
       ...rest
     } = props;
 
-    const { onChangeMonth: onSelect } = useCalendar();
+    const { onChangeMonth } = useCalendar();
     const formatMonth = useFormatMonth();
     const getAriaLabelForMonth = useGetAriaLabelForMonth();
 
@@ -32,7 +32,7 @@ const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
         return;
       }
 
-      onSelect?.(new Date(yearMonth.year, yearMonth.month - 1, 1), event);
+      onChangeMonth?.(yearMonth, event);
     });
 
     const { prefix, merge, withPrefix } = useStyles(classPrefix);
