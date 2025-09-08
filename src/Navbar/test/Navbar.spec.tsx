@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+import { NavbarContext } from '../NavbarContext';
 
 describe('Navbar', () => {
   testStandardProps(<Navbar />);
@@ -221,6 +222,147 @@ describe('Navbar', () => {
       const tooltip = screen.getByTestId('tooltip');
 
       expect(tooltip).not.to.have.style('left', '0px').and.not.to.have.style('top', '0px');
+    });
+  });
+
+  describe('Drawer functionality', () => {
+    it('Should render with controlled drawer state', () => {
+      const { rerender } = render(<Navbar drawerOpen={false} />);
+
+      // Initial state should be closed
+      expect(screen.queryByRole('dialog')).to.be.null;
+
+      rerender(<Navbar drawerOpen={true} />);
+      // Note: The drawer itself might not be rendered until NavbarDrawer is used
+    });
+
+    it('Should call onDrawerOpenChange when drawer state changes', () => {
+      const onDrawerOpenChange = vi.fn();
+      render(
+        <Navbar onDrawerOpenChange={onDrawerOpenChange}>
+          <Navbar.Toggle data-testid="toggle" />
+        </Navbar>
+      );
+
+      fireEvent.click(screen.getByTestId('toggle'));
+      expect(onDrawerOpenChange).toHaveBeenCalledWith(true);
+    });
+
+    it('Should handle uncontrolled drawer state', () => {
+      const onDrawerOpenChange = vi.fn();
+      render(
+        <Navbar onDrawerOpenChange={onDrawerOpenChange}>
+          <Navbar.Toggle data-testid="toggle" />
+        </Navbar>
+      );
+
+      // NavbarToggle always calls onToggle(true), but Navbar handles the actual toggling
+      // First click should open
+      fireEvent.click(screen.getByTestId('toggle'));
+      expect(onDrawerOpenChange).toHaveBeenCalledWith(true);
+
+      // Second click should also call with true, but Navbar's internal logic handles toggling
+      fireEvent.click(screen.getByTestId('toggle'));
+      expect(onDrawerOpenChange).toHaveBeenCalledWith(true);
+      expect(onDrawerOpenChange).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Context provider', () => {
+    it('Should provide context with correct values', () => {
+      let contextValue: any;
+      const TestComponent = () => {
+        const context = React.useContext(NavbarContext);
+        contextValue = context;
+        return <div data-testid="test">Test</div>;
+      };
+
+      render(
+        <Navbar appearance="inverse" drawerOpen={true}>
+          <TestComponent />
+        </Navbar>
+      );
+
+      expect(contextValue).to.have.property('appearance', 'inverse');
+      expect(contextValue).to.have.property('open', true);
+      expect(contextValue).to.have.property('navbarId');
+      expect(contextValue).to.have.property('onToggle');
+      expect(typeof contextValue.onToggle).to.equal('function');
+    });
+
+    it('Should generate unique navbar ID', () => {
+      const ids: string[] = [];
+      const TestComponent = () => {
+        const context = React.useContext(NavbarContext);
+        if (context?.navbarId) {
+          ids.push(context.navbarId);
+        }
+        return null;
+      };
+
+      const { unmount } = render(
+        <Navbar>
+          <TestComponent />
+        </Navbar>
+      );
+      unmount();
+
+      render(
+        <Navbar>
+          <TestComponent />
+        </Navbar>
+      );
+
+      expect(ids).to.have.length(2);
+      expect(ids[0]).not.to.equal(ids[1]);
+    });
+
+    it('Should update context when props change', () => {
+      let contextValue: any;
+      const TestComponent = () => {
+        const context = React.useContext(NavbarContext);
+        contextValue = context;
+        return null;
+      };
+
+      const { rerender } = render(
+        <Navbar appearance="default" drawerOpen={false}>
+          <TestComponent />
+        </Navbar>
+      );
+
+      expect(contextValue.appearance).to.equal('default');
+      expect(contextValue.open).to.equal(false);
+
+      rerender(
+        <Navbar appearance="subtle" drawerOpen={true}>
+          <TestComponent />
+        </Navbar>
+      );
+
+      expect(contextValue.appearance).to.equal('subtle');
+      expect(contextValue.open).to.equal(true);
+    });
+  });
+
+  describe('Subcomponents', () => {
+    it('Should have correct subcomponents', () => {
+      expect(Navbar.Brand).to.exist;
+      expect(Navbar.Content).to.exist;
+      expect(Navbar.Toggle).to.exist;
+      expect(Navbar.Drawer).to.exist;
+    });
+  });
+
+  describe('Custom element type', () => {
+    it('Should render as custom element when as prop is provided', () => {
+      const { container } = render(<Navbar as="header" />);
+      expect(container.firstChild?.nodeName).to.equal('HEADER');
+    });
+
+    it('Should render as nav by default', () => {
+      const { container } = render(<Navbar />);
+      expect(container.firstChild?.nodeName).to.equal('NAV');
     });
   });
 });
