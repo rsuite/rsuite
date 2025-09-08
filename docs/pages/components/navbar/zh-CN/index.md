@@ -42,7 +42,7 @@
 
 展示带有大型下拉菜单的导航栏。
 
-<!--{include:`mege-menu.md`}-->
+<!--{include:`mega-menu.md`}-->
 
 ### 带抽屉菜单
 
@@ -82,9 +82,10 @@
 
 | 属性名称           | 类型`(默认值)`                                  | 描述                                           |
 | ------------------ | ----------------------------------------------- | ---------------------------------------------- |
-| as                 | ElementType `('div')`                           | 为组件自定义元素类型                           |
 | appearance         | 'default' \| 'inverse' \| 'subtle'`('default')` | 导航栏外观                                     |
+| as                 | ElementType `('nav')`                           | 为组件自定义元素类型                           |
 | classPrefix        | string `('navbar')`                             | 组件 CSS 类的前缀                              |
+| drawerOpen         | boolean                                         | 控制抽屉菜单的打开状态<br/> ![][6.0.0]         |
 | onDrawerOpenChange | (open: boolean) => void                         | 抽屉菜单打开或关闭时的回调函数<br/> ![][6.0.0] |
 
 ### `<Navbar.Brand>`
@@ -100,13 +101,13 @@
 
 ![][6.0.0]
 
-| 属性名称    | 类型 `(默认值)`             | 描述                 |
-| ----------- | --------------------------- | -------------------- |
-| as          | ElementType `('div')`       | 为组件自定义元素类型 |
-| classPrefix | string `('navbar-content')` | 组件 CSS 类的前缀    |
-| children    | ReactNode                   | 内容                 |
-| showFrom    | [Breakpoints][breakpoints]  | 在指定断点显示内容   |
-| hideFrom    | [Breakpoints][breakpoints]  | 在指定断点隐藏内容   |
+| 属性名称    | 类型 `(默认值)`                                                     | 描述                 |
+| ----------- | ------------------------------------------------------------------- | -------------------- |
+| as          | ElementType `('div')`                                               | 为组件自定义元素类型 |
+| children    | ReactNode \| (({ onClose }: { onClose: () => void }) => ReactNode) | 内容或带有 onClose 回调的渲染函数 |
+| classPrefix | string `('navbar-content')`                                         | 组件 CSS 类的前缀    |
+| hideFrom    | [Breakpoints][breakpoints]                                          | 在指定断点隐藏内容   |
+| showFrom    | [Breakpoints][breakpoints]                                          | 在指定断点显示内容   |
 
 ### `<Navbar.Toggle>`
 
