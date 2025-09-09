@@ -1,4 +1,4 @@
-import type { PlainDate } from './types';
+import type { PlainDate, PlainYearMonth } from './types';
 
 function toPlainDate(date: Date): PlainDate {
   return {
@@ -43,4 +43,43 @@ export function addDays(date: PlainDate, days: number): PlainDate {
   const jsDate = new Date(date.year, date.month - 1, date.day);
   jsDate.setDate(jsDate.getDate() + days);
   return toPlainDate(jsDate);
+}
+
+/**
+ * Resembles the behavior of `Temporal.PlainYearMonth.prototype.toString`.
+ *
+ * @example
+ * plainYearMonthToString({ year: 2025, month: 9 }); // => '2025-09'
+ *
+ * @see https://tc39.es/proposal-temporal/docs/plainyearmonth.html#toString
+ */
+export function plainYearMonthToString(yearMonth: PlainYearMonth): string {
+  return `${yearMonth.year}-${String(yearMonth.month).padStart(2, '0')}`;
+}
+
+/**
+ * Gives the number of days in the month.
+ * This is 28, 29, 30, or 31, depending on the month and whether the year is a leap year.
+ *
+ * Resembles the behavior of `Temporal.PlainYearMonth.prototype.daysInMonth`.
+ *
+ * @see https://tc39.es/proposal-temporal/docs/plainyearmonth.html#daysInMonth
+ */
+function getDaysInMonth(yearMonth: PlainYearMonth): number {
+  return new Date(yearMonth.year, yearMonth.month - 1, 0).getDate();
+}
+
+export function isEveryDayInMonth(
+  yearMonth: PlainYearMonth,
+  predicate: (date: PlainDate) => boolean
+): boolean {
+  const daysInMonth = getDaysInMonth(yearMonth);
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    if (!predicate({ ...yearMonth, day })) {
+      return false;
+    }
+  }
+
+  return true;
 }
