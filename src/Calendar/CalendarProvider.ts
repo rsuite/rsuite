@@ -13,6 +13,11 @@ export interface CalendarInnerContextValue {
   date?: Date;
 
   /**
+   * The current date of the calendar.
+   */
+  selectedDate?: Date;
+
+  /**
    * The date range selected in the calendar.
    */
   dateRange?: Date[];

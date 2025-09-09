@@ -42,6 +42,11 @@ export interface CalendarProps
   calendarDate: Date;
 
   /**
+   * The date that is currently clicked in the picker (before definitive selection)
+   */
+  selectedDate?: Date;
+
+  /**
    * Whether to show week numbers
    */
   showWeekNumbers?: boolean;
@@ -241,6 +246,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       renderCellOnPicker,
       renderTitle,
       renderToolbar,
+      selectedDate,
       ...rest
     } = props;
 
@@ -287,6 +293,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
 
     const contextValue = {
       date: calendarDate,
+      selectedDate,
       dateRange,
       format,
       hoverRangeValue,
