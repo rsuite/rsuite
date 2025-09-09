@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+const { codecovWebpackPlugin } = require("@codecov/webpack-plugin");
 const __DEV__ = process.env.NODE_ENV === 'development';
 const filename = __DEV__ ? '[name].js' : '[name].min.js';
 
@@ -13,7 +13,12 @@ const plugins = [
   }),
   new webpack.SourceMapDevToolPlugin({
     filename: `${filename}.map`
-  })
+  }),
+  codecovWebpackPlugin({
+    enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+    bundleName: "rsuite-webpack-bundle",
+    uploadToken: process.env.CODECOV_TOKEN,
+  }),
 ];
 
 if (process.env.ANALYZE === 'true') {
