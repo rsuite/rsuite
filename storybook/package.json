@@ -23,7 +23,7 @@
     "@storybook/addon-styling-webpack": "^0.0.6",
     "@storybook/blocks": "^7.6.10",
     "@storybook/react": "^7.6.10",
-    "@storybook/react-vite": "^7.6.10",
+    "@storybook/react-vite": "^9.1.5",
     "@storybook/test": "^7.6.10",
     "@storybook/theming": "^7.6.10",
     "@types/react": "^18.2.43",
@@ -39,6 +39,6 @@
     "storybook": "^7.6.10",
     "storybook-dark-mode": "^3.0.3",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.4.20"
   }
 }
