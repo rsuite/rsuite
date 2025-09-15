@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
 import type { WithAsProps } from '@/internals/types';
 import type { PlainYearMonth } from '@/internals/utils/date/types';
+import { useGetAriaLabelForMonth } from '../utils/getAriaLabel';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   yearMonth: PlainYearMonth;
@@ -66,21 +67,5 @@ function useFormatMonth(): (month: PlainYearMonth) => string {
   return useCallback(
     (month: PlainYearMonth) => formatDate(new Date(month.year, month.month - 1, 1), 'MMM'),
     [formatDate]
-  );
-}
-
-function useGetAriaLabelForMonth(): (month: PlainYearMonth) => string {
-  const { locale: overrideLocale } = useCalendar();
-  const { getLocale, formatDate } = useCustom('Calendar');
-
-  const { formattedMonthPattern } = useMemo(
-    () => getLocale('Calendar', overrideLocale),
-    [getLocale, overrideLocale]
-  );
-
-  return useCallback(
-    (month: PlainYearMonth) =>
-      formatDate(new Date(month.year, month.month - 1, 1), formattedMonthPattern),
-    [formatDate, formattedMonthPattern]
   );
 }

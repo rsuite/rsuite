@@ -324,6 +324,10 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     renderCellOnPicker
   } satisfies CalendarContextValue;
 
+  const currentViewingMonth = useMemo(() => {
+    return { year: calendarDate.getFullYear(), month: calendarDate.getMonth() + 1 };
+  }, [calendarDate]);
+
   return (
     <CalendarProvider value={contextValue}>
       <Component
@@ -345,7 +349,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
             disabledForward={disabledForward}
           />
         )}
-        {has('day') && <CalendarBody />}
+        {has('day') && <CalendarBody yearMonth={currentViewingMonth} />}
         {has('month') && (
           <MonthDropdown
             show={monthMode}
