@@ -1,6 +1,6 @@
 # LLMs.txt Documentation
 
-React Suite provides comprehensive documentation in LLMs.txt format to help AI coding assistants understand and work with React Suite components effectively. This documentation is specifically designed for tools like Cursor, Windsurf, GitHub Copilot, ChatGPT, and Claude.
+React Suite provides comprehensive documentation in LLMs.txt format to help AI coding assistants understand and work with React Suite components effectively.
 
 ## What is LLMs.txt?
 

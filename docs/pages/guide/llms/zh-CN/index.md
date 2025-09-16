@@ -1,6 +1,6 @@
 # LLMs.txt 文档
 
-React Suite 提供了 LLMs.txt 格式的综合文档，帮助 AI 编程助手有效地理解和使用 React Suite 组件。此文档专为 Cursor、Windsurf、GitHub Copilot、ChatGPT 和 Claude 等工具设计。
+React Suite 提供了 LLMs.txt 格式的综合文档，帮助 AI 编程助手有效地理解和使用 React Suite 组件。
 
 ## 什么是 LLMs.txt？
 
