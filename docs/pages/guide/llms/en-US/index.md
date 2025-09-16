@@ -1,4 +1,4 @@
-# LLMs.txt Documentation
+# LLMs.txt
 
 React Suite provides comprehensive documentation in LLMs.txt format to help AI coding assistants understand and work with React Suite components effectively.
 
@@ -20,7 +20,7 @@ React Suite provides a comprehensive LLMs.txt file that includes:
 
 The LLMs.txt documentation is available at:
 
-- **Main Documentation**: [/llms.txt](https://rsuitejs.com/llms.txt)
+- **Main Documentation**: [llms.txt](/llms.txt)
 
 ## Using with AI Coding Tools
 

@@ -1,4 +1,4 @@
-# LLMs.txt 文档
+# LLMs.txt
 
 React Suite 提供了 LLMs.txt 格式的综合文档，帮助 AI 编程助手有效地理解和使用 React Suite 组件。
 
@@ -20,7 +20,7 @@ React Suite 提供了一个综合的 LLMs.txt 文件，包括：
 
 LLMs.txt 文档可在以下位置获取：
 
-- **主要文档**：[/llms.txt](/llms.txt)
+- **主要文档**：[llms.txt](/llms.txt)
 
 ## 与 AI 编程工具配合使用
 
