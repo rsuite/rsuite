@@ -54,6 +54,12 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.accessibility
             },
             {
+              id: 'llms',
+              name: locales?.common?.llms,
+              tag: 'New',
+              tagColor: 'green'
+            },
+            {
               id: 'logs',
               name: locales?.common?.changeLog,
               target: '_blank',
