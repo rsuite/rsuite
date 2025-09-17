@@ -53,6 +53,20 @@ export default function usePages(): MenuItem[] {
               id: 'accessibility',
               name: locales?.common?.accessibility
             },
+
+            {
+              id: 'logs',
+              name: locales?.common?.changeLog,
+              target: '_blank',
+              url: 'https://github.com/rsuite/rsuite/releases'
+            }
+          ]
+        },
+        {
+          group: true,
+          id: 'ai-for-agents',
+          name: locales?.common?.aiForAgents,
+          children: [
             {
               id: 'llms',
               name: locales?.common?.llms,
@@ -60,10 +74,10 @@ export default function usePages(): MenuItem[] {
               tagColor: 'green'
             },
             {
-              id: 'logs',
-              name: locales?.common?.changeLog,
-              target: '_blank',
-              url: 'https://github.com/rsuite/rsuite/releases'
+              id: 'mcp-server',
+              name: locales?.common?.mcpServer,
+              tag: 'New',
+              tagColor: 'green'
             }
           ]
         },

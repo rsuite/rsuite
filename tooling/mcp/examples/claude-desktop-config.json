@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "rsuite": {
+      "command": "npx",
+      "args": ["@rsuite/mcp"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

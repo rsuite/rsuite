@@ -55,6 +55,8 @@ export default {
     copyFailed: 'Copy the failure, the browser doesn`t support this feature',
     shareTwitter: 'Share on Twitter',
     accessibility: 'Accessibility',
+    aiForAgents: 'AI for Agents',
+    mcpServer: 'MCP Server',
     llms: 'LLMs.txt',
     composition: 'Composition',
     optimizingPerformance: 'Optimizing Performance',
