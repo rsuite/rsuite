@@ -1,0 +1,189 @@
+{
+  "Uploader": {
+    "props": {
+      "accept": {
+        "type": "string",
+        "isRequired": false,
+        "description": "File types that can be accepted. See [HTML attribute: accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept) Attribute"
+      },
+      "action": {
+        "type": "string",
+        "isRequired": true,
+        "description": "Uploading URL"
+      },
+      "autoUpload": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Automatically upload files after selecting them",
+        "defaultValue": "true"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "uploader"
+      },
+      "data": {
+        "type": "Object",
+        "isRequired": false,
+        "description": "Upload the parameters with"
+      },
+      "defaultFileList": {
+        "type": "[FileType][file][]",
+        "isRequired": false,
+        "description": "List of uploaded files"
+      },
+      "disableMultipart": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "If 'true', disable using a multipart form for file upload and instead stream the file. Some APIs (e.g. Amazon S3) may expect the file to be streamed rather than sent via a form"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disabled upload button"
+      },
+      "disabledFileItem": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disabled the file list"
+      },
+      "draggable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enabled drag and drop to upload."
+      },
+      "fileList": {
+        "type": "[FileType][file][]",
+        "isRequired": false,
+        "description": "List of uploaded files （Controlled）"
+      },
+      "fileListVisible": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The file list is visible",
+        "defaultValue": "true"
+      },
+      "headers": {
+        "type": "Object",
+        "isRequired": false,
+        "description": "Set Upload request Header"
+      },
+      "listType": {
+        "type": "menu: 'text' , 'picture-text' , 'picture'",
+        "isRequired": false,
+        "description": "Upload list Style",
+        "defaultValue": "text"
+      },
+      "locale": {
+        "type": "UploaderLocaleType",
+        "isRequired": false,
+        "description": "Define localization settings to show component text in the user's regional language"
+      },
+      "maxPreviewFileSize": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the maximum limit for preview files",
+        "defaultValue": "5242880"
+      },
+      "method": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The http method of upload request",
+        "defaultValue": "POST"
+      },
+      "multiple": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Allow multiple file uploads to be selected at a time"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Upload the parameter name of the corresponding file",
+        "defaultValue": "file"
+      },
+      "onChange": {
+        "type": "(fileList: [FileType][file][], , event: ChangeEvent | MouseEvent) => void",
+        "isRequired": false,
+        "description": "callback function that the upload queue has changed"
+      },
+      "onError": {
+        "type": "(reason: object, file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "Upload callback function with error"
+      },
+      "onPreview": {
+        "type": "(file: [FileType][file], event) => void",
+        "isRequired": false,
+        "description": "In the file list, click the callback function for the uploaded file"
+      },
+      "onProgress": {
+        "type": "(percent: number, file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "Callback functions that upload progress changes"
+      },
+      "onRemove": {
+        "type": "(file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "In the file list, click the callback function to delete a file"
+      },
+      "onReupload": {
+        "type": "(file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "In the file list, for uploading failed files, click the callback function to upload"
+      },
+      "onSuccess": {
+        "type": "(response: object, file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "callback function after successful upload"
+      },
+      "onUpload": {
+        "type": "(file: [FileType][file]) => void",
+        "isRequired": false,
+        "description": "The callback function that starts the upload file"
+      },
+      "removable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Removable list file",
+        "defaultValue": "true"
+      },
+      "renderFileInfo": {
+        "type": "(file: [FileType][file], fileElement: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render file information"
+      },
+      "renderThumbnail": {
+        "type": "(file: [FileType][file], thumbnail: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render thumbnail"
+      },
+      "shouldQueueUpdate": {
+        "type": "(fileList: [FileType][file][], newFile: [FileType][file][] | [FileType][file]) => boolean | Promise&lt;boolean&gt;",
+        "isRequired": false,
+        "description": "Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update"
+      },
+      "shouldUpload": {
+        "type": "(file:[FileType][file] ) => boolean | Promise&lt;boolean&gt;",
+        "isRequired": false,
+        "description": "Allow uploading of files. Check function before file upload, return false without uploading"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set upload timeout"
+      },
+      "toggleAs": {
+        "type": "ElementType (Button)",
+        "isRequired": false,
+        "description": "You can use a custom element for this component"
+      },
+      "withCredentials": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to carry cookies when uploading requests"
+      }
+    }
+  }
+}

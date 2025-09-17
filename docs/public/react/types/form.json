@@ -1,0 +1,258 @@
+{
+  "Form": {
+    "props": {
+      "checkTrigger": {
+        "type": "'change' | 'blur' | 'none'",
+        "isRequired": false,
+        "description": "Specifies when to trigger form validation",
+        "defaultValue": "change"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disables the form",
+        "defaultValue": "false"
+      },
+      "errorFromContext": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default error messages in Form.Control are sourced from Context",
+        "defaultValue": "true"
+      },
+      "fluid": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables the Input to occupy 100% width in vertical layouts only"
+      },
+      "formDefaultValue": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Initial default values for the form"
+      },
+      "formError": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Error messages for the form"
+      },
+      "formValue": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Values of the form (controlled)"
+      },
+      "layout": {
+        "type": "'horizontal' | 'vertical' | 'inline'",
+        "isRequired": false,
+        "description": "The layout style of the form",
+        "defaultValue": "vertical"
+      },
+      "model": {
+        "type": "Schema",
+        "isRequired": false,
+        "description": "Instance of SchemaModel"
+      },
+      "nestedField": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Allows support for nested fields",
+        "defaultValue": "false"
+      },
+      "onChange": {
+        "type": "(formValue: object, event) => void",
+        "isRequired": false,
+        "description": "Callback triggered on data change"
+      },
+      "onCheck": {
+        "type": "(formError: object) => void",
+        "isRequired": false,
+        "description": "Callback triggered on data validation"
+      },
+      "onError": {
+        "type": "(formError: object) => void",
+        "isRequired": false,
+        "description": "Callback triggered on validation errors"
+      },
+      "onReset": {
+        "type": "(formValue: object, event: FormEvent) => void",
+        "isRequired": false,
+        "description": "Callback triggered on form reset"
+      },
+      "onSubmit": {
+        "type": "(formValue: object, event: FormEvent) => void",
+        "isRequired": false,
+        "description": "Callback triggered on form submission, only occurs when form data is validated"
+      },
+      "plaintext": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Renders the form in plain text",
+        "defaultValue": "false"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Sets the form to read-only mode",
+        "defaultValue": "false"
+      }
+    }
+  },
+  "Form.Stack": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component",
+        "defaultValue": "form-stack"
+      },
+      "fluid": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables the Input to occupy 100% width in vertical layouts only"
+      },
+      "layout": {
+        "type": "'horizontal' | 'vertical' | 'inline'",
+        "isRequired": false,
+        "description": "The layout style of the form",
+        "defaultValue": "vertical"
+      },
+      "spacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Spacing between form controls"
+      }
+    }
+  },
+  "Form.Control": {
+    "props": {
+      "accepter": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Component to be used as the input.",
+        "defaultValue": "Input"
+      },
+      "checkAsync": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables asynchronous validation."
+      },
+      "checkTrigger": {
+        "type": "'change' | 'blur' | 'none'",
+        "isRequired": false,
+        "description": "Overrides the form's validation trigger type for this control."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component.",
+        "defaultValue": "form-control"
+      },
+      "errorMessage": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Displays error messages."
+      },
+      "errorPlacement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "Specifies where to display error messages.",
+        "defaultValue": "bottomStart"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": true,
+        "description": "Name attribute for the control, supports nested paths like `address.city` for form value management."
+      },
+      "plaintext": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Renders the control in plain text."
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Sets the control to read-only mode."
+      },
+      "rule": {
+        "type": "checkType",
+        "isRequired": false,
+        "description": "Validation rule for the field. Overrides form-level `model` validation if there's a conflict, [example](/components/form-validation/#field-level-verification-rules)."
+      },
+      "shouldResetWithUnmount": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Removes the field value and error message when the component is unmounted.",
+        "defaultValue": "false"
+      }
+    }
+  },
+  "Form.Group": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component",
+        "defaultValue": "form-group"
+      },
+      "controlId": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Assigns an id to the `<Form.Control>` and sets `htmlFor` on the `<Form.Label>`."
+      }
+    }
+  },
+  "Form.Label": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component",
+        "defaultValue": "form-control-label"
+      },
+      "htmlFor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `for` attribute of the HTML label tag, defaults to the Form.Group's controlId"
+      }
+    }
+  },
+  "Form.Text": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component",
+        "defaultValue": "form-help-text"
+      },
+      "htmlFor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `for` attribute of the HTML label tag, defaults to the Form.Group's controlId"
+      },
+      "tooltip": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Shows the text through a Tooltip component"
+      }
+    }
+  },
+  "Form.ErrorMessage": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class prefix for the component",
+        "defaultValue": "form-error-message"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "Specifies where to display error messages",
+        "defaultValue": "bottomStart"
+      },
+      "show": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Toggles the visibility of the error message"
+      }
+    }
+  }
+}

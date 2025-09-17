@@ -1,6 +1,6 @@
 {
   "name": "@rsuite/mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model Context Protocol server for React Suite components",
   "type": "module",
   "main": "dist/index.js",
@@ -12,7 +12,12 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "test": "npm run build && node dist/test.js",
+    "test": "npm run build && node test/run-all.js",
+    "test:config": "node test/config-simple.test.js",
+    "test:env": "node test/environment-config.test.js",
+    "test:api": "node test/local-api.test.js",
+    "test:service": "node test/mcp-service.test.js",
+    "test:debug": "node test/url-debug.test.js",
     "prepare": "npm run build"
   },
   "keywords": [

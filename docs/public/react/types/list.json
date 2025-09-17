@@ -1,0 +1,96 @@
+{
+  "List": {
+    "props": {
+      "autoScroll": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables automatic scrolling when the list overflows",
+        "defaultValue": "true"
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays borders around the list items"
+      },
+      "divider": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays a divider between the list items"
+      },
+      "hover": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables hover animation on list items"
+      },
+      "onSort": {
+        "type": "(payload:Payload) => void",
+        "isRequired": false,
+        "description": "Callback triggered when sorting ends"
+      },
+      "onSortEnd": {
+        "type": "(payload:Payload) => void",
+        "isRequired": false,
+        "description": "Callback triggered after the sorting operation ends"
+      },
+      "onSortMove": {
+        "type": "(payload:Payload) => void",
+        "isRequired": false,
+        "description": "Callback triggered when an item is moved in the list"
+      },
+      "onSortStart": {
+        "type": "(payload:Payload) => void",
+        "isRequired": false,
+        "description": "Callback triggered at the start of sorting"
+      },
+      "pressDelay": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Delay before sorting is triggered after pressing",
+        "defaultValue": "0"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Defines the size of the list items",
+        "defaultValue": "md"
+      },
+      "sortable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Enables sorting functionality for the list items"
+      },
+      "transitionDuration": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Duration (in milliseconds) of the sort animation",
+        "defaultValue": "300"
+      }
+    }
+  },
+  "List.Item": {
+    "props": {
+      "collection": {
+        "type": "number | string",
+        "isRequired": false,
+        "description": "The collection identifier for the list item",
+        "defaultValue": "0"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disables the item, preventing it from being moved"
+      },
+      "index": {
+        "type": "number",
+        "isRequired": true,
+        "description": "The unique index of the item within its collection, required for sorting"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Defines the size of the individual list item",
+        "defaultValue": "md"
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "Checkbox": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component",
+        "defaultValue": "div"
+      },
+      "checked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies whether the checkbox is selected"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet'",
+        "isRequired": false,
+        "description": "The color of the checkbox when checked or indeterminate"
+      },
+      "defaultChecked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies the initial state: whether or not the checkbox is selected"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether disabled"
+      },
+      "indeterminate": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When being a checkbox , setting styles after the child part is selected"
+      },
+      "inputRef": {
+        "type": "Ref",
+        "isRequired": false,
+        "description": "Ref of input element"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Used for the name of the form"
+      },
+      "onChange": {
+        "type": "(value: string | number, checked: boolean, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when checkbox is triggered and state changes"
+      },
+      "title": {
+        "type": "string",
+        "isRequired": false,
+        "description": "HTML title"
+      },
+      "value": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "Correspond to the value of CheckboxGroup, determine whether to select"
+      }
+    }
+  },
+  "CheckboxGroup": {
+    "props": {
+      "defaultValue": {
+        "type": "string[] | number[]",
+        "isRequired": false,
+        "description": "The default value"
+      },
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Inline layout"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Used for the name of the form"
+      },
+      "onChange": {
+        "type": "(value:string[] | number[], event) => void",
+        "isRequired": false,
+        "description": "Callback fired when checkbox is triggered and state changes"
+      },
+      "value": {
+        "type": "string[] | number[]",
+        "isRequired": false,
+        "description": "Value of checked box (Controlled)"
+      }
+    }
+  }
+}

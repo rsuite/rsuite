@@ -1,0 +1,54 @@
+{
+  "DateRangeInput": {
+    "props": {
+      "character": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The character between the start and end dates",
+        "defaultValue": " ~ "
+      },
+      "defaultValue": {
+        "type": "[Date, Date]〡 null",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether disabled the component"
+      },
+      "format": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Format of the date when rendered in the input",
+        "defaultValue": "dd/MM/yyyy"
+      },
+      "onChange": {
+        "type": "(date: [Date, Date]〡 null , event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value changed"
+      },
+      "plaintext": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether plaintext the component"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether read only the component"
+      },
+      "size": {
+        "type": "'lg'〡'md'〡'sm'〡'xs'",
+        "isRequired": false,
+        "description": "Date input can have different sizes",
+        "defaultValue": "md"
+      },
+      "value": {
+        "type": "[Date, Date]〡 null",
+        "isRequired": false,
+        "description": "The selected value. Used when the component is controlled"
+      }
+    }
+  }
+}

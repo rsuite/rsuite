@@ -1,0 +1,267 @@
+{
+  "InputPicker": {
+    "props": {
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render the component as a block element"
+      },
+      "caretAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom component for the caret icon"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix for the component CSS class",
+        "defaultValue": "picker"
+      },
+      "cleanable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the value can be cleared",
+        "defaultValue": "true"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "creatable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Allow creating new options"
+      },
+      "data": {
+        "type": "[Option][item][]",
+        "isRequired": true,
+        "description": "The data for the component"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is disabled"
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Values of disabled items"
+      },
+      "groupBy": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Key for grouping data items"
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Key for the label in data items",
+        "defaultValue": "label"
+      },
+      "listboxMaxHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum height of the listbox",
+        "defaultValue": "320"
+      },
+      "listProps": {
+        "type": "[ListProps][listprops]",
+        "isRequired": false,
+        "description": "Properties for virtualized lists"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show a loading state",
+        "defaultValue": "false"
+      },
+      "locale": {
+        "type": "PickerLocaleType",
+        "isRequired": false,
+        "description": "Locale settings for component text"
+      },
+      "onChange": {
+        "type": "(value:string, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value changes"
+      },
+      "onClean": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value is cleared"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when component closes"
+      },
+      "onCreate": {
+        "type": "(value: string, item: [Option][item], event) => void",
+        "isRequired": false,
+        "description": "Callback fired when a new option is created"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before overlay transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after overlay finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as overlay begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before overlay transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after overlay finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as overlay begins to transition out"
+      },
+      "onGroupTitleClick": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback fired when group header is clicked"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when component opens"
+      },
+      "onSearch": {
+        "type": "(search:string, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when search is performed"
+      },
+      "onSelect": {
+        "type": "(value:string, item: [Option][item] , event) => void",
+        "isRequired": false,
+        "description": "Callback fired when an item is selected"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is open"
+      },
+      "placeholder": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Placeholder text",
+        "defaultValue": "Select"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of the component",
+        "defaultValue": "bottomStart"
+      },
+      "popupClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Custom CSS class for the popup"
+      },
+      "popupStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Custom style for the popup"
+      },
+      "preventOverflow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Prevent floating element overflow"
+      },
+      "renderExtraFooter": {
+        "type": "() => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for extra footer"
+      },
+      "renderListbox": {
+        "type": "(listbox: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for listbox"
+      },
+      "renderOption": {
+        "type": "(label: ReactNode, item: [Option][item]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for options"
+      },
+      "renderOptionGroup": {
+        "type": "(groupTitle: ReactNode, item: [Option][item]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for option groups"
+      },
+      "renderValue": {
+        "type": "(value:string, item: [Option][item],selected:ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for selected value"
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is searchable",
+        "defaultValue": "true"
+      },
+      "searchBy": {
+        "type": "(keyword: string, label: ReactNode, item: [Option][item]) => boolean",
+        "isRequired": false,
+        "description": "Custom search function"
+      },
+      "shouldDisplayCreateOption": {
+        "type": "(searchKeyword: string, filteredData: InputOption[]) => boolean",
+        "isRequired": false,
+        "description": "Function to determine whether to display \"Create option\""
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Size of the component",
+        "defaultValue": "md"
+      },
+      "sort": {
+        "type": "(isGroup: boolean) => (a: any, b: any) => number",
+        "isRequired": false,
+        "description": "Custom sort function for options"
+      },
+      "toggleAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element for the component",
+        "defaultValue": "a"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Current value (controlled)"
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Key for the value in data items",
+        "defaultValue": "value"
+      },
+      "virtualized": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to use virtualized list"
+      }
+    }
+  }
+}

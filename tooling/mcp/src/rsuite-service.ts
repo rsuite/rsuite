@@ -11,7 +11,9 @@ export class RSuiteService {
 
   constructor(config: RSuiteConfig = {}) {
     // Try multiple base URLs in order of preference
-    this.baseUrl = config.baseUrl || DEFAULT_BASE_URL;
+    const baseUrl = config.baseUrl || DEFAULT_BASE_URL;
+    // Remove trailing slash to avoid double slashes in URL construction
+    this.baseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
   }
 
   private async fetchWithCache<T>(url: string): Promise<T> {
@@ -42,12 +44,12 @@ export class RSuiteService {
   }
 
   async getComponentsIndex(): Promise<ComponentsIndex> {
-    const url = `${this.baseUrl}/react/types/index.json`;
+    const url = `${this.baseUrl}/api/types/index`;
     return this.fetchWithCache<ComponentsIndex>(url);
   }
 
-  async getComponentTypes(componentId: string): Promise<ComponentTypeFile> {
-    const url = `${this.baseUrl}/react/types/${componentId}.json`;
+  async getComponentTypes(component: string): Promise<ComponentTypeFile> {
+    const url = `${this.baseUrl}/api/types/${component}`;
     return this.fetchWithCache<ComponentTypeFile>(url);
   }
 

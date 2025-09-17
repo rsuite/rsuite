@@ -1,0 +1,23 @@
+{
+  "Kbd": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the kbd."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "kbd"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "The size of the kbd.",
+        "defaultValue": "md"
+      }
+    }
+  }
+}

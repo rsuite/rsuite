@@ -1,0 +1,179 @@
+{
+  "Dropdown": {
+    "props": {
+      "activeKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The option to activate the state, corresponding to the `eventkey` in the Dropdown.item."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "dropdown"
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether Dropdown is initially open",
+        "defaultValue": "false"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether or not component is disabled"
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Set the icon"
+      },
+      "menuStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "The style of the menu."
+      },
+      "noCaret": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Do not display the arrow icon"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "The callback function that the menu closes"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Menu Pop-up callback function"
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Selected callback function"
+      },
+      "onToggle": {
+        "type": "(open?: boolean, event?: React.SyntheticEvent) => void",
+        "isRequired": false,
+        "description": "Callback function for menu state switching"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Controlled open state"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of Menu"
+      },
+      "renderMenuButton": {
+        "type": "(props: ButtonProps, ref: Ref) => ReactElement",
+        "isRequired": false,
+        "description": "Custom render menu button"
+      },
+      "renderMenuPopup": {
+        "type": "(props: MenuProps, ref: Ref) => ReactElement",
+        "isRequired": false,
+        "description": "Custom render menu popup"
+      },
+      "title": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Menu title"
+      },
+      "trigger": {
+        "type": "'click' | 'hover' | 'contextMenu' | Array<'click' | 'hover' | 'contextMenu'>",
+        "isRequired": false,
+        "description": "Triggering events",
+        "defaultValue": "click"
+      }
+    }
+  },
+  "Dropdown.Item": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Active the current option"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "li"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The content of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "dropdown-item"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disable the current option"
+      },
+      "divider": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the divider"
+      },
+      "eventKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The value of the current option"
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Set the icon"
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Select the callback function for the current option"
+      },
+      "panel": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays a custom panel"
+      },
+      "shortcut": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The dropdown item keyboard shortcut"
+      }
+    }
+  },
+  "Dropdown.Menu": {
+    "props": {
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Set the icon"
+      },
+      "title": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Define the title as a submenu"
+      }
+    }
+  },
+  "Dropdown.Separator": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "li"
+      }
+    }
+  }
+}

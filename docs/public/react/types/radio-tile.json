@@ -1,0 +1,70 @@
+{
+  "RadioTile": {
+    "props": {
+      "checked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies whether the radio is selected"
+      },
+      "defaultChecked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies the initial state: whether or not the radio is selected"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The disable of component"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name to use for form"
+      },
+      "onChange": {
+        "type": "(value: string | number, event) => void",
+        "isRequired": false,
+        "description": "Callback function that has been checked for changes in state"
+      },
+      "value": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "Corresponding to the value of RadioTileGroup, determine whether it is selected"
+      }
+    }
+  },
+  "RadioTileGroup": {
+    "props": {
+      "defaultValue": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The disable of component"
+      },
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Inline layout"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name to use for form"
+      },
+      "onChange": {
+        "type": "(value:string | number, event) => void",
+        "isRequired": false,
+        "description": "Callback function with value changed"
+      },
+      "value": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      }
+    }
+  }
+}

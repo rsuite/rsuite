@@ -1,0 +1,137 @@
+{
+  "Placeholder.Paragraph": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type.",
+        "defaultValue": "div"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The class name of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "placeholder"
+      },
+      "rows": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of rows.",
+        "defaultValue": "2"
+      },
+      "rowHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of the row.",
+        "defaultValue": "10"
+      },
+      "rowSpacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The spacing between rows.",
+        "defaultValue": "20"
+      },
+      "graph": {
+        "type": "boolean | 'circle' | 'square' | 'image'",
+        "isRequired": false,
+        "description": "The shape of the graph."
+      },
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the placeholder is active."
+      }
+    }
+  },
+  "Placeholder.Grid": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type."
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The class name of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "placeholder"
+      },
+      "rows": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of rows.",
+        "defaultValue": "5"
+      },
+      "columns": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of columns.",
+        "defaultValue": "5"
+      },
+      "rowHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of the row.",
+        "defaultValue": "10"
+      },
+      "rowSpacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The spacing between rows.",
+        "defaultValue": "20"
+      },
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the placeholder is active."
+      }
+    }
+  },
+  "Placeholder.Graph": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type."
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The class name of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "placeholder"
+      },
+      "width": {
+        "type": "number | string",
+        "isRequired": false,
+        "description": "The graph width.",
+        "defaultValue": "100%"
+      },
+      "height": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The graph height.",
+        "defaultValue": "200"
+      },
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the placeholder is active."
+      }
+    }
+  }
+}

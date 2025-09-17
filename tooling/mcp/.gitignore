@@ -66,3 +66,7 @@ jspm_packages/
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+
+# Test output and temporary files
+test/*.log
+test/temp/

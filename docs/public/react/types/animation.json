@@ -1,0 +1,402 @@
+{
+  "Animation.Fade": {
+    "props": {
+      "enteredClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finished transtioning in"
+      },
+      "enteringClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition in"
+      },
+      "exitedClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finishes transitioning out"
+      },
+      "exitingClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition out"
+      },
+      "in": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When true The animation will show itself"
+      },
+      "onEnter": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired before the component transitions in"
+      },
+      "onEntered": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the component finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition in"
+      },
+      "onExit": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired right before the component transitions out"
+      },
+      "onExited": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition out"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Animation transition delay time",
+        "defaultValue": "300"
+      },
+      "transitionAppear": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Turn on transitions when initially displayed"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Unmount component on exit"
+      }
+    }
+  },
+  "Animation.Collapse": {
+    "props": {
+      "dimension": {
+        "type": "'height'&#124;'width'&#124;() => ('height'&#124;'width')",
+        "isRequired": false,
+        "description": "Set fold size type"
+      },
+      "enteredClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finished transtioning in",
+        "defaultValue": "collapse in"
+      },
+      "enteringClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition in",
+        "defaultValue": "collapsing"
+      },
+      "exitedClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finishes transitioning out",
+        "defaultValue": "collapse"
+      },
+      "exitingClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition out",
+        "defaultValue": "collapsing"
+      },
+      "getDimensionValue": {
+        "type": "() => number",
+        "isRequired": false,
+        "description": "Custom size value"
+      },
+      "in": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When true The animation will show itself"
+      },
+      "onEnter": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired before the component transitions in"
+      },
+      "onEntered": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the component finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition in"
+      },
+      "onExit": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired right before the component transitions out"
+      },
+      "onExited": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition out"
+      },
+      "role": {
+        "type": "string",
+        "isRequired": false,
+        "description": "HTML role"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Animation transition delay time",
+        "defaultValue": "300"
+      },
+      "transitionAppear": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Turn on transitions when initially displayed"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Unmount component on exit"
+      }
+    }
+  },
+  "Animation.Bounce": {
+    "props": {
+      "enteredClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finished transtioning in"
+      },
+      "enteringClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition in"
+      },
+      "exitedClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finishes transitioning out"
+      },
+      "exitingClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition out"
+      },
+      "in": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When true The animation will show itself"
+      },
+      "onEnter": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired before the component transitions in"
+      },
+      "onEntered": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the component finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition in"
+      },
+      "onExit": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired right before the component transitions out"
+      },
+      "onExited": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition out"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Animation transition delay time",
+        "defaultValue": "300"
+      },
+      "transitionAppear": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Turn on transitions when initially displayed"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Unmount component on exit"
+      }
+    }
+  },
+  "Animation.Slide": {
+    "props": {
+      "enteredClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finished transtioning in"
+      },
+      "enteringClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition in"
+      },
+      "exitedClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finishes transitioning out"
+      },
+      "exitingClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition out"
+      },
+      "in": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When true The animation will show itself"
+      },
+      "onEnter": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired before the component transitions in"
+      },
+      "onEntered": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the component finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition in"
+      },
+      "onExit": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired right before the component transitions out"
+      },
+      "onExited": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition out"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Animation transition delay time",
+        "defaultValue": "300"
+      },
+      "transitionAppear": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Turn on transitions when initially displayed"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Unmount component on exit"
+      },
+      "placement": {
+        "type": "Placement",
+        "isRequired": false,
+        "description": "The placement of component",
+        "defaultValue": "right"
+      }
+    }
+  },
+  "Animation.Transition": {
+    "props": {
+      "enteredClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finished transtioning in"
+      },
+      "enteringClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition in"
+      },
+      "exitedClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className after the component finishes transitioning out"
+      },
+      "exitingClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Adding a className as the component begins to transition out"
+      },
+      "in": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When true The animation will show itself."
+      },
+      "onEnter": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired before the component transitions in"
+      },
+      "onEntered": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the component finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition in"
+      },
+      "onExit": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired right before the component transitions out"
+      },
+      "onExited": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "(node?: null, Element, Text) => void",
+        "isRequired": false,
+        "description": "Callback fired as the component begins to transition out"
+      },
+      "timeout": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Animation transition delay time",
+        "defaultValue": "1000"
+      },
+      "transitionAppear": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Turn on transitions when initially displayed"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Unmount component on exit"
+      }
+    }
+  }
+}

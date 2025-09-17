@@ -1,0 +1,73 @@
+{
+  "Toggle": {
+    "props": {
+      "checked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the toggle is checked (Controlled)"
+      },
+      "checkedChildren": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Checked display content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "toggle"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet'",
+        "isRequired": false,
+        "description": "Color of the toggle switch"
+      },
+      "defaultChecked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default checked state"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the switch is disabled"
+      },
+      "label": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The label of the toggle switch"
+      },
+      "labelPlacement": {
+        "type": "'start' | 'end'",
+        "isRequired": false,
+        "description": "The placement of the label",
+        "defaultValue": "end"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the switch is in loading state"
+      },
+      "locale": {
+        "type": "ToggleLocaleType",
+        "isRequired": false,
+        "description": "Custom locale text"
+      },
+      "onChange": {
+        "type": "(checked: boolean, event) => void",
+        "isRequired": false,
+        "description": "Callback function when state changes"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+        "isRequired": false,
+        "description": "Toggle size"
+      },
+      "unCheckedChildren": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Unchecked display content"
+      }
+    }
+  }
+}

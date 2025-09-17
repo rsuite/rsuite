@@ -1,0 +1,136 @@
+{
+  "CheckTree": {
+    "props": {
+      "cascade": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to enable cascade selection",
+        "defaultValue": "true"
+      },
+      "childrenKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the `key` of the child node of the tree node in `data`",
+        "defaultValue": "children"
+      },
+      "data": {
+        "type": "[TreeNode][node][]",
+        "isRequired": true,
+        "description": "Data to render the tree"
+      },
+      "defaultExpandAll": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default expand all nodes"
+      },
+      "defaultExpandItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the default expanded node"
+      },
+      "defaultValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Default selected Value"
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Disabled tree node values"
+      },
+      "expandItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the expanded node (controlled)"
+      },
+      "getChildren": {
+        "type": "(item: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;",
+        "isRequired": false,
+        "description": "Load node children data asynchronously"
+      },
+      "height": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of the tree",
+        "defaultValue": "360px"
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the tree node display content to the `key` in `data`",
+        "defaultValue": "label"
+      },
+      "listProps": {
+        "type": "[ListProps][listprops]",
+        "isRequired": false,
+        "description": "Properties of virtualized lists"
+      },
+      "onChange": {
+        "type": "(values:string[]) => void",
+        "isRequired": false,
+        "description": "Called when the tree value changes"
+      },
+      "onExpand": {
+        "type": "(expandItemValues: string[], item: [TreeNode][node], concat:(data, children) => Array) => void",
+        "isRequired": false,
+        "description": "Called when the tree node expands the child node"
+      },
+      "onSearch": {
+        "type": "(keyword: string) => void",
+        "isRequired": false,
+        "description": "Called when the search box changes"
+      },
+      "onSelect": {
+        "type": "(item: [TreeNode][node], value:string, event) => void",
+        "isRequired": false,
+        "description": "Called when the tree node is selected"
+      },
+      "renderTreeIcon": {
+        "type": "(item: [TreeNode][node], expanded: boolean) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render the icon in tree node"
+      },
+      "renderTreeNode": {
+        "type": "(item: [TreeNode][node]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render tree node"
+      },
+      "scrollShadow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The shadow of the content when scrolling"
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show the search box"
+      },
+      "searchKeyword": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set search keywords for the search box"
+      },
+      "uncheckableItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the tree node values that do not display checkboxes"
+      },
+      "value": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "The value of the selected tree node"
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the `key` of the tree node value in `data`",
+        "defaultValue": "value"
+      },
+      "virtualized": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to enable virtualized lists"
+      }
+    }
+  }
+}

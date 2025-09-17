@@ -1,0 +1,38 @@
+{
+  "Heading": {
+    "props": {
+      "children": {
+        "type": "React.Node",
+        "isRequired": false,
+        "description": "The content of the heading."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "heading"
+      },
+      "level": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The level of the heading.",
+        "defaultValue": "3"
+      }
+    }
+  },
+  "HeadingGroup": {
+    "props": {
+      "children": {
+        "type": "React.Node",
+        "isRequired": false,
+        "description": "The content of the heading group."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "heading-group"
+      }
+    }
+  }
+}

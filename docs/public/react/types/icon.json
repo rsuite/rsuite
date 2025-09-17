@@ -1,0 +1,82 @@
+{
+  "Icon": {
+    "props": {
+      "as": {
+        "type": "ElementType&lt;SVGElement&gt;",
+        "isRequired": false,
+        "description": "Custom svg icon component"
+      },
+      "fill": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Icon fill color",
+        "defaultValue": "currentColor"
+      },
+      "flip": {
+        "type": "'horizontal' | 'vertical'",
+        "isRequired": false,
+        "description": "Flip icon"
+      },
+      "pulse": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use `pulse` to have it rotate with eight steps"
+      },
+      "rotate": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Rotate icon"
+      },
+      "spin": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the `spin` to get any icon to rotate"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "The style properties of icon, like `fontSize` and `color`"
+      }
+    }
+  },
+  "IconFont": {
+    "props": {
+      "fill": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Icon fill color",
+        "defaultValue": "currentColor"
+      },
+      "flip": {
+        "type": "'horizontal' | 'vertical'",
+        "isRequired": false,
+        "description": "Flip icon"
+      },
+      "icon": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Use the name from the iconfont icon set"
+      },
+      "pulse": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use `pulse` to have it rotate with eight steps"
+      },
+      "rotate": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Rotate icon"
+      },
+      "spin": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the `spin` to get any icon to rotate"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "The style properties of icon, like `fontSize` and `color`"
+      }
+    }
+  }
+}
