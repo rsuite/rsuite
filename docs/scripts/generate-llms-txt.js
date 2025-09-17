@@ -435,7 +435,7 @@ For each component, you'll find the main documentation with all examples, code f
 
     return `${separator}
 # ${title}
-File: ${file.filePath}
+File: https://github.com/rsuite/rsuite/blob/main/docs/pages/${file.filePath}
 ${separator}
 
 ${file.content}

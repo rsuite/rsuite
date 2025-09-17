@@ -28,7 +28,7 @@ The LLMs.txt documentation is available at:
 
 Use the `@Docs` feature in Cursor to include React Suite documentation in your project context:
 
-```
+```bash
 @Docs https://rsuitejs.com/llms.txt
 ```
 
@@ -40,13 +40,13 @@ This allows Cursor to understand React Suite components and provide accurate cod
 
 Reference the LLMs.txt file in your Windsurf project using the `@` symbol or in your `.windsurfrules` files:
 
-```
+```bash
 @ https://rsuitejs.com/llms.txt
 ```
 
 Or add it to your `.windsurfrules` file:
 
-```
+```bash
 # .windsurfrules
 docs: https://rsuitejs.com/llms.txt
 ```
@@ -57,7 +57,7 @@ docs: https://rsuitejs.com/llms.txt
 
 When working with ChatGPT or Claude, you can reference the documentation by providing the URL:
 
-```
+```bash
 Please help me build a React component using React Suite.
 Reference: https://rsuitejs.com/llms.txt
 ```

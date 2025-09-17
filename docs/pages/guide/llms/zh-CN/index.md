@@ -28,7 +28,7 @@ LLMs.txt 文档可在以下位置获取：
 
 在 Cursor 中使用 `@Docs` 功能将 React Suite 文档包含到项目上下文中：
 
-```
+```bash
 @Docs https://rsuitejs.com/llms.txt
 ```
 
@@ -40,13 +40,13 @@ LLMs.txt 文档可在以下位置获取：
 
 在 Windsurf 项目中使用 `@` 符号引用 LLMs.txt 文件，或在 `.windsurfrules` 文件中配置：
 
-```
+```bash
 @ https://rsuitejs.com/llms.txt
 ```
 
 或将其添加到 `.windsurfrules` 文件中：
 
-```
+```bash
 # .windsurfrules
 docs: https://rsuitejs.com/llms.txt
 ```
@@ -57,7 +57,7 @@ docs: https://rsuitejs.com/llms.txt
 
 在使用 ChatGPT 或 Claude 时，可以通过提供 URL 来引用文档：
 
-```
+```bash
 请帮我使用 React Suite 构建一个 React 组件。
 参考文档：https://rsuitejs.com/llms.txt
 ```
