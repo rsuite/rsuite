@@ -54,6 +54,7 @@ export default {
     copyFailed: '复制失败，浏览器不支持此功能',
     shareTwitter: '分享到 Twitter',
     accessibility: '可访问性',
+    llms: 'LLMs.txt',
     composition: '组件封装',
     optimizingPerformance: '性能优化',
     examples: '示例项目',

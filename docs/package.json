@@ -8,7 +8,7 @@
     "clear": "rimraf ./.next && rimraf ./out ",
     "dev": "npm run generate-examples && next dev",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
-    "prebuild": "npm run clear",
+    "prebuild": "npm run clear && npm run generate-llms-txt",
     "build": "npm run generate-examples && next build",
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "start": "next start",
@@ -16,7 +16,8 @@
     "pregenerate": "npm run generate-examples && npm run generate-base-css-vars && npm run generate-theme-css-vars",
     "generate-examples": "node ./scripts/generate-examples.js",
     "generate-base-css-vars": "node ./scripts/generate-base-css-vars.js",
-    "generate-theme-css-vars": "node ./scripts/generate-theme-css-vars.js"
+    "generate-theme-css-vars": "node ./scripts/generate-theme-css-vars.js",
+    "generate-llms-txt": "node ./scripts/generate-llms-txt.js"
   },
   "dependencies": {
     "@docsearch/react": "^3.2.1",

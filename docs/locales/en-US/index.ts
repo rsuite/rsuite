@@ -55,6 +55,7 @@ export default {
     copyFailed: 'Copy the failure, the browser doesn`t support this feature',
     shareTwitter: 'Share on Twitter',
     accessibility: 'Accessibility',
+    llms: 'LLMs.txt',
     composition: 'Composition',
     optimizingPerformance: 'Optimizing Performance',
     examples: 'Example Projects',

@@ -1,3 +1,4 @@
 node_modules
 .next
 /public/css/theme-*.css
+/public/llms.txt
