@@ -86,6 +86,6 @@
     "rtlcss-webpack-plugin": "^4.0.6"
   },
   "engines": {
-    "node": "^18.17.0"
+    "node": "22.x"
   }
 }
