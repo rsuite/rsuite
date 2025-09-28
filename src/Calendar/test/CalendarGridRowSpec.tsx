@@ -78,15 +78,16 @@ describe('Calendar-GridRow', () => {
           locale: {}
         }}
       >
-        <GridRow ref={ref} />
+        <GridRow ref={ref} weekendDate={new Date('2022-10-01')} />
       </CalendarProvider>
     );
+
     expect(
       // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
-    ).to.have.text(format(new Date(), 'I'));
+    ).to.have.text(format(new Date('2022-10-01'), 'I'));
   });
 
   it('Should have a additional className', () => {
