@@ -1,0 +1,53 @@
+{
+  "Text": {
+    "props": {
+      "align": {
+        "type": "'left' | 'center' | 'right' | 'justify'",
+        "isRequired": false,
+        "description": "The alignment of the text."
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component.",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "text"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet' | CSSProperties['color']",
+        "isRequired": false,
+        "description": "The color of the text."
+      },
+      "maxLines": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of lines to limit the provided text to. Text will be truncated with an ellipsis."
+      },
+      "muted": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the text is muted."
+      },
+      "size": {
+        "type": "TextSize | number | string",
+        "isRequired": false,
+        "description": "The size of the text."
+      },
+      "transform": {
+        "type": "'uppercase' | 'lowercase' | 'capitalize'",
+        "isRequired": false,
+        "description": "The transformation of the text."
+      },
+      "weight": {
+        "type": "'thin' | 'light' | 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold'",
+        "isRequired": false,
+        "description": "The weight of the text."
+      }
+    }
+  }
+}

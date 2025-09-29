@@ -1,0 +1,51 @@
+{
+  "CustomProvider": {
+    "props": {
+      "components": {
+        "type": "Components",
+        "isRequired": false,
+        "description": "Custom component default configuration"
+      },
+      "csp": {
+        "type": "{ nonce: string }",
+        "isRequired": false,
+        "description": "Configure the [nonce][nonce] value of [Content Security Policy][csp]"
+      },
+      "disableInlineStyles": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disable inline styles"
+      },
+      "disableRipple": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination`"
+      },
+      "formatDate": {
+        "type": "(date: Date, format?: string) => string",
+        "isRequired": false,
+        "description": "Return the formatted date string in the given format. The result may vary by locale."
+      },
+      "locale": {
+        "type": "[Locale][locale] [`(en-GB)`][en_gb]",
+        "isRequired": false,
+        "description": "Configure Language Pack"
+      },
+      "parseDate": {
+        "type": "(date: string, format: string) => Date",
+        "isRequired": false,
+        "description": "Return the date parsed from string using the given format string."
+      },
+      "rtl": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Text and other elements go from left to right."
+      },
+      "theme": {
+        "type": "'light' | 'dark' | 'high-contrast'",
+        "isRequired": false,
+        "description": "Supported themes"
+      }
+    }
+  }
+}

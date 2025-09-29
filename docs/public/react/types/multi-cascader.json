@@ -1,0 +1,261 @@
+{
+  "MultiCascader": {
+    "props": {
+      "appearance": {
+        "type": "'default' | 'subtle'",
+        "isRequired": false,
+        "description": "Sets the appearance of the picker",
+        "defaultValue": "default"
+      },
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the component as a block"
+      },
+      "caretAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom component for the caret icon"
+      },
+      "cascade": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether selection should cascade from parent to child and child to parent nodes",
+        "defaultValue": "true"
+      },
+      "childrenKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set children key in data",
+        "defaultValue": "children"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix for the component CSS class",
+        "defaultValue": "picker"
+      },
+      "cleanable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the selected value can be cleared",
+        "defaultValue": "true"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "countable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the count of selected items",
+        "defaultValue": "true"
+      },
+      "data": {
+        "type": "[Option][item][]",
+        "isRequired": true,
+        "description": "The data of component"
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is open by default"
+      },
+      "defaultValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Default values of the selected items"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to disable the component"
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Values of disabled items"
+      },
+      "height": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of Dropdown",
+        "defaultValue": "320"
+      },
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display the menu directly when the component is initialized"
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set label key in data",
+        "defaultValue": "label"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show a loading state",
+        "defaultValue": "false"
+      },
+      "locale": {
+        "type": "PickerLocaleType",
+        "isRequired": false,
+        "description": "Locale text settings"
+      },
+      "onChange": {
+        "type": "(value: string[], event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value changes"
+      },
+      "onCheck": {
+        "type": "(value: string, item: [Option][item], checked: boolean, event) => void",
+        "isRequired": false,
+        "description": "Callback fired after the checkbox state changes"
+      },
+      "onClean": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value is cleared"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when the component is closed"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the overlay transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the overlay transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition out"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when the component is opened"
+      },
+      "onSearch": {
+        "type": "(searchKeyword: string, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when search"
+      },
+      "onSelect": {
+        "type": "(item: [Option][item], selectedPaths: [Option][item][], event) => void",
+        "isRequired": false,
+        "description": "Callback fired when an item is selected"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is open"
+      },
+      "placeholder": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Setting placeholders",
+        "defaultValue": "Select"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of component",
+        "defaultValue": "bottomStart"
+      },
+      "popupClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Custom class name for the popup"
+      },
+      "popupStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Custom style for the popup"
+      },
+      "preventOverflow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Prevent floating element overflow"
+      },
+      "renderColumn": {
+        "type": "(childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render column"
+      },
+      "renderExtraFooter": {
+        "type": "() => ReactNode",
+        "isRequired": false,
+        "description": "Custom render extra footer"
+      },
+      "renderTreeNode": {
+        "type": "(node: ReactNode, item: [Option][item]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render tree node"
+      },
+      "renderValue": {
+        "type": "(value: string, selectedItems: [Option][item][], selectedElement: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render selected items"
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether can be searched",
+        "defaultValue": "true"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A picker can have different sizes",
+        "defaultValue": "md"
+      },
+      "toggleAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "a"
+      },
+      "uncheckableItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the checkbox that cannot be checked"
+      },
+      "value": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specifies the values of the selected items (controlled)"
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set value key in data",
+        "defaultValue": "value"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Center": {
+    "props": {
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Inline mode"
+      }
+    }
+  }
+}

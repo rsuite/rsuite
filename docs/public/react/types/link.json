@@ -1,0 +1,57 @@
+{
+  "Link": {
+    "props": {
+      "anchorIcon": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The icon to be displayed after the link"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element for component"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the link"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "link"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the link is disabled"
+      },
+      "external": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether it's an external link"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The URL of the link"
+      },
+      "showAnchorIcon": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display an anchor icon"
+      },
+      "target": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The target attribute of the link"
+      },
+      "underline": {
+        "type": "'always' | 'hover' | 'not-hover' | 'never'",
+        "isRequired": false,
+        "description": "Underline style"
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "@rsuite/mcp",
+  "version": "1.0.1",
+  "description": "Model Context Protocol server for React Suite components",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "rsuite-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "npm run build && node test/run-all.js",
+    "test:config": "node test/config-simple.test.js",
+    "test:env": "node test/environment-config.test.js",
+    "test:api": "node test/local-api.test.js",
+    "test:service": "node test/mcp-service.test.js",
+    "test:debug": "node test/url-debug.test.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "rsuite",
+    "react-suite",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "components",
+    "react"
+  ],
+  "author": "RSuite Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rsuite/rsuite.git",
+    "directory": "tooling/mcp"
+  },
+  "homepage": "https://rsuitejs.com",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "Tabs": {
+    "props": {
+      "activeKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `eventKey` of the active tab."
+      },
+      "appearance": {
+        "type": "'tabs' | 'subtle'",
+        "isRequired": false,
+        "description": "The tabs appearance style.",
+        "defaultValue": "tabs"
+      },
+      "children": {
+        "type": "ChildrenArray&lt;Tabs.Tab&gt;",
+        "isRequired": false,
+        "description": "The contents of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "tabs"
+      },
+      "defaultActiveKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `eventKey` of the active tab by default."
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Callback function triggered after selection."
+      },
+      "reversed": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Reversed display."
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the component vertically."
+      }
+    }
+  },
+  "Tabs.Tab": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The contents of the component."
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the item is disabled."
+      },
+      "eventKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The value of the current item."
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Sets the icon for the component."
+      },
+      "title": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "Sets the title for the component."
+      }
+    }
+  }
+}

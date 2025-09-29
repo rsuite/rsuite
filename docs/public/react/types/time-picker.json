@@ -1,0 +1,218 @@
+{
+  "TimePicker": {
+    "props": {
+      "appearance": {
+        "type": "'default' | 'subtle'",
+        "isRequired": false,
+        "description": "Set picker appearence",
+        "defaultValue": "default"
+      },
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Blocking an entire row"
+      },
+      "caretAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom component for the caret icon"
+      },
+      "cleanable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the selected value can be cleared",
+        "defaultValue": "true"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default value of open property"
+      },
+      "defaultValue": {
+        "type": "Date",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether disabled the component"
+      },
+      "editable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Rendered as an input, the date can be entered via the keyboard",
+        "defaultValue": "true"
+      },
+      "format": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Format of the date when rendered in the input",
+        "defaultValue": "HH:mm"
+      },
+      "hideHours": {
+        "type": "(hour:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Hide specific hour options"
+      },
+      "hideMinutes": {
+        "type": "(minute:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Hide specific minute options"
+      },
+      "hideSeconds": {
+        "type": "(second:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Hide specific second options"
+      },
+      "label": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "A label displayed at the beginning of toggle button"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display a loading state indicator",
+        "defaultValue": "false"
+      },
+      "locale": {
+        "type": "DateTimeFormats",
+        "isRequired": false,
+        "description": "Define localization settings to show component text in the user's regional language"
+      },
+      "onChange": {
+        "type": "(date: Date) => void",
+        "isRequired": false,
+        "description": "Callback fired when value changed"
+      },
+      "onClean": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value clean"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when close component"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the overlay transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the overlay transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition out"
+      },
+      "onOk": {
+        "type": "(date: Date, event) => void",
+        "isRequired": false,
+        "description": "Click the OK callback function"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when open component"
+      },
+      "onSelect": {
+        "type": "(date: Date) => void",
+        "isRequired": false,
+        "description": "Callback fired when time is selected"
+      },
+      "onShortcutClick": {
+        "type": "(shortcut: Range, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when shortcut clicked"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether open the component"
+      },
+      "placeholder": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Placeholder"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of component",
+        "defaultValue": "bottomStart"
+      },
+      "preventOverflow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Prevent floating element overflow"
+      },
+      "ranges": {
+        "type": "[Range[]](#code-ts-range-code) (Ranges)",
+        "isRequired": false,
+        "description": "Shortcut config"
+      },
+      "renderValue": {
+        "type": "(date: Date, format: string) => string",
+        "isRequired": false,
+        "description": "Custom render value"
+      },
+      "shouldDisableHour": {
+        "type": "(hour:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Disabled hours"
+      },
+      "shouldDisableMinute": {
+        "type": "(minute:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Disabled minutes"
+      },
+      "shouldDisableSecond": {
+        "type": "(second:number, date:Date) => boolean",
+        "isRequired": false,
+        "description": "Disabled seconds"
+      },
+      "showMeridiem": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Meridiem — 12h format"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A picker can have different sizes",
+        "defaultValue": "md"
+      },
+      "value": {
+        "type": "Date",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      }
+    }
+  }
+}

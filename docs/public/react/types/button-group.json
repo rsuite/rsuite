@@ -1,0 +1,43 @@
+{
+  "ButtonGroup": {
+    "props": {
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display the button group as a full-width block element spanning the entire container width"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Custom CSS class prefix for styling flexibility and theme customization",
+        "defaultValue": "btn-group"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disable all buttons within the group"
+      },
+      "divided": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display buttons in a divided layout"
+      },
+      "justified": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Distribute buttons evenly with equal width in horizontal layout"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Uniform size for all buttons in the group (large/medium/small/extra-small)",
+        "defaultValue": "md"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display buttons in a vertical stacked layout"
+      }
+    }
+  }
+}

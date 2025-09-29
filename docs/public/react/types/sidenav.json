@@ -1,0 +1,135 @@
+{
+  "Sidenav": {
+    "props": {
+      "appearance": {
+        "type": "'default' | 'inverse' | 'subtle'",
+        "isRequired": false,
+        "description": "Specifies the visual appearance of the side navigation",
+        "defaultValue": "default"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the root component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for component CSS class names",
+        "defaultValue": "sidenav"
+      },
+      "defaultOpenKeys": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Array of keys for initially expanded dropdown items"
+      },
+      "expanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Controls the expanded/collapsed state of the side navigation",
+        "defaultValue": "true"
+      },
+      "onOpenChange": {
+        "type": "(openKeys: string[], event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when the open state of menu items changes"
+      },
+      "openKeys": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Array of keys for controlled expanded dropdown items"
+      }
+    }
+  },
+  "Sidenav.Header": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the header component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for header component CSS class names",
+        "defaultValue": "sidenav-header"
+      }
+    }
+  },
+  "Sidenav.Body": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the body component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for body component CSS class names",
+        "defaultValue": "sidenav-body"
+      }
+    }
+  },
+  "Sidenav.Footer": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the footer component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for footer component CSS class names",
+        "defaultValue": "sidenav-footer"
+      }
+    }
+  },
+  "Sidenav.Toggle": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the toggle button",
+        "defaultValue": "button"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for toggle button CSS class names",
+        "defaultValue": "sidenav-toggle"
+      },
+      "expanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Controls the expanded/collapsed state of the toggle"
+      },
+      "onToggle": {
+        "type": "(expanded: boolean) => void",
+        "isRequired": false,
+        "description": "Callback triggered when toggle state changes"
+      }
+    }
+  },
+  "Sidenav.GroupLabel": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the group label component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Prefix for group label CSS class names",
+        "defaultValue": "sidenav-group-label"
+      }
+    }
+  }
+}

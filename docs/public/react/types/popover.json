@@ -1,0 +1,38 @@
+{
+  "Popover": {
+    "props": {
+      "arrow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether show the arrow indicator",
+        "defaultValue": "true"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The content of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "popover"
+      },
+      "title": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The title of the component."
+      },
+      "visible": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The component is visible by default."
+      },
+      "full": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The content full the container"
+      }
+    }
+  }
+}
