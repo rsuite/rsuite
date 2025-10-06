@@ -83,7 +83,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
         ) : (
           <span className={prefix('cell-day')}>{date.day}</span>
         )}
-        {renderCell?.(jsDate)}
+        {renderCell?.(date)}
       </div>
     </Component>
   );

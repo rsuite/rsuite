@@ -100,7 +100,7 @@ export interface CalendarInnerContextValue {
    * @param date - The date.
    * @returns The rendered cell content.
    */
-  renderCell?: (date: Date) => React.ReactNode;
+  renderCell?: (date: PlainDate) => React.ReactNode;
 
   /**
    * A function that renders the cell content in the picker.

@@ -238,7 +238,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onSelect,
     onToggleMonthDropdown,
     onToggleTimeDropdown,
-    renderCell,
+    renderCell: renderCellProp,
     renderCellOnPicker: renderCellOnPickerProp,
     renderTitle,
     renderToolbar,
@@ -309,6 +309,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     [cellClassNameProp]
   );
 
+  const renderCell = useCallback(
+    (date: PlainDate) => {
+      return renderCellProp?.(new Date(date.year, date.month - 1, date.day));
+    },
+    [renderCellProp]
+  );
+
   const renderCellOnPicker = useCallback(
     (date: PlainDate) => {
       return renderCellOnPickerProp?.(new Date(date.year, date.month - 1, date.day));
@@ -334,7 +341,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onChangeTime,
     onMouseMove,
     onSelect,
-    renderCell,
+    renderCell: typeof renderCellProp === 'undefined' ? undefined : renderCell,
     renderCellOnPicker:
       typeof renderCellOnPickerProp === 'undefined' ? undefined : renderCellOnPicker
   } satisfies CalendarContextValue;
