@@ -79,7 +79,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
     >
       <div className={prefix('cell-content')}>
         {renderCellOnPicker ? (
-          renderCellOnPicker(jsDate)
+          renderCellOnPicker(date)
         ) : (
           <span className={prefix('cell-day')}>{date.day}</span>
         )}

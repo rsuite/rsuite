@@ -239,7 +239,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onToggleMonthDropdown,
     onToggleTimeDropdown,
     renderCell,
-    renderCellOnPicker,
+    renderCellOnPicker: renderCellOnPickerProp,
     renderTitle,
     renderToolbar,
     ...rest
@@ -309,6 +309,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     [cellClassNameProp]
   );
 
+  const renderCellOnPicker = useCallback(
+    (date: PlainDate) => {
+      return renderCellOnPickerProp?.(new Date(date.year, date.month - 1, date.day));
+    },
+    [renderCellOnPickerProp]
+  );
+
   const contextValue = {
     date: calendarDate,
     dateRange,
@@ -328,7 +335,8 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onMouseMove,
     onSelect,
     renderCell,
-    renderCellOnPicker
+    renderCellOnPicker:
+      typeof renderCellOnPickerProp === 'undefined' ? undefined : renderCellOnPicker
   } satisfies CalendarContextValue;
 
   const currentViewingMonth = useMemo(() => {

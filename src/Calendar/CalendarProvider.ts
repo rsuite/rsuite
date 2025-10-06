@@ -107,7 +107,7 @@ export interface CalendarInnerContextValue {
    * @param date - The date.
    * @returns The rendered cell content.
    */
-  renderCellOnPicker?: (date: Date) => React.ReactNode;
+  renderCellOnPicker?: (date: PlainDate) => React.ReactNode;
 
   /**
    * A function that returns the class name for a cell in the calendar.
