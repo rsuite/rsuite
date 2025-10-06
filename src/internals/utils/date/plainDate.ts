@@ -28,7 +28,7 @@ export function compare(date1: PlainDate, date2: PlainDate): -1 | 0 | 1 {
  *
  * @see https://tc39.es/proposal-temporal/docs/plaindatetime.html#equals
  */
-function equals(date1: PlainDate, date2: PlainDate): boolean {
+export function equals(date1: PlainDate, date2: PlainDate): boolean {
   return compare(date1, date2) === 0;
 }
 

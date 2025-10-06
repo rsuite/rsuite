@@ -60,7 +60,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
       'cell-in-range': !unSameMonth && inRange,
       'cell-disabled': disabled
     }),
-    cellClassName?.(jsDate)
+    cellClassName?.(date)
   );
 
   return (

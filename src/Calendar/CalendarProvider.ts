@@ -2,7 +2,7 @@ import React from 'react';
 import { CalendarLocale } from '../locales';
 import { format } from '@/internals/utils/date';
 import type { MonthDropdownProps } from './types';
-import type { PlainYearMonth } from '@/internals/utils/date/types';
+import type { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
 
 /**
  * Represents the inner context value for the Calendar component.
@@ -114,7 +114,7 @@ export interface CalendarInnerContextValue {
    * @param date - The date.
    * @returns The class name for the cell.
    */
-  cellClassName?: (date: Date) => string | undefined;
+  cellClassName?: (date: PlainDate) => string | undefined;
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {

@@ -21,7 +21,7 @@ import { CalendarLocale } from '../locales';
 import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
-import { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
+import type { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
 import { isEveryDayInMonth } from '@/internals/utils/date/plainDate';
 
 export interface CalendarProps
@@ -228,7 +228,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     monthDropdownProps,
     showMeridiem,
     showWeekNumbers,
-    cellClassName,
+    cellClassName: cellClassNameProp,
     disabledDate,
     onChangeMonth,
     onChangeTime,
@@ -300,6 +300,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
       // Call `onChangeMonth` with the first day in the month
       onChangeMonth?.(new Date(yearMonth.year, yearMonth.month - 1, 1), event);
     }
+  );
+
+  const cellClassName = useCallback(
+    (date: PlainDate) => {
+      return cellClassNameProp?.(new Date(date.year, date.month - 1, date.day));
+    },
+    [cellClassNameProp]
   );
 
   const contextValue = {
