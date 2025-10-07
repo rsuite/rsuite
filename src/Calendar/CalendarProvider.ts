@@ -66,7 +66,11 @@ export interface CalendarInnerContextValue {
    * @param type - The type of the calendar.
    * @returns True if the date is disabled, false otherwise.
    */
-  disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
+  disabledDate?: (
+    date: PlainDate,
+    selectRangeValue?: (PlainDate | undefined)[],
+    type?: string
+  ) => boolean;
 
   /**
    * A callback function that is called when the month is changed in the calendar.

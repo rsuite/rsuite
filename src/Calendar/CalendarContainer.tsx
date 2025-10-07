@@ -260,14 +260,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onToggleMonthDropdown
   });
 
-  const isJsDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
   const isTimeDisabled = (date: Date) => disableTime(props, date);
 
   const isDateDisabled = useCallback(
     (date: PlainDate) => {
-      return isJsDateDisabled(new Date(date.year, date.month - 1, date.day));
+      return disabledDate?.(toJsDate(date)) ?? false;
     },
-    [isJsDateDisabled]
+    [disabledDate]
   );
 
   const isMonthDisabled = useCallback(
@@ -340,7 +339,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     showWeekNumbers,
     monthDropdownProps,
     cellClassName,
-    disabledDate: isJsDateDisabled,
+    disabledDate: isDateDisabled,
     onChangeMonth: handleChangeMonth,
     onChangeTime,
     onMouseMove,
