@@ -73,7 +73,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
       tabIndex={selected ? 0 : -1}
       title={isToday ? `${ariaLabel} (${today})` : ariaLabel}
       className={classes}
-      onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, jsDate) : undefined}
+      onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, date) : undefined}
       onClick={onSelect ? partial(onSelect, date, disabled) : undefined}
       {...rest}
     >

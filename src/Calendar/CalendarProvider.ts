@@ -86,7 +86,7 @@ export interface CalendarInnerContextValue {
    * A callback function that is called when the mouse moves over a date in the calendar.
    * @param date - The date.
    */
-  onMouseMove?: (date: Date) => void;
+  onMouseMove?: (date: PlainDate) => void;
 
   /**
    * A callback function that is called when a date is selected in the calendar.

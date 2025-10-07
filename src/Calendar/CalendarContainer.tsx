@@ -232,7 +232,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     disabledDate,
     onChangeMonth,
     onChangeTime,
-    onMouseMove,
+    onMouseMove: onMouseMoveProp,
     onMoveBackward,
     onMoveForward,
     onSelect: onSelectProp,
@@ -303,32 +303,30 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   );
 
   const cellClassName = useCallback(
-    (date: PlainDate) => {
-      return cellClassNameProp?.(new Date(date.year, date.month - 1, date.day));
-    },
+    (date: PlainDate) => cellClassNameProp?.(toJsDate(date)),
     [cellClassNameProp]
   );
 
+  const onMouseMove = useCallback(
+    (date: PlainDate) => onMouseMoveProp?.(toJsDate(date)),
+    [onMouseMoveProp]
+  );
+
   const onSelect = useCallback(
-    (date: PlainDate, event: React.MouseEvent) => {
-      onSelectProp?.(new Date(date.year, date.month - 1, date.day), event);
-    },
+    (date: PlainDate, event: React.MouseEvent) => onSelectProp?.(toJsDate(date), event),
     [onSelectProp]
   );
 
   const renderCell = useCallback(
-    (date: PlainDate) => {
-      return renderCellProp?.(new Date(date.year, date.month - 1, date.day));
-    },
+    (date: PlainDate) => renderCellProp?.(toJsDate(date)),
     [renderCellProp]
   );
 
   const renderCellOnPicker = useCallback(
-    (date: PlainDate) => {
-      return renderCellOnPickerProp?.(new Date(date.year, date.month - 1, date.day));
-    },
+    (date: PlainDate) => renderCellOnPickerProp?.(toJsDate(date)),
     [renderCellOnPickerProp]
   );
+
   const contextValue = {
     date: calendarDate,
     dateRange,
@@ -346,7 +344,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onChangeMonth: handleChangeMonth,
     onChangeTime,
     onMouseMove,
-    onSelect: typeof onSelectProp === 'undefined' ? undefined : onSelect,
+    onSelect,
     renderCell: typeof renderCellProp === 'undefined' ? undefined : renderCell,
     renderCellOnPicker:
       typeof renderCellOnPickerProp === 'undefined' ? undefined : renderCellOnPicker
@@ -407,3 +405,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
 CalendarContainer.displayName = 'CalendarContainer';
 
 export default CalendarContainer;
+
+function toJsDate(date: PlainDate): Date {
+  return new Date(date.year, date.month - 1, date.day);
+}
