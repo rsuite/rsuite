@@ -46,6 +46,7 @@ describe('Calendar-GridRow', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: '16 Jun 2025' }));
 
     expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith({ year: 2025, month: 6, day: 16 }, expect.anything());
   });
 
   it('Should render a week number', () => {

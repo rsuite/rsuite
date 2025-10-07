@@ -47,10 +47,11 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
 
   const handleSelect = useCallback(
     (date: PlainDate, disabled: boolean | void, event: React.MouseEvent) => {
+      // TODO: Doma - Consider moving this check for `disabled` into GridCell
       if (disabled) {
         return;
       }
-      onSelect?.(new Date(date.year, date.month - 1, date.day), event);
+      onSelect?.(date, event);
     },
     [onSelect]
   );

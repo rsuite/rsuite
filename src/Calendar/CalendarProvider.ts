@@ -93,7 +93,7 @@ export interface CalendarInnerContextValue {
    * @param date - The selected date.
    * @param event - The mouse event.
    */
-  onSelect?: (date: Date, event: React.MouseEvent) => void;
+  onSelect?: (date: PlainDate, event: React.MouseEvent) => void;
 
   /**
    * A function that renders the cell content in the calendar.
