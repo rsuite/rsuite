@@ -115,3 +115,10 @@ export type PlainTime = {
   readonly minute: number;
   readonly second: number;
 };
+
+/**
+ * Resembles Temporal.PlainDateTime
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/PlainDateTime
+ */
+export type PlainDateTime = PlainDate & PlainTime;
