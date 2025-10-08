@@ -2,7 +2,7 @@ import React from 'react';
 import { CalendarLocale } from '../locales';
 import { format } from '@/internals/utils/date';
 import type { MonthDropdownProps } from './types';
-import type { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
+import type { PlainDate, PlainTime, PlainYearMonth } from '@/internals/utils/date/types';
 
 /**
  * Represents the inner context value for the Calendar component.
@@ -81,10 +81,10 @@ export interface CalendarInnerContextValue {
 
   /**
    * A callback function that is called when the time is changed in the calendar.
-   * @param nextPageTime - The next page time.
+   * @param time - The newly selected time.
    * @param event - The mouse event.
    */
-  onChangeTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onChangeTime?: (time: PlainTime, event: React.MouseEvent) => void;
 
   /**
    * A callback function that is called when the mouse moves over a date in the calendar.

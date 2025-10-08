@@ -14,14 +14,17 @@ import {
   omitHideDisabledProps,
   DateMode,
   useDateMode,
-  isValid
+  isValid,
+  setHours,
+  setMinutes,
+  setSeconds
 } from '@/internals/utils/date';
 import { WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
 import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
-import type { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
+import type { PlainDate, PlainTime, PlainYearMonth } from '@/internals/utils/date/types';
 import { isEveryDayInMonth } from '@/internals/utils/date/plainDate';
 
 export interface CalendarProps
@@ -326,6 +329,16 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     [renderCellOnPickerProp]
   );
 
+  const handleChangeTime = useEventCallback((time: PlainTime, event: React.MouseEvent) => {
+    let nextDate = calendarDate || startOfToday();
+
+    nextDate = setHours(nextDate, time.hour);
+    nextDate = setMinutes(nextDate, time.minute);
+    nextDate = setSeconds(nextDate, time.second);
+
+    onChangeTime?.(nextDate, event);
+  });
+
   const contextValue = {
     date: calendarDate,
     dateRange,
@@ -341,7 +354,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     cellClassName,
     disabledDate: isDateDisabled,
     onChangeMonth: handleChangeMonth,
-    onChangeTime,
+    onChangeTime: handleChangeTime,
     onMouseMove,
     onSelect,
     renderCell: typeof renderCellProp === 'undefined' ? undefined : renderCell,

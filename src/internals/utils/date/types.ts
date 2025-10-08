@@ -104,3 +104,14 @@ export type PlainYearMonth = {
   readonly year: number;
   readonly month: number;
 };
+
+/**
+ * Resembles Temporal.PlainTime
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/PlainTime
+ */
+export type PlainTime = {
+  readonly hour: number;
+  readonly minute: number;
+  readonly second: number;
+};
