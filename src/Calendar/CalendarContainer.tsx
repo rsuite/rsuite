@@ -21,7 +21,7 @@ import { CalendarLocale } from '../locales';
 import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
-import { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
+import type { PlainDate, PlainYearMonth } from '@/internals/utils/date/types';
 import { isEveryDayInMonth } from '@/internals/utils/date/plainDate';
 
 export interface CalendarProps
@@ -228,18 +228,18 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     monthDropdownProps,
     showMeridiem,
     showWeekNumbers,
-    cellClassName,
+    cellClassName: cellClassNameProp,
     disabledDate,
     onChangeMonth,
     onChangeTime,
-    onMouseMove,
+    onMouseMove: onMouseMoveProp,
     onMoveBackward,
     onMoveForward,
-    onSelect,
+    onSelect: onSelectProp,
     onToggleMonthDropdown,
     onToggleTimeDropdown,
-    renderCell,
-    renderCellOnPicker,
+    renderCell: renderCellProp,
+    renderCellOnPicker: renderCellOnPickerProp,
     renderTitle,
     renderToolbar,
     ...rest
@@ -260,14 +260,13 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     onToggleMonthDropdown
   });
 
-  const isJsDateDisabled = (date: Date) => disabledDate?.(date) ?? false;
   const isTimeDisabled = (date: Date) => disableTime(props, date);
 
   const isDateDisabled = useCallback(
     (date: PlainDate) => {
-      return isJsDateDisabled(new Date(date.year, date.month - 1, date.day));
+      return disabledDate?.(toJsDate(date)) ?? false;
     },
-    [isJsDateDisabled]
+    [disabledDate]
   );
 
   const isMonthDisabled = useCallback(
@@ -302,6 +301,31 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     }
   );
 
+  const cellClassName = useCallback(
+    (date: PlainDate) => cellClassNameProp?.(toJsDate(date)),
+    [cellClassNameProp]
+  );
+
+  const onMouseMove = useCallback(
+    (date: PlainDate) => onMouseMoveProp?.(toJsDate(date)),
+    [onMouseMoveProp]
+  );
+
+  const onSelect = useCallback(
+    (date: PlainDate, event: React.MouseEvent) => onSelectProp?.(toJsDate(date), event),
+    [onSelectProp]
+  );
+
+  const renderCell = useCallback(
+    (date: PlainDate) => renderCellProp?.(toJsDate(date)),
+    [renderCellProp]
+  );
+
+  const renderCellOnPicker = useCallback(
+    (date: PlainDate) => renderCellOnPickerProp?.(toJsDate(date)),
+    [renderCellOnPickerProp]
+  );
+
   const contextValue = {
     date: calendarDate,
     dateRange,
@@ -315,13 +339,14 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     showWeekNumbers,
     monthDropdownProps,
     cellClassName,
-    disabledDate: isJsDateDisabled,
+    disabledDate: isDateDisabled,
     onChangeMonth: handleChangeMonth,
     onChangeTime,
     onMouseMove,
     onSelect,
-    renderCell,
-    renderCellOnPicker
+    renderCell: typeof renderCellProp === 'undefined' ? undefined : renderCell,
+    renderCellOnPicker:
+      typeof renderCellOnPickerProp === 'undefined' ? undefined : renderCellOnPicker
   } satisfies CalendarContextValue;
 
   const currentViewingMonth = useMemo(() => {
@@ -379,3 +404,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
 CalendarContainer.displayName = 'CalendarContainer';
 
 export default CalendarContainer;
+
+function toJsDate(date: PlainDate): Date {
+  return new Date(date.year, date.month - 1, date.day);
+}

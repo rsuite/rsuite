@@ -1,10 +1,11 @@
 import React from 'react';
 import GridRow from '../Grid/GridRow';
 import { describe, expect, it, vi } from 'vitest';
-import { format, isToday } from 'date-fns';
+import { format } from 'date-fns';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarProvider } from '../CalendarProvider';
 import { testStandardProps } from '@test/cases';
+import { equals } from '@/internals/utils/date/plainDate';
 
 describe('Calendar-GridRow', () => {
   testStandardProps(<GridRow startingDate={{ year: 2025, month: 8, day: 4 }} />);
@@ -45,6 +46,7 @@ describe('Calendar-GridRow', () => {
     fireEvent.click(screen.getByRole('gridcell', { name: '16 Jun 2025' }));
 
     expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledWith({ year: 2025, month: 6, day: 16 }, expect.anything());
   });
 
   it('Should render a week number', () => {
@@ -82,7 +84,6 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should have a additional className', () => {
-    const thisDate = new Date();
     render(
       <CalendarProvider
         value={{
@@ -91,8 +92,8 @@ describe('Calendar-GridRow', () => {
           date: new Date(),
           weekStart: 0,
           locale: {},
-          cellClassName: (date: Date) => {
-            if (isToday(date)) {
+          cellClassName: date => {
+            if (equals(date, { year: 2025, month: 10, day: 7 })) {
               return 'custom-cell';
             }
           }
@@ -100,17 +101,15 @@ describe('Calendar-GridRow', () => {
       >
         <GridRow
           startingDate={{
-            year: thisDate.getFullYear(),
-            month: thisDate.getMonth() + 1,
-            day: thisDate.getDate()
+            year: 2025,
+            month: 10,
+            day: 7
           }}
         />
       </CalendarProvider>
     );
 
-    expect(screen.getByTitle(`${format(thisDate, 'dd MMM yyyy')} (Today)`)).to.have.class(
-      'custom-cell'
-    );
+    expect(screen.getByTitle(`07 Oct 2025 (Today)`)).to.have.class('custom-cell');
   });
 
   describe('Accessibility', () => {

@@ -47,10 +47,11 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
 
   const handleSelect = useCallback(
     (date: PlainDate, disabled: boolean | void, event: React.MouseEvent) => {
+      // TODO: Doma - Consider moving this check for `disabled` into GridCell
       if (disabled) {
         return;
       }
-      onSelect?.(new Date(date.year, date.month - 1, date.day), event);
+      onSelect?.(date, event);
     },
     [onSelect]
   );
@@ -64,11 +65,23 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
     const [selectedStartDateJS, selectedEndDateJS] = dateRange || [];
     const [hoverStartDateJS, hoverEndDateJS] = hoverRangeValue ?? [];
     const isRangeSelectionMode = typeof dateRange !== 'undefined';
+    const plainDateRange =
+      typeof dateRange !== 'undefined'
+        ? dateRange.map(d =>
+            d instanceof Date
+              ? {
+                  year: d.getFullYear(),
+                  month: d.getMonth() + 1,
+                  day: d.getDate()
+                }
+              : undefined
+          )
+        : undefined;
 
     for (let i = 0; i < 7; i += 1) {
       const thisDate = addDays(startingDate, i);
       const thisDateJS = new Date(thisDate.year, thisDate.month - 1, thisDate.day);
-      const disabled = disabledDate?.(thisDateJS, dateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
+      const disabled = disabledDate?.(thisDate, plainDateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
 
       // Whether this date is in a different month from the selected date
       const isSameMonth =
