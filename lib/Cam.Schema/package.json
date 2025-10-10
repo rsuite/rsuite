@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Schema",
+  "private": true,
+  "main": "../cjs/Cam.Schema/index.js",
+  "module": "../esm/Cam.Schema/index.js",
+  "types": "../esm/Cam.Schema/index.d.ts"
+}

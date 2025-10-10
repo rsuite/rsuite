@@ -1,0 +1,17 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-tag-group {
+  margin: -10px 0 0 -10px;
+}
+.rs-tag-group > .rs-tag {
+  margin-top: 10px;
+  margin-left: 10px;
+}

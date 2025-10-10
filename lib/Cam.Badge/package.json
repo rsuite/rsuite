@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Badge",
+  "private": true,
+  "main": "../cjs/Cam.Badge/index.js",
+  "module": "../esm/Cam.Badge/index.js",
+  "types": "../esm/Cam.Badge/index.d.ts"
+}

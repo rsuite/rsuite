@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Stat",
+  "private": true,
+  "main": "../cjs/Cam.Stat/index.js",
+  "module": "../esm/Cam.Stat/index.js",
+  "types": "../esm/Cam.Stat/index.d.ts"
+}

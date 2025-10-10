@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Breadcrumb",
+  "private": true,
+  "main": "../cjs/Cam.Breadcrumb/index.js",
+  "module": "../esm/Cam.Breadcrumb/index.js",
+  "types": "../esm/Cam.Breadcrumb/index.d.ts"
+}

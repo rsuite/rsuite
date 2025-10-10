@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.SelectPicker",
+  "private": true,
+  "main": "../cjs/Cam.SelectPicker/index.js",
+  "module": "../esm/Cam.SelectPicker/index.js",
+  "types": "../esm/Cam.SelectPicker/index.d.ts"
+}

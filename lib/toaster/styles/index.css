@@ -1,0 +1,237 @@
+:root,
+.rs-theme-light {
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+}
+.rs-theme-dark {
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+}
+.rs-theme-high-contrast {
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+@-webkit-keyframes notificationMoveIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(0.8);
+            transform: scaleY(0.8);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+  }
+}
+@keyframes notificationMoveIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(0.8);
+            transform: scaleY(0.8);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+  }
+}
+@-webkit-keyframes notificationMoveInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@keyframes notificationMoveInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@-webkit-keyframes notificationMoveInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@keyframes notificationMoveInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@-webkit-keyframes notificationMoveOut {
+  0% {
+    opacity: 1;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    max-height: 100px;
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(0.8);
+            transform: scaleY(0.8);
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+@keyframes notificationMoveOut {
+  0% {
+    opacity: 1;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    max-height: 100px;
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform-origin: 0% 0%;
+            transform-origin: 0% 0%;
+    -webkit-transform: scaleY(0.8);
+            transform: scaleY(0.8);
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+.rs-toast {
+  pointer-events: auto;
+}
+.rs-toast-container {
+  position: fixed;
+  z-index: 1080;
+  pointer-events: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.rs-toast-container .rs-toast:not(.rs-notification) {
+  -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  -webkit-box-shadow: var(--rs-shadow-overlay);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+          box-shadow: var(--rs-shadow-overlay);
+}
+.rs-toast-container-top-center,
+.rs-toast-container-bottom-center {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+.rs-toast-container-top-center .rs-toast-fade-entered,
+.rs-toast-container-bottom-center .rs-toast-fade-entered {
+  -webkit-animation-name: notificationMoveIn;
+          animation-name: notificationMoveIn;
+}
+.rs-toast-container-bottom-start,
+.rs-toast-container-top-start {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  left: 24px;
+}
+.rs-toast-container-bottom-start .rs-toast-fade-entered,
+.rs-toast-container-top-start .rs-toast-fade-entered {
+  -webkit-animation-name: notificationMoveInLeft;
+          animation-name: notificationMoveInLeft;
+}
+.rs-toast-container-bottom-end,
+.rs-toast-container-top-end {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  right: 24px;
+}
+.rs-toast-container-bottom-end .rs-toast-fade-entered,
+.rs-toast-container-top-end .rs-toast-fade-entered {
+  margin-left: auto;
+  -webkit-animation-name: notificationMoveInRight;
+          animation-name: notificationMoveInRight;
+}
+.rs-toast-container-top-center,
+.rs-toast-container-top-start,
+.rs-toast-container-top-end {
+  top: 24px;
+}
+.rs-toast-container-bottom-center,
+.rs-toast-container-bottom-start,
+.rs-toast-container-bottom-end {
+  bottom: 24px;
+}
+.rs-toast-fade-entered,
+.rs-toast-fade-exiting {
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+.rs-toast-fade-entered {
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+  -webkit-animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
+          animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
+}
+.rs-toast-fade-exited,
+.rs-toast-fade-entering {
+  opacity: 0;
+}
+.rs-toast-fade-exited {
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  -webkit-transform: scaleY(0.8);
+          transform: scaleY(0.8);
+  max-height: 0;
+  overflow: hidden;
+}
+.rs-toast-fade-exiting {
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
+          animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
+  -webkit-animation-name: notificationMoveOut;
+          animation-name: notificationMoveOut;
+}

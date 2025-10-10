@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.InlineEdit",
+  "private": true,
+  "main": "../cjs/Cam.InlineEdit/index.js",
+  "module": "../esm/Cam.InlineEdit/index.js",
+  "types": "../esm/Cam.InlineEdit/index.d.ts"
+}

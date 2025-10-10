@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Form",
+  "private": true,
+  "main": "../cjs/Cam.Form/index.js",
+  "module": "../esm/Cam.Form/index.js",
+  "types": "../esm/Cam.Form/index.d.ts"
+}

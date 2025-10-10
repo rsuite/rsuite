@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Rate",
+  "private": true,
+  "main": "../cjs/Cam.Rate/index.js",
+  "module": "../esm/Cam.Rate/index.js",
+  "types": "../esm/Cam.Rate/index.d.ts"
+}

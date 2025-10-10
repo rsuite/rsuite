@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.locales",
+  "private": true,
+  "main": "../cjs/Cam.locales/index.js",
+  "module": "../esm/Cam.locales/index.js",
+  "types": "../esm/Cam.locales/index.d.ts"
+}

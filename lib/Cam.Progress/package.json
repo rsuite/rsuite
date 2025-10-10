@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Progress",
+  "private": true,
+  "main": "../cjs/Cam.Progress/index.js",
+  "module": "../esm/Cam.Progress/index.js",
+  "types": "../esm/Cam.Progress/index.d.ts"
+}

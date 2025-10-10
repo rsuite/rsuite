@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.FormControlLabel",
+  "private": true,
+  "main": "../cjs/Cam.FormControlLabel/index.js",
+  "module": "../esm/Cam.FormControlLabel/index.js",
+  "types": "../esm/Cam.FormControlLabel/index.d.ts"
+}

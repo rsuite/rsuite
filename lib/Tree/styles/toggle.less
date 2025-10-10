@@ -1,0 +1,36 @@
+.rs-tree-node-toggle {
+  cursor: pointer;
+  width: 24px;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .rs-tree-node-toggle-icon {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    user-select: none;
+  }
+
+  > .rs-tree-node-custom-icon,
+  > .rs-tree-node-loading-icon {
+    display: flex;
+    align-items: center;
+    font-size: @font-size-base;
+  }
+
+  &-placeholder {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* rtl:begin:ignore */
+
+[dir='rtl'] .rs-tree-node-toggle {
+  right: 0;
+  padding-right: inherit;
+}
+
+/* rtl:end:ignore */

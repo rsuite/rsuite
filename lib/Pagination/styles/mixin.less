@@ -1,0 +1,14 @@
+@import '../../styles/mixins/color-modes';
+
+.pagination-active() {
+  .rs-btn-ghost();
+
+  .high-contrast-mode({
+    color: var(--rs-pagination-item-current-text);
+    text-decoration: underline;
+  });
+}
+
+.pagination-active-size(@padding-vertical:@padding-y, @padding-horizontal:@padding-x) {
+  padding: (@padding-vertical - 1) (@padding-horizontal - 1);
+}

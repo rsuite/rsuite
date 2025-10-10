@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Tree",
+  "private": true,
+  "main": "../cjs/Cam.Tree/index.js",
+  "module": "../esm/Cam.Tree/index.js",
+  "types": "../esm/Cam.Tree/index.d.ts"
+}

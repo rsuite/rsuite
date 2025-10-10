@@ -1,0 +1,247 @@
+/* stylelint-disable */
+//*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
+// Reset the box-sizing
+//
+// Heads up! This reset may cause conflicts with some third-party widgets.
+// For recommendations on resolving such conflicts, see
+// http://getbootstrap.com/getting-started/#third-box-sizing
+*[class*='rs-'] {
+  box-sizing: border-box;
+
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+// import reset styles
+& when (@enable-css-reset = true) {
+  body {
+    // Remove default margin.
+    margin: 0;
+    // Optimize for the retina screen
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  // Address `[hidden]` styling not present in IE 10.
+  // Hide the `template` element in IE 10/11, Safari, and Firefox < 22.
+  [hidden],
+  template {
+    display: none;
+  }
+
+  // Links
+  // ==========================================================================
+
+  // Remove the gray background color from active links in IE 10.
+  a {
+    background-color: transparent;
+  }
+
+  // Improve readability of focused elements when they are also in an
+  // active/hover state.
+  a:active,
+  a:hover {
+    outline: 0;
+  }
+
+  // Text-level semantics
+  // ==========================================================================
+
+  // Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+  b,
+  strong {
+    font-weight: bold;
+  }
+
+  // Prevent `sub` and `sup` affecting `line-height` in all browsers.
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sup {
+    top: -0.5em;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  // Embedded content
+  // ==========================================================================
+
+  // Remove border when inside `a` element in IE 10.
+  img {
+    border: 0;
+  }
+
+  // Correct overflow not hidden in IE 10/11.
+  svg:not(:root) {
+    overflow: hidden;
+  }
+
+  // Address differences between Firefox and other browsers.
+  hr {
+    box-sizing: content-box;
+    height: 0;
+  }
+
+  // Contain overflow in all browsers.
+  pre {
+    overflow: auto;
+  }
+
+  // Forms
+  // ==========================================================================
+
+  // Known limitation: by default, Chrome and Safari on OS X allow very limited
+  // styling of `select`, unless a `border` property is set.
+
+  // 1. Correct color not being inherited.
+  //    Known issue: affects color of disabled elements.
+  // 2. Correct font properties not being inherited.
+  // 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    color: inherit; // 1
+    font: inherit; // 2
+    margin: 0; // 3
+  }
+
+  // Address `overflow` set to `hidden` in IE 10/11.
+  button {
+    overflow: visible;
+  }
+
+  // Remove border radius in Chrome 62+
+  button {
+    border-radius: 0;
+  }
+
+  // Address inconsistent `text-transform` inheritance for `button` and `select`.
+  // All other form control elements do not inherit `text-transform` values.
+  // Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+  // Correct `select` style inheritance in Firefox.
+  button,
+  select {
+    text-transform: none;
+  }
+
+  // 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+  //    and `video` controls.
+  // 2. Correct inability to style clickable `input` types in iOS.
+  // 3. Improve usability and consistency of cursor style between image-type
+  //    `input` and others.
+  button,
+  html input[type='button'],
+  input[type='reset'],
+  input[type='submit'] {
+    -webkit-appearance: button; // 2
+    cursor: pointer; // 3
+  }
+
+  // Re-set default cursor for disabled elements.
+  button[disabled],
+  html input[disabled] {
+    cursor: not-allowed;
+  }
+
+  // Remove inner padding and border in Firefox 4+.
+  button::-moz-focus-inner,
+  input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  // Address Firefox 4+ setting `line-height` on `input` using `!important` in
+  // the UA stylesheet.
+  input {
+    line-height: normal;
+  }
+
+  // It's recommended that you don't attempt to style these elements.
+  // Firefox's implementation doesn't respect box-sizing, padding, or width.
+  //
+  // 1. Address box sizing set to `content-box` in IE 10.
+  // 2. Remove excess padding in IE 10.
+  input[type='checkbox'],
+  input[type='radio'] {
+    box-sizing: border-box; // 1
+    padding: 0; // 2
+  }
+
+  // Fix the cursor style for Chrome's increment/decrement buttons. For certain
+  // `font-size` values of the `input`, it causes the cursor style of the
+  // decrement button to change from `default` to `text`.
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    height: auto;
+  }
+
+  // Remove default vertical scrollbar in IE 10/11.
+  textarea {
+    overflow: auto;
+  }
+
+  // Tables
+  // ==========================================================================
+
+  // Remove most spacing between table cells.
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  td,
+  th {
+    padding: 0;
+  }
+
+  // Remove tabIndex component outline
+  [tabindex='-1'] {
+    outline: none;
+  }
+
+  // Remove Default button Style
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  button {
+    border-width: 0;
+  }
+
+  // Remove IE10's “clear field” X button on certain inputs
+  input::-ms-clear {
+    display: none;
+  }
+
+  // Remove File button Style
+  input[type='file']::-webkit-file-upload-button,
+  input[type='file']::-ms-browse {
+    border-width: 0;
+    background: transparent;
+    color: currentColor;
+  }
+
+  // Reset fonts for relevant elements
+  input,
+  button,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  @import 'scaffolding';
+  @import 'typography';
+}

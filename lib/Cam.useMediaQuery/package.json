@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.useMediaQuery",
+  "private": true,
+  "main": "../cjs/Cam.useMediaQuery/index.js",
+  "module": "../esm/Cam.useMediaQuery/index.js",
+  "types": "../esm/Cam.useMediaQuery/index.d.ts"
+}

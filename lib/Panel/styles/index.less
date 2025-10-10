@@ -1,0 +1,114 @@
+@import '../../styles/common.less';
+@import '../../Heading/styles/index.less';
+@import '../../internals/ScrollView/styles/index.less';
+
+//
+// Panel
+// --------------------------------------------------
+
+.rs-panel {
+  @import '../../Animation/styles/collapse.less';
+
+  border-radius: 6px;
+  overflow: hidden;
+
+  .rs-anim-collapse {
+    display: none;
+
+    &.rs-anim-in {
+      display: block;
+    }
+  }
+
+  &-bordered {
+    border: 1px solid var(--rs-border-primary);
+  }
+
+  &-shaded {
+    box-shadow: var(--rs-panel-shadow);
+  }
+
+  &-header,
+  &-body {
+    padding: 20px;
+  }
+
+  // When the width is set to full, reset the value of padding.
+  &-body-fill {
+    padding: 0 !important;
+  }
+
+  &-header {
+    color: var(--rs-text-heading);
+    font-size: 16px;
+    line-height: unit((@line-height-computed / 16px));
+    font-weight: inherit;
+  }
+
+  &-btn {
+    width: 100%;
+    border: none;
+    background: none;
+    outline: transparent solid 2px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 6px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: var(--rs-btn-subtle-hover-bg);
+      color: var(--rs-btn-subtle-hover-text);
+      outline: transparent solid 2px;
+    }
+
+    &-icon {
+      transition: transform 0.2s ease 0s;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      color: var(--rs-text-disabled);
+      background-color: var(--rs-btn-subtle-disabled-bg);
+    }
+  }
+
+  &-title {
+    margin: 0;
+    flex: 1 1 0%;
+    text-align: left;
+    a {
+      color: inherit;
+
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: none;
+      }
+    }
+  }
+
+  // Adjust the padding value when the head and body are combined.
+  &-header + &-body-collapse &-body,
+  &-header + &-body {
+    padding-top: 0;
+  }
+
+  // Collapsible panel header hover background
+  &-collapsible > &-header {
+    cursor: pointer;
+    transition: background-color 0.3s linear, border-radius 0.3s linear;
+    position: relative;
+    padding: 10px;
+
+    > .rs-icon {
+      color: var(--rs-text-secondary);
+      position: absolute;
+      top: 24px;
+      right: 20px;
+      transition: transform 0.3s linear;
+    }
+  }
+}

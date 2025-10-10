@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Table",
+  "private": true,
+  "main": "../cjs/Cam.Table/index.js",
+  "module": "../esm/Cam.Table/index.js",
+  "types": "../esm/Cam.Table/index.d.ts"
+}

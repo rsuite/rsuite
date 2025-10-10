@@ -1,0 +1,112 @@
+@import '../../styles/common.less';
+@import '../../Button/styles/index.less';
+@import '../../Divider/styles/index.less';
+@import '../../SelectPicker/styles/index.less';
+@import './pagination-group.less';
+@import './mixin.less';
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.rs-pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin-bottom: 0;
+  // Pagination Sizes
+  // --------------------------------------------------
+
+  &-lg {
+    .rs-pagination-btn {
+      .button-size-lg();
+
+      min-width: 42px;
+
+      .rs-pagination-symbol {
+        height: @line-height-large-computed;
+      }
+
+      &-active {
+        .pagination-active-size(@padding-y-lg, @padding-x-lg);
+      }
+    }
+  }
+
+  &-md {
+    .rs-pagination-btn {
+      .button-size-md();
+
+      min-width: 36px;
+
+      &-active {
+        .pagination-active-size();
+      }
+    }
+  }
+
+  &-sm {
+    .rs-pagination-btn {
+      .button-size-sm();
+
+      min-width: 30px;
+
+      &-active {
+        .pagination-active-size(@padding-y-sm, @padding-x-sm);
+      }
+    }
+  }
+
+  &-xs {
+    .rs-pagination-btn {
+      .button-size-xs();
+
+      min-width: 24px;
+
+      &-active {
+        .pagination-active-size(@padding-y-xs, @padding-x-xs);
+      }
+    }
+  }
+}
+
+.rs-pagination-btn {
+  .rs-btn();
+  .rs-btn-subtle();
+  .button-size-sm();
+
+  margin: 0 2px;
+  position: relative;
+  float: left; // Collapse white-space
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+
+  .rs-pagination-symbol {
+    display: flex;
+    align-items: center;
+    height: @line-height-computed;
+  }
+
+  .high-contrast-mode({
+    transition: none;
+    color: var(--rs-pagination-item-text);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--rs-pagination-item-current-text);
+      text-decoration: underline;
+    }
+  });
+
+  &&-active {
+    .pagination-active();
+  }
+}
+
+/* rtl:begin:ignore */
+[dir='rtl'] .rs-pagination-btn [class*='rs-icon-page'] {
+  transform: rotate(180deg);
+}
+
+/* rtl:end:ignore */

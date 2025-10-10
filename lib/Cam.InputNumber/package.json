@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.InputNumber",
+  "private": true,
+  "main": "../cjs/Cam.InputNumber/index.js",
+  "module": "../esm/Cam.InputNumber/index.js",
+  "types": "../esm/Cam.InputNumber/index.d.ts"
+}

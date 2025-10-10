@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.List",
+  "private": true,
+  "main": "../cjs/Cam.List/index.js",
+  "module": "../esm/Cam.List/index.js",
+  "types": "../esm/Cam.List/index.d.ts"
+}

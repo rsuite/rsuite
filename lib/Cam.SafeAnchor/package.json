@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.SafeAnchor",
+  "private": true,
+  "main": "../cjs/Cam.SafeAnchor/index.js",
+  "module": "../esm/Cam.SafeAnchor/index.js",
+  "types": "../esm/Cam.SafeAnchor/index.d.ts"
+}

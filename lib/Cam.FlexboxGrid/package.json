@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.FlexboxGrid",
+  "private": true,
+  "main": "../cjs/Cam.FlexboxGrid/index.js",
+  "module": "../esm/Cam.FlexboxGrid/index.js",
+  "types": "../esm/Cam.FlexboxGrid/index.d.ts"
+}

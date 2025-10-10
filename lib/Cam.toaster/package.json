@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.toaster",
+  "private": true,
+  "main": "../cjs/Cam.toaster/index.js",
+  "module": "../esm/Cam.toaster/index.js",
+  "types": "../esm/Cam.toaster/index.d.ts"
+}

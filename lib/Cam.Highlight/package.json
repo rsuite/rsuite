@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Highlight",
+  "private": true,
+  "main": "../cjs/Cam.Highlight/index.js",
+  "module": "../esm/Cam.Highlight/index.js",
+  "types": "../esm/Cam.Highlight/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Radio",
+  "private": true,
+  "main": "../cjs/Cam.Radio/index.js",
+  "module": "../esm/Cam.Radio/index.js",
+  "types": "../esm/Cam.Radio/index.d.ts"
+}

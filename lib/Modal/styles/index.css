@@ -1,0 +1,253 @@
+:root,
+.rs-theme-light {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #f7f7fa;
+  --rs-gray-100: #f2f2f5;
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-600: #717273;
+  --rs-gray-700: #575757;
+  --rs-gray-800: #343434;
+  --rs-gray-900: #121212;
+  --rs-text-primary: var(--rs-gray-800);
+  --rs-text-secondary: var(--rs-gray-600);
+  --rs-text-heading: var(--rs-gray-900);
+  --rs-bg-overlay: var(--rs-gray-0);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
+  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+}
+@supports not (color: rgb(from white r g b)) {
+  :root,
+  .rs-theme-light {
+    --rs-bg-backdrop: rgba(18, 18, 18, 0.3);
+  }
+}
+.rs-theme-dark {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-100: #cbced4;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-800: #1a1d24;
+  --rs-gray-900: #0f131a;
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-text-heading: var(--rs-gray-0);
+  --rs-bg-overlay: var(--rs-gray-700);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 80%);
+  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+}
+@supports not (color: rgb(from white r g b)) {
+  .rs-theme-dark {
+    --rs-bg-backdrop: rgba(15, 19, 26, 0.8);
+  }
+}
+.rs-theme-high-contrast {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-100: #cbced4;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-800: #1a1d24;
+  --rs-gray-900: #0f131a;
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-text-heading: var(--rs-gray-0);
+  --rs-bg-overlay: var(--rs-gray-800);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 80%);
+  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-modal-border: 1px solid var(--rs-gray-100);
+}
+@supports not (color: rgb(from white r g b)) {
+  .rs-theme-high-contrast {
+    --rs-bg-backdrop: rgba(15, 19, 26, 0.8);
+  }
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1049;
+  background-color: rgb(from #121212 r g b / 30%);
+  background-color: var(--rs-bg-backdrop);
+}
+.rs-modal-backdrop.rs-anim-fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in;
+  transition: opacity 0.3s ease-in;
+}
+.rs-modal-backdrop.rs-anim-in {
+  opacity: 1;
+}
+.rs-modal-open {
+  overflow: hidden;
+}
+.rs-modal-wrapper {
+  position: fixed;
+  overflow: auto;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.rs-modal {
+  display: none;
+  overflow: visible;
+  outline: 0;
+  margin: 30px auto 0 auto;
+  position: relative;
+  width: auto;
+  z-index: 1050;
+}
+.rs-modal-lg {
+  width: 968px;
+  max-width: calc(100% - 10px);
+}
+.rs-modal-md {
+  width: 800px;
+  max-width: calc(100% - 10px);
+}
+.rs-modal-sm {
+  width: 600px;
+  max-width: calc(100% - 10px);
+}
+.rs-modal-xs {
+  width: 400px;
+  max-width: calc(100% - 10px);
+}
+.rs-modal-full {
+  margin: 0;
+  height: 100%;
+}
+.rs-modal-full .rs-modal-content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.rs-modal-full .rs-modal-content .rs-modal-header {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+.rs-modal-full .rs-modal-content .rs-modal-body {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  overflow: auto;
+}
+.rs-modal-full .rs-modal-content .rs-modal-footer {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+.rs-modal-shake .rs-modal-dialog {
+  -webkit-animation: 0.3s linear shakeHead;
+          animation: 0.3s linear shakeHead;
+}
+.rs-modal-content {
+  position: relative;
+  background-color: #fff;
+  background-color: var(--rs-bg-overlay);
+  border: none;
+  border: var(--rs-modal-border, none);
+  border-radius: 6px;
+  outline: 0;
+  -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  -webkit-box-shadow: var(--rs-modal-shadow);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+          box-shadow: var(--rs-modal-shadow);
+  padding: 20px;
+}
+.rs-modal-header {
+  padding-right: 20px;
+}
+.rs-modal-header::before,
+.rs-modal-header::after {
+  content: ' ';
+  display: table;
+}
+.rs-modal-header::after {
+  clear: both;
+}
+.rs-modal-header .rs-modal-header-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 12px;
+  color: #717273;
+  color: var(--rs-text-secondary);
+  padding: 0;
+}
+.rs-modal-header .rs-modal-header-close:hover {
+  color: #343434;
+  color: var(--rs-text-primary);
+}
+.rs-modal-title {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.11111111;
+  display: block;
+  color: #121212;
+  color: var(--rs-text-heading);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+.rs-modal-body {
+  position: relative;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.rs-modal-footer {
+  text-align: right;
+  border-top: none;
+}
+.rs-modal-footer::before,
+.rs-modal-footer::after {
+  content: ' ';
+  display: table;
+}
+.rs-modal-footer::after {
+  clear: both;
+}
+.rs-modal-footer .rs-btn + .rs-btn {
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+.rs-modal-footer .rs-btn-group .rs-btn + .rs-btn {
+  margin-left: -1px;
+}
+.rs-modal-footer .rs-btn-block + .rs-btn-block {
+  margin-left: 0;
+}
+.rs-modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}

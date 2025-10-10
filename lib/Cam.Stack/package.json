@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Stack",
+  "private": true,
+  "main": "../cjs/Cam.Stack/index.js",
+  "module": "../esm/Cam.Stack/index.js",
+  "types": "../esm/Cam.Stack/index.d.ts"
+}

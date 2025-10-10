@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Sidebar",
+  "private": true,
+  "main": "../cjs/Cam.Sidebar/index.js",
+  "module": "../esm/Cam.Sidebar/index.js",
+  "types": "../esm/Cam.Sidebar/index.d.ts"
+}

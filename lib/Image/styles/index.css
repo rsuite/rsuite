@@ -1,0 +1,33 @@
+.rs-image {
+  --rs-object-fit: cover;
+  --rs-object-position: initial;
+  -o-object-fit: var(--rs-object-fit);
+     object-fit: var(--rs-object-fit);
+  -o-object-position: var(--rs-object-position);
+     object-position: var(--rs-object-position);
+  max-width: 100%;
+}
+.rs-image-rounded {
+  border-radius: 6px;
+}
+.rs-image-circle {
+  border-radius: 50%;
+}
+.rs-image-bordered {
+  border: 1px solid var(--rs-border-primary);
+}
+.rs-image-zoomed {
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+.rs-image-zoomed:hover {
+  -webkit-transform: matrix(1.25, 0, 0, 1.25, 0, 0);
+          transform: matrix(1.25, 0, 0, 1.25, 0, 0);
+}
+.rs-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Whisper",
+  "private": true,
+  "main": "../cjs/Cam.Whisper/index.js",
+  "module": "../esm/Cam.Whisper/index.js",
+  "types": "../esm/Cam.Whisper/index.d.ts"
+}

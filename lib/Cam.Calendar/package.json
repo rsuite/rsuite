@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Calendar",
+  "private": true,
+  "main": "../cjs/Cam.Calendar/index.js",
+  "module": "../esm/Cam.Calendar/index.js",
+  "types": "../esm/Cam.Calendar/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.useBreakpointValue",
+  "private": true,
+  "main": "../cjs/Cam.useBreakpointValue/index.js",
+  "module": "../esm/Cam.useBreakpointValue/index.js",
+  "types": "../esm/Cam.useBreakpointValue/index.d.ts"
+}

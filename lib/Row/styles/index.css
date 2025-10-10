@@ -1,0 +1,22 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.rs-row::before,
+.rs-row::after {
+  content: ' ';
+  display: table;
+}
+.rs-row::after {
+  clear: both;
+}

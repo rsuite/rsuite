@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Tooltip",
+  "private": true,
+  "main": "../cjs/Cam.Tooltip/index.js",
+  "module": "../esm/Cam.Tooltip/index.js",
+  "types": "../esm/Cam.Tooltip/index.d.ts"
+}

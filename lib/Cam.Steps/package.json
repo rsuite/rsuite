@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Steps",
+  "private": true,
+  "main": "../cjs/Cam.Steps/index.js",
+  "module": "../esm/Cam.Steps/index.js",
+  "types": "../esm/Cam.Steps/index.d.ts"
+}

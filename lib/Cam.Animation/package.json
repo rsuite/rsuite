@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Animation",
+  "private": true,
+  "main": "../cjs/Cam.Animation/index.js",
+  "module": "../esm/Cam.Animation/index.js",
+  "types": "../esm/Cam.Animation/index.d.ts"
+}

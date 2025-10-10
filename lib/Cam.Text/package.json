@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Text",
+  "private": true,
+  "main": "../cjs/Cam.Text/index.js",
+  "module": "../esm/Cam.Text/index.js",
+  "types": "../esm/Cam.Text/index.d.ts"
+}

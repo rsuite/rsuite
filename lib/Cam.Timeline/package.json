@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Timeline",
+  "private": true,
+  "main": "../cjs/Cam.Timeline/index.js",
+  "module": "../esm/Cam.Timeline/index.js",
+  "types": "../esm/Cam.Timeline/index.d.ts"
+}

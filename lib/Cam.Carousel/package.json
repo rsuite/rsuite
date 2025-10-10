@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Carousel",
+  "private": true,
+  "main": "../cjs/Cam.Carousel/index.js",
+  "module": "../esm/Cam.Carousel/index.js",
+  "types": "../esm/Cam.Carousel/index.d.ts"
+}

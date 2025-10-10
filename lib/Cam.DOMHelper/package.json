@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.DOMHelper",
+  "private": true,
+  "main": "../cjs/Cam.DOMHelper/index.js",
+  "module": "../esm/Cam.DOMHelper/index.js",
+  "types": "../esm/Cam.DOMHelper/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.ButtonToolbar",
+  "private": true,
+  "main": "../cjs/Cam.ButtonToolbar/index.js",
+  "module": "../esm/Cam.ButtonToolbar/index.js",
+  "types": "../esm/Cam.ButtonToolbar/index.d.ts"
+}

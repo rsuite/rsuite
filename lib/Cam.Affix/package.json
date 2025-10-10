@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Affix",
+  "private": true,
+  "main": "../cjs/Cam.Affix/index.js",
+  "module": "../esm/Cam.Affix/index.js",
+  "types": "../esm/Cam.Affix/index.d.ts"
+}

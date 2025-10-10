@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Notification",
+  "private": true,
+  "main": "../cjs/Cam.Notification/index.js",
+  "module": "../esm/Cam.Notification/index.js",
+  "types": "../esm/Cam.Notification/index.d.ts"
+}

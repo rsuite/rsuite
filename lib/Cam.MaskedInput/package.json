@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.MaskedInput",
+  "private": true,
+  "main": "../cjs/Cam.MaskedInput/index.js",
+  "module": "../esm/Cam.MaskedInput/index.js",
+  "types": "../esm/Cam.MaskedInput/index.d.ts"
+}

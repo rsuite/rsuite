@@ -1,0 +1,47 @@
+@import '../../styles/common';
+@import '../../styles/mixins/listbox';
+@import '../../internals/Picker/styles/index';
+
+// Select Picker
+// ----------------------
+
+// Menu Items (the listbox)
+.rs-picker-select-menu-items {
+  .picker-menu-items-reset();
+  .picker-menu-group-common(picker);
+  .picker-menu-group-title(picker);
+  .picker-menu-group-closed(picker);
+
+  .rs-picker-menu-group ~ [role='option'] > .rs-picker-select-menu-item {
+    padding-left: 26px;
+  }
+}
+
+// Menu item (the option)
+.rs-picker-select-menu-item {
+  .listbox-option();
+
+  &:hover,
+  &:focus,
+  &&-focus {
+    .listbox-option-active();
+  }
+
+  &&-active {
+    .picker-item-active();
+
+    color: var(--rs-listbox-option-selected-text);
+    background-color: var(--rs-listbox-option-selected-bg);
+  }
+
+  &&-disabled {
+    color: var(--rs-listbox-option-disabled-text);
+    background: none;
+    cursor: @cursor-disabled;
+  }
+
+  .grouped &,
+  .rs-picker-select-menu-group-children & {
+    padding-left: @picker-group-children-padding-left;
+  }
+}

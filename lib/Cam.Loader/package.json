@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Loader",
+  "private": true,
+  "main": "../cjs/Cam.Loader/index.js",
+  "module": "../esm/Cam.Loader/index.js",
+  "types": "../esm/Cam.Loader/index.d.ts"
+}

@@ -1,0 +1,15 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-stack {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}

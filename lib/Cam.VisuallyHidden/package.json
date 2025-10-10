@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.VisuallyHidden",
+  "private": true,
+  "main": "../cjs/Cam.VisuallyHidden/index.js",
+  "module": "../esm/Cam.VisuallyHidden/index.js",
+  "types": "../esm/Cam.VisuallyHidden/index.d.ts"
+}

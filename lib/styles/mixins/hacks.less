@@ -1,0 +1,105 @@
+// All hacks syntax for all kinds of browsers
+
+// IE 11
+// ---------------------
+.ie11-max-width(@value) when (@enable-ie-polyfill = true) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      max-width: @value;
+    }
+  }
+}
+
+.ie11-height(@value) when (@enable-ie-polyfill = true) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      height: @value;
+    }
+  }
+}
+
+.ie11-z-index(@value) when (@enable-ie-polyfill = true) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      z-index: @value;
+    }
+  }
+}
+
+.ie11-position(@value) when (@enable-ie-polyfill = true) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      position: @value;
+    }
+  }
+}
+
+.ie-box-shadow(@value) when (@enable-ie-polyfill = true) {
+  box-shadow: @value;
+}
+
+// Safari
+// ---------------------
+.safari-display(@value) {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      display: @value;
+    }
+  }
+}
+
+// Safari border-radius + overflow: hidden + CSS transform fix
+// @link https://gist.github.com/ayamflow/b602ab436ac9f05660d9c15190f4fd7b
+.safari-border-radius-overflow-hidden() {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      /* stylelint-disable */
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      /* stylelint-enable */
+    }
+  }
+}
+
+.safari-visibility(@value) {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      visibility: @value;
+    }
+  }
+}
+
+// IE && Edge
+// ---------------------
+.ie11-edge-width(@value) when (@enable-ie-polyfill = true) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      width: @value;
+    }
+  }
+
+  @supports (-ms-ime-align: auto) {
+    & {
+      width: @value;
+    }
+  }
+}
+
+.ie11-edge-direction(@direction ,@value) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      @{direction}: @value;
+    }
+  }
+  // edge
+  @supports (-ms-ime-align: auto) {
+    & {
+      @{direction}: @value;
+    }
+  }
+}

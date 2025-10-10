@@ -1,0 +1,48 @@
+@import '../../styles/common';
+
+.rs-pagination-group {
+  display: flex;
+  align-items: center;
+
+  &-lg {
+    font-size: @font-size-large;
+  }
+
+  &-md,
+  &-sm {
+    font-size: @font-size-base;
+  }
+
+  &-xs {
+    font-size: @font-size-small;
+  }
+
+  &-grow {
+    flex-grow: 1;
+  }
+
+  .rs-pagination {
+    vertical-align: middle;
+  }
+
+  &-limit {
+    position: relative;
+  }
+
+  // There is a gap between Length Menu and Page info.
+  &-limit + &-total {
+    margin-left: 18px;
+  }
+
+  &-skip {
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 10px;
+
+    .rs-input {
+      width: 46px;
+      margin: 0 5px;
+      display: inline-block;
+    }
+  }
+}

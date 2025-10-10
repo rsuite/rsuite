@@ -1,0 +1,13 @@
+.time-line-align(@align:left) {
+  &-align-@{align} &-item-dot {
+    @{align}: 0;
+  }
+
+  &-align-@{align} &-item-tail {
+    @{align}: ((@time-line-dot-side-length - @time-line-tail-width) / 2);
+  }
+
+  &-align-@{align} &-item {
+    padding-@{align}: @time-line-item-padding-left;
+  }
+}

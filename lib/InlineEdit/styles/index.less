@@ -1,0 +1,48 @@
+@import '../../styles/common';
+@import '../../Form/styles/mixin.less';
+
+.rs-inline-edit {
+  position: relative;
+  display: inline-block;
+
+  .rs-plaintext {
+    .input-md();
+    border-radius: 6px;
+
+    &:hover {
+      background-color: var(--rs-inline-edit-hover-bg);
+    }
+  }
+
+  &-disabled {
+    .rs-plaintext {
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &-controls {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-end: 0px;
+    margin-block-start: 6px;
+    z-index: 7;
+
+    .rs-btn {
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+.rs-inline-edit-xs .rs-plaintext {
+  .input-xs();
+}
+
+.rs-inline-edit-lg .rs-plaintext {
+  .input-lg();
+}
+
+.rs-inline-edit-sm .rs-plaintext {
+  .input-sm();
+}

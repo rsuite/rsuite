@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.CheckTree",
+  "private": true,
+  "main": "../cjs/Cam.CheckTree/index.js",
+  "module": "../esm/Cam.CheckTree/index.js",
+  "types": "../esm/Cam.CheckTree/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Nav",
+  "private": true,
+  "main": "../cjs/Cam.Nav/index.js",
+  "module": "../esm/Cam.Nav/index.js",
+  "types": "../esm/Cam.Nav/index.d.ts"
+}

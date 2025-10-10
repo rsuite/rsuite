@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Pagination",
+  "private": true,
+  "main": "../cjs/Cam.Pagination/index.js",
+  "module": "../esm/Cam.Pagination/index.js",
+  "types": "../esm/Cam.Pagination/index.d.ts"
+}

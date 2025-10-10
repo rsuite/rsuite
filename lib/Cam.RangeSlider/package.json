@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.RangeSlider",
+  "private": true,
+  "main": "../cjs/Cam.RangeSlider/index.js",
+  "module": "../esm/Cam.RangeSlider/index.js",
+  "types": "../esm/Cam.RangeSlider/index.d.ts"
+}

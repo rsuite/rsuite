@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Grid",
+  "private": true,
+  "main": "../cjs/Cam.Grid/index.js",
+  "module": "../esm/Cam.Grid/index.js",
+  "types": "../esm/Cam.Grid/index.d.ts"
+}

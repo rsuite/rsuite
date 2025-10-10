@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.DateInput",
+  "private": true,
+  "main": "../cjs/Cam.DateInput/index.js",
+  "module": "../esm/Cam.DateInput/index.js",
+  "types": "../esm/Cam.DateInput/index.d.ts"
+}

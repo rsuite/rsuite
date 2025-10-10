@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.RadioTileGroup",
+  "private": true,
+  "main": "../cjs/Cam.RadioTileGroup/index.js",
+  "module": "../esm/Cam.RadioTileGroup/index.js",
+  "types": "../esm/Cam.RadioTileGroup/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.AutoComplete",
+  "private": true,
+  "main": "../cjs/Cam.AutoComplete/index.js",
+  "module": "../esm/Cam.AutoComplete/index.js",
+  "types": "../esm/Cam.AutoComplete/index.d.ts"
+}

@@ -1,0 +1,21 @@
+@import '../../styles/common';
+@import 'mixin';
+
+// Form
+
+.rs-form-inline {
+  > *,
+  > .rs-btn {
+    margin-right: 20px;
+    margin-bottom: 24px;
+    vertical-align: top;
+  }
+
+  .rs-form-control-label {
+    vertical-align: top;
+    margin-bottom: auto;
+    margin-right: @form-control-label-margin-right;
+    margin-top: @padding-y;
+    display: inline-block;
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Card",
+  "private": true,
+  "main": "../cjs/Cam.Card/index.js",
+  "module": "../esm/Cam.Card/index.js",
+  "types": "../esm/Cam.Card/index.d.ts"
+}

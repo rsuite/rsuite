@@ -1,0 +1,72 @@
+:root,
+.rs-theme-light {
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-600: #717273;
+  --rs-divider-border: var(--rs-gray-200);
+}
+.rs-theme-dark {
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-divider-border: var(--rs-gray-600);
+}
+.rs-theme-high-contrast {
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-divider-border: var(--rs-gray-600);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-divider {
+  background-color: #e5e5ea;
+  background-color: var(--rs-divider-border);
+}
+.rs-divider-vertical {
+  display: inline-block;
+  min-height: 1em;
+  height: 100%;
+  width: 1px;
+  vertical-align: middle;
+  margin: 0 12px;
+}
+.rs-divider-horizontal {
+  height: 1px;
+  width: 100%;
+  margin: 24px 0;
+}
+.rs-divider-horizontal.rs-divider-with-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: transparent;
+  margin: 30px 0;
+}
+.rs-divider-horizontal.rs-divider-with-text::before,
+.rs-divider-horizontal.rs-divider-with-text::after {
+  content: '';
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  border-top: 1px solid #e5e5ea;
+  border-top: 1px solid var(--rs-divider-border);
+}
+.rs-divider-inner-text {
+  padding: 0 12px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}

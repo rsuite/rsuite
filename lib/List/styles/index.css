@@ -1,0 +1,165 @@
+:root,
+.rs-theme-light {
+  --rs-gray-0: #fff;
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-600: #717273;
+  --rs-gray-700: #575757;
+  --rs-gray-900: #121212;
+  --rs-primary-50: #f2faff;
+  --rs-primary-500: #3498ff;
+  --rs-primary-900: #004299;
+  --rs-list-bg: var(--rs-gray-0);
+  --rs-list-border: var(--rs-gray-200);
+  --rs-list-hover-bg: var(--rs-primary-50);
+  --rs-list-placeholder-bg: rgb(from var(--rs-primary-50) r g b / 50%);
+  --rs-list-placeholder-border: var(--rs-primary-500);
+}
+@supports not (color: rgb(from white r g b)) {
+  :root,
+  .rs-theme-light {
+    --rs-list-placeholder-bg: rgba(242, 250, 255, 0.5);
+  }
+}
+.rs-theme-dark {
+  --rs-gray-0: #fff;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-900: #0f131a;
+  --rs-primary-50: #f2fcff;
+  --rs-primary-500: #34c3ff;
+  --rs-primary-900: #006199;
+  --rs-list-bg: var(--rs-gray-900);
+  --rs-list-border: var(--rs-gray-700);
+  --rs-list-hover-bg: var(--rs-gray-600);
+  --rs-list-placeholder-bg: rgb(from var(--rs-primary-900) r g b / 20%);
+  --rs-list-placeholder-border: var(--rs-primary-500);
+}
+@supports not (color: rgb(from white r g b)) {
+  .rs-theme-dark {
+    --rs-list-placeholder-bg: rgba(0, 97, 153, 0.2);
+  }
+}
+.rs-theme-high-contrast {
+  --rs-gray-0: #fff;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-900: #0f131a;
+  --rs-primary-50: #fffef2;
+  --rs-primary-500: #ffff00;
+  --rs-primary-900: #8f9900;
+  --rs-list-bg: transparent;
+  --rs-list-border: var(--rs-gray-700);
+  --rs-list-hover-bg: var(--rs-gray-600);
+  --rs-list-placeholder-bg: rgb(from var(--rs-primary-900) r g b / 20%);
+  --rs-list-placeholder-border: var(--rs-primary-500);
+}
+@supports not (color: rgb(from white r g b)) {
+  .rs-theme-high-contrast {
+    --rs-list-placeholder-bg: rgba(143, 153, 0, 0.2);
+  }
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-list {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.rs-list-bordered {
+  border-radius: 6px;
+  border: 1px solid #e5e5ea;
+  border: 1px solid var(--rs-list-border);
+}
+.rs-list-hover .rs-list-item:hover {
+  background-color: #f2faff;
+  background-color: var(--rs-list-hover-bg);
+}
+.rs-list-sortable .rs-list-item {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.rs-list-sortable .rs-list-item-disabled,
+.rs-list-sortable .rs-list-item-disabled:active {
+  cursor: not-allowed;
+}
+.rs-list-item {
+  position: relative;
+}
+.rs-list-item-bordered {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.rs-list-item-lg {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.rs-list-item-md {
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+.rs-list-item-sm {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.rs-list-item-xs {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */
+.rs-list-item {
+  background-color: #fff;
+  background-color: var(--rs-list-bg);
+}
+.rs-list-item-helper {
+  position: absolute;
+  background-color: #fff;
+  background-color: var(--rs-list-bg);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 2px);
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  border: none;
+  cursor: move;
+}
+.rs-modal-open .rs-list-item-helper {
+  z-index: 1149;
+}
+.rs-drawer-open .rs-list-item-helper {
+  z-index: 1149;
+}
+.rs-list-item-holder {
+  background-color: rgb(from #f2faff r g b / 50%);
+  background-color: var(--rs-list-placeholder-bg);
+  visibility: hidden;
+}
+.rs-list-item-holder::after {
+  content: '';
+  position: absolute;
+  visibility: visible;
+  top: 1px;
+  left: 1px;
+  width: calc(100% - 2 * 1px);
+  height: calc(100% - 2 * 1px);
+  border: 1px #3498ff dashed;
+  border: 1px var(--rs-list-placeholder-border) dashed;
+}
+.rs-list-divider .rs-list-item + .rs-list-item {
+  border-top: 1px solid #e5e5ea;
+  border-top: 1px solid var(--rs-list-border);
+}
+/* rtl:end:ignore */

@@ -1,0 +1,33 @@
+:root,
+.rs-theme-light {
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-600: #717273;
+  --rs-text-secondary: var(--rs-gray-600);
+}
+.rs-theme-dark {
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-text-secondary: var(--rs-gray-200);
+}
+.rs-theme-high-contrast {
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-text-secondary: var(--rs-gray-200);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-form-control-label {
+  margin-bottom: 4px;
+}
+.rs-form-plaintext .rs-form-control-label {
+  color: #717273;
+  color: var(--rs-text-secondary);
+}

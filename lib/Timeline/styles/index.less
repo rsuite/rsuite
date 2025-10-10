@@ -1,0 +1,177 @@
+@import '../../styles/common';
+@import 'mixin';
+
+//
+// Time lines
+// --------------------------------------------------
+
+.rs-timeline {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+  direction: ltr;
+
+  &-item {
+    position: relative;
+    text-align: left;
+  }
+
+  &-item:not(:last-child) &-item-content {
+    padding-bottom: @time-line-item-content-padding-bottom;
+  }
+
+  &-item-dot {
+    position: absolute;
+    top: @time-line-dot-center-gap;
+
+    &::before {
+      content: '';
+      display: block;
+      width: @time-line-dot-side-length;
+      height: @time-line-dot-side-length;
+      background-color: var(--rs-timeline-indicator-bg);
+      border-radius: 50%;
+    }
+  }
+
+  &-item-custom-dot {
+    text-align: center;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &-item-active &-item-dot::before {
+    background-color: var(--rs-timeline-indicator-active-bg);
+  }
+
+  &-item-tail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: @time-line-tail-width;
+    background-color: var(--rs-timeline-indicator-bg);
+  }
+
+  // The first tail need reserved a space.
+  &-item:first-child &-item-tail {
+    top: @time-line-dot-center-gap;
+  }
+
+  // Last item tail need set height.
+  &-item:last-child &-item-tail {
+    bottom: auto;
+    height: (@time-line-dot-center-gap + @time-line-dot-side-length);
+  }
+
+  &-endless &-item:last-child &-item-tail {
+    height: auto;
+    min-height: @time-line-tail-min-height;
+  }
+
+  &-item:only-child &-item-tail {
+    display: none;
+  }
+
+  // Align left
+  .time-line-align(left);
+
+  &-align-left &-item {
+    padding-left: @time-line-item-padding-left;
+  }
+
+  // Align right
+  .time-line-align(right);
+
+  &-align-right &-item-content {
+    text-align: right;
+  }
+
+  // Align alternate
+  &-align-alternate &-item-dot {
+    @dot-offset: (@time-line-dot-side-length / 2);
+
+    left: ~'calc(50% - @{dot-offset})';
+  }
+
+  &-align-alternate &-item-tail {
+    @tail-offset: (@time-line-tail-width / 2);
+
+    left: ~'calc(50% - @{tail-offset})';
+  }
+
+  &-align-alternate &-item-content {
+    width: 50%;
+  }
+
+  &-align-alternate &-item:nth-child(even) &-item-content {
+    text-align: right;
+  }
+
+  &-align-alternate &-item:nth-child(odd) {
+    text-align: right;
+  }
+
+  &-align-alternate &-item:nth-child(odd) &-item-content {
+    display: inline-block;
+    text-align: left;
+  }
+
+  // With time
+  &-with-time &-item {
+    display: flex;
+    padding-left: 0;
+  }
+
+  &-with-time &-item-dot {
+    @dot-offset: (@time-line-dot-side-length / 2);
+
+    left: ~'calc(50% - @{dot-offset})';
+  }
+
+  &-with-time &-item-tail {
+    @tail-offset: (@time-line-tail-width / 2);
+
+    left: ~'calc(50% - @{tail-offset})';
+  }
+
+  &-with-time &-item-time,
+  &-with-time &-item-content {
+    flex: 1 0 50%;
+    // In IE flex item box-sizing is invalid .
+    // Reference https://github.com/philipwalton/flexbugs/issues/3
+    .ie11-max-width(50%);
+  }
+
+  &-align-alternate &-item:nth-child(2n),
+  &-with-time&-align-right &-item {
+    flex-direction: row-reverse;
+  }
+
+  &-with-time&-align-right &-item {
+    padding-right: 0;
+  }
+
+  &-with-time&-align-left &-item-time {
+    text-align: right;
+  }
+
+  &-with-time&-align-right &-item-time {
+    text-align: left;
+  }
+
+  &-with-time&-align-left &-item-time,
+  &-with-time&-align-right &-item-content,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-time,
+  &-align-alternate &-item:nth-child(2n) &-item-content {
+    padding-right: @time-line-alternate-time-offset;
+  }
+
+  &-with-time&-align-left &-item-content,
+  &-with-time&-align-right &-item-time,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-content,
+  &-align-alternate &-item:nth-child(2n) &-item-time {
+    padding-left: @time-line-alternate-time-offset;
+  }
+}

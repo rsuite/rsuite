@@ -1,0 +1,44 @@
+@import '../../styles/common';
+
+.rs-badge-wrapper {
+  position: relative;
+}
+
+.rs-badge {
+  display: inline-block;
+
+  &-independent,
+  &-content {
+    background-color: var(--rs-badge-bg);
+    color: var(--rs-badge-text);
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 5px;
+  }
+
+  &-independent&-dot,
+  &-wrapper &-content:empty {
+    width: @badge-dot-size;
+    height: @badge-dot-size;
+    border-radius: (@badge-dot-size / 2);
+    padding: 0;
+  }
+
+  &-wrapper &-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    z-index: @zindex-badge-content;
+  }
+}
+
+each(@spectrum, .(@color) {
+  .rs-badge-@{color} {
+    &.rs-badge-independent,
+    .rs-badge-content {
+      background-color: var(~'--rs-@{color}-500');
+    }
+  }
+});

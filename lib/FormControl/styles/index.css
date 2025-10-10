@@ -1,0 +1,54 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-form-fluid .rs-form-control-wrapper {
+  width: 100%;
+}
+.rs-form-fluid .rs-form-control-wrapper > .rs-input-number,
+.rs-form-fluid .rs-form-control-wrapper > .rs-input {
+  width: 100%;
+}
+.rs-form-fluid.rs-form-vertical .rs-form-group .rs-input-group {
+  width: 100%;
+}
+.rs-form-control-wrapper {
+  position: relative;
+}
+.rs-form-control-wrapper > .rs-input-number,
+.rs-form-control-wrapper > .rs-input {
+  width: 300px;
+}
+.rs-form-control-wrapper.read-only {
+  pointer-events: none;
+  -ms-touch-action: none;
+      touch-action: none;
+}
+.rs-form-vertical .rs-form-group .rs-input-group {
+  width: 300px;
+}
+.rs-form-vertical .rs-form-group .rs-form-control-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+.rs-form-horizontal .rs-form-group .rs-form-control-wrapper {
+  float: left;
+}
+.rs-form-horizontal .rs-form-group .rs-form-control-wrapper + .rs-form-help-text {
+  clear: both;
+}
+.rs-form-horizontal .rs-form-group .rs-form-control-wrapper + .rs-form-help-text:not(.rs-form-help-text-tooltip) {
+  margin-left: 182px;
+}
+.rs-form-inline .rs-form-group .rs-form-control-wrapper {
+  display: inline-block;
+}
+.rs-form-inline .rs-form-group .rs-sr-only + .rs-form-control-wrapper {
+  margin-left: 0;
+}

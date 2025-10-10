@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Sidenav",
+  "private": true,
+  "main": "../cjs/Cam.Sidenav/index.js",
+  "module": "../esm/Cam.Sidenav/index.js",
+  "types": "../esm/Cam.Sidenav/index.d.ts"
+}

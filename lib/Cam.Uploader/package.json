@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Uploader",
+  "private": true,
+  "main": "../cjs/Cam.Uploader/index.js",
+  "module": "../esm/Cam.Uploader/index.js",
+  "types": "../esm/Cam.Uploader/index.d.ts"
+}

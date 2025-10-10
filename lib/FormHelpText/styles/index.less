@@ -1,0 +1,22 @@
+@import '../../styles/common';
+
+// Help text
+//
+// Apply to any element you wish to create light text for placement immediately
+// below a form control. Use for general help, formatting, or instructional text.
+
+.rs-form-help-text {
+  display: block; // account for any element using form-help-text
+  color: var(--rs-text-secondary); // lighten the text some for contrast
+  //Sometimes help info is more than one line，so height can't set a fixed value
+  min-height: @line-height-computed;
+  line-height: @line-height-small;
+  font-size: @font-size-small;
+
+  &-tooltip {
+    display: inline-flex;
+    align-items: center;
+    margin-left: @form-help-text-inline-gap;
+    margin-top: @padding-y;
+  }
+}

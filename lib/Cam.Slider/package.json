@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Slider",
+  "private": true,
+  "main": "../cjs/Cam.Slider/index.js",
+  "module": "../esm/Cam.Slider/index.js",
+  "types": "../esm/Cam.Slider/index.d.ts"
+}

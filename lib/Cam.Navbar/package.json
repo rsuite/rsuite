@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Navbar",
+  "private": true,
+  "main": "../cjs/Cam.Navbar/index.js",
+  "module": "../esm/Cam.Navbar/index.js",
+  "types": "../esm/Cam.Navbar/index.d.ts"
+}

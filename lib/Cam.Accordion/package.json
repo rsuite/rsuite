@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Accordion",
+  "private": true,
+  "main": "../cjs/Cam.Accordion/index.js",
+  "module": "../esm/Cam.Accordion/index.js",
+  "types": "../esm/Cam.Accordion/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Footer",
+  "private": true,
+  "main": "../cjs/Cam.Footer/index.js",
+  "module": "../esm/Cam.Footer/index.js",
+  "types": "../esm/Cam.Footer/index.d.ts"
+}

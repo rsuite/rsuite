@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.AvatarGroup",
+  "private": true,
+  "main": "../cjs/Cam.AvatarGroup/index.js",
+  "module": "../esm/Cam.AvatarGroup/index.js",
+  "types": "../esm/Cam.AvatarGroup/index.d.ts"
+}

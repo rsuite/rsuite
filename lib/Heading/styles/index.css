@@ -1,0 +1,40 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-heading {
+  font-family: inherit;
+  font-weight: bolder;
+  color: inherit;
+  margin: 0;
+}
+.rs-heading.h1 {
+  font-size: 46px;
+  line-height: 62px;
+}
+.rs-heading.h2 {
+  font-size: 36px;
+  line-height: 50px;
+}
+.rs-heading.h3 {
+  font-size: 28px;
+  line-height: 42px;
+}
+.rs-heading.h4 {
+  font-size: 22px;
+  line-height: 34px;
+}
+.rs-heading.h5 {
+  font-size: 18px;
+  line-height: 24px;
+}
+.rs-heading.h6 {
+  font-size: 16px;
+  line-height: 22px;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Placeholder",
+  "private": true,
+  "main": "../cjs/Cam.Placeholder/index.js",
+  "module": "../esm/Cam.Placeholder/index.js",
+  "types": "../esm/Cam.Placeholder/index.d.ts"
+}

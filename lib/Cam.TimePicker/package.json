@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.TimePicker",
+  "private": true,
+  "main": "../cjs/Cam.TimePicker/index.js",
+  "module": "../esm/Cam.TimePicker/index.js",
+  "types": "../esm/Cam.TimePicker/index.d.ts"
+}

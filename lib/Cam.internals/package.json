@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.internals",
+  "private": true,
+  "main": "../cjs/Cam.internals/index.js",
+  "module": "../esm/Cam.internals/index.js",
+  "types": "../esm/Cam.internals/index.d.ts"
+}

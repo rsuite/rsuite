@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.CheckPicker",
+  "private": true,
+  "main": "../cjs/Cam.CheckPicker/index.js",
+  "module": "../esm/Cam.CheckPicker/index.js",
+  "types": "../esm/Cam.CheckPicker/index.d.ts"
+}

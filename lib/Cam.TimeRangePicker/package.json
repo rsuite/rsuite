@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.TimeRangePicker",
+  "private": true,
+  "main": "../cjs/Cam.TimeRangePicker/index.js",
+  "module": "../esm/Cam.TimeRangePicker/index.js",
+  "types": "../esm/Cam.TimeRangePicker/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Message",
+  "private": true,
+  "main": "../cjs/Cam.Message/index.js",
+  "module": "../esm/Cam.Message/index.js",
+  "types": "../esm/Cam.Message/index.d.ts"
+}

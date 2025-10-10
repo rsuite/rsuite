@@ -1,0 +1,120 @@
+@import '../../styles/common';
+@import 'mixin';
+@import 'grid-framework';
+
+//
+// Grid system
+// --------------------------------------------------
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+.rs-grid-container {
+  .container-fixed();
+
+  @media (min-width: @screen-sm) {
+    width: @container-sm;
+  }
+
+  @media (min-width: @screen-md) {
+    width: @container-md;
+  }
+
+  @media (min-width: @screen-lg) {
+    width: @container-lg;
+  }
+
+  @media (min-width: @screen-xl) {
+    width: @container-xl;
+  }
+
+  @media (min-width: @screen-xxl) {
+    width: @container-xxl;
+  }
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.rs-grid-container-fluid {
+  .container-fixed();
+}
+
+// Extra small grid
+//
+// Columns, offsets, pushes, and pulls for extra small devices like
+// smartphones.
+
+.make-grid(xs);
+
+// Small grid
+//
+// Columns, offsets, pushes, and pulls for the small device range, from phones
+// to tablets / phones.
+
+@media (min-width: @screen-sm) {
+  .make-grid(sm);
+}
+
+// Medium grid
+//
+// Columns, offsets, pushes, and pulls for the desktop device range.
+
+@media (min-width: @screen-md) {
+  .make-grid(md);
+}
+
+// Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: @screen-lg) {
+  .make-grid(lg);
+}
+
+// Extra Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: @screen-xl) {
+  .make-grid(xl);
+}
+
+// Extra extra Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: @screen-xxl) {
+  .make-grid(xxl);
+}
+
+// Hiddens
+//
+// All hidden styles.
+
+@media (max-width: (@screen-sm - 1)) {
+  .hidden(xs);
+}
+
+@media (min-width: @screen-sm) and (max-width: (@screen-md - 1)) {
+  .hidden(sm);
+}
+
+@media (min-width: @screen-md) and (max-width: (@screen-lg - 1)) {
+  .hidden(md);
+}
+
+@media (min-width: @screen-lg) and (max-width: (@screen-xl - 1)) {
+  .hidden(lg);
+}
+
+@media (min-width: @screen-xl) and (max-width: (@screen-xxl - 1)) {
+  .hidden(xl);
+}
+
+@media (min-width: @screen-xxl) {
+  .hidden(xxl);
+}

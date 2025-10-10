@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Cascader",
+  "private": true,
+  "main": "../cjs/Cam.Cascader/index.js",
+  "module": "../esm/Cam.Cascader/index.js",
+  "types": "../esm/Cam.Cascader/index.d.ts"
+}

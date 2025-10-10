@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Divider",
+  "private": true,
+  "main": "../cjs/Cam.Divider/index.js",
+  "module": "../esm/Cam.Divider/index.js",
+  "types": "../esm/Cam.Divider/index.d.ts"
+}

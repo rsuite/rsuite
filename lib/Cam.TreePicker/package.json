@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.TreePicker",
+  "private": true,
+  "main": "../cjs/Cam.TreePicker/index.js",
+  "module": "../esm/Cam.TreePicker/index.js",
+  "types": "../esm/Cam.TreePicker/index.d.ts"
+}

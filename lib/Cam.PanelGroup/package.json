@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.PanelGroup",
+  "private": true,
+  "main": "../cjs/Cam.PanelGroup/index.js",
+  "module": "../esm/Cam.PanelGroup/index.js",
+  "types": "../esm/Cam.PanelGroup/index.d.ts"
+}

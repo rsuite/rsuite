@@ -1,0 +1,42 @@
+.dropdown-toggle-caret-size(@vertical,@horizontal,@caret-size) {
+  padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
+
+  .rs-dropdown-toggle-caret {
+    top: @vertical;
+    right: @horizontal;
+    font-size: @caret-size;
+  }
+}
+
+.dropdown-toggle-size() {
+  &.rs-btn-lg {
+    .dropdown-toggle-caret-size(@padding-y-lg, @padding-x-lg, 14px);
+  }
+
+  &.rs-btn-sm {
+    .dropdown-toggle-caret-size(@padding-y-sm, @padding-x-sm, 10px);
+  }
+
+  &.rs-btn-xs {
+    .dropdown-toggle-caret-size(@padding-y-xs, @padding-x-xs, 8px);
+  }
+}
+
+.dropdown-toggle() {
+  position: relative;
+  z-index: @zindex-dropdown;
+  padding-right: @dropdown-toggle-padding-right;
+  // Fixed: Content is not centered when customizing renderTitle.
+  display: inline-block;
+}
+
+// Horizontal dividers
+//
+// Dividers (basically an hr) within dropdowns and nav lists
+
+.nav-divider(@color: #e5e5e5) {
+  height: 1px;
+  margin: @nav-divider-margin-vertical 0;
+  overflow: hidden;
+  background-color: @color;
+}

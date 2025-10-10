@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Button",
+  "private": true,
+  "main": "../cjs/Cam.Button/index.js",
+  "module": "../esm/Cam.Button/index.js",
+  "types": "../esm/Cam.Button/index.d.ts"
+}

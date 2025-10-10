@@ -1,0 +1,38 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-stack {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.rs-avatar-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.rs-avatar-group-stack .rs-avatar {
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  margin-right: -10px;
+  -webkit-transition: margin 0.15s;
+  transition: margin 0.15s;
+}
+.rs-avatar-group-stack .rs-avatar:last-child {
+  margin-right: 0;
+}
+.rs-avatar-group-stack .rs-avatar:hover {
+  margin-right: 0;
+}

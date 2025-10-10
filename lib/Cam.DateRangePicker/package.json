@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.DateRangePicker",
+  "private": true,
+  "main": "../cjs/Cam.DateRangePicker/index.js",
+  "module": "../esm/Cam.DateRangePicker/index.js",
+  "types": "../esm/Cam.DateRangePicker/index.d.ts"
+}

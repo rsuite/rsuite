@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Drawer",
+  "private": true,
+  "main": "../cjs/Cam.Drawer/index.js",
+  "module": "../esm/Cam.Drawer/index.js",
+  "types": "../esm/Cam.Drawer/index.d.ts"
+}

@@ -1,0 +1,23 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-form-inline > *,
+.rs-form-inline > .rs-btn {
+  margin-right: 20px;
+  margin-bottom: 24px;
+  vertical-align: top;
+}
+.rs-form-inline .rs-form-control-label {
+  vertical-align: top;
+  margin-bottom: auto;
+  margin-right: 12px;
+  margin-top: 8px;
+  display: inline-block;
+}

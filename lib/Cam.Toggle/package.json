@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Toggle",
+  "private": true,
+  "main": "../cjs/Cam.Toggle/index.js",
+  "module": "../esm/Cam.Toggle/index.js",
+  "types": "../esm/Cam.Toggle/index.d.ts"
+}

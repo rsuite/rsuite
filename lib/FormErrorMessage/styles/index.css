@@ -1,0 +1,329 @@
+:root,
+.rs-theme-light {
+  --rs-gray-200: #e5e5ea;
+  --rs-color-red: #f44336;
+  --rs-red-500: #f44336;
+  --rs-form-errormessage-text: var(--rs-color-red);
+  --rs-form-errormessage-bg: #fff;
+  --rs-form-errormessage-border: var(--rs-gray-200);
+}
+.rs-theme-dark {
+  --rs-gray-200: #a4a9b3;
+  --rs-color-red: #f04f43;
+  --rs-red-500: #f04f43;
+  --rs-form-errormessage-text: #fff;
+  --rs-form-errormessage-bg: var(--rs-color-red);
+  --rs-form-errormessage-border: var(--rs-color-red);
+}
+.rs-theme-high-contrast {
+  --rs-gray-200: #a4a9b3;
+  --rs-color-red: #bd1732;
+  --rs-red-500: #bd1732;
+  --rs-form-errormessage-text: #fff;
+  --rs-form-errormessage-bg: var(--rs-red-500);
+  --rs-form-errormessage-border: var(--rs-red-500);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+@-webkit-keyframes errorMessageSlideUpIn {
+  0% {
+    -webkit-transform: translate3d(0, 2px, 0);
+            transform: translate3d(0, 2px, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes errorMessageSlideUpIn {
+  0% {
+    -webkit-transform: translate3d(0, 2px, 0);
+            transform: translate3d(0, 2px, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes errorMessageSlideDownIn {
+  0% {
+    -webkit-transform: translate3d(0, -2px, 0);
+            transform: translate3d(0, -2px, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes errorMessageSlideDownIn {
+  0% {
+    -webkit-transform: translate3d(0, -2px, 0);
+            transform: translate3d(0, -2px, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes errorMessageSlideLeftIn {
+  0% {
+    -webkit-transform: translate3d(-2px, 0, 0);
+            transform: translate3d(-2px, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes errorMessageSlideLeftIn {
+  0% {
+    -webkit-transform: translate3d(-2px, 0, 0);
+            transform: translate3d(-2px, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes errorMessageSlideRightIn {
+  0% {
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes errorMessageSlideRightIn {
+  0% {
+    -webkit-transform: translate3d(2px, 0, 0);
+            transform: translate3d(2px, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+.rs-form-error-message {
+  position: absolute;
+  padding: 3px 7px;
+  background-color: #fff;
+  background-color: var(--rs-form-errormessage-bg);
+  border: 1px solid #e5e5ea;
+  border: 1px solid var(--rs-form-errormessage-border);
+  border-radius: 6px;
+  -webkit-filter: drop-shadow(0 0 6px rgba(0,0,0,.1));
+          filter: drop-shadow(0 0 6px rgba(0,0,0,.1));
+  z-index: 5;
+  color: #f44336;
+  color: var(--rs-form-errormessage-text);
+  font-size: 12px;
+  line-height: 20px;
+  display: none;
+  white-space: nowrap;
+}
+.rs-form-error-message-wrapper {
+  position: absolute;
+}
+.rs-form-error-message-show {
+  display: block;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-out;
+          animation-timing-function: ease-out;
+}
+.rs-form-error-message-arrow::before,
+.rs-form-error-message-arrow::after {
+  content: '';
+  position: absolute;
+  border-color: transparent;
+  border-style: solid;
+}
+.rs-form-error-message-placement-bottom-start,
+.rs-form-error-message-placement-bottom-end {
+  bottom: 0;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message {
+  top: 0;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-show,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-show {
+  -webkit-animation-name: errorMessageSlideDownIn;
+          animation-name: errorMessageSlideDownIn;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-arrow::after {
+  border-width: 0 6px 6px;
+  border-bottom-color: #e5e5ea;
+  border-bottom-color: var(--rs-form-errormessage-border);
+  top: -6px;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-arrow::after {
+  top: -5px;
+  border-bottom-color: #fff;
+  border-bottom-color: var(--rs-form-errormessage-bg);
+}
+.rs-form-error-message-placement-top-start,
+.rs-form-error-message-placement-top-end {
+  top: 0;
+}
+.rs-form-error-message-placement-top-start .rs-form-error-message,
+.rs-form-error-message-placement-top-end .rs-form-error-message {
+  bottom: 0;
+}
+.rs-form-error-message-placement-top-start .rs-form-error-message-show,
+.rs-form-error-message-placement-top-end .rs-form-error-message-show {
+  -webkit-animation-name: errorMessageSlideUpIn;
+          animation-name: errorMessageSlideUpIn;
+}
+.rs-form-error-message-placement-top-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-top-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-top-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-top-end .rs-form-error-message-arrow::after {
+  border-width: 6px 6px 0;
+  border-top-color: #e5e5ea;
+  border-top-color: var(--rs-form-errormessage-border);
+  bottom: -6px;
+}
+.rs-form-error-message-placement-top-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-top-end .rs-form-error-message-arrow::after {
+  bottom: -5px;
+  border-top-color: #fff;
+  border-top-color: var(--rs-form-errormessage-bg);
+}
+.rs-form-error-message-placement-bottom-start,
+.rs-form-error-message-placement-top-start {
+  left: 0;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message,
+.rs-form-error-message-placement-top-start .rs-form-error-message {
+  left: 0;
+}
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-top-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-bottom-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-top-start .rs-form-error-message-arrow::after {
+  left: 10px;
+}
+.rs-form-error-message-placement-bottom-end,
+.rs-form-error-message-placement-top-end {
+  right: 0;
+}
+.rs-form-error-message-placement-bottom-end .rs-form-error-message,
+.rs-form-error-message-placement-top-end .rs-form-error-message {
+  right: 0;
+}
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-top-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-bottom-end .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-top-end .rs-form-error-message-arrow::after {
+  right: 10px;
+}
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */
+.rs-form-error-message-placement-left-start,
+.rs-form-error-message-placement-left-end {
+  left: 0;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message,
+.rs-form-error-message-placement-left-end .rs-form-error-message {
+  right: 0;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message-show,
+.rs-form-error-message-placement-left-end .rs-form-error-message-show {
+  -webkit-animation-name: errorMessageSlideRightIn;
+          animation-name: errorMessageSlideRightIn;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-left-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-left-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-left-end .rs-form-error-message-arrow::after {
+  border-width: 6px 0 6px 6px;
+  border-left-color: #e5e5ea;
+  border-left-color: var(--rs-form-errormessage-border);
+  right: -6px;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-left-end .rs-form-error-message-arrow::after {
+  right: -5px;
+  border-left-color: #fff;
+  border-left-color: var(--rs-form-errormessage-bg);
+}
+.rs-form-error-message-placement-right-start,
+.rs-form-error-message-placement-right-end {
+  right: 0;
+}
+.rs-form-error-message-placement-right-start .rs-form-error-message,
+.rs-form-error-message-placement-right-end .rs-form-error-message {
+  left: 0;
+}
+.rs-form-error-message-placement-right-start .rs-form-error-message-show,
+.rs-form-error-message-placement-right-end .rs-form-error-message-show {
+  -webkit-animation-name: errorMessageSlideLeftIn;
+          animation-name: errorMessageSlideLeftIn;
+}
+.rs-form-error-message-placement-right-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-right-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-right-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-right-end .rs-form-error-message-arrow::after {
+  border-width: 6px 6px 6px 0;
+  border-right-color: #e5e5ea;
+  border-right-color: var(--rs-form-errormessage-border);
+  left: -6px;
+}
+.rs-form-error-message-placement-right-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-right-end .rs-form-error-message-arrow::after {
+  left: -5px;
+  border-right-color: #fff;
+  border-right-color: var(--rs-form-errormessage-bg);
+}
+.rs-form-error-message-placement-left-start,
+.rs-form-error-message-placement-right-start {
+  top: 0;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message,
+.rs-form-error-message-placement-right-start .rs-form-error-message {
+  top: 0;
+}
+.rs-form-error-message-placement-left-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-right-start .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-left-start .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-right-start .rs-form-error-message-arrow::after {
+  top: 4px;
+}
+.rs-form-error-message-placement-left-end,
+.rs-form-error-message-placement-right-end {
+  bottom: 0;
+}
+.rs-form-error-message-placement-left-end .rs-form-error-message,
+.rs-form-error-message-placement-right-end .rs-form-error-message {
+  bottom: 0;
+}
+.rs-form-error-message-placement-left-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-right-end .rs-form-error-message-arrow::before,
+.rs-form-error-message-placement-left-end .rs-form-error-message-arrow::after,
+.rs-form-error-message-placement-right-end .rs-form-error-message-arrow::after {
+  bottom: 4px;
+}
+/* rtl:end:ignore */

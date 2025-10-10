@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.FormHelpText",
+  "private": true,
+  "main": "../cjs/Cam.FormHelpText/index.js",
+  "module": "../esm/Cam.FormHelpText/index.js",
+  "types": "../esm/Cam.FormHelpText/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Popover",
+  "private": true,
+  "main": "../cjs/Cam.Popover/index.js",
+  "module": "../esm/Cam.Popover/index.js",
+  "types": "../esm/Cam.Popover/index.d.ts"
+}

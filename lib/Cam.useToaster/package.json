@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.useToaster",
+  "private": true,
+  "main": "../cjs/Cam.useToaster/index.js",
+  "module": "../esm/Cam.useToaster/index.js",
+  "types": "../esm/Cam.useToaster/index.d.ts"
+}

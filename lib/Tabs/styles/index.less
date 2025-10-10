@@ -1,0 +1,24 @@
+@import '../../Nav/styles/index.less';
+
+.rs-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-reversed {
+    flex-direction: column-reverse;
+  }
+
+  &-vertical {
+    flex-direction: row;
+
+    .rs-tabs-content {
+      flex: 1;
+    }
+  }
+
+  .rs-nav-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+}

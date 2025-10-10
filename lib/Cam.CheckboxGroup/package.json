@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.CheckboxGroup",
+  "private": true,
+  "main": "../cjs/Cam.CheckboxGroup/index.js",
+  "module": "../esm/Cam.CheckboxGroup/index.js",
+  "types": "../esm/Cam.CheckboxGroup/index.d.ts"
+}

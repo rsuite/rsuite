@@ -1,0 +1,66 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-btn-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.rs-btn-group > .rs-btn {
+  position: relative;
+}
+.rs-btn-group > .rs-btn:focus,
+.rs-btn-group > .rs-btn:active {
+  z-index: 2;
+}
+.rs-btn-group:not(.rs-btn-group-vertical) > .rs-btn {
+  float: left;
+}
+.rs-btn-group:not(.rs-btn-group-vertical) > .rs-btn:not(:last-child) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.rs-btn-group:not(.rs-btn-group-vertical) > .rs-btn:not(:first-child) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.rs-btn-group:not(.rs-btn-group-vertical) > .rs-btn-ghost + .rs-btn-ghost {
+  margin-left: -1px;
+}
+.rs-btn-group-vertical > .rs-btn {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+.rs-btn-group-vertical > .rs-btn:not(:last-child) {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.rs-btn-group-vertical > .rs-btn:not(:first-child) {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.rs-btn-group-vertical > .rs-btn-ghost + .rs-btn-ghost {
+  margin-top: -1px;
+}
+.rs-btn-group-justified {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+.rs-btn-group-justified > .rs-btn {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 1%;
+          flex: 1 1 1%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

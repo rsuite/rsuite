@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.FormErrorMessage",
+  "private": true,
+  "main": "../cjs/Cam.FormErrorMessage/index.js",
+  "module": "../esm/Cam.FormErrorMessage/index.js",
+  "types": "../esm/Cam.FormErrorMessage/index.d.ts"
+}

@@ -1,0 +1,350 @@
+:root,
+.rs-theme-light {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #f7f7fa;
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-400: #b6b7b8;
+  --rs-gray-500: #939393;
+  --rs-gray-600: #717273;
+  --rs-gray-700: #575757;
+  --rs-gray-800: #343434;
+  --rs-primary-50: #f2faff;
+  --rs-primary-100: #cce9ff;
+  --rs-primary-200: #a6d7ff;
+  --rs-primary-500: #3498ff;
+  --rs-primary-700: #1675e0;
+  --rs-primary-900: #004299;
+  --rs-text-link: var(--rs-primary-700);
+  --rs-text-primary: var(--rs-gray-800);
+  --rs-text-secondary: var(--rs-gray-600);
+  --rs-bg-overlay: var(--rs-gray-0);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-listbox-option-hover-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-listbox-option-hover-text: var(--rs-primary-700);
+  --rs-listbox-option-selected-bg: var(--rs-primary-50);
+  --rs-listbox-option-disabled-text: var(--rs-gray-400);
+  --rs-listbox-option-disabled-selected-text: var(--rs-primary-200);
+  --rs-tree-indent-line-color: rgba(0, 0, 0, 0.1);
+}
+@supports not (color: rgb(from white r g b)) {
+  :root,
+  .rs-theme-light {
+    --rs-color-focus-ring: rgba(52, 152, 255, 0.25);
+    --rs-listbox-option-hover-bg: rgba(204, 233, 255, 0.5);
+  }
+}
+.rs-theme-dark {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-400: #6a6f76;
+  --rs-gray-500: #5c6066;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-800: #1a1d24;
+  --rs-primary-50: #f2fcff;
+  --rs-primary-100: #ccf3ff;
+  --rs-primary-200: #a6e9ff;
+  --rs-primary-500: #34c3ff;
+  --rs-primary-700: #169de0;
+  --rs-primary-900: #006199;
+  --rs-text-link: var(--rs-primary-500);
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-bg-overlay: var(--rs-gray-700);
+  --rs-color-focus-ring: 0 0 0 3px rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-listbox-option-hover-bg: var(--rs-gray-600);
+  --rs-listbox-option-hover-text: currentColor;
+  --rs-listbox-option-selected-bg: rgb(from var(--rs-primary-900) r g b / 20%);
+  --rs-listbox-option-disabled-text: var(--rs-gray-500);
+  --rs-listbox-option-disabled-selected-text: var(--rs-primary-200);
+  --rs-tree-indent-line-color: rgba(255, 255, 255, 0.1);
+}
+@supports not (color: rgb(from white r g b)) {
+  .rs-theme-dark {
+    --rs-color-focus-ring: 0 0 0 3px rgba(52, 195, 255, 0.25);
+    --rs-listbox-option-selected-bg: rgba(0, 97, 153, 0.2);
+  }
+}
+.rs-theme-high-contrast {
+  --rs-gray-0: #fff;
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-400: #6a6f76;
+  --rs-gray-500: #5c6066;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-700: #292d33;
+  --rs-gray-800: #1a1d24;
+  --rs-primary-50: #fffef2;
+  --rs-primary-100: #fffbc2;
+  --rs-primary-200: #fffa91;
+  --rs-primary-500: #ffff00;
+  --rs-primary-700: #d9e000;
+  --rs-primary-900: #8f9900;
+  --rs-text-link: var(--rs-primary-500);
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-bg-overlay: var(--rs-gray-800);
+  --rs-color-focus-ring: var(--rs-gray-0);
+  --rs-listbox-option-hover-bg: transparent;
+  --rs-listbox-option-hover-text: var(--rs-primary-500);
+  --rs-listbox-option-selected-bg: transparent;
+  --rs-listbox-option-disabled-text: var(--rs-gray-500);
+  --rs-listbox-option-disabled-selected-text: var(--rs-primary-200);
+  --rs-tree-indent-line-color: rgba(255, 255, 255, 0.1);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-picker-subtle .picker-subtle-toggle {
+  position: relative;
+  z-index: 5;
+  padding-right: 32px;
+  display: inline-block;
+}
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle {
+  cursor: not-allowed;
+}
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:hover,
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:focus,
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:active {
+  background: none;
+}
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:hover::after,
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:focus::after,
+.rs-picker-subtle.rs-picker-disabled .picker-subtle-toggle:active::after {
+  display: none;
+}
+.rs-tree-node-toggle {
+  cursor: pointer;
+  width: 24px;
+  padding: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.rs-tree-node-toggle > .rs-tree-node-toggle-icon {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.rs-tree-node-toggle > .rs-tree-node-custom-icon,
+.rs-tree-node-toggle > .rs-tree-node-loading-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+}
+.rs-tree-node-toggle-placeholder {
+  width: 24px;
+  height: 24px;
+}
+/* rtl:begin:ignore */
+[dir='rtl'] .rs-tree-node-toggle {
+  right: 0;
+  padding-right: inherit;
+}
+/* rtl:end:ignore */
+.rs-tree-indent-line {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid var(--rs-tree-indent-line-color);
+  position: absolute;
+  width: 1px;
+  top: -10px;
+  left: 12px;
+  bottom: -4px;
+}
+.rs-tree {
+  height: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+.rs-tree-drag-preview {
+  position: absolute;
+  top: 0;
+  color: #343434;
+  color: var(--rs-text-primary);
+  background-color: #fff;
+  background-color: var(--rs-bg-overlay);
+  display: inline-block;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+  z-index: -1;
+}
+.rs-tree .rs-search-box {
+  padding: 6px;
+}
+.rs-tree .rs-tree-empty {
+  padding: 6px 12px;
+  color: #717273;
+  color: var(--rs-text-secondary);
+}
+.rs-tree-view {
+  max-height: 360px;
+  overflow-y: auto;
+}
+.rs-tree.rs-tree-virtualized .rs-tree-view {
+  overflow: hidden;
+}
+.rs-tree .rs-highlight-mark {
+  padding: 0;
+}
+.rs-tree-group {
+  padding-left: 18px;
+}
+.rs-tree-node {
+  position: relative;
+  font-size: 0;
+  text-align: left;
+  margin: 0 0 4px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.rs-tree-node:focus-visible .rs-tree-node-label {
+  outline: 3px solid rgb(from #3498ff r g b / 25%);
+  outline: 3px solid var(--rs-color-focus-ring);
+}
+.rs-theme-high-contrast .rs-tree-node:focus-visible .rs-tree-node-label {
+  outline-offset: 2px;
+}
+.rs-tree-node-label {
+  position: relative;
+  margin: 1px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 6px;
+  border-radius: 6px;
+}
+.rs-tree-node-label:hover,
+.rs-tree-node-label:focus,
+.rs-tree-node-label.rs-tree-node-label-focus {
+  background-color: rgb(from #cce9ff r g b / 50%);
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: #1675e0;
+  color: var(--rs-listbox-option-hover-text);
+}
+.rs-theme-high-contrast .rs-tree-node-label:hover,
+.rs-theme-high-contrast .rs-tree-node-label:focus,
+.rs-theme-high-contrast .rs-tree-node-label.rs-tree-node-label-focus {
+  outline: 3px solid rgb(from #3498ff r g b / 25%);
+  outline: 3px solid var(--rs-color-focus-ring);
+  outline-offset: -3px;
+  outline-width: 2px;
+  color: #1675e0;
+  color: var(--rs-listbox-option-hover-text);
+  text-decoration: underline;
+}
+.rs-theme-high-contrast .rs-theme-high-contrast .rs-tree-node-label:hover,
+.rs-theme-high-contrast .rs-theme-high-contrast .rs-tree-node-label:focus,
+.rs-theme-high-contrast .rs-theme-high-contrast .rs-tree-node-label.rs-tree-node-label-focus {
+  outline-offset: 2px;
+}
+.rs-tree-node-label::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -8px;
+  border-left: 6px solid #1675e0;
+  border-left: 6px solid var(--rs-text-link);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  display: none;
+}
+.rs-tree-node-active .rs-tree-node-label {
+  font-weight: bold;
+  color: #1675e0;
+  color: var(--rs-text-link);
+  background-color: #f2faff;
+  background-color: var(--rs-listbox-option-selected-bg);
+}
+.rs-tree-node-drag-over {
+  background-color: rgb(from #cce9ff r g b / 50%);
+  background-color: var(--rs-listbox-option-hover-bg);
+}
+.rs-tree-node-dragging {
+  outline: 1px dashed #3498ff;
+  outline: 1px dashed var(--rs-primary-500);
+}
+.rs-tree-node-drag-over-top.rs-tree-node-label {
+  border-top: 2px solid #1675e0 !important;
+  border-top: 2px solid var(--rs-text-link) !important;
+  border-radius: 0;
+}
+.rs-tree-node-drag-over-top.rs-tree-node-label::after {
+  display: block;
+  top: -4px;
+}
+.rs-tree-node-drag-over-bottom.rs-tree-node-label {
+  border-bottom: 2px solid #1675e0 !important;
+  border-bottom: 2px solid var(--rs-text-link) !important;
+  border-radius: 0;
+}
+.rs-tree-node-drag-over-bottom.rs-tree-node-label::after {
+  display: block;
+  bottom: -4px;
+}
+.rs-tree-node-disabled .rs-tree-node-label {
+  background: none;
+  color: #b6b7b8;
+  color: var(--rs-listbox-option-disabled-text);
+  cursor: not-allowed;
+}
+.rs-tree-node-disabled > .rs-tree-node-label {
+  cursor: not-allowed;
+  color: #b6b7b8;
+  color: var(--rs-listbox-option-disabled-text);
+}
+.rs-tree-node-disabled > .rs-tree-node-label,
+.rs-tree-node-disabled > .rs-tree-node-label:hover {
+  background-color: transparent;
+}
+.rs-tree-node-disabled.rs-tree-node-active > .rs-tree-node-label,
+.rs-tree-node-disabled.rs-tree-node-active > .rs-tree-node-label:hover {
+  color: #a6d7ff;
+  color: var(--rs-listbox-option-disabled-selected-text);
+}
+.rs-tree-node:not(.rs-tree-node-disabled):focus > .rs-tree-node-label {
+  background-color: #f2faff;
+  background-color: var(--rs-listbox-option-selected-bg);
+}
+.rs-tree-node:not(.rs-tree-node-disabled) > .rs-tree-node-label:focus {
+  background-color: #f2faff;
+  background-color: var(--rs-listbox-option-selected-bg);
+}
+.rs-tree-node-children > .rs-tree-group {
+  position: relative;
+  display: none;
+}
+.rs-tree-node-expanded.rs-tree-node-children > .rs-tree-group {
+  display: block;
+}

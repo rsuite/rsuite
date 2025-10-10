@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Row",
+  "private": true,
+  "main": "../cjs/Cam.Row/index.js",
+  "module": "../esm/Cam.Row/index.js",
+  "types": "../esm/Cam.Row/index.d.ts"
+}

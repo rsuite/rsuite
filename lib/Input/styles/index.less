@@ -1,0 +1,30 @@
+@import '../../styles/common';
+@import '../../Form/styles/mixin.less';
+
+//
+// Forms
+// --------------------------------------------------
+
+// Common form controls
+.rs-input {
+  .default-input();
+
+  // Reset height for `textarea`
+  textarea& {
+    overflow: auto;
+    resize: vertical;
+  }
+}
+
+// Form control sizing
+.rs-input-xs {
+  .input-xs();
+}
+
+.rs-input-lg {
+  .input-lg();
+}
+
+.rs-input-sm {
+  .input-sm();
+}

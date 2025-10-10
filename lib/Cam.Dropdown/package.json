@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Dropdown",
+  "private": true,
+  "main": "../cjs/Cam.Dropdown/index.js",
+  "module": "../esm/Cam.Dropdown/index.js",
+  "types": "../esm/Cam.Dropdown/index.d.ts"
+}

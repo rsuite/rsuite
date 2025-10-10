@@ -1,0 +1,63 @@
+{
+  "name": "rsuite",
+  "version": "5.83.3",
+  "description": "A suite of react components",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "typings": "esm/index.d.ts",
+  "homepage": "https://rsuitejs.com",
+  "directories": {
+    "lib": "cjs/"
+  },
+  "scripts": {
+    "prepublishOnly": "../node_modules/mocha/bin/mocha ../test/validateBuilds.js"
+  },
+  "keywords": [
+    "react",
+    "rsuite",
+    "component",
+    "react-component"
+  ],
+  "author": "React Suite Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rsuite/rsuite.git"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.20.1",
+    "@juggle/resize-observer": "^3.4.0",
+    "@rsuite/icons": "^1.3.2",
+    "@types/lodash": "^4.17.15",
+    "@types/prop-types": "^15.7.5",
+    "@types/react-window": "^1.8.5",
+    "classnames": "^2.3.1",
+    "date-fns": "^2.29.3",
+    "dom-lib": "^3.3.1",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
+    "react-use-set": "^1.0.0",
+    "react-window": "^1.8.8",
+    "rsuite-table": "^5.19.2",
+    "schema-typed": "^2.4.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "overrides": {
+    "aria-query@>5.1.3": "5.1.3"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <11"
+  ],
+  "sideEffects": [
+    "cjs/**/styles/*",
+    "esm/**/styles/*",
+    "dist/*",
+    "*.less",
+    "*.css"
+  ]
+}

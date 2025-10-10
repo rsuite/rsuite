@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.HeadingGroup",
+  "private": true,
+  "main": "../cjs/Cam.HeadingGroup/index.js",
+  "module": "../esm/Cam.HeadingGroup/index.js",
+  "types": "../esm/Cam.HeadingGroup/index.d.ts"
+}

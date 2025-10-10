@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.DatePicker",
+  "private": true,
+  "main": "../cjs/Cam.DatePicker/index.js",
+  "module": "../esm/Cam.DatePicker/index.js",
+  "types": "../esm/Cam.DatePicker/index.d.ts"
+}

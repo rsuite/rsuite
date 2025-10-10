@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Avatar",
+  "private": true,
+  "main": "../cjs/Cam.Avatar/index.js",
+  "module": "../esm/Cam.Avatar/index.js",
+  "types": "../esm/Cam.Avatar/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.TagPicker",
+  "private": true,
+  "main": "../cjs/Cam.TagPicker/index.js",
+  "module": "../esm/Cam.TagPicker/index.js",
+  "types": "../esm/Cam.TagPicker/index.d.ts"
+}

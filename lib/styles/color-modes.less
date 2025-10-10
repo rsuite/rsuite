@@ -1,0 +1,18 @@
+// Themes
+
+:root,
+.rs-theme-light {
+  @import 'color-modes/light';
+}
+
+& when (@enable-dark-mode = true) {
+  .rs-theme-dark {
+    @import 'color-modes/dark';
+  }
+}
+
+& when (@enable-high-contrast = true) {
+  .rs-theme-high-contrast {
+    @import 'color-modes/high-contrast';
+  }
+}

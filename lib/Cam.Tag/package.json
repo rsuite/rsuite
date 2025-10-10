@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Tag",
+  "private": true,
+  "main": "../cjs/Cam.Tag/index.js",
+  "module": "../esm/Cam.Tag/index.js",
+  "types": "../esm/Cam.Tag/index.d.ts"
+}

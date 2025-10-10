@@ -1,0 +1,32 @@
+@import '../../styles/common';
+@import '../../styles/mixins/listbox';
+@import '../../Input/styles/index';
+@import '../../InputGroup/styles/index';
+@import '../../internals/Picker/styles/index';
+
+.rs-auto-complete {
+  &-menu > {
+    // Auto complete items style the same to Picker menu items
+    .picker-menu-items-reset();
+  }
+
+  // The same to Picker select menu item
+  &-item {
+    .listbox-option();
+
+    &:hover,
+    &:focus,
+    &-focus {
+      .listbox-option-active();
+    }
+  }
+
+  .rs-input:focus::-webkit-textfield-decoration-container {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.rs-input-group > .rs-auto-complete {
+  &:extend(.rs-input-group > .rs-input);
+}

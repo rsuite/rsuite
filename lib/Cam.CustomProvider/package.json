@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.CustomProvider",
+  "private": true,
+  "main": "../cjs/Cam.CustomProvider/index.js",
+  "module": "../esm/Cam.CustomProvider/index.js",
+  "types": "../esm/Cam.CustomProvider/index.d.ts"
+}

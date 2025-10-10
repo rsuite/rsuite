@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Modal",
+  "private": true,
+  "main": "../cjs/Cam.Modal/index.js",
+  "module": "../esm/Cam.Modal/index.js",
+  "types": "../esm/Cam.Modal/index.d.ts"
+}

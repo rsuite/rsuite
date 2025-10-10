@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.InputGroup",
+  "private": true,
+  "main": "../cjs/Cam.InputGroup/index.js",
+  "module": "../esm/Cam.InputGroup/index.js",
+  "types": "../esm/Cam.InputGroup/index.d.ts"
+}

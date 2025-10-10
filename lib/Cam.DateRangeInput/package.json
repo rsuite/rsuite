@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.DateRangeInput",
+  "private": true,
+  "main": "../cjs/Cam.DateRangeInput/index.js",
+  "module": "../esm/Cam.DateRangeInput/index.js",
+  "types": "../esm/Cam.DateRangeInput/index.d.ts"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.Tabs",
+  "private": true,
+  "main": "../cjs/Cam.Tabs/index.js",
+  "module": "../esm/Cam.Tabs/index.js",
+  "types": "../esm/Cam.Tabs/index.d.ts"
+}

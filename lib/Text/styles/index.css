@@ -1,0 +1,190 @@
+:root,
+.rs-theme-light {
+  --rs-gray-50: #f7f7fa;
+  --rs-gray-200: #e5e5ea;
+  --rs-gray-600: #717273;
+  --rs-gray-800: #343434;
+  --rs-gray-900: #121212;
+  --rs-red-500: #f44336;
+  --rs-orange-500: #fa8900;
+  --rs-yellow-500: #ffb300;
+  --rs-green-500: #4caf50;
+  --rs-cyan-500: #00bcd4;
+  --rs-blue-500: #2196f3;
+  --rs-violet-500: #673ab7;
+  --rs-text-primary: var(--rs-gray-800);
+  --rs-text-secondary: var(--rs-gray-600);
+  --rs-text-weight-thin: 100;
+  --rs-text-weight-light: 300;
+  --rs-text-weight-medium: 500;
+  --rs-text-weight-semibold: 600;
+  --rs-text-weight-bold: 700;
+  --rs-text-weight-extrabold: 800;
+  --rs-bg-well: var(--rs-gray-50);
+}
+.rs-theme-dark {
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-800: #1a1d24;
+  --rs-gray-900: #0f131a;
+  --rs-red-500: #f04f43;
+  --rs-orange-500: #ff9800;
+  --rs-yellow-500: #ffc757;
+  --rs-green-500: #58b15b;
+  --rs-cyan-500: #00bcd4;
+  --rs-blue-500: #1499ef;
+  --rs-violet-500: #673ab7;
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-bg-well: var(--rs-gray-900);
+}
+.rs-theme-high-contrast {
+  --rs-gray-50: #e9ebf0;
+  --rs-gray-200: #a4a9b3;
+  --rs-gray-600: #3c3f43;
+  --rs-gray-800: #1a1d24;
+  --rs-gray-900: #0f131a;
+  --rs-red-500: #bd1732;
+  --rs-orange-500: #ff9800;
+  --rs-yellow-500: #ffc757;
+  --rs-green-500: #0d822c;
+  --rs-cyan-500: #00bcd4;
+  --rs-blue-500: #1499ef;
+  --rs-violet-500: #673ab7;
+  --rs-text-primary: var(--rs-gray-50);
+  --rs-text-secondary: var(--rs-gray-200);
+  --rs-bg-well: var(--rs-gray-900);
+}
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-text {
+  font-family: -apple-system, BlinkMacSystemFont, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
+  line-height: 1.42857143;
+  color: #343434;
+  color: var(--rs-text-primary);
+  margin: 0;
+}
+blockquote.rs-text {
+  font-style: italic;
+  padding-left: 1.5rem;
+  border-left: 2px solid #e5e5ea;
+  border-left: 2px solid var(--rs-gray-200);
+}
+kbd.rs-text {
+  background-color: #f7f7fa;
+  background-color: var(--rs-bg-well);
+  border: solid #c8c8c8;
+  -o-border-image: initial;
+     border-image: initial;
+  border-radius: 0.25em;
+  border-width: 1px 1px 2px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 0.875em;
+  padding: 0.2em 0.3em;
+}
+.rs-text.rs-text-muted {
+  color: #717273;
+  color: var(--rs-text-secondary);
+}
+.rs-text-left {
+  text-align: left;
+}
+.rs-text-center {
+  text-align: center;
+}
+.rs-text-right {
+  text-align: right;
+}
+.rs-text-justify {
+  text-align: justify;
+}
+.rs-text-uppercase {
+  text-transform: uppercase;
+}
+.rs-text-lowercase {
+  text-transform: lowercase;
+}
+.rs-text-capitalize {
+  text-transform: capitalize;
+}
+.rs-text-thin {
+  font-weight: 100;
+  font-weight: var(--rs-text-weight-thin);
+}
+.rs-text-light {
+  font-weight: 300;
+  font-weight: var(--rs-text-weight-light);
+}
+.rs-text-medium {
+  font-weight: 500;
+  font-weight: var(--rs-text-weight-medium);
+}
+.rs-text-semibold {
+  font-weight: 600;
+  font-weight: var(--rs-text-weight-semibold);
+}
+.rs-text-bold {
+  font-weight: 700;
+  font-weight: var(--rs-text-weight-bold);
+}
+.rs-text-extrabold {
+  font-weight: 800;
+  font-weight: var(--rs-text-weight-extrabold);
+}
+.rs-text-pre-line {
+  white-space: pre-line;
+}
+.rs-text-ellipsis {
+  overflow: hidden;
+}
+@supports (-webkit-line-clamp: 1) {
+  .rs-text-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+}
+@supports not (-webkit-line-clamp: 1) {
+  .rs-text-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+  }
+}
+.rs-text-red {
+  color: #f44336;
+  color: var(--rs-red-500);
+}
+.rs-text-orange {
+  color: #fa8900;
+  color: var(--rs-orange-500);
+}
+.rs-text-yellow {
+  color: #ffb300;
+  color: var(--rs-yellow-500);
+}
+.rs-text-green {
+  color: #4caf50;
+  color: var(--rs-green-500);
+}
+.rs-text-cyan {
+  color: #00bcd4;
+  color: var(--rs-cyan-500);
+}
+.rs-text-blue {
+  color: #2196f3;
+  color: var(--rs-blue-500);
+}
+.rs-text-violet {
+  color: #673ab7;
+  color: var(--rs-violet-500);
+}

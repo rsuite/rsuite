@@ -1,0 +1,66 @@
+/* stylelint-disable */
+*[class*='rs-'] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*[class*='rs-']::before,
+*[class*='rs-']::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.rs-form-inline > *,
+.rs-form-inline > .rs-btn {
+  margin-right: 20px;
+  margin-bottom: 24px;
+  vertical-align: top;
+}
+.rs-form-inline .rs-form-control-label {
+  vertical-align: top;
+  margin-bottom: auto;
+  margin-right: 12px;
+  margin-top: 8px;
+  display: inline-block;
+}
+.rs-form-group {
+  position: relative;
+}
+.rs-form:not(.rs-form-inline) .rs-form-group:not(:last-child) {
+  margin-bottom: 24px;
+}
+.rs-form-group .rs-input {
+  display: inline-block;
+}
+.rs-form-group textarea.rs-input {
+  vertical-align: bottom;
+}
+.rs-form-vertical .rs-form-group .rs-form-control-label {
+  display: block;
+}
+.rs-form-vertical .rs-form-group .rs-form-help-text:not(.rs-form-help-text-tooltip) {
+  padding-top: 4px;
+}
+.rs-form-horizontal .rs-form-group::before,
+.rs-form-horizontal .rs-form-group::after {
+  content: ' ';
+  display: table;
+}
+.rs-form-horizontal .rs-form-group::after {
+  clear: both;
+}
+.rs-form-horizontal .rs-form-group .rs-form-control-label {
+  float: left;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 1.42857143;
+  font-size: 14px;
+  padding: 8px 0;
+  width: 170px;
+  margin-right: 12px;
+  text-align: right;
+}
+.rs-form-horizontal .rs-form-group .rs-btn-toolbar {
+  padding-left: 182px;
+}
+.rs-form-inline .rs-form-group {
+  display: inline-block;
+}

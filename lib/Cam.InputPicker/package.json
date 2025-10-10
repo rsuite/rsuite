@@ -1,0 +1,7 @@
+{
+  "name": "rsuite/Cam.InputPicker",
+  "private": true,
+  "main": "../cjs/Cam.InputPicker/index.js",
+  "module": "../esm/Cam.InputPicker/index.js",
+  "types": "../esm/Cam.InputPicker/index.d.ts"
+}

@@ -1,0 +1,54 @@
+.set-side-length(@side) {
+  width: @side;
+  height: @side;
+
+  &::before,
+  &::after {
+    width: @side;
+    height: @side;
+  }
+}
+
+.loader-size(@diameter,@font-size) {
+  .rs-loader {
+    &-spin {
+      .set-side-length(@diameter);
+    }
+
+    &-content {
+      font-size: @font-size;
+      line-height: unit((@diameter / @font-size));
+    }
+
+    &-vertical & {
+      height: (@diameter + @loader-content-spin-spacing-vertical + @line-height-computed);
+    }
+
+    &-vertical &-content {
+      line-height: unit((@line-height-computed / @font-size));
+    }
+  }
+}
+
+.loader-spin() {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+    border-radius: 50%;
+  }
+
+  &::before {
+    border: @loader-spin-ring-width solid var(--rs-loader-ring);
+  }
+
+  &::after {
+    border-width: @loader-spin-ring-width;
+    border-style: solid;
+    border-color: var(--rs-loader-rotor) transparent transparent;
+    animation: loaderSpin @loader-duration-normal infinite linear;
+  }
+}
