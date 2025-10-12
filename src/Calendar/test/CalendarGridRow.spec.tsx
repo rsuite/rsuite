@@ -84,6 +84,7 @@ describe('Calendar-GridRow', () => {
   });
 
   it('Should have a additional className', () => {
+    vi.setSystemTime(new Date(2025, 9, 7));
     render(
       <CalendarProvider
         value={{
@@ -110,6 +111,7 @@ describe('Calendar-GridRow', () => {
     );
 
     expect(screen.getByTitle(`07 Oct 2025 (Today)`)).to.have.class('custom-cell');
+    vi.useRealTimers();
   });
 
   describe('Accessibility', () => {

@@ -5,28 +5,21 @@ import isNumber from 'lodash/isNumber';
 import TimeColumn from './TimeColumn';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
-import {
-  startOfToday,
-  getHours,
-  setHours,
-  setMinutes,
-  setSeconds,
-  omitHideDisabledProps
-} from '@/internals/utils/date';
+import { getHours, omitHideDisabledProps } from '@/internals/utils/date';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 import { getTimeLimits, getClockTime, scrollToTime, formatWithLeadingZero } from './utils';
+import type { PlainDate, PlainTime } from '@/internals/utils/date/types';
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;
   showMeridiem?: boolean;
-  disabledDate?: (date: Date) => boolean;
-  disabledHours?: (hour: number, date: Date) => boolean;
-  disabledMinutes?: (minute: number, date: Date) => boolean;
-  disabledSeconds?: (second: number, date: Date) => boolean;
-  hideHours?: (hour: number, date: Date) => boolean;
-  hideMinutes?: (minute: number, date: Date) => boolean;
-  hideSeconds?: (second: number, date: Date) => boolean;
+  disabledHours?: (hour: number, date: PlainDate) => boolean;
+  disabledMinutes?: (minute: number, date: PlainDate) => boolean;
+  disabledSeconds?: (second: number, date: PlainDate) => boolean;
+  hideHours?: (hour: number, date: PlainDate) => boolean;
+  hideMinutes?: (minute: number, date: PlainDate) => boolean;
+  hideSeconds?: (second: number, date: PlainDate) => boolean;
 }
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
@@ -41,7 +34,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     ...rest
   } = props;
 
-  const { locale, format, date, onChangeTime: onSelect, targetId } = useCalendar();
+  const { locale, format, date, onChangeTime, targetId } = useCalendar();
   const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,43 +45,56 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     }
   }, [date, format, show, showMeridiem]);
 
+  const time = getClockTime({ format, date, showMeridiem });
+
   const handleClick = useEventCallback((type: TimeType, d: number, event: React.MouseEvent) => {
-    let nextDate = date || startOfToday();
+    const nextTime = {
+      hour: (time.hours ?? 0) + (time.meridiem === 'PM' ? 12 : 0),
+      minute: time.minutes ?? 0,
+      second: time.seconds ?? 0
+    } satisfies PlainTime;
 
     switch (type) {
       case 'hours':
-        nextDate = setHours(nextDate, showMeridiem && getHours(nextDate) >= 12 ? d + 12 : d);
+        nextTime.hour = time.meridiem === 'PM' ? d + 12 : d;
         break;
       case 'minutes':
-        nextDate = setMinutes(nextDate, d);
+        nextTime.minute = d;
         break;
       case 'seconds':
-        nextDate = setSeconds(nextDate, d);
+        nextTime.second = d;
         break;
     }
 
-    onSelect?.(nextDate, event);
+    onChangeTime?.(nextTime, event);
   });
 
   const handleClickMeridiem = useEventCallback((meridiem: 'AM' | 'PM', event: React.MouseEvent) => {
-    const tempDate = date || startOfToday();
-    const hours = getHours(tempDate);
-    const isAM = hours < 12;
+    const nextTime = {
+      hour: (time.hours ?? 0) + (time.meridiem === 'PM' ? 12 : 0),
+      minute: time.minutes ?? 0,
+      second: time.seconds ?? 0
+    } satisfies PlainTime;
 
-    const adjustHours = (meridiem: 'AM' | 'PM', hours: number): number => {
-      if (meridiem === 'AM') {
-        return isAM ? hours : hours - 12;
-      }
-      return isAM ? hours + 12 : hours;
-    };
+    if (meridiem === 'AM' && nextTime.hour >= 12) {
+      nextTime.hour -= 12;
+    } else if (meridiem === 'PM' && nextTime.hour < 12) {
+      nextTime.hour += 12;
+    }
 
-    const nextHours = adjustHours(meridiem, hours);
-    const nextDate = setHours(tempDate, nextHours);
-
-    onSelect?.(nextDate, event);
+    onChangeTime?.(nextTime, event);
   });
 
   const { prefix, rootPrefix, merge } = useStyles(classPrefix);
+
+  const plainDate =
+    typeof date !== 'undefined'
+      ? {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate()
+        }
+      : undefined;
 
   const renderColumn = (type: TimeType, value?: number | null) => {
     if (!isNumber(value)) {
@@ -100,8 +106,8 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
-      if (!hideFunc?.(i, date)) {
-        const disabled = disabledFunc?.(i, date);
+      if (!hideFunc?.(i, plainDate)) {
+        const disabled = disabledFunc?.(i, plainDate);
         const itemClasses = prefix('cell', {
           'cell-active': value === i,
           'cell-disabled': disabled
@@ -166,7 +172,6 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     );
   };
 
-  const time = getClockTime({ format, date, showMeridiem });
   const classes = merge(className, rootPrefix(classPrefix), { show });
 
   return (
