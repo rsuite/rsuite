@@ -2,7 +2,18 @@ import React from 'react';
 import classNames from 'classnames';
 import useClipboard from '@/hooks/useClipboard';
 import tinycolor from 'tinycolor2';
-import { VStack, HStack, Text, Modal, ModalProps, Button, Tooltip, Whisper, Divider } from 'rsuite';
+import {
+  VStack,
+  HStack,
+  Text,
+  Modal,
+  ModalProps,
+  Button,
+  Tooltip,
+  Whisper,
+  Divider,
+  Box
+} from 'rsuite';
 import styles from './ColorPalette.module.scss';
 
 export interface ColorMeta {
@@ -81,8 +92,17 @@ export const ColorGroup = ({
   );
 };
 
-const Property = ({ name, value, cssVar }: { name: string; value: string; cssVar?: boolean }) => {
+const Property = ({
+  name,
+  value,
+  previewColor
+}: {
+  name: string;
+  value: string;
+  previewColor?: string;
+}) => {
   const { copyToClipboard, copied } = useClipboard();
+
   return (
     <HStack className={styles['color-property']}>
       <Text className={styles['color-property-name']} muted>
@@ -97,15 +117,7 @@ const Property = ({ name, value, cssVar }: { name: string; value: string; cssVar
             copyToClipboard(value);
           }}
         >
-          <span
-            style={{
-              width: 10,
-              height: 10,
-              display: 'inline-block',
-              marginRight: 5,
-              backgroundColor: cssVar ? `var(${value})` : value
-            }}
-          />
+          <Box w={10} h={10} bg={previewColor ? previewColor : value} mr={5} />
           {value}
         </Button>
       </Whisper>
@@ -139,10 +151,10 @@ export const ColorModal = (props: ColorModalProps) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className={styles['color-preview']} style={{ backgroundColor: colorVal }}></div>
+        <Box className={styles['color-preview']} bg={colorVal}></Box>
         <Divider />
         <VStack>
-          <Property name="CSS var name" value={color.cssVar} cssVar />
+          <Property name="CSS var name" value={color.cssVar} previewColor={rgb} />
           <Property name="HEX color" value={hex} />
           <Property name="RGB color" value={rgb} />
           <Property name="HSL color" value={hls} />
