@@ -157,7 +157,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
       onSelect?.(treeNode, value, event);
 
-      // only leaf node can be selected
+      // Only leaf nodes can update the value and close the picker.
       if (onlyLeafSelectable && !isLeafNode(treeNode)) {
         return;
       }
