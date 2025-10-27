@@ -22,6 +22,7 @@ import {
   useToggleKeyDownEvent,
   PickerToggleProps
 } from '@/internals/Picker';
+import { isLeafNode } from '@/internals/Tree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import { TreeNode } from '@/internals/Tree/types';
 import type { FormControlPickerProps, DeprecatedMenuProps } from '@/internals/types';
@@ -53,6 +54,13 @@ export interface TreePickerProps<V = number | string | null>
    * @default true
    */
   popupAutoWidth?: boolean;
+
+  /**
+   * Whether only leaf nodes can be selected
+   *
+   * @default false
+   */
+  onlyLeafSelectable?: boolean;
 }
 
 /**
@@ -80,6 +88,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     className,
     locale,
     labelKey = 'label',
+    onlyLeafSelectable,
     placeholder,
     placement = 'bottomStart',
     style,
@@ -146,8 +155,15 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const handleSelect = useEventCallback(
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
-      setFocusItemValue(value);
       onSelect?.(treeNode, value, event);
+
+      // Only leaf nodes can update the value and close the picker.
+      if (onlyLeafSelectable && !isLeafNode(treeNode)) {
+        return;
+      }
+
+      setFocusItemValue(value);
+      handleChange(value, event);
 
       target.current?.focus();
       trigger.current?.close?.();
@@ -171,7 +187,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
     const activeItem = getActiveItem(focusItemValue, flattenedNodes, valueKey);
 
-    handleSelect(activeItem, event);
+    handleSelect(activeItem, focusItemValue, event);
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
@@ -230,7 +246,6 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         height={treeHeight}
         onExpand={handleExpandTreeNode}
         onSearch={onSearch}
-        onChange={handleChange}
         onSelect={handleSelect}
         onSelectItem={onSelectItem}
         onFocusItem={setFocusItemValue}

@@ -178,13 +178,6 @@ export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends Ba
    * @returns Whether the item matches the search criteria.
    */
   searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
-
-  /**
-   * Callback function called after the value has been changed.
-   * @param value - The new value.
-   * @param event - The event object.
-   */
-  onChange?: (value: V, event: React.SyntheticEvent) => void;
 }
 
 export interface TreeExtraProps<T = TreeNode> {

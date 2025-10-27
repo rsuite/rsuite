@@ -618,6 +618,56 @@ describe('TreePicker', () => {
     });
   });
 
+  describe('onlyLeafSelectable', () => {
+    it('Should only select leaf nodes when onlyLeafSelectable is true', () => {
+      const onSelect = vi.fn();
+      const onChange = vi.fn();
+
+      render(
+        <TreePicker open data={data} onlyLeafSelectable onSelect={onSelect} onChange={onChange} />
+      );
+
+      // Try to select a parent node (Master)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+      // onSelect should be called but onChange should not be called
+      // because Master is not a leaf node
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onChange).not.toHaveBeenCalled();
+
+      // The picker should still show 'Select' as no value was selected
+      expect(screen.getByRole('combobox')).to.have.text('Select');
+
+      // Now expand Master and select a leaf node
+      fireEvent.click(screen.getByRole('button', { name: 'Expand Master' }));
+      fireEvent.click(screen.getByRole('treeitem', { name: 'tester0' }));
+
+      // Both onSelect and onChange should be called
+      expect(onSelect).toHaveBeenCalledTimes(2);
+      expect(onChange).toHaveBeenCalledTimes(1);
+
+      // The picker should now show the selected value
+      expect(screen.getByRole('combobox')).to.have.text('tester0');
+    });
+
+    it('Should select any node when onlyLeafSelectable is false', () => {
+      const onSelect = vi.fn();
+      const onChange = vi.fn();
+
+      render(<TreePicker open data={data} onSelect={onSelect} onChange={onChange} />);
+
+      // Select a parent node (Master)
+      fireEvent.click(screen.getByRole('treeitem', { name: 'Master' }));
+
+      // Both onSelect and onChange should be called
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledTimes(1);
+
+      // The picker should show the selected value
+      expect(screen.getByRole('combobox')).to.have.text('Master');
+    });
+  });
+
   describe('Locale', () => {
     it('Should render default locale', () => {
       render(<TreePicker defaultOpen data={data} />);

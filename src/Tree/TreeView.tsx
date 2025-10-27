@@ -59,11 +59,6 @@ export interface TreeViewProps<V = number | string | null>
    * Called when scrolling.
    */
   onScroll?: (event: React.SyntheticEvent) => void;
-
-  /**
-   * Called after the value has been changed.
-   */
-  onChange?: (value: V, event: React.SyntheticEvent) => void;
 }
 
 export type WithTreeDragProps<P> = P & TreeDragProps;
@@ -132,7 +127,6 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onSearch,
     onSelect,
     onSelectItem,
-    onChange,
     onDragEnd,
     onDragStart,
     onDragEnter,
@@ -240,7 +234,6 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     const path = getPathTowardsItem(nodeData, item => itemParentMap.get(item[valueKey]));
 
     setFocusItemValue(nextValue);
-    onChange?.(nextValue, event);
     onSelect?.(nodeData, nextValue, event);
     onSelectItem?.(nodeData, path);
   });
