@@ -79,7 +79,13 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
     );
   };
 
-  const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
+  const dateTitleClasses = prefix('title', 'title-date', {
+    error: disabledDate?.({
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    })
+  });
   const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
   const backwardClass = prefix('backward', { 'btn-disabled': disabledBackward });
   const forwardClass = prefix('forward', { 'btn-disabled': disabledForward });

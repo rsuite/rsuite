@@ -1,0 +1,94 @@
+{
+  "Grid": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "fluid": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Fluid layout, (100% width)"
+      }
+    }
+  },
+  "Row": {
+    "props": {
+      "align": {
+        "type": "'top' | 'middle' | 'bottom' | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Vertical alignment. Supports responsive values"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "row"
+      },
+      "gutter": {
+        "type": "[GutterType][gutter] | [ResponsiveValue\\<GutterType\\>][responsive]",
+        "isRequired": false,
+        "description": "Grid spacing. Supports responsive values"
+      },
+      "justify": {
+        "type": "'start' | 'end' | 'center' | 'space-around' | 'space-between' | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Horizontal distribution. Supports responsive values"
+      }
+    }
+  },
+  "Col": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "col"
+      },
+      "hidden": {
+        "type": "boolean | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Whether to hide the grid"
+      },
+      "offset": {
+        "type": "number | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Number of grids on the left side"
+      },
+      "order": {
+        "type": "number | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "The order of grid columns"
+      },
+      "pull": {
+        "type": "number | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Number of grids to move left"
+      },
+      "push": {
+        "type": "number | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Number of grids to move right"
+      },
+      "span": {
+        "type": "number | 'auto' | [ResponsiveValue][responsive]",
+        "isRequired": false,
+        "description": "Number of grids. When set to 'auto', the width will adjust automatically based on content"
+      }
+    }
+  }
+}

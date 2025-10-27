@@ -99,6 +99,9 @@ describe('Calendar - TimeDropdown', () => {
   });
 
   it('Should set aria-disabled attribute for disabled hours', () => {
+    const disabledHours = vi.fn(h => {
+      return h > 10;
+    });
     render(
       <CalendarProvider
         value={{
@@ -109,20 +112,22 @@ describe('Calendar - TimeDropdown', () => {
           weekStart: 0
         }}
       >
-        <TimeDropdown
-          disabledHours={h => {
-            return h > 10;
-          }}
-        />
+        <TimeDropdown disabledHours={disabledHours} />
       </CalendarProvider>
     );
 
+    for (let h = 0; h < 24; h++) {
+      expect(disabledHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+    }
     screen.getAllByRole('option', { hidden: true }).forEach((option, index) => {
       expect(option).to.have.attribute('aria-disabled', index > 10 ? 'true' : 'false');
     });
   });
 
   it('Should not render hours hidden by `hideHours`', () => {
+    const hideHours = vi.fn(h => {
+      return h > 10;
+    });
     render(
       <CalendarProvider
         value={{
@@ -133,14 +138,25 @@ describe('Calendar - TimeDropdown', () => {
           weekStart: 0
         }}
       >
-        <TimeDropdown
-          hideHours={h => {
-            return h > 10;
-          }}
-        />
+        <TimeDropdown hideHours={hideHours} />
       </CalendarProvider>
     );
 
-    expect(screen.getAllByRole('option', { hidden: true })).toHaveLength(11);
+    for (let h = 0; h < 24; h++) {
+      expect(hideHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+    }
+    expect(screen.getAllByRole('option', { hidden: true }).map(e => e.textContent)).toEqual([
+      '00',
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10'
+    ]);
   });
 });

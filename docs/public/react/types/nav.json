@@ -1,0 +1,154 @@
+{
+  "Nav": {
+    "props": {
+      "activeKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Active `key`, corresponding to `eventkey` in `<Nav.item>`."
+      },
+      "appearance": {
+        "type": "'default' | 'tabs' | 'subtle'",
+        "isRequired": false,
+        "description": "A navigation can have different appearances",
+        "defaultValue": "default"
+      },
+      "children": {
+        "type": "ChildrenArray&lt;NavItem or Dropdown&gt;",
+        "isRequired": true,
+        "description": "The contents of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "nav"
+      },
+      "justified": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Justified navigation"
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Callback function triggered after selection"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Stacked navigation"
+      }
+    }
+  },
+  "Nav.Item": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Activation status"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component.",
+        "defaultValue": "a"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The contents of the component"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disabled status"
+      },
+      "eventKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The value of the current option"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Link"
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Sets the icon for the component"
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Select the callback function that the event triggers."
+      }
+    }
+  },
+  "Nav.Menu": {
+    "props": {
+      "icon": {
+        "type": "ReactElement",
+        "isRequired": false,
+        "description": "Icon of the item that opens the menu"
+      },
+      "noCaret": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to hide the caret icon",
+        "defaultValue": "false"
+      },
+      "onClose": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback when menu closes"
+      },
+      "onOpen": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback when menu opens"
+      },
+      "onToggle": {
+        "type": "(open: boolean, event) => void",
+        "isRequired": false,
+        "description": "Callback when menu opens/closes"
+      },
+      "openDirection": {
+        "type": "\"start\" | \"end\"",
+        "isRequired": false,
+        "description": "Direction that menu opens towards (only available on submenus)",
+        "defaultValue": "\"end\""
+      },
+      "title": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Content of the item that opens the menu"
+      }
+    }
+  },
+  "Nav.MegaMenu": {
+    "props": {
+      "title": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Title or content of the mega menu trigger"
+      },
+      "children": {
+        "type": "ReactNode | ((props: { onClose: () => void }) => ReactNode)",
+        "isRequired": false,
+        "description": "Content of the mega menu, can be a React node or a function that returns a node with onClose"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "Placement of the mega menu",
+        "defaultValue": "autoVertical"
+      },
+      "...": {
+        "type": "[NavItemProps][NavItemProps]",
+        "isRequired": false,
+        "description": "Extends all props from `<Nav.Item>` component"
+      }
+    }
+  }
+}

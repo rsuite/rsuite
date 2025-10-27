@@ -1,0 +1,53 @@
+{
+  "Divider": {
+    "props": {
+      "appearance": {
+        "type": "'solid' | 'dashed' | 'dotted'",
+        "isRequired": false,
+        "description": "The appearance of the divider"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "divider"
+      },
+      "color": {
+        "type": "Color | CSSProperties['color']",
+        "isRequired": false,
+        "description": "The color of the divider"
+      },
+      "label": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the label"
+      },
+      "labelPlacement": {
+        "type": "'start' | 'center' | 'end'",
+        "isRequired": false,
+        "description": "The placement of the label"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | number | string",
+        "isRequired": false,
+        "description": "The size of the divider"
+      },
+      "spacing": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | number | string",
+        "isRequired": false,
+        "description": "The spacing between the divider and its content"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Vertical dividing line. Cannot be used with label"
+      }
+    }
+  }
+}

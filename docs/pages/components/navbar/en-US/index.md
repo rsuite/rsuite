@@ -42,7 +42,7 @@ Show a navigation bar with a secondary menu.
 
 Display a navigation bar with a large dropdown menu.
 
-<!--{include:`mege-menu.md`}-->
+<!--{include:`mega-menu.md`}-->
 
 ### With Popover Menu
 
@@ -83,8 +83,9 @@ You can use the `showFrom` and `hideFrom` props to control the visibility at dif
 | Property name      | Type `(Default)`                                | Description                                               |
 | ------------------ | ----------------------------------------------- | --------------------------------------------------------- |
 | appearance         | 'default' \| 'inverse' \| 'subtle'`('default')` | Navigation bar appearance                                 |
-| as                 | ElementType `('div')`                           | Custom element type                                       |
+| as                 | ElementType `('nav')`                           | Custom element type                                       |
 | classPrefix        | string `('navbar')`                             | The prefix of the component CSS class                     |
+| drawerOpen         | boolean                                         | Control the open state of the drawer menu<br/> ![][6.0.0] |
 | onDrawerOpenChange | (open: boolean) => void                         | Callback when drawer menu opens or closes<br/> ![][6.0.0] |
 
 ### `<Navbar.Brand>`
@@ -100,13 +101,13 @@ You can use the `showFrom` and `hideFrom` props to control the visibility at dif
 
 ![][6.0.0]
 
-| Property name | Type `(Default)`            | Description                          |
-| ------------- | --------------------------- | ------------------------------------ |
-| as            | ElementType `('div')`       | Custom element type                  |
-| children      | ReactNode                   | Content                              |
-| classPrefix   | string `('navbar-content')` | The prefix of the CSS class          |
-| hideFrom      | [Breakpoints][breakpoints]  | Hide content at specified breakpoint |
-| showFrom      | [Breakpoints][breakpoints]  | Show content at specified breakpoint |
+| Property name | Type `(Default)`                                                    | Description                          |
+| ------------- | ------------------------------------------------------------------- | ------------------------------------ |
+| as            | ElementType `('div')`                                               | Custom element type                  |
+| children      | ReactNode \| (({ onClose }: { onClose: () => void }) => ReactNode) | Content or render function with onClose callback |
+| classPrefix   | string `('navbar-content')`                                         | The prefix of the CSS class          |
+| hideFrom      | [Breakpoints][breakpoints]                                          | Hide content at specified breakpoint |
+| showFrom      | [Breakpoints][breakpoints]                                          | Show content at specified breakpoint |
 
 ### `<Navbar.Toggle>`
 

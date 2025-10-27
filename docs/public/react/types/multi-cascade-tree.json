@@ -1,0 +1,106 @@
+{
+  "MultiCascadeTree": {
+    "props": {
+      "cascade": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Determines whether selection should cascade both from parent to child and child to parent nodes.",
+        "defaultValue": "true"
+      },
+      "childrenKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Defines the key used to access child nodes in the data.",
+        "defaultValue": "children"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Sets the CSS class prefix for the component.",
+        "defaultValue": "multi-cascade-tree"
+      },
+      "columnHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Specifies the height of each column."
+      },
+      "columnWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Specifies the width of each column."
+      },
+      "data": {
+        "type": "[Option][item][]",
+        "isRequired": true,
+        "description": "Defines the data structure used by the component."
+      },
+      "defaultValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specifies the default selected values."
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Defines the items that should be disabled."
+      },
+      "getChildren": {
+        "type": "(item: [Option][item]) => Promise&lt;[Option][item][]&gt;",
+        "isRequired": false,
+        "description": "Asynchronously loads the children of a tree node."
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Defines the key used to access labels in the data.",
+        "defaultValue": "label"
+      },
+      "onChange": {
+        "type": "(value: string[], event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when the selected value changes."
+      },
+      "onSearch": {
+        "type": "(value: string, event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when the search value changes."
+      },
+      "onSelect": {
+        "type": "(item: [Option][item], selectedPaths: [Option][item][], event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when an item is selected."
+      },
+      "renderColumn": {
+        "type": "(childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode",
+        "isRequired": false,
+        "description": "Customizes the rendering of each column."
+      },
+      "renderTreeNode": {
+        "type": "(node: ReactNode, item: [Option][item]) => ReactNode",
+        "isRequired": false,
+        "description": "Customizes the rendering of each tree node."
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Determines whether the search functionality is enabled."
+      },
+      "uncheckableItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specifies the items that cannot be checked."
+      },
+      "value": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Defines the currently selected values (controlled component)."
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Defines the key used to access values in the data.",
+        "defaultValue": "value"
+      }
+    }
+  }
+}

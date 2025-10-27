@@ -54,7 +54,7 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
     }
   }, [type]);
 
-  const handleClose = useCallback(
+  const handleCancel = useCallback(
     (result?: any) => {
       setIsOpen(false);
 
@@ -75,11 +75,13 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
           return;
         }
       }
-      handleClose(value);
+      handleCancel(value);
     } else {
-      handleClose(true);
+      handleCancel(true);
     }
-  }, [type, inputValue, validate, handleClose]);
+  }, [type, inputValue, validate, handleCancel]);
+
+  const handleClose = useCallback(() => handleCancel(false), [handleCancel]);
 
   const handleInputKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,0 +1,144 @@
+{
+  "Card": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the card has a border",
+        "defaultValue": "true"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component class name",
+        "defaultValue": "card"
+      },
+      "direction": {
+        "type": "'row' | 'column'",
+        "isRequired": false,
+        "description": "The direction of the card"
+      },
+      "shaded": {
+        "type": "boolean | 'hover'",
+        "isRequired": false,
+        "description": "Whether there is a shadow"
+      },
+      "size": {
+        "type": "'sm' | 'md' | 'lg'",
+        "isRequired": false,
+        "description": "The size of the card"
+      },
+      "width": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "The width of the card"
+      }
+    }
+  },
+  "Card.Header": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component class name",
+        "defaultValue": "card-header"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      }
+    }
+  },
+  "Card.Body": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component class name",
+        "defaultValue": "card-body"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      }
+    }
+  },
+  "Card.Footer": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component class name",
+        "defaultValue": "card-footer"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      }
+    }
+  },
+  "CardGroup": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component class name",
+        "defaultValue": "card-group"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "columns": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of columns of the group"
+      },
+      "spacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The spacing between the stats",
+        "defaultValue": "16"
+      }
+    }
+  }
+}

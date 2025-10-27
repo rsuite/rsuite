@@ -1,0 +1,223 @@
+{
+  "Modal": {
+    "props": {
+      "autoFocus": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers",
+        "defaultValue": "true"
+      },
+      "backdrop": {
+        "type": "unions: boolean | 'static'",
+        "isRequired": false,
+        "description": "When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'."
+      },
+      "backdropClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Add an optional extra class name to .modal-backdrop It could end up looking like class=\"modal-backdrop foo-modal-backdrop in\"."
+      },
+      "centered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Align the modal vertically in the center of the page."
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Modal content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "dialogAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for Dialog",
+        "defaultValue": "ModalDialog"
+      },
+      "dialogClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "CSS class applied to Dialog DOM nodes."
+      },
+      "dialogStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "CSS style applied to Dialog DOM nodes."
+      },
+      "enforceFocus": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to true, Modal will prevent the focus from leaving when opened, making it easier for the secondary screen reader to access",
+        "defaultValue": "true"
+      },
+      "keyboard": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Close Modal when `esc` key is pressed.",
+        "defaultValue": "true"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when Modal hide"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the Modal transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the Modal begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the Modal transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the Modal finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the Modal begins to transition out"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when Modal display"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": true,
+        "description": "Show Modal"
+      },
+      "overflow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Automatically sets the height when the body content is too long.",
+        "defaultValue": "true"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | lg' | 'full' | number | string",
+        "isRequired": false,
+        "description": "Determine the width of the modal",
+        "defaultValue": "sm"
+      }
+    }
+  },
+  "Modal.Header": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Header content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-header"
+      },
+      "closeButton": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display close button",
+        "defaultValue": "true"
+      },
+      "onClose": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Called when Modal is hidden"
+      }
+    }
+  },
+  "Modal.Title": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "h4"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Title content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-title"
+      }
+    }
+  },
+  "Modal.Footer": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Footer content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-footer"
+      }
+    }
+  },
+  "Modal.Body": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Body content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-body"
+      }
+    }
+  }
+}

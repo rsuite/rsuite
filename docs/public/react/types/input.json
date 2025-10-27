@@ -1,0 +1,174 @@
+{
+  "Input": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "input"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "input"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render the component in a disabled state"
+      },
+      "htmlSize": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Sets the native HTML size attribute."
+      },
+      "id": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The HTML input id"
+      },
+      "inputRef": {
+        "type": "Ref",
+        "isRequired": false,
+        "description": "A ref that points to the input element"
+      },
+      "onChange": {
+        "type": "(value: string, event) => void",
+        "isRequired": false,
+        "description": "Callback function when value changes"
+      },
+      "plaintext": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render the input as plaintext. Shows placeholder when value is empty"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render the component in a read-only state"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "An input can have different sizes",
+        "defaultValue": "md"
+      },
+      "type": {
+        "type": "string",
+        "isRequired": false,
+        "description": "HTML input type",
+        "defaultValue": "text"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Current value (controlled)"
+      }
+    }
+  },
+  "InputGroup": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "input-group"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render the input group in a disabled state"
+      },
+      "inside": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Sets the composition content internally"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "An input group can have different sizes",
+        "defaultValue": "md"
+      }
+    }
+  },
+  "InputGroup.Button": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "input-group-btn"
+      },
+      "...": {
+        "type": "[ButtonProps][ButtonProps]",
+        "isRequired": false,
+        "description": "Extends all props from `<Button>` component"
+      }
+    }
+  },
+  "InputGroup.Addon": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "span"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "input-group-addon"
+      }
+    }
+  },
+  "MaskedInput": {
+    "props": {
+      "guide": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "In guide mode or no guide mode"
+      },
+      "keepCharPositions": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When `true`, adding or deleting characters will not affect the position of existing characters.",
+        "defaultValue": "false"
+      },
+      "mask (\\*)": {
+        "type": "array | function",
+        "isRequired": true,
+        "description": "Used to define how to block user input."
+      },
+      "placeholderChar": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The placeholder character represents the fillable spot in the mask",
+        "defaultValue": "_"
+      },
+      "showMask": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When the input value is empty, the mask is displayed as a placeholder instead of a regular placeholder."
+      },
+      "...": {
+        "type": "[InputProps][InputProps]",
+        "isRequired": false,
+        "description": "Extends all props from `<Input>` component. But does not have the `type` prop."
+      }
+    }
+  }
+}

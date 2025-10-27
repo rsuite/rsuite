@@ -1,11 +1,17 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import NavbarBrand from './NavbarBrand';
 import NavbarContent from './NavbarContent';
 import NavbarToggle from './NavbarToggle';
 import NavbarDrawer from './NavbarDrawer';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useCustom, useEventCallback, useUniqueId } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useUniqueId,
+  useControlled
+} from '@/internals/hooks';
 import { NavbarContext } from './NavbarContext';
 
 export interface NavbarProps extends BoxProps {
@@ -13,6 +19,11 @@ export interface NavbarProps extends BoxProps {
    * The appearance style of the Navbar component.
    */
   appearance?: 'default' | 'inverse' | 'subtle';
+
+  /**
+   * The open state of the drawer.
+   */
+  drawerOpen?: boolean;
 
   /**
    * Callback when the drawer is opened or closed.
@@ -38,13 +49,14 @@ const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref)
     as = 'nav',
     classPrefix = 'navbar',
     appearance = 'default',
+    drawerOpen,
     onDrawerOpenChange,
     ...rest
   } = propsWithDefaults;
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControlled(drawerOpen, false);
 
   const handleToggle = useEventCallback((nextOpen: boolean) => {
     setOpen(nextOpen);

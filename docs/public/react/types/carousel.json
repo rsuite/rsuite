@@ -1,0 +1,70 @@
+{
+  "Carousel": {
+    "props": {
+      "activeIndex": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Controls the current visible slide"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type",
+        "defaultValue": "div"
+      },
+      "autoplay": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Automatic carousel element."
+      },
+      "autoplayInterval": {
+        "type": "number (`4000`)",
+        "isRequired": false,
+        "description": "Delay in ms until navigating to the next item."
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Carousel elements"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Component CSS class prefix",
+        "defaultValue": "carousel"
+      },
+      "defaultActiveIndex": {
+        "type": "number (`0`)",
+        "isRequired": false,
+        "description": "The default initial slide"
+      },
+      "onSelect": {
+        "type": "(index: number, event?: ChangeEvent) => void",
+        "isRequired": false,
+        "description": "Callback fired when the active item changes"
+      },
+      "onSlideEnd": {
+        "type": "(index: number, event?: TransitionEvent) => void",
+        "isRequired": false,
+        "description": "Callback fired when a slide transition ends"
+      },
+      "onSlideStart": {
+        "type": "(index: number, event?: ChangeEvent) => void",
+        "isRequired": false,
+        "description": "Callback fired when a slide transition starts"
+      },
+      "placement": {
+        "type": "enum:'top','bottom','left','right'",
+        "isRequired": false,
+        "description": "Button placement",
+        "defaultValue": "bottom"
+      },
+      "shape": {
+        "type": "enum:'dot','bar'",
+        "isRequired": false,
+        "description": "Button shape",
+        "defaultValue": "dot"
+      }
+    }
+  }
+}

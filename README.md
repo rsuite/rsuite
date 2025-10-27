@@ -14,6 +14,7 @@ English | [中文版][readm-cn]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rsuite/rsuite)
 
 React Suite is a set of React components. It is committed to providing high-quality and comprehensive React components to help developers quickly build web applications.
 

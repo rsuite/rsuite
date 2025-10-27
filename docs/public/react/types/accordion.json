@@ -1,0 +1,76 @@
+{
+  "Accordion": {
+    "props": {
+      "activeKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The active item's event key."
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show border."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class."
+      },
+      "defaultActiveKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The default active item's event key."
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when the active item changes."
+      }
+    }
+  },
+  "Accordion.Panel": {
+    "props": {
+      "bodyFill": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Content area filled with containers."
+      },
+      "caretAs": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Custom indicator."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "panel"
+      },
+      "defaultExpanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Expand the panel by default."
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disable the panel."
+      },
+      "eventKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The event key corresponding to the panel."
+      },
+      "expanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Expand the panel."
+      },
+      "header": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The title of the panel."
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "Menu": {
+    "props": {
+      "activeKey": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "Set the active key for the menu"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "ul"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "menu"
+      },
+      "onSelect": {
+        "type": "(eventKey: string | number | undefined, event) => void",
+        "isRequired": false,
+        "description": "Callback function triggered when an item is selected"
+      }
+    }
+  },
+  "Menu.Item": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Active the current option"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "li"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "menu-item"
+      },
+      "description": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The description of the current option"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disable the current option"
+      },
+      "eventKey": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "The value of the current option"
+      },
+      "icon": {
+        "type": "ReactElement",
+        "isRequired": false,
+        "description": "Set the icon"
+      },
+      "onSelect": {
+        "type": "(eventKey: string | number, event) => void",
+        "isRequired": false,
+        "description": "Select the callback function for the current option"
+      },
+      "shortcut": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The menu item keyboard shortcut"
+      }
+    }
+  },
+  "Menu.Separator": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "li"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "menu-item-divider"
+      }
+    }
+  }
+}

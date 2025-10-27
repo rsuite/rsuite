@@ -1,0 +1,128 @@
+{
+  "Whisper": {
+    "props": {
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "controlId": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the `id` on `<Overlay>` and `aria-describedby` on `<Whisper>`"
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to open the overlay by default"
+      },
+      "delay": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Delay time (ms) Time"
+      },
+      "delayClose": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Delay close time (ms) Time"
+      },
+      "delayOpen": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Delay open time (ms) Time"
+      },
+      "enterable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether mouse is allowed to enter the floating layer of popover,when the value of `trigger` is set to`hover`"
+      },
+      "followCursor": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether enable `speaker` to follow the cursor"
+      },
+      "onBlur": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Lose Focus callback function"
+      },
+      "onClick": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Click on the callback function"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when close component"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the overlay transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the overlay transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition out"
+      },
+      "onFocus": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback function to get focus"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when open component"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to open the overlay"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "Dispaly placement",
+        "defaultValue": "right"
+      },
+      "preventOverflow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Prevent floating element overflow"
+      },
+      "speaker": {
+        "type": "Tooltip | Popover | ReactElement",
+        "isRequired": true,
+        "description": "Displayed component"
+      },
+      "trigger": {
+        "type": "'click' | 'hover' | 'contextMenu' | Array<'click' | 'hover' | 'contextMenu'>",
+        "isRequired": false,
+        "description": "Triggering events",
+        "defaultValue": "['hover','focus']"
+      }
+    }
+  }
+}

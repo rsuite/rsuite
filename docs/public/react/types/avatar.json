@@ -1,0 +1,87 @@
+{
+  "Avatar": {
+    "props": {
+      "alt": {
+        "type": "string",
+        "isRequired": false,
+        "description": "This attribute defines the alternative text for the image avatar."
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show the border."
+      },
+      "children": {
+        "type": "string | Element<typeof Icon>",
+        "isRequired": false,
+        "description": "Content(It maybe text or icon)."
+      },
+      "circle": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render a circle avatar."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "avatar"
+      },
+      "color": {
+        "type": "[ColorScheme][color-scheme] | CSSProperties['color']",
+        "isRequired": false,
+        "description": "Set the background color of the avatar."
+      },
+      "imgProps": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Attributes applied to the `img` element if the component is used to display an image."
+      },
+      "onError": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback when the image fails to load."
+      },
+      "size": {
+        "type": "[Size][size] | ",
+        "isRequired": false,
+        "description": "Size of avatar.",
+        "defaultValue": "md"
+      },
+      "sizes": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `sizes` attribute for the `img` element."
+      },
+      "src": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `src` attribute for the `img` element."
+      },
+      "srcSet": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The `srcSet` attribute for the `img` element. Use this attribute for responsive image display."
+      }
+    }
+  },
+  "AvatarGroup": {
+    "props": {
+      "size": {
+        "type": "[Size][size]",
+        "isRequired": false,
+        "description": "Set the size of all avatars."
+      },
+      "spacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the spacing of the avatars."
+      },
+      "stack": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Render all avatars as stacks."
+      }
+    }
+  }
+}
