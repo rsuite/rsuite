@@ -14,6 +14,7 @@ English | [中文版][readm-cn]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frsuite%2Frsuite.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Frsuite%2Frsuite?ref=badge_shield)
 
 React Suite is a set of React components. It is committed to providing high-quality and comprehensive React components to help developers quickly build web applications.
 
@@ -160,3 +161,6 @@ React Suite is [MIT licensed][license].
 [codecov-img]: https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t
 [gitpod]: https://gitpod.io/#https://github.com/rsuite/rsuite
 [gitpod-img]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frsuite%2Frsuite.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Frsuite%2Frsuite?ref=badge_large)
