@@ -47,6 +47,7 @@ export default {
     v2: '2.x',
     v3: '3.x',
     v4: '4.x',
+    v5: '5.x',
     v5Features: 'Upgrade to v5',
     notFount: 'Page not found',
     goHomePage: 'Return to homepage.',

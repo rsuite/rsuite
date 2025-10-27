@@ -32,6 +32,12 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
 
   const versions = [
     {
+      id: 'v5',
+      name: locales?.common?.v5,
+      version: '5.83.3',
+      url: 'https://v5.rsuitejs.com/'
+    },
+    {
       id: 'v4',
       name: locales?.common?.v4,
       version: '4.11.1',
