@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$BRANCH" == "next" || "$BRANCH" == "staging" ]]; then
+if [[ "$BRANCH" == "5.x" ]]; then
   # Proceed with the build
   exit 1
 
