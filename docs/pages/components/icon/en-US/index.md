@@ -112,7 +112,6 @@ const IconFont = createIconFont(...);
 
 | Property | Type `(Default)`           | Description                                               |
 | -------- | -------------------------- | --------------------------------------------------------- |
-|          |
 | fill     | string `(currentColor)`    | Icon fill color                                           |
 | flip     | 'horizontal' \| 'vertical' | Flip icon                                                 |
 | icon     | string                     | Use the name from the iconfont icon set                   |
