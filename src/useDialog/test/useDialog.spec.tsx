@@ -489,4 +489,38 @@ describe('useDialog', () => {
     expect(screen.getByRole('button', { name: 'OK' })).to.exist;
     expect(screen.getByRole('button', { name: 'Cancel' })).to.exist;
   });
+
+  it('Should resolve undefined if dialog container is not ready before timeout', async () => {
+    vi.useFakeTimers();
+
+    const rafSpy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation(cb => window.setTimeout(() => cb(0), 16) as unknown as number);
+
+    const NoContainerWrapper = ({ children }: { children: React.ReactNode }) => {
+      const dialogContainerRef = React.useRef(null);
+
+      return <CustomProvider dialogContainer={dialogContainerRef}>{children}</CustomProvider>;
+    };
+
+    try {
+      const { result } = renderHook(() => useDialog(), { wrapper: NoContainerWrapper });
+
+      let confirmPromise: Promise<boolean | undefined> | undefined;
+
+      act(() => {
+        confirmPromise = result.current.confirm('Timeout dialog');
+      });
+
+      act(() => {
+        vi.advanceTimersByTime(2100);
+      });
+
+      const resultValue = await confirmPromise!;
+      expect(resultValue).to.be.undefined;
+    } finally {
+      rafSpy.mockRestore();
+      vi.useRealTimers();
+    }
+  });
 });
