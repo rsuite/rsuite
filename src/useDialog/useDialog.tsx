@@ -146,7 +146,8 @@ export function useDialog() {
           dialogKey = container.renderDialog(dialogComponent);
         });
       });
-    }, [waitForContainer]
+    },
+    [waitForContainer]
   );
 
   const alert = useCallback(
