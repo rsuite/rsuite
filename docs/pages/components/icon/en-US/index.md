@@ -91,6 +91,7 @@ Both `<Icon>` and the imported single icon have the following props.
 | flip     | 'horizontal' \| 'vertical'    | Flip icon                                                 |
 | pulse    | boolean                       | Use `pulse` to have it rotate with eight steps            |
 | rotate   | number                        | Rotate icon                                               |
+| size     | string                        | Icon size (sets both width and height)                    |
 | spin     | boolean                       | Use the `spin` to get any icon to rotate                  |
 | style    | CSSProperties                 | The style properties of icon, like `fontSize` and `color` |
 

@@ -6,11 +6,11 @@ import PieChartIcon from '@rsuite/icons/PieChart';
 
 const App = () => (
   <HStack spacing={20}>
-    <PieChartIcon style={{ fontSize: '1rem' }} />
-    <PieChartIcon style={{ fontSize: '2rem' }} />
-    <PieChartIcon style={{ fontSize: '3rem' }} />
-    <PieChartIcon style={{ fontSize: '4rem' }} />
-    <PieChartIcon style={{ fontSize: '5rem' }} />
+    <PieChartIcon size="1rem" />
+    <PieChartIcon size="2rem" />
+    <PieChartIcon size="3rem" />
+    <PieChartIcon size="4rem" />
+    <PieChartIcon size="5rem" />
   </HStack>
 );
 
