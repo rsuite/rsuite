@@ -119,6 +119,14 @@
     .rs-dropdown-item-collapse-icon {
       transform: rotate(90deg);
     }
+
+    > .rs-dropdown-menu.rs-dropdown-menu-collapse-out {
+      display: none;
+    }
+
+    > .rs-dropdown-menu.rs-dropdown-menu-collapse-in {
+      display: flex;
+    }
   }
 
   .rs-dropdown-item {
