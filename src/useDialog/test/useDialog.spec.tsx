@@ -453,7 +453,7 @@ describe('useDialog', () => {
 
   it('Should work when DialogContainer mounts after hook initialization (Next.js SSR scenario)', async () => {
     // Simulate Next.js SSR scenario where hook is called before DialogContainer mounts
-    const DelayedMountWrapper = ({ children }) => {
+    const DelayedMountWrapper = ({ children }: { children: React.ReactNode }) => {
       const dialogContainerRef = React.useRef(null);
       const [mounted, setMounted] = React.useState(false);
 

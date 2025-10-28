@@ -8,6 +8,8 @@ import type { AlertOptions, ConfirmOptions, OpenOptions, PromptOptions } from '.
 /**
  * Options for creating a dialog
  */
+const WAIT_FOR_CONTAINER_TIMEOUT = 2000;
+
 interface DialogOptions {
   /** Custom dialog component */
   as?: React.ComponentType<any>;
@@ -73,7 +75,7 @@ export function useDialog() {
       return dialogContainerRef.current;
     }
 
-    const timeoutAt = Date.now() + 2000;
+    const timeoutAt = Date.now() + WAIT_FOR_CONTAINER_TIMEOUT;
 
     return new Promise<DialogContainerInstance | null>(resolve => {
       const checkContainerReady = () => {
