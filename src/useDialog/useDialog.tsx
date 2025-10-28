@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import canUseDOM from 'dom-lib/canUseDOM';
 import Dialog from './Dialog';
 import { CustomContext } from '@/internals/Provider/CustomContext';
+import type { DialogContainerInstance } from './DialogContainer';
 import type { AlertOptions, ConfirmOptions, OpenOptions, PromptOptions } from './types';
 
 /**
@@ -63,55 +64,89 @@ const useDialogContainer = () => {
 export function useDialog() {
   const dialogContainerRef = useDialogContainer();
 
+  const waitForContainer = useCallback(async () => {
+    if (!canUseDOM) {
+      return null;
+    }
+
+    if (dialogContainerRef.current) {
+      return dialogContainerRef.current;
+    }
+
+    const timeoutAt = Date.now() + 2000;
+
+    return new Promise<DialogContainerInstance | null>(resolve => {
+      const checkContainerReady = () => {
+        if (dialogContainerRef.current) {
+          resolve(dialogContainerRef.current);
+          return;
+        }
+
+        if (Date.now() > timeoutAt) {
+          resolve(null);
+          return;
+        }
+
+        requestAnimationFrame(checkContainerReady);
+      };
+
+      checkContainerReady();
+    });
+  }, [dialogContainerRef]);
+
   const createDialog = useCallback(
     (content: React.ReactNode, options: DialogOptions) => {
       const { type, title, okText, cancelText, severity, defaultValue, validate } = options;
 
-      let isDialogClosed = false;
-      let dialogKey: string | number | null = null;
-
       return new Promise<any>(resolve => {
-        const handleClose = (result?: any) => {
-          if (isDialogClosed) {
+        waitForContainer().then(container => {
+          if (!canUseDOM || !container) {
+            resolve(undefined);
             return;
           }
 
-          isDialogClosed = true;
+          let isDialogClosed = false;
+          let dialogKey: string | number | null = null;
 
-          if (canUseDOM && dialogContainerRef.current && dialogKey !== null) {
-            dialogContainerRef.current.removeDialog(dialogKey);
+          const handleClose = (result?: any) => {
+            if (isDialogClosed) {
+              return;
+            }
+
+            isDialogClosed = true;
+
+            if (dialogKey !== null) {
+              container.removeDialog(dialogKey);
+            }
+
+            resolve(result);
+          };
+
+          let dialogComponent: React.ReactNode;
+
+          if (type === 'custom' && options.as) {
+            const { as: Component, props } = options;
+            dialogComponent = <Component onClose={handleClose} {...props} />;
+          } else {
+            dialogComponent = (
+              <Dialog
+                type={type as 'alert' | 'confirm' | 'prompt'}
+                title={title}
+                content={content}
+                okText={okText}
+                cancelText={cancelText}
+                onClose={handleClose}
+                defaultValue={defaultValue || ''}
+                severity={severity}
+                validate={validate}
+              />
+            );
           }
 
-          resolve(result);
-        };
-
-        let dialogComponent: React.ReactNode;
-
-        if (type === 'custom' && options.as) {
-          const { as: Component, props } = options;
-          dialogComponent = <Component onClose={handleClose} {...props} />;
-        } else {
-          dialogComponent = (
-            <Dialog
-              type={type as 'alert' | 'confirm' | 'prompt'}
-              title={title}
-              content={content}
-              okText={okText}
-              cancelText={cancelText}
-              onClose={handleClose}
-              defaultValue={defaultValue || ''}
-              severity={severity}
-              validate={validate}
-            />
-          );
-        }
-
-        if (canUseDOM && dialogContainerRef.current) {
-          dialogKey = dialogContainerRef.current.renderDialog(dialogComponent);
-        }
+          dialogKey = container.renderDialog(dialogComponent);
+        });
       });
-    },
-    [dialogContainerRef]
+    }, [waitForContainer]
   );
 
   const alert = useCallback(
