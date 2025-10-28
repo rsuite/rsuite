@@ -450,4 +450,43 @@ describe('useDialog', () => {
     // Validation error should be cleared
     expect(screen.queryByText('Input must be at least 3 characters')).to.not.exist;
   });
+
+  it('Should work when DialogContainer mounts after hook initialization (Next.js SSR scenario)', async () => {
+    // Simulate Next.js SSR scenario where hook is called before DialogContainer mounts
+    const DelayedMountWrapper = ({ children }) => {
+      const dialogContainerRef = React.useRef(null);
+      const [mounted, setMounted] = React.useState(false);
+
+      React.useEffect(() => {
+        // Simulate delayed mount (like Next.js hydration)
+        setTimeout(() => setMounted(true), 10);
+      }, []);
+
+      return (
+        <CustomProvider dialogContainer={dialogContainerRef}>
+          {mounted && <DialogContainer ref={dialogContainerRef} />}
+          {children}
+        </CustomProvider>
+      );
+    };
+
+    const { result } = renderHook(() => useDialog(), { wrapper: DelayedMountWrapper });
+
+    // Wait for DialogContainer to mount
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 20));
+    });
+
+    // Now trigger a dialog - it should work even though hook was initialized before container mounted
+    act(() => {
+      result.current.confirm('Dialog after delayed mount');
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Dialog after delayed mount')).to.exist;
+    });
+
+    expect(screen.getByRole('button', { name: 'OK' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Cancel' })).to.exist;
+  });
 });

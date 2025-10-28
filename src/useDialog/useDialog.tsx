@@ -1,8 +1,7 @@
-import React, { useCallback, useRef, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import canUseDOM from 'dom-lib/canUseDOM';
 import Dialog from './Dialog';
 import { CustomContext } from '@/internals/Provider/CustomContext';
-import type { DialogContainerInstance } from './DialogContainer';
 import type { AlertOptions, ConfirmOptions, OpenOptions, PromptOptions } from './types';
 
 /**
@@ -42,7 +41,6 @@ interface DialogOptions {
 
 const useDialogContainer = () => {
   const context = useContext(CustomContext);
-  const dialogContainerRef = useRef<DialogContainerInstance>(null);
 
   useEffect(() => {
     if (canUseDOM && !context?.dialogContainer) {
@@ -51,15 +49,11 @@ const useDialogContainer = () => {
           'Please wrap your application with <CustomProvider> to ensure proper functionality.'
       );
     }
-  }, [context]);
+  }, [context?.dialogContainer]);
 
-  useEffect(() => {
-    if (canUseDOM && context?.dialogContainer?.current) {
-      dialogContainerRef.current = context.dialogContainer.current;
-    }
-  }, [context]);
-
-  return dialogContainerRef;
+  // Return the ref from context directly instead of copying to a local ref
+  // This ensures we always use the latest mounted DialogContainer instance
+  return context?.dialogContainer || { current: null };
 };
 
 /**
@@ -69,53 +63,56 @@ const useDialogContainer = () => {
 export function useDialog() {
   const dialogContainerRef = useDialogContainer();
 
-  const createDialog = useCallback((content: React.ReactNode, options: DialogOptions) => {
-    const { type, title, okText, cancelText, severity, defaultValue, validate } = options;
+  const createDialog = useCallback(
+    (content: React.ReactNode, options: DialogOptions) => {
+      const { type, title, okText, cancelText, severity, defaultValue, validate } = options;
 
-    let isDialogClosed = false;
-    let dialogKey: string | number | null = null;
+      let isDialogClosed = false;
+      let dialogKey: string | number | null = null;
 
-    return new Promise<any>(resolve => {
-      const handleClose = (result?: any) => {
-        if (isDialogClosed) {
-          return;
+      return new Promise<any>(resolve => {
+        const handleClose = (result?: any) => {
+          if (isDialogClosed) {
+            return;
+          }
+
+          isDialogClosed = true;
+
+          if (canUseDOM && dialogContainerRef.current && dialogKey !== null) {
+            dialogContainerRef.current.removeDialog(dialogKey);
+          }
+
+          resolve(result);
+        };
+
+        let dialogComponent: React.ReactNode;
+
+        if (type === 'custom' && options.as) {
+          const { as: Component, props } = options;
+          dialogComponent = <Component onClose={handleClose} {...props} />;
+        } else {
+          dialogComponent = (
+            <Dialog
+              type={type as 'alert' | 'confirm' | 'prompt'}
+              title={title}
+              content={content}
+              okText={okText}
+              cancelText={cancelText}
+              onClose={handleClose}
+              defaultValue={defaultValue || ''}
+              severity={severity}
+              validate={validate}
+            />
+          );
         }
 
-        isDialogClosed = true;
-
-        if (canUseDOM && dialogContainerRef.current && dialogKey !== null) {
-          dialogContainerRef.current.removeDialog(dialogKey);
+        if (canUseDOM && dialogContainerRef.current) {
+          dialogKey = dialogContainerRef.current.renderDialog(dialogComponent);
         }
-
-        resolve(result);
-      };
-
-      let dialogComponent: React.ReactNode;
-
-      if (type === 'custom' && options.as) {
-        const { as: Component, props } = options;
-        dialogComponent = <Component onClose={handleClose} {...props} />;
-      } else {
-        dialogComponent = (
-          <Dialog
-            type={type as 'alert' | 'confirm' | 'prompt'}
-            title={title}
-            content={content}
-            okText={okText}
-            cancelText={cancelText}
-            onClose={handleClose}
-            defaultValue={defaultValue || ''}
-            severity={severity}
-            validate={validate}
-          />
-        );
-      }
-
-      if (canUseDOM && dialogContainerRef.current) {
-        dialogKey = dialogContainerRef.current.renderDialog(dialogComponent);
-      }
-    });
-  }, []);
+      });
+    },
+    [dialogContainerRef]
+  );
 
   const alert = useCallback(
     (message: React.ReactNode, options?: AlertOptions) => {
