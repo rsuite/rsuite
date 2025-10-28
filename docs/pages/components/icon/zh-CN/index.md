@@ -91,6 +91,7 @@ npm install react-icons --save
 | flip     | 'horizontal' \| 'vertical'    | 翻转图标                           |
 | pulse    | boolean                       | 动态旋转图标，有脉冲效果           |
 | rotate   | number                        | 旋转图标                           |
+| size     | string                        | 图标大小 (设置宽度和高度)          |
 | spin     | boolean                       | 动态旋转图标                       |
 | style    | CSSProperties                 | 图标的样式，例如 fontSize 和 color |
 
