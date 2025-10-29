@@ -8,7 +8,7 @@ import {
   isPresetColor,
   createColorVariables
 } from '@/internals/utils';
-import type { Color, PlacementCorners } from '@/internals/types';
+import type { Color, PlacementCorners, Size } from '@/internals/types';
 
 export interface BadgeProps extends BoxProps {
   /**
@@ -50,6 +50,11 @@ export interface BadgeProps extends BoxProps {
   shape?: 'rectangle' | 'circle';
 
   /**
+   * A badge can have different sizes
+   */
+  size?: Size;
+
+  /**
    * Define the horizontal and vertical offset of the badge relative to its wrapped element
    * @version 6.0.0
    */
@@ -81,6 +86,7 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
     outline = true,
     placement = 'topEnd',
     shape,
+    size = 'md',
     style,
     invisible,
     ...rest
@@ -111,9 +117,10 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
       ['data-outline']: outline,
       ['data-hidden']: invisible,
       ['data-independent']: !children,
-      ['data-placement']: children ? placement : undefined
+      ['data-placement']: children ? placement : undefined,
+      ['data-size']: size
     };
-  }, [color, shape, compact, isOneChar, outline, invisible, children, placement]);
+  }, [color, shape, compact, isOneChar, outline, invisible, children, placement, size]);
 
   if (!children) {
     return (
