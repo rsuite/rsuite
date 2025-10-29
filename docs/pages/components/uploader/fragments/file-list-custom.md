@@ -22,10 +22,12 @@ const App = () => (
     action="//jsonplaceholder.typicode.com/posts/"
     renderFileInfo={(file, fileElement) => {
       return (
-        <>
+        <VStack spacing="1">
           <span>File Name: {file.name}</span>
-          <p>File URL: <a href={file.url}>{file.url}</a></p>
-        </>
+          <span>
+            File URL: <a href={file.url}>{file.url}</a>
+          </span>
+        </VStack>
       );
     }}
   >
