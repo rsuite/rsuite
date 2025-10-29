@@ -102,6 +102,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       renderValue,
       searchable = true,
       style,
+      size,
       toggleAs,
       uncheckableItemValues = emptyArray,
       value: valueProp,
@@ -338,6 +339,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           prefix={prefix}
           cascade={cascade}
           locale={locale}
+          badgeSize={size}
         />
       );
     }
@@ -398,6 +400,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           active={active}
           placement={placement}
           inputValue={value}
+          size={size}
           {...rest}
         >
           {selectedElement || locale?.placeholder}

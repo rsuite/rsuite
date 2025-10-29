@@ -106,6 +106,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     showIndentLine,
     searchable = true,
     style,
+    size,
     valueKey = 'value',
     value: controlledValue,
     virtualized = false,
@@ -313,6 +314,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         prefix={prefix}
         cascade={cascade}
         locale={locale}
+        badgeSize={size}
       />
     );
     if (isFunction(renderValue)) {
@@ -359,6 +361,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         placement={placement}
         inputValue={value}
         focusItemValue={focusItemValue}
+        size={size}
         {...rest}
       >
         {selectedElement || locale?.placeholder}
