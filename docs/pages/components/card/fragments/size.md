@@ -7,7 +7,11 @@ const App = () => {
   return (
     <VStack spacing={10}>
       <Card size="sm">
-        <Card.Header as="h5">Card Header - Small</Card.Header>
+        <Card.Header>
+          <Text size="lg" bold>
+            Card Header - Small
+          </Text>
+        </Card.Header>
         <Card.Body>
           This is a small card with a brief description to highlight key information or content. It
           can be used for various purposes like displaying details, statistics, or any relevant
@@ -15,7 +19,11 @@ const App = () => {
         </Card.Body>
       </Card>
       <Card size="md">
-        <Card.Header as="h5">Card Header - Medium</Card.Header>
+        <Card.Header>
+          <Text size="lg" bold>
+            Card Header - Medium
+          </Text>
+        </Card.Header>
         <Card.Body>
           This is a medium card with a brief description to highlight key information or content. It
           can be used for various purposes like displaying details, statistics, or any relevant
@@ -23,7 +31,11 @@ const App = () => {
         </Card.Body>
       </Card>
       <Card size="lg">
-        <Card.Header as="h5">Card Header - Large</Card.Header>
+        <Card.Header>
+          <Text size="lg" bold>
+            Card Header - Large
+          </Text>
+        </Card.Header>
         <Card.Body>
           This is a large card with a brief description to highlight key information or content. It
           can be used for various purposes like displaying details, statistics, or any relevant

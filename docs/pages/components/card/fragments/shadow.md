@@ -6,7 +6,11 @@ import { Card, Text } from 'rsuite';
 const App = () => {
   return (
     <Card width={320} shaded>
-      <Card.Header as="h5">John Doe</Card.Header>
+      <Card.Header>
+        <Text size="lg" bold>
+          John Doe
+        </Text>
+      </Card.Header>
       <Card.Body>
         A passionate developer with a love for learning new technologies. Enjoys building innovative
         solutions and solving problems.
