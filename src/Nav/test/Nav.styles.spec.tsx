@@ -23,6 +23,14 @@ describe('Nav styles', () => {
     expect(screen.getByRole('button')).to.have.style('background-color', 'rgba(0, 0, 0, 0)');
   });
 
+  it('Should render subtle vertical Nav as flex column layout', () => {
+    render(<Nav vertical appearance="subtle" data-testid="nav-vertical" />);
+
+    const nav = screen.getByTestId('nav-vertical');
+    expect(nav).to.have.style('display', 'flex');
+    expect(nav).to.have.style('flex-direction', 'column');
+  });
+
   describe('Issue #2678', () => {
     it('Height of <Nav.Menu> should be consistent with that of <Nav.Item> (36px)', () => {
       render(
