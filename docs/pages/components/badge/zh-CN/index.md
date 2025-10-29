@@ -26,6 +26,12 @@
 
 <!--{include:`shape.md`}-->
 
+### 尺寸
+
+Badge 组件通过 `size` 属性支持不同的尺寸。
+
+<!--{include:`size.md`}-->
+
 ### 偏移
 
 如果 Badge 的位置不合理, 可以使用 `offset` 属性进行微调。
@@ -61,6 +67,7 @@
 | outline     | boolean`(true)`                                        | 是否为轮廓模式                                  | ![][6.0.0] |
 | placement   | [PlacementCorners](#code-ts-placement-corners-code)    | 设置标记在被包裹元素的位置                      | ![][6.0.0] |
 | shape       | 'rectangle' \| 'circle'                                | 被包裹元素的形状                                | ![][6.0.0] |
+| size        | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' `('md')` | 设置标记的尺寸                                  |            |
 
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/placement-corners.md)}-->

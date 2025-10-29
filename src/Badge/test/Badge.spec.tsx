@@ -110,4 +110,18 @@ describe('Badge', () => {
       expect(container.firstChild).to.have.attr('data-placement', placement);
     });
   });
+
+  it('Should render with default size', () => {
+    const { container } = render(<Badge content={6} />);
+    expect(container.firstChild).to.have.attr('data-size', 'md');
+  });
+
+  it('Should render with custom size', () => {
+    const sizes: any = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+    sizes.forEach(size => {
+      const { container } = render(<Badge content={6} size={size} />);
+      expect(container.firstChild).to.have.attr('data-size', size);
+    });
+  });
 });

@@ -26,6 +26,12 @@ If the wrapped element is a circle, you can use the `shape` property `circle` to
 
 <!--{include:`shape.md`}-->
 
+### Sizes
+
+The Badge component supports different sizes through the `size` prop.
+
+<!--{include:`size.md`}-->
+
 ### Offset
 
 If the Badge position is not reasonable, you can use the `offset` property to make fine adjustments.
@@ -61,6 +67,7 @@ If the Badge position is not reasonable, you can use the `offset` property to ma
 | outline     | boolean`(true)`                                        | Whether to use outline mode                                                            | ![][6.0.0] |
 | placement   | [PlacementCorners](#code-ts-placement-corners-code)    | Set the position of the badge in the wrapped element                                   | ![][6.0.0] |
 | shape       | 'rectangle' \| 'circle'                                | The shape of the wrapped element                                                       | ![][6.0.0] |
+| size        | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' `('md')` | Set the size of the badge                                                    |            |
 
 <!--{include:(_common/types/color.md)}-->
 <!--{include:(_common/types/placement-corners.md)}-->

@@ -21,8 +21,8 @@
     background-color: var(--rs-badge-bg);
     color: var(--rs-badge-text);
     border-radius: var(--rs-radius-full);
-    font-size: var(--rs-font-size-xs);
-    line-height: 1rem;
+    font-size: var(--rs-badge-font-size);
+    line-height: var(--rs-badge-line-height);
     padding-inline: 0.3125rem;
     transition: opacity 0.3s ease-in-out;
   }
@@ -31,6 +31,7 @@
   &[data-one-char='true'][data-independent='true'] {
     width: var(--rs-badge-one-char-size);
     height: var(--rs-badge-one-char-size);
+    line-height: var(--rs-badge-one-char-size);
   }
 
   &-content {
@@ -95,5 +96,16 @@ $badge-spectrum: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet', '
 @each $color in $badge-spectrum {
   .rs-badge[data-color='#{$color}'] {
     --rs-badge-bg: var(--rs-#{$color}-500);
+  }
+}
+
+// Size classes
+$badge-sizes: 'xs', 'sm', 'md', 'lg', 'xl';
+@each $size in $badge-sizes {
+  .rs-badge[data-size='#{$size}'] {
+    --rs-badge-font-size: var(--rs-badge-font-size-#{$size});
+    --rs-badge-line-height: var(--rs-badge-line-height-#{$size});
+    --rs-badge-one-char-size: var(--rs-badge-one-char-size-#{$size});
+    --rs-badge-dot-size: var(--rs-badge-dot-size-#{$size});
   }
 }
