@@ -306,6 +306,9 @@
 
   // Vertical
   &[data-direction='vertical'] {
+    display: flex;
+    flex-direction: column;
+
     // Waterline
     .rs-nav-bar {
       width: 2px;
