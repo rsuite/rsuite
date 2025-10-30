@@ -93,6 +93,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       searchable = true,
       sticky,
       style,
+      size,
       toggleAs,
       value: valueProp,
       valueKey = 'value',
@@ -268,6 +269,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           valueKey={valueKey}
           labelKey={labelKey}
           prefix={prefix}
+          badgeSize={size}
         />
       );
     }
@@ -389,6 +391,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           placement={placement}
           inputValue={value}
           focusItemValue={focusItemValue}
+          size={size}
           {...rest}
         >
           {selectedElement || locale?.placeholder}
