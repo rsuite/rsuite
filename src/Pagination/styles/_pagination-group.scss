@@ -7,6 +7,10 @@
   --rs-pagination-font-size-lg: var(--rs-font-size-md);
   --rs-pagination-group-gap: calc(var(--rs-spacing) * 2.5);
 
+  display: flex;
+  align-items: center;
+  gap: var(--rs-pagination-group-gap);
+
   &-total,
   &-skip {
     font-size: var(--rs-pagination-font-size-md);
@@ -22,10 +26,6 @@
       }
     }
   }
-
-  display: flex;
-  align-items: center;
-  gap: var(--rs-pagination-group-gap);
 
   &-grow {
     flex-grow: 1;
