@@ -64,6 +64,12 @@
 
 <!--{include:`form.md`}-->
 
+### 自定义布局
+
+创建一个自定义的 Modal,采用分栏布局设计,左侧展示品牌信息,右侧为登录表单。
+
+<!--{include:`custom-layout.md`}-->
+
 ### 使用 useDialog
 
 对于常见的对话框场景，可以使用 [useDialog](/zh/components/use-dialog) 来简化对话框的使用。
@@ -115,6 +121,7 @@
 | autoFocus         | boolean `(true)`                                                   | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
 | backdrop          | unions: boolean \| 'static'                                        | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
 | backdropClassName | string                                                             | 应用于 backdrop DOM 节点的 css class                                                                 |
+| bodyFill          | boolean                                                            | 移除对话框和主体的默认内边距，使内容可以占据全部高度。适用于创建全宽/全高内容的自定义布局。          |
 | centered          | boolean                                                            | 将模态框在页面垂直方向上居中对齐。                                                                   |
 | children          | ReactNode                                                          | Modal 的内容                                                                                         |
 | classPrefix       | string `('modal')`                                                 | 组件 CSS 类的前缀                                                                                    |

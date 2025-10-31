@@ -61,6 +61,14 @@
     }
   }
 
+  &.rs-modal-fill {
+    .rs-modal-dialog,
+    .rs-modal-body {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   // Actual modal
   .rs-modal-dialog {
     position: relative;

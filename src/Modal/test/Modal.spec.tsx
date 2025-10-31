@@ -268,6 +268,43 @@ describe('Modal', () => {
     });
   });
 
+  describe('bodyFill', () => {
+    it('Should have .rs-modal-fill class when bodyFill=true', () => {
+      render(
+        <Modal open bodyFill>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog')).to.have.class('rs-modal-fill');
+    });
+
+    it('Should remove padding from dialog and body when bodyFill=true', () => {
+      render(
+        <Modal open bodyFill>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+
+      const dialog = screen.getByRole('document');
+      const body = screen.getByText('Content');
+
+      expect(dialog).to.have.style('padding', '0px');
+      expect(body).to.have.style('margin', '0px');
+      expect(body).to.have.style('padding', '0px');
+    });
+
+    it('Should not have .rs-modal-fill class when bodyFill is not set', () => {
+      render(
+        <Modal open>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog')).to.not.have.class('rs-modal-fill');
+    });
+  });
+
   describe('a11y', () => {
     it('Should render an ARIA dialog with given title as its accessible name', () => {
       const title = 'Attention';
