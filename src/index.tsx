@@ -369,6 +369,9 @@ export type { PickerHandle } from './internals/Picker';
 export { default as useMediaQuery } from './useMediaQuery';
 export { default as useBreakpointValue } from './useBreakpointValue';
 
+export { default as CreateRootContextProvider } from './useCreateRoot';
+export type { ReactRoot, CreateRootFn } from './useCreateRoot';
+
 // Disclosure
 // --------------------------------------------------------
 export { default as VisuallyHidden } from './VisuallyHidden';

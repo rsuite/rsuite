@@ -4,6 +4,7 @@ import toaster from '../toaster';
 // because babel compiles commonjs, which causes CustomContext to be undefined
 import { CustomContext } from '../CustomProvider/CustomContext';
 import { ToastContainerProps } from '../toaster/ToastContainer';
+import { useCreateRoot } from '../useCreateRoot';
 
 /**
  * Toaster display brief, temporary notifications of actions, errors, or other events in an application.
@@ -14,6 +15,7 @@ import { ToastContainerProps } from '../toaster/ToastContainer';
  */
 const useToaster = () => {
   const { toasters, toastContainer } = useContext(CustomContext);
+  const userCreateRoot = useCreateRoot();
 
   return useMemo(
     () => ({
@@ -31,9 +33,11 @@ const useToaster = () => {
           toastContainer;
 
         if (container === toastContainer) {
-          return toasters?.current?.get(options?.placement || 'topCenter')?.push(message, options);
+          return toasters?.current
+            ?.get(options?.placement || 'topCenter')
+            ?.push(message, options, userCreateRoot);
         } else {
-          return toaster.push(message, options);
+          return toaster.push(message, options, userCreateRoot);
         }
       },
       /**
@@ -52,7 +56,7 @@ const useToaster = () => {
         toasters ? Array.from(toasters.current).forEach(([, c]) => c?.clear()) : toaster.clear();
       }
     }),
-    [toastContainer, toasters]
+    [toastContainer, toasters, userCreateRoot]
   );
 };
 

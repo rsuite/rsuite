@@ -8,6 +8,7 @@ import { useClassNames } from '@/internals/hooks';
 import { guid, createChainedFunction } from '@/internals/utils';
 import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
 import { render } from './render';
+import { CreateRootFn } from '../useCreateRoot';
 
 export const defaultToasterContainer = () => {
   return canUseDOM ? document.body : null;
@@ -61,7 +62,7 @@ interface PushOptions {
 }
 
 export interface ToastContainerInstance {
-  push: (message: React.ReactNode, options?: PushOptions) => string;
+  push: (message: React.ReactNode, options?: PushOptions, userCreateRoot?: CreateRootFn) => string;
   remove: (key: string) => void;
   clear: () => void;
   destroy: () => void;
@@ -84,7 +85,7 @@ export type GetInstancePropsType = Omit<ToastContainerProps, 'container' | 'plac
 
 interface ToastContainerComponent extends RsRefForwardingComponent<'div', ToastContainerProps> {
   getInstance: (
-    props: GetInstancePropsType
+    props: GetInstancePropsType & { userCreateRoot?: CreateRootFn }
   ) => Promise<[React.RefObject<ToastContainerInstance>, string]>;
 }
 
@@ -198,8 +199,10 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
   }
 ) as any;
 
-ToastContainer.getInstance = async (props: GetInstancePropsType) => {
-  const { container, ...rest } = props;
+ToastContainer.getInstance = async (
+  props: GetInstancePropsType & { userCreateRoot?: CreateRootFn }
+) => {
+  const { container, userCreateRoot, ...rest } = props;
   let getRefResolve: null | ((value?: unknown) => void) = null;
   const getRefPromise = new Promise(res => {
     getRefResolve = res;
@@ -216,7 +219,8 @@ ToastContainer.getInstance = async (props: GetInstancePropsType) => {
         getRefResolve && getRefResolve();
       }}
     />,
-    container
+    container,
+    userCreateRoot
   );
   await getRefPromise;
   return [containerRef, containerId];

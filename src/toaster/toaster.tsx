@@ -7,6 +7,7 @@ import ToastContainer, {
   type GetInstancePropsType
 } from './ToastContainer';
 import { toasterKeyOfContainerElement } from './render';
+import type { CreateRootFn } from '../useCreateRoot';
 
 export interface Toaster {
   /**
@@ -15,11 +16,13 @@ export interface Toaster {
    *                eg: `<Message type="success" description="Success" />` or `<Notification type="success" closable>Success</Notification>`
    * @param options The options of the toast message. (optional)
    *                eg: `{ placement: 'topCenter', duration: 5000 }`
+   * @param userCreateRoot React DOM's createRoot function
    * @returns The key of the toast message.
    */
   push(
     message: React.ReactNode,
-    options?: ToastContainerProps
+    options?: ToastContainerProps,
+    userCreateRoot?: CreateRootFn
   ): string | undefined | Promise<string | undefined>;
 
   /**
@@ -40,9 +43,14 @@ const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
  * Create a container instance.
  * @param placement
  * @param props
+ * @param userCreateRoot
  */
-async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
-  const [container, containerId] = await ToastContainer.getInstance(props);
+async function createContainer(
+  placement: PlacementType,
+  props: GetInstancePropsType,
+  userCreateRoot?: CreateRootFn
+) {
+  const [container, containerId] = await ToastContainer.getInstance({ ...props, userCreateRoot });
   containers.set(`${containerId}_${placement}`, container);
 
   return container;
@@ -59,7 +67,11 @@ function getContainer(containerId: string, placement: PlacementType) {
 
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
-toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
+toaster.push = (
+  message: React.ReactNode,
+  options: ToastContainerProps = {},
+  userCreateRoot?: CreateRootFn
+) => {
   const { placement = 'topCenter', container = defaultToasterContainer, ...restOptions } = options;
 
   const containerElement = typeof container === 'function' ? container() : container;
@@ -75,7 +87,7 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
     }
   }
   const newOptions = { ...options, container: containerElement, placement };
-  return createContainer(placement, newOptions).then(ref => {
+  return createContainer(placement, newOptions, userCreateRoot).then(ref => {
     return ref.current?.push(message, restOptions);
   });
 };
