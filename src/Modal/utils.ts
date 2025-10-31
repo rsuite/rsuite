@@ -23,7 +23,6 @@ export const useBodyStyles = (
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {
       const dialog = ref.current;
-      const scrollHeight = dialog ? dialog.scrollHeight : 0;
 
       const styles: React.CSSProperties = {
         overflow: 'auto'
@@ -40,13 +39,35 @@ export const useBodyStyles = (
         headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
         footerHeight = footerDOM ? getHeight(footerDOM) + footerHeight : footerHeight;
 
+        // Get the actual margin from the modal element itself (.rs-modal)
+        const computedStyle = window.getComputedStyle(dialog);
+        const marginTop = parseFloat(computedStyle.marginTop) || 0;
+        const marginBottom = parseFloat(computedStyle.marginBottom) || 0;
+        const dialogMargin = marginTop + marginBottom;
+
+        // Get padding from the wrapper if needed
+        const wrapper = dialog.parentElement;
+        let wrapperPadding = 0;
+        if (wrapper) {
+          const wrapperStyle = window.getComputedStyle(wrapper);
+          const paddingTop = parseFloat(wrapperStyle.paddingTop) || 0;
+          const paddingBottom = parseFloat(wrapperStyle.paddingBottom) || 0;
+          wrapperPadding = paddingTop + paddingBottom;
+        }
+
+        // Add extra space during entering animation (10px buffer)
+        const extraSpace = entering ? 10 : 0;
+
         /**
-         * Header height + Footer height + Dialog margin
+         * Header height + Footer height + Dialog margin + Wrapper padding + Extra space
          */
-        const excludeHeight = headerHeight + footerHeight + (entering ? 70 : 60);
+        const excludeHeight =
+          headerHeight + footerHeight + dialogMargin + wrapperPadding + extraSpace;
+
         const bodyHeight = getHeight(window) - excludeHeight;
-        const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
-        styles.maxHeight = maxHeight;
+
+        // Always set maxHeight to available space, let browser handle content that's smaller
+        styles.maxHeight = bodyHeight;
       }
 
       setBodyStyles(styles);
