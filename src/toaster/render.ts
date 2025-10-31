@@ -15,11 +15,13 @@ function getCreateRoot(userCreateRoot?: CreateRootFn) {
     console.info('Use CreateRootContextProvider to pass createRoot function from react-dom/client');
   }
 
+  // just to disable the rspack warning
+  const secretInternals = '__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED';
   /**
    * ignore react 18 warnings
    * Warning: You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".
    */
-  ReactDOM['__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'].usingClientEntryPoint = true;
+  ReactDOM[secretInternals].usingClientEntryPoint = true;
 
   return SuperposedReactDOM.createRoot;
 }
