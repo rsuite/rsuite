@@ -6,6 +6,7 @@ import ImportGuide from '@/components/ImportGuide';
 import {
   ButtonToolbar,
   Button,
+  IconButton,
   Modal,
   Toggle,
   SegmentedControl,
@@ -16,10 +17,15 @@ import {
   Form,
   Input,
   SelectPicker,
-  HStack,
   Textarea,
-  Text
+  HStack,
+  Text,
+  Box,
+  Image,
+  Link
 } from 'rsuite';
+import CloseIcon from '@rsuite/icons/Close';
+
 const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Modal']} />,
   'example-responsive': () => <Simulation example="responsive" componentName="modal" />
@@ -33,6 +39,7 @@ export default function Page() {
         Loader,
         ButtonToolbar,
         Button,
+        IconButton,
         Modal,
         Toggle,
         SegmentedControl,
@@ -40,12 +47,16 @@ export default function Page() {
         Input,
         HStack,
         Text,
+        Link,
+        Box,
+        Image,
         Textarea,
         SelectPicker,
         RemindFillIcon,
         PasswordInput,
         PasswordStrengthMeter,
-        Placeholder
+        Placeholder,
+        CloseIcon
       }}
     />
   );

@@ -57,6 +57,12 @@ export interface ModalProps
 
   /** Custom close button, used when rendered as a Drawer */
   closeButton?: React.ReactNode | boolean;
+
+  /**
+   * Remove default padding from the dialog and body so the content can occupy the full height.
+   * Useful for creating custom layouts with full-width/height content like split panels or image galleries.
+   */
+  bodyFill?: boolean;
 }
 
 const Subcomponents = {
@@ -81,6 +87,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
     'aria-describedby': ariaDescribedby,
     backdropClassName,
     backdrop = true,
+    bodyFill,
     className,
     classPrefix = 'modal',
     centered,
@@ -106,7 +113,10 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
   const inClass = { in: open && !animation };
   const { merge, prefix } = useStyles(classPrefix);
   const [shake, setShake] = useState(false);
-  const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
+  const classes = merge(
+    className,
+    prefix({ full, fill: bodyFill, [size]: modalSizes.includes(size) })
+  );
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>(null);
 

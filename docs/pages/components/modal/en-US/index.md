@@ -64,6 +64,12 @@ Embed forms within a Modal, suitable for data collection and submission operatio
 
 <!--{include:`form.md`}-->
 
+### Custom layout
+
+Create a custom Modal with a split-panel layout, featuring a branded left side and a form on the right side.
+
+<!--{include:`custom-layout.md`}-->
+
 ### useDialog
 
 For common dialog scenarios, you can use [useDialog](/components/use-dialog) to simplify dialog usage.
@@ -115,6 +121,7 @@ On mobile devices, the Modal's maximum width will stretch to fill the screen whi
 | autoFocus         | boolean `(true)`                                                   | When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers                                                                            |
 | backdrop          | unions: boolean \| 'static'                                        | When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'. |
 | backdropClassName | string                                                             | Add an optional extra class name to .modal-backdrop It could end up looking like class="modal-backdrop foo-modal-backdrop in".                                                         |
+| bodyFill          | boolean                                                            | Remove default padding from the dialog and body so the content can occupy the full height. Useful for creating custom layouts with full-width/height content.                          |
 | centered          | boolean                                                            | Align the modal vertically in the center of the page.                                                                                                                                  |
 | children          | ReactNode                                                          | Modal content                                                                                                                                                                          |
 | classPrefix       | string `('modal')`                                                 | The prefix of the component CSS class                                                                                                                                                  |
