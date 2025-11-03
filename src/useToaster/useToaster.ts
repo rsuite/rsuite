@@ -33,9 +33,7 @@ const useToaster = () => {
           toastContainer;
 
         if (container === toastContainer) {
-          return toasters?.current
-            ?.get(options?.placement || 'topCenter')
-            ?.push(message, options, userCreateRoot);
+          return toasters?.current?.get(options?.placement || 'topCenter')?.push(message, options);
         } else {
           return toaster.push(message, options, userCreateRoot);
         }

@@ -62,7 +62,7 @@ interface PushOptions {
 }
 
 export interface ToastContainerInstance {
-  push: (message: React.ReactNode, options?: PushOptions, userCreateRoot?: CreateRootFn) => string;
+  push: (message: React.ReactNode, options?: PushOptions) => string;
   remove: (key: string) => void;
   clear: () => void;
   destroy: () => void;
