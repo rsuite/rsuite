@@ -153,6 +153,13 @@ export interface UploaderProps
   /** Callback functions that upload progress change */
   onProgress?: (percent: number, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 
+  /**
+   * Callback when all started file uploads have reached a terminal state
+   * (either success, error or were cancelled/removed).
+   * It is invoked once when the number of in-flight uploads drops to 0.
+   */
+  onAllUploadFinished?: (fileList: FileType[]) => void;
+
   /** In the file list, click the callback function to delete a file */
   onRemove?: (file: FileType) => void;
 
@@ -303,6 +310,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     onError,
     onProgress,
     onReupload,
+    onAllUploadFinished,
     ...rest
   } = propsWithDefaults;
 
@@ -312,6 +320,9 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
   const rootRef = useRef<HTMLDivElement>();
   const xhrs = useRef({});
   const trigger = useRef<UploadTriggerInstance>();
+  // Track number of in-flight uploads to know when all have finished
+  const pendingUploadsRef = useRef(0);
+  const anyStartedRef = useRef(false);
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
 
@@ -352,8 +363,14 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       };
       updateFileStatus(nextFile);
       onSuccess?.(response, nextFile, event, xhr);
+      // One upload finished successfully
+      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
+      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
+        anyStartedRef.current = false;
+        onAllUploadFinished?.(fileList.current);
+      }
     },
-    [onSuccess, updateFileStatus]
+    [onSuccess, updateFileStatus, onAllUploadFinished, fileList]
   );
 
   /**
@@ -371,8 +388,14 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       };
       updateFileStatus(nextFile);
       onError?.(status, nextFile, event, xhr);
+      // One upload errored
+      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
+      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
+        anyStartedRef.current = false;
+        onAllUploadFinished?.(fileList.current);
+      }
     },
-    [onError, updateFileStatus]
+    [onError, updateFileStatus, onAllUploadFinished, fileList]
   );
 
   /**
@@ -418,6 +441,9 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       });
 
       updateFileStatus({ ...file, status: 'uploading' });
+      // Increase in-flight uploads count when a file starts uploading
+      pendingUploadsRef.current += 1;
+      anyStartedRef.current = true;
 
       if (file.fileKey) {
         xhrs.current[file.fileKey] = xhr;
@@ -512,6 +538,15 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
     if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
       xhrs.current[file.fileKey]?.abort();
+    }
+
+    // If a file is removed while uploading, treat it as finished
+    if (file?.status === 'uploading') {
+      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
+      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
+        anyStartedRef.current = false;
+        onAllUploadFinished?.(fileList.current.filter(f => f.fileKey !== fileKey));
+      }
     }
 
     dispatch({ type: 'remove', fileKey });
@@ -631,6 +666,7 @@ Uploader.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onProgress: PropTypes.func,
+  onAllUploadFinished: PropTypes.func,
   onRemove: PropTypes.func,
   maxPreviewFileSize: PropTypes.number,
   method: PropTypes.string,
