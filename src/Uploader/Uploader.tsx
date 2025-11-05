@@ -349,6 +349,30 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     trigger.current?.clearInput();
   }, []);
 
+  // Decrement one pending entry for a batch and fire completion if empty
+  const finalizeOneInBatch = useCallback(
+    (batchId?: number) => {
+      if (typeof batchId !== 'number') return;
+      const map = pendingByBatchRef.current;
+      if (!map.has(batchId)) return;
+
+      const next = (map.get(batchId) || 0) - 1;
+      if (next < 0) {
+        if (process.env.NODE_ENV !== 'production') {
+          // eslint-disable-next-line no-console
+          console.warn('Uploader: pending count below zero for batch', batchId);
+        }
+      }
+      map.set(batchId, Math.max(0, next));
+      totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
+      if ((map.get(batchId) || 0) === 0) {
+        map.delete(batchId);
+        onAllUploadComplete?.(fileList.current);
+      }
+    },
+    [onAllUploadComplete, fileList]
+  );
+
   /**
    * Callback for successful file upload.
    * @param file
@@ -371,28 +395,9 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       };
       updateFileStatus(nextFile);
       onSuccess?.(response, nextFile, event, xhr);
-      // Decrement pending counters for this batch
-      if (typeof batchId === 'number') {
-        const map = pendingByBatchRef.current;
-        if (map.has(batchId)) {
-          const next = (map.get(batchId) || 0) - 1;
-          if (next < 0) {
-            // Guard against logic regression in development
-            if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-console
-              console.warn('Uploader: pending count below zero for batch', batchId);
-            }
-          }
-          map.set(batchId, Math.max(0, next));
-          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
-          if ((map.get(batchId) || 0) === 0) {
-            map.delete(batchId);
-            onAllUploadComplete?.(fileList.current);
-          }
-        }
-      }
+      finalizeOneInBatch(batchId);
     },
-    [onSuccess, updateFileStatus, onAllUploadComplete, fileList]
+    [onSuccess, updateFileStatus, finalizeOneInBatch]
   );
 
   /**
@@ -416,26 +421,9 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       };
       updateFileStatus(nextFile);
       onError?.(status, nextFile, event, xhr);
-      if (typeof batchId === 'number') {
-        const map = pendingByBatchRef.current;
-        if (map.has(batchId)) {
-          const next = (map.get(batchId) || 0) - 1;
-          if (next < 0) {
-            if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-console
-              console.warn('Uploader: pending count below zero for batch', batchId);
-            }
-          }
-          map.set(batchId, Math.max(0, next));
-          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
-          if ((map.get(batchId) || 0) === 0) {
-            map.delete(batchId);
-            onAllUploadComplete?.(fileList.current);
-          }
-        }
-      }
+      finalizeOneInBatch(batchId);
     },
-    [onError, updateFileStatus, onAllUploadComplete, fileList]
+    [onError, updateFileStatus, finalizeOneInBatch]
   );
 
   /**
@@ -596,25 +584,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     // If a file is removed while uploading, decrement its batch pending
     if (file?.status === 'uploading') {
       const batchId = fileKeyToBatchRef.current.get(file.fileKey);
-      if (typeof batchId === 'number') {
-        const map = pendingByBatchRef.current;
-        if (map.has(batchId)) {
-          const next = (map.get(batchId) || 0) - 1;
-          if (next < 0) {
-            if (process.env.NODE_ENV !== 'production') {
-              // eslint-disable-next-line no-console
-              console.warn('Uploader: pending count below zero for batch (remove)', batchId);
-            }
-          }
-          map.set(batchId, Math.max(0, next));
-          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
-          if ((map.get(batchId) || 0) === 0) {
-            map.delete(batchId);
-            // Pass current list; consumers can filter if needed
-            onAllUploadComplete?.(fileList.current);
-          }
-        }
-      }
+      finalizeOneInBatch(batchId);
     }
 
     dispatch({ type: 'remove', fileKey });
