@@ -154,11 +154,11 @@ export interface UploaderProps
   onProgress?: (percent: number, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 
   /**
-   * Callback when all started file uploads have reached a terminal state
-   * (either success, error or were cancelled/removed).
-   * It is invoked once when the number of in-flight uploads drops to 0.
+   * Callback when all started file uploads in a batch have completed
+   * (success, error or were cancelled/removed).
+   * Fires once per batch.
    */
-  onAllUploadFinished?: (fileList: FileType[]) => void;
+  onAllUploadComplete?: (fileList: FileType[]) => void;
 
   /** In the file list, click the callback function to delete a file */
   onRemove?: (file: FileType) => void;
@@ -310,7 +310,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     onError,
     onProgress,
     onReupload,
-    onAllUploadFinished,
+    onAllUploadComplete,
     ...rest
   } = propsWithDefaults;
 
@@ -320,9 +320,11 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
   const rootRef = useRef<HTMLDivElement>();
   const xhrs = useRef({});
   const trigger = useRef<UploadTriggerInstance>();
-  // Track number of in-flight uploads to know when all have finished
-  const pendingUploadsRef = useRef(0);
-  const anyStartedRef = useRef(false);
+  // Batch tracking: maintain pending counts by batch id and map files to batch id
+  const batchIdCounterRef = useRef(0);
+  const pendingByBatchRef = useRef<Map<number, number>>(new Map());
+  const totalPendingRef = useRef(0);
+  const fileKeyToBatchRef = useRef<Map<string | number, number>>(new Map());
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
 
@@ -355,7 +357,13 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadSuccess = useCallback(
-    (file: FileType, response: any, event: ProgressEvent, xhr: XMLHttpRequest) => {
+    (
+      file: FileType,
+      batchId: number | undefined,
+      response: any,
+      event: ProgressEvent,
+      xhr: XMLHttpRequest
+    ) => {
       const nextFile: FileType = {
         ...file,
         status: 'finished',
@@ -363,14 +371,28 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       };
       updateFileStatus(nextFile);
       onSuccess?.(response, nextFile, event, xhr);
-      // One upload finished successfully
-      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
-      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
-        anyStartedRef.current = false;
-        onAllUploadFinished?.(fileList.current);
+      // Decrement pending counters for this batch
+      if (typeof batchId === 'number') {
+        const map = pendingByBatchRef.current;
+        if (map.has(batchId)) {
+          const next = (map.get(batchId) || 0) - 1;
+          if (next < 0) {
+            // Guard against logic regression in development
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.warn('Uploader: pending count below zero for batch', batchId);
+            }
+          }
+          map.set(batchId, Math.max(0, next));
+          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
+          if ((map.get(batchId) || 0) === 0) {
+            map.delete(batchId);
+            onAllUploadComplete?.(fileList.current);
+          }
+        }
       }
     },
-    [onSuccess, updateFileStatus, onAllUploadFinished, fileList]
+    [onSuccess, updateFileStatus, onAllUploadComplete, fileList]
   );
 
   /**
@@ -381,21 +403,39 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadError = useCallback(
-    (file: FileType, status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => {
+    (
+      file: FileType,
+      batchId: number | undefined,
+      status: ErrorStatus,
+      event: ProgressEvent,
+      xhr: XMLHttpRequest
+    ) => {
       const nextFile: FileType = {
         ...file,
         status: 'error'
       };
       updateFileStatus(nextFile);
       onError?.(status, nextFile, event, xhr);
-      // One upload errored
-      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
-      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
-        anyStartedRef.current = false;
-        onAllUploadFinished?.(fileList.current);
+      if (typeof batchId === 'number') {
+        const map = pendingByBatchRef.current;
+        if (map.has(batchId)) {
+          const next = (map.get(batchId) || 0) - 1;
+          if (next < 0) {
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.warn('Uploader: pending count below zero for batch', batchId);
+            }
+          }
+          map.set(batchId, Math.max(0, next));
+          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
+          if ((map.get(batchId) || 0) === 0) {
+            map.delete(batchId);
+            onAllUploadComplete?.(fileList.current);
+          }
+        }
       }
     },
-    [onError, updateFileStatus, onAllUploadFinished, fileList]
+    [onError, updateFileStatus, onAllUploadComplete, fileList]
   );
 
   /**
@@ -425,6 +465,15 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    */
   const handleUploadFile = useCallback(
     (file: FileType) => {
+      // Determine active batch id (new id when no pending uploads)
+      let currentBatchId = batchIdCounterRef.current;
+      if (totalPendingRef.current === 0) {
+        batchIdCounterRef.current += 1;
+        pendingByBatchRef.current.set(batchIdCounterRef.current, 0);
+        currentBatchId = batchIdCounterRef.current;
+      }
+      const batchId = currentBatchId;
+
       const { xhr, data: uploadData } = ajaxUpload({
         name,
         timeout,
@@ -435,15 +484,19 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
         disableMultipart,
         file: file.blobFile as File,
         url: action,
-        onError: handleAjaxUploadError.bind(null, file),
-        onSuccess: handleAjaxUploadSuccess.bind(null, file),
+        onError: handleAjaxUploadError.bind(null, file, batchId),
+        onSuccess: handleAjaxUploadSuccess.bind(null, file, batchId),
         onProgress: handleAjaxUploadProgress.bind(null, file)
       });
 
       updateFileStatus({ ...file, status: 'uploading' });
-      // Increase in-flight uploads count when a file starts uploading
-      pendingUploadsRef.current += 1;
-      anyStartedRef.current = true;
+      // Track pending counts
+      const map = pendingByBatchRef.current;
+      map.set(batchId, (map.get(batchId) || 0) + 1);
+      totalPendingRef.current += 1;
+      if (file.fileKey) {
+        fileKeyToBatchRef.current.set(file.fileKey, batchId);
+      }
 
       if (file.fileKey) {
         xhrs.current[file.fileKey] = xhr;
@@ -540,12 +593,27 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       xhrs.current[file.fileKey]?.abort();
     }
 
-    // If a file is removed while uploading, treat it as finished
+    // If a file is removed while uploading, decrement its batch pending
     if (file?.status === 'uploading') {
-      pendingUploadsRef.current = Math.max(0, pendingUploadsRef.current - 1);
-      if (pendingUploadsRef.current === 0 && anyStartedRef.current) {
-        anyStartedRef.current = false;
-        onAllUploadFinished?.(fileList.current.filter(f => f.fileKey !== fileKey));
+      const batchId = fileKeyToBatchRef.current.get(file.fileKey);
+      if (typeof batchId === 'number') {
+        const map = pendingByBatchRef.current;
+        if (map.has(batchId)) {
+          const next = (map.get(batchId) || 0) - 1;
+          if (next < 0) {
+            if (process.env.NODE_ENV !== 'production') {
+              // eslint-disable-next-line no-console
+              console.warn('Uploader: pending count below zero for batch (remove)', batchId);
+            }
+          }
+          map.set(batchId, Math.max(0, next));
+          totalPendingRef.current = Math.max(0, totalPendingRef.current - 1);
+          if ((map.get(batchId) || 0) === 0) {
+            map.delete(batchId);
+            // Pass current list; consumers can filter if needed
+            onAllUploadComplete?.(fileList.current);
+          }
+        }
       }
     }
 
@@ -666,7 +734,7 @@ Uploader.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
   onProgress: PropTypes.func,
-  onAllUploadFinished: PropTypes.func,
+  onAllUploadComplete: PropTypes.func,
   onRemove: PropTypes.func,
   maxPreviewFileSize: PropTypes.number,
   method: PropTypes.string,

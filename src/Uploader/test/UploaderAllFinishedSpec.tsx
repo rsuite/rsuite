@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import Uploader from '../Uploader';
 
-describe('Uploader onAllUploadFinished', () => {
+describe('Uploader onAllUploadComplete', () => {
   let requests: any[] = [];
   let XHR: any;
 
@@ -19,12 +19,12 @@ describe('Uploader onAllUploadFinished', () => {
     sinon.restore();
   });
 
-  it('Should call onAllUploadFinished after all started uploads finish', () => {
-    const onAllUploadFinished = sinon.spy();
+  it('Should call onAllUploadComplete after all started uploads finish', () => {
+    const onAllUploadComplete = sinon.spy();
     const ref = React.createRef<any>();
 
     render(
-      <Uploader ref={ref} name="file" action="/upload" onAllUploadFinished={onAllUploadFinished} />
+      <Uploader ref={ref} name="file" action="/upload" onAllUploadComplete={onAllUploadComplete} />
     );
 
     // start two uploads
@@ -36,10 +36,10 @@ describe('Uploader onAllUploadFinished', () => {
 
     // respond first success
     requests[0].respond(200, { 'Content-Type': 'application/json' }, '{"ok":true}');
-    expect(onAllUploadFinished).to.not.have.been.called;
+    expect(onAllUploadComplete).to.not.have.been.called;
 
     // respond second success - now all finished
     requests[1].respond(200, { 'Content-Type': 'application/json' }, '{"ok":true}');
-    expect(onAllUploadFinished).to.have.been.calledOnce;
+    expect(onAllUploadComplete).to.have.been.calledOnce;
   });
 });
