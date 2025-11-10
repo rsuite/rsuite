@@ -1,3 +1,14 @@
+## [5.83.4](https://github.com/rsuite/rsuite/compare/v5.83.3...v5.83.4) (2025-11-10)
+
+
+### Bug Fixes
+
+* **docs:** the link in the theme is incorrect ([#4385](https://github.com/rsuite/rsuite/issues/4385)) ([7f23594](https://github.com/rsuite/rsuite/commit/7f235946bf378a78164f97aa0f0b4d61a39b8441))
+* label is wider than the text within vertical form layout ([#4392](https://github.com/rsuite/rsuite/issues/4392)) ([dcbfde2](https://github.com/rsuite/rsuite/commit/dcbfde20a13e89eb4e52e3f328a2698507fa3703))
+* **useToaster:** using toaster with React 19 ([#4420](https://github.com/rsuite/rsuite/issues/4420)) ([e90de05](https://github.com/rsuite/rsuite/commit/e90de058e82b7e855302c0f84f36a5bd7ce8eec6))
+
+
+
 ## [5.83.3](https://github.com/rsuite/rsuite/compare/v5.83.2...v5.83.3) (2025-08-04)
 
 
