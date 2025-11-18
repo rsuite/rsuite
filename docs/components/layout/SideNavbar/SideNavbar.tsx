@@ -144,6 +144,8 @@ export default function SideNavbar(props: SideNavbarProps) {
             {icon} {activeTitle}
           </div>
           <Nav
+            as="nav"
+            aria-label="Secondary navigation"
             id="sidebar"
             className={styles['nav-docs']}
             vertical
