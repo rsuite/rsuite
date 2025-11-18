@@ -1,18 +1,25 @@
 import React from 'react';
 import NextHead from 'next/head';
 import { useRouter } from 'next/router';
+import { createBreadcrumbSchema, serializeJsonLd } from '@/utils/jsonld';
 
 interface HeadProps {
   description: string;
   title: string;
   children?: React.ReactNode;
+  /** Breadcrumb items for breadcrumb navigation JSON-LD schema */
+  breadcrumbs?: Array<{ name: string; url?: string }>;
 }
 
 export default function Head(props: HeadProps) {
-  const { description, title, children } = props;
+  const { description, title, children, breadcrumbs } = props;
   const pageTitle = `${title} - React Suite`;
 
   const router = useRouter();
+  const currentUrl = `https://rsuitejs.com${router.asPath}`;
+
+  // Generate breadcrumb JSON-LD schema if breadcrumbs are provided
+  const jsonLdSchema = breadcrumbs ? createBreadcrumbSchema(breadcrumbs) : null;
 
   return (
     <NextHead>
@@ -29,11 +36,19 @@ export default function Head(props: HeadProps) {
       {/* Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
-      <meta property="og:url" content={`https://rsuitejs.com${router.asPath}`} />
+      <meta property="og:url" content={currentUrl} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="https://rsuitejs.com/images/logo.png" />
       <meta property="og:ttl" content="604800" />
       <link rel="shortcut icon" href="/favicon.ico" />
+
+      {/* JSON-LD Structured Data */}
+      {jsonLdSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLdSchema) }}
+        />
+      )}
 
       {children}
     </NextHead>
