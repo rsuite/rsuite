@@ -31,6 +31,7 @@ const ButtonWithTooltip = React.forwardRef(function ButtonWithTooltip(
     <Button
       {...props}
       size="lg"
+      title={typeof tip === 'string' ? tip : undefined}
       className={classNames(styles['icon-btn-circle'], className)}
       as={as}
     >
@@ -149,7 +150,7 @@ const MainNav = React.forwardRef(function MainNav(
   const arrow = useMemo(() => (rtl ? !showSubmenu : showSubmenu), [showSubmenu, rtl]);
 
   return (
-    <div className={styles['main-nav']} ref={ref}>
+    <nav aria-label="Primary navigation" className={styles['main-nav']} ref={ref}>
       {!hideToggle && (
         <IconButton
           circle
@@ -226,7 +227,7 @@ const MainNav = React.forwardRef(function MainNav(
           />,
           document.body
         )}
-    </div>
+    </nav>
   );
 });
 
