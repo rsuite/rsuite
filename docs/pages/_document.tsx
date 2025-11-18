@@ -1,13 +1,38 @@
 import React from 'react';
 import { Html, Head, Main, NextScript } from 'next/document';
+import {
+  createOrganizationSchema,
+  createSoftwareApplicationSchema,
+  createSoftwareSourceCodeSchema,
+  serializeJsonLd
+} from '../utils/jsonld';
 
 export default function Document() {
+  // Generate global JSON-LD schemas
+  const organizationSchema = createOrganizationSchema();
+  const softwareAppSchema = createSoftwareApplicationSchema();
+  const sourceCodeSchema = createSoftwareSourceCodeSchema();
+
   return (
     <Html>
       <Head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
+
+        {/* Global JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(sourceCodeSchema) }}
+        />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VVC8ZNFF9"></script>
         <script

@@ -43,11 +43,7 @@ const PageContent = (props: PageContentProps) => {
   const pathname = router.pathname;
   const id = pathname.match(new RegExp(`/${category}/(\\S*)`))?.[1];
 
-  const context = require(`../../pages${pathname}${localePath}/index.md`).default;
-  const title = getTitle(context);
-  const description = getDescription(context);
-  const pageHead = <Head title={title} description={description} />;
-
+  // Find component metadata first
   let component: MenuItem;
 
   components.forEach(group => {
@@ -57,6 +53,21 @@ const PageContent = (props: PageContentProps) => {
       }
     });
   });
+
+  const context = require(`../../pages${pathname}${localePath}/index.md`).default;
+  const title = getTitle(context);
+  const description = getDescription(context);
+
+  // Generate breadcrumbs for component pages
+  const breadcrumbs = component
+    ? [
+        { name: 'Home', url: 'https://rsuitejs.com' },
+        { name: 'Components', url: 'https://rsuitejs.com/components/overview' },
+        { name: component.name }
+      ]
+    : undefined;
+
+  const pageHead = <Head title={title} description={description} breadcrumbs={breadcrumbs} />;
 
   const designHash = component?.designHash;
   const fragments = context.split(/<!--{(\S+)}-->/);
