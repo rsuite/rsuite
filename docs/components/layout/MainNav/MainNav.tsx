@@ -31,6 +31,7 @@ const ButtonWithTooltip = React.forwardRef(function ButtonWithTooltip(
     <Button
       {...props}
       size="lg"
+      title={typeof tip === 'string' ? tip : undefined}
       className={classNames(styles['icon-btn-circle'], className)}
       as={as}
     >
