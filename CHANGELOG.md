@@ -1,783 +1,583 @@
-## [5.83.3](https://github.com/rsuite/rsuite/compare/v5.83.2...v5.83.3) (2025-08-04)
+# [6.0.0](https://github.com/rsuite/rsuite/compare/v5.83.3...v6.0.0) (2025-11-21)
 
+## Features
+
+- React Suite V6 ([#4084](https://github.com/rsuite/rsuite/pull/4084)) ([#4084](https://github.com/rsuite/rsuite/pull/4084))
+
+## [5.83.3](https://github.com/rsuite/rsuite/compare/v5.83.2...v5.83.3) (2025-08-04)
 
 ### Bug Fixes
 
-* **Table:** improve header alignment and expand/collapse animations ([#4360](https://github.com/rsuite/rsuite/issues/4360)) ([3acd117](https://github.com/rsuite/rsuite/commit/3acd11703222a381685f8ba0ffad9a1283abf421))
-
-
+- **Table:** improve header alignment and expand/collapse animations ([#4360](https://github.com/rsuite/rsuite/issues/4360)) ([3acd117](https://github.com/rsuite/rsuite/commit/3acd11703222a381685f8ba0ffad9a1283abf421))
 
 ## [5.83.2](https://github.com/rsuite/rsuite/compare/v5.83.1...v5.83.2) (2025-07-20)
 
-
 ### Bug Fixes
 
-* Progress.Circle properties do not include width ([#4352](https://github.com/rsuite/rsuite/issues/4352)) ([#4353](https://github.com/rsuite/rsuite/issues/4353)) ([4bdef97](https://github.com/rsuite/rsuite/commit/4bdef977c96d76695a4b8504808bdfaaf83a79cd))
-
+- Progress.Circle properties do not include width ([#4352](https://github.com/rsuite/rsuite/issues/4352)) ([#4353](https://github.com/rsuite/rsuite/issues/4353)) ([4bdef97](https://github.com/rsuite/rsuite/commit/4bdef977c96d76695a4b8504808bdfaaf83a79cd))
 
 ### Features
 
-* **Stat/StatTrend:** add 'equal' trend indicator ([#4351](https://github.com/rsuite/rsuite/issues/4351)) ([38f95a1](https://github.com/rsuite/rsuite/commit/38f95a1b1cc74adb993bb76899e56ef954014ecd))
-
-
+- **Stat/StatTrend:** add 'equal' trend indicator ([#4351](https://github.com/rsuite/rsuite/issues/4351)) ([38f95a1](https://github.com/rsuite/rsuite/commit/38f95a1b1cc74adb993bb76899e56ef954014ecd))
 
 ## [5.83.1](https://github.com/rsuite/rsuite/compare/v5.83.0...v5.83.1) (2025-06-27)
 
-
 ### Bug Fixes
 
-* allow TimePicker and TimeRangePicker locale prop to override global locale ([#4333](https://github.com/rsuite/rsuite/issues/4333)) ([6f66dfd](https://github.com/rsuite/rsuite/commit/6f66dfdc570c930b99e2954bc339446707947b92))
-
-
+- allow TimePicker and TimeRangePicker locale prop to override global locale ([#4333](https://github.com/rsuite/rsuite/issues/4333)) ([6f66dfd](https://github.com/rsuite/rsuite/commit/6f66dfdc570c930b99e2954bc339446707947b92))
 
 # [5.83.0](https://github.com/rsuite/rsuite/compare/v5.82.0...v5.83.0) (2025-06-19)
 
-
 ### Features
 
-* **DateRangePicker:** add calendarKey parameter to renderTitle function ([#4318](https://github.com/rsuite/rsuite/issues/4318)) ([5b8c198](https://github.com/rsuite/rsuite/commit/5b8c19891945c2416475d493daef0aabf7e0f214))
-* **locale:** add Gujarati [gu_IN] locale ([#4309](https://github.com/rsuite/rsuite/issues/4309)) ([9715633](https://github.com/rsuite/rsuite/commit/9715633f72bdbb9b141380d9ad134d619d65e2fb))
-
-
+- **DateRangePicker:** add calendarKey parameter to renderTitle function ([#4318](https://github.com/rsuite/rsuite/issues/4318)) ([5b8c198](https://github.com/rsuite/rsuite/commit/5b8c19891945c2416475d493daef0aabf7e0f214))
+- **locale:** add Gujarati [gu_IN] locale ([#4309](https://github.com/rsuite/rsuite/issues/4309)) ([9715633](https://github.com/rsuite/rsuite/commit/9715633f72bdbb9b141380d9ad134d619d65e2fb))
 
 # [5.82.0](https://github.com/rsuite/rsuite/compare/v5.81.0...v5.82.0) (2025-05-29)
 
-
 ### Features
 
-* **locale:** add support for Thai (th_TH) ([#4299](https://github.com/rsuite/rsuite/issues/4299)) ([91a7a45](https://github.com/rsuite/rsuite/commit/91a7a45c26d3f13df161fa56ef212bf17f61e460))
-* **locales:** add Ukrainian (uk-UA) localization for DateRangePicker and other components ([#4288](https://github.com/rsuite/rsuite/issues/4288)) ([b8789ec](https://github.com/rsuite/rsuite/commit/b8789ec085fed00c5f4ddedf7f3ff82301c62b4b))
-
-
+- **locale:** add support for Thai (th_TH) ([#4299](https://github.com/rsuite/rsuite/issues/4299)) ([91a7a45](https://github.com/rsuite/rsuite/commit/91a7a45c26d3f13df161fa56ef212bf17f61e460))
+- **locales:** add Ukrainian (uk-UA) localization for DateRangePicker and other components ([#4288](https://github.com/rsuite/rsuite/issues/4288)) ([b8789ec](https://github.com/rsuite/rsuite/commit/b8789ec085fed00c5f4ddedf7f3ff82301c62b4b))
 
 # [5.81.0](https://github.com/rsuite/rsuite/compare/v5.80.3...v5.81.0) (2025-05-23)
 
-
 ### Bug Fixes
 
-* **toaster:** fix issue where delayed closing affects state ([#4294](https://github.com/rsuite/rsuite/issues/4294)) ([3279371](https://github.com/rsuite/rsuite/commit/32793717cd40f9c2e38d81d5830ffc438792b4f2))
-
+- **toaster:** fix issue where delayed closing affects state ([#4294](https://github.com/rsuite/rsuite/issues/4294)) ([3279371](https://github.com/rsuite/rsuite/commit/32793717cd40f9c2e38d81d5830ffc438792b4f2))
 
 ### Features
 
-* **CheckTreePicker:** support onCascadeChange prop ([#4287](https://github.com/rsuite/rsuite/issues/4287)) ([48c5a9b](https://github.com/rsuite/rsuite/commit/48c5a9bc5f5885d8a6cff0a825f1a5ba7e885823))
-
-
+- **CheckTreePicker:** support onCascadeChange prop ([#4287](https://github.com/rsuite/rsuite/issues/4287)) ([48c5a9b](https://github.com/rsuite/rsuite/commit/48c5a9bc5f5885d8a6cff0a825f1a5ba7e885823))
 
 ## [5.80.3](https://github.com/rsuite/rsuite/compare/v5.80.2...v5.80.3) (2025-05-17)
 
-
 ### Bug Fixes
 
-* examples/with-electron/package.json & examples/with-electron/package-lock.json to reduce vulnerabilities ([#4282](https://github.com/rsuite/rsuite/issues/4282)) ([6891756](https://github.com/rsuite/rsuite/commit/689175696a52848b8b2f757089fdf8e9e26620a9))
-* examples/with-parcel/package.json & examples/with-parcel/package-lock.json to reduce vulnerabilities ([#4281](https://github.com/rsuite/rsuite/issues/4281)) ([07b6922](https://github.com/rsuite/rsuite/commit/07b692261927498421af82f3ae0f02cf2428df97))
-* examples/with-preact/package.json & examples/with-preact/package-lock.json to reduce vulnerabilities ([#4276](https://github.com/rsuite/rsuite/issues/4276)) ([10d9e0d](https://github.com/rsuite/rsuite/commit/10d9e0d17da64b09efa428c4d546114467d0c01e))
-* examples/with-umi/package.json & examples/with-umi/package-lock.json to reduce vulnerabilities ([#4277](https://github.com/rsuite/rsuite/issues/4277)) ([ede8f51](https://github.com/rsuite/rsuite/commit/ede8f5149e760f56bcc7da339dba53720d076509))
-* **InlineEdit:** reset input value to original on cancel instead of preserving edited value ([#4283](https://github.com/rsuite/rsuite/issues/4283)) ([c1d98b5](https://github.com/rsuite/rsuite/commit/c1d98b5f0f7f2b1bcb270a7b5d9a94e40670b031))
-
-
+- examples/with-electron/package.json & examples/with-electron/package-lock.json to reduce vulnerabilities ([#4282](https://github.com/rsuite/rsuite/issues/4282)) ([6891756](https://github.com/rsuite/rsuite/commit/689175696a52848b8b2f757089fdf8e9e26620a9))
+- examples/with-parcel/package.json & examples/with-parcel/package-lock.json to reduce vulnerabilities ([#4281](https://github.com/rsuite/rsuite/issues/4281)) ([07b6922](https://github.com/rsuite/rsuite/commit/07b692261927498421af82f3ae0f02cf2428df97))
+- examples/with-preact/package.json & examples/with-preact/package-lock.json to reduce vulnerabilities ([#4276](https://github.com/rsuite/rsuite/issues/4276)) ([10d9e0d](https://github.com/rsuite/rsuite/commit/10d9e0d17da64b09efa428c4d546114467d0c01e))
+- examples/with-umi/package.json & examples/with-umi/package-lock.json to reduce vulnerabilities ([#4277](https://github.com/rsuite/rsuite/issues/4277)) ([ede8f51](https://github.com/rsuite/rsuite/commit/ede8f5149e760f56bcc7da339dba53720d076509))
+- **InlineEdit:** reset input value to original on cancel instead of preserving edited value ([#4283](https://github.com/rsuite/rsuite/issues/4283)) ([c1d98b5](https://github.com/rsuite/rsuite/commit/c1d98b5f0f7f2b1bcb270a7b5d9a94e40670b031))
 
 ## [5.80.2](https://github.com/rsuite/rsuite/compare/v5.80.1...v5.80.2) (2025-05-09)
 
-
 ### Bug Fixes
 
-* **DateInput:** ignore function keys (F1–F12) to prevent NaN input ([#4272](https://github.com/rsuite/rsuite/issues/4272)) ([42899bf](https://github.com/rsuite/rsuite/commit/42899bfe54b51fff285d28de118bf8f62f9b2a99))
-* **DateRangeInput:** ignore function keys (F1–F12) to prevent NaN input ([#4263](https://github.com/rsuite/rsuite/issues/4263)) ([3fd1516](https://github.com/rsuite/rsuite/commit/3fd15161d40ae257bd56eb3fa0c5c57e7ec93faf))
-
-
+- **DateInput:** ignore function keys (F1–F12) to prevent NaN input ([#4272](https://github.com/rsuite/rsuite/issues/4272)) ([42899bf](https://github.com/rsuite/rsuite/commit/42899bfe54b51fff285d28de118bf8f62f9b2a99))
+- **DateRangeInput:** ignore function keys (F1–F12) to prevent NaN input ([#4263](https://github.com/rsuite/rsuite/issues/4263)) ([3fd1516](https://github.com/rsuite/rsuite/commit/3fd15161d40ae257bd56eb3fa0c5c57e7ec93faf))
 
 ## [5.80.1](https://github.com/rsuite/rsuite/compare/v5.80.0...v5.80.1) (2025-04-25)
 
-
 ### Bug Fixes
 
-* **locale:** fixed some minor issue with dutch locale ([#4257](https://github.com/rsuite/rsuite/issues/4257)) ([79a6de6](https://github.com/rsuite/rsuite/commit/79a6de6b3b524f1c16df3490c736d22f4d767b7b))
-
-
+- **locale:** fixed some minor issue with dutch locale ([#4257](https://github.com/rsuite/rsuite/issues/4257)) ([79a6de6](https://github.com/rsuite/rsuite/commit/79a6de6b3b524f1c16df3490c736d22f4d767b7b))
 
 # [5.80.0](https://github.com/rsuite/rsuite/compare/v5.79.1...v5.80.0) (2025-04-18)
 
-
 ### Bug Fixes
 
-* **calendar:** adjust priority of weekStart over isoWeek ([#4234](https://github.com/rsuite/rsuite/issues/4234)) ([4697f22](https://github.com/rsuite/rsuite/commit/4697f221fef5d16edc4b8a18a7491aa7d2187a85))
-* **vite:** resolve circular dependency between chunks ([#4246](https://github.com/rsuite/rsuite/issues/4246)) ([9dca238](https://github.com/rsuite/rsuite/commit/9dca23899d007bcd204711da56c3a98323b87e7d))
-
+- **calendar:** adjust priority of weekStart over isoWeek ([#4234](https://github.com/rsuite/rsuite/issues/4234)) ([4697f22](https://github.com/rsuite/rsuite/commit/4697f221fef5d16edc4b8a18a7491aa7d2187a85))
+- **vite:** resolve circular dependency between chunks ([#4246](https://github.com/rsuite/rsuite/issues/4246)) ([9dca238](https://github.com/rsuite/rsuite/commit/9dca23899d007bcd204711da56c3a98323b87e7d))
 
 ### Features
 
-* **InlineEdit:** enhance focus handling with TAB navigation support ([#4226](https://github.com/rsuite/rsuite/issues/4226)) ([18d4f6a](https://github.com/rsuite/rsuite/commit/18d4f6a4554fb7c07d6972563272fa67f0ebd1b4))
-
-
+- **InlineEdit:** enhance focus handling with TAB navigation support ([#4226](https://github.com/rsuite/rsuite/issues/4226)) ([18d4f6a](https://github.com/rsuite/rsuite/commit/18d4f6a4554fb7c07d6972563272fa67f0ebd1b4))
 
 ## [5.79.1](https://github.com/rsuite/rsuite/compare/v5.79.0...v5.79.1) (2025-04-03)
 
-
 ### Bug Fixes
 
-* **List:** fix sorting issue on mobile devices ([#4215](https://github.com/rsuite/rsuite/issues/4215)) ([5b74d8b](https://github.com/rsuite/rsuite/commit/5b74d8b6e09e3d662e63f0c437a28585f2535a94))
-
-
+- **List:** fix sorting issue on mobile devices ([#4215](https://github.com/rsuite/rsuite/issues/4215)) ([5b74d8b](https://github.com/rsuite/rsuite/commit/5b74d8b6e09e3d662e63f0c437a28585f2535a94))
 
 # [5.79.0](https://github.com/rsuite/rsuite/compare/v5.78.1...v5.79.0) (2025-03-26)
 
-
 ### Bug Fixes
 
-* **Form:** support explicit type of array type when use rule of formControl ([#4165](https://github.com/rsuite/rsuite/issues/4165)) ([55df308](https://github.com/rsuite/rsuite/commit/55df3080ebcb57ab5e3a8482e381220499600831))
-* **useToaster:** fix the incorrect [@see](https://github.com/see) link in the useToaster comment ([#4200](https://github.com/rsuite/rsuite/issues/4200)) ([cd8087a](https://github.com/rsuite/rsuite/commit/cd8087a4529fad814378104a4f19c2734bcd55f2))
-
+- **Form:** support explicit type of array type when use rule of formControl ([#4165](https://github.com/rsuite/rsuite/issues/4165)) ([55df308](https://github.com/rsuite/rsuite/commit/55df3080ebcb57ab5e3a8482e381220499600831))
+- **useToaster:** fix the incorrect [@see](https://github.com/see) link in the useToaster comment ([#4200](https://github.com/rsuite/rsuite/issues/4200)) ([cd8087a](https://github.com/rsuite/rsuite/commit/cd8087a4529fad814378104a4f19c2734bcd55f2))
 
 ### Features
 
-* **Slider,RangeSlider:** add support for `keepTooltipOpen` prop ([#4186](https://github.com/rsuite/rsuite/issues/4186)) ([a1bdea4](https://github.com/rsuite/rsuite/commit/a1bdea4fad33feca63636631aa1cac7989c0eb87))
-
-
+- **Slider,RangeSlider:** add support for `keepTooltipOpen` prop ([#4186](https://github.com/rsuite/rsuite/issues/4186)) ([a1bdea4](https://github.com/rsuite/rsuite/commit/a1bdea4fad33feca63636631aa1cac7989c0eb87))
 
 ## [5.78.1](https://github.com/rsuite/rsuite/compare/v5.78.0...v5.78.1) (2025-03-14)
 
-
 ### Bug Fixes
 
-* **Uploader:** refine children prop type and improve class handling ([#4175](https://github.com/rsuite/rsuite/issues/4175)) ([58d3eea](https://github.com/rsuite/rsuite/commit/58d3eea86e186590586a14068773a8418fb5f3f9))
-
-
+- **Uploader:** refine children prop type and improve class handling ([#4175](https://github.com/rsuite/rsuite/issues/4175)) ([58d3eea](https://github.com/rsuite/rsuite/commit/58d3eea86e186590586a14068773a8418fb5f3f9))
 
 # [5.78.0](https://github.com/rsuite/rsuite/compare/v5.77.1...v5.78.0) (2025-02-21)
 
-
 ### Bug Fixes
 
-* **pickers:** improve pickers `renderValue` property type definition ([#4144](https://github.com/rsuite/rsuite/issues/4144)) ([a6abf28](https://github.com/rsuite/rsuite/commit/a6abf28ac6084a112772503544de7528286f1ca8))
-
+- **pickers:** improve pickers `renderValue` property type definition ([#4144](https://github.com/rsuite/rsuite/issues/4144)) ([a6abf28](https://github.com/rsuite/rsuite/commit/a6abf28ac6084a112772503544de7528286f1ca8))
 
 ### Features
 
-* **locales:** add support for Polish ([#4153](https://github.com/rsuite/rsuite/issues/4153)) ([7959a71](https://github.com/rsuite/rsuite/commit/7959a71fba591233384947fe93be5845bc2886ee))
-
-
+- **locales:** add support for Polish ([#4153](https://github.com/rsuite/rsuite/issues/4153)) ([7959a71](https://github.com/rsuite/rsuite/commit/7959a71fba591233384947fe93be5845bc2886ee))
 
 ## [5.77.1](https://github.com/rsuite/rsuite/compare/v5.77.0...v5.77.1) (2025-02-07)
 
-
 ### Bug Fixes
 
-* **DateRangePicker:** allow ranges option value to be null ([#4141](https://github.com/rsuite/rsuite/issues/4141)) ([32017c4](https://github.com/rsuite/rsuite/commit/32017c4429d15e9d3ca881b0e59e9d63bb89427a))
-* **Dropdown:** prevent focus moving to first item when focusing on disabled item ([#4142](https://github.com/rsuite/rsuite/issues/4142)) ([caa4a9a](https://github.com/rsuite/rsuite/commit/caa4a9adad08f69fb09f226a99c17a6becb58041))
-* **Form:** validation for nested array fields ([#4139](https://github.com/rsuite/rsuite/issues/4139)) ([dbf15cb](https://github.com/rsuite/rsuite/commit/dbf15cb5232c25d54c691411884c2aad0583bedd))
-* prevent duplicate className in DatePicker and DateRangePicker components ([#4140](https://github.com/rsuite/rsuite/issues/4140)) ([fa3f40d](https://github.com/rsuite/rsuite/commit/fa3f40d30752a4af5a6d463c65d1df70adf9a74a))
-
-
+- **DateRangePicker:** allow ranges option value to be null ([#4141](https://github.com/rsuite/rsuite/issues/4141)) ([32017c4](https://github.com/rsuite/rsuite/commit/32017c4429d15e9d3ca881b0e59e9d63bb89427a))
+- **Dropdown:** prevent focus moving to first item when focusing on disabled item ([#4142](https://github.com/rsuite/rsuite/issues/4142)) ([caa4a9a](https://github.com/rsuite/rsuite/commit/caa4a9adad08f69fb09f226a99c17a6becb58041))
+- **Form:** validation for nested array fields ([#4139](https://github.com/rsuite/rsuite/issues/4139)) ([dbf15cb](https://github.com/rsuite/rsuite/commit/dbf15cb5232c25d54c691411884c2aad0583bedd))
+- prevent duplicate className in DatePicker and DateRangePicker components ([#4140](https://github.com/rsuite/rsuite/issues/4140)) ([fa3f40d](https://github.com/rsuite/rsuite/commit/fa3f40d30752a4af5a6d463c65d1df70adf9a74a))
 
 # [5.77.0](https://github.com/rsuite/rsuite/compare/v5.76.3...v5.77.0) (2025-01-21)
 
-
 ### Bug Fixes
 
-* **Form:** support deeply nested object validation ([#4125](https://github.com/rsuite/rsuite/issues/4125)) ([2de3f90](https://github.com/rsuite/rsuite/commit/2de3f901970d982ac4a0a2329fd4e6af83962804))
-* **InputPicker:** do not trigger clean when clicking delete with search keyword ([#4124](https://github.com/rsuite/rsuite/issues/4124)) ([98a0019](https://github.com/rsuite/rsuite/commit/98a001908df884c8cd5a87959a9b9608d6bba37c))
-
+- **Form:** support deeply nested object validation ([#4125](https://github.com/rsuite/rsuite/issues/4125)) ([2de3f90](https://github.com/rsuite/rsuite/commit/2de3f901970d982ac4a0a2329fd4e6af83962804))
+- **InputPicker:** do not trigger clean when clicking delete with search keyword ([#4124](https://github.com/rsuite/rsuite/issues/4124)) ([98a0019](https://github.com/rsuite/rsuite/commit/98a001908df884c8cd5a87959a9b9608d6bba37c))
 
 ### Features
 
-* **DateRangePicker:** support custom render calendar cell content ([#4126](https://github.com/rsuite/rsuite/issues/4126)) ([74171d1](https://github.com/rsuite/rsuite/commit/74171d17f36aa611009e0048c1f490b6ac31fcea))
-
-
+- **DateRangePicker:** support custom render calendar cell content ([#4126](https://github.com/rsuite/rsuite/issues/4126)) ([74171d1](https://github.com/rsuite/rsuite/commit/74171d17f36aa611009e0048c1f490b6ac31fcea))
 
 ## [5.76.3](https://github.com/rsuite/rsuite/compare/v5.76.2...v5.76.3) (2025-01-10)
 
-
 ### Bug Fixes
 
-* **FormControl:** show correct error when the value of filed is an array ([#4112](https://github.com/rsuite/rsuite/issues/4112)) ([a30c990](https://github.com/rsuite/rsuite/commit/a30c99076861eec8ae9491745b3d6b812ea37b80))
-* **Picker:** fix loader icon position in different sizes ([#4114](https://github.com/rsuite/rsuite/issues/4114)) ([7c03307](https://github.com/rsuite/rsuite/commit/7c0330726285342823eb30b1dc3d3104e1da38ce))
-* **styles:** fix system font stack reference and configuration ([#4110](https://github.com/rsuite/rsuite/issues/4110)) ([6952ce4](https://github.com/rsuite/rsuite/commit/6952ce43f447e23feb7984fc9c9b041943cde67d))
-
-
+- **FormControl:** show correct error when the value of filed is an array ([#4112](https://github.com/rsuite/rsuite/issues/4112)) ([a30c990](https://github.com/rsuite/rsuite/commit/a30c99076861eec8ae9491745b3d6b812ea37b80))
+- **Picker:** fix loader icon position in different sizes ([#4114](https://github.com/rsuite/rsuite/issues/4114)) ([7c03307](https://github.com/rsuite/rsuite/commit/7c0330726285342823eb30b1dc3d3104e1da38ce))
+- **styles:** fix system font stack reference and configuration ([#4110](https://github.com/rsuite/rsuite/issues/4110)) ([6952ce4](https://github.com/rsuite/rsuite/commit/6952ce43f447e23feb7984fc9c9b041943cde67d))
 
 ## [5.76.2](https://github.com/rsuite/rsuite/compare/v5.76.1...v5.76.2) (2025-01-01)
 
-
 ### Bug Fixes
 
-* **ToastContainer:** fix the server-side rendering error ([#4099](https://github.com/rsuite/rsuite/issues/4099)) ([e5113a2](https://github.com/rsuite/rsuite/commit/e5113a2478fce93ea45353c8e808c0691eed02ee))
-
-
+- **ToastContainer:** fix the server-side rendering error ([#4099](https://github.com/rsuite/rsuite/issues/4099)) ([e5113a2](https://github.com/rsuite/rsuite/commit/e5113a2478fce93ea45353c8e808c0691eed02ee))
 
 ## [5.76.1](https://github.com/rsuite/rsuite/compare/v5.76.0...v5.76.1) (2024-12-30)
 
-
 ### Bug Fixes
 
-* **useToaster:** support dynamic container of useToaster with correct styles ([#4088](https://github.com/rsuite/rsuite/issues/4088)) ([62b1a12](https://github.com/rsuite/rsuite/commit/62b1a128bd0f68ddc22a5b0f1acf27c5bc56a69e))
-
-
+- **useToaster:** support dynamic container of useToaster with correct styles ([#4088](https://github.com/rsuite/rsuite/issues/4088)) ([62b1a12](https://github.com/rsuite/rsuite/commit/62b1a128bd0f68ddc22a5b0f1acf27c5bc56a69e))
 
 # [5.76.0](https://github.com/rsuite/rsuite/compare/v5.75.0...v5.76.0) (2024-12-20)
 
-
 ### Features
 
-* **Image:** add support for Image ([#4068](https://github.com/rsuite/rsuite/issues/4068)) ([46980f9](https://github.com/rsuite/rsuite/commit/46980f985094110925fa5e2ad5c69a46cd84e7eb))
-
-
+- **Image:** add support for Image ([#4068](https://github.com/rsuite/rsuite/issues/4068)) ([46980f9](https://github.com/rsuite/rsuite/commit/46980f985094110925fa5e2ad5c69a46cd84e7eb))
 
 # [5.75.0](https://github.com/rsuite/rsuite/compare/v5.74.2...v5.75.0) (2024-12-06)
 
-
 ### Bug Fixes
 
-* **useToaster:** fix the container parameter of `toaster.push` does not work ([#4057](https://github.com/rsuite/rsuite/issues/4057)) ([c0073c3](https://github.com/rsuite/rsuite/commit/c0073c37e087a15bfd5c7457418da2890b18b573))
-
+- **useToaster:** fix the container parameter of `toaster.push` does not work ([#4057](https://github.com/rsuite/rsuite/issues/4057)) ([c0073c3](https://github.com/rsuite/rsuite/commit/c0073c37e087a15bfd5c7457418da2890b18b573))
 
 ### Features
 
-* **Card:** add support for Card ([#4061](https://github.com/rsuite/rsuite/issues/4061)) ([1c25622](https://github.com/rsuite/rsuite/commit/1c2562236d8be0b9a68862168e2bb4abd9e8b222))
-* **List:** add support divider on List ([#4062](https://github.com/rsuite/rsuite/issues/4062)) ([7f170b7](https://github.com/rsuite/rsuite/commit/7f170b782c0c60ce9abafdcfae71feadb25c93c7))
-* **Stat:** add support for Stat ([#4056](https://github.com/rsuite/rsuite/issues/4056)) ([c270e87](https://github.com/rsuite/rsuite/commit/c270e87f52d4881133eb73403102df5c9a5ad5a9))
-
-
+- **Card:** add support for Card ([#4061](https://github.com/rsuite/rsuite/issues/4061)) ([1c25622](https://github.com/rsuite/rsuite/commit/1c2562236d8be0b9a68862168e2bb4abd9e8b222))
+- **List:** add support divider on List ([#4062](https://github.com/rsuite/rsuite/issues/4062)) ([7f170b7](https://github.com/rsuite/rsuite/commit/7f170b782c0c60ce9abafdcfae71feadb25c93c7))
+- **Stat:** add support for Stat ([#4056](https://github.com/rsuite/rsuite/issues/4056)) ([c270e87](https://github.com/rsuite/rsuite/commit/c270e87f52d4881133eb73403102df5c9a5ad5a9))
 
 ## [5.74.2](https://github.com/rsuite/rsuite/compare/v5.74.1...v5.74.2) (2024-11-08)
 
-
 ### Bug Fixes
 
-* **CSS:** fix the problem of failing to load index.css.map ([#4041](https://github.com/rsuite/rsuite/issues/4041)) ([f7ac0a9](https://github.com/rsuite/rsuite/commit/f7ac0a92773406a6a134b6db2e10eb2f8b1284f8))
-* **DateRangePicker:** fix the date range is not restored after deselecting ([#4039](https://github.com/rsuite/rsuite/issues/4039)) ([ecc71fa](https://github.com/rsuite/rsuite/commit/ecc71fa2dd54fa089f07a9803c1a967a91dabade))
-* **Panel:** fix AccordionButton missing type causing form submission ([#4044](https://github.com/rsuite/rsuite/issues/4044)) ([56672fd](https://github.com/rsuite/rsuite/commit/56672fd6243517b3a057c4f5ddf874f3c3c2b44c))
-* **Table:** fix the problem that the global locale configuration cannot be overridden ([#4037](https://github.com/rsuite/rsuite/issues/4037)) ([31d5b99](https://github.com/rsuite/rsuite/commit/31d5b991bad22522247848dec4478c3f44e420fc))
-
-
+- **CSS:** fix the problem of failing to load index.css.map ([#4041](https://github.com/rsuite/rsuite/issues/4041)) ([f7ac0a9](https://github.com/rsuite/rsuite/commit/f7ac0a92773406a6a134b6db2e10eb2f8b1284f8))
+- **DateRangePicker:** fix the date range is not restored after deselecting ([#4039](https://github.com/rsuite/rsuite/issues/4039)) ([ecc71fa](https://github.com/rsuite/rsuite/commit/ecc71fa2dd54fa089f07a9803c1a967a91dabade))
+- **Panel:** fix AccordionButton missing type causing form submission ([#4044](https://github.com/rsuite/rsuite/issues/4044)) ([56672fd](https://github.com/rsuite/rsuite/commit/56672fd6243517b3a057c4f5ddf874f3c3c2b44c))
+- **Table:** fix the problem that the global locale configuration cannot be overridden ([#4037](https://github.com/rsuite/rsuite/issues/4037)) ([31d5b99](https://github.com/rsuite/rsuite/commit/31d5b991bad22522247848dec4478c3f44e420fc))
 
 ## [5.74.1](https://github.com/rsuite/rsuite/compare/v5.74.0...v5.74.1) (2024-11-01)
 
-
 ### Bug Fixes
 
-* **CustomProvider:** fix CustomContext is undefined after Babel compiles commonjs module ([#4032](https://github.com/rsuite/rsuite/issues/4032)) ([beec3e1](https://github.com/rsuite/rsuite/commit/beec3e1c7ccbcb305ad4f26e0d445773c7d95b2b))
-
-
+- **CustomProvider:** fix CustomContext is undefined after Babel compiles commonjs module ([#4032](https://github.com/rsuite/rsuite/issues/4032)) ([beec3e1](https://github.com/rsuite/rsuite/commit/beec3e1c7ccbcb305ad4f26e0d445773c7d95b2b))
 
 # [5.74.0](https://github.com/rsuite/rsuite/compare/v5.73.1...v5.74.0) (2024-11-01)
 
-
 ### Bug Fixes
 
-* **Form:** add missing event object to onSubmit callback ([#4026](https://github.com/rsuite/rsuite/issues/4026)) ([1a80d3f](https://github.com/rsuite/rsuite/commit/1a80d3fe5a31b84786f00c694c67a3b3b37c5b19))
-
+- **Form:** add missing event object to onSubmit callback ([#4026](https://github.com/rsuite/rsuite/issues/4026)) ([1a80d3f](https://github.com/rsuite/rsuite/commit/1a80d3fe5a31b84786f00c694c67a3b3b37c5b19))
 
 ### Features
 
-* **CustomProvider:** support setting the default value of the component props globally ([#4012](https://github.com/rsuite/rsuite/issues/4012)) ([b845907](https://github.com/rsuite/rsuite/commit/b8459079e7b0332bb29577535442f7b715e3d78a))
-
-
+- **CustomProvider:** support setting the default value of the component props globally ([#4012](https://github.com/rsuite/rsuite/issues/4012)) ([b845907](https://github.com/rsuite/rsuite/commit/b8459079e7b0332bb29577535442f7b715e3d78a))
 
 ## [5.73.1](https://github.com/rsuite/rsuite/compare/v5.73.0...v5.73.1) (2024-10-25)
 
-
 ### Bug Fixes
 
-* **Calendar:** fix not triggering the `onToggleTimeDropdown` event when collapsing the time panel ([#4009](https://github.com/rsuite/rsuite/issues/4009)) ([9e2d69e](https://github.com/rsuite/rsuite/commit/9e2d69e232b1317e00b856a470e97c2d7b4ddd37))
-* **CheckTree:** fix focus lost when search keyword matches selected item ([#4017](https://github.com/rsuite/rsuite/issues/4017)) ([119fed2](https://github.com/rsuite/rsuite/commit/119fed2778c2defb5cb772050cc52e9f72f63d87))
-* **Modal:** the style of Modal is messy when it's rendered inside of a Drawer ([#4016](https://github.com/rsuite/rsuite/issues/4016)) ([922ab04](https://github.com/rsuite/rsuite/commit/922ab04eb09f0437fa21db91b69cf7c8d9e407fc))
-
+- **Calendar:** fix not triggering the `onToggleTimeDropdown` event when collapsing the time panel ([#4009](https://github.com/rsuite/rsuite/issues/4009)) ([9e2d69e](https://github.com/rsuite/rsuite/commit/9e2d69e232b1317e00b856a470e97c2d7b4ddd37))
+- **CheckTree:** fix focus lost when search keyword matches selected item ([#4017](https://github.com/rsuite/rsuite/issues/4017)) ([119fed2](https://github.com/rsuite/rsuite/commit/119fed2778c2defb5cb772050cc52e9f72f63d87))
+- **Modal:** the style of Modal is messy when it's rendered inside of a Drawer ([#4016](https://github.com/rsuite/rsuite/issues/4016)) ([922ab04](https://github.com/rsuite/rsuite/commit/922ab04eb09f0437fa21db91b69cf7c8d9e407fc))
 
 ### Features
 
-* **FormErrorMessage:** support display react element ([#4013](https://github.com/rsuite/rsuite/issues/4013)) ([50f22fc](https://github.com/rsuite/rsuite/commit/50f22fc104aa0e32c255aed4da89b6cb2c6a2447))
-
-
+- **FormErrorMessage:** support display react element ([#4013](https://github.com/rsuite/rsuite/issues/4013)) ([50f22fc](https://github.com/rsuite/rsuite/commit/50f22fc104aa0e32c255aed4da89b6cb2c6a2447))
 
 # [5.73.0](https://github.com/rsuite/rsuite/compare/v5.72.0...v5.73.0) (2024-10-18)
 
-
 ### Bug Fixes
 
-* bump @rsuite/icons 1.2.0 and replace deprecated icons ([#4002](https://github.com/rsuite/rsuite/issues/4002)) ([2a287c1](https://github.com/rsuite/rsuite/commit/2a287c1145abac326d56412f9fc5fabbf55c19d6))
-* **Calendar:** fix the week not aligning in the cell ([#3994](https://github.com/rsuite/rsuite/issues/3994)) ([14ae7a4](https://github.com/rsuite/rsuite/commit/14ae7a4ed5a3e267358de083e84c4fa086d1f1f0))
-* examples/custom-multiple-themes/package.json to reduce vulnerabilities ([#3962](https://github.com/rsuite/rsuite/issues/3962)) ([16bc650](https://github.com/rsuite/rsuite/commit/16bc650b87e3c8ab0b70a07e1c44b44d6838c022))
-
+- bump @rsuite/icons 1.2.0 and replace deprecated icons ([#4002](https://github.com/rsuite/rsuite/issues/4002)) ([2a287c1](https://github.com/rsuite/rsuite/commit/2a287c1145abac326d56412f9fc5fabbf55c19d6))
+- **Calendar:** fix the week not aligning in the cell ([#3994](https://github.com/rsuite/rsuite/issues/3994)) ([14ae7a4](https://github.com/rsuite/rsuite/commit/14ae7a4ed5a3e267358de083e84c4fa086d1f1f0))
+- examples/custom-multiple-themes/package.json to reduce vulnerabilities ([#3962](https://github.com/rsuite/rsuite/issues/3962)) ([16bc650](https://github.com/rsuite/rsuite/commit/16bc650b87e3c8ab0b70a07e1c44b44d6838c022))
 
 ### Features
 
-* **Calendar:** support localized month calendar ([#3995](https://github.com/rsuite/rsuite/issues/3995)) ([b4f80d8](https://github.com/rsuite/rsuite/commit/b4f80d85abbc5760ab29e19bf5bb55715dbd0988))
-* **CustomProvider:** add support for csp and disableInlineStyles ([#4004](https://github.com/rsuite/rsuite/issues/4004)) ([84b6e98](https://github.com/rsuite/rsuite/commit/84b6e9832127db8ef66e74e072387729dedd5388))
-
-
+- **Calendar:** support localized month calendar ([#3995](https://github.com/rsuite/rsuite/issues/3995)) ([b4f80d8](https://github.com/rsuite/rsuite/commit/b4f80d85abbc5760ab29e19bf5bb55715dbd0988))
+- **CustomProvider:** add support for csp and disableInlineStyles ([#4004](https://github.com/rsuite/rsuite/issues/4004)) ([84b6e98](https://github.com/rsuite/rsuite/commit/84b6e9832127db8ef66e74e072387729dedd5388))
 
 # [5.72.0](https://github.com/rsuite/rsuite/compare/v5.71.0...v5.72.0) (2024-10-11)
 
-
 ### Bug Fixes
 
-* **DateInput,DateRangeInput:** fix the issue that the value cannot be cleared by the Backspace key ([#3987](https://github.com/rsuite/rsuite/issues/3987)) ([7a25979](https://github.com/rsuite/rsuite/commit/7a2597928d429321d981bbbf958bf1ff01936d2c))
-* **InlineEdit:** ix the issue that InputPicker needs to be clicked twice to focus ([#3990](https://github.com/rsuite/rsuite/issues/3990)) ([7d123b0](https://github.com/rsuite/rsuite/commit/7d123b0f546ac4a61736e147b288bbdca5a1bd5a))
-* **SelectPicker,CheckPicker:** fix the virtual list option text being wrapped ([#3988](https://github.com/rsuite/rsuite/issues/3988)) ([c8f39ef](https://github.com/rsuite/rsuite/commit/c8f39ef2cac3ce6a5df36bec4884d3781ca4e2d1))
-
+- **DateInput,DateRangeInput:** fix the issue that the value cannot be cleared by the Backspace key ([#3987](https://github.com/rsuite/rsuite/issues/3987)) ([7a25979](https://github.com/rsuite/rsuite/commit/7a2597928d429321d981bbbf958bf1ff01936d2c))
+- **InlineEdit:** ix the issue that InputPicker needs to be clicked twice to focus ([#3990](https://github.com/rsuite/rsuite/issues/3990)) ([7d123b0](https://github.com/rsuite/rsuite/commit/7d123b0f546ac4a61736e147b288bbdca5a1bd5a))
+- **SelectPicker,CheckPicker:** fix the virtual list option text being wrapped ([#3988](https://github.com/rsuite/rsuite/issues/3988)) ([c8f39ef](https://github.com/rsuite/rsuite/commit/c8f39ef2cac3ce6a5df36bec4884d3781ca4e2d1))
 
 ### Features
 
-* add support for TimePicker and TimeRangePicker ([#3984](https://github.com/rsuite/rsuite/issues/3984)) ([6cadccf](https://github.com/rsuite/rsuite/commit/6cadccf2af96a4af0495c3bdce5190f4556b6004))
-* **Animation.Fade:** add support for CSS variable control animation duration ([#3989](https://github.com/rsuite/rsuite/issues/3989)) ([3952929](https://github.com/rsuite/rsuite/commit/39529298d50d58961644e20b86f7d24bdbc32f81))
-
-
+- add support for TimePicker and TimeRangePicker ([#3984](https://github.com/rsuite/rsuite/issues/3984)) ([6cadccf](https://github.com/rsuite/rsuite/commit/6cadccf2af96a4af0495c3bdce5190f4556b6004))
+- **Animation.Fade:** add support for CSS variable control animation duration ([#3989](https://github.com/rsuite/rsuite/issues/3989)) ([3952929](https://github.com/rsuite/rsuite/commit/39529298d50d58961644e20b86f7d24bdbc32f81))
 
 # [5.71.0](https://github.com/rsuite/rsuite/compare/v5.70.3...v5.71.0) (2024-09-27)
 
-
 ### Bug Fixes
 
-* **Form:** fix can't get form data in addRule callback ([#3980](https://github.com/rsuite/rsuite/issues/3980)) ([26417ef](https://github.com/rsuite/rsuite/commit/26417ef93c30249a95c0b548123f1adf31b9d6a1))
-
+- **Form:** fix can't get form data in addRule callback ([#3980](https://github.com/rsuite/rsuite/issues/3980)) ([26417ef](https://github.com/rsuite/rsuite/commit/26417ef93c30249a95c0b548123f1adf31b9d6a1))
 
 ### Features
 
-* **DateRangePicker:** add support for `hideHours`, `hideMinutes`, `hideSeconds` ([#3979](https://github.com/rsuite/rsuite/issues/3979)) ([1d48589](https://github.com/rsuite/rsuite/commit/1d48589df8b54e0ae0e6cbc62b5d53b58c61cf3c))
-
-
+- **DateRangePicker:** add support for `hideHours`, `hideMinutes`, `hideSeconds` ([#3979](https://github.com/rsuite/rsuite/issues/3979)) ([1d48589](https://github.com/rsuite/rsuite/commit/1d48589df8b54e0ae0e6cbc62b5d53b58c61cf3c))
 
 ## [5.70.3](https://github.com/rsuite/rsuite/compare/v5.70.2...v5.70.3) (2024-09-20)
 
-
 ### Bug Fixes
 
-* **CheckTree:** fix the incorrect check state after loading child nodes through `getChildren` ([#3974](https://github.com/rsuite/rsuite/issues/3974)) ([afaaf2d](https://github.com/rsuite/rsuite/commit/afaaf2d8017799089cc79c369802b8d53232c2b0))
-* docs/package.json & docs/package-lock.json to reduce vulnerabilities ([#3972](https://github.com/rsuite/rsuite/issues/3972)) ([41d5334](https://github.com/rsuite/rsuite/commit/41d533468bfe8b25be126378124bcaa2df55cb72))
-* **Form:** clear error caused by uncontrolled form state ([#3971](https://github.com/rsuite/rsuite/issues/3971)) ([dbc75fd](https://github.com/rsuite/rsuite/commit/dbc75fd39886df4f558c48ee51cd95b28ce75c7a))
-
-
+- **CheckTree:** fix the incorrect check state after loading child nodes through `getChildren` ([#3974](https://github.com/rsuite/rsuite/issues/3974)) ([afaaf2d](https://github.com/rsuite/rsuite/commit/afaaf2d8017799089cc79c369802b8d53232c2b0))
+- docs/package.json & docs/package-lock.json to reduce vulnerabilities ([#3972](https://github.com/rsuite/rsuite/issues/3972)) ([41d5334](https://github.com/rsuite/rsuite/commit/41d533468bfe8b25be126378124bcaa2df55cb72))
+- **Form:** clear error caused by uncontrolled form state ([#3971](https://github.com/rsuite/rsuite/issues/3971)) ([dbc75fd](https://github.com/rsuite/rsuite/commit/dbc75fd39886df4f558c48ee51cd95b28ce75c7a))
 
 ## [5.70.2](https://github.com/rsuite/rsuite/compare/v5.70.1...v5.70.2) (2024-09-13)
 
-
 ### Bug Fixes
 
-* **Form:** fix the error message of the nested field not displayed when the form is submitted ([#3960](https://github.com/rsuite/rsuite/issues/3960)) ([384dd70](https://github.com/rsuite/rsuite/commit/384dd70b0477470da233217d46af77315ff7089d))
-
-
+- **Form:** fix the error message of the nested field not displayed when the form is submitted ([#3960](https://github.com/rsuite/rsuite/issues/3960)) ([384dd70](https://github.com/rsuite/rsuite/commit/384dd70b0477470da233217d46af77315ff7089d))
 
 ## [5.70.1](https://github.com/rsuite/rsuite/compare/v5.70.0...v5.70.1) (2024-09-06)
 
-
 ### Bug Fixes
 
-* **Breadcrumb:** fix the rendering exception of the child node separator ([#3948](https://github.com/rsuite/rsuite/issues/3948)) ([7d54cc9](https://github.com/rsuite/rsuite/commit/7d54cc97b05e9b17797ad275b6f02ce679869579))
-* **Calendar:** fix the problem of displaying the first week of the year incorrectly ([#3951](https://github.com/rsuite/rsuite/issues/3951)) ([a2c6891](https://github.com/rsuite/rsuite/commit/a2c6891f76cc5e435eb1980f9176dbec21ac5735))
-
-
+- **Breadcrumb:** fix the rendering exception of the child node separator ([#3948](https://github.com/rsuite/rsuite/issues/3948)) ([7d54cc9](https://github.com/rsuite/rsuite/commit/7d54cc97b05e9b17797ad275b6f02ce679869579))
+- **Calendar:** fix the problem of displaying the first week of the year incorrectly ([#3951](https://github.com/rsuite/rsuite/issues/3951)) ([a2c6891](https://github.com/rsuite/rsuite/commit/a2c6891f76cc5e435eb1980f9176dbec21ac5735))
 
 # [5.70.0](https://github.com/rsuite/rsuite/compare/v5.69.0...v5.70.0) (2024-08-24)
 
-
 ### Bug Fixes
 
-* **Cascader,MultiCascader:** fix `locale` property can't override global config ([#3928](https://github.com/rsuite/rsuite/issues/3928)) ([31abca8](https://github.com/rsuite/rsuite/commit/31abca88daa88a4ba10f886de98db0f9cb57ced1))
-* **MultiCascadeTree,MultiCascader:** fix parent node is not in a mixed state when searching ([#3931](https://github.com/rsuite/rsuite/issues/3931)) ([5ec0be5](https://github.com/rsuite/rsuite/commit/5ec0be5bcd6fc4f00b457e4c452c7c56225314c9))
-* **Table:** fix border style when rowSpan is used ([#3940](https://github.com/rsuite/rsuite/issues/3940)) ([9677303](https://github.com/rsuite/rsuite/commit/9677303e007dc94474ca16e3a32b638bd8c0c05b))
-* **TreePicker,MultiCascader:** fix not focusing on the search box when typing characters ([#3930](https://github.com/rsuite/rsuite/issues/3930)) ([4f3b8e3](https://github.com/rsuite/rsuite/commit/4f3b8e37eabdefea277f14034647f43826244c03))
-* use useLayoutEffect instead of useEffect in useEventCallback ([#3921](https://github.com/rsuite/rsuite/issues/3921)) ([6396b3e](https://github.com/rsuite/rsuite/commit/6396b3e6d3692f76850409a5d3d1bd60aea40788))
-
-
+- **Cascader,MultiCascader:** fix `locale` property can't override global config ([#3928](https://github.com/rsuite/rsuite/issues/3928)) ([31abca8](https://github.com/rsuite/rsuite/commit/31abca88daa88a4ba10f886de98db0f9cb57ced1))
+- **MultiCascadeTree,MultiCascader:** fix parent node is not in a mixed state when searching ([#3931](https://github.com/rsuite/rsuite/issues/3931)) ([5ec0be5](https://github.com/rsuite/rsuite/commit/5ec0be5bcd6fc4f00b457e4c452c7c56225314c9))
+- **Table:** fix border style when rowSpan is used ([#3940](https://github.com/rsuite/rsuite/issues/3940)) ([9677303](https://github.com/rsuite/rsuite/commit/9677303e007dc94474ca16e3a32b638bd8c0c05b))
+- **TreePicker,MultiCascader:** fix not focusing on the search box when typing characters ([#3930](https://github.com/rsuite/rsuite/issues/3930)) ([4f3b8e3](https://github.com/rsuite/rsuite/commit/4f3b8e37eabdefea277f14034647f43826244c03))
+- use useLayoutEffect instead of useEffect in useEventCallback ([#3921](https://github.com/rsuite/rsuite/issues/3921)) ([6396b3e](https://github.com/rsuite/rsuite/commit/6396b3e6d3692f76850409a5d3d1bd60aea40788))
 
 # [5.69.0](https://github.com/rsuite/rsuite/compare/v5.68.1...v5.69.0) (2024-08-09)
 
-
 ### Bug Fixes
 
-* **DatePicker, DateRangePicker:** fix the component crash due to invalid format ([#3910](https://github.com/rsuite/rsuite/issues/3910)) ([ed8f9b0](https://github.com/rsuite/rsuite/commit/ed8f9b0814eb5723d2baecba9a34c5f3544dce38))
-* **useMediaQuery:** fix media query change cannot be listened to when using multiple useMediaQuery ([#3909](https://github.com/rsuite/rsuite/issues/3909)) ([63d50e2](https://github.com/rsuite/rsuite/commit/63d50e29160032e0ca0c878a13a8a87f4e840e86))
-
+- **DatePicker, DateRangePicker:** fix the component crash due to invalid format ([#3910](https://github.com/rsuite/rsuite/issues/3910)) ([ed8f9b0](https://github.com/rsuite/rsuite/commit/ed8f9b0814eb5723d2baecba9a34c5f3544dce38))
+- **useMediaQuery:** fix media query change cannot be listened to when using multiple useMediaQuery ([#3909](https://github.com/rsuite/rsuite/issues/3909)) ([63d50e2](https://github.com/rsuite/rsuite/commit/63d50e29160032e0ca0c878a13a8a87f4e840e86))
 
 ### Features
 
-* **Calendar, DatePicker, DateRangePicker:** add support for `monthDropdownProps` prop ([#3913](https://github.com/rsuite/rsuite/issues/3913)) ([9025bbe](https://github.com/rsuite/rsuite/commit/9025bbefd6c0bfaf93ef91e775e2815c9832077d))
-* **DateRangePicker:** add support for `calendarSnapping` prop ([#3911](https://github.com/rsuite/rsuite/issues/3911)) ([4b3a669](https://github.com/rsuite/rsuite/commit/4b3a6692388040defd9dd5835572ca8336f4e315))
-* **InputNumber:** add support for `decimalSeparator` prop ([#3907](https://github.com/rsuite/rsuite/issues/3907)) ([58212fa](https://github.com/rsuite/rsuite/commit/58212fa9a1f2a642289877c888164f880234d7c8))
-
-
+- **Calendar, DatePicker, DateRangePicker:** add support for `monthDropdownProps` prop ([#3913](https://github.com/rsuite/rsuite/issues/3913)) ([9025bbe](https://github.com/rsuite/rsuite/commit/9025bbefd6c0bfaf93ef91e775e2815c9832077d))
+- **DateRangePicker:** add support for `calendarSnapping` prop ([#3911](https://github.com/rsuite/rsuite/issues/3911)) ([4b3a669](https://github.com/rsuite/rsuite/commit/4b3a6692388040defd9dd5835572ca8336f4e315))
+- **InputNumber:** add support for `decimalSeparator` prop ([#3907](https://github.com/rsuite/rsuite/issues/3907)) ([58212fa](https://github.com/rsuite/rsuite/commit/58212fa9a1f2a642289877c888164f880234d7c8))
 
 ## [5.68.1](https://github.com/rsuite/rsuite/compare/v5.68.0...v5.68.1) (2024-08-02)
 
-
 ### Bug Fixes
 
-* **CheckTree:** fix uncontrolled component default value ([#3906](https://github.com/rsuite/rsuite/issues/3906)) ([01aab7d](https://github.com/rsuite/rsuite/commit/01aab7df14661743e5dfae7fd3f612fc227816c7))
-
-
+- **CheckTree:** fix uncontrolled component default value ([#3906](https://github.com/rsuite/rsuite/issues/3906)) ([01aab7d](https://github.com/rsuite/rsuite/commit/01aab7df14661743e5dfae7fd3f612fc227816c7))
 
 # [5.68.0](https://github.com/rsuite/rsuite/compare/v5.67.0...v5.68.0) (2024-07-26)
 
-
 ### Bug Fixes
 
-* **DateInput,DateRangeInput:** fix the date in the text box cannot be copied ([#3888](https://github.com/rsuite/rsuite/issues/3888)) ([1d95107](https://github.com/rsuite/rsuite/commit/1d95107d96ebe5bacb73c3fee8427efc59b1f673))
-* **Form:** fix `proxy` function in `schema-typed` not work in form ([#3863](https://github.com/rsuite/rsuite/issues/3863)) ([63c0e3a](https://github.com/rsuite/rsuite/commit/63c0e3a07a17eeb1158c75b49fb8fc3a65199e16))
-* **Stack:** fix the compatibility of spacing in Linux Firefox ([#3889](https://github.com/rsuite/rsuite/issues/3889)) ([44ed16f](https://github.com/rsuite/rsuite/commit/44ed16f7f1f41c7beda063a86588cbe9c52c6496))
-* **Whisper:** fix Whisper children not support string and other basic types ([#3893](https://github.com/rsuite/rsuite/issues/3893)) ([70fb61d](https://github.com/rsuite/rsuite/commit/70fb61da619ce0a94129eb6f02972b4ce16c5016))
-
+- **DateInput,DateRangeInput:** fix the date in the text box cannot be copied ([#3888](https://github.com/rsuite/rsuite/issues/3888)) ([1d95107](https://github.com/rsuite/rsuite/commit/1d95107d96ebe5bacb73c3fee8427efc59b1f673))
+- **Form:** fix `proxy` function in `schema-typed` not work in form ([#3863](https://github.com/rsuite/rsuite/issues/3863)) ([63c0e3a](https://github.com/rsuite/rsuite/commit/63c0e3a07a17eeb1158c75b49fb8fc3a65199e16))
+- **Stack:** fix the compatibility of spacing in Linux Firefox ([#3889](https://github.com/rsuite/rsuite/issues/3889)) ([44ed16f](https://github.com/rsuite/rsuite/commit/44ed16f7f1f41c7beda063a86588cbe9c52c6496))
+- **Whisper:** fix Whisper children not support string and other basic types ([#3893](https://github.com/rsuite/rsuite/issues/3893)) ([70fb61d](https://github.com/rsuite/rsuite/commit/70fb61da619ce0a94129eb6f02972b4ce16c5016))
 
 ### Features
 
-* **Nav,Tabs:** add `pills` value to the appearance property ([#3890](https://github.com/rsuite/rsuite/issues/3890)) ([eae279f](https://github.com/rsuite/rsuite/commit/eae279fa5ede8c6ce2c3676585f1cc85c9644b8e))
-
-
+- **Nav,Tabs:** add `pills` value to the appearance property ([#3890](https://github.com/rsuite/rsuite/issues/3890)) ([eae279f](https://github.com/rsuite/rsuite/commit/eae279fa5ede8c6ce2c3676585f1cc85c9644b8e))
 
 # [5.67.0](https://github.com/rsuite/rsuite/compare/v5.66.0...v5.67.0) (2024-07-19)
 
-
 ### Bug Fixes
 
-* **Button:** fix the misalignment of icons and text in block buttons ([#3880](https://github.com/rsuite/rsuite/issues/3880)) ([aa4f02b](https://github.com/rsuite/rsuite/commit/aa4f02bd434f0753c85b8584e034a57a1050b7f6))
-* **NavItem:** fix NavItem cannot be used in Navbar and Sidenav ([#3882](https://github.com/rsuite/rsuite/issues/3882)) ([be6b2b1](https://github.com/rsuite/rsuite/commit/be6b2b165459afd27f06cf387df0fde73d210e94))
-* **Stack:** fix StackItem cannot be rendered correctly in server-side rendering ([#3884](https://github.com/rsuite/rsuite/issues/3884)) ([a552e35](https://github.com/rsuite/rsuite/commit/a552e357f1fd8a3043012f7de08b9369100d6fee))
-
+- **Button:** fix the misalignment of icons and text in block buttons ([#3880](https://github.com/rsuite/rsuite/issues/3880)) ([aa4f02b](https://github.com/rsuite/rsuite/commit/aa4f02bd434f0753c85b8584e034a57a1050b7f6))
+- **NavItem:** fix NavItem cannot be used in Navbar and Sidenav ([#3882](https://github.com/rsuite/rsuite/issues/3882)) ([be6b2b1](https://github.com/rsuite/rsuite/commit/be6b2b165459afd27f06cf387df0fde73d210e94))
+- **Stack:** fix StackItem cannot be rendered correctly in server-side rendering ([#3884](https://github.com/rsuite/rsuite/issues/3884)) ([a552e35](https://github.com/rsuite/rsuite/commit/a552e357f1fd8a3043012f7de08b9369100d6fee))
 
 ### Features
 
-* **locales:** add support for Catalan ([#3878](https://github.com/rsuite/rsuite/issues/3878)) ([c0bae4d](https://github.com/rsuite/rsuite/commit/c0bae4d2fb244ef270869ef7338c10d71165a3ef))
-* **Uploader:** add `event` parameter to `onChange` callback ([#3881](https://github.com/rsuite/rsuite/issues/3881)) ([a1c1667](https://github.com/rsuite/rsuite/commit/a1c1667e9180e278ba9e7212743f662b086be1e6))
-
-
+- **locales:** add support for Catalan ([#3878](https://github.com/rsuite/rsuite/issues/3878)) ([c0bae4d](https://github.com/rsuite/rsuite/commit/c0bae4d2fb244ef270869ef7338c10d71165a3ef))
+- **Uploader:** add `event` parameter to `onChange` callback ([#3881](https://github.com/rsuite/rsuite/issues/3881)) ([a1c1667](https://github.com/rsuite/rsuite/commit/a1c1667e9180e278ba9e7212743f662b086be1e6))
 
 # [5.66.0](https://github.com/rsuite/rsuite/compare/v5.65.1...v5.66.0) (2024-07-12)
 
-
 ### Bug Fixes
 
-* **accessibility:** improve font color contrast ([#3877](https://github.com/rsuite/rsuite/issues/3877)) ([105b6c6](https://github.com/rsuite/rsuite/commit/105b6c6e45b36b809c609ea66c2ed5fd74f0afd2))
-* **TreePicker, CheckTreePicker:** fix `locale` cannot override default localization configuration ([#3873](https://github.com/rsuite/rsuite/issues/3873)) ([01ac8c5](https://github.com/rsuite/rsuite/commit/01ac8c5c7ffa0131979210b9787294d79def02d4))
-
+- **accessibility:** improve font color contrast ([#3877](https://github.com/rsuite/rsuite/issues/3877)) ([105b6c6](https://github.com/rsuite/rsuite/commit/105b6c6e45b36b809c609ea66c2ed5fd74f0afd2))
+- **TreePicker, CheckTreePicker:** fix `locale` cannot override default localization configuration ([#3873](https://github.com/rsuite/rsuite/issues/3873)) ([01ac8c5](https://github.com/rsuite/rsuite/commit/01ac8c5c7ffa0131979210b9787294d79def02d4))
 
 ### Features
 
-* **Loader:** add `paused` value to the `speed` property to control the animation pause ([#3875](https://github.com/rsuite/rsuite/issues/3875)) ([85326c5](https://github.com/rsuite/rsuite/commit/85326c5c0ee149aaaecc8e8233d10a2291897cec))
-
-
+- **Loader:** add `paused` value to the `speed` property to control the animation pause ([#3875](https://github.com/rsuite/rsuite/issues/3875)) ([85326c5](https://github.com/rsuite/rsuite/commit/85326c5c0ee149aaaecc8e8233d10a2291897cec))
 
 ## [5.65.1](https://github.com/rsuite/rsuite/compare/v5.65.0...v5.65.1) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **Deno:** prevent ReferenceError in Deno environments ([#3865](https://github.com/rsuite/rsuite/issues/3865)) ([02cf882](https://github.com/rsuite/rsuite/commit/02cf88247ca287ec86b2765d0400aa9a18d4106a))
-* **Drawer:** remove the `max-height` that should not exist in Drawer.Body ([#3868](https://github.com/rsuite/rsuite/issues/3868)) ([7526b35](https://github.com/rsuite/rsuite/commit/7526b35e5c04d0a59ed72f5bb9c0e16a9fdef4c1))
-* errorMessage isn't shown when using ArrayType().of ([#3867](https://github.com/rsuite/rsuite/issues/3867)) ([16668a1](https://github.com/rsuite/rsuite/commit/16668a13e286608b659167e3f6266099608c9aea))
-* **progress:** consistent spacing between label/icon & progress line (Vertical) ([#3862](https://github.com/rsuite/rsuite/issues/3862)) ([672c63b](https://github.com/rsuite/rsuite/commit/672c63b5cd289449689abe503fd0eafcde31c116))
-
-
+- **Deno:** prevent ReferenceError in Deno environments ([#3865](https://github.com/rsuite/rsuite/issues/3865)) ([02cf882](https://github.com/rsuite/rsuite/commit/02cf88247ca287ec86b2765d0400aa9a18d4106a))
+- **Drawer:** remove the `max-height` that should not exist in Drawer.Body ([#3868](https://github.com/rsuite/rsuite/issues/3868)) ([7526b35](https://github.com/rsuite/rsuite/commit/7526b35e5c04d0a59ed72f5bb9c0e16a9fdef4c1))
+- errorMessage isn't shown when using ArrayType().of ([#3867](https://github.com/rsuite/rsuite/issues/3867)) ([16668a1](https://github.com/rsuite/rsuite/commit/16668a13e286608b659167e3f6266099608c9aea))
+- **progress:** consistent spacing between label/icon & progress line (Vertical) ([#3862](https://github.com/rsuite/rsuite/issues/3862)) ([672c63b](https://github.com/rsuite/rsuite/commit/672c63b5cd289449689abe503fd0eafcde31c116))
 
 # [5.65.0](https://github.com/rsuite/rsuite/compare/v5.64.2...v5.65.0) (2024-06-28)
 
-
 ### Bug Fixes
 
-* **DatePicker,DateRangePicker:** fix the priority of the style in the error state ([#3854](https://github.com/rsuite/rsuite/issues/3854)) ([36cb376](https://github.com/rsuite/rsuite/commit/36cb376160dd0d0bfd83c745c7b859a65eb8a852))
-* **Divider:** fix Stack horizontal divider not working ([#3856](https://github.com/rsuite/rsuite/issues/3856)) ([678876b](https://github.com/rsuite/rsuite/commit/678876bf063f7bab1c78c7be3134e22c4d885391))
-* **Table:** fix table row border not full ([#3858](https://github.com/rsuite/rsuite/issues/3858)) ([2a2bdb9](https://github.com/rsuite/rsuite/commit/2a2bdb9b43430d4611f2d24726b0cca03a8a4120))
-* **theme:** add less variable to opt-out of high-contrast theme bundling ([#3861](https://github.com/rsuite/rsuite/issues/3861)) ([0db8cb9](https://github.com/rsuite/rsuite/commit/0db8cb991cc4a5eb368130e0f17c2ee32a3f8dbb))
-* **uploader:** background color on hover when disabled ([#3852](https://github.com/rsuite/rsuite/issues/3852)) ([29e79a5](https://github.com/rsuite/rsuite/commit/29e79a56d2a74fdae14c22eccdf0e0cc874dcfb2))
-
+- **DatePicker,DateRangePicker:** fix the priority of the style in the error state ([#3854](https://github.com/rsuite/rsuite/issues/3854)) ([36cb376](https://github.com/rsuite/rsuite/commit/36cb376160dd0d0bfd83c745c7b859a65eb8a852))
+- **Divider:** fix Stack horizontal divider not working ([#3856](https://github.com/rsuite/rsuite/issues/3856)) ([678876b](https://github.com/rsuite/rsuite/commit/678876bf063f7bab1c78c7be3134e22c4d885391))
+- **Table:** fix table row border not full ([#3858](https://github.com/rsuite/rsuite/issues/3858)) ([2a2bdb9](https://github.com/rsuite/rsuite/commit/2a2bdb9b43430d4611f2d24726b0cca03a8a4120))
+- **theme:** add less variable to opt-out of high-contrast theme bundling ([#3861](https://github.com/rsuite/rsuite/issues/3861)) ([0db8cb9](https://github.com/rsuite/rsuite/commit/0db8cb991cc4a5eb368130e0f17c2ee32a3f8dbb))
+- **uploader:** background color on hover when disabled ([#3852](https://github.com/rsuite/rsuite/issues/3852)) ([29e79a5](https://github.com/rsuite/rsuite/commit/29e79a56d2a74fdae14c22eccdf0e0cc874dcfb2))
 
 ### Features
 
-* add support for HStack and VStack ([#3857](https://github.com/rsuite/rsuite/issues/3857)) ([ddbe3ca](https://github.com/rsuite/rsuite/commit/ddbe3ca1bef84ef9998402a5beaae62e603067b1))
-* **useToaster:** add support for `mouseReset` parameter in push method ([#3846](https://github.com/rsuite/rsuite/issues/3846)) ([7361e40](https://github.com/rsuite/rsuite/commit/7361e406ed75a80bda005c99b635f4d1d21b98eb))
-
-
+- add support for HStack and VStack ([#3857](https://github.com/rsuite/rsuite/issues/3857)) ([ddbe3ca](https://github.com/rsuite/rsuite/commit/ddbe3ca1bef84ef9998402a5beaae62e603067b1))
+- **useToaster:** add support for `mouseReset` parameter in push method ([#3846](https://github.com/rsuite/rsuite/issues/3846)) ([7361e40](https://github.com/rsuite/rsuite/commit/7361e406ed75a80bda005c99b635f4d1d21b98eb))
 
 ## [5.64.2](https://github.com/rsuite/rsuite/compare/v5.64.1...v5.64.2) (2024-06-21)
 
-
 ### Bug Fixes
 
-* **Panel:** fix unable to add className to PanelBody ([#3845](https://github.com/rsuite/rsuite/issues/3845)) ([ca70540](https://github.com/rsuite/rsuite/commit/ca705409fcd5539b2e95e34be3245414ede84237))
-* **radio:** disabled radio control hover cursor ([#3847](https://github.com/rsuite/rsuite/issues/3847)) ([99f7859](https://github.com/rsuite/rsuite/commit/99f7859921defdd7b7fc980552653a4c2f391028))
-* remove unnecessary dependencies ([#3844](https://github.com/rsuite/rsuite/issues/3844)) ([51d70ba](https://github.com/rsuite/rsuite/commit/51d70ba00a35c5fc8d75c324cb856e811adebcd1))
-
-
+- **Panel:** fix unable to add className to PanelBody ([#3845](https://github.com/rsuite/rsuite/issues/3845)) ([ca70540](https://github.com/rsuite/rsuite/commit/ca705409fcd5539b2e95e34be3245414ede84237))
+- **radio:** disabled radio control hover cursor ([#3847](https://github.com/rsuite/rsuite/issues/3847)) ([99f7859](https://github.com/rsuite/rsuite/commit/99f7859921defdd7b7fc980552653a4c2f391028))
+- remove unnecessary dependencies ([#3844](https://github.com/rsuite/rsuite/issues/3844)) ([51d70ba](https://github.com/rsuite/rsuite/commit/51d70ba00a35c5fc8d75c324cb856e811adebcd1))
 
 ## [5.64.1](https://github.com/rsuite/rsuite/compare/v5.64.0...v5.64.1) (2024-06-14)
 
-
 ### Bug Fixes
 
-* **DateInput,DateRangeInput:** fix date input error when manually input date ([#3832](https://github.com/rsuite/rsuite/issues/3832)) ([40db883](https://github.com/rsuite/rsuite/commit/40db883280d940aa871a77f92608ae0d2c37f2e9))
-* **Modal:** fix `overflow` not working when Modal is in Drawer ([#3839](https://github.com/rsuite/rsuite/issues/3839)) ([d65b28d](https://github.com/rsuite/rsuite/commit/d65b28dc2ba3fb534ee760ace5bc93dd34e06afb))
-
-
+- **DateInput,DateRangeInput:** fix date input error when manually input date ([#3832](https://github.com/rsuite/rsuite/issues/3832)) ([40db883](https://github.com/rsuite/rsuite/commit/40db883280d940aa871a77f92608ae0d2c37f2e9))
+- **Modal:** fix `overflow` not working when Modal is in Drawer ([#3839](https://github.com/rsuite/rsuite/issues/3839)) ([d65b28d](https://github.com/rsuite/rsuite/commit/d65b28dc2ba3fb534ee760ace5bc93dd34e06afb))
 
 # [5.64.0](https://github.com/rsuite/rsuite/compare/v5.62.1...v5.64.0) (2024-05-30)
 
-
 ### Bug Fixes
 
-* **RSC:** fix unable to access component via dot notation ([#3827](https://github.com/rsuite/rsuite/issues/3827)) ([cd04fd2](https://github.com/rsuite/rsuite/commit/cd04fd212267e8a7a32ca94f9aa39bc82ef24589))
-* **useMediaQuery:** fix components not rendering due to non-immutable data ([#3825](https://github.com/rsuite/rsuite/issues/3825)) ([3c8656c](https://github.com/rsuite/rsuite/commit/3c8656cc7c3e5d93822bc334b859ecd375780d33))
-
+- **RSC:** fix unable to access component via dot notation ([#3827](https://github.com/rsuite/rsuite/issues/3827)) ([cd04fd2](https://github.com/rsuite/rsuite/commit/cd04fd212267e8a7a32ca94f9aa39bc82ef24589))
+- **useMediaQuery:** fix components not rendering due to non-immutable data ([#3825](https://github.com/rsuite/rsuite/issues/3825)) ([3c8656c](https://github.com/rsuite/rsuite/commit/3c8656cc7c3e5d93822bc334b859ecd375780d33))
 
 ### Features
 
-* **Toggle:** add support for color and children ([#3824](https://github.com/rsuite/rsuite/issues/3824)) ([5f5c973](https://github.com/rsuite/rsuite/commit/5f5c973b82e0141affede868f5a265306e618729))
-* **useBreakpointValue:** add a hook to get the value of the current breakpoint ([#3826](https://github.com/rsuite/rsuite/issues/3826)) ([aac93e8](https://github.com/rsuite/rsuite/commit/aac93e816e2c5f2d06afe7699994e8e77bff66b5))
-
+- **Toggle:** add support for color and children ([#3824](https://github.com/rsuite/rsuite/issues/3824)) ([5f5c973](https://github.com/rsuite/rsuite/commit/5f5c973b82e0141affede868f5a265306e618729))
+- **useBreakpointValue:** add a hook to get the value of the current breakpoint ([#3826](https://github.com/rsuite/rsuite/issues/3826)) ([aac93e8](https://github.com/rsuite/rsuite/commit/aac93e816e2c5f2d06afe7699994e8e77bff66b5))
 
 ## [5.62.1](https://github.com/rsuite/rsuite/compare/v5.62.0...v5.62.1) (2024-05-24)
 
-
 ### Bug Fixes
 
-* **build:** fix the path not being converted in the `.d.ts` file ([#3820](https://github.com/rsuite/rsuite/issues/3820)) ([68d126a](https://github.com/rsuite/rsuite/commit/68d126aaaab8ad3366f458477512cf403f72b1f6))
-
-
+- **build:** fix the path not being converted in the `.d.ts` file ([#3820](https://github.com/rsuite/rsuite/issues/3820)) ([68d126a](https://github.com/rsuite/rsuite/commit/68d126aaaab8ad3366f458477512cf403f72b1f6))
 
 # [5.62.0](https://github.com/rsuite/rsuite/compare/v5.61.0...v5.62.0) (2024-05-24)
 
-
 ### Bug Fixes
 
-* **DatePicker:** fix calendar component style issue ([#3816](https://github.com/rsuite/rsuite/issues/3816)) ([f455182](https://github.com/rsuite/rsuite/commit/f455182ffcebb382ad9a3d71149c876aefa84e4a))
-* **DatePicker,DateRangePicker:** fix `renderValue` and `editable` can't coexist ([#3815](https://github.com/rsuite/rsuite/issues/3815)) ([20d4a81](https://github.com/rsuite/rsuite/commit/20d4a817ec70ea3f073ca7763c8abbe66b21a913))
-
+- **DatePicker:** fix calendar component style issue ([#3816](https://github.com/rsuite/rsuite/issues/3816)) ([f455182](https://github.com/rsuite/rsuite/commit/f455182ffcebb382ad9a3d71149c876aefa84e4a))
+- **DatePicker,DateRangePicker:** fix `renderValue` and `editable` can't coexist ([#3815](https://github.com/rsuite/rsuite/issues/3815)) ([20d4a81](https://github.com/rsuite/rsuite/commit/20d4a817ec70ea3f073ca7763c8abbe66b21a913))
 
 ### Features
 
-* **Calendar,DatePicker,DateRangePicker:** add support for `weekStart` ([#3814](https://github.com/rsuite/rsuite/issues/3814)) ([9edbbcd](https://github.com/rsuite/rsuite/commit/9edbbcdf1d550e669483c5bca6cad624d5e8cf74))
-* **Panel, Tree, CheckTree:** add support for `scrollShadow` ([#3818](https://github.com/rsuite/rsuite/issues/3818)) ([8183e92](https://github.com/rsuite/rsuite/commit/8183e92d1998cc1945b181b916bce6cefcee3012))
-
-
+- **Calendar,DatePicker,DateRangePicker:** add support for `weekStart` ([#3814](https://github.com/rsuite/rsuite/issues/3814)) ([9edbbcd](https://github.com/rsuite/rsuite/commit/9edbbcdf1d550e669483c5bca6cad624d5e8cf74))
+- **Panel, Tree, CheckTree:** add support for `scrollShadow` ([#3818](https://github.com/rsuite/rsuite/issues/3818)) ([8183e92](https://github.com/rsuite/rsuite/commit/8183e92d1998cc1945b181b916bce6cefcee3012))
 
 # [5.61.0](https://github.com/rsuite/rsuite/compare/v5.60.2...v5.61.0) (2024-05-17)
 
-
 ### Bug Fixes
 
-* **Steps:** center align inner icon/text ([#3811](https://github.com/rsuite/rsuite/issues/3811)) ([1f284ea](https://github.com/rsuite/rsuite/commit/1f284ea486a019a5f1360a69bb962818b48dbe75))
-* fix the color contrast of form controls in disabled state ([#3809](https://github.com/rsuite/rsuite/issues/3809)) ([211ce5f](https://github.com/rsuite/rsuite/commit/211ce5fe868285d70b59ff944a77b1b86e2bc8b9))
-* **DatePicker, DateRangePicker:** block pointer events when disabled ([#3797](https://github.com/rsuite/rsuite/issues/3797)) ([166fb45](https://github.com/rsuite/rsuite/commit/166fb455a86090e8a7b1c734984f0350aa617af0))
-* **DatePicker,DateRangePicker:** fix the issue that `renderValue` does not work ([#3798](https://github.com/rsuite/rsuite/issues/3798)) ([494c9c6](https://github.com/rsuite/rsuite/commit/494c9c6d052f0384c19144f97a545cf317e58f3b))
-* **DateRangePicker:** fix calendar panel vertical display ([#3806](https://github.com/rsuite/rsuite/issues/3806)) ([0da17e9](https://github.com/rsuite/rsuite/commit/0da17e9dc9f66c7290f5fbf181b9bf2893b3b5ee))
-* **Placeholder.Grid:** fix `active` not working ([#3805](https://github.com/rsuite/rsuite/issues/3805)) ([2e1a4ce](https://github.com/rsuite/rsuite/commit/2e1a4ce523d453074aa3b4ab753dd9ae6f0e696c))
-
+- **Steps:** center align inner icon/text ([#3811](https://github.com/rsuite/rsuite/issues/3811)) ([1f284ea](https://github.com/rsuite/rsuite/commit/1f284ea486a019a5f1360a69bb962818b48dbe75))
+- fix the color contrast of form controls in disabled state ([#3809](https://github.com/rsuite/rsuite/issues/3809)) ([211ce5f](https://github.com/rsuite/rsuite/commit/211ce5fe868285d70b59ff944a77b1b86e2bc8b9))
+- **DatePicker, DateRangePicker:** block pointer events when disabled ([#3797](https://github.com/rsuite/rsuite/issues/3797)) ([166fb45](https://github.com/rsuite/rsuite/commit/166fb455a86090e8a7b1c734984f0350aa617af0))
+- **DatePicker,DateRangePicker:** fix the issue that `renderValue` does not work ([#3798](https://github.com/rsuite/rsuite/issues/3798)) ([494c9c6](https://github.com/rsuite/rsuite/commit/494c9c6d052f0384c19144f97a545cf317e58f3b))
+- **DateRangePicker:** fix calendar panel vertical display ([#3806](https://github.com/rsuite/rsuite/issues/3806)) ([0da17e9](https://github.com/rsuite/rsuite/commit/0da17e9dc9f66c7290f5fbf181b9bf2893b3b5ee))
+- **Placeholder.Grid:** fix `active` not working ([#3805](https://github.com/rsuite/rsuite/issues/3805)) ([2e1a4ce](https://github.com/rsuite/rsuite/commit/2e1a4ce523d453074aa3b4ab753dd9ae6f0e696c))
 
 ### Features
 
-* **Highlight:** add support for Highlight component ([#3810](https://github.com/rsuite/rsuite/issues/3810)) ([876377b](https://github.com/rsuite/rsuite/commit/876377bbcacfbf637f7cd2ef803242f646e5eda6))
-* option group of the picker supports sticking to the top of container ([#3807](https://github.com/rsuite/rsuite/issues/3807)) ([157a2bf](https://github.com/rsuite/rsuite/commit/157a2bfa90334692baad95a80a254dea423f1425))
-
+- **Highlight:** add support for Highlight component ([#3810](https://github.com/rsuite/rsuite/issues/3810)) ([876377b](https://github.com/rsuite/rsuite/commit/876377bbcacfbf637f7cd2ef803242f646e5eda6))
+- option group of the picker supports sticking to the top of container ([#3807](https://github.com/rsuite/rsuite/issues/3807)) ([157a2bf](https://github.com/rsuite/rsuite/commit/157a2bfa90334692baad95a80a254dea423f1425))
 
 ### Performance Improvements
 
-* **DateRangePicker:** improve the performance when typing the date ([#3803](https://github.com/rsuite/rsuite/issues/3803)) ([a384bd0](https://github.com/rsuite/rsuite/commit/a384bd0d1909e588eed87157bab137faa761e937))
-
-
+- **DateRangePicker:** improve the performance when typing the date ([#3803](https://github.com/rsuite/rsuite/issues/3803)) ([a384bd0](https://github.com/rsuite/rsuite/commit/a384bd0d1909e588eed87157bab137faa761e937))
 
 ## [5.60.2](https://github.com/rsuite/rsuite/compare/v5.60.1...v5.60.2) (2024-05-10)
 
-
 ### Bug Fixes
 
-* **date-picker:** cursor pointer on icon hover ([#3789](https://github.com/rsuite/rsuite/issues/3789)) ([fb85faa](https://github.com/rsuite/rsuite/commit/fb85faa01695ab8a48a357e994a451c46c4d7ab3))
-* **DateInput,DateRangeInput:** fix the issue of incorrect cursor position in the input box ([#3785](https://github.com/rsuite/rsuite/issues/3785)) ([d606944](https://github.com/rsuite/rsuite/commit/d6069447aeb156974c7af18050e43ba9443fa4d3))
-* **Slider:** block pointer events when disabled ([#3788](https://github.com/rsuite/rsuite/issues/3788)) ([2470f77](https://github.com/rsuite/rsuite/commit/2470f77225078c2b65536808218286c1c737bee6))
-* **toggle:** center align inner text/icon ([#3787](https://github.com/rsuite/rsuite/issues/3787)) ([c2a8fb1](https://github.com/rsuite/rsuite/commit/c2a8fb13f700dd07b76628a200eb1a5236f21b5c))
-
-
+- **date-picker:** cursor pointer on icon hover ([#3789](https://github.com/rsuite/rsuite/issues/3789)) ([fb85faa](https://github.com/rsuite/rsuite/commit/fb85faa01695ab8a48a357e994a451c46c4d7ab3))
+- **DateInput,DateRangeInput:** fix the issue of incorrect cursor position in the input box ([#3785](https://github.com/rsuite/rsuite/issues/3785)) ([d606944](https://github.com/rsuite/rsuite/commit/d6069447aeb156974c7af18050e43ba9443fa4d3))
+- **Slider:** block pointer events when disabled ([#3788](https://github.com/rsuite/rsuite/issues/3788)) ([2470f77](https://github.com/rsuite/rsuite/commit/2470f77225078c2b65536808218286c1c737bee6))
+- **toggle:** center align inner text/icon ([#3787](https://github.com/rsuite/rsuite/issues/3787)) ([c2a8fb1](https://github.com/rsuite/rsuite/commit/c2a8fb13f700dd07b76628a200eb1a5236f21b5c))
 
 ## [5.60.1](https://github.com/rsuite/rsuite/compare/v5.60.0...v5.60.1) (2024-05-03)
 
-
 ### Bug Fixes
 
-* **DateRangePicker:** fix not auto switching to the end calendar when only one calendar is displayed ([#3781](https://github.com/rsuite/rsuite/issues/3781)) ([5322f9c](https://github.com/rsuite/rsuite/commit/5322f9cc747750b865e8184dcab36609e906b274))
-* **DateRangePicker:** fix not updating time on calendar when typing to change time ([#3777](https://github.com/rsuite/rsuite/issues/3777)) ([d1a7350](https://github.com/rsuite/rsuite/commit/d1a73502908026ceb20b5f2f49709b4dd03f334a))
-* **toggle:** block pointer events when disabled ([#3774](https://github.com/rsuite/rsuite/issues/3774)) ([d833a0a](https://github.com/rsuite/rsuite/commit/d833a0ab1c759b568bba6d87d697687e3ca7cbed))
-* **Toggle:** fix the height problem of the switch element ([#3780](https://github.com/rsuite/rsuite/issues/3780)) ([ff1570c](https://github.com/rsuite/rsuite/commit/ff1570c7d8776f2a120f1c048237725597157143))
-
-
+- **DateRangePicker:** fix not auto switching to the end calendar when only one calendar is displayed ([#3781](https://github.com/rsuite/rsuite/issues/3781)) ([5322f9c](https://github.com/rsuite/rsuite/commit/5322f9cc747750b865e8184dcab36609e906b274))
+- **DateRangePicker:** fix not updating time on calendar when typing to change time ([#3777](https://github.com/rsuite/rsuite/issues/3777)) ([d1a7350](https://github.com/rsuite/rsuite/commit/d1a73502908026ceb20b5f2f49709b4dd03f334a))
+- **toggle:** block pointer events when disabled ([#3774](https://github.com/rsuite/rsuite/issues/3774)) ([d833a0a](https://github.com/rsuite/rsuite/commit/d833a0ab1c759b568bba6d87d697687e3ca7cbed))
+- **Toggle:** fix the height problem of the switch element ([#3780](https://github.com/rsuite/rsuite/issues/3780)) ([ff1570c](https://github.com/rsuite/rsuite/commit/ff1570c7d8776f2a120f1c048237725597157143))
 
 # [5.60.0](https://github.com/rsuite/rsuite/compare/v5.59.2...v5.60.0) (2024-04-26)
 
-
 ### Bug Fixes
 
-* **Fade:** fix Picker not working in Drawer without backdrop ([#3759](https://github.com/rsuite/rsuite/issues/3759)) ([930a321](https://github.com/rsuite/rsuite/commit/930a3212b58202f4d0bf05a8bb191195944d589c))
-* **TagPicker:** fix misalignment of large size tag with textbox ([#3755](https://github.com/rsuite/rsuite/issues/3755)) ([2bcd793](https://github.com/rsuite/rsuite/commit/2bcd793cd7cf1b181643125fe92f4ffb0e18f771))
-* **TagPicker:** fix text flicker when entering ([#3758](https://github.com/rsuite/rsuite/issues/3758)) ([f7058d1](https://github.com/rsuite/rsuite/commit/f7058d1e9234e43c9f8d7884636a09d83f40fcb9))
-
+- **Fade:** fix Picker not working in Drawer without backdrop ([#3759](https://github.com/rsuite/rsuite/issues/3759)) ([930a321](https://github.com/rsuite/rsuite/commit/930a3212b58202f4d0bf05a8bb191195944d589c))
+- **TagPicker:** fix misalignment of large size tag with textbox ([#3755](https://github.com/rsuite/rsuite/issues/3755)) ([2bcd793](https://github.com/rsuite/rsuite/commit/2bcd793cd7cf1b181643125fe92f4ffb0e18f771))
+- **TagPicker:** fix text flicker when entering ([#3758](https://github.com/rsuite/rsuite/issues/3758)) ([f7058d1](https://github.com/rsuite/rsuite/commit/f7058d1e9234e43c9f8d7884636a09d83f40fcb9))
 
 ### Features
 
-* **Form:** add support for onSubmit and onReset ([#3750](https://github.com/rsuite/rsuite/issues/3750)) ([d9b747e](https://github.com/rsuite/rsuite/commit/d9b747e97f3aaaa1d0b047ab81150d2a01764ed1))
-
+- **Form:** add support for onSubmit and onReset ([#3750](https://github.com/rsuite/rsuite/issues/3750)) ([d9b747e](https://github.com/rsuite/rsuite/commit/d9b747e97f3aaaa1d0b047ab81150d2a01764ed1))
 
 ## [5.59.2](https://github.com/rsuite/rsuite/compare/v5.59.1...v5.59.2) (2024-04-19)
 
-
 ### Bug Fixes
 
-* **DatePicker:** fix disabled date and month can be selected ([#3747](https://github.com/rsuite/rsuite/issues/3747)) ([c3d8765](https://github.com/rsuite/rsuite/commit/c3d87651ba6ad5f62ec620fb842a4fdc0315fb3e))
-* **DateRangePicker:** fix `oneTap` not working when there is a default value ([#3745](https://github.com/rsuite/rsuite/issues/3745)) ([478894e](https://github.com/rsuite/rsuite/commit/478894e8a48716f9f143e8ed10ef20bbcbff7bc1))
-* **DateRangePicker:** fix the end time cannot be changed when only one calendar is displayed ([#3743](https://github.com/rsuite/rsuite/issues/3743)) ([a5affd9](https://github.com/rsuite/rsuite/commit/a5affd90dd85e881874097ff1a67f66ce8693fbb))
-* **Form:** fix `nestedField` will auto trigger validation for other sibling fields ([#3741](https://github.com/rsuite/rsuite/issues/3741)) ([dbe1ae2](https://github.com/rsuite/rsuite/commit/dbe1ae240f04bbbcdade501f236055ae755d5bbb))
-
-
+- **DatePicker:** fix disabled date and month can be selected ([#3747](https://github.com/rsuite/rsuite/issues/3747)) ([c3d8765](https://github.com/rsuite/rsuite/commit/c3d87651ba6ad5f62ec620fb842a4fdc0315fb3e))
+- **DateRangePicker:** fix `oneTap` not working when there is a default value ([#3745](https://github.com/rsuite/rsuite/issues/3745)) ([478894e](https://github.com/rsuite/rsuite/commit/478894e8a48716f9f143e8ed10ef20bbcbff7bc1))
+- **DateRangePicker:** fix the end time cannot be changed when only one calendar is displayed ([#3743](https://github.com/rsuite/rsuite/issues/3743)) ([a5affd9](https://github.com/rsuite/rsuite/commit/a5affd90dd85e881874097ff1a67f66ce8693fbb))
+- **Form:** fix `nestedField` will auto trigger validation for other sibling fields ([#3741](https://github.com/rsuite/rsuite/issues/3741)) ([dbe1ae2](https://github.com/rsuite/rsuite/commit/dbe1ae240f04bbbcdade501f236055ae755d5bbb))
 
 ## [5.59.1](https://github.com/rsuite/rsuite/compare/v5.59.0...v5.59.1) (2024-04-12)
 
-
 ### Bug Fixes
 
-* **AvatarGroup:** fix avatar deformation in group ([#3727](https://github.com/rsuite/rsuite/issues/3727)) ([466e428](https://github.com/rsuite/rsuite/commit/466e4285d794f081f90e79fc28e8f57783c438c1))
-* **Checkbox:** fix Checkbox not clickable in Firefox ([#3728](https://github.com/rsuite/rsuite/issues/3728)) ([2fc23aa](https://github.com/rsuite/rsuite/commit/2fc23aa841532f4340f5bef9a7a70009b912a4b9))
-* **docs:** typo on Form name ([#3723](https://github.com/rsuite/rsuite/issues/3723)) ([8f328e1](https://github.com/rsuite/rsuite/commit/8f328e10e16cbe978aa6737baefa67ca2b4f6867))
-* **Placeholder:** fix Placeholder SSR and CSR mismatch ([#3735](https://github.com/rsuite/rsuite/issues/3735)) ([8a9c8bd](https://github.com/rsuite/rsuite/commit/8a9c8bd81003b54f930e3dfd4f99356db44f125f))
-* **Sidenav:** fix secondary menu cannot expand ([#3732](https://github.com/rsuite/rsuite/issues/3732)) ([d680fa3](https://github.com/rsuite/rsuite/commit/d680fa3b7b498c72148ccff95b5ea1ad10ad7382))
-* remove debug code ([#3720](https://github.com/rsuite/rsuite/issues/3720)) ([637b8dc](https://github.com/rsuite/rsuite/commit/637b8dc6bb19a6775eda692534282a0dce1ebfbc))
-
-
+- **AvatarGroup:** fix avatar deformation in group ([#3727](https://github.com/rsuite/rsuite/issues/3727)) ([466e428](https://github.com/rsuite/rsuite/commit/466e4285d794f081f90e79fc28e8f57783c438c1))
+- **Checkbox:** fix Checkbox not clickable in Firefox ([#3728](https://github.com/rsuite/rsuite/issues/3728)) ([2fc23aa](https://github.com/rsuite/rsuite/commit/2fc23aa841532f4340f5bef9a7a70009b912a4b9))
+- **docs:** typo on Form name ([#3723](https://github.com/rsuite/rsuite/issues/3723)) ([8f328e1](https://github.com/rsuite/rsuite/commit/8f328e10e16cbe978aa6737baefa67ca2b4f6867))
+- **Placeholder:** fix Placeholder SSR and CSR mismatch ([#3735](https://github.com/rsuite/rsuite/issues/3735)) ([8a9c8bd](https://github.com/rsuite/rsuite/commit/8a9c8bd81003b54f930e3dfd4f99356db44f125f))
+- **Sidenav:** fix secondary menu cannot expand ([#3732](https://github.com/rsuite/rsuite/issues/3732)) ([d680fa3](https://github.com/rsuite/rsuite/commit/d680fa3b7b498c72148ccff95b5ea1ad10ad7382))
+- remove debug code ([#3720](https://github.com/rsuite/rsuite/issues/3720)) ([637b8dc](https://github.com/rsuite/rsuite/commit/637b8dc6bb19a6775eda692534282a0dce1ebfbc))
 
 # [5.59.0](https://github.com/rsuite/rsuite/compare/v5.58.1...v5.59.0) (2024-04-03)
 
-
 ### Bug Fixes
 
-* **DatePicker,DateRangePicker:** fix the date change when the input date is incomplete ([#3719](https://github.com/rsuite/rsuite/issues/3719)) ([24f162f](https://github.com/rsuite/rsuite/commit/24f162f6ee403dbca0829159f3a099167b278bcf))
-* **Drawer:** fix the focus cannot be moved to elements outside the Drawer when `backdrop=false` ([#3716](https://github.com/rsuite/rsuite/issues/3716)) ([f044445](https://github.com/rsuite/rsuite/commit/f044445e97d653debcb1772a70c51b4a30d44f6b))
-
+- **DatePicker,DateRangePicker:** fix the date change when the input date is incomplete ([#3719](https://github.com/rsuite/rsuite/issues/3719)) ([24f162f](https://github.com/rsuite/rsuite/commit/24f162f6ee403dbca0829159f3a099167b278bcf))
+- **Drawer:** fix the focus cannot be moved to elements outside the Drawer when `backdrop=false` ([#3716](https://github.com/rsuite/rsuite/issues/3716)) ([f044445](https://github.com/rsuite/rsuite/commit/f044445e97d653debcb1772a70c51b4a30d44f6b))
 
 ### Features
 
-* **Avatar:** add support for `bordered` and `color` props ([#3711](https://github.com/rsuite/rsuite/issues/3711)) ([3ca7dc1](https://github.com/rsuite/rsuite/commit/3ca7dc1eeaf46461fff107012dac972d4ef20c1b))
-
-
+- **Avatar:** add support for `bordered` and `color` props ([#3711](https://github.com/rsuite/rsuite/issues/3711)) ([3ca7dc1](https://github.com/rsuite/rsuite/commit/3ca7dc1eeaf46461fff107012dac972d4ef20c1b))
 
 ## [5.58.1](https://github.com/rsuite/rsuite/compare/v5.58.0...v5.58.1) (2024-03-28)
 
-
 ### Bug Fixes
 
-* fix build errors caused by export type ([#3712](https://github.com/rsuite/rsuite/issues/3712)) ([94e9ef4](https://github.com/rsuite/rsuite/commit/94e9ef423c7722ecfa4ed3d72a320b38f13a0c6d))
-
-
+- fix build errors caused by export type ([#3712](https://github.com/rsuite/rsuite/issues/3712)) ([94e9ef4](https://github.com/rsuite/rsuite/commit/94e9ef423c7722ecfa4ed3d72a320b38f13a0c6d))
 
 # [5.58.0](https://github.com/rsuite/rsuite/compare/v5.57.0...v5.58.0) (2024-03-28)
 
-
 ### Bug Fixes
 
-* **TagPicker:** fix TagPicker size issue ([#3702](https://github.com/rsuite/rsuite/issues/3702)) ([3319e12](https://github.com/rsuite/rsuite/commit/3319e127f00ea84150c2a08f6eb0a7a042ce32f1))
-
+- **TagPicker:** fix TagPicker size issue ([#3702](https://github.com/rsuite/rsuite/issues/3702)) ([3319e12](https://github.com/rsuite/rsuite/commit/3319e127f00ea84150c2a08f6eb0a7a042ce32f1))
 
 ### Features
 
-* **Dropdown:** add support for `shortcut` on `<Dropdown.Item>` ([#3704](https://github.com/rsuite/rsuite/issues/3704)) ([2edac54](https://github.com/rsuite/rsuite/commit/2edac546c50a0bff2c827c9d3e2bab2e757bedc7))
-* Picker's onOpen & onClose should decouple with onEnter & onExit ([#3228](https://github.com/rsuite/rsuite/issues/3228)) ([09db561](https://github.com/rsuite/rsuite/commit/09db5610aa5c6d9051a35fd3e980f248459c4870))
-* **Typography:** add support for Heading and Text ([#3693](https://github.com/rsuite/rsuite/issues/3693)) ([b278b4e](https://github.com/rsuite/rsuite/commit/b278b4e2f76c40966b58cfeb11a1e165c547a3a1))
-
-
+- **Dropdown:** add support for `shortcut` on `<Dropdown.Item>` ([#3704](https://github.com/rsuite/rsuite/issues/3704)) ([2edac54](https://github.com/rsuite/rsuite/commit/2edac546c50a0bff2c827c9d3e2bab2e757bedc7))
+- Picker's onOpen & onClose should decouple with onEnter & onExit ([#3228](https://github.com/rsuite/rsuite/issues/3228)) ([09db561](https://github.com/rsuite/rsuite/commit/09db5610aa5c6d9051a35fd3e980f248459c4870))
+- **Typography:** add support for Heading and Text ([#3693](https://github.com/rsuite/rsuite/issues/3693)) ([b278b4e](https://github.com/rsuite/rsuite/commit/b278b4e2f76c40966b58cfeb11a1e165c547a3a1))
 
 # [5.57.0](https://github.com/rsuite/rsuite/compare/v5.56.0...v5.57.0) (2024-03-22)
 
-
 ### Bug Fixes
 
-* **InlineEdit:** fix type conflict for defined `children` ([#3685](https://github.com/rsuite/rsuite/issues/3685)) ([619c455](https://github.com/rsuite/rsuite/commit/619c4551329f3e83be8f862c4cc02bb15245d0de))
-* **Loader:** set correct ARIA properties for Loader ([#3691](https://github.com/rsuite/rsuite/issues/3691)) ([92505e2](https://github.com/rsuite/rsuite/commit/92505e258303e9be52d8771e2eedcd147e79406c))
-* fix the problem that useToaster cannot be imported on demand and update the docs directory ([#3689](https://github.com/rsuite/rsuite/issues/3689)) ([1e4f4e3](https://github.com/rsuite/rsuite/commit/1e4f4e3ea37c20442faced375a697169a659ba56))
-
+- **InlineEdit:** fix type conflict for defined `children` ([#3685](https://github.com/rsuite/rsuite/issues/3685)) ([619c455](https://github.com/rsuite/rsuite/commit/619c4551329f3e83be8f862c4cc02bb15245d0de))
+- **Loader:** set correct ARIA properties for Loader ([#3691](https://github.com/rsuite/rsuite/issues/3691)) ([92505e2](https://github.com/rsuite/rsuite/commit/92505e258303e9be52d8771e2eedcd147e79406c))
+- fix the problem that useToaster cannot be imported on demand and update the docs directory ([#3689](https://github.com/rsuite/rsuite/issues/3689)) ([1e4f4e3](https://github.com/rsuite/rsuite/commit/1e4f4e3ea37c20442faced375a697169a659ba56))
 
 ### Features
 
-* add support for CascadeTree and MultiCascadeTree ([#3563](https://github.com/rsuite/rsuite/issues/3563)) ([524fc7a](https://github.com/rsuite/rsuite/commit/524fc7ac4810fd8128b7dea0b72b525f55d70401))
-
-
+- add support for CascadeTree and MultiCascadeTree ([#3563](https://github.com/rsuite/rsuite/issues/3563)) ([524fc7a](https://github.com/rsuite/rsuite/commit/524fc7ac4810fd8128b7dea0b72b525f55d70401))
 
 # [5.56.0](https://github.com/rsuite/rsuite/compare/v5.55.1...v5.56.0) (2024-03-15)
 
-
 ### Bug Fixes
 
-* examples/with-gatsby/package.json to reduce vulnerabilities ([#3583](https://github.com/rsuite/rsuite/issues/3583)) ([2f10776](https://github.com/rsuite/rsuite/commit/2f10776c541b2616b9eef9f8e34e4758d3451f77))
-* **Checkbox:** listen for click events on the correct element ([#3666](https://github.com/rsuite/rsuite/issues/3666)) ([cd43df5](https://github.com/rsuite/rsuite/commit/cd43df5feee868ad411fa4da54635b54d2d25934))
-* **TagGroup:** fix css entry in nested children ([#3663](https://github.com/rsuite/rsuite/issues/3663)) ([fc59018](https://github.com/rsuite/rsuite/commit/fc590180066e26cbfba28428b4db54f6f4a070dc))
-
+- examples/with-gatsby/package.json to reduce vulnerabilities ([#3583](https://github.com/rsuite/rsuite/issues/3583)) ([2f10776](https://github.com/rsuite/rsuite/commit/2f10776c541b2616b9eef9f8e34e4758d3451f77))
+- **Checkbox:** listen for click events on the correct element ([#3666](https://github.com/rsuite/rsuite/issues/3666)) ([cd43df5](https://github.com/rsuite/rsuite/commit/cd43df5feee868ad411fa4da54635b54d2d25934))
+- **TagGroup:** fix css entry in nested children ([#3663](https://github.com/rsuite/rsuite/issues/3663)) ([fc59018](https://github.com/rsuite/rsuite/commit/fc590180066e26cbfba28428b4db54f6f4a070dc))
 
 ### Features
 
-* **Checkbox:** add support for `color` on `<Checkbox>` ([#3670](https://github.com/rsuite/rsuite/issues/3670)) ([a9e14ee](https://github.com/rsuite/rsuite/commit/a9e14ee834d612153e649ff14a54f5f83f6d6b2f))
-* **Radio:** add support for `color` on `<Radio>` ([#3672](https://github.com/rsuite/rsuite/issues/3672)) ([9406886](https://github.com/rsuite/rsuite/commit/9406886a59443f54a6e08d23025a0654dcd68bf0))
-
-
+- **Checkbox:** add support for `color` on `<Checkbox>` ([#3670](https://github.com/rsuite/rsuite/issues/3670)) ([a9e14ee](https://github.com/rsuite/rsuite/commit/a9e14ee834d612153e649ff14a54f5f83f6d6b2f))
+- **Radio:** add support for `color` on `<Radio>` ([#3672](https://github.com/rsuite/rsuite/issues/3672)) ([9406886](https://github.com/rsuite/rsuite/commit/9406886a59443f54a6e08d23025a0654dcd68bf0))
 
 ## [5.55.1](https://github.com/rsuite/rsuite/compare/v5.55.0...v5.55.1) (2024-03-08)
 
-
 ### Bug Fixes
 
-* **Calendar:** fix misalignment of month selection menu layout ([#3655](https://github.com/rsuite/rsuite/issues/3655)) ([eff9702](https://github.com/rsuite/rsuite/commit/eff9702977d893caa0c701dba03b19a44d56799a))
-* **DatePicker,DateRangePicker:** fix the problem of padding ([#3659](https://github.com/rsuite/rsuite/issues/3659)) ([47f84f4](https://github.com/rsuite/rsuite/commit/47f84f4a3d2e3d4bd716a40ae78cb792ac779380))
-* **Message:** fix the z-index issue of Message in full screen state ([#3658](https://github.com/rsuite/rsuite/issues/3658)) ([f899b92](https://github.com/rsuite/rsuite/commit/f899b9254b694e61306ab096d324d19870bc9709))
-* **nav:** default appearance doesn't show an active background when focused ([#3654](https://github.com/rsuite/rsuite/issues/3654)) ([3dcf943](https://github.com/rsuite/rsuite/commit/3dcf943a8e6811f4369ed858fba671e7783ef6f7))
-
-
+- **Calendar:** fix misalignment of month selection menu layout ([#3655](https://github.com/rsuite/rsuite/issues/3655)) ([eff9702](https://github.com/rsuite/rsuite/commit/eff9702977d893caa0c701dba03b19a44d56799a))
+- **DatePicker,DateRangePicker:** fix the problem of padding ([#3659](https://github.com/rsuite/rsuite/issues/3659)) ([47f84f4](https://github.com/rsuite/rsuite/commit/47f84f4a3d2e3d4bd716a40ae78cb792ac779380))
+- **Message:** fix the z-index issue of Message in full screen state ([#3658](https://github.com/rsuite/rsuite/issues/3658)) ([f899b92](https://github.com/rsuite/rsuite/commit/f899b9254b694e61306ab096d324d19870bc9709))
+- **nav:** default appearance doesn't show an active background when focused ([#3654](https://github.com/rsuite/rsuite/issues/3654)) ([3dcf943](https://github.com/rsuite/rsuite/commit/3dcf943a8e6811f4369ed858fba671e7783ef6f7))
 
 # [5.55.0](https://github.com/rsuite/rsuite/compare/v5.54.0...v5.55.0) (2024-03-01)
 
-
 ### Bug Fixes
 
-* **DateRangePicker:** fix time picker does not update when clicking the shortcut item ([#3647](https://github.com/rsuite/rsuite/issues/3647)) ([00c9eaa](https://github.com/rsuite/rsuite/commit/00c9eaa9b246da027c729fb3cf3639001473d4fe))
-* **Pagination:** fix SelectPicker rendering misalignment ([#3643](https://github.com/rsuite/rsuite/issues/3643)) ([044c48f](https://github.com/rsuite/rsuite/commit/044c48f3e358f93bc7568bc83242e7ea6348825e))
-* **Slider,RangeSlider:** fix touch event not working ([#3653](https://github.com/rsuite/rsuite/issues/3653)) ([3d57ebc](https://github.com/rsuite/rsuite/commit/3d57ebcaebafa3207b84987ba7e80cd4c38a2741))
-
+- **DateRangePicker:** fix time picker does not update when clicking the shortcut item ([#3647](https://github.com/rsuite/rsuite/issues/3647)) ([00c9eaa](https://github.com/rsuite/rsuite/commit/00c9eaa9b246da027c729fb3cf3639001473d4fe))
+- **Pagination:** fix SelectPicker rendering misalignment ([#3643](https://github.com/rsuite/rsuite/issues/3643)) ([044c48f](https://github.com/rsuite/rsuite/commit/044c48f3e358f93bc7568bc83242e7ea6348825e))
+- **Slider,RangeSlider:** fix touch event not working ([#3653](https://github.com/rsuite/rsuite/issues/3653)) ([3d57ebc](https://github.com/rsuite/rsuite/commit/3d57ebcaebafa3207b84987ba7e80cd4c38a2741))
 
 ### Features
 
-* added czech locale ([#3649](https://github.com/rsuite/rsuite/issues/3649)) ([f589257](https://github.com/rsuite/rsuite/commit/f58925757314da09dd2a2ee0706321860a32ab13))
-* **DatePicker:** add support `renderCell` on `<DatePicker>` ([#3641](https://github.com/rsuite/rsuite/issues/3641)) ([b63d1a3](https://github.com/rsuite/rsuite/commit/b63d1a37b0289383dbe0099481609097e1c4a436))
-* **InputNumber:** add support for `formatter` on `<InputNumber>` ([#3642](https://github.com/rsuite/rsuite/issues/3642)) ([d457d3a](https://github.com/rsuite/rsuite/commit/d457d3a67d929fa02780e4d012844756361c7c68))
-
-
+- added czech locale ([#3649](https://github.com/rsuite/rsuite/issues/3649)) ([f589257](https://github.com/rsuite/rsuite/commit/f58925757314da09dd2a2ee0706321860a32ab13))
+- **DatePicker:** add support `renderCell` on `<DatePicker>` ([#3641](https://github.com/rsuite/rsuite/issues/3641)) ([b63d1a3](https://github.com/rsuite/rsuite/commit/b63d1a37b0289383dbe0099481609097e1c4a436))
+- **InputNumber:** add support for `formatter` on `<InputNumber>` ([#3642](https://github.com/rsuite/rsuite/issues/3642)) ([d457d3a](https://github.com/rsuite/rsuite/commit/d457d3a67d929fa02780e4d012844756361c7c68))
 
 # [5.54.0](https://github.com/rsuite/rsuite/compare/v5.53.2...v5.54.0) (2024-02-22)
 
-
 ### Bug Fixes
 
-* **DatePicker:** fix style error of the bottom button in the datePicker ([#3634](https://github.com/rsuite/rsuite/issues/3634)) ([536ad7e](https://github.com/rsuite/rsuite/commit/536ad7e9b0bf9c727dd69c5e0584033751422e1f))
-* **DateRangePicker:** fix error state when value is empty array ([#3631](https://github.com/rsuite/rsuite/issues/3631)) ([f8778f5](https://github.com/rsuite/rsuite/commit/f8778f537c441e0a49ecebf2c41c9af14a764400))
-* **InputGroup:** fix Input padding issue in InputGroup ([#3600](https://github.com/rsuite/rsuite/issues/3600)) ([56b3792](https://github.com/rsuite/rsuite/commit/56b379297e237aa26aff0140cd93ec3a7314e5f4))
-* **TagPicker:** fix the margin issue between tags in plaintext mode ([#3638](https://github.com/rsuite/rsuite/issues/3638)) ([61f343b](https://github.com/rsuite/rsuite/commit/61f343b43677b9d1441f5c5a60cc7a95ae6890ca))
-* fixed issue with install guide page ([#3619](https://github.com/rsuite/rsuite/issues/3619)) ([#3620](https://github.com/rsuite/rsuite/issues/3620)) ([33159b6](https://github.com/rsuite/rsuite/commit/33159b6ffeff4ce44cae03e1eb9ae806c6d2d12c))
-
+- **DatePicker:** fix style error of the bottom button in the datePicker ([#3634](https://github.com/rsuite/rsuite/issues/3634)) ([536ad7e](https://github.com/rsuite/rsuite/commit/536ad7e9b0bf9c727dd69c5e0584033751422e1f))
+- **DateRangePicker:** fix error state when value is empty array ([#3631](https://github.com/rsuite/rsuite/issues/3631)) ([f8778f5](https://github.com/rsuite/rsuite/commit/f8778f537c441e0a49ecebf2c41c9af14a764400))
+- **InputGroup:** fix Input padding issue in InputGroup ([#3600](https://github.com/rsuite/rsuite/issues/3600)) ([56b3792](https://github.com/rsuite/rsuite/commit/56b379297e237aa26aff0140cd93ec3a7314e5f4))
+- **TagPicker:** fix the margin issue between tags in plaintext mode ([#3638](https://github.com/rsuite/rsuite/issues/3638)) ([61f343b](https://github.com/rsuite/rsuite/commit/61f343b43677b9d1441f5c5a60cc7a95ae6890ca))
+- fixed issue with install guide page ([#3619](https://github.com/rsuite/rsuite/issues/3619)) ([#3620](https://github.com/rsuite/rsuite/issues/3620)) ([33159b6](https://github.com/rsuite/rsuite/commit/33159b6ffeff4ce44cae03e1eb9ae806c6d2d12c))
 
 ### Features
 
-* **InlineEdit:** add support for InlineEdit ([#3614](https://github.com/rsuite/rsuite/issues/3614)) ([8ed7e6d](https://github.com/rsuite/rsuite/commit/8ed7e6d57b7ccd930bd72017a0a8299be0c21515))
-
-
+- **InlineEdit:** add support for InlineEdit ([#3614](https://github.com/rsuite/rsuite/issues/3614)) ([8ed7e6d](https://github.com/rsuite/rsuite/commit/8ed7e6d57b7ccd930bd72017a0a8299be0c21515))
 
 ## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
 
-
 ### Bug Fixes
 
-* **CheckPicker:** remove debug script ([#3615](https://github.com/rsuite/rsuite/issues/3615)) ([62285da](https://github.com/rsuite/rsuite/commit/62285da3f238dceeb2f75c168cc07bbacf0a52ce))
-* **Tree,CheckTree:** fix `classPrefix` and `className` not working correctly ([#3616](https://github.com/rsuite/rsuite/issues/3616)) ([c82cb91](https://github.com/rsuite/rsuite/commit/c82cb919a12be2bd94e7bf1018e3f3c8aa522c1f))
-
-
+- **CheckPicker:** remove debug script ([#3615](https://github.com/rsuite/rsuite/issues/3615)) ([62285da](https://github.com/rsuite/rsuite/commit/62285da3f238dceeb2f75c168cc07bbacf0a52ce))
+- **Tree,CheckTree:** fix `classPrefix` and `className` not working correctly ([#3616](https://github.com/rsuite/rsuite/issues/3616)) ([c82cb91](https://github.com/rsuite/rsuite/commit/c82cb919a12be2bd94e7bf1018e3f3c8aa522c1f))
 
 ## [5.53.1](https://github.com/rsuite/rsuite/compare/v5.53.0...v5.53.1) (2024-02-06)
 
-
 ### Bug Fixes
 
-* supports Fragment children component ([#3607](https://github.com/rsuite/rsuite/issues/3607)) ([299b951](https://github.com/rsuite/rsuite/commit/299b951644ce6564bd53f6d0a4d031180d9e4e9d))
-* **Panel:** fix uncontrolled re-rendering of Panel children ([#3610](https://github.com/rsuite/rsuite/issues/3610)) ([8f9a8a8](https://github.com/rsuite/rsuite/commit/8f9a8a831156ac1eeee50b8093bce9ed89cf043d))
-
-
+- supports Fragment children component ([#3607](https://github.com/rsuite/rsuite/issues/3607)) ([299b951](https://github.com/rsuite/rsuite/commit/299b951644ce6564bd53f6d0a4d031180d9e4e9d))
+- **Panel:** fix uncontrolled re-rendering of Panel children ([#3610](https://github.com/rsuite/rsuite/issues/3610)) ([8f9a8a8](https://github.com/rsuite/rsuite/commit/8f9a8a831156ac1eeee50b8093bce9ed89cf043d))
 
 # [5.53.0](https://github.com/rsuite/rsuite/compare/v5.52.0...v5.53.0) (2024-02-02)
 
