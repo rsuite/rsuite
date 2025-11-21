@@ -199,7 +199,7 @@ module.exports = {
           test: /\.module\.(scss|css)$/,
           chunks: 'all',
           enforce: true,
-          name: `styles-${BUILD_ID}`
+          name: 'styles'
         }
       }
     };
