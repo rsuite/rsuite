@@ -64,7 +64,7 @@ const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
       ellipsis = '...',
       maxItems = 5,
       separator = '/',
-      size = 'md',
+      size,
       locale,
       onExpand,
       ...rest

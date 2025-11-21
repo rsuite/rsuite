@@ -4,7 +4,7 @@
 import { Breadcrumb, VStack } from 'rsuite';
 
 const BreadcrumbBox = ({ size }) => (
-  <Breadcrumb size={size}>
+  <Breadcrumb aria-label="breadcrumb" size={size}>
     <Breadcrumb.Item>Home</Breadcrumb.Item>
     <Breadcrumb.Item>Products</Breadcrumb.Item>
     <Breadcrumb.Item>Electronics</Breadcrumb.Item>
