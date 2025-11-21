@@ -130,6 +130,20 @@ The `pullRight` prop on `Nav` is deprecated. Use `Navbar.Content` to control lay
 </Navbar>
 ```
 
+### NumberInput (formerly InputNumber)
+
+`InputNumber` has been renamed to `NumberInput` to maintain naming consistency with other input components like `DateInput` and `PasswordInput`.
+
+```jsx
+// v5
+import { InputNumber } from 'rsuite';
+
+// v6 Recommended
+import { NumberInput } from 'rsuite';
+```
+
+For compatibility, `InputNumber` is still retained, but migration to the new name is recommended. Additionally, `NumberInput` now supports the `controls` property.
+
 ### Picker Property Renaming
 
 To improve API consistency, a series of Picker component properties have been renamed:

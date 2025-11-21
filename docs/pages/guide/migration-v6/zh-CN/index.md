@@ -130,6 +130,20 @@ RSuite v6 全面引入了 CSS 变量系统。你可以在你的全局 CSS 文件
 </Navbar>
 ```
 
+### NumberInput (原 InputNumber)
+
+`InputNumber` 已重命名为 `NumberInput`，以与其他输入组件（如 `DateInput`、`PasswordInput`）保持命名一致性。
+
+```jsx
+// v5
+import { InputNumber } from 'rsuite';
+
+// v6 推荐
+import { NumberInput } from 'rsuite';
+```
+
+为了兼容性，`InputNumber` 仍然保留，但建议迁移到新名称。此外，`NumberInput` 还新增了 `controls` 属性支持。
+
 ### Picker 组件属性重命名
 
 为了提高 API 一致性，Picker 组件的一系列属性进行了重命名：
