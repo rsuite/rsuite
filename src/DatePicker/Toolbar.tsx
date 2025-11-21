@@ -62,8 +62,11 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
 
   const classes = merge(className, withPrefix());
 
+  // If there are no ranges, the ok button should be aligned to the right
+  const justify = ranges?.length === 0 ? 'flex-end' : 'space-between';
+
   return (
-    <Stack ref={ref} className={classes} justify="space-between" align="flex-start" {...rest}>
+    <Stack ref={ref} className={classes} justify={justify} align="flex-start" {...rest}>
       <PredefinedRanges
         wrap
         className={prefix('ranges')}

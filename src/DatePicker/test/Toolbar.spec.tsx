@@ -85,4 +85,12 @@ describe('DatePicker - Toolbar', () => {
 
     expect(screen.getByTestId('daterange-predefined-bottom')).to.have.attr('data-wrap', 'true');
   });
+
+  it('Should have a style "justify-content: flex-end" when ranges is empty', () => {
+    const { container } = render(
+      <Toolbar calendarDate={new Date(2021, 11, 24)} ranges={[]} locale={{}} />
+    );
+
+    expect(container.firstChild).to.have.style('justify-content', 'flex-end');
+  });
 });
