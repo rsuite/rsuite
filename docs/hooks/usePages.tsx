@@ -53,7 +53,12 @@ export default function usePages(): MenuItem[] {
               id: 'accessibility',
               name: locales?.common?.accessibility
             },
-
+            {
+              id: 'migration-v6',
+              name: locales?.common?.migrationV6,
+              tag: 'New',
+              tagColor: 'green'
+            },
             {
               id: 'logs',
               name: locales?.common?.changeLog,

@@ -55,6 +55,7 @@ export default {
     copyFailed: '复制失败，浏览器不支持此功能',
     shareTwitter: '分享到 Twitter',
     accessibility: '可访问性',
+    migrationV6: '升级到 v6',
     aiForAgents: 'AI 代理',
     mcpServer: 'MCP 服务器',
     llms: 'LLMs.txt',
