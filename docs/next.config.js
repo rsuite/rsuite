@@ -211,7 +211,7 @@ module.exports = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
-        '@rsuite-styles': path.resolve(__dirname, '../src/styles'),
+        '@rsuite-styles': path.resolve(__dirname, '../src/styles/index.scss'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
         react: path.resolve(__dirname, './node_modules/react'),
         rsuite: path.resolve(__dirname, '../src')
@@ -219,7 +219,7 @@ module.exports = {
     } else {
       config.resolve.alias = {
         ...config.resolve.alias,
-        '@rsuite-styles': 'rsuite/styles'
+        '@rsuite-styles': 'rsuite/dist/rsuite.css'
       };
     }
 
